@@ -31,7 +31,7 @@ public class ControlCenter extends ActionBarActivity {
     private static final UUID SERIAL_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
 
     BluetoothAdapter mBtAdapter;
-    BluetoothDevice mBtDevice;
+    String mBtDeviceAddress = null;
     BluetoothSocket mBtSocket;
     Button sendButton;
     Button testNotificationButton;
@@ -61,7 +61,7 @@ public class ControlCenter extends ActionBarActivity {
         for (BluetoothDevice device : pairedDevices) {
             if (device.getName().indexOf("Pebble") == 0) {
                 // Matching device found
-                mBtDevice = device;
+                mBtDeviceAddress = device.getAddress();
             }
         }
 
@@ -72,13 +72,14 @@ public class ControlCenter extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                if (!mBtAdapter.isEnabled() || mBtDevice == null)
+                if (!mBtAdapter.isEnabled() || mBtDeviceAddress == null)
                     return;
                 String title = editTitle.getText().toString();
                 String content = editContent.getText().toString();
                 try {
                     if (mBtSocket == null || !mBtSocket.isConnected()) {
-                        mBtSocket = mBtDevice.createRfcommSocketToServiceRecord(SERIAL_UUID);
+                        BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(mBtDeviceAddress);
+                        mBtSocket = btDevice.createRfcommSocketToServiceRecord(SERIAL_UUID);
                         mBtSocket.connect();
                     }
                     ConnectedTask task = new ConnectedTask();
@@ -203,6 +204,7 @@ public class ControlCenter extends ActionBarActivity {
         protected void onPostExecute(String result) {
             Toast.makeText(ControlCenter.this, result,
                     Toast.LENGTH_SHORT).show();
+
             try {
                 mBtSocket.close();
             } catch (IOException e) {
@@ -215,14 +217,15 @@ public class ControlCenter extends ActionBarActivity {
     class NotificationReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (!mBtAdapter.isEnabled() || mBtDevice == null)
+            if (!mBtAdapter.isEnabled() || mBtDeviceAddress == null)
                 return;
 
             String title = intent.getStringExtra("notification_title");
             String content = intent.getStringExtra("notification_content");
             try {
                 if (mBtSocket == null || !mBtSocket.isConnected()) {
-                    mBtSocket = mBtDevice.createRfcommSocketToServiceRecord(SERIAL_UUID);
+                    BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(mBtDeviceAddress);
+                    mBtSocket = btDevice.createRfcommSocketToServiceRecord(SERIAL_UUID);
                     mBtSocket.connect();
                 }
                 ConnectedTask task = new ConnectedTask();
