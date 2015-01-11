@@ -16,8 +16,6 @@ Known Visible Issues:
 * No special notifications, EVERYTHING will be send as a Chat/SMS message
 * Notifications are not properly queued, if two arrive at about the same time,
   one of them will get lost
-* Connection to Pebble will be reopened and closed for every message (dont know
-  if this saves or consumes more energy)
 * Android 4.4+ only, we can only change this by implementing an
   AccessibiltyService. Don't know if it is worth the hassle.
 * This will open the dialog to allow capturing notifications every time the

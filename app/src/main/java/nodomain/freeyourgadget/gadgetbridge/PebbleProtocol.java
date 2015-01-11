@@ -126,7 +126,7 @@ public class PebbleProtocol {
             default:
                 break;
         }
-        String ret = Short.toString(length) + "/" + Short.toString(endpoint) + "/" + Byte.toString(extra);
+        String ret = "length: " + Short.toString(length) + " Endpoint:" + Short.toString(endpoint) + "/" + Byte.toString(extra);
 
         return ret;
     }

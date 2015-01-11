@@ -22,14 +22,20 @@ public class NotificationListener extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        Intent i = new Intent("nodomain.freeyourgadget.gadgetbridge.NOTIFICATION_LISTENER");
         Notification notification = sbn.getNotification();
         Bundle extras = notification.extras;
-        String title = extras.getCharSequence(Notification.EXTRA_TITLE).toString();
-        String content = extras.getCharSequence(Notification.EXTRA_TEXT).toString();
-        i.putExtra("notification_title", title);
-        i.putExtra("notification_content", content);
-        sendBroadcast(i);
+        String title = extras.getString(Notification.EXTRA_TITLE);
+        String content = "";
+        if (extras.containsKey(Notification.EXTRA_TEXT))
+            content = extras.getString(Notification.EXTRA_TEXT);
+
+        if (content != null) {
+            Intent startIntent = new Intent(NotificationListener.this, BluetoothCommunicationService.class);
+            startIntent.setAction(BluetoothCommunicationService.ACTION_SENDBLUETOOTHMESSAGE);
+            startIntent.putExtra("notification_title", title);
+            startIntent.putExtra("notification_content", content);
+            startService(startIntent);
+        }
     }
 
     @Override

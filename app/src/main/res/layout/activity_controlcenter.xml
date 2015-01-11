@@ -51,4 +51,13 @@
         android:text="Create test Notification"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="start Service"
+        android:id="@+id/startServiceButton"
+        android:layout_above="@+id/sendButton"
+        android:layout_alignEnd="@+id/sendButton"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
