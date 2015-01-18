@@ -2,8 +2,9 @@ package nodomain.freeyourgadget.gadgetbridge;
 
 import android.app.NotificationManager;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -49,7 +50,7 @@ public class ControlCenter extends ActionBarActivity {
                 Intent startIntent = new Intent(ControlCenter.this, BluetoothCommunicationService.class);
                 startIntent.setAction(BluetoothCommunicationService.ACTION_SENDMESSAGE);
                 startIntent.putExtra("notification_title", editTitle.getText().toString());
-                startIntent.putExtra("notification_content", editTitle.getText().toString());
+                startIntent.putExtra("notification_content", editContent.getText().toString());
                 startService(startIntent);
             }
         });
@@ -71,12 +72,16 @@ public class ControlCenter extends ActionBarActivity {
             }
         });
 
-        Intent enableIntent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
-
-        startActivity(enableIntent);
-
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("nodomain.freeyourgadget.gadgetbridge.NOTIFICATION_LISTENER");
+        /*
+         * Ask for permission to intercept notifications on first run.
+         * TODO: allow re-request in preferences
+         */
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedPrefs.getBoolean("firstrun", true)) {
+            sharedPrefs.edit().putBoolean("firstrun", false).commit();
+            Intent enableIntent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+            startActivity(enableIntent);
+        }
     }
 
     private void testNotification() {

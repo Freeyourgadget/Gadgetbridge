@@ -15,11 +15,9 @@ Known Visible Issues:
 
 * No special notifications, EVERYTHING will be send as a Chat/SMS message
 * Notifications are not properly queued, if two arrive at about the same time,
-  one of them will get lost
+  one of them will get lost (TODO: confirm)
 * Android 4.4+ only, we can only change this by implementing an
   AccessibiltyService. Don't know if it is worth the hassle.
-* This will open the dialog to allow capturing notifications every time the
-  Activity gets restarted.
 
 Apart from that there are many internal design flaws which we will discuss using
 the issue tracker.
