@@ -92,9 +92,11 @@ public class PebbleProtocol {
         return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_EMAIL, parts);
     }
 
-    public static byte[] encodeSetTime() {
-        long ts = System.currentTimeMillis() / 1000;
-        ts += SimpleTimeZone.getDefault().getOffset(ts) / 1000;
+    public static byte[] encodeSetTime(long ts) {
+        if (ts == -1) {
+            ts = System.currentTimeMillis() / 1000;
+            ts += SimpleTimeZone.getDefault().getOffset(ts) / 1000;
+        }
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_SETTIME);
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putShort((short) (LENGTH_SETTIME - LENGTH_PREFIX));

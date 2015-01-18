@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.IBinder;
@@ -17,22 +18,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Set;
+import java.util.UUID;
 
 public class BluetoothCommunicationService extends Service {
     private static final String TAG = "BluetoothCommunicationService";
 
-    // TODO: put in separate static class
-    public static final String ACTION_STARTBLUETOOTHCOMMUNITCATIONSERVICE
+    public static final String ACTION_START
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.start";
-    public static final String ACTION_STOPBLUETOOTHCOMMUNITCATIONSERVICE
+    public static final String ACTION_STOP
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.stop";
-    public static final String ACTION_SENDBLUETOOTHMESSAGE
+    public static final String ACTION_SENDMESSAGE
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.sendbluetoothmessage";
+    public static final String ACTION_SETTIME
+            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.settime";
 
     private BluetoothAdapter mBtAdapter = null;
     private String mBtDeviceAddress = null;
     private BluetoothSocket mBtSocket = null;
     private BtSocketIoThread mBtSocketIoThread = null;
+    private BtSocketAcceptThread mBtSocketAcceptThread = null;
+    private static final UUID PEBBLE_UUID = UUID.fromString("00000000-deca-fade-deca-deafdecacafe");
+    private boolean mPassiveMode = false;
 
     @Override
     public void onCreate() {
@@ -41,7 +47,7 @@ public class BluetoothCommunicationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent.getAction().equals(ACTION_STARTBLUETOOTHCOMMUNITCATIONSERVICE)) {
+        if (intent.getAction().equals(ACTION_START)) {
             Intent notificationIntent = new Intent(this, ControlCenter.class);
             notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                     | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -73,7 +79,10 @@ public class BluetoothCommunicationService extends Service {
                 }
 
                 try {
-                    if (mBtSocket == null || !mBtSocket.isConnected()) {
+                    if (mPassiveMode) {
+                        mBtSocketAcceptThread = new BtSocketAcceptThread();
+                        mBtSocketAcceptThread.start();
+                    } else if (mBtSocket == null || !mBtSocket.isConnected()) {
                         BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(mBtDeviceAddress);
                         ParcelUuid uuids[] = btDevice.getUuids();
                         mBtSocket = btDevice.createRfcommSocketToServiceRecord(uuids[0].getUuid());
@@ -87,7 +96,7 @@ public class BluetoothCommunicationService extends Service {
                 }
                 startForeground(1, notification); //FIXME: don't hardcode id
             }
-        } else if (intent.getAction().equals(ACTION_STOPBLUETOOTHCOMMUNITCATIONSERVICE)) {
+        } else if (intent.getAction().equals(ACTION_STOP)) {
             try {
                 mBtSocketIoThread.join();
             } catch (InterruptedException e) {
@@ -103,12 +112,16 @@ public class BluetoothCommunicationService extends Service {
 
             stopForeground(true);
             stopSelf();
-        } else if (intent.getAction().equals(ACTION_SENDBLUETOOTHMESSAGE)) {
+        } else if (intent.getAction().equals(ACTION_SENDMESSAGE)) {
             String title = intent.getStringExtra("notification_title");
             String content = intent.getStringExtra("notification_content");
             if (mBtSocketIoThread != null) {
-                byte[] msg;
-                msg = PebbleProtocol.encodeSMS(title, content);
+                byte[] msg = PebbleProtocol.encodeSMS(title, content);
+                mBtSocketIoThread.write(msg);
+            }
+        } else if (intent.getAction().equals(ACTION_SETTIME)) {
+            if (mBtSocketIoThread != null) {
+                byte[] msg = PebbleProtocol.encodeSetTime(-1);
                 mBtSocketIoThread.write(msg);
             }
         }
@@ -123,6 +136,40 @@ public class BluetoothCommunicationService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    private class BtSocketAcceptThread extends Thread {
+        private final BluetoothServerSocket mmServerSocket;
+
+        public BtSocketAcceptThread() {
+            BluetoothServerSocket tmp = null;
+            try {
+                tmp = mBtAdapter.listenUsingRfcommWithServiceRecord("PebbleListener", PEBBLE_UUID);
+            } catch (IOException e) {
+            }
+            mmServerSocket = tmp;
+        }
+
+        public void run() {
+            while (true) {
+                try {
+                    mBtSocket = mmServerSocket.accept();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    break;
+                }
+                if (mBtSocket != null) {
+                    try {
+                        mBtSocketIoThread = new BtSocketIoThread(mBtSocket.getInputStream(), mBtSocket.getOutputStream());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        break;
+                    }
+                    mBtSocketIoThread.start();
+                    break;
+                }
+            }
+        }
     }
 
     private class BtSocketIoThread extends Thread {
@@ -141,6 +188,7 @@ public class BluetoothCommunicationService extends Service {
             while (true) {
                 try {
                     byte[] ping = {0, 0, 0, 0};
+                    byte[] version = {0x00, 0x0d, 0x00, 0x11, 0x01, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x72};
                     // Read from the InputStream
                     //bytes = mmInStream.read(buffer,0,2);
                     //ByteBuffer buf = ByteBuffer.wrap(buffer);
@@ -149,7 +197,7 @@ public class BluetoothCommunicationService extends Service {
                     //Log.e(TAG,Integer.toString(length+4)  + " as total length");
                     bytes = mmInStream.read(buffer);
                     Log.e(TAG, Integer.toString(bytes) + ": " + PebbleProtocol.decodeResponse(buffer));
-                    write(ping);
+                    //write(version);
                 } catch (IOException e) {
                 }
             }

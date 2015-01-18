@@ -31,7 +31,7 @@ public class NotificationListener extends NotificationListenerService {
 
         if (content != null) {
             Intent startIntent = new Intent(NotificationListener.this, BluetoothCommunicationService.class);
-            startIntent.setAction(BluetoothCommunicationService.ACTION_SENDBLUETOOTHMESSAGE);
+            startIntent.setAction(BluetoothCommunicationService.ACTION_SENDMESSAGE);
             startIntent.putExtra("notification_title", title);
             startIntent.putExtra("notification_content", content);
             startService(startIntent);

@@ -21,6 +21,7 @@ public class ControlCenter extends ActionBarActivity {
     Button sendButton;
     Button testNotificationButton;
     Button startServiceButton;
+    Button setTimeButton;
     EditText editTitle;
     EditText editContent;
 
@@ -37,7 +38,7 @@ public class ControlCenter extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent startIntent = new Intent(ControlCenter.this, BluetoothCommunicationService.class);
-                startIntent.setAction(BluetoothCommunicationService.ACTION_STARTBLUETOOTHCOMMUNITCATIONSERVICE);
+                startIntent.setAction(BluetoothCommunicationService.ACTION_START);
                 startService(startIntent);
             }
         });
@@ -46,9 +47,18 @@ public class ControlCenter extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent startIntent = new Intent(ControlCenter.this, BluetoothCommunicationService.class);
-                startIntent.setAction(BluetoothCommunicationService.ACTION_SENDBLUETOOTHMESSAGE);
+                startIntent.setAction(BluetoothCommunicationService.ACTION_SENDMESSAGE);
                 startIntent.putExtra("notification_title", editTitle.getText().toString());
                 startIntent.putExtra("notification_content", editTitle.getText().toString());
+                startService(startIntent);
+            }
+        });
+        setTimeButton = (Button) findViewById(R.id.setTimeButton);
+        setTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startIntent = new Intent(ControlCenter.this, BluetoothCommunicationService.class);
+                startIntent.setAction(BluetoothCommunicationService.ACTION_SETTIME);
                 startService(startIntent);
             }
         });
