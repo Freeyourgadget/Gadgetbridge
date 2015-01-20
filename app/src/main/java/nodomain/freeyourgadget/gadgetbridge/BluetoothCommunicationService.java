@@ -17,6 +17,8 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.Set;
 import java.util.UUID;
 
@@ -182,22 +184,50 @@ public class BluetoothCommunicationService extends Service {
         }
 
         public void run() {
-            byte[] buffer = new byte[1000];  // buffer store for the stream
-            int bytes; // bytes returned from read()
+            byte[] buffer = new byte[8192];
+            int bytes;
 
             while (true) {
                 try {
-                    byte[] ping = {0, 0, 0, 0};
-                    byte[] version = {0x00, 0x0d, 0x00, 0x11, 0x01, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x72};
-                    // Read from the InputStream
-                    //bytes = mmInStream.read(buffer,0,2);
-                    //ByteBuffer buf = ByteBuffer.wrap(buffer);
-                    //buf.order(ByteOrder.BIG_ENDIAN);
-                    //short length = buf.getShort();
-                    //Log.e(TAG,Integer.toString(length+4)  + " as total length");
-                    bytes = mmInStream.read(buffer);
-                    Log.e(TAG, Integer.toString(bytes) + ": " + PebbleProtocol.decodeResponse(buffer));
-                    //write(version);
+                    bytes = mmInStream.read(buffer, 0, 4);
+                    if (bytes < 4)
+                        continue;
+
+                    ByteBuffer buf = ByteBuffer.wrap(buffer);
+                    buf.order(ByteOrder.BIG_ENDIAN);
+                    short length = buf.getShort();
+                    short endpoint = buf.getShort();
+                    if (length < 0 || length > 8192) {
+                        Log.i(TAG, "invalid length " + length);
+                        while (mmInStream.available() > 0) {
+                            mmInStream.read(buffer); // read all
+                        }
+                        continue;
+                    }
+
+                    bytes = mmInStream.read(buffer, 4, length);
+                    if (bytes < length) {
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        Log.i(TAG, "Read " + bytes + ", expected " + length + " reading remaining " + (length - bytes));
+                        int bytes_rest = mmInStream.read(buffer, 4 + bytes, length - bytes);
+                        bytes += bytes_rest;
+                    }
+
+                    if (length == 1 && endpoint == PebbleProtocol.ENDPOINT_PHONEVERSION) {
+                        Log.i(TAG, "Pebble asked for Phone/App Version - repLYING!");
+                        write(PebbleProtocol.encodePhoneVersion(PebbleProtocol.PHONEVERSION_REMOTE_OS_ANDROID));
+                    } else {
+                        Log.i(TAG, "unhandled message to endpoint " + endpoint + " (" + bytes + " bytes)");
+                    }
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 } catch (IOException e) {
                 }
             }

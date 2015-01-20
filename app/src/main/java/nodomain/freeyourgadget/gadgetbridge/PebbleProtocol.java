@@ -44,11 +44,32 @@ public class PebbleProtocol {
     static final byte PHONECONTROL_START = 8;
     static final byte PHONECONTROL_END = 9;
 
+    static final short LENGTH_PREFIX = 4;
+    static final short LENGTH_SETTIME = 9;
+    static final short LENGTH_PHONEVERSION = 17;
+
     static final byte TIME_GETTIME = 0;
     static final byte TIME_SETTIME = 2;
 
-    static final byte LENGTH_PREFIX = 4;
-    static final byte LENGTH_SETTIME = 9;
+    static final byte PHONEVERSION_APPVERSION = 2; // increase this if pebble complains
+
+    static final int PHONEVERSION_SESSION_CAPS_GAMMARAY = (int) 0x80000000;
+
+    static final int PHONEVERSION_REMOTE_CAPS_TELEPHONY = 0x00000010;
+    static final int PHONEVERSION_REMOTE_CAPS_SMS = 0x00000020;
+    static final int PHONEVERSION_REMOTE_CAPS_GPS = 0x00000040;
+    static final int PHONEVERSION_REMOTE_CAPS_BTLE = 0x00000080;
+    static final int PHONEVERSION_REMOTE_CAPS_REARCAMERA = 0x00000100;
+    static final int PHONEVERSION_REMOTE_CAPS_ACCEL = 0x00000200;
+    static final int PHONEVERSION_REMOTE_CAPS_GYRO = 0x00000400;
+    static final int PHONEVERSION_REMOTE_CAPS_COMPASS = 0x00000800;
+
+    static final byte PHONEVERSION_REMOTE_OS_UNKNOWN = 0;
+    static final byte PHONEVERSION_REMOTE_OS_IOS = 1;
+    static final byte PHONEVERSION_REMOTE_OS_ANDROID = 2;
+    static final byte PHONEVERSION_REMOTE_OS_OSX = 3;
+    static final byte PHONEVERSION_REMOTE_OS_LINUX = 4;
+    static final byte PHONEVERSION_REMOTE_OS_WINDOWS = 5;
 
     static byte[] encodeMessage(short endpoint, byte type, String[] parts) {
         // Calculate length first
@@ -78,6 +99,7 @@ public class PebbleProtocol {
 
     public static byte[] encodeSMS(String from, String body) {
         Long ts = System.currentTimeMillis() / 1000;
+        ts += SimpleTimeZone.getDefault().getOffset(ts) / 1000;
         String tsstring = ts.toString();  // SIC
         String[] parts = {from, body, tsstring};
 
@@ -86,6 +108,7 @@ public class PebbleProtocol {
 
     public static byte[] encodeEmail(String from, String subject, String body) {
         Long ts = System.currentTimeMillis() / 1000;
+        ts += SimpleTimeZone.getDefault().getOffset(ts) / 1000;
         String tsstring = ts.toString(); // SIC
         String[] parts = {from, body, tsstring, subject};
 
@@ -111,6 +134,25 @@ public class PebbleProtocol {
         String cookie = "000"; // That's a dirty trick to make the cookie part 4 bytes long :P
         String[] parts = {cookie, number, name};
         return encodeMessage(ENDPOINT_PHONECONTROL, PHONECONTROL_INCOMINGCALL, parts);
+    }
+
+    public static byte[] encodePhoneVersion(byte os) {
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PHONEVERSION);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort((short) (LENGTH_PHONEVERSION - LENGTH_PREFIX));
+        buf.putShort(ENDPOINT_PHONEVERSION);
+        buf.put(PHONEVERSION_APPVERSION);
+
+        buf.putInt(-1); // TODO: Find out what this is (cookie?)
+
+        if (os == PHONEVERSION_REMOTE_OS_ANDROID) {
+            buf.putInt(PHONEVERSION_SESSION_CAPS_GAMMARAY);
+        } else {
+            buf.putInt(0);
+        }
+        buf.putInt(PHONEVERSION_REMOTE_CAPS_SMS | PHONEVERSION_REMOTE_CAPS_TELEPHONY | os);
+
+        return buf.array();
     }
 
     // FIXME: that should return data into some unified struct/Class
