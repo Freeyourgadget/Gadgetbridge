@@ -3,10 +3,8 @@
     package="nodomain.freeyourgadget.gadgetbridge">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
-
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <application
-
-
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -33,6 +31,10 @@
         </service>
         <service android:name=".BluetoothCommunicationService" >
         </service>
+        <receiver android:name=".PhoneCallReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE"/>
+            </intent-filter>
+        </receiver>
     </application>
-
 </manifest>

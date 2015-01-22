@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
+import android.util.Log;
 
 public class NotificationListener extends NotificationListenerService {
 
@@ -28,8 +29,11 @@ public class NotificationListener extends NotificationListenerService {
          * This includes keyboard selection message, usb connection messages, etc
          * Hope it does not filter out too much, we will see...
          */
-        if (sbn.getPackageName().equals("android"))
+        String source = sbn.getPackageName();
+        if (source.equals("android") || source.equals("com.android.dialer"))
             return;
+
+        Log.i(TAG, sbn.getPackageName());
 
         Bundle extras = notification.extras;
         String title = extras.getString(Notification.EXTRA_TITLE);

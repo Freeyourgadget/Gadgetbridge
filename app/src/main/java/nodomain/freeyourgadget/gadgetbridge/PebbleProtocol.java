@@ -25,6 +25,7 @@ public class PebbleProtocol {
     static final short ENDPOINT_SYSREG = 5000;
     static final short ENDPOINT_FCTREG = 5001;
     static final short ENDPOINT_APPMANAGER = 6000;
+    static final short ENDPOINT_DATALOG = 6778;
     static final short ENDPOINT_RUNKEEPER = 7000;
     static final short ENDPOINT_SCREENSHOT = 8000;
     static final short ENDPOINT_PUTBYTES = (short) 48879;
@@ -130,10 +131,10 @@ public class PebbleProtocol {
         return buf.array();
     }
 
-    public static byte[] encodeIncomingCall(String number, String name) {
+    public static byte[] encodeIncomingCall(String number, String name, byte state) {
         String cookie = "000"; // That's a dirty trick to make the cookie part 4 bytes long :P
         String[] parts = {cookie, number, name};
-        return encodeMessage(ENDPOINT_PHONECONTROL, PHONECONTROL_INCOMINGCALL, parts);
+        return encodeMessage(ENDPOINT_PHONECONTROL, state, parts);
     }
 
     public static byte[] encodePhoneVersion(byte os) {

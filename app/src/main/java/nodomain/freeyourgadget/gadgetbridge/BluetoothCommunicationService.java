@@ -30,7 +30,9 @@ public class BluetoothCommunicationService extends Service {
     public static final String ACTION_STOP
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.stop";
     public static final String ACTION_SENDMESSAGE
-            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.sendbluetoothmessage";
+            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.sendmessage";
+    public static final String ACTION_INCOMINGCALL
+            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.incomingcall";
     public static final String ACTION_SETTIME
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.settime";
 
@@ -119,6 +121,14 @@ public class BluetoothCommunicationService extends Service {
             String content = intent.getStringExtra("notification_content");
             if (mBtSocketIoThread != null) {
                 byte[] msg = PebbleProtocol.encodeSMS(title, content);
+                mBtSocketIoThread.write(msg);
+            }
+        } else if (intent.getAction().equals(ACTION_INCOMINGCALL)) {
+            String phoneNumber = intent.getStringExtra("incomingcall_phonenumber");
+            byte phoneState = intent.getByteExtra("incomingcall_state", (byte) 0);
+
+            if (mBtSocketIoThread != null) {
+                byte[] msg = PebbleProtocol.encodeIncomingCall(phoneNumber, phoneNumber, phoneState);
                 mBtSocketIoThread.write(msg);
             }
         } else if (intent.getAction().equals(ACTION_SETTIME)) {
@@ -220,7 +230,7 @@ public class BluetoothCommunicationService extends Service {
                     if (length == 1 && endpoint == PebbleProtocol.ENDPOINT_PHONEVERSION) {
                         Log.i(TAG, "Pebble asked for Phone/App Version - repLYING!");
                         write(PebbleProtocol.encodePhoneVersion(PebbleProtocol.PHONEVERSION_REMOTE_OS_ANDROID));
-                    } else {
+                    } else if (endpoint != PebbleProtocol.ENDPOINT_DATALOG) {
                         Log.i(TAG, "unhandled message to endpoint " + endpoint + " (" + bytes + " bytes)");
                     }
                     try {
