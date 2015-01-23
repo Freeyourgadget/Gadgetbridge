@@ -7,9 +7,13 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.IBinder;
 import android.os.ParcelUuid;
+import android.provider.ContactsContract;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -107,6 +111,7 @@ public class BluetoothCommunicationService extends Service {
                 e.printStackTrace();
             }
             try {
+
                 mBtSocket.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -127,8 +132,10 @@ public class BluetoothCommunicationService extends Service {
             String phoneNumber = intent.getStringExtra("incomingcall_phonenumber");
             byte phoneState = intent.getByteExtra("incomingcall_state", (byte) 0);
 
+            String callerName = getContactDisplayNameByNumber(phoneNumber);
+
             if (mBtSocketIoThread != null) {
-                byte[] msg = PebbleProtocol.encodeIncomingCall(phoneNumber, phoneNumber, phoneState);
+                byte[] msg = PebbleProtocol.encodeIncomingCall(phoneNumber, callerName, phoneState);
                 mBtSocketIoThread.write(msg);
             }
         } else if (intent.getAction().equals(ACTION_SETTIME)) {
@@ -149,6 +156,33 @@ public class BluetoothCommunicationService extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
+
+
+    private String getContactDisplayNameByNumber(String number) {
+        Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
+        String name = "Unknown";
+
+        if (number == null || number.equals("")) {
+            return name;
+        }
+
+        ContentResolver contentResolver = getContentResolver();
+        Cursor contactLookup = contentResolver.query(uri, null, null, null, null);
+
+        try {
+            if (contactLookup != null && contactLookup.getCount() > 0) {
+                contactLookup.moveToNext();
+                name = contactLookup.getString(contactLookup.getColumnIndex(ContactsContract.Data.DISPLAY_NAME));
+            }
+        } finally {
+            if (contactLookup != null) {
+                contactLookup.close();
+            }
+        }
+
+        return name;
+    }
+
 
     private class BtSocketAcceptThread extends Thread {
         private final BluetoothServerSocket mmServerSocket;
