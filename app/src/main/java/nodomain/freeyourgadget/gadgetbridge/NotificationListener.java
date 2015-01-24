@@ -30,10 +30,15 @@ public class NotificationListener extends NotificationListenerService {
          * Hope it does not filter out too much, we will see...
          */
         String source = sbn.getPackageName();
-        if (source.equals("android") || source.equals("com.android.dialer"))
-            return;
+        Log.i(TAG, source);
 
-        Log.i(TAG, sbn.getPackageName());
+        if (source.equals("android") ||
+                source.equals("com.android.dialer") ||
+                source.equals("com.android.mms")) {
+            return;
+        }
+
+        Log.i(TAG, "Processing notification from source " + source);
 
         Bundle extras = notification.extras;
         String title = extras.getString(Notification.EXTRA_TITLE);
@@ -41,12 +46,11 @@ public class NotificationListener extends NotificationListenerService {
         if (extras.containsKey(Notification.EXTRA_TEXT))
             content = extras.getString(Notification.EXTRA_TEXT);
 
-
         if (content != null) {
             Intent startIntent = new Intent(NotificationListener.this, BluetoothCommunicationService.class);
-            startIntent.setAction(BluetoothCommunicationService.ACTION_SENDMESSAGE);
+            startIntent.setAction(BluetoothCommunicationService.ACTION_NOTIFICATION_GENERIC);
             startIntent.putExtra("notification_title", title);
-            startIntent.putExtra("notification_content", content);
+            startIntent.putExtra("notification_body", content);
             startService(startIntent);
         }
     }

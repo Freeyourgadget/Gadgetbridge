@@ -48,9 +48,9 @@ public class ControlCenter extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent startIntent = new Intent(ControlCenter.this, BluetoothCommunicationService.class);
-                startIntent.setAction(BluetoothCommunicationService.ACTION_SENDMESSAGE);
+                startIntent.setAction(BluetoothCommunicationService.ACTION_NOTIFICATION_GENERIC);
                 startIntent.putExtra("notification_title", editTitle.getText().toString());
-                startIntent.putExtra("notification_content", editContent.getText().toString());
+                startIntent.putExtra("notification_body", editContent.getText().toString());
                 startService(startIntent);
             }
         });

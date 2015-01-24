@@ -33,8 +33,10 @@ public class BluetoothCommunicationService extends Service {
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.start";
     public static final String ACTION_STOP
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.stop";
-    public static final String ACTION_SENDMESSAGE
-            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.sendmessage";
+    public static final String ACTION_NOTIFICATION_GENERIC
+            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.notification_generic";
+    public static final String ACTION_NOTIFICATION_SMS
+            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.notification_sms";
     public static final String ACTION_INCOMINGCALL
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.incomingcall";
     public static final String ACTION_SETTIME
@@ -121,11 +123,20 @@ public class BluetoothCommunicationService extends Service {
 
             stopForeground(true);
             stopSelf();
-        } else if (intent.getAction().equals(ACTION_SENDMESSAGE)) {
+        } else if (intent.getAction().equals(ACTION_NOTIFICATION_GENERIC)) {
             String title = intent.getStringExtra("notification_title");
-            String content = intent.getStringExtra("notification_content");
+            String body = intent.getStringExtra("notification_body");
             if (mBtSocketIoThread != null) {
-                byte[] msg = PebbleProtocol.encodeSMS(title, content);
+                byte[] msg = PebbleProtocol.encodeSMS(title, body);
+                mBtSocketIoThread.write(msg);
+            }
+        } else if (intent.getAction().equals(ACTION_NOTIFICATION_SMS)) {
+            String sender = intent.getStringExtra("notification_sender");
+            String body = intent.getStringExtra("notification_body");
+            String senderName = getContactDisplayNameByNumber(sender);
+
+            if (mBtSocketIoThread != null) {
+                byte[] msg = PebbleProtocol.encodeSMS(senderName, body);
                 mBtSocketIoThread.write(msg);
             }
         } else if (intent.getAction().equals(ACTION_INCOMINGCALL)) {
