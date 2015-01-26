@@ -37,6 +37,8 @@ public class BluetoothCommunicationService extends Service {
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.notification_generic";
     public static final String ACTION_NOTIFICATION_SMS
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.notification_sms";
+    public static final String ACTION_NOTIFICATION_EMAIL
+            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.notification_email";
     public static final String ACTION_INCOMINGCALL
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.incomingcall";
     public static final String ACTION_SETTIME
@@ -57,6 +59,11 @@ public class BluetoothCommunicationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        if (!intent.getAction().equals(ACTION_START) && !intent.getAction().equals(ACTION_STOP) && mBtSocketIoThread == null) {
+            return START_STICKY;
+        }
+
         if (intent.getAction().equals(ACTION_START)) {
             Intent notificationIntent = new Intent(this, ControlCenter.class);
             notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
@@ -126,34 +133,29 @@ public class BluetoothCommunicationService extends Service {
         } else if (intent.getAction().equals(ACTION_NOTIFICATION_GENERIC)) {
             String title = intent.getStringExtra("notification_title");
             String body = intent.getStringExtra("notification_body");
-            if (mBtSocketIoThread != null) {
-                byte[] msg = PebbleProtocol.encodeSMS(title, body);
-                mBtSocketIoThread.write(msg);
-            }
+            byte[] msg = PebbleProtocol.encodeSMS(title, body);
+            mBtSocketIoThread.write(msg);
         } else if (intent.getAction().equals(ACTION_NOTIFICATION_SMS)) {
             String sender = intent.getStringExtra("notification_sender");
             String body = intent.getStringExtra("notification_body");
             String senderName = getContactDisplayNameByNumber(sender);
-
-            if (mBtSocketIoThread != null) {
-                byte[] msg = PebbleProtocol.encodeSMS(senderName, body);
-                mBtSocketIoThread.write(msg);
-            }
+            byte[] msg = PebbleProtocol.encodeSMS(senderName, body);
+            mBtSocketIoThread.write(msg);
+        } else if (intent.getAction().equals(ACTION_NOTIFICATION_EMAIL)) {
+            String sender = intent.getStringExtra("notification_sender");
+            String subject = intent.getStringExtra("notification_subject");
+            String body = intent.getStringExtra("notification_body");
+            byte[] msg = PebbleProtocol.encodeEmail(sender, subject, body);
+            mBtSocketIoThread.write(msg);
         } else if (intent.getAction().equals(ACTION_INCOMINGCALL)) {
             String phoneNumber = intent.getStringExtra("incomingcall_phonenumber");
             byte phoneState = intent.getByteExtra("incomingcall_state", (byte) 0);
-
             String callerName = getContactDisplayNameByNumber(phoneNumber);
-
-            if (mBtSocketIoThread != null) {
-                byte[] msg = PebbleProtocol.encodeIncomingCall(phoneNumber, callerName, phoneState);
-                mBtSocketIoThread.write(msg);
-            }
+            byte[] msg = PebbleProtocol.encodeIncomingCall(phoneNumber, callerName, phoneState);
+            mBtSocketIoThread.write(msg);
         } else if (intent.getAction().equals(ACTION_SETTIME)) {
-            if (mBtSocketIoThread != null) {
-                byte[] msg = PebbleProtocol.encodeSetTime(-1);
-                mBtSocketIoThread.write(msg);
-            }
+            byte[] msg = PebbleProtocol.encodeSetTime(-1);
+            mBtSocketIoThread.write(msg);
         }
         return START_STICKY;
     }

@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="com.fsck.k9.permission.READ_MESSAGES" />
 
     <application
         android:allowBackup="true"
@@ -42,6 +43,12 @@
         <receiver android:name=".SMSReceiver">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".K9Receiver">
+            <intent-filter>
+                <data android:scheme="email" />
+                <action android:name="com.fsck.k9.intent.action.EMAIL_RECEIVED" />
             </intent-filter>
         </receiver>
     </application>

@@ -12,9 +12,10 @@ USE IT AT YOUR OWN RISK. It will problably not work. And if it works it will
 annoy you more than it helps you ;)
 
 Features:
-* Notification for incoming calls with caller name and number
-* SMS notification with sender name
-* Generic Notificaions (android system and telephony notifications filtered out)
+* Incoming calls (caller, phone number)
+* SMS notification (sender, body)
+* K-9 Mail notification support (sender, subject, preview)
+* Support for generic botificaions (above filtered out)
 
 Known Issues:
 
@@ -22,8 +23,6 @@ Known Issues:
 * Phone calls that are taken or rejected both count as rejected to make the
   Pebble stop vibrating. (No in-call display yet)
 * No outgoing call support (No in-call display yet)
-* Complex notifications (eg. K-9 Mail) do not work yet,  maybe we should implement
-  special K-9 Mail support? Or just support taking complex notificaion apart?
 * Notifications are not properly queued, if two arrive at about the same time,
   one of them will get lost (TODO: confirm)
 * Android 4.4+ only, we can only change this by not handling generic
