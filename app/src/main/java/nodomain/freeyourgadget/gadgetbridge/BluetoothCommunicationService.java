@@ -31,8 +31,6 @@ public class BluetoothCommunicationService extends Service {
 
     public static final String ACTION_START
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.start";
-    public static final String ACTION_STOP
-            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.stop";
     public static final String ACTION_NOTIFICATION_GENERIC
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.notification_generic";
     public static final String ACTION_NOTIFICATION_SMS
@@ -60,7 +58,7 @@ public class BluetoothCommunicationService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if (!intent.getAction().equals(ACTION_START) && !intent.getAction().equals(ACTION_STOP) && mBtSocketIoThread == null) {
+        if (!intent.getAction().equals(ACTION_START) && mBtSocketIoThread == null) {
             return START_STICKY;
         }
 
@@ -71,11 +69,15 @@ public class BluetoothCommunicationService extends Service {
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
                     notificationIntent, 0);
 
+            Intent stopIntent = new Intent(this, StopServiceReceiver.class);
+            PendingIntent pendingIntentStop = PendingIntent.getBroadcast(this, 0, stopIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
             Notification notification = new NotificationCompat.Builder(this)
                     .setContentTitle("Gadgetbridge")
                     .setTicker("Gadgetbridge Running")
                     .setContentText("Gadgetbrige Running")
                     .setSmallIcon(R.drawable.ic_launcher)
+                    .addAction(android.R.drawable.ic_menu_close_clear_cancel, "Quit", pendingIntentStop)
                     .setContentIntent(pendingIntent)
                     .setOngoing(true).build();
 
@@ -113,23 +115,6 @@ public class BluetoothCommunicationService extends Service {
                 }
                 startForeground(1, notification); //FIXME: don't hardcode id
             }
-        } else if (intent.getAction().equals(ACTION_STOP)) {
-            try {
-                mBtSocketIoThread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            try {
-
-                mBtSocket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            mBtSocket = null;
-            mBtSocketIoThread = null;
-
-            stopForeground(true);
-            stopSelf();
         } else if (intent.getAction().equals(ACTION_NOTIFICATION_GENERIC)) {
             String title = intent.getStringExtra("notification_title");
             String body = intent.getStringExtra("notification_body");
@@ -163,6 +148,20 @@ public class BluetoothCommunicationService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (mBtSocketIoThread != null) {
+            try {
+                mBtSocketIoThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        if (mBtSocket != null) {
+            try {
+                mBtSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

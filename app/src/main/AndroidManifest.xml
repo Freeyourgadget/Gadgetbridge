@@ -51,5 +51,6 @@
                 <action android:name="com.fsck.k9.intent.action.EMAIL_RECEIVED" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".StopServiceReceiver"/>
     </application>
 </manifest>
