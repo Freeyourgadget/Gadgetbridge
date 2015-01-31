@@ -12,13 +12,22 @@ USE IT AT YOUR OWN RISK. It will problably not work. And if it works it will
 annoy you more than it helps you ;)
 
 Features:
+
 * Incoming calls (caller, phone number)
 * SMS notification (sender, body)
 * K-9 Mail notification support (sender, subject, preview)
-* Support for generic botificaions (above filtered out)
+* Support for generic notificaions (above filtered out)
+
+How to use (Pebble):
+
+1) Pair your Pebble though the Android Bluetooth Settings
+2) Start Gadgetbridge, press "start service"
+3) Press "create test notification" to see if it works
 
 Known Issues:
 
+* No reconnect, if connection is lost, you have to press "start service"
+  again.
 * Can't reject or hang up phone calls yet
 * Phone calls that are taken or rejected both count as rejected to make the
   Pebble stop vibrating. (No in-call display yet)
