@@ -150,6 +150,7 @@ public class BluetoothCommunicationService extends Service {
         super.onDestroy();
         if (mBtSocketIoThread != null) {
             try {
+                mBtSocketIoThread.quit();
                 mBtSocketIoThread.join();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -172,7 +173,7 @@ public class BluetoothCommunicationService extends Service {
 
     private String getContactDisplayNameByNumber(String number) {
         Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
-        String name = "Unknown";
+        String name = number;
 
         if (number == null || number.equals("")) {
             return name;
@@ -233,6 +234,7 @@ public class BluetoothCommunicationService extends Service {
     private class BtSocketIoThread extends Thread {
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;
+        private boolean mQuit = false;
 
         public BtSocketIoThread(InputStream instream, OutputStream outstream) {
             mmInStream = instream;
@@ -243,7 +245,7 @@ public class BluetoothCommunicationService extends Service {
             byte[] buffer = new byte[8192];
             int bytes;
 
-            while (true) {
+            while (!mQuit) {
                 try {
                     bytes = mmInStream.read(buffer, 0, 4);
                     if (bytes < 4)
@@ -295,6 +297,10 @@ public class BluetoothCommunicationService extends Service {
                 mmOutStream.flush();
             } catch (IOException e) {
             }
+        }
+
+        public void quit() {
+            mQuit = true;
         }
     }
 }
