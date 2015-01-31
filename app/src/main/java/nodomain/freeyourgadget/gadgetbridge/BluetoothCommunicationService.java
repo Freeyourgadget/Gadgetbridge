@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -46,9 +45,7 @@ public class BluetoothCommunicationService extends Service {
     private String mBtDeviceAddress = null;
     private BluetoothSocket mBtSocket = null;
     private BtSocketIoThread mBtSocketIoThread = null;
-    private BtSocketAcceptThread mBtSocketAcceptThread = null;
     private static final UUID PEBBLE_UUID = UUID.fromString("00000000-deca-fade-deca-deafdecacafe");
-    private boolean mPassiveMode = false;
 
     @Override
     public void onCreate() {
@@ -98,10 +95,7 @@ public class BluetoothCommunicationService extends Service {
                 }
 
                 try {
-                    if (mPassiveMode) {
-                        mBtSocketAcceptThread = new BtSocketAcceptThread();
-                        mBtSocketAcceptThread.start();
-                    } else if (mBtSocket == null || !mBtSocket.isConnected()) {
+                    if (mBtSocket == null || !mBtSocket.isConnected()) {
                         BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(mBtDeviceAddress);
                         ParcelUuid uuids[] = btDevice.getUuids();
                         mBtSocket = btDevice.createRfcommSocketToServiceRecord(uuids[0].getUuid());
@@ -197,40 +191,6 @@ public class BluetoothCommunicationService extends Service {
     }
 
 
-    private class BtSocketAcceptThread extends Thread {
-        private final BluetoothServerSocket mmServerSocket;
-
-        public BtSocketAcceptThread() {
-            BluetoothServerSocket tmp = null;
-            try {
-                tmp = mBtAdapter.listenUsingRfcommWithServiceRecord("PebbleListener", PEBBLE_UUID);
-            } catch (IOException e) {
-            }
-            mmServerSocket = tmp;
-        }
-
-        public void run() {
-            while (true) {
-                try {
-                    mBtSocket = mmServerSocket.accept();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    break;
-                }
-                if (mBtSocket != null) {
-                    try {
-                        mBtSocketIoThread = new BtSocketIoThread(mBtSocket.getInputStream(), mBtSocket.getOutputStream());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        break;
-                    }
-                    mBtSocketIoThread.start();
-                    break;
-                }
-            }
-        }
-    }
-
     private class BtSocketIoThread extends Thread {
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;
@@ -287,6 +247,11 @@ public class BluetoothCommunicationService extends Service {
                         e.printStackTrace();
                     }
                 } catch (IOException e) {
+                    if (e.getMessage().contains("socket closed")) { //FIXME: this does not feel right
+                        mBtSocket = null;
+                        Log.i(TAG, "Bluetooth socket closed, will quit IO Thread");
+                        mQuit = true;
+                    }
                 }
             }
         }
