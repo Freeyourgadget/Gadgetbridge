@@ -6,8 +6,10 @@ import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.IBinder;
@@ -46,6 +48,30 @@ public class BluetoothCommunicationService extends Service {
     private BluetoothSocket mBtSocket = null;
     private BtSocketIoThread mBtSocketIoThread = null;
     private static final UUID PEBBLE_UUID = UUID.fromString("00000000-deca-fade-deca-deafdecacafe");
+
+    private void setReceiversEnableState(boolean enable) {
+        final Class[] receiverClasses = {
+                PhoneCallReceiver.class,
+                SMSReceiver.class,
+                K9Receiver.class,
+        };
+
+        int newState;
+
+        if (enable) {
+            newState = PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
+        } else {
+            newState = PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+        }
+
+        PackageManager pm = getPackageManager();
+
+        for (Class receiverClass : receiverClasses) {
+            ComponentName compName = new ComponentName(getApplicationContext(), receiverClass);
+
+            pm.setComponentEnabledSetting(compName, newState, PackageManager.DONT_KILL_APP);
+        }
+    }
 
     @Override
     public void onCreate() {
@@ -102,6 +128,8 @@ public class BluetoothCommunicationService extends Service {
                         mBtSocket.connect();
                         mBtSocketIoThread = new BtSocketIoThread(mBtSocket.getInputStream(), mBtSocket.getOutputStream());
                         mBtSocketIoThread.start();
+
+                        setReceiversEnableState(true); // enable BroadcastReceivers
                     }
 
                 } catch (IOException e) {
@@ -142,6 +170,9 @@ public class BluetoothCommunicationService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+
+        setReceiversEnableState(false); // disable BroadcastReceivers
+
         if (mBtSocketIoThread != null) {
             try {
                 mBtSocketIoThread.quit();
@@ -249,6 +280,7 @@ public class BluetoothCommunicationService extends Service {
                 } catch (IOException e) {
                     if (e.getMessage().contains("socket closed")) { //FIXME: this does not feel right
                         mBtSocket = null;
+                        setReceiversEnableState(false);
                         Log.i(TAG, "Bluetooth socket closed, will quit IO Thread");
                         mQuit = true;
                     }

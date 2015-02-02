@@ -35,17 +35,17 @@
         </service>
         <service android:name=".BluetoothCommunicationService" >
         </service>
-        <receiver android:name=".PhoneCallReceiver">
+        <receiver android:name=".PhoneCallReceiver" android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE"/>
             </intent-filter>
         </receiver>
-        <receiver android:name=".SMSReceiver">
+        <receiver android:name=".SMSReceiver" android:enabled="false">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
             </intent-filter>
         </receiver>
-        <receiver android:name=".K9Receiver">
+        <receiver android:name=".K9Receiver" android:enabled="false">
             <intent-filter>
                 <data android:scheme="email" />
                 <action android:name="com.fsck.k9.intent.action.EMAIL_RECEIVED" />
