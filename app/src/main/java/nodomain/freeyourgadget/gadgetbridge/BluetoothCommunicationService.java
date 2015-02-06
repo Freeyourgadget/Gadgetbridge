@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
@@ -8,6 +9,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.ComponentName;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -25,13 +27,15 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Set;
-import java.util.UUID;
 
 public class BluetoothCommunicationService extends Service {
     private static final String TAG = "BluetoothCommunicationService";
+    private static final int NOTIFICATION_ID = 1;
 
     public static final String ACTION_START
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.start";
+    public static final String ACTION_CONNECT
+            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.connect";
     public static final String ACTION_NOTIFICATION_GENERIC
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.notification_generic";
     public static final String ACTION_NOTIFICATION_SMS
@@ -44,10 +48,10 @@ public class BluetoothCommunicationService extends Service {
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.settime";
 
     private BluetoothAdapter mBtAdapter = null;
-    private String mBtDeviceAddress = null;
     private BluetoothSocket mBtSocket = null;
     private BtSocketIoThread mBtSocketIoThread = null;
-    private static final UUID PEBBLE_UUID = UUID.fromString("00000000-deca-fade-deca-deafdecacafe");
+
+    private boolean mStarted = false;
 
     private void setReceiversEnableState(boolean enable) {
         final Class[] receiverClasses = {
@@ -78,33 +82,57 @@ public class BluetoothCommunicationService extends Service {
         super.onCreate();
     }
 
+
+    private Notification createNotification(String text) {
+        Intent notificationIntent = new Intent(this, ControlCenter.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                notificationIntent, 0);
+
+        Intent stopIntent = new Intent(this, StopServiceReceiver.class);
+        PendingIntent pendingIntentStop = PendingIntent.getBroadcast(this, 0, stopIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        return new NotificationCompat.Builder(this)
+                .setContentTitle("Gadgetbridge")
+                .setTicker(text)
+                .setContentText(text)
+                .setSmallIcon(R.drawable.ic_launcher)
+                .addAction(android.R.drawable.ic_menu_close_clear_cancel, "Quit", pendingIntentStop)
+                .setContentIntent(pendingIntent)
+                .setOngoing(true).build();
+
+    }
+
+    private void updateNotification(String text) {
+
+        Notification notification = createNotification(text);
+
+        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.notify(NOTIFICATION_ID, notification);
+    }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if (!intent.getAction().equals(ACTION_START) && mBtSocketIoThread == null) {
+        String action = intent.getAction();
+
+        if (!mStarted && !action.equals(ACTION_START)) {
+            // using the service before issuing ACTION_START
+            return START_NOT_STICKY;
+        }
+
+        if (mStarted && action.equals(ACTION_START)) {
+            // using ACTION_START when the service has already been started
             return START_STICKY;
         }
 
-        if (intent.getAction().equals(ACTION_START)) {
-            Intent notificationIntent = new Intent(this, ControlCenter.class);
-            notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                    | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
-                    notificationIntent, 0);
+        if (!action.equals(ACTION_START) && !action.equals(ACTION_CONNECT) && mBtSocket == null) {
+            // trying to send notification without valid Blutooth socket
+            return START_STICKY;
+        }
 
-            Intent stopIntent = new Intent(this, StopServiceReceiver.class);
-            PendingIntent pendingIntentStop = PendingIntent.getBroadcast(this, 0, stopIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            Notification notification = new NotificationCompat.Builder(this)
-                    .setContentTitle("Gadgetbridge")
-                    .setTicker("Gadgetbridge Running")
-                    .setContentText("Gadgetbrige Running")
-                    .setSmallIcon(R.drawable.ic_launcher)
-                    .addAction(android.R.drawable.ic_menu_close_clear_cancel, "Quit", pendingIntentStop)
-                    .setContentIntent(pendingIntent)
-                    .setOngoing(true).build();
-
-
+        if (intent.getAction().equals(ACTION_CONNECT)) {
             //Check the system status
             mBtAdapter = BluetoothAdapter.getDefaultAdapter();
             if (mBtAdapter == null) {
@@ -112,30 +140,28 @@ public class BluetoothCommunicationService extends Service {
             } else if (!mBtAdapter.isEnabled()) {
                 Toast.makeText(this, "Bluetooth is disabled.", Toast.LENGTH_SHORT).show();
             } else {
+                String btDeviceAddress = null;
                 Set<BluetoothDevice> pairedDevices = mBtAdapter.getBondedDevices();
                 for (BluetoothDevice device : pairedDevices) {
                     if (device.getName().indexOf("Pebble") == 0) {
                         // Matching device found
-                        mBtDeviceAddress = device.getAddress();
+                        btDeviceAddress = device.getAddress();
                     }
                 }
 
-                try {
-                    if (mBtSocket == null || !mBtSocket.isConnected()) {
-                        BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(mBtDeviceAddress);
-                        ParcelUuid uuids[] = btDevice.getUuids();
-                        mBtSocket = btDevice.createRfcommSocketToServiceRecord(uuids[0].getUuid());
-                        mBtSocket.connect();
-                        mBtSocketIoThread = new BtSocketIoThread(mBtSocket.getInputStream(), mBtSocket.getOutputStream());
-                        mBtSocketIoThread.start();
-
-                        setReceiversEnableState(true); // enable BroadcastReceivers
+                if (mBtSocket == null || !mBtSocket.isConnected()) {
+                    // currently only one thread allowed
+                    if (mBtSocketIoThread != null) {
+                        mBtSocketIoThread.quit();
+                        try {
+                            mBtSocketIoThread.join();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    mBtSocketIoThread = new BtSocketIoThread(btDeviceAddress);
+                    mBtSocketIoThread.start();
                 }
-                startForeground(1, notification); //FIXME: don't hardcode id
             }
         } else if (intent.getAction().equals(ACTION_NOTIFICATION_GENERIC)) {
             String title = intent.getStringExtra("notification_title");
@@ -163,7 +189,11 @@ public class BluetoothCommunicationService extends Service {
         } else if (intent.getAction().equals(ACTION_SETTIME)) {
             byte[] msg = PebbleProtocol.encodeSetTime(-1);
             mBtSocketIoThread.write(msg);
+        } else if (intent.getAction().equals(ACTION_START)) {
+            startForeground(NOTIFICATION_ID, createNotification("Gadgetbridge running"));
+            mStarted = true;
         }
+
         return START_STICKY;
     }
 
@@ -181,13 +211,8 @@ public class BluetoothCommunicationService extends Service {
                 e.printStackTrace();
             }
         }
-        if (mBtSocket != null) {
-            try {
-                mBtSocket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.cancel(NOTIFICATION_ID); // need to do this because the updated notification wont be cancelled when service stops
     }
 
     @Override
@@ -223,16 +248,40 @@ public class BluetoothCommunicationService extends Service {
 
 
     private class BtSocketIoThread extends Thread {
-        private final InputStream mmInStream;
-        private final OutputStream mmOutStream;
+        private InputStream mmInStream = null;
+        private OutputStream mmOutStream = null;
+        private final String mmBtDeviceAddress;
         private boolean mQuit = false;
+        private boolean mmIsConnected = false;
 
-        public BtSocketIoThread(InputStream instream, OutputStream outstream) {
-            mmInStream = instream;
-            mmOutStream = outstream;
+        public BtSocketIoThread(String btDeviceAddress) {
+            mmBtDeviceAddress = btDeviceAddress;
+        }
+
+        private boolean connect(String btDeviceAddress) {
+            BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(btDeviceAddress);
+            ParcelUuid uuids[] = btDevice.getUuids();
+            try {
+                mBtSocket = btDevice.createRfcommSocketToServiceRecord(uuids[0].getUuid());
+                mBtSocket.connect();
+                mmInStream = mBtSocket.getInputStream();
+                mmOutStream = mBtSocket.getOutputStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+                mmInStream = null;
+                mmOutStream = null;
+                mBtSocket = null;
+                return false;
+            }
+            updateNotification("connected to " + btDevice.getName());
+            return true;
         }
 
         public void run() {
+            mmIsConnected = connect(mmBtDeviceAddress);
+            setReceiversEnableState(mmIsConnected); // enable/disable BroadcastReceivers
+            mQuit = !mmIsConnected; // quit if not connected
+
             byte[] buffer = new byte[8192];
             int bytes;
 
@@ -286,18 +335,37 @@ public class BluetoothCommunicationService extends Service {
                     }
                 }
             }
+            mmIsConnected = false;
+            if (mBtSocket != null) {
+                try {
+                    mBtSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            mBtSocket = null;
+            updateNotification("not connected");
         }
 
         synchronized public void write(byte[] bytes) {
-            try {
-                mmOutStream.write(bytes);
-                mmOutStream.flush();
-            } catch (IOException e) {
+            if (mmIsConnected) {
+                try {
+                    mmOutStream.write(bytes);
+                    mmOutStream.flush();
+                } catch (IOException e) {
+                }
             }
         }
 
         public void quit() {
             mQuit = true;
+            if (mBtSocket != null) {
+                try {
+                    mBtSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

@@ -1,7 +1,10 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
 import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -13,11 +16,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.util.UUID;
-
 public class ControlCenter extends ActionBarActivity {
-    // SPP Serial Device UUID
-    private static final UUID SERIAL_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
+
+    public static final String ACTION_QUIT
+            = "nodomain.freeyourgadget.gadgetbride.controlcenter.action.quit";
 
     Button sendButton;
     Button testNotificationButton;
@@ -26,11 +28,21 @@ public class ControlCenter extends ActionBarActivity {
     EditText editTitle;
     EditText editContent;
 
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(ACTION_QUIT)) {
+                finish();
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_controlcenter);
 
+        registerReceiver(mReceiver, new IntentFilter(ACTION_QUIT));
 
         editTitle = (EditText) findViewById(R.id.editTitle);
         editContent = (EditText) findViewById(R.id.editContent);
@@ -39,7 +51,7 @@ public class ControlCenter extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent startIntent = new Intent(ControlCenter.this, BluetoothCommunicationService.class);
-                startIntent.setAction(BluetoothCommunicationService.ACTION_START);
+                startIntent.setAction(BluetoothCommunicationService.ACTION_CONNECT);
                 startService(startIntent);
             }
         });
@@ -82,6 +94,10 @@ public class ControlCenter extends ActionBarActivity {
             Intent enableIntent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
             startActivity(enableIntent);
         }
+        Intent startIntent = new Intent(ControlCenter.this, BluetoothCommunicationService.class);
+        startIntent.setAction(BluetoothCommunicationService.ACTION_START);
+        startService(startIntent);
+
     }
 
     private void testNotification() {
@@ -118,4 +134,10 @@ public class ControlCenter extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mReceiver);
+    }
+
 }
