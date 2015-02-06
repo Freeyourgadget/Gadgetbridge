@@ -47,7 +47,7 @@ public class PebbleProtocol {
 
     static final short LENGTH_PREFIX = 4;
     static final short LENGTH_SETTIME = 9;
-    static final short LENGTH_PHONEVERSION = 17;
+    static final short LENGTH_PHONEVERSION = 21;
 
     static final byte TIME_GETTIME = 0;
     static final byte TIME_SETTIME = 2;
@@ -76,6 +76,7 @@ public class PebbleProtocol {
         // Calculate length first
         int length = LENGTH_PREFIX + 1;
         for (String s : parts) {
+            if (s == null) continue;
             length += (1 + s.getBytes().length);
         }
 
@@ -88,6 +89,7 @@ public class PebbleProtocol {
 
         // Encode Pascal-Style Strings
         for (String s : parts) {
+            if (s == null) continue;
 
             int partlength = s.getBytes().length;
             if (partlength > 255) partlength = 255;
@@ -142,9 +144,8 @@ public class PebbleProtocol {
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putShort((short) (LENGTH_PHONEVERSION - LENGTH_PREFIX));
         buf.putShort(ENDPOINT_PHONEVERSION);
-        buf.put(PHONEVERSION_APPVERSION);
-
-        buf.putInt(-1); // TODO: Find out what this is (cookie?)
+        buf.put((byte) 0x01);
+        buf.putInt(-1); //0xffffffff
 
         if (os == PHONEVERSION_REMOTE_OS_ANDROID) {
             buf.putInt(PHONEVERSION_SESSION_CAPS_GAMMARAY);
@@ -152,6 +153,7 @@ public class PebbleProtocol {
             buf.putInt(0);
         }
         buf.putInt(PHONEVERSION_REMOTE_CAPS_SMS | PHONEVERSION_REMOTE_CAPS_TELEPHONY | os);
+        buf.putInt(0x02020000); // app version code
 
         return buf.array();
     }
