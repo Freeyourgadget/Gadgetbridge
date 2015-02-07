@@ -20,20 +20,17 @@ Features:
 
 How to use (Pebble):
 
-1) Pair your Pebble though the Android Bluetooth Settings
-2) Start Gadgetbridge, press "start service"
-3) Press "create test notification" to see if it works
+1. Pair your Pebble though the Android Bluetooth Settings
+2. Start Gadgetbridge, press "connect"
+3. To test, chose "Debug" from the menu and play around
 
 Known Issues:
 
-* No reconnect, if connection is lost, you have to press "start service"
-  again.
+* No reconnect, if connection is lost, you have to press "connect" again
 * Can't reject or hang up phone calls yet
-* Phone calls that are taken or rejected both count as rejected to make the
-  Pebble stop vibrating. (No in-call display yet)
-* No outgoing call support (No in-call display yet)
+* No outgoing call support 
 * Notifications are not properly queued, if two arrive at about the same time,
-  one of them will get lost (TODO: confirm)
+  one of them might get lost (TODO: confirm)
 * Android 4.4+ only, we can only change this by not handling generic
   notifications or by using AccessibiltyService. Don't know if it is worth the
   hassle.
