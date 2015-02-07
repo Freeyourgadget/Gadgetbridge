@@ -58,7 +58,7 @@ public class BluetoothCommunicationService extends Service {
                 PhoneCallReceiver.class,
                 SMSReceiver.class,
                 K9Receiver.class,
-                NotificationListener.class,
+                //NotificationListener.class, // disabling this leads to loss of permission to read notifications
         };
 
         int newState;
