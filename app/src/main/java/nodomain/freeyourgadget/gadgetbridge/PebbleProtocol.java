@@ -133,7 +133,7 @@ public class PebbleProtocol {
         return buf.array();
     }
 
-    public static byte[] encodeIncomingCall(String number, String name, byte state) {
+    public static byte[] encodePhoneState(String number, String name, byte state) {
         String cookie = "000"; // That's a dirty trick to make the cookie part 4 bytes long :P
         String[] parts = {cookie, number, name};
         return encodeMessage(ENDPOINT_PHONECONTROL, state, parts);

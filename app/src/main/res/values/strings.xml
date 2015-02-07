@@ -3,7 +3,8 @@
 
     <string name="app_name">Gadgetbridge</string>
     <string name="title_activity_main">Gadgetbridge Control Center</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="action_debug">Debug</string>
+    <string name="title_activity_debug">Debug</string>
 
 </resources>

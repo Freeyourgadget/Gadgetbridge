@@ -14,19 +14,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 
 public class ControlCenter extends ActionBarActivity {
 
     public static final String ACTION_QUIT
             = "nodomain.freeyourgadget.gadgetbride.controlcenter.action.quit";
 
-    Button sendButton;
-    Button testNotificationButton;
     Button startServiceButton;
-    Button setTimeButton;
-    EditText editTitle;
-    EditText editContent;
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -44,8 +38,6 @@ public class ControlCenter extends ActionBarActivity {
 
         registerReceiver(mReceiver, new IntentFilter(ACTION_QUIT));
 
-        editTitle = (EditText) findViewById(R.id.editTitle);
-        editContent = (EditText) findViewById(R.id.editContent);
         startServiceButton = (Button) findViewById(R.id.startServiceButton);
         startServiceButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,35 +47,6 @@ public class ControlCenter extends ActionBarActivity {
                 startService(startIntent);
             }
         });
-        sendButton = (Button) findViewById(R.id.sendButton);
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent startIntent = new Intent(ControlCenter.this, BluetoothCommunicationService.class);
-                startIntent.setAction(BluetoothCommunicationService.ACTION_NOTIFICATION_GENERIC);
-                startIntent.putExtra("notification_title", editTitle.getText().toString());
-                startIntent.putExtra("notification_body", editContent.getText().toString());
-                startService(startIntent);
-            }
-        });
-        setTimeButton = (Button) findViewById(R.id.setTimeButton);
-        setTimeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent startIntent = new Intent(ControlCenter.this, BluetoothCommunicationService.class);
-                startIntent.setAction(BluetoothCommunicationService.ACTION_SETTIME);
-                startService(startIntent);
-            }
-        });
-
-        testNotificationButton = (Button) findViewById(R.id.testNotificationButton);
-        testNotificationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                testNotification();
-            }
-        });
-
         /*
          * Ask for permission to intercept notifications on first run.
          * TODO: allow re-request in preferences
@@ -131,9 +94,15 @@ public class ControlCenter extends ActionBarActivity {
             //startActivity(intent);
             return true;
         }
+        if (id == R.id.action_debug) {
+            Intent intent = new Intent(this, DebugActivity.class);
+            startActivity(intent);
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

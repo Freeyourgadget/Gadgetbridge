@@ -42,8 +42,8 @@ public class BluetoothCommunicationService extends Service {
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.notification_sms";
     public static final String ACTION_NOTIFICATION_EMAIL
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.notification_email";
-    public static final String ACTION_INCOMINGCALL
-            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.incomingcall";
+    public static final String ACTION_CALLSTATE
+            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.callstate";
     public static final String ACTION_SETTIME
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.settime";
 
@@ -58,6 +58,7 @@ public class BluetoothCommunicationService extends Service {
                 PhoneCallReceiver.class,
                 SMSReceiver.class,
                 K9Receiver.class,
+                NotificationListener.class,
         };
 
         int newState;
@@ -180,11 +181,17 @@ public class BluetoothCommunicationService extends Service {
             String body = intent.getStringExtra("notification_body");
             byte[] msg = PebbleProtocol.encodeEmail(sender, subject, body);
             mBtSocketIoThread.write(msg);
-        } else if (intent.getAction().equals(ACTION_INCOMINGCALL)) {
-            String phoneNumber = intent.getStringExtra("incomingcall_phonenumber");
-            byte phoneState = intent.getByteExtra("incomingcall_state", (byte) 0);
-            String callerName = getContactDisplayNameByNumber(phoneNumber);
-            byte[] msg = PebbleProtocol.encodeIncomingCall(phoneNumber, callerName, phoneState);
+        } else if (intent.getAction().equals(ACTION_CALLSTATE)) {
+            byte phoneState = intent.getByteExtra("call_state", (byte) 0);
+            String phoneNumber = null;
+            if (intent.hasExtra("call_phonenumber")) {
+                phoneNumber = intent.getStringExtra("call_phonenumber");
+            }
+            String callerName = null;
+            if (phoneNumber != null) {
+                callerName = getContactDisplayNameByNumber(phoneNumber);
+            }
+            byte[] msg = PebbleProtocol.encodePhoneState(phoneNumber, callerName, phoneState);
             mBtSocketIoThread.write(msg);
         } else if (intent.getAction().equals(ACTION_SETTIME)) {
             byte[] msg = PebbleProtocol.encodeSetTime(-1);
