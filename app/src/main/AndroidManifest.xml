@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="nodomain.freeyourgadget.gadgetbridge" >
+    package="nodomain.freeyourgadget.gadgetbridge">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -13,13 +13,13 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".SettingsActivity"
             android:label="@string/app_name" />
         <activity
             android:name=".ControlCenter"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,17 +30,16 @@
         <service
             android:name=".NotificationListener"
             android:label="@string/app_name"
-            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" >
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
-        <service android:name=".BluetoothCommunicationService" >
-        </service>
+        <service android:name=".BluetoothCommunicationService"></service>
 
         <receiver
             android:name=".PhoneCallReceiver"
-            android:enabled="false" >
+            android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
@@ -50,26 +49,33 @@
         </receiver>
         <receiver
             android:name=".SMSReceiver"
-            android:enabled="false" >
+            android:enabled="false">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
         <receiver
             android:name=".K9Receiver"
-            android:enabled="false" >
+            android:enabled="false">
             <intent-filter>
                 <data android:scheme="email" />
 
                 <action android:name="com.fsck.k9.intent.action.EMAIL_RECEIVED" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".MusicPlaybackReceiver"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="com.andrew.apollo.metachanged" />
+            </intent-filter>
+        </receiver>
+
         <receiver android:name=".StopServiceReceiver" />
 
         <activity
             android:name=".DebugActivity"
-            android:label="@string/title_activity_debug" >
-        </activity>
+            android:label="@string/title_activity_debug"></activity>
     </application>
 
 </manifest>

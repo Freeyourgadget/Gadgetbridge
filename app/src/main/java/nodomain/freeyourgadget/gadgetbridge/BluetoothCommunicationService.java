@@ -29,9 +29,6 @@ import java.nio.ByteOrder;
 import java.util.Set;
 
 public class BluetoothCommunicationService extends Service {
-    private static final String TAG = "BluetoothCommunicationService";
-    private static final int NOTIFICATION_ID = 1;
-
     public static final String ACTION_START
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.start";
     public static final String ACTION_CONNECT
@@ -46,7 +43,10 @@ public class BluetoothCommunicationService extends Service {
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.callstate";
     public static final String ACTION_SETTIME
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.settime";
-
+    public static final String ACTION_SETMUSICINFO
+            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.setmusicinfo";
+    private static final String TAG = "BluetoothCommunicationService";
+    private static final int NOTIFICATION_ID = 1;
     private BluetoothAdapter mBtAdapter = null;
     private BluetoothSocket mBtSocket = null;
     private BtSocketIoThread mBtSocketIoThread = null;
@@ -58,6 +58,7 @@ public class BluetoothCommunicationService extends Service {
                 PhoneCallReceiver.class,
                 SMSReceiver.class,
                 K9Receiver.class,
+                MusicPlaybackReceiver.class,
                 //NotificationListener.class, // disabling this leads to loss of permission to read notifications
         };
 
@@ -183,18 +184,21 @@ public class BluetoothCommunicationService extends Service {
             mBtSocketIoThread.write(msg);
         } else if (intent.getAction().equals(ACTION_CALLSTATE)) {
             byte phoneState = intent.getByteExtra("call_state", (byte) 0);
-            String phoneNumber = null;
-            if (intent.hasExtra("call_phonenumber")) {
-                phoneNumber = intent.getStringExtra("call_phonenumber");
-            }
+            String phoneNumber = intent.getStringExtra("call_phonenumber");
             String callerName = null;
             if (phoneNumber != null) {
                 callerName = getContactDisplayNameByNumber(phoneNumber);
             }
-            byte[] msg = PebbleProtocol.encodePhoneState(phoneNumber, callerName, phoneState);
+            byte[] msg = PebbleProtocol.encodeSetPhoneState(phoneNumber, callerName, phoneState);
             mBtSocketIoThread.write(msg);
         } else if (intent.getAction().equals(ACTION_SETTIME)) {
             byte[] msg = PebbleProtocol.encodeSetTime(-1);
+            mBtSocketIoThread.write(msg);
+        } else if (intent.getAction().equals(ACTION_SETMUSICINFO)) {
+            String artist = intent.getStringExtra("music_artist");
+            String album = intent.getStringExtra("music_album");
+            String track = intent.getStringExtra("music_track");
+            byte[] msg = PebbleProtocol.encodeSetMusicInfo(artist, album, track);
             mBtSocketIoThread.write(msg);
         } else if (intent.getAction().equals(ACTION_START)) {
             startForeground(NOTIFICATION_ID, createNotification("Gadgetbridge running"));
@@ -255,9 +259,9 @@ public class BluetoothCommunicationService extends Service {
 
 
     private class BtSocketIoThread extends Thread {
+        private final String mmBtDeviceAddress;
         private InputStream mmInStream = null;
         private OutputStream mmOutStream = null;
-        private final String mmBtDeviceAddress;
         private boolean mQuit = false;
         private boolean mmIsConnected = false;
 

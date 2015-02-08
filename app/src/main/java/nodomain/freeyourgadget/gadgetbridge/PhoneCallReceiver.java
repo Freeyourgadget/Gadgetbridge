@@ -53,8 +53,7 @@ public class PhoneCallReceiver extends BroadcastReceiver {
                 if (mLastState == TelephonyManager.CALL_STATE_RINGING) {
                     //pebblePhoneCommand = PebbleProtocol.PHONECONTROL_MISSEDCALL;
                     pebblePhoneCommand = PebbleProtocol.PHONECONTROL_END; // MISSED CALL DOES NOT WORK
-                }
-                else {
+                } else {
                     pebblePhoneCommand = PebbleProtocol.PHONECONTROL_END;
                 }
                 break;

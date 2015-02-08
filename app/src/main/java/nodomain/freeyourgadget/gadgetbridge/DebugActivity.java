@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+
 public class DebugActivity extends ActionBarActivity {
     Button sendSMSButton;
     Button sendEmailButton;
@@ -20,6 +21,7 @@ public class DebugActivity extends ActionBarActivity {
     Button startCallButton;
     Button endCallButton;
     Button testNotificationButton;
+    Button setMusicInfoButton;
     Button setTimeButton;
     EditText editContent;
 
@@ -104,6 +106,19 @@ public class DebugActivity extends ActionBarActivity {
                 Intent startIntent = new Intent(DebugActivity.this, BluetoothCommunicationService.class);
                 startIntent.setAction(BluetoothCommunicationService.ACTION_CALLSTATE);
                 startIntent.putExtra("call_state", PebbleProtocol.PHONECONTROL_END);
+                startService(startIntent);
+            }
+        });
+
+        setMusicInfoButton = (Button) findViewById(R.id.setMusicInfoButton);
+        setMusicInfoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startIntent = new Intent(DebugActivity.this, BluetoothCommunicationService.class);
+                startIntent.setAction(BluetoothCommunicationService.ACTION_SETMUSICINFO);
+                startIntent.putExtra("music_artist", editContent.getText().toString() + "(artist)");
+                startIntent.putExtra("music_album", editContent.getText().toString() + "(album)");
+                startIntent.putExtra("music_track", editContent.getText().toString() + "(track)");
                 startService(startIntent);
             }
         });

@@ -91,4 +91,13 @@
         android:layout_alignEnd="@+id/outgoingCallButton"
         android:layout_toEndOf="@+id/incomingCallButton" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="set music info"
+        android:id="@+id/setMusicInfoButton"
+        android:layout_below="@+id/startCallButton"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/endCallButton" />
+
 </RelativeLayout>

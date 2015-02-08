@@ -45,6 +45,8 @@ public class PebbleProtocol {
     static final byte PHONECONTROL_START = 8;
     static final byte PHONECONTROL_END = 9;
 
+    static final byte MUSICCONTROL_SETMUSICINFO = 16;
+
     static final short LENGTH_PREFIX = 4;
     static final short LENGTH_SETTIME = 9;
     static final short LENGTH_PHONEVERSION = 21;
@@ -52,7 +54,11 @@ public class PebbleProtocol {
     static final byte TIME_GETTIME = 0;
     static final byte TIME_SETTIME = 2;
 
-    static final byte PHONEVERSION_APPVERSION = 2; // increase this if pebble complains
+    static final byte PHONEVERSION_APPVERSION_MAGIC = 2; // increase this if pebble complains
+    static final byte PHONEVERSION_APPVERSION_MAJOR = 2;
+    static final byte PHONEVERSION_APPVERSION_MINOR = 2;
+    static final byte PHONEVERSION_APPVERSION_PATCH = 2;
+
 
     static final int PHONEVERSION_SESSION_CAPS_GAMMARAY = (int) 0x80000000;
 
@@ -72,12 +78,19 @@ public class PebbleProtocol {
     static final byte PHONEVERSION_REMOTE_OS_LINUX = 4;
     static final byte PHONEVERSION_REMOTE_OS_WINDOWS = 5;
 
-    static byte[] encodeMessage(short endpoint, byte type, String[] parts) {
+    static byte[] encodeMessage(short endpoint, byte type, int cookie, String[] parts) {
         // Calculate length first
         int length = LENGTH_PREFIX + 1;
         for (String s : parts) {
-            if (s == null) continue;
+            if (s == null || s.equals("")) {
+                length++; // encode null or empty strings as 0x00 later
+                continue;
+            }
             length += (1 + s.getBytes().length);
+        }
+
+        if (endpoint == ENDPOINT_PHONECONTROL) {
+            length += 4; //for cookie;
         }
 
         // Encode Prefix
@@ -87,9 +100,16 @@ public class PebbleProtocol {
         buf.putShort(endpoint);
         buf.put(type);
 
+        if (endpoint == ENDPOINT_PHONECONTROL) {
+            buf.putInt(cookie);
+        }
         // Encode Pascal-Style Strings
         for (String s : parts) {
-            if (s == null) continue;
+            if (s == null || s.equals("")) {
+                //buf.put((byte)0x01);
+                buf.put((byte) 0x00);
+                continue;
+            }
 
             int partlength = s.getBytes().length;
             if (partlength > 255) partlength = 255;
@@ -106,7 +126,7 @@ public class PebbleProtocol {
         String tsstring = ts.toString();  // SIC
         String[] parts = {from, body, tsstring};
 
-        return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_SMS, parts);
+        return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_SMS, 0, parts);
     }
 
     public static byte[] encodeEmail(String from, String subject, String body) {
@@ -115,7 +135,7 @@ public class PebbleProtocol {
         String tsstring = ts.toString(); // SIC
         String[] parts = {from, body, tsstring, subject};
 
-        return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_EMAIL, parts);
+        return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_EMAIL, 0, parts);
     }
 
     public static byte[] encodeSetTime(long ts) {
@@ -133,10 +153,14 @@ public class PebbleProtocol {
         return buf.array();
     }
 
-    public static byte[] encodePhoneState(String number, String name, byte state) {
-        String cookie = "000"; // That's a dirty trick to make the cookie part 4 bytes long :P
-        String[] parts = {cookie, number, name};
-        return encodeMessage(ENDPOINT_PHONECONTROL, state, parts);
+    public static byte[] encodeSetPhoneState(String number, String name, byte state) {
+        String[] parts = {number, name};
+        return encodeMessage(ENDPOINT_PHONECONTROL, state, 0, parts);
+    }
+
+    public static byte[] encodeSetMusicInfo(String artist, String album, String track) {
+        String[] parts = {artist, album, track};
+        return encodeMessage(ENDPOINT_MUSICCONTROL, MUSICCONTROL_SETMUSICINFO, 0, parts);
     }
 
     public static byte[] encodePhoneVersion(byte os) {
@@ -153,7 +177,11 @@ public class PebbleProtocol {
             buf.putInt(0);
         }
         buf.putInt(PHONEVERSION_REMOTE_CAPS_SMS | PHONEVERSION_REMOTE_CAPS_TELEPHONY | os);
-        buf.putInt(0x02020000); // app version code
+
+        buf.put(PHONEVERSION_APPVERSION_MAGIC);
+        buf.put(PHONEVERSION_APPVERSION_MAJOR);
+        buf.put(PHONEVERSION_APPVERSION_MINOR);
+        buf.put(PHONEVERSION_APPVERSION_PATCH);
 
         return buf.array();
     }

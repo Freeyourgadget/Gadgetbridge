@@ -13,10 +13,11 @@ annoy you more than it helps you ;)
 
 Features:
 
-* Incoming calls (caller, phone number)
+* Incoming calls notification and display (caller, phone number)
 * SMS notification (sender, body)
 * K-9 Mail notification support (sender, subject, preview)
 * Support for generic notificaions (above filtered out)
+* Apollo Music Playback info (artist, album, track)
 
 How to use (Pebble):
 
@@ -28,7 +29,6 @@ Known Issues:
 
 * No reconnect, if connection is lost, you have to press "connect" again
 * Can't reject or hang up phone calls yet
-* No outgoing call support 
 * Notifications are not properly queued, if two arrive at about the same time,
   one of them might get lost (TODO: confirm)
 * Android 4.4+ only, we can only change this by not handling generic
