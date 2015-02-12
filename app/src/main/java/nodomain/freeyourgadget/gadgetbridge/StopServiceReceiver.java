@@ -10,8 +10,7 @@ public class StopServiceReceiver extends BroadcastReceiver {
         Intent stopIntent = new Intent(context, BluetoothCommunicationService.class);
         context.stopService(stopIntent);
 
-        Intent quitIntent = new Intent();
-        quitIntent.setAction(ControlCenter.ACTION_QUIT);
+        Intent quitIntent = new Intent(ControlCenter.ACTION_QUIT);
         context.sendBroadcast(quitIntent);
     }
 }

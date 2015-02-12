@@ -114,6 +114,23 @@ public class BluetoothCommunicationService extends Service {
         nm.notify(NOTIFICATION_ID, notification);
     }
 
+    private void evaluateGBCommandBundle(GBCommandBundle cmdBundle) {
+        switch (cmdBundle.commandClass) {
+            case MUSIC_CONTROL:
+                Log.i(TAG, "Got command for MUSIC_CONTROL");
+                Intent i = new Intent(GBMusicControlReceiver.ACTION_MUSICCONTROL);
+                i.putExtra("command", cmdBundle.command.ordinal());
+                sendBroadcast(i);
+                break;
+            case CALL_CONTROL:
+                Log.i(TAG, "Got command for CALL_CONTROL");
+                break;
+            default:
+                break;
+        }
+
+    }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
@@ -183,13 +200,13 @@ public class BluetoothCommunicationService extends Service {
             byte[] msg = PebbleProtocol.encodeEmail(sender, subject, body);
             mBtSocketIoThread.write(msg);
         } else if (intent.getAction().equals(ACTION_CALLSTATE)) {
-            byte phoneState = intent.getByteExtra("call_state", (byte) 0);
+            GBCommand command = GBCommand.values()[intent.getIntExtra("call_command", 0)]; // UGLY
             String phoneNumber = intent.getStringExtra("call_phonenumber");
             String callerName = null;
             if (phoneNumber != null) {
                 callerName = getContactDisplayNameByNumber(phoneNumber);
             }
-            byte[] msg = PebbleProtocol.encodeSetPhoneState(phoneNumber, callerName, phoneState);
+            byte[] msg = PebbleProtocol.encodeSetCallState(phoneNumber, callerName, command);
             mBtSocketIoThread.write(msg);
         } else if (intent.getAction().equals(ACTION_SETTIME)) {
             byte[] msg = PebbleProtocol.encodeSetTime(-1);
@@ -330,7 +347,12 @@ public class BluetoothCommunicationService extends Service {
                         Log.i(TAG, "Pebble asked for Phone/App Version - repLYING!");
                         write(PebbleProtocol.encodePhoneVersion(PebbleProtocol.PHONEVERSION_REMOTE_OS_ANDROID));
                     } else if (endpoint != PebbleProtocol.ENDPOINT_DATALOG) {
-                        Log.i(TAG, "unhandled message to endpoint " + endpoint + " (" + bytes + " bytes)");
+                        GBCommandBundle cmdBundle = PebbleProtocol.decodeResponse(buffer);
+                        if (cmdBundle == null) {
+                            Log.i(TAG, "unhandled message to endpoint " + endpoint + " (" + bytes + " bytes)");
+                        } else {
+                            evaluateGBCommandBundle(cmdBundle);
+                        }
                     }
                     try {
                         Thread.sleep(100);

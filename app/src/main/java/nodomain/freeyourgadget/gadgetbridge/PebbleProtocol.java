@@ -46,6 +46,14 @@ public class PebbleProtocol {
     static final byte PHONECONTROL_END = 9;
 
     static final byte MUSICCONTROL_SETMUSICINFO = 16;
+    static final byte MUSICCONTROL_PLAYPAUSE = 1;
+    static final byte MUSICCONTROL_PAUSE = 2;
+    static final byte MUSICCONTROL_PLAY = 3;
+    static final byte MUSICCONTROL_NEXT = 4;
+    static final byte MUSICCONTROL_PREVIOUS = 5;
+    static final byte MUSICCONTROL_VOLUMEUP = 6;
+    static final byte MUSICCONTROL_VOLUMEDOWN = 7;
+    static final byte MUSICCONTROL_GETNOWPLAYING = 7;
 
     static final short LENGTH_PREFIX = 4;
     static final short LENGTH_SETTIME = 9;
@@ -153,9 +161,26 @@ public class PebbleProtocol {
         return buf.array();
     }
 
-    public static byte[] encodeSetPhoneState(String number, String name, byte state) {
+    public static byte[] encodeSetCallState(String number, String name, GBCommand command) {
         String[] parts = {number, name};
-        return encodeMessage(ENDPOINT_PHONECONTROL, state, 0, parts);
+        byte pebbleCmd;
+        switch (command) {
+            case CALL_START:
+                pebbleCmd = PHONECONTROL_START;
+                break;
+            case CALL_END:
+                pebbleCmd = PHONECONTROL_END;
+                break;
+            case CALL_INCOMING:
+                pebbleCmd = PHONECONTROL_INCOMINGCALL;
+                break;
+            case CALL_OUTGOING:
+                pebbleCmd = PHONECONTROL_OUTGOINGCALL;
+                break;
+            default:
+                return null;
+        }
+        return encodeMessage(ENDPOINT_PHONECONTROL, pebbleCmd, 0, parts);
     }
 
     public static byte[] encodeSetMusicInfo(String artist, String album, String track) {
@@ -186,23 +211,41 @@ public class PebbleProtocol {
         return buf.array();
     }
 
-    // FIXME: that should return data into some unified struct/Class
-    public static String decodeResponse(byte[] responseData) {
+    public static GBCommandBundle decodeResponse(byte[] responseData) {
         ByteBuffer buf = ByteBuffer.wrap(responseData);
         buf.order(ByteOrder.BIG_ENDIAN);
         short length = buf.getShort();
         short endpoint = buf.getShort();
-        byte extra = 0;
-
+        byte pebbleCmd = buf.get();
+        GBCommandBundle cmd = new GBCommandBundle();
         switch (endpoint) {
-            case ENDPOINT_PHONECONTROL:
-                extra = buf.get();
+            case ENDPOINT_MUSICCONTROL:
+                cmd.commandClass = GBCommandClass.MUSIC_CONTROL;
+                switch (pebbleCmd) {
+                    case MUSICCONTROL_NEXT:
+                        cmd.command = GBCommand.MUSIC_NEXT;
+                        break;
+                    case MUSICCONTROL_PREVIOUS:
+                        cmd.command = GBCommand.MUSIC_PREVIOUS;
+                        break;
+                    case MUSICCONTROL_PLAY:
+                        cmd.command = GBCommand.MUSIC_PLAY;
+                        break;
+                    case MUSICCONTROL_PAUSE:
+                        cmd.command = GBCommand.MUSIC_PAUSE;
+                        break;
+                    case MUSICCONTROL_PLAYPAUSE:
+                        cmd.command = GBCommand.MUSIC_PLAYPAUSE;
+                        break;
+                    default:
+                        cmd.command = GBCommand.UNDEFINEND;
+                        break;
+                }
                 break;
             default:
-                break;
+                return null;
         }
-        String ret = "length: " + Short.toString(length) + " Endpoint:" + Short.toString(endpoint) + "/" + Byte.toString(extra);
 
-        return ret;
+        return cmd;
     }
 }

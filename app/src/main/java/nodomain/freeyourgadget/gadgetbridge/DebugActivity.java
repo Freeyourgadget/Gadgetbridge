@@ -73,7 +73,7 @@ public class DebugActivity extends ActionBarActivity {
                 Intent startIntent = new Intent(DebugActivity.this, BluetoothCommunicationService.class);
                 startIntent.setAction(BluetoothCommunicationService.ACTION_CALLSTATE);
                 startIntent.putExtra("call_phonenumber", editContent.getText().toString());
-                startIntent.putExtra("call_state", PebbleProtocol.PHONECONTROL_INCOMINGCALL);
+                startIntent.putExtra("call_command", GBCommand.CALL_INCOMING.ordinal());
                 startService(startIntent);
             }
         });
@@ -84,7 +84,7 @@ public class DebugActivity extends ActionBarActivity {
                 Intent startIntent = new Intent(DebugActivity.this, BluetoothCommunicationService.class);
                 startIntent.setAction(BluetoothCommunicationService.ACTION_CALLSTATE);
                 startIntent.putExtra("call_phonenumber", editContent.getText().toString());
-                startIntent.putExtra("call_state", PebbleProtocol.PHONECONTROL_OUTGOINGCALL);
+                startIntent.putExtra("call_command", GBCommand.CALL_OUTGOING.ordinal());
                 startService(startIntent);
             }
         });
@@ -95,7 +95,7 @@ public class DebugActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent startIntent = new Intent(DebugActivity.this, BluetoothCommunicationService.class);
                 startIntent.setAction(BluetoothCommunicationService.ACTION_CALLSTATE);
-                startIntent.putExtra("call_state", PebbleProtocol.PHONECONTROL_START);
+                startIntent.putExtra("call_command", GBCommand.CALL_START.ordinal());
                 startService(startIntent);
             }
         });
@@ -105,7 +105,7 @@ public class DebugActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent startIntent = new Intent(DebugActivity.this, BluetoothCommunicationService.class);
                 startIntent.setAction(BluetoothCommunicationService.ACTION_CALLSTATE);
-                startIntent.putExtra("call_state", PebbleProtocol.PHONECONTROL_END);
+                startIntent.putExtra("call_command", GBCommand.CALL_END.ordinal());
                 startService(startIntent);
             }
         });

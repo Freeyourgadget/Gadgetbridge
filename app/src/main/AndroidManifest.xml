@@ -72,6 +72,11 @@
         </receiver>
 
         <receiver android:name=".StopServiceReceiver" />
+        <receiver android:name=".GBMusicControlReceiver">
+            <intent-filter>
+                <action android:name="nodomain.freeyourgadget.gadgetbridge.musiccontrol" />
+            </intent-filter>
+        </receiver>
 
         <activity
             android:name=".DebugActivity"

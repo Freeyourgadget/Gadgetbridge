@@ -36,33 +36,33 @@ public class PhoneCallReceiver extends BroadcastReceiver {
             return;
         }
 
-        byte pebblePhoneCommand = -1; // TODO: dont assume Pebble here
+        GBCommand callCommand = null;
         switch (state) {
             case TelephonyManager.CALL_STATE_RINGING:
                 mSavedNumber = number;
-                pebblePhoneCommand = PebbleProtocol.PHONECONTROL_INCOMINGCALL;
+                callCommand = GBCommand.CALL_INCOMING;
                 break;
             case TelephonyManager.CALL_STATE_OFFHOOK:
                 if (mLastState == TelephonyManager.CALL_STATE_RINGING) {
-                    pebblePhoneCommand = PebbleProtocol.PHONECONTROL_START;
+                    callCommand = GBCommand.CALL_START;
                 } else {
-                    pebblePhoneCommand = PebbleProtocol.PHONECONTROL_OUTGOINGCALL;
+                    callCommand = GBCommand.CALL_OUTGOING;
                 }
                 break;
             case TelephonyManager.CALL_STATE_IDLE:
                 if (mLastState == TelephonyManager.CALL_STATE_RINGING) {
-                    //pebblePhoneCommand = PebbleProtocol.PHONECONTROL_MISSEDCALL;
-                    pebblePhoneCommand = PebbleProtocol.PHONECONTROL_END; // MISSED CALL DOES NOT WORK
+                    //missed call would be correct here
+                    callCommand = GBCommand.CALL_END;
                 } else {
-                    pebblePhoneCommand = PebbleProtocol.PHONECONTROL_END;
+                    callCommand = GBCommand.CALL_END;
                 }
                 break;
         }
-        if (pebblePhoneCommand != -1) {
+        if (callCommand != null) {
             Intent startIntent = new Intent(context, BluetoothCommunicationService.class);
             startIntent.setAction(BluetoothCommunicationService.ACTION_CALLSTATE);
             startIntent.putExtra("call_phonenumber", mSavedNumber);
-            startIntent.putExtra("call_state", pebblePhoneCommand);
+            startIntent.putExtra("call_command", callCommand.ordinal());
             context.startService(startIntent);
         }
         mLastState = state;
