@@ -99,7 +99,7 @@ public class BluetoothCommunicationService extends Service {
                 .setContentTitle("Gadgetbridge")
                 .setTicker(text)
                 .setContentText(text)
-                .setSmallIcon(R.drawable.ic_launcher)
+                .setSmallIcon(R.drawable.ic_notification)
                 .addAction(android.R.drawable.ic_menu_close_clear_cancel, "Quit", pendingIntentStop)
                 .setContentIntent(pendingIntent)
                 .setOngoing(true).build();
