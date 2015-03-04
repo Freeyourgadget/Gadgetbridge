@@ -64,8 +64,8 @@ public class PebbleProtocol {
 
     static final byte PHONEVERSION_APPVERSION_MAGIC = 2; // increase this if pebble complains
     static final byte PHONEVERSION_APPVERSION_MAJOR = 2;
-    static final byte PHONEVERSION_APPVERSION_MINOR = 2;
-    static final byte PHONEVERSION_APPVERSION_PATCH = 2;
+    static final byte PHONEVERSION_APPVERSION_MINOR = 3;
+    static final byte PHONEVERSION_APPVERSION_PATCH = 0;
 
 
     static final int PHONEVERSION_SESSION_CAPS_GAMMARAY = (int) 0x80000000;

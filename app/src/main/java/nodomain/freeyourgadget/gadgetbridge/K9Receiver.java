@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.PowerManager;
 
 public class K9Receiver extends BroadcastReceiver {
 
@@ -13,6 +14,12 @@ public class K9Receiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        PowerManager powermanager = (PowerManager) context.getSystemService(context.POWER_SERVICE);
+        if (powermanager.isScreenOn()) {
+            return;
+        }
+
         // get sender and subject from the Intent
         String sender = intent.getStringExtra("com.fsck.k9.intent.extra.FROM");
         String subject = intent.getStringExtra("com.fsck.k9.intent.extra.SUBJECT");
