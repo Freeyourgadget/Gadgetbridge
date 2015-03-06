@@ -3,9 +3,11 @@ package nodomain.freeyourgadget.gadgetbridge;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
 
 public class K9Receiver extends BroadcastReceiver {
 
@@ -15,9 +17,15 @@ public class K9Receiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        PowerManager powermanager = (PowerManager) context.getSystemService(context.POWER_SERVICE);
-        if (powermanager.isScreenOn()) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        if (!sharedPrefs.getBoolean("notifications_k9mail", true)) {
             return;
+        }
+        if (!sharedPrefs.getBoolean("notifications_k9mail_whenscreenon", false)) {
+            PowerManager powermanager = (PowerManager) context.getSystemService(context.POWER_SERVICE);
+            if (powermanager.isScreenOn()) {
+                return;
+            }
         }
 
         // get sender and subject from the Intent

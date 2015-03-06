@@ -2,8 +2,10 @@ package nodomain.freeyourgadget.gadgetbridge;
 
 import android.app.Notification;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
@@ -28,9 +30,15 @@ public class NotificationListener extends NotificationListenerService {
         String source = sbn.getPackageName();
         Log.i(TAG, source);
 
-        PowerManager powermanager = (PowerManager) getSystemService(POWER_SERVICE);
-        if (powermanager.isScreenOn() && !source.equals(getPackageName())) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!sharedPrefs.getBoolean("notifications_generic", true)) {
             return;
+        }
+        if (!sharedPrefs.getBoolean("notifications_generic_whenscreenon", false)) {
+            PowerManager powermanager = (PowerManager) getSystemService(POWER_SERVICE);
+            if (powermanager.isScreenOn()) {
+                return;
+            }
         }
 
         Notification notification = sbn.getNotification();

@@ -3,8 +3,10 @@ package nodomain.freeyourgadget.gadgetbridge;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
 import android.telephony.SmsMessage;
 
 public class SMSReceiver extends BroadcastReceiver {
@@ -12,9 +14,15 @@ public class SMSReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        PowerManager powermanager = (PowerManager) context.getSystemService(context.POWER_SERVICE);
-        if (powermanager.isScreenOn()) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        if (!sharedPrefs.getBoolean("notifications_sms", true)) {
             return;
+        }
+        if (!sharedPrefs.getBoolean("notifications_sms_whenscreenon", false)) {
+            PowerManager powermanager = (PowerManager) context.getSystemService(context.POWER_SERVICE);
+            if (powermanager.isScreenOn()) {
+                return;
+            }
         }
 
         Bundle bundle = intent.getExtras();
