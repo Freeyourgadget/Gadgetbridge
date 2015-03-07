@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Strings related to Settings -->
-    <string name="pref_header_general" >General Settings</string>
+    <string name="pref_header_general">General Settings</string>
 
     <!-- Strings related to Notifications -->
     <string name="pref_header_notifications">Notifications</string>

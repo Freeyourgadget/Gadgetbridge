@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,13 +8,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 
-public class DebugActivity extends ActionBarActivity {
+public class DebugActivity extends Activity {
     Button sendSMSButton;
     Button sendEmailButton;
     Button incomingCallButton;
