@@ -175,8 +175,19 @@ public class PebbleProtocol {
                 pebbleCmd = PHONECONTROL_INCOMINGCALL;
                 break;
             case CALL_OUTGOING:
-                pebbleCmd = PHONECONTROL_OUTGOINGCALL;
-                break;
+                // pebbleCmd = PHONECONTROL_OUTGOINGCALL;
+                /*
+                 *  HACK/WORKAROUND for non-working outgoing call display.
+                 *  Just send a incoming call command immediately followed by a start call command
+                 *  This prevents vibration of the Pebble.
+                 */
+                byte[] callmsg = encodeMessage(ENDPOINT_PHONECONTROL, PHONECONTROL_INCOMINGCALL, 0, parts);
+                byte[] startmsg = encodeMessage(ENDPOINT_PHONECONTROL, PHONECONTROL_START, 0, parts);
+                byte[] msg = new byte[callmsg.length + startmsg.length];
+                System.arraycopy(callmsg, 0, msg, 0, callmsg.length);
+                System.arraycopy(startmsg, 0, msg, startmsg.length, startmsg.length);
+                return msg;
+            // END HACK
             default:
                 return null;
         }
