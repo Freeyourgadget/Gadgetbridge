@@ -2,24 +2,23 @@ Gadgetbridge
 ============
 
 Gadgetbridge is a Android (4.4+) Application which will allow you to use your
-Gadget (Smartwatches/Fitness Bands etc) without the vendors closed source
-application and without the need to create an account and sync your data to the
-vendors servers.
+Pebble without the vendors closed source application and without the need to
+create an account and transmit any of your data to the vendors servers.
 
-Right now this is in very early testing stages and only supports the Pebble.
-
-USE IT AT YOUR OWN RISK. It will problably not work. And if it works it will
-annoy you more than it helps you ;)
+We plan to add support for the Mi Band and maybe even more devices.
 
 Features:
 
 * Incoming calls notification and display (caller, phone number)
+* Outgoing call display
+* Reject/Hangup Calls
 * SMS notification (sender, body)
 * K-9 Mail notification support (sender, subject, preview)
 * Support for generic notificaions (above filtered out)
 * Apollo Music Playback info (artist, album, track)
+* Music Control: Play/Pause, Next Track, Previous Track
 
-How to use (Pebble):
+How to use:
 
 1. Pair your Pebble though the Android Bluetooth Settings
 2. Start Gadgetbridge, press "connect"
@@ -28,7 +27,6 @@ How to use (Pebble):
 Known Issues:
 
 * No reconnect, if connection is lost, you have to press "connect" again
-* Can't reject or hang up phone calls yet
 * Notifications are not properly queued, if two arrive at about the same time,
   one of them might get lost (TODO: confirm)
 * Android 4.4+ only, we can only change this by not handling generic

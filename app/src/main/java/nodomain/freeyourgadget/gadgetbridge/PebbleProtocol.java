@@ -1,10 +1,15 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
+import android.util.Log;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.SimpleTimeZone;
 
 public class PebbleProtocol {
+
+    static private String TAG = "PebbleProtocol";
+
     static final short ENDPOINT_FIRMWARE = 1;
     static final short ENDPOINT_TIME = 11;
     static final short ENDPOINT_FIRMWAREVERSION = 16;
@@ -249,6 +254,18 @@ public class PebbleProtocol {
                         cmd.command = GBCommand.MUSIC_PLAYPAUSE;
                         break;
                     default:
+                        cmd.command = GBCommand.UNDEFINEND;
+                        break;
+                }
+                break;
+            case ENDPOINT_PHONECONTROL:
+                cmd.commandClass = GBCommandClass.CALL_CONTROL;
+                switch (pebbleCmd) {
+                    case PHONECONTROL_HANGUP:
+                        cmd.command = GBCommand.CALL_END;
+                        break;
+                    default:
+                        Log.i(TAG, "Unknown PHONECONTROL command" + pebbleCmd);
                         cmd.command = GBCommand.UNDEFINEND;
                         break;
                 }

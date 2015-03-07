@@ -118,12 +118,15 @@ public class BluetoothCommunicationService extends Service {
         switch (cmdBundle.commandClass) {
             case MUSIC_CONTROL:
                 Log.i(TAG, "Got command for MUSIC_CONTROL");
-                Intent i = new Intent(GBMusicControlReceiver.ACTION_MUSICCONTROL);
-                i.putExtra("command", cmdBundle.command.ordinal());
-                sendBroadcast(i);
+                Intent musicintent = new Intent(GBMusicControlReceiver.ACTION_MUSICCONTROL);
+                musicintent.putExtra("command", cmdBundle.command.ordinal());
+                sendBroadcast(musicintent);
                 break;
             case CALL_CONTROL:
                 Log.i(TAG, "Got command for CALL_CONTROL");
+                Intent callintent = new Intent(GBCallControlReceiver.ACTION_CALLCONTROL);
+                callintent.putExtra("command", cmdBundle.command.ordinal());
+                sendBroadcast(callintent);
                 break;
             default:
                 break;
