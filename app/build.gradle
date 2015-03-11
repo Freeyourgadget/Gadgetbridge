@@ -4,12 +4,15 @@ android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
 
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
     defaultConfig {
         applicationId "nodomain.freeyourgadget.gadgetbridge"
         minSdkVersion 19
         targetSdkVersion 21
         versionCode 1
-        versionName "1.0"
+        versionName "0.1.0"
     }
     buildTypes {
         release {

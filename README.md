@@ -11,12 +11,12 @@ Features:
 
 * Incoming calls notification and display (caller, phone number)
 * Outgoing call display
-* Reject/Hangup Calls
+* Reject/hangup calls
 * SMS notification (sender, body)
 * K-9 Mail notification support (sender, subject, preview)
 * Support for generic notificaions (above filtered out)
-* Apollo Music Playback info (artist, album, track)
-* Music Control: Play/Pause, Next Track, Previous Track
+* Apollo playback info (artist, album, track)
+* Music control: play/pause, next track, previous track
 
 How to use:
 

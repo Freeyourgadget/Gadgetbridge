@@ -170,8 +170,10 @@ public class BluetoothCommunicationService extends Service {
                         btDeviceAddress = device.getAddress();
                     }
                 }
-
-                if (mBtSocket == null || !mBtSocket.isConnected()) {
+                if (btDeviceAddress == null) {
+                    Toast.makeText(this, "No supported device paired", Toast.LENGTH_SHORT).show();
+                }
+                else if (mBtSocket == null || !mBtSocket.isConnected()) {
                     // currently only one thread allowed
                     if (mBtSocketIoThread != null) {
                         mBtSocketIoThread.quit();
