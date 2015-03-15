@@ -31,9 +31,6 @@ public class NotificationListener extends NotificationListenerService {
         Log.i(TAG, source);
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!sharedPrefs.getBoolean("notifications_generic", true)) {
-            return;
-        }
         if (!sharedPrefs.getBoolean("notifications_generic_whenscreenon", false)) {
             PowerManager powermanager = (PowerManager) getSystemService(POWER_SERVICE);
             if (powermanager.isScreenOn()) {
