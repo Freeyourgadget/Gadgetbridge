@@ -28,19 +28,36 @@ public class K9Receiver extends BroadcastReceiver {
             }
         }
 
-        // get sender and subject from the Intent
-        String sender = intent.getStringExtra("com.fsck.k9.intent.extra.FROM");
-        String subject = intent.getStringExtra("com.fsck.k9.intent.extra.SUBJECT");
+        String uriWanted = intent.getData().toString();
 
-        // get preview from K9 Content Provider, unfortunately this does not come with the Intent
-        String[] whereParameters = {intent.getData().toString()};
         String[] messagesProjection = {
-                "preview"
+                "senderAddress",
+                "subject",
+                "preview",
+                "uri"
         };
 
-        Cursor c = context.getContentResolver().query(k9Uri, null, "uri=?", whereParameters, " LIMIT 1");
+        String sender = "";
+        String subject = "";
+        String preview = "";
+
+        /*
+         * there seems to be no way to specify the the uri in the where clause.
+         * If we do so, we just get the newest message, not the one requested.
+         * So, we will just search our message and match the uri manually.
+         * It should be the first one returned by the query in most cases,
+         */
+        Cursor c = context.getContentResolver().query(k9Uri, messagesProjection, null, null, null);
         c.moveToFirst();
-        String preview = c.getString(c.getColumnIndex("preview"));
+        do {
+            String uri = c.getString(c.getColumnIndex("uri"));
+            if (uri.equals(uriWanted)) {
+                sender = c.getString(c.getColumnIndex("senderAddress"));
+                subject = c.getString(c.getColumnIndex("subject"));
+                preview = c.getString(c.getColumnIndex("preview"));
+                break;
+            }
+        } while (c.moveToNext());
         c.close();
 
         Intent startIntent = new Intent(context, BluetoothCommunicationService.class);
