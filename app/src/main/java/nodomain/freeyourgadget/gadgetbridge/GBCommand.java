@@ -8,7 +8,6 @@ public enum GBCommand {
     CALL_END,
     CALL_INCOMING,
     CALL_OUTGOING,
-    CALL_PICKUP,
     CALL_REJECT,
     CALL_START,
 

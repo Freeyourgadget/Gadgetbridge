@@ -21,15 +21,20 @@ public class GBCallControlReceiver extends BroadcastReceiver {
         int keyCode;
         switch (command) {
             case CALL_END:
+            case CALL_START:
                 try {
                     TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
                     Class clazz = Class.forName(telephonyManager.getClass().getName());
                     Method method = clazz.getDeclaredMethod("getITelephony");
                     method.setAccessible(true);
                     ITelephony telephonyService = (ITelephony) method.invoke(telephonyManager);
-                    telephonyService.endCall();
+                    if (command == GBCommand.CALL_END) {
+                        telephonyService.endCall();
+                    } else {
+                        telephonyService.answerRingingCall();
+                    }
                 } catch (Exception e) {
-                    Log.w(TAG, "could not hangup call");
+                    Log.w(TAG, "could not start or hangup call");
                 }
                 break;
             default:
