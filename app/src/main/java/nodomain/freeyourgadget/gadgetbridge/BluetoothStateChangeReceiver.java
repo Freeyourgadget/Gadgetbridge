@@ -25,6 +25,12 @@ public class BluetoothStateChangeReceiver extends BroadcastReceiver {
                 Intent connectIntent = new Intent(context, BluetoothCommunicationService.class);
                 connectIntent.setAction(BluetoothCommunicationService.ACTION_CONNECT);
                 context.startService(connectIntent);
+            } else if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF) {
+                Intent stopIntent = new Intent(context, BluetoothCommunicationService.class);
+                context.stopService(stopIntent);
+
+                Intent quitIntent = new Intent(ControlCenter.ACTION_QUIT);
+                context.sendBroadcast(quitIntent);
             }
         }
     }
