@@ -1,3 +1,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="general_autoconnectonbluetooth"
+        android:title="@string/pref_title_general_autoconnectonbluetooth" />
 
 </PreferenceScreen>

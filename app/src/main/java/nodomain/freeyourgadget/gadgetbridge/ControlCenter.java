@@ -49,7 +49,6 @@ public class ControlCenter extends Activity {
         });
         /*
          * Ask for permission to intercept notifications on first run.
-         * TODO: allow re-request in preferences
          */
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (sharedPrefs.getBoolean("firstrun", true)) {

@@ -23,7 +23,6 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -60,7 +59,6 @@
             android:enabled="false">
             <intent-filter>
                 <data android:scheme="email" />
-
                 <action android:name="com.fsck.k9.intent.action.EMAIL_RECEIVED" />
             </intent-filter>
         </receiver>
@@ -71,7 +69,11 @@
                 <action android:name="com.andrew.apollo.metachanged" />
             </intent-filter>
         </receiver>
-
+        <receiver android:name=".BluetoothStateChangeReceiver">
+            <intent-filter>
+                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
         <receiver android:name=".StopServiceReceiver" />
         <receiver android:name=".GBMusicControlReceiver">
             <intent-filter>

@@ -138,6 +138,10 @@ public class BluetoothCommunicationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         String action = intent.getAction();
+        if (action == null) {
+            Log.i(TAG, "no action");
+            return START_NOT_STICKY;
+        }
 
         if (!mStarted && !action.equals(ACTION_START)) {
             // using the service before issuing ACTION_START
@@ -172,8 +176,7 @@ public class BluetoothCommunicationService extends Service {
                 }
                 if (btDeviceAddress == null) {
                     Toast.makeText(this, "No supported device paired", Toast.LENGTH_SHORT).show();
-                }
-                else if (mBtSocket == null || !mBtSocket.isConnected()) {
+                } else if (mBtSocket == null || !mBtSocket.isConnected()) {
                     // currently only one thread allowed
                     if (mBtSocketIoThread != null) {
                         mBtSocketIoThread.quit();

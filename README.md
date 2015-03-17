@@ -27,8 +27,6 @@ How to use:
 Known Issues:
 
 * No reconnect, if connection is lost, you have to press "connect" again
-* Notifications are not properly queued, if two arrive at about the same time,
-  one of them might get lost (TODO: confirm)
 * Android 4.4+ only, we can only change this by not handling generic
   notifications or by using AccessibiltyService. Don't know if it is worth the
   hassle.
