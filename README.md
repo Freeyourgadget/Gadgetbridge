@@ -26,10 +26,6 @@ How to use:
 
 Known Issues:
 
-* No reconnect, if connection is lost, you have to press "connect" again
 * Android 4.4+ only, we can only change this by not handling generic
   notifications or by using AccessibiltyService. Don't know if it is worth the
   hassle.
-
-Apart from that there are many internal design flaws which we will discuss using
-the issue tracker.
