@@ -289,6 +289,7 @@ public class BluetoothCommunicationService extends Service {
         private OutputStream mmOutStream = null;
         private boolean mQuit = false;
         private boolean mmIsConnected = false;
+        private int mmConnectionAttempts = 0;
 
         public BtSocketIoThread(String btDeviceAddress) {
             mmBtDeviceAddress = btDeviceAddress;
@@ -369,10 +370,21 @@ public class BluetoothCommunicationService extends Service {
                     }
                 } catch (IOException e) {
                     if (e.getMessage().contains("socket closed")) { //FIXME: this does not feel right
-                        mBtSocket = null;
-                        setReceiversEnableState(false);
-                        Log.i(TAG, "Bluetooth socket closed, will quit IO Thread");
-                        mQuit = true;
+                        updateNotification("connection lost, trying to reconnect");
+
+                        while (mmConnectionAttempts++ < 10) {
+                            Log.i(TAG, "Trying to reconnect (attempt " + mmConnectionAttempts + ")");
+                            mmIsConnected = connect(mmBtDeviceAddress);
+                            if (mmIsConnected)
+                                break;
+                        }
+                        mmConnectionAttempts = 0;
+                        if (!mmIsConnected) {
+                            mBtSocket = null;
+                            setReceiversEnableState(false);
+                            Log.i(TAG, "Bluetooth socket closed, will quit IO Thread");
+                            mQuit = true;
+                        }
                     }
                 }
             }
