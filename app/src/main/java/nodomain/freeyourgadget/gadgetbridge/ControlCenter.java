@@ -1,7 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
 import android.app.Activity;
-import android.app.NotificationManager;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -11,7 +10,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +29,9 @@ public class ControlCenter extends Activity {
     public static final String ACTION_QUIT
             = "nodomain.freeyourgadget.gadgetbride.controlcenter.action.quit";
 
+    public static final String ACTION_SET_VERSION
+            = "nodomain.freeyourgadget.gadgetbride.controlcenter.action.set_version";
+
     ListView deviceListView;
     GBDeviceAdapter mGBDeviceAdapter;
     final List<GBDevice> deviceList = new ArrayList<>();
@@ -38,8 +39,20 @@ public class ControlCenter extends Activity {
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(ACTION_QUIT)) {
+            String action = intent.getAction();
+            if (action.equals(ACTION_QUIT)) {
                 finish();
+            } else if (action.equals(ACTION_SET_VERSION)) {
+                String deviceAddress = intent.getStringExtra("device_address");
+                String firmwareVersion = intent.getStringExtra("firmware_version");
+
+                for (GBDevice device : deviceList) {
+                    if (device.getAddress().equals(deviceAddress)) {
+                        device.setFirmwareVersion(firmwareVersion);
+                        mGBDeviceAdapter.notifyDataSetChanged();
+                        break;
+                    }
+                }
             }
         }
     };
@@ -63,7 +76,10 @@ public class ControlCenter extends Activity {
             }
         });
 
-        registerReceiver(mReceiver, new IntentFilter(ACTION_QUIT));
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_QUIT);
+        filter.addAction(ACTION_SET_VERSION);
+        registerReceiver(mReceiver, filter);
 
         BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
         if (btAdapter == null) {
@@ -89,21 +105,13 @@ public class ControlCenter extends Activity {
             Intent enableIntent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
             startActivity(enableIntent);
         }
-        Intent startIntent = new Intent(ControlCenter.this, BluetoothCommunicationService.class);
+        Intent startIntent = new Intent(this, BluetoothCommunicationService.class);
         startIntent.setAction(BluetoothCommunicationService.ACTION_START);
         startService(startIntent);
 
-    }
-
-    private void testNotification() {
-        NotificationManager nManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        NotificationCompat.Builder ncomp = new NotificationCompat.Builder(this);
-        ncomp.setContentTitle("Test Notification");
-        ncomp.setContentText("This is a Test Notification from Gadgetbridge");
-        ncomp.setTicker("This is a Test Notification from Gadgetbridge");
-        ncomp.setSmallIcon(R.drawable.ic_launcher);
-        ncomp.setAutoCancel(true);
-        nManager.notify((int) System.currentTimeMillis(), ncomp.build());
+        Intent versionInfoIntent = new Intent(this, BluetoothCommunicationService.class);
+        versionInfoIntent.setAction(BluetoothCommunicationService.ACTION_REQUEST_VERSIONINFO);
+        startService(versionInfoIntent);
     }
 
     @Override

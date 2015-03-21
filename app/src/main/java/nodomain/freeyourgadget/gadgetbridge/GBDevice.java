@@ -1,12 +1,18 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
 public class GBDevice {
+    private boolean isConnected = false;
     private final String name;
     private final String address;
+    private String firmwareVersion;
 
     public GBDevice(String address, String name) {
         this.address = address;
         this.name = name;
+    }
+
+    public void setFirmwareVersion(String firmwareVersion) {
+        this.firmwareVersion = firmwareVersion;
     }
 
     public String getName() {
@@ -18,6 +24,10 @@ public class GBDevice {
     }
 
     public String getStatus() {
-        return "";
+        if (firmwareVersion != null) {
+            return "Firmware Version: " + firmwareVersion;
+        } else {
+            return null;
+        }
     }
 }

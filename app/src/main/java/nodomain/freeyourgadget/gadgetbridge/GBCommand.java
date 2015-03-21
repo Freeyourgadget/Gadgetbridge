@@ -16,4 +16,6 @@ public enum GBCommand {
     MUSIC_PLAYPAUSE,
     MUSIC_NEXT,
     MUSIC_PREVIOUS,
+
+    VERSION_FIRMWARE
 }

@@ -94,14 +94,15 @@ public class PebbleProtocol {
     static byte[] encodeMessage(short endpoint, byte type, int cookie, String[] parts) {
         // Calculate length first
         int length = LENGTH_PREFIX + 1;
-        for (String s : parts) {
-            if (s == null || s.equals("")) {
-                length++; // encode null or empty strings as 0x00 later
-                continue;
+        if (parts != null) {
+            for (String s : parts) {
+                if (s == null || s.equals("")) {
+                    length++; // encode null or empty strings as 0x00 later
+                    continue;
+                }
+                length += (1 + s.getBytes().length);
             }
-            length += (1 + s.getBytes().length);
         }
-
         if (endpoint == ENDPOINT_PHONECONTROL) {
             length += 4; //for cookie;
         }
@@ -117,19 +118,20 @@ public class PebbleProtocol {
             buf.putInt(cookie);
         }
         // Encode Pascal-Style Strings
-        for (String s : parts) {
-            if (s == null || s.equals("")) {
-                //buf.put((byte)0x01);
-                buf.put((byte) 0x00);
-                continue;
+        if (parts != null) {
+            for (String s : parts) {
+                if (s == null || s.equals("")) {
+                    //buf.put((byte)0x01);
+                    buf.put((byte) 0x00);
+                    continue;
+                }
+
+                int partlength = s.getBytes().length;
+                if (partlength > 255) partlength = 255;
+                buf.put((byte) partlength);
+                buf.put(s.getBytes(), 0, partlength);
             }
-
-            int partlength = s.getBytes().length;
-            if (partlength > 255) partlength = 255;
-            buf.put((byte) partlength);
-            buf.put(s.getBytes(), 0, partlength);
         }
-
         return buf.array();
     }
 
@@ -204,6 +206,10 @@ public class PebbleProtocol {
         return encodeMessage(ENDPOINT_MUSICCONTROL, MUSICCONTROL_SETMUSICINFO, 0, parts);
     }
 
+    public static byte[] encodeFirmwareVersionReq() {
+        return encodeMessage(ENDPOINT_FIRMWAREVERSION, (byte) 0, 0, null);
+    }
+
     public static byte[] encodePhoneVersion(byte os) {
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PHONEVERSION);
         buf.order(ByteOrder.BIG_ENDIAN);
@@ -269,6 +275,16 @@ public class PebbleProtocol {
                         cmd.command = GBCommand.UNDEFINEND;
                         break;
                 }
+                break;
+            case ENDPOINT_FIRMWAREVERSION:
+                int version = buf.getInt();
+                byte[] versionString = new byte[32];
+                buf.get(versionString, 0, 32);
+
+                cmd.commandClass = GBCommandClass.VERSION_INFO;
+                cmd.command = GBCommand.VERSION_FIRMWARE;
+                cmd.info = new String(versionString).trim();
+                Log.i(TAG, "Got firmware version: " + cmd.info);
                 break;
             default:
                 return null;

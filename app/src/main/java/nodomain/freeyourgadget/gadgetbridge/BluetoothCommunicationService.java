@@ -46,6 +46,8 @@ public class BluetoothCommunicationService extends Service {
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.settime";
     public static final String ACTION_SETMUSICINFO
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.setmusicinfo";
+    public static final String ACTION_REQUEST_VERSIONINFO
+            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.request_versioninfo";
     private static final String TAG = "BluetoothCommunicationService";
     private static final int NOTIFICATION_ID = 1;
     private BluetoothAdapter mBtAdapter = null;
@@ -53,6 +55,7 @@ public class BluetoothCommunicationService extends Service {
     private BtSocketIoThread mBtSocketIoThread = null;
 
     private boolean mStarted = false;
+    private String mBtDeviceAddress;
 
     private void setReceiversEnableState(boolean enable) {
         final Class[] receiverClasses = {
@@ -119,16 +122,22 @@ public class BluetoothCommunicationService extends Service {
         switch (cmdBundle.commandClass) {
             case MUSIC_CONTROL:
                 Log.i(TAG, "Got command for MUSIC_CONTROL");
-                Intent musicintent = new Intent(GBMusicControlReceiver.ACTION_MUSICCONTROL);
-                musicintent.putExtra("command", cmdBundle.command.ordinal());
-                sendBroadcast(musicintent);
+                Intent musicIntent = new Intent(GBMusicControlReceiver.ACTION_MUSICCONTROL);
+                musicIntent.putExtra("command", cmdBundle.command.ordinal());
+                sendBroadcast(musicIntent);
                 break;
             case CALL_CONTROL:
                 Log.i(TAG, "Got command for CALL_CONTROL");
-                Intent callintent = new Intent(GBCallControlReceiver.ACTION_CALLCONTROL);
-                callintent.putExtra("command", cmdBundle.command.ordinal());
-                sendBroadcast(callintent);
+                Intent callIntent = new Intent(GBCallControlReceiver.ACTION_CALLCONTROL);
+                callIntent.putExtra("command", cmdBundle.command.ordinal());
+                sendBroadcast(callIntent);
                 break;
+            case VERSION_INFO:
+                Log.i(TAG, "Got command for VERSION INFO");
+                Intent versionIntent = new Intent(ControlCenter.ACTION_SET_VERSION);
+                versionIntent.putExtra("device_address", mBtDeviceAddress);
+                versionIntent.putExtra("firmware_version", cmdBundle.info);
+                sendBroadcast(versionIntent);
             default:
                 break;
         }
@@ -167,11 +176,11 @@ public class BluetoothCommunicationService extends Service {
             } else if (!mBtAdapter.isEnabled()) {
                 Toast.makeText(this, "Bluetooth is disabled.", Toast.LENGTH_SHORT).show();
             } else {
-                String btDeviceAddress = intent.getStringExtra("device_address");
+                mBtDeviceAddress = intent.getStringExtra("device_address");
                 SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-                sharedPrefs.edit().putString("last_device_address", btDeviceAddress).commit();
+                sharedPrefs.edit().putString("last_device_address", mBtDeviceAddress).commit();
 
-                if (btDeviceAddress != null && (mBtSocket == null || !mBtSocket.isConnected())) {
+                if (mBtDeviceAddress != null && (mBtSocket == null || !mBtSocket.isConnected())) {
                     // currently only one thread allowed
                     if (mBtSocketIoThread != null) {
                         mBtSocketIoThread.quit();
@@ -181,7 +190,7 @@ public class BluetoothCommunicationService extends Service {
                             e.printStackTrace();
                         }
                     }
-                    mBtSocketIoThread = new BtSocketIoThread(btDeviceAddress);
+                    mBtSocketIoThread = new BtSocketIoThread(mBtDeviceAddress);
                     mBtSocketIoThread.start();
                 }
             }
@@ -219,6 +228,9 @@ public class BluetoothCommunicationService extends Service {
             String album = intent.getStringExtra("music_album");
             String track = intent.getStringExtra("music_track");
             byte[] msg = PebbleProtocol.encodeSetMusicInfo(artist, album, track);
+            mBtSocketIoThread.write(msg);
+        } else if (intent.getAction().equals(ACTION_REQUEST_VERSIONINFO)) {
+            byte[] msg = PebbleProtocol.encodeFirmwareVersionReq();
             mBtSocketIoThread.write(msg);
         } else if (intent.getAction().equals(ACTION_START)) {
             startForeground(NOTIFICATION_ID, createNotification("Gadgetbridge running"));
@@ -350,6 +362,7 @@ public class BluetoothCommunicationService extends Service {
                     if (length == 1 && endpoint == PebbleProtocol.ENDPOINT_PHONEVERSION) {
                         Log.i(TAG, "Pebble asked for Phone/App Version - repLYING!");
                         write(PebbleProtocol.encodePhoneVersion(PebbleProtocol.PHONEVERSION_REMOTE_OS_ANDROID));
+                        write(PebbleProtocol.encodeFirmwareVersionReq());
                     } else if (endpoint != PebbleProtocol.ENDPOINT_DATALOG) {
                         GBCommandBundle cmdBundle = PebbleProtocol.decodeResponse(buffer);
                         if (cmdBundle == null) {
