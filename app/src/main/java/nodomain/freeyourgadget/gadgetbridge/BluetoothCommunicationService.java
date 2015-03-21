@@ -11,11 +11,13 @@ import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.IBinder;
 import android.os.ParcelUuid;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -26,7 +28,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.Set;
 
 public class BluetoothCommunicationService extends Service {
     public static final String ACTION_START
@@ -166,17 +167,11 @@ public class BluetoothCommunicationService extends Service {
             } else if (!mBtAdapter.isEnabled()) {
                 Toast.makeText(this, "Bluetooth is disabled.", Toast.LENGTH_SHORT).show();
             } else {
-                String btDeviceAddress = null;
-                Set<BluetoothDevice> pairedDevices = mBtAdapter.getBondedDevices();
-                for (BluetoothDevice device : pairedDevices) {
-                    if (device.getName().indexOf("Pebble") == 0) {
-                        // Matching device found
-                        btDeviceAddress = device.getAddress();
-                    }
-                }
-                if (btDeviceAddress == null) {
-                    Toast.makeText(this, "No supported device paired", Toast.LENGTH_SHORT).show();
-                } else if (mBtSocket == null || !mBtSocket.isConnected()) {
+                String btDeviceAddress = intent.getStringExtra("device_address");
+                SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+                sharedPrefs.edit().putString("last_device_address", btDeviceAddress).commit();
+
+                if (btDeviceAddress != null && (mBtSocket == null || !mBtSocket.isConnected())) {
                     // currently only one thread allowed
                     if (mBtSocketIoThread != null) {
                         mBtSocketIoThread.quit();

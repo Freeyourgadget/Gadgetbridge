@@ -18,13 +18,17 @@ public class BluetoothStateChangeReceiver extends BroadcastReceiver {
                 if (!sharedPrefs.getBoolean("general_autoconnectonbluetooth", false)) {
                     return;
                 }
+
+                String deviceAddress = sharedPrefs.getString("last_device_address", null);
                 Intent startIntent = new Intent(context, BluetoothCommunicationService.class);
                 startIntent.setAction(BluetoothCommunicationService.ACTION_START);
                 context.startService(startIntent);
-
-                Intent connectIntent = new Intent(context, BluetoothCommunicationService.class);
-                connectIntent.setAction(BluetoothCommunicationService.ACTION_CONNECT);
-                context.startService(connectIntent);
+                if (deviceAddress != null) {
+                    Intent connectIntent = new Intent(context, BluetoothCommunicationService.class);
+                    connectIntent.setAction(BluetoothCommunicationService.ACTION_CONNECT);
+                    connectIntent.putExtra("device_address", deviceAddress);
+                    context.startService(connectIntent);
+                }
             } else if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF) {
                 Intent stopIntent = new Intent(context, BluetoothCommunicationService.class);
                 context.stopService(stopIntent);

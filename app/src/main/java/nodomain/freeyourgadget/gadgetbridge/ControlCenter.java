@@ -2,6 +2,8 @@ package nodomain.freeyourgadget.gadgetbridge;
 
 import android.app.Activity;
 import android.app.NotificationManager;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,14 +15,25 @@ import android.support.v4.app.NotificationCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapter;
 
 public class ControlCenter extends Activity {
+
 
     public static final String ACTION_QUIT
             = "nodomain.freeyourgadget.gadgetbride.controlcenter.action.quit";
 
-    Button startServiceButton;
+    ListView deviceListView;
+    GBDeviceAdapter mGBDeviceAdapter;
+    final List<GBDevice> deviceList = new ArrayList<>();
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -36,17 +49,37 @@ public class ControlCenter extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_controlcenter);
 
-        registerReceiver(mReceiver, new IntentFilter(ACTION_QUIT));
-
-        startServiceButton = (Button) findViewById(R.id.startServiceButton);
-        startServiceButton.setOnClickListener(new View.OnClickListener() {
+        deviceListView = (ListView) findViewById(R.id.deviceListView);
+        mGBDeviceAdapter = new GBDeviceAdapter(this, deviceList);
+        deviceListView.setAdapter(this.mGBDeviceAdapter);
+        deviceListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
                 Intent startIntent = new Intent(ControlCenter.this, BluetoothCommunicationService.class);
                 startIntent.setAction(BluetoothCommunicationService.ACTION_CONNECT);
+                startIntent.putExtra("device_address", deviceList.get(position).getAddress());
+
                 startService(startIntent);
             }
         });
+
+        registerReceiver(mReceiver, new IntentFilter(ACTION_QUIT));
+
+        BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (btAdapter == null) {
+            Toast.makeText(this, "Bluetooth is not supported.", Toast.LENGTH_SHORT).show();
+        } else if (!btAdapter.isEnabled()) {
+            Toast.makeText(this, "Bluetooth is disabled.", Toast.LENGTH_SHORT).show();
+        } else {
+            Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
+            for (BluetoothDevice device : pairedDevices) {
+                if (device.getName().indexOf("Pebble") == 0) {
+                    // Matching device found
+                    deviceList.add(new GBDevice(device.getAddress(), device.getName()));
+                }
+            }
+        }
+
         /*
          * Ask for permission to intercept notifications on first run.
          */

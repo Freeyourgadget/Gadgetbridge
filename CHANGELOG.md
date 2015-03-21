@@ -1,5 +1,9 @@
 ###Changelog
 
+####Version 0.1.3
+* List all suported devices and connect on tap
+* Remove the connect button
+
 ####Version 0.1.2
 * Added option to start Gadgetbridge and connect automatically when bluetooth is turned on
 * stop service if bluetooth is turned off
