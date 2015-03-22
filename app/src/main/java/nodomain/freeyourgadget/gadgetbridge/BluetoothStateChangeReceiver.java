@@ -14,6 +14,10 @@ public class BluetoothStateChangeReceiver extends BroadcastReceiver {
 
         if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
             if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_ON) {
+
+                Intent refreshIntent = new Intent(ControlCenter.ACTION_REFRESH_DEVICELIST);
+                context.sendBroadcast(refreshIntent);
+
                 SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
                 if (!sharedPrefs.getBoolean("general_autoconnectonbluetooth", false)) {
                     return;

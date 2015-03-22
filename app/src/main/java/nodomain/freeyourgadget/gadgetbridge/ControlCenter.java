@@ -29,7 +29,7 @@ public class ControlCenter extends Activity {
     public static final String ACTION_QUIT
             = "nodomain.freeyourgadget.gadgetbride.controlcenter.action.quit";
 
-    public static final String ACTION_SET_VERSION
+    public static final String ACTION_REFRESH_DEVICELIST
             = "nodomain.freeyourgadget.gadgetbride.controlcenter.action.set_version";
 
     ListView deviceListView;
@@ -42,15 +42,20 @@ public class ControlCenter extends Activity {
             String action = intent.getAction();
             if (action.equals(ACTION_QUIT)) {
                 finish();
-            } else if (action.equals(ACTION_SET_VERSION)) {
+            } else if (action.equals(ACTION_REFRESH_DEVICELIST)) {
                 String deviceAddress = intent.getStringExtra("device_address");
                 String firmwareVersion = intent.getStringExtra("firmware_version");
-
-                for (GBDevice device : deviceList) {
-                    if (device.getAddress().equals(deviceAddress)) {
-                        device.setFirmwareVersion(firmwareVersion);
-                        mGBDeviceAdapter.notifyDataSetChanged();
-                        break;
+                if (deviceList.isEmpty()) {
+                    refreshPairedDevices();
+                    mGBDeviceAdapter.notifyDataSetChanged();
+                }
+                if (deviceAddress != null) {
+                    for (GBDevice device : deviceList) {
+                        if (device.getAddress().equals(deviceAddress)) {
+                            device.setFirmwareVersion(firmwareVersion);
+                            mGBDeviceAdapter.notifyDataSetChanged();
+                            break;
+                        }
                     }
                 }
             }
@@ -78,24 +83,10 @@ public class ControlCenter extends Activity {
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_QUIT);
-        filter.addAction(ACTION_SET_VERSION);
+        filter.addAction(ACTION_REFRESH_DEVICELIST);
         registerReceiver(mReceiver, filter);
 
-        BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (btAdapter == null) {
-            Toast.makeText(this, "Bluetooth is not supported.", Toast.LENGTH_SHORT).show();
-        } else if (!btAdapter.isEnabled()) {
-            Toast.makeText(this, "Bluetooth is disabled.", Toast.LENGTH_SHORT).show();
-        } else {
-            Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
-            for (BluetoothDevice device : pairedDevices) {
-                if (device.getName().indexOf("Pebble") == 0) {
-                    // Matching device found
-                    deviceList.add(new GBDevice(device.getAddress(), device.getName()));
-                }
-            }
-        }
-
+        refreshPairedDevices();
         /*
          * Ask for permission to intercept notifications on first run.
          */
@@ -147,6 +138,23 @@ public class ControlCenter extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mReceiver);
+    }
+
+    private void refreshPairedDevices() {
+        BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (btAdapter == null) {
+            Toast.makeText(this, "Bluetooth is not supported.", Toast.LENGTH_SHORT).show();
+        } else if (!btAdapter.isEnabled()) {
+            Toast.makeText(this, "Bluetooth is disabled.", Toast.LENGTH_SHORT).show();
+        } else {
+            Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
+            for (BluetoothDevice device : pairedDevices) {
+                if (device.getName().indexOf("Pebble") == 0) {
+                    // Matching device found
+                    deviceList.add(new GBDevice(device.getAddress(), device.getName()));
+                }
+            }
+        }
     }
 
 }

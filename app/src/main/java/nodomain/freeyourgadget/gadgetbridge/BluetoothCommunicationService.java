@@ -134,7 +134,7 @@ public class BluetoothCommunicationService extends Service {
                 break;
             case VERSION_INFO:
                 Log.i(TAG, "Got command for VERSION INFO");
-                Intent versionIntent = new Intent(ControlCenter.ACTION_SET_VERSION);
+                Intent versionIntent = new Intent(ControlCenter.ACTION_REFRESH_DEVICELIST);
                 versionIntent.putExtra("device_address", mBtDeviceAddress);
                 versionIntent.putExtra("firmware_version", cmdBundle.info);
                 sendBroadcast(versionIntent);
@@ -168,7 +168,7 @@ public class BluetoothCommunicationService extends Service {
             return START_STICKY;
         }
 
-        if (intent.getAction().equals(ACTION_CONNECT)) {
+        if (action.equals(ACTION_CONNECT)) {
             //Check the system status
             mBtAdapter = BluetoothAdapter.getDefaultAdapter();
             if (mBtAdapter == null) {
@@ -194,24 +194,24 @@ public class BluetoothCommunicationService extends Service {
                     mBtSocketIoThread.start();
                 }
             }
-        } else if (intent.getAction().equals(ACTION_NOTIFICATION_GENERIC)) {
+        } else if (action.equals(ACTION_NOTIFICATION_GENERIC)) {
             String title = intent.getStringExtra("notification_title");
             String body = intent.getStringExtra("notification_body");
             byte[] msg = PebbleProtocol.encodeSMS(title, body);
             mBtSocketIoThread.write(msg);
-        } else if (intent.getAction().equals(ACTION_NOTIFICATION_SMS)) {
+        } else if (action.equals(ACTION_NOTIFICATION_SMS)) {
             String sender = intent.getStringExtra("notification_sender");
             String body = intent.getStringExtra("notification_body");
             String senderName = getContactDisplayNameByNumber(sender);
             byte[] msg = PebbleProtocol.encodeSMS(senderName, body);
             mBtSocketIoThread.write(msg);
-        } else if (intent.getAction().equals(ACTION_NOTIFICATION_EMAIL)) {
+        } else if (action.equals(ACTION_NOTIFICATION_EMAIL)) {
             String sender = intent.getStringExtra("notification_sender");
             String subject = intent.getStringExtra("notification_subject");
             String body = intent.getStringExtra("notification_body");
             byte[] msg = PebbleProtocol.encodeEmail(sender, subject, body);
             mBtSocketIoThread.write(msg);
-        } else if (intent.getAction().equals(ACTION_CALLSTATE)) {
+        } else if (action.equals(ACTION_CALLSTATE)) {
             GBCommand command = GBCommand.values()[intent.getIntExtra("call_command", 0)]; // UGLY
             String phoneNumber = intent.getStringExtra("call_phonenumber");
             String callerName = null;
@@ -220,19 +220,19 @@ public class BluetoothCommunicationService extends Service {
             }
             byte[] msg = PebbleProtocol.encodeSetCallState(phoneNumber, callerName, command);
             mBtSocketIoThread.write(msg);
-        } else if (intent.getAction().equals(ACTION_SETTIME)) {
+        } else if (action.equals(ACTION_SETTIME)) {
             byte[] msg = PebbleProtocol.encodeSetTime(-1);
             mBtSocketIoThread.write(msg);
-        } else if (intent.getAction().equals(ACTION_SETMUSICINFO)) {
+        } else if (action.equals(ACTION_SETMUSICINFO)) {
             String artist = intent.getStringExtra("music_artist");
             String album = intent.getStringExtra("music_album");
             String track = intent.getStringExtra("music_track");
             byte[] msg = PebbleProtocol.encodeSetMusicInfo(artist, album, track);
             mBtSocketIoThread.write(msg);
-        } else if (intent.getAction().equals(ACTION_REQUEST_VERSIONINFO)) {
+        } else if (action.equals(ACTION_REQUEST_VERSIONINFO)) {
             byte[] msg = PebbleProtocol.encodeFirmwareVersionReq();
             mBtSocketIoThread.write(msg);
-        } else if (intent.getAction().equals(ACTION_START)) {
+        } else if (action.equals(ACTION_START)) {
             startForeground(NOTIFICATION_ID, createNotification("Gadgetbridge running"));
             mStarted = true;
         }
