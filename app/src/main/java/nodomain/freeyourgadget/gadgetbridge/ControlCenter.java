@@ -125,10 +125,17 @@ public class ControlCenter extends Activity {
             startActivity(intent);
             return true;
         }
-        if (id == R.id.action_debug) {
+        else if (id == R.id.action_debug) {
             Intent intent = new Intent(this, DebugActivity.class);
             startActivity(intent);
             return true;
+        }
+        else if (id == R.id.action_quit) {
+            Intent stopIntent = new Intent(this, BluetoothCommunicationService.class);
+            stopService(stopIntent);
+
+            Intent quitIntent = new Intent(ControlCenter.ACTION_QUIT);
+            sendBroadcast(quitIntent);
         }
 
         return super.onOptionsItemSelected(item);

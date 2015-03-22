@@ -1,8 +1,9 @@
 ###Changelog
 
 ####Version 0.1.3
-* List all suported devices and connect on tap
-* Remove the connect button
+* Remove the connect button, list all suported devices and connect on tap instead
+* Display firmware version of connected devices
+* Remove quit button from the service notification, put a quit item in the context menu instead
 
 ####Version 0.1.2
 * Added option to start Gadgetbridge and connect automatically when bluetooth is turned on

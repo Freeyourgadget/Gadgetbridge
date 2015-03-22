@@ -96,18 +96,13 @@ public class BluetoothCommunicationService extends Service {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
                 notificationIntent, 0);
 
-        Intent stopIntent = new Intent(this, StopServiceReceiver.class);
-        PendingIntent pendingIntentStop = PendingIntent.getBroadcast(this, 0, stopIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
         return new NotificationCompat.Builder(this)
                 .setContentTitle("Gadgetbridge")
                 .setTicker(text)
                 .setContentText(text)
                 .setSmallIcon(R.drawable.ic_notification)
-                .addAction(android.R.drawable.ic_menu_close_clear_cancel, "Quit", pendingIntentStop)
                 .setContentIntent(pendingIntent)
                 .setOngoing(true).build();
-
     }
 
     private void updateNotification(String text) {

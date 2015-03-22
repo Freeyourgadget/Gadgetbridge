@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Gadgetbridge</string>
     <string name="title_activity_main">Gadgetbridge Control Center</string>
     <string name="action_settings">Settings</string>
     <string name="action_debug">Debug</string>
+    <string name="action_quit">Quit</string>
     <string name="title_activity_debug">Debug</string>
-
 </resources>
