@@ -44,6 +44,7 @@ public class ControlCenter extends Activity {
                 finish();
             } else if (action.equals(ACTION_REFRESH_DEVICELIST)) {
                 String deviceAddress = intent.getStringExtra("device_address");
+                GBDevice.State state = GBDevice.State.values()[intent.getIntExtra("device_state", 0)];
                 String firmwareVersion = intent.getStringExtra("firmware_version");
                 if (deviceList.isEmpty()) {
                     refreshPairedDevices();
@@ -53,6 +54,7 @@ public class ControlCenter extends Activity {
                     for (GBDevice device : deviceList) {
                         if (device.getAddress().equals(deviceAddress)) {
                             device.setFirmwareVersion(firmwareVersion);
+                            device.setState(state);
                             mGBDeviceAdapter.notifyDataSetChanged();
                             break;
                         }
@@ -124,18 +126,21 @@ public class ControlCenter extends Activity {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;
-        }
-        else if (id == R.id.action_debug) {
+        } else if (id == R.id.action_debug) {
             Intent intent = new Intent(this, DebugActivity.class);
             startActivity(intent);
             return true;
-        }
-        else if (id == R.id.action_quit) {
+        } else if (id == R.id.action_quit) {
             Intent stopIntent = new Intent(this, BluetoothCommunicationService.class);
             stopService(stopIntent);
 
             Intent quitIntent = new Intent(ControlCenter.ACTION_QUIT);
             sendBroadcast(quitIntent);
+        } else if (id == R.id.action_refresh) {
+            if (deviceList.isEmpty()) {
+                refreshPairedDevices();
+                mGBDeviceAdapter.notifyDataSetChanged();
+            }
         }
 
         return super.onOptionsItemSelected(item);

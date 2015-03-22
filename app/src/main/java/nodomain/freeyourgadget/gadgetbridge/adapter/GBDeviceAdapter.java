@@ -36,7 +36,7 @@ public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {
         }
         TextView deviceStatusLabel = (TextView) view.findViewById(R.id.device_status);
         TextView deviceNameLabel = (TextView) view.findViewById(R.id.device_name);
-        deviceStatusLabel.setText(device.getStatus());
+        deviceStatusLabel.setText(device.getInfoString());
         deviceNameLabel.setText(device.getName());
 
         return view;

@@ -2,7 +2,7 @@
 
 ####Version 0.1.3
 * Remove the connect button, list all suported devices and connect on tap instead
-* Display firmware version of connected devices
+* Display connection status and firmware of connected devices in the device list
 * Remove quit button from the service notification, put a quit item in the context menu instead
 
 ####Version 0.1.2

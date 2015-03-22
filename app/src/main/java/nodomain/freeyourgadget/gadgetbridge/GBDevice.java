@@ -1,10 +1,21 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
 public class GBDevice {
-    private boolean isConnected = false;
     private final String name;
     private final String address;
-    private String firmwareVersion;
+    private String firmwareVersion = null;
+    private State state = State.NOT_CONNECTED;
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public enum State {
+        NOT_CONNECTED,
+        CONNECTING,
+        CONNECTED
+    }
+
 
     public GBDevice(String address, String name) {
         this.address = address;
@@ -23,11 +34,31 @@ public class GBDevice {
         return address;
     }
 
-    public String getStatus() {
+    public String getFirmwareVersion() {
+        return firmwareVersion;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    String getStateString() {
+        switch (state) {
+            case NOT_CONNECTED:
+                return "not connected"; // TODO: do not hardcode
+            case CONNECTING:
+                return "connecting";
+            case CONNECTED:
+                return "connected";
+        }
+        return "unknown state";
+    }
+
+    public String getInfoString() {
         if (firmwareVersion != null) {
-            return "Firmware Version: " + firmwareVersion;
+            return getStateString() + " (FW: " + firmwareVersion + ")";
         } else {
-            return null;
+            return getStateString();
         }
     }
 }

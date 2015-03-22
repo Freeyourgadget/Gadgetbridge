@@ -21,7 +21,7 @@ Features:
 How to use:
 
 1. Pair your Pebble though the Android Bluetooth Settings
-2. Start Gadgetbridge, press "connect"
+2. Start Gadgetbridge, tap on the device you want to connect to
 3. To test, chose "Debug" from the menu and play around
 
 Known Issues:

@@ -55,7 +55,8 @@ public class BluetoothCommunicationService extends Service {
     private BtSocketIoThread mBtSocketIoThread = null;
 
     private boolean mStarted = false;
-    private String mBtDeviceAddress;
+
+    private GBDevice gbdevice = null;
 
     private void setReceiversEnableState(boolean enable) {
         final Class[] receiverClasses = {
@@ -129,14 +130,22 @@ public class BluetoothCommunicationService extends Service {
                 break;
             case VERSION_INFO:
                 Log.i(TAG, "Got command for VERSION INFO");
-                Intent versionIntent = new Intent(ControlCenter.ACTION_REFRESH_DEVICELIST);
-                versionIntent.putExtra("device_address", mBtDeviceAddress);
-                versionIntent.putExtra("firmware_version", cmdBundle.info);
-                sendBroadcast(versionIntent);
+                if (gbdevice == null) {
+                    return;
+                }
+                gbdevice.setFirmwareVersion(cmdBundle.info);
+                sendDeviceUpdateIntent();
             default:
                 break;
         }
+    }
 
+    private void sendDeviceUpdateIntent() {
+        Intent deviceUpdateIntent = new Intent(ControlCenter.ACTION_REFRESH_DEVICELIST);
+        deviceUpdateIntent.putExtra("device_address", gbdevice.getAddress());
+        deviceUpdateIntent.putExtra("device_state", gbdevice.getState().ordinal());
+        deviceUpdateIntent.putExtra("firmware_version", gbdevice.getFirmwareVersion());
+        sendBroadcast(deviceUpdateIntent);
     }
 
     @Override
@@ -171,11 +180,11 @@ public class BluetoothCommunicationService extends Service {
             } else if (!mBtAdapter.isEnabled()) {
                 Toast.makeText(this, "Bluetooth is disabled.", Toast.LENGTH_SHORT).show();
             } else {
-                mBtDeviceAddress = intent.getStringExtra("device_address");
+                String btDeviceAddress = intent.getStringExtra("device_address");
                 SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-                sharedPrefs.edit().putString("last_device_address", mBtDeviceAddress).commit();
+                sharedPrefs.edit().putString("last_device_address", btDeviceAddress).commit();
 
-                if (mBtDeviceAddress != null && (mBtSocket == null || !mBtSocket.isConnected())) {
+                if (btDeviceAddress != null && (mBtSocket == null || !mBtSocket.isConnected())) {
                     // currently only one thread allowed
                     if (mBtSocketIoThread != null) {
                         mBtSocketIoThread.quit();
@@ -184,9 +193,17 @@ public class BluetoothCommunicationService extends Service {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+
                     }
-                    mBtSocketIoThread = new BtSocketIoThread(mBtDeviceAddress);
-                    mBtSocketIoThread.start();
+                    BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(btDeviceAddress);
+                    if (btDevice != null) {
+                        gbdevice = new GBDevice(btDeviceAddress, btDevice.getName());
+                        gbdevice.setState(GBDevice.State.CONNECTING);
+                        sendDeviceUpdateIntent();
+
+                        mBtSocketIoThread = new BtSocketIoThread(btDeviceAddress);
+                        mBtSocketIoThread.start();
+                    }
                 }
             }
         } else if (action.equals(ACTION_NOTIFICATION_GENERIC)) {
@@ -225,8 +242,12 @@ public class BluetoothCommunicationService extends Service {
             byte[] msg = PebbleProtocol.encodeSetMusicInfo(artist, album, track);
             mBtSocketIoThread.write(msg);
         } else if (action.equals(ACTION_REQUEST_VERSIONINFO)) {
-            byte[] msg = PebbleProtocol.encodeFirmwareVersionReq();
-            mBtSocketIoThread.write(msg);
+            if (gbdevice != null && gbdevice.getFirmwareVersion() == null) {
+                byte[] msg = PebbleProtocol.encodeFirmwareVersionReq();
+                mBtSocketIoThread.write(msg);
+            } else {
+                sendDeviceUpdateIntent();
+            }
         } else if (action.equals(ACTION_START)) {
             startForeground(NOTIFICATION_ID, createNotification("Gadgetbridge running"));
             mStarted = true;
@@ -312,6 +333,8 @@ public class BluetoothCommunicationService extends Service {
                 mBtSocket = null;
                 return false;
             }
+            gbdevice.setState(GBDevice.State.CONNECTED);
+            sendDeviceUpdateIntent();
             updateNotification("connected to " + btDevice.getName());
             return true;
         }
@@ -373,6 +396,8 @@ public class BluetoothCommunicationService extends Service {
                     }
                 } catch (IOException e) {
                     if (e.getMessage().contains("socket closed")) { //FIXME: this does not feel right
+                        gbdevice.setState(GBDevice.State.CONNECTING);
+                        sendDeviceUpdateIntent();
                         updateNotification("connection lost, trying to reconnect");
 
                         while (mmConnectionAttempts++ < 10) {
@@ -401,6 +426,8 @@ public class BluetoothCommunicationService extends Service {
             }
             mBtSocket = null;
             updateNotification("not connected");
+            gbdevice.setState(GBDevice.State.NOT_CONNECTED);
+            sendDeviceUpdateIntent();
         }
 
         synchronized public void write(byte[] bytes) {

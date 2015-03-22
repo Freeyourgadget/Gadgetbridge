@@ -6,4 +6,5 @@
     <string name="action_debug">Debug</string>
     <string name="action_quit">Quit</string>
     <string name="title_activity_debug">Debug</string>
+    <string name="action_refresh" >Refresh</string>
 </resources>
