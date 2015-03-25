@@ -48,6 +48,9 @@ public class BluetoothCommunicationService extends Service {
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.setmusicinfo";
     public static final String ACTION_REQUEST_VERSIONINFO
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.request_versioninfo";
+    public static final String ACTION_REQUEST_APPINFO
+            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.request_appinfo";
+
     private static final String TAG = "BluetoothCommunicationService";
     private static final int NOTIFICATION_ID = 1;
     private BluetoothAdapter mBtAdapter = null;
@@ -129,12 +132,24 @@ public class BluetoothCommunicationService extends Service {
                 sendBroadcast(callIntent);
                 break;
             case VERSION_INFO:
-                Log.i(TAG, "Got command for VERSION INFO");
+                Log.i(TAG, "Got command for VERSION_INFO");
                 if (gbdevice == null) {
                     return;
                 }
-                gbdevice.setFirmwareVersion(cmdBundle.info);
+                gbdevice.setFirmwareVersion(cmdBundle.info[0]);
                 sendDeviceUpdateIntent();
+                break;
+            case APP_INFO:
+                Log.i(TAG, "Got command for APP_INFO");
+                Intent appInfoIntent = new Intent(AppManagerActivity.ACTION_REFRESH_APPLIST);
+                int appCount = cmdBundle.info.length / 2;
+                appInfoIntent.putExtra("app_count", appCount);
+                for (Integer i = 0; i < appCount; i++) {
+                    appInfoIntent.putExtra("app_name" + i.toString(), cmdBundle.info[i * 2]);
+                    appInfoIntent.putExtra("app_creator" + i.toString(), cmdBundle.info[i * 2 + 1]);
+                }
+                sendBroadcast(appInfoIntent);
+                break;
             default:
                 break;
         }
@@ -248,6 +263,8 @@ public class BluetoothCommunicationService extends Service {
             } else {
                 sendDeviceUpdateIntent();
             }
+        } else if (action.equals(ACTION_REQUEST_APPINFO)) {
+            mBtSocketIoThread.write(PebbleProtocol.encodeAppInfoReq());
         } else if (action.equals(ACTION_START)) {
             startForeground(NOTIFICATION_ID, createNotification("Gadgetbridge running"));
             mStarted = true;

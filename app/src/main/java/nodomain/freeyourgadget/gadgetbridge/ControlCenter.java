@@ -75,11 +75,16 @@ public class ControlCenter extends Activity {
         deviceListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
-                Intent startIntent = new Intent(ControlCenter.this, BluetoothCommunicationService.class);
-                startIntent.setAction(BluetoothCommunicationService.ACTION_CONNECT);
-                startIntent.putExtra("device_address", deviceList.get(position).getAddress());
+                if (deviceList.get(position).getState() == GBDevice.State.CONNECTED) {
+                    Intent startIntent = new Intent(ControlCenter.this, AppManagerActivity.class);
+                    startActivity(startIntent);
+                } else {
+                    Intent startIntent = new Intent(ControlCenter.this, BluetoothCommunicationService.class);
+                    startIntent.setAction(BluetoothCommunicationService.ACTION_CONNECT);
+                    startIntent.putExtra("device_address", deviceList.get(position).getAddress());
 
-                startService(startIntent);
+                    startService(startIntent);
+                }
             }
         });
 

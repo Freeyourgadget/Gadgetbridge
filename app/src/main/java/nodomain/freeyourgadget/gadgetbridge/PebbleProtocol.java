@@ -60,12 +60,17 @@ public class PebbleProtocol {
     static final byte MUSICCONTROL_VOLUMEDOWN = 7;
     static final byte MUSICCONTROL_GETNOWPLAYING = 7;
 
+    static final byte TIME_GETTIME = 0;
+    static final byte TIME_SETTIME = 2;
+
+    static final byte FIRMWAREVERSION_GETVERSION = 0;
+
+    static final byte APPMANAGER_GETAPPBANKSTATUS = 1;
+
     static final short LENGTH_PREFIX = 4;
     static final short LENGTH_SETTIME = 9;
     static final short LENGTH_PHONEVERSION = 21;
 
-    static final byte TIME_GETTIME = 0;
-    static final byte TIME_SETTIME = 2;
 
     static final byte PHONEVERSION_APPVERSION_MAGIC = 2; // increase this if pebble complains
     static final byte PHONEVERSION_APPVERSION_MAJOR = 2;
@@ -91,7 +96,7 @@ public class PebbleProtocol {
     static final byte PHONEVERSION_REMOTE_OS_LINUX = 4;
     static final byte PHONEVERSION_REMOTE_OS_WINDOWS = 5;
 
-    static byte[] encodeMessage(short endpoint, byte type, int cookie, String[] parts) {
+    private static byte[] encodeMessage(short endpoint, byte type, int cookie, String[] parts) {
         // Calculate length first
         int length = LENGTH_PREFIX + 1;
         if (parts != null) {
@@ -207,7 +212,11 @@ public class PebbleProtocol {
     }
 
     public static byte[] encodeFirmwareVersionReq() {
-        return encodeMessage(ENDPOINT_FIRMWAREVERSION, (byte) 0, 0, null);
+        return encodeMessage(ENDPOINT_FIRMWAREVERSION, FIRMWAREVERSION_GETVERSION, 0, null);
+    }
+
+    public static byte[] encodeAppInfoReq() {
+        return encodeMessage(ENDPOINT_APPMANAGER, APPMANAGER_GETAPPBANKSTATUS, 0, null);
     }
 
     public static byte[] encodePhoneVersion(byte os) {
@@ -283,8 +292,36 @@ public class PebbleProtocol {
 
                 cmd.commandClass = GBCommandClass.VERSION_INFO;
                 cmd.command = GBCommand.VERSION_FIRMWARE;
-                cmd.info = new String(versionString).trim();
+                cmd.info = new String[]{new String(versionString).trim()};
                 Log.i(TAG, "Got firmware version: " + cmd.info);
+                break;
+            case ENDPOINT_APPMANAGER:
+                cmd.commandClass = GBCommandClass.APP_INFO;
+                switch (pebbleCmd) {
+                    case APPMANAGER_GETAPPBANKSTATUS:
+                        cmd.command = GBCommand.APP_INFO_NAME;
+                        int banks = buf.getInt();
+                        int banksUsed = buf.getInt();
+                        byte[] appName = new byte[32];
+                        byte[] creatorName = new byte[32];
+                        cmd.info = new String[banksUsed * 2];
+
+                        for (int i = 0; i < banksUsed; i++) {
+                            buf.getInt(); // id
+                            buf.getInt(); // index
+                            buf.get(appName, 0, 32);
+                            buf.get(creatorName, 0, 32);
+                            int flags = buf.getInt();
+                            short appVersion = buf.getShort();
+                            cmd.info[i * 2] = new String(appName).trim();
+                            cmd.info[i * 2 + 1] = new String(creatorName).trim();
+                        }
+                        break;
+                    default:
+                        Log.i(TAG, "Unknown APPMANAGER command" + pebbleCmd);
+                        cmd.command = GBCommand.UNDEFINEND;
+                        break;
+                }
                 break;
             default:
                 return null;

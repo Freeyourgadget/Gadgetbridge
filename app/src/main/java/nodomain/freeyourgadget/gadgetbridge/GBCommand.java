@@ -17,5 +17,6 @@ public enum GBCommand {
     MUSIC_NEXT,
     MUSIC_PREVIOUS,
 
+    APP_INFO_NAME,
     VERSION_FIRMWARE
 }

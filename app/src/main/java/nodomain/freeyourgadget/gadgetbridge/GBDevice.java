@@ -16,7 +16,6 @@ public class GBDevice {
         CONNECTED
     }
 
-
     public GBDevice(String address, String name) {
         this.address = address;
         this.name = name;
