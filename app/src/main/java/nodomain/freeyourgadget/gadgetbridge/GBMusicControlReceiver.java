@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.SystemClock;
 import android.view.KeyEvent;
 
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandMusicControl;
+
 public class GBMusicControlReceiver extends BroadcastReceiver {
     private final String TAG = this.getClass().getSimpleName();
 
@@ -13,22 +15,22 @@ public class GBMusicControlReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        GBCommand command = GBCommand.values()[intent.getIntExtra("command", 0)];
+        GBDeviceCommandMusicControl.Command musicCmd = GBDeviceCommandMusicControl.Command.values()[intent.getIntExtra("command", 0)];
         int keyCode;
-        switch (command) {
-            case MUSIC_NEXT:
+        switch (musicCmd) {
+            case NEXT:
                 keyCode = KeyEvent.KEYCODE_MEDIA_NEXT;
                 break;
-            case MUSIC_PREVIOUS:
+            case PREVIOUS:
                 keyCode = KeyEvent.KEYCODE_MEDIA_PREVIOUS;
                 break;
-            case MUSIC_PLAY:
+            case PLAY:
                 keyCode = KeyEvent.KEYCODE_MEDIA_PLAY;
                 break;
-            case MUSIC_PAUSE:
+            case PAUSE:
                 keyCode = KeyEvent.KEYCODE_MEDIA_PAUSE;
                 break;
-            case MUSIC_PLAYPAUSE:
+            case PLAYPAUSE:
                 keyCode = KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE;
                 break;
             default:

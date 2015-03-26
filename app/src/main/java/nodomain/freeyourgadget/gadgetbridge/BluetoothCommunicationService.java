@@ -29,6 +29,13 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppInfo;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandCallControl;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandMusicControl;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.protocol.PebbleProtocol;
+
 public class BluetoothCommunicationService extends Service {
     public static final String ACTION_START
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.start";
@@ -117,18 +124,20 @@ public class BluetoothCommunicationService extends Service {
         nm.notify(NOTIFICATION_ID, notification);
     }
 
-    private void evaluateGBCommandBundle(GBCommandBundle cmdBundle) {
-        switch (cmdBundle.commandClass) {
+    private void evaluateGBCommandBundle(GBDeviceCommand deviceCmd) {
+        switch (deviceCmd.commandClass) {
             case MUSIC_CONTROL:
                 Log.i(TAG, "Got command for MUSIC_CONTROL");
+                GBDeviceCommandMusicControl musicCmd = (GBDeviceCommandMusicControl)deviceCmd;
                 Intent musicIntent = new Intent(GBMusicControlReceiver.ACTION_MUSICCONTROL);
-                musicIntent.putExtra("command", cmdBundle.command.ordinal());
+                musicIntent.putExtra("command", musicCmd.command.ordinal());
                 sendBroadcast(musicIntent);
                 break;
             case CALL_CONTROL:
                 Log.i(TAG, "Got command for CALL_CONTROL");
+                GBDeviceCommandCallControl callCmd = (GBDeviceCommandCallControl)deviceCmd;
                 Intent callIntent = new Intent(GBCallControlReceiver.ACTION_CALLCONTROL);
-                callIntent.putExtra("command", cmdBundle.command.ordinal());
+                callIntent.putExtra("command", callCmd.command.ordinal());
                 sendBroadcast(callIntent);
                 break;
             case VERSION_INFO:
@@ -136,17 +145,19 @@ public class BluetoothCommunicationService extends Service {
                 if (gbdevice == null) {
                     return;
                 }
-                gbdevice.setFirmwareVersion(cmdBundle.info[0]);
+                GBDeviceCommandVersionInfo infoCmd = (GBDeviceCommandVersionInfo)deviceCmd;
+                gbdevice.setFirmwareVersion(infoCmd.fwVersion);
                 sendDeviceUpdateIntent();
                 break;
             case APP_INFO:
                 Log.i(TAG, "Got command for APP_INFO");
+                GBDeviceCommandAppInfo appInfoCmd = (GBDeviceCommandAppInfo)deviceCmd;
                 Intent appInfoIntent = new Intent(AppManagerActivity.ACTION_REFRESH_APPLIST);
-                int appCount = cmdBundle.info.length / 2;
+                int appCount = appInfoCmd.apps.length;
                 appInfoIntent.putExtra("app_count", appCount);
                 for (Integer i = 0; i < appCount; i++) {
-                    appInfoIntent.putExtra("app_name" + i.toString(), cmdBundle.info[i * 2]);
-                    appInfoIntent.putExtra("app_creator" + i.toString(), cmdBundle.info[i * 2 + 1]);
+                    appInfoIntent.putExtra("app_name" + i.toString(), appInfoCmd.apps[i].getName());
+                    appInfoIntent.putExtra("app_creator" + i.toString(), appInfoCmd.apps[i].getCreator());
                 }
                 sendBroadcast(appInfoIntent);
                 break;
@@ -399,11 +410,11 @@ public class BluetoothCommunicationService extends Service {
                         write(PebbleProtocol.encodePhoneVersion(PebbleProtocol.PHONEVERSION_REMOTE_OS_ANDROID));
                         write(PebbleProtocol.encodeFirmwareVersionReq());
                     } else if (endpoint != PebbleProtocol.ENDPOINT_DATALOG) {
-                        GBCommandBundle cmdBundle = PebbleProtocol.decodeResponse(buffer);
-                        if (cmdBundle == null) {
+                        GBDeviceCommand deviceCmd = PebbleProtocol.decodeResponse(buffer);
+                        if (deviceCmd == null) {
                             Log.i(TAG, "unhandled message to endpoint " + endpoint + " (" + bytes + " bytes)");
                         } else {
-                            evaluateGBCommandBundle(cmdBundle);
+                            evaluateGBCommandBundle(deviceCmd);
                         }
                     }
                     try {

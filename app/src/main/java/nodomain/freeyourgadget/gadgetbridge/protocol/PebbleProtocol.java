@@ -1,10 +1,13 @@
-package nodomain.freeyourgadget.gadgetbridge;
+package nodomain.freeyourgadget.gadgetbridge.protocol;
 
 import android.util.Log;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.SimpleTimeZone;
+
+import nodomain.freeyourgadget.gadgetbridge.GBCommand;
+import nodomain.freeyourgadget.gadgetbridge.GBDeviceApp;
 
 public class PebbleProtocol {
 
@@ -13,7 +16,7 @@ public class PebbleProtocol {
     static final short ENDPOINT_FIRMWARE = 1;
     static final short ENDPOINT_TIME = 11;
     static final short ENDPOINT_FIRMWAREVERSION = 16;
-    static final short ENDPOINT_PHONEVERSION = 17;
+    public static final short ENDPOINT_PHONEVERSION = 17;
     static final short ENDPOINT_SYSTEMMESSAGE = 18;
     static final short ENDPOINT_MUSICCONTROL = 32;
     static final short ENDPOINT_PHONECONTROL = 33;
@@ -30,7 +33,7 @@ public class PebbleProtocol {
     static final short ENDPOINT_SYSREG = 5000;
     static final short ENDPOINT_FCTREG = 5001;
     static final short ENDPOINT_APPMANAGER = 6000;
-    static final short ENDPOINT_DATALOG = 6778;
+    public static final short ENDPOINT_DATALOG = 6778;
     static final short ENDPOINT_RUNKEEPER = 7000;
     static final short ENDPOINT_SCREENSHOT = 8000;
     static final short ENDPOINT_PUTBYTES = (short) 48879;
@@ -91,7 +94,7 @@ public class PebbleProtocol {
 
     static final byte PHONEVERSION_REMOTE_OS_UNKNOWN = 0;
     static final byte PHONEVERSION_REMOTE_OS_IOS = 1;
-    static final byte PHONEVERSION_REMOTE_OS_ANDROID = 2;
+    public static final byte PHONEVERSION_REMOTE_OS_ANDROID = 2;
     static final byte PHONEVERSION_REMOTE_OS_OSX = 3;
     static final byte PHONEVERSION_REMOTE_OS_LINUX = 4;
     static final byte PHONEVERSION_REMOTE_OS_WINDOWS = 5;
@@ -242,69 +245,69 @@ public class PebbleProtocol {
         return buf.array();
     }
 
-    public static GBCommandBundle decodeResponse(byte[] responseData) {
+    public static GBDeviceCommand decodeResponse(byte[] responseData) {
         ByteBuffer buf = ByteBuffer.wrap(responseData);
         buf.order(ByteOrder.BIG_ENDIAN);
         short length = buf.getShort();
         short endpoint = buf.getShort();
         byte pebbleCmd = buf.get();
-        GBCommandBundle cmd = new GBCommandBundle();
+        GBDeviceCommand cmd = null;
         switch (endpoint) {
             case ENDPOINT_MUSICCONTROL:
-                cmd.commandClass = GBCommandClass.MUSIC_CONTROL;
+                GBDeviceCommandMusicControl musicCmd = new GBDeviceCommandMusicControl();
                 switch (pebbleCmd) {
                     case MUSICCONTROL_NEXT:
-                        cmd.command = GBCommand.MUSIC_NEXT;
+                        musicCmd.command = GBDeviceCommandMusicControl.Command.NEXT;
                         break;
                     case MUSICCONTROL_PREVIOUS:
-                        cmd.command = GBCommand.MUSIC_PREVIOUS;
+                        musicCmd.command = GBDeviceCommandMusicControl.Command.PREVIOUS;
                         break;
                     case MUSICCONTROL_PLAY:
-                        cmd.command = GBCommand.MUSIC_PLAY;
+                        musicCmd.command = GBDeviceCommandMusicControl.Command.PLAY;
                         break;
                     case MUSICCONTROL_PAUSE:
-                        cmd.command = GBCommand.MUSIC_PAUSE;
+                        musicCmd.command = GBDeviceCommandMusicControl.Command.PAUSE;
                         break;
                     case MUSICCONTROL_PLAYPAUSE:
-                        cmd.command = GBCommand.MUSIC_PLAYPAUSE;
+                        musicCmd.command = GBDeviceCommandMusicControl.Command.PLAYPAUSE;
                         break;
                     default:
-                        cmd.command = GBCommand.UNDEFINEND;
                         break;
                 }
+                cmd = musicCmd;
                 break;
             case ENDPOINT_PHONECONTROL:
-                cmd.commandClass = GBCommandClass.CALL_CONTROL;
+                GBDeviceCommandCallControl callCmd = new GBDeviceCommandCallControl();
                 switch (pebbleCmd) {
                     case PHONECONTROL_HANGUP:
-                        cmd.command = GBCommand.CALL_END;
+                        callCmd.command = GBDeviceCommandCallControl.Command.END;
                         break;
                     default:
                         Log.i(TAG, "Unknown PHONECONTROL command" + pebbleCmd);
-                        cmd.command = GBCommand.UNDEFINEND;
                         break;
                 }
+                cmd = callCmd;
                 break;
             case ENDPOINT_FIRMWAREVERSION:
+                GBDeviceCommandVersionInfo versionCmd = new GBDeviceCommandVersionInfo();
+
                 int version = buf.getInt();
                 byte[] versionString = new byte[32];
                 buf.get(versionString, 0, 32);
 
-                cmd.commandClass = GBCommandClass.VERSION_INFO;
-                cmd.command = GBCommand.VERSION_FIRMWARE;
-                cmd.info = new String[]{new String(versionString).trim()};
-                Log.i(TAG, "Got firmware version: " + cmd.info);
+                versionCmd.fwVersion = new String(versionString).trim();
+                Log.i(TAG, "Got firmware version: " + versionCmd.fwVersion);
+                cmd = versionCmd;
                 break;
             case ENDPOINT_APPMANAGER:
-                cmd.commandClass = GBCommandClass.APP_INFO;
                 switch (pebbleCmd) {
                     case APPMANAGER_GETAPPBANKSTATUS:
-                        cmd.command = GBCommand.APP_INFO_NAME;
+                        GBDeviceCommandAppInfo appInfoCmd = new GBDeviceCommandAppInfo();
                         int banks = buf.getInt();
                         int banksUsed = buf.getInt();
                         byte[] appName = new byte[32];
                         byte[] creatorName = new byte[32];
-                        cmd.info = new String[banksUsed * 2];
+                        appInfoCmd.apps = new GBDeviceApp[banksUsed];
 
                         for (int i = 0; i < banksUsed; i++) {
                             buf.getInt(); // id
@@ -312,14 +315,13 @@ public class PebbleProtocol {
                             buf.get(appName, 0, 32);
                             buf.get(creatorName, 0, 32);
                             int flags = buf.getInt();
-                            short appVersion = buf.getShort();
-                            cmd.info[i * 2] = new String(appName).trim();
-                            cmd.info[i * 2 + 1] = new String(creatorName).trim();
+                            Short appVersion = buf.getShort();
+                            appInfoCmd.apps[i] = new GBDeviceApp(new String(appName).trim(), new String(creatorName).trim(), appVersion.toString());
                         }
+                        cmd = appInfoCmd;
                         break;
                     default:
                         Log.i(TAG, "Unknown APPMANAGER command" + pebbleCmd);
-                        cmd.command = GBCommand.UNDEFINEND;
                         break;
                 }
                 break;
