@@ -9,7 +9,8 @@ public abstract class GBDeviceCommand {
         MUSIC_CONTROL,
         CALL_CONTROL,
         APP_INFO,
-        VERSION_INFO
+        VERSION_INFO,
+        APP_MANAGEMENT_RES,
     }
 }
 

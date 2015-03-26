@@ -69,10 +69,14 @@ public class PebbleProtocol {
     static final byte FIRMWAREVERSION_GETVERSION = 0;
 
     static final byte APPMANAGER_GETAPPBANKSTATUS = 1;
+    static final byte APPMANAGER_REMOVEAPP = 2;
+
+    static final int APPMANAGER_RES_SUCCESS = 1;
 
     static final short LENGTH_PREFIX = 4;
-    static final short LENGTH_SETTIME = 9;
-    static final short LENGTH_PHONEVERSION = 21;
+    static final short LENGTH_SETTIME = 5;
+    static final short LENGTH_REMOVEAPP = 9;
+    static final short LENGTH_PHONEVERSION = 17;
 
 
     static final byte PHONEVERSION_APPVERSION_MAGIC = 2; // increase this if pebble complains
@@ -166,9 +170,9 @@ public class PebbleProtocol {
             ts = System.currentTimeMillis() / 1000;
             ts += SimpleTimeZone.getDefault().getOffset(ts) / 1000;
         }
-        ByteBuffer buf = ByteBuffer.allocate(LENGTH_SETTIME);
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_SETTIME);
         buf.order(ByteOrder.BIG_ENDIAN);
-        buf.putShort((short) (LENGTH_SETTIME - LENGTH_PREFIX));
+        buf.putShort(LENGTH_SETTIME);
         buf.putShort(ENDPOINT_TIME);
         buf.put(TIME_SETTIME);
         buf.putInt((int) ts);
@@ -222,10 +226,22 @@ public class PebbleProtocol {
         return encodeMessage(ENDPOINT_APPMANAGER, APPMANAGER_GETAPPBANKSTATUS, 0, null);
     }
 
-    public static byte[] encodePhoneVersion(byte os) {
-        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PHONEVERSION);
+    public static byte[] encodeAppDelete(int id, int index) {
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_REMOVEAPP);
         buf.order(ByteOrder.BIG_ENDIAN);
-        buf.putShort((short) (LENGTH_PHONEVERSION - LENGTH_PREFIX));
+        buf.putShort(LENGTH_REMOVEAPP);
+        buf.putShort(ENDPOINT_APPMANAGER);
+        buf.put(APPMANAGER_REMOVEAPP);
+        buf.putInt(id);
+        buf.putInt(index);
+
+        return buf.array();
+    }
+
+    public static byte[] encodePhoneVersion(byte os) {
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_PHONEVERSION);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort(LENGTH_PHONEVERSION);
         buf.putShort(ENDPOINT_PHONEVERSION);
         buf.put((byte) 0x01);
         buf.putInt(-1); //0xffffffff
@@ -296,7 +312,6 @@ public class PebbleProtocol {
                 buf.get(versionString, 0, 32);
 
                 versionCmd.fwVersion = new String(versionString).trim();
-                Log.i(TAG, "Got firmware version: " + versionCmd.fwVersion);
                 cmd = versionCmd;
                 break;
             case ENDPOINT_APPMANAGER:
@@ -310,15 +325,30 @@ public class PebbleProtocol {
                         appInfoCmd.apps = new GBDeviceApp[banksUsed];
 
                         for (int i = 0; i < banksUsed; i++) {
-                            buf.getInt(); // id
-                            buf.getInt(); // index
+                            int id = buf.getInt();
+                            int index = buf.getInt();
                             buf.get(appName, 0, 32);
                             buf.get(creatorName, 0, 32);
                             int flags = buf.getInt();
                             Short appVersion = buf.getShort();
-                            appInfoCmd.apps[i] = new GBDeviceApp(new String(appName).trim(), new String(creatorName).trim(), appVersion.toString());
+                            appInfoCmd.apps[i] = new GBDeviceApp(id, index, new String(appName).trim(), new String(creatorName).trim(), appVersion.toString());
                         }
                         cmd = appInfoCmd;
+                        break;
+                    case APPMANAGER_REMOVEAPP:
+                        GBDeviceCommandAppManagementResult deleteRes = new GBDeviceCommandAppManagementResult();
+                        deleteRes.type = GBDeviceCommandAppManagementResult.CommandType.DELETE;
+
+                        int result = buf.getInt();
+                        switch (result) {
+                            case APPMANAGER_RES_SUCCESS:
+                                deleteRes.result = GBDeviceCommandAppManagementResult.Result.SUCCESS;
+                                break;
+                            default:
+                                deleteRes.result = GBDeviceCommandAppManagementResult.Result.FAILURE;
+                                break;
+                        }
+                        cmd = deleteRes;
                         break;
                     default:
                         Log.i(TAG, "Unknown APPMANAGER command" + pebbleCmd);
@@ -326,7 +356,7 @@ public class PebbleProtocol {
                 }
                 break;
             default:
-                return null;
+                break;
         }
 
         return cmd;

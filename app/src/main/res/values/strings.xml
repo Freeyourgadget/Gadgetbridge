@@ -8,8 +8,11 @@
     <string name="action_quit">Quit</string>
     <string name="action_refresh" >Refresh</string>
 
-    <string name="title_activity_appmanager">App Manager</string>
     <string name="title_activity_debug">Debug</string>
+
+    <!-- Strings related to AppManager -->
+    <string name="title_activity_appmanager">App Manager</string>
+    <string name="appmananger_app_delete">Delete</string>
 
     <!-- Strings related to Settings -->
     <string name="title_activity_settings">Settings</string>

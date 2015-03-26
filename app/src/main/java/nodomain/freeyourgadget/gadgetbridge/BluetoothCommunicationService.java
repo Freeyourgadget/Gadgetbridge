@@ -31,6 +31,7 @@ import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppInfo;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppManagementResult;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandCallControl;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandVersionInfo;
@@ -57,6 +58,8 @@ public class BluetoothCommunicationService extends Service {
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.request_versioninfo";
     public static final String ACTION_REQUEST_APPINFO
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.request_appinfo";
+    public static final String ACTION_DELETEAPP
+            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.deleteapp";
 
     private static final String TAG = "BluetoothCommunicationService";
     private static final int NOTIFICATION_ID = 1;
@@ -128,14 +131,14 @@ public class BluetoothCommunicationService extends Service {
         switch (deviceCmd.commandClass) {
             case MUSIC_CONTROL:
                 Log.i(TAG, "Got command for MUSIC_CONTROL");
-                GBDeviceCommandMusicControl musicCmd = (GBDeviceCommandMusicControl)deviceCmd;
+                GBDeviceCommandMusicControl musicCmd = (GBDeviceCommandMusicControl) deviceCmd;
                 Intent musicIntent = new Intent(GBMusicControlReceiver.ACTION_MUSICCONTROL);
                 musicIntent.putExtra("command", musicCmd.command.ordinal());
                 sendBroadcast(musicIntent);
                 break;
             case CALL_CONTROL:
                 Log.i(TAG, "Got command for CALL_CONTROL");
-                GBDeviceCommandCallControl callCmd = (GBDeviceCommandCallControl)deviceCmd;
+                GBDeviceCommandCallControl callCmd = (GBDeviceCommandCallControl) deviceCmd;
                 Intent callIntent = new Intent(GBCallControlReceiver.ACTION_CALLCONTROL);
                 callIntent.putExtra("command", callCmd.command.ordinal());
                 sendBroadcast(callIntent);
@@ -145,22 +148,43 @@ public class BluetoothCommunicationService extends Service {
                 if (gbdevice == null) {
                     return;
                 }
-                GBDeviceCommandVersionInfo infoCmd = (GBDeviceCommandVersionInfo)deviceCmd;
+                GBDeviceCommandVersionInfo infoCmd = (GBDeviceCommandVersionInfo) deviceCmd;
                 gbdevice.setFirmwareVersion(infoCmd.fwVersion);
                 sendDeviceUpdateIntent();
                 break;
             case APP_INFO:
                 Log.i(TAG, "Got command for APP_INFO");
-                GBDeviceCommandAppInfo appInfoCmd = (GBDeviceCommandAppInfo)deviceCmd;
+                GBDeviceCommandAppInfo appInfoCmd = (GBDeviceCommandAppInfo) deviceCmd;
                 Intent appInfoIntent = new Intent(AppManagerActivity.ACTION_REFRESH_APPLIST);
                 int appCount = appInfoCmd.apps.length;
                 appInfoIntent.putExtra("app_count", appCount);
                 for (Integer i = 0; i < appCount; i++) {
                     appInfoIntent.putExtra("app_name" + i.toString(), appInfoCmd.apps[i].getName());
                     appInfoIntent.putExtra("app_creator" + i.toString(), appInfoCmd.apps[i].getCreator());
+                    appInfoIntent.putExtra("app_id" + i.toString(), appInfoCmd.apps[i].getId());
+                    appInfoIntent.putExtra("app_index" + i.toString(), appInfoCmd.apps[i].getIndex());
                 }
                 sendBroadcast(appInfoIntent);
                 break;
+            case APP_MANAGEMENT_RES:
+                GBDeviceCommandAppManagementResult appMgmtRes = (GBDeviceCommandAppManagementResult) deviceCmd;
+                switch (appMgmtRes.type) {
+                    case DELETE:
+                        switch (appMgmtRes.result) {
+                            case FAILURE:
+                                Log.i(TAG, "failure removing app"); // TODO: report to AppManager
+                                break;
+                            case SUCCESS:
+                                // refresh app list
+                                mBtSocketIoThread.write(PebbleProtocol.encodeAppInfoReq());
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    default:
+                        break;
+                }
             default:
                 break;
         }
@@ -276,6 +300,10 @@ public class BluetoothCommunicationService extends Service {
             }
         } else if (action.equals(ACTION_REQUEST_APPINFO)) {
             mBtSocketIoThread.write(PebbleProtocol.encodeAppInfoReq());
+        } else if (action.equals(ACTION_DELETEAPP)) {
+            int id = intent.getIntExtra("app_id", -1);
+            int index = intent.getIntExtra("app_index", -1);
+            mBtSocketIoThread.write(PebbleProtocol.encodeAppDelete(id, index));
         } else if (action.equals(ACTION_START)) {
             startForeground(NOTIFICATION_ID, createNotification("Gadgetbridge running"));
             mStarted = true;
