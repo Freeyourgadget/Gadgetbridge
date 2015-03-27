@@ -4,6 +4,7 @@
 * New AppManager shows installed Apps/Watchfaces (removal possible via context menu)
 * Allow back navigation in ActionBar (Debug and AppMananger Activities)
 * Make sure Intent broadcasts do not leave Gadgetbridge
+* Show hint in the Main Activiy (tap to connect etc)
 
 ####Version 0.1.3
 * Remove the connect button, list all suported devices and connect on tap instead

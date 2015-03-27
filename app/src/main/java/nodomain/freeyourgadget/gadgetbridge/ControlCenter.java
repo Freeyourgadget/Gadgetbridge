@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class ControlCenter extends Activity {
     public static final String ACTION_REFRESH_DEVICELIST
             = "nodomain.freeyourgadget.gadgetbride.controlcenter.action.set_version";
 
+    TextView hintTextView;
     ListView deviceListView;
     GBDeviceAdapter mGBDeviceAdapter;
     final List<GBDevice> deviceList = new ArrayList<>();
@@ -57,6 +59,12 @@ public class ControlCenter extends Activity {
                             device.setFirmwareVersion(firmwareVersion);
                             device.setState(state);
                             mGBDeviceAdapter.notifyDataSetChanged();
+                            if (state == GBDevice.State.CONNECTED) {
+                                hintTextView.setText("tap connected device for App Mananger");
+                            }
+                            else if (state == GBDevice.State.NOT_CONNECTED ) {
+                                hintTextView.setText("tap a device to connect");
+                            }
                             break;
                         }
                     }
@@ -69,7 +77,7 @@ public class ControlCenter extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_controlcenter);
-
+        hintTextView = (TextView)  findViewById(R.id.hintTextView);
         deviceListView = (ListView) findViewById(R.id.deviceListView);
         mGBDeviceAdapter = new GBDeviceAdapter(this, deviceList);
         deviceListView.setAdapter(this.mGBDeviceAdapter);
@@ -168,6 +176,9 @@ public class ControlCenter extends Activity {
                     // Matching device found
                     deviceList.add(new GBDevice(device.getAddress(), device.getName()));
                 }
+            }
+            if (!deviceList.isEmpty()) {
+                hintTextView.setText("tap a device to connect");
             }
         }
     }

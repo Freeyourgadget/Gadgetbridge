@@ -17,6 +17,7 @@ Features:
 * Support for generic notificaions (above filtered out)
 * Apollo playback info (artist, album, track)
 * Music control: play/pause, next track, previous track
+* List and remove installed apps/watchfaces
 
 How to use:
 
