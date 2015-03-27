@@ -135,6 +135,7 @@ public class BluetoothCommunicationService extends Service {
                 GBDeviceCommandMusicControl musicCmd = (GBDeviceCommandMusicControl) deviceCmd;
                 Intent musicIntent = new Intent(GBMusicControlReceiver.ACTION_MUSICCONTROL);
                 musicIntent.putExtra("command", musicCmd.command.ordinal());
+                musicIntent.setPackage(this.getPackageName());
                 sendBroadcast(musicIntent);
                 break;
             case CALL_CONTROL:
@@ -142,6 +143,7 @@ public class BluetoothCommunicationService extends Service {
                 GBDeviceCommandCallControl callCmd = (GBDeviceCommandCallControl) deviceCmd;
                 Intent callIntent = new Intent(GBCallControlReceiver.ACTION_CALLCONTROL);
                 callIntent.putExtra("command", callCmd.command.ordinal());
+                callIntent.setPackage(this.getPackageName());
                 sendBroadcast(callIntent);
                 break;
             case VERSION_INFO:
@@ -165,7 +167,6 @@ public class BluetoothCommunicationService extends Service {
                     appInfoIntent.putExtra("app_id" + i.toString(), appInfoCmd.apps[i].getId());
                     appInfoIntent.putExtra("app_index" + i.toString(), appInfoCmd.apps[i].getIndex());
                 }
-
                 LocalBroadcastManager.getInstance(this).sendBroadcast(appInfoIntent);
                 break;
             case APP_MANAGEMENT_RES:

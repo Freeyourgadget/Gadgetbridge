@@ -76,17 +76,23 @@
                 <action android:name="com.andrew.apollo.metachanged" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".BluetoothStateChangeReceiver">
+        <receiver
+            android:name=".BluetoothStateChangeReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".GBMusicControlReceiver">
+        <receiver
+            android:name=".GBMusicControlReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="nodomain.freeyourgadget.gadgetbridge.musiccontrol" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".GBCallControlReceiver">
+        <receiver
+            android:name=".GBCallControlReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="nodomain.freeyourgadget.gadgetbridge.callcontrol" />
             </intent-filter>
