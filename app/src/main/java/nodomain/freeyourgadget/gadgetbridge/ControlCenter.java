@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -91,7 +92,7 @@ public class ControlCenter extends Activity {
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_QUIT);
         filter.addAction(ACTION_REFRESH_DEVICELIST);
-        registerReceiver(mReceiver, filter);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
 
         refreshPairedDevices();
         /*
@@ -140,7 +141,8 @@ public class ControlCenter extends Activity {
             stopService(stopIntent);
 
             Intent quitIntent = new Intent(ControlCenter.ACTION_QUIT);
-            sendBroadcast(quitIntent);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(quitIntent);
+            return true;
         } else if (id == R.id.action_refresh) {
             if (deviceList.isEmpty()) {
                 refreshPairedDevices();
@@ -153,8 +155,8 @@ public class ControlCenter extends Activity {
 
     @Override
     protected void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
         super.onDestroy();
-        unregisterReceiver(mReceiver);
     }
 
     private void refreshPairedDevices() {

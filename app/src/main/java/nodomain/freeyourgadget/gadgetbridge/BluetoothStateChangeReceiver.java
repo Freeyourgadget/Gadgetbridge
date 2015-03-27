@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 
 public class BluetoothStateChangeReceiver extends BroadcastReceiver {
     @Override
@@ -38,7 +39,8 @@ public class BluetoothStateChangeReceiver extends BroadcastReceiver {
                 context.stopService(stopIntent);
 
                 Intent quitIntent = new Intent(ControlCenter.ACTION_QUIT);
-                context.sendBroadcast(quitIntent);
+
+                LocalBroadcastManager.getInstance(context).sendBroadcast(quitIntent);
             }
         }
     }

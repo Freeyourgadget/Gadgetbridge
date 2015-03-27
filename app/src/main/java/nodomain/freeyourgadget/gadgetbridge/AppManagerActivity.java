@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,7 @@ import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAppAdapter;
 public class AppManagerActivity extends Activity {
     public static final String ACTION_REFRESH_APPLIST
             = "nodomain.freeyourgadget.gadgetbride.appmanager.action.refresh_applist";
+
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -61,7 +63,8 @@ public class AppManagerActivity extends Activity {
         IntentFilter filter = new IntentFilter();
         filter.addAction(ControlCenter.ACTION_QUIT);
         filter.addAction(ACTION_REFRESH_APPLIST);
-        registerReceiver(mReceiver, filter);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
 
         Intent startIntent = new Intent(this, BluetoothCommunicationService.class);
         startIntent.setAction(BluetoothCommunicationService.ACTION_REQUEST_APPINFO);
@@ -97,7 +100,7 @@ public class AppManagerActivity extends Activity {
 
     @Override
     protected void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
         super.onDestroy();
-        unregisterReceiver(mReceiver);
     }
 }

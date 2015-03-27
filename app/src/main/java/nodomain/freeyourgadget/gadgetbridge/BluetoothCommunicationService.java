@@ -20,6 +20,7 @@ import android.os.ParcelUuid;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -164,7 +165,8 @@ public class BluetoothCommunicationService extends Service {
                     appInfoIntent.putExtra("app_id" + i.toString(), appInfoCmd.apps[i].getId());
                     appInfoIntent.putExtra("app_index" + i.toString(), appInfoCmd.apps[i].getIndex());
                 }
-                sendBroadcast(appInfoIntent);
+
+                LocalBroadcastManager.getInstance(this).sendBroadcast(appInfoIntent);
                 break;
             case APP_MANAGEMENT_RES:
                 GBDeviceCommandAppManagementResult appMgmtRes = (GBDeviceCommandAppManagementResult) deviceCmd;
@@ -195,7 +197,8 @@ public class BluetoothCommunicationService extends Service {
         deviceUpdateIntent.putExtra("device_address", gbdevice.getAddress());
         deviceUpdateIntent.putExtra("device_state", gbdevice.getState().ordinal());
         deviceUpdateIntent.putExtra("firmware_version", gbdevice.getFirmwareVersion());
-        sendBroadcast(deviceUpdateIntent);
+
+        LocalBroadcastManager.getInstance(this).sendBroadcast(deviceUpdateIntent);
     }
 
     @Override
