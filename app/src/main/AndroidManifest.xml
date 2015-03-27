@@ -28,7 +28,11 @@
             android:label="@string/title_activity_settings" />
         <activity
             android:name=".AppManagerActivity"
-            android:label="App Manager" />
+            android:label="App Manager">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ControlCenter" />
+        </activity>
 
         <service
             android:name=".NotificationListener"
@@ -90,7 +94,11 @@
 
         <activity
             android:name=".DebugActivity"
-            android:label="@string/title_activity_debug" />
+            android:label="@string/title_activity_debug">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ControlCenter" />
+        </activity>
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.ContextMenu;
 import android.view.MenuItem;
@@ -54,6 +55,7 @@ public class AppManagerActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appmanager);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         appListView = (ListView) findViewById(R.id.appListView);
         mGBDeviceAppAdapter = new GBDeviceAppAdapter(this, appList);
@@ -96,6 +98,16 @@ public class AppManagerActivity extends Activity {
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

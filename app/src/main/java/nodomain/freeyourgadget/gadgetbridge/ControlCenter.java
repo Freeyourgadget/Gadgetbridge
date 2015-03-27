@@ -122,32 +122,28 @@ public class ControlCenter extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.action_debug) {
-            Intent intent = new Intent(this, DebugActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.action_quit) {
-            Intent stopIntent = new Intent(this, BluetoothCommunicationService.class);
-            stopService(stopIntent);
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                startActivity(settingsIntent);
+                return true;
+            case R.id.action_debug:
+                Intent debugIntent = new Intent(this, DebugActivity.class);
+                startActivity(debugIntent);
+                return true;
+            case R.id.action_quit:
+                Intent stopIntent = new Intent(this, BluetoothCommunicationService.class);
+                stopService(stopIntent);
 
-            Intent quitIntent = new Intent(ControlCenter.ACTION_QUIT);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(quitIntent);
-            return true;
-        } else if (id == R.id.action_refresh) {
-            if (deviceList.isEmpty()) {
-                refreshPairedDevices();
-                mGBDeviceAdapter.notifyDataSetChanged();
-            }
+                Intent quitIntent = new Intent(ControlCenter.ACTION_QUIT);
+                LocalBroadcastManager.getInstance(this).sendBroadcast(quitIntent);
+                return true;
+            case R.id.action_refresh:
+                if (deviceList.isEmpty()) {
+                    refreshPairedDevices();
+                    mGBDeviceAdapter.notifyDataSetChanged();
+                }
         }
 
         return super.onOptionsItemSelected(item);

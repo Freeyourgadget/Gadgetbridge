@@ -7,7 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v4.app.NotificationCompat;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,6 +40,7 @@ public class DebugActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_debug);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         registerReceiver(mReceiver, new IntentFilter(ControlCenter.ACTION_QUIT));
 
@@ -151,6 +154,16 @@ public class DebugActivity extends Activity {
         ncomp.setSmallIcon(R.drawable.ic_launcher);
         ncomp.setAutoCancel(true);
         nManager.notify((int) System.currentTimeMillis(), ncomp.build());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
