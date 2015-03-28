@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.fsck.k9.permission.READ_MESSAGES" />
 
     <application
@@ -33,10 +34,25 @@
 
         <activity
             android:name=".AppManagerActivity"
-            android:label="App Manager">
+            android:label="@string/title_activity_appmanager">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ControlCenter" />
+        </activity>
+        <activity
+            android:name=".AppInstallerActivity"
+            android:label="@string/title_activity_appinstaller">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".AppManagerActivity" />
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:host="*" />
+                <data android:scheme="file" />
+                <data android:pathPattern=".*\\.pbw" />
+            </intent-filter>
         </activity>
 
         <service

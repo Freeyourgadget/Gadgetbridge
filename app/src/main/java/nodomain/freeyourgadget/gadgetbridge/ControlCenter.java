@@ -61,8 +61,7 @@ public class ControlCenter extends Activity {
                             mGBDeviceAdapter.notifyDataSetChanged();
                             if (state == GBDevice.State.CONNECTED) {
                                 hintTextView.setText("tap connected device for App Mananger");
-                            }
-                            else if (state == GBDevice.State.NOT_CONNECTED ) {
+                            } else if (state == GBDevice.State.NOT_CONNECTED) {
                                 hintTextView.setText("tap a device to connect");
                             }
                             break;
@@ -77,7 +76,7 @@ public class ControlCenter extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_controlcenter);
-        hintTextView = (TextView)  findViewById(R.id.hintTextView);
+        hintTextView = (TextView) findViewById(R.id.hintTextView);
         deviceListView = (ListView) findViewById(R.id.deviceListView);
         mGBDeviceAdapter = new GBDeviceAdapter(this, deviceList);
         deviceListView.setAdapter(this.mGBDeviceAdapter);
