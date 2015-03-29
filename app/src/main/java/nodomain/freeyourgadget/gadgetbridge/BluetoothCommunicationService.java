@@ -396,6 +396,7 @@ public class BluetoothCommunicationService extends Service {
             gbdevice.setState(GBDevice.State.CONNECTED);
             sendDeviceUpdateIntent();
             updateNotification("connected to " + btDevice.getName());
+
             return true;
         }
 
@@ -441,6 +442,13 @@ public class BluetoothCommunicationService extends Service {
                         Log.i(TAG, "Pebble asked for Phone/App Version - repLYING!");
                         write(PebbleProtocol.encodePhoneVersion(PebbleProtocol.PHONEVERSION_REMOTE_OS_ANDROID));
                         write(PebbleProtocol.encodeFirmwareVersionReq());
+
+                        // this does not really belong here, but since the pebble only asks for our version once it should do the job
+                        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(BluetoothCommunicationService.this);
+                        if (sharedPrefs.getBoolean("datetime_synconconnect", true)) {
+                            Log.i(TAG, "syncing time");
+                            write(PebbleProtocol.encodeSetTime(-1));
+                        }
                     } else if (endpoint != PebbleProtocol.ENDPOINT_DATALOG) {
                         GBDeviceCommand deviceCmd = PebbleProtocol.decodeResponse(buffer);
                         if (deviceCmd == null) {

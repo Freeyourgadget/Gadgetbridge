@@ -19,8 +19,13 @@
 
     <!-- Strings related to Settings -->
     <string name="title_activity_settings">Settings</string>
+
     <string name="pref_header_general">General Settings</string>
     <string name="pref_title_general_autoconnectonbluetooth">Connect to device when Bluetooth turned on</string>
+
+    <string name="pref_header_datetime">Date and Time</string>
+    <string name="pref_title_datetime_syctimeonconnect">Sync time when connecting</string>
+
     <string name="pref_header_notifications">Notifications</string>
     <string name="pref_title_notifications_sms">Notification for SMS</string>
     <string name="pref_title_notifications_k9mail">Notification for K9-Mail</string>

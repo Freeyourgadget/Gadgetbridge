@@ -5,6 +5,7 @@ import android.util.Log;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.SimpleTimeZone;
+import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.GBCommand;
 import nodomain.freeyourgadget.gadgetbridge.GBDeviceApp;
@@ -149,7 +150,8 @@ public class PebbleProtocol {
 
     public static byte[] encodeSMS(String from, String body) {
         Long ts = System.currentTimeMillis() / 1000;
-        ts += SimpleTimeZone.getDefault().getOffset(ts) / 1000;
+        TimeZone tz = SimpleTimeZone.getDefault();
+        ts += (tz.getOffset(ts) + tz.getDSTSavings()) / 1000;
         String tsstring = ts.toString();  // SIC
         String[] parts = {from, body, tsstring};
 
@@ -158,7 +160,8 @@ public class PebbleProtocol {
 
     public static byte[] encodeEmail(String from, String subject, String body) {
         Long ts = System.currentTimeMillis() / 1000;
-        ts += SimpleTimeZone.getDefault().getOffset(ts) / 1000;
+        TimeZone tz = SimpleTimeZone.getDefault();
+        ts += (tz.getOffset(ts) + tz.getDSTSavings()) / 1000;
         String tsstring = ts.toString(); // SIC
         String[] parts = {from, body, tsstring, subject};
 
@@ -168,7 +171,8 @@ public class PebbleProtocol {
     public static byte[] encodeSetTime(long ts) {
         if (ts == -1) {
             ts = System.currentTimeMillis() / 1000;
-            ts += SimpleTimeZone.getDefault().getOffset(ts) / 1000;
+            TimeZone tz = SimpleTimeZone.getDefault();
+            ts += (tz.getOffset(ts) + tz.getDSTSavings()) / 1000;
         }
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_SETTIME);
         buf.order(ByteOrder.BIG_ENDIAN);

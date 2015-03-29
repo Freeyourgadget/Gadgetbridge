@@ -1,5 +1,11 @@
 ###Changelog
 
+####Version 0.1.5
+* Fix for DST (summer time)
+* Option to sync time on connect (enabled by default)
+* Opening .pbw files with Gadgetbridge prints some package information
+  (Tbis was not meant to be released yet, but the DST fix made a new release neccessary)
+
 ####Version 0.1.4
 * New AppManager shows installed Apps/Watchfaces (removal possible via context menu)
 * Allow back navigation in ActionBar (Debug and AppMananger Activities)

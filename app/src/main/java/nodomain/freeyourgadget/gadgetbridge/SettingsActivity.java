@@ -22,6 +22,12 @@ public class SettingsActivity extends PreferenceActivity {
         // Add 'general' preferences.
         addPreferencesFromResource(R.xml.pref_general);
 
+        // Add 'date' preferences, and a corresponding header.
+        PreferenceCategory fakeHeaderDateTime = new PreferenceCategory(this);
+        fakeHeaderDateTime.setTitle(R.string.pref_header_datetime);
+        getPreferenceScreen().addPreference(fakeHeaderDateTime);
+        addPreferencesFromResource(R.xml.pref_datetime);
+
         // Add 'notifications' preferences, and a corresponding header.
         PreferenceCategory fakeHeader = new PreferenceCategory(this);
         fakeHeader.setTitle(R.string.pref_header_notifications);
