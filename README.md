@@ -30,3 +30,8 @@ Known Issues:
 * Android 4.4+ only, we can only change this by not handling generic
   notifications or by using AccessibiltyService. Don't know if it is worth the
   hassle.
+
+
+## Download
+
+[![Gadgetbridge on F-Droid](/Get_it_on_F-Droid.svg.png?raw=true "Download from F-Droid")](https://f-droid.org/repository/browse/?fdid=nodomain.freeyourgadget.gadgetbridge)
