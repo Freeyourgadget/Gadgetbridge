@@ -3,26 +3,14 @@ package nodomain.freeyourgadget.gadgetbridge;
 public class GBDevice {
     private final String name;
     private final String address;
+    private final Type type;
     private String firmwareVersion = null;
     private State state = State.NOT_CONNECTED;
 
-    public void setState(State state) {
-        this.state = state;
-    }
-
-    public enum State {
-        NOT_CONNECTED,
-        CONNECTING,
-        CONNECTED
-    }
-
-    public GBDevice(String address, String name) {
+    public GBDevice(String address, String name, Type type) {
         this.address = address;
         this.name = name;
-    }
-
-    public void setFirmwareVersion(String firmwareVersion) {
-        this.firmwareVersion = firmwareVersion;
+        this.type = type;
     }
 
     public String getName() {
@@ -37,8 +25,16 @@ public class GBDevice {
         return firmwareVersion;
     }
 
+    public void setFirmwareVersion(String firmwareVersion) {
+        this.firmwareVersion = firmwareVersion;
+    }
+
     public State getState() {
         return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 
     String getStateString() {
@@ -60,4 +56,21 @@ public class GBDevice {
             return getStateString();
         }
     }
+
+    public Type getType() {
+        return type;
+    }
+
+    public enum State {
+        NOT_CONNECTED,
+        CONNECTING,
+        CONNECTED
+    }
+
+    public enum Type {
+        UNKNOWN,
+        PEBBLE,
+        MIBAND
+    }
+
 }

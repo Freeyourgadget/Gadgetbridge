@@ -171,10 +171,16 @@ public class ControlCenter extends Activity {
         } else {
             Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
             for (BluetoothDevice device : pairedDevices) {
+                GBDevice.Type deviceType = GBDevice.Type.UNKNOWN;
                 if (device.getName().indexOf("Pebble") == 0) {
-                    // Matching device found
-                    deviceList.add(new GBDevice(device.getAddress(), device.getName()));
+                    deviceType = GBDevice.Type.PEBBLE;
+                } else if (device.getName().equals("MI")) {
+                    deviceType = GBDevice.Type.MIBAND;
                 }
+                else {
+                    continue;
+                }
+                deviceList.add(new GBDevice(device.getAddress(), device.getName(), deviceType));
             }
             if (!deviceList.isEmpty()) {
                 hintTextView.setText("tap a device to connect");

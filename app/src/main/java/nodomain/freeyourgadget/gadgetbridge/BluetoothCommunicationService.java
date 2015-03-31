@@ -166,6 +166,7 @@ public class BluetoothCommunicationService extends Service {
                     appInfoIntent.putExtra("app_creator" + i.toString(), appInfoCmd.apps[i].getCreator());
                     appInfoIntent.putExtra("app_id" + i.toString(), appInfoCmd.apps[i].getId());
                     appInfoIntent.putExtra("app_index" + i.toString(), appInfoCmd.apps[i].getIndex());
+                    appInfoIntent.putExtra("app_type" + i.toString(), appInfoCmd.apps[i].getType().ordinal());
                 }
                 LocalBroadcastManager.getInstance(this).sendBroadcast(appInfoIntent);
                 break;
@@ -251,7 +252,13 @@ public class BluetoothCommunicationService extends Service {
                     }
                     BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(btDeviceAddress);
                     if (btDevice != null) {
-                        gbdevice = new GBDevice(btDeviceAddress, btDevice.getName());
+                        GBDevice.Type deviceType = GBDevice.Type.UNKNOWN;
+                        if (btDevice.getName().indexOf("Pebble") == 0) {
+                            deviceType = GBDevice.Type.PEBBLE;
+                        } else if (btDevice.getName().equals("MI")) {
+                            deviceType = GBDevice.Type.MIBAND;
+                        }
+                        gbdevice = new GBDevice(btDeviceAddress, btDevice.getName(), deviceType);
                         gbdevice.setState(GBDevice.State.CONNECTING);
                         sendDeviceUpdateIntent();
 

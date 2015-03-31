@@ -325,17 +325,27 @@ public class PebbleProtocol {
                         int banks = buf.getInt();
                         int banksUsed = buf.getInt();
                         byte[] appName = new byte[32];
-                        byte[] creatorName = new byte[32];
+                        byte[] appCreator = new byte[32];
                         appInfoCmd.apps = new GBDeviceApp[banksUsed];
 
                         for (int i = 0; i < banksUsed; i++) {
                             int id = buf.getInt();
                             int index = buf.getInt();
                             buf.get(appName, 0, 32);
-                            buf.get(creatorName, 0, 32);
+                            buf.get(appCreator, 0, 32);
                             int flags = buf.getInt();
+
+                            GBDeviceApp.Type appType;
+                            switch (flags) {
+                                case 1:
+                                    appType = GBDeviceApp.Type.WATCHFACE;
+                                    break;
+                                default:
+                                    appType = GBDeviceApp.Type.APP_GENERIC;
+                                    break;
+                            }
                             Short appVersion = buf.getShort();
-                            appInfoCmd.apps[i] = new GBDeviceApp(id, index, new String(appName).trim(), new String(creatorName).trim(), appVersion.toString());
+                            appInfoCmd.apps[i] = new GBDeviceApp(id, index, new String(appName).trim(), new String(appCreator).trim(), appVersion.toString(), appType);
                         }
                         cmd = appInfoCmd;
                         break;

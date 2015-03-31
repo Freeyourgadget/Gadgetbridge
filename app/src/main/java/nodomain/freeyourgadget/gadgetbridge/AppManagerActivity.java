@@ -38,8 +38,9 @@ public class AppManagerActivity extends Activity {
                     String appCreator = intent.getStringExtra("app_creator" + i.toString());
                     int id = intent.getIntExtra("app_id" + i.toString(), -1);
                     int index = intent.getIntExtra("app_index" + i.toString(), -1);
+                    GBDeviceApp.Type appType = GBDeviceApp.Type.values()[intent.getIntExtra("app_type" + i.toString(), 0)];
 
-                    appList.add(new GBDeviceApp(id, index, appName, appCreator, ""));
+                    appList.add(new GBDeviceApp(id, index, appName, appCreator, "", appType));
                 }
                 mGBDeviceAppAdapter.notifyDataSetChanged();
             }
