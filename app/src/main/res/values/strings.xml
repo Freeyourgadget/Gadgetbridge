@@ -31,4 +31,7 @@
     <string name="pref_title_notifications_k9mail">Notification for K9-Mail</string>
     <string name="pref_title_notifications_generic">Generic notification support</string>
     <string name="pref_title_whenscreenon">… also when screen is on</string>
+
+    <string name="pref_header_development">Developer Options</string>
+    <string name="pref_title_development_miaddr">Miband address</string>
 </resources>

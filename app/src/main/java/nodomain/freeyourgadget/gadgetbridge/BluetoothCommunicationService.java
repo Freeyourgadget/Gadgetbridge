@@ -415,7 +415,7 @@ public class BluetoothCommunicationService extends Service {
         private boolean mQuit = false;
         private boolean mmIsConnected = false;
         private int mmConnectionAttempts = 0;
- 
+
         public PebbleIoThread(String btDeviceAddress) {
             super(btDeviceAddress);
         }

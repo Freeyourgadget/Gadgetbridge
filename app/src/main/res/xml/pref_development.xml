@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:key="development_miaddr"
+        android:title="@string/pref_title_development_miaddr"
+        android:digits="0123456789abcdef:"
+        android:maxLength="17" />
+</PreferenceScreen>

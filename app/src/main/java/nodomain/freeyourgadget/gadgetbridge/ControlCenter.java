@@ -181,6 +181,13 @@ public class ControlCenter extends Activity {
                 }
                 deviceList.add(new GBDevice(device.getAddress(), device.getName(), deviceType));
             }
+
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+            String miAddr = sharedPrefs.getString("development_miaddr", null);
+            if (miAddr != null && !miAddr.equals("")) {
+                deviceList.add(new GBDevice(miAddr, "MI", GBDevice.Type.MIBAND));
+            }
+
             if (!deviceList.isEmpty()) {
                 hintTextView.setText("tap a device to connect");
             }

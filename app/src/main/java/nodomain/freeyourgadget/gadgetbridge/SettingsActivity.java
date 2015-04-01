@@ -43,10 +43,16 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
 
+        // Add 'development' preferences, and a corresponding header.
+        PreferenceCategory fakeHeaderDev = new PreferenceCategory(this);
+        fakeHeaderDev.setTitle(R.string.pref_header_development);
+        getPreferenceScreen().addPreference(fakeHeaderDev);
+        addPreferencesFromResource(R.xml.pref_development);
+
         // Bind the summaries of EditText/List/Dialog/Ringtone preferences to
         // their values. When their values change, their summaries are updated
         // to reflect the new value, per the Android Design guidelines.
-        //bindPreferenceSummaryToValue(findPreference("notifications_sms"));
+        bindPreferenceSummaryToValue(findPreference("development_miaddr"));
         //bindPreferenceSummaryToValue(findPreference("notifications_sms_whenscreenon"));
     }
 
