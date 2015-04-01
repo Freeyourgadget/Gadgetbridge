@@ -256,14 +256,15 @@ public class BluetoothCommunicationService extends Service {
                     BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(btDeviceAddress);
                     if (btDevice != null) {
                         GBDevice.Type deviceType = GBDevice.Type.UNKNOWN;
-                        if (btDevice.getName().indexOf("Pebble") == 0) {
-                            deviceType = GBDevice.Type.PEBBLE;
-                            mGBDeviceProtocol = new PebbleProtocol();
-                            mGBDeviceIoThread = new PebbleIoThread(btDeviceAddress);
-                        } else if (btDevice.getName().equals("MI")) {
+                        if (btDevice.getName() == null || btDevice.getName().equals("MI")) { //FIXME: workaround for Miband not being paired
                             deviceType = GBDevice.Type.MIBAND;
                             mGBDeviceProtocol = new MibandProtocol();
                             mGBDeviceIoThread = new MibandIoThread(btDeviceAddress);
+                        }
+                        else if (btDevice.getName().indexOf("Pebble") == 0) {
+                            deviceType = GBDevice.Type.PEBBLE;
+                            mGBDeviceProtocol = new PebbleProtocol();
+                            mGBDeviceIoThread = new PebbleIoThread(btDeviceAddress);
                         }
                         if (mGBDeviceProtocol != null) {
                             mGBDevice = new GBDevice(btDeviceAddress, btDevice.getName(), deviceType);
