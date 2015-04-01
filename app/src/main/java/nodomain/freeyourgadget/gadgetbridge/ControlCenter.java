@@ -176,8 +176,7 @@ public class ControlCenter extends Activity {
                     deviceType = GBDevice.Type.PEBBLE;
                 } else if (device.getName().equals("MI")) {
                     deviceType = GBDevice.Type.MIBAND;
-                }
-                else {
+                } else {
                     continue;
                 }
                 deviceList.add(new GBDevice(device.getAddress(), device.getName(), deviceType));

@@ -36,6 +36,8 @@ import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppManagemen
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandCallControl;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
+import nodomain.freeyourgadget.gadgetbridge.protocol.MibandProtocol;
 import nodomain.freeyourgadget.gadgetbridge.protocol.PebbleProtocol;
 
 public class BluetoothCommunicationService extends Service {
@@ -70,7 +72,8 @@ public class BluetoothCommunicationService extends Service {
 
     private boolean mStarted = false;
 
-    private GBDevice gbdevice = null;
+    private GBDevice mGBDevice = null;
+    private GBDeviceProtocol mGBDeviceProtocol = null;
 
     private void setReceiversEnableState(boolean enable) {
         final Class[] receiverClasses = {
@@ -148,11 +151,11 @@ public class BluetoothCommunicationService extends Service {
                 break;
             case VERSION_INFO:
                 Log.i(TAG, "Got command for VERSION_INFO");
-                if (gbdevice == null) {
+                if (mGBDevice == null) {
                     return;
                 }
                 GBDeviceCommandVersionInfo infoCmd = (GBDeviceCommandVersionInfo) deviceCmd;
-                gbdevice.setFirmwareVersion(infoCmd.fwVersion);
+                mGBDevice.setFirmwareVersion(infoCmd.fwVersion);
                 sendDeviceUpdateIntent();
                 break;
             case APP_INFO:
@@ -180,7 +183,7 @@ public class BluetoothCommunicationService extends Service {
                                 break;
                             case SUCCESS:
                                 // refresh app list
-                                mBtSocketIoThread.write(PebbleProtocol.encodeAppInfoReq());
+                                mBtSocketIoThread.write(mGBDeviceProtocol.encodeAppInfoReq());
                                 break;
                             default:
                                 break;
@@ -196,9 +199,9 @@ public class BluetoothCommunicationService extends Service {
 
     private void sendDeviceUpdateIntent() {
         Intent deviceUpdateIntent = new Intent(ControlCenter.ACTION_REFRESH_DEVICELIST);
-        deviceUpdateIntent.putExtra("device_address", gbdevice.getAddress());
-        deviceUpdateIntent.putExtra("device_state", gbdevice.getState().ordinal());
-        deviceUpdateIntent.putExtra("firmware_version", gbdevice.getFirmwareVersion());
+        deviceUpdateIntent.putExtra("device_address", mGBDevice.getAddress());
+        deviceUpdateIntent.putExtra("device_state", mGBDevice.getState().ordinal());
+        deviceUpdateIntent.putExtra("firmware_version", mGBDevice.getFirmwareVersion());
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(deviceUpdateIntent);
     }
@@ -255,34 +258,38 @@ public class BluetoothCommunicationService extends Service {
                         GBDevice.Type deviceType = GBDevice.Type.UNKNOWN;
                         if (btDevice.getName().indexOf("Pebble") == 0) {
                             deviceType = GBDevice.Type.PEBBLE;
+                            mGBDeviceProtocol = new PebbleProtocol();
                         } else if (btDevice.getName().equals("MI")) {
                             deviceType = GBDevice.Type.MIBAND;
+                            mGBDeviceProtocol = new MibandProtocol();
                         }
-                        gbdevice = new GBDevice(btDeviceAddress, btDevice.getName(), deviceType);
-                        gbdevice.setState(GBDevice.State.CONNECTING);
-                        sendDeviceUpdateIntent();
+                        if (mGBDeviceProtocol != null ) {
+                            mGBDevice = new GBDevice(btDeviceAddress, btDevice.getName(), deviceType);
+                            mGBDevice.setState(GBDevice.State.CONNECTING);
+                            sendDeviceUpdateIntent();
 
-                        mBtSocketIoThread = new BtSocketIoThread(btDeviceAddress);
-                        mBtSocketIoThread.start();
+                            mBtSocketIoThread = new BtSocketIoThread(btDeviceAddress);
+                            mBtSocketIoThread.start();
+                        }
                     }
                 }
             }
         } else if (action.equals(ACTION_NOTIFICATION_GENERIC)) {
             String title = intent.getStringExtra("notification_title");
             String body = intent.getStringExtra("notification_body");
-            byte[] msg = PebbleProtocol.encodeSMS(title, body);
+            byte[] msg = mGBDeviceProtocol.encodeSMS(title, body);
             mBtSocketIoThread.write(msg);
         } else if (action.equals(ACTION_NOTIFICATION_SMS)) {
             String sender = intent.getStringExtra("notification_sender");
             String body = intent.getStringExtra("notification_body");
             String senderName = getContactDisplayNameByNumber(sender);
-            byte[] msg = PebbleProtocol.encodeSMS(senderName, body);
+            byte[] msg = mGBDeviceProtocol.encodeSMS(senderName, body);
             mBtSocketIoThread.write(msg);
         } else if (action.equals(ACTION_NOTIFICATION_EMAIL)) {
             String sender = intent.getStringExtra("notification_sender");
             String subject = intent.getStringExtra("notification_subject");
             String body = intent.getStringExtra("notification_body");
-            byte[] msg = PebbleProtocol.encodeEmail(sender, subject, body);
+            byte[] msg = mGBDeviceProtocol.encodeEmail(sender, subject, body);
             mBtSocketIoThread.write(msg);
         } else if (action.equals(ACTION_CALLSTATE)) {
             GBCommand command = GBCommand.values()[intent.getIntExtra("call_command", 0)]; // UGLY
@@ -291,30 +298,30 @@ public class BluetoothCommunicationService extends Service {
             if (phoneNumber != null) {
                 callerName = getContactDisplayNameByNumber(phoneNumber);
             }
-            byte[] msg = PebbleProtocol.encodeSetCallState(phoneNumber, callerName, command);
+            byte[] msg = mGBDeviceProtocol.encodeSetCallState(phoneNumber, callerName, command);
             mBtSocketIoThread.write(msg);
         } else if (action.equals(ACTION_SETTIME)) {
-            byte[] msg = PebbleProtocol.encodeSetTime(-1);
+            byte[] msg = mGBDeviceProtocol.encodeSetTime(-1);
             mBtSocketIoThread.write(msg);
         } else if (action.equals(ACTION_SETMUSICINFO)) {
             String artist = intent.getStringExtra("music_artist");
             String album = intent.getStringExtra("music_album");
             String track = intent.getStringExtra("music_track");
-            byte[] msg = PebbleProtocol.encodeSetMusicInfo(artist, album, track);
+            byte[] msg = mGBDeviceProtocol.encodeSetMusicInfo(artist, album, track);
             mBtSocketIoThread.write(msg);
         } else if (action.equals(ACTION_REQUEST_VERSIONINFO)) {
-            if (gbdevice != null && gbdevice.getFirmwareVersion() == null) {
-                byte[] msg = PebbleProtocol.encodeFirmwareVersionReq();
+            if (mGBDevice != null && mGBDevice.getFirmwareVersion() == null) {
+                byte[] msg = mGBDeviceProtocol.encodeFirmwareVersionReq();
                 mBtSocketIoThread.write(msg);
             } else {
                 sendDeviceUpdateIntent();
             }
         } else if (action.equals(ACTION_REQUEST_APPINFO)) {
-            mBtSocketIoThread.write(PebbleProtocol.encodeAppInfoReq());
+            mBtSocketIoThread.write(mGBDeviceProtocol.encodeAppInfoReq());
         } else if (action.equals(ACTION_DELETEAPP)) {
             int id = intent.getIntExtra("app_id", -1);
             int index = intent.getIntExtra("app_index", -1);
-            mBtSocketIoThread.write(PebbleProtocol.encodeAppDelete(id, index));
+            mBtSocketIoThread.write(mGBDeviceProtocol.encodeAppDelete(id, index));
         } else if (action.equals(ACTION_START)) {
             startForeground(NOTIFICATION_ID, createNotification("Gadgetbridge running"));
             mStarted = true;
@@ -400,7 +407,7 @@ public class BluetoothCommunicationService extends Service {
                 mBtSocket = null;
                 return false;
             }
-            gbdevice.setState(GBDevice.State.CONNECTED);
+            mGBDevice.setState(GBDevice.State.CONNECTED);
             sendDeviceUpdateIntent();
             updateNotification("connected to " + btDevice.getName());
 
@@ -447,17 +454,17 @@ public class BluetoothCommunicationService extends Service {
 
                     if (length == 1 && endpoint == PebbleProtocol.ENDPOINT_PHONEVERSION) {
                         Log.i(TAG, "Pebble asked for Phone/App Version - repLYING!");
-                        write(PebbleProtocol.encodePhoneVersion(PebbleProtocol.PHONEVERSION_REMOTE_OS_ANDROID));
-                        write(PebbleProtocol.encodeFirmwareVersionReq());
+                        write(mGBDeviceProtocol.encodePhoneVersion(PebbleProtocol.PHONEVERSION_REMOTE_OS_ANDROID));
+                        write(mGBDeviceProtocol.encodeFirmwareVersionReq());
 
                         // this does not really belong here, but since the pebble only asks for our version once it should do the job
                         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(BluetoothCommunicationService.this);
                         if (sharedPrefs.getBoolean("datetime_synconconnect", true)) {
                             Log.i(TAG, "syncing time");
-                            write(PebbleProtocol.encodeSetTime(-1));
+                            write(mGBDeviceProtocol.encodeSetTime(-1));
                         }
                     } else if (endpoint != PebbleProtocol.ENDPOINT_DATALOG) {
-                        GBDeviceCommand deviceCmd = PebbleProtocol.decodeResponse(buffer);
+                        GBDeviceCommand deviceCmd = mGBDeviceProtocol.decodeResponse(buffer);
                         if (deviceCmd == null) {
                             Log.i(TAG, "unhandled message to endpoint " + endpoint + " (" + bytes + " bytes)");
                         } else {
@@ -471,7 +478,7 @@ public class BluetoothCommunicationService extends Service {
                     }
                 } catch (IOException e) {
                     if (e.getMessage().contains("socket closed")) { //FIXME: this does not feel right
-                        gbdevice.setState(GBDevice.State.CONNECTING);
+                        mGBDevice.setState(GBDevice.State.CONNECTING);
                         sendDeviceUpdateIntent();
                         updateNotification("connection lost, trying to reconnect");
 
@@ -501,7 +508,7 @@ public class BluetoothCommunicationService extends Service {
             }
             mBtSocket = null;
             updateNotification("not connected");
-            gbdevice.setState(GBDevice.State.NOT_CONNECTED);
+            mGBDevice.setState(GBDevice.State.NOT_CONNECTED);
             sendDeviceUpdateIntent();
         }
 

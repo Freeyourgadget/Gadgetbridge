@@ -10,7 +10,7 @@ import java.util.TimeZone;
 import nodomain.freeyourgadget.gadgetbridge.GBCommand;
 import nodomain.freeyourgadget.gadgetbridge.GBDeviceApp;
 
-public class PebbleProtocol {
+public class PebbleProtocol extends GBDeviceProtocol {
 
     static private String TAG = "PebbleProtocol";
 
@@ -148,7 +148,7 @@ public class PebbleProtocol {
         return buf.array();
     }
 
-    public static byte[] encodeSMS(String from, String body) {
+    public byte[] encodeSMS(String from, String body) {
         Long ts = System.currentTimeMillis() / 1000;
         TimeZone tz = SimpleTimeZone.getDefault();
         ts += (tz.getOffset(ts) + tz.getDSTSavings()) / 1000;
@@ -158,7 +158,7 @@ public class PebbleProtocol {
         return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_SMS, 0, parts);
     }
 
-    public static byte[] encodeEmail(String from, String subject, String body) {
+    public byte[] encodeEmail(String from, String subject, String body) {
         Long ts = System.currentTimeMillis() / 1000;
         TimeZone tz = SimpleTimeZone.getDefault();
         ts += (tz.getOffset(ts) + tz.getDSTSavings()) / 1000;
@@ -168,7 +168,7 @@ public class PebbleProtocol {
         return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_EMAIL, 0, parts);
     }
 
-    public static byte[] encodeSetTime(long ts) {
+    public byte[] encodeSetTime(long ts) {
         if (ts == -1) {
             ts = System.currentTimeMillis() / 1000;
             TimeZone tz = SimpleTimeZone.getDefault();
@@ -184,7 +184,7 @@ public class PebbleProtocol {
         return buf.array();
     }
 
-    public static byte[] encodeSetCallState(String number, String name, GBCommand command) {
+    public byte[] encodeSetCallState(String number, String name, GBCommand command) {
         String[] parts = {number, name};
         byte pebbleCmd;
         switch (command) {
@@ -217,20 +217,20 @@ public class PebbleProtocol {
         return encodeMessage(ENDPOINT_PHONECONTROL, pebbleCmd, 0, parts);
     }
 
-    public static byte[] encodeSetMusicInfo(String artist, String album, String track) {
+    public byte[] encodeSetMusicInfo(String artist, String album, String track) {
         String[] parts = {artist, album, track};
         return encodeMessage(ENDPOINT_MUSICCONTROL, MUSICCONTROL_SETMUSICINFO, 0, parts);
     }
 
-    public static byte[] encodeFirmwareVersionReq() {
+    public byte[] encodeFirmwareVersionReq() {
         return encodeMessage(ENDPOINT_FIRMWAREVERSION, FIRMWAREVERSION_GETVERSION, 0, null);
     }
 
-    public static byte[] encodeAppInfoReq() {
+    public byte[] encodeAppInfoReq() {
         return encodeMessage(ENDPOINT_APPMANAGER, APPMANAGER_GETAPPBANKSTATUS, 0, null);
     }
 
-    public static byte[] encodeAppDelete(int id, int index) {
+    public byte[] encodeAppDelete(int id, int index) {
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_REMOVEAPP);
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putShort(LENGTH_REMOVEAPP);
@@ -242,7 +242,7 @@ public class PebbleProtocol {
         return buf.array();
     }
 
-    public static byte[] encodePhoneVersion(byte os) {
+    public byte[] encodePhoneVersion(byte os) {
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_PHONEVERSION);
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putShort(LENGTH_PHONEVERSION);
@@ -265,7 +265,7 @@ public class PebbleProtocol {
         return buf.array();
     }
 
-    public static GBDeviceCommand decodeResponse(byte[] responseData) {
+    public GBDeviceCommand decodeResponse(byte[] responseData) {
         ByteBuffer buf = ByteBuffer.wrap(responseData);
         buf.order(ByteOrder.BIG_ENDIAN);
         short length = buf.getShort();
