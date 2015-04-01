@@ -47,7 +47,7 @@ public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {
                 deviceImageView.setImageResource(R.drawable.ic_device_pebble);
                 break;
             case MIBAND:
-                deviceImageView.setImageResource(R.drawable.ic_launcher); //FIXME: add icon
+                deviceImageView.setImageResource(R.drawable.ic_device_miband);
                 break;
             default:
                 deviceImageView.setImageResource(R.drawable.ic_launcher);
