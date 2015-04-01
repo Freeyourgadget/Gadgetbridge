@@ -68,7 +68,7 @@ public class BluetoothCommunicationService extends Service {
     private static final int NOTIFICATION_ID = 1;
     private BluetoothAdapter mBtAdapter = null;
     private BluetoothSocket mBtSocket = null;
-    private BtSocketIoThread mBtSocketIoThread = null;
+    private GBDeviceIoThread mGBDeviceIoThread = null;
 
     private boolean mStarted = false;
 
@@ -183,7 +183,7 @@ public class BluetoothCommunicationService extends Service {
                                 break;
                             case SUCCESS:
                                 // refresh app list
-                                mBtSocketIoThread.write(mGBDeviceProtocol.encodeAppInfoReq());
+                                mGBDeviceIoThread.write(mGBDeviceProtocol.encodeAppInfoReq());
                                 break;
                             default:
                                 break;
@@ -244,10 +244,10 @@ public class BluetoothCommunicationService extends Service {
 
                 if (btDeviceAddress != null && (mBtSocket == null || !mBtSocket.isConnected())) {
                     // currently only one thread allowed
-                    if (mBtSocketIoThread != null) {
-                        mBtSocketIoThread.quit();
+                    if (mGBDeviceIoThread != null) {
+                        mGBDeviceIoThread.quit();
                         try {
-                            mBtSocketIoThread.join();
+                            mGBDeviceIoThread.join();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -259,17 +259,18 @@ public class BluetoothCommunicationService extends Service {
                         if (btDevice.getName().indexOf("Pebble") == 0) {
                             deviceType = GBDevice.Type.PEBBLE;
                             mGBDeviceProtocol = new PebbleProtocol();
+                            mGBDeviceIoThread = new PebbleIoThread(btDeviceAddress);
                         } else if (btDevice.getName().equals("MI")) {
                             deviceType = GBDevice.Type.MIBAND;
                             mGBDeviceProtocol = new MibandProtocol();
+                            mGBDeviceIoThread = new MibandIoThread(btDeviceAddress);
                         }
-                        if (mGBDeviceProtocol != null ) {
+                        if (mGBDeviceProtocol != null) {
                             mGBDevice = new GBDevice(btDeviceAddress, btDevice.getName(), deviceType);
                             mGBDevice.setState(GBDevice.State.CONNECTING);
                             sendDeviceUpdateIntent();
 
-                            mBtSocketIoThread = new BtSocketIoThread(btDeviceAddress);
-                            mBtSocketIoThread.start();
+                            mGBDeviceIoThread.start();
                         }
                     }
                 }
@@ -278,19 +279,19 @@ public class BluetoothCommunicationService extends Service {
             String title = intent.getStringExtra("notification_title");
             String body = intent.getStringExtra("notification_body");
             byte[] msg = mGBDeviceProtocol.encodeSMS(title, body);
-            mBtSocketIoThread.write(msg);
+            mGBDeviceIoThread.write(msg);
         } else if (action.equals(ACTION_NOTIFICATION_SMS)) {
             String sender = intent.getStringExtra("notification_sender");
             String body = intent.getStringExtra("notification_body");
             String senderName = getContactDisplayNameByNumber(sender);
             byte[] msg = mGBDeviceProtocol.encodeSMS(senderName, body);
-            mBtSocketIoThread.write(msg);
+            mGBDeviceIoThread.write(msg);
         } else if (action.equals(ACTION_NOTIFICATION_EMAIL)) {
             String sender = intent.getStringExtra("notification_sender");
             String subject = intent.getStringExtra("notification_subject");
             String body = intent.getStringExtra("notification_body");
             byte[] msg = mGBDeviceProtocol.encodeEmail(sender, subject, body);
-            mBtSocketIoThread.write(msg);
+            mGBDeviceIoThread.write(msg);
         } else if (action.equals(ACTION_CALLSTATE)) {
             GBCommand command = GBCommand.values()[intent.getIntExtra("call_command", 0)]; // UGLY
             String phoneNumber = intent.getStringExtra("call_phonenumber");
@@ -299,29 +300,29 @@ public class BluetoothCommunicationService extends Service {
                 callerName = getContactDisplayNameByNumber(phoneNumber);
             }
             byte[] msg = mGBDeviceProtocol.encodeSetCallState(phoneNumber, callerName, command);
-            mBtSocketIoThread.write(msg);
+            mGBDeviceIoThread.write(msg);
         } else if (action.equals(ACTION_SETTIME)) {
             byte[] msg = mGBDeviceProtocol.encodeSetTime(-1);
-            mBtSocketIoThread.write(msg);
+            mGBDeviceIoThread.write(msg);
         } else if (action.equals(ACTION_SETMUSICINFO)) {
             String artist = intent.getStringExtra("music_artist");
             String album = intent.getStringExtra("music_album");
             String track = intent.getStringExtra("music_track");
             byte[] msg = mGBDeviceProtocol.encodeSetMusicInfo(artist, album, track);
-            mBtSocketIoThread.write(msg);
+            mGBDeviceIoThread.write(msg);
         } else if (action.equals(ACTION_REQUEST_VERSIONINFO)) {
             if (mGBDevice != null && mGBDevice.getFirmwareVersion() == null) {
                 byte[] msg = mGBDeviceProtocol.encodeFirmwareVersionReq();
-                mBtSocketIoThread.write(msg);
+                mGBDeviceIoThread.write(msg);
             } else {
                 sendDeviceUpdateIntent();
             }
         } else if (action.equals(ACTION_REQUEST_APPINFO)) {
-            mBtSocketIoThread.write(mGBDeviceProtocol.encodeAppInfoReq());
+            mGBDeviceIoThread.write(mGBDeviceProtocol.encodeAppInfoReq());
         } else if (action.equals(ACTION_DELETEAPP)) {
             int id = intent.getIntExtra("app_id", -1);
             int index = intent.getIntExtra("app_index", -1);
-            mBtSocketIoThread.write(mGBDeviceProtocol.encodeAppDelete(id, index));
+            mGBDeviceIoThread.write(mGBDeviceProtocol.encodeAppDelete(id, index));
         } else if (action.equals(ACTION_START)) {
             startForeground(NOTIFICATION_ID, createNotification("Gadgetbridge running"));
             mStarted = true;
@@ -336,10 +337,10 @@ public class BluetoothCommunicationService extends Service {
 
         setReceiversEnableState(false); // disable BroadcastReceivers
 
-        if (mBtSocketIoThread != null) {
+        if (mGBDeviceIoThread != null) {
             try {
-                mBtSocketIoThread.quit();
-                mBtSocketIoThread.join();
+                mGBDeviceIoThread.quit();
+                mGBDeviceIoThread.join();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -379,17 +380,44 @@ public class BluetoothCommunicationService extends Service {
         return name;
     }
 
+    private abstract class GBDeviceIoThread extends Thread {
+        protected final String mmBtDeviceAddress;
 
-    private class BtSocketIoThread extends Thread {
-        private final String mmBtDeviceAddress;
+        public GBDeviceIoThread(String btDeviceAddress) {
+            mmBtDeviceAddress = btDeviceAddress;
+        }
+
+        private boolean connect(String btDeviceAddress) {
+            return false;
+        }
+
+        public void run() {
+        }
+
+        synchronized public void write(byte[] bytes) {
+        }
+
+        public void quit() {
+        }
+    }
+
+    private class MibandIoThread extends GBDeviceIoThread {
+        public MibandIoThread(String btDeviceAddress) {
+            super(btDeviceAddress);
+        }
+
+        // implement connect() run() write() and quit() here
+    }
+
+    private class PebbleIoThread extends GBDeviceIoThread {
         private InputStream mmInStream = null;
         private OutputStream mmOutStream = null;
         private boolean mQuit = false;
         private boolean mmIsConnected = false;
         private int mmConnectionAttempts = 0;
-
-        public BtSocketIoThread(String btDeviceAddress) {
-            mmBtDeviceAddress = btDeviceAddress;
+ 
+        public PebbleIoThread(String btDeviceAddress) {
+            super(btDeviceAddress);
         }
 
         private boolean connect(String btDeviceAddress) {
