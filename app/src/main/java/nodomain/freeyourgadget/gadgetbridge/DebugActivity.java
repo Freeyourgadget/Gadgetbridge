@@ -151,7 +151,7 @@ public class DebugActivity extends Activity {
         ncomp.setContentTitle("Test Notification");
         ncomp.setContentText("This is a Test Notification from Gadgetbridge");
         ncomp.setTicker("This is a Test Notification from Gadgetbridge");
-        ncomp.setSmallIcon(R.drawable.ic_launcher);
+        ncomp.setSmallIcon(R.drawable.ic_notification);
         ncomp.setAutoCancel(true);
         nManager.notify((int) System.currentTimeMillis(), ncomp.build());
     }

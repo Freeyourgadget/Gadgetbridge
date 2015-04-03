@@ -209,7 +209,13 @@ public class BluetoothCommunicationService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        if (intent == null) {
+            Log.i(TAG, "no intent");
+            return START_NOT_STICKY;
+        }
+
         String action = intent.getAction();
+
         if (action == null) {
             Log.i(TAG, "no action");
             return START_NOT_STICKY;
@@ -260,8 +266,7 @@ public class BluetoothCommunicationService extends Service {
                             deviceType = GBDevice.Type.MIBAND;
                             mGBDeviceProtocol = new MibandProtocol();
                             mGBDeviceIoThread = new MibandIoThread(btDeviceAddress);
-                        }
-                        else if (btDevice.getName().indexOf("Pebble") == 0) {
+                        } else if (btDevice.getName().indexOf("Pebble") == 0) {
                             deviceType = GBDevice.Type.PEBBLE;
                             mGBDeviceProtocol = new PebbleProtocol();
                             mGBDeviceIoThread = new PebbleIoThread(btDeviceAddress);
