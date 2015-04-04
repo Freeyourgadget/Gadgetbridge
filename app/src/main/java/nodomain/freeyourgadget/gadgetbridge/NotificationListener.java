@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
+import android.app.ActivityManager;
 import android.app.Notification;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,6 +27,24 @@ public class NotificationListener extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
+       /*
+        * return early if BluetoothCommunicationService is not running,
+        * else the service would get started every time we get a notification.
+        * unfortunately we cannot enable/disable NotificationListener at runtime like we do with
+        * broadcast receivers because it seems to invalidate the permissions that are
+        * neccessery for NotificationListenerService
+        */
+        boolean isServiceRunning = false;
+        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (BluetoothCommunicationService.class.getName().equals(service.service.getClassName())) {
+                isServiceRunning = true;
+            }
+        }
+
+        if (!isServiceRunning) {
+            return;
+        }
 
         String source = sbn.getPackageName();
         Log.i(TAG, source);
