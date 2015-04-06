@@ -74,11 +74,19 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     static final int APPMANAGER_RES_SUCCESS = 1;
 
-    static final short LENGTH_PREFIX = 4;
-    static final short LENGTH_SETTIME = 5;
-    static final short LENGTH_REMOVEAPP = 9;
-    static final short LENGTH_PHONEVERSION = 17;
+    static final byte PUTBYTES_INIT = 1;
+    static final byte PUTBYTES_SEND = 2;
+    static final byte PUTBYTES_COMMIT = 3;
+    static final byte PUTBYTES_ABORT = 4;
+    static final byte PUTBYTES_COMPLETE = 5;
 
+    static final byte PUTBYTES_TYPE_FIRMWARE = 1;
+    static final byte PUTBYTES_TYPE_RECOVERY = 2;
+    static final byte PUTBYTES_TYPE_SYSRESOURCES = 3;
+    static final byte PUTBYTES_TYPE_RESOURCES = 4;
+    public static final byte PUTBYTES_TYPE_BINARY = 5;
+    static final byte PUTBYTES_TYPE_FILE = 6;
+    static final byte PUTBYTES_TYPE_WORKER = 7;
 
     static final byte PHONEVERSION_APPVERSION_MAGIC = 2; // increase this if pebble complains
     static final byte PHONEVERSION_APPVERSION_MAJOR = 2;
@@ -103,6 +111,14 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final byte PHONEVERSION_REMOTE_OS_OSX = 3;
     static final byte PHONEVERSION_REMOTE_OS_LINUX = 4;
     static final byte PHONEVERSION_REMOTE_OS_WINDOWS = 5;
+
+
+    static final short LENGTH_PREFIX = 4;
+    static final short LENGTH_SETTIME = 5;
+    static final short LENGTH_REMOVEAPP = 9;
+    static final short LENGTH_PHONEVERSION = 17;
+    static final short LENGTH_UPLOADSTART = 7;
+    static final short LENGTH_UPLOADCHUNK = 9;
 
     private static byte[] encodeMessage(short endpoint, byte type, int cookie, String[] parts) {
         // Calculate length first
@@ -265,6 +281,31 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
+    /* pebble specific install methods */
+    public byte[] encodeUploadStart(byte type, byte index, int size) {
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_UPLOADSTART);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort(LENGTH_UPLOADSTART);
+        buf.putShort(ENDPOINT_PUTBYTES);
+        buf.put(PUTBYTES_INIT);
+        buf.putInt(size);
+        buf.put(type);
+        buf.put(index);
+        return buf.array();
+    }
+
+    public byte[] encodeUploadChunk(int token, byte[] buffer, int size) {
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_UPLOADCHUNK + size);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort((short) (LENGTH_UPLOADCHUNK + size));
+        buf.putShort(ENDPOINT_PUTBYTES);
+        buf.put(PUTBYTES_SEND);
+        buf.putInt(token);
+        buf.putInt(size);
+        buf.put(buffer, 0, size);
+        return buf.array();
+    }
+
     public GBDeviceCommand decodeResponse(byte[] responseData) {
         ByteBuffer buf = ByteBuffer.wrap(responseData);
         buf.order(ByteOrder.BIG_ENDIAN);
@@ -322,15 +363,17 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 switch (pebbleCmd) {
                     case APPMANAGER_GETAPPBANKSTATUS:
                         GBDeviceCommandAppInfo appInfoCmd = new GBDeviceCommandAppInfo();
-                        int banks = buf.getInt();
-                        int banksUsed = buf.getInt();
+                        int slotCount = buf.getInt();
+                        int slotsUsed = buf.getInt();
                         byte[] appName = new byte[32];
                         byte[] appCreator = new byte[32];
-                        appInfoCmd.apps = new GBDeviceApp[banksUsed];
+                        appInfoCmd.apps = new GBDeviceApp[slotsUsed];
+                        boolean[] slotInUse = new boolean[slotCount];
 
-                        for (int i = 0; i < banksUsed; i++) {
+                        for (int i = 0; i < slotsUsed; i++) {
                             int id = buf.getInt();
                             int index = buf.getInt();
+                            slotInUse[index] = true;
                             buf.get(appName, 0, 32);
                             buf.get(appCreator, 0, 32);
                             int flags = buf.getInt();
@@ -346,6 +389,13 @@ public class PebbleProtocol extends GBDeviceProtocol {
                             }
                             Short appVersion = buf.getShort();
                             appInfoCmd.apps[i] = new GBDeviceApp(id, index, new String(appName).trim(), new String(appCreator).trim(), appVersion.toString(), appType);
+                        }
+                        for (int i = 0; i < slotCount; i++) {
+                            if (!slotInUse[i]) {
+                                appInfoCmd.freeSlot = (byte) i;
+                                Log.i(TAG, "found free slot " + i);
+                                break;
+                            }
                         }
                         cmd = appInfoCmd;
                         break;
@@ -368,6 +418,21 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         Log.i(TAG, "Unknown APPMANAGER command" + pebbleCmd);
                         break;
                 }
+                break;
+            case ENDPOINT_PUTBYTES:
+                GBDeviceCommandAppManagementResult installRes = new GBDeviceCommandAppManagementResult();
+                installRes.type = GBDeviceCommandAppManagementResult.CommandType.INSTALL;
+                switch (pebbleCmd) {
+                    case PUTBYTES_INIT:
+                        installRes.token = buf.getInt();
+                        installRes.result = GBDeviceCommandAppManagementResult.Result.SUCCESS;
+                        break;
+                    default:
+                        installRes.token = buf.getInt();
+                        installRes.result = GBDeviceCommandAppManagementResult.Result.FAILURE;
+                        break;
+                }
+                cmd = installRes;
                 break;
             default:
                 break;

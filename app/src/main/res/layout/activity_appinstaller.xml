@@ -6,11 +6,20 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="nodomain.freeyourgadget.gadgetbridge.AppInstallerActivity">
+    tools:context="nodomain.freeyourgadget.gadgetbridge.pebble.PebbleAppInstallerActivity">
 
     <TextView
         android:id="@+id/debugTextView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Install"
+        android:id="@+id/installButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:enabled="false" />
 
 </RelativeLayout>

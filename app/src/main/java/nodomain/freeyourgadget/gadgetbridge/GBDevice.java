@@ -6,6 +6,7 @@ public class GBDevice {
     private final Type type;
     private String firmwareVersion = null;
     private State state = State.NOT_CONNECTED;
+    private byte freeAppSlot = -1;
 
     public GBDevice(String address, String name, Type type) {
         this.address = address;
@@ -59,6 +60,14 @@ public class GBDevice {
 
     public Type getType() {
         return type;
+    }
+
+    public void setFreeAppSlot(byte freeAppSlot) {
+        this.freeAppSlot = freeAppSlot;
+    }
+
+    public byte getFreeAppSlot() {
+        return freeAppSlot;
     }
 
     public enum State {

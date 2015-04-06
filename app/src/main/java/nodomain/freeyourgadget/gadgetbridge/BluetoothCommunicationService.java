@@ -29,7 +29,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.zip.ZipInputStream;
 
+import nodomain.freeyourgadget.gadgetbridge.pebble.PBWReader;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppManagementResult;
@@ -63,8 +65,10 @@ public class BluetoothCommunicationService extends Service {
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.request_appinfo";
     public static final String ACTION_DELETEAPP
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.deleteapp";
+    public static final String ACTION_INSTALL_PEBBLEAPP
+            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.install_pebbbleapp";
 
-    private static final String TAG = "BluetoothCommunicationService";
+    private static final String TAG = "CommunicationService";
     private static final int NOTIFICATION_ID = 1;
     private BluetoothAdapter mBtAdapter = null;
     private BluetoothSocket mBtSocket = null;
@@ -161,6 +165,7 @@ public class BluetoothCommunicationService extends Service {
             case APP_INFO:
                 Log.i(TAG, "Got command for APP_INFO");
                 GBDeviceCommandAppInfo appInfoCmd = (GBDeviceCommandAppInfo) deviceCmd;
+                mGBDevice.setFreeAppSlot(appInfoCmd.freeSlot);
                 Intent appInfoIntent = new Intent(AppManagerActivity.ACTION_REFRESH_APPLIST);
                 int appCount = appInfoCmd.apps.length;
                 appInfoIntent.putExtra("app_count", appCount);
@@ -184,6 +189,20 @@ public class BluetoothCommunicationService extends Service {
                             case SUCCESS:
                                 // refresh app list
                                 mGBDeviceIoThread.write(mGBDeviceProtocol.encodeAppInfoReq());
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case INSTALL:
+                        switch (appMgmtRes.result) {
+                            case FAILURE:
+                                Log.i(TAG, "failure installing app"); // TODO: report to Installer
+                                break;
+                            case SUCCESS:
+                                if (mGBDevice.getType() == GBDevice.Type.PEBBLE) {
+                                    ((PebbleIoThread) mGBDeviceIoThread).setToken(appMgmtRes.token);
+                                }
                                 break;
                             default:
                                 break;
@@ -329,6 +348,12 @@ public class BluetoothCommunicationService extends Service {
             int id = intent.getIntExtra("app_id", -1);
             int index = intent.getIntExtra("app_index", -1);
             mGBDeviceIoThread.write(mGBDeviceProtocol.encodeAppDelete(id, index));
+        } else if (action.equals(ACTION_INSTALL_PEBBLEAPP)) {
+            String uriString = intent.getStringExtra("app_uri");
+            if (uriString != null && mGBDevice.getFreeAppSlot() != -1) {
+                Log.i(TAG, "will try to install app in slot " + mGBDevice.getFreeAppSlot());
+                ((PebbleIoThread) mGBDeviceIoThread).installApp(Uri.parse(uriString));
+            }
         } else if (action.equals(ACTION_START)) {
             startForeground(NOTIFICATION_ID, createNotification("Gadgetbridge running"));
             mStarted = true;
@@ -415,15 +440,37 @@ public class BluetoothCommunicationService extends Service {
         // implement connect() run() write() and quit() here
     }
 
+    private enum PebbleAppInstallState {
+        UNKNOWN,
+        APP_START_INSTALL,
+        APP_WAIT_TOKEN,
+        APP_UPLOAD_CHUNK,
+        APP_UPLOAD_COMPLETE,
+        RES_START_INSTALL,
+        RES_WAIT_TOKEN,
+        RES_UPLOAD_CHUNK,
+        RES_UPLOAD_COMPLETE,
+    }
+
     private class PebbleIoThread extends GBDeviceIoThread {
+        private final PebbleProtocol mmPebbleProtocol;
         private InputStream mmInStream = null;
         private OutputStream mmOutStream = null;
-        private boolean mQuit = false;
+        private boolean mmQuit = false;
         private boolean mmIsConnected = false;
+        private boolean mmIsInstalling = false;
         private int mmConnectionAttempts = 0;
+
+        /* app installation  */
+        private Uri mmInstallURI = null;
+        private PBWReader mmPBWReader = null;
+        private int mmAppInstallToken = -1;
+        private ZipInputStream mmZis = null;
+        private PebbleAppInstallState mmInstallState = PebbleAppInstallState.UNKNOWN;
 
         public PebbleIoThread(String btDeviceAddress) {
             super(btDeviceAddress);
+            mmPebbleProtocol = (PebbleProtocol) mGBDeviceProtocol;
         }
 
         private boolean connect(String btDeviceAddress) {
@@ -451,13 +498,48 @@ public class BluetoothCommunicationService extends Service {
         public void run() {
             mmIsConnected = connect(mmBtDeviceAddress);
             setReceiversEnableState(mmIsConnected); // enable/disable BroadcastReceivers
-            mQuit = !mmIsConnected; // quit if not connected
+            mmQuit = !mmIsConnected; // quit if not connected
 
             byte[] buffer = new byte[8192];
             int bytes;
 
-            while (!mQuit) {
+            while (!mmQuit) {
                 try {
+                    if (mmIsInstalling) {
+                        switch (mmInstallState) {
+                            case APP_START_INSTALL:
+                                Log.i(TAG, "start installing app binary");
+                                mmPBWReader = new PBWReader(mmInstallURI, getApplicationContext());
+                                mmZis = mmPBWReader.getInputStreamAppBinary();
+                                int binarySize = mmPBWReader.getAppBinarySize();
+                                writeInstallApp(mmPebbleProtocol.encodeUploadStart(PebbleProtocol.PUTBYTES_TYPE_BINARY, mGBDevice.getFreeAppSlot(), binarySize), -1);
+                                mmInstallState = PebbleAppInstallState.APP_WAIT_TOKEN;
+                                break;
+                            case APP_WAIT_TOKEN:
+                                if (mmAppInstallToken != -1) {
+                                    Log.i(TAG, "got token " + mmAppInstallToken);
+                                    mmInstallState = PebbleAppInstallState.APP_UPLOAD_CHUNK;
+                                    continue;
+                                }
+                                break;
+                            case APP_UPLOAD_CHUNK:
+                                bytes = mmZis.read(buffer);
+
+                                if (bytes != -1) {
+                                    writeInstallApp(mmPebbleProtocol.encodeUploadChunk(mmAppInstallToken, buffer, bytes), -1);
+                                    mmAppInstallToken = -1;
+                                    mmInstallState = PebbleAppInstallState.APP_WAIT_TOKEN;
+                                } else {
+                                    mmInstallState = PebbleAppInstallState.UNKNOWN;
+                                    mmIsInstalling = false;
+                                    mmZis = null;
+                                    mmAppInstallToken = -1;
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                     bytes = mmInStream.read(buffer, 0, 4);
                     if (bytes < 4)
                         continue;
@@ -488,17 +570,17 @@ public class BluetoothCommunicationService extends Service {
 
                     if (length == 1 && endpoint == PebbleProtocol.ENDPOINT_PHONEVERSION) {
                         Log.i(TAG, "Pebble asked for Phone/App Version - repLYING!");
-                        write(mGBDeviceProtocol.encodePhoneVersion(PebbleProtocol.PHONEVERSION_REMOTE_OS_ANDROID));
-                        write(mGBDeviceProtocol.encodeFirmwareVersionReq());
+                        write(mmPebbleProtocol.encodePhoneVersion(PebbleProtocol.PHONEVERSION_REMOTE_OS_ANDROID));
+                        write(mmPebbleProtocol.encodeFirmwareVersionReq());
 
                         // this does not really belong here, but since the pebble only asks for our version once it should do the job
                         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(BluetoothCommunicationService.this);
                         if (sharedPrefs.getBoolean("datetime_synconconnect", true)) {
                             Log.i(TAG, "syncing time");
-                            write(mGBDeviceProtocol.encodeSetTime(-1));
+                            write(mmPebbleProtocol.encodeSetTime(-1));
                         }
                     } else if (endpoint != PebbleProtocol.ENDPOINT_DATALOG) {
-                        GBDeviceCommand deviceCmd = mGBDeviceProtocol.decodeResponse(buffer);
+                        GBDeviceCommand deviceCmd = mmPebbleProtocol.decodeResponse(buffer);
                         if (deviceCmd == null) {
                             Log.i(TAG, "unhandled message to endpoint " + endpoint + " (" + bytes + " bytes)");
                         } else {
@@ -512,6 +594,7 @@ public class BluetoothCommunicationService extends Service {
                     }
                 } catch (IOException e) {
                     if (e.getMessage().contains("socket closed")) { //FIXME: this does not feel right
+                        Log.i(TAG, e.getMessage());
                         mGBDevice.setState(GBDevice.State.CONNECTING);
                         sendDeviceUpdateIntent();
                         updateNotification("connection lost, trying to reconnect");
@@ -527,7 +610,7 @@ public class BluetoothCommunicationService extends Service {
                             mBtSocket = null;
                             setReceiversEnableState(false);
                             Log.i(TAG, "Bluetooth socket closed, will quit IO Thread");
-                            mQuit = true;
+                            mmQuit = true;
                         }
                     }
                 }
@@ -547,7 +630,8 @@ public class BluetoothCommunicationService extends Service {
         }
 
         synchronized public void write(byte[] bytes) {
-            if (mmIsConnected) {
+            // block writes if app installation in in progress
+            if (mmIsConnected && !mmIsInstalling) {
                 try {
                     mmOutStream.write(bytes);
                     mmOutStream.flush();
@@ -556,8 +640,41 @@ public class BluetoothCommunicationService extends Service {
             }
         }
 
+        public void setToken(int token) {
+            mmAppInstallToken = token;
+        }
+
+        private void writeInstallApp(byte[] bytes, int length) {
+            if (!mmIsInstalling) {
+                return;
+            }
+            if (length == -1) {
+                length = bytes.length;
+            }
+            Log.i(TAG, "got bytes for writeInstallApp()" + length);
+            final char[] hexArray = "0123456789ABCDEF".toCharArray();
+            char[] hexChars = new char[length * 2];
+            for (int j = 0; j < length; j++) {
+                int v = bytes[j] & 0xFF;
+                hexChars[j * 2] = hexArray[v >>> 4];
+                hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+            }
+            Log.i(TAG, new String(hexChars));
+            try {
+                mmOutStream.write(bytes);
+                mmOutStream.flush();
+            } catch (IOException e) {
+            }
+        }
+
+        public void installApp(Uri uri) {
+            mmInstallState = PebbleAppInstallState.APP_START_INSTALL;
+            mmIsInstalling = true;
+            mmInstallURI = uri;
+        }
+
         public void quit() {
-            mQuit = true;
+            mmQuit = true;
             if (mBtSocket != null) {
                 try {
                     mBtSocket.close();

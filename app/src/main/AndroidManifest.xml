@@ -40,7 +40,7 @@
                 android:value=".ControlCenter" />
         </activity>
         <activity
-            android:name=".AppInstallerActivity"
+            android:name=".pebble.PebbleAppInstallerActivity"
             android:label="@string/title_activity_appinstaller">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
