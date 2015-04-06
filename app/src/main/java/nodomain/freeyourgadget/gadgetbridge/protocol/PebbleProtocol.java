@@ -94,7 +94,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final byte PHONEVERSION_APPVERSION_PATCH = 0;
 
 
-    static final int PHONEVERSION_SESSION_CAPS_GAMMARAY = (int) 0x80000000;
+    static final int PHONEVERSION_SESSION_CAPS_GAMMARAY = (int)0x80000000;
 
     static final int PHONEVERSION_REMOTE_CAPS_TELEPHONY = 0x00000010;
     static final int PHONEVERSION_REMOTE_CAPS_SMS = 0x00000020;
@@ -119,6 +119,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final short LENGTH_PHONEVERSION = 17;
     static final short LENGTH_UPLOADSTART = 7;
     static final short LENGTH_UPLOADCHUNK = 9;
+    static final short LENGTH_UPLOADCOMMIT = 9;
+    static final short LENGTH_UPLOADCOMPLETE = 5;
 
     private static byte[] encodeMessage(short endpoint, byte type, int cookie, String[] parts) {
         // Calculate length first
@@ -305,6 +307,28 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put(buffer, 0, size);
         return buf.array();
     }
+
+    public byte[] encodeUploadCommit(int token, int crc) {
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_UPLOADCOMMIT);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort(LENGTH_UPLOADCOMMIT);
+        buf.putShort(ENDPOINT_PUTBYTES);
+        buf.put(PUTBYTES_COMMIT);
+        buf.putInt(token);
+        buf.putInt(crc);
+        return buf.array();
+    }
+
+    public byte[] encodeUploadComplete(int token) {
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_UPLOADCOMPLETE);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort(LENGTH_UPLOADCOMPLETE);
+        buf.putShort(ENDPOINT_PUTBYTES);
+        buf.put(PUTBYTES_COMPLETE);
+        buf.putInt(token);
+        return buf.array();
+    }
+
 
     public GBDeviceCommand decodeResponse(byte[] responseData) {
         ByteBuffer buf = ByteBuffer.wrap(responseData);

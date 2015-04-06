@@ -32,6 +32,7 @@ import java.nio.ByteOrder;
 import java.util.zip.ZipInputStream;
 
 import nodomain.freeyourgadget.gadgetbridge.pebble.PBWReader;
+import nodomain.freeyourgadget.gadgetbridge.pebble.STM32CRC;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppManagementResult;
@@ -445,6 +446,8 @@ public class BluetoothCommunicationService extends Service {
         APP_START_INSTALL,
         APP_WAIT_TOKEN,
         APP_UPLOAD_CHUNK,
+        APP_UPLOAD_COMMIT,
+        APP_WAIT_COMMMIT,
         APP_UPLOAD_COMPLETE,
         RES_START_INSTALL,
         RES_WAIT_TOKEN,
@@ -466,6 +469,7 @@ public class BluetoothCommunicationService extends Service {
         private PBWReader mmPBWReader = null;
         private int mmAppInstallToken = -1;
         private ZipInputStream mmZis = null;
+        private STM32CRC mmSTM32CRC = new STM32CRC();
         private PebbleAppInstallState mmInstallState = PebbleAppInstallState.UNKNOWN;
 
         public PebbleIoThread(String btDeviceAddress) {
@@ -509,6 +513,7 @@ public class BluetoothCommunicationService extends Service {
                         switch (mmInstallState) {
                             case APP_START_INSTALL:
                                 Log.i(TAG, "start installing app binary");
+                                mmSTM32CRC.reset();
                                 mmPBWReader = new PBWReader(mmInstallURI, getApplicationContext());
                                 mmZis = mmPBWReader.getInputStreamAppBinary();
                                 int binarySize = mmPBWReader.getAppBinarySize();
@@ -526,15 +531,33 @@ public class BluetoothCommunicationService extends Service {
                                 bytes = mmZis.read(buffer);
 
                                 if (bytes != -1) {
+                                    mmSTM32CRC.addData(buffer, bytes);
                                     writeInstallApp(mmPebbleProtocol.encodeUploadChunk(mmAppInstallToken, buffer, bytes), -1);
                                     mmAppInstallToken = -1;
                                     mmInstallState = PebbleAppInstallState.APP_WAIT_TOKEN;
                                 } else {
-                                    mmInstallState = PebbleAppInstallState.UNKNOWN;
-                                    mmIsInstalling = false;
-                                    mmZis = null;
-                                    mmAppInstallToken = -1;
+                                    mmInstallState = PebbleAppInstallState.APP_UPLOAD_COMMIT;
+                                    continue;
                                 }
+                                break;
+                                case APP_UPLOAD_COMMIT:
+                                    writeInstallApp(mmPebbleProtocol.encodeUploadCommit(mmAppInstallToken, mmSTM32CRC.getResult()),-1);
+                                    mmAppInstallToken = -1;
+                                    mmInstallState = PebbleAppInstallState.APP_WAIT_COMMMIT;
+                                break;
+                                case APP_WAIT_COMMMIT:
+                                    if (mmAppInstallToken != -1) {
+                                        Log.i(TAG, "got token " + mmAppInstallToken);
+                                        mmInstallState = PebbleAppInstallState.APP_UPLOAD_COMPLETE;
+                                        continue;
+                                    }
+                                break;
+                            case APP_UPLOAD_COMPLETE:
+                                writeInstallApp(mmPebbleProtocol.encodeUploadComplete(mmAppInstallToken),-1);
+                                mmInstallState = PebbleAppInstallState.UNKNOWN;
+                                mmIsInstalling = false;
+                                mmZis = null;
+                                mmAppInstallToken = -1;
                                 break;
                             default:
                                 break;
