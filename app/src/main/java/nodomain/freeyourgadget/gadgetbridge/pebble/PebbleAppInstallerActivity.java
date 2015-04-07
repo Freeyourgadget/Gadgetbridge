@@ -31,13 +31,12 @@ public class PebbleAppInstallerActivity extends Activity {
         debugTextView = (TextView) findViewById(R.id.debugTextView);
         installButton = (Button) findViewById(R.id.installButton);
 
-        debugTextView.setText("contents:\n");
         final Uri uri = getIntent().getData();
         PBWReader pbwReader = new PBWReader(uri, getApplicationContext());
         GBDeviceApp app = pbwReader.getGBDeviceApp();
 
         if (pbwReader != null && app != null) {
-            debugTextView.setText("This is just a test, you cant install anything yet \n\n" + app.getName() + " Version " + app.getVersion() + " by " + app.getCreator() + "\n");
+            debugTextView.setText("THIS IS HIGHLY EXPERIMENTAL PROCEED AT YOUR OWN RISK\n\n\n" + app.getName() + " Version " + app.getVersion() + " by " + app.getCreator() + "\n");
             installButton.setEnabled(true);
             installButton.setOnClickListener(new View.OnClickListener() {
                 @Override

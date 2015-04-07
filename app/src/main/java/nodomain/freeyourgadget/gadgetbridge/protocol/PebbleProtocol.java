@@ -116,6 +116,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     static final short LENGTH_PREFIX = 4;
     static final short LENGTH_SETTIME = 5;
+    static final short LENGTH_GETTIME = 1;
     static final short LENGTH_REMOVEAPP = 9;
     static final short LENGTH_REFRESHAPP = 5;
     static final short LENGTH_PHONEVERSION = 17;
@@ -200,6 +201,16 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putShort(ENDPOINT_TIME);
         buf.put(TIME_SETTIME);
         buf.putInt((int) ts);
+
+        return buf.array();
+    }
+
+    public byte[] encodeGetTime() {
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_GETTIME);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort(LENGTH_GETTIME);
+        buf.putShort(ENDPOINT_TIME);
+        buf.put(TIME_GETTIME);
 
         return buf.array();
     }

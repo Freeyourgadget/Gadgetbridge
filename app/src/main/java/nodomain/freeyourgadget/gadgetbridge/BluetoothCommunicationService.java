@@ -166,7 +166,10 @@ public class BluetoothCommunicationService extends Service {
             case APP_INFO:
                 Log.i(TAG, "Got command for APP_INFO");
                 GBDeviceCommandAppInfo appInfoCmd = (GBDeviceCommandAppInfo) deviceCmd;
-                mGBDevice.setFreeAppSlot(appInfoCmd.freeSlot);
+                if (mGBDevice.getType() == GBDevice.Type.PEBBLE) {
+                    ((PebbleIoThread) mGBDeviceIoThread).setInstallSlot(appInfoCmd.freeSlot);
+                }
+
                 Intent appInfoIntent = new Intent(AppManagerActivity.ACTION_REFRESH_APPLIST);
                 int appCount = appInfoCmd.apps.length;
                 appInfoIntent.putExtra("app_count", appCount);
@@ -351,10 +354,9 @@ public class BluetoothCommunicationService extends Service {
             mGBDeviceIoThread.write(mGBDeviceProtocol.encodeAppDelete(id, index));
         } else if (action.equals(ACTION_INSTALL_PEBBLEAPP)) {
             String uriString = intent.getStringExtra("app_uri");
-            int slot = mGBDevice.getFreeAppSlot();
-            if (uriString != null && slot != -1) {
-                Log.i(TAG, "will try to install app in slot " + slot);
-                ((PebbleIoThread) mGBDeviceIoThread).installApp(Uri.parse(uriString), slot);
+            if (uriString != null) {
+                Log.i(TAG, "will try to install app");
+                ((PebbleIoThread) mGBDeviceIoThread).installApp(Uri.parse(uriString));
             }
         } else if (action.equals(ACTION_START)) {
             startForeground(NOTIFICATION_ID, createNotification("Gadgetbridge running"));
@@ -444,6 +446,7 @@ public class BluetoothCommunicationService extends Service {
 
     private enum PebbleAppInstallState {
         UNKNOWN,
+        APP_WAIT_SLOT,
         APP_START_INSTALL,
         APP_WAIT_TOKEN,
         APP_UPLOAD_CHUNK,
@@ -512,6 +515,12 @@ public class BluetoothCommunicationService extends Service {
                 try {
                     if (mmIsInstalling) {
                         switch (mmInstallState) {
+                            case APP_WAIT_SLOT:
+                                if (mmInstallSlot != -1) {
+                                    mmInstallState = PebbleAppInstallState.APP_START_INSTALL;
+                                    continue;
+                                }
+                                break;
                             case APP_START_INSTALL:
                                 Log.i(TAG, "start installing app binary");
                                 mmSTM32CRC.reset();
@@ -541,7 +550,7 @@ public class BluetoothCommunicationService extends Service {
                                     mmInstallSlot = -1;
                                 }
 
-                                writeInstallApp(mmPebbleProtocol.encodeUploadStart(type, (byte)mmInstallSlot, binarySize), -1);
+                                writeInstallApp(mmPebbleProtocol.encodeUploadStart(type, (byte) mmInstallSlot, binarySize));
                                 mmInstallState = PebbleAppInstallState.APP_WAIT_TOKEN;
                                 break;
                             case APP_WAIT_TOKEN:
@@ -556,7 +565,7 @@ public class BluetoothCommunicationService extends Service {
 
                                 if (bytes != -1) {
                                     mmSTM32CRC.addData(buffer, bytes);
-                                    writeInstallApp(mmPebbleProtocol.encodeUploadChunk(mmAppInstallToken, buffer, bytes), -1);
+                                    writeInstallApp(mmPebbleProtocol.encodeUploadChunk(mmAppInstallToken, buffer, bytes));
                                     mmAppInstallToken = -1;
                                     mmInstallState = PebbleAppInstallState.APP_WAIT_TOKEN;
                                 } else {
@@ -565,7 +574,7 @@ public class BluetoothCommunicationService extends Service {
                                 }
                                 break;
                             case APP_UPLOAD_COMMIT:
-                                writeInstallApp(mmPebbleProtocol.encodeUploadCommit(mmAppInstallToken, mmSTM32CRC.getResult()), -1);
+                                writeInstallApp(mmPebbleProtocol.encodeUploadCommit(mmAppInstallToken, mmSTM32CRC.getResult()));
                                 mmAppInstallToken = -1;
                                 mmInstallState = PebbleAppInstallState.APP_WAIT_COMMMIT;
                                 break;
@@ -577,7 +586,7 @@ public class BluetoothCommunicationService extends Service {
                                 }
                                 break;
                             case APP_UPLOAD_COMPLETE:
-                                writeInstallApp(mmPebbleProtocol.encodeUploadComplete(mmAppInstallToken), -1);
+                                writeInstallApp(mmPebbleProtocol.encodeUploadComplete(mmAppInstallToken));
                                 if (++mmCurrentFileIndex < mmFilesToInstall.length) {
                                     mmInstallState = PebbleAppInstallState.APP_START_INSTALL;
                                 } else {
@@ -585,7 +594,7 @@ public class BluetoothCommunicationService extends Service {
                                 }
                                 break;
                             case APP_REFRESH:
-                                writeInstallApp(mmPebbleProtocol.encodeAppRefresh(mmInstallSlot), -1);
+                                writeInstallApp(mmPebbleProtocol.encodeAppRefresh(mmInstallSlot));
                                 mmPBWReader = null;
                                 mmIsInstalling = false;
                                 mmZis = null;
@@ -700,14 +709,19 @@ public class BluetoothCommunicationService extends Service {
             mmAppInstallToken = token;
         }
 
-        private void writeInstallApp(byte[] bytes, int length) {
+        public void setInstallSlot(int slot) {
+            if (mmIsInstalling) {
+                mmInstallSlot = slot;
+            }
+        }
+
+        private void writeInstallApp(byte[] bytes) {
             if (!mmIsInstalling) {
                 return;
             }
-            if (length == -1) {
-                length = bytes.length;
-            }
+            int length = bytes.length;
             Log.i(TAG, "got bytes for writeInstallApp()" + length);
+/*
             final char[] hexArray = "0123456789ABCDEF".toCharArray();
             char[] hexChars = new char[length * 2];
             for (int j = 0; j < length; j++) {
@@ -716,6 +730,7 @@ public class BluetoothCommunicationService extends Service {
                 hexChars[j * 2 + 1] = hexArray[v & 0x0F];
             }
             Log.i(TAG, new String(hexChars));
+*/
             try {
                 mmOutStream.write(bytes);
                 mmOutStream.flush();
@@ -723,13 +738,13 @@ public class BluetoothCommunicationService extends Service {
             }
         }
 
-        public void installApp(Uri uri, int slot) {
+        public void installApp(Uri uri) {
             if (mmIsInstalling) {
                 return;
             }
-            mmInstallState = PebbleAppInstallState.APP_START_INSTALL;
+            write(mmPebbleProtocol.encodeAppInfoReq()); // do this here to get run() out of its blocking read
+            mmInstallState = PebbleAppInstallState.APP_WAIT_SLOT;
             mmInstallURI = uri;
-            mmInstallSlot = slot;
             mmIsInstalling = true;
         }
 
