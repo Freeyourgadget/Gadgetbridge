@@ -1,10 +1,17 @@
 ###Changelog
 
+####Version 0.2.0
+* Experimental pbw installation support (watchfaces/apps)
+* New icons for device and app lists
+* Fix for device list not refreshing when bluetooth gets turned on
+* Fix for crash on some devices when creating a debug notification
+* Lots of internal changes preparing multi device support
+
 ####Version 0.1.5
 * Fix for DST (summer time)
 * Option to sync time on connect (enabled by default)
 * Opening .pbw files with Gadgetbridge prints some package information
-  (Tbis was not meant to be released yet, but the DST fix made a new release neccessary)
+  (This was not meant to be released yet, but the DST fix made a new release neccessary)
 
 ####Version 0.1.4
 * New AppManager shows installed Apps/Watchfaces (removal possible via context menu)

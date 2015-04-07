@@ -18,6 +18,7 @@ Features:
 * Apollo playback info (artist, album, track)
 * Music control: play/pause, next track, previous track
 * List and remove installed apps/watchfaces
+* Install .pbw files (EXPERMIENTAL)
 
 How to use:
 
