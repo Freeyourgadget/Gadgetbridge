@@ -34,8 +34,8 @@ public class PebbleAppInstallerActivity extends Activity {
         debugTextView.setText("contents:\n");
         final Uri uri = getIntent().getData();
         PBWReader pbwReader = new PBWReader(uri, getApplicationContext());
-
         GBDeviceApp app = pbwReader.getGBDeviceApp();
+
         if (pbwReader != null && app != null) {
             debugTextView.setText("This is just a test, you cant install anything yet \n\n" + app.getName() + " Version " + app.getVersion() + " by " + app.getCreator() + "\n");
             installButton.setEnabled(true);

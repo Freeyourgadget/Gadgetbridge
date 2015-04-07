@@ -71,6 +71,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     static final byte APPMANAGER_GETAPPBANKSTATUS = 1;
     static final byte APPMANAGER_REMOVEAPP = 2;
+    static final byte APPMANAGER_REFRESHAPP = 3;
 
     static final int APPMANAGER_RES_SUCCESS = 1;
 
@@ -83,10 +84,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final byte PUTBYTES_TYPE_FIRMWARE = 1;
     static final byte PUTBYTES_TYPE_RECOVERY = 2;
     static final byte PUTBYTES_TYPE_SYSRESOURCES = 3;
-    static final byte PUTBYTES_TYPE_RESOURCES = 4;
+    public static final byte PUTBYTES_TYPE_RESOURCES = 4;
     public static final byte PUTBYTES_TYPE_BINARY = 5;
     static final byte PUTBYTES_TYPE_FILE = 6;
-    static final byte PUTBYTES_TYPE_WORKER = 7;
+    public static final byte PUTBYTES_TYPE_WORKER = 7;
 
     static final byte PHONEVERSION_APPVERSION_MAGIC = 2; // increase this if pebble complains
     static final byte PHONEVERSION_APPVERSION_MAJOR = 2;
@@ -94,7 +95,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final byte PHONEVERSION_APPVERSION_PATCH = 0;
 
 
-    static final int PHONEVERSION_SESSION_CAPS_GAMMARAY = (int)0x80000000;
+    static final int PHONEVERSION_SESSION_CAPS_GAMMARAY = (int) 0x80000000;
 
     static final int PHONEVERSION_REMOTE_CAPS_TELEPHONY = 0x00000010;
     static final int PHONEVERSION_REMOTE_CAPS_SMS = 0x00000020;
@@ -116,6 +117,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final short LENGTH_PREFIX = 4;
     static final short LENGTH_SETTIME = 5;
     static final short LENGTH_REMOVEAPP = 9;
+    static final short LENGTH_REFRESHAPP = 5;
     static final short LENGTH_PHONEVERSION = 17;
     static final short LENGTH_UPLOADSTART = 7;
     static final short LENGTH_UPLOADCHUNK = 9;
@@ -329,6 +331,16 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
+    public byte[] encodeAppRefresh(int index) {
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_REFRESHAPP);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort(LENGTH_REFRESHAPP);
+        buf.putShort(ENDPOINT_APPMANAGER);
+        buf.put(APPMANAGER_REFRESHAPP);
+        buf.putInt(index);
+
+        return buf.array();
+    }
 
     public GBDeviceCommand decodeResponse(byte[] responseData) {
         ByteBuffer buf = ByteBuffer.wrap(responseData);

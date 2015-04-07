@@ -351,9 +351,10 @@ public class BluetoothCommunicationService extends Service {
             mGBDeviceIoThread.write(mGBDeviceProtocol.encodeAppDelete(id, index));
         } else if (action.equals(ACTION_INSTALL_PEBBLEAPP)) {
             String uriString = intent.getStringExtra("app_uri");
-            if (uriString != null && mGBDevice.getFreeAppSlot() != -1) {
-                Log.i(TAG, "will try to install app in slot " + mGBDevice.getFreeAppSlot());
-                ((PebbleIoThread) mGBDeviceIoThread).installApp(Uri.parse(uriString));
+            int slot = mGBDevice.getFreeAppSlot();
+            if (uriString != null && slot != -1) {
+                Log.i(TAG, "will try to install app in slot " + slot);
+                ((PebbleIoThread) mGBDeviceIoThread).installApp(Uri.parse(uriString), slot);
             }
         } else if (action.equals(ACTION_START)) {
             startForeground(NOTIFICATION_ID, createNotification("Gadgetbridge running"));
@@ -449,10 +450,7 @@ public class BluetoothCommunicationService extends Service {
         APP_UPLOAD_COMMIT,
         APP_WAIT_COMMMIT,
         APP_UPLOAD_COMPLETE,
-        RES_START_INSTALL,
-        RES_WAIT_TOKEN,
-        RES_UPLOAD_CHUNK,
-        RES_UPLOAD_COMPLETE,
+        APP_REFRESH,
     }
 
     private class PebbleIoThread extends GBDeviceIoThread {
@@ -471,6 +469,9 @@ public class BluetoothCommunicationService extends Service {
         private ZipInputStream mmZis = null;
         private STM32CRC mmSTM32CRC = new STM32CRC();
         private PebbleAppInstallState mmInstallState = PebbleAppInstallState.UNKNOWN;
+        private String[] mmFilesToInstall = null;
+        private int mmCurrentFileIndex = -1;
+        private int mmInstallSlot = -1;
 
         public PebbleIoThread(String btDeviceAddress) {
             super(btDeviceAddress);
@@ -514,10 +515,33 @@ public class BluetoothCommunicationService extends Service {
                             case APP_START_INSTALL:
                                 Log.i(TAG, "start installing app binary");
                                 mmSTM32CRC.reset();
-                                mmPBWReader = new PBWReader(mmInstallURI, getApplicationContext());
-                                mmZis = mmPBWReader.getInputStreamAppBinary();
-                                int binarySize = mmPBWReader.getAppBinarySize();
-                                writeInstallApp(mmPebbleProtocol.encodeUploadStart(PebbleProtocol.PUTBYTES_TYPE_BINARY, mGBDevice.getFreeAppSlot(), binarySize), -1);
+                                if (mmPBWReader == null) {
+                                    mmPBWReader = new PBWReader(mmInstallURI, getApplicationContext());
+                                    mmFilesToInstall = mmPBWReader.getFilesToInstall();
+                                    mmCurrentFileIndex = 0;
+                                }
+                                String fileName = mmFilesToInstall[mmCurrentFileIndex];
+                                mmZis = mmPBWReader.getInputStreamFile(fileName);
+                                int binarySize = mmPBWReader.getFileSize(fileName);
+                                // FIXME: do not assume type from filename, parse json correctly in PBWReader
+                                byte type = -1;
+                                if (fileName.equals("pebble-app.bin")) {
+                                    type = PebbleProtocol.PUTBYTES_TYPE_BINARY;
+                                } else if (fileName.equals("pebble-worker.bin")) {
+                                    type = PebbleProtocol.PUTBYTES_TYPE_WORKER;
+                                } else if (fileName.equals("app_resources.pbpack")) {
+                                    type = PebbleProtocol.PUTBYTES_TYPE_RESOURCES;
+                                } else {
+                                    // FIXME: proper state for cancellation
+                                    mmInstallState = PebbleAppInstallState.UNKNOWN;
+                                    mmPBWReader = null;
+                                    mmIsInstalling = false;
+                                    mmZis = null;
+                                    mmAppInstallToken = -1;
+                                    mmInstallSlot = -1;
+                                }
+
+                                writeInstallApp(mmPebbleProtocol.encodeUploadStart(type, (byte)mmInstallSlot, binarySize), -1);
                                 mmInstallState = PebbleAppInstallState.APP_WAIT_TOKEN;
                                 break;
                             case APP_WAIT_TOKEN:
@@ -540,24 +564,33 @@ public class BluetoothCommunicationService extends Service {
                                     continue;
                                 }
                                 break;
-                                case APP_UPLOAD_COMMIT:
-                                    writeInstallApp(mmPebbleProtocol.encodeUploadCommit(mmAppInstallToken, mmSTM32CRC.getResult()),-1);
-                                    mmAppInstallToken = -1;
-                                    mmInstallState = PebbleAppInstallState.APP_WAIT_COMMMIT;
+                            case APP_UPLOAD_COMMIT:
+                                writeInstallApp(mmPebbleProtocol.encodeUploadCommit(mmAppInstallToken, mmSTM32CRC.getResult()), -1);
+                                mmAppInstallToken = -1;
+                                mmInstallState = PebbleAppInstallState.APP_WAIT_COMMMIT;
                                 break;
-                                case APP_WAIT_COMMMIT:
-                                    if (mmAppInstallToken != -1) {
-                                        Log.i(TAG, "got token " + mmAppInstallToken);
-                                        mmInstallState = PebbleAppInstallState.APP_UPLOAD_COMPLETE;
-                                        continue;
-                                    }
+                            case APP_WAIT_COMMMIT:
+                                if (mmAppInstallToken != -1) {
+                                    Log.i(TAG, "got token " + mmAppInstallToken);
+                                    mmInstallState = PebbleAppInstallState.APP_UPLOAD_COMPLETE;
+                                    continue;
+                                }
                                 break;
                             case APP_UPLOAD_COMPLETE:
-                                writeInstallApp(mmPebbleProtocol.encodeUploadComplete(mmAppInstallToken),-1);
-                                mmInstallState = PebbleAppInstallState.UNKNOWN;
+                                writeInstallApp(mmPebbleProtocol.encodeUploadComplete(mmAppInstallToken), -1);
+                                if (++mmCurrentFileIndex < mmFilesToInstall.length) {
+                                    mmInstallState = PebbleAppInstallState.APP_START_INSTALL;
+                                } else {
+                                    mmInstallState = PebbleAppInstallState.APP_REFRESH;
+                                }
+                                break;
+                            case APP_REFRESH:
+                                writeInstallApp(mmPebbleProtocol.encodeAppRefresh(mmInstallSlot), -1);
+                                mmPBWReader = null;
                                 mmIsInstalling = false;
                                 mmZis = null;
                                 mmAppInstallToken = -1;
+                                mmInstallSlot = -1;
                                 break;
                             default:
                                 break;
@@ -690,10 +723,14 @@ public class BluetoothCommunicationService extends Service {
             }
         }
 
-        public void installApp(Uri uri) {
+        public void installApp(Uri uri, int slot) {
+            if (mmIsInstalling) {
+                return;
+            }
             mmInstallState = PebbleAppInstallState.APP_START_INSTALL;
-            mmIsInstalling = true;
             mmInstallURI = uri;
+            mmInstallSlot = slot;
+            mmIsInstalling = true;
         }
 
         public void quit() {
