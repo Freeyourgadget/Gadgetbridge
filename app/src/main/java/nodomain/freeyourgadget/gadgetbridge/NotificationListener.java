@@ -65,7 +65,7 @@ public class NotificationListener extends NotificationListenerService {
          */
 
         if (source.equals("android") ||
-                source.equals("com.android.systemui" ) ||
+                source.equals("com.android.systemui") ||
                 source.equals("com.android.dialer") ||
                 source.equals("com.fsck.k9") ||
                 source.equals("com.android.mms")) {

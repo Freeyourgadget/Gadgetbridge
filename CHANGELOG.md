@@ -4,6 +4,7 @@
 * Experimental pbw installation support (watchfaces/apps)
 * New icons for device and app lists
 * Fix for device list not refreshing when bluetooth gets turned on
+* Filter out annyoing low battery notifications
 * Fix for crash on some devices when creating a debug notification
 * Lots of internal changes preparing multi device support
 

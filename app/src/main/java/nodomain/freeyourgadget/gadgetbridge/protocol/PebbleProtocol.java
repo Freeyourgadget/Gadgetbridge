@@ -124,6 +124,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final short LENGTH_UPLOADCHUNK = 9;
     static final short LENGTH_UPLOADCOMMIT = 9;
     static final short LENGTH_UPLOADCOMPLETE = 5;
+    static final short LENGTH_UPLOADCANCEL = 5;
 
     private static byte[] encodeMessage(short endpoint, byte type, int cookie, String[] parts) {
         // Calculate length first
@@ -338,6 +339,16 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putShort(LENGTH_UPLOADCOMPLETE);
         buf.putShort(ENDPOINT_PUTBYTES);
         buf.put(PUTBYTES_COMPLETE);
+        buf.putInt(token);
+        return buf.array();
+    }
+
+    public byte[] encodeUploadCancel(int token) {
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_UPLOADCANCEL);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort(LENGTH_UPLOADCANCEL);
+        buf.putShort(ENDPOINT_PUTBYTES);
+        buf.put(PUTBYTES_ABORT);
         buf.putInt(token);
         return buf.array();
     }

@@ -186,11 +186,18 @@ public class BluetoothCommunicationService extends Service {
                 GBDeviceCommandAppManagementResult appMgmtRes = (GBDeviceCommandAppManagementResult) deviceCmd;
                 switch (appMgmtRes.type) {
                     case DELETE:
+                        // right now on the Pebble we also receive this on a failed/successful installation ;/
                         switch (appMgmtRes.result) {
                             case FAILURE:
                                 Log.i(TAG, "failure removing app"); // TODO: report to AppManager
+                                if (mGBDevice.getType() == GBDevice.Type.PEBBLE) {
+                                    ((PebbleIoThread) mGBDeviceIoThread).finishInstall(true);
+                                }
                                 break;
                             case SUCCESS:
+                                if (mGBDevice.getType() == GBDevice.Type.PEBBLE) {
+                                    ((PebbleIoThread) mGBDeviceIoThread).finishInstall(false);
+                                }
                                 // refresh app list
                                 mGBDeviceIoThread.write(mGBDeviceProtocol.encodeAppInfoReq());
                                 break;
@@ -202,6 +209,9 @@ public class BluetoothCommunicationService extends Service {
                         switch (appMgmtRes.result) {
                             case FAILURE:
                                 Log.i(TAG, "failure installing app"); // TODO: report to Installer
+                                if (mGBDevice.getType() == GBDevice.Type.PEBBLE) {
+                                    ((PebbleIoThread) mGBDeviceIoThread).finishInstall(true);
+                                }
                                 break;
                             case SUCCESS:
                                 if (mGBDevice.getType() == GBDevice.Type.PEBBLE) {
@@ -517,6 +527,7 @@ public class BluetoothCommunicationService extends Service {
                         switch (mmInstallState) {
                             case APP_WAIT_SLOT:
                                 if (mmInstallSlot != -1) {
+                                    updateNotification("starting installation");
                                     mmInstallState = PebbleAppInstallState.APP_START_INSTALL;
                                     continue;
                                 }
@@ -541,13 +552,8 @@ public class BluetoothCommunicationService extends Service {
                                 } else if (fileName.equals("app_resources.pbpack")) {
                                     type = PebbleProtocol.PUTBYTES_TYPE_RESOURCES;
                                 } else {
-                                    // FIXME: proper state for cancellation
-                                    mmInstallState = PebbleAppInstallState.UNKNOWN;
-                                    mmPBWReader = null;
-                                    mmIsInstalling = false;
-                                    mmZis = null;
-                                    mmAppInstallToken = -1;
-                                    mmInstallSlot = -1;
+                                    finishInstall(true);
+                                    break;
                                 }
 
                                 writeInstallApp(mmPebbleProtocol.encodeUploadStart(type, (byte) mmInstallSlot, binarySize));
@@ -595,11 +601,6 @@ public class BluetoothCommunicationService extends Service {
                                 break;
                             case APP_REFRESH:
                                 writeInstallApp(mmPebbleProtocol.encodeAppRefresh(mmInstallSlot));
-                                mmPBWReader = null;
-                                mmIsInstalling = false;
-                                mmZis = null;
-                                mmAppInstallToken = -1;
-                                mmInstallSlot = -1;
                                 break;
                             default:
                                 break;
@@ -746,6 +747,28 @@ public class BluetoothCommunicationService extends Service {
             mmInstallState = PebbleAppInstallState.APP_WAIT_SLOT;
             mmInstallURI = uri;
             mmIsInstalling = true;
+        }
+
+        public void finishInstall(boolean hadError) {
+            if (!mmIsInstalling) {
+                return;
+            }
+            if (hadError) {
+                updateNotification("installation failed!");
+            } else {
+                updateNotification("installation successful");
+            }
+            mmInstallState = PebbleAppInstallState.UNKNOWN;
+
+            if (hadError == true && mmAppInstallToken != -1) {
+                writeInstallApp(mmPebbleProtocol.encodeUploadCancel(mmAppInstallToken));
+            }
+
+            mmPBWReader = null;
+            mmIsInstalling = false;
+            mmZis = null;
+            mmAppInstallToken = -1;
+            mmInstallSlot = -1;
         }
 
         public void quit() {
