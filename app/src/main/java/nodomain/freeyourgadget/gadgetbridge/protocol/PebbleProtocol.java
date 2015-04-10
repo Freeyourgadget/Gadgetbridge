@@ -437,13 +437,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
                             int flags = buf.getInt();
 
                             GBDeviceApp.Type appType;
-                            switch (flags) {
-                                case 1:
-                                    appType = GBDeviceApp.Type.WATCHFACE;
-                                    break;
-                                default:
-                                    appType = GBDeviceApp.Type.APP_GENERIC;
-                                    break;
+                            if ((flags & 16) == 16) {  // FIXME: verify this assumption
+                                appType = GBDeviceApp.Type.APP_ACTIVITYTRACKER;
+                            } else if ((flags & 1) == 1) {  // FIXME: verify this assumption
+                                appType = GBDeviceApp.Type.WATCHFACE;
+                            } else {
+                                appType = GBDeviceApp.Type.APP_GENERIC;
                             }
                             Short appVersion = buf.getShort();
                             appInfoCmd.apps[i] = new GBDeviceApp(id, index, new String(appName).trim(), new String(appCreator).trim(), appVersion.toString(), appType);

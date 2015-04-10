@@ -42,6 +42,9 @@ public class GBDeviceAppAdapter extends ArrayAdapter<GBDeviceApp> {
         deviceStatusLabel.setText(deviceApp.getVersion() + " by " + deviceApp.getCreator());
         deviceNameLabel.setText(deviceApp.getName());
         switch (deviceApp.getType()) {
+            case APP_ACTIVITYTRACKER:
+                deviceImageView.setImageResource(R.drawable.ic_activitytracker);
+                break;
             case WATCHFACE:
                 deviceImageView.setImageResource(R.drawable.ic_watchface);
                 break;
