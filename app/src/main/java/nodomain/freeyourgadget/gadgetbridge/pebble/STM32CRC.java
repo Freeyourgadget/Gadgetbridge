@@ -3,6 +3,12 @@ package nodomain.freeyourgadget.gadgetbridge.pebble;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+/*
+ * This code was ported to java from the following cpp source file
+ * https://github.com/smokku/pebble/blob/8f0905197f7cead299c00006ada482095fe9d1a4/daemon/stm32crc.cpp
+ * (Unofficial Pebble watch support for SailfishOS/Jolla)
+ */
+
 public class STM32CRC {
     private int crc;
     private byte rem;
