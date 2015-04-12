@@ -1,5 +1,9 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
+
 public class GBDevice {
     private final String name;
     private final String address;
@@ -61,6 +65,15 @@ public class GBDevice {
         return type;
     }
 
+    public void sendDeviceUpdateIntent(Context context) {
+        Intent deviceUpdateIntent = new Intent(ControlCenter.ACTION_REFRESH_DEVICELIST);
+        deviceUpdateIntent.putExtra("device_address", getAddress());
+        deviceUpdateIntent.putExtra("device_state", getState().ordinal());
+        deviceUpdateIntent.putExtra("firmware_version", getFirmwareVersion());
+
+        LocalBroadcastManager.getInstance(context).sendBroadcast(deviceUpdateIntent);
+    }
+    
     public enum State {
         NOT_CONNECTED,
         CONNECTING,
