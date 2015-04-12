@@ -3,6 +3,6 @@
     <EditTextPreference
         android:key="development_miaddr"
         android:title="@string/pref_title_development_miaddr"
-        android:digits="0123456789abcdef:"
+        android:digits="0123456789ABCDEF:"
         android:maxLength="17" />
 </PreferenceScreen>
