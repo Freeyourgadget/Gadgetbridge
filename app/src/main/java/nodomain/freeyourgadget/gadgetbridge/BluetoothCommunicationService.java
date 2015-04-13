@@ -1,5 +1,9 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
+import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
+import nodomain.freeyourgadget.gadgetbridge.miband.MiBandSupport;
+import nodomain.freeyourgadget.gadgetbridge.pebble.PebbleIoThread;
+import nodomain.freeyourgadget.gadgetbridge.pebble.PebbleSupport;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
@@ -15,12 +19,6 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.Toast;
-
-import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
-import nodomain.freeyourgadget.gadgetbridge.pebble.PebbleIoThread;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
-import nodomain.freeyourgadget.gadgetbridge.protocol.MibandProtocol;
-import nodomain.freeyourgadget.gadgetbridge.protocol.PebbleProtocol;
 
 public class BluetoothCommunicationService extends Service {
     public static final String ACTION_START
@@ -55,7 +53,7 @@ public class BluetoothCommunicationService extends Service {
     private boolean mStarted = false;
 
     private GBDevice mGBDevice = null;
-    private GBDeviceProtocol mGBDeviceProtocol = null;
+    private DeviceSupport mDeviceSupport;
 
     @Override
     public void onCreate() {
@@ -119,18 +117,17 @@ public class BluetoothCommunicationService extends Service {
                     if (btDevice != null) {
                         if (btDevice.getName() == null || btDevice.getName().equals("MI")) { //FIXME: workaround for Miband not being paired
                             mGBDevice = new GBDevice(btDeviceAddress, btDevice.getName(), GBDevice.Type.MIBAND);
-                            mGBDeviceProtocol = new MibandProtocol();
-                            mGBDeviceIoThread = new MibandIoThread(mGBDevice, this);
+                            mDeviceSupport = new MiBandSupport();
                         } else if (btDevice.getName().indexOf("Pebble") == 0) {
                             mGBDevice = new GBDevice(btDeviceAddress, btDevice.getName(), GBDevice.Type.PEBBLE);
-                            mGBDeviceProtocol = new PebbleProtocol();
-                            mGBDeviceIoThread = new PebbleIoThread(mGBDevice, mGBDeviceProtocol, mBtAdapter, this);
+                            mDeviceSupport = new PebbleSupport();
                         }
-                        if (mGBDeviceProtocol != null) {
-                            mGBDevice.setState(GBDevice.State.CONNECTING);
-                            mGBDevice.sendDeviceUpdateIntent(this);
-
-                            mGBDeviceIoThread.start();
+                        if (mDeviceSupport != null) {
+                            mDeviceSupport.initialize(mGBDevice, mBtAdapter, this);
+                            mDeviceSupport.connect();
+                            if (mDeviceSupport instanceof AbstractBTDeviceSupport) {
+                                mGBDeviceIoThread = ((AbstractBTDeviceSupport) mDeviceSupport).getDeviceIOThread();
+                            }
                         }
                     }
                 }
@@ -138,20 +135,17 @@ public class BluetoothCommunicationService extends Service {
         } else if (action.equals(ACTION_NOTIFICATION_GENERIC)) {
             String title = intent.getStringExtra("notification_title");
             String body = intent.getStringExtra("notification_body");
-            byte[] msg = mGBDeviceProtocol.encodeSMS(title, body);
-            mGBDeviceIoThread.write(msg);
+            mDeviceSupport.onSMS(title, body);
         } else if (action.equals(ACTION_NOTIFICATION_SMS)) {
             String sender = intent.getStringExtra("notification_sender");
             String body = intent.getStringExtra("notification_body");
             String senderName = getContactDisplayNameByNumber(sender);
-            byte[] msg = mGBDeviceProtocol.encodeSMS(senderName, body);
-            mGBDeviceIoThread.write(msg);
+            mDeviceSupport.onSMS(senderName, body);
         } else if (action.equals(ACTION_NOTIFICATION_EMAIL)) {
             String sender = intent.getStringExtra("notification_sender");
             String subject = intent.getStringExtra("notification_subject");
             String body = intent.getStringExtra("notification_body");
-            byte[] msg = mGBDeviceProtocol.encodeEmail(sender, subject, body);
-            mGBDeviceIoThread.write(msg);
+            mDeviceSupport.onEmail(sender, subject, body);
         } else if (action.equals(ACTION_CALLSTATE)) {
             GBCommand command = GBCommand.values()[intent.getIntExtra("call_command", 0)]; // UGLY
             String phoneNumber = intent.getStringExtra("call_phonenumber");
@@ -159,30 +153,26 @@ public class BluetoothCommunicationService extends Service {
             if (phoneNumber != null) {
                 callerName = getContactDisplayNameByNumber(phoneNumber);
             }
-            byte[] msg = mGBDeviceProtocol.encodeSetCallState(phoneNumber, callerName, command);
-            mGBDeviceIoThread.write(msg);
+            mDeviceSupport.onSetCallState(phoneNumber, callerName, command);
         } else if (action.equals(ACTION_SETTIME)) {
-            byte[] msg = mGBDeviceProtocol.encodeSetTime(-1);
-            mGBDeviceIoThread.write(msg);
+            mDeviceSupport.onSetTime(-1);
         } else if (action.equals(ACTION_SETMUSICINFO)) {
             String artist = intent.getStringExtra("music_artist");
             String album = intent.getStringExtra("music_album");
             String track = intent.getStringExtra("music_track");
-            byte[] msg = mGBDeviceProtocol.encodeSetMusicInfo(artist, album, track);
-            mGBDeviceIoThread.write(msg);
+            mDeviceSupport.onSetMusicInfo(artist, album, track);
         } else if (action.equals(ACTION_REQUEST_VERSIONINFO)) {
             if (mGBDevice != null && mGBDevice.getFirmwareVersion() == null) {
-                byte[] msg = mGBDeviceProtocol.encodeFirmwareVersionReq();
-                mGBDeviceIoThread.write(msg);
+                mDeviceSupport.onFirmwareVersionReq();
             } else {
                 mGBDevice.sendDeviceUpdateIntent(this);
             }
         } else if (action.equals(ACTION_REQUEST_APPINFO)) {
-            mGBDeviceIoThread.write(mGBDeviceProtocol.encodeAppInfoReq());
+            mDeviceSupport.onAppInfoReq();
         } else if (action.equals(ACTION_DELETEAPP)) {
             int id = intent.getIntExtra("app_id", -1);
             int index = intent.getIntExtra("app_index", -1);
-            mGBDeviceIoThread.write(mGBDeviceProtocol.encodeAppDelete(id, index));
+            mDeviceSupport.onAppDelete(id, index);
         } else if (action.equals(ACTION_INSTALL_PEBBLEAPP)) {
             String uriString = intent.getStringExtra("app_uri");
             if (uriString != null) {
