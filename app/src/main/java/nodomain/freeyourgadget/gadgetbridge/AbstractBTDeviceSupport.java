@@ -11,6 +11,20 @@ public abstract class AbstractBTDeviceSupport extends AbstractDeviceSupport {
 
     protected abstract GBDeviceIoThread createDeviceIOThread();
     
+    @Override
+    public void dispose() {
+        // currently only one thread allowed
+        if (gbDeviceIOThread != null) {
+            gbDeviceIOThread.quit();
+            try {
+                gbDeviceIOThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            gbDeviceIOThread = null;
+        }
+    }
+    
     public synchronized GBDeviceProtocol getDeviceProtocol() {
         if (gbDeviceProtocol == null) {
             gbDeviceProtocol = createDeviceProtocol();
@@ -26,7 +40,7 @@ public abstract class AbstractBTDeviceSupport extends AbstractDeviceSupport {
     }
     
     protected void sendToDevice(byte[] bytes) {
-        if (bytes != null) {
+        if (bytes != null && gbDeviceIOThread != null) {
             gbDeviceIOThread.write(bytes);
         }
     }

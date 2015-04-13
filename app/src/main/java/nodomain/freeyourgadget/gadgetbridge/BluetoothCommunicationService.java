@@ -103,15 +103,8 @@ public class BluetoothCommunicationService extends Service {
                 sharedPrefs.edit().putString("last_device_address", btDeviceAddress).commit();
 
                 if (btDeviceAddress != null && !isConnected() && !isConnecting()) {
-                    // currently only one thread allowed
-                    if (mGBDeviceIoThread != null) {
-                        mGBDeviceIoThread.quit();
-                        try {
-                            mGBDeviceIoThread.join();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
+                    if (mDeviceSupport != null) {
+                        mDeviceSupport.dispose();
                     }
                     BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(btDeviceAddress);
                     if (btDevice != null) {
@@ -201,13 +194,8 @@ public class BluetoothCommunicationService extends Service {
 
         GB.setReceiversEnableState(false, this); // disable BroadcastReceivers
 
-        if (mGBDeviceIoThread != null) {
-            try {
-                mGBDeviceIoThread.quit();
-                mGBDeviceIoThread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        if (mDeviceSupport != null) {
+            mDeviceSupport.dispose();
         }
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         nm.cancel(GB.NOTIFICATION_ID); // need to do this because the updated notification wont be cancelled when service stops

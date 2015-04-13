@@ -13,4 +13,6 @@ public interface DeviceSupport extends EventHandler {
     public BluetoothAdapter getBluetoothAdapter();
     
     public Context getContext();
+
+    public void dispose();
 }
