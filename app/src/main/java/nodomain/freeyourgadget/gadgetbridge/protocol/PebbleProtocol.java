@@ -390,6 +390,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
                     case MUSICCONTROL_PLAYPAUSE:
                         musicCmd.command = GBDeviceCommandMusicControl.Command.PLAYPAUSE;
                         break;
+                    case MUSICCONTROL_VOLUMEUP:
+                        musicCmd.command = GBDeviceCommandMusicControl.Command.VOLUMEUP;
+                        break;
+                    case MUSICCONTROL_VOLUMEDOWN:
+                        musicCmd.command = GBDeviceCommandMusicControl.Command.VOLUMEDOWN;
+                        break;
                     default:
                         break;
                 }

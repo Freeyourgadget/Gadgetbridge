@@ -42,7 +42,7 @@ public class PBWReader {
         try {
             while ((ze = zis.getNextEntry()) != null) {
                 String fileName = ze.getName();
-                if (fileName.equals("pebble-app.bin") || fileName.equals("pebble-worker.bin") || fileName.equals("app_resources.pbpack")) {
+                if (fileName.equals("pebble-app.bin") || fileName.equals("pebble-worker.bin") || fileName.equals("app_resources.pbpack") || fileName.equals("")) {
                     filesToInstall.add(fileName);  // FIXME: do not hardcode filenames above
                 } else if (fileName.equals("appinfo.json")) {
                     long bytes = ze.getSize();

@@ -15,5 +15,7 @@ public class GBDeviceCommandMusicControl extends GBDeviceCommand {
         PLAYPAUSE,
         NEXT,
         PREVIOUS,
+        VOLUMEUP,
+        VOLUMEDOWN,
     }
 }
