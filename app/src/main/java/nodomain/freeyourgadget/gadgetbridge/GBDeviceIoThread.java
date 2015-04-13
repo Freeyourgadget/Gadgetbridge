@@ -4,21 +4,21 @@ import android.content.Context;
 
 public abstract class GBDeviceIoThread extends Thread {
     protected final GBDevice gbDevice;
-	private final Context context;
+    private final Context context;
 
     public GBDeviceIoThread(GBDevice gbDevice, Context context) {
-    	this.gbDevice = gbDevice;
+        this.gbDevice = gbDevice;
         this.context = context;
     }
 
     public Context getContext() {
-		return context;
-	}
-    
+        return context;
+    }
+
     public GBDevice getDevice() {
-		return gbDevice;
-	}
-    
+        return gbDevice;
+    }
+
     protected boolean connect(String btDeviceAddress) {
         return false;
     }

@@ -73,7 +73,7 @@ public class GBDevice {
 
         LocalBroadcastManager.getInstance(context).sendBroadcast(deviceUpdateIntent);
     }
-    
+
     public enum State {
         NOT_CONNECTED,
         CONNECTING,

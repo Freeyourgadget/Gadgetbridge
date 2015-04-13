@@ -1,10 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
-import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
-import nodomain.freeyourgadget.gadgetbridge.pebble.PebbleIoThread;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
-import nodomain.freeyourgadget.gadgetbridge.protocol.MibandProtocol;
-import nodomain.freeyourgadget.gadgetbridge.protocol.PebbleProtocol;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
@@ -20,6 +15,12 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.Toast;
+
+import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
+import nodomain.freeyourgadget.gadgetbridge.pebble.PebbleIoThread;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
+import nodomain.freeyourgadget.gadgetbridge.protocol.MibandProtocol;
+import nodomain.freeyourgadget.gadgetbridge.protocol.PebbleProtocol;
 
 public class BluetoothCommunicationService extends Service {
     public static final String ACTION_START
@@ -197,10 +198,10 @@ public class BluetoothCommunicationService extends Service {
     }
 
     private boolean isConnected() {
-		return mGBDevice != null && mGBDevice.getState() == State.CONNECTED;
-	}
+        return mGBDevice != null && mGBDevice.getState() == State.CONNECTED;
+    }
 
-	@Override
+    @Override
     public void onDestroy() {
         super.onDestroy();
 
