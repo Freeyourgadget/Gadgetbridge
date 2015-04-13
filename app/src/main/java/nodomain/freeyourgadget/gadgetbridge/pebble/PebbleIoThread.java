@@ -80,6 +80,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
     protected boolean connect(String btDeviceAddress) {
         BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(btDeviceAddress);
         ParcelUuid uuids[] = btDevice.getUuids();
+        GBDevice.State originalState = gbDevice.getState();
         try {
             mBtSocket = btDevice.createRfcommSocketToServiceRecord(uuids[0].getUuid());
             mBtSocket.connect();
@@ -87,7 +88,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
             mmOutStream = mBtSocket.getOutputStream();
         } catch (IOException e) {
             e.printStackTrace();
-            gbDevice.setState(GBDevice.State.NOT_CONNECTED);
+            gbDevice.setState(originalState);
             mmInStream = null;
             mmOutStream = null;
             mBtSocket = null;

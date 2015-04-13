@@ -104,7 +104,7 @@ public class BluetoothCommunicationService extends Service {
                 SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
                 sharedPrefs.edit().putString("last_device_address", btDeviceAddress).commit();
 
-                if (btDeviceAddress != null && !isConnected()) {
+                if (btDeviceAddress != null && !isConnected() && !isConnecting()) {
                     // currently only one thread allowed
                     if (mGBDeviceIoThread != null) {
                         mGBDeviceIoThread.quit();
@@ -199,6 +199,10 @@ public class BluetoothCommunicationService extends Service {
 
     private boolean isConnected() {
         return mGBDevice != null && mGBDevice.getState() == State.CONNECTED;
+    }
+
+    private boolean isConnecting() {
+        return mGBDevice != null && mGBDevice.getState() == State.CONNECTING;
     }
 
     @Override
