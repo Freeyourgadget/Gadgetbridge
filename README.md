@@ -5,7 +5,7 @@ Gadgetbridge is a Android (4.4+) Application which will allow you to use your
 Pebble without the vendors closed source application and without the need to
 create an account and transmit any of your data to the vendors servers.
 
-We plan to add support for the Mi Band and maybe even more devices.
+Mi Band support is WIP.
 
 Features:
 
@@ -16,7 +16,7 @@ Features:
 * K-9 Mail notification support (sender, subject, preview)
 * Support for generic notificaions (above filtered out)
 * Apollo playback info (artist, album, track)
-* Music control: play/pause, next track, previous track
+* Music control: play/pause, next track, previous track, volume up, volume down
 * List and remove installed apps/watchfaces
 * Install .pbw files (EXPERMIENTAL)
 

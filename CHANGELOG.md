@@ -1,5 +1,8 @@
 ###Changelog
 
+####Next Release
+* Volume control for Pebble
+
 ####Version 0.2.0
 * Experimental pbw installation support (watchfaces/apps)
 * New icons for device and app lists
