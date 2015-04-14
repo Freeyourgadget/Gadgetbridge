@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.protocol;
+package nodomain.freeyourgadget.gadgetbridge.pebble;
 
 import android.util.Log;
 
@@ -9,6 +9,13 @@ import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.GBCommand;
 import nodomain.freeyourgadget.gadgetbridge.GBDeviceApp;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppInfo;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppManagementResult;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandCallControl;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandMusicControl;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
 
 public class PebbleProtocol extends GBDeviceProtocol {
 

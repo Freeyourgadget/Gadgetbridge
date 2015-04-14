@@ -32,7 +32,6 @@ import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandCallControl;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
-import nodomain.freeyourgadget.gadgetbridge.protocol.PebbleProtocol;
 
 public class PebbleIoThread extends GBDeviceIoThread {
     private static final String TAG = PebbleIoThread.class.getSimpleName();

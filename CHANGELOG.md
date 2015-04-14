@@ -1,7 +1,8 @@
 ###Changelog
 
-####Next Release
+####Next Release (probably 0.3.0)
 * Volume control for Pebble
+* Add icon for activity tracker apps (icon by xphnx)
 
 ####Version 0.2.0
 * Experimental pbw installation support (watchfaces/apps)

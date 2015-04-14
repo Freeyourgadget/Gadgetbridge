@@ -4,7 +4,6 @@ import nodomain.freeyourgadget.gadgetbridge.AbstractBTDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
-import nodomain.freeyourgadget.gadgetbridge.protocol.PebbleProtocol;
 
 public class PebbleSupport extends AbstractBTDeviceSupport {
 
