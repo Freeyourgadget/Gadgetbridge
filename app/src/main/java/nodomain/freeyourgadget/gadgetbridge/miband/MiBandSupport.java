@@ -6,6 +6,12 @@ import nodomain.freeyourgadget.gadgetbridge.GBCommand;
 public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     @Override
+    public void dispose() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
     public boolean connect() {
         // TODO Auto-generated method stub
         return false;
@@ -64,5 +70,4 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         // TODO Auto-generated method stub
 
     }
-
 }
