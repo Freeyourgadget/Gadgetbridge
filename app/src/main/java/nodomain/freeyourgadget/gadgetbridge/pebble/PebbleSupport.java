@@ -5,8 +5,6 @@ import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.protocol.PebbleProtocol;
-import android.bluetooth.BluetoothAdapter;
-import android.content.Context;
 
 public class PebbleSupport extends AbstractBTDeviceSupport {
 

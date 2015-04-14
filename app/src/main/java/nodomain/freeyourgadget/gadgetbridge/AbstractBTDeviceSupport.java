@@ -10,7 +10,7 @@ public abstract class AbstractBTDeviceSupport extends AbstractDeviceSupport {
     protected abstract GBDeviceProtocol createDeviceProtocol();
 
     protected abstract GBDeviceIoThread createDeviceIOThread();
-    
+
     @Override
     public void dispose() {
         // currently only one thread allowed
@@ -24,27 +24,27 @@ public abstract class AbstractBTDeviceSupport extends AbstractDeviceSupport {
             gbDeviceIOThread = null;
         }
     }
-    
+
     public synchronized GBDeviceProtocol getDeviceProtocol() {
         if (gbDeviceProtocol == null) {
             gbDeviceProtocol = createDeviceProtocol();
         }
         return gbDeviceProtocol;
     }
-    
+
     public synchronized GBDeviceIoThread getDeviceIOThread() {
         if (gbDeviceIOThread == null) {
             gbDeviceIOThread = createDeviceIOThread();
         }
         return gbDeviceIOThread;
     }
-    
+
     protected void sendToDevice(byte[] bytes) {
         if (bytes != null && gbDeviceIOThread != null) {
             gbDeviceIOThread.write(bytes);
         }
     }
-    
+
     @Override
     public void onSMS(String from, String body) {
         byte[] bytes = gbDeviceProtocol.encodeSMS(from, body);

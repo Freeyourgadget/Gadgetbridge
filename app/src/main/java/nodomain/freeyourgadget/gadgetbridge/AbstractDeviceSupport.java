@@ -13,17 +13,17 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         this.btAdapter = btAdapter;
         this.context = context;
     }
-    
+
     @Override
     public GBDevice getDevice() {
         return gbDevice;
     }
-    
+
     @Override
     public BluetoothAdapter getBluetoothAdapter() {
         return btAdapter;
     }
-    
+
     @Override
     public Context getContext() {
         return context;

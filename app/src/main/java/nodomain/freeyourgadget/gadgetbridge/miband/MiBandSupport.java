@@ -8,7 +8,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void dispose() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
