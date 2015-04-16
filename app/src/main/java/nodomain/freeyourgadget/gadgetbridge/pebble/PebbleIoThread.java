@@ -48,31 +48,32 @@ public class PebbleIoThread extends GBDeviceIoThread {
         APP_REFRESH,
     }
 
-    private final PebbleProtocol mmPebbleProtocol;
+    private final PebbleProtocol mPebbleProtocol;
 
     private BluetoothAdapter mBtAdapter = null;
     private BluetoothSocket mBtSocket = null;
-    private InputStream mmInStream = null;
-    private OutputStream mmOutStream = null;
-    private boolean mmQuit = false;
-    private boolean mmIsConnected = false;
-    private boolean mmIsInstalling = false;
-    private int mmConnectionAttempts = 0;
+    private InputStream mInStream = null;
+    private OutputStream mOutStream = null;
+    private boolean mQuit = false;
+    private boolean mIsConnected = false;
+    private boolean mIsInstalling = false;
+    private int mConnectionAttempts = 0;
 
     /* app installation  */
-    private Uri mmInstallURI = null;
-    private PBWReader mmPBWReader = null;
-    private int mmAppInstallToken = -1;
-    private ZipInputStream mmZis = null;
-    private STM32CRC mmSTM32CRC = new STM32CRC();
-    private PebbleAppInstallState mmInstallState = PebbleAppInstallState.UNKNOWN;
-    private String[] mmFilesToInstall = null;
-    private int mmCurrentFileIndex = -1;
-    private int mmInstallSlot = -1;
+    private Uri mInstallURI = null;
+    private PBWReader mPBWReader = null;
+    private int mAppInstallToken = -1;
+    private ZipInputStream mZis = null;
+    private PebbleAppInstallState mInstallState = PebbleAppInstallState.UNKNOWN;
+    private PebbleInstallable[] mPebbleInstallables = null;
+    private PebbleInstallable mPebbleInstallable = null;
+    private int mCurrentInstallableIndex = -1;
+    private int mInstallSlot = -1;
+    private int mCRC = -1;
 
     public PebbleIoThread(GBDevice gbDevice, GBDeviceProtocol gbDeviceProtocol, BluetoothAdapter btAdapter, Context context) {
         super(gbDevice, context);
-        mmPebbleProtocol = (PebbleProtocol) gbDeviceProtocol;
+        mPebbleProtocol = (PebbleProtocol) gbDeviceProtocol;
         mBtAdapter = btAdapter;
     }
 
@@ -83,13 +84,13 @@ public class PebbleIoThread extends GBDeviceIoThread {
         try {
             mBtSocket = btDevice.createRfcommSocketToServiceRecord(uuids[0].getUuid());
             mBtSocket.connect();
-            mmInStream = mBtSocket.getInputStream();
-            mmOutStream = mBtSocket.getOutputStream();
+            mInStream = mBtSocket.getInputStream();
+            mOutStream = mBtSocket.getOutputStream();
         } catch (IOException e) {
             e.printStackTrace();
             gbDevice.setState(originalState);
-            mmInStream = null;
-            mmOutStream = null;
+            mInStream = null;
+            mOutStream = null;
             mBtSocket = null;
             return false;
         }
@@ -101,99 +102,85 @@ public class PebbleIoThread extends GBDeviceIoThread {
     }
 
     public void run() {
-        mmIsConnected = connect(gbDevice.getAddress());
-        GB.setReceiversEnableState(mmIsConnected, getContext()); // enable/disable BroadcastReceivers
-        mmQuit = !mmIsConnected; // quit if not connected
+        mIsConnected = connect(gbDevice.getAddress());
+        GB.setReceiversEnableState(mIsConnected, getContext()); // enable/disable BroadcastReceivers
+        mQuit = !mIsConnected; // quit if not connected
 
         byte[] buffer = new byte[8192];
         int bytes;
 
-        while (!mmQuit) {
+        while (!mQuit) {
             try {
-                if (mmIsInstalling) {
-                    switch (mmInstallState) {
+                if (mIsInstalling) {
+                    switch (mInstallState) {
                         case APP_WAIT_SLOT:
-                            if (mmInstallSlot != -1) {
+                            if (mInstallSlot != -1) {
                                 GB.updateNotification("starting installation", getContext());
-                                mmInstallState = PebbleAppInstallState.APP_START_INSTALL;
+                                mInstallState = PebbleAppInstallState.APP_START_INSTALL;
                                 continue;
                             }
                             break;
                         case APP_START_INSTALL:
                             Log.i(TAG, "start installing app binary");
-                            mmSTM32CRC.reset();
-                            if (mmPBWReader == null) {
-                                mmPBWReader = new PBWReader(mmInstallURI, getContext());
-                                mmFilesToInstall = mmPBWReader.getFilesToInstall();
-                                mmCurrentFileIndex = 0;
+                            if (mPBWReader == null) {
+                                mPBWReader = new PBWReader(mInstallURI, getContext());
+                                mPebbleInstallables = mPBWReader.getPebbleInstallables();
+                                mCurrentInstallableIndex = 0;
                             }
-                            String fileName = mmFilesToInstall[mmCurrentFileIndex];
-                            mmZis = mmPBWReader.getInputStreamFile(fileName);
-                            int binarySize = mmPBWReader.getFileSize(fileName);
-                            // FIXME: do not assume type from filename, parse json correctly in PBWReader
-                            byte type = -1;
-                            if (fileName.equals("pebble-app.bin")) {
-                                type = PebbleProtocol.PUTBYTES_TYPE_BINARY;
-                            } else if (fileName.equals("pebble-worker.bin")) {
-                                type = PebbleProtocol.PUTBYTES_TYPE_WORKER;
-                            } else if (fileName.equals("app_resources.pbpack")) {
-                                type = PebbleProtocol.PUTBYTES_TYPE_RESOURCES;
-                            } else {
-                                finishInstall(true);
-                                break;
-                            }
-
-                            writeInstallApp(mmPebbleProtocol.encodeUploadStart(type, (byte) mmInstallSlot, binarySize));
-                            mmInstallState = PebbleAppInstallState.APP_WAIT_TOKEN;
+                            PebbleInstallable pi = mPebbleInstallables[mCurrentInstallableIndex];
+                            mZis = mPBWReader.getInputStreamFile(pi.getFileName());
+                            mCRC = pi.getCRC();
+                            int binarySize = pi.getFileSize(); // TODO: use for progrssbar
+                            writeInstallApp(mPebbleProtocol.encodeUploadStart(pi.getType(), (byte) mInstallSlot, binarySize));
+                            mInstallState = PebbleAppInstallState.APP_WAIT_TOKEN;
                             break;
                         case APP_WAIT_TOKEN:
-                            if (mmAppInstallToken != -1) {
-                                Log.i(TAG, "got token " + mmAppInstallToken);
-                                mmInstallState = PebbleAppInstallState.APP_UPLOAD_CHUNK;
+                            if (mAppInstallToken != -1) {
+                                Log.i(TAG, "got token " + mAppInstallToken);
+                                mInstallState = PebbleAppInstallState.APP_UPLOAD_CHUNK;
                                 continue;
                             }
                             break;
                         case APP_UPLOAD_CHUNK:
-                            bytes = mmZis.read(buffer);
+                            bytes = mZis.read(buffer);
 
                             if (bytes != -1) {
-                                mmSTM32CRC.addData(buffer, bytes);
-                                writeInstallApp(mmPebbleProtocol.encodeUploadChunk(mmAppInstallToken, buffer, bytes));
-                                mmAppInstallToken = -1;
-                                mmInstallState = PebbleAppInstallState.APP_WAIT_TOKEN;
+                                writeInstallApp(mPebbleProtocol.encodeUploadChunk(mAppInstallToken, buffer, bytes));
+                                mAppInstallToken = -1;
+                                mInstallState = PebbleAppInstallState.APP_WAIT_TOKEN;
                             } else {
-                                mmInstallState = PebbleAppInstallState.APP_UPLOAD_COMMIT;
+                                mInstallState = PebbleAppInstallState.APP_UPLOAD_COMMIT;
                                 continue;
                             }
                             break;
                         case APP_UPLOAD_COMMIT:
-                            writeInstallApp(mmPebbleProtocol.encodeUploadCommit(mmAppInstallToken, mmSTM32CRC.getResult()));
-                            mmAppInstallToken = -1;
-                            mmInstallState = PebbleAppInstallState.APP_WAIT_COMMMIT;
+                            writeInstallApp(mPebbleProtocol.encodeUploadCommit(mAppInstallToken, mCRC));
+                            mAppInstallToken = -1;
+                            mInstallState = PebbleAppInstallState.APP_WAIT_COMMMIT;
                             break;
                         case APP_WAIT_COMMMIT:
-                            if (mmAppInstallToken != -1) {
-                                Log.i(TAG, "got token " + mmAppInstallToken);
-                                mmInstallState = PebbleAppInstallState.APP_UPLOAD_COMPLETE;
+                            if (mAppInstallToken != -1) {
+                                Log.i(TAG, "got token " + mAppInstallToken);
+                                mInstallState = PebbleAppInstallState.APP_UPLOAD_COMPLETE;
                                 continue;
                             }
                             break;
                         case APP_UPLOAD_COMPLETE:
-                            writeInstallApp(mmPebbleProtocol.encodeUploadComplete(mmAppInstallToken));
-                            if (++mmCurrentFileIndex < mmFilesToInstall.length) {
-                                mmInstallState = PebbleAppInstallState.APP_START_INSTALL;
+                            writeInstallApp(mPebbleProtocol.encodeUploadComplete(mAppInstallToken));
+                            if (++mCurrentInstallableIndex < mPebbleInstallables.length) {
+                                mInstallState = PebbleAppInstallState.APP_START_INSTALL;
                             } else {
-                                mmInstallState = PebbleAppInstallState.APP_REFRESH;
+                                mInstallState = PebbleAppInstallState.APP_REFRESH;
                             }
                             break;
                         case APP_REFRESH:
-                            writeInstallApp(mmPebbleProtocol.encodeAppRefresh(mmInstallSlot));
+                            writeInstallApp(mPebbleProtocol.encodeAppRefresh(mInstallSlot));
                             break;
                         default:
                             break;
                     }
                 }
-                bytes = mmInStream.read(buffer, 0, 4);
+                bytes = mInStream.read(buffer, 0, 4);
                 if (bytes < 4)
                     continue;
 
@@ -203,13 +190,13 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 short endpoint = buf.getShort();
                 if (length < 0 || length > 8192) {
                     Log.i(TAG, "invalid length " + length);
-                    while (mmInStream.available() > 0) {
-                        mmInStream.read(buffer); // read all
+                    while (mInStream.available() > 0) {
+                        mInStream.read(buffer); // read all
                     }
                     continue;
                 }
 
-                bytes = mmInStream.read(buffer, 4, length);
+                bytes = mInStream.read(buffer, 4, length);
                 if (bytes < length) {
                     try {
                         Thread.sleep(100);
@@ -217,23 +204,23 @@ public class PebbleIoThread extends GBDeviceIoThread {
                         e.printStackTrace();
                     }
                     Log.i(TAG, "Read " + bytes + ", expected " + length + " reading remaining " + (length - bytes));
-                    int bytes_rest = mmInStream.read(buffer, 4 + bytes, length - bytes);
+                    int bytes_rest = mInStream.read(buffer, 4 + bytes, length - bytes);
                     bytes += bytes_rest;
                 }
 
                 if (length == 1 && endpoint == PebbleProtocol.ENDPOINT_PHONEVERSION) {
                     Log.i(TAG, "Pebble asked for Phone/App Version - repLYING!");
-                    write(mmPebbleProtocol.encodePhoneVersion(PebbleProtocol.PHONEVERSION_REMOTE_OS_ANDROID));
-                    write(mmPebbleProtocol.encodeFirmwareVersionReq());
+                    write(mPebbleProtocol.encodePhoneVersion(PebbleProtocol.PHONEVERSION_REMOTE_OS_ANDROID));
+                    write(mPebbleProtocol.encodeFirmwareVersionReq());
 
                     // this does not really belong here, but since the pebble only asks for our version once it should do the job
                     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
                     if (sharedPrefs.getBoolean("datetime_synconconnect", true)) {
                         Log.i(TAG, "syncing time");
-                        write(mmPebbleProtocol.encodeSetTime(-1));
+                        write(mPebbleProtocol.encodeSetTime(-1));
                     }
                 } else if (endpoint != PebbleProtocol.ENDPOINT_DATALOG) {
-                    GBDeviceCommand deviceCmd = mmPebbleProtocol.decodeResponse(buffer);
+                    GBDeviceCommand deviceCmd = mPebbleProtocol.decodeResponse(buffer);
                     if (deviceCmd == null) {
                         Log.i(TAG, "unhandled message to endpoint " + endpoint + " (" + bytes + " bytes)");
                     } else {
@@ -252,23 +239,23 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     gbDevice.sendDeviceUpdateIntent(getContext());
                     GB.updateNotification("connection lost, trying to reconnect", getContext());
 
-                    while (mmConnectionAttempts++ < 10) {
-                        Log.i(TAG, "Trying to reconnect (attempt " + mmConnectionAttempts + ")");
-                        mmIsConnected = connect(gbDevice.getAddress());
-                        if (mmIsConnected)
+                    while (mConnectionAttempts++ < 10) {
+                        Log.i(TAG, "Trying to reconnect (attempt " + mConnectionAttempts + ")");
+                        mIsConnected = connect(gbDevice.getAddress());
+                        if (mIsConnected)
                             break;
                     }
-                    mmConnectionAttempts = 0;
-                    if (!mmIsConnected) {
+                    mConnectionAttempts = 0;
+                    if (!mIsConnected) {
                         mBtSocket = null;
                         GB.setReceiversEnableState(false, getContext());
                         Log.i(TAG, "Bluetooth socket closed, will quit IO Thread");
-                        mmQuit = true;
+                        mQuit = true;
                     }
                 }
             }
         }
-        mmIsConnected = false;
+        mIsConnected = false;
         if (mBtSocket != null) {
             try {
                 mBtSocket.close();
@@ -284,15 +271,16 @@ public class PebbleIoThread extends GBDeviceIoThread {
 
     synchronized public void write(byte[] bytes) {
         // block writes if app installation in in progress
-        if (mmIsConnected && !mmIsInstalling) {
+        if (mIsConnected && !mIsInstalling) {
             try {
-                mmOutStream.write(bytes);
-                mmOutStream.flush();
+                mOutStream.write(bytes);
+                mOutStream.flush();
             } catch (IOException e) {
             }
         }
     }
 
+    // FIXME: this does not belong here in this class, it is supporsed to be generic code
     private void evaluateGBCommandBundle(GBDeviceCommand deviceCmd) {
         Context context = getContext();
 
@@ -352,7 +340,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                             case SUCCESS:
                                 finishInstall(false);
                                 // refresh app list
-                                write(mmPebbleProtocol.encodeAppInfoReq());
+                                write(mPebbleProtocol.encodeAppInfoReq());
                                 break;
                             default:
                                 break;
@@ -380,17 +368,17 @@ public class PebbleIoThread extends GBDeviceIoThread {
     }
 
     public void setToken(int token) {
-        mmAppInstallToken = token;
+        mAppInstallToken = token;
     }
 
     public void setInstallSlot(int slot) {
-        if (mmIsInstalling) {
-            mmInstallSlot = slot;
+        if (mIsInstalling) {
+            mInstallSlot = slot;
         }
     }
 
     private void writeInstallApp(byte[] bytes) {
-        if (!mmIsInstalling) {
+        if (!mIsInstalling) {
             return;
         }
         int length = bytes.length;
@@ -406,24 +394,24 @@ public class PebbleIoThread extends GBDeviceIoThread {
             Log.i(TAG, new String(hexChars));
 				 */
         try {
-            mmOutStream.write(bytes);
-            mmOutStream.flush();
+            mOutStream.write(bytes);
+            mOutStream.flush();
         } catch (IOException e) {
         }
     }
 
     public void installApp(Uri uri) {
-        if (mmIsInstalling) {
+        if (mIsInstalling) {
             return;
         }
-        write(mmPebbleProtocol.encodeAppInfoReq()); // do this here to get run() out of its blocking read
-        mmInstallState = PebbleAppInstallState.APP_WAIT_SLOT;
-        mmInstallURI = uri;
-        mmIsInstalling = true;
+        write(mPebbleProtocol.encodeAppInfoReq()); // do this here to get run() out of its blocking read
+        mInstallState = PebbleAppInstallState.APP_WAIT_SLOT;
+        mInstallURI = uri;
+        mIsInstalling = true;
     }
 
     public void finishInstall(boolean hadError) {
-        if (!mmIsInstalling) {
+        if (!mIsInstalling) {
             return;
         }
         if (hadError) {
@@ -431,21 +419,21 @@ public class PebbleIoThread extends GBDeviceIoThread {
         } else {
             GB.updateNotification("installation successful", getContext());
         }
-        mmInstallState = PebbleAppInstallState.UNKNOWN;
+        mInstallState = PebbleAppInstallState.UNKNOWN;
 
-        if (hadError == true && mmAppInstallToken != -1) {
-            writeInstallApp(mmPebbleProtocol.encodeUploadCancel(mmAppInstallToken));
+        if (hadError == true && mAppInstallToken != -1) {
+            writeInstallApp(mPebbleProtocol.encodeUploadCancel(mAppInstallToken));
         }
 
-        mmPBWReader = null;
-        mmIsInstalling = false;
-        mmZis = null;
-        mmAppInstallToken = -1;
-        mmInstallSlot = -1;
+        mPBWReader = null;
+        mIsInstalling = false;
+        mZis = null;
+        mAppInstallToken = -1;
+        mInstallSlot = -1;
     }
 
     public void quit() {
-        mmQuit = true;
+        mQuit = true;
         if (mBtSocket != null) {
             try {
                 mBtSocket.close();
