@@ -1,6 +1,7 @@
 ###Changelog
 
 ####Next Release (probably 0.3.0)
+* Fix installation problems with certain .pbw files
 * Volume control for Pebble
 * Add icon for activity tracker apps (icon by xphnx)
 
