@@ -1,9 +1,11 @@
 ###Changelog
 
 ####Next Release (probably 0.3.0)
-* Fix installation problems with certain .pbw files
-* Volume control for Pebble
+* Pebble: Firmware installation (USE AT YOUR OWN RISK)
+* Pebble: Fix installation problems with certain .pbw files
+* Pebble: Volume control
 * Add icon for activity tracker apps (icon by xphnx)
+* Let the application quit when in reconnecting state
 
 ####Version 0.2.0
 * Experimental pbw installation support (watchfaces/apps)

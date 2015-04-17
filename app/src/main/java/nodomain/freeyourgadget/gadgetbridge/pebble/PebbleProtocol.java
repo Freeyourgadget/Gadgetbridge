@@ -96,6 +96,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final byte PUTBYTES_TYPE_FILE = 6;
     public static final byte PUTBYTES_TYPE_WORKER = 7;
 
+    private final byte SYSTEMMESSAGE_FIRMWARESTART = 1;
+    private final byte SYSTEMMESSAGE_FIRMWARECOMPLETE = 2;
+    private final byte SYSTEMMESSAGE_FIRMWAREFAIL = 3;
+
     static final byte PHONEVERSION_APPVERSION_MAGIC = 2; // increase this if pebble complains
     static final byte PHONEVERSION_APPVERSION_MAJOR = 2;
     static final byte PHONEVERSION_APPVERSION_MINOR = 3;
@@ -132,6 +136,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final short LENGTH_UPLOADCOMMIT = 9;
     static final short LENGTH_UPLOADCOMPLETE = 5;
     static final short LENGTH_UPLOADCANCEL = 5;
+    static final short LENGTH_SYSTEMMESSAGE = 2;
 
     private static byte[] encodeMessage(short endpoint, byte type, int cookie, String[] parts) {
         // Calculate length first
@@ -359,6 +364,30 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putInt(token);
         return buf.array();
     }
+
+    private byte[] encodeSystemMessage(byte systemMessage) {
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_SYSTEMMESSAGE);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort(LENGTH_SYSTEMMESSAGE);
+        buf.putShort(ENDPOINT_SYSTEMMESSAGE);
+        buf.put((byte) 0);
+        buf.put(systemMessage);
+        return buf.array();
+
+    }
+
+    public byte[] encodeInstallFirmwareStart() {
+        return encodeSystemMessage(SYSTEMMESSAGE_FIRMWARESTART);
+    }
+
+    public byte[] encodeInstallFirmwareComplete() {
+        return encodeSystemMessage(SYSTEMMESSAGE_FIRMWARECOMPLETE);
+    }
+
+    public byte[] encodeInstallFirmwareError() {
+        return encodeSystemMessage(SYSTEMMESSAGE_FIRMWAREFAIL);
+    }
+
 
     public byte[] encodeAppRefresh(int index) {
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_REFRESHAPP);

@@ -14,6 +14,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -21,11 +23,28 @@ import nodomain.freeyourgadget.gadgetbridge.GBDeviceApp;
 
 public class PBWReader {
     private static final String TAG = PebbleIoThread.class.getSimpleName();
+    private static final HashMap<String, Byte> appFileTypesMap;
 
-    private GBDeviceApp app;
+    static {
+        appFileTypesMap = new HashMap<String, Byte>();
+        appFileTypesMap.put("application", PebbleProtocol.PUTBYTES_TYPE_BINARY);
+        appFileTypesMap.put("resources", PebbleProtocol.PUTBYTES_TYPE_RESOURCES);
+        appFileTypesMap.put("worker", PebbleProtocol.PUTBYTES_TYPE_WORKER);
+    }
+
+    private static final HashMap<String, Byte> fwFileTypesMap;
+
+    static {
+        fwFileTypesMap = new HashMap<String, Byte>();
+        fwFileTypesMap.put("firmware", PebbleProtocol.PUTBYTES_TYPE_FIRMWARE);
+        fwFileTypesMap.put("resources", PebbleProtocol.PUTBYTES_TYPE_SYSRESOURCES);
+    }
+
     private final Uri uri;
     private final ContentResolver cr;
+    private GBDeviceApp app;
     private ArrayList<PebbleInstallable> pebbleInstallables;
+    private boolean isFirmware = false;
 
     public PBWReader(Uri uri, Context context) {
         this.uri = uri;
@@ -60,35 +79,32 @@ public class PBWReader {
                     String jsonString = baos.toString();
                     try {
                         JSONObject json = new JSONObject(jsonString);
-                        JSONObject application = json.getJSONObject("application");
+                        String[] searchJSON;
+                        HashMap<String, Byte> fileTypeMap;
 
-                        String name = application.getString("name");
-                        int size = application.getInt("size");
-                        long crc = application.getLong("crc");
-                        pebbleInstallables.add(new PebbleInstallable(name, size, (int) crc, PebbleProtocol.PUTBYTES_TYPE_BINARY));
-                        Log.i(TAG, "found app binary to install: " + name);
                         try {
-                            JSONObject resources = json.getJSONObject("resources");
-                            name = resources.getString("name");
-                            size = resources.getInt("size");
-                            crc = resources.getLong("crc");
-                            pebbleInstallables.add(new PebbleInstallable(name, size, (int) crc, PebbleProtocol.PUTBYTES_TYPE_RESOURCES));
-                            Log.i(TAG, "found resources to install: " + name);
+                            json.getJSONObject("firmware");
+                            fileTypeMap = fwFileTypesMap;
+                            isFirmware = true;
                         } catch (JSONException e) {
-                            // no resources, that is no problem
+                            fileTypeMap = appFileTypesMap;
+                            isFirmware = false;
                         }
-                        try {
-                            JSONObject worker = json.getJSONObject("worker");
-                            name = worker.getString("name");
-                            size = worker.getInt("size");
-                            crc = worker.getLong("crc");
-                            pebbleInstallables.add(new PebbleInstallable(name, size, (int) crc, PebbleProtocol.PUTBYTES_TYPE_WORKER));
-                            Log.i(TAG, "found worker to install: " + name);
-                        } catch (JSONException e) {
-                            // no worker, that is no problem
+                        for (Map.Entry<String, Byte> entry : fileTypeMap.entrySet()) {
+                            try {
+                                JSONObject jo = json.getJSONObject(entry.getKey());
+                                String name = jo.getString("name");
+                                int size = jo.getInt("size");
+                                long crc = jo.getLong("crc");
+                                byte type = entry.getValue();
+                                pebbleInstallables.add(new PebbleInstallable(name, size, (int) crc, type));
+                                Log.i(TAG, "found file to install: " + name);
+                            } catch (JSONException e) {
+                                // not fatal
+                            }
                         }
                     } catch (JSONException e) {
-                        // no application, that is a problem
+                        // no JSON at all that is a problem
                         e.printStackTrace();
                         break;
                     }
@@ -124,6 +140,10 @@ public class PBWReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    protected boolean isFirmware() {
+        return isFirmware;
     }
 
     public GBDeviceApp getGBDeviceApp() {

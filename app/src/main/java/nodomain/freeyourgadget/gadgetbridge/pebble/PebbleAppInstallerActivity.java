@@ -35,8 +35,13 @@ public class PebbleAppInstallerActivity extends Activity {
         PBWReader pbwReader = new PBWReader(uri, getApplicationContext());
         GBDeviceApp app = pbwReader.getGBDeviceApp();
 
-        if (pbwReader != null && app != null) {
-            debugTextView.setText("THIS IS HIGHLY EXPERIMENTAL PROCEED AT YOUR OWN RISK\n\n\n" + app.getName() + " Version " + app.getVersion() + " by " + app.getCreator() + "\n");
+        if (pbwReader != null) {
+            if (pbwReader.isFirmware()) {
+                debugTextView.setText("YOUR ARE TRYING TO INSTALL A FIRMWARE, PROCEED AT YOUR OWN RISK, MAKE SURE THIS FIRMWARE IS FOR YOUR PEBBLE REVISION, THERE ARE NO CHECKS.\n\n\n");
+
+            } else if (app != null) {
+                debugTextView.setText("You are about to install the following app:\n\n\n" + app.getName() + " Version " + app.getVersion() + " by " + app.getCreator() + "\n");
+            }
             installButton.setEnabled(true);
             installButton.setOnClickListener(new View.OnClickListener() {
                 @Override

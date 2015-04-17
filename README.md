@@ -18,7 +18,8 @@ Features:
 * Apollo playback info (artist, album, track)
 * Music control: play/pause, next track, previous track, volume up, volume down
 * List and remove installed apps/watchfaces
-* Install .pbw files (EXPERMIENTAL)
+* Install .pbw files
+* Install firmware from .pbz files (EXPERIMENTAL)
 
 How to use:
 

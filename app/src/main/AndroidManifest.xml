@@ -52,6 +52,7 @@
                 <data android:host="*" />
                 <data android:scheme="file" />
                 <data android:pathPattern=".*\\.pbw" />
+                <data android:pathPattern=".*\\.pbz" />
             </intent-filter>
         </activity>
 

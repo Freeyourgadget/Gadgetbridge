@@ -121,16 +121,21 @@ public class PebbleIoThread extends GBDeviceIoThread {
                             }
                             break;
                         case APP_START_INSTALL:
-                            Log.i(TAG, "start installing app binary");
                             if (mPBWReader == null) {
                                 mPBWReader = new PBWReader(mInstallURI, getContext());
                                 mPebbleInstallables = mPBWReader.getPebbleInstallables();
                                 mCurrentInstallableIndex = 0;
+                                if (mPBWReader.isFirmware()) {
+                                    writeInstallApp(mPebbleProtocol.encodeInstallFirmwareStart());
+                                    mInstallSlot = 0;
+                                    Log.i(TAG, "starting firmware installation");
+                                }
                             }
+                            Log.i(TAG, "start installing app binary");
                             PebbleInstallable pi = mPebbleInstallables[mCurrentInstallableIndex];
                             mZis = mPBWReader.getInputStreamFile(pi.getFileName());
                             mCRC = pi.getCRC();
-                            int binarySize = pi.getFileSize(); // TODO: use for progrssbar
+                            int binarySize = pi.getFileSize(); // TODO: use for progressbar
                             writeInstallApp(mPebbleProtocol.encodeUploadStart(pi.getType(), (byte) mInstallSlot, binarySize));
                             mInstallState = PebbleAppInstallState.APP_WAIT_TOKEN;
                             break;
@@ -174,7 +179,12 @@ public class PebbleIoThread extends GBDeviceIoThread {
                             }
                             break;
                         case APP_REFRESH:
-                            writeInstallApp(mPebbleProtocol.encodeAppRefresh(mInstallSlot));
+                            if (mPBWReader.isFirmware()) {
+                                writeInstallApp(mPebbleProtocol.encodeInstallFirmwareComplete());
+                                finishInstall(false);
+                            } else {
+                                writeInstallApp(mPebbleProtocol.encodeAppRefresh(mInstallSlot));
+                            }
                             break;
                         default:
                             break;
@@ -239,7 +249,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     gbDevice.sendDeviceUpdateIntent(getContext());
                     GB.updateNotification("connection lost, trying to reconnect", getContext());
 
-                    while (mConnectionAttempts++ < 10) {
+                    while (mConnectionAttempts++ < 10 && !mQuit) {
                         Log.i(TAG, "Trying to reconnect (attempt " + mConnectionAttempts + ")");
                         mIsConnected = connect(gbDevice.getAddress());
                         if (mIsConnected)
