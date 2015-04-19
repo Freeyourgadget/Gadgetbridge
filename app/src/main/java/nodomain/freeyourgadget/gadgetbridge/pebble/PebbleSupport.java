@@ -25,4 +25,9 @@ public class PebbleSupport extends AbstractBTDeviceSupport {
     protected GBDeviceIoThread createDeviceIOThread() {
         return new PebbleIoThread(getDevice(), getDeviceProtocol(), getBluetoothAdapter(), getContext());
     }
+    
+    @Override
+    public boolean useAutoConnect() {
+        return false;
+    }
 }

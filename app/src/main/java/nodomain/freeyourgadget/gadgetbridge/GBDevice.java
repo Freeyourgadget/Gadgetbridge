@@ -33,6 +33,14 @@ public class GBDevice {
         this.firmwareVersion = firmwareVersion;
     }
 
+    public boolean isConnected() {
+        return state.ordinal() >= State.CONNECTED.ordinal();
+    }
+    
+    public boolean isInitialized() {
+        return state.ordinal() >= State.INITIALIZED.ordinal();
+    }
+    
     public State getState() {
         return state;
     }
@@ -65,6 +73,7 @@ public class GBDevice {
         return type;
     }
 
+    // TODO: this doesn't really belong here
     public void sendDeviceUpdateIntent(Context context) {
         Intent deviceUpdateIntent = new Intent(ControlCenter.ACTION_REFRESH_DEVICELIST);
         deviceUpdateIntent.putExtra("device_address", getAddress());
@@ -75,9 +84,11 @@ public class GBDevice {
     }
 
     public enum State {
+        // Note: the order is important!
         NOT_CONNECTED,
         CONNECTING,
-        CONNECTED
+        CONNECTED,
+        INITIALIZED
     }
 
     public enum Type {
@@ -85,5 +96,4 @@ public class GBDevice {
         PEBBLE,
         MIBAND
     }
-
 }

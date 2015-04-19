@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.fsck.k9.permission.READ_MESSAGES" />
+    <uses-sdk android:targetSdkVersion="21" android:minSdkVersion="19"/>
 
     <application
         android:allowBackup="true"

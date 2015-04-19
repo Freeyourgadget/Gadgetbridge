@@ -86,9 +86,11 @@ public class BluetoothCommunicationService extends Service {
             return START_STICKY;
         }
 
-        if (!action.equals(ACTION_START) && !action.equals(ACTION_CONNECT) && !isConnected()) {
-            // trying to send notification without valid Blutooth connection
-            return START_STICKY;
+        if (!action.equals(ACTION_START) && !action.equals(ACTION_CONNECT)) {
+            if (mDeviceSupport == null || (!isConnected() && !mDeviceSupport.useAutoConnect())) {
+                // trying to send notification without valid Bluetooth connection
+                return START_STICKY;
+            }
         }
 
         if (action.equals(ACTION_CONNECT)) {
