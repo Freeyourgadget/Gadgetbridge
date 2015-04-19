@@ -17,7 +17,7 @@ public class WriteAction extends BtLEAction {
         super(characteristic);
         this.value = value;
     }
-    
+
     @Override
     public boolean run(BluetoothGatt gatt) {
         if (getCharacteristic().setValue(value)) {

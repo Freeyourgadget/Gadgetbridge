@@ -17,6 +17,7 @@ public class UserInfo {
 
     /**
      * Creates a default user info.
+     *
      * @param btAddress the address of the MI Band to connect to.
      */
     public static UserInfo getDefault(String btAddress) {
@@ -25,6 +26,7 @@ public class UserInfo {
 
     /**
      * Creates a user info with the given data
+     *
      * @param address the address of the MI Band to connect to.
      */
     public UserInfo(String address, String alias, int gender, int age, int height, int weight, int type) {
@@ -53,7 +55,7 @@ public class UserInfo {
         sequence[8] = (byte) (type & 0xff);
 
         for (int u = 9; u < 19; u++)
-            sequence[u] = alias.getBytes()[u-9];
+            sequence[u] = alias.getBytes()[u - 9];
 
         byte[] crcSequence = new byte[19];
         for (int u = 0; u < crcSequence.length; u++)
@@ -80,7 +82,7 @@ public class UserInfo {
                 sum = (byte) ((sum & 0xff) & 0x01);
                 crc = (byte) ((crc & 0xff) >>> 1);
                 if (sum != 0) {
-                    crc = (byte)((crc & 0xff) ^ 0x8c);
+                    crc = (byte) ((crc & 0xff) ^ 0x8c);
                 }
                 extract = (byte) ((extract & 0xff) >>> 1);
             }

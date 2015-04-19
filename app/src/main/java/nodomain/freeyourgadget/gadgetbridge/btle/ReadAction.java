@@ -14,7 +14,7 @@ public class ReadAction extends BtLEAction {
     public ReadAction(BluetoothGattCharacteristic characteristic) {
         super(characteristic);
     }
-    
+
     @Override
     public boolean run(BluetoothGatt gatt) {
         return gatt.readCharacteristic(getCharacteristic());

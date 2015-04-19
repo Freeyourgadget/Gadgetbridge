@@ -7,7 +7,7 @@ public class WaitAction extends BtLEAction {
     private int mMillis;
 
     public WaitAction(int millis) {
-        mMillis = millis; 
+        mMillis = millis;
     }
 
     @Override

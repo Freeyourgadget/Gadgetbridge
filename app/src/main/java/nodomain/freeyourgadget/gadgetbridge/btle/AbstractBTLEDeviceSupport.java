@@ -1,5 +1,10 @@
 package nodomain.freeyourgadget.gadgetbridge.btle;
 
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
+import android.util.Log;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,19 +13,14 @@ import java.util.Set;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.AbstractDeviceSupport;
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattService;
-import android.util.Log;
 
 /**
- * 
  * @see TransactionBuilder
  * @see BtLEQueue
  */
 public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport implements GattCallback {
     private static final String TAG = "AbstractBTLEDeviceSupport";
-    
+
     private BtLEQueue mQueue;
     private HashMap<UUID, BluetoothGattCharacteristic> mAvailableCharacteristics;
     private Set<UUID> mSupportedServices = new HashSet<>(4);
@@ -35,6 +35,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
 
     /**
      * Subclasses should populate the given builder to initialize the device (if necessary).
+     *
      * @param builder
      * @return the same builder as passed as the argument
      */
@@ -48,13 +49,14 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
             mQueue.dispose();
         }
     }
-    
+
     /**
      * Send commands like this to the device:
      * <p>
      * <code>perform("sms notification").write(someCharacteristic, someByteArray).queue(getQueue());</code>
      * </p>
      * TODO: support orchestration of multiple reads and writes depending on returned values
+     *
      * @see #performConnected(Transaction)
      * @see #initializeDevice(TransactionBuilder)
      */
@@ -73,7 +75,6 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     }
 
     /**
-     * 
      * @param transaction
      * @throws IOException
      * @see {@link #performInitialized(String)}
@@ -90,10 +91,11 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     public BtLEQueue getQueue() {
         return mQueue;
     }
-    
+
     /**
      * Subclasses should call this method to add services they support.
      * Only supported services will be queried for characteristics.
+     *
      * @param aSupportedService
      * @see #getCharacteristic(UUID)
      */
@@ -104,6 +106,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     /**
      * Returns the characteristic matching the given UUID. Only characteristics
      * are returned whose service is marked as supported.
+     *
      * @param uuid
      * @return the characteristic for the given UUID or <code>null</code>
      * @see #addSupportedService(UUID)
@@ -122,7 +125,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
             return;
         }
         Set<UUID> supportedServices = getSupportedServices();
-        
+
         for (BluetoothGattService service : discoveredGattServices) {
             if (supportedServices.contains(service.getUuid())) {
                 List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
@@ -146,27 +149,27 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     @Override
     public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
     }
-    
+
     @Override
     public void onServicesDiscovered(BluetoothGatt gatt) {
         gattServicesDiscovered(getQueue().getSupportedGattServices());
     }
-    
+
     @Override
     public void onCharacteristicRead(BluetoothGatt gatt,
-            BluetoothGattCharacteristic characteristic, int status) {
+                                     BluetoothGattCharacteristic characteristic, int status) {
     }
-    
+
     @Override
     public void onCharacteristicWrite(BluetoothGatt gatt,
-            BluetoothGattCharacteristic characteristic, int status) {
+                                      BluetoothGattCharacteristic characteristic, int status) {
     }
-    
+
     @Override
     public void onCharacteristicChanged(BluetoothGatt gatt,
-            BluetoothGattCharacteristic characteristic) {
+                                        BluetoothGattCharacteristic characteristic) {
     }
-    
+
     public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
     }
 }

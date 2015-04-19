@@ -21,11 +21,11 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     public boolean isConnected() {
         return gbDevice.isConnected();
     }
-    
+
     protected boolean isInitialized() {
         return gbDevice.isInitialized();
     }
-    
+
     @Override
     public GBDevice getDevice() {
         return gbDevice;

@@ -36,11 +36,11 @@ public class GBDevice {
     public boolean isConnected() {
         return state.ordinal() >= State.CONNECTED.ordinal();
     }
-    
+
     public boolean isInitialized() {
         return state.ordinal() >= State.INITIALIZED.ordinal();
     }
-    
+
     public State getState() {
         return state;
     }

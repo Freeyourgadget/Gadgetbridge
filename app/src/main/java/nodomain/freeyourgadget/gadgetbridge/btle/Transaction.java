@@ -8,7 +8,7 @@ import java.util.Locale;
 /**
  * Groups a bunch of {@link BtLEAction actions} together, making sure
  * that upon failure of one action, all subsequent actions are discarded.
- * 
+ *
  * @author TREND
  */
 public class Transaction {
@@ -18,19 +18,19 @@ public class Transaction {
     public Transaction(String taskName) {
         this.mName = taskName;
     }
-    
+
     public String getTaskName() {
         return mName;
     }
-    
+
     public void add(BtLEAction action) {
         mActions.add(action);
     }
-    
+
     public List<BtLEAction> getActions() {
         return Collections.unmodifiableList(mActions);
     }
-    
+
     public boolean isEmpty() {
         return mActions.isEmpty();
     }

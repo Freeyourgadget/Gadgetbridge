@@ -28,40 +28,40 @@ import android.bluetooth.BluetoothGattCharacteristic;
 public interface GattCallback {
 
     /**
-     * @see BluetoothGattCallback#onConnectionStateChange(BluetoothGatt, int, int)
      * @param gatt
      * @param status
      * @param newState
+     * @see BluetoothGattCallback#onConnectionStateChange(BluetoothGatt, int, int)
      */
     public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState);
 
     /**
-     * @see BluetoothGattCallback#onServicesDiscovered(BluetoothGatt, int)
      * @param gatt
+     * @see BluetoothGattCallback#onServicesDiscovered(BluetoothGatt, int)
      */
     public void onServicesDiscovered(BluetoothGatt gatt);
 
     /**
-     * @see BluetoothGattCallback#onCharacteristicRead(BluetoothGatt, BluetoothGattCharacteristic, int)
      * @param gatt
      * @param characteristic
      * @param status
+     * @see BluetoothGattCallback#onCharacteristicRead(BluetoothGatt, BluetoothGattCharacteristic, int)
      */
     public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status);
 
     /**
-     * @see BluetoothGattCallback#onCharacteristicWrite(BluetoothGatt, BluetoothGattCharacteristic, int)
      * @param gatt
      * @param characteristic
      * @param status
+     * @see BluetoothGattCallback#onCharacteristicWrite(BluetoothGatt, BluetoothGattCharacteristic, int)
      */
     public void onCharacteristicWrite(BluetoothGatt gatt,
                                       BluetoothGattCharacteristic characteristic, int status);
 
     /**
-     * @see BluetoothGattCallback#onCharacteristicChanged(BluetoothGatt, BluetoothGattCharacteristic)
      * @param gatt
      * @param characteristic
+     * @see BluetoothGattCallback#onCharacteristicChanged(BluetoothGatt, BluetoothGattCharacteristic)
      */
     public void onCharacteristicChanged(BluetoothGatt gatt,
                                         BluetoothGattCharacteristic characteristic);
@@ -92,10 +92,10 @@ public interface GattCallback {
 //    public void onReliableWriteCompleted(BluetoothGatt gatt, int status);
 
     /**
-     * @see BluetoothGattCallback#onReadRemoteRssi(BluetoothGatt, int, int)
      * @param gatt
      * @param rssi
      * @param status
+     * @see BluetoothGattCallback#onReadRemoteRssi(BluetoothGatt, int, int)
      */
     public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status);
 

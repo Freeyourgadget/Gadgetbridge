@@ -1,14 +1,15 @@
 package nodomain.freeyourgadget.gadgetbridge.miband;
 
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.util.Log;
+
 import java.io.IOException;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBCommand;
 import nodomain.freeyourgadget.gadgetbridge.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.btle.TransactionBuilder;
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.util.Log;
 
 public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
@@ -28,7 +29,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     public boolean useAutoConnect() {
         return true;
     }
-    
+
     private byte[] getDefaultNotification() {
         final int vibrateTimes = 1;
         final long vibrateDuration = 250l;
@@ -47,7 +48,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     private byte[] getNotification(long vibrateDuration, int vibrateTimes, int flashTimes, int flashColour, int originalColour, long flashDuration) {
-        byte[] vibrate = new byte[]{ (byte) 8, (byte) 1 };
+        byte[] vibrate = new byte[]{(byte) 8, (byte) 1};
         byte r = 6;
         byte g = 0;
         byte b = 6;
@@ -72,6 +73,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     /**
      * Part of device initialization process. Do not call manually.
+     *
      * @param builder
      * @return
      */
@@ -84,6 +86,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     /**
      * Part of device initialization process. Do not call manually.
+     *
      * @param builder
      * @return
      */
@@ -161,7 +164,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onCharacteristicWrite(BluetoothGatt gatt,
-            BluetoothGattCharacteristic characteristic, int status) {
+                                      BluetoothGattCharacteristic characteristic, int status) {
         UUID characteristicUUID = characteristic.getUuid();
         if (MiBandService.UUID_CHARACTERISTIC_PAIR.equals(characteristicUUID)) {
             handlePairResult(characteristic.getValue(), status);

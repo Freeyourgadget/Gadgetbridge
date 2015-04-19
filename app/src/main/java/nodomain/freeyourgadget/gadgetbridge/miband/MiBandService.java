@@ -184,7 +184,7 @@ public class MiBandService {
 
 	*/
 
-    private static Map<UUID,String> MIBAND_DEBUG;
+    private static Map<UUID, String> MIBAND_DEBUG;
 
     static {
         MIBAND_DEBUG = new HashMap<>();
