@@ -29,8 +29,8 @@ How to use (Miband):
 
 1. Add your Mibands MAC address manually for now (Settings -> Debug)
 2. Configure other notifications as desired
-3. Restart Gadgetbridge, after that, the device should be visible
-4. Tap it to connect
+3. Go back to the "Gadgetbridge" Activity
+4. Tap the "MI" device to connect
 5. To test, chose "Debug" from the menu and play around
 
 Known Issues:

@@ -8,6 +8,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.MenuItem;
 
 public class SettingsActivity extends PreferenceActivity {
@@ -49,10 +50,25 @@ public class SettingsActivity extends PreferenceActivity {
         getPreferenceScreen().addPreference(fakeHeaderDev);
         addPreferencesFromResource(R.xml.pref_development);
 
+
+        final Preference developmentMiaddr = findPreference("development_miaddr");
+        bindPreferenceSummaryToValue(developmentMiaddr);
+
+        developmentMiaddr.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                Intent refreshIntent = new Intent(ControlCenter.ACTION_REFRESH_DEVICELIST);
+                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(refreshIntent);
+                preference.setSummary(newVal.toString());
+                return true;
+            }
+
+        });
+
         // Bind the summaries of EditText/List/Dialog/Ringtone preferences to
         // their values. When their values change, their summaries are updated
         // to reflect the new value, per the Android Design guidelines.
-        bindPreferenceSummaryToValue(findPreference("development_miaddr"));
+
         //bindPreferenceSummaryToValue(findPreference("notifications_sms_whenscreenon"));
     }
 

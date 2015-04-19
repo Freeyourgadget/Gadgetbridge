@@ -49,10 +49,8 @@ public class ControlCenter extends Activity {
                 String deviceAddress = intent.getStringExtra("device_address");
                 GBDevice.State state = GBDevice.State.values()[intent.getIntExtra("device_state", 0)];
                 String firmwareVersion = intent.getStringExtra("firmware_version");
-                if (deviceList.isEmpty()) {
-                    refreshPairedDevices();
-                    mGBDeviceAdapter.notifyDataSetChanged();
-                }
+                refreshPairedDevices();
+                mGBDeviceAdapter.notifyDataSetChanged();
                 if (deviceAddress != null) {
                     for (GBDevice device : deviceList) {
                         if (device.getAddress().equals(deviceAddress)) {
@@ -118,6 +116,7 @@ public class ControlCenter extends Activity {
         Intent versionInfoIntent = new Intent(this, BluetoothCommunicationService.class);
         versionInfoIntent.setAction(BluetoothCommunicationService.ACTION_REQUEST_VERSIONINFO);
         startService(versionInfoIntent);
+
     }
 
     @Override
@@ -147,10 +146,8 @@ public class ControlCenter extends Activity {
                 LocalBroadcastManager.getInstance(this).sendBroadcast(quitIntent);
                 return true;
             case R.id.action_refresh:
-                if (deviceList.isEmpty()) {
-                    refreshPairedDevices();
-                    mGBDeviceAdapter.notifyDataSetChanged();
-                }
+                refreshPairedDevices();
+                mGBDeviceAdapter.notifyDataSetChanged();
         }
 
         return super.onOptionsItemSelected(item);
@@ -163,7 +160,16 @@ public class ControlCenter extends Activity {
     }
 
     private void refreshPairedDevices() {
+        GBDevice connectedDevice = null;
+        for (GBDevice device : deviceList) {
+            if (device.getState() == GBDevice.State.CONNECTED) {
+                connectedDevice = device;
+            }
+        }
+        deviceList.clear();
+
         BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
+
         if (btAdapter == null) {
             Toast.makeText(this, "Bluetooth is not supported.", Toast.LENGTH_SHORT).show();
         } else if (!btAdapter.isEnabled()) {
@@ -171,7 +177,7 @@ public class ControlCenter extends Activity {
         } else {
             Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
             for (BluetoothDevice device : pairedDevices) {
-                GBDevice.Type deviceType = GBDevice.Type.UNKNOWN;
+                GBDevice.Type deviceType;
                 if (device.getName().indexOf("Pebble") == 0) {
                     deviceType = GBDevice.Type.PEBBLE;
                 } else if (device.getName().equals("MI")) {
@@ -179,7 +185,11 @@ public class ControlCenter extends Activity {
                 } else {
                     continue;
                 }
-                deviceList.add(new GBDevice(device.getAddress(), device.getName(), deviceType));
+                if (connectedDevice != null && (device.getAddress().equals(connectedDevice.getAddress()))) {
+                    deviceList.add(connectedDevice);
+                } else {
+                    deviceList.add(new GBDevice(device.getAddress(), device.getName(), deviceType));
+                }
             }
 
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -188,7 +198,9 @@ public class ControlCenter extends Activity {
                 deviceList.add(new GBDevice(miAddr, "MI", GBDevice.Type.MIBAND));
             }
 
-            if (!deviceList.isEmpty()) {
+            if (connectedDevice != null) {
+                hintTextView.setText("tap connected device for App Mananger");
+            } else if (!deviceList.isEmpty()) {
                 hintTextView.setText("tap a device to connect");
             }
         }
