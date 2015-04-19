@@ -180,7 +180,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     private void handleDeviceInfo(byte[] value, int status) {
         if (status == BluetoothGatt.GATT_SUCCESS) {
-            getDevice().setFirmwareVersion(value.length + ":" + new String(value));
+            DeviceInfo info = new DeviceInfo(value);
+            getDevice().setFirmwareVersion(info.getFirmwareVersion());
             getDevice().sendDeviceUpdateIntent(getContext());
         }
     }
