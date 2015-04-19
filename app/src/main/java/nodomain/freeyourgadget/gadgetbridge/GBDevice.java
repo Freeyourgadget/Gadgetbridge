@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 
 public class GBDevice {
+    public static final String ACTION_DEVICE_CHANGED
+            = "nodomain.freeyourgadget.gadgetbride.gbdevice.action.device_changed";
+
     private final String name;
     private final String address;
     private final Type type;
@@ -75,7 +78,7 @@ public class GBDevice {
 
     // TODO: this doesn't really belong here
     public void sendDeviceUpdateIntent(Context context) {
-        Intent deviceUpdateIntent = new Intent(ControlCenter.ACTION_REFRESH_DEVICELIST);
+        Intent deviceUpdateIntent = new Intent(ACTION_DEVICE_CHANGED);
         deviceUpdateIntent.putExtra("device_address", getAddress());
         deviceUpdateIntent.putExtra("device_state", getState().ordinal());
         deviceUpdateIntent.putExtra("firmware_version", getFirmwareVersion());

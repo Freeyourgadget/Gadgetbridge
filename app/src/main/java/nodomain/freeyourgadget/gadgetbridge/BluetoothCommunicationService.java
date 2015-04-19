@@ -4,9 +4,11 @@ import android.app.NotificationManager;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
@@ -15,7 +17,6 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.Toast;
-
 import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.miband.MiBandSupport;
 import nodomain.freeyourgadget.gadgetbridge.pebble.PebbleIoThread;
@@ -56,9 +57,25 @@ public class BluetoothCommunicationService extends Service {
     private GBDevice mGBDevice = null;
     private DeviceSupport mDeviceSupport;
 
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(GBDevice.ACTION_DEVICE_CHANGED)) {
+                String deviceAddress = intent.getStringExtra("device_address");
+                GBDevice.State state = GBDevice.State.values()[intent.getIntExtra("device_state", 0)];
+                if (mGBDevice.getAddress().equals(deviceAddress)) {
+                    mGBDevice.setState(state);
+                    GB.setReceiversEnableState(mGBDevice.isConnected(), context);
+                }
+            }
+        }
+    };
+    
     @Override
     public void onCreate() {
         super.onCreate();
+        registerReceiver(mReceiver, new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED));
     }
 
     @Override
@@ -195,6 +212,7 @@ public class BluetoothCommunicationService extends Service {
     public void onDestroy() {
         super.onDestroy();
 
+        unregisterReceiver(mReceiver);
         GB.setReceiversEnableState(false, this); // disable BroadcastReceivers
 
         if (mDeviceSupport != null) {
