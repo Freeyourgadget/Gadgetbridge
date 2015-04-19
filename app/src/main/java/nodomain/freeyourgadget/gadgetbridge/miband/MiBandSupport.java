@@ -129,8 +129,9 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetCallState(String number, String name, GBCommand command) {
-        // TODO Auto-generated method stub
-
+        if (GBCommand.CALL_INCOMING.equals(command)) {
+            performDefaultNotification("incoming call");
+        }
     }
 
     @Override
