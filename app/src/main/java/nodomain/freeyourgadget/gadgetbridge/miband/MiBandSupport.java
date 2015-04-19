@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBCommand;
+import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.btle.TransactionBuilder;
 
@@ -168,7 +169,21 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         UUID characteristicUUID = characteristic.getUuid();
         if (MiBandService.UUID_CHARACTERISTIC_PAIR.equals(characteristicUUID)) {
             handlePairResult(characteristic.getValue(), status);
+        } else if (MiBandService.UUID_CHARACTERISTIC_USER_INFO.equals(characteristicUUID)) {
+            handleUserInfoResult(characteristic.getValue(), status);
         }
+    }
+
+    private void handleUserInfoResult(byte[] value, int status) {
+        // successfully transfered user info means we're initialized
+        if (status == BluetoothGatt.GATT_SUCCESS) {
+            setConnectionState(State.INITIALIZED);
+        }
+    }
+
+    private void setConnectionState(State newState) {
+        getDevice().setState(newState);
+        getDevice().sendDeviceUpdateIntent(getContext());
     }
 
     private void handlePairResult(byte[] pairResult, int status) {
