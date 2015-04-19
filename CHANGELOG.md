@@ -1,4 +1,6 @@
 ###Changelog
+####Version 0.3.1
+* Miband: Fix for notifications only woking in Debug
 
 ####Version 0.3.0
 * Miband: Initial support (see README.md)
