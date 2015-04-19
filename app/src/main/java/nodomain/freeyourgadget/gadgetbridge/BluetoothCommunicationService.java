@@ -18,6 +18,7 @@ import android.provider.ContactsContract;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
+
 import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.miband.MiBandSupport;
 import nodomain.freeyourgadget.gadgetbridge.pebble.PebbleIoThread;
@@ -72,7 +73,7 @@ public class BluetoothCommunicationService extends Service {
             }
         }
     };
-    
+
     @Override
     public void onCreate() {
         super.onCreate();
