@@ -142,11 +142,22 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onFirmwareVersionReq() {
         try {
-            TransactionBuilder builder = performInitialized("Get MI Band Device Info");
+            TransactionBuilder builder = performInitialized("Get MI Band device info");
             BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_DEVICE_INFO);
             builder.read(characteristic).queue(getQueue());
         } catch (IOException ex) {
             Log.e(TAG, "Unable to read device info from MI", ex);
+        }
+    }
+
+    @Override
+    public void onBatteryInfoReq() {
+        try {
+            TransactionBuilder builder = performInitialized("Get MI Band battery info");
+            BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_BATTERY);
+            builder.read(characteristic).queue(getQueue());
+        } catch (IOException ex) {
+            Log.e(TAG, "Unable to read battery info from MI", ex);
         }
     }
 
@@ -173,16 +184,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             BluetoothGattCharacteristic characteristic, int status) {
         super.onCharacteristicRead(gatt, characteristic, status);
 
-        if (MiBandService.UUID_CHARACTERISTIC_DEVICE_INFO.equals(characteristic.getUuid())) {
+        UUID characteristicUUID = characteristic.getUuid();
+        if (MiBandService.UUID_CHARACTERISTIC_DEVICE_INFO.equals(characteristicUUID)) {
             handleDeviceInfo(characteristic.getValue(), status);
-        }
-    }
-
-    private void handleDeviceInfo(byte[] value, int status) {
-        if (status == BluetoothGatt.GATT_SUCCESS) {
-            DeviceInfo info = new DeviceInfo(value);
-            getDevice().setFirmwareVersion(info.getFirmwareVersion());
-            getDevice().sendDeviceUpdateIntent(getContext());
+        } else if (MiBandService.UUID_CHARACTERISTIC_BATTERY.equals(characteristicUUID)) {
+            handleBatteryInfo(characteristic.getValue(), status);
         }
     }
 
@@ -194,6 +200,23 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             handlePairResult(characteristic.getValue(), status);
         } else if (MiBandService.UUID_CHARACTERISTIC_USER_INFO.equals(characteristicUUID)) {
             handleUserInfoResult(characteristic.getValue(), status);
+        }
+    }
+
+    private void handleDeviceInfo(byte[] value, int status) {
+        if (status == BluetoothGatt.GATT_SUCCESS) {
+            DeviceInfo info = new DeviceInfo(value);
+            getDevice().setFirmwareVersion(info.getFirmwareVersion());
+            getDevice().sendDeviceUpdateIntent(getContext());
+        }
+    }
+
+    private void handleBatteryInfo(byte[] value, int status) {
+        if (status == BluetoothGatt.GATT_SUCCESS) {
+            BatteryInfo info = new BatteryInfo(value);
+            getDevice().setBatteryLevel((short) info.getLevelInPercent());
+            getDevice().setBatteryState(info.getStatus());
+            getDevice().sendDeviceUpdateIntent(getContext());
         }
     }
 

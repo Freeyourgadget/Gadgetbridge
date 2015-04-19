@@ -13,6 +13,8 @@ public interface EventHandler {
 
     public void onFirmwareVersionReq();
 
+    public void onBatteryInfoReq();
+
     public void onAppInfoReq();
 
     public void onAppDelete(int id, int index);

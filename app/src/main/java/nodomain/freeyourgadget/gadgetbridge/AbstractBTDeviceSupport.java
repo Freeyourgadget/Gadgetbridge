@@ -82,6 +82,12 @@ public abstract class AbstractBTDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
+    public void onBatteryInfoReq() {
+        byte[] bytes = gbDeviceProtocol.encodeBatteryInfoReq();
+        sendToDevice(bytes);
+    }
+
+    @Override
     public void onAppInfoReq() {
         byte[] bytes = gbDeviceProtocol.encodeAppInfoReq();
         sendToDevice(bytes);

@@ -28,6 +28,10 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
+    public byte[] encodeBatteryInfoReq() {
+        return null;
+    }
+
     public byte[] encodeAppInfoReq() {
         return null;
     }
