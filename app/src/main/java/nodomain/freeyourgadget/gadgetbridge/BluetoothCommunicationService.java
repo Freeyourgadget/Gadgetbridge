@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
@@ -75,7 +76,7 @@ public class BluetoothCommunicationService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        registerReceiver(mReceiver, new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED));
     }
 
     @Override
@@ -212,7 +213,7 @@ public class BluetoothCommunicationService extends Service {
     public void onDestroy() {
         super.onDestroy();
 
-        unregisterReceiver(mReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
         GB.setReceiversEnableState(false, this); // disable BroadcastReceivers
 
         if (mDeviceSupport != null) {
