@@ -45,7 +45,7 @@ public class ControlCenter extends Activity {
             String action = intent.getAction();
             if (action.equals(ACTION_QUIT)) {
                 finish();
-            } else if (action.equals(ACTION_REFRESH_DEVICELIST)) {
+            } else if (action.equals(ACTION_REFRESH_DEVICELIST) || action.equals(GBDevice.ACTION_DEVICE_CHANGED)) {
                 String deviceAddress = intent.getStringExtra("device_address");
                 GBDevice.State state = GBDevice.State.values()[intent.getIntExtra("device_state", 0)];
                 String firmwareVersion = intent.getStringExtra("firmware_version");
@@ -57,7 +57,7 @@ public class ControlCenter extends Activity {
                             device.setFirmwareVersion(firmwareVersion);
                             device.setState(state);
                             mGBDeviceAdapter.notifyDataSetChanged();
-                            if (state == GBDevice.State.CONNECTED) {
+                            if (device.isConnected()) {
                                 hintTextView.setText("tap connected device for App Mananger");
                             } else if (state == GBDevice.State.NOT_CONNECTED) {
                                 hintTextView.setText("tap a device to connect");
@@ -97,6 +97,7 @@ public class ControlCenter extends Activity {
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_QUIT);
         filter.addAction(ACTION_REFRESH_DEVICELIST);
+        filter.addAction(GBDevice.ACTION_DEVICE_CHANGED);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
 
         refreshPairedDevices();
