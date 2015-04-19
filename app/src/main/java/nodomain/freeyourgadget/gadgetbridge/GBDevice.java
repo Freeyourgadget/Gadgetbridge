@@ -3,16 +3,23 @@ package nodomain.freeyourgadget.gadgetbridge;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 public class GBDevice {
     public static final String ACTION_DEVICE_CHANGED
             = "nodomain.freeyourgadget.gadgetbride.gbdevice.action.device_changed";
+    private static final String TAG = GBDevice.class.getSimpleName();
 
     private final String name;
     private final String address;
     private final Type type;
     private String firmwareVersion = null;
     private State state = State.NOT_CONNECTED;
+
+    private short mBatteryLevel = 50; // unknown
+
+    private String mBatteryState;
+
 
     public GBDevice(String address, String name, Type type) {
         this.address = address;
@@ -100,5 +107,32 @@ public class GBDevice {
         UNKNOWN,
         PEBBLE,
         MIBAND
+    }
+
+    /**
+     * Ranges from 0-100 (percent)
+     * @return the battery level in range 0-100
+     */
+    public short getBatteryLevel() {
+        return mBatteryLevel;
+    }
+
+    public void setBatteryLevel(short batteryLevel) {
+        if (mBatteryLevel >= 0 && mBatteryLevel <= 100) {
+            mBatteryLevel = batteryLevel;
+        } else {
+            Log.e(TAG, "Battery level musts be within range 0-100: " + batteryLevel);
+        }
+    }
+
+    /**
+     * Returns a string representation of the battery state.
+     */
+    public String getBatteryState() {
+        return mBatteryState != null ? mBatteryState : "(unknown)";
+    }
+
+    public void setBatteryState(String batteryState) {
+        mBatteryState = batteryState;
     }
 }

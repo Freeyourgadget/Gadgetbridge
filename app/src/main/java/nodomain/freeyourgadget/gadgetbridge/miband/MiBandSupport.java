@@ -1,9 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.miband;
 
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.util.Log;
-
 import java.io.IOException;
 import java.util.UUID;
 
@@ -11,6 +7,9 @@ import nodomain.freeyourgadget.gadgetbridge.GBCommand;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.btle.TransactionBuilder;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.util.Log;
 
 public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
@@ -142,8 +141,13 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFirmwareVersionReq() {
-        // TODO Auto-generated method stub
-
+        try {
+            TransactionBuilder builder = performInitialized("Get MI Band Device Info");
+            BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_DEVICE_INFO);
+            builder.read(characteristic).queue(getQueue());
+        } catch (IOException ex) {
+            Log.e(TAG, "Unable to read device info from MI", ex);
+        }
     }
 
     @Override
@@ -162,6 +166,23 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     public void onPhoneVersion(byte os) {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public void onCharacteristicRead(BluetoothGatt gatt,
+            BluetoothGattCharacteristic characteristic, int status) {
+        super.onCharacteristicRead(gatt, characteristic, status);
+
+        if (MiBandService.UUID_CHARACTERISTIC_DEVICE_INFO.equals(characteristic.getUuid())) {
+            handleDeviceInfo(characteristic.getValue(), status);
+        }
+    }
+
+    private void handleDeviceInfo(byte[] value, int status) {
+        if (status == BluetoothGatt.GATT_SUCCESS) {
+            getDevice().setFirmwareVersion(value.length + ":" + new String(value));
+            getDevice().sendDeviceUpdateIntent(getContext());
+        }
     }
 
     @Override
@@ -198,7 +219,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             if (pairResult.length == 1) {
                 try {
                     byte b = pairResult[0];
-                    Integer intValue = Integer.valueOf((int) b);
+                    Integer intValue = Integer.valueOf(b);
                     if (intValue.intValue() == 2) {
                         Log.i(TAG, "Successfully paired  MI device");
                         return;
