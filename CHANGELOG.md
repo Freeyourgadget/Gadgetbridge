@@ -1,6 +1,7 @@
 ###Changelog
 
-####Next Release (probably 0.3.0)
+####Version 0.3.0
+* Miband: Initial support (see README.md)
 * Pebble: Firmware installation (USE AT YOUR OWN RISK)
 * Pebble: Fix installation problems with certain .pbw files
 * Pebble: Volume control

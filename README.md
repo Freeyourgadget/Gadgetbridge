@@ -2,12 +2,10 @@ Gadgetbridge
 ============
 
 Gadgetbridge is a Android (4.4+) Application which will allow you to use your
-Pebble without the vendors closed source application and without the need to
-create an account and transmit any of your data to the vendors servers.
+Pebble or Miband without the vendors closed source application and without the
+need to create an account and transmit any of your data to the vendors servers.
 
-Mi Band support is WIP.
-
-Features:
+Features (Pebble):
 
 * Incoming calls notification and display (caller, phone number)
 * Outgoing call display
@@ -21,11 +19,19 @@ Features:
 * Install .pbw files
 * Install firmware from .pbz files (EXPERIMENTAL)
 
-How to use:
+How to use (Pebble):
 
 1. Pair your Pebble though the Android Bluetooth Settings
 2. Start Gadgetbridge, tap on the device you want to connect to
 3. To test, chose "Debug" from the menu and play around
+
+How to use (Miband):
+
+1. Add your Mibands MAC address manually for now (Settings -> Debug)
+2. Configure other notifications as desired
+3. Restart Gadgetbridge, after that, the device should be visible
+4. Tap it to connect
+5. To test, chose "Debug" from the menu and play around
 
 Known Issues:
 
