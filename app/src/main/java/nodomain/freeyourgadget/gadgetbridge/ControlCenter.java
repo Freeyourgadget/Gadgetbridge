@@ -81,7 +81,7 @@ public class ControlCenter extends Activity {
         deviceListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
-                if (deviceList.get(position).getState() == GBDevice.State.CONNECTED) {
+                if (deviceList.get(position).isConnected()) {
                     Intent startIntent = new Intent(ControlCenter.this, AppManagerActivity.class);
                     startActivity(startIntent);
                 } else {
@@ -163,7 +163,7 @@ public class ControlCenter extends Activity {
     private void refreshPairedDevices() {
         GBDevice connectedDevice = null;
         for (GBDevice device : deviceList) {
-            if (device.getState() == GBDevice.State.CONNECTED) {
+            if (device.isConnected()) {
                 connectedDevice = device;
             }
         }
