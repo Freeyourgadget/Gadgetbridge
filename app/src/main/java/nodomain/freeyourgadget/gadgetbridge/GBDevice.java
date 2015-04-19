@@ -60,6 +60,8 @@ public class GBDevice {
                 return "connecting";
             case CONNECTED:
                 return "connected";
+            case INITIALIZED:
+                return "initialized";
         }
         return "unknown state";
     }
