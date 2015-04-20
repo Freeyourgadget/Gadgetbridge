@@ -10,7 +10,7 @@ import android.util.Log;
 public class GBDevice implements Parcelable {
     public static final String ACTION_DEVICE_CHANGED
             = "nodomain.freeyourgadget.gadgetbride.gbdevice.action.device_changed";
-    public static final Creator CREATOR = new Creator<GBDevice>() {
+    public static final Creator<GBDevice> CREATOR = new Creator<GBDevice>() {
         @Override
         public GBDevice createFromParcel(Parcel source) {
             return new GBDevice(source);
