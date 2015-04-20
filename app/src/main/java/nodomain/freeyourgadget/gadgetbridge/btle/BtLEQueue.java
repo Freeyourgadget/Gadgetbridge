@@ -1,15 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.btle;
 
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCallback;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattService;
-import android.bluetooth.BluetoothProfile;
-import android.content.Context;
-import android.util.Log;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -19,6 +9,15 @@ import java.util.concurrent.LinkedBlockingQueue;
 import nodomain.freeyourgadget.gadgetbridge.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCallback;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
+import android.bluetooth.BluetoothProfile;
+import android.content.Context;
+import android.util.Log;
 
 /**
  * One queue/thread per connectable device.
@@ -41,6 +40,7 @@ public final class BtLEQueue {
 
     private Thread dispatchThread = new Thread("Bluetooth GATT Dispatcher") {
 
+        @Override
         public void run() {
             while (!mDisposed) {
                 try {
@@ -223,7 +223,7 @@ public final class BtLEQueue {
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                Log.e(TAG, "Writing characteristic " + characteristic.getUuid() + " succeeded.");
+                Log.i(TAG, "Writing characteristic " + characteristic.getUuid() + " succeeded.");
             } else {
                 Log.e(TAG, "Writing characteristic " + characteristic.getUuid() + " failed: " + status);
             }
