@@ -1,5 +1,9 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
+import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
+import nodomain.freeyourgadget.gadgetbridge.miband.MiBandSupport;
+import nodomain.freeyourgadget.gadgetbridge.pebble.PebbleIoThread;
+import nodomain.freeyourgadget.gadgetbridge.pebble.PebbleSupport;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
@@ -18,11 +22,6 @@ import android.provider.ContactsContract;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
-
-import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
-import nodomain.freeyourgadget.gadgetbridge.miband.MiBandSupport;
-import nodomain.freeyourgadget.gadgetbridge.pebble.PebbleIoThread;
-import nodomain.freeyourgadget.gadgetbridge.pebble.PebbleSupport;
 
 public class BluetoothCommunicationService extends Service {
     public static final String ACTION_START
@@ -126,6 +125,7 @@ public class BluetoothCommunicationService extends Service {
                 if (btDeviceAddress != null && !isConnected() && !isConnecting()) {
                     if (mDeviceSupport != null) {
                         mDeviceSupport.dispose();
+                        mDeviceSupport = null;
                     }
                     BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(btDeviceAddress);
                     if (btDevice != null) {
