@@ -185,7 +185,7 @@ public class ControlCenter extends Activity {
 
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
             String miAddr = sharedPrefs.getString("development_miaddr", null);
-            if (miAddr != null && !miAddr.equals("") && !miAddr.equals(connectedDevice.getAddress())) {
+            if (miAddr != null && !miAddr.equals("") && (connectedDevice == null || !miAddr.equals(connectedDevice.getAddress()))) {
                 deviceList.add(new GBDevice(miAddr, "MI", GBDevice.Type.MIBAND));
             }
 
