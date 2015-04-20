@@ -2,69 +2,88 @@ package nodomain.freeyourgadget.gadgetbridge;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-public class GBDevice {
+public class GBDevice implements Parcelable {
     public static final String ACTION_DEVICE_CHANGED
             = "nodomain.freeyourgadget.gadgetbride.gbdevice.action.device_changed";
+    public static final Creator CREATOR = new Creator<GBDevice>() {
+        @Override
+        public GBDevice createFromParcel(Parcel source) {
+            return new GBDevice(source);
+        }
+
+        @Override
+        public GBDevice[] newArray(int size) {
+            return new GBDevice[size];
+        }
+    };
     private static final String TAG = GBDevice.class.getSimpleName();
-
-    private final String name;
-    private final String address;
-    private final Type type;
-    private String firmwareVersion = null;
-    private State state = State.NOT_CONNECTED;
-
+    private final String mName;
+    private final String mAddress;
+    private final Type mType;
+    private String mFirmwareVersion = null;
+    private State mState = State.NOT_CONNECTED;
     private short mBatteryLevel = 50; // unknown
-
     private String mBatteryState;
 
-
     public GBDevice(String address, String name, Type type) {
-        this.address = address;
-        this.name = name;
-        this.type = type;
+        mAddress = address;
+        mName = name;
+        mType = type;
+    }
+
+    private GBDevice(Parcel in) {
+        mName = in.readString();
+        mAddress = in.readString();
+        mType = Type.values()[in.readInt()];
+        mFirmwareVersion = in.readString();
+        mState = State.values()[in.readInt()];
+        mBatteryLevel = (short) in.readInt();
+        mBatteryState = in.readString();
     }
 
     public String getName() {
-        return name;
+        return mName;
     }
 
     public String getAddress() {
-        return address;
+        return mAddress;
     }
 
     public String getFirmwareVersion() {
-        return firmwareVersion;
+        return mFirmwareVersion;
     }
 
     public void setFirmwareVersion(String firmwareVersion) {
-        this.firmwareVersion = firmwareVersion;
+        mFirmwareVersion = firmwareVersion;
     }
 
     public boolean isConnected() {
-        return state.ordinal() >= State.CONNECTED.ordinal();
+        return mState.ordinal() >= State.CONNECTED.ordinal();
     }
 
     public boolean isInitialized() {
-        return state.ordinal() >= State.INITIALIZED.ordinal();
+        return mState.ordinal() >= State.INITIALIZED.ordinal();
     }
 
     public boolean isConnecting() {
-        return state == State.CONNECTING;
+        return mState == State.CONNECTING;
     }
 
     public State getState() {
-        return state;
+        return mState;
     }
 
     public void setState(State state) {
-        this.state = state;
+        mState = state;
     }
 
     String getStateString() {
-        switch (state) {
+        switch (mState) {
             case NOT_CONNECTED:
                 return "not connected"; // TODO: do not hardcode
             case CONNECTING:
@@ -78,43 +97,57 @@ public class GBDevice {
     }
 
     public String getInfoString() {
-        if (firmwareVersion != null) {
-            return getStateString() + " (FW: " + firmwareVersion + ")";
+        if (mFirmwareVersion != null) {
+            return getStateString() + " (FW: " + mFirmwareVersion + ")";
         } else {
             return getStateString();
         }
     }
 
     public Type getType() {
-        return type;
+        return mType;
     }
 
     // TODO: this doesn't really belong here
     public void sendDeviceUpdateIntent(Context context) {
         Intent deviceUpdateIntent = new Intent(ACTION_DEVICE_CHANGED);
-        deviceUpdateIntent.putExtra("device_address", getAddress());
-        deviceUpdateIntent.putExtra("device_state", getState().ordinal());
-        deviceUpdateIntent.putExtra("firmware_version", getFirmwareVersion());
-
+        deviceUpdateIntent.putExtra("device", this);
         LocalBroadcastManager.getInstance(context).sendBroadcast(deviceUpdateIntent);
     }
 
-    public enum State {
-        // Note: the order is important!
-        NOT_CONNECTED,
-        CONNECTING,
-        CONNECTED,
-        INITIALIZED
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public enum Type {
-        UNKNOWN,
-        PEBBLE,
-        MIBAND
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof GBDevice)) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (((GBDevice) obj).getAddress().equals(this.mAddress)) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mName);
+        dest.writeString(mAddress);
+        dest.writeInt(mType.ordinal());
+        dest.writeString(mFirmwareVersion);
+        dest.writeInt(mState.ordinal());
+        dest.writeInt(mBatteryLevel);
+        dest.writeString(mBatteryState);
     }
 
     /**
      * Ranges from 0-100 (percent)
+     *
      * @return the battery level in range 0-100
      */
     public short getBatteryLevel() {
@@ -138,5 +171,19 @@ public class GBDevice {
 
     public void setBatteryState(String batteryState) {
         mBatteryState = batteryState;
+    }
+
+    public enum State {
+        // Note: the order is important!
+        NOT_CONNECTED,
+        CONNECTING,
+        CONNECTED,
+        INITIALIZED
+    }
+
+    public enum Type {
+        UNKNOWN,
+        PEBBLE,
+        MIBAND
     }
 }

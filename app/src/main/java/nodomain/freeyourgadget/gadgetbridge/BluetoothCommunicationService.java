@@ -64,10 +64,9 @@ public class BluetoothCommunicationService extends Service {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (action.equals(GBDevice.ACTION_DEVICE_CHANGED)) {
-                String deviceAddress = intent.getStringExtra("device_address");
-                GBDevice.State state = GBDevice.State.values()[intent.getIntExtra("device_state", 0)];
-                if (mGBDevice.getAddress().equals(deviceAddress)) {
-                    mGBDevice.setState(state);
+                GBDevice device = intent.getParcelableExtra("device");
+                if (mGBDevice.equals(device)) {
+                    mGBDevice = device;
                     GB.setReceiversEnableState(mGBDevice.isConnected(), context);
                 }
             }

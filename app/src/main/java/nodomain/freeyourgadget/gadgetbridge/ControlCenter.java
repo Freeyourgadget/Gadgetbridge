@@ -1,10 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapter;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -23,6 +18,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapter;
 
 public class ControlCenter extends Activity {
 
@@ -44,27 +45,19 @@ public class ControlCenter extends Activity {
             String action = intent.getAction();
             if (action.equals(ACTION_QUIT)) {
                 finish();
-            } else if (action.equals(ACTION_REFRESH_DEVICELIST) || action.equals(GBDevice.ACTION_DEVICE_CHANGED)) {
-                String deviceAddress = intent.getStringExtra("device_address");
-                GBDevice.State state = GBDevice.State.values()[intent.getIntExtra("device_state", 0)];
-                String firmwareVersion = intent.getStringExtra("firmware_version");
+            } else if (action.equals(ACTION_REFRESH_DEVICELIST)) {
                 refreshPairedDevices();
-                mGBDeviceAdapter.notifyDataSetChanged();
-                if (deviceAddress != null) {
-                    for (GBDevice device : deviceList) {
-                        if (device.getAddress().equals(deviceAddress)) {
-                            device.setFirmwareVersion(firmwareVersion);
-                            device.setState(state);
-                            mGBDeviceAdapter.notifyDataSetChanged();
-                            if (device.isConnected()) {
-                                hintTextView.setText("tap connected device for App Mananger");
-                            } else if (state == GBDevice.State.NOT_CONNECTED) {
-                                hintTextView.setText("tap a device to connect");
-                            }
+            } else if (action.equals(GBDevice.ACTION_DEVICE_CHANGED)) {
+                GBDevice dev = intent.getParcelableExtra("device");
+                if (dev.getAddress() != null) {
+                    for (int i = 0; i < deviceList.size(); i++) {
+                        if (dev.equals(deviceList.get(i))) {
+                            deviceList.set(i, dev);
                             break;
                         }
                     }
                 }
+                refreshPairedDevices();
             }
         }
     };
@@ -146,7 +139,6 @@ public class ControlCenter extends Activity {
                 return true;
             case R.id.action_refresh:
                 refreshPairedDevices();
-                mGBDeviceAdapter.notifyDataSetChanged();
         }
 
         return super.onOptionsItemSelected(item);
@@ -203,6 +195,6 @@ public class ControlCenter extends Activity {
                 hintTextView.setText("tap a device to connect");
             }
         }
+        mGBDeviceAdapter.notifyDataSetChanged();
     }
-
 }

@@ -1,5 +1,9 @@
 package nodomain.freeyourgadget.gadgetbridge.miband;
 
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.util.Log;
+
 import java.io.IOException;
 import java.util.UUID;
 
@@ -7,9 +11,6 @@ import nodomain.freeyourgadget.gadgetbridge.GBCommand;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.btle.TransactionBuilder;
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.util.Log;
 
 public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
@@ -181,7 +182,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onCharacteristicRead(BluetoothGatt gatt,
-            BluetoothGattCharacteristic characteristic, int status) {
+                                     BluetoothGattCharacteristic characteristic, int status) {
         super.onCharacteristicRead(gatt, characteristic, status);
 
         UUID characteristicUUID = characteristic.getUuid();
