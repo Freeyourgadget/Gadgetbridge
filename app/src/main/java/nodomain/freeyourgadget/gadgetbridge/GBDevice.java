@@ -51,6 +51,10 @@ public class GBDevice {
         return state.ordinal() >= State.INITIALIZED.ordinal();
     }
 
+    public boolean isConnecting() {
+        return state == State.CONNECTING;
+    }
+
     public State getState() {
         return state;
     }

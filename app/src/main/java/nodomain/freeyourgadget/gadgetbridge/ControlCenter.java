@@ -161,7 +161,7 @@ public class ControlCenter extends Activity {
     private void refreshPairedDevices() {
         GBDevice connectedDevice = null;
         for (GBDevice device : deviceList) {
-            if (device.isConnected()) {
+            if (device.isConnected() || device.isConnecting()) {
                 connectedDevice = device;
             }
         }
