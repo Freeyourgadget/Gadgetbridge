@@ -318,6 +318,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 }
                 GBDeviceCommandVersionInfo infoCmd = (GBDeviceCommandVersionInfo) deviceCmd;
                 gbDevice.setFirmwareVersion(infoCmd.fwVersion);
+                gbDevice.setHardwareVersion(infoCmd.hwVersion);
                 gbDevice.sendDeviceUpdateIntent(context);
                 break;
             case APP_INFO:

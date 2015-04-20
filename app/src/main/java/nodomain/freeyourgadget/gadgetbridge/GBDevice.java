@@ -26,6 +26,7 @@ public class GBDevice implements Parcelable {
     private final String mAddress;
     private final Type mType;
     private String mFirmwareVersion = null;
+    private String mHardwareVersion = null;
     private State mState = State.NOT_CONNECTED;
     private short mBatteryLevel = 50; // unknown
     private String mBatteryState;
@@ -41,6 +42,7 @@ public class GBDevice implements Parcelable {
         mAddress = in.readString();
         mType = Type.values()[in.readInt()];
         mFirmwareVersion = in.readString();
+        mHardwareVersion = in.readString();
         mState = State.values()[in.readInt()];
         mBatteryLevel = (short) in.readInt();
         mBatteryState = in.readString();
@@ -60,6 +62,14 @@ public class GBDevice implements Parcelable {
 
     public void setFirmwareVersion(String firmwareVersion) {
         mFirmwareVersion = firmwareVersion;
+    }
+
+    public String getHardwareVersion() {
+        return mHardwareVersion;
+    }
+
+    public void setHardwareVersion(String hardwareVersion) {
+        mHardwareVersion = hardwareVersion;
     }
 
     public boolean isConnected() {
@@ -97,7 +107,11 @@ public class GBDevice implements Parcelable {
     }
 
     public String getInfoString() {
+        //FIXME: ugly
         if (mFirmwareVersion != null) {
+            if (mHardwareVersion != null) {
+                return getStateString() + " (HW: " + mHardwareVersion + " FW: " + mFirmwareVersion + ")";
+            }
             return getStateString() + " (FW: " + mFirmwareVersion + ")";
         } else {
             return getStateString();
@@ -140,6 +154,7 @@ public class GBDevice implements Parcelable {
         dest.writeString(mAddress);
         dest.writeInt(mType.ordinal());
         dest.writeString(mFirmwareVersion);
+        dest.writeString(mHardwareVersion);
         dest.writeInt(mState.ordinal());
         dest.writeInt(mBatteryLevel);
         dest.writeString(mBatteryState);

@@ -138,6 +138,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final short LENGTH_UPLOADCANCEL = 5;
     static final short LENGTH_SYSTEMMESSAGE = 2;
 
+    private static final String[] hwRevisions = {"unknown", "ev1", "ev2", "ev2_3", "ev2_4", "v1_5", "v2_0"};
+
     private static byte[] encodeMessage(short endpoint, byte type, int cookie, String[] parts) {
         // Calculate length first
         int length = LENGTH_PREFIX + 1;
@@ -452,11 +454,16 @@ public class PebbleProtocol extends GBDeviceProtocol {
             case ENDPOINT_FIRMWAREVERSION:
                 GBDeviceCommandVersionInfo versionCmd = new GBDeviceCommandVersionInfo();
 
-                int version = buf.getInt();
-                byte[] versionString = new byte[32];
-                buf.get(versionString, 0, 32);
+                buf.getInt(); // skip
+                byte[] tmp = new byte[32];
+                buf.get(tmp, 0, 32);
 
-                versionCmd.fwVersion = new String(versionString).trim();
+                versionCmd.fwVersion = new String(tmp).trim();
+                buf.get(tmp, 0, 9);
+                Byte hwRev = buf.get();
+                if (hwRev > 0 && hwRev < hwRevisions.length) {
+                    versionCmd.hwVersion = hwRevisions[hwRev];
+                }
                 cmd = versionCmd;
                 break;
             case ENDPOINT_APPMANAGER:
