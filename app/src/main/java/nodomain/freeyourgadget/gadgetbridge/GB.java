@@ -8,9 +8,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 public class GB {
     public static final int NOTIFICATION_ID = 1;
+    private static final String TAG = "GB";
 
     public static Notification createNotification(String text, Context context) {
         Intent notificationIntent = new Intent(context, ControlCenter.class);
@@ -36,7 +38,8 @@ public class GB {
     }
 
     public static void setReceiversEnableState(boolean enable, Context context) {
-        final Class[] receiverClasses = {
+        Log.i(TAG, "Setting broadcast receivers to: " + enable);
+        final Class<?>[] receiverClasses = {
                 PhoneCallReceiver.class,
                 SMSReceiver.class,
                 K9Receiver.class,
@@ -54,7 +57,7 @@ public class GB {
 
         PackageManager pm = context.getPackageManager();
 
-        for (Class receiverClass : receiverClasses) {
+        for (Class<?> receiverClass : receiverClasses) {
             ComponentName compName = new ComponentName(context, receiverClass);
 
             pm.setComponentEnabledSetting(compName, newState, PackageManager.DONT_KILL_APP);
