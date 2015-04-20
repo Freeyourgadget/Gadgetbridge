@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge;
+package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,6 +8,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
+
+import nodomain.freeyourgadget.gadgetbridge.BluetoothCommunicationService;
 
 public class K9Receiver extends BroadcastReceiver {
 

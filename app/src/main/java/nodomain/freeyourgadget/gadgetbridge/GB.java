@@ -10,6 +10,11 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import nodomain.freeyourgadget.gadgetbridge.externalevents.K9Receiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.MusicPlaybackReceiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.PhoneCallReceiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.SMSReceiver;
+
 public class GB {
     public static final int NOTIFICATION_ID = 1;
     private static final String TAG = "GB";

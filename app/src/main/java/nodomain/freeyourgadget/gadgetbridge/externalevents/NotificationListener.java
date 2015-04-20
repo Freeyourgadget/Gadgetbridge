@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge;
+package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
 import android.app.ActivityManager;
 import android.app.Notification;
@@ -10,6 +10,8 @@ import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
+
+import nodomain.freeyourgadget.gadgetbridge.BluetoothCommunicationService;
 
 public class NotificationListener extends NotificationListenerService {
 

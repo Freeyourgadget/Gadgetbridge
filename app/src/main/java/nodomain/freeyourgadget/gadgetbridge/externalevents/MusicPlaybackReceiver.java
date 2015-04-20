@@ -1,9 +1,11 @@
-package nodomain.freeyourgadget.gadgetbridge;
+package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+
+import nodomain.freeyourgadget.gadgetbridge.BluetoothCommunicationService;
 
 public class MusicPlaybackReceiver extends BroadcastReceiver {
     private final String TAG = this.getClass().getSimpleName();

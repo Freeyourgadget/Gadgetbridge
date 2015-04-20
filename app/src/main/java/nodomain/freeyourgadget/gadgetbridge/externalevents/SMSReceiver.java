@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge;
+package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.telephony.SmsMessage;
+
+import nodomain.freeyourgadget.gadgetbridge.BluetoothCommunicationService;
 
 public class SMSReceiver extends BroadcastReceiver {
 
