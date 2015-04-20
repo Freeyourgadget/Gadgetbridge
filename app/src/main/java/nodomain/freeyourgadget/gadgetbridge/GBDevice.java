@@ -10,7 +10,7 @@ import android.util.Log;
 public class GBDevice implements Parcelable {
     public static final String ACTION_DEVICE_CHANGED
             = "nodomain.freeyourgadget.gadgetbride.gbdevice.action.device_changed";
-    public static final Creator CREATOR = new Creator<GBDevice>() {
+    public static final Creator<GBDevice> CREATOR = new Creator<GBDevice>() {
         @Override
         public GBDevice createFromParcel(Parcel source) {
             return new GBDevice(source);
@@ -35,6 +35,7 @@ public class GBDevice implements Parcelable {
         mAddress = address;
         mName = name;
         mType = type;
+        validate();
     }
 
     private GBDevice(Parcel in) {
@@ -46,6 +47,25 @@ public class GBDevice implements Parcelable {
         mState = State.values()[in.readInt()];
         mBatteryLevel = (short) in.readInt();
         mBatteryState = in.readString();
+        validate();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mName);
+        dest.writeString(mAddress);
+        dest.writeInt(mType.ordinal());
+        dest.writeString(mFirmwareVersion);
+        dest.writeString(mHardwareVersion);
+        dest.writeInt(mState.ordinal());
+        dest.writeInt(mBatteryLevel);
+        dest.writeString(mBatteryState);
+    }
+
+    private void validate() {
+        if (getAddress() == null) {
+            throw new IllegalArgumentException("address must not be null");
+        }
     }
 
     public String getName() {
@@ -149,15 +169,8 @@ public class GBDevice implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mName);
-        dest.writeString(mAddress);
-        dest.writeInt(mType.ordinal());
-        dest.writeString(mFirmwareVersion);
-        dest.writeString(mHardwareVersion);
-        dest.writeInt(mState.ordinal());
-        dest.writeInt(mBatteryLevel);
-        dest.writeString(mBatteryState);
+    public int hashCode() {
+        return mAddress.hashCode() ^ 37;
     }
 
     /**
