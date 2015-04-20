@@ -45,6 +45,7 @@ public class PBWReader {
     private GBDeviceApp app;
     private ArrayList<PebbleInstallable> pebbleInstallables;
     private boolean isFirmware = false;
+    private String hwRevision = null;
 
     public PBWReader(Uri uri, Context context) {
         this.uri = uri;
@@ -79,13 +80,13 @@ public class PBWReader {
                     String jsonString = baos.toString();
                     try {
                         JSONObject json = new JSONObject(jsonString);
-                        String[] searchJSON;
                         HashMap<String, Byte> fileTypeMap;
 
                         try {
-                            json.getJSONObject("firmware");
+                            JSONObject firmware = json.getJSONObject("firmware");
                             fileTypeMap = fwFileTypesMap;
                             isFirmware = true;
+                            hwRevision = firmware.getString("hwrev");
                         } catch (JSONException e) {
                             fileTypeMap = appFileTypesMap;
                             isFirmware = false;
@@ -179,4 +180,7 @@ public class PBWReader {
         return pebbleInstallables.toArray(new PebbleInstallable[pebbleInstallables.size()]);
     }
 
+    public String getHWRevision() {
+        return hwRevision;
+    }
 }
