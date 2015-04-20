@@ -1,5 +1,10 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapter;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -18,12 +23,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapter;
 
 public class ControlCenter extends Activity {
 
@@ -50,11 +49,9 @@ public class ControlCenter extends Activity {
             } else if (action.equals(GBDevice.ACTION_DEVICE_CHANGED)) {
                 GBDevice dev = intent.getParcelableExtra("device");
                 if (dev.getAddress() != null) {
-                    for (int i = 0; i < deviceList.size(); i++) {
-                        if (dev.equals(deviceList.get(i))) {
-                            deviceList.set(i, dev);
-                            break;
-                        }
+                    int index = deviceList.indexOf(dev); // search by address
+                    if (index >= 0) {
+                        deviceList.set(index, dev);
                     }
                 }
                 refreshPairedDevices();
@@ -151,13 +148,14 @@ public class ControlCenter extends Activity {
     }
 
     private void refreshPairedDevices() {
-        GBDevice connectedDevice = null;
+        boolean connected = false;
+        List<GBDevice> availableDevices = new ArrayList<>();
         for (GBDevice device : deviceList) {
             if (device.isConnected() || device.isConnecting()) {
-                connectedDevice = device;
+                connected = true;
+                availableDevices.add(device);
             }
         }
-        deviceList.clear();
 
         BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -167,29 +165,37 @@ public class ControlCenter extends Activity {
             Toast.makeText(this, "Bluetooth is disabled.", Toast.LENGTH_SHORT).show();
         } else {
             Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
-            for (BluetoothDevice device : pairedDevices) {
+            for (BluetoothDevice pairedDevice : pairedDevices) {
                 GBDevice.Type deviceType;
-                if (device.getName().indexOf("Pebble") == 0) {
+                if (pairedDevice.getName().indexOf("Pebble") == 0) {
                     deviceType = GBDevice.Type.PEBBLE;
-                } else if (device.getName().equals("MI")) {
+                } else if (pairedDevice.getName().equals("MI")) {
                     deviceType = GBDevice.Type.MIBAND;
                 } else {
                     continue;
                 }
-                if (connectedDevice != null && (device.getAddress().equals(connectedDevice.getAddress()))) {
-                    deviceList.add(connectedDevice);
-                } else {
-                    deviceList.add(new GBDevice(device.getAddress(), device.getName(), deviceType));
+                GBDevice device = new GBDevice(pairedDevice.getAddress(), pairedDevice.getName(), deviceType);
+                if (!availableDevices.contains(device)) {
+                    availableDevices.add(device);
                 }
             }
 
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
             String miAddr = sharedPrefs.getString("development_miaddr", null);
-            if (miAddr != null && !miAddr.equals("") && (connectedDevice == null || !miAddr.equals(connectedDevice.getAddress()))) {
-                deviceList.add(new GBDevice(miAddr, "MI", GBDevice.Type.MIBAND));
+            if (miAddr != null && miAddr.length() > 0) {
+                GBDevice miDevice = new GBDevice(miAddr, "MI", GBDevice.Type.MIBAND);
+                if (!availableDevices.contains(miDevice)) {
+                    availableDevices.add(miDevice);
+                }
+            }
+            deviceList.retainAll(availableDevices);
+            for (GBDevice dev : availableDevices) {
+                if (!deviceList.contains(dev)) {
+                    deviceList.add(dev);
+                }
             }
 
-            if (connectedDevice != null) {
+            if (connected) {
                 hintTextView.setText("tap connected device for App Mananger");
             } else if (!deviceList.isEmpty()) {
                 hintTextView.setText("tap a device to connect");
