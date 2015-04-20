@@ -66,7 +66,7 @@ public class BluetoothCommunicationService extends Service {
                 GBDevice device = intent.getParcelableExtra("device");
                 if (mGBDevice.equals(device)) {
                     mGBDevice = device;
-                    GB.setReceiversEnableState(mGBDevice.isConnected(), context);
+                    GB.setReceiversEnableState(mDeviceSupport.useAutoConnect() || mGBDevice.isConnected(), context);
                 }
             }
         }
