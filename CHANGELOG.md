@@ -1,4 +1,9 @@
 ###Changelog
+
+####Version 0.3.2
+* Miband: Fix for notifications only working after manual connection
+* Miband: Display firmware version
+
 ####Version 0.3.1
 * Miband: Fix for notifications only woking in Debug
 
