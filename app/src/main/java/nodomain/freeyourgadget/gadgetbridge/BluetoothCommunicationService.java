@@ -1,9 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
-import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
-import nodomain.freeyourgadget.gadgetbridge.miband.MiBandSupport;
-import nodomain.freeyourgadget.gadgetbridge.pebble.PebbleIoThread;
-import nodomain.freeyourgadget.gadgetbridge.pebble.PebbleSupport;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
@@ -22,6 +18,11 @@ import android.provider.ContactsContract;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
+
+import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
+import nodomain.freeyourgadget.gadgetbridge.miband.MiBandSupport;
+import nodomain.freeyourgadget.gadgetbridge.pebble.PebbleIoThread;
+import nodomain.freeyourgadget.gadgetbridge.pebble.PebbleSupport;
 
 public class BluetoothCommunicationService extends Service {
     public static final String ACTION_START
@@ -120,15 +121,15 @@ public class BluetoothCommunicationService extends Service {
             } else {
                 String btDeviceAddress = intent.getStringExtra("device_address");
                 SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-                sharedPrefs.edit().putString("last_device_address", btDeviceAddress).commit();
+                sharedPrefs.edit().putString("last_device_address", btDeviceAddress).apply();
 
                 if (btDeviceAddress != null && !isConnected() && !isConnecting()) {
                     if (mDeviceSupport != null) {
                         mDeviceSupport.dispose();
                         mDeviceSupport = null;
                     }
-                    BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(btDeviceAddress);
-                    if (btDevice != null) {
+                    try {
+                        BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(btDeviceAddress);
                         if (btDevice.getName() == null || btDevice.getName().equals("MI")) { //FIXME: workaround for Miband not being paired
                             mGBDevice = new GBDevice(btDeviceAddress, "MI", GBDevice.Type.MIBAND);
                             mDeviceSupport = new MiBandSupport();
@@ -143,6 +144,9 @@ public class BluetoothCommunicationService extends Service {
                                 mGBDeviceIoThread = ((AbstractBTDeviceSupport) mDeviceSupport).getDeviceIOThread();
                             }
                         }
+                    } catch (Exception e) {
+                        Toast.makeText(this, "Cannot connect. BT address invalid?", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
                     }
                 }
             }
