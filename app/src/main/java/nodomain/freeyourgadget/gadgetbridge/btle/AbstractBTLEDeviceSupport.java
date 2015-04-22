@@ -1,10 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.btle;
 
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattService;
-import android.util.Log;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,6 +8,11 @@ import java.util.Set;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.AbstractDeviceSupport;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
+import android.bluetooth.BluetoothProfile;
+import android.util.Log;
 
 /**
  * @see TransactionBuilder
@@ -153,6 +153,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     @Override
     public void onServicesDiscovered(BluetoothGatt gatt) {
         gattServicesDiscovered(getQueue().getSupportedGattServices());
+        initializeDevice(new TransactionBuilder("Initializing device")).queue(getQueue());
     }
 
     @Override
@@ -170,6 +171,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
                                         BluetoothGattCharacteristic characteristic) {
     }
 
+    @Override
     public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
     }
 }
