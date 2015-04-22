@@ -94,8 +94,11 @@ public class BluetoothCommunicationService extends Service {
             return START_NOT_STICKY;
         }
 
+        Log.d(TAG, "Service startcommand: " + action);
+
         if (!mStarted && !action.equals(ACTION_START)) {
             // using the service before issuing ACTION_START
+            Log.i(TAG, "Must start service with " + ACTION_START + " before using it: " + action);
             return START_NOT_STICKY;
         }
 
