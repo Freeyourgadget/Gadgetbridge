@@ -52,6 +52,8 @@ public class ControlCenter extends Activity {
                     int index = deviceList.indexOf(dev); // search by address
                     if (index >= 0) {
                         deviceList.set(index, dev);
+                    } else {
+                        deviceList.add(dev);
                     }
                 }
                 refreshPairedDevices();
