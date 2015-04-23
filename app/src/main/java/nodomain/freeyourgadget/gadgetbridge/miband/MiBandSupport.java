@@ -6,6 +6,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.util.UUID;
+import java.util.Calendar;
 
 import nodomain.freeyourgadget.gadgetbridge.GBCommand;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
@@ -123,7 +124,33 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetTime(long ts) {
-        // TODO Auto-generated method stub
+        // TODO Not sure about the ts value
+	Calendar now = Calendar.getInstance();
+	byte[] time = new byte[] {
+		(byte) (now.get(Calendar.YEAR) - 2000),
+		(byte) now.get(Calendar.MONTH),
+		(byte) now.get(Calendar.DATE),
+		(byte) now.get(Calendar.HOUR_OF_DAY),
+		(byte) now.get(Calendar.MINUTE),
+		(byte) now.get(Calendar.SECOND),
+		(byte) 0x0f,
+		(byte) 0x0f,
+		(byte) 0x0f,
+		(byte) 0x0f,
+		(byte) 0x0f,
+		(byte) 0x0f
+		};
+        try {
+            TransactionBuilder builder = performInitialized("Set date and time");
+		BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_DATE_TIME);
+		if (characteristic != null) {
+		    builder.write(characteristic, time);
+		} else {
+		    Log.i(TAG, "Unable to set time -- characteristic not available");
+		}
+        } catch (IOException ex) {
+            Log.e(TAG, "Unable to set time on MI device", ex);
+        }
 
     }
 
