@@ -57,6 +57,10 @@ public class ControlCenter extends Activity {
                     }
                 }
                 refreshPairedDevices();
+
+                if (dev.isConnected() && dev.getFirmwareVersion() == null) {
+                    requestDeviceInfo();
+                }
             }
         }
     };
@@ -79,7 +83,6 @@ public class ControlCenter extends Activity {
                     Intent startIntent = new Intent(ControlCenter.this, BluetoothCommunicationService.class);
                     startIntent.setAction(BluetoothCommunicationService.ACTION_CONNECT);
                     startIntent.putExtra("device_address", deviceList.get(position).getAddress());
-
                     startService(startIntent);
                 }
             }
@@ -105,7 +108,17 @@ public class ControlCenter extends Activity {
         startIntent.setAction(BluetoothCommunicationService.ACTION_START);
         startService(startIntent);
 
-        Intent versionInfoIntent = new Intent(this, BluetoothCommunicationService.class);
+        requestDeviceInfo();
+    }
+
+    /**
+     * Requests information from the {@link BluetoothCommunicationService} about the connection state,
+     * firmware info, etc.
+     *
+     * Note that this method may cause an implicit device connection (for auto-connectable devices).
+     */
+    private void requestDeviceInfo() {
+        Intent versionInfoIntent = new Intent(ControlCenter.this, BluetoothCommunicationService.class);
         versionInfoIntent.setAction(BluetoothCommunicationService.ACTION_REQUEST_VERSIONINFO);
         startService(versionInfoIntent);
     }
