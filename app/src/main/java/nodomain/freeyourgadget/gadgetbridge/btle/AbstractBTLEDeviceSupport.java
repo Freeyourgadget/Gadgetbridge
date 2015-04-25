@@ -1,5 +1,10 @@
 package nodomain.freeyourgadget.gadgetbridge.btle;
 
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
+import android.util.Log;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,11 +13,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.AbstractDeviceSupport;
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattService;
-import android.bluetooth.BluetoothProfile;
-import android.util.Log;
 
 /**
  * @see TransactionBuilder

@@ -68,13 +68,14 @@ public class GB {
             pm.setComponentEnabledSetting(compName, newState, PackageManager.DONT_KILL_APP);
         }
     }
-    public static String hexdump(byte[] buffer, int length) {
+
+    public static String hexdump(byte[] buffer, int offset, int length) {
         final char[] hexArray = "0123456789ABCDEF".toCharArray();
         char[] hexChars = new char[length * 2];
-        for (int j = 0; j < length; j++) {
-            int v = buffer[j] & 0xFF;
-            hexChars[j * 2] = hexArray[v >>> 4];
-            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+        for (int i = 0; i < length; i++) {
+            int v = buffer[i + offset] & 0xFF;
+            hexChars[i * 2] = hexArray[v >>> 4];
+            hexChars[i * 2 + 1] = hexArray[v & 0x0F];
         }
         return new String(hexChars);
     }

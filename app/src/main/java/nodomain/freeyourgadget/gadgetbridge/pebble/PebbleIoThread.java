@@ -107,7 +107,6 @@ public class PebbleIoThread extends GBDeviceIoThread {
         mQuit = !mIsConnected; // quit if not connected
 
         byte[] buffer = new byte[8192];
-        int bytes;
 
         while (!mQuit) {
             try {
@@ -147,7 +146,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                             }
                             break;
                         case APP_UPLOAD_CHUNK:
-                            bytes = mZis.read(buffer);
+                            int bytes = mZis.read(buffer);
 
                             if (bytes != -1) {
                                 writeInstallApp(mPebbleProtocol.encodeUploadChunk(mAppInstallToken, buffer, bytes));
@@ -190,9 +189,10 @@ public class PebbleIoThread extends GBDeviceIoThread {
                             break;
                     }
                 }
-                bytes = mInStream.read(buffer, 0, 4);
-                if (bytes < 4)
+                int bytes = mInStream.read(buffer, 0, 4);
+                if (bytes < 4) {
                     continue;
+                }
 
                 ByteBuffer buf = ByteBuffer.wrap(buffer);
                 buf.order(ByteOrder.BIG_ENDIAN);
@@ -207,15 +207,13 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 }
 
                 bytes = mInStream.read(buffer, 4, length);
-                if (bytes < length) {
+                while (bytes < length) {
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    //Log.i(TAG, "Read " + bytes + ", expected " + length + " reading remaining " + (length - bytes));
-                    int bytes_rest = mInStream.read(buffer, 4 + bytes, length - bytes);
-                    bytes += bytes_rest;
+                    bytes += mInStream.read(buffer, bytes + 4, length - bytes);
                 }
 
                 if (length == 1 && endpoint == PebbleProtocol.ENDPOINT_PHONEVERSION) {
@@ -230,14 +228,14 @@ public class PebbleIoThread extends GBDeviceIoThread {
                         write(mPebbleProtocol.encodeSetTime(-1));
                     }
                 } else if (endpoint == PebbleProtocol.ENDPOINT_DATALOG) {
-                    Log.i(TAG, "datalog to endpoint " + endpoint + " (" + bytes + " bytes)");
-                    if (bytes <= 64) {
-                        Log.i(TAG, "hexdump: " + GB.hexdump(buffer, bytes));
+                    Log.i(TAG, "datalog to endpoint " + endpoint + " (" + length + " bytes)");
+                    if (length <= 64) {
+                        Log.i(TAG, "hexdump: " + GB.hexdump(buffer, 4, length));
                     }
                 } else {
                     GBDeviceCommand deviceCmd = mPebbleProtocol.decodeResponse(buffer);
                     if (deviceCmd == null) {
-                        Log.i(TAG, "unhandled message to endpoint " + endpoint + " (" + bytes + " bytes)");
+                        Log.i(TAG, "unhandled message to endpoint " + endpoint + " (" + length + " bytes)");
                     } else {
                         evaluateGBCommandBundle(deviceCmd);
                     }

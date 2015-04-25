@@ -1,10 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapter;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -23,6 +18,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapter;
 
 public class ControlCenter extends Activity {
 
@@ -114,7 +115,7 @@ public class ControlCenter extends Activity {
     /**
      * Requests information from the {@link BluetoothCommunicationService} about the connection state,
      * firmware info, etc.
-     *
+     * <p/>
      * Note that this method may cause an implicit device connection (for auto-connectable devices).
      */
     private void requestDeviceInfo() {
