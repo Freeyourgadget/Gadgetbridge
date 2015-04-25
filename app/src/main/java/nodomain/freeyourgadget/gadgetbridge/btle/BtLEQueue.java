@@ -30,6 +30,7 @@ public final class BtLEQueue {
     private BluetoothGatt mBluetoothGatt;
     private volatile BlockingQueue<Transaction> mTransactions = new LinkedBlockingQueue<Transaction>();
     private volatile boolean mDisposed;
+    private volatile boolean mCrashed;
     private volatile boolean mAbortTransaction;
 
     private Context mContext;
@@ -42,7 +43,9 @@ public final class BtLEQueue {
 
         @Override
         public void run() {
-            while (!mDisposed) {
+            Log.d(TAG, "Queue Dispatch Thread started.");
+
+            while (!mDisposed && !mCrashed) {
                 try {
                     Transaction transaction = mTransactions.take();
                     if (!isConnected()) {
@@ -77,6 +80,12 @@ public final class BtLEQueue {
                 } catch (InterruptedException ignored) {
                     mWaitForActionResultLatch = null;
                     mConnectionLatch = null;
+                    Log.d(TAG, "Thread interrupted");
+                } catch (Throwable ex) {
+                    Log.e(TAG, "Queue Dispatch Thread died: " + ex.getMessage());
+                    mCrashed = true;
+                    mWaitForActionResultLatch = null;
+                    mConnectionLatch = null;
                 } finally {
                     mWaitCharacteristic = null;
                 }
@@ -103,12 +112,14 @@ public final class BtLEQueue {
      * specific initialization. This should be done in the specific {@link DeviceSupport}
      * class.
      *
-     * @return true whether the connection attempt was successfully triggered
+     * @return <code>true</code> whether the connection attempt was successfully triggered and <code>false</code> if that failed or if there is already a connection
      */
     public boolean connect() {
-        if (mBluetoothGatt != null) {
-            disconnect();
+        if (isConnected()) {
+            Log.w(TAG, "Ingoring connect() because already connected.");
+            return false;
         }
+        Log.i(TAG, "Attempting to connect to " + mGbDevice.getName());
         BluetoothDevice remoteDevice = mBluetoothAdapter.getRemoteDevice(mGbDevice.getAddress());
         mBluetoothGatt = remoteDevice.connectGatt(mContext, false, internalGattCallback);
         boolean result = mBluetoothGatt.connect();
@@ -162,9 +173,11 @@ public final class BtLEQueue {
      * @param transaction
      */
     public void add(Transaction transaction) {
+        Log.d(TAG, "about to add: " + transaction);
         if (!transaction.isEmpty()) {
             mTransactions.add(transaction);
         }
+        Log.d(TAG, "adding done: " + transaction);
     }
 
     public void clear() {
@@ -179,6 +192,7 @@ public final class BtLEQueue {
      */
     public List<BluetoothGattService> getSupportedGattServices() {
         if (mBluetoothGatt == null) {
+            Log.w(TAG, "BluetoothGatt is null => no services available.");
             return Collections.emptyList();
         }
         return mBluetoothGatt.getServices();
