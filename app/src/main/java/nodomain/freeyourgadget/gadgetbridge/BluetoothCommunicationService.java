@@ -74,6 +74,7 @@ public class BluetoothCommunicationService extends Service {
 
     @Override
     public void onCreate() {
+        Log.d(TAG, "BluetoothCommunicationService is being created");
         super.onCreate();
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED));
     }
@@ -221,6 +222,7 @@ public class BluetoothCommunicationService extends Service {
 
     @Override
     public void onDestroy() {
+        Log.d(TAG, "BluetoothCommunicationService is being destroyed");
         super.onDestroy();
 
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
