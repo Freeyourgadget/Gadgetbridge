@@ -213,7 +213,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    Log.i(TAG, "Read " + bytes + ", expected " + length + " reading remaining " + (length - bytes));
+                    //Log.i(TAG, "Read " + bytes + ", expected " + length + " reading remaining " + (length - bytes));
                     int bytes_rest = mInStream.read(buffer, 4 + bytes, length - bytes);
                     bytes += bytes_rest;
                 }
@@ -229,7 +229,12 @@ public class PebbleIoThread extends GBDeviceIoThread {
                         Log.i(TAG, "syncing time");
                         write(mPebbleProtocol.encodeSetTime(-1));
                     }
-                } else if (endpoint != PebbleProtocol.ENDPOINT_DATALOG) {
+                } else if (endpoint == PebbleProtocol.ENDPOINT_DATALOG) {
+                    Log.i(TAG, "datalog to endpoint " + endpoint + " (" + bytes + " bytes)");
+                    if (bytes <= 64) {
+                        Log.i(TAG, "hexdump: " + GB.hexdump(buffer, bytes));
+                    }
+                } else {
                     GBDeviceCommand deviceCmd = mPebbleProtocol.decodeResponse(buffer);
                     if (deviceCmd == null) {
                         Log.i(TAG, "unhandled message to endpoint " + endpoint + " (" + bytes + " bytes)");
@@ -393,17 +398,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
             return;
         }
         int length = bytes.length;
-        Log.i(TAG, "got bytes for writeInstallApp()" + length);
-                /*
-            final char[] hexArray = "0123456789ABCDEF".toCharArray();
-            char[] hexChars = new char[length * 2];
-            for (int j = 0; j < length; j++) {
-                int v = bytes[j] & 0xFF;
-                hexChars[j * 2] = hexArray[v >>> 4];
-                hexChars[j * 2 + 1] = hexArray[v & 0x0F];
-            }
-            Log.i(TAG, new String(hexChars));
-				 */
+        Log.i(TAG, "got " + length + "bytes for writeInstallApp()");
         try {
             mOutStream.write(bytes);
             mOutStream.flush();
