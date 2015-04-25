@@ -1,9 +1,9 @@
 Gadgetbridge
 ============
 
-Gadgetbridge is a Android (4.4+) Application which will allow you to use your
-Pebble or Miband without the vendors closed source application and without the
-need to create an account and transmit any of your data to the vendors servers.
+Gadgetbridge is an Android (4.4+) Application which will allow you to use your
+Pebble or Miband without the vendor's closed source application and without the
+need to create an account and transmit any of your data to the vendor's servers.
 
 Features (Pebble):
 
@@ -21,17 +21,19 @@ Features (Pebble):
 
 How to use (Pebble):
 
-1. Pair your Pebble though the Android Bluetooth Settings
+1. Pair your Pebble through the Android Bluetooth Settings
 2. Start Gadgetbridge, tap on the device you want to connect to
 3. To test, chose "Debug" from the menu and play around
 
 How to use (Miband):
 
-1. Add your Mibands MAC address manually for now (Settings -> Debug)
-2. Configure other notifications as desired
-3. Go back to the "Gadgetbridge" Activity
-4. Tap the "MI" device to connect
-5. To test, chose "Debug" from the menu and play around
+* With older Miband firmware (e.g. 1.4.0.sx): Add your Miband's MAC address manually  (Settings -> Debug)
+* With newer firmware that supports pairing, pair your Miband through the Android Bluetooth Settings
+
+1. Configure other notifications as desired
+2. Go back to the "Gadgetbridge" Activity
+3. Tap the "MI" device to connect
+4. To test, chose "Debug" from the menu and play around
 
 Known Issues:
 
@@ -39,6 +41,9 @@ Known Issues:
   notifications or by using AccessibiltyService. Don't know if it is worth the
   hassle.
 
+* The initial connection to a Miband sometimes takes a little patience. Try to connect a few times, wait, 
+  possibly quit Gadgetbridge before connecting again. This only happens until you have "bonded" with the 
+  Miband, i.e. until it knows your MAC address. This behavior may also only occur with older firmware versions.
 
 ## Download
 
