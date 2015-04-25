@@ -402,12 +402,13 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    public byte[] encodeDatalog(byte[] buffer) {
-        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + buffer.length);
+    public byte[] encodeDatalog(byte handle, byte reply) {
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + 2);
         buf.order(ByteOrder.BIG_ENDIAN);
-        buf.putShort((short) buffer.length);
+        buf.putShort((short) 2);
         buf.putShort(ENDPOINT_DATALOG);
-        buf.put(buffer);
+        buf.put(reply);
+        buf.put(handle);
 
         return buf.array();
     }

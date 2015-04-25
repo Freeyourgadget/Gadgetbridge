@@ -229,9 +229,8 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     }
                 } else if (endpoint == PebbleProtocol.ENDPOINT_DATALOG) {
                     Log.i(TAG, "datalog to endpoint " + endpoint + " (" + length + " bytes)");
-                    if (length <= 64) {
-                        Log.i(TAG, "hexdump: " + GB.hexdump(buffer, 4, length));
-                    }
+                    Log.i(TAG, "first two bytes: " + GB.hexdump(buffer, 4, 2));
+                    write(mPebbleProtocol.encodeDatalog(buffer[5], (byte) 0x85));
                 } else {
                     GBDeviceCommand deviceCmd = mPebbleProtocol.decodeResponse(buffer);
                     if (deviceCmd == null) {
