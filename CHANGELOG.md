@@ -1,4 +1,6 @@
 ###Changelog
+####Version 0.3.2
+* Pebble: try to reduce battery usage by acknowledging datalog packeets
 
 ####Version 0.3.2
 * Miband: Fix for notifications only working after manual connection
