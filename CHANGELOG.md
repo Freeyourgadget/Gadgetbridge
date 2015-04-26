@@ -1,18 +1,20 @@
 ###Changelog
-####Version 0.3.2
+####Version 0.3.3
 * Pebble: try to reduce battery usage by acknowledging datalog packeets
+* Mi Band: set current time on the device (thanks to PR by @danielegobbetti)
+* General: more robust connection state handling and display
 
 ####Version 0.3.2
-* Miband: Fix for notifications only working after manual connection
-* Miband: Display firmware version
+* Mi Band: Fix for notifications only working after manual connection
+* Mi Band: Display firmware version
 * Pebble: Display hardware revision
 * Pebble: Check if firmware is compatible before allowing installation
 
 ####Version 0.3.1
-* Miband: Fix for notifications only woking in Debug
+* Mi Band: Fix for notifications only woking in Debug
 
 ####Version 0.3.0
-* Miband: Initial support (see README.md)
+* Mi Band: Initial support (see README.md)
 * Pebble: Firmware installation (USE AT YOUR OWN RISK)
 * Pebble: Fix installation problems with certain .pbw files
 * Pebble: Volume control
