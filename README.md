@@ -28,10 +28,10 @@ need to create an account and transmit any of your data to the vendor's servers.
 ## Features (Mi Band)
 
 * Mi Band notifications (LEDs + vibration) for 
-** Incoming calls
-** SMS received
-** K-9 mails received
-** Generic Android notifications
+    * Incoming calls
+    * SMS received
+    * K-9 mails received
+    * Generic Android notifications
 * Synchronize the time to the Mi Band
 * Display firmware version
 
