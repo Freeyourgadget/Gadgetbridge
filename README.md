@@ -2,10 +2,10 @@ Gadgetbridge
 ============
 
 Gadgetbridge is an Android (4.4+) Application which will allow you to use your
-Pebble or Miband without the vendor's closed source application and without the
+Pebble or Mi Band without the vendor's closed source application and without the
 need to create an account and transmit any of your data to the vendor's servers.
 
-Features (Pebble):
+## Features (Pebble)
 
 * Incoming calls notification and display (caller, phone number)
 * Outgoing call display
@@ -19,16 +19,26 @@ Features (Pebble):
 * Install .pbw files
 * Install firmware from .pbz files (EXPERIMENTAL)
 
-How to use (Pebble):
+## How to use (Pebble)
 
 1. Pair your Pebble through the Android Bluetooth Settings
 2. Start Gadgetbridge, tap on the device you want to connect to
-3. To test, chose "Debug" from the menu and play around
+3. To test, choose "Debug" from the menu and play around
 
-How to use (Miband):
+## Features (Mi Band)
 
-* With older Miband firmware (e.g. 1.4.0.sx): Add your Miband's MAC address manually  (Settings -> Debug)
-* With newer firmware that supports pairing, pair your Miband through the Android Bluetooth Settings
+* Mi Band notifications (LEDs + vibration) for 
+** Incoming calls
+** SMS received
+** K-9 mails received
+** Generic Android notifications
+* Synchronize the time to the Mi Band
+* Display firmware version
+
+## How to use (Mi Band)
+
+* With older Mi Band firmware (e.g. 1.4.0.x): Add your Mi Band's MAC address manually  (Settings -> Debug)
+* With newer firmware that supports pairing, pair your Mi Band through the Android Bluetooth Settings
 
 1. Configure other notifications as desired
 2. Go back to the "Gadgetbridge" Activity
@@ -41,9 +51,9 @@ Known Issues:
   notifications or by using AccessibiltyService. Don't know if it is worth the
   hassle.
 
-* The initial connection to a Miband sometimes takes a little patience. Try to connect a few times, wait, 
+* The initial connection to a Mi Band sometimes takes a little patience. Try to connect a few times, wait, 
   possibly quit Gadgetbridge before connecting again. This only happens until you have "bonded" with the 
-  Miband, i.e. until it knows your MAC address. This behavior may also only occur with older firmware versions.
+  Mi Band, i.e. until it knows your MAC address. This behavior may also only occur with older firmware versions.
 
 ## Download
 
