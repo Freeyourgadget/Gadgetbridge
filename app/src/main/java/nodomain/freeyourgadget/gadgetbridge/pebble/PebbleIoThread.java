@@ -146,9 +146,14 @@ public class PebbleIoThread extends GBDeviceIoThread {
                             }
                             break;
                         case APP_UPLOAD_CHUNK:
-                            int bytes = mZis.read(buffer);
+                            int bytes = 0;
+                            do {
+                                int read = mZis.read(buffer, bytes, 2000 - bytes);
+                                if (read <= 0) break;
+                                bytes += read;
+                            } while (bytes < 2000);
 
-                            if (bytes != -1) {
+                            if (bytes > 0) {
                                 writeInstallApp(mPebbleProtocol.encodeUploadChunk(mAppInstallToken, buffer, bytes));
                                 mAppInstallToken = -1;
                                 mInstallState = PebbleAppInstallState.APP_WAIT_TOKEN;
