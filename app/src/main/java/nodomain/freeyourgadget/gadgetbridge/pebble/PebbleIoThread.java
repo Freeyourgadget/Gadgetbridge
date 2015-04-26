@@ -103,7 +103,6 @@ public class PebbleIoThread extends GBDeviceIoThread {
 
     public void run() {
         mIsConnected = connect(gbDevice.getAddress());
-        GB.setReceiversEnableState(mIsConnected, getContext()); // enable/disable BroadcastReceivers
         mQuit = !mIsConnected; // quit if not connected
 
         byte[] buffer = new byte[8192];
@@ -265,7 +264,6 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     mConnectionAttempts = 0;
                     if (!mIsConnected) {
                         mBtSocket = null;
-                        GB.setReceiversEnableState(false, getContext());
                         Log.i(TAG, "Bluetooth socket closed, will quit IO Thread");
                         mQuit = true;
                     }
