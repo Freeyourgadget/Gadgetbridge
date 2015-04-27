@@ -55,6 +55,13 @@ Known Issues:
   possibly quit Gadgetbridge before connecting again. This only happens until you have "bonded" with the 
   Mi Band, i.e. until it knows your MAC address. This behavior may also only occur with older firmware versions.
 
+## Contribute
+
+Contributions are welcome, be it feedback, bugreports, documentation, research or code. Feel free to work
+on any of the open [issues](https://github.com/Freeyourgadget/Gadgetbridge/issues?q=is%3Aopen+is%3Aissue);
+just leave a comment that you're working on one to avoid duplicated work.
+
 ## Download
 
 [![Gadgetbridge on F-Droid](/Get_it_on_F-Droid.svg.png?raw=true "Download from F-Droid")](https://f-droid.org/repository/browse/?fdid=nodomain.freeyourgadget.gadgetbridge)
+
