@@ -1,9 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.miband;
 
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.util.Log;
-
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.UUID;
@@ -12,6 +8,9 @@ import nodomain.freeyourgadget.gadgetbridge.GBCommand;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.btle.TransactionBuilder;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.util.Log;
 
 public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
@@ -23,7 +22,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
-        pair(builder).sendUserInfo(builder);
+        pair(builder).sendUserInfo(builder).setCurrentTime(builder);
         return builder;
     }
 
@@ -124,7 +123,20 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetTime(long ts) {
-        // TODO Not sure about the ts value
+        try {
+            TransactionBuilder builder = performInitialized("Set date and time");
+            setCurrentTime(builder);
+            builder.queue(getQueue());
+        } catch (IOException ex) {
+            Log.e(TAG, "Unable to set time on MI device", ex);
+        }
+    }
+
+    /**
+     * Sets the current time to the Mi device using the given builder.
+     * @param builder
+     */
+    private MiBandSupport setCurrentTime(TransactionBuilder builder) {
         Calendar now = Calendar.getInstance();
         byte[] time = new byte[]{
                 (byte) (now.get(Calendar.YEAR) - 2000),
@@ -140,18 +152,13 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 (byte) 0x0f,
                 (byte) 0x0f
         };
-        try {
-            TransactionBuilder builder = performInitialized("Set date and time");
-            BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_DATE_TIME);
-            if (characteristic != null) {
-                builder.write(characteristic, time);
-            } else {
-                Log.i(TAG, "Unable to set time -- characteristic not available");
-            }
-        } catch (IOException ex) {
-            Log.e(TAG, "Unable to set time on MI device", ex);
+        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_DATE_TIME);
+        if (characteristic != null) {
+            builder.write(characteristic, time);
+        } else {
+            Log.i(TAG, "Unable to set time -- characteristic not available");
         }
-
+        return this;
     }
 
     @Override
