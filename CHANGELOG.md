@@ -1,8 +1,13 @@
 ###Changelog
+####next release
+* Pebble: Huge speedup for app/firmware installation.
+* Pebble: Use a separate notification for installation procedure
+* Mi Band: Display connection status in notification (previously Pebble only)
+
 ####Version 0.3.3
-* Pebble: try to reduce battery usage by acknowledging datalog packeets
-* Mi Band: set current time on the device (thanks to PR by @danielegobbetti)
-* General: more robust connection state handling and display
+* Pebble: Try to reduce battery usage by acknowledging datalog packets
+* Mi Band: Set current time on the device (thanks to PR by @danielegobbetti)
+* General: More robust connection state handling and display
 
 ####Version 0.3.2
 * Mi Band: Fix for notifications only working after manual connection

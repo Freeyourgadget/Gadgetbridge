@@ -1,5 +1,8 @@
 package nodomain.freeyourgadget.gadgetbridge.pebble;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -9,6 +12,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.ParcelUuid;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
@@ -25,6 +29,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBCallControlReceiver;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.GBMusicControlReceiver;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppManagementResult;
@@ -35,6 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
 
 public class PebbleIoThread extends GBDeviceIoThread {
     private static final String TAG = PebbleIoThread.class.getSimpleName();
+    private static final int NOTIFICATION_ID = 2;
 
     private enum PebbleAppInstallState {
         UNKNOWN,
@@ -43,7 +49,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
         APP_WAIT_TOKEN,
         APP_UPLOAD_CHUNK,
         APP_UPLOAD_COMMIT,
-        APP_WAIT_COMMMIT,
+        APP_WAIT_COMMIT,
         APP_UPLOAD_COMPLETE,
         APP_REFRESH,
     }
@@ -66,10 +72,32 @@ public class PebbleIoThread extends GBDeviceIoThread {
     private ZipInputStream mZis = null;
     private PebbleAppInstallState mInstallState = PebbleAppInstallState.UNKNOWN;
     private PebbleInstallable[] mPebbleInstallables = null;
-    private PebbleInstallable mPebbleInstallable = null;
     private int mCurrentInstallableIndex = -1;
     private int mInstallSlot = -1;
     private int mCRC = -1;
+
+    public static Notification createInstallNotification(String text, boolean ongoing, Context context) {
+        Intent notificationIntent = new Intent(context, AppManagerActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
+                notificationIntent, 0);
+
+        return new NotificationCompat.Builder(context)
+                .setContentTitle("Gadgetbridge")
+                .setTicker(text)
+                .setContentText(text)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentIntent(pendingIntent)
+                .setOngoing(ongoing).build();
+    }
+
+    public static void updateInstallNotification(String text, boolean ongoing, Context context) {
+        Notification notification = createInstallNotification(text, ongoing, context);
+
+        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.notify(NOTIFICATION_ID, notification);
+    }
 
     public PebbleIoThread(GBDevice gbDevice, GBDeviceProtocol gbDeviceProtocol, BluetoothAdapter btAdapter, Context context) {
         super(gbDevice, context);
@@ -96,7 +124,6 @@ public class PebbleIoThread extends GBDeviceIoThread {
         }
         gbDevice.setState(GBDevice.State.CONNECTED);
         gbDevice.sendDeviceUpdateIntent(getContext());
-        GB.updateNotification("connected to " + btDevice.getName(), getContext());
 
         return true;
     }
@@ -113,7 +140,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     switch (mInstallState) {
                         case APP_WAIT_SLOT:
                             if (mInstallSlot != -1) {
-                                GB.updateNotification("starting installation", getContext());
+                                updateInstallNotification("starting installation", true, getContext());
                                 mInstallState = PebbleAppInstallState.APP_START_INSTALL;
                                 continue;
                             }
@@ -164,9 +191,9 @@ public class PebbleIoThread extends GBDeviceIoThread {
                         case APP_UPLOAD_COMMIT:
                             writeInstallApp(mPebbleProtocol.encodeUploadCommit(mAppInstallToken, mCRC));
                             mAppInstallToken = -1;
-                            mInstallState = PebbleAppInstallState.APP_WAIT_COMMMIT;
+                            mInstallState = PebbleAppInstallState.APP_WAIT_COMMIT;
                             break;
-                        case APP_WAIT_COMMMIT:
+                        case APP_WAIT_COMMIT:
                             if (mAppInstallToken != -1) {
                                 Log.i(TAG, "got token " + mAppInstallToken);
                                 mInstallState = PebbleAppInstallState.APP_UPLOAD_COMPLETE;
@@ -253,7 +280,6 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     Log.i(TAG, e.getMessage());
                     gbDevice.setState(GBDevice.State.CONNECTING);
                     gbDevice.sendDeviceUpdateIntent(getContext());
-                    GB.updateNotification("connection lost, trying to reconnect", getContext());
 
                     while (mConnectionAttempts++ < 10 && !mQuit) {
                         Log.i(TAG, "Trying to reconnect (attempt " + mConnectionAttempts + ")");
@@ -279,7 +305,6 @@ public class PebbleIoThread extends GBDeviceIoThread {
             }
         }
         mBtSocket = null;
-        GB.updateNotification("not connected", getContext());
         gbDevice.setState(GBDevice.State.NOT_CONNECTED);
         gbDevice.sendDeviceUpdateIntent(getContext());
     }
@@ -421,13 +446,13 @@ public class PebbleIoThread extends GBDeviceIoThread {
             return;
         }
         if (hadError) {
-            GB.updateNotification("installation failed!", getContext());
+            updateInstallNotification("installation failed!", false, getContext());
         } else {
-            GB.updateNotification("installation successful", getContext());
+            updateInstallNotification("installation successful", false, getContext());
         }
         mInstallState = PebbleAppInstallState.UNKNOWN;
 
-        if (hadError == true && mAppInstallToken != -1) {
+        if (hadError && mAppInstallToken != -1) {
             writeInstallApp(mPebbleProtocol.encodeUploadCancel(mAppInstallToken));
         }
 
