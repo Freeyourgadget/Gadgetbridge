@@ -1,5 +1,5 @@
 ###Changelog
-####next release
+####Version 0.3.4
 * Pebble: Huge speedup for app/firmware installation.
 * Pebble: Use a separate notification with progress bar for installation procedure
 * Pebble: Bugfix for beeing stuck while waiting for a slot, when none is available
