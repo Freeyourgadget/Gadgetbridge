@@ -73,7 +73,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
     private PebbleAppInstallState mInstallState = PebbleAppInstallState.UNKNOWN;
     private PebbleInstallable[] mPebbleInstallables = null;
     private int mCurrentInstallableIndex = -1;
-    private int mInstallSlot = -1;
+    private int mInstallSlot = -2;
     private int mCRC = -1;
 
     public static Notification createInstallNotification(String text, boolean ongoing, Context context) {
@@ -139,7 +139,10 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 if (mIsInstalling) {
                     switch (mInstallState) {
                         case APP_WAIT_SLOT:
-                            if (mInstallSlot != -1) {
+                            if (mInstallSlot == -1) {
+                                finishInstall(true); // no slots available
+                            }
+                            else if (mInstallSlot >= 0) {
                                 updateInstallNotification("starting installation", true, getContext());
                                 mInstallState = PebbleAppInstallState.APP_START_INSTALL;
                                 continue;
@@ -460,7 +463,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
         mIsInstalling = false;
         mZis = null;
         mAppInstallToken = -1;
-        mInstallSlot = -1;
+        mInstallSlot = -2;
     }
 
     public void quit() {
