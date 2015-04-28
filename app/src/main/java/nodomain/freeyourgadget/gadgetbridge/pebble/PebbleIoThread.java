@@ -75,25 +75,35 @@ public class PebbleIoThread extends GBDeviceIoThread {
     private int mCurrentInstallableIndex = -1;
     private int mInstallSlot = -2;
     private int mCRC = -1;
+    private int mBinarySize = -1;
+    private int mBytesWritten = -1;
 
-    public static Notification createInstallNotification(String text, boolean ongoing, Context context) {
+    public static Notification createInstallNotification(String text, boolean ongoing,
+                                                         int percentage, Context context) {
         Intent notificationIntent = new Intent(context, AppManagerActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
                 notificationIntent, 0);
 
-        return new NotificationCompat.Builder(context)
+        NotificationCompat.Builder nb = new NotificationCompat.Builder(context)
                 .setContentTitle("Gadgetbridge")
-                .setTicker(text)
                 .setContentText(text)
+                .setTicker(text)
+
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentIntent(pendingIntent)
-                .setOngoing(ongoing).build();
+                .setOngoing(ongoing);
+
+        if (ongoing) {
+            nb.setProgress(100, percentage, percentage == 0);
+        }
+
+        return nb.build();
     }
 
-    public static void updateInstallNotification(String text, boolean ongoing, Context context) {
-        Notification notification = createInstallNotification(text, ongoing, context);
+    public static void updateInstallNotification(String text, boolean ongoing, int percentage, Context context) {
+        Notification notification = createInstallNotification(text, ongoing, percentage, context);
 
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         nm.notify(NOTIFICATION_ID, notification);
@@ -141,9 +151,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                         case APP_WAIT_SLOT:
                             if (mInstallSlot == -1) {
                                 finishInstall(true); // no slots available
-                            }
-                            else if (mInstallSlot >= 0) {
-                                updateInstallNotification("starting installation", true, getContext());
+                            } else if (mInstallSlot >= 0) {
                                 mInstallState = PebbleAppInstallState.APP_START_INSTALL;
                                 continue;
                             }
@@ -163,8 +171,9 @@ public class PebbleIoThread extends GBDeviceIoThread {
                             PebbleInstallable pi = mPebbleInstallables[mCurrentInstallableIndex];
                             mZis = mPBWReader.getInputStreamFile(pi.getFileName());
                             mCRC = pi.getCRC();
-                            int binarySize = pi.getFileSize(); // TODO: use for progressbar
-                            writeInstallApp(mPebbleProtocol.encodeUploadStart(pi.getType(), (byte) mInstallSlot, binarySize));
+                            mBinarySize = pi.getFileSize();
+                            mBytesWritten = 0;
+                            writeInstallApp(mPebbleProtocol.encodeUploadStart(pi.getType(), (byte) mInstallSlot, mBinarySize));
                             mInstallState = PebbleAppInstallState.APP_WAIT_TOKEN;
                             break;
                         case APP_WAIT_TOKEN:
@@ -183,7 +192,9 @@ public class PebbleIoThread extends GBDeviceIoThread {
                             } while (bytes < 2000);
 
                             if (bytes > 0) {
+                                updateInstallNotification("installing binary " + (mCurrentInstallableIndex + 1) + "/" + mPebbleInstallables.length, true, (int) (((float) mBytesWritten / mBinarySize) * 100), getContext());
                                 writeInstallApp(mPebbleProtocol.encodeUploadChunk(mAppInstallToken, buffer, bytes));
+                                mBytesWritten += bytes;
                                 mAppInstallToken = -1;
                                 mInstallState = PebbleAppInstallState.APP_WAIT_TOKEN;
                             } else {
@@ -449,9 +460,9 @@ public class PebbleIoThread extends GBDeviceIoThread {
             return;
         }
         if (hadError) {
-            updateInstallNotification("installation failed!", false, getContext());
+            updateInstallNotification("installation failed!", false, 0, getContext());
         } else {
-            updateInstallNotification("installation successful", false, getContext());
+            updateInstallNotification("installation successful", false, 0, getContext());
         }
         mInstallState = PebbleAppInstallState.UNKNOWN;
 
