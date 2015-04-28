@@ -2,6 +2,7 @@
 ####next release
 * Pebble: Huge speedup for app/firmware installation.
 * Pebble: Use a separate notification for installation procedure
+* Pebble: Bugfix for beeing stuck while waiting for a slot, when none is available
 * Mi Band: Display connection status in notification (previously Pebble only)
 
 ####Version 0.3.3
