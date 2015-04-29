@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="action_debug">Depuración</string>
+    <string name="action_quit">Salir</string>
+    <string name="action_refresh">Actualizar</string>
+
+    <string name="title_activity_debug">Depuración</string>
+
+    <!-- Strings related to AppManager -->
+    <string name="title_activity_appmanager">Gestor de App</string>
+    <string name="appmananger_app_delete">Borrar</string>
+
+    <!-- Strings related to AppInstaller -->
+    <string name="title_activity_appinstaller">Instalador de App</string>
+
+    <!-- Strings related to Settings -->
+    <string name="title_activity_settings">Ajustes</string>
+
+    <string name="pref_header_general">Ajustes generales</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Conectar con el dispositivo cuando el bluetooth se encienda</string>
+
+    <string name="pref_header_datetime">Fecha y hora</string>
+    <string name="pref_title_datetime_syctimeonconnect">Sincronizar la hora al conectar</string>
+
+    <string name="pref_header_notifications">Notificaciones</string>
+    <string name="pref_title_notifications_sms">Notificación para SMS</string>
+    <string name="pref_title_notifications_k9mail">Notificación para K9-Mail</string>
+    <string name="pref_title_notifications_generic">Soporte para notificaciones genéricas</string>
+    <string name="pref_title_whenscreenon">… también cuando la pantalla está encendida</string>
+
+    <string name="pref_header_development">Opciones de desarrollador</string>
+    <string name="pref_title_development_miaddr">Dirección de Miband</string>
+</resources>
