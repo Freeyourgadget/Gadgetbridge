@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Gadgetbridge</string>
+
+    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="action_debug">Debug</string>
+    <string name="action_quit">Beenden</string>
+    <string name="action_refresh">Aktualisieren</string>
+
+    <string name="title_activity_debug">Debug</string>
+
+    <!-- Strings related to AppManager -->
+    <string name="title_activity_appmanager">App Manager</string>
+    <string name="appmananger_app_delete">Löschen</string>
+
+    <!-- Strings related to AppInstaller -->
+    <string name="title_activity_appinstaller">App Installer</string>
+
+    <!-- Strings related to Settings -->
+    <string name="title_activity_settings">Einstellungen</string>
+
+    <string name="pref_header_general">Allgemeine Einstellungen</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Verbinde, wenn Bluetooth eingeschaltet wird</string>
+
+    <string name="pref_header_datetime">Datum und Zeit</string>
+    <string name="pref_title_datetime_syctimeonconnect">Synchronisiere die Uhrzeit nach dem Verbindungsaufbau</string>
+
+    <string name="pref_header_notifications">Benachrichtigungen</string>
+    <string name="pref_title_notifications_sms">SMS Benachrichtigungen</string>
+    <string name="pref_title_notifications_k9mail">K9-Mail Benachrichtigungen</string>
+    <string name="pref_title_notifications_generic">Andere Benachrichtigungen</string>
+    <string name="pref_title_whenscreenon">… auch wenn der Bilschrim an ist</string>
+
+    <string name="pref_header_development">Entwickleroptionen</string>
+    <string name="pref_title_development_miaddr">Miband MAC-Adresse</string>
+</resources>
