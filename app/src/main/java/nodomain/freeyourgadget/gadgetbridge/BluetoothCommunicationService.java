@@ -123,9 +123,9 @@ public class BluetoothCommunicationService extends Service {
             //Check the system status
             mBtAdapter = BluetoothAdapter.getDefaultAdapter();
             if (mBtAdapter == null) {
-                Toast.makeText(this, "Bluetooth is not supported.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.bluetooth_is_not_supported_, Toast.LENGTH_SHORT).show();
             } else if (!mBtAdapter.isEnabled()) {
-                Toast.makeText(this, "Bluetooth is disabled.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.bluetooth_is_disabled_, Toast.LENGTH_SHORT).show();
             } else {
                 String btDeviceAddress = intent.getStringExtra("device_address");
                 SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -153,7 +153,7 @@ public class BluetoothCommunicationService extends Service {
                             }
                         }
                     } catch (Exception e) {
-                        Toast.makeText(this, "Cannot connect. BT address invalid?", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.cannot_connect_bt_address_invalid_, Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
                     }
                 }
@@ -206,7 +206,7 @@ public class BluetoothCommunicationService extends Service {
                 ((PebbleIoThread) mGBDeviceIoThread).installApp(Uri.parse(uriString));
             }
         } else if (action.equals(ACTION_START)) {
-            startForeground(GB.NOTIFICATION_ID, GB.createNotification("Gadgetbridge running", this));
+            startForeground(GB.NOTIFICATION_ID, GB.createNotification(getString(R.string.gadgetbridge_running), this));
             mStarted = true;
         }
 

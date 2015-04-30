@@ -1,5 +1,11 @@
 package nodomain.freeyourgadget.gadgetbridge.pebble;
 
+import nodomain.freeyourgadget.gadgetbridge.BluetoothCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.ControlCenter;
+import nodomain.freeyourgadget.gadgetbridge.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.GBDeviceApp;
+import nodomain.freeyourgadget.gadgetbridge.R;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -13,12 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import nodomain.freeyourgadget.gadgetbridge.BluetoothCommunicationService;
-import nodomain.freeyourgadget.gadgetbridge.ControlCenter;
-import nodomain.freeyourgadget.gadgetbridge.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.GBDeviceApp;
-import nodomain.freeyourgadget.gadgetbridge.R;
 
 
 public class PebbleAppInstallerActivity extends Activity {
@@ -71,10 +71,10 @@ public class PebbleAppInstallerActivity extends Activity {
         GBDeviceApp app = mPBWReader.getGBDeviceApp();
 
         if (mPBWReader.isFirmware()) {
-            debugTextView.setText("YOUR ARE TRYING TO INSTALL A FIRMWARE, PROCEED AT YOUR OWN RISK.\n\n\n This firmware is for HW Revision: " + mPBWReader.getHWRevision());
+            debugTextView.setText(getString(R.string.firmware_install_warning, mPBWReader.getHWRevision()));
 
         } else if (app != null) {
-            debugTextView.setText("You are about to install the following app:\n\n\n" + app.getName() + " Version " + app.getVersion() + " by " + app.getCreator() + "\n");
+            debugTextView.setText(getString(R.string.app_install_info, app.getName(), app.getVersion(), app.getCreator()));
         }
 
         installButton.setOnClickListener(new View.OnClickListener() {

@@ -115,24 +115,23 @@ public class GBDevice implements Parcelable {
     String getStateString() {
         switch (mState) {
             case NOT_CONNECTED:
-                return "not connected"; // TODO: do not hardcode
+                return GBApplication.getContext().getString(R.string.not_connected);
             case CONNECTING:
-                return "connecting";
+                return GBApplication.getContext().getString(R.string.connecting);
             case CONNECTED:
-                return "connected";
+                return GBApplication.getContext().getString(R.string.connected);
             case INITIALIZED:
-                return "initialized";
+                return GBApplication.getContext().getString(R.string.initialized);
         }
-        return "unknown state";
+        return GBApplication.getContext().getString(R.string.unknown_state);
     }
 
     public String getInfoString() {
-        //FIXME: ugly
         if (mFirmwareVersion != null) {
             if (mHardwareVersion != null) {
-                return getStateString() + " (HW: " + mHardwareVersion + " FW: " + mFirmwareVersion + ")";
+                return GBApplication.getContext().getString(R.string.connectionstate_hw_fw, getStateString(), mHardwareVersion, mFirmwareVersion);
             }
-            return getStateString() + " (FW: " + mFirmwareVersion + ")";
+            return GBApplication.getContext().getString(R.string.connectionstate_fw, getStateString(), mFirmwareVersion);
         } else {
             return getStateString();
         }
@@ -194,7 +193,7 @@ public class GBDevice implements Parcelable {
      * Returns a string representation of the battery state.
      */
     public String getBatteryState() {
-        return mBatteryState != null ? mBatteryState : "(unknown)";
+        return mBatteryState != null ? mBatteryState : GBApplication.getContext().getString(R.string._unknown_);
     }
 
     public void setBatteryState(String batteryState) {

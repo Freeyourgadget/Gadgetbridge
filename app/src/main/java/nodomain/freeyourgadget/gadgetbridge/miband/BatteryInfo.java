@@ -1,5 +1,8 @@
 package nodomain.freeyourgadget.gadgetbridge.miband;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
+
 public class BatteryInfo extends AbstractInfo {
     public BatteryInfo(byte[] data) {
         super(data);
@@ -12,21 +15,20 @@ public class BatteryInfo extends AbstractInfo {
         return 50; // actually unknown
     }
 
-    // TODO: localization
     public String getStatus() {
         if (mData.length >= 10) {
             int value = mData[9];
             switch (value) {
                 case 1:
-                    return "low";
+                    return GBApplication.getContext().getString(R.string.battery_low);
                 case 2:
-                    return "medium";
+                    return GBApplication.getContext().getString(R.string.battery_medium);
                 case 3:
-                    return "full";
+                    return GBApplication.getContext().getString(R.string.battery_full);
                 case 4:
-                    return "not charging";
+                    return GBApplication.getContext().getString(R.string.battery_not_charging);
             }
         }
-        return "(unknown)";
+        return GBApplication.getContext().getString(R.string._unknown_);
     }
 }

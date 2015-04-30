@@ -34,4 +34,33 @@
 
     <string name="pref_header_development">Developer Options</string>
     <string name="pref_title_development_miaddr">Miband address</string>
+    <string name="not_connected">not connected</string>
+    <string name="connecting">connecting</string>
+    <string name="connected">connected</string>
+    <string name="unknown_state">unknown state</string>
+    <string name="connectionstate_hw_fw">%1$s (HW: %2$s FW: %3$s)</string>
+    <string name="connectionstate_fw">%1$s (FW: %2$s)</string>
+    <string name="_unknown_">(unknown)</string>
+    <string name="gadgetbridge">Gadgetbridge</string>
+    <string name="test">Test</string>
+    <string name="test_notification">Test Notification</string>
+    <string name="this_is_a_test_notification_from_gadgetbridge">This is a Test Notification from Gadgetbridge</string>
+    <string name="bluetooth_is_not_supported_">Bluetooth is not supported.</string>
+    <string name="bluetooth_is_disabled_">Bluetooth is disabled.</string>
+    <string name="tap_connected_device_for_app_mananger">tap connected device for App Mananger</string>
+    <string name="tap_a_device_to_connect">tap a device to connect</string>
+    <string name="cannot_connect_bt_address_invalid_">Cannot connect. BT address invalid?</string>
+    <string name="gadgetbridge_running">Gadgetbridge running</string>
+    <string name="battery_low">low</string>
+    <string name="battery_medium">medium</string>
+    <string name="battery_full">full</string>
+    <string name="battery_not_charging">not charging</string>
+    <string name="installing_binary_d_d">installing binary %1$d/%2$d</string>
+    <string name="installation_failed_">installation failed!</string>
+    <string name="installation_successful">installation successful</string>
+    <string name="firmware_install_warning">YOUR ARE TRYING TO INSTALL A FIRMWARE, PROCEED AT YOUR OWN RISK.\n\n\n This firmware is for HW Revision: %s</string>
+    <string name="app_install_info">You are about to install the following app:\n\n\n%1$s Version %2$s by %3$s\n</string>
+    <string name="n_a">N/A</string>
+    <string name="initialized">initialized</string>
+    <string name="appversion_by_creator">%1$s by %1$s</string>
 </resources>

@@ -18,11 +18,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapter;
 
 public class ControlCenter extends Activity {
@@ -176,9 +174,9 @@ public class ControlCenter extends Activity {
         BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if (btAdapter == null) {
-            Toast.makeText(this, "Bluetooth is not supported.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.bluetooth_is_not_supported_, Toast.LENGTH_SHORT).show();
         } else if (!btAdapter.isEnabled()) {
-            Toast.makeText(this, "Bluetooth is disabled.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.bluetooth_is_disabled_, Toast.LENGTH_SHORT).show();
         } else {
             Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
             for (BluetoothDevice pairedDevice : pairedDevices) {
@@ -212,9 +210,9 @@ public class ControlCenter extends Activity {
             }
 
             if (connected) {
-                hintTextView.setText("tap connected device for App Mananger");
+                hintTextView.setText(R.string.tap_connected_device_for_app_mananger);
             } else if (!deviceList.isEmpty()) {
-                hintTextView.setText("tap a device to connect");
+                hintTextView.setText(R.string.tap_a_device_to_connect);
             }
         }
         mGBDeviceAdapter.notifyDataSetChanged();

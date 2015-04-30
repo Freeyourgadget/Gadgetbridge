@@ -1,5 +1,27 @@
 package nodomain.freeyourgadget.gadgetbridge.pebble;
 
+import nodomain.freeyourgadget.gadgetbridge.AppManagerActivity;
+import nodomain.freeyourgadget.gadgetbridge.GB;
+import nodomain.freeyourgadget.gadgetbridge.GBCallControlReceiver;
+import nodomain.freeyourgadget.gadgetbridge.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.GBDeviceIoThread;
+import nodomain.freeyourgadget.gadgetbridge.GBMusicControlReceiver;
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppInfo;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppManagementResult;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandCallControl;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandMusicControl;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.util.zip.ZipInputStream;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -15,28 +37,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.zip.ZipInputStream;
-
-import nodomain.freeyourgadget.gadgetbridge.AppManagerActivity;
-import nodomain.freeyourgadget.gadgetbridge.GB;
-import nodomain.freeyourgadget.gadgetbridge.GBCallControlReceiver;
-import nodomain.freeyourgadget.gadgetbridge.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.GBDeviceIoThread;
-import nodomain.freeyourgadget.gadgetbridge.GBMusicControlReceiver;
-import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppInfo;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppManagementResult;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandCallControl;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandMusicControl;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandVersionInfo;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
 
 public class PebbleIoThread extends GBDeviceIoThread {
     private static final String TAG = PebbleIoThread.class.getSimpleName();
@@ -87,7 +87,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 notificationIntent, 0);
 
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context)
-                .setContentTitle("Gadgetbridge")
+                .setContentTitle(context.getString(R.string.gadgetbridge))
                 .setContentText(text)
                 .setTicker(text)
 
@@ -115,6 +115,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
         mBtAdapter = btAdapter;
     }
 
+    @Override
     protected boolean connect(String btDeviceAddress) {
         BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(btDeviceAddress);
         ParcelUuid uuids[] = btDevice.getUuids();
@@ -138,6 +139,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
         return true;
     }
 
+    @Override
     public void run() {
         mIsConnected = connect(gbDevice.getAddress());
         mQuit = !mIsConnected; // quit if not connected
@@ -192,7 +194,8 @@ public class PebbleIoThread extends GBDeviceIoThread {
                             } while (bytes < 2000);
 
                             if (bytes > 0) {
-                                updateInstallNotification("installing binary " + (mCurrentInstallableIndex + 1) + "/" + mPebbleInstallables.length, true, (int) (((float) mBytesWritten / mBinarySize) * 100), getContext());
+                                updateInstallNotification(getContext().getString(
+                                        R.string.installing_binary_d_d, (mCurrentInstallableIndex + 1), mPebbleInstallables.length), true, (int) (((float) mBytesWritten / mBinarySize) * 100), getContext());
                                 writeInstallApp(mPebbleProtocol.encodeUploadChunk(mAppInstallToken, buffer, bytes));
                                 mBytesWritten += bytes;
                                 mAppInstallToken = -1;
@@ -323,6 +326,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
         gbDevice.sendDeviceUpdateIntent(getContext());
     }
 
+    @Override
     synchronized public void write(byte[] bytes) {
         // block writes if app installation in in progress
         if (mIsConnected && !mIsInstalling) {
@@ -460,9 +464,9 @@ public class PebbleIoThread extends GBDeviceIoThread {
             return;
         }
         if (hadError) {
-            updateInstallNotification("installation failed!", false, 0, getContext());
+            updateInstallNotification(getContext().getString(R.string.installation_failed_), false, 0, getContext());
         } else {
-            updateInstallNotification("installation successful", false, 0, getContext());
+            updateInstallNotification(getContext().getString(R.string.installation_successful), false, 0, getContext());
         }
         mInstallState = PebbleAppInstallState.UNKNOWN;
 
@@ -477,6 +481,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
         mInstallSlot = -2;
     }
 
+    @Override
     public void quit() {
         mQuit = true;
         if (mBtSocket != null) {

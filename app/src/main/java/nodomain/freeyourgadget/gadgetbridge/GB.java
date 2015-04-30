@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-
 import nodomain.freeyourgadget.gadgetbridge.externalevents.K9Receiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.MusicPlaybackReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PhoneCallReceiver;
@@ -27,7 +26,7 @@ public class GB {
                 notificationIntent, 0);
 
         return new NotificationCompat.Builder(context)
-                .setContentTitle("Gadgetbridge")
+                .setContentTitle(context.getString(R.string.gadgetbridge))
                 .setTicker(text)
                 .setContentText(text)
                 .setSmallIcon(R.drawable.ic_notification)
