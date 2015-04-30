@@ -16,24 +16,7 @@ public class SettingsActivity extends PreferenceActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        setupSimplePreferencesScreen();
-    }
-
-    private void setupSimplePreferencesScreen() {
-        // Add 'general' preferences.
-        addPreferencesFromResource(R.xml.pref_general);
-
-        // Add 'date' preferences, and a corresponding header.
-        PreferenceCategory fakeHeaderDateTime = new PreferenceCategory(this);
-        fakeHeaderDateTime.setTitle(R.string.pref_header_datetime);
-        getPreferenceScreen().addPreference(fakeHeaderDateTime);
-        addPreferencesFromResource(R.xml.pref_datetime);
-
-        // Add 'notifications' preferences, and a corresponding header.
-        PreferenceCategory fakeHeader = new PreferenceCategory(this);
-        fakeHeader.setTitle(R.string.pref_header_notifications);
-        getPreferenceScreen().addPreference(fakeHeader);
-        addPreferencesFromResource(R.xml.pref_notification);
+        addPreferencesFromResource(R.xml.preferences);
 
         Preference pref = (Preference) findPreference("notifications_generic");
         pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -43,14 +26,6 @@ public class SettingsActivity extends PreferenceActivity {
                 return true;
             }
         });
-
-        // Add 'development' preferences, and a corresponding header.
-        PreferenceCategory fakeHeaderDev = new PreferenceCategory(this);
-        fakeHeaderDev.setTitle(R.string.pref_header_development);
-        getPreferenceScreen().addPreference(fakeHeaderDev);
-        addPreferencesFromResource(R.xml.pref_development);
-
-
         final Preference developmentMiaddr = findPreference("development_miaddr");
         bindPreferenceSummaryToValue(developmentMiaddr);
 
@@ -64,12 +39,6 @@ public class SettingsActivity extends PreferenceActivity {
             }
 
         });
-
-        // Bind the summaries of EditText/List/Dialog/Ringtone preferences to
-        // their values. When their values change, their summaries are updated
-        // to reflect the new value, per the Android Design guidelines.
-
-        //bindPreferenceSummaryToValue(findPreference("notifications_sms_whenscreenon"));
     }
 
 
