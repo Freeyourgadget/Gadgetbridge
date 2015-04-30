@@ -1,11 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.pebble;
 
-import nodomain.freeyourgadget.gadgetbridge.BluetoothCommunicationService;
-import nodomain.freeyourgadget.gadgetbridge.ControlCenter;
-import nodomain.freeyourgadget.gadgetbridge.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.GBDeviceApp;
-import nodomain.freeyourgadget.gadgetbridge.R;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -19,6 +13,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import nodomain.freeyourgadget.gadgetbridge.BluetoothCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.ControlCenter;
+import nodomain.freeyourgadget.gadgetbridge.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.GBDeviceApp;
+import nodomain.freeyourgadget.gadgetbridge.R;
 
 
 public class PebbleAppInstallerActivity extends Activity {

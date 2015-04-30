@@ -1,9 +1,9 @@
 package nodomain.freeyourgadget.gadgetbridge.miband;
 
+import java.util.Locale;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-
-import java.util.Locale;
 
 public class DeviceInfo extends AbstractInfo {
     public DeviceInfo(byte[] data) {

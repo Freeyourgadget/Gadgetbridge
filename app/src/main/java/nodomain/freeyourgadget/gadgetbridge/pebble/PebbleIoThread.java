@@ -1,27 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.pebble;
 
-import nodomain.freeyourgadget.gadgetbridge.AppManagerActivity;
-import nodomain.freeyourgadget.gadgetbridge.GB;
-import nodomain.freeyourgadget.gadgetbridge.GBCallControlReceiver;
-import nodomain.freeyourgadget.gadgetbridge.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.GBDeviceIoThread;
-import nodomain.freeyourgadget.gadgetbridge.GBMusicControlReceiver;
-import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppInfo;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppManagementResult;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandCallControl;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandMusicControl;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandVersionInfo;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.zip.ZipInputStream;
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -37,6 +15,28 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.util.zip.ZipInputStream;
+
+import nodomain.freeyourgadget.gadgetbridge.AppManagerActivity;
+import nodomain.freeyourgadget.gadgetbridge.GB;
+import nodomain.freeyourgadget.gadgetbridge.GBCallControlReceiver;
+import nodomain.freeyourgadget.gadgetbridge.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.GBDeviceIoThread;
+import nodomain.freeyourgadget.gadgetbridge.GBMusicControlReceiver;
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppInfo;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppManagementResult;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandCallControl;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandMusicControl;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
 
 public class PebbleIoThread extends GBDeviceIoThread {
     private static final String TAG = PebbleIoThread.class.getSimpleName();

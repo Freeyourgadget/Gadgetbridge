@@ -1,10 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.adapter;
 
-import nodomain.freeyourgadget.gadgetbridge.GBDeviceApp;
-import nodomain.freeyourgadget.gadgetbridge.R;
-
-import java.util.List;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.List;
+
+import nodomain.freeyourgadget.gadgetbridge.GBDeviceApp;
+import nodomain.freeyourgadget.gadgetbridge.R;
 
 public class GBDeviceAppAdapter extends ArrayAdapter<GBDeviceApp> {
 

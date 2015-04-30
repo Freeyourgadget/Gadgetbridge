@@ -1,5 +1,9 @@
 package nodomain.freeyourgadget.gadgetbridge.miband;
 
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.util.Log;
+
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.UUID;
@@ -8,9 +12,6 @@ import nodomain.freeyourgadget.gadgetbridge.GBCommand;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.btle.TransactionBuilder;
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.util.Log;
 
 public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
@@ -134,6 +135,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     /**
      * Sets the current time to the Mi device using the given builder.
+     *
      * @param builder
      */
     private MiBandSupport setCurrentTime(TransactionBuilder builder) {

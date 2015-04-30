@@ -18,9 +18,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapter;
 
 public class ControlCenter extends Activity {
