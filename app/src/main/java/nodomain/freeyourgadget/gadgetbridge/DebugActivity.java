@@ -51,7 +51,7 @@ public class DebugActivity extends Activity {
             public void onClick(View v) {
                 Intent startIntent = new Intent(DebugActivity.this, BluetoothCommunicationService.class);
                 startIntent.setAction(BluetoothCommunicationService.ACTION_NOTIFICATION_GENERIC);
-                startIntent.putExtra("notification_title", R.string.gadgetbridge);
+                startIntent.putExtra("notification_title", R.string.app_name);
                 startIntent.putExtra("notification_body", editContent.getText().toString());
                 startService(startIntent);
             }
@@ -62,7 +62,7 @@ public class DebugActivity extends Activity {
             public void onClick(View v) {
                 Intent startIntent = new Intent(DebugActivity.this, BluetoothCommunicationService.class);
                 startIntent.setAction(BluetoothCommunicationService.ACTION_NOTIFICATION_EMAIL);
-                startIntent.putExtra("notification_sender", R.string.gadgetbridge);
+                startIntent.putExtra("notification_sender", R.string.app_name);
                 startIntent.putExtra("notification_subject", R.string.test);
                 startIntent.putExtra("notification_body", editContent.getText().toString());
                 startService(startIntent);

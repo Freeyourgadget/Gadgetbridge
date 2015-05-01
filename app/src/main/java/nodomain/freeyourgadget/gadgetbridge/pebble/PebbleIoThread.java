@@ -87,7 +87,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 notificationIntent, 0);
 
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context)
-                .setContentTitle(context.getString(R.string.gadgetbridge))
+                .setContentTitle(context.getString(R.string.app_name))
                 .setContentText(text)
                 .setTicker(text)
 

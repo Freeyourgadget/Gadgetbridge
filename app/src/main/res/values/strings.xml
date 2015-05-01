@@ -34,6 +34,8 @@
 
     <string name="pref_header_development">Developer Options</string>
     <string name="pref_title_development_miaddr">Miband address</string>
+
+
     <string name="not_connected">not connected</string>
     <string name="connecting">connecting</string>
     <string name="connected">connected</string>
@@ -41,7 +43,6 @@
     <string name="connectionstate_hw_fw">%1$s (HW: %2$s FW: %3$s)</string>
     <string name="connectionstate_fw">%1$s (FW: %2$s)</string>
     <string name="_unknown_">(unknown)</string>
-    <string name="gadgetbridge">Gadgetbridge</string>
     <string name="test">Test</string>
     <string name="test_notification">Test Notification</string>
     <string name="this_is_a_test_notification_from_gadgetbridge">This is a Test Notification from Gadgetbridge</string>
@@ -62,5 +63,5 @@
     <string name="app_install_info">You are about to install the following app:\n\n\n%1$s Version %2$s by %3$s\n</string>
     <string name="n_a">N/A</string>
     <string name="initialized">initialized</string>
-    <string name="appversion_by_creator">%1$s by %1$s</string>
+    <string name="appversion_by_creator">%1$s by %2$s</string>
 </resources>
