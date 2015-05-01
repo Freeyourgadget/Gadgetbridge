@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Gadgetbridge</string>
+
     <string name="title_activity_controlcenter">Gadgetbridge</string>
     <string name="action_settings">Ajustes</string>
-    <string name="action_debug">Depuración</string>
+    <string name="action_debug">Depurar</string>
     <string name="action_quit">Salir</string>
-    <string name="action_refresh">Actualizar</string>
+    <string name="action_refresh">Actulizar</string>
 
-    <string name="title_activity_debug">Depuración</string>
+    <string name="title_activity_debug">Depurar</string>
 
     <!-- Strings related to AppManager -->
     <string name="title_activity_appmanager">Gestor de App</string>
@@ -32,4 +34,33 @@
 
     <string name="pref_header_development">Opciones de desarrollador</string>
     <string name="pref_title_development_miaddr">Dirección de Miband</string>
+
+    <string name="not_connected">no conectado</string>
+    <string name="connecting">conectando</string>
+    <string name="connected">conectado</string>
+    <string name="unknown_state">estado desconocido</string>
+    <string name="connectionstate_hw_fw">%1$s (HW: %2$s FW: %3$s)</string>
+    <string name="connectionstate_fw">%1$s (FW: %2$s)</string>
+    <string name="_unknown_">(desconocido)</string>
+    <string name="test">Probar</string>
+    <string name="test_notification">Probar notificación</string>
+    <string name="this_is_a_test_notification_from_gadgetbridge">Esta es una notificación de prueba desde Gadgetbridge</string>
+    <string name="bluetooth_is_not_supported_">Bluetooth no está soportado.</string>
+    <string name="bluetooth_is_disabled_">Bluetooth está desactivado.</string>
+    <string name="tap_connected_device_for_app_mananger">pulsa el dispositivo conectado para el Gestor de App</string>
+    <string name="tap_a_device_to_connect">pulsa un dispositivo para conectar</string>
+    <string name="cannot_connect_bt_address_invalid_">No se puede conectar. ¿Dirección BT incorrecta?</string>
+    <string name="gadgetbridge_running">Gadgetbridge funcionando</string>
+    <string name="battery_low">baja</string>
+    <string name="battery_medium">media</string>
+    <string name="battery_full">llena</string>
+    <string name="battery_not_charging">no cargando</string>
+    <string name="installing_binary_d_d">instalando binario %1$d/%2$d</string>
+    <string name="installation_failed_">¡la instalación ha fallado!</string>
+    <string name="installation_successful">instalación satisfactoria</string>
+    <string name="firmware_install_warning">ESTÁS INTENTANDO INSTALAR UN FIRMWARE, CONTINÚA BAJO TU RESPONSABILIDAD.\n\n\n Este firmware es para la revisión HW: %s</string>
+    <string name="app_install_info">Estás a punto de instalar la siguiente app:\n\n\n%1$s Versión %2$s de %3$s\n</string>
+    <string name="n_a">N/A</string>
+    <string name="initialized">iniciado</string>
+    <string name="appversion_by_creator">%1$s de %2$s</string>
 </resources>
