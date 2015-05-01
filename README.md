@@ -57,9 +57,12 @@ Known Issues:
 
 ## Contribute
 
-Contributions are welcome, be it feedback, bugreports, documentation, research or code. Feel free to work
+Contributions are welcome, be it feedback, bugreports, documentation, translation, research or code. Feel free to work
 on any of the open [issues](https://github.com/Freeyourgadget/Gadgetbridge/issues?q=is%3Aopen+is%3Aissue);
 just leave a comment that you're working on one to avoid duplicated work.
+
+Translations can be contributed via https://www.transifex.com/projects/p/gadgetbridge/resource/strings/ or
+manually.
 
 ## Download
 
