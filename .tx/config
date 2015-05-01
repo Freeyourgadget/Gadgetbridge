@@ -1,0 +1,9 @@
+[main]
+host = https://www.transifex.com
+
+[gadgetbridge.strings]
+file_filter = app/src/main/res/values-<lang>/strings.xml
+source_file = app/src/main/res/values/strings.xml
+source_lang = en_US
+type = ANDROID
+
