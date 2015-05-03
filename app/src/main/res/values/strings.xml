@@ -27,10 +27,16 @@
     <string name="pref_title_datetime_syctimeonconnect">Sync time when connecting</string>
 
     <string name="pref_header_notifications">Notifications</string>
-    <string name="pref_title_notifications_sms">Notification for SMS</string>
-    <string name="pref_title_notifications_k9mail">Notification for K9-Mail</string>
+    <string name="pref_title_notifications_sms">SMS</string>
+    <string name="pref_title_notifications_k9mail">K9-Mail</string>
+    <string name="pref_title_notifications_pebblemsg">Pebble Messages</string>
+    <string name="pref_summary_notifications_pebblemsg">Support for applications which send Notifications to the Pebble via Intent. Needed for Conversation support.</string>
     <string name="pref_title_notifications_generic">Generic notification support</string>
     <string name="pref_title_whenscreenon">… also when screen is on</string>
+
+    <string name="always">always</string>
+    <string name="when_screen_off">when screen is off</string>
+    <string name="never">never</string>
 
     <string name="pref_header_development">Developer Options</string>
     <string name="pref_title_development_miaddr">Miband address</string>

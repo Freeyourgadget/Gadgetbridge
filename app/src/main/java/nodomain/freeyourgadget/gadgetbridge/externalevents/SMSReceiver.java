@@ -17,11 +17,11 @@ public class SMSReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        if (!sharedPrefs.getBoolean("notifications_sms", true)) {
+        if ("never".equals(sharedPrefs.getString("notification_mode_sms", "when_screen_off"))) {
             return;
         }
-        if (!sharedPrefs.getBoolean("notifications_sms_whenscreenon", false)) {
-            PowerManager powermanager = (PowerManager) context.getSystemService(context.POWER_SERVICE);
+        if ("when_screen_off".equals(sharedPrefs.getString("notification_mode_sms", "when_screen_off"))) {
+            PowerManager powermanager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             if (powermanager.isScreenOn()) {
                 return;
             }
@@ -30,8 +30,8 @@ public class SMSReceiver extends BroadcastReceiver {
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
             Object[] pdus = (Object[]) bundle.get("pdus");
-            for (int i = 0; i < pdus.length; i++) {
-                byte[] pdu = (byte[]) pdus[i];
+            for (Object pdu1 : pdus) {
+                byte[] pdu = (byte[]) pdu1;
                 SmsMessage message = SmsMessage.createFromPdu(pdu);
                 String body = message.getDisplayMessageBody();
                 String sender = message.getOriginatingAddress();

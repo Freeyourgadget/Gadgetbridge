@@ -94,6 +94,13 @@
             </intent-filter>
         </receiver>
         <receiver
+            android:name=".externalevents.PebbleReceiver"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="com.getpebble.action.SEND_NOTIFICATION" />
+            </intent-filter>
+        </receiver>
+        <receiver
             android:name=".externalevents.MusicPlaybackReceiver"
             android:enabled="false">
             <intent-filter>

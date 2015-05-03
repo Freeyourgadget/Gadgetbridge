@@ -69,8 +69,9 @@ public class NotificationListener extends NotificationListenerService {
         if (source.equals("android") ||
                 source.equals("com.android.systemui") ||
                 source.equals("com.android.dialer") ||
+                source.equals("com.android.mms") ||
                 source.equals("com.fsck.k9") ||
-                source.equals("com.android.mms")) {
+                source.equals("eu.siacs.conversations")) {
             return;
         }
 
@@ -82,7 +83,7 @@ public class NotificationListener extends NotificationListenerService {
 
         Bundle extras = notification.extras;
         String title = extras.getCharSequence(Notification.EXTRA_TITLE).toString();
-        String content = "";
+        String content = null;
         if (extras.containsKey(Notification.EXTRA_TEXT)) {
             CharSequence contentCS = extras.getCharSequence(Notification.EXTRA_TEXT);
             if (contentCS != null) {

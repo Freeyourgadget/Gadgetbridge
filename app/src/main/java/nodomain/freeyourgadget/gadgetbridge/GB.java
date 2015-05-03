@@ -12,6 +12,7 @@ import android.util.Log;
 
 import nodomain.freeyourgadget.gadgetbridge.externalevents.K9Receiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.MusicPlaybackReceiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.PebbleReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PhoneCallReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.SMSReceiver;
 
@@ -48,6 +49,7 @@ public class GB {
                 PhoneCallReceiver.class,
                 SMSReceiver.class,
                 K9Receiver.class,
+                PebbleReceiver.class,
                 MusicPlaybackReceiver.class,
                 //NotificationListener.class, // disabling this leads to loss of permission to read notifications
         };

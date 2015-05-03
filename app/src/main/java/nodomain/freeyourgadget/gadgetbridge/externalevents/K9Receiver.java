@@ -20,11 +20,11 @@ public class K9Receiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        if (!sharedPrefs.getBoolean("notifications_k9mail", true)) {
+        if ("never".equals(sharedPrefs.getString("notification_mode_k9mail", "when_screen_off"))) {
             return;
         }
-        if (!sharedPrefs.getBoolean("notifications_k9mail_whenscreenon", false)) {
-            PowerManager powermanager = (PowerManager) context.getSystemService(context.POWER_SERVICE);
+        if ("when_screen_off".equals(sharedPrefs.getString("notification_mode_k9mail", "when_screen_off"))) {
+            PowerManager powermanager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             if (powermanager.isScreenOn()) {
                 return;
             }

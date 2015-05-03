@@ -1,59 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:title="@string/pref_header_general"
-        android:key="pref_key_general">
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="general_autoconnectonbluetooth"
-        android:title="@string/pref_title_general_autoconnectonbluetooth" />
+        android:key="pref_key_general"
+        android:title="@string/pref_header_general">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="general_autoconnectonbluetooth"
+            android:title="@string/pref_title_general_autoconnectonbluetooth" />
     </PreferenceCategory>
     <PreferenceCategory
-        android:title="@string/pref_header_datetime"
-        android:key="pref_key_datetime">
+        android:key="pref_key_datetime"
+        android:title="@string/pref_header_datetime">
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="datetime_synconconnect"
             android:title="@string/pref_title_datetime_syctimeonconnect" />
     </PreferenceCategory>
     <PreferenceCategory
-        android:title="@string/pref_header_notifications"
-        android:key="pref_key_notifications">
-        <!-- A 'parent' preference, which enables/disables child preferences (below)
-     when checked/unchecked. -->
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="notifications_sms"
+        android:key="pref_key_notifications"
+        android:title="@string/pref_header_notifications">
+
+        <ListPreference
+            android:defaultValue="when_screen_off"
+            android:entries="@array/notification_mode"
+            android:entryValues="@array/notification_mode_values"
+            android:key="notification_mode_sms"
             android:title="@string/pref_title_notifications_sms" />
 
-        <!-- NOTE: This preference will be enabled only when the checkbox above is checked. -->
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:dependency="notifications_sms"
-            android:key="notifications_sms_whenscreenon"
-            android:title="@string/pref_title_whenscreenon" />
-
-        <!-- A 'parent' preference, which enables/disables child preferences (below)
-          when checked/unchecked. -->
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="notifications_k9mail"
+        <ListPreference
+            android:defaultValue="when_screen_off"
+            android:entries="@array/notification_mode"
+            android:entryValues="@array/notification_mode_values"
+            android:key="notification_mode_k9mail"
             android:title="@string/pref_title_notifications_k9mail" />
 
-        <!-- NOTE: This preference will be enabled only when the checkbox above is checked. -->
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:dependency="notifications_k9mail"
-            android:key="notifications_k9mail_whenscreenon"
-            android:title="@string/pref_title_whenscreenon" />
+        <ListPreference
+            android:defaultValue="when_screen_off"
+            android:entries="@array/notification_mode"
+            android:entryValues="@array/notification_mode_values"
+            android:key="notification_mode_pebblemsg"
+            android:summary="@string/pref_summary_notifications_pebblemsg"
+            android:title="@string/pref_title_notifications_pebblemsg" />
 
-        <!-- A 'parent' preference, which enables/disables child preferences (below)
-          when checked/unchecked. -->
         <Preference
             android:key="notifications_generic"
             android:title="@string/pref_title_notifications_generic" />
 
-        <!-- NOTE: This preference will be enabled only when the checkbox above is checked. -->
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="notifications_generic_whenscreenon"
@@ -61,12 +53,12 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/pref_header_development"
-        android:key="pref_key_development">
+        android:key="pref_key_development"
+        android:title="@string/pref_header_development">
         <EditTextPreference
-            android:key="development_miaddr"
-            android:title="@string/pref_title_development_miaddr"
             android:digits="0123456789ABCDEF:"
-            android:maxLength="17" />
+            android:key="development_miaddr"
+            android:maxLength="17"
+            android:title="@string/pref_title_development_miaddr" />
     </PreferenceCategory>
 </PreferenceScreen>
