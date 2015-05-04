@@ -64,4 +64,22 @@ public class DeviceCandidate implements Parcelable {
     public int describeContents() {
         return 0;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        DeviceCandidate that = (DeviceCandidate) o;
+        return device.getAddress().equals(that.device.getAddress());
+    }
+
+    @Override
+    public int hashCode() {
+        return device.getAddress().hashCode() ^ 37;
+    }
 }

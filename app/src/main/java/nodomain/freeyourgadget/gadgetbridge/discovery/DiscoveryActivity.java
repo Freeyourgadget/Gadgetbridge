@@ -82,7 +82,12 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
         public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
             DeviceCandidate candidate = new DeviceCandidate(device, (short) rssi);
             if (DeviceHelper.getInstance().isSupported(candidate)) {
-                deviceCandidates.add(candidate);
+                int index = deviceCandidates.indexOf(candidate);
+                if (index >= 0) {
+                    deviceCandidates.set(index, candidate); // replace
+                } else {
+                    deviceCandidates.add(candidate);
+                }
                 cadidateListAdapter.notifyDataSetChanged();
             }
         }
