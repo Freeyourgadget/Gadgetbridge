@@ -22,31 +22,35 @@ public class GBDevice implements Parcelable {
         }
     };
     private static final String TAG = GBDevice.class.getSimpleName();
+    public static final short RSSI_UNKNOWN = 0;
+    public static final String EXTRA_DEVICE = "device";
     private final String mName;
     private final String mAddress;
-    private final Type mType;
+    private final DeviceType mDeviceType;
     private String mFirmwareVersion = null;
     private String mHardwareVersion = null;
     private State mState = State.NOT_CONNECTED;
     private short mBatteryLevel = 50; // unknown
     private String mBatteryState;
+    private short mRssi = RSSI_UNKNOWN;
 
-    public GBDevice(String address, String name, Type type) {
+    public GBDevice(String address, String name, DeviceType deviceType) {
         mAddress = address;
         mName = name;
-        mType = type;
+        mDeviceType = deviceType;
         validate();
     }
 
     private GBDevice(Parcel in) {
         mName = in.readString();
         mAddress = in.readString();
-        mType = Type.values()[in.readInt()];
+        mDeviceType = DeviceType.values()[in.readInt()];
         mFirmwareVersion = in.readString();
         mHardwareVersion = in.readString();
         mState = State.values()[in.readInt()];
         mBatteryLevel = (short) in.readInt();
         mBatteryState = in.readString();
+        mRssi = (short) in.readInt();
         validate();
     }
 
@@ -54,12 +58,13 @@ public class GBDevice implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mName);
         dest.writeString(mAddress);
-        dest.writeInt(mType.ordinal());
+        dest.writeInt(mDeviceType.ordinal());
         dest.writeString(mFirmwareVersion);
         dest.writeString(mHardwareVersion);
         dest.writeInt(mState.ordinal());
         dest.writeInt(mBatteryLevel);
         dest.writeString(mBatteryState);
+        dest.writeInt(mRssi);
     }
 
     private void validate() {
@@ -137,14 +142,30 @@ public class GBDevice implements Parcelable {
         }
     }
 
-    public Type getType() {
-        return mType;
+    public DeviceType getType() {
+        return mDeviceType;
+    }
+
+    public void setRssi(short rssi) {
+        if (rssi < 0) {
+            Log.w(TAG, "illegal rssi value " + rssi + ", setting to RSSI_UNKNOWN");
+            mRssi = RSSI_UNKNOWN;
+        } else {
+            mRssi = rssi;
+        }
+    }
+
+    /**
+     * Returns the device specific signal strength value, or #RSSI_UNKNOWN
+     */
+    public short getRssi() {
+        return mRssi;
     }
 
     // TODO: this doesn't really belong here
     public void sendDeviceUpdateIntent(Context context) {
         Intent deviceUpdateIntent = new Intent(ACTION_DEVICE_CHANGED);
-        deviceUpdateIntent.putExtra("device", this);
+        deviceUpdateIntent.putExtra(EXTRA_DEVICE, this);
         LocalBroadcastManager.getInstance(context).sendBroadcast(deviceUpdateIntent);
     }
 
@@ -208,9 +229,4 @@ public class GBDevice implements Parcelable {
         INITIALIZED
     }
 
-    public enum Type {
-        UNKNOWN,
-        PEBBLE,
-        MIBAND
-    }
 }

@@ -39,7 +39,7 @@
     <string name="never">never</string>
 
     <string name="pref_header_development">Developer Options</string>
-    <string name="pref_title_development_miaddr">Miband address</string>
+    <string name="pref_title_development_miaddr">Mi Band address</string>
 
 
     <string name="not_connected">not connected</string>
@@ -70,4 +70,15 @@
     <string name="n_a">N/A</string>
     <string name="initialized">initialized</string>
     <string name="appversion_by_creator">%1$s by %2$s</string>
+    <string name="title_activity_discovery">Device Discovery</string>
+
+    <string name="discovery_stop_scanning">Stop Scanning</string>
+    <string name="discovery_start_scanning">Start Discovery</string>
+    <string name="action_discover">Discover Device</string>
+    <string name="device_with_rssi">%1$s (%2$s)</string>
+    <string name="title_activity_android_pairing">Pair Device</string>
+    <string name="android_pairing_hint">Use the Android Bluetooth Pairing dialog to pair the device.</string>
+    <string name="title_activity_mi_band_pairing">Pair your Mi Band</string>
+    <string name="miband_pairing">Pairing with %s…</string>
+    <string name="message_cannot_pair_no_mac">No mac address passed, cannot pair.</string>
 </resources>

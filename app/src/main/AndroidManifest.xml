@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="nodomain.freeyourgadget.gadgetbridge">
+    package="nodomain.freeyourgadget.gadgetbridge" >
+
+    <uses-sdk
+        android:minSdkVersion="19"
+        android:targetSdkVersion="21" />
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -10,45 +15,50 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.fsck.k9.permission.READ_MESSAGES" />
-    <uses-sdk android:targetSdkVersion="21" android:minSdkVersion="19"/>
+
+    <android:uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
 
     <application
+        android:name=".GBApplication"
         android:allowBackup="true"
-        android:name="nodomain.freeyourgadget.gadgetbridge.GBApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/GadgetbridgeTheme">
+        android:theme="@style/GadgetbridgeTheme" >
         <activity
             android:name=".ControlCenter"
-            android:label="@string/title_activity_controlcenter">
+            android:label="@string/title_activity_controlcenter" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings">
+            android:label="@string/title_activity_settings" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ControlCenter" />
         </activity>
-
         <activity
             android:name=".AppManagerActivity"
-            android:label="@string/title_activity_appmanager">
+            android:label="@string/title_activity_appmanager" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ControlCenter" />
         </activity>
         <activity
             android:name=".pebble.PebbleAppInstallerActivity"
-            android:label="@string/title_activity_appinstaller">
+            android:label="@string/title_activity_appinstaller" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".AppManagerActivity" />
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:host="*" />
@@ -61,16 +71,16 @@
         <service
             android:name=".externalevents.NotificationListener"
             android:label="@string/app_name"
-            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" >
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
-        <service android:name=".BluetoothCommunicationService"></service>
+        <service android:name=".BluetoothCommunicationService" />
 
         <receiver
             android:name=".externalevents.PhoneCallReceiver"
-            android:enabled="false">
+            android:enabled="false" >
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
@@ -80,16 +90,17 @@
         </receiver>
         <receiver
             android:name=".externalevents.SMSReceiver"
-            android:enabled="false">
+            android:enabled="false" >
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
         <receiver
             android:name=".externalevents.K9Receiver"
-            android:enabled="false">
+            android:enabled="false" >
             <intent-filter>
                 <data android:scheme="email" />
+
                 <action android:name="com.fsck.k9.intent.action.EMAIL_RECEIVED" />
             </intent-filter>
         </receiver>
@@ -102,28 +113,28 @@
         </receiver>
         <receiver
             android:name=".externalevents.MusicPlaybackReceiver"
-            android:enabled="false">
+            android:enabled="false" >
             <intent-filter>
                 <action android:name="com.andrew.apollo.metachanged" />
             </intent-filter>
         </receiver>
         <receiver
             android:name=".BluetoothStateChangeReceiver"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
                 <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
             </intent-filter>
         </receiver>
         <receiver
             android:name=".GBMusicControlReceiver"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
                 <action android:name="nodomain.freeyourgadget.gadgetbridge.musiccontrol" />
             </intent-filter>
         </receiver>
         <receiver
             android:name=".GBCallControlReceiver"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
                 <action android:name="nodomain.freeyourgadget.gadgetbridge.callcontrol" />
             </intent-filter>
@@ -131,10 +142,25 @@
 
         <activity
             android:name=".DebugActivity"
-            android:label="@string/title_activity_debug">
+            android:label="@string/title_activity_debug" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ControlCenter" />
+        </activity>
+        <activity
+            android:name=".discovery.DiscoveryActivity"
+            android:label="@string/title_activity_discovery" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ControlCenter" />
+        </activity>
+        <activity
+            android:name=".activities.AndroidPairingActivity"
+            android:label="@string/title_activity_android_pairing" >
+        </activity>
+        <activity
+            android:name=".miband.MiBandPairingActivity"
+            android:label="@string/title_activity_mi_band_pairing" >
         </activity>
     </application>
 

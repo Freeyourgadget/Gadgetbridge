@@ -30,4 +30,6 @@ public interface DeviceSupport extends EventHandler {
     public Context getContext();
 
     public boolean useAutoConnect();
+
+    public void pair();
 }

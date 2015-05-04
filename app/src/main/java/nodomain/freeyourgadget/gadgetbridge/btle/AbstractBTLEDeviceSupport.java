@@ -19,7 +19,7 @@ import nodomain.freeyourgadget.gadgetbridge.AbstractDeviceSupport;
  * @see BtLEQueue
  */
 public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport implements GattCallback {
-    private static final String TAG = "AbstractBTLEDeviceSupport";
+    private static final String TAG = "AbstractBTLEDeviceSupp";
 
     private BtLEQueue mQueue;
     private HashMap<UUID, BluetoothGattCharacteristic> mAvailableCharacteristics;

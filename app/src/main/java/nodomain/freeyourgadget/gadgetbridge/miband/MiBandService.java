@@ -250,7 +250,7 @@ public class MiBandService {
         MIBAND_DEBUG.put(UUID.fromString("00002a48-0000-1000-8000-00805f9b34fb"), "Supported Unread Alert Category");
         MIBAND_DEBUG.put(UUID.fromString("00002a23-0000-1000-8000-00805f9b34fb"), "System ID");
         MIBAND_DEBUG.put(UUID.fromString("00002a1c-0000-1000-8000-00805f9b34fb"), "Temperature Measurement");
-        MIBAND_DEBUG.put(UUID.fromString("00002a1d-0000-1000-8000-00805f9b34fb"), "Temperature Type");
+        MIBAND_DEBUG.put(UUID.fromString("00002a1d-0000-1000-8000-00805f9b34fb"), "Temperature DeviceType");
         MIBAND_DEBUG.put(UUID.fromString("00002a12-0000-1000-8000-00805f9b34fb"), "Time Accuracy");
         MIBAND_DEBUG.put(UUID.fromString("00002a13-0000-1000-8000-00805f9b34fb"), "Time Source");
         MIBAND_DEBUG.put(UUID.fromString("00002a16-0000-1000-8000-00805f9b34fb"), "Time Update Control Point");

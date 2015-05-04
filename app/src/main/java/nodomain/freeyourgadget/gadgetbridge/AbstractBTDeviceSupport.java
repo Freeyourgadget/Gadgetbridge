@@ -25,6 +25,12 @@ public abstract class AbstractBTDeviceSupport extends AbstractDeviceSupport {
         }
     }
 
+    @Override
+    public void pair() {
+        // Default implementation does no manual pairing, use the Android
+        // pairing dialog instead.
+    }
+
     public synchronized GBDeviceProtocol getDeviceProtocol() {
         if (gbDeviceProtocol == null) {
             gbDeviceProtocol = createDeviceProtocol();

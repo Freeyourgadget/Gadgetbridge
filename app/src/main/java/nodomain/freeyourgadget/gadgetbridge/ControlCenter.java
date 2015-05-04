@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapter;
+import nodomain.freeyourgadget.gadgetbridge.discovery.DiscoveryActivity;
 
 public class ControlCenter extends Activity {
 
@@ -83,7 +84,7 @@ public class ControlCenter extends Activity {
                 } else {
                     Intent startIntent = new Intent(ControlCenter.this, BluetoothCommunicationService.class);
                     startIntent.setAction(BluetoothCommunicationService.ACTION_CONNECT);
-                    startIntent.putExtra("device_address", deviceList.get(position).getAddress());
+                    startIntent.putExtra(BluetoothCommunicationService.EXTRA_DEVICE_ADDRESS, deviceList.get(position).getAddress());
                     startService(startIntent);
                 }
             }
@@ -152,6 +153,11 @@ public class ControlCenter extends Activity {
                 return true;
             case R.id.action_refresh:
                 refreshPairedDevices();
+                return true;
+            case R.id.action_discover:
+                Intent discoverIntent = new Intent(this, DiscoveryActivity.class);
+                startActivity(discoverIntent);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -182,24 +188,24 @@ public class ControlCenter extends Activity {
         } else {
             Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
             for (BluetoothDevice pairedDevice : pairedDevices) {
-                GBDevice.Type deviceType;
+                DeviceType deviceDeviceType;
                 if (pairedDevice.getName().indexOf("Pebble") == 0) {
-                    deviceType = GBDevice.Type.PEBBLE;
+                    deviceDeviceType = DeviceType.PEBBLE;
                 } else if (pairedDevice.getName().equals("MI")) {
-                    deviceType = GBDevice.Type.MIBAND;
+                    deviceDeviceType = DeviceType.MIBAND;
                 } else {
                     continue;
                 }
-                GBDevice device = new GBDevice(pairedDevice.getAddress(), pairedDevice.getName(), deviceType);
+                GBDevice device = new GBDevice(pairedDevice.getAddress(), pairedDevice.getName(), deviceDeviceType);
                 if (!availableDevices.contains(device)) {
                     availableDevices.add(device);
                 }
             }
 
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-            String miAddr = sharedPrefs.getString("development_miaddr", null);
+            String miAddr = sharedPrefs.getString(GB.PREF_DEVELOPMENT_MIBAND_ADDRESS, null);
             if (miAddr != null && miAddr.length() > 0) {
-                GBDevice miDevice = new GBDevice(miAddr, "MI", GBDevice.Type.MIBAND);
+                GBDevice miDevice = new GBDevice(miAddr, "MI", DeviceType.MIBAND);
                 if (!availableDevices.contains(miDevice)) {
                     availableDevices.add(miDevice);
                 }

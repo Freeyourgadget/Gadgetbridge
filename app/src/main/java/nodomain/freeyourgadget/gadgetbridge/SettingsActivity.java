@@ -25,7 +25,7 @@ public class SettingsActivity extends PreferenceActivity {
                 return true;
             }
         });
-        final Preference developmentMiaddr = findPreference("development_miaddr");
+        final Preference developmentMiaddr = findPreference(GB.PREF_DEVELOPMENT_MIBAND_ADDRESS);
         bindPreferenceSummaryToValue(developmentMiaddr);
 
         developmentMiaddr.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {

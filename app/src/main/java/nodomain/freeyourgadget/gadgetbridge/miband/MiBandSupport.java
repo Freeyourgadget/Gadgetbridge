@@ -32,6 +32,15 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         return true;
     }
 
+    @Override
+    public void pair() {
+        for (int i = 0; i < 5; i++) {
+            if (connect()) {
+                return;
+            }
+        }
+    }
+
     private byte[] getDefaultNotification() {
         final int vibrateTimes = 1;
         final long vibrateDuration = 250l;

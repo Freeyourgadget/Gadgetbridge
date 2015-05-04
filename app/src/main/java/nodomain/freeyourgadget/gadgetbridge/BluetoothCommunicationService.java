@@ -27,6 +27,8 @@ import nodomain.freeyourgadget.gadgetbridge.pebble.PebbleSupport;
 public class BluetoothCommunicationService extends Service {
     public static final String ACTION_START
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.start";
+    public static final String ACTION_PAIR
+            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.pair";
     public static final String ACTION_CONNECT
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.connect";
     public static final String ACTION_NOTIFICATION_GENERIC
@@ -49,8 +51,10 @@ public class BluetoothCommunicationService extends Service {
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.deleteapp";
     public static final String ACTION_INSTALL_PEBBLEAPP
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.install_pebbbleapp";
+    public static final String EXTRA_PERFORM_PAIR = "perform_pair";
 
     private static final String TAG = "CommunicationService";
+    public static final String EXTRA_DEVICE_ADDRESS = "device_address";
     private BluetoothAdapter mBtAdapter = null;
     private GBDeviceIoThread mGBDeviceIoThread = null;
 
@@ -90,6 +94,7 @@ public class BluetoothCommunicationService extends Service {
         }
 
         String action = intent.getAction();
+        boolean pair = intent.getBooleanExtra(EXTRA_PERFORM_PAIR, false);
 
         if (action == null) {
             Log.i(TAG, "no action");
@@ -128,7 +133,7 @@ public class BluetoothCommunicationService extends Service {
             } else if (!mBtAdapter.isEnabled()) {
                 Toast.makeText(this, R.string.bluetooth_is_disabled_, Toast.LENGTH_SHORT).show();
             } else {
-                String btDeviceAddress = intent.getStringExtra("device_address");
+                String btDeviceAddress = intent.getStringExtra(EXTRA_DEVICE_ADDRESS);
                 SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
                 sharedPrefs.edit().putString("last_device_address", btDeviceAddress).apply();
 
@@ -140,15 +145,19 @@ public class BluetoothCommunicationService extends Service {
                     try {
                         BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(btDeviceAddress);
                         if (btDevice.getName() == null || btDevice.getName().equals("MI")) { //FIXME: workaround for Miband not being paired
-                            mGBDevice = new GBDevice(btDeviceAddress, "MI", GBDevice.Type.MIBAND);
+                            mGBDevice = new GBDevice(btDeviceAddress, "MI", DeviceType.MIBAND);
                             mDeviceSupport = new MiBandSupport();
                         } else if (btDevice.getName().indexOf("Pebble") == 0) {
-                            mGBDevice = new GBDevice(btDeviceAddress, btDevice.getName(), GBDevice.Type.PEBBLE);
+                            mGBDevice = new GBDevice(btDeviceAddress, btDevice.getName(), DeviceType.PEBBLE);
                             mDeviceSupport = new PebbleSupport();
                         }
                         if (mDeviceSupport != null) {
                             mDeviceSupport.initialize(mGBDevice, mBtAdapter, this);
-                            mDeviceSupport.connect();
+                            if (pair) {
+                                mDeviceSupport.pair();
+                            } else {
+                                mDeviceSupport.connect();
+                            }
                             if (mDeviceSupport instanceof AbstractBTDeviceSupport) {
                                 mGBDeviceIoThread = ((AbstractBTDeviceSupport) mDeviceSupport).getDeviceIOThread();
                             }
