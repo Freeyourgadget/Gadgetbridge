@@ -20,7 +20,7 @@
         android:orientation="vertical"
         android:paddingLeft="8dp">
 
-    <TextView
+        <TextView
             android:id="@+id/device_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,14 +35,23 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/device_name"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:paddingTop="3dp">
 
             <TextView
                 android:id="@+id/device_status"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="left"
                 android:textColor="@color/primarytext"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/battery_status"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="right"
+                android:textColor="@color/secondarytext"
                 android:textStyle="bold" />
         </LinearLayout>
 

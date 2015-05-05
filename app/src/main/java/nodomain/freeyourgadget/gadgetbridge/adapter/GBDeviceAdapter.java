@@ -36,11 +36,19 @@ public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {
         TextView deviceStatusLabel = (TextView) view.findViewById(R.id.device_status);
         TextView deviceNameLabel = (TextView) view.findViewById(R.id.device_name);
         TextView deviceInfoLabel = (TextView) view.findViewById(R.id.device_info);
+        TextView batteryStatusLabel = (TextView) view.findViewById(R.id.battery_status);
         ImageView deviceImageView = (ImageView) view.findViewById(R.id.device_image);
 
         deviceStatusLabel.setText(device.getStateString());
         deviceNameLabel.setText(device.getName());
         deviceInfoLabel.setText(device.getInfoString());
+
+        short batteryLevel = device.getBatteryLevel();
+        if (batteryLevel > -1) {
+            batteryStatusLabel.setText("BAT: " + device.getBatteryLevel() + "%");
+        } else {
+            batteryStatusLabel.setText("");
+        }
 
         switch (device.getType()) {
             case PEBBLE:

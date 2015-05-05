@@ -30,7 +30,7 @@ public class GBDevice implements Parcelable {
     private String mFirmwareVersion = null;
     private String mHardwareVersion = null;
     private State mState = State.NOT_CONNECTED;
-    private short mBatteryLevel = 50; // unknown
+    private short mBatteryLevel = -1; // unknown
     private String mBatteryState;
     private short mRssi = RSSI_UNKNOWN;
 
