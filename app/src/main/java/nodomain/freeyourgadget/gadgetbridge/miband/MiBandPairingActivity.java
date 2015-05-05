@@ -49,7 +49,7 @@ public class MiBandPairingActivity extends Activity {
         macAddress = intent.getStringExtra(DeviceCoordinator.EXTRA_DEVICE_MAC_ADDRESS);
         if (macAddress == null) {
             Toast.makeText(this, getString(R.string.message_cannot_pair_no_mac), Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, DiscoveryActivity.class));
+            startActivity(new Intent(this, DiscoveryActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             finish();
             return;
         }
@@ -92,7 +92,7 @@ public class MiBandPairingActivity extends Activity {
             sharedPrefs.edit().putString(GB.PREF_DEVELOPMENT_MIBAND_ADDRESS, macAddress).apply();
         }
 
-        Intent intent = new Intent(this, ControlCenter.class);
+        Intent intent = new Intent(this, ControlCenter.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
     }
