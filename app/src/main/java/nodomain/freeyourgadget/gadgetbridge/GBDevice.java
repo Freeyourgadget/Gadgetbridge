@@ -117,7 +117,7 @@ public class GBDevice implements Parcelable {
         mState = state;
     }
 
-    String getStateString() {
+    public String getStateString() {
         switch (mState) {
             case NOT_CONNECTED:
                 return GBApplication.getContext().getString(R.string.not_connected);
@@ -131,14 +131,15 @@ public class GBDevice implements Parcelable {
         return GBApplication.getContext().getString(R.string.unknown_state);
     }
 
+
     public String getInfoString() {
         if (mFirmwareVersion != null) {
             if (mHardwareVersion != null) {
-                return GBApplication.getContext().getString(R.string.connectionstate_hw_fw, getStateString(), mHardwareVersion, mFirmwareVersion);
+                return GBApplication.getContext().getString(R.string.connectionstate_hw_fw, mHardwareVersion, mFirmwareVersion);
             }
-            return GBApplication.getContext().getString(R.string.connectionstate_fw, getStateString(), mFirmwareVersion);
+            return GBApplication.getContext().getString(R.string.connectionstate_fw, mFirmwareVersion);
         } else {
-            return getStateString();
+            return "";
         }
     }
 

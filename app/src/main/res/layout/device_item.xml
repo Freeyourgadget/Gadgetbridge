@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/activatedBackgroundIndicator"
-    android:padding="8dp" >
+    android:padding="8dp">
 
     <ImageView
         android:id="@+id/device_image"
@@ -11,26 +11,50 @@
         android:layout_height="48dp"
         android:layout_alignParentLeft="true" />
 
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/device_image"
         android:orientation="vertical"
-        android:paddingLeft="8dp" >
+        android:paddingLeft="8dp">
 
-        <TextView
+    <TextView
             android:id="@+id/device_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scrollHorizontally="false"
-            android:singleLine="true" />
+            android:layout_alignLeft="@+id/statuswrapper"
+            android:layout_toLeftOf="@+id/device_info"
+            android:singleLine="true"
+            android:textColor="@color/primarytext"
+            android:typeface="sans" />
+
+        <LinearLayout
+            android:id="@+id/statuswrapper"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/device_name"
+            android:orientation="vertical"
+            android:paddingTop="3dp">
+
+            <TextView
+                android:id="@+id/device_status"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primarytext"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/device_status"
+            android:id="@+id/device_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold" />
-    </LinearLayout>
+            android:layout_alignBaseline="@+id/device_name"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:textColor="@color/secondarytext"
+            android:textSize="12sp" />
 
+    </RelativeLayout>
 </RelativeLayout>

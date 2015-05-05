@@ -16,13 +16,11 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {
 
     private final Context context;
-    private final List<GBDevice> deviceList;
 
     public GBDeviceAdapter(Context context, List<GBDevice> deviceList) {
         super(context, 0, deviceList);
 
         this.context = context;
-        this.deviceList = deviceList;
     }
 
     @Override
@@ -37,10 +35,12 @@ public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {
         }
         TextView deviceStatusLabel = (TextView) view.findViewById(R.id.device_status);
         TextView deviceNameLabel = (TextView) view.findViewById(R.id.device_name);
+        TextView deviceInfoLabel = (TextView) view.findViewById(R.id.device_info);
         ImageView deviceImageView = (ImageView) view.findViewById(R.id.device_image);
 
-        deviceStatusLabel.setText(device.getInfoString());
+        deviceStatusLabel.setText(device.getStateString());
         deviceNameLabel.setText(device.getName());
+        deviceInfoLabel.setText(device.getInfoString());
 
         switch (device.getType()) {
             case PEBBLE:
