@@ -4,9 +4,11 @@ import android.util.Log;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.Arrays;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
 
+import nodomain.freeyourgadget.gadgetbridge.GB;
 import nodomain.freeyourgadget.gadgetbridge.GBCommand;
 import nodomain.freeyourgadget.gadgetbridge.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
@@ -14,6 +16,7 @@ import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppManagementResult;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandCallControl;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandMusicControl;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
 
@@ -82,6 +85,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     static final int APPMANAGER_RES_SUCCESS = 1;
 
+    static final byte APPLICATIONMESSAGE_PUSH = 1;
+    static final byte APPLICATIONMESSAGE_REQUEST = 2;
+    static final byte APPLICATIONMESSAGE_ACK = (byte) 0xff;
+    static final byte APPLICATIONMESSAGE_NACK = (byte) 0x7f;
+
     static final byte PUTBYTES_INIT = 1;
     static final byte PUTBYTES_SEND = 2;
     static final byte PUTBYTES_COMMIT = 3;
@@ -139,6 +147,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final short LENGTH_SYSTEMMESSAGE = 2;
 
     private static final String[] hwRevisions = {"unknown", "ev1", "ev2", "ev2_3", "ev2_4", "v1_5", "v2_0"};
+
+    // FIXME: this does not belong here
+    static final byte[] WeatherNeatUUID = {0x36, (byte) 0x84, 0x00, 0x3B, (byte) 0xA6, (byte) 0x85, 0x45, (byte) 0xF9, (byte) 0xA7, 0x13, (byte) 0xAB, (byte) 0xC6, 0x36, 0x4B, (byte) 0xA0, 0x51};
+    static byte last_id = -1;
 
     private static byte[] encodeMessage(short endpoint, byte type, int cookie, String[] parts) {
         // Calculate length first
@@ -413,6 +425,25 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
+    public byte[] encodeApplicationMessageTest() {
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + 29);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort((short) 29);
+        buf.putShort(ENDPOINT_APPLICATIONMESSAGE);
+        buf.put(APPLICATIONMESSAGE_PUSH);
+        buf.put(++last_id);
+        buf.put(WeatherNeatUUID);
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        buf.putInt(0x1); // city
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.put((byte) 1); // string
+        buf.putShort((short) 4); // length of string
+        String temp = "GBT";
+        buf.put(temp.getBytes());
+        buf.put((byte)0x00);
+        return buf.array();
+    }
+
     public GBDeviceCommand decodeResponse(byte[] responseData) {
         ByteBuffer buf = ByteBuffer.wrap(responseData);
         buf.order(ByteOrder.BIG_ENDIAN);
@@ -550,6 +581,34 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         break;
                 }
                 cmd = installRes;
+                break;
+            case ENDPOINT_APPLICATIONMESSAGE:
+                byte[] uuid = new byte[16];
+                last_id = buf.get();
+                buf.get(uuid);
+                byte dictSize = buf.get();
+                switch (pebbleCmd) {
+                    case APPLICATIONMESSAGE_PUSH:
+                        Log.i(TAG, "got APPLICATIONMESSAGE PUSH from UUID " + GB.hexdump(uuid, 0, 16) + " , dict size " + dictSize);
+                        if (Arrays.equals(uuid, WeatherNeatUUID)) {
+                            Log.i(TAG, "We know you, you are NeatWeather, we met at gihub.com :)");
+                            GBDeviceCommandSendBytes sendBytes = new GBDeviceCommandSendBytes();
+                            sendBytes.encodedBytes = encodeApplicationMessageTest();
+                            cmd = sendBytes;
+                         }
+                        break;
+                    case APPLICATIONMESSAGE_ACK:
+                        Log.i(TAG, "got APPLICATIONMESSAGE ACK");
+                        break;
+                    case APPLICATIONMESSAGE_NACK:
+                        Log.i(TAG, "got APPLICATIONMESSAGE NACK");
+                        break;
+                    case APPLICATIONMESSAGE_REQUEST:
+                        Log.i(TAG, "got APPLICATIONMESSAGE REQUEST");
+                        break;
+                    default:
+                        break;
+                }
                 break;
             default:
                 break;

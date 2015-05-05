@@ -35,6 +35,7 @@ import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppManagementResult;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandCallControl;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandMusicControl;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
 
@@ -284,7 +285,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     if (deviceCmd == null) {
                         Log.i(TAG, "unhandled message to endpoint " + endpoint + " (" + length + " bytes)");
                     } else {
-                        evaluateGBCommandBundle(deviceCmd);
+                        evaluateGBDeviceCommand(deviceCmd);
                     }
                 }
                 try {
@@ -339,7 +340,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
     }
 
     // FIXME: this does not belong here in this class, it is supporsed to be generic code
-    private void evaluateGBCommandBundle(GBDeviceCommand deviceCmd) {
+    private void evaluateGBDeviceCommand(GBDeviceCommand deviceCmd) {
         Context context = getContext();
 
         switch (deviceCmd.commandClass) {
@@ -386,6 +387,11 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 }
                 LocalBroadcastManager.getInstance(context).sendBroadcast(appInfoIntent);
                 break;
+            case SEND_BYTES:
+                GBDeviceCommandSendBytes sendBytes = (GBDeviceCommandSendBytes) deviceCmd;
+                write(sendBytes.encodedBytes);
+                break;
+
             case APP_MANAGEMENT_RES:
                 GBDeviceCommandAppManagementResult appMgmtRes = (GBDeviceCommandAppManagementResult) deviceCmd;
                 switch (appMgmtRes.type) {

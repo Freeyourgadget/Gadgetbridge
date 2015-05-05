@@ -11,6 +11,7 @@ public abstract class GBDeviceCommand {
         APP_INFO,
         VERSION_INFO,
         APP_MANAGEMENT_RES,
+        SEND_BYTES,
     }
 }
 
