@@ -1,37 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
-    <string name="app_name">가젯브릿지</string>
-
-    <string name="title_activity_controlcenter">가젯브릿지</string>
-    <string name="action_settings">설정</string>
-    <string name="action_debug">디버그</string>
-    <string name="action_quit">종료</string>
-    <string name="action_refresh">새로고침</string>
-
-    <string name="title_activity_debug">디버그</string>
-
-    <!-- Strings related to AppManager -->
-    <string name="title_activity_appmanager">앱 관리자</string>
-    <string name="appmananger_app_delete">삭제</string>
-
-    <!-- Strings related to AppInstaller -->
-    <string name="title_activity_appinstaller">앱 설치</string>
-
-    <!-- Strings related to Settings -->
-    <string name="title_activity_settings">설정</string>
-
-    <string name="pref_header_general">일반 설정</string>
-    <string name="pref_title_general_autoconnectonbluetooth">블루투스가 켜지면 기기에 접속하기</string>
-
-    <string name="pref_header_datetime">날짜와 시간</string>
-    <string name="pref_title_datetime_syctimeonconnect">접속시 시간 동기화하기</string>
-
-    <string name="pref_header_notifications">알림</string>
-    <string name="pref_title_notifications_sms">SMS 문자 알림</string>
-    <string name="pref_title_notifications_k9mail">K-9 Mail 알림</string>
-    <string name="pref_title_notifications_generic">일반적인 알림 지원</string>
-    <string name="pref_title_whenscreenon">… 화면이 켜져있을 때도</string>
-
-    <string name="pref_header_development">개발자 옵션</string>
-    <string name="pref_title_development_miaddr">Miband 주소</string>
+  <string name="app_name">가젯브릿지</string>
+  <string name="title_activity_controlcenter">가젯브릿지</string>
+  <string name="action_settings">설정</string>
+  <string name="action_debug">디버그</string>
+  <string name="action_quit">종료</string>
+  <string name="action_refresh">새로고침</string>
+  <string name="title_activity_debug">디버그</string>
+  <!--Strings related to AppManager-->
+  <string name="title_activity_appmanager">앱 관리자</string>
+  <string name="appmananger_app_delete">삭제</string>
+  <!--Strings related to AppInstaller-->
+  <string name="title_activity_appinstaller">앱 설치</string>
+  <!--Strings related to Settings-->
+  <string name="title_activity_settings">설정</string>
+  <string name="pref_header_general">일반 설정</string>
+  <string name="pref_title_general_autoconnectonbluetooth">블루투스가 켜지면 기기에 접속하기</string>
+  <string name="pref_header_datetime">날짜와 시간</string>
+  <string name="pref_title_datetime_syctimeonconnect">접속시 시간 동기화하기</string>
+  <string name="pref_header_notifications">알림</string>
+  <string name="pref_title_notifications_sms">SMS 문자 알림</string>
+  <string name="pref_title_notifications_k9mail">K-9 Mail 알림</string>
+  <string name="pref_title_notifications_generic">일반적인 알림 지원</string>
+  <string name="pref_title_whenscreenon">… 화면이 켜져있을 때도</string>
+  <string name="pref_header_development">개발자 옵션</string>
+  <string name="pref_title_development_miaddr">Miband 주소</string>
 </resources>
