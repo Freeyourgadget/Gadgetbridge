@@ -33,7 +33,7 @@ need to create an account and transmit any of your data to the vendor's servers.
     * K-9 mails received
     * Generic Android notifications
 * Synchronize the time to the Mi Band
-* Display firmware version
+* Display firmware version and battery state
 
 ## How to use (Mi Band)
 
