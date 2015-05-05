@@ -23,7 +23,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
-        pair(builder).sendUserInfo(builder).setCurrentTime(builder);
+        pair(builder).sendUserInfo(builder).setCurrentTime(builder).requestBatteryInfo(builder);
         return builder;
     }
 
@@ -92,6 +92,13 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         Log.d(TAG, "Writing User Info!");
         BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_USER_INFO);
         builder.write(characteristic, getUserInfo().getData());
+        return this;
+    }
+
+    private MiBandSupport requestBatteryInfo(TransactionBuilder builder) {
+        Log.d(TAG, "Requesting Battery Info!");
+        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_BATTERY);
+        builder.read(characteristic);
         return this;
     }
 
@@ -200,8 +207,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     public void onBatteryInfoReq() {
         try {
             TransactionBuilder builder = performInitialized("Get MI Band battery info");
-            BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_BATTERY);
-            builder.read(characteristic).queue(getQueue());
+            requestBatteryInfo(builder);
+            builder.queue(getQueue());
         } catch (IOException ex) {
             Log.e(TAG, "Unable to read battery info from MI", ex);
         }
