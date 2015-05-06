@@ -429,21 +429,48 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     public byte[] encodeApplicationMessageTest() {
-        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + 29);
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + 69 + LENGTH_PREFIX + 18);
         buf.order(ByteOrder.BIG_ENDIAN);
-        buf.putShort((short) 29);
+        // ACK 18
+        buf.putShort((short) 18);
         buf.putShort(ENDPOINT_APPLICATIONMESSAGE);
+        buf.put(APPLICATIONMESSAGE_ACK);
+        buf.put(last_id);
+        buf.put(WeatherNeatUUID);
+        buf.putShort((short) 69);
+        buf.putShort(ENDPOINT_APPLICATIONMESSAGE);
+        // 19
         buf.put(APPLICATIONMESSAGE_PUSH);
         buf.put(++last_id);
         buf.put(WeatherNeatUUID);
+        buf.put((byte) 4);
+        // 14
         buf.order(ByteOrder.LITTLE_ENDIAN);
         buf.putInt(0x1); // city
-        buf.order(ByteOrder.BIG_ENDIAN);
         buf.put((byte) 1); // string
-        buf.putShort((short) 4); // length of string
-        String temp = "GBT";
+        buf.putShort((short) 7); // length of string
+        String temp = "Berlin";
         buf.put(temp.getBytes());
         buf.put((byte) 0x00);
+        // 12
+        temp = "22 C";
+        buf.putInt(0x2); // temperature
+        buf.put((byte) 1); // string
+        buf.putShort((short) 5); // length of string
+        buf.put(temp.getBytes());
+        buf.put((byte) 0x00);
+        // 13
+        temp = "windy";
+        buf.putInt(0x3); // city
+        buf.put((byte) 1); // string
+        buf.putShort((short) 6); // length of string
+        buf.put(temp.getBytes());
+        buf.put((byte) 0x00);
+        //11
+        buf.putInt(0x5); // backlight timeoff on shake
+        buf.put((byte) 0); // int
+        buf.putShort((short) 4); // length of int
+        buf.putInt(0); // no backlight on shake
         return buf.array();
     }
 
@@ -594,7 +621,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                     case APPLICATIONMESSAGE_PUSH:
                         Log.i(TAG, "got APPLICATIONMESSAGE PUSH from UUID " + GB.hexdump(uuid, 0, 16) + " , dict size " + dictSize);
                         if (Arrays.equals(uuid, WeatherNeatUUID)) {
-                            Log.i(TAG, "We know you, you are NeatWeather, we met at gihub.com :)");
+                            Log.i(TAG, "We know you, you are WeatherNeat");
                             GBDeviceCommandSendBytes sendBytes = new GBDeviceCommandSendBytes();
                             sendBytes.encodedBytes = encodeApplicationMessageTest();
                             cmd = sendBytes;
