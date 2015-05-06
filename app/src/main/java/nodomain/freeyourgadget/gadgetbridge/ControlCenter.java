@@ -110,7 +110,13 @@ public class ControlCenter extends Activity {
         startIntent.setAction(BluetoothCommunicationService.ACTION_START);
         startService(startIntent);
 
-        requestDeviceInfo();
+
+        if (deviceList.isEmpty()) {
+            // start discovery when no devices are present
+            startActivity(new Intent(this, DiscoveryActivity.class));
+        } else {
+            requestDeviceInfo();
+        }
     }
 
     /**
