@@ -1,7 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.pebble;
 
 import nodomain.freeyourgadget.gadgetbridge.AbstractBTDeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
 
@@ -9,9 +8,6 @@ public class PebbleSupport extends AbstractBTDeviceSupport {
 
     @Override
     public boolean connect() {
-        // TODO: state and notification handling should move to IO thread
-        getDevice().setState(GBDevice.State.CONNECTING);
-        getDevice().sendDeviceUpdateIntent(getContext());
         getDeviceIOThread().start();
         return true;
     }

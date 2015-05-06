@@ -24,7 +24,6 @@ import java.nio.ByteOrder;
 import java.util.zip.ZipInputStream;
 
 import nodomain.freeyourgadget.gadgetbridge.AppManagerActivity;
-import nodomain.freeyourgadget.gadgetbridge.GB;
 import nodomain.freeyourgadget.gadgetbridge.GBCallControlReceiver;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.GBDeviceIoThread;
@@ -137,11 +136,22 @@ public class PebbleIoThread extends GBDeviceIoThread {
         gbDevice.setState(GBDevice.State.CONNECTED);
         gbDevice.sendDeviceUpdateIntent(getContext());
 
+        mIsConnected = true;
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        if (sharedPrefs.getBoolean("datetime_synconconnect", true)) {
+            Log.i(TAG, "syncing time");
+            write(mPebbleProtocol.encodeSetTime(-1));
+        }
+
         return true;
     }
 
     @Override
     public void run() {
+        gbDevice.setState(GBDevice.State.CONNECTING);
+        gbDevice.sendDeviceUpdateIntent(getContext());
+
         mIsConnected = connect(gbDevice.getAddress());
         mQuit = !mIsConnected; // quit if not connected
 
@@ -265,28 +275,11 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     bytes += mInStream.read(buffer, bytes + 4, length - bytes);
                 }
 
-                if (length == 1 && endpoint == PebbleProtocol.ENDPOINT_PHONEVERSION) {
-                    Log.i(TAG, "Pebble asked for Phone/App Version - repLYING!");
-                    write(mPebbleProtocol.encodePhoneVersion(PebbleProtocol.PHONEVERSION_REMOTE_OS_ANDROID));
-                    write(mPebbleProtocol.encodeFirmwareVersionReq());
-
-                    // this does not really belong here, but since the pebble only asks for our version once it should do the job
-                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-                    if (sharedPrefs.getBoolean("datetime_synconconnect", true)) {
-                        Log.i(TAG, "syncing time");
-                        write(mPebbleProtocol.encodeSetTime(-1));
-                    }
-                } else if (endpoint == PebbleProtocol.ENDPOINT_DATALOG) {
-                    Log.i(TAG, "datalog to endpoint " + endpoint + " (" + length + " bytes)");
-                    Log.i(TAG, "first two bytes: " + GB.hexdump(buffer, 4, 2));
-                    write(mPebbleProtocol.encodeDatalog(buffer[5], (byte) 0x85));
+                GBDeviceCommand deviceCmd = mPebbleProtocol.decodeResponse(buffer);
+                if (deviceCmd == null) {
+                    Log.i(TAG, "unhandled message to endpoint " + endpoint + " (" + length + " bytes)");
                 } else {
-                    GBDeviceCommand deviceCmd = mPebbleProtocol.decodeResponse(buffer);
-                    if (deviceCmd == null) {
-                        Log.i(TAG, "unhandled message to endpoint " + endpoint + " (" + length + " bytes)");
-                    } else {
-                        evaluateGBDeviceCommand(deviceCmd);
-                    }
+                    evaluateGBDeviceCommand(deviceCmd);
                 }
                 try {
                     Thread.sleep(100);

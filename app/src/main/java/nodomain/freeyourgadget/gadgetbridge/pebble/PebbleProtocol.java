@@ -90,6 +90,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final byte APPLICATIONMESSAGE_ACK = (byte) 0xff;
     static final byte APPLICATIONMESSAGE_NACK = (byte) 0x7f;
 
+    static final byte DATALOG_TIMEOUT = 7;
+
     static final byte PUTBYTES_INIT = 1;
     static final byte PUTBYTES_SEND = 2;
     static final byte PUTBYTES_COMMIT = 3;
@@ -108,6 +110,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private final byte SYSTEMMESSAGE_FIRMWARECOMPLETE = 2;
     private final byte SYSTEMMESSAGE_FIRMWAREFAIL = 3;
 
+    static final byte PHONEVERSION_REQUEST = 0;
     static final byte PHONEVERSION_APPVERSION_MAGIC = 2; // increase this if pebble complains
     static final byte PHONEVERSION_APPVERSION_MAJOR = 2;
     static final byte PHONEVERSION_APPVERSION_MINOR = 3;
@@ -440,7 +443,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putShort((short) 4); // length of string
         String temp = "GBT";
         buf.put(temp.getBytes());
-        buf.put((byte)0x00);
+        buf.put((byte) 0x00);
         return buf.array();
     }
 
@@ -595,7 +598,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                             GBDeviceCommandSendBytes sendBytes = new GBDeviceCommandSendBytes();
                             sendBytes.encodedBytes = encodeApplicationMessageTest();
                             cmd = sendBytes;
-                         }
+                        }
                         break;
                     case APPLICATIONMESSAGE_ACK:
                         Log.i(TAG, "got APPLICATIONMESSAGE ACK");
@@ -605,6 +608,29 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         break;
                     case APPLICATIONMESSAGE_REQUEST:
                         Log.i(TAG, "got APPLICATIONMESSAGE REQUEST");
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case ENDPOINT_DATALOG:
+                if (pebbleCmd != DATALOG_TIMEOUT) {
+                    byte id = buf.get();
+                    Log.i(TAG, "DATALOG id " + id + " - sending 0x85 (ACK?)");
+                    GBDeviceCommandSendBytes sendBytes = new GBDeviceCommandSendBytes();
+                    sendBytes.encodedBytes = encodeDatalog(id, (byte) 0x85);
+                    cmd = sendBytes;
+                } else {
+                    Log.i(TAG, "DATALOG TIMEOUT - ignoring");
+                }
+                break;
+            case ENDPOINT_PHONEVERSION:
+                switch (pebbleCmd) {
+                    case PHONEVERSION_REQUEST:
+                        Log.i(TAG, "Pebble asked for Phone/App Version - repLYING!");
+                        GBDeviceCommandSendBytes sendBytes = new GBDeviceCommandSendBytes();
+                        sendBytes.encodedBytes = encodePhoneVersion(PHONEVERSION_REMOTE_OS_ANDROID);
+                        cmd = sendBytes;
                         break;
                     default:
                         break;
