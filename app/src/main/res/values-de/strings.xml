@@ -30,15 +30,15 @@
     <string name="pref_title_notifications_sms">SMS</string>
     <string name="pref_title_notifications_k9mail">K9-Mail</string>
     <string name="pref_title_notifications_pebblemsg">Pebble Benachrichtigungen</string>
-    <string name="pref_summary_notifications_pebblemsg">Unterstützung für Applikationen, die Benachrichtigungnen per Intent an die Pebble senden. Das wird für Conversations benötigt.</string>
+    <string name="pref_summary_notifications_pebblemsg">Unterstützung für Applikationen, die Benachrichtigungen per Intent an die Pebble senden. Das wird für Conversations benötigt.</string>
     <string name="pref_title_notifications_generic">Andere Benachrichtigungen</string>
-    <string name="pref_title_whenscreenon">… auch wenn der Bilschrim an ist</string>
+    <string name="pref_title_whenscreenon">… auch wenn der Bildschirm an ist</string>
     <string name="always">immer</string>
     <string name="when_screen_off">wenn der Bilschirm ausgeschaltet ist</string>
     <string name="never">nie</string>
 
     <string name="pref_header_development">Entwickleroptionen</string>
-    <string name="pref_title_development_miaddr">Miband MAC-Adresse</string>
+    <string name="pref_title_development_miaddr">Mi Band MAC-Adresse</string>
 
     <string name="not_connected">nicht verbunden</string>
     <string name="connecting">verbinde</string>
