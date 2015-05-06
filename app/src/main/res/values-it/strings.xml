@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="app_name">Gadgetbridge</string>
+  <string name="title_activity_controlcenter">Gadgetbridge</string>
+  <string name="action_settings">Impostazioni</string>
+  <string name="action_debug">Debug</string>
+  <string name="action_quit">Esci</string>
+  <string name="action_refresh">Aggiorna</string>
+  <string name="title_activity_debug">Debug</string>
+  <!--Strings related to AppManager-->
+  <string name="title_activity_appmanager">Gestione app</string>
+  <string name="appmananger_app_delete">Cancella</string>
+  <!--Strings related to AppInstaller-->
+  <string name="title_activity_appinstaller">Installa app</string>
+  <!--Strings related to Settings-->
+  <string name="title_activity_settings">Impostazioni</string>
+  <string name="pref_header_general">Impostazioni globali</string>
+  <string name="pref_title_general_autoconnectonbluetooth">Collegati al dispositivo quando il bluetooth viene acceso</string>
+  <string name="pref_header_datetime">Data e ora</string>
+  <string name="pref_title_datetime_syctimeonconnect">Sincronizza l\'ora alla connessione</string>
+  <string name="pref_header_notifications">Notifiche</string>
+  <string name="pref_title_notifications_sms">Notifiche per gli SMS</string>
+  <string name="pref_title_notifications_k9mail">Notifiche per K9-Mail</string>
+  <string name="pref_title_notifications_generic">Notifiche generiche</string>
+  <string name="pref_title_whenscreenon">... anche se lo schermo è acceso</string>
+  <string name="pref_header_development">Opzioni di sviluppo</string>
+  <string name="pref_title_development_miaddr">Indirizzo Miband</string>
+  <string name="not_connected">non connesso</string>
+  <string name="connecting">in collegamento</string>
+  <string name="connected">connesso</string>
+  <string name="unknown_state">stato sconosciuto</string>
+  <string name="connectionstate_hw_fw">%1$s (HW: %2$s FW: %3$s)</string>
+  <string name="connectionstate_fw">%1$s (FW: %2$s)</string>
+  <string name="_unknown_">(sconosciuto)</string>
+  <string name="test">Test</string>
+  <string name="test_notification">Notifica di prova</string>
+  <string name="this_is_a_test_notification_from_gadgetbridge">Notifica di prova creata da Gadgetbridge</string>
+  <string name="bluetooth_is_not_supported_">Bluetooth non supportato.</string>
+  <string name="bluetooth_is_disabled_">Bluetooth disabilitato.</string>
+  <string name="tap_connected_device_for_app_mananger">tocca il dispositivo connesso per il gestore delle Ap</string>
+  <string name="tap_a_device_to_connect">tocca un dispositivo per connetterlo</string>
+  <string name="cannot_connect_bt_address_invalid_">Impossibile connettersi. Indirizzo BT non valido?</string>
+  <string name="gadgetbridge_running">Gadgetbridge in esecuzione</string>
+  <string name="battery_low">basso</string>
+  <string name="battery_medium">medio</string>
+  <string name="battery_full">pieno</string>
+  <string name="battery_not_charging">non in carica</string>
+  <string name="installing_binary_d_d">installazione del binario %1$d/%2$d</string>
+  <string name="installation_failed_">Installazione fallita!</string>
+  <string name="installation_successful">installazione conclusa con successo</string>
+  <string name="firmware_install_warning">SI STA INSTALLANDO UN FIRMWARE, PROCEDERE A PROPRIO RISCHIO.\n\n\n Questo firmware è per la versione HW: %s</string>
+  <string name="app_install_info">Si sta per installare la app:\n\n\n%1$s Versione %2$s di %3$s\n</string>
+  <string name="n_a">N/A</string>
+  <string name="initialized">inizializzato</string>
+  <string name="appversion_by_creator">%1$s di %2$s</string>
+</resources>
