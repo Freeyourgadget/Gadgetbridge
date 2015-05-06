@@ -27,8 +27,8 @@
     <string name="pref_title_datetime_syctimeonconnect">Sincronizar la hora al conectar</string>
 
     <string name="pref_header_notifications">Notificaciones</string>
-    <string name="pref_title_notifications_sms">Notificación para SMS</string>
-    <string name="pref_title_notifications_k9mail">Notificación para K9-Mail</string>
+    <string name="pref_title_notifications_sms">SMS</string>
+    <string name="pref_title_notifications_k9mail">K9-Mail</string>
     <string name="pref_title_notifications_generic">Soporte para notificaciones genéricas</string>
     <string name="pref_title_whenscreenon">… también cuando la pantalla está encendida</string>
 

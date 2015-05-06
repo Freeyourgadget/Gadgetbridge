@@ -34,7 +34,7 @@
     <string name="pref_title_notifications_generic">Andere Benachrichtigungen</string>
     <string name="pref_title_whenscreenon">… auch wenn der Bildschirm an ist</string>
     <string name="always">immer</string>
-    <string name="when_screen_off">wenn der Bilschirm ausgeschaltet ist</string>
+    <string name="when_screen_off">wenn der Bilschirm aus ist</string>
     <string name="never">nie</string>
 
     <string name="pref_header_development">Entwickleroptionen</string>
@@ -53,7 +53,7 @@
     <string name="bluetooth_is_not_supported_">Bluetooth wird nicht unterstützt.</string>
     <string name="bluetooth_is_disabled_">Bluetooth ist abgeschaltet.</string>
     <string name="tap_connected_device_for_app_mananger">berühre das verbundene Gerät, um den App Mananger zu starten</string>
-    <string name="tap_a_device_to_connect">berühre ein Gerät zum verbinden</string>
+    <string name="tap_a_device_to_connect">berühre ein Gerät zum Verbinden</string>
     <string name="cannot_connect_bt_address_invalid_">Verbindung kann nicht aufgebaut werden. BT Adresse ungültig?</string>
     <string name="gadgetbridge_running">Gadgetbridge läuft</string>
     <string name="battery_low">niedrig</string>
@@ -63,7 +63,7 @@
     <string name="installing_binary_d_d">installiere Datei %1$d/%2$d</string>
     <string name="installation_failed_">Installation fehlgeschlagen!</string>
     <string name="installation_successful">Installation erfolgreich</string>
-    <string name="firmware_install_warning">DU VESUCHST EINE FIRMWARE ZU INSALLIEREN, FAHRE AUF DEIN EIGENES RISIKO FORT.\n\n\n Diese Firmware is für HW Revision: %s</string>
+    <string name="firmware_install_warning">DU VESUCHST EINE FIRMWARE ZU INSTALLIEREN, FAHRE AUF DEIN EIGENES RISIKO FORT.\n\n\n Diese Firmware ist für HW Revision: %s</string>
     <string name="app_install_info">Du bist dabei die folgende app zu installieren:\n\n\n%1$s Version %2$s von %3$s\n</string>
     <string name="n_a">N/A</string>
     <string name="initialized">initialisiert</string>

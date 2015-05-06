@@ -19,8 +19,8 @@
   <string name="pref_header_datetime">날짜와 시간</string>
   <string name="pref_title_datetime_syctimeonconnect">접속시 시간 동기화하기</string>
   <string name="pref_header_notifications">알림</string>
-  <string name="pref_title_notifications_sms">SMS 문자 알림</string>
-  <string name="pref_title_notifications_k9mail">K-9 Mail 알림</string>
+  <string name="pref_title_notifications_sms">SMS</string>
+  <string name="pref_title_notifications_k9mail">K-9 Mail</string>
   <string name="pref_title_notifications_generic">일반적인 알림 지원</string>
   <string name="pref_title_whenscreenon">… 화면이 켜져있을 때도</string>
   <string name="pref_header_development">개발자 옵션</string>
