@@ -11,4 +11,14 @@
         <item>never</item>
     </string-array>
 
+    <string-array name="gender">
+        <item>@string/male</item>
+        <item>@string/female</item>
+        <item>@string/other</item>
+    </string-array>
+    <string-array name="gender_values">
+        <item>male</item>
+        <item>female</item>
+        <item>other</item>
+    </string-array>
 </resources>

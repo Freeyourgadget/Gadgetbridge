@@ -43,6 +43,13 @@
                 android:value=".ControlCenter" />
         </activity>
         <activity
+            android:name=".miband.MiBandPreferencesActivity"
+            android:label="@string/preferences_miband_settings" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SettingsActivity" />
+        </activity>
+        <activity
             android:name=".AppManagerActivity"
             android:label="@string/title_activity_appmanager" >
             <meta-data

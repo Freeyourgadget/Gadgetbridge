@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="pref_category_miband_personal"
+        android:title="About You">
+        <EditTextPreference
+            android:key="mi_user_alias"
+            android:maxLength="17"
+            android:title="Name/Alias" />
+
+        <EditTextPreference
+            android:key="mi_user_year_of_birth"
+            android:digits="0123456789"
+            android:maxLength="4"
+            android:title="Year of Birth" />
+
+        <ListPreference
+            android:defaultValue="male"
+            android:entries="@array/gender"
+            android:entryValues="@array/gender_values"
+            android:key="mi_user_gender"
+            android:title="Gender" />
+
+        <!--TODO: support localized heights and weights -->
+        <EditTextPreference
+            android:key="mi_user_height_cm"
+            android:digits="0123456789"
+            android:maxLength="3"
+            android:title="Height in cm" />
+
+        <EditTextPreference
+            android:key="mi_user_weight_kg"
+            android:digits="0123456789"
+            android:maxLength="3"
+            android:title="Weight in kg" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

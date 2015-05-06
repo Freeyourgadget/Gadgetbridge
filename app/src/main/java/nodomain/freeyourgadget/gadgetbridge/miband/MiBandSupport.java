@@ -2,6 +2,8 @@ package nodomain.freeyourgadget.gadgetbridge.miband;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.io.IOException;
@@ -10,6 +12,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBCommand;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.btle.TransactionBuilder;
 
@@ -69,17 +72,30 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     private UserInfo getUserInfo() {
-        //      SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext());
-        //      UserInfo mInfo = new UserInfo(
-        //              mSharedPreferences.getString(MiBandConstants.PREFERENCE_MAC_ADDRESS, ""),
-        //              "1550050550",
-        //              (mSharedPreferences.getString(MiBandConstants.PREFERENCE_GENDER, "Male") == "Male") ? 1 : 0,
-        //              Integer.parseInt(mSharedPreferences.getString(MiBandConstants.PREFERENCE_AGE, "25")),
-        //              Integer.parseInt(mSharedPreferences.getString(MiBandConstants.PREFERENCE_HEIGHT, "175")),
-        //              Integer.parseInt(mSharedPreferences.getString(MiBandConstants.PREFERENCE_WEIGHT, "60")),
-        //              0
-        //      );
-        return UserInfo.getDefault(getDevice().getAddress());
+        try {
+            SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
+            int userYear = Integer.parseInt(mSharedPreferences.getString(MiBandConst.PREF_USER_YEAR_OF_BIRTH, "0"));
+            int age = 25;
+            if (userYear > 1900) {
+                age = Calendar.getInstance().get(Calendar.YEAR) - userYear;
+                if (age <= 0) {
+                    age = 25;
+                }
+            }
+            UserInfo info = new UserInfo(
+                    getDevice().getAddress(),
+                    mSharedPreferences.getString(MiBandConst.PREF_USER_ALIAS, "1550050550"),
+                    (mSharedPreferences.getString(MiBandConst.PREF_USER_GENDER, "male") == "male" ? 1 : 0),
+                    age,
+                    Integer.parseInt(mSharedPreferences.getString(MiBandConst.PREF_USER_HEIGHT_CM, "175")),
+                    Integer.parseInt(mSharedPreferences.getString(MiBandConst.PREF_USER_WEIGHT_KG, "70")),
+                    0
+            );
+            return info;
+        } catch (Exception ex) {
+            Log.e(TAG, "Error creating user info from settings, using default user instead: " + ex);
+            return UserInfo.getDefault(getDevice().getAddress());
+        }
     }
 
     /**

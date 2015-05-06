@@ -41,8 +41,8 @@ public class UserInfo {
 
         byte[] sequence = new byte[20];
 
-        int uid = Integer.parseInt(alias);
-
+        int uid = calculateUidFrom(alias);
+        String normalizedAlias = ensureTenCharacters(alias);
         sequence[0] = (byte) uid;
         sequence[1] = (byte) (uid >>> 8);
         sequence[2] = (byte) (uid >>> 16);
@@ -55,7 +55,7 @@ public class UserInfo {
         sequence[8] = (byte) (type & 0xff);
 
         for (int u = 9; u < 19; u++)
-            sequence[u] = alias.getBytes()[u - 9];
+            sequence[u] = normalizedAlias.getBytes()[u - 9];
 
         byte[] crcSequence = new byte[19];
         for (int u = 0; u < crcSequence.length; u++)
@@ -64,6 +64,30 @@ public class UserInfo {
         sequence[19] = (byte) ((getCRC8(crcSequence) ^ Integer.parseInt(address.substring(address.length() - 2), 16)) & 0xff);
 
         this.data = sequence;
+    }
+
+    private String ensureTenCharacters(String alias) {
+        char[] result = new char[10];
+        int aliasLen = alias.length();
+        int maxLen = Math.min(10, alias.length());
+        int diff = 10 - maxLen;
+        for (int i = 0; i < maxLen; i++) {
+            result[i + diff] = alias.charAt(i);
+        }
+        for (int i = 0; i < diff; i++) {
+            result[i] = '0';
+        }
+        return new String(result);
+    }
+
+    private int calculateUidFrom(String alias) {
+        int uid = 0;
+        try {
+            uid = Integer.parseInt(alias);
+        } catch (NumberFormatException ex) {
+            uid = alias.hashCode(); // simple as that
+        }
+        return uid;
     }
 
     public byte[] getData() {

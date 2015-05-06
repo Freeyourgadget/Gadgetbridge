@@ -53,6 +53,14 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="pref_key_device_specific_category"
+        android:title="@string/preferences_category_device_specific_settings">
+        <Preference
+            android:key="pref_key_miband"
+            android:title="@string/preferences_miband_settings" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="pref_key_development"
         android:title="@string/pref_header_development">
         <EditTextPreference

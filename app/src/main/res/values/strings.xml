@@ -81,4 +81,10 @@
     <string name="title_activity_mi_band_pairing">Pair your Mi Band</string>
     <string name="miband_pairing">Pairing with %s…</string>
     <string name="message_cannot_pair_no_mac">No mac address passed, cannot pair.</string>
+    <string name="preferences_category_device_specific_settings">Device Specific Settings</string>
+    <string name="preferences_miband_settings">Mi Band Settings</string>
+    <string name="male">male</string>
+    <string name="female">female</string>
+    <string name="other">other</string>
+
 </resources>
