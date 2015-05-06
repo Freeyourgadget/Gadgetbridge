@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
@@ -31,6 +32,9 @@ import nodomain.freeyourgadget.gadgetbridge.adapter.DeviceCandidateAdapter;
 
 public class DiscoveryActivity extends Activity implements AdapterView.OnItemClickListener {
     private static final String TAG = "DiscoveryAct";
+    private static final long SCAN_DURATION = 60000; // 60s
+
+    private Handler handler = new Handler();
 
     private BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
         @Override
@@ -50,6 +54,12 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
                 case BluetoothDevice.ACTION_FOUND:
                     break;
             }
+        }
+    };
+    private Runnable stopRunnable = new Runnable() {
+        @Override
+        public void run() {
+            stopDiscovery();
         }
     };
 
@@ -164,6 +174,11 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
      * Pre: bluetooth is available, enabled and scanning is off
      */
     private void startDiscovery() {
+        if (isScanning) {
+            Log.w(TAG, "Not starting BLE discovery, because already scanning.");
+            return;
+        }
+
         Log.i(TAG, "Starting discovery...");
         discoveryStarted(); // just to make sure
         if (ensureBluetoothReady()) {
@@ -175,8 +190,10 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
     }
 
     private void stopDiscovery() {
+        Log.i(TAG, "Stopping discovery");
         if (isScanning) {
             adapter.stopLeScan(leScanCallback);
+            handler.removeMessages(0, stopRunnable);
             // unfortunately, we never get a call back when stopping the scan, so
             // we do it manually:
             discoveryFinished();
@@ -213,6 +230,8 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
     }
 
     private void startBLEDiscovery() {
+        handler.removeMessages(0, stopRunnable);
+        handler.postDelayed(stopRunnable, SCAN_DURATION);
         adapter.startLeScan(leScanCallback);
     }
 
