@@ -16,6 +16,7 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.MusicPlaybackReceiver
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PebbleReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PhoneCallReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.SMSReceiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.TimeChangeReceiver;
 
 public class GB {
     public static final int NOTIFICATION_ID = 1;
@@ -54,6 +55,7 @@ public class GB {
                 K9Receiver.class,
                 PebbleReceiver.class,
                 MusicPlaybackReceiver.class,
+                TimeChangeReceiver.class,
                 //NotificationListener.class, // disabling this leads to loss of permission to read notifications
         };
 
