@@ -71,33 +71,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         return vibrate;
     }
 
-    private UserInfo getUserInfo() {
-        try {
-            SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
-            int userYear = Integer.parseInt(mSharedPreferences.getString(MiBandConst.PREF_USER_YEAR_OF_BIRTH, "0"));
-            int age = 25;
-            if (userYear > 1900) {
-                age = Calendar.getInstance().get(Calendar.YEAR) - userYear;
-                if (age <= 0) {
-                    age = 25;
-                }
-            }
-            UserInfo info = new UserInfo(
-                    getDevice().getAddress(),
-                    mSharedPreferences.getString(MiBandConst.PREF_USER_ALIAS, "1550050550"),
-                    (mSharedPreferences.getString(MiBandConst.PREF_USER_GENDER, "male") == "male" ? 1 : 0),
-                    age,
-                    Integer.parseInt(mSharedPreferences.getString(MiBandConst.PREF_USER_HEIGHT_CM, "175")),
-                    Integer.parseInt(mSharedPreferences.getString(MiBandConst.PREF_USER_WEIGHT_KG, "70")),
-                    0
-            );
-            return info;
-        } catch (Exception ex) {
-            Log.e(TAG, "Error creating user info from settings, using default user instead: " + ex);
-            return UserInfo.getDefault(getDevice().getAddress());
-        }
-    }
-
     /**
      * Part of device initialization process. Do not call manually.
      *
@@ -107,7 +80,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private MiBandSupport sendUserInfo(TransactionBuilder builder) {
         Log.d(TAG, "Writing User Info!");
         BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_USER_INFO);
-        builder.write(characteristic, getUserInfo().getData());
+        builder.write(characteristic, MiBandCoordinator.getAnyUserInfo(getDevice().getAddress()).getData());
         return this;
     }
 
@@ -121,7 +94,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     /**
      * Part of device initialization process. Do not call manually.
      *
-     * @param builder
+     * @param transaction
      * @return
      */
     private MiBandSupport pair(TransactionBuilder transaction) {
@@ -204,8 +177,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetMusicInfo(String artist, String album, String track) {
-        // TODO Auto-generated method stub
-
+        // not supported
     }
 
     @Override
@@ -232,20 +204,17 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onAppInfoReq() {
-        // TODO Auto-generated method stub
-
+        // not supported
     }
 
     @Override
     public void onAppDelete(int id, int index) {
-        // TODO Auto-generated method stub
-
+        // not supported
     }
 
     @Override
     public void onPhoneVersion(byte os) {
-        // TODO Auto-generated method stub
-
+        // not supported
     }
 
     @Override

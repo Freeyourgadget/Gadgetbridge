@@ -86,5 +86,6 @@
     <string name="male">male</string>
     <string name="female">female</string>
     <string name="other">other</string>
+    <string name="miband_pairing_using_dummy_userdata">No valid user data given, using dummy user data for now.</string>
 
 </resources>

@@ -24,6 +24,8 @@ import nodomain.freeyourgadget.gadgetbridge.discovery.DiscoveryActivity;
 
 public class MiBandPairingActivity extends Activity {
 
+    private static final int MAGIC_CODE_USER_SETTINGS = 52;
+    private static final String STATE_MIBAND_ADDRESS = "mibandMacAddress";
     private TextView message;
     private boolean isPairing;
     private String macAddress;
@@ -47,6 +49,9 @@ public class MiBandPairingActivity extends Activity {
         message = (TextView) findViewById(R.id.miband_pair_message);
         Intent intent = getIntent();
         macAddress = intent.getStringExtra(DeviceCoordinator.EXTRA_DEVICE_MAC_ADDRESS);
+        if (macAddress == null && savedInstanceState != null) {
+            macAddress = savedInstanceState.getString(STATE_MIBAND_ADDRESS, null);
+        }
         if (macAddress == null) {
             Toast.makeText(this, getString(R.string.message_cannot_pair_no_mac), Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, DiscoveryActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
@@ -54,7 +59,38 @@ public class MiBandPairingActivity extends Activity {
             return;
         }
 
+        if (!MiBandCoordinator.hasValidUserInfo()) {
+            Intent userSettingsIntent = new Intent(this, MiBandPreferencesActivity.class);
+            startActivityForResult(userSettingsIntent, MAGIC_CODE_USER_SETTINGS, null);
+            return;
+        }
+
+        // already valid user info available, use that and pair
         startPairing();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(STATE_MIBAND_ADDRESS, macAddress);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        macAddress = savedInstanceState.getString(STATE_MIBAND_ADDRESS, macAddress);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // start pairing immediately when we return from the user settings
+        if (requestCode == MAGIC_CODE_USER_SETTINGS) {
+            if (!MiBandCoordinator.hasValidUserInfo()) {
+                Toast.makeText(this, getString(R.string.miband_pairing_using_dummy_userdata), Toast.LENGTH_SHORT).show();
+            }
+            startPairing();
+        }
     }
 
     @Override
@@ -89,7 +125,7 @@ public class MiBandPairingActivity extends Activity {
 
         if (pairedSuccessfully) {
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-            sharedPrefs.edit().putString(GB.PREF_DEVELOPMENT_MIBAND_ADDRESS, macAddress).apply();
+            sharedPrefs.edit().putString(MiBandConst.PREF_MIBAND_ADDRESS, macAddress).apply();
         }
 
         Intent intent = new Intent(this, ControlCenter.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

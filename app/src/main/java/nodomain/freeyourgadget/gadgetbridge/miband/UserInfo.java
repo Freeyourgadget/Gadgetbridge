@@ -28,9 +28,25 @@ public class UserInfo {
      * Creates a user info with the given data
      *
      * @param address the address of the MI Band to connect to.
+     * @throws IllegalArgumentException when the given values are not valid
      */
-    public UserInfo(String address, String alias, int gender, int age, int height, int weight, int type) {
+    public static UserInfo create(String address, String alias, int gender, int age, int height, int weight, int type) throws IllegalArgumentException {
+        if (address == null || alias == null || gender <= 0 || age <= 0 || weight <= 0 || type <= 0) {
+            throw new IllegalArgumentException("Invalid parameters");
+        }
+        try {
+            return new UserInfo(address, alias, gender, age, height, weight, type);
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Illegal user info data", ex);
+        }
+    }
 
+    /**
+     * Creates a user info with the given data
+     *
+     * @param address the address of the MI Band to connect to.
+     */
+    private UserInfo(String address, String alias, int gender, int age, int height, int weight, int type) {
         this.btAddress = address;
         this.alias = alias;
         this.gender = gender;
@@ -65,6 +81,8 @@ public class UserInfo {
 
         this.data = sequence;
     }
+
+
 
     private String ensureTenCharacters(String alias) {
         char[] result = new char[10];
@@ -113,5 +131,4 @@ public class UserInfo {
         }
         return (crc & 0xff);
     }
-
 }
