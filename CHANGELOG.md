@@ -1,6 +1,6 @@
 ###Changelog
 ####Version (next)
-* Add discovery and pairing Activity
+* Add discovery and pairing Activity for Mi Bands
 * Listen for Pebble Message intents and forward notification (used by Conversations)
 * Make strings translatable and add German, Italian, Spanish and Korean translations
 * Mi Band: Display battery status

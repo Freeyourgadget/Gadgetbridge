@@ -16,7 +16,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Install"
+        android:text="@string/appinstaller_install"
         android:id="@+id/installButton"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"

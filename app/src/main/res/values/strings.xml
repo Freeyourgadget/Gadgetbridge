@@ -87,5 +87,10 @@
     <string name="female">female</string>
     <string name="other">other</string>
     <string name="miband_pairing_using_dummy_userdata">No valid user data given, using dummy user data for now.</string>
+    <string name="miband_pairing_tap_hint">When your Mi Band vibrates and blinks, tap it a few times in a row.</string>
+    <string name="appinstaller_install">Install</string>
+    <string name="discovery_connected_devices_hint">Currently connected devices will likely not be discovered.</string>
+    <string name="discovery_note">Note:</string>
+    <string name="candidate_item_device_image">Device Image</string>
 
 </resources>

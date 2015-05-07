@@ -17,64 +17,43 @@
             android:layout_height="wrap_content"
             android:text="@string/discovery_start_scanning"
             android:id="@+id/discovery_start"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
             android:layout_gravity="center_horizontal" />
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/discovery_progressbar"
-        android:indeterminate="true"
-        android:indeterminateOnly="true"
-        android:visibility="gone"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal" />
-
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="193dp"
-        android:id="@+id/discovery_deviceCandidatesView"
-        android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/discovery_progressbar"
-        android:layout_below="@+id/discovery_progressbar"
-        android:layout_alignParentStart="true"
-        android:layout_gravity="bottom|top"
-        android:layout_weight="0.83" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
-
-        <TextView
+        <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/discovery_progressbar"
+            android:indeterminate="true"
+            android:indeterminateOnly="true"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal" />
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:id="@+id/discovery_deviceCandidatesView"
+            android:layout_gravity="bottom|top"
+            android:layout_weight="0.83" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Note:"
+            android:text="@string/discovery_note"
             android:id="@+id/discovery_note"
-            android:layout_alignTop="@+id/discovery_hint"
-            android:layout_centerHorizontal="true"
             android:textStyle="bold"
-            android:layout_gravity="center_vertical|right"
             android:textColor="@color/secondarytext"
-            android:layout_marginLeft="10dp" />
+            android:gravity="center_horizontal|bottom" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Currently connected devices will likely not be discovered."
+            android:text="@string/discovery_connected_devices_hint"
             android:id="@+id/discovery_hint"
             android:textColor="@color/secondarytext"
-            android:layout_marginLeft="10dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="76dp" />
+            android:gravity="bottom"
+            android:textIsSelectable="true" />
 
     </LinearLayout>
 
