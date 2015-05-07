@@ -1,71 +1,76 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
-    <string name="app_name">Gadgetbridge</string>
-
-    <string name="title_activity_controlcenter">Gadgetbridge</string>
-    <string name="action_settings">Einstellungen</string>
-    <string name="action_debug">Debug</string>
-    <string name="action_quit">Beenden</string>
-    <string name="action_refresh">Aktualisieren</string>
-
-    <string name="title_activity_debug">Debug</string>
-
-    <!-- Strings related to AppManager -->
-    <string name="title_activity_appmanager">App Manager</string>
-    <string name="appmananger_app_delete">Löschen</string>
-
-    <!-- Strings related to AppInstaller -->
-    <string name="title_activity_appinstaller">App Installer</string>
-
-    <!-- Strings related to Settings -->
-    <string name="title_activity_settings">Einstellungen</string>
-
-    <string name="pref_header_general">Allgemeine Einstellungen</string>
-    <string name="pref_title_general_autoconnectonbluetooth">Verbinde, wenn Bluetooth eingeschaltet wird</string>
-
-    <string name="pref_header_datetime">Datum und Zeit</string>
-    <string name="pref_title_datetime_syctimeonconnect">Synchronisiere die Uhrzeit nach dem Verbindungsaufbau</string>
-
-    <string name="pref_header_notifications">Benachrichtigungen</string>
-    <string name="pref_title_notifications_sms">SMS</string>
-    <string name="pref_title_notifications_k9mail">K9-Mail</string>
-    <string name="pref_title_notifications_pebblemsg">Pebble Benachrichtigungen</string>
-    <string name="pref_summary_notifications_pebblemsg">Unterstützung für Applikationen, die Benachrichtigungen per Intent an die Pebble senden. Das wird für Conversations benötigt.</string>
-    <string name="pref_title_notifications_generic">Andere Benachrichtigungen</string>
-    <string name="pref_title_whenscreenon">… auch wenn der Bildschirm an ist</string>
-    <string name="always">immer</string>
-    <string name="when_screen_off">wenn der Bilschirm aus ist</string>
-    <string name="never">nie</string>
-
-    <string name="pref_header_development">Entwickleroptionen</string>
-    <string name="pref_title_development_miaddr">Mi Band MAC-Adresse</string>
-
-    <string name="not_connected">nicht verbunden</string>
-    <string name="connecting">verbinde</string>
-    <string name="connected">verbunden</string>
-    <string name="unknown_state">unbekannter Zustand</string>
-    <string name="connectionstate_hw_fw">HW: %1$s FW: %2$s</string>
-    <string name="connectionstate_fw">FW: %1$s</string>
-    <string name="_unknown_">(unknown)</string>
-    <string name="test">Test</string>
-    <string name="test_notification">Test Benachrichtigung</string>
-    <string name="this_is_a_test_notification_from_gadgetbridge">Dies ist eine Test Benachrichtigung von Gadgetbridge</string>
-    <string name="bluetooth_is_not_supported_">Bluetooth wird nicht unterstützt.</string>
-    <string name="bluetooth_is_disabled_">Bluetooth ist abgeschaltet.</string>
-    <string name="tap_connected_device_for_app_mananger">berühre das verbundene Gerät, um den App Mananger zu starten</string>
-    <string name="tap_a_device_to_connect">berühre ein Gerät zum Verbinden</string>
-    <string name="cannot_connect_bt_address_invalid_">Verbindung kann nicht aufgebaut werden. BT Adresse ungültig?</string>
-    <string name="gadgetbridge_running">Gadgetbridge läuft</string>
-    <string name="battery_low">niedrig</string>
-    <string name="battery_medium">mittel</string>
-    <string name="battery_full">voll</string>
-    <string name="battery_not_charging">lädt nicht</string>
-    <string name="installing_binary_d_d">installiere Datei %1$d/%2$d</string>
-    <string name="installation_failed_">Installation fehlgeschlagen!</string>
-    <string name="installation_successful">Installation erfolgreich</string>
-    <string name="firmware_install_warning">DU VESUCHST EINE FIRMWARE ZU INSTALLIEREN, FAHRE AUF DEIN EIGENES RISIKO FORT.\n\n\n Diese Firmware ist für HW Revision: %s</string>
-    <string name="app_install_info">Du bist dabei die folgende app zu installieren:\n\n\n%1$s Version %2$s von %3$s\n</string>
-    <string name="n_a">N/A</string>
-    <string name="initialized">initialisiert</string>
-    <string name="appversion_by_creator">%1$s von %2$s</string>
+  <string name="app_name">Gadgetbridge</string>
+  <string name="title_activity_controlcenter">Gadgetbridge</string>
+  <string name="action_settings">Einstellungen</string>
+  <string name="action_debug">Debug</string>
+  <string name="action_quit">Beenden</string>
+  <string name="action_refresh">Aktualisieren</string>
+  <string name="title_activity_debug">Debug</string>
+  <!--Strings related to AppManager-->
+  <string name="title_activity_appmanager">App Manager</string>
+  <string name="appmananger_app_delete">Löschen</string>
+  <!--Strings related to AppInstaller-->
+  <string name="title_activity_appinstaller">App Installer</string>
+  <!--Strings related to Settings-->
+  <string name="title_activity_settings">Einstellungen</string>
+  <string name="pref_header_general">Allgemeine Einstellungen</string>
+  <string name="pref_title_general_autoconnectonbluetooth">Verbinde, wenn Bluetooth eingeschaltet wird</string>
+  <string name="pref_header_datetime">Datum und Zeit</string>
+  <string name="pref_title_datetime_syctimeonconnect">Synchronisiere die Uhrzeit nach dem Verbindungsaufbau</string>
+  <string name="pref_header_notifications">Benachrichtigungen</string>
+  <string name="pref_title_notifications_sms">SMS</string>
+  <string name="pref_title_notifications_k9mail">K9-Mail</string>
+  <string name="pref_title_notifications_pebblemsg">Pebble Nachrichten</string>
+  <string name="pref_summary_notifications_pebblemsg">Unterstützung für Apps, die per Intent Nachrichten an die Pebble senden. Wird für die Unterstützung von Conversation benötigt.</string>
+  <string name="pref_title_notifications_generic">Andere Benachrichtigungen</string>
+  <string name="pref_title_whenscreenon">… auch wenn der Bilschrim an ist</string>
+  <string name="always">immer</string>
+  <string name="when_screen_off">wenn der Bildschirm aus ist</string>
+  <string name="never">niemals</string>
+  <string name="pref_header_development">Entwickleroptionen</string>
+  <string name="pref_title_development_miaddr">Mi Band MAC Adresse</string>
+  <string name="not_connected">nicht verbunden</string>
+  <string name="connecting">verbinde</string>
+  <string name="connected">verbunden</string>
+  <string name="unknown_state">unbekannter Zustand</string>
+  <string name="connectionstate_hw_fw">HW: %1$s FW: %2$s</string>
+  <string name="connectionstate_fw">FW: %1$s</string>
+  <string name="_unknown_">(unknown)</string>
+  <string name="test">Test</string>
+  <string name="test_notification">Test Benachrichtigung</string>
+  <string name="this_is_a_test_notification_from_gadgetbridge">Dies ist eine Test Benachrichtigung von Gadgetbridge</string>
+  <string name="bluetooth_is_not_supported_">Bluetooth wird nicht unterstützt.</string>
+  <string name="bluetooth_is_disabled_">Bluetooth ist abgeschaltet.</string>
+  <string name="tap_connected_device_for_app_mananger">berühre das verbundene Gerät, um den App Mananger zu starten</string>
+  <string name="tap_a_device_to_connect">berühre ein Gerät zum verbinden</string>
+  <string name="cannot_connect_bt_address_invalid_">Verbindung kann nicht aufgebaut werden. BT Adresse ungültig?</string>
+  <string name="gadgetbridge_running">Gadgetbridge läuft</string>
+  <string name="battery_low">niedrig</string>
+  <string name="battery_medium">mittel</string>
+  <string name="battery_full">voll</string>
+  <string name="battery_not_charging">lädt nicht</string>
+  <string name="installing_binary_d_d">installiere Datei %1$d/%2$d</string>
+  <string name="installation_failed_">Installation fehlgeschlagen!</string>
+  <string name="installation_successful">Installation erfolgreich</string>
+  <string name="firmware_install_warning">DU VESUCHST EINE FIRMWARE ZU INSALLIEREN, FAHRE AUF DEIN EIGENES RISIKO FORT.\n\n\n Diese Firmware is für HW Revision: %s</string>
+  <string name="app_install_info">Du bist dabei die folgende app zu installieren:\n\n\n%1$s Version %2$s von %3$s\n</string>
+  <string name="n_a">N/A</string>
+  <string name="initialized">initialisiert</string>
+  <string name="appversion_by_creator">%1$s von %2$s</string>
+  <string name="title_activity_discovery">Gerätesuche</string>
+  <string name="discovery_stop_scanning">Suche beenden</string>
+  <string name="discovery_start_scanning">Suche starten</string>
+  <string name="action_discover">Gerät suchen</string>
+  <string name="device_with_rssi">%1$s (%2$s)</string>
+  <string name="title_activity_android_pairing">Gerät paaren</string>
+  <string name="android_pairing_hint">Verwende den Android Bluetooth Paaren-Dialog um Dein Gerät zu paaren.</string>
+  <string name="title_activity_mi_band_pairing">Paare Dein Mi Band</string>
+  <string name="miband_pairing">Paarung mit %s…</string>
+  <string name="message_cannot_pair_no_mac">Kein MAC Adresse bekommen, kann nicht paaren.</string>
+  <string name="preferences_category_device_specific_settings">Gerätespezifische Einstellungen</string>
+  <string name="preferences_miband_settings">Mi Band Einstellungen</string>
+  <string name="male">männlich</string>
+  <string name="female">weiblich</string>
+  <string name="other">anderes</string>
 </resources>
