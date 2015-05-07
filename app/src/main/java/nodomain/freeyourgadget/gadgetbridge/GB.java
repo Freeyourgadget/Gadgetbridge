@@ -3,6 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -71,6 +72,11 @@ public class GB {
 
             pm.setComponentEnabledSetting(compName, newState, PackageManager.DONT_KILL_APP);
         }
+    }
+
+    static boolean isBluetoothEnabled() {
+        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+        return adapter != null && adapter.isEnabled();
     }
 
     public static String hexdump(byte[] buffer, int offset, int length) {

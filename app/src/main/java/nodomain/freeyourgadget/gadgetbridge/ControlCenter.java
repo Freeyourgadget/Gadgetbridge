@@ -111,7 +111,7 @@ public class ControlCenter extends Activity {
         startService(startIntent);
 
 
-        if (deviceList.isEmpty()) {
+        if (GB.isBluetoothEnabled() && deviceList.isEmpty()) {
             // start discovery when no devices are present
             startActivity(new Intent(this, DiscoveryActivity.class));
         } else {
