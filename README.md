@@ -28,6 +28,7 @@ need to create an account and transmit any of your data to the vendor's servers.
 ## Features (Mi Band)
 
 * Mi Band notifications (LEDs + vibration) for 
+    * Discovery and pairing
     * Incoming calls
     * SMS received
     * K-9 mails received
@@ -37,12 +38,18 @@ need to create an account and transmit any of your data to the vendor's servers.
 
 ## How to use (Mi Band)
 
-* With older Mi Band firmware (e.g. 1.4.0.x): Add your Mi Band's MAC address manually  (Settings -> Debug)
-* With newer firmware that supports pairing, pair your Mi Band through the Android Bluetooth Settings
+* When starting Gadgetbridge and no device is visible, it will automatically
+  attempt to discover and pair your Mi Band. Alternatively you can invoke this
+  manually via the menu button. It will ask you for some personal info that appears
+  to be needed for proper steps calculation on the band. If you do not provide these,
+  some hardcoded default "dummy" values will be used instead. 
+
+  When your Mi Band starts to vibrate and blink with all three LEDs during the pairing process,
+  tap it quickly a few times in a row to confirm the pairing with the band.
 
 1. Configure other notifications as desired
 2. Go back to the "Gadgetbridge" Activity
-3. Tap the "MI" device to connect
+3. Tap the "MI" item to connect if you're not connected yet.
 4. To test, chose "Debug" from the menu and play around
 
 Known Issues:
@@ -52,8 +59,8 @@ Known Issues:
   hassle.
 
 * The initial connection to a Mi Band sometimes takes a little patience. Try to connect a few times, wait, 
-  possibly quit Gadgetbridge before connecting again. This only happens until you have "bonded" with the 
-  Mi Band, i.e. until it knows your MAC address. This behavior may also only occur with older firmware versions.
+  and try connecting again. This only happens until you have "bonded" with the Mi Band, i.e. until it 
+  knows your MAC address. This behavior may also only occur with older firmware versions.
 
 ## Contribute
 
