@@ -22,7 +22,7 @@
   <string name="pref_title_notifications_sms">SMS</string>
   <string name="pref_title_notifications_k9mail">K9-Mail</string>
   <string name="pref_title_notifications_pebblemsg">Pebble Nachrichten</string>
-  <string name="pref_summary_notifications_pebblemsg">Unterstützung für Apps, die per Intent Nachrichten an die Pebble senden. Wird für die Unterstützung von Conversation benötigt.</string>
+  <string name="pref_summary_notifications_pebblemsg">Unterstützung für Apps, die per Intent Nachrichten an die Pebble senden. Kann für Conversations benutzt werden.</string>
   <string name="pref_title_notifications_generic">Andere Benachrichtigungen</string>
   <string name="pref_title_whenscreenon">… auch wenn der Bilschrim an ist</string>
   <string name="always">immer</string>
