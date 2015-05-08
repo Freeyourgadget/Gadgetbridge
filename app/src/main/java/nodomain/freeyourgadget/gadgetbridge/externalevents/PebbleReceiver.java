@@ -21,10 +21,10 @@ public class PebbleReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        if ("never".equals(sharedPrefs.getString("notification_mode_pebblemsg", "when_screen_off"))) {
+        if ("never".equals(sharedPrefs.getString("notification_mode_pebblemsg", "never"))) {
             return;
         }
-        if ("when_screen_off".equals(sharedPrefs.getString("notification_mode_pebblemsg", "when_screen_off"))) {
+        if ("when_screen_off".equals(sharedPrefs.getString("notification_mode_pebblemsg", "never"))) {
             PowerManager powermanager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             if (powermanager.isScreenOn()) {
                 return;

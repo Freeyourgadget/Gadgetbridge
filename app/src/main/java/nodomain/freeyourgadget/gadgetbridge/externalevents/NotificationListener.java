@@ -48,8 +48,6 @@ public class NotificationListener extends NotificationListenerService {
             return;
         }
 
-        String source = sbn.getPackageName();
-        Log.i(TAG, source);
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (!sharedPrefs.getBoolean("notifications_generic_whenscreenon", false)) {
@@ -59,7 +57,12 @@ public class NotificationListener extends NotificationListenerService {
             }
         }
 
+        String source = sbn.getPackageName();
         Notification notification = sbn.getNotification();
+
+        if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
+            return;
+        }
 
         /* do not display messages from "android"
          * This includes keyboard selection message, usb connection messages, etc
@@ -70,13 +73,14 @@ public class NotificationListener extends NotificationListenerService {
                 source.equals("com.android.systemui") ||
                 source.equals("com.android.dialer") ||
                 source.equals("com.android.mms") ||
-                source.equals("com.fsck.k9") ||
-                source.equals("eu.siacs.conversations")) {
+                source.equals("com.fsck.k9")) {
             return;
         }
 
-        if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
-            return;
+        if (source.equals("eu.siacs.conversations")) {
+            if (!"never".equals(sharedPrefs.getString("notification_mode_pebblemsg", "never"))) {
+                return;
+            }
         }
 
         Log.i(TAG, "Processing notification from source " + source);
@@ -84,20 +88,25 @@ public class NotificationListener extends NotificationListenerService {
         Bundle extras = notification.extras;
         String title = extras.getCharSequence(Notification.EXTRA_TITLE).toString();
         String content = null;
-        if (extras.containsKey(Notification.EXTRA_TEXT)) {
+        if (extras.containsKey(Notification.EXTRA_TEXT))
+
+        {
             CharSequence contentCS = extras.getCharSequence(Notification.EXTRA_TEXT);
             if (contentCS != null) {
                 content = contentCS.toString();
             }
         }
 
-        if (content != null) {
+        if (content != null)
+
+        {
             Intent startIntent = new Intent(NotificationListener.this, BluetoothCommunicationService.class);
             startIntent.setAction(BluetoothCommunicationService.ACTION_NOTIFICATION_GENERIC);
             startIntent.putExtra("notification_title", title);
             startIntent.putExtra("notification_body", content);
             startService(startIntent);
         }
+
     }
 
     @Override
