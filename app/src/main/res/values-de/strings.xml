@@ -22,7 +22,7 @@
   <string name="pref_title_notifications_sms">SMS</string>
   <string name="pref_title_notifications_k9mail">K9-Mail</string>
   <string name="pref_title_notifications_pebblemsg">Pebble Nachrichten</string>
-  <string name="pref_summary_notifications_pebblemsg">Unterstützung für Apps, die per Intent Nachrichten an die Pebble senden. Kann für Conversations benutzt werden.</string>
+  <string name="pref_summary_notifications_pebblemsg">Unterstützung für Anwendungen, die Benachrichtigungen per Intent an die Pebble schicken. Kann für Conversations verwendet werden.</string>
   <string name="pref_title_notifications_generic">Andere Benachrichtigungen</string>
   <string name="pref_title_whenscreenon">… auch wenn der Bilschrim an ist</string>
   <string name="always">immer</string>
@@ -79,4 +79,10 @@
   <string name="discovery_connected_devices_hint">Aktuell verbundene Geräte werden wahrscheinlich nicht gefunden.</string>
   <string name="discovery_note">Tipp:</string>
   <string name="candidate_item_device_image">Bild des Geräts</string>
+  <string name="miband_prefs_about_you">Über Dich</string>
+  <string name="miband_prefs_alias">Name/Alias</string>
+  <string name="miband_prefs_year_birth">Geburtsjahr</string>
+  <string name="miband_prefs_gender">Geschlecht</string>
+  <string name="miband_prefs_height_cm">Größe in cm</string>
+  <string name="miband_prefs_weight_kg">Gewicht in kg</string>
 </resources>
