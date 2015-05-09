@@ -75,7 +75,6 @@
   <string name="miband_pairing_using_dummy_userdata">Dati dell\'utente non inseriti, vengono usati dati d\'esempio.</string>
   <string name="miband_pairing_tap_hint">Quando la Mi Band vibra e lampeggia, dalle qualche leggero colpetto.</string>
   <string name="appinstaller_install">Installa</string>
-  <string name="discovery_connected_devices_hint">I dispositivi attualmente connessi non verrano trovati.</string>
   <string name="discovery_note">Nota:</string>
   <string name="candidate_item_device_image">Immagine dispositivo</string>
 </resources>
