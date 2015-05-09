@@ -92,5 +92,11 @@
     <string name="discovery_connected_devices_hint">Currently connected devices will likely not be discovered.</string>
     <string name="discovery_note">Note:</string>
     <string name="candidate_item_device_image">Device Image</string>
+    <string name="miband_prefs_about_you">About You</string>
+    <string name="miband_prefs_alias">Name/Alias</string>
+    <string name="miband_prefs_year_birth">Year of Birth</string>
+    <string name="miband_prefs_gender">Gender</string>
+    <string name="miband_prefs_height_cm">Height in cm</string>
+    <string name="miband_prefs_weight_kg">Weight in kg</string>
 
 </resources>
