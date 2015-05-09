@@ -31,7 +31,7 @@ public class UserInfo {
      * @throws IllegalArgumentException when the given values are not valid
      */
     public static UserInfo create(String address, String alias, int gender, int age, int height, int weight, int type) throws IllegalArgumentException {
-        if (address == null || alias == null || gender <= 0 || age <= 0 || weight <= 0 || type <= 0) {
+        if (address == null || address.length() == 0 || alias == null || alias.length() == 0 || gender < 0 || age <= 0 || weight <= 0 || type < 0) {
             throw new IllegalArgumentException("Invalid parameters");
         }
         try {
