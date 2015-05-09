@@ -23,6 +23,7 @@ public class GBDevice implements Parcelable {
     };
     private static final String TAG = GBDevice.class.getSimpleName();
     public static final short RSSI_UNKNOWN = 0;
+    public static final short BATTERY_UNKNOWN = -1;
     public static final String EXTRA_DEVICE = "device";
     private final String mName;
     private final String mAddress;
@@ -30,7 +31,7 @@ public class GBDevice implements Parcelable {
     private String mFirmwareVersion = null;
     private String mHardwareVersion = null;
     private State mState = State.NOT_CONNECTED;
-    private short mBatteryLevel = -1; // unknown
+    private short mBatteryLevel = BATTERY_UNKNOWN;
     private String mBatteryState;
     private short mRssi = RSSI_UNKNOWN;
 
@@ -115,6 +116,14 @@ public class GBDevice implements Parcelable {
 
     public void setState(State state) {
         mState = state;
+        unsetDynamicState();
+    }
+
+    private void unsetDynamicState() {
+        setBatteryLevel(BATTERY_UNKNOWN);
+        setBatteryState(null);
+        setFirmwareVersion(null);
+        setRssi(RSSI_UNKNOWN);
     }
 
     public String getStateString() {
@@ -195,9 +204,9 @@ public class GBDevice implements Parcelable {
     }
 
     /**
-     * Ranges from 0-100 (percent)
+     * Ranges from 0-100 (percent), or -1 if unknown
      *
-     * @return the battery level in range 0-100
+     * @return the battery level in range 0-100, or -1 if unknown
      */
     public short getBatteryLevel() {
         return mBatteryLevel;

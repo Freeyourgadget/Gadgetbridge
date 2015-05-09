@@ -44,7 +44,7 @@ public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {
         deviceInfoLabel.setText(device.getInfoString());
 
         short batteryLevel = device.getBatteryLevel();
-        if (batteryLevel > -1) {
+        if (batteryLevel != GBDevice.BATTERY_UNKNOWN) {
             batteryStatusLabel.setText("BAT: " + device.getBatteryLevel() + "%");
         } else {
             batteryStatusLabel.setText("");
