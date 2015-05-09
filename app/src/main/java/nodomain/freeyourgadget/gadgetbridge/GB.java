@@ -81,6 +81,10 @@ public class GB {
         return adapter != null && adapter.isEnabled();
     }
 
+    public static boolean supportsBluetoothLE() {
+        return GBApplication.getContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE);
+    }
+
     public static String hexdump(byte[] buffer, int offset, int length) {
         final char[] hexArray = "0123456789ABCDEF".toCharArray();
         char[] hexChars = new char[length * 2];

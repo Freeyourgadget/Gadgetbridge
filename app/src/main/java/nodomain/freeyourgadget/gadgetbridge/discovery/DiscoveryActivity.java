@@ -12,8 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -22,11 +20,11 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.DeviceHelper;
+import nodomain.freeyourgadget.gadgetbridge.GB;
+import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.DeviceCandidateAdapter;
 
@@ -41,10 +39,15 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
         public void onReceive(Context context, Intent intent) {
             switch (intent.getAction()) {
                 case BluetoothAdapter.ACTION_DISCOVERY_STARTED:
-                    discoveryStarted();
+                    discoveryStarted(Scanning.SCANNING_BT);
                     break;
                 case BluetoothAdapter.ACTION_DISCOVERY_FINISHED:
-                    discoveryFinished();
+                    // continue with LE scan, if available
+                    if (GB.supportsBluetoothLE()) {
+                        startBTLEDiscovery();
+                    } else {
+                        discoveryFinished();
+                    }
                     break;
                 case BluetoothAdapter.ACTION_STATE_CHANGED:
                     int oldState = intent.getIntExtra(BluetoothAdapter.EXTRA_PREVIOUS_STATE, BluetoothAdapter.STATE_OFF);
@@ -52,10 +55,21 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
                     bluetoothStateChanged(oldState, newState);
                     break;
                 case BluetoothDevice.ACTION_FOUND:
+                    BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                    short rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, GBDevice.RSSI_UNKNOWN);
+                    handleDeviceFound(device, rssi);
                     break;
             }
         }
     };
+
+    private BluetoothAdapter.LeScanCallback leScanCallback = new BluetoothAdapter.LeScanCallback() {
+        @Override
+        public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
+            handleDeviceFound(device, (short) rssi);
+        }
+    };
+
     private Runnable stopRunnable = new Runnable() {
         @Override
         public void run() {
@@ -63,45 +77,19 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
         }
     };
 
-    private void bluetoothStateChanged(int oldState, int newState) {
-        discoveryFinished();
-        startButton.setEnabled(newState == BluetoothAdapter.STATE_ON);
-    }
-
-    private void discoveryFinished() {
-        isScanning = false;
-        progressView.setVisibility(View.GONE);
-        startButton.setText(getString(R.string.discovery_start_scanning));
-    }
-
-    private void discoveryStarted() {
-        isScanning = true;
-        progressView.setVisibility(View.VISIBLE);
-        startButton.setText(getString(R.string.discovery_stop_scanning));
-    }
-
     private ProgressBar progressView;
     private BluetoothAdapter adapter;
     private ArrayList<DeviceCandidate> deviceCandidates = new ArrayList<>();
     private ListView deviceCandidatesView;
     private DeviceCandidateAdapter cadidateListAdapter;
     private Button startButton;
-    private boolean isScanning;
-    private BluetoothAdapter.LeScanCallback leScanCallback = new BluetoothAdapter.LeScanCallback() {
-        @Override
-        public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
-            DeviceCandidate candidate = new DeviceCandidate(device, (short) rssi);
-            if (DeviceHelper.getInstance().isSupported(candidate)) {
-                int index = deviceCandidates.indexOf(candidate);
-                if (index >= 0) {
-                    deviceCandidates.set(index, candidate); // replace
-                } else {
-                    deviceCandidates.add(candidate);
-                }
-                cadidateListAdapter.notifyDataSetChanged();
-            }
-        }
-    };
+    private Scanning isScanning = Scanning.SCANNING_OFF;
+
+    private enum Scanning {
+        SCANNING_BT,
+        SCANNING_BTLE,
+        SCANNING_OFF
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,7 +145,7 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
 
     public void onStartButtonClick(View button) {
         Log.d(TAG, "Start Button clicked");
-        if (isScanning) {
+        if (isScanning()) {
             stopDiscovery();
         } else {
             startDiscovery();
@@ -170,34 +158,81 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
         super.onDestroy();
     }
 
+    private void handleDeviceFound(BluetoothDevice device, short rssi) {
+        DeviceCandidate candidate = new DeviceCandidate(device, (short) rssi);
+        if (DeviceHelper.getInstance().isSupported(candidate)) {
+            int index = deviceCandidates.indexOf(candidate);
+            if (index >= 0) {
+                deviceCandidates.set(index, candidate); // replace
+            } else {
+                deviceCandidates.add(candidate);
+            }
+            cadidateListAdapter.notifyDataSetChanged();
+        }
+    }
+
     /**
-     * Pre: bluetooth is available, enabled and scanning is off
+     * Pre: bluetooth is available, enabled and scanning is off.
+     * Post: BT is discovering
      */
     private void startDiscovery() {
-        if (isScanning) {
+        if (isScanning()) {
             Log.w(TAG, "Not starting BLE discovery, because already scanning.");
             return;
         }
 
         Log.i(TAG, "Starting discovery...");
-        discoveryStarted(); // just to make sure
+        discoveryStarted(Scanning.SCANNING_BT); // just to make sure
         if (ensureBluetoothReady()) {
-            startBLEDiscovery();
+            startBTDiscovery();
         } else {
             discoveryFinished();
             Toast.makeText(this, "Enable Bluetooth to discover devices.", Toast.LENGTH_LONG).show();
         }
     }
 
+    private boolean isScanning() {
+        return isScanning != Scanning.SCANNING_OFF;
+    }
+
     private void stopDiscovery() {
         Log.i(TAG, "Stopping discovery");
-        if (isScanning) {
-            adapter.stopLeScan(leScanCallback);
+        if (isScanning()) {
+            if (isScanning == Scanning.SCANNING_BT) {
+                stopBTDiscovery();
+            } else if (isScanning == Scanning.SCANNING_BTLE) {
+                stopBTLEDiscovery();
+            }
             handler.removeMessages(0, stopRunnable);
             // unfortunately, we never get a call back when stopping the scan, so
             // we do it manually:
             discoveryFinished();
         }
+    }
+
+    private void stopBTLEDiscovery() {
+        adapter.stopLeScan(leScanCallback);
+    }
+
+    private void stopBTDiscovery() {
+        adapter.cancelDiscovery();
+    }
+
+    private void bluetoothStateChanged(int oldState, int newState) {
+        discoveryFinished();
+        startButton.setEnabled(newState == BluetoothAdapter.STATE_ON);
+    }
+
+    private void discoveryFinished() {
+        isScanning = Scanning.SCANNING_OFF;
+        progressView.setVisibility(View.GONE);
+        startButton.setText(getString(R.string.discovery_start_scanning));
+    }
+
+    private void discoveryStarted(Scanning what) {
+        isScanning = what;
+        progressView.setVisibility(View.VISIBLE);
+        startButton.setText(getString(R.string.discovery_stop_scanning));
     }
 
     private boolean ensureBluetoothReady() {
@@ -229,10 +264,16 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
         return true;
     }
 
-    private void startBLEDiscovery() {
+    private void startBTLEDiscovery() {
         handler.removeMessages(0, stopRunnable);
         handler.postDelayed(stopRunnable, SCAN_DURATION);
         adapter.startLeScan(leScanCallback);
+    }
+
+    private void startBTDiscovery() {
+        handler.removeMessages(0, stopRunnable);
+        handler.postDelayed(stopRunnable, SCAN_DURATION);
+        adapter.startDiscovery();
     }
 
     @Override
