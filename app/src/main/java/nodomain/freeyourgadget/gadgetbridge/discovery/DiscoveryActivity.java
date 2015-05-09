@@ -43,11 +43,7 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
                     break;
                 case BluetoothAdapter.ACTION_DISCOVERY_FINISHED:
                     // continue with LE scan, if available
-                    if (GB.supportsBluetoothLE()) {
-                        startBTLEDiscovery();
-                    } else {
-                        discoveryFinished();
-                    }
+                    startDiscovery(Scanning.SCANNING_BTLE);
                     break;
                 case BluetoothAdapter.ACTION_STATE_CHANGED:
                     int oldState = intent.getIntExtra(BluetoothAdapter.EXTRA_PREVIOUS_STATE, BluetoothAdapter.STATE_OFF);
@@ -177,14 +173,25 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
      */
     private void startDiscovery() {
         if (isScanning()) {
-            Log.w(TAG, "Not starting BLE discovery, because already scanning.");
+            Log.w(TAG, "Not starting discovery, because already scanning.");
             return;
         }
+        startDiscovery(Scanning.SCANNING_BT);
+    }
 
-        Log.i(TAG, "Starting discovery...");
-        discoveryStarted(Scanning.SCANNING_BT); // just to make sure
+    private void startDiscovery(Scanning what) {
+        Log.i(TAG, "Starting discovery: " + what);
+        discoveryStarted(what); // just to make sure
         if (ensureBluetoothReady()) {
-            startBTDiscovery();
+            if (what == Scanning.SCANNING_BT) {
+                startBTDiscovery();
+            } else if (what == Scanning.SCANNING_BTLE){
+                if (GB.supportsBluetoothLE()) {
+                    startBTLEDiscovery();
+                } else {
+                    discoveryFinished();
+                }
+            }
         } else {
             discoveryFinished();
             Toast.makeText(this, "Enable Bluetooth to discover devices.", Toast.LENGTH_LONG).show();
@@ -265,12 +272,14 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
     }
 
     private void startBTLEDiscovery() {
+        Log.i(TAG, "Starting BTLE Discovery");
         handler.removeMessages(0, stopRunnable);
         handler.postDelayed(stopRunnable, SCAN_DURATION);
         adapter.startLeScan(leScanCallback);
     }
 
     private void startBTDiscovery() {
+        Log.i(TAG, "Starting BT Discovery");
         handler.removeMessages(0, stopRunnable);
         handler.postDelayed(stopRunnable, SCAN_DURATION);
         adapter.startDiscovery();
