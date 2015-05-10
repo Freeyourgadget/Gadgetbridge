@@ -9,8 +9,8 @@
             android:title="@string/miband_prefs_alias" />
 
         <EditTextPreference
-            android:key="mi_user_year_of_birth"
             android:digits="0123456789"
+            android:key="mi_user_year_of_birth"
             android:maxLength="4"
             android:title="@string/miband_prefs_year_birth" />
 
@@ -23,17 +23,27 @@
 
         <!--TODO: support localized heights and weights -->
         <EditTextPreference
-            android:key="mi_user_height_cm"
             android:digits="0123456789"
+            android:key="mi_user_height_cm"
             android:maxLength="3"
             android:title="@string/miband_prefs_height_cm" />
 
         <EditTextPreference
-            android:key="mi_user_weight_kg"
             android:digits="0123456789"
+            android:key="mi_user_weight_kg"
             android:maxLength="3"
             android:title="@string/miband_prefs_weight_kg" />
 
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_development"
+        android:title="@string/pref_header_development">
+        <EditTextPreference
+            android:digits="0123456789ABCDEF:"
+            android:key="development_miaddr"
+            android:maxLength="17"
+            android:title="@string/pref_title_development_miaddr" />
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -14,6 +14,7 @@
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="datetime_synconconnect"
+            android:summary="@string/pref_summary_datetime_syctimeonconnect"
             android:title="@string/pref_title_datetime_syctimeonconnect" />
     </PreferenceCategory>
     <PreferenceCategory
@@ -58,15 +59,5 @@
         <Preference
             android:key="pref_key_miband"
             android:title="@string/preferences_miband_settings" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:key="pref_key_development"
-        android:title="@string/pref_header_development">
-        <EditTextPreference
-            android:digits="0123456789ABCDEF:"
-            android:key="development_miaddr"
-            android:maxLength="17"
-            android:title="@string/pref_title_development_miaddr" />
     </PreferenceCategory>
 </PreferenceScreen>

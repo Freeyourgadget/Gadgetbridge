@@ -42,21 +42,5 @@ public class SettingsActivity extends AbstractSettingsActivity {
             }
         });
 
-        final Preference developmentMiaddr = findPreference(GB.PREF_DEVELOPMENT_MIBAND_ADDRESS);
-        developmentMiaddr.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                Intent refreshIntent = new Intent(ControlCenter.ACTION_REFRESH_DEVICELIST);
-                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(refreshIntent);
-                preference.setSummary(newVal.toString());
-                return true;
-            }
-
-        });
-    }
-
-    @Override
-    protected String[] getPreferenceKeysWithSummary() {
-        return new String[] { GB.PREF_DEVELOPMENT_MIBAND_ADDRESS };
     }
 }

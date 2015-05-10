@@ -22,8 +22,6 @@ public class GB {
     public static final int NOTIFICATION_ID = 1;
     private static final String TAG = "GB";
 
-    public static final String PREF_DEVELOPMENT_MIBAND_ADDRESS = "development_miaddr";
-
     public static Notification createNotification(String text, Context context) {
         Intent notificationIntent = new Intent(context, ControlCenter.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK

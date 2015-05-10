@@ -25,6 +25,7 @@ import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapter;
 import nodomain.freeyourgadget.gadgetbridge.discovery.DiscoveryActivity;
+import nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst;
 
 public class ControlCenter extends Activity {
 
@@ -209,7 +210,7 @@ public class ControlCenter extends Activity {
             }
 
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-            String miAddr = sharedPrefs.getString(GB.PREF_DEVELOPMENT_MIBAND_ADDRESS, null);
+            String miAddr = sharedPrefs.getString(MiBandConst.PREF_MIBAND_ADDRESS, null);
             if (miAddr != null && miAddr.length() > 0) {
                 GBDevice miDevice = new GBDevice(miAddr, "MI", DeviceType.MIBAND);
                 if (!availableDevices.contains(miDevice)) {
