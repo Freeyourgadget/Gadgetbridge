@@ -1,102 +1,88 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-    <string name="app_name">Gadgetbridge</string>
-
-    <string name="title_activity_controlcenter">Gadgetbridge</string>
-    <string name="action_settings">Настройки</string>
-    <string name="action_debug">Отладка</string>
-    <string name="action_quit">Выход</string>
-    <string name="action_refresh">Обновить</string>
-
-    <string name="title_activity_debug">Отладка</string>
-
-    <!-- Strings related to AppManager -->
-    <string name="title_activity_appmanager">App Mananger</string>
-    <string name="appmananger_app_delete">Удалить</string>
-
-    <!-- Strings related to AppInstaller -->
-    <string name="title_activity_appinstaller">Установка приложений</string>
-
-    <!--Strings related to Settings -->
-    <string name="title_activity_settings">Настройки</string>
-
-    <string name="pref_header_general">Общие настройки</string>
-    <string name="pref_title_general_autoconnectonbluetooth">Подключение к устройству при активации Bluetooth</string>
-
-    <string name="pref_header_datetime">Дата и время</string>
-    <string name="pref_title_datetime_syctimeonconnect">Синхронизировать время при подключении</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Синхронизировать время при подключении к устройству, а также при изменении времени или временной зоны в системе</string>
-
-    <string name="pref_header_notifications">Уведомления</string>
-    <string name="pref_title_notifications_sms">СМС-сообщения</string>
-    <string name="pref_title_notifications_k9mail">K9-Mail</string>
-    <string name="pref_title_notifications_pebblemsg">Сообщения Pebble</string>
-    <string name="pref_summary_notifications_pebblemsg">Поддержка приложений, посылающих уведомления на Pebble с помощью Intent. Может использоваться для Conversations.</string>
-    <string name="pref_title_notifications_generic">Поддержка обычных уведомлений</string>
-    <string name="pref_title_whenscreenon">… даже когда экран включён</string>
-
-    <string name="always">всегда</string>
-    <string name="when_screen_off">когда экран выключен</string>
-    <string name="never">никогда</string>
-
-    <string name="pref_header_development">Настройки для разработчиков</string>
-    <string name="pref_title_development_miaddr">Адрес Mi Band</string>
-
-
-    <string name="not_connected">нет соединения</string>
-    <string name="connecting">соединение</string>
-    <string name="connected">соединено</string>
-    <string name="unknown_state">неизвестное состояние</string>
-    <string name="connectionstate_hw_fw">Версия устройства: %1$s Версия ПО: %2$s</string>
-    <string name="connectionstate_fw">ПО: %1$s</string>
-    <string name="_unknown_">(неизвестно)</string>
-    <string name="test">Тест</string>
-    <string name="test_notification">Тест уведомлений</string>
-    <string name="this_is_a_test_notification_from_gadgetbridge">Это тестовое уведомление от Gadgetbridge</string>
-    <string name="bluetooth_is_not_supported_">Bluetooth не поддерживается.</string>
-    <string name="bluetooth_is_disabled_">Bluetooth отключён.</string>
-    <string name="tap_connected_device_for_app_mananger">нажмите на подключённое устройство для App Mananger</string>
-    <string name="tap_a_device_to_connect">нажмите на устройство для соединения</string>
-    <string name="cannot_connect_bt_address_invalid_">Не удалось соединиться. Неверен адрес BT?</string>
-    <string name="gadgetbridge_running">Gadgetbridge запущен</string>
-    <string name="battery_low">низкий</string>
-    <string name="battery_medium">средний</string>
-    <string name="battery_full">полный</string>
-    <string name="battery_not_charging">не заряжается</string>
-    <string name="installing_binary_d_d">установки бинарного файла %1$d/%2$d</string>
-    <string name="installation_failed_">установка не удалась!</string>
-    <string name="installation_successful">установка завершена</string>
-    <string name="firmware_install_warning">ВЫ ПЫТАЕТЕСЬ УСТАНОВИТЬ ПРОШИВКУ, ПРОДОЛЖАЙТЕ НА СВОЙ СТРАХ И РИСК.\n\n\n Эта прошивка для версии устройства: %s</string>
-    <string name="app_install_info">Вы собираетесь установить приложение:\n\n\n%1$s версия %2$s от %3$s\n</string>
-    <string name="n_a">Недоступно</string>
-    <string name="initialized">Инициализировано</string>
-    <string name="appversion_by_creator">%1$s от %2$s</string>
-    <string name="title_activity_discovery">Поиск устройства</string>
-
-    <string name="discovery_stop_scanning">Остановить поиск</string>
-    <string name="discovery_start_scanning">Умный поиск</string>
-    <string name="action_discover">Найти устройство</string>
-    <string name="device_with_rssi">%1$s (%2$s)</string>
-    <string name="title_activity_android_pairing">Сопряжение устройств</string>
-    <string name="android_pairing_hint">Для сопряжения устройств используйте диалог Android.</string>
-    <string name="title_activity_mi_band_pairing">Сопряжение вашего Mi Band</string>
-    <string name="miband_pairing">Сопряжение с %s…</string>
-    <string name="message_cannot_pair_no_mac">MAC-адрес не был передан, сопряжение не удалось.</string>
-    <string name="preferences_category_device_specific_settings">Настройки устройства</string>
-    <string name="preferences_miband_settings">Настройки Mi Band</string>
-    <string name="male">мужской</string>
-    <string name="female">женский</string>
-    <string name="other">другой</string>
-    <string name="miband_pairing_using_dummy_userdata">Не предоставлено действительных данных пользователя. Используются данные по-умолчанию.</string>
-    <string name="miband_pairing_tap_hint">Когда ваш Mi Band вибрирует и мигает, постучите по нему несколько раз.</string>
-    <string name="appinstaller_install">Установить</string>
-    <string name="discovery_connected_devices_hint">Подключённые в настоящее время устройства, скорее всего, не будут обнаружены.</string>
-    <string name="discovery_note">Заметка:</string>
-    <string name="candidate_item_device_image">Изображение устройства</string>
-    <string name="miband_prefs_about_you">Ваши данные</string>
-    <string name="miband_prefs_alias">Имя/псевдоним</string>
-    <string name="miband_prefs_year_birth">Год рождения</string>
-    <string name="miband_prefs_gender">Пол</string>
-    <string name="miband_prefs_height_cm">Рост в см</string>
-    <string name="miband_prefs_weight_kg">Вес в кг</string>
+  <string name="app_name">Gadgetbridge</string>
+  <string name="title_activity_controlcenter">Gadgetbridge</string>
+  <string name="action_settings">Настройки</string>
+  <string name="action_debug">Отладка</string>
+  <string name="action_quit">Выход</string>
+  <string name="title_activity_debug">Отладка</string>
+  <!--Strings related to AppManager-->
+  <string name="title_activity_appmanager">App Mananger</string>
+  <string name="appmananger_app_delete">Удалить</string>
+  <!--Strings related to AppInstaller-->
+  <string name="title_activity_appinstaller">Установка приложений</string>
+  <!--Strings related to Settings-->
+  <string name="title_activity_settings">Настройки</string>
+  <string name="pref_header_general">Общие настройки</string>
+  <string name="pref_title_general_autoconnectonbluetooth">Подключение к устройству при активации Bluetooth</string>
+  <string name="pref_header_datetime">Дата и время</string>
+  <string name="pref_title_datetime_syctimeonconnect">Синхронизировать время при подключении</string>
+  <string name="pref_summary_datetime_syctimeonconnect">Синхронизировать время при подключении к устройству, а также при изменении времени или временной зоны в системе</string>
+  <string name="pref_header_notifications">Уведомления</string>
+  <string name="pref_title_notifications_sms">СМС-сообщения</string>
+  <string name="pref_title_notifications_k9mail">K9-Mail</string>
+  <string name="pref_title_notifications_pebblemsg">Сообщения Pebble</string>
+  <string name="pref_summary_notifications_pebblemsg">Поддержка приложений, посылающих уведомления на Pebble с помощью Intent. Может использоваться для Conversations.</string>
+  <string name="pref_title_notifications_generic">Поддержка обычных уведомлений</string>
+  <string name="pref_title_whenscreenon">… даже когда экран включён</string>
+  <string name="always">всегда</string>
+  <string name="when_screen_off">когда экран выключен</string>
+  <string name="never">никогда</string>
+  <string name="pref_header_development">Настройки для разработчиков</string>
+  <string name="pref_title_development_miaddr">Адрес Mi Band</string>
+  <string name="not_connected">нет соединения</string>
+  <string name="connecting">соединение</string>
+  <string name="connected">соединено</string>
+  <string name="unknown_state">неизвестное состояние</string>
+  <string name="connectionstate_hw_fw">Версия устройства: %1$s Версия ПО: %2$s</string>
+  <string name="connectionstate_fw">ПО: %1$s</string>
+  <string name="_unknown_">(неизвестно)</string>
+  <string name="test">Тест</string>
+  <string name="test_notification">Тест уведомлений</string>
+  <string name="this_is_a_test_notification_from_gadgetbridge">Это тестовое уведомление от Gadgetbridge</string>
+  <string name="bluetooth_is_not_supported_">Bluetooth не поддерживается.</string>
+  <string name="bluetooth_is_disabled_">Bluetooth отключён.</string>
+  <string name="tap_connected_device_for_app_mananger">нажмите на подключённое устройство для App Mananger</string>
+  <string name="tap_a_device_to_connect">нажмите на устройство для соединения</string>
+  <string name="cannot_connect_bt_address_invalid_">Не удалось соединиться. Неверен адрес BT?</string>
+  <string name="gadgetbridge_running">Gadgetbridge запущен</string>
+  <string name="battery_low">низкий</string>
+  <string name="battery_medium">средний</string>
+  <string name="battery_full">полный</string>
+  <string name="battery_not_charging">не заряжается</string>
+  <string name="installing_binary_d_d">установки бинарного файла %1$d/%2$d</string>
+  <string name="installation_failed_">установка не удалась!</string>
+  <string name="installation_successful">установка завершена</string>
+  <string name="firmware_install_warning">ВЫ ПЫТАЕТЕСЬ УСТАНОВИТЬ ПРОШИВКУ, ПРОДОЛЖАЙТЕ НА СВОЙ СТРАХ И РИСК.\n\n\n Эта прошивка для версии устройства: %s</string>
+  <string name="app_install_info">Вы собираетесь установить приложение:\n\n\n%1$s версия %2$s от %3$s\n</string>
+  <string name="n_a">Недоступно</string>
+  <string name="initialized">Инициализировано</string>
+  <string name="appversion_by_creator">%1$s от %2$s</string>
+  <string name="title_activity_discovery">Поиск устройства</string>
+  <string name="discovery_stop_scanning">Остановить поиск</string>
+  <string name="discovery_start_scanning">Умный поиск</string>
+  <string name="action_discover">Найти устройство</string>
+  <string name="device_with_rssi">%1$s (%2$s)</string>
+  <string name="title_activity_android_pairing">Сопряжение устройств</string>
+  <string name="android_pairing_hint">Для сопряжения устройств используйте диалог Android.</string>
+  <string name="title_activity_mi_band_pairing">Сопряжение вашего Mi Band</string>
+  <string name="miband_pairing">Сопряжение с %s…</string>
+  <string name="message_cannot_pair_no_mac">MAC-адрес не был передан, сопряжение не удалось.</string>
+  <string name="preferences_category_device_specific_settings">Настройки устройства</string>
+  <string name="preferences_miband_settings">Настройки Mi Band</string>
+  <string name="male">мужской</string>
+  <string name="female">женский</string>
+  <string name="other">другой</string>
+  <string name="miband_pairing_using_dummy_userdata">Не предоставлено действительных данных пользователя. Используются данные по-умолчанию.</string>
+  <string name="miband_pairing_tap_hint">Когда ваш Mi Band вибрирует и мигает, постучите по нему несколько раз.</string>
+  <string name="appinstaller_install">Установить</string>
+  <string name="discovery_connected_devices_hint">Подключённые в настоящее время устройства, скорее всего, не будут обнаружены.</string>
+  <string name="discovery_note">Заметка:</string>
+  <string name="candidate_item_device_image">Изображение устройства</string>
+  <string name="miband_prefs_about_you">Ваши данные</string>
+  <string name="miband_prefs_alias">Имя/псевдоним</string>
+  <string name="miband_prefs_year_birth">Год рождения</string>
+  <string name="miband_prefs_gender">Пол</string>
+  <string name="miband_prefs_height_cm">Рост в см</string>
+  <string name="miband_prefs_weight_kg">Вес в кг</string>
 </resources>
