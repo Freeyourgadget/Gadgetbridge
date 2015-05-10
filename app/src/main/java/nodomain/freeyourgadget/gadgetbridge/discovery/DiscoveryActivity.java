@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
@@ -287,15 +288,21 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
     private void startBTLEDiscovery() {
         Log.i(TAG, "Starting BTLE Discovery");
         handler.removeMessages(0, stopRunnable);
-        handler.postDelayed(stopRunnable, SCAN_DURATION);
+        handler.sendMessageDelayed(getPostMessage(stopRunnable), SCAN_DURATION);
         adapter.startLeScan(leScanCallback);
     }
 
     private void startBTDiscovery() {
         Log.i(TAG, "Starting BT Discovery");
         handler.removeMessages(0, stopRunnable);
-        handler.postDelayed(stopRunnable, SCAN_DURATION);
+        handler.sendMessageDelayed(getPostMessage(stopRunnable), SCAN_DURATION);
         adapter.startDiscovery();
+    }
+
+    private Message getPostMessage(Runnable runnable) {
+        Message m = Message.obtain(handler, runnable);
+        m.obj = runnable;
+        return m;
     }
 
     @Override
@@ -322,7 +329,7 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
                     bondingAddress = btDevice.getAddress();
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e(TAG, "Error pairing device: " + deviceCandidate.getMacAddress());
             }
         }
     }
