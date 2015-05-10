@@ -1,23 +1,32 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="app_name">Gadgetbridge</string>
+
     <string name="title_activity_controlcenter">Gadgetbridge</string>
     <string name="action_settings">Настройки</string>
     <string name="action_debug">Отладка</string>
     <string name="action_quit">Выход</string>
     <string name="action_refresh">Обновить</string>
+
     <string name="title_activity_debug">Отладка</string>
-    <!--Strings related to AppManager-->
+
+    <!-- Strings related to AppManager -->
     <string name="title_activity_appmanager">App Mananger</string>
     <string name="appmananger_app_delete">Удалить</string>
-    <!--Strings related to AppInstaller-->
+
+    <!-- Strings related to AppInstaller -->
     <string name="title_activity_appinstaller">Установка приложений</string>
-    <!--Strings related to Settings-->
+
+    <!--Strings related to Settings -->
     <string name="title_activity_settings">Настройки</string>
+
     <string name="pref_header_general">Общие настройки</string>
     <string name="pref_title_general_autoconnectonbluetooth">Подключение к устройству при активации Bluetooth</string>
+
     <string name="pref_header_datetime">Дата и время</string>
     <string name="pref_title_datetime_syctimeonconnect">Синхронизировать время при подключении</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Синхронизировать время при подключении к устройству, а также при изменении времени или временной зоны в системе</string>
+
     <string name="pref_header_notifications">Уведомления</string>
     <string name="pref_title_notifications_sms">СМС-сообщения</string>
     <string name="pref_title_notifications_k9mail">K9-Mail</string>
@@ -25,11 +34,15 @@
     <string name="pref_summary_notifications_pebblemsg">Поддержка приложений, посылающих уведомления на Pebble с помощью Intent. Может использоваться для Conversations.</string>
     <string name="pref_title_notifications_generic">Поддержка обычных уведомлений</string>
     <string name="pref_title_whenscreenon">… даже когда экран включён</string>
+
     <string name="always">всегда</string>
     <string name="when_screen_off">когда экран выключен</string>
     <string name="never">никогда</string>
+
     <string name="pref_header_development">Настройки для разработчиков</string>
     <string name="pref_title_development_miaddr">Адрес Mi Band</string>
+
+
     <string name="not_connected">нет соединения</string>
     <string name="connecting">соединение</string>
     <string name="connected">соединено</string>
@@ -59,6 +72,7 @@
     <string name="initialized">Инициализировано</string>
     <string name="appversion_by_creator">%1$s от %2$s</string>
     <string name="title_activity_discovery">Поиск устройства</string>
+
     <string name="discovery_stop_scanning">Остановить поиск</string>
     <string name="discovery_start_scanning">Умный поиск</string>
     <string name="action_discover">Найти устройство</string>
