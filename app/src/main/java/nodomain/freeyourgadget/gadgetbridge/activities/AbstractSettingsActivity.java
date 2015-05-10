@@ -9,9 +9,68 @@ import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
 
+/**
+ * A settings activity with support for preferences directly displaying their value.
+ * If you combine such preferences with a custom OnPreferenceChangeListener, you have
+ * to set that listener in #onCreate, *not* in #onPostCreate, otherwise the value will
+ * not be displayed.
+ */
 public class AbstractSettingsActivity extends PreferenceActivity {
 
     private static final String TAG = "AbstractSettingsAct";
+
+    /**
+     * A preference value change listener that updates the preference's summary
+     * to reflect its new value.
+     */
+    private static class SimpleSetSummaryOnChangeListener implements Preference.OnPreferenceChangeListener {
+        @Override
+        public boolean onPreferenceChange(Preference preference, Object value) {
+            updateSummary(preference, value);
+            return true;
+        }
+
+        public void updateSummary(Preference preference, Object value) {
+            String stringValue = value.toString();
+
+            if (preference instanceof ListPreference) {
+                // For list preferences, look up the correct display value in
+                // the preference's 'entries' list.
+                ListPreference listPreference = (ListPreference) preference;
+                int index = listPreference.findIndexOfValue(stringValue);
+
+                // Set the summary to reflect the new value.
+                preference.setSummary(
+                        index >= 0
+                                ? listPreference.getEntries()[index]
+                                : null);
+
+            } else {
+                // For all other preferences, set the summary to the value's
+                // simple string representation.
+                preference.setSummary(stringValue);
+            }
+        }
+    };
+
+    private static class ExtraSetSummaryOnChangeListener extends SimpleSetSummaryOnChangeListener {
+        private Preference.OnPreferenceChangeListener delegate;
+
+        public ExtraSetSummaryOnChangeListener(Preference.OnPreferenceChangeListener delegate) {
+            this.delegate = delegate;
+        }
+
+        @Override
+        public boolean onPreferenceChange(Preference preference, Object value) {
+            boolean result = delegate.onPreferenceChange(preference, value);
+            if (result) {
+                return super.onPreferenceChange(preference, value);
+            }
+            return false;
+        }
+    }
+
+    private static SimpleSetSummaryOnChangeListener sBindPreferenceSummaryToValueListener = new SimpleSetSummaryOnChangeListener();
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -39,36 +98,6 @@ public class AbstractSettingsActivity extends PreferenceActivity {
     }
 
     /**
-     * A preference value change listener that updates the preference's summary
-     * to reflect its new value.
-     */
-    private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
-        @Override
-        public boolean onPreferenceChange(Preference preference, Object value) {
-            String stringValue = value.toString();
-
-            if (preference instanceof ListPreference) {
-                // For list preferences, look up the correct display value in
-                // the preference's 'entries' list.
-                ListPreference listPreference = (ListPreference) preference;
-                int index = listPreference.findIndexOfValue(stringValue);
-
-                // Set the summary to reflect the new value.
-                preference.setSummary(
-                        index >= 0
-                                ? listPreference.getEntries()[index]
-                                : null);
-
-            } else {
-                // For all other preferences, set the summary to the value's
-                // simple string representation.
-                preference.setSummary(stringValue);
-            }
-            return true;
-        }
-    };
-
-    /**
      * Binds a preference's summary to its value. More specifically, when the
      * preference's value is changed, its summary (line of text below the
      * preference title) is updated to reflect the value. The summary is also
@@ -79,11 +108,17 @@ public class AbstractSettingsActivity extends PreferenceActivity {
      */
     private static void bindPreferenceSummaryToValue(Preference preference) {
         // Set the listener to watch for value changes.
-        preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
+        SimpleSetSummaryOnChangeListener listener = null;
+        Preference.OnPreferenceChangeListener existingListener = preference.getOnPreferenceChangeListener();
+        if (existingListener != null) {
+            listener = new ExtraSetSummaryOnChangeListener(existingListener);
+        } else {
+            listener = sBindPreferenceSummaryToValueListener;
+        }
+        preference.setOnPreferenceChangeListener(listener);
 
-        // Trigger the listener immediately with the preference's
-        // current value.
-        sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
+        // Trigger the listener immediately with the preference's current value.
+        listener.updateSummary(preference,
                 PreferenceManager
                         .getDefaultSharedPreferences(preference.getContext())
                         .getString(preference.getKey(), ""));
