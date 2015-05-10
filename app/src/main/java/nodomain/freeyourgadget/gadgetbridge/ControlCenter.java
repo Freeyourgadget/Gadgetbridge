@@ -166,9 +166,6 @@ public class ControlCenter extends Activity {
                 Intent quitIntent = new Intent(ControlCenter.ACTION_QUIT);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(quitIntent);
                 return true;
-            case R.id.action_refresh:
-                refreshPairedDevices();
-                return true;
             case R.id.action_discover:
                 Intent discoverIntent = new Intent(this, DiscoveryActivity.class);
                 startActivity(discoverIntent);
