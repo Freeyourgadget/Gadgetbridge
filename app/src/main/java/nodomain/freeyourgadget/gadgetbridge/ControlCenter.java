@@ -96,12 +96,14 @@ public class ControlCenter extends Activity {
             }
         });
 
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(ACTION_QUIT);
-        filter.addAction(ACTION_REFRESH_DEVICELIST);
-        filter.addAction(GBDevice.ACTION_DEVICE_CHANGED);
-        filter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
-        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
+        IntentFilter filterLocal = new IntentFilter();
+        filterLocal.addAction(ACTION_QUIT);
+        filterLocal.addAction(ACTION_REFRESH_DEVICELIST);
+        filterLocal.addAction(GBDevice.ACTION_DEVICE_CHANGED);
+        filterLocal.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
+
+        registerReceiver(mReceiver, new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED));
 
         refreshPairedDevices();
         /*
@@ -179,6 +181,7 @@ public class ControlCenter extends Activity {
     @Override
     protected void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+        unregisterReceiver(mReceiver);
         super.onDestroy();
     }
 
