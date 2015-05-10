@@ -11,7 +11,7 @@ import nodomain.freeyourgadget.gadgetbridge.discovery.DeviceCandidate;
 public class PebbleCoordinator implements DeviceCoordinator {
     @Override
     public boolean supports(DeviceCandidate candidate) {
-        return false;
+        return candidate.getName().startsWith("Pebble");
     }
 
     @Override
