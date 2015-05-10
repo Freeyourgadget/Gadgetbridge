@@ -50,11 +50,22 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
                     int newState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.STATE_OFF);
                     bluetoothStateChanged(oldState, newState);
                     break;
-                case BluetoothDevice.ACTION_FOUND:
+                case BluetoothDevice.ACTION_FOUND: {
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     short rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, GBDevice.RSSI_UNKNOWN);
                     handleDeviceFound(device, rssi);
                     break;
+                }
+                case BluetoothDevice.ACTION_BOND_STATE_CHANGED: {
+                    BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                    if (device != null && device.getAddress().equals(bondingAddress)) {
+                        int bondState = intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE, BluetoothDevice.BOND_NONE);
+                        if (bondState == BluetoothDevice.BOND_BONDED) {
+                            Log.i(TAG, "Successfully bonded with: " + bondingAddress);
+                            finish();
+                        }
+                    }
+                }
             }
         }
     };
@@ -80,6 +91,7 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
     private DeviceCandidateAdapter cadidateListAdapter;
     private Button startButton;
     private Scanning isScanning = Scanning.SCANNING_OFF;
+    private String bondingAddress;
 
     private enum Scanning {
         SCANNING_BT,
@@ -112,6 +124,7 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
 
         IntentFilter bluetoothIntents = new IntentFilter();
         bluetoothIntents.addAction(BluetoothDevice.ACTION_FOUND);
+        bluetoothIntents.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         bluetoothIntents.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
         bluetoothIntents.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
         bluetoothIntents.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
@@ -303,8 +316,10 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
         else {
             try {
                 BluetoothDevice btDevice = adapter.getRemoteDevice(deviceCandidate.getMacAddress());
-                btDevice.createBond();
-                finish();
+                if (btDevice.createBond()) {
+                    // async, wait for bonding event to finish this activity
+                    bondingAddress = btDevice.getAddress();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
