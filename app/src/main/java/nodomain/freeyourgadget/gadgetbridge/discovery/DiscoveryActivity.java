@@ -306,6 +306,7 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
             return;
         }
 
+        stopDiscovery();
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(deviceCandidate);
         Class<? extends Activity> pairingActivity = coordinator.getPairingActivity();
         if (pairingActivity != null) {
