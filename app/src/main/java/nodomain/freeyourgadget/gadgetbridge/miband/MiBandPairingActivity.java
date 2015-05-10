@@ -9,22 +9,19 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import nodomain.freeyourgadget.gadgetbridge.BluetoothCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.DeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.GB;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.discovery.DiscoveryActivity;
 
 public class MiBandPairingActivity extends Activity {
 
-    private static final int MAGIC_CODE_USER_SETTINGS = 52;
+    private static final int REQ_CODE_USER_SETTINGS = 52;
     private static final String STATE_MIBAND_ADDRESS = "mibandMacAddress";
     private TextView message;
     private boolean isPairing;
@@ -61,7 +58,7 @@ public class MiBandPairingActivity extends Activity {
 
         if (!MiBandCoordinator.hasValidUserInfo()) {
             Intent userSettingsIntent = new Intent(this, MiBandPreferencesActivity.class);
-            startActivityForResult(userSettingsIntent, MAGIC_CODE_USER_SETTINGS, null);
+            startActivityForResult(userSettingsIntent, REQ_CODE_USER_SETTINGS, null);
             return;
         }
 
@@ -85,7 +82,7 @@ public class MiBandPairingActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // start pairing immediately when we return from the user settings
-        if (requestCode == MAGIC_CODE_USER_SETTINGS) {
+        if (requestCode == REQ_CODE_USER_SETTINGS) {
             if (!MiBandCoordinator.hasValidUserInfo()) {
                 Toast.makeText(this, getString(R.string.miband_pairing_using_dummy_userdata), Toast.LENGTH_SHORT).show();
             }
