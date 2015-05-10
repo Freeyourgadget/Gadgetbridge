@@ -21,7 +21,7 @@ need to create an account and transmit any of your data to the vendor's servers.
 
 ## How to use (Pebble)
 
-1. Pair your Pebble through the Android Bluetooth Settings
+1. Pair your Pebble through Gadgetbridge's Discovery Activity or the Android Bluetooth Settings
 2. Start Gadgetbridge, tap on the device you want to connect to
 3. To test, choose "Debug" from the menu and play around
 
