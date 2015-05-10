@@ -4,8 +4,6 @@
     tools:context="nodomain.freeyourgadget.gadgetbridge.ControlCenter">
     <item android:id="@+id/action_discover" android:title="@string/action_discover"
         android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/action_refresh" android:title="@string/action_refresh"
-        android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_debug" android:title="@string/action_debug"
