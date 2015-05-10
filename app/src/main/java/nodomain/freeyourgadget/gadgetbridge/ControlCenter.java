@@ -45,25 +45,30 @@ public class ControlCenter extends Activity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (action.equals(ACTION_QUIT)) {
-                finish();
-            } else if (action.equals(ACTION_REFRESH_DEVICELIST)) {
-                refreshPairedDevices();
-            } else if (action.equals(GBDevice.ACTION_DEVICE_CHANGED)) {
-                GBDevice dev = intent.getParcelableExtra("device");
-                if (dev.getAddress() != null) {
-                    int index = deviceList.indexOf(dev); // search by address
-                    if (index >= 0) {
-                        deviceList.set(index, dev);
-                    } else {
-                        deviceList.add(dev);
+            switch (action) {
+                case ACTION_QUIT:
+                    finish();
+                    break;
+                case ACTION_REFRESH_DEVICELIST:
+                case BluetoothDevice.ACTION_BOND_STATE_CHANGED:
+                    refreshPairedDevices();
+                    break;
+                case GBDevice.ACTION_DEVICE_CHANGED:
+                    GBDevice dev = intent.getParcelableExtra("device");
+                    if (dev.getAddress() != null) {
+                        int index = deviceList.indexOf(dev); // search by address
+                        if (index >= 0) {
+                            deviceList.set(index, dev);
+                        } else {
+                            deviceList.add(dev);
+                        }
                     }
-                }
-                refreshPairedDevices();
+                    refreshPairedDevices();
 
-                if (dev.isConnected() && dev.getFirmwareVersion() == null) {
-                    requestDeviceInfo();
-                }
+                    if (dev.isConnected() && dev.getFirmwareVersion() == null) {
+                        requestDeviceInfo();
+                    }
+                    break;
             }
         }
     };
@@ -95,6 +100,7 @@ public class ControlCenter extends Activity {
         filter.addAction(ACTION_QUIT);
         filter.addAction(ACTION_REFRESH_DEVICELIST);
         filter.addAction(GBDevice.ACTION_DEVICE_CHANGED);
+        filter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
 
         refreshPairedDevices();
@@ -103,7 +109,7 @@ public class ControlCenter extends Activity {
          */
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (sharedPrefs.getBoolean("firstrun", true)) {
-            sharedPrefs.edit().putBoolean("firstrun", false).commit();
+            sharedPrefs.edit().putBoolean("firstrun", false).apply();
             Intent enableIntent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
             startActivity(enableIntent);
         }
