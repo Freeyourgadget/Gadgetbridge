@@ -17,7 +17,8 @@
   <string name="pref_header_general">Allgemeine Einstellungen</string>
   <string name="pref_title_general_autoconnectonbluetooth">Verbinde, wenn Bluetooth eingeschaltet wird</string>
   <string name="pref_header_datetime">Datum und Zeit</string>
-  <string name="pref_title_datetime_syctimeonconnect">Synchronisiere die Uhrzeit nach dem Verbindungsaufbau</string>
+  <string name="pref_title_datetime_syctimeonconnect">Uhrzeit synchronisieren</string>
+  <string name="pref_summary_datetime_syctimeonconnect">Synchronisiere die Urzeit mit dem Gerät (bei Verbindingsaufbau und wenn die Zeit oder Zeitzone auf dem Android Gerät eingestellt wird)</string>
   <string name="pref_header_notifications">Benachrichtigungen</string>
   <string name="pref_title_notifications_sms">SMS</string>
   <string name="pref_title_notifications_k9mail">K9-Mail</string>
