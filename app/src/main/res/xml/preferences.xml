@@ -36,7 +36,7 @@
             android:title="@string/pref_title_notifications_k9mail" />
 
         <ListPreference
-            android:defaultValue="never"
+            android:defaultValue="when_screen_off"
             android:entries="@array/notification_mode"
             android:entryValues="@array/notification_mode_values"
             android:key="notification_mode_pebblemsg"

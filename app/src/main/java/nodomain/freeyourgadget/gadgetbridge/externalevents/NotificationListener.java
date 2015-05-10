@@ -78,7 +78,7 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         if (source.equals("eu.siacs.conversations")) {
-            if (!"never".equals(sharedPrefs.getString("notification_mode_pebblemsg", "never"))) {
+            if (!"never".equals(sharedPrefs.getString("notification_mode_pebblemsg", "when_screen_off"))) {
                 return;
             }
         }
@@ -88,18 +88,14 @@ public class NotificationListener extends NotificationListenerService {
         Bundle extras = notification.extras;
         String title = extras.getCharSequence(Notification.EXTRA_TITLE).toString();
         String content = null;
-        if (extras.containsKey(Notification.EXTRA_TEXT))
-
-        {
+        if (extras.containsKey(Notification.EXTRA_TEXT)) {
             CharSequence contentCS = extras.getCharSequence(Notification.EXTRA_TEXT);
             if (contentCS != null) {
                 content = contentCS.toString();
             }
         }
 
-        if (content != null)
-
-        {
+        if (content != null) {
             Intent startIntent = new Intent(NotificationListener.this, BluetoothCommunicationService.class);
             startIntent.setAction(BluetoothCommunicationService.ACTION_NOTIFICATION_GENERIC);
             startIntent.putExtra("notification_title", title);
