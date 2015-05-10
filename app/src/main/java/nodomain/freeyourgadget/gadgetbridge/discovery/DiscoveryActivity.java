@@ -44,7 +44,11 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
                     break;
                 case BluetoothAdapter.ACTION_DISCOVERY_FINISHED:
                     // continue with LE scan, if available
-                    startDiscovery(Scanning.SCANNING_BTLE);
+                    if (isScanning == Scanning.SCANNING_BT) {
+                        startDiscovery(Scanning.SCANNING_BTLE);
+                    } else {
+                        discoveryFinished();
+                    }
                     break;
                 case BluetoothAdapter.ACTION_STATE_CHANGED:
                     int oldState = intent.getIntExtra(BluetoothAdapter.EXTRA_PREVIOUS_STATE, BluetoothAdapter.STATE_OFF);
@@ -219,15 +223,17 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
     private void stopDiscovery() {
         Log.i(TAG, "Stopping discovery");
         if (isScanning()) {
-            if (isScanning == Scanning.SCANNING_BT) {
+            Scanning wasScanning = isScanning;
+            // unfortunately, we don't always get a call back when stopping the scan, so
+            // we do it manually; BEFORE stopping the scan!
+            discoveryFinished();
+
+            if (wasScanning == Scanning.SCANNING_BT) {
                 stopBTDiscovery();
-            } else if (isScanning == Scanning.SCANNING_BTLE) {
+            } else if (wasScanning == Scanning.SCANNING_BTLE) {
                 stopBTLEDiscovery();
             }
             handler.removeMessages(0, stopRunnable);
-            // unfortunately, we never get a call back when stopping the scan, so
-            // we do it manually:
-            discoveryFinished();
         }
     }
 
