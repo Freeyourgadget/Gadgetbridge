@@ -294,8 +294,20 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
         }
 
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(deviceCandidate);
-        Intent intent = new Intent(this, coordinator.getPairingActivity());
-        intent.putExtra(DeviceCoordinator.EXTRA_DEVICE_MAC_ADDRESS, deviceCandidate.getMacAddress());
-        startActivity(intent);
+        Class<? extends Activity> pairingActivity = coordinator.getPairingActivity();
+        if (pairingActivity != null) {
+            Intent intent = new Intent(this, pairingActivity);
+            intent.putExtra(DeviceCoordinator.EXTRA_DEVICE_MAC_ADDRESS, deviceCandidate.getMacAddress());
+            startActivity(intent);
+        }
+        else {
+            try {
+                BluetoothDevice btDevice = adapter.getRemoteDevice(deviceCandidate.getMacAddress());
+                btDevice.createBond();
+                finish();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
