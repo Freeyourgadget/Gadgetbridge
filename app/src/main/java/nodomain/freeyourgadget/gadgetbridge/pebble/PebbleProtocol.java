@@ -1,9 +1,11 @@
 package nodomain.freeyourgadget.gadgetbridge.pebble;
 
 import android.util.Log;
+import android.util.Pair;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
@@ -429,48 +431,65 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     public byte[] encodeApplicationMessageTest() {
-        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + 69 + LENGTH_PREFIX + 18);
+
+        // encode push message for WeatherNeat
+        ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>();
+        pairs.add(new Pair<>(1, (Object) "Berlin")); // city
+        pairs.add(new Pair<>(2, (Object) "22 C")); // temperature
+        pairs.add(new Pair<>(3, (Object) "windy")); // condition
+        pairs.add(new Pair<>(5, (Object) 3)); // seconds for backlight on shake
+        byte[] testMessage = encodeApplicationMessagePush(ENDPOINT_APPLICATIONMESSAGE, WeatherNeatUUID, pairs);
+
+        ByteBuffer buf = ByteBuffer.allocate(testMessage.length + LENGTH_PREFIX + 18); // +ACK
+
+        // encode ack and put in front of push message (hack for acknowledgeing the last message)
         buf.order(ByteOrder.BIG_ENDIAN);
-        // ACK 18
         buf.putShort((short) 18);
         buf.putShort(ENDPOINT_APPLICATIONMESSAGE);
         buf.put(APPLICATIONMESSAGE_ACK);
-        buf.put(last_id);
+        buf.put(--last_id);
         buf.put(WeatherNeatUUID);
-        buf.putShort((short) 69);
-        buf.putShort(ENDPOINT_APPLICATIONMESSAGE);
-        // 19
+
+        buf.put(testMessage);
+
+        return buf.array();
+    }
+
+
+    public byte[] encodeApplicationMessagePush(short endpoint, byte[] uuid, ArrayList<Pair<Integer, Object>> pairs) {
+        int length = uuid.length + 3; // PUSH + id + length of dict
+        for (Pair<Integer, Object> pair : pairs) {
+            length += 7; // key + type + length
+            if (pair.second instanceof Integer) {
+                length += 4;
+            } else if (pair.second instanceof String) {
+                length += ((String) pair.second).length() + 1;
+            }
+        }
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + length);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort((short) length);
+        buf.putShort(endpoint); // 48 or 49
         buf.put(APPLICATIONMESSAGE_PUSH);
         buf.put(++last_id);
-        buf.put(WeatherNeatUUID);
-        buf.put((byte) 4);
-        // 14
-        buf.order(ByteOrder.LITTLE_ENDIAN);
-        buf.putInt(0x1); // city
-        buf.put((byte) 1); // string
-        buf.putShort((short) 7); // length of string
-        String temp = "Berlin";
-        buf.put(temp.getBytes());
-        buf.put((byte) 0x00);
-        // 12
-        temp = "22 C";
-        buf.putInt(0x2); // temperature
-        buf.put((byte) 1); // string
-        buf.putShort((short) 5); // length of string
-        buf.put(temp.getBytes());
-        buf.put((byte) 0x00);
-        // 13
-        temp = "windy";
-        buf.putInt(0x3); // city
-        buf.put((byte) 1); // string
-        buf.putShort((short) 6); // length of string
-        buf.put(temp.getBytes());
-        buf.put((byte) 0x00);
-        //11
-        buf.putInt(0x5); // backlight timeoff on shake
-        buf.put((byte) 0); // int
-        buf.putShort((short) 4); // length of int
-        buf.putInt(0); // no backlight on shake
+        buf.put(uuid);
+        buf.put((byte) pairs.size());
+
+        buf.order(ByteOrder.LITTLE_ENDIAN); // Um, yes, really
+        for (Pair<Integer, Object> pair : pairs) {
+            buf.putInt(pair.first);
+            if (pair.second instanceof Integer) {
+                buf.put((byte) 0);
+                buf.putShort((short) 4); // length of int
+                buf.putInt((int) pair.second);
+            } else if (pair.second instanceof String) {
+                buf.put((byte) 1);
+                buf.putShort((short) (((String) pair.second).length() + 1));
+                buf.put(((String) pair.second).getBytes());
+                buf.put((byte) 0);
+            }
+        }
+
         return buf.array();
     }
 
