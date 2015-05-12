@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.UUID;
 import org.slf4j.Logger;
@@ -274,13 +275,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             return;
         }
 
-        Object value = null;
+        String value = null;
         if (pairResult != null) {
             if (pairResult.length == 1) {
                 try {
-                    byte b = pairResult[0];
-                    Integer intValue = (int) b;
-                    if (intValue == 2) {
+                    if (pairResult[0] == 2) {
                         LOG.info("Successfully paired  MI device");
                         return;
                     }
@@ -289,7 +288,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                     return;
                 }
             }
-            value = pairResult.toString();
+            value = Arrays.toString(pairResult);
         }
         LOG.info("MI Band pairing result: " + value);
     }
