@@ -2,16 +2,16 @@ package nodomain.freeyourgadget.gadgetbridge.pebble;
 
 import android.util.Pair;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.SimpleTimeZone;
-import java.util.TimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nodomain.freeyourgadget.gadgetbridge.GB;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.util.ArrayList;
+import java.util.SimpleTimeZone;
+import java.util.TimeZone;
+import java.util.UUID;
+
 import nodomain.freeyourgadget.gadgetbridge.GBCommand;
 import nodomain.freeyourgadget.gadgetbridge.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
@@ -155,7 +155,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private static final String[] hwRevisions = {"unknown", "ev1", "ev2", "ev2_3", "ev2_4", "v1_5", "v2_0"};
 
     // FIXME: this does not belong here
-    static final byte[] WeatherNeatUUID = {0x36, (byte) 0x84, 0x00, 0x3B, (byte) 0xA6, (byte) 0x85, 0x45, (byte) 0xF9, (byte) 0xA7, 0x13, (byte) 0xAB, (byte) 0xC6, 0x36, 0x4B, (byte) 0xA0, 0x51};
+    static final UUID WeatherNeatUUID = UUID.fromString("3684003b-a685-45f9-a713-abc6364ba051");
     static byte last_id = -1;
 
     private static byte[] encodeMessage(short endpoint, byte type, int cookie, String[] parts) {
@@ -440,8 +440,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    public byte[] encodeApplicationMessageTest() {
-
+    private byte[] encodeApplicationMessageTest() {
         // encode push message for WeatherNeat
         ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>();
         pairs.add(new Pair<>(1, (Object) "Berlin")); // city
@@ -457,8 +456,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putShort((short) 18);
         buf.putShort(ENDPOINT_APPLICATIONMESSAGE);
         buf.put(APPLICATIONMESSAGE_ACK);
-        buf.put(--last_id);
-        buf.put(WeatherNeatUUID);
+        buf.put((byte) (last_id - 1));
+        buf.putLong(WeatherNeatUUID.getMostSignificantBits());
+        buf.putLong(WeatherNeatUUID.getLeastSignificantBits());
 
         buf.put(testMessage);
 
@@ -466,8 +466,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
 
-    public byte[] encodeApplicationMessagePush(short endpoint, byte[] uuid, ArrayList<Pair<Integer, Object>> pairs) {
-        int length = uuid.length + 3; // PUSH + id + length of dict
+    public byte[] encodeApplicationMessagePush(short endpoint, UUID uuid, ArrayList<Pair<Integer, Object>> pairs) {
+        int length = 16 + 3; // UUID + (PUSH + id + length of dict)
         for (Pair<Integer, Object> pair : pairs) {
             length += 7; // key + type + length
             if (pair.second instanceof Integer) {
@@ -482,7 +482,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putShort(endpoint); // 48 or 49
         buf.put(APPLICATIONMESSAGE_PUSH);
         buf.put(++last_id);
-        buf.put(uuid);
+        buf.putLong(uuid.getMostSignificantBits());
+        buf.putLong(uuid.getLeastSignificantBits());
         buf.put((byte) pairs.size());
 
         buf.order(ByteOrder.LITTLE_ENDIAN); // Um, yes, really
@@ -501,6 +502,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
         }
 
         return buf.array();
+    }
+
+    public byte[] encodeAppStart(UUID uuid) {
+        ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>();
+        pairs.add(new Pair<>(1, (Object) 1)); // launch
+        return encodeApplicationMessagePush(ENDPOINT_LAUNCHER, uuid, pairs);
     }
 
     @Override
@@ -643,15 +650,16 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 cmd = installRes;
                 break;
             case ENDPOINT_APPLICATIONMESSAGE:
-                byte[] uuid = new byte[16];
                 last_id = buf.get();
-                buf.get(uuid);
+                long uuid_high = buf.getLong();
+                long uuid_low = buf.getLong();
                 byte dictSize = buf.get();
                 switch (pebbleCmd) {
                     case APPLICATIONMESSAGE_PUSH:
-                        LOG.info("got APPLICATIONMESSAGE PUSH from UUID " + GB.hexdump(uuid, 0, 16) + " , dict size " + dictSize);
-                        if (Arrays.equals(uuid, WeatherNeatUUID)) {
-                            LOG.info("We know you, you are WeatherNeat");
+                        UUID uuid = new UUID(uuid_high, uuid_low);
+                        Log.info(TAG, "got APPLICATIONMESSAGE PUSH from UUID " + uuid + " , dict size " + dictSize);
+                        if (WeatherNeatUUID.equals(uuid)) {
+                            Log.info(TAG, "We know you, you are WeatherNeat");
                             GBDeviceCommandSendBytes sendBytes = new GBDeviceCommandSendBytes();
                             sendBytes.encodedBytes = encodeApplicationMessageTest();
                             cmd = sendBytes;
