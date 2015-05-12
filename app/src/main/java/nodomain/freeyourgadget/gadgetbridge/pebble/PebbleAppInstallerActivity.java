@@ -14,6 +14,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nodomain.freeyourgadget.gadgetbridge.BluetoothCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
@@ -23,7 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 
 public class PebbleAppInstallerActivity extends Activity {
 
-    private final String TAG = this.getClass().getSimpleName();
+    private static final Logger LOG = LoggerFactory.getLogger(PebbleAppInstallerActivity.class);
 
     TextView debugTextView;
     Button installButton;

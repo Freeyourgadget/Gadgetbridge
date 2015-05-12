@@ -3,7 +3,6 @@ package nodomain.freeyourgadget.gadgetbridge.btle;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
-import android.util.Log;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -11,6 +10,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.AbstractDeviceSupport;
 
@@ -19,7 +20,7 @@ import nodomain.freeyourgadget.gadgetbridge.AbstractDeviceSupport;
  * @see BtLEQueue
  */
 public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport implements GattCallback {
-    private static final String TAG = "AbstractBTLEDeviceSupp";
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractBTLEDeviceSupport.class);
 
     private BtLEQueue mQueue;
     private HashMap<UUID, BluetoothGattCharacteristic> mAvailableCharacteristics;
@@ -130,7 +131,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
             if (supportedServices.contains(service.getUuid())) {
                 List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
                 if (characteristics == null || characteristics.isEmpty()) {
-                    Log.w(TAG, "Supported LE service " + service.getUuid() + "did not return any characteristics");
+                    LOG.warn("Supported LE service " + service.getUuid() + "did not return any characteristics");
                     continue;
                 }
                 mAvailableCharacteristics = new HashMap<>(characteristics.size());

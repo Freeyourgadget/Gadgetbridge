@@ -3,9 +3,10 @@ package nodomain.freeyourgadget.gadgetbridge.miband;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import java.util.Calendar;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.DeviceType;
@@ -14,7 +15,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.discovery.DeviceCandidate;
 
 public class MiBandCoordinator implements DeviceCoordinator {
-    private static final String TAG = "MiBandCoord";
+    private static final Logger LOG = LoggerFactory.getLogger(MiBandCoordinator.class);
 
     @Override
     public boolean supports(DeviceCandidate candidate) {
@@ -55,7 +56,7 @@ public class MiBandCoordinator implements DeviceCoordinator {
         try {
             return getConfiguredUserInfo(miBandAddress);
         } catch (Exception ex) {
-            Log.e(TAG, "Error creating user info from settings, using default user instead: " + ex);
+            LOG.error("Error creating user info from settings, using default user instead: " + ex);
             return UserInfo.getDefault(miBandAddress);
         }
     }

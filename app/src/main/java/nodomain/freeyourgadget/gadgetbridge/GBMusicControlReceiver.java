@@ -7,10 +7,13 @@ import android.media.AudioManager;
 import android.os.SystemClock;
 import android.view.KeyEvent;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandMusicControl;
 
 public class GBMusicControlReceiver extends BroadcastReceiver {
-    private final String TAG = this.getClass().getSimpleName();
+    private static final Logger LOG = LoggerFactory.getLogger(GBMusicControlReceiver.class);
 
     public static final String ACTION_MUSICCONTROL = "nodomain.freeyourgadget.gadgetbridge.musiccontrol";
 

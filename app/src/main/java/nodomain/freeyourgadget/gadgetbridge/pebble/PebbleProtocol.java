@@ -1,6 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.pebble;
 
-import android.util.Log;
 import android.util.Pair;
 
 import java.nio.ByteBuffer;
@@ -9,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.GB;
 import nodomain.freeyourgadget.gadgetbridge.GBCommand;
@@ -24,7 +25,7 @@ import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
 
 public class PebbleProtocol extends GBDeviceProtocol {
 
-    static private String TAG = "PebbleProtocol";
+    private static final Logger LOG = LoggerFactory.getLogger(PebbleProtocol.class);
 
     static final short ENDPOINT_FIRMWARE = 1;
     static final short ENDPOINT_TIME = 11;
@@ -119,7 +120,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final byte PHONEVERSION_APPVERSION_PATCH = 0;
 
 
-    static final int PHONEVERSION_SESSION_CAPS_GAMMARAY = (int) 0x80000000;
+    static final int PHONEVERSION_SESSION_CAPS_GAMMARAY = 0x80000000;
 
     static final int PHONEVERSION_REMOTE_CAPS_TELEPHONY = 0x00000010;
     static final int PHONEVERSION_REMOTE_CAPS_SMS = 0x00000020;
@@ -201,6 +202,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
+    @Override
     public byte[] encodeSMS(String from, String body) {
         Long ts = System.currentTimeMillis() / 1000;
         TimeZone tz = SimpleTimeZone.getDefault();
@@ -211,6 +213,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_SMS, 0, parts);
     }
 
+    @Override
     public byte[] encodeEmail(String from, String subject, String body) {
         Long ts = System.currentTimeMillis() / 1000;
         TimeZone tz = SimpleTimeZone.getDefault();
@@ -221,6 +224,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_EMAIL, 0, parts);
     }
 
+    @Override
     public byte[] encodeSetTime(long ts) {
         if (ts == -1) {
             ts = System.currentTimeMillis() / 1000;
@@ -247,6 +251,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
+    @Override
     public byte[] encodeSetCallState(String number, String name, GBCommand command) {
         String[] parts = {number, name};
         byte pebbleCmd;
@@ -280,19 +285,23 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return encodeMessage(ENDPOINT_PHONECONTROL, pebbleCmd, 0, parts);
     }
 
+    @Override
     public byte[] encodeSetMusicInfo(String artist, String album, String track) {
         String[] parts = {artist, album, track};
         return encodeMessage(ENDPOINT_MUSICCONTROL, MUSICCONTROL_SETMUSICINFO, 0, parts);
     }
 
+    @Override
     public byte[] encodeFirmwareVersionReq() {
         return encodeMessage(ENDPOINT_FIRMWAREVERSION, FIRMWAREVERSION_GETVERSION, 0, null);
     }
 
+    @Override
     public byte[] encodeAppInfoReq() {
         return encodeMessage(ENDPOINT_APPMANAGER, APPMANAGER_GETAPPBANKSTATUS, 0, null);
     }
 
+    @Override
     public byte[] encodeAppDelete(int id, int index) {
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_REMOVEAPP);
         buf.order(ByteOrder.BIG_ENDIAN);
@@ -305,6 +314,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
+    @Override
     public byte[] encodePhoneVersion(byte os) {
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_PHONEVERSION);
         buf.order(ByteOrder.BIG_ENDIAN);
@@ -493,6 +503,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
+    @Override
     public GBDeviceCommand decodeResponse(byte[] responseData) {
         ByteBuffer buf = ByteBuffer.wrap(responseData);
         buf.order(ByteOrder.BIG_ENDIAN);
@@ -537,7 +548,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         callCmd.command = GBDeviceCommandCallControl.Command.END;
                         break;
                     default:
-                        Log.i(TAG, "Unknown PHONECONTROL command" + pebbleCmd);
+                        LOG.info("Unknown PHONECONTROL command" + pebbleCmd);
                         break;
                 }
                 cmd = callCmd;
@@ -590,7 +601,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         for (int i = 0; i < slotCount; i++) {
                             if (!slotInUse[i]) {
                                 appInfoCmd.freeSlot = (byte) i;
-                                Log.i(TAG, "found free slot " + i);
+                                LOG.info("found free slot " + i);
                                 break;
                             }
                         }
@@ -612,7 +623,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         cmd = deleteRes;
                         break;
                     default:
-                        Log.i(TAG, "Unknown APPMANAGER command" + pebbleCmd);
+                        LOG.info("Unknown APPMANAGER command" + pebbleCmd);
                         break;
                 }
                 break;
@@ -638,22 +649,22 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 byte dictSize = buf.get();
                 switch (pebbleCmd) {
                     case APPLICATIONMESSAGE_PUSH:
-                        Log.i(TAG, "got APPLICATIONMESSAGE PUSH from UUID " + GB.hexdump(uuid, 0, 16) + " , dict size " + dictSize);
+                        LOG.info("got APPLICATIONMESSAGE PUSH from UUID " + GB.hexdump(uuid, 0, 16) + " , dict size " + dictSize);
                         if (Arrays.equals(uuid, WeatherNeatUUID)) {
-                            Log.i(TAG, "We know you, you are WeatherNeat");
+                            LOG.info("We know you, you are WeatherNeat");
                             GBDeviceCommandSendBytes sendBytes = new GBDeviceCommandSendBytes();
                             sendBytes.encodedBytes = encodeApplicationMessageTest();
                             cmd = sendBytes;
                         }
                         break;
                     case APPLICATIONMESSAGE_ACK:
-                        Log.i(TAG, "got APPLICATIONMESSAGE ACK");
+                        LOG.info("got APPLICATIONMESSAGE ACK");
                         break;
                     case APPLICATIONMESSAGE_NACK:
-                        Log.i(TAG, "got APPLICATIONMESSAGE NACK");
+                        LOG.info("got APPLICATIONMESSAGE NACK");
                         break;
                     case APPLICATIONMESSAGE_REQUEST:
-                        Log.i(TAG, "got APPLICATIONMESSAGE REQUEST");
+                        LOG.info("got APPLICATIONMESSAGE REQUEST");
                         break;
                     default:
                         break;
@@ -662,18 +673,18 @@ public class PebbleProtocol extends GBDeviceProtocol {
             case ENDPOINT_DATALOG:
                 if (pebbleCmd != DATALOG_TIMEOUT) {
                     byte id = buf.get();
-                    Log.i(TAG, "DATALOG id " + id + " - sending 0x85 (ACK?)");
+                    LOG.info("DATALOG id " + id + " - sending 0x85 (ACK?)");
                     GBDeviceCommandSendBytes sendBytes = new GBDeviceCommandSendBytes();
                     sendBytes.encodedBytes = encodeDatalog(id, (byte) 0x85);
                     cmd = sendBytes;
                 } else {
-                    Log.i(TAG, "DATALOG TIMEOUT - ignoring");
+                    LOG.info("DATALOG TIMEOUT - ignoring");
                 }
                 break;
             case ENDPOINT_PHONEVERSION:
                 switch (pebbleCmd) {
                     case PHONEVERSION_REQUEST:
-                        Log.i(TAG, "Pebble asked for Phone/App Version - repLYING!");
+                        LOG.info("Pebble asked for Phone/App Version - repLYING!");
                         GBDeviceCommandSendBytes sendBytes = new GBDeviceCommandSendBytes();
                         sendBytes.encodedBytes = encodePhoneVersion(PHONEVERSION_REMOTE_OS_ANDROID);
                         cmd = sendBytes;

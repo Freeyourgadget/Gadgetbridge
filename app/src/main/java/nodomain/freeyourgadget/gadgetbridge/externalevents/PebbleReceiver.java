@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
-import android.util.Log;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,7 +17,7 @@ import nodomain.freeyourgadget.gadgetbridge.BluetoothCommunicationService;
 
 public class PebbleReceiver extends BroadcastReceiver {
 
-    private final String TAG = this.getClass().getSimpleName();
+    private static final Logger LOG = LoggerFactory.getLogger(PebbleReceiver.class);
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -36,7 +38,7 @@ public class PebbleReceiver extends BroadcastReceiver {
 
         String messageType = intent.getStringExtra("messageType");
         if (!messageType.equals("PEBBLE_ALERT")) {
-            Log.i(TAG, "non PEBBLE_ALERT message type not supported");
+            LOG.info("non PEBBLE_ALERT message type not supported");
             return;
         }
         String notificationData = intent.getStringExtra("notificationData");

@@ -6,8 +6,10 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
-import android.util.Log;
 import android.view.MenuItem;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A settings activity with support for preferences directly displaying their value.
@@ -17,7 +19,7 @@ import android.view.MenuItem;
  */
 public class AbstractSettingsActivity extends PreferenceActivity {
 
-    private static final String TAG = "AbstractSettingsAct";
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractSettingsActivity.class);
 
     /**
      * A preference value change listener that updates the preference's summary
@@ -83,7 +85,7 @@ public class AbstractSettingsActivity extends PreferenceActivity {
             if (pref != null) {
                 bindPreferenceSummaryToValue(pref);
             } else {
-                Log.e(TAG, "Unknown preference key: " + prefKey + ", unable to display value.");
+                LOG.error("Unknown preference key: " + prefKey + ", unable to display value.");
             }
         }
     }

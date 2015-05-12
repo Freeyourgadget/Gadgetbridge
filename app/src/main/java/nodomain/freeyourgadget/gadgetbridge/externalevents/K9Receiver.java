@@ -9,11 +9,14 @@ import android.net.Uri;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nodomain.freeyourgadget.gadgetbridge.BluetoothCommunicationService;
 
 public class K9Receiver extends BroadcastReceiver {
 
-    private final String TAG = this.getClass().getSimpleName();
+    private static final Logger LOG = LoggerFactory.getLogger(K9Receiver.class);
     private final Uri k9Uri = Uri.parse("content://com.fsck.k9.messageprovider/inbox_messages");
 
     @Override

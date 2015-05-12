@@ -16,8 +16,10 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.widget.Toast;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.miband.MiBandSupport;
@@ -53,7 +55,7 @@ public class BluetoothCommunicationService extends Service {
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.install_pebbbleapp";
     public static final String EXTRA_PERFORM_PAIR = "perform_pair";
 
-    private static final String TAG = "CommunicationService";
+    private static final Logger LOG = LoggerFactory.getLogger(BluetoothCommunicationService.class);
     public static final String EXTRA_DEVICE_ADDRESS = "device_address";
     private GBDeviceIoThread mGBDeviceIoThread = null;
 
@@ -79,7 +81,7 @@ public class BluetoothCommunicationService extends Service {
 
     @Override
     public void onCreate() {
-        Log.d(TAG, "BluetoothCommunicationService is being created");
+        LOG.debug("BluetoothCommunicationService is being created");
         super.onCreate();
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED));
     }
@@ -88,7 +90,7 @@ public class BluetoothCommunicationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         if (intent == null) {
-            Log.i(TAG, "no intent");
+            LOG.info("no intent");
             return START_NOT_STICKY;
         }
 
@@ -96,15 +98,15 @@ public class BluetoothCommunicationService extends Service {
         boolean pair = intent.getBooleanExtra(EXTRA_PERFORM_PAIR, false);
 
         if (action == null) {
-            Log.i(TAG, "no action");
+            LOG.info("no action");
             return START_NOT_STICKY;
         }
 
-        Log.d(TAG, "Service startcommand: " + action);
+        LOG.debug("Service startcommand: " + action);
 
         if (!mStarted && !action.equals(ACTION_START)) {
             // using the service before issuing ACTION_START
-            Log.i(TAG, "Must start service with " + ACTION_START + " before using it: " + action);
+            LOG.info("Must start service with " + ACTION_START + " before using it: " + action);
             return START_NOT_STICKY;
         }
 
@@ -226,7 +228,7 @@ public class BluetoothCommunicationService extends Service {
             case ACTION_INSTALL_PEBBLEAPP:
                 String uriString = intent.getStringExtra("app_uri");
                 if (uriString != null) {
-                    Log.i(TAG, "will try to install app");
+                    LOG.info("will try to install app");
                     ((PebbleIoThread) mGBDeviceIoThread).installApp(Uri.parse(uriString));
                 }
                 break;
@@ -249,7 +251,7 @@ public class BluetoothCommunicationService extends Service {
 
     @Override
     public void onDestroy() {
-        Log.d(TAG, "BluetoothCommunicationService is being destroyed");
+        LOG.debug("BluetoothCommunicationService is being destroyed");
         super.onDestroy();
 
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);

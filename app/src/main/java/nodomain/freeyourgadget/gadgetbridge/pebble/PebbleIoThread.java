@@ -14,13 +14,14 @@ import android.os.ParcelUuid;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.zip.ZipInputStream;
 
 import nodomain.freeyourgadget.gadgetbridge.AppManagerActivity;
@@ -39,7 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
 
 public class PebbleIoThread extends GBDeviceIoThread {
-    private static final String TAG = PebbleIoThread.class.getSimpleName();
+    private static final Logger LOG = LoggerFactory.getLogger(PebbleIoThread.class);
     private static final int NOTIFICATION_ID = 2;
 
     private enum PebbleAppInstallState {
@@ -140,7 +141,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         if (sharedPrefs.getBoolean("datetime_synconconnect", true)) {
-            Log.i(TAG, "syncing time");
+            LOG.info("syncing time");
             write(mPebbleProtocol.encodeSetTime(-1));
         }
 
@@ -177,10 +178,10 @@ public class PebbleIoThread extends GBDeviceIoThread {
                                 if (mPBWReader.isFirmware()) {
                                     writeInstallApp(mPebbleProtocol.encodeInstallFirmwareStart());
                                     mInstallSlot = 0;
-                                    Log.i(TAG, "starting firmware installation");
+                                    LOG.info("starting firmware installation");
                                 }
                             }
-                            Log.i(TAG, "start installing app binary");
+                            LOG.info("start installing app binary");
                             PebbleInstallable pi = mPebbleInstallables[mCurrentInstallableIndex];
                             mZis = mPBWReader.getInputStreamFile(pi.getFileName());
                             mCRC = pi.getCRC();
@@ -191,7 +192,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                             break;
                         case APP_WAIT_TOKEN:
                             if (mAppInstallToken != -1) {
-                                Log.i(TAG, "got token " + mAppInstallToken);
+                                LOG.info("got token " + mAppInstallToken);
                                 mInstallState = PebbleAppInstallState.APP_UPLOAD_CHUNK;
                                 continue;
                             }
@@ -223,7 +224,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                             break;
                         case APP_WAIT_COMMIT:
                             if (mAppInstallToken != -1) {
-                                Log.i(TAG, "got token " + mAppInstallToken);
+                                LOG.info("got token " + mAppInstallToken);
                                 mInstallState = PebbleAppInstallState.APP_UPLOAD_COMPLETE;
                                 continue;
                             }
@@ -258,7 +259,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 short length = buf.getShort();
                 short endpoint = buf.getShort();
                 if (length < 0 || length > 8192) {
-                    Log.i(TAG, "invalid length " + length);
+                    LOG.info("invalid length " + length);
                     while (mInStream.available() > 0) {
                         mInStream.read(buffer); // read all
                     }
@@ -277,7 +278,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
 
                 GBDeviceCommand deviceCmd = mPebbleProtocol.decodeResponse(buffer);
                 if (deviceCmd == null) {
-                    Log.i(TAG, "unhandled message to endpoint " + endpoint + " (" + length + " bytes)");
+                    LOG.info("unhandled message to endpoint " + endpoint + " (" + length + " bytes)");
                 } else {
                     evaluateGBDeviceCommand(deviceCmd);
                 }
@@ -288,12 +289,12 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 }
             } catch (IOException e) {
                 if (e.getMessage().contains("socket closed")) { //FIXME: this does not feel right
-                    Log.i(TAG, e.getMessage());
+                    LOG.info(e.getMessage());
                     gbDevice.setState(GBDevice.State.CONNECTING);
                     gbDevice.sendDeviceUpdateIntent(getContext());
 
                     while (mConnectionAttempts++ < 10 && !mQuit) {
-                        Log.i(TAG, "Trying to reconnect (attempt " + mConnectionAttempts + ")");
+                        LOG.info("Trying to reconnect (attempt " + mConnectionAttempts + ")");
                         mIsConnected = connect(gbDevice.getAddress());
                         if (mIsConnected)
                             break;
@@ -301,7 +302,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     mConnectionAttempts = 0;
                     if (!mIsConnected) {
                         mBtSocket = null;
-                        Log.i(TAG, "Bluetooth socket closed, will quit IO Thread");
+                        LOG.info("Bluetooth socket closed, will quit IO Thread");
                         mQuit = true;
                     }
                 }
@@ -338,7 +339,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
 
         switch (deviceCmd.commandClass) {
             case MUSIC_CONTROL:
-                Log.i(TAG, "Got command for MUSIC_CONTROL");
+                LOG.info("Got command for MUSIC_CONTROL");
                 GBDeviceCommandMusicControl musicCmd = (GBDeviceCommandMusicControl) deviceCmd;
                 Intent musicIntent = new Intent(GBMusicControlReceiver.ACTION_MUSICCONTROL);
                 musicIntent.putExtra("command", musicCmd.command.ordinal());
@@ -346,7 +347,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 context.sendBroadcast(musicIntent);
                 break;
             case CALL_CONTROL:
-                Log.i(TAG, "Got command for CALL_CONTROL");
+                LOG.info("Got command for CALL_CONTROL");
                 GBDeviceCommandCallControl callCmd = (GBDeviceCommandCallControl) deviceCmd;
                 Intent callIntent = new Intent(GBCallControlReceiver.ACTION_CALLCONTROL);
                 callIntent.putExtra("command", callCmd.command.ordinal());
@@ -354,7 +355,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 context.sendBroadcast(callIntent);
                 break;
             case VERSION_INFO:
-                Log.i(TAG, "Got command for VERSION_INFO");
+                LOG.info("Got command for VERSION_INFO");
                 if (gbDevice == null) {
                     return;
                 }
@@ -364,7 +365,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 gbDevice.sendDeviceUpdateIntent(context);
                 break;
             case APP_INFO:
-                Log.i(TAG, "Got command for APP_INFO");
+                LOG.info("Got command for APP_INFO");
                 GBDeviceCommandAppInfo appInfoCmd = (GBDeviceCommandAppInfo) deviceCmd;
                 setInstallSlot(appInfoCmd.freeSlot);
 
@@ -392,7 +393,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                         // right now on the Pebble we also receive this on a failed/successful installation ;/
                         switch (appMgmtRes.result) {
                             case FAILURE:
-                                Log.i(TAG, "failure removing app"); // TODO: report to AppManager
+                                LOG.info("failure removing app"); // TODO: report to AppManager
                                 finishInstall(true);
                                 break;
                             case SUCCESS:
@@ -407,7 +408,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     case INSTALL:
                         switch (appMgmtRes.result) {
                             case FAILURE:
-                                Log.i(TAG, "failure installing app"); // TODO: report to Installer
+                                LOG.info("failure installing app"); // TODO: report to Installer
                                 finishInstall(true);
                                 break;
                             case SUCCESS:
@@ -440,7 +441,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
             return;
         }
         int length = bytes.length;
-        Log.i(TAG, "got " + length + "bytes for writeInstallApp()");
+        LOG.info("got " + length + "bytes for writeInstallApp()");
         try {
             mOutStream.write(bytes);
             mOutStream.flush();

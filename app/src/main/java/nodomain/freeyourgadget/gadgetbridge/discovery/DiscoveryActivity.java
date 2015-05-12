@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -21,6 +20,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.DeviceHelper;
@@ -30,7 +31,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.DeviceCandidateAdapter;
 
 public class DiscoveryActivity extends Activity implements AdapterView.OnItemClickListener {
-    private static final String TAG = "DiscoveryAct";
+    private static final Logger LOG = LoggerFactory.getLogger(DiscoveryActivity.class);
     private static final long SCAN_DURATION = 60000; // 60s
 
     private Handler handler = new Handler();
@@ -66,7 +67,7 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
                     if (device != null && device.getAddress().equals(bondingAddress)) {
                         int bondState = intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE, BluetoothDevice.BOND_NONE);
                         if (bondState == BluetoothDevice.BOND_BONDED) {
-                            Log.i(TAG, "Successfully bonded with: " + bondingAddress);
+                            LOG.info("Successfully bonded with: " + bondingAddress);
                             finish();
                         }
                     }
@@ -158,7 +159,7 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
     }
 
     public void onStartButtonClick(View button) {
-        Log.d(TAG, "Start Button clicked");
+        LOG.debug("Start Button clicked");
         if (isScanning()) {
             stopDiscovery();
         } else {
@@ -173,7 +174,7 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
     }
 
     private void handleDeviceFound(BluetoothDevice device, short rssi) {
-        DeviceCandidate candidate = new DeviceCandidate(device, (short) rssi);
+        DeviceCandidate candidate = new DeviceCandidate(device, rssi);
         if (DeviceHelper.getInstance().isSupported(candidate)) {
             int index = deviceCandidates.indexOf(candidate);
             if (index >= 0) {
@@ -191,14 +192,14 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
      */
     private void startDiscovery() {
         if (isScanning()) {
-            Log.w(TAG, "Not starting discovery, because already scanning.");
+            LOG.warn("Not starting discovery, because already scanning.");
             return;
         }
         startDiscovery(Scanning.SCANNING_BT);
     }
 
     private void startDiscovery(Scanning what) {
-        Log.i(TAG, "Starting discovery: " + what);
+        LOG.info("Starting discovery: " + what);
         discoveryStarted(what); // just to make sure
         if (ensureBluetoothReady()) {
             if (what == Scanning.SCANNING_BT) {
@@ -221,7 +222,7 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
     }
 
     private void stopDiscovery() {
-        Log.i(TAG, "Stopping discovery");
+        LOG.info("Stopping discovery");
         if (isScanning()) {
             Scanning wasScanning = isScanning;
             // unfortunately, we don't always get a call back when stopping the scan, so
@@ -277,13 +278,13 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
     private boolean checkBluetoothAvailable() {
         BluetoothManager bluetoothService = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
         if (bluetoothService == null) {
-            Log.w(TAG, "No bluetooth available");
+            LOG.warn("No bluetooth available");
             this.adapter = null;
             return false;
         }
         BluetoothAdapter adapter = bluetoothService.getAdapter();
         if (!adapter.isEnabled()) {
-            Log.w(TAG, "Bluetooth not enabled");
+            LOG.warn("Bluetooth not enabled");
             this.adapter = null;
             return false;
         }
@@ -292,14 +293,14 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
     }
 
     private void startBTLEDiscovery() {
-        Log.i(TAG, "Starting BTLE Discovery");
+        LOG.info("Starting BTLE Discovery");
         handler.removeMessages(0, stopRunnable);
         handler.sendMessageDelayed(getPostMessage(stopRunnable), SCAN_DURATION);
         adapter.startLeScan(leScanCallback);
     }
 
     private void startBTDiscovery() {
-        Log.i(TAG, "Starting BT Discovery");
+        LOG.info("Starting BT Discovery");
         handler.removeMessages(0, stopRunnable);
         handler.sendMessageDelayed(getPostMessage(stopRunnable), SCAN_DURATION);
         adapter.startDiscovery();
@@ -315,7 +316,7 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         DeviceCandidate deviceCandidate = deviceCandidates.get(position);
         if (deviceCandidate == null) {
-            Log.e(TAG, "Device candidate clicked, but item not found");
+            LOG.error("Device candidate clicked, but item not found");
             return;
         }
 
@@ -335,7 +336,7 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
                     bondingAddress = btDevice.getAddress();
                 }
             } catch (Exception e) {
-                Log.e(TAG, "Error pairing device: " + deviceCandidate.getMacAddress());
+                LOG.error("Error pairing device: " + deviceCandidate.getMacAddress());
             }
         }
     }

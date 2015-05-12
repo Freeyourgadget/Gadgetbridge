@@ -2,23 +2,21 @@ package nodomain.freeyourgadget.gadgetbridge.miband;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.util.Log;
 
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.GBCommand;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
-import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.btle.TransactionBuilder;
 
 public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
-    private static final String TAG = MiBandSupport.class.getSimpleName();
+    private static final Logger LOG = LoggerFactory.getLogger(MiBandSupport.class);
 
     public MiBandSupport() {
         addSupportedService(MiBandService.UUID_SERVICE_MIBAND_SERVICE);
@@ -57,7 +55,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     private void sendDefaultNotification(TransactionBuilder builder) {
         BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
-        Log.i(TAG, "Sending notification to MiBand: " + characteristic);
+        LOG.info("Sending notification to MiBand: " + characteristic);
         builder.write(characteristic, getDefaultNotification()).queue(getQueue());
     }
 
@@ -78,14 +76,14 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      * @return
      */
     private MiBandSupport sendUserInfo(TransactionBuilder builder) {
-        Log.d(TAG, "Writing User Info!");
+        LOG.debug("Writing User Info!");
         BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_USER_INFO);
         builder.write(characteristic, MiBandCoordinator.getAnyUserInfo(getDevice().getAddress()).getData());
         return this;
     }
 
     private MiBandSupport requestBatteryInfo(TransactionBuilder builder) {
-        Log.d(TAG, "Requesting Battery Info!");
+        LOG.debug("Requesting Battery Info!");
         BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_BATTERY);
         builder.read(characteristic);
         return this;
@@ -98,12 +96,12 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      * @return
      */
     private MiBandSupport pair(TransactionBuilder transaction) {
-        Log.i(TAG, "Attempting to pair MI device...");
+        LOG.info("Attempting to pair MI device...");
         BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_PAIR);
         if (characteristic != null) {
             transaction.write(characteristic, new byte[]{2});
         } else {
-            Log.i(TAG, "Unable to pair MI device -- characteristic not available");
+            LOG.info("Unable to pair MI device -- characteristic not available");
         }
         return this;
     }
@@ -113,7 +111,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             TransactionBuilder builder = performInitialized(task);
             sendDefaultNotification(builder);
         } catch (IOException ex) {
-            Log.e(TAG, "Unable to send notification to MI device", ex);
+            LOG.error("Unable to send notification to MI device", ex);
         }
     }
 
@@ -134,7 +132,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             setCurrentTime(builder);
             builder.queue(getQueue());
         } catch (IOException ex) {
-            Log.e(TAG, "Unable to set time on MI device", ex);
+            LOG.error("Unable to set time on MI device", ex);
         }
     }
 
@@ -163,7 +161,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         if (characteristic != null) {
             builder.write(characteristic, time);
         } else {
-            Log.i(TAG, "Unable to set time -- characteristic not available");
+            LOG.info("Unable to set time -- characteristic not available");
         }
         return this;
     }
@@ -187,7 +185,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_DEVICE_INFO);
             builder.read(characteristic).queue(getQueue());
         } catch (IOException ex) {
-            Log.e(TAG, "Unable to read device info from MI", ex);
+            LOG.error("Unable to read device info from MI", ex);
         }
     }
 
@@ -198,7 +196,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             requestBatteryInfo(builder);
             builder.queue(getQueue());
         } catch (IOException ex) {
-            Log.e(TAG, "Unable to read battery info from MI", ex);
+            LOG.error("Unable to read battery info from MI", ex);
         }
     }
 
@@ -272,7 +270,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     private void handlePairResult(byte[] pairResult, int status) {
         if (status != BluetoothGatt.GATT_SUCCESS) {
-            Log.i(TAG, "Pairing MI device failed: " + status);
+            LOG.info("Pairing MI device failed: " + status);
             return;
         }
 
@@ -283,16 +281,16 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                     byte b = pairResult[0];
                     Integer intValue = Integer.valueOf(b);
                     if (intValue.intValue() == 2) {
-                        Log.i(TAG, "Successfully paired  MI device");
+                        LOG.info("Successfully paired  MI device");
                         return;
                     }
                 } catch (Exception ex) {
-                    Log.w(TAG, "Error identifying pairing result", ex);
+                    LOG.warn("Error identifying pairing result", ex);
                     return;
                 }
             }
             value = pairResult.toString();
         }
-        Log.i(TAG, "MI Band pairing result: " + value);
+        LOG.info("MI Band pairing result: " + value);
     }
 }

@@ -3,10 +3,6 @@ package nodomain.freeyourgadget.gadgetbridge.pebble;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -16,13 +12,18 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import nodomain.freeyourgadget.gadgetbridge.GBDeviceApp;
 
 public class PBWReader {
-    private static final String TAG = PebbleIoThread.class.getSimpleName();
+    private static final Logger LOG = LoggerFactory.getLogger(PBWReader.class);
     private static final HashMap<String, Byte> appFileTypesMap;
 
     static {
@@ -99,7 +100,7 @@ public class PBWReader {
                                 long crc = jo.getLong("crc");
                                 byte type = entry.getValue();
                                 pebbleInstallables.add(new PebbleInstallable(name, size, (int) crc, type));
-                                Log.i(TAG, "found file to install: " + name);
+                                LOG.info("found file to install: " + name);
                             } catch (JSONException e) {
                                 // not fatal
                             }

@@ -16,6 +16,8 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAppAdapter;
 
@@ -23,6 +25,7 @@ import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAppAdapter;
 public class AppManagerActivity extends Activity {
     public static final String ACTION_REFRESH_APPLIST
             = "nodomain.freeyourgadget.gadgetbride.appmanager.action.refresh_applist";
+    private static final Logger LOG = LoggerFactory.getLogger(AppManagerActivity.class);
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -47,7 +50,6 @@ public class AppManagerActivity extends Activity {
         }
     };
     final List<GBDeviceApp> appList = new ArrayList<>();
-    private final String TAG = this.getClass().getSimpleName();
     private ListView appListView;
     private GBDeviceAppAdapter mGBDeviceAppAdapter;
     private GBDeviceApp selectedApp = null;

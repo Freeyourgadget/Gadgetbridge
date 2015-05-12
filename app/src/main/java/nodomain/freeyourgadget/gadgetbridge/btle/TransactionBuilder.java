@@ -1,10 +1,12 @@
 package nodomain.freeyourgadget.gadgetbridge.btle;
 
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.util.Log;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TransactionBuilder {
-    private static final String TAG = TransactionBuilder.class.getSimpleName();
+    private static final Logger LOG = LoggerFactory.getLogger(TransactionBuilder.class);
 
     private Transaction mTransaction;
 
@@ -14,7 +16,7 @@ public class TransactionBuilder {
 
     public TransactionBuilder read(BluetoothGattCharacteristic characteristic) {
         if (characteristic == null) {
-            Log.w(TAG, "Unable to read characteristic: null");
+            LOG.warn("Unable to read characteristic: null");
             return this;
         }
         ReadAction action = new ReadAction(characteristic);
@@ -23,7 +25,7 @@ public class TransactionBuilder {
 
     public TransactionBuilder write(BluetoothGattCharacteristic characteristic, byte[] data) {
         if (characteristic == null) {
-            Log.w(TAG, "Unable to write characteristic: null");
+            LOG.warn("Unable to write characteristic: null");
             return this;
         }
         WriteAction action = new WriteAction(characteristic, data);

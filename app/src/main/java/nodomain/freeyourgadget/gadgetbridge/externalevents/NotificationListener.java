@@ -9,13 +9,15 @@ import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.util.Log;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.BluetoothCommunicationService;
 
 public class NotificationListener extends NotificationListenerService {
 
-    private String TAG = this.getClass().getSimpleName();
+    private static final Logger LOG = LoggerFactory.getLogger(NotificationListener.class);
 
     @Override
     public void onCreate() {
@@ -83,7 +85,7 @@ public class NotificationListener extends NotificationListenerService {
             }
         }
 
-        Log.i(TAG, "Processing notification from source " + source);
+        LOG.info("Processing notification from source " + source);
 
         Bundle extras = notification.extras;
         String title = extras.getCharSequence(Notification.EXTRA_TITLE).toString();

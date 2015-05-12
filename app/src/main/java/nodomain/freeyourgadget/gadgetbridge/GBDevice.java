@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GBDevice implements Parcelable {
     public static final String ACTION_DEVICE_CHANGED
@@ -21,7 +23,7 @@ public class GBDevice implements Parcelable {
             return new GBDevice[size];
         }
     };
-    private static final String TAG = GBDevice.class.getSimpleName();
+    private static final Logger LOG = LoggerFactory.getLogger(GBDevice.class);
     public static final short RSSI_UNKNOWN = 0;
     public static final short BATTERY_UNKNOWN = -1;
     public static final String EXTRA_DEVICE = "device";
@@ -158,7 +160,7 @@ public class GBDevice implements Parcelable {
 
     public void setRssi(short rssi) {
         if (rssi < 0) {
-            Log.w(TAG, "illegal rssi value " + rssi + ", setting to RSSI_UNKNOWN");
+            LOG.warn("illegal rssi value " + rssi + ", setting to RSSI_UNKNOWN");
             mRssi = RSSI_UNKNOWN;
         } else {
             mRssi = rssi;
@@ -216,7 +218,7 @@ public class GBDevice implements Parcelable {
         if (batteryLevel >= 0 && batteryLevel <= 100) {
             mBatteryLevel = batteryLevel;
         } else {
-            Log.e(TAG, "Battery level musts be within range 0-100: " + batteryLevel);
+            LOG.error("Battery level musts be within range 0-100: " + batteryLevel);
         }
     }
 

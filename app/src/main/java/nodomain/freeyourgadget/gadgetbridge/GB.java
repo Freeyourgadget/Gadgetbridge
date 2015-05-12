@@ -9,7 +9,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.externalevents.K9Receiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.MusicPlaybackReceiver;
@@ -20,7 +22,7 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.TimeChangeReceiver;
 
 public class GB {
     public static final int NOTIFICATION_ID = 1;
-    private static final String TAG = "GB";
+    private static final Logger LOG = LoggerFactory.getLogger(GB.class);
 
     public static Notification createNotification(String text, Context context) {
         Intent notificationIntent = new Intent(context, ControlCenter.class);
@@ -46,7 +48,7 @@ public class GB {
     }
 
     public static void setReceiversEnableState(boolean enable, Context context) {
-        Log.i(TAG, "Setting broadcast receivers to: " + enable);
+        LOG.info("Setting broadcast receivers to: " + enable);
         final Class<?>[] receiverClasses = {
                 PhoneCallReceiver.class,
                 SMSReceiver.class,

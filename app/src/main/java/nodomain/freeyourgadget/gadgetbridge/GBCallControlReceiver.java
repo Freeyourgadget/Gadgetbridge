@@ -4,17 +4,18 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.telephony.TelephonyManager;
-import android.util.Log;
-
-import com.android.internal.telephony.ITelephony;
 
 import java.lang.reflect.Method;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.android.internal.telephony.ITelephony;
 
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandCallControl;
 
 public class GBCallControlReceiver extends BroadcastReceiver {
     public static final String ACTION_CALLCONTROL = "nodomain.freeyourgadget.gadgetbridge.callcontrol";
-    private final String TAG = this.getClass().getSimpleName();
+    private static final Logger LOG = LoggerFactory.getLogger(GBCallControlReceiver.class);
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -34,7 +35,7 @@ public class GBCallControlReceiver extends BroadcastReceiver {
                         telephonyService.answerRingingCall();
                     }
                 } catch (Exception e) {
-                    Log.w(TAG, "could not start or hangup call");
+                    LOG.warn("could not start or hangup call");
                 }
                 break;
             default:

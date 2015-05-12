@@ -3,12 +3,14 @@ package nodomain.freeyourgadget.gadgetbridge.externalevents;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.BluetoothCommunicationService;
 
 public class MusicPlaybackReceiver extends BroadcastReceiver {
-    private final String TAG = this.getClass().getSimpleName();
+    private static final Logger LOG = LoggerFactory.getLogger(MusicPlaybackReceiver.class);
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -16,7 +18,7 @@ public class MusicPlaybackReceiver extends BroadcastReceiver {
         String album = intent.getStringExtra("album");
         String track = intent.getStringExtra("track");
 
-        Log.i(TAG, "Current track: " + artist + ", " + album + ", " + track);
+        LOG.info("Current track: " + artist + ", " + album + ", " + track);
 
         Intent startIntent = new Intent(context, BluetoothCommunicationService.class);
         startIntent.setAction(BluetoothCommunicationService.ACTION_SETMUSICINFO);
