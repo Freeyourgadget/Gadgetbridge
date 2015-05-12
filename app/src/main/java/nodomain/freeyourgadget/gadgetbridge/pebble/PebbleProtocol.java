@@ -657,9 +657,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 switch (pebbleCmd) {
                     case APPLICATIONMESSAGE_PUSH:
                         UUID uuid = new UUID(uuid_high, uuid_low);
-                        Log.info(TAG, "got APPLICATIONMESSAGE PUSH from UUID " + uuid + " , dict size " + dictSize);
+                        LOG.info("got APPLICATIONMESSAGE PUSH from UUID " + uuid + " , dict size " + dictSize);
                         if (WeatherNeatUUID.equals(uuid)) {
-                            Log.info(TAG, "We know you, you are WeatherNeat");
+                            LOG.info("We know you, you are WeatherNeat");
                             GBDeviceCommandSendBytes sendBytes = new GBDeviceCommandSendBytes();
                             sendBytes.encodedBytes = encodeApplicationMessageTest();
                             cmd = sendBytes;
