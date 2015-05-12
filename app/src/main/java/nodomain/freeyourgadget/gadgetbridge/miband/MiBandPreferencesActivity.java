@@ -3,11 +3,9 @@ package nodomain.freeyourgadget.gadgetbridge.miband;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.support.v4.content.LocalBroadcastManager;
 
 import nodomain.freeyourgadget.gadgetbridge.ControlCenter;
-import nodomain.freeyourgadget.gadgetbridge.GB;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivity;
 

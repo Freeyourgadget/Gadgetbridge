@@ -74,8 +74,7 @@ public class UserInfo {
             sequence[u] = normalizedAlias.getBytes()[u - 9];
 
         byte[] crcSequence = new byte[19];
-        for (int u = 0; u < crcSequence.length; u++)
-            crcSequence[u] = sequence[u];
+        System.arraycopy(sequence, 0, crcSequence, 0, crcSequence.length);
 
         sequence[19] = (byte) ((getCRC8(crcSequence) ^ Integer.parseInt(address.substring(address.length() - 2), 16)) & 0xff);
 

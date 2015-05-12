@@ -279,8 +279,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             if (pairResult.length == 1) {
                 try {
                     byte b = pairResult[0];
-                    Integer intValue = Integer.valueOf(b);
-                    if (intValue.intValue() == 2) {
+                    Integer intValue = (int) b;
+                    if (intValue == 2) {
                         LOG.info("Successfully paired  MI device");
                         return;
                     }

@@ -50,7 +50,6 @@ public class AppManagerActivity extends Activity {
         }
     };
     final List<GBDeviceApp> appList = new ArrayList<>();
-    private ListView appListView;
     private GBDeviceAppAdapter mGBDeviceAppAdapter;
     private GBDeviceApp selectedApp = null;
 
@@ -60,7 +59,7 @@ public class AppManagerActivity extends Activity {
         setContentView(R.layout.activity_appmanager);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        appListView = (ListView) findViewById(R.id.appListView);
+        ListView appListView = (ListView) findViewById(R.id.appListView);
         mGBDeviceAppAdapter = new GBDeviceAppAdapter(this, appList);
         appListView.setAdapter(this.mGBDeviceAppAdapter);
         registerForContextMenu(appListView);

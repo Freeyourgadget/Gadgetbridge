@@ -93,7 +93,6 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
     private ProgressBar progressView;
     private BluetoothAdapter adapter;
     private ArrayList<DeviceCandidate> deviceCandidates = new ArrayList<>();
-    private ListView deviceCandidatesView;
     private DeviceCandidateAdapter cadidateListAdapter;
     private Button startButton;
     private Scanning isScanning = Scanning.SCANNING_OFF;
@@ -122,7 +121,7 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
         progressView.setProgress(0);
         progressView.setIndeterminate(true);
         progressView.setVisibility(View.GONE);
-        deviceCandidatesView = (ListView) findViewById(R.id.discovery_deviceCandidatesView);
+        ListView deviceCandidatesView = (ListView) findViewById(R.id.discovery_deviceCandidatesView);
 
         cadidateListAdapter = new DeviceCandidateAdapter(this, deviceCandidates);
         deviceCandidatesView.setAdapter(cadidateListAdapter);

@@ -18,13 +18,11 @@ import nodomain.freeyourgadget.gadgetbridge.discovery.DeviceCandidate;
 public class DeviceCandidateAdapter extends ArrayAdapter<DeviceCandidate> {
 
     private final Context context;
-    private final List<DeviceCandidate> deviceCandidates;
 
     public DeviceCandidateAdapter(Context context, List<DeviceCandidate> deviceCandidates) {
         super(context, 0, deviceCandidates);
 
         this.context = context;
-        this.deviceCandidates = deviceCandidates;
     }
 
     @Override

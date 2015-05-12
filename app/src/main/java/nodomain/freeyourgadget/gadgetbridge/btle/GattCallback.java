@@ -33,13 +33,13 @@ public interface GattCallback {
      * @param newState
      * @see BluetoothGattCallback#onConnectionStateChange(BluetoothGatt, int, int)
      */
-    public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState);
+    void onConnectionStateChange(BluetoothGatt gatt, int status, int newState);
 
     /**
      * @param gatt
      * @see BluetoothGattCallback#onServicesDiscovered(BluetoothGatt, int)
      */
-    public void onServicesDiscovered(BluetoothGatt gatt);
+    void onServicesDiscovered(BluetoothGatt gatt);
 
     /**
      * @param gatt
@@ -47,7 +47,7 @@ public interface GattCallback {
      * @param status
      * @see BluetoothGattCallback#onCharacteristicRead(BluetoothGatt, BluetoothGattCharacteristic, int)
      */
-    public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status);
+    void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status);
 
     /**
      * @param gatt
@@ -55,7 +55,7 @@ public interface GattCallback {
      * @param status
      * @see BluetoothGattCallback#onCharacteristicWrite(BluetoothGatt, BluetoothGattCharacteristic, int)
      */
-    public void onCharacteristicWrite(BluetoothGatt gatt,
+    void onCharacteristicWrite(BluetoothGatt gatt,
                                       BluetoothGattCharacteristic characteristic, int status);
 
     /**
@@ -63,7 +63,7 @@ public interface GattCallback {
      * @param characteristic
      * @see BluetoothGattCallback#onCharacteristicChanged(BluetoothGatt, BluetoothGattCharacteristic)
      */
-    public void onCharacteristicChanged(BluetoothGatt gatt,
+    void onCharacteristicChanged(BluetoothGatt gatt,
                                         BluetoothGattCharacteristic characteristic);
 
 //    /**
@@ -97,7 +97,7 @@ public interface GattCallback {
      * @param status
      * @see BluetoothGattCallback#onReadRemoteRssi(BluetoothGatt, int, int)
      */
-    public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status);
+    void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status);
 
 //    /**
 //     * @see BluetoothGattCallback#onMtuChanged(BluetoothGatt, int, int)

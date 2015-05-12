@@ -1,7 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.miband;
 
-import nodomain.freeyourgadget.gadgetbridge.GB;
-
 public interface MiBandConst {
     String PREF_USER_ALIAS = "mi_user_alias";
     String PREF_USER_YEAR_OF_BIRTH = "mi_user_year_of_birth";

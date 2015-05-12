@@ -1,7 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
-import android.bluetooth.BluetoothClass;
-
 import java.util.ArrayList;
 import java.util.List;
 

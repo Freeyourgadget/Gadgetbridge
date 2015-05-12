@@ -16,13 +16,11 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 public class GBDeviceAppAdapter extends ArrayAdapter<GBDeviceApp> {
 
     private final Context context;
-    private final List<GBDeviceApp> appList;
 
     public GBDeviceAppAdapter(Context context, List<GBDeviceApp> appList) {
         super(context, 0, appList);
 
         this.context = context;
-        this.appList = appList;
     }
 
     @Override

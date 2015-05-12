@@ -52,7 +52,7 @@ public class PBWReader {
         this.uri = uri;
         cr = context.getContentResolver();
 
-        InputStream fin = null;
+        InputStream fin;
         try {
             fin = new BufferedInputStream(cr.openInputStream(uri));
 
@@ -153,7 +153,7 @@ public class PBWReader {
     }
 
     public ZipInputStream getInputStreamFile(String filename) {
-        InputStream fin = null;
+        InputStream fin;
         try {
             fin = new BufferedInputStream(cr.openInputStream(uri));
 
@@ -163,7 +163,7 @@ public class PBWReader {
         }
 
         ZipInputStream zis = new ZipInputStream(fin);
-        ZipEntry ze = null;
+        ZipEntry ze;
         try {
             while ((ze = zis.getNextEntry()) != null) {
                 if (ze.getName().equals(filename)) {

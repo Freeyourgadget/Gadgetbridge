@@ -39,8 +39,6 @@ public class GBCallControlReceiver extends BroadcastReceiver {
                 }
                 break;
             default:
-                return;
         }
-
     }
 }

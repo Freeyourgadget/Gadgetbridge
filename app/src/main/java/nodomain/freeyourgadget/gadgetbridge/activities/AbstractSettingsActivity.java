@@ -53,7 +53,7 @@ public class AbstractSettingsActivity extends PreferenceActivity {
                 preference.setSummary(stringValue);
             }
         }
-    };
+    }
 
     private static class ExtraSetSummaryOnChangeListener extends SimpleSetSummaryOnChangeListener {
         private Preference.OnPreferenceChangeListener delegate;

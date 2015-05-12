@@ -1,23 +1,23 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
 public interface EventHandler {
-    public void onSMS(String from, String body);
+    void onSMS(String from, String body);
 
-    public void onEmail(String from, String subject, String body);
+    void onEmail(String from, String subject, String body);
 
-    public void onSetTime(long ts);
+    void onSetTime(long ts);
 
-    public void onSetCallState(String number, String name, GBCommand command);
+    void onSetCallState(String number, String name, GBCommand command);
 
-    public void onSetMusicInfo(String artist, String album, String track);
+    void onSetMusicInfo(String artist, String album, String track);
 
-    public void onFirmwareVersionReq();
+    void onFirmwareVersionReq();
 
-    public void onBatteryInfoReq();
+    void onBatteryInfoReq();
 
-    public void onAppInfoReq();
+    void onAppInfoReq();
 
-    public void onAppDelete(int id, int index);
+    void onAppDelete(int id, int index);
 
-    public void onPhoneVersion(byte os);
+    void onPhoneVersion(byte os);
 }

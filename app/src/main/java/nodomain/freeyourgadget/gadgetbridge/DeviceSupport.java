@@ -15,21 +15,20 @@ import android.content.Context;
  * via Bluetooth, Bluetooth LE, Wifi or something else.
  */
 public interface DeviceSupport extends EventHandler {
-    public void initialize(GBDevice gbDevice, BluetoothAdapter btAdapter, Context context);
+    void initialize(GBDevice gbDevice, BluetoothAdapter btAdapter, Context context);
 
-    public boolean isConnected();
+    boolean isConnected();
 
-    public boolean connect();
+    boolean connect();
 
-    public void dispose();
+    void dispose();
 
-    public GBDevice getDevice();
+    GBDevice getDevice();
 
-    public BluetoothAdapter getBluetoothAdapter();
+    BluetoothAdapter getBluetoothAdapter();
 
-    public Context getContext();
+    Context getContext();
+    boolean useAutoConnect();
 
-    public boolean useAutoConnect();
-
-    public void pair();
+    void pair();
 }
