@@ -1,0 +1,28 @@
+<configuration debug="true">
+
+    <appender name="STDOUT" class="ch.qos.logback.classic.android.LogcatAppender">
+        <!-- encoders are  by default assigned the type
+             ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <!--<file>/storage/emulated/0/Android/data/nodomain.freeyourgadget.gadgetbridge/files/gadgetbridge.log</file>-->
+        <file>${GB_LOGFILES_DIR}/gadgetbridge.log</file>
+        <lazy>true</lazy>
+        <!-- encoders are  by default assigned the type
+             ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
+        <encoder>
+            <!--<pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>-->
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{25} - %msg%n</pattern>
+            <!--<pattern>%date [%thread] %-5level %logger{25} - %msg%n</pattern>-->
+        </encoder>
+    </appender>
+
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+</configuration>
