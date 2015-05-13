@@ -174,7 +174,7 @@ public class BluetoothCommunicationService extends Service {
             case ACTION_NOTIFICATION_GENERIC: {
                 String title = intent.getStringExtra("notification_title");
                 String body = intent.getStringExtra("notification_body");
-                mDeviceSupport.onSMS(title, body);
+                mDeviceSupport.onGenericNotification(title, body);
                 break;
             }
             case ACTION_NOTIFICATION_SMS: {
