@@ -12,6 +12,10 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
+    public byte[] encodeGenericNotification(String title, String details) {
+        return null;
+    }
+
     public byte[] encodeSetTime(long ts) {
         return null;
     }

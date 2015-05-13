@@ -64,6 +64,12 @@ public abstract class AbstractBTDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
+    public void onGenericNotification(String title, String details) {
+        byte[] bytes = gbDeviceProtocol.encodeGenericNotification(title, details);
+        sendToDevice(bytes);
+    }
+
+    @Override
     public void onSetTime(long ts) {
         byte[] bytes = gbDeviceProtocol.encodeSetTime(ts);
         sendToDevice(bytes);

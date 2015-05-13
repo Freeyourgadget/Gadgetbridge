@@ -5,6 +5,8 @@ public interface EventHandler {
 
     void onEmail(String from, String subject, String body);
 
+    void onGenericNotification(String title, String details);
+
     void onSetTime(long ts);
 
     void onSetCallState(String number, String name, GBCommand command);

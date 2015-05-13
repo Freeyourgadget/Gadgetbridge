@@ -127,6 +127,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onGenericNotification(String title, String details) {
+        performDefaultNotification("generic notification received");
+    }
+
+    @Override
     public void onSetTime(long ts) {
         try {
             TransactionBuilder builder = performInitialized("Set date and time");

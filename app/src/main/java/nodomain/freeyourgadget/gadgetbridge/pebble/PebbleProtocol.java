@@ -225,6 +225,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     @Override
+    public byte[] encodeGenericNotification(String title, String details) {
+        return encodeSMS(title, details);
+    }
+
+    @Override
     public byte[] encodeSetTime(long ts) {
         if (ts == -1) {
             ts = System.currentTimeMillis() / 1000;
