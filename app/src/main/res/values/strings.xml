@@ -98,5 +98,6 @@
     <string name="miband_prefs_gender">Gender</string>
     <string name="miband_prefs_height_cm">Height in cm</string>
     <string name="miband_prefs_weight_kg">Weight in kg</string>
+    <string name="pref_header_vibration_count">Vibration Count</string>
 
 </resources>

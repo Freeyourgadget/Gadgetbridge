@@ -38,7 +38,11 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
                 MiBandConst.PREF_USER_GENDER,
                 MiBandConst.PREF_USER_HEIGHT_CM,
                 MiBandConst.PREF_USER_WEIGHT_KG,
-                MiBandConst.PREF_MIBAND_ADDRESS
+                MiBandConst.PREF_MIBAND_ADDRESS,
+                MiBandConst.PREF_VIBRATION_COUNT_SMS,
+                MiBandConst.PREF_VIBRATION_COUNT_K9MAIL,
+                MiBandConst.PREF_VIBRATION_COUNT_PEBBLEMSG,
+                MiBandConst.PREF_VIBRATION_COUNT_GENERIC,
         };
     }
 }

@@ -9,7 +9,7 @@
             android:title="@string/miband_prefs_alias" />
 
         <EditTextPreference
-            android:digits="0123456789"
+            android:inputType="number"
             android:key="mi_user_year_of_birth"
             android:maxLength="4"
             android:title="@string/miband_prefs_year_birth" />
@@ -23,13 +23,13 @@
 
         <!--TODO: support localized heights and weights -->
         <EditTextPreference
-            android:digits="0123456789"
+            android:inputType="number"
             android:key="mi_user_height_cm"
             android:maxLength="3"
             android:title="@string/miband_prefs_height_cm" />
 
         <EditTextPreference
-            android:digits="0123456789"
+            android:inputType="number"
             android:key="mi_user_weight_kg"
             android:maxLength="3"
             android:title="@string/miband_prefs_weight_kg" />
@@ -44,6 +44,35 @@
             android:key="development_miaddr"
             android:maxLength="17"
             android:title="@string/pref_title_development_miaddr" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_category_miband_notification"
+        android:title="@string/pref_header_vibration_count">
+        <EditTextPreference
+            android:defaultValue="3"
+            android:inputType="number"
+            android:key="mi_vibration_count_sms"
+            android:maxLength="1"
+            android:title="@string/pref_title_notifications_sms" />
+        <EditTextPreference
+            android:defaultValue="3"
+            android:inputType="number"
+            android:key="mi_vibration_count_k9mail"
+            android:maxLength="1"
+            android:title="@string/pref_title_notifications_k9mail" />
+        <EditTextPreference
+            android:defaultValue="3"
+            android:inputType="number"
+            android:key="mi_vibration_count_pebblemsg"
+            android:maxLength="1"
+            android:title="@string/pref_title_notifications_pebblemsg" />
+        <EditTextPreference
+            android:defaultValue="3"
+            android:inputType="number"
+            android:key="mi_vibration_count_generic"
+            android:maxLength="1"
+            android:title="@string/pref_title_notifications_generic" />
     </PreferenceCategory>
 
 </PreferenceScreen>
