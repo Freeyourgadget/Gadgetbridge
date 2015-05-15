@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
 import java.util.UUID;
@@ -27,6 +28,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     private static final Logger LOG = LoggerFactory.getLogger(PebbleProtocol.class);
 
+    // set to false AT YOUR OWN RISK. I ended up in recovery
+    static private final boolean USE_OLD_NOTIFICATION_PROTOCOL = true;
+
     static final short ENDPOINT_FIRMWARE = 1;
     static final short ENDPOINT_TIME = 11;
     static final short ENDPOINT_FIRMWAREVERSION = 16;
@@ -43,6 +47,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final short ENDPOINT_APP = 2004;
     static final short ENDPOINT_APPLOGS = 2006;
     static final short ENDPOINT_NOTIFICATION = 3000;
+    static final short ENDPOINT_EXTENSIBLENOTIFS = 3010;
     static final short ENDPOINT_RESOURCE = 4000;
     static final short ENDPOINT_SYSREG = 5000;
     static final short ENDPOINT_FCTREG = 5001;
@@ -153,10 +158,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final short LENGTH_SYSTEMMESSAGE = 2;
 
     private static final String[] hwRevisions = {"unknown", "ev1", "ev2", "ev2_3", "ev2_4", "v1_5", "v2_0"};
-
+    private static Random mRandom = new Random();
+    static byte last_id = -1;
     // FIXME: this does not belong here
     static final UUID WeatherNeatUUID = UUID.fromString("3684003b-a685-45f9-a713-abc6364ba051");
-    static byte last_id = -1;
 
     private static byte[] encodeMessage(short endpoint, byte type, int cookie, String[] parts) {
         // Calculate length first
@@ -207,10 +212,14 @@ public class PebbleProtocol extends GBDeviceProtocol {
         Long ts = System.currentTimeMillis() / 1000;
         TimeZone tz = SimpleTimeZone.getDefault();
         ts += (tz.getOffset(ts) + tz.getDSTSavings()) / 1000;
-        String tsstring = ts.toString();  // SIC
-        String[] parts = {from, body, tsstring};
 
-        return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_SMS, 0, parts);
+        if (USE_OLD_NOTIFICATION_PROTOCOL) {
+            String[] parts = {from, body, ts.toString()};
+            return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_SMS, 0, parts);
+        }
+
+        String[] parts = {from, null, body};
+        return encodeExtensibleNotification(mRandom.nextInt(), (int) (ts & 0xffffffff), parts);
     }
 
     @Override
@@ -243,6 +252,71 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put(TIME_SETTIME);
         buf.putInt((int) ts);
 
+        return buf.array();
+    }
+
+    private static byte[] encodeExtensibleNotification(int id, int timestamp, String[] parts) {
+        // Calculate length first
+        byte attributes_count = 0;
+
+        int length = 21;
+        if (parts != null) {
+            for (String s : parts) {
+                if (s == null || s.equals("")) {
+                    continue;
+                }
+                attributes_count++;
+                length += (3 + s.getBytes().length);
+            }
+        }
+
+        // Encode Prefix
+        ByteBuffer buf = ByteBuffer.allocate(length + LENGTH_PREFIX);
+
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort((short) (length));
+        buf.putShort(ENDPOINT_EXTENSIBLENOTIFS);
+
+        buf.order(ByteOrder.LITTLE_ENDIAN); // !
+
+        buf.put((byte) 0x00); // ?
+        buf.put((byte) 0x01); // add notifications
+        buf.putInt(0x00000002); // flags - ?
+        buf.putInt(id);
+        buf.putInt(0x00000000); // ANCS id
+        buf.putInt(timestamp);
+        buf.put((byte) 0x01); // layout - ?
+        buf.put(attributes_count); // length attributes
+        buf.put((byte) 0); // len actions - none so far
+
+        byte attribute_id = 0;
+        // Encode Pascal-Style Strings
+        if (parts != null) {
+            for (String s : parts) {
+                attribute_id++;
+                if (s == null || s.equals("")) {
+                    continue;
+                }
+
+                int partlength = s.getBytes().length;
+                if (partlength > 255) partlength = 255;
+                buf.put(attribute_id);
+                buf.putShort((short) partlength);
+                buf.put(s.getBytes(), 0, partlength);
+            }
+        }
+        // ACTION
+        /*
+        buf.put((byte) 0x01);
+        buf.put((byte) 0x02);
+        buf.put((byte) 0x01);
+
+        String actionstring = "test";
+
+        buf.put((byte) 0x01);
+        buf.putShort((short) 4);
+        buf.put(actionstring.getBytes(), 0, 4);
+        */
         return buf.array();
     }
 
