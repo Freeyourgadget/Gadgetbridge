@@ -8,6 +8,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivity;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.*;
 
 public class MiBandPreferencesActivity extends AbstractSettingsActivity {
     @Override
@@ -16,7 +17,7 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
 
         addPreferencesFromResource(R.xml.miband_preferences);
 
-        final Preference developmentMiaddr = findPreference(MiBandConst.PREF_MIBAND_ADDRESS);
+        final Preference developmentMiaddr = findPreference(PREF_MIBAND_ADDRESS);
         developmentMiaddr.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newVal) {
@@ -33,16 +34,16 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
     @Override
     protected String[] getPreferenceKeysWithSummary() {
         return new String[]{
-                MiBandConst.PREF_USER_ALIAS,
-                MiBandConst.PREF_USER_YEAR_OF_BIRTH,
-                MiBandConst.PREF_USER_GENDER,
-                MiBandConst.PREF_USER_HEIGHT_CM,
-                MiBandConst.PREF_USER_WEIGHT_KG,
-                MiBandConst.PREF_MIBAND_ADDRESS,
-                MiBandConst.PREF_VIBRATION_COUNT_SMS,
-                MiBandConst.PREF_VIBRATION_COUNT_K9MAIL,
-                MiBandConst.PREF_VIBRATION_COUNT_PEBBLEMSG,
-                MiBandConst.PREF_VIBRATION_COUNT_GENERIC,
+                PREF_USER_ALIAS,
+                PREF_USER_YEAR_OF_BIRTH,
+                PREF_USER_GENDER,
+                PREF_USER_HEIGHT_CM,
+                PREF_USER_WEIGHT_KG,
+                PREF_MIBAND_ADDRESS,
+                getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_SMS),
+                getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_K9MAIL),
+                getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_PEBBLEMSG),
+                getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_GENERIC),
         };
     }
 }

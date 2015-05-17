@@ -2,6 +2,8 @@ package nodomain.freeyourgadget.gadgetbridge.miband;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -14,6 +16,8 @@ import nodomain.freeyourgadget.gadgetbridge.GBCommand;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.btle.TransactionBuilder;
+
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.*;
 
 public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
@@ -59,6 +63,26 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         LOG.info("Sending notification to MiBand: " + characteristic);
         builder.write(characteristic, getDefaultNotification()).queue(getQueue());
     }
+
+    private void sendCustomNotification(int vibrateDuration, int vibrateTimes, int pause, int flashTimes, int flashColour, int originalColour, long flashDuration, TransactionBuilder builder) {
+        BluetoothGattCharacteristic controlPoint = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
+        int vDuration = Math.min(500, vibrateDuration); // longer than 500ms is not possible
+        for (int i = 0; i < vibrateTimes; i++) {
+            builder.write(controlPoint, startVibrate);
+            builder.wait(vDuration);
+            builder.write(controlPoint, stopVibrate);
+            if (pause > 0) {
+                builder.wait(pause);
+            }
+        }
+
+        LOG.info("Sending notification to MiBand: " + controlPoint);
+        builder.queue(getQueue());
+    }
+
+    private static final byte[] startVibrate = new byte[]{ 8, 1 };
+    private static final byte[] stopVibrate = new byte[]{ 19 };
+    private static final byte[] reboot = new byte[]{ 12 };
 
     private byte[] getNotification(long vibrateDuration, int vibrateTimes, int flashTimes, int flashColour, int originalColour, long flashDuration) {
         byte[] vibrate = new byte[]{(byte) 8, (byte) 1};
@@ -116,19 +140,76 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+//    private void performCustomNotification(String task, int vibrateDuration, int vibrateTimes, int pause, int flashTimes, int flashColour, int originalColour, long flashDuration) {
+//        try {
+//            TransactionBuilder builder = performInitialized(task);
+//            sendCustomNotification(vibrateDuration, vibrateTimes, pause, flashTimes, flashColour, originalColour, flashDuration, builder);
+//        } catch (IOException ex) {
+//            LOG.error("Unable to send notification to MI device", ex);
+//        }
+//    }
+
+    private void performPreferredNotification(String task, String notificationOrigin) {
+        try {
+            TransactionBuilder builder = performInitialized(task);
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+            int vibrateDuration = getPreferredVibrateDuration(notificationOrigin, prefs);
+            int vibrateTimes = getPreferredVibrateCount(notificationOrigin, prefs);
+            int vibratePause = getPreferredVibratePause(notificationOrigin, prefs);
+
+            int flashTimes = getPreferredFlashCount(notificationOrigin, prefs);
+            int flashColour = getPreferredFlashColour(notificationOrigin, prefs);
+            int originalColour = getPreferredOriginalColour(notificationOrigin, prefs);
+            int flashDuration = getPreferredFlashDuration(notificationOrigin, prefs);
+
+            sendCustomNotification(vibrateDuration, vibrateTimes, vibratePause, flashTimes, flashColour, originalColour, flashDuration, builder);
+        } catch (IOException ex) {
+            LOG.error("Unable to send notification to MI device", ex);
+        }
+    }
+
+    private int getPreferredFlashDuration(String notificationOrigin, SharedPreferences prefs) {
+        return getNotificationPrefIntValue(FLASH_DURATION, notificationOrigin, prefs, DEFAULT_VALUE_FLASH_DURATION);
+    }
+
+    private int getPreferredOriginalColour(String notificationOrigin, SharedPreferences prefs) {
+        return getNotificationPrefIntValue(FLASH_ORIGINAL_COLOUR, notificationOrigin, prefs, DEFAULT_VALUE_FLASH_ORIGINAL_COLOUR);
+    }
+
+    private int getPreferredFlashColour(String notificationOrigin, SharedPreferences prefs) {
+        return getNotificationPrefIntValue(FLASH_COLOUR, notificationOrigin, prefs, DEFAULT_VALUE_FLASH_COLOUR);
+    }
+
+    private int getPreferredFlashCount(String notificationOrigin, SharedPreferences prefs) {
+        return getNotificationPrefIntValue(FLASH_COUNT, notificationOrigin, prefs, DEFAULT_VALUE_FLASH_COUNT);
+    }
+
+    private int getPreferredVibratePause(String notificationOrigin, SharedPreferences prefs) {
+        return getNotificationPrefIntValue(VIBRATION_PAUSE, notificationOrigin, prefs, DEFAULT_VALUE_VIBRATION_PAUSE);
+    }
+
+    private int getPreferredVibrateCount(String notificationOrigin, SharedPreferences prefs) {
+        return getNotificationPrefIntValue(VIBRATION_COUNT, notificationOrigin, prefs, DEFAULT_VALUE_VIBRATION_COUNT);
+    }
+
+    private int getPreferredVibrateDuration(String notificationOrigin, SharedPreferences prefs) {
+        return getNotificationPrefIntValue(VIBRATION_DURATION, notificationOrigin, prefs, DEFAULT_VALUE_VIBRATION_DURATION);
+    }
+
     @Override
     public void onSMS(String from, String body) {
-        performDefaultNotification("sms received");
+//        performCustomNotification("sms received", 500, 3, 2000, 0, 0, 0, 0);
+        performPreferredNotification("sms received", ORIGIN_SMS);
     }
 
     @Override
     public void onEmail(String from, String subject, String body) {
-        performDefaultNotification("email received");
+        performPreferredNotification("email received", ORIGIN_K9MAIL);
     }
 
     @Override
     public void onGenericNotification(String title, String details) {
-        performDefaultNotification("generic notification received");
+        performPreferredNotification("generic notification received", ORIGIN_GENERIC);
     }
 
     @Override
@@ -203,6 +284,17 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to read battery info from MI", ex);
+        }
+    }
+
+    @Override
+    public void onReboot() {
+        try {
+            TransactionBuilder builder = performInitialized("Reboot");
+            builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), reboot);
+            builder.queue(getQueue());
+        } catch (IOException ex) {
+            LOG.error("Unable to reboot MI", ex);
         }
     }
 
