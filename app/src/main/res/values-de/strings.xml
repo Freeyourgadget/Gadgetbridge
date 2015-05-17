@@ -25,7 +25,7 @@
   <string name="pref_title_notifications_pebblemsg">Pebble Nachrichten</string>
   <string name="pref_summary_notifications_pebblemsg">Unterstützung für Anwendungen, die Benachrichtigungen per Intent an die Pebble schicken. Kann für Conversations verwendet werden.</string>
   <string name="pref_title_notifications_generic">Andere Benachrichtigungen</string>
-  <string name="pref_title_whenscreenon">… auch wenn der Bilschrim an ist</string>
+  <string name="pref_title_whenscreenon">… auch wenn der Bildschirm an ist</string>
   <string name="always">immer</string>
   <string name="when_screen_off">wenn der Bildschirm aus ist</string>
   <string name="never">niemals</string>
