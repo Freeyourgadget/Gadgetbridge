@@ -42,7 +42,7 @@ public final class BtLEQueue {
     private BluetoothGattCharacteristic mWaitCharacteristic;
     private GattCallback mExternalGattCallback;
 
-    private Thread dispatchThread = new Thread("Bluetooth GATT Dispatcher") {
+    private Thread dispatchThread = new Thread("GadgetBridge GATT Dispatcher") {
 
         @Override
         public void run() {
@@ -68,12 +68,17 @@ public final class BtLEQueue {
                     // Run all actions of the transaction until one doesn't succeed
                     for (BtLEAction action : transaction.getActions()) {
                         mWaitCharacteristic = action.getCharacteristic();
-                        if (action.run(mBluetoothGatt)) {
+                        boolean waitForResult = action.expectsResult();
+                        if (waitForResult) {
                             mWaitForActionResultLatch = new CountDownLatch(1);
-                            mWaitForActionResultLatch.await();
-                            mWaitForActionResultLatch = null;
-                            if (mAbortTransaction) {
-                                break;
+                        }
+                        if (action.run(mBluetoothGatt)) {
+                            if (waitForResult) {
+                                mWaitForActionResultLatch.await();
+                                mWaitForActionResultLatch = null;
+                                if (mAbortTransaction) {
+                                    break;
+                                }
                             }
                         } else {
                             LOG.error("Action returned false: " + action);
@@ -285,6 +290,10 @@ public final class BtLEQueue {
             if (characteristic != null && BtLEQueue.this.mWaitCharacteristic != null && characteristic.getUuid().equals(BtLEQueue.this.mWaitCharacteristic.getUuid())) {
                 if (mWaitForActionResultLatch != null) {
                     mWaitForActionResultLatch.countDown();
+                }
+            } else {
+                if (BtLEQueue.this.mWaitCharacteristic != null) {
+                    LOG.error("checkWaitingCharacteristic: mismatched characteristic received: " + characteristic != null ? characteristic.getUuid().toString() : "(null)");
                 }
             }
         }

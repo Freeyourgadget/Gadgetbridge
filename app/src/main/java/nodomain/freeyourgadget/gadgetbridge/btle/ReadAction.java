@@ -19,4 +19,9 @@ public class ReadAction extends BtLEAction {
     public boolean run(BluetoothGatt gatt) {
         return gatt.readCharacteristic(getCharacteristic());
     }
+
+    @Override
+    public boolean expectsResult() {
+        return true;
+    }
 }

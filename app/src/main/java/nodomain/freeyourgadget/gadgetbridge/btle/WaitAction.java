@@ -19,4 +19,10 @@ public class WaitAction extends BtLEAction {
             return false;
         }
     }
+
+    @Override
+    public boolean expectsResult() {
+        // no BT communication at all, no result
+        return false;
+    }
 }
