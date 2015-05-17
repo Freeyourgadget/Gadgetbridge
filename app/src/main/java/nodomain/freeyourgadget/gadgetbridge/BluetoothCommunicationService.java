@@ -53,6 +53,7 @@ public class BluetoothCommunicationService extends Service {
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.deleteapp";
     public static final String ACTION_INSTALL_PEBBLEAPP
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.install_pebbbleapp";
+    public static final String ACTION_REBOOT = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.reboot";
     public static final String EXTRA_PERFORM_PAIR = "perform_pair";
 
     private static final Logger LOG = LoggerFactory.getLogger(BluetoothCommunicationService.class);
@@ -189,6 +190,10 @@ public class BluetoothCommunicationService extends Service {
                 String subject = intent.getStringExtra("notification_subject");
                 String body = intent.getStringExtra("notification_body");
                 mDeviceSupport.onEmail(sender, subject, body);
+                break;
+            }
+            case ACTION_REBOOT: {
+                mDeviceSupport.onReboot();
                 break;
             }
             case ACTION_CALLSTATE:

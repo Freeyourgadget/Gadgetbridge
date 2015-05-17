@@ -48,7 +48,7 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
-    public GBDeviceCommand decodeResponse(byte[] responseData) {
-        return null;
-    }
+    public byte[] encodeReboot() { return null; }
+
+    public GBDeviceCommand decodeResponse(byte[] responseData) { return null; }
 }

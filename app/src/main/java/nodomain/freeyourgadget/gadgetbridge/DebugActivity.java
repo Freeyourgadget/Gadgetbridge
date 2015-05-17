@@ -25,6 +25,7 @@ public class DebugActivity extends Activity {
     Button testNotificationButton;
     Button setMusicInfoButton;
     Button setTimeButton;
+    Button rebootButton;
     EditText editContent;
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -109,6 +110,16 @@ public class DebugActivity extends Activity {
                 Intent startIntent = new Intent(DebugActivity.this, BluetoothCommunicationService.class);
                 startIntent.setAction(BluetoothCommunicationService.ACTION_CALLSTATE);
                 startIntent.putExtra("call_command", GBCommand.CALL_END.ordinal());
+                startService(startIntent);
+            }
+        });
+
+        rebootButton = (Button) findViewById(R.id.rebootButton);
+        rebootButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startIntent = new Intent(DebugActivity.this, BluetoothCommunicationService.class);
+                startIntent.setAction(BluetoothCommunicationService.ACTION_REBOOT);
                 startService(startIntent);
             }
         });

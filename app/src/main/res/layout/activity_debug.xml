@@ -100,4 +100,13 @@
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/endCallButton" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="reboot"
+        android:id="@+id/rebootButton"
+        android:layout_above="@+id/setTimeButton"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/endCallButton" />
+
 </RelativeLayout>

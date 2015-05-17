@@ -22,4 +22,6 @@ public interface EventHandler {
     void onAppDelete(int id, int index);
 
     void onPhoneVersion(byte os);
+
+    void onReboot();
 }

@@ -116,4 +116,9 @@ public abstract class AbstractBTDeviceSupport extends AbstractDeviceSupport {
         byte[] bytes = gbDeviceProtocol.encodePhoneVersion(os);
         sendToDevice(bytes);
     }
+
+    public void onReboot() {
+        byte[] bytes = gbDeviceProtocol.encodeReboot();
+        sendToDevice(bytes);
+    }
 }
