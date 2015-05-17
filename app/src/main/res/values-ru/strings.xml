@@ -85,4 +85,5 @@
   <string name="miband_prefs_gender">Пол</string>
   <string name="miband_prefs_height_cm">Рост в см</string>
   <string name="miband_prefs_weight_kg">Вес в кг</string>
+  <string name="pref_header_vibration_count">Количество вибраций</string>
 </resources>

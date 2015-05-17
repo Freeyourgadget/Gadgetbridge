@@ -14,7 +14,7 @@
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Ajustes</string>
   <string name="pref_header_general">Ajustes generales</string>
-  <string name="pref_title_general_autoconnectonbluetooth">Conectar con el dispositivo cuando el bluetooth se encienda</string>
+  <string name="pref_title_general_autoconnectonbluetooth">Conectar al encender el bluetooth</string>
   <string name="pref_header_datetime">Fecha y hora</string>
   <string name="pref_title_datetime_syctimeonconnect">Sincronizar hora</string>
   <string name="pref_summary_datetime_syctimeonconnect">Sincronizar la hora en el dispositivo cuando se conecte o se cambie la hora o zona horaria en Android</string>
@@ -24,7 +24,7 @@
   <string name="pref_title_notifications_pebblemsg">Mensajes de Pebble</string>
   <string name="pref_summary_notifications_pebblemsg">Soporte para aplicaciones que envían notificaciones a Pebble a través de Intent. Puede ser usado por Conversations.</string>
   <string name="pref_title_notifications_generic">Soporte para notificaciones genéricas</string>
-  <string name="pref_title_whenscreenon">… también cuando la pantalla está encendida</string>
+  <string name="pref_title_whenscreenon">… también con pantalla encendida</string>
   <string name="always">siempre</string>
   <string name="when_screen_off">cuando la pantalla está apagada</string>
   <string name="never">nunca</string>
@@ -70,8 +70,8 @@
   <string name="message_cannot_pair_no_mac">Ninguna dirección mac aprobada, no se puede emparejar.</string>
   <string name="preferences_category_device_specific_settings">Ajustes específicos del dispositivo</string>
   <string name="preferences_miband_settings">Ajustes de Mi Band</string>
-  <string name="male">macho</string>
-  <string name="female">hembra</string>
+  <string name="male">masculino</string>
+  <string name="female">femenino</string>
   <string name="other">otro</string>
   <string name="miband_pairing_using_dummy_userdata">No se han proporcionado datos de usuario válidos, se usarán datos de usuario dummy por ahora.</string>
   <string name="miband_pairing_tap_hint">Cuando tu Mi Band vibre y parpadee, púlsalo repetidas veces.</string>
@@ -80,7 +80,7 @@
   <string name="discovery_note">Nota:</string>
   <string name="candidate_item_device_image">Imagen del dispositivo</string>
   <string name="miband_prefs_about_you">Sobre ti</string>
-  <string name="miband_prefs_alias">Nombre/Alias</string>
+  <string name="miband_prefs_alias">Nombre/Apodo</string>
   <string name="miband_prefs_year_birth">Año de nacimiento</string>
   <string name="miband_prefs_gender">Sexo</string>
   <string name="miband_prefs_height_cm">Altura en cm</string>
