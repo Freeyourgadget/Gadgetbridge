@@ -325,7 +325,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
     @Override
     synchronized public void write(byte[] bytes) {
         // block writes if app installation in in progress
-        if (mIsConnected && !mIsInstalling) {
+        if (mIsConnected && (!mIsInstalling || mInstallState == PebbleAppInstallState.APP_WAIT_SLOT)) {
             try {
                 mOutStream.write(bytes);
                 mOutStream.flush();
