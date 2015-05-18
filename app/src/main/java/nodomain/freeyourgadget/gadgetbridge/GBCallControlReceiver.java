@@ -5,11 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.telephony.TelephonyManager;
 
-import java.lang.reflect.Method;
+import com.android.internal.telephony.ITelephony;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.android.internal.telephony.ITelephony;
+import java.lang.reflect.Method;
 
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandCallControl;
 

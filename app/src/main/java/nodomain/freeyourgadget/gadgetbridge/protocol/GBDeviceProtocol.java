@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.protocol;
 
+import java.util.UUID;
+
 import nodomain.freeyourgadget.gadgetbridge.GBCommand;
 
 public abstract class GBDeviceProtocol {
@@ -40,7 +42,7 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
-    public byte[] encodeAppDelete(int id, int index) {
+    public byte[] encodeAppDelete(UUID uuid) {
         return null;
     }
 
@@ -48,7 +50,11 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
-    public byte[] encodeReboot() { return null; }
+    public byte[] encodeReboot() {
+        return null;
+    }
 
-    public GBDeviceCommand decodeResponse(byte[] responseData) { return null; }
+    public GBDeviceCommand decodeResponse(byte[] responseData) {
+        return null;
+    }
 }

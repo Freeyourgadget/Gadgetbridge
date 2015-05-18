@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
+import java.util.UUID;
+
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
 
 public abstract class AbstractBTDeviceSupport extends AbstractDeviceSupport {
@@ -106,8 +108,8 @@ public abstract class AbstractBTDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
-    public void onAppDelete(int id, int index) {
-        byte[] bytes = gbDeviceProtocol.encodeAppDelete(id, index);
+    public void onAppDelete(UUID uuid) {
+        byte[] bytes = gbDeviceProtocol.encodeAppDelete(uuid);
         sendToDevice(bytes);
     }
 

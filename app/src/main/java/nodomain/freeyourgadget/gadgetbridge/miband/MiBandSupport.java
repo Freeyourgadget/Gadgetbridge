@@ -5,19 +5,37 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.UUID;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.GBCommand;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.btle.TransactionBuilder;
 
-import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.*;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.DEFAULT_VALUE_FLASH_COLOUR;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.DEFAULT_VALUE_FLASH_COUNT;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.DEFAULT_VALUE_FLASH_DURATION;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.DEFAULT_VALUE_FLASH_ORIGINAL_COLOUR;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_COUNT;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_DURATION;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_PAUSE;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.FLASH_COLOUR;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.FLASH_COUNT;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.FLASH_DURATION;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.FLASH_ORIGINAL_COLOUR;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_GENERIC;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_K9MAIL;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_SMS;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.VIBRATION_COUNT;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.VIBRATION_DURATION;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.VIBRATION_PAUSE;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.getNotificationPrefIntValue;
 
 public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
@@ -80,9 +98,9 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         builder.queue(getQueue());
     }
 
-    private static final byte[] startVibrate = new byte[]{ 8, 1 };
-    private static final byte[] stopVibrate = new byte[]{ 19 };
-    private static final byte[] reboot = new byte[]{ 12 };
+    private static final byte[] startVibrate = new byte[]{8, 1};
+    private static final byte[] stopVibrate = new byte[]{19};
+    private static final byte[] reboot = new byte[]{12};
 
     private byte[] getNotification(long vibrateDuration, int vibrateTimes, int flashTimes, int flashColour, int originalColour, long flashDuration) {
         byte[] vibrate = new byte[]{(byte) 8, (byte) 1};
@@ -304,7 +322,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onAppDelete(int id, int index) {
+    public void onAppDelete(UUID uuid) {
         // not supported
     }
 

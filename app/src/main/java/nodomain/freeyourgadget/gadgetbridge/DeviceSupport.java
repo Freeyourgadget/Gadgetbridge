@@ -28,6 +28,7 @@ public interface DeviceSupport extends EventHandler {
     BluetoothAdapter getBluetoothAdapter();
 
     Context getContext();
+
     boolean useAutoConnect();
 
     void pair();

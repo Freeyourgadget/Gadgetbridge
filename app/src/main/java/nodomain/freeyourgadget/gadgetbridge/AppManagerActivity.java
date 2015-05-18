@@ -14,10 +14,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAppAdapter;
 
@@ -39,11 +41,10 @@ public class AppManagerActivity extends Activity {
                 for (Integer i = 0; i < appCount; i++) {
                     String appName = intent.getStringExtra("app_name" + i.toString());
                     String appCreator = intent.getStringExtra("app_creator" + i.toString());
-                    int id = intent.getIntExtra("app_id" + i.toString(), -1);
-                    int index = intent.getIntExtra("app_index" + i.toString(), -1);
+                    UUID uuid = UUID.fromString(intent.getStringExtra("app_uuid" + i.toString()));
                     GBDeviceApp.Type appType = GBDeviceApp.Type.values()[intent.getIntExtra("app_type" + i.toString(), 0)];
 
-                    appList.add(new GBDeviceApp(id, index, appName, appCreator, "", appType));
+                    appList.add(new GBDeviceApp(uuid, appName, appCreator, "", appType));
                 }
                 mGBDeviceAppAdapter.notifyDataSetChanged();
             }
@@ -92,8 +93,7 @@ public class AppManagerActivity extends Activity {
                 if (selectedApp != null) {
                     Intent deleteIntent = new Intent(this, BluetoothCommunicationService.class);
                     deleteIntent.setAction(BluetoothCommunicationService.ACTION_DELETEAPP);
-                    deleteIntent.putExtra("app_id", selectedApp.getId());
-                    deleteIntent.putExtra("app_index", selectedApp.getIndex());
+                    deleteIntent.putExtra("app_uuid", selectedApp.getUUID().toString());
                     startService(deleteIntent);
                 }
                 return true;

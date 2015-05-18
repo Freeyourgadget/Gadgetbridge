@@ -25,7 +25,7 @@ public abstract class BtLEAction {
     /**
      * Returns true if this actions expects an (async) result which must
      * be waited for, before continuing with other actions.
-     *
+     * <p/>
      * This is needed because the current Bluedroid stack can only deal
      * with one single bluetooth operation at a time.
      */
@@ -33,6 +33,7 @@ public abstract class BtLEAction {
 
     /**
      * Executes this action, e.g. reads or write a GATT characteristic.
+     *
      * @param gatt the characteristic to manipulate, or null if none.
      * @return true if the action was successful, false otherwise
      */

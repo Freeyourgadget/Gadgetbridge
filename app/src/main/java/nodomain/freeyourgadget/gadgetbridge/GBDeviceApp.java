@@ -1,16 +1,16 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
+import java.util.UUID;
+
 public class GBDeviceApp {
     private final String name;
     private final String creator;
     private final String version;
-    private final int id;
-    private final int index;
+    private final UUID uuid;
     private final Type type;
 
-    public GBDeviceApp(int id, int index, String name, String creator, String version, Type type) {
-        this.id = id;
-        this.index = index;
+    public GBDeviceApp(UUID uuid, String name, String creator, String version, Type type) {
+        this.uuid = uuid;
         this.name = name;
         this.creator = creator;
         this.version = version;
@@ -29,12 +29,8 @@ public class GBDeviceApp {
         return version;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public int getIndex() {
-        return index;
+    public UUID getUUID() {
+        return uuid;
     }
 
     public Type getType() {

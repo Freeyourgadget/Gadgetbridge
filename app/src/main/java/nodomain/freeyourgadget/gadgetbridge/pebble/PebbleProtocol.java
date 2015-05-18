@@ -90,6 +90,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final byte APPMANAGER_GETAPPBANKSTATUS = 1;
     static final byte APPMANAGER_REMOVEAPP = 2;
     static final byte APPMANAGER_REFRESHAPP = 3;
+    static final byte APPMANAGER_GETUUIDS = 5;
 
     static final int APPMANAGER_RES_SUCCESS = 1;
 
@@ -138,7 +139,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     static final byte PHONEVERSION_REMOTE_OS_UNKNOWN = 0;
     static final byte PHONEVERSION_REMOTE_OS_IOS = 1;
-    public static final byte PHONEVERSION_REMOTE_OS_ANDROID = 2;
+    static final byte PHONEVERSION_REMOTE_OS_ANDROID = 2;
     static final byte PHONEVERSION_REMOTE_OS_OSX = 3;
     static final byte PHONEVERSION_REMOTE_OS_LINUX = 4;
     static final byte PHONEVERSION_REMOTE_OS_WINDOWS = 5;
@@ -147,7 +148,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final short LENGTH_PREFIX = 4;
     static final short LENGTH_SETTIME = 5;
     static final short LENGTH_GETTIME = 1;
-    static final short LENGTH_REMOVEAPP = 9;
+    static final short LENGTH_REMOVEAPP = 17;
     static final short LENGTH_REFRESHAPP = 5;
     static final short LENGTH_PHONEVERSION = 17;
     static final short LENGTH_UPLOADSTART = 7;
@@ -159,9 +160,14 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     private static final String[] hwRevisions = {"unknown", "ev1", "ev2", "ev2_3", "ev2_4", "v1_5", "v2_0"};
     private static Random mRandom = new Random();
-    static byte last_id = -1;
+
+
+    private byte last_id = -1;
+    private ArrayList<UUID> tmpUUIDS = new ArrayList<>();
+
     // FIXME: this does not belong here
     static final UUID WeatherNeatUUID = UUID.fromString("3684003b-a685-45f9-a713-abc6364ba051");
+
 
     private static byte[] encodeMessage(short endpoint, byte type, int cookie, String[] parts) {
         // Calculate length first
@@ -377,18 +383,18 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeAppInfoReq() {
-        return encodeMessage(ENDPOINT_APPMANAGER, APPMANAGER_GETAPPBANKSTATUS, 0, null);
+        return encodeMessage(ENDPOINT_APPMANAGER, APPMANAGER_GETUUIDS, 0, null);
     }
 
     @Override
-    public byte[] encodeAppDelete(int id, int index) {
+    public byte[] encodeAppDelete(UUID uuid) {
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_REMOVEAPP);
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putShort(LENGTH_REMOVEAPP);
         buf.putShort(ENDPOINT_APPMANAGER);
         buf.put(APPMANAGER_REMOVEAPP);
-        buf.putInt(id);
-        buf.putInt(index);
+        buf.putLong(uuid.getMostSignificantBits());
+        buf.putLong(uuid.getLeastSignificantBits());
 
         return buf.array();
     }
@@ -682,7 +688,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                                 appType = GBDeviceApp.Type.APP_GENERIC;
                             }
                             Short appVersion = buf.getShort();
-                            appInfoCmd.apps[i] = new GBDeviceApp(id, index, new String(appName).trim(), new String(appCreator).trim(), appVersion.toString(), appType);
+                            appInfoCmd.apps[i] = new GBDeviceApp(tmpUUIDS.get(i), new String(appName).trim(), new String(appCreator).trim(), appVersion.toString(), appType);
                         }
                         for (int i = 0; i < slotCount; i++) {
                             if (!slotInUse[i]) {
@@ -692,6 +698,20 @@ public class PebbleProtocol extends GBDeviceProtocol {
                             }
                         }
                         cmd = appInfoCmd;
+                        break;
+                    case APPMANAGER_GETUUIDS:
+                        GBDeviceCommandSendBytes sendBytes = new GBDeviceCommandSendBytes();
+                        sendBytes.encodedBytes = encodeMessage(ENDPOINT_APPMANAGER, APPMANAGER_GETAPPBANKSTATUS, 0, null);
+                        cmd = sendBytes;
+                        tmpUUIDS.clear();
+                        slotsUsed = buf.getInt();
+                        for (int i = 0; i < slotsUsed; i++) {
+                            long uuid_high = buf.getLong();
+                            long uuid_low = buf.getLong();
+                            UUID uuid = new UUID(uuid_high, uuid_low);
+                            LOG.info("found uuid: " + uuid);
+                            tmpUUIDS.add(uuid);
+                        }
                         break;
                     case APPMANAGER_REMOVEAPP:
                         GBDeviceCommandAppManagementResult deleteRes = new GBDeviceCommandAppManagementResult();

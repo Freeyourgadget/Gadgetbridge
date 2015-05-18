@@ -15,13 +15,14 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import java.util.zip.ZipInputStream;
 
 import nodomain.freeyourgadget.gadgetbridge.AppManagerActivity;
@@ -375,8 +376,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 for (Integer i = 0; i < appCount; i++) {
                     appInfoIntent.putExtra("app_name" + i.toString(), appInfoCmd.apps[i].getName());
                     appInfoIntent.putExtra("app_creator" + i.toString(), appInfoCmd.apps[i].getCreator());
-                    appInfoIntent.putExtra("app_id" + i.toString(), appInfoCmd.apps[i].getId());
-                    appInfoIntent.putExtra("app_index" + i.toString(), appInfoCmd.apps[i].getIndex());
+                    appInfoIntent.putExtra("app_uuid" + i.toString(), appInfoCmd.apps[i].getUUID().toString());
                     appInfoIntent.putExtra("app_type" + i.toString(), appInfoCmd.apps[i].getType().ordinal());
                 }
                 LocalBroadcastManager.getInstance(context).sendBroadcast(appInfoIntent);

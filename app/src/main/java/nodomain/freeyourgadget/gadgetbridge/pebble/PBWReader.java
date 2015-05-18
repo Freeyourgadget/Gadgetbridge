@@ -4,6 +4,11 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -12,13 +17,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import nodomain.freeyourgadget.gadgetbridge.GBDeviceApp;
 
@@ -127,9 +128,10 @@ public class PBWReader {
                         String appName = json.getString("shortName");
                         String appCreator = json.getString("companyName");
                         String appVersion = json.getString("versionLabel");
+                        UUID uuid = UUID.fromString(json.getString("uuid"));
                         if (appName != null && appCreator != null && appVersion != null) {
                             // FIXME: dont assume WATCHFACE
-                            app = new GBDeviceApp(-1, -1, appName, appCreator, appVersion, GBDeviceApp.Type.WATCHFACE);
+                            app = new GBDeviceApp(uuid, appName, appCreator, appVersion, GBDeviceApp.Type.WATCHFACE);
                         }
 
                     } catch (JSONException e) {

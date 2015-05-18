@@ -7,11 +7,10 @@ import android.content.SharedPreferences;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.BluetoothCommunicationService;
 

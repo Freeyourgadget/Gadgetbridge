@@ -19,9 +19,10 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.DeviceHelper;
@@ -203,7 +204,7 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
         if (ensureBluetoothReady()) {
             if (what == Scanning.SCANNING_BT) {
                 startBTDiscovery();
-            } else if (what == Scanning.SCANNING_BTLE){
+            } else if (what == Scanning.SCANNING_BTLE) {
                 if (GB.supportsBluetoothLE()) {
                     startBTLEDiscovery();
                 } else {
@@ -326,8 +327,7 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
             Intent intent = new Intent(this, pairingActivity);
             intent.putExtra(DeviceCoordinator.EXTRA_DEVICE_MAC_ADDRESS, deviceCandidate.getMacAddress());
             startActivity(intent);
-        }
-        else {
+        } else {
             try {
                 BluetoothDevice btDevice = adapter.getRemoteDevice(deviceCandidate.getMacAddress());
                 if (btDevice.createBond()) {

@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
+import java.util.UUID;
+
 public interface EventHandler {
     void onSMS(String from, String body);
 
@@ -19,7 +21,7 @@ public interface EventHandler {
 
     void onAppInfoReq();
 
-    void onAppDelete(int id, int index);
+    void onAppDelete(UUID uuid);
 
     void onPhoneVersion(byte os);
 

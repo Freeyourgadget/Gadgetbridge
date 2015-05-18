@@ -4,9 +4,10 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import java.util.Calendar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Calendar;
 
 import nodomain.freeyourgadget.gadgetbridge.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.DeviceType;
@@ -50,6 +51,7 @@ public class MiBandCoordinator implements DeviceCoordinator {
     /**
      * Returns the configured user info, or, if that is not available or invalid,
      * a default user info.
+     *
      * @param miBandAddress
      */
     public static UserInfo getAnyUserInfo(String miBandAddress) {
@@ -63,6 +65,7 @@ public class MiBandCoordinator implements DeviceCoordinator {
 
     /**
      * Returns the user info from the user configured data in the preferences.
+     *
      * @param miBandAddress
      * @throws IllegalArgumentException when the user info can not be created
      */

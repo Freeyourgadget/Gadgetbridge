@@ -21,6 +21,8 @@ import android.widget.Toast;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.UUID;
+
 import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.miband.MiBandSupport;
 import nodomain.freeyourgadget.gadgetbridge.pebble.PebbleIoThread;
@@ -226,9 +228,8 @@ public class BluetoothCommunicationService extends Service {
                 mDeviceSupport.onAppInfoReq();
                 break;
             case ACTION_DELETEAPP:
-                int id = intent.getIntExtra("app_id", -1);
-                int index = intent.getIntExtra("app_index", -1);
-                mDeviceSupport.onAppDelete(id, index);
+                UUID uuid = UUID.fromString(intent.getStringExtra("app_uuid"));
+                mDeviceSupport.onAppDelete(uuid);
                 break;
             case ACTION_INSTALL_PEBBLEAPP:
                 String uriString = intent.getStringExtra("app_uri");

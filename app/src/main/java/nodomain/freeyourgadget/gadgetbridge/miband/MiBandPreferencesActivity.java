@@ -8,7 +8,19 @@ import android.support.v4.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivity;
-import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.*;
+
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_GENERIC;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_K9MAIL;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_PEBBLEMSG;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_SMS;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_MIBAND_ADDRESS;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_USER_ALIAS;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_USER_GENDER;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_USER_HEIGHT_CM;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_USER_WEIGHT_KG;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_USER_YEAR_OF_BIRTH;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.VIBRATION_COUNT;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.getNotificationPrefKey;
 
 public class MiBandPreferencesActivity extends AbstractSettingsActivity {
     @Override

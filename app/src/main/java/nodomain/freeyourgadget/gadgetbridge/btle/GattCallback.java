@@ -56,7 +56,7 @@ public interface GattCallback {
      * @see BluetoothGattCallback#onCharacteristicWrite(BluetoothGatt, BluetoothGattCharacteristic, int)
      */
     void onCharacteristicWrite(BluetoothGatt gatt,
-                                      BluetoothGattCharacteristic characteristic, int status);
+                               BluetoothGattCharacteristic characteristic, int status);
 
     /**
      * @param gatt
@@ -64,7 +64,7 @@ public interface GattCallback {
      * @see BluetoothGattCallback#onCharacteristicChanged(BluetoothGatt, BluetoothGattCharacteristic)
      */
     void onCharacteristicChanged(BluetoothGatt gatt,
-                                        BluetoothGattCharacteristic characteristic);
+                                 BluetoothGattCharacteristic characteristic);
 
 //    /**
 //     * @see BluetoothGattCallback#onDescriptorRead(BluetoothGatt, BluetoothGattDescriptor, int)

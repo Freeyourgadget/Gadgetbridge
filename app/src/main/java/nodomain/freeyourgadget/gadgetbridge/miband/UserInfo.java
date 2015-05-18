@@ -82,7 +82,6 @@ public class UserInfo {
     }
 
 
-
     private String ensureTenCharacters(String alias) {
         char[] result = new char[10];
         int aliasLen = alias.length();
