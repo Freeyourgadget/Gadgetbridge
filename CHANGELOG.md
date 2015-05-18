@@ -1,4 +1,10 @@
 ###Changelog
+
+####Next Version
+* Pebble: Support launching of Watchapps though the AppManager Activity
+* Mi Band: Make vibration count configurable for different kinds of Notifications
+* Support rebooting Mi Band/Pebble through the Debug Activity
+
 ####Version 0.3.5
 * Add discovery and pairing Activity for Pebble and Mi Band
 * Listen for Pebble Message Intents and forward notifications (used by Conversations)
