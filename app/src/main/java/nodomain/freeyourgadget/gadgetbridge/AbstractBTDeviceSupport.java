@@ -108,6 +108,12 @@ public abstract class AbstractBTDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
+    public void onAppStart(UUID uuid) {
+        byte[] bytes = gbDeviceProtocol.encodeAppStart(uuid);
+        sendToDevice(bytes);
+    }
+
+    @Override
     public void onAppDelete(UUID uuid) {
         byte[] bytes = gbDeviceProtocol.encodeAppDelete(uuid);
         sendToDevice(bytes);

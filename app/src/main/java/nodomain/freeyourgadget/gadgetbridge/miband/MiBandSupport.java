@@ -322,6 +322,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onAppStart(UUID uuid) {
+        // not supported
+    }
+
+    @Override
     public void onAppDelete(UUID uuid) {
         // not supported
     }

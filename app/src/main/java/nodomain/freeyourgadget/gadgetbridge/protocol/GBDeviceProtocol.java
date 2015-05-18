@@ -46,6 +46,10 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
+    public byte[] encodeAppStart(UUID uuid) {
+        return null;
+    }
+
     public byte[] encodePhoneVersion(byte os) {
         return null;
     }

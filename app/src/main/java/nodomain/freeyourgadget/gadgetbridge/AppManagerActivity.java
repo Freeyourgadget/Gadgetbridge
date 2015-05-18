@@ -63,6 +63,17 @@ public class AppManagerActivity extends Activity {
         ListView appListView = (ListView) findViewById(R.id.appListView);
         mGBDeviceAppAdapter = new GBDeviceAppAdapter(this, appList);
         appListView.setAdapter(this.mGBDeviceAppAdapter);
+
+        appListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+                Intent startIntent = new Intent(AppManagerActivity.this, BluetoothCommunicationService.class);
+                startIntent.setAction(BluetoothCommunicationService.ACTION_STARTAPP);
+                startIntent.putExtra("app_uuid", appList.get(position).getUUID().toString());
+                startService(startIntent);
+            }
+        });
+
         registerForContextMenu(appListView);
 
         IntentFilter filter = new IntentFilter();

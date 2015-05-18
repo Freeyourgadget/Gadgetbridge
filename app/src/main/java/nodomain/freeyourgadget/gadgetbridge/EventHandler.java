@@ -21,9 +21,12 @@ public interface EventHandler {
 
     void onAppInfoReq();
 
+    void onAppStart(UUID uuid);
+
     void onAppDelete(UUID uuid);
 
     void onPhoneVersion(byte os);
 
     void onReboot();
+
 }

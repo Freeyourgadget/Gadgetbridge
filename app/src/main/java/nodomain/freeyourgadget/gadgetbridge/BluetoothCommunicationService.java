@@ -51,6 +51,8 @@ public class BluetoothCommunicationService extends Service {
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.request_versioninfo";
     public static final String ACTION_REQUEST_APPINFO
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.request_appinfo";
+    public static final String ACTION_STARTAPP
+            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.startapp";
     public static final String ACTION_DELETEAPP
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.deleteapp";
     public static final String ACTION_INSTALL_PEBBLEAPP
@@ -227,8 +229,12 @@ public class BluetoothCommunicationService extends Service {
             case ACTION_REQUEST_APPINFO:
                 mDeviceSupport.onAppInfoReq();
                 break;
-            case ACTION_DELETEAPP:
+            case ACTION_STARTAPP:
                 UUID uuid = UUID.fromString(intent.getStringExtra("app_uuid"));
+                mDeviceSupport.onAppStart(uuid);
+                break;
+            case ACTION_DELETEAPP:
+                uuid = UUID.fromString(intent.getStringExtra("app_uuid"));
                 mDeviceSupport.onAppDelete(uuid);
                 break;
             case ACTION_INSTALL_PEBBLEAPP:
