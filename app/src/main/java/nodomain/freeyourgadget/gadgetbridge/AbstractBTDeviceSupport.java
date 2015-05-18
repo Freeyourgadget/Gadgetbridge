@@ -125,6 +125,7 @@ public abstract class AbstractBTDeviceSupport extends AbstractDeviceSupport {
         sendToDevice(bytes);
     }
 
+    @Override
     public void onReboot() {
         byte[] bytes = gbDeviceProtocol.encodeReboot();
         sendToDevice(bytes);

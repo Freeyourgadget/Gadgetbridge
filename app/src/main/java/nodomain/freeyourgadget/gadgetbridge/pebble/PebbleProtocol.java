@@ -115,6 +115,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final byte PUTBYTES_TYPE_FILE = 6;
     public static final byte PUTBYTES_TYPE_WORKER = 7;
 
+    public static final byte RESET_REBOOT = 0;
+
     private final byte SYSTEMMESSAGE_FIRMWARESTART = 1;
     private final byte SYSTEMMESSAGE_FIRMWARECOMPLETE = 2;
     private final byte SYSTEMMESSAGE_FIRMWAREFAIL = 3;
@@ -387,6 +389,13 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     @Override
+    public byte[] encodeAppStart(UUID uuid) {
+        ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>();
+        pairs.add(new Pair<>(1, (Object) 1)); // launch
+        return encodeApplicationMessagePush(ENDPOINT_LAUNCHER, uuid, pairs);
+    }
+
+    @Override
     public byte[] encodeAppDelete(UUID uuid) {
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_REMOVEAPP);
         buf.order(ByteOrder.BIG_ENDIAN);
@@ -421,6 +430,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put(PHONEVERSION_APPVERSION_PATCH);
 
         return buf.array();
+    }
+
+    @Override
+    public byte[] encodeReboot() {
+        return encodeMessage(ENDPOINT_RESET, RESET_REBOOT, 0, null);
     }
 
     /* pebble specific install methods */
@@ -589,11 +603,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    public byte[] encodeAppStart(UUID uuid) {
-        ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>();
-        pairs.add(new Pair<>(1, (Object) 1)); // launch
-        return encodeApplicationMessagePush(ENDPOINT_LAUNCHER, uuid, pairs);
-    }
 
     @Override
     public GBDeviceCommand decodeResponse(byte[] responseData) {
