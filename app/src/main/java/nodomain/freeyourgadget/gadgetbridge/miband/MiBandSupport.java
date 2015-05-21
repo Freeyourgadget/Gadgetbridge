@@ -98,12 +98,12 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         builder.queue(getQueue());
     }
 
-    private static final byte[] startVibrate = new byte[]{8, 1};
-    private static final byte[] stopVibrate = new byte[]{19};
-    private static final byte[] reboot = new byte[]{12};
+    private static final byte[] startVibrate = new byte[]{MiBandService.COMMAND_SEND_NOTIFICATION, 1};
+    private static final byte[] stopVibrate = new byte[]{MiBandService.COMMAND_STOP_MOTOR_VIBRATE};
+    private static final byte[] reboot = new byte[]{MiBandService.COMMAND_REBOOT};
 
     private byte[] getNotification(long vibrateDuration, int vibrateTimes, int flashTimes, int flashColour, int originalColour, long flashDuration) {
-        byte[] vibrate = new byte[]{(byte) 8, (byte) 1};
+        byte[] vibrate = new byte[]{MiBandService.COMMAND_SEND_NOTIFICATION, (byte) 1};
         byte r = 6;
         byte g = 0;
         byte b = 6;
