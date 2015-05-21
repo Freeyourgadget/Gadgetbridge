@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.SimpleTimeZone;
-import java.util.TimeZone;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBCommand;
@@ -223,9 +222,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeSMS(String from, String body) {
-        Long ts = System.currentTimeMillis() / 1000;
-        TimeZone tz = SimpleTimeZone.getDefault();
-        ts += (tz.getOffset(ts) + tz.getDSTSavings()) / 1000;
+        Long ts = System.currentTimeMillis();
+        ts += (SimpleTimeZone.getDefault().getOffset(ts));
+        ts /= 1000;
 
         if (USE_OLD_NOTIFICATION_PROTOCOL) {
             String[] parts = {from, body, ts.toString()};
@@ -238,9 +237,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeEmail(String from, String subject, String body) {
-        Long ts = System.currentTimeMillis() / 1000;
-        TimeZone tz = SimpleTimeZone.getDefault();
-        ts += (tz.getOffset(ts) + tz.getDSTSavings()) / 1000;
+        Long ts = System.currentTimeMillis();
+        ts += (SimpleTimeZone.getDefault().getOffset(ts));
+        ts /= 1000;
         String tsstring = ts.toString(); // SIC
         String[] parts = {from, body, tsstring, subject};
 
@@ -255,16 +254,15 @@ public class PebbleProtocol extends GBDeviceProtocol {
     @Override
     public byte[] encodeSetTime(long ts) {
         if (ts == -1) {
-            ts = System.currentTimeMillis() / 1000;
-            TimeZone tz = SimpleTimeZone.getDefault();
-            ts += (tz.getOffset(ts) + tz.getDSTSavings()) / 1000;
+            ts = System.currentTimeMillis();
+            ts += (SimpleTimeZone.getDefault().getOffset(ts));
         }
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_SETTIME);
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putShort(LENGTH_SETTIME);
         buf.putShort(ENDPOINT_TIME);
         buf.put(TIME_SETTIME);
-        buf.putInt((int) ts);
+        buf.putInt((int) (ts / 1000));
 
         return buf.array();
     }
