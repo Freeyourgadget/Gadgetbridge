@@ -31,33 +31,21 @@ import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.GBMusicControlReceiver;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.SleepMonitorActivity;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppManagementResult;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandCallControl;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandSendBytes;
+import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandSleepMonitorResult;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
 
 public class PebbleIoThread extends GBDeviceIoThread {
     private static final Logger LOG = LoggerFactory.getLogger(PebbleIoThread.class);
     private static final int NOTIFICATION_ID = 2;
-
-    private enum PebbleAppInstallState {
-        UNKNOWN,
-        APP_WAIT_SLOT,
-        APP_START_INSTALL,
-        APP_WAIT_TOKEN,
-        APP_UPLOAD_CHUNK,
-        APP_UPLOAD_COMMIT,
-        APP_WAIT_COMMIT,
-        APP_UPLOAD_COMPLETE,
-        APP_REFRESH,
-    }
-
     private final PebbleProtocol mPebbleProtocol;
-
     private BluetoothAdapter mBtAdapter = null;
     private BluetoothSocket mBtSocket = null;
     private InputStream mInStream = null;
@@ -66,7 +54,6 @@ public class PebbleIoThread extends GBDeviceIoThread {
     private boolean mIsConnected = false;
     private boolean mIsInstalling = false;
     private int mConnectionAttempts = 0;
-
     /* app installation  */
     private Uri mInstallURI = null;
     private PBWReader mPBWReader = null;
@@ -79,6 +66,12 @@ public class PebbleIoThread extends GBDeviceIoThread {
     private int mCRC = -1;
     private int mBinarySize = -1;
     private int mBytesWritten = -1;
+
+    public PebbleIoThread(GBDevice gbDevice, GBDeviceProtocol gbDeviceProtocol, BluetoothAdapter btAdapter, Context context) {
+        super(gbDevice, context);
+        mPebbleProtocol = (PebbleProtocol) gbDeviceProtocol;
+        mBtAdapter = btAdapter;
+    }
 
     public static Notification createInstallNotification(String text, boolean ongoing,
                                                          int percentage, Context context) {
@@ -109,12 +102,6 @@ public class PebbleIoThread extends GBDeviceIoThread {
 
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         nm.notify(NOTIFICATION_ID, notification);
-    }
-
-    public PebbleIoThread(GBDevice gbDevice, GBDeviceProtocol gbDeviceProtocol, BluetoothAdapter btAdapter, Context context) {
-        super(gbDevice, context);
-        mPebbleProtocol = (PebbleProtocol) gbDeviceProtocol;
-        mBtAdapter = btAdapter;
     }
 
     @Override
@@ -368,7 +355,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
             case APP_INFO:
                 LOG.info("Got command for APP_INFO");
                 GBDeviceCommandAppInfo appInfoCmd = (GBDeviceCommandAppInfo) deviceCmd;
-                setInstallSlot(appInfoCmd.freeSlot);
+                setInstallSlot(appInfoCmd.freeSlot); // FIXME: Pebble specific
 
                 Intent appInfoIntent = new Intent(AppManagerActivity.ACTION_REFRESH_APPLIST);
                 int appCount = appInfoCmd.apps.length;
@@ -380,6 +367,19 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     appInfoIntent.putExtra("app_type" + i.toString(), appInfoCmd.apps[i].getType().ordinal());
                 }
                 LocalBroadcastManager.getInstance(context).sendBroadcast(appInfoIntent);
+                break;
+            case SLEEP_MONITOR_RES:
+                LOG.info("Got command for SLEEP_MONIOR_RES");
+                GBDeviceCommandSleepMonitorResult sleepMonitorResult = (GBDeviceCommandSleepMonitorResult) deviceCmd;
+
+                Intent sleepMontiorIntent = new Intent(SleepMonitorActivity.ACTION_REFRESH);
+                sleepMontiorIntent.putExtra("smartalarm_from", sleepMonitorResult.smartalarm_from);
+                sleepMontiorIntent.putExtra("smartalarm_to", sleepMonitorResult.smartalarm_to);
+                sleepMontiorIntent.putExtra("recording_base_timestamp", sleepMonitorResult.recording_base_timestamp);
+                sleepMontiorIntent.putExtra("alarm_gone_off", sleepMonitorResult.alarm_gone_off);
+                sleepMontiorIntent.putExtra("points", sleepMonitorResult.points);
+
+                LocalBroadcastManager.getInstance(context).sendBroadcast(sleepMontiorIntent);
                 break;
             case SEND_BYTES:
                 GBDeviceCommandSendBytes sendBytes = (GBDeviceCommandSendBytes) deviceCmd;
@@ -491,5 +491,17 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 e.printStackTrace();
             }
         }
+    }
+
+    private enum PebbleAppInstallState {
+        UNKNOWN,
+        APP_WAIT_SLOT,
+        APP_START_INSTALL,
+        APP_WAIT_TOKEN,
+        APP_UPLOAD_CHUNK,
+        APP_UPLOAD_COMMIT,
+        APP_WAIT_COMMIT,
+        APP_UPLOAD_COMPLETE,
+        APP_REFRESH,
     }
 }

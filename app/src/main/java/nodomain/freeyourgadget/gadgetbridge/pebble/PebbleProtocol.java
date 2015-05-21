@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
@@ -146,6 +147,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final byte PHONEVERSION_REMOTE_OS_LINUX = 4;
     static final byte PHONEVERSION_REMOTE_OS_WINDOWS = 5;
 
+    static final byte TYPE_BYTEARRAY = 0;
+    static final byte TYPE_CSTRING = 1;
+    static final byte TYPE_UINT32 = 2;
+    static final byte TYPE_INT32 = 3;
 
     static final short LENGTH_PREFIX = 4;
     static final short LENGTH_SETTIME = 5;
@@ -164,9 +169,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private static Random mRandom = new Random();
 
 
-    private byte last_id = -1;
+    byte last_id = -1;
     private ArrayList<UUID> tmpUUIDS = new ArrayList<>();
 
+    private MorpheuzSupport mMorpheuzSupport = new MorpheuzSupport(PebbleProtocol.this);
     // FIXME: this does not belong here
     static final UUID WeatherNeatUUID = UUID.fromString("3684003b-a685-45f9-a713-abc6364ba051");
 
@@ -539,33 +545,69 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    private byte[] encodeApplicationMessageTest() {
+    private byte[] encodeApplicationMessageWeatherNeatTest() {
         // encode push message for WeatherNeat
         ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>();
-        pairs.add(new Pair<>(1, (Object) "Berlin")); // city
-        pairs.add(new Pair<>(2, (Object) "22 C")); // temperature
-        pairs.add(new Pair<>(3, (Object) "windy")); // condition
+        pairs.add(new Pair<>(1, (Object) "Gadgetbridge")); // city
+        pairs.add(new Pair<>(2, (Object) "-22C")); // temperature
+        pairs.add(new Pair<>(3, (Object) "this is just a stupid test")); // condition
         pairs.add(new Pair<>(5, (Object) 3)); // seconds for backlight on shake
         byte[] testMessage = encodeApplicationMessagePush(ENDPOINT_APPLICATIONMESSAGE, WeatherNeatUUID, pairs);
 
         ByteBuffer buf = ByteBuffer.allocate(testMessage.length + LENGTH_PREFIX + 18); // +ACK
 
-        // encode ack and put in front of push message (hack for acknowledgeing the last message)
-        buf.order(ByteOrder.BIG_ENDIAN);
-        buf.putShort((short) 18);
-        buf.putShort(ENDPOINT_APPLICATIONMESSAGE);
-        buf.put(APPLICATIONMESSAGE_ACK);
-        buf.put((byte) (last_id - 1));
-        buf.putLong(WeatherNeatUUID.getMostSignificantBits());
-        buf.putLong(WeatherNeatUUID.getLeastSignificantBits());
-
+        // encode ack and put in front of push message (hack for acknowledging the last message)
+        buf.put(encodeApplicationMessageAck(WeatherNeatUUID, (byte) (last_id - 1)));
         buf.put(testMessage);
 
         return buf.array();
     }
 
+    byte[] encodeApplicationMessageAck(UUID uuid, byte id) {
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + 18); // +ACK
 
-    public byte[] encodeApplicationMessagePush(short endpoint, UUID uuid, ArrayList<Pair<Integer, Object>> pairs) {
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort((short) 18);
+        buf.putShort(ENDPOINT_APPLICATIONMESSAGE);
+        buf.put(APPLICATIONMESSAGE_ACK);
+        buf.put(id);
+        buf.putLong(uuid.getMostSignificantBits());
+        buf.putLong(uuid.getMostSignificantBits());
+
+        return buf.array();
+    }
+
+
+    private ArrayList<Pair<Integer, Object>> decodeDict(ByteBuffer buf) {
+        ArrayList<Pair<Integer, Object>> dict = new ArrayList<Pair<Integer, Object>>();
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        byte dictSize = buf.get();
+        while (dictSize-- > 0) {
+            Integer key = buf.getInt();
+            byte type = buf.get();
+            short length = buf.getShort(); // length
+            switch (type) {
+                case TYPE_INT32:
+                case TYPE_UINT32:
+                    dict.add(new Pair<Integer, Object>(key, buf.getInt()));
+                    break;
+                case TYPE_CSTRING:
+                case TYPE_BYTEARRAY:
+                    byte[] bytes = new byte[length];
+                    buf.get(bytes);
+                    if (type == TYPE_BYTEARRAY) {
+                        dict.add(new Pair<Integer, Object>(key, bytes));
+                    } else {
+                        dict.add(new Pair<Integer, Object>(key, Arrays.toString(bytes)));
+                    }
+                    break;
+                default:
+            }
+        }
+        return dict;
+    }
+
+    byte[] encodeApplicationMessagePush(short endpoint, UUID uuid, ArrayList<Pair<Integer, Object>> pairs) {
         int length = 16 + 3; // UUID + (PUSH + id + length of dict)
         for (Pair<Integer, Object> pair : pairs) {
             length += 7; // key + type + length
@@ -589,11 +631,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
         for (Pair<Integer, Object> pair : pairs) {
             buf.putInt(pair.first);
             if (pair.second instanceof Integer) {
-                buf.put((byte) 0);
+                buf.put(TYPE_INT32);
                 buf.putShort((short) 4); // length of int
                 buf.putInt((int) pair.second);
             } else if (pair.second instanceof String) {
-                buf.put((byte) 1);
+                buf.put(TYPE_CSTRING);
                 buf.putShort((short) (((String) pair.second).length() + 1));
                 buf.put(((String) pair.second).getBytes());
                 buf.put((byte) 0);
@@ -761,16 +803,19 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 last_id = buf.get();
                 long uuid_high = buf.getLong();
                 long uuid_low = buf.getLong();
-                byte dictSize = buf.get();
+
                 switch (pebbleCmd) {
                     case APPLICATIONMESSAGE_PUSH:
                         UUID uuid = new UUID(uuid_high, uuid_low);
-                        LOG.info("got APPLICATIONMESSAGE PUSH from UUID " + uuid + " , dict size " + dictSize);
+                        LOG.info("got APPLICATIONMESSAGE PUSH from UUID " + uuid);
                         if (WeatherNeatUUID.equals(uuid)) {
                             LOG.info("We know you, you are WeatherNeat");
                             GBDeviceCommandSendBytes sendBytes = new GBDeviceCommandSendBytes();
-                            sendBytes.encodedBytes = encodeApplicationMessageTest();
+                            sendBytes.encodedBytes = encodeApplicationMessageWeatherNeatTest();
                             cmd = sendBytes;
+                        } else if (MorpheuzSupport.uuid.equals(uuid)) {
+                            ArrayList<Pair<Integer, Object>> dict = decodeDict(buf);
+                            cmd = mMorpheuzSupport.handleMessage(dict);
                         }
                         break;
                     case APPLICATIONMESSAGE_ACK:

@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAppAdapter;
+import nodomain.freeyourgadget.gadgetbridge.pebble.MorpheuzSupport;
 
 
 public class AppManagerActivity extends Activity {
@@ -67,10 +68,15 @@ public class AppManagerActivity extends Activity {
         appListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
-                Intent startIntent = new Intent(AppManagerActivity.this, BluetoothCommunicationService.class);
-                startIntent.setAction(BluetoothCommunicationService.ACTION_STARTAPP);
-                startIntent.putExtra("app_uuid", appList.get(position).getUUID().toString());
-                startService(startIntent);
+                UUID uuid = appList.get(position).getUUID();
+                Intent startAppIntent = new Intent(AppManagerActivity.this, BluetoothCommunicationService.class);
+                startAppIntent.setAction(BluetoothCommunicationService.ACTION_STARTAPP);
+                startAppIntent.putExtra("app_uuid", uuid.toString());
+                startService(startAppIntent);
+                if (MorpheuzSupport.uuid.equals(uuid)) {
+                    Intent startIntent = new Intent(AppManagerActivity.this, SleepMonitorActivity.class);
+                    startActivity(startIntent);
+                }
             }
         });
 

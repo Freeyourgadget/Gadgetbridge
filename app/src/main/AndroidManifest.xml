@@ -56,6 +56,13 @@
                 android:value=".ControlCenter" />
         </activity>
         <activity
+            android:name=".SleepMonitorActivity"
+            android:label="@string/title_activity_sleepmonitor" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ControlCenter" />
+        </activity>
+        <activity
             android:name=".pebble.PebbleAppInstallerActivity"
             android:label="@string/title_activity_appinstaller" >
             <meta-data

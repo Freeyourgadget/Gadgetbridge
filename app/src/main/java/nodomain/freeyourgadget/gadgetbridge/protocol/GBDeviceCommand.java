@@ -12,6 +12,7 @@ public abstract class GBDeviceCommand {
         VERSION_INFO,
         APP_MANAGEMENT_RES,
         SEND_BYTES,
+        SLEEP_MONITOR_RES,
     }
 }
 
