@@ -60,4 +60,10 @@
             android:key="pref_key_miband"
             android:title="@string/preferences_miband_settings" />
     </PreferenceCategory>
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="@string/pref_log_to_file"
+        android:title="@string/pref_write_logfiles" />
+
 </PreferenceScreen>

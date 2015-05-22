@@ -101,5 +101,7 @@
     <string name="pref_header_vibration_count">Vibration Count</string>
 
     <string name="title_activity_sleepmonitor">Sleep Monitor</string>
+    <string name="pref_log_to_file">LogToFile</string>
+    <string name="pref_write_logfiles">Write Log Files (needs restart)</string>
 
 </resources>

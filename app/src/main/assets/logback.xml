@@ -10,11 +10,12 @@
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${GB_LOGFILES_DIR}/gadgetbridge.log</file>
+
         <lazy>true</lazy>
         <!-- encoders are  by default assigned the type
              ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>gadgetbridge-%d{yyyy-MM-dd}.log.zip</fileNamePattern>
+            <fileNamePattern>${GB_LOGFILES_DIR}/gadgetbridge-%d{yyyy-MM-dd}.log.zip</fileNamePattern>
             <maxHistory>10</maxHistory>
         </rollingPolicy>
         <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
