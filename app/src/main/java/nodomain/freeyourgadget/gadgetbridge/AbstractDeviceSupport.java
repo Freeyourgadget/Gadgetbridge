@@ -7,7 +7,7 @@ import android.content.Context;
 // conditions: app was running and received notifications, but device was not connected.
 // maybe need to check for "unread notifications" on device for that.
 public abstract class AbstractDeviceSupport implements DeviceSupport {
-    private GBDevice gbDevice;
+    protected GBDevice gbDevice;
     private BluetoothAdapter btAdapter;
     private Context context;
 

@@ -545,7 +545,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     private byte[] encodeApplicationMessageWeatherNeatTest() {
         // encode push message for WeatherNeat
-        ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>();
+        ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>(4);
         pairs.add(new Pair<>(1, (Object) "Gadgetbridge")); // city
         pairs.add(new Pair<>(2, (Object) "-22C")); // temperature
         pairs.add(new Pair<>(3, (Object) "this is just a stupid test")); // condition

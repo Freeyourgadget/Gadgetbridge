@@ -25,11 +25,13 @@ public class MorpheuzSupport {
     public static final int KEY_VERSION = 6;
     public static final int KEY_GONEOFF = 7;
     public static final int KEY_TRANSMIT = 8;
+
     public static final int CTRL_TRANSMIT_DONE = 1;
     public static final int CTRL_VERSION_DONE = 2;
     public static final int CTRL_GONEOFF_DONE = 4;
     public static final int CTRL_DO_NEXT = 8;
     public static final int CTRL_SET_LAST_SENT = 16;
+
     public static final UUID uuid = UUID.fromString("5be44f1d-d262-4ea6-aa30-ddbec1e3cab2");
     private final PebbleProtocol mPebbleProtocol;
 

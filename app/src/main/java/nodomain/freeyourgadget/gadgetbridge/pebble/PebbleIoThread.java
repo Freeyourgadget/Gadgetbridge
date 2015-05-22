@@ -13,7 +13,6 @@ import android.net.Uri;
 import android.os.ParcelUuid;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,26 +25,19 @@ import java.nio.ByteOrder;
 import java.util.zip.ZipInputStream;
 
 import nodomain.freeyourgadget.gadgetbridge.AppManagerActivity;
-import nodomain.freeyourgadget.gadgetbridge.GBCallControlReceiver;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.GBDeviceIoThread;
-import nodomain.freeyourgadget.gadgetbridge.GBMusicControlReceiver;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.SleepMonitorActivity;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppManagementResult;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandCallControl;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandMusicControl;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandSendBytes;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandSleepMonitorResult;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
 
 public class PebbleIoThread extends GBDeviceIoThread {
     private static final Logger LOG = LoggerFactory.getLogger(PebbleIoThread.class);
     private static final int NOTIFICATION_ID = 2;
     private final PebbleProtocol mPebbleProtocol;
+    private final PebbleSupport mPebbleSupport;
     private BluetoothAdapter mBtAdapter = null;
     private BluetoothSocket mBtSocket = null;
     private InputStream mInStream = null;
@@ -67,10 +59,11 @@ public class PebbleIoThread extends GBDeviceIoThread {
     private int mBinarySize = -1;
     private int mBytesWritten = -1;
 
-    public PebbleIoThread(GBDevice gbDevice, GBDeviceProtocol gbDeviceProtocol, BluetoothAdapter btAdapter, Context context) {
+    public PebbleIoThread(PebbleSupport pebbleSupport, GBDevice gbDevice, GBDeviceProtocol gbDeviceProtocol, BluetoothAdapter btAdapter, Context context) {
         super(gbDevice, context);
         mPebbleProtocol = (PebbleProtocol) gbDeviceProtocol;
         mBtAdapter = btAdapter;
+        mPebbleSupport = pebbleSupport;
     }
 
     public static Notification createInstallNotification(String text, boolean ongoing,
@@ -268,7 +261,9 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 if (deviceCmd == null) {
                     LOG.info("unhandled message to endpoint " + endpoint + " (" + length + " bytes)");
                 } else {
-                    evaluateGBDeviceCommand(deviceCmd);
+                    if (!evaluateGBDeviceCommandPebble(deviceCmd)) {
+                        mPebbleSupport.evaluateGBDeviceCommand(deviceCmd);
+                    }
                 }
                 try {
                     Thread.sleep(100);
@@ -321,71 +316,11 @@ public class PebbleIoThread extends GBDeviceIoThread {
         }
     }
 
-    // FIXME: this does not belong here in this class, it is supporsed to be generic code
-    private void evaluateGBDeviceCommand(GBDeviceCommand deviceCmd) {
+    // FIXME: parts are supporsed to be generic code
+    private boolean evaluateGBDeviceCommandPebble(GBDeviceCommand deviceCmd) {
         Context context = getContext();
 
         switch (deviceCmd.commandClass) {
-            case MUSIC_CONTROL:
-                LOG.info("Got command for MUSIC_CONTROL");
-                GBDeviceCommandMusicControl musicCmd = (GBDeviceCommandMusicControl) deviceCmd;
-                Intent musicIntent = new Intent(GBMusicControlReceiver.ACTION_MUSICCONTROL);
-                musicIntent.putExtra("command", musicCmd.command.ordinal());
-                musicIntent.setPackage(context.getPackageName());
-                context.sendBroadcast(musicIntent);
-                break;
-            case CALL_CONTROL:
-                LOG.info("Got command for CALL_CONTROL");
-                GBDeviceCommandCallControl callCmd = (GBDeviceCommandCallControl) deviceCmd;
-                Intent callIntent = new Intent(GBCallControlReceiver.ACTION_CALLCONTROL);
-                callIntent.putExtra("command", callCmd.command.ordinal());
-                callIntent.setPackage(context.getPackageName());
-                context.sendBroadcast(callIntent);
-                break;
-            case VERSION_INFO:
-                LOG.info("Got command for VERSION_INFO");
-                if (gbDevice == null) {
-                    return;
-                }
-                GBDeviceCommandVersionInfo infoCmd = (GBDeviceCommandVersionInfo) deviceCmd;
-                gbDevice.setFirmwareVersion(infoCmd.fwVersion);
-                gbDevice.setHardwareVersion(infoCmd.hwVersion);
-                gbDevice.sendDeviceUpdateIntent(context);
-                break;
-            case APP_INFO:
-                LOG.info("Got command for APP_INFO");
-                GBDeviceCommandAppInfo appInfoCmd = (GBDeviceCommandAppInfo) deviceCmd;
-                setInstallSlot(appInfoCmd.freeSlot); // FIXME: Pebble specific
-
-                Intent appInfoIntent = new Intent(AppManagerActivity.ACTION_REFRESH_APPLIST);
-                int appCount = appInfoCmd.apps.length;
-                appInfoIntent.putExtra("app_count", appCount);
-                for (Integer i = 0; i < appCount; i++) {
-                    appInfoIntent.putExtra("app_name" + i.toString(), appInfoCmd.apps[i].getName());
-                    appInfoIntent.putExtra("app_creator" + i.toString(), appInfoCmd.apps[i].getCreator());
-                    appInfoIntent.putExtra("app_uuid" + i.toString(), appInfoCmd.apps[i].getUUID().toString());
-                    appInfoIntent.putExtra("app_type" + i.toString(), appInfoCmd.apps[i].getType().ordinal());
-                }
-                LocalBroadcastManager.getInstance(context).sendBroadcast(appInfoIntent);
-                break;
-            case SLEEP_MONITOR_RES:
-                LOG.info("Got command for SLEEP_MONIOR_RES");
-                GBDeviceCommandSleepMonitorResult sleepMonitorResult = (GBDeviceCommandSleepMonitorResult) deviceCmd;
-
-                Intent sleepMontiorIntent = new Intent(SleepMonitorActivity.ACTION_REFRESH);
-                sleepMontiorIntent.putExtra("smartalarm_from", sleepMonitorResult.smartalarm_from);
-                sleepMontiorIntent.putExtra("smartalarm_to", sleepMonitorResult.smartalarm_to);
-                sleepMontiorIntent.putExtra("recording_base_timestamp", sleepMonitorResult.recording_base_timestamp);
-                sleepMontiorIntent.putExtra("alarm_gone_off", sleepMonitorResult.alarm_gone_off);
-                sleepMontiorIntent.putExtra("points", sleepMonitorResult.points);
-
-                LocalBroadcastManager.getInstance(context).sendBroadcast(sleepMontiorIntent);
-                break;
-            case SEND_BYTES:
-                GBDeviceCommandSendBytes sendBytes = (GBDeviceCommandSendBytes) deviceCmd;
-                write(sendBytes.encodedBytes);
-                break;
-
             case APP_MANAGEMENT_RES:
                 GBDeviceCommandAppManagementResult appMgmtRes = (GBDeviceCommandAppManagementResult) deviceCmd;
                 switch (appMgmtRes.type) {
@@ -421,8 +356,14 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     default:
                         break;
                 }
+                return true;
+            case APP_INFO:
+                LOG.info("Got command for APP_INFO");
+                GBDeviceCommandAppInfo appInfoCmd = (GBDeviceCommandAppInfo) deviceCmd;
+                setInstallSlot(appInfoCmd.freeSlot);
+                return false;
             default:
-                break;
+                return false;
         }
     }
 
