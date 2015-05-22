@@ -49,6 +49,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     public void dispose() {
         if (mQueue != null) {
             mQueue.dispose();
+            mQueue = null;
         }
     }
 

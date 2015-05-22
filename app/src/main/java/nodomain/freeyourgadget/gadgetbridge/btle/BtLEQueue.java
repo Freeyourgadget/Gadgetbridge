@@ -28,6 +28,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
 public final class BtLEQueue {
     private static final Logger LOG = LoggerFactory.getLogger(BtLEQueue.class);
 
+    private Object mGattMonitor = new Object();
     private GBDevice mGbDevice;
     private BluetoothAdapter mBluetoothAdapter;
     private BluetoothGatt mBluetoothGatt;
@@ -127,10 +128,21 @@ public final class BtLEQueue {
             LOG.warn("Ingoring connect() because already connected.");
             return false;
         }
+        synchronized (mGattMonitor) {
+            if (mBluetoothGatt != null) {
+                // Tribal knowledge says you're better off not reusing existing BlueoothGatt connections,
+                // so create a new one.
+                LOG.info("connect() requested -- disconnecting previous connection: " + mGbDevice.getName());
+                disconnect();
+            }
+        }
         LOG.info("Attempting to connect to " + mGbDevice.getName());
         BluetoothDevice remoteDevice = mBluetoothAdapter.getRemoteDevice(mGbDevice.getAddress());
-        mBluetoothGatt = remoteDevice.connectGatt(mContext, false, internalGattCallback);
-        boolean result = mBluetoothGatt.connect();
+        boolean result = false;
+        synchronized (mGattMonitor) {
+            mBluetoothGatt = remoteDevice.connectGatt(mContext, false, internalGattCallback);
+            result = mBluetoothGatt.connect();
+        }
         setDeviceConnectionState(result ? State.CONNECTING : State.NOT_CONNECTED);
         return result;
     }
@@ -144,11 +156,13 @@ public final class BtLEQueue {
     }
 
     public void disconnect() {
-        if (mBluetoothGatt != null) {
-            LOG.info("Disconnecting BtLEQueue from GATT device");
-            mBluetoothGatt.disconnect();
-            mBluetoothGatt.close();
-            mBluetoothGatt = null;
+        synchronized (mGattMonitor) {
+            if (mBluetoothGatt != null) {
+                LOG.info("Disconnecting BtLEQueue from GATT device");
+                mBluetoothGatt.disconnect();
+                mBluetoothGatt.close();
+                mBluetoothGatt = null;
+            }
         }
     }
 
@@ -158,6 +172,10 @@ public final class BtLEQueue {
             mWaitForActionResultLatch.countDown();
         }
         setDeviceConnectionState(State.NOT_CONNECTED);
+        // either we've been disconnected because the device is out of range
+        // or because of an explicit @{link #disconnect())
+        // To support automatic reconnection, we keep the mBluetoothGatt instance
+        // alive (we do not close() it).
     }
 
     public void dispose() {
@@ -206,11 +224,23 @@ public final class BtLEQueue {
         return mBluetoothGatt.getServices();
     }
 
+    private boolean checkCorrectGattInstance(BluetoothGatt gatt, String where) {
+        if (gatt != mBluetoothGatt) {
+            LOG.info("Ignoring event from wrong BluetoothGatt instance: " + where);
+            return false;
+        }
+        return true;
+    }
+
     // Implements callback methods for GATT events that the app cares about.  For example,
     // connection change and services discovered.
     private final BluetoothGattCallback internalGattCallback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+            if (!checkCorrectGattInstance(gatt, "connection state event")) {
+                return;
+            }
+
             switch (newState) {
                 case BluetoothProfile.STATE_CONNECTED:
                     LOG.info("Connected to GATT server.");
@@ -232,6 +262,10 @@ public final class BtLEQueue {
 
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+            if (!checkCorrectGattInstance(gatt, "services discovered")) {
+                return;
+            }
+
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 if (mExternalGattCallback != null) {
                     // only propagate the successful event
@@ -244,10 +278,13 @@ public final class BtLEQueue {
 
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+            if (!checkCorrectGattInstance(gatt, "characteristic write")) {
+                return;
+            }
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                LOG.info("Writing characteristic " + characteristic.getUuid() + " succeeded.");
+                LOG.debug("Writing characteristic " + characteristic.getUuid() + " succeeded.");
             } else {
-                LOG.error("Writing characteristic " + characteristic.getUuid() + " failed: " + status);
+                LOG.debug("Writing characteristic " + characteristic.getUuid() + " failed: " + status);
             }
             if (mExternalGattCallback != null) {
                 mExternalGattCallback.onCharacteristicWrite(gatt, characteristic, status);
@@ -259,6 +296,9 @@ public final class BtLEQueue {
         public void onCharacteristicRead(BluetoothGatt gatt,
                                          BluetoothGattCharacteristic characteristic,
                                          int status) {
+            if (!checkCorrectGattInstance(gatt, "characteristic read")) {
+                return;
+            }
             if (status != BluetoothGatt.GATT_SUCCESS) {
                 LOG.error("Reading characteristic " + characteristic.getUuid() + " failed: " + status);
             }
@@ -271,6 +311,13 @@ public final class BtLEQueue {
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic) {
+            if (!checkCorrectGattInstance(gatt, "characteristic changed")) {
+                return;
+            }
+            if (gatt != mBluetoothGatt) {
+                LOG.info("Ignoring characteristic change event from wrong BluetoothGatt instance");
+                return;
+            }
             if (mExternalGattCallback != null) {
                 mExternalGattCallback.onCharacteristicChanged(gatt, characteristic);
             }
@@ -278,6 +325,13 @@ public final class BtLEQueue {
 
         @Override
         public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
+            if (!checkCorrectGattInstance(gatt, "remote rssi")) {
+                return;
+            }
+            if (gatt != mBluetoothGatt) {
+                LOG.info("Ignoring remote rssi event from wrong BluetoothGatt instance");
+                return;
+            }
             if (mExternalGattCallback != null) {
                 mExternalGattCallback.onReadRemoteRssi(gatt, rssi, status);
             }
