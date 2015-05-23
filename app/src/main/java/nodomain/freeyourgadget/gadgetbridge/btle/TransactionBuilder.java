@@ -5,6 +5,8 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.miband.MiBandNotifyAction;
+
 public class TransactionBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(TransactionBuilder.class);
 
@@ -30,6 +32,19 @@ public class TransactionBuilder {
         }
         WriteAction action = new WriteAction(characteristic, data);
         return add(action);
+    }
+
+    public TransactionBuilder notify(BluetoothGattCharacteristic characteristic, boolean enable) {
+        if (characteristic == null) {
+            LOG.warn("Unable to notify characteristic: null");
+            return this;
+        }
+        NotifyAction action = createNotifyAction(characteristic, enable);
+        return add(action);
+    }
+
+    protected NotifyAction createNotifyAction(BluetoothGattCharacteristic characteristic, boolean enable) {
+        return new NotifyAction(characteristic, enable);
     }
 
     public TransactionBuilder wait(int millis) {

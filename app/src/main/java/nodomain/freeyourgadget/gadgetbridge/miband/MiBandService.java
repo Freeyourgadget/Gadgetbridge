@@ -6,6 +6,7 @@ import java.util.UUID;
 
 public class MiBandService {
 
+
     public static final String MAC_ADDRESS_FILTER = "88:0F:10";
 
     public static final String BASE_UUID = "0000%s-0000-1000-8000-00805f9b34fb";
@@ -41,6 +42,10 @@ public class MiBandService {
     public static final UUID UUID_CHARACTERISTIC_SENSOR_DATA = UUID.fromString(String.format(BASE_UUID, "FF0E"));
 
     public static final UUID UUID_CHARACTERISTIC_PAIR = UUID.fromString(String.format(BASE_UUID, "FF0F"));
+
+    public static final UUID UUID_DESCRIPTOR_CHARACTERISTIC_USER_CONFIGURATION = UUID.fromString(String.format(BASE_UUID, "2901"));
+
+    public static final UUID UUID_DESCRIPTOR_CLIENT_CHARACTERISTIC_CONFIGURATION = UUID.fromString(String.format(BASE_UUID, "2902"));
 
     public static final byte ALIAS_LEN = 0xa;
 
@@ -126,9 +131,9 @@ public class MiBandService {
     
     public static final byte COMMAND_STOP_MOTOR_VIBRATE = 0x13;
 
+    public static final byte COMMAND_CONFIRM_ACTIVITY_DATA_TRANSFER_COMPLETE = 0xa;
     /*
 
-	public static final  COMMAND_CONFIRM_ACTIVITY_DATA_TRANSFER_COMPLETE = 0xat;
 
 	public static final byte COMMAND_FACTORY_RESET = 0x9t;
 
