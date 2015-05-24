@@ -37,11 +37,11 @@ public class MiBandNotifyAction extends NotifyAction {
             if (notifyDescriptor != null) {
                 int properties = getCharacteristic().getProperties();
                 if ((properties & 0x10) > 0) {
-                    LOG.debug("properties & 0x10 > 0");
+                    LOG.debug("use NOTIFICATION");
                     notifyDescriptor.setValue(enableFlag ? BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE : BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
                     result = gatt.writeDescriptor(notifyDescriptor);
-                } else if ((properties & 0x20) > 0){
-                    LOG.debug("properties & 0x20 > 0");
+                } else if ((properties & 0x20) > 0) {
+                    LOG.debug("use INDICATION");
                     notifyDescriptor.setValue(enableFlag ? BluetoothGattDescriptor.ENABLE_INDICATION_VALUE : BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
                     result = gatt.writeDescriptor(notifyDescriptor);
                     hasWrittenDescriptor = true;
