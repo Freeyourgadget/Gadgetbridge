@@ -237,7 +237,14 @@ public final class BtLEQueue {
     private final BluetoothGattCallback internalGattCallback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+            LOG.debug("connection state change: status: " + status + ", newState: " + newState);
+
             if (!checkCorrectGattInstance(gatt, "connection state event")) {
+                return;
+            }
+
+            if (status != BluetoothGatt.GATT_SUCCESS) {
+                LOG.warn("ignoring connection state event with status " + status);
                 return;
             }
 
