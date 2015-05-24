@@ -325,20 +325,13 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onReboot() {
         try {
-            TransactionBuilder builder = performInitialized("send command");
+            TransactionBuilder builder = performInitialized("fetch activity data");
             builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), fetch);
             builder.queue(getQueue());
         } catch (IOException ex) {
-            LOG.error("Unable to fetch MI", ex);
+            LOG.error("Unable to fetch MI activity data", ex);
         }
-//       try {
-//            TransactionBuilder builder = performInitialized("Read Activity data");
-//            BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_ACTIVITY_DATA);
-//            builder.read(characteristic).queue(getQueue());
-//        } catch (IOException ex) {
-//            LOG.error("Unable to read activity data from MI", ex);
-//        }
-       }
+    }
 
     @Override
     public void onAppInfoReq() {
@@ -362,7 +355,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onCharacteristicChanged(BluetoothGatt gatt,
-                                     BluetoothGattCharacteristic characteristic) {
+                                        BluetoothGattCharacteristic characteristic) {
         super.onCharacteristicChanged(gatt, characteristic);
 
         UUID characteristicUUID = characteristic.getUuid();
@@ -459,9 +452,9 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     private void handleControlPointResult(byte[] value, int status) {
         if (status == BluetoothGatt.GATT_SUCCESS) {
-		for (byte b: value){
-		 LOG.info("3GOT DATA:" + String.format("0x%20x", b));
-		}
+            for (byte b: value){
+                LOG.info("3GOT DATA:" + String.format("0x%20x", b));
+            }
             handleActivityData(value, status);
         } else {
             LOG.info("BOOOOOOOOO");
@@ -480,7 +473,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 (byte) (unknown_code & 0xff),
                 (byte) (0xff & (unknown_code >> 8))
         };
-            LOG.info("WRITING: " + DateFormat.getDateTimeInstance().format(time.getTime()).toString());
+        LOG.info("WRITING: " + DateFormat.getDateTimeInstance().format(time.getTime()).toString());
         try {
             TransactionBuilder builder = performInitialized("send acknowledge");
             builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), ack);
