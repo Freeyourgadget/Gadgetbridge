@@ -16,6 +16,7 @@ import java.util.GregorianCalendar;
 import java.util.UUID;
 
 import java.text.DateFormat;
+import java.nio.ByteBuffer;
 
 import nodomain.freeyourgadget.gadgetbridge.GBCommand;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
@@ -44,6 +45,9 @@ import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.getNotific
 public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(MiBandSupport.class);
+
+    private ByteBuffer activityDataHolder = null;
+
 
     public MiBandSupport() {
         addSupportedService(MiBandService.UUID_SERVICE_MIBAND_SERVICE);
@@ -360,7 +364,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
         UUID characteristicUUID = characteristic.getUuid();
         if (MiBandService.UUID_CHARACTERISTIC_ACTIVITY_DATA.equals(characteristicUUID)) {
-            handleActivityData(characteristic.getValue(), BluetoothGatt.GATT_SUCCESS);
+            handleActivityNotif(characteristic.getValue());
         }
     }
 
@@ -374,8 +378,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             handleDeviceInfo(characteristic.getValue(), status);
         } else if (MiBandService.UUID_CHARACTERISTIC_BATTERY.equals(characteristicUUID)) {
             handleBatteryInfo(characteristic.getValue(), status);
-        } else if (MiBandService.UUID_CHARACTERISTIC_ACTIVITY_DATA.equals(characteristicUUID)) {
-            handleActivityData(characteristic.getValue(), status);
         }
     }
 
@@ -400,54 +402,82 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void handleActivityData(byte[] value, int status) {
-        if (status == BluetoothGatt.GATT_SUCCESS) {
-            for (byte b: value){
-                LOG.info("2GOT DATA:" + String.format("0x%6x", b));
-            }
-
-            if ( value.length == 11 ) {
-                //I know what to do:
-                // byte 0 is the data type
-                int dataType = value[0];
-                // byte 1 to 6 represent a timestamp
-                GregorianCalendar timestamp = new GregorianCalendar(value[1]+2000,
+    private void handleActivityNotif(byte[] value) {
+       LOG.info("NOTIF GOT " + value.length + " BYTES.");
+       if (this.activityDataHolder == null && value.length == 11 ) {
+          //I know what to do:
+          // byte 0 is the data type
+          int dataType = value[0];
+          // byte 1 to 6 represent a timestamp
+          GregorianCalendar timestamp = new GregorianCalendar(value[1]+2000,
                         value[2],
                         value[3],
                         value[4],
                         value[5],
                         value[6]);
-                // no idea about the following two bytes
-                int i = value[7] & 0xff;
-                int j = value[8] & 0xff;
-                // but combined they tell us how to proceed:
-                int k = i | (j << 8);
-                if (dataType == 1) {
-                    k *= 3;
-                }
-                int totalDataToRead = k;
+          // no idea about the following two bytes
+          int i = value[7] & 0xff;
+          int j = value[8] & 0xff;
+          // but combined they tell us how to proceed:
+          int k = i | (j << 8);
+          if (dataType == 1) {
+              k *= 3;
+          }
+          int totalDataToRead = k;
 
-                // no idea about the following two bytes
-                int l = value[9] & 0xff ;
-                int i1 = value[10] & 0xff;
+          // no idea about the following two bytes
+          int i1 = value[9] & 0xff ;
+          int j1 = value[10] & 0xff;
 
-                int j1 = l | (i1 << 8);
+          // but combined they tell us how to proceed:
+          int k1 = i1 | (j1 << 8);
+          if (dataType == 1) {
+              k1 *= 3;
+          }
+          int dataUntilNextHeader = k1;
 
-                int k1;
-                if (dataType == 1)
-                {
-                    k1 = j1 * 3;
-                } else
-                {
-                    k1 = j1;
-                }
-                LOG.info("totaldatatoread: "+  totalDataToRead   +" len: " + (k1 / 3) + " minute(s)");
+          // there is a total of totalDataToRead that will come in (3 bytes per minute),
+          // however, after dataUntilNextHeader bytes we will get a new packet of 11 bytes that should be parsed
+          // as we just did
+                
+          LOG.info("total data to read: "+  totalDataToRead   +" len: " + (totalDataToRead / 3) + " minute(s)");
+          LOG.info("data to read until next header: "+  dataUntilNextHeader   +" len: " + (dataUntilNextHeader / 3) + " minute(s)");
+          LOG.info("RAW DATA: i="+ i +" j="+ j +" k="+ k +" i1="+ i1 +" j1="+ j1 +" k1="+ k1 +"");
+          LOG.info("TIMESTAMP: " + DateFormat.getDateTimeInstance().format(timestamp.getTime()).toString() + " magic byte: " + dataUntilNextHeader);
+          if (createActivityDataHolder(dataUntilNextHeader)) {
+              sendAckDataTransfer(timestamp, dataUntilNextHeader);
+          }
+      } else {
+          for (byte b: value){
+              this.activityDataHolder.put(b);
+          }
+          LOG.info("Buffer remaining bytes: " + this.activityDataHolder.remaining());
+          if (remainingBytes == 0) {
+              consumeActivityDataHolder();
+          }
+      }
+    }
 
-                LOG.info("TIMESTAMP: " + DateFormat.getDateTimeInstance().format(timestamp.getTime()).toString() + " magic byte: " + j1);
-                //sendAckDataTransfer(timestamp, j1);
-                sendAckDataTransfer(timestamp, 0);
-            }
+    private boolean createActivityDataHolder(int size) {
+ 	if(this.activityDataHolder == null) {
+            this.activityDataHolder = ByteBuffer.allocate(size);
+            return true;
+	}
+        return false;
+    }
+
+    private void consumeActivityDataHolder() {
+        int currentSize = this.activityDataHolder.capacity();
+        this.activityDataHolder.rewind();
+	/*
+		intensity = byte1;
+		steps = byte2;
+		category = byte0;
+	*/
+        for ( int i = 0 ; i < currentSize; i+=3 ) {
+            LOG.info("index: "+i/3+" category:"+this.activityDataHolder.get()+" intensity:"+this.activityDataHolder.get()+" steps:"+this.activityDataHolder.get());	
         }
+        this.activityDataHolder = null;
     }
 
     private void handleControlPointResult(byte[] value, int status) {
@@ -455,7 +485,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             for (byte b: value){
                 LOG.info("3GOT DATA:" + String.format("0x%20x", b));
             }
-            handleActivityData(value, status);
         } else {
             LOG.info("BOOOOOOOOO");
         }
