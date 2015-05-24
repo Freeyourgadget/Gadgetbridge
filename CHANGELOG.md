@@ -2,6 +2,7 @@
 
 ####Next Version
 * Pebble: Support launching of Watchapps though the AppManager Activity
+* Pebble: Fix firmware installation when all 8 app slots are in use (and probably firmware installation form recovery)
 * Mi Band: Make vibration count configurable for different kinds of Notifications
 * Support rebooting Mi Band/Pebble through the Debug Activity
 
