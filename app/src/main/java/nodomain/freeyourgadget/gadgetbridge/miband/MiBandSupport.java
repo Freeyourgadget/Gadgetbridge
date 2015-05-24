@@ -452,7 +452,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
               this.activityDataHolder.put(b);
           }
           LOG.info("Buffer remaining bytes: " + this.activityDataHolder.remaining());
-          if (remainingBytes == 0) {
+          if (this.activityDataHolder.remaining() == 0) {
               consumeActivityDataHolder();
           }
       }
