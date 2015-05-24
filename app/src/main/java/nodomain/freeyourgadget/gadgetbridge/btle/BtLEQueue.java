@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
@@ -69,11 +70,10 @@ public final class BtLEQueue {
                     // Run all actions of the transaction until one doesn't succeed
                     for (BtLEAction action : transaction.getActions()) {
                         mWaitCharacteristic = action.getCharacteristic();
-                        boolean waitForResult = action.expectsResult();
-                        if (waitForResult) {
-                            mWaitForActionResultLatch = new CountDownLatch(1);
-                        }
+                        mWaitForActionResultLatch = new CountDownLatch(1);
                         if (action.run(mBluetoothGatt)) {
+                            // check again, maybe due to some condition, action did not need to write, so we can't wait
+                            boolean waitForResult = action.expectsResult();
                             if (waitForResult) {
                                 mWaitForActionResultLatch.await();
                                 mWaitForActionResultLatch = null;
@@ -278,6 +278,7 @@ public final class BtLEQueue {
 
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+            LOG.debug("characteristic write: " + characteristic.getUuid());
             if (!checkCorrectGattInstance(gatt, "characteristic write")) {
                 return;
             }
@@ -296,6 +297,7 @@ public final class BtLEQueue {
         public void onCharacteristicRead(BluetoothGatt gatt,
                                          BluetoothGattCharacteristic characteristic,
                                          int status) {
+            LOG.debug("characteristic read: " + characteristic.getUuid());
             if (!checkCorrectGattInstance(gatt, "characteristic read")) {
                 return;
             }
@@ -309,8 +311,39 @@ public final class BtLEQueue {
         }
 
         @Override
+        public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+            LOG.debug("descriptor read: " + descriptor.getUuid());
+            if (!checkCorrectGattInstance(gatt, "descriptor read")) {
+                return;
+            }
+            if (status != BluetoothGatt.GATT_SUCCESS) {
+                LOG.error("Reading descriptor " + descriptor.getUuid() + " failed: " + status);
+            }
+            if (mExternalGattCallback != null) {
+                mExternalGattCallback.onDescriptorRead(gatt, descriptor, status);
+            }
+            checkWaitingCharacteristic(descriptor.getCharacteristic(), status);
+        }
+
+        @Override
+        public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+            LOG.debug("descriptor write: " + descriptor.getUuid());
+            if (!checkCorrectGattInstance(gatt, "descriptor write")) {
+                return;
+            }
+            if (status != BluetoothGatt.GATT_SUCCESS) {
+                LOG.error("Writing descriptor " + descriptor.getUuid() + " failed: " + status);
+            }
+            if (mExternalGattCallback != null) {
+                mExternalGattCallback.onDescriptorWrite(gatt, descriptor, status);
+            }
+            checkWaitingCharacteristic(descriptor.getCharacteristic(), status);
+        }
+
+        @Override
         public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic) {
+            LOG.debug("characteristic changed: " + characteristic.getUuid());
             if (!checkCorrectGattInstance(gatt, "characteristic changed")) {
                 return;
             }
@@ -325,6 +358,7 @@ public final class BtLEQueue {
 
         @Override
         public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
+            LOG.debug("remote rssi: " + rssi);
             if (!checkCorrectGattInstance(gatt, "remote rssi")) {
                 return;
             }

@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.btle;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattDescriptor;
 
 /**
  * Callback interface handling gatt events.
@@ -66,23 +67,23 @@ public interface GattCallback {
     void onCharacteristicChanged(BluetoothGatt gatt,
                                  BluetoothGattCharacteristic characteristic);
 
-//    /**
-//     * @see BluetoothGattCallback#onDescriptorRead(BluetoothGatt, BluetoothGattDescriptor, int)
-//     * @param gatt
-//     * @param descriptor
-//     * @param status
-//     */
-//    public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor,
-//                                 int status);
-//
-//    /**
-//     * @see BluetoothGattCallback#onDescriptorWrite(BluetoothGatt, BluetoothGattDescriptor, int)
-//     * @param gatt
-//     * @param descriptor
-//     * @param status
-//     */
-//    public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor,
-//                                  int status);
+    /**
+     * @see BluetoothGattCallback#onDescriptorRead(BluetoothGatt, BluetoothGattDescriptor, int)
+     * @param gatt
+     * @param descriptor
+     * @param status
+     */
+    public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor,
+                                 int status);
+
+    /**
+     * @see BluetoothGattCallback#onDescriptorWrite(BluetoothGatt, BluetoothGattDescriptor, int)
+     * @param gatt
+     * @param descriptor
+     * @param status
+     */
+    public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor,
+                                  int status);
 //
 //    /**
 //     * @see BluetoothGattCallback#onReliableWriteCompleted(BluetoothGatt, int)

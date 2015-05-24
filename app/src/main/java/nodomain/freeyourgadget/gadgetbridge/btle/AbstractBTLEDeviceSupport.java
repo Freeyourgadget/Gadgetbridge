@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.btle;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 
 import org.slf4j.Logger;
@@ -171,6 +172,14 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     @Override
     public void onCharacteristicWrite(BluetoothGatt gatt,
                                       BluetoothGattCharacteristic characteristic, int status) {
+    }
+
+    @Override
+    public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+    }
+
+    @Override
+    public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
     }
 
     @Override
