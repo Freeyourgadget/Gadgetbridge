@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.miband;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattDescriptor;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -50,7 +51,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
-        pair(builder).sendUserInfo(builder).setCurrentTime(builder).requestBatteryInfo(builder).enableNotifications(builder, true);
+        pair(builder).sendUserInfo(builder).enableNotifications(builder, true).setCurrentTime(builder).requestBatteryInfo(builder);
 
         return builder;
     }
@@ -59,7 +60,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private MiBandSupport enableNotifications(TransactionBuilder builder, boolean enable) {
         builder.notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_NOTIFICATION), enable)
                 .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS), enable)
-                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_ACTIVITY_DATA),enable)
+                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_ACTIVITY_DATA), enable)
                 .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_BATTERY), enable)
                 .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_SENSOR_DATA), enable);
 
@@ -362,7 +363,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onCharacteristicChanged(BluetoothGatt gatt,
                                      BluetoothGattCharacteristic characteristic) {
-        LOG.info("Notification characteristic changed: " + characteristic.getUuid());
         super.onCharacteristicChanged(gatt, characteristic);
 
         UUID characteristicUUID = characteristic.getUuid();
@@ -370,6 +370,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             handleActivityData(characteristic.getValue(), BluetoothGatt.GATT_SUCCESS);
         }
     }
+
     @Override
     public void onCharacteristicRead(BluetoothGatt gatt,
                                      BluetoothGattCharacteristic characteristic, int status) {

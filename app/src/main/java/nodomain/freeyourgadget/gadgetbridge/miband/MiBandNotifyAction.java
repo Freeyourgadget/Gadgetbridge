@@ -23,6 +23,7 @@ import nodomain.freeyourgadget.gadgetbridge.miband.MiBandService;
 public class MiBandNotifyAction extends NotifyAction {
 
     private static final Logger LOG = LoggerFactory.getLogger(TransactionBuilder.class);
+    private boolean hasWrittenDescriptor = true;
 
     public MiBandNotifyAction(BluetoothGattCharacteristic characteristic, boolean enable) {
         super(characteristic, enable);
@@ -32,24 +33,34 @@ public class MiBandNotifyAction extends NotifyAction {
     public boolean run(BluetoothGatt gatt) {
         boolean result = super.run(gatt);
         if (result) {
-            BluetoothGattDescriptor sleepDescriptor = getCharacteristic().getDescriptor(MiBandService.UUID_DESCRIPTOR_CLIENT_CHARACTERISTIC_CONFIGURATION);
-            if (sleepDescriptor != null) {
+            BluetoothGattDescriptor notifyDescriptor = getCharacteristic().getDescriptor(MiBandService.UUID_DESCRIPTOR_CLIENT_CHARACTERISTIC_CONFIGURATION);
+            if (notifyDescriptor != null) {
                 int properties = getCharacteristic().getProperties();
                 if ((properties & 0x10) > 0) {
-                    LOG.info("properties & 0x10 > 0");
-                    sleepDescriptor.setValue(enableFlag ? BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE : BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
-                    result = gatt.writeDescriptor(sleepDescriptor);
+                    LOG.debug("properties & 0x10 > 0");
+                    notifyDescriptor.setValue(enableFlag ? BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE : BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
+                    result = gatt.writeDescriptor(notifyDescriptor);
                 } else if ((properties & 0x20) > 0){
-                    LOG.info("properties & 0x20 > 0");
-                    sleepDescriptor.setValue(enableFlag ? BluetoothGattDescriptor.ENABLE_INDICATION_VALUE : BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
-                    result = gatt.writeDescriptor(sleepDescriptor);
+                    LOG.debug("properties & 0x20 > 0");
+                    notifyDescriptor.setValue(enableFlag ? BluetoothGattDescriptor.ENABLE_INDICATION_VALUE : BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
+                    result = gatt.writeDescriptor(notifyDescriptor);
+                    hasWrittenDescriptor = true;
+                } else {
+                    hasWrittenDescriptor = false;
                 }
             } else {
                 LOG.warn("sleep descriptor null");
+                hasWrittenDescriptor = false;
             }
         } else {
+            hasWrittenDescriptor = false;
             LOG.error("Unable to enable notification for " + getCharacteristic().getUuid());
         }
         return result;
+    }
+
+    @Override
+    public boolean expectsResult() {
+        return hasWrittenDescriptor;
     }
 }
