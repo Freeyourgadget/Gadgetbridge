@@ -203,7 +203,6 @@ public final class BtLEQueue {
         if (!transaction.isEmpty()) {
             mTransactions.add(transaction);
         }
-        LOG.debug("adding done: " + transaction);
     }
 
     public void clear() {
@@ -237,7 +236,7 @@ public final class BtLEQueue {
     private final BluetoothGattCallback internalGattCallback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-            LOG.debug("connection state change: status: " + status + ", newState: " + newState);
+            LOG.debug("connection state change, newState: " + newState + getStatusString(status));
 
             if (!checkCorrectGattInstance(gatt, "connection state event")) {
                 return;
@@ -269,7 +268,7 @@ public final class BtLEQueue {
 
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-            if (!checkCorrectGattInstance(gatt, "services discovered")) {
+            if (!checkCorrectGattInstance(gatt, "services discovered: " + getStatusString(status))) {
                 return;
             }
 
@@ -285,14 +284,9 @@ public final class BtLEQueue {
 
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-            LOG.debug("characteristic write: " + characteristic.getUuid());
+            LOG.debug("characteristic write: " + characteristic.getUuid() + getStatusString(status));
             if (!checkCorrectGattInstance(gatt, "characteristic write")) {
                 return;
-            }
-            if (status == BluetoothGatt.GATT_SUCCESS) {
-                LOG.debug("Writing characteristic " + characteristic.getUuid() + " succeeded.");
-            } else {
-                LOG.debug("Writing characteristic " + characteristic.getUuid() + " failed: " + status);
             }
             if (mExternalGattCallback != null) {
                 mExternalGattCallback.onCharacteristicWrite(gatt, characteristic, status);
@@ -304,12 +298,9 @@ public final class BtLEQueue {
         public void onCharacteristicRead(BluetoothGatt gatt,
                                          BluetoothGattCharacteristic characteristic,
                                          int status) {
-            LOG.debug("characteristic read: " + characteristic.getUuid());
+            LOG.debug("characteristic read: " + characteristic.getUuid() + getStatusString(status));
             if (!checkCorrectGattInstance(gatt, "characteristic read")) {
                 return;
-            }
-            if (status != BluetoothGatt.GATT_SUCCESS) {
-                LOG.error("Reading characteristic " + characteristic.getUuid() + " failed: " + status);
             }
             if (mExternalGattCallback != null) {
                 mExternalGattCallback.onCharacteristicRead(gatt, characteristic, status);
@@ -319,12 +310,9 @@ public final class BtLEQueue {
 
         @Override
         public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-            LOG.debug("descriptor read: " + descriptor.getUuid());
+            LOG.debug("descriptor read: " + descriptor.getUuid() + getStatusString(status));
             if (!checkCorrectGattInstance(gatt, "descriptor read")) {
                 return;
-            }
-            if (status != BluetoothGatt.GATT_SUCCESS) {
-                LOG.error("Reading descriptor " + descriptor.getUuid() + " failed: " + status);
             }
             if (mExternalGattCallback != null) {
                 mExternalGattCallback.onDescriptorRead(gatt, descriptor, status);
@@ -334,12 +322,9 @@ public final class BtLEQueue {
 
         @Override
         public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-            LOG.debug("descriptor write: " + descriptor.getUuid());
+            LOG.debug("descriptor write: " + descriptor.getUuid() + getStatusString(status));
             if (!checkCorrectGattInstance(gatt, "descriptor write")) {
                 return;
-            }
-            if (status != BluetoothGatt.GATT_SUCCESS) {
-                LOG.error("Writing descriptor " + descriptor.getUuid() + " failed: " + status);
             }
             if (mExternalGattCallback != null) {
                 mExternalGattCallback.onDescriptorWrite(gatt, descriptor, status);
@@ -365,7 +350,7 @@ public final class BtLEQueue {
 
         @Override
         public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
-            LOG.debug("remote rssi: " + rssi);
+            LOG.debug("remote rssi: " + rssi + getStatusString(status));
             if (!checkCorrectGattInstance(gatt, "remote rssi")) {
                 return;
             }
@@ -380,6 +365,7 @@ public final class BtLEQueue {
 
         private void checkWaitingCharacteristic(BluetoothGattCharacteristic characteristic, int status) {
             if (status != BluetoothGatt.GATT_SUCCESS) {
+                LOG.debug("failed btle action, aborting transaction: " + characteristic.getUuid() + getStatusString(status));
                 mAbortTransaction = true;
             }
             if (characteristic != null && BtLEQueue.this.mWaitCharacteristic != null && characteristic.getUuid().equals(BtLEQueue.this.mWaitCharacteristic.getUuid())) {
@@ -393,4 +379,8 @@ public final class BtLEQueue {
             }
         }
     };
+
+    private String getStatusString(int status) {
+        return status == BluetoothGatt.GATT_SUCCESS ? " (success)" : " (failed: " + status + ")";
+    }
 }

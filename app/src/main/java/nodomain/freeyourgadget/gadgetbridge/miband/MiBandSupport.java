@@ -55,7 +55,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
-        pair(builder).sendUserInfo(builder).enableNotifications(builder, true).setCurrentTime(builder).requestBatteryInfo(builder);
+        pair(builder)
+                .sendUserInfo(builder)
+                .enableNotifications(builder, true)
+                .setCurrentTime(builder)
+                .requestBatteryInfo(builder);
 
         return builder;
     }
