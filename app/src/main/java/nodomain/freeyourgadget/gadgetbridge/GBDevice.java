@@ -215,7 +215,7 @@ public class GBDevice implements Parcelable {
     }
 
     public void setBatteryLevel(short batteryLevel) {
-        if (batteryLevel >= 0 && batteryLevel <= 100) {
+        if ((batteryLevel >= 0 && batteryLevel <= 100) || batteryLevel == BATTERY_UNKNOWN) {
             mBatteryLevel = batteryLevel;
         } else {
             LOG.error("Battery level musts be within range 0-100: " + batteryLevel);
