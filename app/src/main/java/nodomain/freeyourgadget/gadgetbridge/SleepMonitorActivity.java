@@ -8,7 +8,7 @@ import android.content.IntentFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
@@ -44,13 +44,16 @@ public class SleepMonitorActivity extends Activity {
                 int smartalarm_to = intent.getIntExtra("smartalarm_to", -1);
                 int recording_base_timestamp = intent.getIntExtra("recording_base_timestamp", -1);
                 int alarm_gone_off = intent.getIntExtra("alarm_gone_off", -1);
+                short[] points = intent.getShortArrayExtra("points");
 
                 Calendar cal = Calendar.getInstance();
                 cal.setTimeInMillis((long) recording_base_timestamp * 1000L);
                 Date date = cal.getTime();
                 String dateString = new SimpleDateFormat("dd.MM.yyyy HH:mm").format(date);
-                textView.setText(dateString + " till " + alarm_gone_off / 60 + ":" + alarm_gone_off % 60);
-                short[] points = intent.getShortArrayExtra("points");
+                cal.setTimeInMillis((long) (recording_base_timestamp + 600 * (points.length - 1)) * 1000L);
+                date = cal.getTime();
+                String dateStringTo = new SimpleDateFormat("dd.MM.yyyy HH:mm").format(date);
+                textView.setText(dateString + " to " + dateStringTo);
 
                 SurfaceHolder surfaceHolder = surfaceView.getHolder();
 
@@ -59,22 +62,41 @@ public class SleepMonitorActivity extends Activity {
                     Canvas canvas = surfaceHolder.lockCanvas();
                     paint.setColor(Color.WHITE);
                     paint.setStrokeWidth(2);
+                    paint.setTextSize(20);
+                    paint.setStyle(Paint.Style.FILL);
+                    paint.setAntiAlias(true);
                     canvas.drawRGB(100, 100, 100);
                     int width = canvas.getWidth();
                     int height = canvas.getHeight();
 
-                    Path path = new Path();
-                    path.moveTo(0.0f, height);
-                    float x = 0.0f;
+                    RectF r = new RectF(0.0f, 0.0f, 0.0f, height);
+                    short last_movement = 5000;
                     for (int i = 0; i < points.length; i++) {
-                        float y = (1.0f - (float) points[i] / 5000.0f) * height;
-                        x = (float) i / (points.length - 1) * width;
-                        path.lineTo(x, y);
+                        boolean annotate = false;
+                        short movement = points[i];
+                        r.left = r.right;
+                        r.right = (float) (i + 1) / (points.length) * width;
+                        r.top = (1.0f - (float) movement / 5000.0f) * height;
+                        if (movement > 1000) {
+                            paint.setColor(Color.RED);
+                            if (last_movement <= 1000) {
+                                annotate = true;
+                            }
+                        } else if (movement > 120) {
+                            paint.setColor(Color.YELLOW);
+                        } else {
+                            paint.setColor(Color.GREEN);
+                        }
+                        canvas.drawRect(r, paint);
+                        if (annotate) {
+                            cal.setTimeInMillis((long) (recording_base_timestamp + 600 * i) * 1000L);
+                            date = cal.getTime();
+                            dateString = new SimpleDateFormat("HH:mm").format(date);
+                            paint.setColor(Color.WHITE);
+                            canvas.drawText(dateString, r.left - 20, r.top - 20, paint);
+                        }
+                        last_movement = movement;
                     }
-                    path.lineTo(x, height);
-                    path.close();
-                    canvas.drawPath(path, paint);
-
                     surfaceHolder.unlockCanvasAndPost(canvas);
                 }
             }
