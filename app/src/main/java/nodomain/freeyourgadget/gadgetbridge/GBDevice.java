@@ -104,6 +104,10 @@ public class GBDevice implements Parcelable {
         return mState.ordinal() >= State.CONNECTED.ordinal();
     }
 
+    public boolean isInitializing() {
+        return mState == State.INITIALIZING;
+    }
+
     public boolean isInitialized() {
         return mState.ordinal() >= State.INITIALIZED.ordinal();
     }
@@ -118,7 +122,9 @@ public class GBDevice implements Parcelable {
 
     public void setState(State state) {
         mState = state;
-        unsetDynamicState();
+        if (state.ordinal() <= State.CONNECTED.ordinal()) {
+            unsetDynamicState();
+        }
     }
 
     private void unsetDynamicState() {
@@ -136,6 +142,8 @@ public class GBDevice implements Parcelable {
                 return GBApplication.getContext().getString(R.string.connecting);
             case CONNECTED:
                 return GBApplication.getContext().getString(R.string.connected);
+            case INITIALIZING:
+                return GBApplication.getContext().getString(R.string.initializing);
             case INITIALIZED:
                 return GBApplication.getContext().getString(R.string.initialized);
         }
@@ -238,6 +246,7 @@ public class GBDevice implements Parcelable {
         NOT_CONNECTED,
         CONNECTING,
         CONNECTED,
+        INITIALIZING,
         INITIALIZED
     }
 

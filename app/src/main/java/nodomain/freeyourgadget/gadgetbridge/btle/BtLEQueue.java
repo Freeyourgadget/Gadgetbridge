@@ -87,15 +87,14 @@ public final class BtLEQueue {
                         }
                     }
                 } catch (InterruptedException ignored) {
-                    mWaitForActionResultLatch = null;
                     mConnectionLatch = null;
                     LOG.debug("Thread interrupted");
                 } catch (Throwable ex) {
                     LOG.error("Queue Dispatch Thread died: " + ex.getMessage());
                     mCrashed = true;
-                    mWaitForActionResultLatch = null;
                     mConnectionLatch = null;
                 } finally {
+                    mWaitForActionResultLatch = null;
                     mWaitCharacteristic = null;
                 }
             }

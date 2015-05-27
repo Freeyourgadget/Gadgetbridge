@@ -55,13 +55,25 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
+        builder.add(new SetDeviceStateAction(getDevice(), State.INITIALIZING, getContext()));
         pair(builder)
                 .sendUserInfo(builder)
                 .enableNotifications(builder, true)
                 .setCurrentTime(builder)
-                .requestBatteryInfo(builder);
+                .requestBatteryInfo(builder)
+                .setInitialized(builder);
 
         return builder;
+    }
+
+    /**
+     * Last action of initialization sequence. Sets the device to initialized.
+     * It is only invoked if all other actions were successfully run, so the device
+     * must be initialized, then.
+     * @param builder
+     */
+    private void setInitialized(TransactionBuilder builder) {
+        builder.add(new SetDeviceStateAction(getDevice(), State.INITIALIZED, getContext()));
     }
 
     // TODO: tear down the notifications on quit
