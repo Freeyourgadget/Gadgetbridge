@@ -104,5 +104,6 @@
     <string name="title_activity_sleepmonitor">Sleep Monitor</string>
     <string name="pref_log_to_file">LogToFile</string>
     <string name="pref_write_logfiles">Write Log Files (needs restart)</string>
+    <string name="initializing">initializing</string>
 
 </resources>

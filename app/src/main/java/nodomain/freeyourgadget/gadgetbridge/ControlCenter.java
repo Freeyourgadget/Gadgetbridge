@@ -20,6 +20,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -30,6 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst;
 
 public class ControlCenter extends Activity {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ControlCenter.class);
 
     public static final String ACTION_QUIT
             = "nodomain.freeyourgadget.gadgetbride.controlcenter.action.quit";
@@ -57,7 +61,7 @@ public class ControlCenter extends Activity {
                     refreshPairedDevices();
                     break;
                 case GBDevice.ACTION_DEVICE_CHANGED:
-                    GBDevice dev = intent.getParcelableExtra("device");
+                    GBDevice dev = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                     if (dev.getAddress() != null) {
                         int index = deviceList.indexOf(dev); // search by address
                         if (index >= 0) {
@@ -68,7 +72,8 @@ public class ControlCenter extends Activity {
                     }
                     refreshPairedDevices();
 
-                    if (dev.isConnected() && dev.getFirmwareVersion() == null) {
+                    if (dev.isConnected() && dev.getFirmwareVersion() == null && !dev.isInitializing()) {
+                        LOG.info("device connected, requesting more info");
                         requestDeviceInfo();
                     }
                     break;
