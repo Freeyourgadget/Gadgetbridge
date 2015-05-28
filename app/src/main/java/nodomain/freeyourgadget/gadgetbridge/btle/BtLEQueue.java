@@ -242,8 +242,7 @@ public final class BtLEQueue {
             }
 
             if (status != BluetoothGatt.GATT_SUCCESS) {
-                LOG.warn("ignoring connection state event with status " + status);
-                return;
+                LOG.warn("connection state event with error status " + status);
             }
 
             switch (newState) {
