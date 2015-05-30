@@ -172,9 +172,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private ArrayList<UUID> tmpUUIDS = new ArrayList<>();
 
     private MorpheuzSupport mMorpheuzSupport = new MorpheuzSupport(PebbleProtocol.this);
-    // FIXME: this does not belong here
-    static final UUID WeatherNeatUUID = UUID.fromString("3684003b-a685-45f9-a713-abc6364ba051");
-
+    private WeatherNeatSupport mWeatherNeatSupport = new WeatherNeatSupport(PebbleProtocol.this);
 
     private static byte[] encodeMessage(short endpoint, byte type, int cookie, String[] parts) {
         // Calculate length first
@@ -543,24 +541,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    private byte[] encodeApplicationMessageWeatherNeatTest() {
-        // encode push message for WeatherNeat
-        ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>(4);
-        pairs.add(new Pair<>(1, (Object) "Gadgetbridge")); // city
-        pairs.add(new Pair<>(2, (Object) "-22C")); // temperature
-        pairs.add(new Pair<>(3, (Object) "this is just a stupid test")); // condition
-        pairs.add(new Pair<>(5, (Object) 3)); // seconds for backlight on shake
-        byte[] testMessage = encodeApplicationMessagePush(ENDPOINT_APPLICATIONMESSAGE, WeatherNeatUUID, pairs);
-
-        ByteBuffer buf = ByteBuffer.allocate(testMessage.length + LENGTH_PREFIX + 18); // +ACK
-
-        // encode ack and put in front of push message (hack for acknowledging the last message)
-        buf.put(encodeApplicationMessageAck(WeatherNeatUUID, (byte) (last_id - 1)));
-        buf.put(testMessage);
-
-        return buf.array();
-    }
-
     byte[] encodeApplicationMessageAck(UUID uuid, byte id) {
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + 18); // +ACK
 
@@ -806,11 +786,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
                     case APPLICATIONMESSAGE_PUSH:
                         UUID uuid = new UUID(uuid_high, uuid_low);
                         LOG.info("got APPLICATIONMESSAGE PUSH from UUID " + uuid);
-                        if (WeatherNeatUUID.equals(uuid)) {
-                            LOG.info("We know you, you are WeatherNeat");
-                            GBDeviceCommandSendBytes sendBytes = new GBDeviceCommandSendBytes();
-                            sendBytes.encodedBytes = encodeApplicationMessageWeatherNeatTest();
-                            cmd = sendBytes;
+                        if (WeatherNeatSupport.uuid.equals(uuid)) {
+                            ArrayList<Pair<Integer, Object>> dict = decodeDict(buf);
+                            cmd = mWeatherNeatSupport.handleMessage(dict);
                         } else if (MorpheuzSupport.uuid.equals(uuid)) {
                             ArrayList<Pair<Integer, Object>> dict = decodeDict(buf);
                             cmd = mMorpheuzSupport.handleMessage(dict);
