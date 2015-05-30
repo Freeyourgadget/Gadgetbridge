@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge;
+package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+
+import nodomain.freeyourgadget.gadgetbridge.BluetoothCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.ControlCenter;
 
 public class BluetoothStateChangeReceiver extends BroadcastReceiver {
     @Override

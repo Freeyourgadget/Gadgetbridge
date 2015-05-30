@@ -139,7 +139,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".BluetoothStateChangeReceiver"
+            android:name=".externalevents.BluetoothStateChangeReceiver"
             android:exported="false" >
             <intent-filter>
                 <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
