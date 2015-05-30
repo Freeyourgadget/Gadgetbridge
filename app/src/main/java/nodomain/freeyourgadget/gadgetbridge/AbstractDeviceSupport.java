@@ -132,7 +132,6 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         sleepMontiorIntent.putExtra("smartalarm_to", sleepMonitorResult.smartalarm_to);
         sleepMontiorIntent.putExtra("recording_base_timestamp", sleepMonitorResult.recording_base_timestamp);
         sleepMontiorIntent.putExtra("alarm_gone_off", sleepMonitorResult.alarm_gone_off);
-        sleepMontiorIntent.putExtra("points", sleepMonitorResult.points);
 
         LocalBroadcastManager.getInstance(context).sendBroadcast(sleepMontiorIntent);
     }

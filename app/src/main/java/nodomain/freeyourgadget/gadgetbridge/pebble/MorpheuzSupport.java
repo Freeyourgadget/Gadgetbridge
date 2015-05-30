@@ -11,6 +11,7 @@ import java.util.SimpleTimeZone;
 import java.util.TimeZone;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandSleepMonitorResult;
@@ -37,8 +38,6 @@ public class MorpheuzSupport {
 
     private boolean sent_to_gadgetbridge = false;
     // data received from Morpheuz in native format
-    private short[] points = new short[54];
-    private int points_last_valid = -1;
     private int smartalarm_from = -1; // time in minutes relative from 0:00 for smart alarm (earliest)
     private int smartalarm_to = -1;// time in minutes relative from 0:00 for smart alarm (latest)
     private int recording_base_timestamp = -1; // timestamp for the first "point", all folowing are +10 minutes offset each
@@ -69,9 +68,12 @@ public class MorpheuzSupport {
         for (Pair<Integer, Object> pair : pairs) {
             int ctrl_message = 0;
             switch (pair.first) {
+                case KEY_TRANSMIT:
                 case KEY_GONEOFF:
-                    alarm_gone_off = (int) pair.second;
-                    LOG.info("got gone off: " + alarm_gone_off / 60 + ":" + alarm_gone_off % 60);
+                    if (pair.first == KEY_GONEOFF) {
+                        alarm_gone_off = (int) pair.second;
+                        LOG.info("got gone off: " + alarm_gone_off / 60 + ":" + alarm_gone_off % 60);
+                    }
                     /* super-ugly hack: if if did not notice GadgetBridge yet, do so and delay confirmation so Morpheuz
                      * will resend gone off data. The second time, we acknowledge it.
                      *
@@ -81,8 +83,6 @@ public class MorpheuzSupport {
                         ctrl_message = MorpheuzSupport.CTRL_VERSION_DONE | MorpheuzSupport.CTRL_GONEOFF_DONE | MorpheuzSupport.CTRL_TRANSMIT_DONE | MorpheuzSupport.CTRL_SET_LAST_SENT;
                     } else {
                         GBDeviceCommandSleepMonitorResult sleepMonitorResult = new GBDeviceCommandSleepMonitorResult();
-                        sleepMonitorResult.points = new short[points_last_valid + 1];
-                        System.arraycopy(points, 0, sleepMonitorResult.points, 0, points_last_valid + 1);
                         sleepMonitorResult.smartalarm_from = smartalarm_from;
                         sleepMonitorResult.smartalarm_to = smartalarm_to;
                         sleepMonitorResult.alarm_gone_off = alarm_gone_off;
@@ -100,8 +100,7 @@ public class MorpheuzSupport {
                         short data = (short) ((int) pair.second & 0xffff);
                         LOG.info("got point:" + index + " " + data);
                         if (index >= 0 && index < 54) {
-                            points[index] = data;
-                            points_last_valid = index;
+                            GBApplication.getActivityDatabaseHandler().addGBActivitySample(recording_base_timestamp + index * 600, (byte) 1, data, (byte) 0, (byte) 0);
                         }
 
                         ctrl_message = MorpheuzSupport.CTRL_VERSION_DONE | MorpheuzSupport.CTRL_SET_LAST_SENT | MorpheuzSupport.CTRL_DO_NEXT;

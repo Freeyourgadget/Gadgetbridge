@@ -10,11 +10,15 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
+import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
+
 public class GBApplication extends Application {
     private static GBApplication context;
+    private static ActivityDatabaseHandler mActivityDatabaseHandler;
 
     public GBApplication() {
         context = this;
+        mActivityDatabaseHandler = new ActivityDatabaseHandler(context);
     }
 
     @Override
@@ -56,5 +60,9 @@ public class GBApplication extends Application {
 
     public static Context getContext() {
         return context;
+    }
+
+    public static ActivityDatabaseHandler getActivityDatabaseHandler() {
+        return mActivityDatabaseHandler;
     }
 }
