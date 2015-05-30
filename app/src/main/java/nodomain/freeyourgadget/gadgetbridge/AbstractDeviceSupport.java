@@ -12,7 +12,6 @@ import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandCallControl;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandMusicControl;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandSleepMonitorResult;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandVersionInfo;
 

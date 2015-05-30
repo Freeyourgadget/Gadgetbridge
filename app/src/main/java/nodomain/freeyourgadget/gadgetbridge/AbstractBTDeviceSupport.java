@@ -1,21 +1,12 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
-import android.content.Context;
-import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppInfo;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandCallControl;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandSendBytes;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandSleepMonitorResult;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
 
 public abstract class AbstractBTDeviceSupport extends AbstractDeviceSupport {

@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
 
@@ -85,7 +84,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
         }
         ArrayList<GBActivitySample> GBActivitySampleList = new ArrayList<GBActivitySample>();
         String selectQuery = "SELECT  * FROM " + TABLE_GBACTIVITYSAMPLES
-                + " where (provider=" + provider + " and timestamp>=" + timestamp_from + " and timestamp<=" + timestamp_to + ")";
+                + " where (provider=" + provider + " and timestamp>=" + timestamp_from + " and timestamp<=" + timestamp_to + ") order by timestamp";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
