@@ -11,6 +11,7 @@ import java.util.SimpleTimeZone;
 import java.util.TimeZone;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandSendBytes;
@@ -100,7 +101,7 @@ public class MorpheuzSupport {
                         short data = (short) ((int) pair.second & 0xffff);
                         LOG.info("got point:" + index + " " + data);
                         if (index >= 0 && index < 54) {
-                            GBApplication.getActivityDatabaseHandler().addGBActivitySample(recording_base_timestamp + index * 600, (byte) 1, data, (byte) 0, (byte) 0);
+                            GBApplication.getActivityDatabaseHandler().addGBActivitySample(recording_base_timestamp + index * 600, GBActivitySample.PROVIDER_PEBBLE_MORPHEUZ, data, (byte) 0, GBActivitySample.TYPE_SLEEP);
                         }
 
                         ctrl_message = MorpheuzSupport.CTRL_VERSION_DONE | MorpheuzSupport.CTRL_SET_LAST_SENT | MorpheuzSupport.CTRL_DO_NEXT;
