@@ -38,6 +38,7 @@ public class SleepMonitorActivity extends Activity implements SurfaceHolder.Call
     private int mSmartAlarmTo = -1;
     private int mTimestampFrom = -1;
     private int mSmartAlarmGoneOff = -1;
+    private GBDevice mGBDevice = null;
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -56,12 +57,25 @@ public class SleepMonitorActivity extends Activity implements SurfaceHolder.Call
     };
 
     private void refresh() {
+        if (mGBDevice == null) {
+            return;
+        }
+
         if (mTimestampFrom == -1) {
             Long ts = System.currentTimeMillis();
             mTimestampFrom = (int) ((ts / 1000) - (24 * 60 * 60) & 0xffffffff); // -24 hours
         }
 
-        ArrayList<GBActivitySample> samples = GBApplication.getActivityDatabaseHandler().getGBActivitySamples(mTimestampFrom, -1, (byte) 1);
+        byte provider = -1;
+        switch (mGBDevice.getType()) {
+            case MIBAND:
+                provider = GBActivitySample.PROVIDER_MIBAND;
+                break;
+            case PEBBLE:
+                provider = GBActivitySample.PROVIDER_PEBBLE_MORPHEUZ; // FIXME
+                break;
+        }
+        ArrayList<GBActivitySample> samples = GBApplication.getActivityDatabaseHandler().getGBActivitySamples(mTimestampFrom, -1, provider);
         Calendar cal = Calendar.getInstance();
         Date date;
         String dateStringFrom = "";
@@ -129,6 +143,12 @@ public class SleepMonitorActivity extends Activity implements SurfaceHolder.Call
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            mGBDevice = extras.getParcelable("device");
+        }
+
         setContentView(R.layout.activity_sleepmonitor);
 
         textView = (TextView) findViewById(R.id.textView);

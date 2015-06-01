@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +40,8 @@ public class ControlCenter extends Activity {
     TextView hintTextView;
     ListView deviceListView;
     GBDeviceAdapter mGBDeviceAdapter;
+    private GBDevice selectedDevice = null;
+
     final List<GBDevice> deviceList = new ArrayList<>();
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -96,6 +99,8 @@ public class ControlCenter extends Activity {
             }
         });
 
+        registerForContextMenu(deviceListView);
+
         IntentFilter filterLocal = new IntentFilter();
         filterLocal.addAction(ACTION_QUIT);
         filterLocal.addAction(ACTION_REFRESH_DEVICELIST);
@@ -139,6 +144,33 @@ public class ControlCenter extends Activity {
         versionInfoIntent.setAction(BluetoothCommunicationService.ACTION_REQUEST_VERSIONINFO);
         startService(versionInfoIntent);
     }
+
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(
+                R.menu.controlcenter_context, menu);
+        AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        selectedDevice = deviceList.get(acmi.position);
+        menu.setHeaderTitle(selectedDevice.getName());
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.controlcenter_start_sleepmonitor:
+                if (selectedDevice != null) {
+                    Intent startIntent = new Intent(ControlCenter.this, SleepMonitorActivity.class);
+                    startIntent.putExtra("device", selectedDevice);
+                    startActivity(startIntent);
+                }
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
