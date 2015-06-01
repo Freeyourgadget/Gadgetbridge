@@ -16,6 +16,8 @@ import java.util.UUID;
 
 import java.text.DateFormat;
 
+import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBCommand;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.btle.AbstractBTLEDeviceSupport;
@@ -497,6 +499,13 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private void flushActivityDataHolder() {
         GregorianCalendar timestamp = this.activityDataTimestampProgress;
         for (int i=0; i<this.activityDataHolder.length; i+=3) {
+            GBApplication.getActivityDatabaseHandler().addGBActivitySample(
+                    (int) timestamp.getTimeInMillis() / 1000,
+                    GBActivitySample.PROVIDER_MIBAND,
+                    this.activityDataHolder[i+1],
+                    this.activityDataHolder[i+2],
+                    this.activityDataHolder[i]);
+
             ACTIVITYLOG.info(
                     " timestamp:"+DateFormat.getDateTimeInstance().format(timestamp.getTime()).toString() +
                             " category:"+ this.activityDataHolder[i]+
