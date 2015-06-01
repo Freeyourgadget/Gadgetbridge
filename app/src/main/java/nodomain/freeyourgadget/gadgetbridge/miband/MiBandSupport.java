@@ -498,19 +498,25 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     private void flushActivityDataHolder() {
         GregorianCalendar timestamp = this.activityDataTimestampProgress;
+        byte category, intensity, steps;
+
         for (int i=0; i<this.activityDataHolder.length; i+=3) {
+            category = this.activityDataHolder[i];
+            intensity = this.activityDataHolder[i+1];
+            steps = this.activityDataHolder[i+2];
+
             GBApplication.getActivityDatabaseHandler().addGBActivitySample(
-                    (int) timestamp.getTimeInMillis() / 1000,
+                    (int) (timestamp.getTimeInMillis() / 1000),
                     GBActivitySample.PROVIDER_MIBAND,
-                    this.activityDataHolder[i+1],
-                    this.activityDataHolder[i+2],
-                    this.activityDataHolder[i]);
+                    intensity,
+                    steps,
+                    category);
 
             ACTIVITYLOG.info(
                     " timestamp:"+DateFormat.getDateTimeInstance().format(timestamp.getTime()).toString() +
-                            " category:"+ this.activityDataHolder[i]+
-                            " intensity:"+this.activityDataHolder[i+1]+
-                            " steps:"+this.activityDataHolder[i+2]
+                            " category:"+ category+
+                            " intensity:"+intensity+
+                            " steps:"+steps
             );
             timestamp.add(Calendar.MINUTE, 1);
         }
