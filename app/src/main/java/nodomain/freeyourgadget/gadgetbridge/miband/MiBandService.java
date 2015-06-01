@@ -125,6 +125,12 @@ public class MiBandService {
 
     public static final byte MSG_BATTERY_STATUS_CHANGED = 0x7;
 
+    public static final byte COMMAND_REBOOT = 0xc;
+
+    public static final byte COMMAND_SEND_NOTIFICATION = 0x8;
+    
+    public static final byte COMMAND_STOP_MOTOR_VIBRATE = 0x13;
+
     public static final byte COMMAND_CONFIRM_ACTIVITY_DATA_TRANSFER_COMPLETE = 0xa;
     /*
 
@@ -135,11 +141,7 @@ public class MiBandService {
 
 	public static final byte COMMAND_GET_SENSOR_DATA = 0x12t
 
-	public static final byte COMMAND_REBOOT = 0xct
-
 	public static final byte COMMAND_SEND_FIRMWARE_INFO = 0x7t
-
-	public static final COMMAND_SEND_NOTIFICATION = 0x8t
 
 	public static final int COMMAND_SET_COLOR_THEME = et;
 
@@ -152,8 +154,6 @@ public class MiBandService {
 	public static final COMMAND_SET_TIMER = 0x4t
 
 	public static final COMMAND_SET_WEAR_LOCATION = 0xft
-
-	public static final COMMAND_STOP_MOTOR_VIBRATE = 0x13t
 
 	public static final COMMAND_STOP_SYNC_DATA = 0x11t
 
