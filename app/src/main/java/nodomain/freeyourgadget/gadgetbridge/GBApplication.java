@@ -39,15 +39,13 @@ public class GBApplication extends Application {
     }
 
     private void setupLogging() {
-        if (isFileLoggingEnabled()) {
-            File dir = getExternalFilesDir(null);
-            if (dir != null && !dir.exists()) {
-                dir.mkdirs();
-            }
-            // used by assets/logback.xml since the location cannot be statically determined
-            System.setProperty("GB_LOGFILES_DIR", dir.getAbsolutePath());
-        } else {
-            System.setProperty("GB_LOGFILES_DIR", "/dev/null"); // just to please logback configuration, not used at all
+        File dir = getExternalFilesDir(null);
+        if (dir != null && !dir.exists()) {
+            dir.mkdirs();
+        }
+        // used by assets/logback.xml since the location cannot be statically determined
+        System.setProperty("GB_LOGFILES_DIR", dir.getAbsolutePath());
+        if (!isFileLoggingEnabled()) {
             try {
                 ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
                 root.detachAppender("FILE");
