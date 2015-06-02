@@ -13,11 +13,11 @@ need to create an account and transmit any of your data to the vendor's servers.
 * SMS notification (sender, body)
 * K-9 Mail notification support (sender, subject, preview)
 * Support for generic notificaions (above filtered out)
-* Apollo playback info (artist, album, track)
+* Music playback info (artist, album, track). Apollo and CM 12.1 Music App supported.
 * Music control: play/pause, next track, previous track, volume up, volume down
 * List and remove installed apps/watchfaces
 * Install .pbw files
-* Install firmware from .pbz files (EXPERIMENTAL)
+* Install firmware from .pbz files
 
 ## How to use (Pebble)
 

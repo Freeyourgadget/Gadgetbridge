@@ -136,6 +136,7 @@
             android:enabled="false" >
             <intent-filter>
                 <action android:name="com.andrew.apollo.metachanged" />
+                <action android:name="com.cyanogenmod.eleven.metachanged" />
             </intent-filter>
         </receiver>
         <receiver
