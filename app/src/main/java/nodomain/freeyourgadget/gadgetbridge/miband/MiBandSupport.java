@@ -462,8 +462,10 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             LOG.info("data to read until next header: "+  dataUntilNextHeader   +" len: " + (dataUntilNextHeader / 3) + " minute(s)");
             LOG.info("TIMESTAMP: " + DateFormat.getDateTimeInstance().format(timestamp.getTime()).toString() + " magic byte: " + dataUntilNextHeader);
 
-            this.activityDataRemainingBytes = this.activityDataUntilNextHeader = dataUntilNextHeader;
-            this.activityDataTimestampProgress = this.activityDataTimestampToAck = timestamp;
+            if (dataUntilNextHeader > 0 ) { //tentative fix for data in the future
+                this.activityDataRemainingBytes = this.activityDataUntilNextHeader = dataUntilNextHeader;
+                this.activityDataTimestampProgress = this.activityDataTimestampToAck = timestamp;
+            }
 
         } else {
             bufferActivityData(value);
