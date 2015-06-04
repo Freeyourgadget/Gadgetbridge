@@ -51,54 +51,53 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
 
 
     public void addGBActivitySample(GBActivitySample GBActivitySample) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        try (SQLiteDatabase db = this.getWritableDatabase()) {
+            ContentValues values = new ContentValues();
+            values.put(KEY_TIMESTAMP, GBActivitySample.getTimestamp());
+            values.put(KEY_PROVIDER, GBActivitySample.getProvider());
+            values.put(KEY_INTENSITY, GBActivitySample.getIntensity());
+            values.put(KEY_STEPS, GBActivitySample.getSteps());
+            values.put(KEY_TYPE, GBActivitySample.getType());
 
-        ContentValues values = new ContentValues();
-        values.put(KEY_TIMESTAMP, GBActivitySample.getTimestamp());
-        values.put(KEY_PROVIDER, GBActivitySample.getProvider());
-        values.put(KEY_INTENSITY, GBActivitySample.getIntensity());
-        values.put(KEY_STEPS, GBActivitySample.getSteps());
-        values.put(KEY_TYPE, GBActivitySample.getType());
-
-        db.insert(TABLE_GBACTIVITYSAMPLES, null, values);
-        db.close();
+            db.insert(TABLE_GBACTIVITYSAMPLES, null, values);
+        }
     }
 
     public void addGBActivitySample(int timestamp, byte provider, short intensity, byte steps, byte type) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        try (SQLiteDatabase db = this.getWritableDatabase()) {
+            ContentValues values = new ContentValues();
+            values.put(KEY_TIMESTAMP, timestamp);
+            values.put(KEY_PROVIDER, provider);
+            values.put(KEY_INTENSITY, intensity);
+            values.put(KEY_STEPS, steps);
+            values.put(KEY_TYPE, type);
 
-        ContentValues values = new ContentValues();
-        values.put(KEY_TIMESTAMP, timestamp);
-        values.put(KEY_PROVIDER, provider);
-        values.put(KEY_INTENSITY, intensity);
-        values.put(KEY_STEPS, steps);
-        values.put(KEY_TYPE, type);
-
-        db.insert(TABLE_GBACTIVITYSAMPLES, null, values);
-        db.close();
+            db.insert(TABLE_GBACTIVITYSAMPLES, null, values);
+        }
     }
 
     public ArrayList<GBActivitySample> getGBActivitySamples(int timestamp_from, int timestamp_to, byte provider) {
         if (timestamp_to == -1) {
-            timestamp_to = 2147483647; // dont know what happens when I use more than max of a signed int
+            timestamp_to = Integer.MAX_VALUE; // dont know what happens when I use more than max of a signed int
         }
         ArrayList<GBActivitySample> GBActivitySampleList = new ArrayList<GBActivitySample>();
         String selectQuery = "SELECT  * FROM " + TABLE_GBACTIVITYSAMPLES
                 + " where (provider=" + provider + " and timestamp>=" + timestamp_from + " and timestamp<=" + timestamp_to + ") order by timestamp";
 
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        try (SQLiteDatabase db = this.getWritableDatabase()) {
+            Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (cursor.moveToFirst()) {
-            do {
-                GBActivitySample GBActivitySample = new GBActivitySample(
-                        cursor.getInt(cursor.getColumnIndex(KEY_TIMESTAMP)),
-                        (byte) cursor.getInt(cursor.getColumnIndex(KEY_PROVIDER)),
-                        (short) cursor.getInt(cursor.getColumnIndex(KEY_INTENSITY)),
-                        (byte) cursor.getInt(cursor.getColumnIndex(KEY_STEPS)),
-                        (byte) cursor.getInt(cursor.getColumnIndex(KEY_TYPE)));
-                GBActivitySampleList.add(GBActivitySample);
-            } while (cursor.moveToNext());
+            if (cursor.moveToFirst()) {
+                do {
+                    GBActivitySample GBActivitySample = new GBActivitySample(
+                            cursor.getInt(cursor.getColumnIndex(KEY_TIMESTAMP)),
+                            (byte) cursor.getInt(cursor.getColumnIndex(KEY_PROVIDER)),
+                            (short) cursor.getInt(cursor.getColumnIndex(KEY_INTENSITY)),
+                            (byte) cursor.getInt(cursor.getColumnIndex(KEY_STEPS)),
+                            (byte) cursor.getInt(cursor.getColumnIndex(KEY_TYPE)));
+                    GBActivitySampleList.add(GBActivitySample);
+                } while (cursor.moveToNext());
+            }
         }
 
         return GBActivitySampleList;
