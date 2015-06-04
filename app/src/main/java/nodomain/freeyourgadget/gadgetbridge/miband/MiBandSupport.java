@@ -462,10 +462,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             LOG.info("data to read until next header: "+  dataUntilNextHeader   +" len: " + (dataUntilNextHeader / 3) + " minute(s)");
             LOG.info("TIMESTAMP: " + DateFormat.getDateTimeInstance().format(timestamp.getTime()).toString() + " magic byte: " + dataUntilNextHeader);
 
-            if (dataUntilNextHeader > 0 ) { //tentative fix for data in the future
-                this.activityDataRemainingBytes = this.activityDataUntilNextHeader = dataUntilNextHeader;
-                this.activityDataTimestampProgress = this.activityDataTimestampToAck = timestamp;
-            }
+            this.activityDataRemainingBytes = this.activityDataUntilNextHeader = dataUntilNextHeader;
+            this.activityDataTimestampProgress = this.activityDataTimestampToAck = timestamp;
 
         } else {
             bufferActivityData(value);
@@ -502,7 +500,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         GregorianCalendar timestamp = this.activityDataTimestampProgress;
         byte category, intensity, steps;
 
-        for (int i=0; i<this.activityDataHolder.length; i+=3) {
+        for (int i=0; i<this.activityDataHolderProgress; i+=3) { //TODO: check if multiple of 3, if not something is wrong
             category = this.activityDataHolder[i];
             intensity = this.activityDataHolder[i+1];
             steps = this.activityDataHolder[i+2];
