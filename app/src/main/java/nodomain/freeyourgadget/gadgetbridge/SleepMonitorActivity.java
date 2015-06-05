@@ -114,6 +114,8 @@ public class SleepMonitorActivity extends Activity implements SurfaceHolder.Call
 
             byte last_type = GBActivitySample.TYPE_UNKNOWN;
 
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+            SimpleDateFormat annotationDateFormat = new SimpleDateFormat("HH:mm");
             for (int i = 0; i < samples.size(); i++) {
                 GBActivitySample sample = samples.get(i);
                 byte type = sample.getType();
@@ -121,11 +123,11 @@ public class SleepMonitorActivity extends Activity implements SurfaceHolder.Call
                 if (i == 0) {
                     cal.setTimeInMillis((long) sample.getTimestamp() * 1000L);
                     date = cal.getTime();
-                    dateStringFrom = new SimpleDateFormat("dd.MM.yyyy HH:mm").format(date);
+                    dateStringFrom = dateFormat.format(date);
                 } else if (i == samples.size() - 1) {
                     cal.setTimeInMillis((long) sample.getTimestamp() * 1000L);
                     date = cal.getTime();
-                    dateStringTo = new SimpleDateFormat("dd.MM.yyyy HH:mm").format(date);
+                    dateStringTo = dateFormat.format(date);
                 }
 
                 short movement = sample.getIntensity();
@@ -157,7 +159,7 @@ public class SleepMonitorActivity extends Activity implements SurfaceHolder.Call
                     if (annotate_this) {
                         cal.setTimeInMillis((long) (sample.getTimestamp()) * 1000L);
                         date = cal.getTime();
-                        String dateString = new SimpleDateFormat("HH:mm").format(date);
+                        String dateString = annotationDateFormat.format(date);
                         paint.setColor(Color.WHITE);
                         canvas.save();
                         canvas.rotate(-90.0f, r.left, r.top);
