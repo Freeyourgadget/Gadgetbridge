@@ -12,7 +12,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
 
 public class ActivityDatabaseHandler extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
 
     private static final String DATABASE_NAME = "ActivityDatabase";
 
@@ -36,20 +36,20 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
                 + KEY_INTENSITY + " SMALLINT,"
                 + KEY_STEPS + " TINYINT,"
                 + KEY_TYPE + " TINYINT,"
-                + " PRIMARY_KEY (" + KEY_TIMESTAMP + "," + KEY_PROVIDER + ") ON CONFLICT REPLACE)";
+                + " PRIMARY_KEY (" + KEY_TIMESTAMP + "," + KEY_PROVIDER + ") ON CONFLICT REPLACE) WITHOUT ROWID;";
         db.execSQL(CREATE_GBACTIVITYSAMPLES_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (newVersion == 4 && oldVersion == 3) {
+        if (newVersion == 5 && (oldVersion == 4 || oldVersion ==3)) {
             String CREATE_NEW_GBACTIVITYSAMPLES_TABLE = "CREATE TABLE NEW ("
                     + KEY_TIMESTAMP + " INT,"
                     + KEY_PROVIDER + " TINYINT,"
                     + KEY_INTENSITY + " SMALLINT,"
                     + KEY_STEPS + " TINYINT,"
                     + KEY_TYPE + " TINYINT,"
-                    + " PRIMARY KEY (" + KEY_TIMESTAMP + "," + KEY_PROVIDER + ") ON CONFLICT REPLACE)";
+                    + " PRIMARY KEY (" + KEY_TIMESTAMP + "," + KEY_PROVIDER + ") ON CONFLICT REPLACE) WITHOUT ROWID;";
             db.execSQL(CREATE_NEW_GBACTIVITYSAMPLES_TABLE);
             db.execSQL("insert into NEW select timestamp,provider,intensity,steps,type from "+ TABLE_GBACTIVITYSAMPLES+";");
             db.execSQL("Drop table "+TABLE_GBACTIVITYSAMPLES+";");
@@ -92,7 +92,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
 
     public ArrayList<GBActivitySample> getGBActivitySamples(int timestamp_from, int timestamp_to, byte provider) {
         if (timestamp_to == -1) {
-            timestamp_to = 2147483647; // dont know what happens when I use more than max of a signed int
+            timestamp_to = Integer.MAX_VALUE; // dont know what happens when I use more than max of a signed int
         }
         ArrayList<GBActivitySample> GBActivitySampleList = new ArrayList<GBActivitySample>();
         String selectQuery = "SELECT  * FROM " + TABLE_GBACTIVITYSAMPLES
