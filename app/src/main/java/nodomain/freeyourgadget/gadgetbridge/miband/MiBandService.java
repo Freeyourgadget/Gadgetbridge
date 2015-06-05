@@ -132,12 +132,13 @@ public class MiBandService {
     public static final byte COMMAND_STOP_MOTOR_VIBRATE = 0x13;
 
     public static final byte COMMAND_CONFIRM_ACTIVITY_DATA_TRANSFER_COMPLETE = 0xa;
+
+    public static final byte COMMAND_FETCH_DATA = 0x6;
     /*
 
 
 	public static final byte COMMAND_FACTORY_RESET = 0x9t;
 
-	public static final byte COMMAND_FETCH_DATA = 0x6t;
 
 	public static final byte COMMAND_GET_SENSOR_DATA = 0x12t
 

@@ -5,8 +5,9 @@ import android.content.Context;
 
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.btle.BtLEAction;
+import nodomain.freeyourgadget.gadgetbridge.btle.PlainAction;
 
-public class SetDeviceStateAction extends BtLEAction {
+public class SetDeviceStateAction extends PlainAction {
     private final GBDevice device;
     private final GBDevice.State deviceState;
     private final Context context;
@@ -22,11 +23,6 @@ public class SetDeviceStateAction extends BtLEAction {
         device.setState(deviceState);
         device.sendDeviceUpdateIntent(getContext());
         return true;
-    }
-
-    @Override
-    public boolean expectsResult() {
-        return false;
     }
 
     public Context getContext() {

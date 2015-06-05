@@ -54,6 +54,10 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
+    public byte[] encodeSynchronizeActivityData() {
+        return null;
+    }
+
     public byte[] encodeReboot() {
         return null;
     }

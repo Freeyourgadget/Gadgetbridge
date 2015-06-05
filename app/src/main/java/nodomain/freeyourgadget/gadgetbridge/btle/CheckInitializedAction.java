@@ -12,7 +12,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBDevice;
  * sequence (transaction). It will abort the entire initialization sequence
  * by returning false, when the device is already initialized.
  */
-public class CheckInitializedAction extends BtLEAction {
+public class CheckInitializedAction extends PlainAction {
     private static final Logger LOG = LoggerFactory.getLogger(CheckInitializedAction.class);
 
     private final GBDevice device;
@@ -28,10 +28,5 @@ public class CheckInitializedAction extends BtLEAction {
             LOG.info("Aborting device initialization, because already initialized: " + device);
         }
         return continueWithOtherInitActions;
-    }
-
-    @Override
-    public boolean expectsResult() {
-        return false;
     }
 }

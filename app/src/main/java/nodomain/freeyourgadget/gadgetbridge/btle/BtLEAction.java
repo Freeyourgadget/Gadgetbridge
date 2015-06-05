@@ -14,10 +14,6 @@ import android.bluetooth.BluetoothGattCharacteristic;
 public abstract class BtLEAction {
     private final BluetoothGattCharacteristic characteristic;
 
-    public BtLEAction() {
-        this(null);
-    }
-
     public BtLEAction(BluetoothGattCharacteristic characteristic) {
         this.characteristic = characteristic;
     }

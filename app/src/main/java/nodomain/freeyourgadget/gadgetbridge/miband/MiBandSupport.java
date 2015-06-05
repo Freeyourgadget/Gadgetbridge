@@ -20,7 +20,9 @@ import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBCommand;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.btle.AbstractBTLEDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.btle.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.btle.TransactionBuilder;
 
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.DEFAULT_VALUE_FLASH_COLOUR;
@@ -147,10 +149,10 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         builder.queue(getQueue());
     }
 
-    private static final byte[] startVibrate = new byte[]{MiBandService.COMMAND_SEND_NOTIFICATION, 1};
-    private static final byte[] stopVibrate = new byte[]{MiBandService.COMMAND_STOP_MOTOR_VIBRATE};
-    private static final byte[] reboot = new byte[]{MiBandService.COMMAND_REBOOT};
-    private static final byte[] fetch = new byte[]{6};
+    private static final byte[] startVibrate = new byte[] { MiBandService.COMMAND_SEND_NOTIFICATION, 1 };
+    private static final byte[] stopVibrate = new byte[] { MiBandService.COMMAND_STOP_MOTOR_VIBRATE };
+    private static final byte[] reboot = new byte[]{ MiBandService.COMMAND_REBOOT };
+    private static final byte[] fetch = new byte[]{ MiBandService.COMMAND_FETCH_DATA };
 
     private byte[] getNotification(long vibrateDuration, int vibrateTimes, int flashTimes, int flashColour, int originalColour, long flashDuration) {
         byte[] vibrate = new byte[]{MiBandService.COMMAND_SEND_NOTIFICATION, (byte) 1};
@@ -358,7 +360,19 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onReboot() {
         try {
+            TransactionBuilder builder = performInitialized("Reboot");
+            builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), reboot);
+            builder.queue(getQueue());
+        } catch (IOException ex) {
+            LOG.error("Unable to reboot MI", ex);
+        }
+    }
+
+    @Override
+    public void onSynchronizeActivityData() {
+        try {
             TransactionBuilder builder = performInitialized("fetch activity data");
+            builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.busy_task_fetch_activity_data), getContext()));
             builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), fetch);
             builder.queue(getQueue());
         } catch (IOException ex) {
@@ -487,7 +501,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                     flushActivityDataHolder();
                 }
             } else {
-                // the lenght of the chunk is not what we expect. We need to make sense of this data
+                // the length of the chunk is not what we expect. We need to make sense of this data
                 LOG.warn("GOT UNEXPECTED ACTIVITY DATA WITH LENGTH: " + value.length + ", EXPECTED LENGTH: " + this.activityDataRemainingBytes);
                 for (byte b: value){
                     LOG.warn("DATA: " + String.format("0x%8x", b));
@@ -530,11 +544,31 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             LOG.warn("Could not write to the control point.");
         }
         LOG.info("handleControlPoint got status:" + status);
+
+        if (getDevice().isBusy()) {
+            if (isActivityDataSyncFinished(value)) {
+                unsetBusy();
+            }
+        }
         for (byte b: value){
             LOG.info("handleControlPoint GOT DATA:" + String.format("0x%8x", b));
         }
-
     }
+
+    private boolean isActivityDataSyncFinished(byte[] value) {
+        if (value.length == 9) {
+            if (value[0] == 0xa && value[1] == 0xf && value[2] == 5 && value[7] == 0 && value[8] == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void unsetBusy() {
+        getDevice().unsetBusyTask();
+        getDevice().sendDeviceUpdateIntent(getContext());
+    }
+
     private void sendAckDataTransfer(Calendar time, int bytesTransferred) {
         byte[] ack = new byte[]{
                 MiBandService.COMMAND_CONFIRM_ACTIVITY_DATA_TRANSFER_COMPLETE,

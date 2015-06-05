@@ -36,6 +36,7 @@ public class GBDevice implements Parcelable {
     private short mBatteryLevel = BATTERY_UNKNOWN;
     private String mBatteryState;
     private short mRssi = RSSI_UNKNOWN;
+    private String mBusyTask;
 
     public GBDevice(String address, String name, DeviceType deviceType) {
         mAddress = address;
@@ -54,6 +55,8 @@ public class GBDevice implements Parcelable {
         mBatteryLevel = (short) in.readInt();
         mBatteryState = in.readString();
         mRssi = (short) in.readInt();
+        mBusyTask = in.readString();
+
         validate();
     }
 
@@ -68,6 +71,7 @@ public class GBDevice implements Parcelable {
         dest.writeInt(mBatteryLevel);
         dest.writeString(mBatteryState);
         dest.writeInt(mRssi);
+        dest.writeString(mBusyTask);
     }
 
     private void validate() {
@@ -116,6 +120,42 @@ public class GBDevice implements Parcelable {
         return mState == State.CONNECTING;
     }
 
+    public boolean isBusy() {
+        return mBusyTask != null;
+    }
+
+    public String getBusyTask() {
+        return mBusyTask;
+    }
+
+    /**
+     * Marks the device as busy, performing a certain task. While busy, no other operations will
+     * be performed on the device.
+     *
+     * Note that nested busy tasks are not supported, every single call to #setBusyTask()
+     * or unsetBusy() has an effect.
+     * @param task a textual name of the task to be performed, possibly displayed to the user
+     */
+    public void setBusyTask(String task) {
+        if (task == null) {
+            throw new IllegalArgumentException("busy task must not be null");
+        }
+        if (mBusyTask != null) {
+            LOG.warn("Attempt to mark device as busy with: " + task + ", but is already busy with: " + mBusyTask);
+        }
+        mBusyTask = task;
+    }
+
+    /**
+     * Marks the device as not busy anymore.
+     */
+    public void unsetBusyTask() {
+        if (mBusyTask == null) {
+            LOG.error("Attempt to mark device as not busy anymore, but was not busy before.");
+        }
+        mBusyTask = null;
+    }
+
     public State getState() {
         return mState;
     }
@@ -132,6 +172,7 @@ public class GBDevice implements Parcelable {
         setBatteryState(null);
         setFirmwareVersion(null);
         setRssi(RSSI_UNKNOWN);
+        unsetBusyTask();
     }
 
     public String getStateString() {
@@ -249,5 +290,4 @@ public class GBDevice implements Parcelable {
         INITIALIZING,
         INITIALIZED
     }
-
 }

@@ -2,7 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.btle;
 
 import android.bluetooth.BluetoothGatt;
 
-public class WaitAction extends BtLEAction {
+public class WaitAction extends PlainAction {
 
     private int mMillis;
 
@@ -18,11 +18,5 @@ public class WaitAction extends BtLEAction {
         } catch (InterruptedException e) {
             return false;
         }
-    }
-
-    @Override
-    public boolean expectsResult() {
-        // no BT communication at all, no result
-        return false;
     }
 }
