@@ -106,7 +106,7 @@ public class MorpheuzSupport {
                         } else if (intensity <= 1000) {
                             type = GBActivitySample.TYPE_LIGHT_SLEEP;
                         }
-                        if (index >= 0 && index < 54) {
+                        if (index >= 0) {
                             GBApplication.getActivityDatabaseHandler().addGBActivitySample(recording_base_timestamp + index * 600, GBActivitySample.PROVIDER_PEBBLE_MORPHEUZ, intensity, (byte) 0, type);
                         }
 
