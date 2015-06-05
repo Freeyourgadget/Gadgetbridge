@@ -31,6 +31,10 @@ public class GBApplication extends Application {
 //         print logback's internal status
 //        StatusPrinter.print(lc);
 //        Logger logger = LoggerFactory.getLogger(GBApplication.class);
+
+// for testing DB stuff
+//        SQLiteDatabase db = mActivityDatabaseHandler.getWritableDatabase();
+//        db.close();
     }
 
     public static boolean isFileLoggingEnabled() {

@@ -12,13 +12,12 @@ import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
 
 public class ActivityDatabaseHandler extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 5;
 
     private static final String DATABASE_NAME = "ActivityDatabase";
 
     private static final String TABLE_GBACTIVITYSAMPLES = "GBActivitySamples";
 
-    private static final String KEY_ID = "id";
     private static final String KEY_TIMESTAMP = "timestamp";
     private static final String KEY_PROVIDER = "provider";
     private static final String KEY_INTENSITY = "intensity";
@@ -31,22 +30,35 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_GBACTIVITYSAMPLES_TABLE = "CREATE TABLE " + TABLE_GBACTIVITYSAMPLES + "("
-                + KEY_ID + " INTEGER PRIMARY KEY,"
+        String CREATE_GBACTIVITYSAMPLES_TABLE = "CREATE TABLE " + TABLE_GBACTIVITYSAMPLES + " ("
                 + KEY_TIMESTAMP + " INT,"
                 + KEY_PROVIDER + " TINYINT,"
                 + KEY_INTENSITY + " SMALLINT,"
                 + KEY_STEPS + " TINYINT,"
                 + KEY_TYPE + " TINYINT,"
-                + " UNIQUE (" + KEY_TIMESTAMP + "," + KEY_PROVIDER + ") ON CONFLICT REPLACE)";
+                + " PRIMARY_KEY (" + KEY_TIMESTAMP + "," + KEY_PROVIDER + ") ON CONFLICT REPLACE) WITHOUT ROWID;";
         db.execSQL(CREATE_GBACTIVITYSAMPLES_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //FIXME: do not just recreate
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_GBACTIVITYSAMPLES);
-        onCreate(db);
+        if (newVersion == 5 && (oldVersion == 4 || oldVersion ==3)) {
+            String CREATE_NEW_GBACTIVITYSAMPLES_TABLE = "CREATE TABLE NEW ("
+                    + KEY_TIMESTAMP + " INT,"
+                    + KEY_PROVIDER + " TINYINT,"
+                    + KEY_INTENSITY + " SMALLINT,"
+                    + KEY_STEPS + " TINYINT,"
+                    + KEY_TYPE + " TINYINT,"
+                    + " PRIMARY KEY (" + KEY_TIMESTAMP + "," + KEY_PROVIDER + ") ON CONFLICT REPLACE) WITHOUT ROWID;";
+            db.execSQL(CREATE_NEW_GBACTIVITYSAMPLES_TABLE);
+            db.execSQL("insert into NEW select timestamp,provider,intensity,steps,type from "+ TABLE_GBACTIVITYSAMPLES+";");
+            db.execSQL("Drop table "+TABLE_GBACTIVITYSAMPLES+";");
+            db.execSQL("alter table NEW RENAME TO " + TABLE_GBACTIVITYSAMPLES + ";");
+        } else {
+            //FIXME: do not just recreate
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_GBACTIVITYSAMPLES);
+            onCreate(db);
+        }
     }
 
 
