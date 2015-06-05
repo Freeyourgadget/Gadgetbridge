@@ -98,10 +98,16 @@ public class MorpheuzSupport {
                         ctrl_message = MorpheuzSupport.CTRL_VERSION_DONE | MorpheuzSupport.CTRL_GONEOFF_DONE | MorpheuzSupport.CTRL_TRANSMIT_DONE | MorpheuzSupport.CTRL_SET_LAST_SENT;
                     } else {
                         short index = (short) ((int) pair.second >> 16);
-                        short data = (short) ((int) pair.second & 0xffff);
-                        LOG.info("got point:" + index + " " + data);
+                        short intensity = (short) ((int) pair.second & 0xffff);
+                        LOG.info("got point:" + index + " " + intensity);
+                        byte type = GBActivitySample.TYPE_UNKNOWN;
+                        if (intensity <= 120) {
+                            type = GBActivitySample.TYPE_DEEP_SLEEP;
+                        } else if (intensity <= 1000) {
+                            type = GBActivitySample.TYPE_LIGHT_SLEEP;
+                        }
                         if (index >= 0 && index < 54) {
-                            GBApplication.getActivityDatabaseHandler().addGBActivitySample(recording_base_timestamp + index * 600, GBActivitySample.PROVIDER_PEBBLE_MORPHEUZ, data, (byte) 0, GBActivitySample.TYPE_SLEEP);
+                            GBApplication.getActivityDatabaseHandler().addGBActivitySample(recording_base_timestamp + index * 600, GBActivitySample.PROVIDER_PEBBLE_MORPHEUZ, intensity, (byte) 0, type);
                         }
 
                         ctrl_message = MorpheuzSupport.CTRL_VERSION_DONE | MorpheuzSupport.CTRL_SET_LAST_SENT | MorpheuzSupport.CTRL_DO_NEXT;

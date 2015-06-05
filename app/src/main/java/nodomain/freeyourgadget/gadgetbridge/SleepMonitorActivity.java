@@ -96,9 +96,27 @@ public class SleepMonitorActivity extends Activity implements SurfaceHolder.Call
             int height = canvas.getHeight();
 
             RectF r = new RectF(0.0f, 0.0f, 0.0f, height);
-            short last_movement = 5000;
+            float movement_divisor;
+            boolean annotate;
+            boolean use_steps_as_movement;
+            switch (provider) {
+                case GBActivitySample.PROVIDER_MIBAND:
+                    movement_divisor = 256.0f;
+                    annotate = false; // sample density to high?
+                    use_steps_as_movement = true;
+                    break;
+                default: // Morpheuz
+                    movement_divisor = 5000.0f;
+                    annotate = true;
+                    use_steps_as_movement = false;
+                    break;
+            }
+
+            byte last_type = GBActivitySample.TYPE_UNKNOWN;
+
             for (int i = 0; i < samples.size(); i++) {
                 GBActivitySample sample = samples.get(i);
+                byte type = sample.getType();
 
                 if (i == 0) {
                     cal.setTimeInMillis((long) sample.getTimestamp() * 1000L);
@@ -109,30 +127,42 @@ public class SleepMonitorActivity extends Activity implements SurfaceHolder.Call
                     date = cal.getTime();
                     dateStringTo = new SimpleDateFormat("dd.MM.yyyy HH:mm").format(date);
                 }
-                boolean annotate = false;
+
                 short movement = sample.getIntensity();
                 r.left = r.right;
                 r.right = (float) (i + 1) / (samples.size()) * width;
-                r.top = (1.0f - (float) movement / 5000.0f) * height;
-                if (movement > 1000) {
-                    paint.setColor(Color.RED);
-                    if (last_movement <= 1000) {
-                        annotate = true;
-                    }
-                } else if (movement > 120) {
-                    paint.setColor(Color.YELLOW);
+                if (type == GBActivitySample.TYPE_DEEP_SLEEP) {
+                    paint.setColor(Color.BLUE);
+                    r.top = 0.98f * height;
                 } else {
-                    paint.setColor(Color.GREEN);
+                    if (type == GBActivitySample.TYPE_LIGHT_SLEEP) {
+                        paint.setColor(Color.CYAN);
+                    } else {
+                        if (use_steps_as_movement) {
+                            movement = sample.getSteps();
+                        }
+                        paint.setColor(Color.YELLOW);
+                    }
+                    r.top = (1.0f - (float) movement / movement_divisor) * height;
                 }
+
                 canvas.drawRect(r, paint);
+                boolean annotate_this = false;
                 if (annotate) {
-                    cal.setTimeInMillis((long) (sample.getTimestamp()) * 1000L);
-                    date = cal.getTime();
-                    String dateString = new SimpleDateFormat("HH:mm").format(date);
-                    paint.setColor(Color.WHITE);
-                    canvas.drawText(dateString, r.left - 20, r.top - 20, paint);
+                    if (type != GBActivitySample.TYPE_DEEP_SLEEP && type != GBActivitySample.TYPE_LIGHT_SLEEP &&
+                            (last_type == GBActivitySample.TYPE_DEEP_SLEEP || last_type == GBActivitySample.TYPE_LIGHT_SLEEP)) {
+                        // seems that we woke up
+                        annotate_this = true;
+                    }
+                    if (annotate_this) {
+                        cal.setTimeInMillis((long) (sample.getTimestamp()) * 1000L);
+                        date = cal.getTime();
+                        String dateString = new SimpleDateFormat("HH:mm").format(date);
+                        paint.setColor(Color.WHITE);
+                        canvas.drawText(dateString, r.left - 20, r.top - 20, paint);
+                    }
+                    last_type = type;
                 }
-                last_movement = movement;
             }
             textView.setText(dateStringFrom + " to " + dateStringTo);
 
