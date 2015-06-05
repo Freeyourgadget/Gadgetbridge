@@ -159,7 +159,10 @@ public class SleepMonitorActivity extends Activity implements SurfaceHolder.Call
                         date = cal.getTime();
                         String dateString = new SimpleDateFormat("HH:mm").format(date);
                         paint.setColor(Color.WHITE);
-                        canvas.drawText(dateString, r.left - 20, r.top - 20, paint);
+                        canvas.save();
+                        canvas.rotate(-90.0f, r.left, r.top);
+                        canvas.drawText(dateString, r.left + 10, r.top + 10, paint);
+                        canvas.restore();
                     }
                     last_type = type;
                 }
