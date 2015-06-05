@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 public class ActivityDatabaseHandler extends SQLiteOpenHelper {
 
@@ -36,8 +37,20 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
                 + KEY_INTENSITY + " SMALLINT,"
                 + KEY_STEPS + " TINYINT,"
                 + KEY_TYPE + " TINYINT,"
-                + " PRIMARY_KEY (" + KEY_TIMESTAMP + "," + KEY_PROVIDER + ") ON CONFLICT REPLACE) WITHOUT ROWID;";
+                + " PRIMARY_KEY (" + KEY_TIMESTAMP + "," + KEY_PROVIDER + ") ON CONFLICT REPLACE)" + getWithoutRowId();
         db.execSQL(CREATE_GBACTIVITYSAMPLES_TABLE);
+    }
+
+    /**
+     * WITHOUT ROWID is only available with sqlite 3.8.2, which is available
+     * with Lollipop and later.
+     * @return the "WITHOUT ROWID" string or an empty string for pre-Lollipop devices
+     */
+    private String getWithoutRowId() {
+        if (GBApplication.isRunningLollipopOrLater()) {
+            return " WITHOUT ROWID;";
+        }
+        return "";
     }
 
     @Override
@@ -49,7 +62,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
                     + KEY_INTENSITY + " SMALLINT,"
                     + KEY_STEPS + " TINYINT,"
                     + KEY_TYPE + " TINYINT,"
-                    + " PRIMARY KEY (" + KEY_TIMESTAMP + "," + KEY_PROVIDER + ") ON CONFLICT REPLACE) WITHOUT ROWID;";
+                    + " PRIMARY KEY (" + KEY_TIMESTAMP + "," + KEY_PROVIDER + ") ON CONFLICT REPLACE)" + getWithoutRowId();
             db.execSQL(CREATE_NEW_GBACTIVITYSAMPLES_TABLE);
             db.execSQL("insert into NEW select timestamp,provider,intensity,steps,type from "+ TABLE_GBACTIVITYSAMPLES+";");
             db.execSQL("Drop table "+TABLE_GBACTIVITYSAMPLES+";");
