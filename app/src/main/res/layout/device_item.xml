@@ -35,7 +35,7 @@
             android:id="@+id/device_busy_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/device_info"
+            android:layout_alignParentEnd="true"
             android:indeterminate="true" />
 
         <LinearLayout
