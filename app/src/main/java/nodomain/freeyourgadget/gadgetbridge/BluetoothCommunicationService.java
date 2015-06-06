@@ -153,10 +153,10 @@ public class BluetoothCommunicationService extends Service {
                             BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(btDeviceAddress);
                             if (btDevice.getName() == null || btDevice.getName().equals("MI")) { //FIXME: workaround for Miband not being paired
                                 mGBDevice = new GBDevice(btDeviceAddress, "MI", DeviceType.MIBAND);
-                                mDeviceSupport = new MiBandSupport();
+                                mDeviceSupport = new ServiceDeviceSupport(new MiBandSupport());
                             } else if (btDevice.getName().indexOf("Pebble") == 0) {
                                 mGBDevice = new GBDevice(btDeviceAddress, btDevice.getName(), DeviceType.PEBBLE);
-                                mDeviceSupport = new PebbleSupport();
+                                mDeviceSupport = new ServiceDeviceSupport(new PebbleSupport());
                             }
                             if (mDeviceSupport != null) {
                                 mDeviceSupport.initialize(mGBDevice, mBtAdapter, this);
