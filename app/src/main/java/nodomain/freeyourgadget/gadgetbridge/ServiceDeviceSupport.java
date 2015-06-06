@@ -18,7 +18,7 @@ public class ServiceDeviceSupport implements DeviceSupport {
 
     private final DeviceSupport delegate;
     private long lastNoficationTime = 0;
-    private String lastNotificationType;
+    private String lastNotificationKind;
 
     public ServiceDeviceSupport(DeviceSupport delegate) {
         this.delegate = delegate;
@@ -79,11 +79,13 @@ public class ServiceDeviceSupport implements DeviceSupport {
     private boolean checkThrottle(String notificationKind) {
         long currentTime = System.currentTimeMillis();
         if ((currentTime - lastNoficationTime) < THROTTLING_THRESHOLD) {
-            if (notificationKind != null && notificationKind.equals(lastNotificationType)) {
+            if (notificationKind != null && notificationKind.equals(lastNotificationKind)) {
                 LOG.info("Ignoring " + notificationKind + " because of throttling threshold reached");
                 return true;
             }
         }
+        lastNoficationTime = currentTime;
+        lastNotificationKind = notificationKind;
         return false;
     }
 

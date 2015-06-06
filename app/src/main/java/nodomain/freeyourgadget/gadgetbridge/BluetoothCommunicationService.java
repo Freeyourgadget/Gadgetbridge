@@ -25,7 +25,6 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.miband.MiBandSupport;
-import nodomain.freeyourgadget.gadgetbridge.pebble.PebbleIoThread;
 import nodomain.freeyourgadget.gadgetbridge.pebble.PebbleSupport;
 
 public class BluetoothCommunicationService extends Service {

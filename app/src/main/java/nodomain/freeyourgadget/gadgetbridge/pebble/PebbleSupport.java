@@ -2,8 +2,6 @@ package nodomain.freeyourgadget.gadgetbridge.pebble;
 
 import android.net.Uri;
 
-import java.net.URI;
-
 import nodomain.freeyourgadget.gadgetbridge.AbstractBTDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;

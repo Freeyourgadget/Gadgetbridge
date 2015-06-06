@@ -10,13 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.URI;
+import java.text.DateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.UUID;
-
-import java.text.DateFormat;
 
 import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
