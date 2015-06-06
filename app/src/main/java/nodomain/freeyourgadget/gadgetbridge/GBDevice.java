@@ -172,7 +172,9 @@ public class GBDevice implements Parcelable {
         setBatteryState(null);
         setFirmwareVersion(null);
         setRssi(RSSI_UNKNOWN);
-        unsetBusyTask();
+        if (mBusyTask != null) {
+            unsetBusyTask();
+        }
     }
 
     public String getStateString() {
