@@ -63,7 +63,6 @@ public class BluetoothCommunicationService extends Service {
 
     private static final Logger LOG = LoggerFactory.getLogger(BluetoothCommunicationService.class);
     public static final String EXTRA_DEVICE_ADDRESS = "device_address";
-    private GBDeviceIoThread mGBDeviceIoThread = null;
 
     private boolean mStarted = false;
 
@@ -166,9 +165,6 @@ public class BluetoothCommunicationService extends Service {
                                 } else {
                                     mDeviceSupport.connect();
                                 }
-                                if (mDeviceSupport instanceof AbstractBTDeviceSupport) {
-                                    mGBDeviceIoThread = ((AbstractBTDeviceSupport) mDeviceSupport).getDeviceIOThread();
-                                }
                             }
                         } catch (Exception e) {
                             Toast.makeText(this, R.string.cannot_connect_bt_address_invalid_, Toast.LENGTH_SHORT).show();
@@ -246,7 +242,7 @@ public class BluetoothCommunicationService extends Service {
                 String uriString = intent.getStringExtra("app_uri");
                 if (uriString != null) {
                     LOG.info("will try to install app");
-                    ((PebbleIoThread) mGBDeviceIoThread).installApp(Uri.parse(uriString));
+                    mDeviceSupport.onInstallApp(Uri.parse(uriString));
                 }
                 break;
             case ACTION_START:

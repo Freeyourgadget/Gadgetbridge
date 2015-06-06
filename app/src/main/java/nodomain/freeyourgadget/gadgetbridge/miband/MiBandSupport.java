@@ -3,12 +3,14 @@ package nodomain.freeyourgadget.gadgetbridge.miband;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -378,6 +380,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         } catch (IOException ex) {
             LOG.error("Unable to fetch MI activity data", ex);
         }
+    }
+
+    @Override
+    public void onInstallApp(Uri uri) {
+        // not supported
     }
 
     @Override
