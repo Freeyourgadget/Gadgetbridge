@@ -106,5 +106,6 @@
     <string name="pref_write_logfiles">Write Log Files (needs restart)</string>
     <string name="initializing">initializing</string>
     <string name="busy_task_fetch_activity_data">Fetching Activity Data</string>
+    <string name="controlcenter_fetch_activity_data">Fetch Activity Data</string>
 
 </resources>

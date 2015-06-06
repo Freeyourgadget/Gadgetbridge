@@ -58,6 +58,7 @@ public class BluetoothCommunicationService extends Service {
     public static final String ACTION_INSTALL_PEBBLEAPP
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.install_pebbbleapp";
     public static final String ACTION_REBOOT = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.reboot";
+    public static final String ACTION_FETCH_ACTIVITY_DATA = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.fetch_activity_data";
     public static final String EXTRA_PERFORM_PAIR = "perform_pair";
 
     private static final Logger LOG = LoggerFactory.getLogger(BluetoothCommunicationService.class);
@@ -198,6 +199,10 @@ public class BluetoothCommunicationService extends Service {
             }
             case ACTION_REBOOT: {
                 mDeviceSupport.onReboot();
+                break;
+            }
+            case ACTION_FETCH_ACTIVITY_DATA: {
+                mDeviceSupport.onFetchActivityData();
                 break;
             }
             case ACTION_CALLSTATE:

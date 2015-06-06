@@ -27,7 +27,7 @@ public interface EventHandler {
 
     void onPhoneVersion(byte os);
 
-    void onSynchronizeActivityData();
+    void onFetchActivityData();
 
     void onReboot();
 

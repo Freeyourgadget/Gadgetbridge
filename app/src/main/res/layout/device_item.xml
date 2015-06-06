@@ -31,6 +31,13 @@
             android:textColor="@color/primarytext"
             android:typeface="sans" />
 
+        <ProgressBar
+            android:id="@+id/device_busy_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/device_info"
+            android:indeterminate="true" />
+
         <LinearLayout
             android:id="@+id/statuswrapper"
             android:layout_width="fill_parent"

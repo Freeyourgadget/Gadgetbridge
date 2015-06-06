@@ -369,7 +369,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSynchronizeActivityData() {
+    public void onFetchActivityData() {
         try {
             TransactionBuilder builder = performInitialized("fetch activity data");
             builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.busy_task_fetch_activity_data), getContext()));

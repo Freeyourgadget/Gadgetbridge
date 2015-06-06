@@ -72,6 +72,8 @@ public class ControlCenter extends Activity {
                     }
                     refreshPairedDevices();
 
+                    refreshBusyState(dev);
+
                     if (dev.isConnected() && dev.getFirmwareVersion() == null && !dev.isInitializing()) {
                         LOG.info("device connected, requesting more info");
                         requestDeviceInfo();
@@ -80,6 +82,10 @@ public class ControlCenter extends Activity {
             }
         }
     };
+
+    private void refreshBusyState(GBDevice dev) {
+        mGBDeviceAdapter.notifyDataSetChanged();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,6 +177,12 @@ public class ControlCenter extends Activity {
                     startActivity(startIntent);
                 }
                 return true;
+            case R.id.controlcenter_fetch_activity_data:
+                if (selectedDevice != null) {
+                    Intent startIntent = new Intent(this, BluetoothCommunicationService.class);
+                    startIntent.setAction(BluetoothCommunicationService.ACTION_FETCH_ACTIVITY_DATA);
+                    startService(startIntent);
+                }
             default:
                 return super.onContextItemSelected(item);
         }

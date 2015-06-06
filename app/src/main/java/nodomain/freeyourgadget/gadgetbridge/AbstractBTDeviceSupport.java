@@ -151,7 +151,7 @@ public abstract class AbstractBTDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
-    public void onSynchronizeActivityData() {
+    public void onFetchActivityData() {
         byte[] bytes = gbDeviceProtocol.encodeSynchronizeActivityData();
         sendToDevice(bytes);
     }

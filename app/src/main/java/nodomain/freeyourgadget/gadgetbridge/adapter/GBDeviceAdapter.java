@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -38,10 +39,22 @@ public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {
         TextView deviceInfoLabel = (TextView) view.findViewById(R.id.device_info);
         TextView batteryStatusLabel = (TextView) view.findViewById(R.id.battery_status);
         ImageView deviceImageView = (ImageView) view.findViewById(R.id.device_image);
+        ProgressBar busyIndicator = (ProgressBar) view.findViewById(R.id.device_busy_indicator);
 
-        deviceStatusLabel.setText(device.getStateString());
         deviceNameLabel.setText(device.getName());
         deviceInfoLabel.setText(device.getInfoString());
+
+        if (device.isBusy()) {
+            deviceStatusLabel.setText(device.getBusyTask());
+            busyIndicator.setVisibility(View.VISIBLE);
+            batteryStatusLabel.setVisibility(View.GONE);
+            deviceInfoLabel.setVisibility(View.GONE);
+        } else {
+            deviceStatusLabel.setText(device.getStateString());
+            busyIndicator.setVisibility(View.GONE);
+            batteryStatusLabel.setVisibility(View.VISIBLE);
+            deviceInfoLabel.setVisibility(View.VISIBLE);
+        }
 
         short batteryLevel = device.getBatteryLevel();
         if (batteryLevel != GBDevice.BATTERY_UNKNOWN) {
