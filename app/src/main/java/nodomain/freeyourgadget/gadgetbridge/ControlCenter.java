@@ -160,10 +160,14 @@ public class ControlCenter extends Activity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater().inflate(
-                R.menu.controlcenter_context, menu);
         AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
         selectedDevice = deviceList.get(acmi.position);
+        if (selectedDevice != null && selectedDevice.isBusy()) {
+            // no context menu when device is busy
+            return;
+        }
+        getMenuInflater().inflate(
+                R.menu.controlcenter_context, menu);
         menu.setHeaderTitle(selectedDevice.getName());
     }
 
@@ -181,6 +185,13 @@ public class ControlCenter extends Activity {
                 if (selectedDevice != null) {
                     Intent startIntent = new Intent(this, BluetoothCommunicationService.class);
                     startIntent.setAction(BluetoothCommunicationService.ACTION_FETCH_ACTIVITY_DATA);
+                    startService(startIntent);
+                }
+            case R.id.controlcenter_disconnect:
+                if (selectedDevice != null) {
+                    selectedDevice = null;
+                    Intent startIntent = new Intent(this, BluetoothCommunicationService.class);
+                    startIntent.setAction(BluetoothCommunicationService.ACTION_DISCONNECT);
                     startService(startIntent);
                 }
             default:

@@ -58,6 +58,8 @@ public class BluetoothCommunicationService extends Service {
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.install_pebbbleapp";
     public static final String ACTION_REBOOT = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.reboot";
     public static final String ACTION_FETCH_ACTIVITY_DATA = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.fetch_activity_data";
+    public static final String ACTION_DISCONNECT = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.disconnect";
+
     public static final String EXTRA_PERFORM_PAIR = "perform_pair";
 
     private static final Logger LOG = LoggerFactory.getLogger(BluetoothCommunicationService.class);
@@ -76,7 +78,8 @@ public class BluetoothCommunicationService extends Service {
                 GBDevice device = intent.getParcelableExtra("device");
                 if (mGBDevice.equals(device)) {
                     mGBDevice = device;
-                    GB.setReceiversEnableState(mDeviceSupport.useAutoConnect() || mGBDevice.isConnected(), context);
+                    boolean enableReceivers = mDeviceSupport != null && (mDeviceSupport.useAutoConnect() || mGBDevice.isConnected());
+                    GB.setReceiversEnableState(enableReceivers, context);
                     GB.updateNotification(mGBDevice.getName() + " " + mGBDevice.getStateString(), context);
                 }
             }
@@ -198,6 +201,11 @@ public class BluetoothCommunicationService extends Service {
             }
             case ACTION_FETCH_ACTIVITY_DATA: {
                 mDeviceSupport.onFetchActivityData();
+                break;
+            }
+            case ACTION_DISCONNECT: {
+                mDeviceSupport.dispose();
+                mDeviceSupport = null;
                 break;
             }
             case ACTION_CALLSTATE:

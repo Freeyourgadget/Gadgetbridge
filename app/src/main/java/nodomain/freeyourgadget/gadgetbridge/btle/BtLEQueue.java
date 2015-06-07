@@ -161,6 +161,7 @@ public final class BtLEQueue {
                 mBluetoothGatt.disconnect();
                 mBluetoothGatt.close();
                 mBluetoothGatt = null;
+                setDeviceConnectionState(State.NOT_CONNECTED);
             }
         }
     }
