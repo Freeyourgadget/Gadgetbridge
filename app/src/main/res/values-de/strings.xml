@@ -5,7 +5,6 @@
   <string name="action_settings">Einstellungen</string>
   <string name="action_debug">Debug</string>
   <string name="action_quit">Beenden</string>
-  <string name="action_refresh">Aktualisieren</string>
   <string name="title_activity_debug">Debug</string>
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">App Manager</string>

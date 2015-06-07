@@ -87,4 +87,6 @@
   <string name="miband_prefs_weight_kg">Peso in kg</string>
   <string name="pref_header_vibration_count">Numero vibrazioni</string>
   <string name="title_activity_sleepmonitor">Monitoraggio del sonno</string>
+  <string name="pref_log_to_file">LogToFile</string>
+  <string name="pref_write_logfiles">Salva il log su file (richiede riavvio)</string>
 </resources>
