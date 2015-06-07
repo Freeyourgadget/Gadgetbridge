@@ -52,7 +52,7 @@
     <string name="_unknown_">(bilinmeyen)</string>
     <string name="test">Test</string>
     <string name="test_notification">Test bilgilendirmesi</string>
-    <string name="this_is_a_test_notification_from_gadgetbridge">Bu Gadgetbridge'den gelen bir test bilgilendirmesidir.</string>
+    <string name="this_is_a_test_notification_from_gadgetbridge">Bu Gadgetbridge\'den gelen bir test bilgilendirmesidir.</string>
     <string name="bluetooth_is_not_supported_">Bluetooth desteği yok.</string>
     <string name="bluetooth_is_disabled_">Bluetooth açık değil.</string>
     <string name="tap_connected_device_for_app_mananger">Uygulama yöneticisi için cihaza dokunun</string>
@@ -88,7 +88,7 @@
     <string name="female">kadın</string>
     <string name="other">diğer</string>
     <string name="miband_pairing_using_dummy_userdata">Geçerli kullanıcı verisi girilmedi. Şimdilik yapay veri kullanılıyor.</string>
-    <string name="miband_pairing_tap_hint">Mi Band'ınız titreştiğinde ve yanıp söndüğünde birkaç defa dokunun.</string>
+    <string name="miband_pairing_tap_hint">Mi Band\'ınız titreştiğinde ve yanıp söndüğünde birkaç defa dokunun.</string>
     <string name="appinstaller_install">Yükle</string>
     <string name="discovery_connected_devices_hint">Cihazınızı keşfedilebilir yapın. Bağlı durumdaki cihazlar tekrar keşfedilmeyebilir.</string>
     <string name="discovery_note">Not:</string>
