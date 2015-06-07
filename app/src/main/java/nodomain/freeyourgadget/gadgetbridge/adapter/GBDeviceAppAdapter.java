@@ -31,14 +31,14 @@ public class GBDeviceAppAdapter extends ArrayAdapter<GBDeviceApp> {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            view = inflater.inflate(R.layout.device_item, parent, false);
+            view = inflater.inflate(R.layout.device_candidate_item, parent, false);
         }
-        TextView deviceStatusLabel = (TextView) view.findViewById(R.id.device_status);
-        TextView deviceNameLabel = (TextView) view.findViewById(R.id.device_name);
-        ImageView deviceImageView = (ImageView) view.findViewById(R.id.device_image);
+        TextView deviceAppVersionAuthorLabel = (TextView) view.findViewById(R.id.device_candidate_address);
+        TextView deviceAppNameLabel = (TextView) view.findViewById(R.id.device_candidate_name);
+        ImageView deviceImageView = (ImageView) view.findViewById(R.id.device_candidate_image);
 
-        deviceStatusLabel.setText(getContext().getString(R.string.appversion_by_creator, deviceApp.getVersion(), deviceApp.getCreator()));
-        deviceNameLabel.setText(deviceApp.getName());
+        deviceAppVersionAuthorLabel.setText(getContext().getString(R.string.appversion_by_creator, deviceApp.getVersion(), deviceApp.getCreator()));
+        deviceAppNameLabel.setText(deviceApp.getName());
         switch (deviceApp.getType()) {
             case APP_ACTIVITYTRACKER:
                 deviceImageView.setImageResource(R.drawable.ic_activitytracker);
