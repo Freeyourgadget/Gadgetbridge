@@ -27,6 +27,7 @@ public class MorpheuzSupport {
     public static final int KEY_VERSION = 6;
     public static final int KEY_GONEOFF = 7;
     public static final int KEY_TRANSMIT = 8;
+    public static final int KEY_AUTO_RESET = 9;
 
     public static final int CTRL_TRANSMIT_DONE = 1;
     public static final int CTRL_VERSION_DONE = 2;
@@ -133,6 +134,9 @@ public class MorpheuzSupport {
                     TimeZone tz = SimpleTimeZone.getDefault();
                     recording_base_timestamp = (int) pair.second - (tz.getOffset(System.currentTimeMillis())) / 1000;
                     LOG.info("got base: " + recording_base_timestamp);
+                    ctrl_message = MorpheuzSupport.CTRL_VERSION_DONE | MorpheuzSupport.CTRL_SET_LAST_SENT | MorpheuzSupport.CTRL_DO_NEXT;
+                    break;
+                case KEY_AUTO_RESET:
                     ctrl_message = MorpheuzSupport.CTRL_VERSION_DONE | MorpheuzSupport.CTRL_SET_LAST_SENT | MorpheuzSupport.CTRL_DO_NEXT;
                     break;
                 default:
