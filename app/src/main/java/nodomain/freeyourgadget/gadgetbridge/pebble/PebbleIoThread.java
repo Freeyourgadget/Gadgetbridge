@@ -318,13 +318,31 @@ public class PebbleIoThread extends GBDeviceIoThread {
                         // right now on the Pebble we also receive this on a failed/successful installation ;/
                         switch (appMgmtRes.result) {
                             case FAILURE:
-                                LOG.info("failure removing app"); // TODO: report to AppManager
-                                finishInstall(true);
+                                if (mIsInstalling) {
+                                    if (mInstallState == PebbleAppInstallState.WAIT_SLOT) {
+                                        // get the free slot
+                                        writeInstallApp(mPebbleProtocol.encodeAppInfoReq());
+                                    } else {
+                                        finishInstall(true);
+                                    }
+                                } else {
+                                    LOG.info("failure removing app");
+                                }
                                 break;
                             case SUCCESS:
-                                finishInstall(false);
-                                // refresh app list
-                                write(mPebbleProtocol.encodeAppInfoReq());
+                                if (mIsInstalling) {
+                                    if (mInstallState == PebbleAppInstallState.WAIT_SLOT) {
+                                        // get the free slot
+                                        writeInstallApp(mPebbleProtocol.encodeAppInfoReq());
+                                    } else {
+                                        finishInstall(false);
+                                        // refresh app list
+                                        write(mPebbleProtocol.encodeAppInfoReq());
+                                    }
+                                } else {
+                                    LOG.info("successfully removed app");
+                                    write(mPebbleProtocol.encodeAppInfoReq());
+                                }
                                 break;
                             default:
                                 break;
@@ -397,7 +415,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
             mInstallSlot = 0;
             mInstallState = PebbleAppInstallState.START_INSTALL;
         } else {
-            writeInstallApp(mPebbleProtocol.encodeAppInfoReq());
+            writeInstallApp(mPebbleProtocol.encodeAppDelete(mPBWReader.getGBDeviceApp().getUUID()));
             mInstallState = PebbleAppInstallState.WAIT_SLOT;
         }
     }
