@@ -177,6 +177,7 @@ public class ControlCenter extends Activity {
             case R.id.controlcenter_start_sleepmonitor:
                 if (selectedDevice != null) {
                     Intent startIntent = new Intent(ControlCenter.this, SleepMonitorActivity.class);
+//                    Intent startIntent = new Intent(ControlCenter.this, AbstractChartActivity.class);
                     startIntent.putExtra("device", selectedDevice);
                     startActivity(startIntent);
                 }
@@ -187,6 +188,7 @@ public class ControlCenter extends Activity {
                     startIntent.setAction(BluetoothCommunicationService.ACTION_FETCH_ACTIVITY_DATA);
                     startService(startIntent);
                 }
+                return true;
             case R.id.controlcenter_disconnect:
                 if (selectedDevice != null) {
                     selectedDevice = null;
@@ -194,6 +196,7 @@ public class ControlCenter extends Activity {
                     startIntent.setAction(BluetoothCommunicationService.ACTION_DISCONNECT);
                     startService(startIntent);
                 }
+                return true;
             default:
                 return super.onContextItemSelected(item);
         }
