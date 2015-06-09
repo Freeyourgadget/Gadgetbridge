@@ -11,7 +11,6 @@ import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivity;
 
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_GENERIC;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_K9MAIL;
-import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_PEBBLEMSG;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_SMS;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_MIBAND_ADDRESS;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_USER_ALIAS;
@@ -54,7 +53,6 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
                 PREF_MIBAND_ADDRESS,
                 getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_SMS),
                 getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_K9MAIL),
-                getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_PEBBLEMSG),
                 getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_GENERIC),
         };
     }
