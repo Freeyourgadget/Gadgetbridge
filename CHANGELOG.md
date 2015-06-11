@@ -1,12 +1,17 @@
 ###Changelog
 
-####Next Version
+####Version 0.4.0
+* Pebble: Initial Morpheuez protocol support for getting sleep data
 * Pebble: Support launching of Watchapps though the AppManager Activity
+* Pebble: Support CM 12.1 Music App
 * Pebble: Fix firmware installation when all 8 app slots are in use
 * Pebble: Fix error when reinstalling apps, useful for upgrading/downgrading
-* Pebble: Support CM 12.1 Music App
+* Pebble: Fix  firmware installation from Pebble in recovery mode 
 * Mi Band: Make vibration count configurable for different kinds of Notifications
+* Mi Band: Initial support for fetching activity data
 * Support rebooting Mi Band/Pebble through the Debug Activity
+* Add highly experimental sleep monitor
+* Fix Debug activity (SMS and E-Mail buttons were broken) 
 
 ####Version 0.3.5
 * Add discovery and pairing Activity for Pebble and Mi Band
@@ -23,7 +28,7 @@
 ####Version 0.3.3
 * Pebble: Try to reduce battery usage by acknowledging datalog packets
 * Mi Band: Set current time on the device (thanks to PR by @danielegobbetti)
-* General: More robust connection state handling and display
+* More robust connection state handling and display
 
 ####Version 0.3.2
 * Mi Band: Fix for notifications only working after manual connection
