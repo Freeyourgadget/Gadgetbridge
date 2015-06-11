@@ -120,12 +120,6 @@ public class PebbleIoThread extends GBDeviceIoThread {
 
         mIsConnected = true;
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        if (sharedPrefs.getBoolean("datetime_synconconnect", true)) {
-            LOG.info("syncing time");
-            write(mPebbleProtocol.encodeSetTime(-1));
-        }
-
         return true;
     }
 
@@ -311,6 +305,13 @@ public class PebbleIoThread extends GBDeviceIoThread {
         Context context = getContext();
 
         switch (deviceCmd.commandClass) {
+            case VERSION_INFO:
+                SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+                if (sharedPrefs.getBoolean("datetime_synconconnect", true)) {
+                    LOG.info("syncing time");
+                    write(mPebbleProtocol.encodeSetTime(-1));
+                }
+                return false;
             case APP_MANAGEMENT_RES:
                 GBDeviceCommandAppManagementResult appMgmtRes = (GBDeviceCommandAppManagementResult) deviceCmd;
                 switch (appMgmtRes.type) {
@@ -411,6 +412,18 @@ public class PebbleIoThread extends GBDeviceIoThread {
 
         if (mPBWReader.isFirmware()) {
             writeInstallApp(mPebbleProtocol.encodeInstallFirmwareStart());
+
+            /*
+             * This is a hack for recovery mode, in which the blocking read has no timeout and the
+             * firmware installation command does not return any ack.
+             * In normal mode we would got at least out of the blocking read call after a while.
+             *
+             *
+             * ... we should really not handle installation from thread that does the blocking read
+             *
+             */
+            writeInstallApp(mPebbleProtocol.encodeGetTime());
+
             LOG.info("starting firmware installation");
             mInstallSlot = 0;
             mInstallState = PebbleAppInstallState.START_INSTALL;

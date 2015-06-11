@@ -28,9 +28,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     private static final Logger LOG = LoggerFactory.getLogger(PebbleProtocol.class);
 
-    // set to false AT YOUR OWN RISK. I ended up in recovery
-    static private final boolean USE_OLD_NOTIFICATION_PROTOCOL = true;
-
     static final short ENDPOINT_FIRMWARE = 1;
     static final short ENDPOINT_TIME = 11;
     static final short ENDPOINT_FIRMWAREVERSION = 16;
@@ -164,10 +161,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final short LENGTH_UPLOADCANCEL = 5;
     static final short LENGTH_SYSTEMMESSAGE = 2;
 
-    private static final String[] hwRevisions = {"unknown", "ev1", "ev2", "ev2_3", "ev2_4", "v1_5", "v2_0"};
+    private static final String[] hwRevisions = {"unknown", "ev1", "ev2", "ev2_3", "ev2_4", "v1_5", "v2_0", "evt2", "dvt"};
     private static Random mRandom = new Random();
 
-
+    boolean isFw3x = true;
     byte last_id = -1;
     private ArrayList<UUID> tmpUUIDS = new ArrayList<>();
 
@@ -224,7 +221,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
         ts += (SimpleTimeZone.getDefault().getOffset(ts));
         ts /= 1000;
 
-        if (USE_OLD_NOTIFICATION_PROTOCOL) {
+
+        if (!isFw3x || true) { // remove || true if necessary on FW 3.x
             String[] parts = {from, body, ts.toString()};
             return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_SMS, 0, parts);
         }
@@ -682,6 +680,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 buf.get(tmp, 0, 32);
 
                 versionCmd.fwVersion = new String(tmp).trim();
+                if (versionCmd.fwVersion.startsWith("3.")) {
+                    isFw3x = true;
+                }
+
                 buf.get(tmp, 0, 9);
                 Byte hwRev = buf.get();
                 if (hwRev > 0 && hwRev < hwRevisions.length) {
