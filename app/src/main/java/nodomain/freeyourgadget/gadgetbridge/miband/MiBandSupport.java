@@ -51,8 +51,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandSupport.class);
     private static final Logger ACTIVITYLOG = LoggerFactory.getLogger("activity");
 
-    //temporary buffer, size is 60 because we want to store complete minutes (1 minute = 3 bytes)
-    private static final int activityDataHolderSize = 60;
+    //temporary buffer, size is a multiple of 60 because we want to store complete minutes (1 minute = 3 bytes)
+    private static final int activityDataHolderSize = 60 * 24; // 8h
     private byte[] activityDataHolder = new byte[activityDataHolderSize];
     //index of the buffer above
     private int activityDataHolderProgress = 0;

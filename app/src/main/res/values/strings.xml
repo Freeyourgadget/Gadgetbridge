@@ -108,5 +108,6 @@
     <string name="busy_task_fetch_activity_data">Fetching Activity Data</string>
     <string name="controlcenter_fetch_activity_data">Fetch Activity Data</string>
     <string name="controlcenter_disconnect">Disconnect</string>
+    <string name="sleep_activity_date_range">From %1$s to %2$s</string>
 
 </resources>
