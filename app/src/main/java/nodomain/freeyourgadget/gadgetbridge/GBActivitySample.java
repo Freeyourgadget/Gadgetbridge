@@ -4,8 +4,8 @@ public class GBActivitySample {
     public static final byte PROVIDER_MIBAND = 0;
     public static final byte PROVIDER_PEBBLE_MORPHEUZ = 1;
 
-    public static final byte TYPE_DEEP_SLEEP = 5;
-    public static final byte TYPE_LIGHT_SLEEP = 4;
+    public static final byte TYPE_DEEP_SLEEP = 4;
+    public static final byte TYPE_LIGHT_SLEEP = 5;
     public static final byte TYPE_UNKNOWN = -1;
     // add more here
 
