@@ -128,7 +128,7 @@ public class MiBandService {
     public static final byte COMMAND_REBOOT = 0xc;
 
     public static final byte COMMAND_SEND_NOTIFICATION = 0x8;
-    
+
     public static final byte COMMAND_STOP_MOTOR_VIBRATE = 0x13;
 
     public static final byte COMMAND_CONFIRM_ACTIVITY_DATA_TRANSFER_COMPLETE = 0xa;

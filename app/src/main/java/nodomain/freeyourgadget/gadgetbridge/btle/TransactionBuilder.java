@@ -5,8 +5,6 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nodomain.freeyourgadget.gadgetbridge.miband.MiBandNotifyAction;
-
 public class TransactionBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(TransactionBuilder.class);
 

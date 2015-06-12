@@ -86,6 +86,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      * Last action of initialization sequence. Sets the device to initialized.
      * It is only invoked if all other actions were successfully run, so the device
      * must be initialized, then.
+     *
      * @param builder
      */
     private void setInitialized(TransactionBuilder builder) {
@@ -150,10 +151,10 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         builder.queue(getQueue());
     }
 
-    private static final byte[] startVibrate = new byte[] { MiBandService.COMMAND_SEND_NOTIFICATION, 1 };
-    private static final byte[] stopVibrate = new byte[] { MiBandService.COMMAND_STOP_MOTOR_VIBRATE };
-    private static final byte[] reboot = new byte[]{ MiBandService.COMMAND_REBOOT };
-    private static final byte[] fetch = new byte[]{ MiBandService.COMMAND_FETCH_DATA };
+    private static final byte[] startVibrate = new byte[]{MiBandService.COMMAND_SEND_NOTIFICATION, 1};
+    private static final byte[] stopVibrate = new byte[]{MiBandService.COMMAND_STOP_MOTOR_VIBRATE};
+    private static final byte[] reboot = new byte[]{MiBandService.COMMAND_REBOOT};
+    private static final byte[] fetch = new byte[]{MiBandService.COMMAND_FETCH_DATA};
 
     private byte[] getNotification(long vibrateDuration, int vibrateTimes, int flashTimes, int flashColour, int originalColour, long flashDuration) {
         byte[] vibrate = new byte[]{MiBandService.COMMAND_SEND_NOTIFICATION, (byte) 1};
@@ -452,11 +453,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void handleActivityNotif(byte[] value) {
-        if (value.length == 11 ) {
+        if (value.length == 11) {
             // byte 0 is the data type: 1 means that each minute is represented by a triplet of bytes
             int dataType = value[0];
             // byte 1 to 6 represent a timestamp
-            GregorianCalendar timestamp = new GregorianCalendar(value[1]+2000,
+            GregorianCalendar timestamp = new GregorianCalendar(value[1] + 2000,
                     value[2],
                     value[3],
                     value[4],
@@ -470,15 +471,15 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
             // counter of this data block
             int dataUntilNextHeader = (value[9] & 0xff) | ((value[10] & 0xff) << 8);
-            dataUntilNextHeader *= (dataType ==1) ? 3 : 1;
+            dataUntilNextHeader *= (dataType == 1) ? 3 : 1;
 
             // there is a total of totalDataToRead that will come in chunks (3 bytes per minute if dataType == 1),
             // these chunks are usually 20 bytes long and grouped in blocks
             // after dataUntilNextHeader bytes we will get a new packet of 11 bytes that should be parsed
             // as we just did
 
-            LOG.info("total data to read: "+  totalDataToRead   +" len: " + (totalDataToRead / 3) + " minute(s)");
-            LOG.info("data to read until next header: "+  dataUntilNextHeader   +" len: " + (dataUntilNextHeader / 3) + " minute(s)");
+            LOG.info("total data to read: " + totalDataToRead + " len: " + (totalDataToRead / 3) + " minute(s)");
+            LOG.info("data to read until next header: " + dataUntilNextHeader + " len: " + (dataUntilNextHeader / 3) + " minute(s)");
             LOG.info("TIMESTAMP: " + DateFormat.getDateTimeInstance().format(timestamp.getTime()).toString() + " magic byte: " + dataUntilNextHeader);
 
             this.activityDataRemainingBytes = this.activityDataUntilNextHeader = dataUntilNextHeader;
@@ -499,7 +500,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             //I don't like this clause, but until we figure out why we get different data sometimes this should work
             if (value.length == 20 || value.length == this.activityDataRemainingBytes) {
                 System.arraycopy(value, 0, this.activityDataHolder, this.activityDataHolderProgress, value.length);
-                this.activityDataHolderProgress +=value.length;
+                this.activityDataHolderProgress += value.length;
                 this.activityDataRemainingBytes -= value.length;
 
                 if (this.activityDataHolderSize == this.activityDataHolderProgress) {
@@ -508,7 +509,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             } else {
                 // the length of the chunk is not what we expect. We need to make sense of this data
                 LOG.warn("GOT UNEXPECTED ACTIVITY DATA WITH LENGTH: " + value.length + ", EXPECTED LENGTH: " + this.activityDataRemainingBytes);
-                for (byte b: value){
+                for (byte b : value) {
                     LOG.warn("DATA: " + String.format("0x%8x", b));
                 }
             }
@@ -521,10 +522,10 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
         ActivityDatabaseHandler dbHandler = GBApplication.getActivityDatabaseHandler();
         try (SQLiteDatabase db = dbHandler.getWritableDatabase()) { // explicitly keep the db open while looping over the samples
-            for (int i=0; i<this.activityDataHolderProgress; i+=3) { //TODO: check if multiple of 3, if not something is wrong
+            for (int i = 0; i < this.activityDataHolderProgress; i += 3) { //TODO: check if multiple of 3, if not something is wrong
                 category = this.activityDataHolder[i];
-                intensity = this.activityDataHolder[i+1];
-                steps = this.activityDataHolder[i+2];
+                intensity = this.activityDataHolder[i + 1];
+                steps = this.activityDataHolder[i + 2];
 
                 dbHandler.addGBActivitySample(
                         (int) (timestamp.getTimeInMillis() / 1000),
@@ -551,7 +552,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 unsetBusy();
             }
         }
-        for (byte b: value){
+        for (byte b : value) {
             LOG.info("handleControlPoint GOT DATA:" + String.format("0x%8x", b));
         }
     }

@@ -2,7 +2,6 @@ package nodomain.freeyourgadget.gadgetbridge;
 
 import android.net.Uri;
 
-import java.net.URI;
 import java.util.UUID;
 
 public interface EventHandler {

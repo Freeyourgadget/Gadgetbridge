@@ -12,7 +12,8 @@ public class SetDeviceBusyAction extends PlainAction {
 
     /**
      * When run, will mark the device as busy (or not busy).
-     * @param device the device to mark
+     *
+     * @param device   the device to mark
      * @param busyTask the task name to set as busy task, or null to mark as not busy
      * @param context
      */

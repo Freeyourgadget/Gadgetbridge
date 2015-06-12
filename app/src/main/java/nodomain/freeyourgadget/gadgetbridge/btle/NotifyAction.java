@@ -3,12 +3,9 @@ package nodomain.freeyourgadget.gadgetbridge.btle;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattDescriptor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import nodomain.freeyourgadget.gadgetbridge.miband.MiBandService;
 
 /**
  * Enables or disables notifications for a given GATT characteristic.

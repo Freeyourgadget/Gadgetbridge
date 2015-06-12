@@ -4,7 +4,6 @@ import android.bluetooth.BluetoothGatt;
 import android.content.Context;
 
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.btle.PlainAction;
 
 public class SetDeviceStateAction extends PlainAction {

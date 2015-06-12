@@ -8,16 +8,14 @@ import android.bluetooth.BluetoothGattDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nodomain.freeyourgadget.gadgetbridge.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.btle.NotifyAction;
 import nodomain.freeyourgadget.gadgetbridge.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.miband.MiBandService;
 
 /**
  * Enables or disables notifications for a given GATT characteristic.
  * The result will be made available asynchronously through the
  * {@link BluetoothGattCallback}.
- *
+ * <p/>
  * This class is Mi Band specific.
  */
 public class MiBandNotifyAction extends NotifyAction {

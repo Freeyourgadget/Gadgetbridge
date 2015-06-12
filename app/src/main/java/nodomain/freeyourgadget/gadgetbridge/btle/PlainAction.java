@@ -1,7 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.btle;
 
-import android.bluetooth.BluetoothGatt;
-
 /**
  * An abstract non-BTLE action. It performs no bluetooth operation,
  * does not have a BluetoothGattCharacteristic instance and expects no result.

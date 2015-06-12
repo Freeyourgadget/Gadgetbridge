@@ -131,9 +131,10 @@ public class GBDevice implements Parcelable {
     /**
      * Marks the device as busy, performing a certain task. While busy, no other operations will
      * be performed on the device.
-     *
+     * <p/>
      * Note that nested busy tasks are not supported, every single call to #setBusyTask()
      * or unsetBusy() has an effect.
+     *
      * @param task a textual name of the task to be performed, possibly displayed to the user
      */
     public void setBusyTask(String task) {

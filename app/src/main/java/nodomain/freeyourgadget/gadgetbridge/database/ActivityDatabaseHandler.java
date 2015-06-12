@@ -44,6 +44,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
     /**
      * WITHOUT ROWID is only available with sqlite 3.8.2, which is available
      * with Lollipop and later.
+     *
      * @return the "WITHOUT ROWID" string or an empty string for pre-Lollipop devices
      */
     private String getWithoutRowId() {
@@ -55,7 +56,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (newVersion == 5 && (oldVersion == 4 || oldVersion ==3)) {
+        if (newVersion == 5 && (oldVersion == 4 || oldVersion == 3)) {
             String CREATE_NEW_GBACTIVITYSAMPLES_TABLE = "CREATE TABLE NEW ("
                     + KEY_TIMESTAMP + " INT,"
                     + KEY_PROVIDER + " TINYINT,"
@@ -64,8 +65,8 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
                     + KEY_TYPE + " TINYINT,"
                     + " PRIMARY KEY (" + KEY_TIMESTAMP + "," + KEY_PROVIDER + ") ON CONFLICT REPLACE)" + getWithoutRowId();
             db.execSQL(CREATE_NEW_GBACTIVITYSAMPLES_TABLE);
-            db.execSQL("insert into NEW select timestamp,provider,intensity,steps,type from "+ TABLE_GBACTIVITYSAMPLES+";");
-            db.execSQL("Drop table "+TABLE_GBACTIVITYSAMPLES+";");
+            db.execSQL("insert into NEW select timestamp,provider,intensity,steps,type from " + TABLE_GBACTIVITYSAMPLES + ";");
+            db.execSQL("Drop table " + TABLE_GBACTIVITYSAMPLES + ";");
             db.execSQL("alter table NEW RENAME TO " + TABLE_GBACTIVITYSAMPLES + ";");
         } else {
             //FIXME: do not just recreate
