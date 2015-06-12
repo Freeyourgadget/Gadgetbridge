@@ -37,7 +37,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
                 + KEY_INTENSITY + " SMALLINT,"
                 + KEY_STEPS + " TINYINT,"
                 + KEY_TYPE + " TINYINT,"
-                + " PRIMARY_KEY (" + KEY_TIMESTAMP + "," + KEY_PROVIDER + ") ON CONFLICT REPLACE)" + getWithoutRowId();
+                + " PRIMARY KEY (" + KEY_TIMESTAMP + "," + KEY_PROVIDER + ") ON CONFLICT REPLACE)" + getWithoutRowId();
         db.execSQL(CREATE_GBACTIVITYSAMPLES_TABLE);
     }
 
