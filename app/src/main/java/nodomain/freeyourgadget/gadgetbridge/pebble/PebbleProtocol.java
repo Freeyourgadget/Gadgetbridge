@@ -164,7 +164,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private static final String[] hwRevisions = {"unknown", "ev1", "ev2", "ev2_3", "ev2_4", "v1_5", "v2_0", "evt2", "dvt"};
     private static Random mRandom = new Random();
 
-    boolean isFw3x = true;
+    boolean isFw3x = false;
     byte last_id = -1;
     private ArrayList<UUID> tmpUUIDS = new ArrayList<>();
 
@@ -221,14 +221,13 @@ public class PebbleProtocol extends GBDeviceProtocol {
         ts += (SimpleTimeZone.getDefault().getOffset(ts));
         ts /= 1000;
 
-
-        if (!isFw3x || true) { // remove || true if necessary on FW 3.x
+        if (isFw3x) {
+            String[] parts = {from, null, body};
+            return encodeExtensibleNotification(mRandom.nextInt(), (int) (ts & 0xffffffff), parts);
+        } else {
             String[] parts = {from, body, ts.toString()};
             return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_SMS, 0, parts);
         }
-
-        String[] parts = {from, null, body};
-        return encodeExtensibleNotification(mRandom.nextInt(), (int) (ts & 0xffffffff), parts);
     }
 
     @Override
@@ -236,10 +235,14 @@ public class PebbleProtocol extends GBDeviceProtocol {
         Long ts = System.currentTimeMillis();
         ts += (SimpleTimeZone.getDefault().getOffset(ts));
         ts /= 1000;
-        String tsstring = ts.toString(); // SIC
-        String[] parts = {from, body, tsstring, subject};
 
-        return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_EMAIL, 0, parts);
+        if (isFw3x) {
+            String[] parts = {from, subject, body};
+            return encodeExtensibleNotification(mRandom.nextInt(), (int) (ts & 0xffffffff), parts);
+        } else {
+            String[] parts = {from, body, ts.toString(), subject};
+            return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_EMAIL, 0, parts);
+        }
     }
 
     @Override
