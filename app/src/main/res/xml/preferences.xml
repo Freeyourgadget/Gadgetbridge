@@ -61,9 +61,12 @@
             android:title="@string/preferences_miband_settings" />
     </PreferenceCategory>
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="@string/pref_log_to_file"
-        android:title="@string/pref_write_logfiles" />
-
+    <PreferenceCategory
+        android:key="pref_key_development"
+        android:title="@string/pref_header_development">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pref_log_to_file"
+            android:title="@string/pref_write_logfiles" />
+    </PreferenceCategory>
 </PreferenceScreen>

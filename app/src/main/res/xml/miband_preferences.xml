@@ -37,16 +37,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="pref_key_development"
-        android:title="@string/pref_header_development">
-        <EditTextPreference
-            android:digits="0123456789ABCDEF:"
-            android:key="development_miaddr"
-            android:maxLength="17"
-            android:title="@string/pref_title_development_miaddr" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:key="pref_category_miband_notification"
         android:title="@string/pref_header_vibration_count">
         <EditTextPreference
@@ -75,4 +65,13 @@
             android:title="@string/pref_title_notifications_generic" />
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:key="pref_key_development"
+        android:title="@string/pref_header_development">
+        <EditTextPreference
+            android:digits="0123456789ABCDEF:"
+            android:key="development_miaddr"
+            android:maxLength="17"
+            android:title="@string/pref_title_development_miaddr" />
+    </PreferenceCategory>
 </PreferenceScreen>
