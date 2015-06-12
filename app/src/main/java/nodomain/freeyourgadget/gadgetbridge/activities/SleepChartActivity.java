@@ -341,7 +341,7 @@ public class SleepChartActivity extends Activity {
 //        set1.setFillColor(ColorTemplate.getHoloBlue());
         set1.setDrawValues(false);
 //        set1.setHighLightColor(Color.rgb(128, 0, 255));
-        set1.setColor(Color.rgb(128, 0, 255));
+        set1.setColor(Color.rgb(89, 178, 44));
         set1.setValueTextColor(Color.WHITE);
         return set1;
     }
@@ -357,7 +357,7 @@ public class SleepChartActivity extends Activity {
 //        set1.setFillColor(ColorTemplate.getHoloBlue());
         set1.setDrawValues(false);
 //        set1.setHighLightColor(Color.rgb(244, 117, 117));
-        set1.setColor(Color.rgb(255, 64, 0));
+        set1.setColor(Color.rgb(76, 90, 255));
         set1.setValueTextColor(Color.WHITE);
         return set1;
     }
@@ -374,7 +374,7 @@ public class SleepChartActivity extends Activity {
 //        set1.setFillColor(ColorTemplate.getHoloBlue());
         set1.setDrawValues(false);
 //        set1.setHighLightColor(Color.rgb(244, 117, 117));
-        set1.setColor(Color.rgb(255, 199, 0));
+        set1.setColor(Color.rgb(152, 161, 255));
         set1.setValueTextColor(Color.WHITE);
 //        set1.setColor(Color.CYAN);
         return set1;
