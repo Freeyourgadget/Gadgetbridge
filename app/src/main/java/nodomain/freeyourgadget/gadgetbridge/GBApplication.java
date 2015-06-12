@@ -41,7 +41,7 @@ public class GBApplication extends Application {
 
     public static boolean isFileLoggingEnabled() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
-        return prefs.getBoolean(GBApplication.getContext().getString(R.string.pref_log_to_file), false);
+        return prefs.getBoolean("log_to_file", false);
     }
 
     private void setupLogging() {
