@@ -49,7 +49,6 @@ import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.getNotific
 public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(MiBandSupport.class);
-    private static final Logger ACTIVITYLOG = LoggerFactory.getLogger("activity");
 
     //temporary buffer, size is a multiple of 60 because we want to store complete minutes (1 minute = 3 bytes)
     private static final int activityDataHolderSize = 60 * 24; // 8h
@@ -453,7 +452,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void handleActivityNotif(byte[] value) {
-        LOG.info("handleActivityNotif GOT " + value.length + " BYTES.");
         if (value.length == 11 ) {
             // byte 0 is the data type: 1 means that each minute is represented by a triplet of bytes
             int dataType = value[0];
@@ -534,13 +532,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                         intensity,
                         steps,
                         category);
-
-                ACTIVITYLOG.info(
-                        " timestamp:"+DateFormat.getDateTimeInstance().format(timestamp.getTime()).toString() +
-                                " category:"+ category+
-                                " intensity:"+intensity+
-                                " steps:"+steps
-                );
                 timestamp.add(Calendar.MINUTE, 1);
             }
         }
