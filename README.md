@@ -64,7 +64,7 @@ Known Issues:
 
 ## Contribute
 
-Contributions are welcome, be it feedback, bugreports, documentation, translation, research or code. Feel free to work
+Contributions are welcome, be it feedback, bug reports, documentation, translation, research or code. Feel free to work
 on any of the open [issues](https://github.com/Freeyourgadget/Gadgetbridge/issues?q=is%3Aopen+is%3Aissue);
 just leave a comment that you're working on one to avoid duplicated work.
 
