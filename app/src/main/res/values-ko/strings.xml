@@ -87,6 +87,5 @@
   <string name="miband_prefs_weight_kg">몸무게 (kg)</string>
   <string name="pref_header_vibration_count">진동 횟수</string>
   <string name="title_activity_sleepmonitor">수면 측정계</string>
-  <string name="pref_log_to_file">파일에 기록</string>
   <string name="pref_write_logfiles">기록 파일 작성 (재시작 필요)</string>
 </resources>

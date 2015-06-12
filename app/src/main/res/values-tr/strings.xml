@@ -102,7 +102,6 @@
     <string name="pref_header_vibration_count">Titreşim adedi</string>
 
     <string name="title_activity_sleepmonitor">Uyku Monitörü</string>
-    <string name="pref_log_to_file">Dosyaya yazdır</string>
     <string name="pref_write_logfiles">Kütük dosyalarını yaz (yeniden başlatmak gerekir)</string>
     <string name="initializing">başlatılıyor</string>
     <string name="busy_task_fetch_activity_data">Aktivite verisi alınıyor</string>
