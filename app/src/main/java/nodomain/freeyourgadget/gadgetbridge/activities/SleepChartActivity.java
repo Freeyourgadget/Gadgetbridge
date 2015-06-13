@@ -374,7 +374,7 @@ public class SleepChartActivity extends Activity {
 //        set1.setFillColor(ColorTemplate.getHoloBlue());
         set1.setDrawValues(false);
 //        set1.setHighLightColor(Color.rgb(244, 117, 117));
-        set1.setColor(Color.rgb(152, 161, 255));
+        set1.setColor(Color.rgb(182, 191, 255));
         set1.setValueTextColor(Color.WHITE);
 //        set1.setColor(Color.CYAN);
         return set1;
