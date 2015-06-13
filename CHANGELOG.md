@@ -12,6 +12,7 @@
 * Support rebooting Mi Band/Pebble through the Debug Activity
 * Add highly experimental sleep monitor (accessible via long press on a device)
 * Fix Debug activity (SMS and E-Mail buttons were broken) 
+* Add Turkish translation contributed by Tarik Sekmen
 
 ####Version 0.3.5
 * Add discovery and pairing Activity for Pebble and Mi Band
