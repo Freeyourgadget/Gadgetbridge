@@ -56,7 +56,7 @@
                 android:value=".ControlCenter" />
         </activity>
         <activity
-            android:name=".SleepMonitorActivity"
+            android:name=".activities.SleepChartActivityOld"
             android:label="@string/title_activity_sleepmonitor" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

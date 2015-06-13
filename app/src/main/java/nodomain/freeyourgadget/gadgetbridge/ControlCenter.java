@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.SleepChartActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.SleepChartActivityOld;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapter;
 import nodomain.freeyourgadget.gadgetbridge.discovery.DiscoveryActivity;
 import nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst;
@@ -177,8 +178,13 @@ public class ControlCenter extends Activity {
         switch (item.getItemId()) {
             case R.id.controlcenter_start_sleepmonitor:
                 if (selectedDevice != null) {
-//                    Intent startIntent = new Intent(ControlCenter.this, SleepMonitorActivity.class);
-                    Intent startIntent = new Intent(ControlCenter.this, SleepChartActivity.class);
+                    Intent startIntent;
+                    if (selectedDevice.getType() == DeviceType.MIBAND) {
+                        startIntent = new Intent(ControlCenter.this, SleepChartActivity.class);
+                    }
+                    else {
+                        startIntent =new Intent(ControlCenter.this, SleepChartActivityOld.class);
+                    }
                     startIntent.putExtra("device", selectedDevice);
                     startActivity(startIntent);
                 }

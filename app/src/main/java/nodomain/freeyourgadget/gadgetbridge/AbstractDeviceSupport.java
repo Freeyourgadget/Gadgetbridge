@@ -8,6 +8,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.activities.SleepChartActivityOld;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandCallControl;
@@ -126,7 +127,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     public void handleGBDeviceCommand(GBDeviceCommandSleepMonitorResult sleepMonitorResult) {
         Context context = getContext();
         LOG.info("Got command for SLEEP_MONIOR_RES");
-        Intent sleepMontiorIntent = new Intent(SleepMonitorActivity.ACTION_REFRESH);
+        Intent sleepMontiorIntent = new Intent(SleepChartActivityOld.ACTION_REFRESH);
         sleepMontiorIntent.putExtra("smartalarm_from", sleepMonitorResult.smartalarm_from);
         sleepMontiorIntent.putExtra("smartalarm_to", sleepMonitorResult.smartalarm_to);
         sleepMontiorIntent.putExtra("recording_base_timestamp", sleepMonitorResult.recording_base_timestamp);

@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge;
+package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -25,11 +25,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import nodomain.freeyourgadget.gadgetbridge.ControlCenter;
+import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.R;
 
-public class SleepMonitorActivity extends Activity implements SurfaceHolder.Callback {
+
+public class SleepChartActivityOld extends Activity implements SurfaceHolder.Callback {
     public static final String ACTION_REFRESH
             = "nodomain.freeyourgadget.gadgetbride.sleepmonitor.action.refresh";
-    private static final Logger LOG = LoggerFactory.getLogger(SleepMonitorActivity.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SleepChartActivityOld.class);
 
     private SurfaceView surfaceView;
     private TextView textView;
