@@ -12,7 +12,7 @@ need to create an account and transmit any of your data to the vendor's servers.
 * Reject/hangup calls
 * SMS notification (sender, body)
 * K-9 Mail notification support (sender, subject, preview)
-* Support for generic notificaions (above filtered out)
+* Support for generic notifications (above filtered out)
 * Music playback info (artist, album, track). Apollo and CM 12.1 Music App supported.
 * Music control: play/pause, next track, previous track, volume up, volume down
 * List and remove installed apps/watchfaces
