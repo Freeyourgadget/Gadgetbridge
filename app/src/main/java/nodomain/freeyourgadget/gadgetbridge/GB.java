@@ -86,6 +86,9 @@ public class GB {
     }
 
     public static String hexdump(byte[] buffer, int offset, int length) {
+        if (length == -1 ) {
+            length = buffer.length;
+        }
         final char[] hexArray = "0123456789ABCDEF".toCharArray();
         char[] hexChars = new char[length * 2];
         for (int i = 0; i < length; i++) {

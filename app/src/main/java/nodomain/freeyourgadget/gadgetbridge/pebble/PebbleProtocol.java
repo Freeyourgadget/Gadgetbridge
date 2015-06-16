@@ -28,7 +28,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     private static final Logger LOG = LoggerFactory.getLogger(PebbleProtocol.class);
 
-    static final short ENDPOINT_FIRMWARE = 1;
     static final short ENDPOINT_TIME = 11;
     static final short ENDPOINT_FIRMWAREVERSION = 16;
     public static final short ENDPOINT_PHONEVERSION = 17;
@@ -52,6 +51,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     public static final short ENDPOINT_DATALOG = 6778;
     static final short ENDPOINT_RUNKEEPER = 7000;
     static final short ENDPOINT_SCREENSHOT = 8000;
+    static final short ENDPOINT_BLOBDB = (short) 45531;  // 3.x only
     static final short ENDPOINT_PUTBYTES = (short) 48879;
 
     static final byte NOTIFICATION_EMAIL = 0;
@@ -223,7 +223,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         if (isFw3x) {
             String[] parts = {from, null, body};
-            return encodeExtensibleNotification(mRandom.nextInt(), (int) (ts & 0xffffffff), parts);
+            return encodeBlobdbNotification((int) (ts & 0xffffffff), parts);
         } else {
             String[] parts = {from, body, ts.toString()};
             return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_SMS, 0, parts);
@@ -238,7 +238,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         if (isFw3x) {
             String[] parts = {from, subject, body};
-            return encodeExtensibleNotification(mRandom.nextInt(), (int) (ts & 0xffffffff), parts);
+            return encodeBlobdbNotification((int) (ts & 0xffffffff), parts);
         } else {
             String[] parts = {from, body, ts.toString(), subject};
             return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_EMAIL, 0, parts);
@@ -328,6 +328,78 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putShort((short) 4);
         buf.put(actionstring.getBytes(), 0, 4);
         */
+        return buf.array();
+    }
+
+    private static byte[] encodeBlobdbNotification(int timestamp, String[] parts) {
+        // Calculate length first
+        final short BLOBDB_LENGTH = 23;
+        final short NOTIFICATION_PIN_LENGTH = 46;
+
+        byte attributes_count = 0;
+
+        int attributes_length = 0;
+        if (parts != null) {
+            for (String s : parts) {
+                if (s == null || s.equals("")) {
+                    continue;
+                }
+                attributes_count++;
+                attributes_length += (3 + s.getBytes().length);
+            }
+        }
+
+        int length = BLOBDB_LENGTH + NOTIFICATION_PIN_LENGTH + attributes_length;
+
+        // Encode Prefix
+        ByteBuffer buf = ByteBuffer.allocate(length + LENGTH_PREFIX);
+
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort((short) (length));
+        buf.putShort(ENDPOINT_BLOBDB);
+
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+
+        // blobdb - 23 bytes
+        buf.put((byte) 0x01); // insert
+        buf.putShort((short) mRandom.nextInt()); // token
+        buf.put((byte) 0x04); // db id (0x04 = notification)
+        buf.put((byte) 16); // uuid length
+        byte[] uuid_buf = new byte[16];
+        mRandom.nextBytes(uuid_buf);
+        buf.put(uuid_buf); // random UUID
+        buf.putShort((short) (NOTIFICATION_PIN_LENGTH + attributes_length)); // length of the encapsulated data
+
+        // pin - 46 bytes
+        buf.put(uuid_buf); // random UUID
+        Arrays.fill(uuid_buf, (byte) 0);
+        buf.put(uuid_buf); // parent UUID
+        buf.putInt(timestamp); // 32-bit timestamp
+        buf.putShort((short) 0); // duration
+        buf.put((byte) 0x01); // type (0x01 = notification)
+        buf.putShort((short) 0x0010); // flags 0x0010 = read?
+        buf.put((byte) 0x01); // layout (0x01 = default?)
+        buf.putShort((short) attributes_length); // total length of all attributes in bytes
+        buf.put(attributes_count); // count attributes
+        buf.put((byte) 0); // count actions - none so far
+
+        byte attribute_id = 0;
+        // Encode Pascal-Style Strings
+        if (parts != null) {
+            for (String s : parts) {
+                attribute_id++;
+                if (s == null || s.equals("")) {
+                    continue;
+                }
+
+                int partlength = s.getBytes().length;
+                if (partlength > 255) partlength = 255;
+                buf.put(attribute_id);
+                buf.putShort((short) partlength);
+                buf.put(s.getBytes(), 0, partlength);
+            }
+        }
+
         return buf.array();
     }
 
