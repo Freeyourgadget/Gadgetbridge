@@ -415,7 +415,9 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         UUID characteristicUUID = characteristic.getUuid();
         if (MiBandService.UUID_CHARACTERISTIC_ACTIVITY_DATA.equals(characteristicUUID)) {
             handleActivityNotif(characteristic.getValue());
-        }
+        } else if (MiBandService.UUID_CHARACTERISTIC_BATTERY.equals(characteristicUUID)) {
+	    handleBatteryInfo(characteristic.getValue(), BluetoothGatt.GATT_SUCCESS); 
+	}
     }
 
     @Override
