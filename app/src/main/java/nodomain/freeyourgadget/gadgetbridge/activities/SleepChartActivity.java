@@ -36,6 +36,18 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 
 
 public class SleepChartActivity extends Activity {
+    private static final class ActivityKind {
+        public final byte type;
+        public final String label;
+        public final Integer color;
+
+        public ActivityKind(byte type, String label, Integer color) {
+            this.type = type;
+            this.label = label;
+            this.color = color;
+        }
+    }
+
     public static final String ACTION_REFRESH
             = "nodomain.freeyourgadget.gadgetbride.chart.action.refresh";
     protected static final Logger LOG = LoggerFactory.getLogger(SleepChartActivity.class);
@@ -47,6 +59,10 @@ public class SleepChartActivity extends Activity {
     private int mTimestampFrom = -1;
     private int mSmartAlarmGoneOff = -1;
     private GBDevice mGBDevice = null;
+
+    private ActivityKind akActivity = new ActivityKind(GBActivitySample.TYPE_UNKNOWN, "Activity", Color.rgb(89, 178, 44));
+    private ActivityKind akLightSleep = new ActivityKind(GBActivitySample.TYPE_LIGHT_SLEEP, "Light Sleep", Color.rgb(182, 191, 255));
+    private ActivityKind akDeepSleep = new ActivityKind(GBActivitySample.TYPE_DEEP_SLEEP, "Deep Sleep", Color.rgb(76, 90, 255));
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -103,7 +119,7 @@ public class SleepChartActivity extends Activity {
         mChart.setScaleEnabled(true);
 
         // if disabled, scaling can be done on x- and y-axis separately
-        mChart.setPinchZoom(true);
+//        mChart.setPinchZoom(true);
 
         mChart.setDrawGridBackground(false);
 
@@ -119,6 +135,8 @@ public class SleepChartActivity extends Activity {
         YAxis y = mChart.getAxisLeft();
         y.setDrawGridLines(false);
 //        y.setDrawLabels(false);
+        // TODO: make fixed max value optional
+        y.setAxisMaxValue(1f);
         y.setDrawTopYLabelEntry(false);
         y.setTextColor(Color.WHITE);
 
@@ -224,9 +242,10 @@ public class SleepChartActivity extends Activity {
 
             int numEntries = samples.size();
             List<String> xLabels = new ArrayList<>(numEntries);
-            List<BarEntry> deepSleepEntries = new ArrayList<>(numEntries / 4);
-            List<BarEntry> lightSleepEntries = new ArrayList<>(numEntries / 4);
+//            List<BarEntry> deepSleepEntries = new ArrayList<>(numEntries / 4);
+//            List<BarEntry> lightSleepEntries = new ArrayList<>(numEntries / 4);
             List<BarEntry> activityEntries = new ArrayList<>(numEntries);
+            List<Integer> colors = new ArrayList<>(numEntries); // this is kinda inefficient...
 
             for (int i = 0; i < numEntries; i++) {
                 GBActivitySample sample = samples.get(i);
@@ -250,15 +269,13 @@ public class SleepChartActivity extends Activity {
                 float value;
                 if (type == GBActivitySample.TYPE_DEEP_SLEEP) {
                     value = 0.01f;
-                    deepSleepEntries.add(createEntry(value, i));
-                    lightSleepEntries.add(emptyEntry);
-                    activityEntries.add(emptyEntry);
+                    activityEntries.add(createEntry(value, i));
+                    colors.add(akDeepSleep.color);
                 } else {
                     if (type == GBActivitySample.TYPE_LIGHT_SLEEP) {
                         value = ((float) movement / movement_divisor);
-                        lightSleepEntries.add(createEntry(value, i));
-                        deepSleepEntries.add(emptyEntry);
-                        activityEntries.add(emptyEntry);
+                        activityEntries.add(createEntry(value, i));
+                        colors.add(akLightSleep.color);
                     } else {
                         byte steps = sample.getSteps();
                         if (use_steps_as_movement && steps != 0) {
@@ -267,8 +284,7 @@ public class SleepChartActivity extends Activity {
                         }
                         value = ((float) movement / movement_divisor);
                         activityEntries.add(createEntry(value, i));
-                        lightSleepEntries.add(emptyEntry);
-                        deepSleepEntries.add(emptyEntry);
+                        colors.add(akActivity.color);
                     }
                 }
 
@@ -293,27 +309,44 @@ public class SleepChartActivity extends Activity {
 
             mChart.getXAxis().setValues(xLabels);
 
-            BarDataSet deepSleepSet = createDeepSleepSet(deepSleepEntries, "Deep Sleep");
-            BarDataSet lightSleepSet = createLightSleepSet(lightSleepEntries, "Light Sleep");
-            BarDataSet activitySet = createActivitySet(activityEntries, "Activity");
+//            BarDataSet deepSleepSet = createDeepSleepSet(deepSleepEntries, "Deep Sleep");
+//            BarDataSet lightSleepSet = createLightSleepSet(lightSleepEntries, "Light Sleep");
+            BarDataSet activitySet = createActivitySet(activityEntries, colors, "Activity");
 
             ArrayList<BarDataSet> dataSets = new ArrayList<>();
-            dataSets.add(deepSleepSet);
-            dataSets.add(lightSleepSet);
+//            dataSets.add(deepSleepSet);
+//            dataSets.add(lightSleepSet);
             dataSets.add(activitySet);
 
             // create a data object with the datasets
             BarData data = new BarData(xLabels, dataSets);
+            data.setGroupSpace(0);
 
             mChart.setDescription(getString(R.string.sleep_activity_date_range, dateStringFrom, dateStringTo));
 //            mChart.setDescriptionPosition(?, ?);
             // set data
+
+            setupLegend(mChart);
+
             mChart.setData(data);
 
             mChart.animateX(1000, Easing.EasingOption.EaseInOutQuart);
 
 //            textView.setText(dateStringFrom + " to " + dateStringTo);
         }
+    }
+
+    private void setupLegend(BarLineChartBase chart) {
+        List<Integer> legendColors = new ArrayList<>(3);
+        List<String> legendLabels = new ArrayList<>(3);
+        legendColors.add(akActivity.color);
+        legendLabels.add(akActivity.label);
+        legendColors.add(akLightSleep.color);
+        legendLabels.add(akLightSleep.label);
+        legendColors.add(akDeepSleep.color);
+        legendLabels.add(akDeepSleep.label);
+        chart.getLegend().setColors(legendColors);
+        chart.getLegend().setLabels(legendLabels);
     }
 
     private BarEntry createEntry(float value, int index) {
@@ -330,8 +363,9 @@ public class SleepChartActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private BarDataSet createActivitySet(List<BarEntry> values, String label) {
+    private BarDataSet createActivitySet(List<BarEntry> values, List<Integer> colors, String label) {
         BarDataSet set1 = new BarDataSet(values, label);
+        set1.setColors(colors);
 //        set1.setDrawCubic(true);
 //        set1.setCubicIntensity(0.2f);
 //        //set1.setDrawFilled(true);
@@ -341,7 +375,7 @@ public class SleepChartActivity extends Activity {
 //        set1.setFillColor(ColorTemplate.getHoloBlue());
         set1.setDrawValues(false);
 //        set1.setHighLightColor(Color.rgb(128, 0, 255));
-        set1.setColor(Color.rgb(89, 178, 44));
+//        set1.setColor(Color.rgb(89, 178, 44));
         set1.setValueTextColor(Color.WHITE);
         return set1;
     }
@@ -357,7 +391,7 @@ public class SleepChartActivity extends Activity {
 //        set1.setFillColor(ColorTemplate.getHoloBlue());
         set1.setDrawValues(false);
 //        set1.setHighLightColor(Color.rgb(244, 117, 117));
-        set1.setColor(Color.rgb(76, 90, 255));
+//        set1.setColor(Color.rgb(76, 90, 255));
         set1.setValueTextColor(Color.WHITE);
         return set1;
     }
@@ -374,7 +408,7 @@ public class SleepChartActivity extends Activity {
 //        set1.setFillColor(ColorTemplate.getHoloBlue());
         set1.setDrawValues(false);
 //        set1.setHighLightColor(Color.rgb(244, 117, 117));
-        set1.setColor(Color.rgb(182, 191, 255));
+//        set1.setColor(Color.rgb(182, 191, 255));
         set1.setValueTextColor(Color.WHITE);
 //        set1.setColor(Color.CYAN);
         return set1;
