@@ -118,7 +118,7 @@ public class SleepChartActivity extends Activity {
 
         YAxis y = mChart.getAxisLeft();
         y.setDrawGridLines(false);
-        y.setDrawLabels(false);
+//        y.setDrawLabels(false);
         y.setDrawTopYLabelEntry(false);
         y.setTextColor(Color.WHITE);
 
