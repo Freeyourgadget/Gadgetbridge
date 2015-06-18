@@ -37,6 +37,9 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 
 
 public class SleepChartActivity extends Activity {
+    private static final float Y_VALUE_DEEP_SLEEP = 0.01f;
+    private static final float Y_VALUE_LIGHT_SLEEP = 0.016f;
+
     private static final class ActivityKind {
         public final byte type;
         public final String label;
@@ -266,16 +269,18 @@ public class SleepChartActivity extends Activity {
 
                 short movement = sample.getIntensity();
 
-
-                BarEntry emptyEntry = createEntry(0, i);
                 float value;
                 if (type == GBActivitySample.TYPE_DEEP_SLEEP) {
-                    value = 0.01f;
+//                    value = Y_VALUE_DEEP_SLEEP;
+                    value = ((float) movement) / movement_divisor;
+//                    value += Y_VALUE_DEEP_SLEEP;
                     activityEntries.add(createEntry(value, i));
                     colors.add(akDeepSleep.color);
                 } else {
                     if (type == GBActivitySample.TYPE_LIGHT_SLEEP) {
-                        value = ((float) movement / movement_divisor);
+                        value = ((float) movement) / movement_divisor;
+                        value += Y_VALUE_LIGHT_SLEEP;
+//                        value = Math.min(1.0f, Y_VALUE_LIGHT_SLEEP);
                         activityEntries.add(createEntry(value, i));
                         colors.add(akLightSleep.color);
                     } else {
@@ -284,7 +289,7 @@ public class SleepChartActivity extends Activity {
                             // I'm not sure using steps for this is actually a good idea
                             movement = steps;
                         }
-                        value = ((float) movement / movement_divisor);
+                        value = ((float) movement) / movement_divisor;
                         activityEntries.add(createEntry(value, i));
                         colors.add(akActivity.color);
                     }
