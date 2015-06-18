@@ -755,7 +755,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 buf.get(tmp, 0, 32);
 
                 versionCmd.fwVersion = new String(tmp).trim();
-                if (versionCmd.fwVersion.startsWith("3.")) {
+                if (versionCmd.fwVersion.startsWith("v3")) {
                     isFw3x = true;
                 }
 
