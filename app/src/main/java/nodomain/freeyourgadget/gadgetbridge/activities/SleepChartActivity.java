@@ -13,6 +13,7 @@ import android.view.MenuItem;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarLineChartBase;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -131,6 +132,7 @@ public class SleepChartActivity extends Activity {
 //        x.setTypeface(tf);
         x.setEnabled(true);
         x.setTextColor(Color.WHITE);
+        x.setDrawLimitLinesBehindData(true);
 
         YAxis y = mChart.getAxisLeft();
         y.setDrawGridLines(false);
@@ -289,18 +291,21 @@ public class SleepChartActivity extends Activity {
                 }
 
                 String xLabel = "";
-                boolean annotate_this = false;
                 if (annotate) {
-                    if (true || type != GBActivitySample.TYPE_DEEP_SLEEP && type != GBActivitySample.TYPE_LIGHT_SLEEP &&
-                            (last_type == GBActivitySample.TYPE_DEEP_SLEEP || last_type == GBActivitySample.TYPE_LIGHT_SLEEP)) {
-                        // seems that we woke up
-                        annotate_this = true;
-                    }
-                    if (annotate_this) {
-                        cal.setTimeInMillis(sample.getTimestamp() * 1000L);
-                        date = cal.getTime();
-                        String dateString = annotationDateFormat.format(date);
-                        xLabel = dateString;
+                    cal.setTimeInMillis(sample.getTimestamp() * 1000L);
+                    date = cal.getTime();
+                    String dateString = annotationDateFormat.format(date);
+                    xLabel = dateString;
+                    if (last_type != type) {
+                        if (isSleep(last_type) && !isSleep(type)) {
+                            // woken up
+                            LimitLine line = new LimitLine(i, dateString);
+                            mChart.getXAxis().addLimitLine(line);
+                        } else if (!isSleep(last_type) && isSleep(type)) {
+                            // fallen asleep
+                            LimitLine line = new LimitLine(i, dateString);
+                            mChart.getXAxis().addLimitLine(line);
+                        }
                     }
                     last_type = type;
                 }
@@ -334,6 +339,10 @@ public class SleepChartActivity extends Activity {
 
 //            textView.setText(dateStringFrom + " to " + dateStringTo);
         }
+    }
+
+    private boolean isSleep(byte type) {
+        return type == GBActivitySample.TYPE_DEEP_SLEEP || type == GBActivitySample.TYPE_LIGHT_SLEEP;
     }
 
     private void setupLegend(BarLineChartBase chart) {
