@@ -273,13 +273,13 @@ public class SleepChartActivity extends Activity {
                 if (type == GBActivitySample.TYPE_DEEP_SLEEP) {
 //                    value = Y_VALUE_DEEP_SLEEP;
                     value = ((float) movement) / movement_divisor;
-//                    value += Y_VALUE_DEEP_SLEEP;
+                    value += Y_VALUE_DEEP_SLEEP;
                     activityEntries.add(createEntry(value, i));
                     colors.add(akDeepSleep.color);
                 } else {
                     if (type == GBActivitySample.TYPE_LIGHT_SLEEP) {
                         value = ((float) movement) / movement_divisor;
-                        value += Y_VALUE_LIGHT_SLEEP;
+//                        value += Y_VALUE_LIGHT_SLEEP;
 //                        value = Math.min(1.0f, Y_VALUE_LIGHT_SLEEP);
                         activityEntries.add(createEntry(value, i));
                         colors.add(akLightSleep.color);
@@ -305,10 +305,16 @@ public class SleepChartActivity extends Activity {
                         if (isSleep(last_type) && !isSleep(type)) {
                             // woken up
                             LimitLine line = new LimitLine(i, dateString);
+                            line.enableDashedLine(8, 8, 0);
+                            line.setTextColor(Color.WHITE);
+                            line.setTextSize(15);
                             mChart.getXAxis().addLimitLine(line);
                         } else if (!isSleep(last_type) && isSleep(type)) {
                             // fallen asleep
                             LimitLine line = new LimitLine(i, dateString);
+                            line.enableDashedLine(8, 8, 0);
+                            line.setTextSize(15);
+                            line.setTextColor(Color.WHITE);
                             mChart.getXAxis().addLimitLine(line);
                         }
                     }
