@@ -115,6 +115,10 @@ public class PebbleIoThread extends GBDeviceIoThread {
             mBtSocket = null;
             return false;
         }
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        mPebbleProtocol.setForceProtocol(sharedPrefs.getBoolean("pebble_force_protocol", false));
+
         gbDevice.setState(GBDevice.State.CONNECTED);
         gbDevice.sendDeviceUpdateIntent(getContext());
 

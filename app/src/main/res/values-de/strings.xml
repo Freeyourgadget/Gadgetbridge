@@ -93,4 +93,5 @@
   <string name="pref_header_vibration_count">Anzahl der Vibrationen</string>
   <string name="pref_write_logfiles">Log-Dateien schreiben (Neustart erforderlich)</string>
   <string name="title_activity_sleepmonitor">Schlafmonitor</string>
+  <string name="pref_title_pebble_settings">Pebble Einstellungen</string>
 </resources>

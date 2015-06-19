@@ -59,6 +59,19 @@
         <Preference
             android:key="pref_key_miband"
             android:title="@string/preferences_miband_settings" />
+        <PreferenceScreen
+            android:key="pref_key_pebble"
+            android:title="@string/pref_title_pebble_settings" >
+            <PreferenceCategory
+                android:key="pref_key_development"
+                android:title="@string/pref_header_development">
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="pebble_force_protocol"
+                    android:title="@string/pref_title_pebble_forceprotocol"
+                    android:summary="@string/pref_summary_pebble_forceprotocol" />
+            </PreferenceCategory>
+        </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory

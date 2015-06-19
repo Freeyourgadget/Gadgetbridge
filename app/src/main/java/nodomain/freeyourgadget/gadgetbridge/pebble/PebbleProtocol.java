@@ -165,6 +165,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private static Random mRandom = new Random();
 
     boolean isFw3x = false;
+    boolean mForceProtocol = false;
+
     byte last_id = -1;
     private ArrayList<UUID> tmpUUIDS = new ArrayList<>();
 
@@ -221,13 +223,16 @@ public class PebbleProtocol extends GBDeviceProtocol {
         ts += (SimpleTimeZone.getDefault().getOffset(ts));
         ts /= 1000;
 
-        if (isFw3x) {
+        if (isFw3x && mForceProtocol) {
             String[] parts = {from, null, body};
             return encodeBlobdbNotification((int) (ts & 0xffffffff), parts);
-        } else {
+        } else if (!isFw3x && !mForceProtocol) {
             String[] parts = {from, body, ts.toString()};
             return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_SMS, 0, parts);
         }
+
+        String[] parts = {from, null, body};
+        return encodeExtensibleNotification(mRandom.nextInt(), (int) (ts & 0xffffffff), parts);
     }
 
     @Override
@@ -236,13 +241,16 @@ public class PebbleProtocol extends GBDeviceProtocol {
         ts += (SimpleTimeZone.getDefault().getOffset(ts));
         ts /= 1000;
 
-        if (isFw3x) {
+        if (isFw3x && mForceProtocol) {
             String[] parts = {from, subject, body};
             return encodeBlobdbNotification((int) (ts & 0xffffffff), parts);
-        } else {
+        } else if (!isFw3x && !mForceProtocol) {
             String[] parts = {from, body, ts.toString(), subject};
             return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_EMAIL, 0, parts);
         }
+
+        String[] parts = {from, subject, body};
+        return encodeExtensibleNotification(mRandom.nextInt(), (int) (ts & 0xffffffff), parts);
     }
 
     @Override
@@ -912,5 +920,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
         }
 
         return cmd;
+    }
+
+    public void setForceProtocol(boolean force) {
+        LOG.info("setting force protocol to " + force);
+        mForceProtocol = force;
     }
 }
