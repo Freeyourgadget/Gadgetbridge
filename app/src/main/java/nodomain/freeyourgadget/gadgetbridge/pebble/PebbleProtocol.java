@@ -149,8 +149,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final byte TYPE_INT32 = 3;
 
     static final short LENGTH_PREFIX = 4;
+    static final short LENGTH_SIMPLEMESSAGE = 1;
     static final short LENGTH_SETTIME = 5;
-    static final short LENGTH_GETTIME = 1;
     static final short LENGTH_REMOVEAPP = 17;
     static final short LENGTH_REFRESHAPP = 5;
     static final short LENGTH_PHONEVERSION = 17;
@@ -172,6 +172,16 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     private MorpheuzSupport mMorpheuzSupport = new MorpheuzSupport(PebbleProtocol.this);
     private WeatherNeatSupport mWeatherNeatSupport = new WeatherNeatSupport(PebbleProtocol.this);
+
+    private static byte[] encodeSimpleMessage( short endpoint, byte command ) {
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_SIMPLEMESSAGE);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort(LENGTH_SIMPLEMESSAGE);
+        buf.putShort(endpoint);
+        buf.put(command);
+
+        return buf.array();
+    }
 
     private static byte[] encodeMessage(short endpoint, byte type, int cookie, String[] parts) {
         // Calculate length first
@@ -412,13 +422,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     public byte[] encodeGetTime() {
-        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_GETTIME);
-        buf.order(ByteOrder.BIG_ENDIAN);
-        buf.putShort(LENGTH_GETTIME);
-        buf.putShort(ENDPOINT_TIME);
-        buf.put(TIME_GETTIME);
-
-        return buf.array();
+        return encodeSimpleMessage(ENDPOINT_TIME, TIME_GETTIME);
     }
 
     @Override
@@ -463,12 +467,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeFirmwareVersionReq() {
-        return encodeMessage(ENDPOINT_FIRMWAREVERSION, FIRMWAREVERSION_GETVERSION, 0, null);
+        return encodeSimpleMessage(ENDPOINT_FIRMWAREVERSION, FIRMWAREVERSION_GETVERSION);
     }
 
     @Override
     public byte[] encodeAppInfoReq() {
-        return encodeMessage(ENDPOINT_APPMANAGER, APPMANAGER_GETUUIDS, 0, null);
+        return encodeSimpleMessage(ENDPOINT_APPMANAGER, APPMANAGER_GETUUIDS);
     }
 
     @Override
@@ -517,7 +521,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeReboot() {
-        return encodeMessage(ENDPOINT_RESET, RESET_REBOOT, 0, null);
+        return encodeSimpleMessage(ENDPOINT_RESET, RESET_REBOOT);
     }
 
     /* pebble specific install methods */
@@ -815,7 +819,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         break;
                     case APPMANAGER_GETUUIDS:
                         GBDeviceCommandSendBytes sendBytes = new GBDeviceCommandSendBytes();
-                        sendBytes.encodedBytes = encodeMessage(ENDPOINT_APPMANAGER, APPMANAGER_GETAPPBANKSTATUS, 0, null);
+                        sendBytes.encodedBytes = encodeSimpleMessage(ENDPOINT_APPMANAGER, APPMANAGER_GETAPPBANKSTATUS);
                         cmd = sendBytes;
                         tmpUUIDS.clear();
                         slotsUsed = buf.getInt();
