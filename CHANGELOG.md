@@ -1,9 +1,11 @@
 ###Changelog
 
-####Version 0.4.1 (next)
+####Version 0.4.1
 * New icons, thanks xphnx!
 * Improvements to Sleep Monitor charts
 * Pebble: use new Sleep Monitor for Morpheuz (previously Mi Band only)
+* Pebble: expermimental support for FW 3.x notification protocol
+* Pebble: dev option to force latest notification protocol
 
 ####Version 0.4.0
 * Pebble: Initial Morpheuz protocol support for getting sleep data
