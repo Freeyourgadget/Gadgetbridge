@@ -5,6 +5,7 @@
   <string name="action_settings">Impostazioni</string>
   <string name="action_debug">Debug</string>
   <string name="action_quit">Esci</string>
+  <string name="controlcenter_start_sleepmonitor">Monitoraggio del sonno (ALPHA)</string>
   <string name="title_activity_debug">Debug</string>
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">Gestione app</string>
@@ -43,7 +44,7 @@
   <string name="bluetooth_is_not_supported_">Bluetooth non supportato.</string>
   <string name="bluetooth_is_disabled_">Bluetooth disabilitato.</string>
   <string name="tap_connected_device_for_app_mananger">tocca il dispositivo connesso per gestire le App</string>
-  <string name="tap_a_device_to_connect">tocca un dispositivo per connetterlo</string>
+  <string name="tap_a_device_to_connect">tocca il dispositivo da connettere</string>
   <string name="cannot_connect_bt_address_invalid_">Impossibile connettersi. Indirizzo BT non valido?</string>
   <string name="gadgetbridge_running">Gadgetbridge in esecuzione</string>
   <string name="battery_low">basso</string>
@@ -88,4 +89,8 @@
   <string name="pref_header_vibration_count">Numero vibrazioni</string>
   <string name="title_activity_sleepmonitor">Monitoraggio del sonno</string>
   <string name="pref_write_logfiles">Salva il log su file (richiede riavvio)</string>
+  <string name="initializing">inizializzazione in corso</string>
+  <string name="busy_task_fetch_activity_data">Recupero dati attività</string>
+  <string name="controlcenter_fetch_activity_data">Recupera dati attività</string>
+  <string name="controlcenter_disconnect">Disconetti</string>
 </resources>

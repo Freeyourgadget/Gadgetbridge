@@ -5,6 +5,7 @@
   <string name="action_settings">Ajustes</string>
   <string name="action_debug">Depurar</string>
   <string name="action_quit">Salir</string>
+  <string name="controlcenter_start_sleepmonitor">Monitor de sueño (ALPHA)</string>
   <string name="title_activity_debug">Depurar</string>
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">Gestor de App</string>
@@ -39,7 +40,7 @@
   <string name="_unknown_">(desconocido)</string>
   <string name="test">Probar</string>
   <string name="test_notification">Probar notificación</string>
-  <string name="this_is_a_test_notification_from_gadgetbridge">Esta es una notificación de prueba desde Gadgetbridge</string>
+  <string name="this_is_a_test_notification_from_gadgetbridge">Notificación de prueba desde Gadgetbridge</string>
   <string name="bluetooth_is_not_supported_">Bluetooth no está soportado.</string>
   <string name="bluetooth_is_disabled_">Bluetooth está desactivado.</string>
   <string name="tap_connected_device_for_app_mananger">pulsa el dispositivo conectado para el Gestor de App</string>
@@ -87,5 +88,10 @@
   <string name="miband_prefs_weight_kg">Peso en kg</string>
   <string name="pref_header_vibration_count">Recuento de vibración</string>
   <string name="title_activity_sleepmonitor">Monitor de sueño</string>
-  <string name="pref_write_logfiles">Escribe archivos de registro (requiere reiniciar)</string>
+  <string name="pref_write_logfiles">Guardar logs (requiere reiniciar)</string>
+  <string name="initializing">iniciando</string>
+  <string name="busy_task_fetch_activity_data">Recuperando datos de actividad</string>
+  <string name="controlcenter_fetch_activity_data">Obtener datos de actividad</string>
+  <string name="controlcenter_disconnect">Desconectar</string>
+  <string name="sleep_activity_date_range">Desde %1$s a %2$s</string>
 </resources>
