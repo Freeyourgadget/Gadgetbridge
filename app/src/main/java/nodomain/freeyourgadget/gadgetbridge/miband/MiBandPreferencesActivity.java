@@ -10,16 +10,19 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivity;
 
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_GENERIC;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_INCOMING_CALL;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_K9MAIL;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_PEBBLEMSG;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_SMS;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_MIBAND_ADDRESS;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_MIBAND_WEARSIDE;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_USER_ALIAS;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_USER_GENDER;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_USER_HEIGHT_CM;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_USER_WEIGHT_KG;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_USER_YEAR_OF_BIRTH;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.VIBRATION_COUNT;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.VIBRATION_PROFILE;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.getNotificationPrefKey;
 
 public class MiBandPreferencesActivity extends AbstractSettingsActivity {
@@ -51,10 +54,17 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
                 PREF_USER_GENDER,
                 PREF_USER_HEIGHT_CM,
                 PREF_USER_WEIGHT_KG,
+                PREF_MIBAND_WEARSIDE,
                 PREF_MIBAND_ADDRESS,
+                getNotificationPrefKey(VIBRATION_PROFILE, ORIGIN_SMS),
                 getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_SMS),
+                getNotificationPrefKey(VIBRATION_PROFILE, ORIGIN_INCOMING_CALL),
+                getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_INCOMING_CALL),
+                getNotificationPrefKey(VIBRATION_PROFILE, ORIGIN_K9MAIL),
                 getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_K9MAIL),
+                getNotificationPrefKey(VIBRATION_PROFILE, ORIGIN_PEBBLEMSG),
                 getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_PEBBLEMSG),
+                getNotificationPrefKey(VIBRATION_PROFILE, ORIGIN_GENERIC),
                 getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_GENERIC),
         };
     }

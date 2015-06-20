@@ -21,4 +21,33 @@
         <item>female</item>
         <item>other</item>
     </string-array>
+    <string-array name="wearside">
+        <item>@string/left</item>
+        <item>@string/right</item>
+    </string-array>
+    <string-array name="wearside_values">
+        <item>left</item>
+        <item>right</item>
+    </string-array>
+
+    <string-array name="vibration_profile">
+        <item>@string/vibration_profile_staccato</item>
+        <item>@string/vibration_profile_short</item>
+        <item>@string/vibration_profile_medium</item>
+        <item>@string/vibration_profile_long</item>
+        <item>@string/vibration_profile_waterdrop</item>
+        <item>@string/vibration_profile_ring</item>
+        <item>@string/vibration_profile_alarm_clock</item>
+    </string-array>
+    <string-array name="vibration_profile_values">
+        <!-- Note: corresponds with IDs in VibrationProfile -->
+        <item>@string/p_staccato</item>
+        <item>@string/p_short</item>
+        <item>@string/p_medium</item>
+        <item>@string/p_long</item>
+        <item>@string/p_waterdrop</item>
+        <item>@string/p_ring</item>
+        <item>@string/p_alarm_clock</item>
+    </string-array>
+
 </resources>

@@ -58,9 +58,11 @@
         android:title="@string/preferences_category_device_specific_settings">
         <Preference
             android:key="pref_key_miband"
+            android:icon="@drawable/ic_device_miband"
             android:title="@string/preferences_miband_settings" />
         <PreferenceScreen
             android:key="pref_key_pebble"
+            android:icon="@drawable/ic_device_pebble"
             android:title="@string/pref_title_pebble_settings" >
             <PreferenceCategory
                 android:key="pref_key_development"

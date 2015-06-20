@@ -12,7 +12,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBDevice;
  * sequence (transaction). It will abort the entire initialization sequence
  * by returning false, when the device is already initialized.
  */
-public class CheckInitializedAction extends PlainAction {
+public class CheckInitializedAction extends AbortTransactionAction {
     private static final Logger LOG = LoggerFactory.getLogger(CheckInitializedAction.class);
 
     private final GBDevice device;
@@ -22,11 +22,11 @@ public class CheckInitializedAction extends PlainAction {
     }
 
     @Override
-    public boolean run(BluetoothGatt gatt) {
-        boolean continueWithOtherInitActions = !device.isInitialized();
-        if (!continueWithOtherInitActions) {
+    protected boolean shouldAbort() {
+        boolean abort = device.isInitialized();
+        if (abort) {
             LOG.info("Aborting device initialization, because already initialized: " + device);
         }
-        return continueWithOtherInitActions;
+        return abort;
     }
 }

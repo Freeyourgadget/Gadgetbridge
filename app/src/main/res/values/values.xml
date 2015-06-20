@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Note: these are not translated! They are used as preference keys -->
+    <item name="p_staccato" type="string">staccato</item>
+    <item name="p_short" type="string">short</item>
+    <item name="p_medium" type="string">medium</item>
+    <item name="p_long" type="string">long</item>
+    <item name="p_waterdrop" type="string">waterdrop</item>
+    <item name="p_ring" type="string">ring</item>
+    <item name="p_alarm_clock" type="string">alarm_clock</item>
+
+</resources>
