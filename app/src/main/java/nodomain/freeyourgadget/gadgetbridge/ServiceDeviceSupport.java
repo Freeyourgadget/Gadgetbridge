@@ -210,4 +210,12 @@ public class ServiceDeviceSupport implements DeviceSupport {
         }
         delegate.onReboot();
     }
+
+    @Override
+    public void onFindDevice(boolean start) {
+        if (checkBusy("find device")) {
+            return;
+        }
+        delegate.onFindDevice(start);
+    }
 }

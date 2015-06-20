@@ -59,6 +59,7 @@ public class BluetoothCommunicationService extends Service {
     public static final String ACTION_REBOOT = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.reboot";
     public static final String ACTION_FETCH_ACTIVITY_DATA = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.fetch_activity_data";
     public static final String ACTION_DISCONNECT = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.disconnect";
+    public static final String ACTION_FIND_DEVICE = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.find_device";
 
     public static final String EXTRA_PERFORM_PAIR = "perform_pair";
 
@@ -206,6 +207,11 @@ public class BluetoothCommunicationService extends Service {
             case ACTION_DISCONNECT: {
                 mDeviceSupport.dispose();
                 mDeviceSupport = null;
+                break;
+            }
+            case ACTION_FIND_DEVICE: {
+                boolean start = intent.getBooleanExtra("find_start", false);
+                mDeviceSupport.onFindDevice(start);
                 break;
             }
             case ACTION_CALLSTATE:

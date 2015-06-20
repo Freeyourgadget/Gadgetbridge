@@ -62,6 +62,10 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
+    public byte[] encodeLocateDevice(boolean start) {
+        return null;
+    }
+
     public GBDeviceCommand decodeResponse(byte[] responseData) {
         return null;
     }

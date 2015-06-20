@@ -69,6 +69,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     //same as above, but remains untouched for the ack message
     private GregorianCalendar activityDataTimestampToAck = null;
     private volatile boolean telephoneRinging;
+    private volatile boolean isLocatingDevice;
 
 
     public MiBandSupport() {
@@ -135,10 +136,15 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         return getNotification(vibrateDuration, vibrateTimes, flashTimes, flashColour, originalColour, flashDuration);
     }
 
-    private void sendDefaultNotification(TransactionBuilder builder) {
+    private void sendDefaultNotification(TransactionBuilder builder, short repeat, BtLEAction extraAction) {
         BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
-        LOG.info("Sending notification to MiBand: " + characteristic);
-        builder.write(characteristic, getDefaultNotification()).queue(getQueue());
+        LOG.info("Sending notification to MiBand: " + characteristic + " (" + repeat + " times)");
+        byte[] defaultNotification = getDefaultNotification();
+        for (short i = 0; i < repeat; i++) {
+            builder.write(characteristic, defaultNotification);
+            builder.add(extraAction);
+        }
+        builder.queue(getQueue());
     }
 
     /**
@@ -153,7 +159,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      */
     private void sendCustomNotification(VibrationProfile vibrationProfile, int flashTimes, int flashColour, int originalColour, long flashDuration, BtLEAction extraAction, TransactionBuilder builder) {
         BluetoothGattCharacteristic controlPoint = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
-        for (byte i = 0; i < vibrationProfile.getRepeat(); i++) {
+        for (short i = 0; i < vibrationProfile.getRepeat(); i++) {
             int[] onOffSequence = vibrationProfile.getOnOffSequence();
             for (int j = 0; j < onOffSequence.length; j++) {
                 int on = onOffSequence[j];
@@ -245,10 +251,10 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    private void performDefaultNotification(String task) {
+    private void performDefaultNotification(String task, short repeat, BtLEAction extraAction) {
         try {
             TransactionBuilder builder = performInitialized(task);
-            sendDefaultNotification(builder);
+            sendDefaultNotification(builder, repeat, extraAction);
         } catch (IOException ex) {
             LOG.error("Unable to send notification to MI device", ex);
         }
@@ -314,7 +320,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     private VibrationProfile getPreferredVibrateProfile(String notificationOrigin, SharedPreferences prefs, int repeat) {
         String profileId = getNotificationPrefStringValue(VIBRATION_PROFILE, notificationOrigin, prefs, DEFAULT_VALUE_VIBRATION_PROFILE);
-        return VibrationProfile.getProfile(profileId, (byte) repeat);
+        return VibrationProfile.getProfile(profileId, (byte) (repeat & 0xfff));
     }
 
     @Override
@@ -429,6 +435,21 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to reboot MI", ex);
+        }
+    }
+
+    @Override
+    public void onFindDevice(boolean start) {
+        isLocatingDevice = start;
+
+        if (start) {
+            AbortTransactionAction abortAction = new AbortTransactionAction() {
+                @Override
+                protected boolean shouldAbort() {
+                    return !isLocatingDevice;
+                }
+            };
+            performDefaultNotification("locating device", (short) 255, abortAction);
         }
     }
 

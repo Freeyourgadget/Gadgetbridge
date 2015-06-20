@@ -41,7 +41,7 @@ public class VibrationProfile {
     private final String id;
 
     private int[] onOffSequence;
-    private byte repeat; // 1-10
+    private short repeat;
 
     /**
      * Creates a new profile instance.
@@ -49,7 +49,7 @@ public class VibrationProfile {
      * @param onOffSequence a sequence of alternating on and off durations, in milliseconds
      * @param repeat how ofoften the sequence shall be repeated
      */
-    public VibrationProfile(String id, int[] onOffSequence, byte repeat) {
+    public VibrationProfile(String id, int[] onOffSequence, short repeat) {
         this.id = id;
         this.repeat = repeat;
         this.onOffSequence = onOffSequence;
@@ -63,7 +63,7 @@ public class VibrationProfile {
         return onOffSequence;
     }
 
-    public byte getRepeat() {
+    public short getRepeat() {
         return repeat;
     }
 }

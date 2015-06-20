@@ -1,10 +1,13 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -198,11 +201,32 @@ public class ControlCenter extends Activity {
                     startService(startIntent);
                 }
                 return true;
+            case R.id.controlcenter_find_device:
+                if (selectedDevice != null) {
+                    findDevice(true);
+                    ProgressDialog dialog = ProgressDialog.show(
+                            this,
+                            getString(R.string.control_center_find_lost_device),
+                            getString(R.string.control_center_cancel_to_stop_vibration),
+                            true, true,
+                            new DialogInterface.OnCancelListener() {
+                                @Override
+                                public void onCancel(DialogInterface dialog) {
+                                   findDevice(false);
+                                }
+                            });
+                }
             default:
                 return super.onContextItemSelected(item);
         }
     }
 
+    private void findDevice(boolean start) {
+        Intent startIntent = new Intent(this, BluetoothCommunicationService.class);
+        startIntent.putExtra("find_start", start);
+        startIntent.setAction(BluetoothCommunicationService.ACTION_FIND_DEVICE);
+        startService(startIntent);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

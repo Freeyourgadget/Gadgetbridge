@@ -34,4 +34,6 @@ public interface EventHandler {
     void onFetchActivityData();
 
     void onReboot();
+
+    void onFindDevice(boolean start);
 }
