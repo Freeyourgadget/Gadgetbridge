@@ -230,12 +230,12 @@ public class SleepChartActivity extends Activity {
             switch (getProvider(mGBDevice)) {
                 case GBActivitySample.PROVIDER_MIBAND:
                     movement_divisor = 256.0f;
-                    annotate = true; // sample density to high?
+                    annotate = false; // sample density to high?
                     use_steps_as_movement = true;
                     break;
                 default: // Morpheuz
                     movement_divisor = 5000.0f;
-                    annotate = true;
+                    annotate = false;
                     use_steps_as_movement = false;
                     break;
             }
