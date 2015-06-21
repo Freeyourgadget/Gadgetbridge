@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Build.VERSION;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,11 +48,17 @@ public class GBApplication extends Application {
     private void setupLogging() {
         if (isFileLoggingEnabled()) {
             File dir = getExternalFilesDir(null);
-            if (dir != null && !dir.exists()) {
-                dir.mkdirs();
+            if (dir != null) {
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+                // used by assets/logback.xml since the location cannot be statically determined
+                System.setProperty("GB_LOGFILES_DIR", dir.getAbsolutePath());
+            } else {
+                Log.e("GBApplication", "External files dir is null, cannot log to file");
+                System.setProperty("GB_LOGFILES_DIR", "/dev/null");
+
             }
-            // used by assets/logback.xml since the location cannot be statically determined
-            System.setProperty("GB_LOGFILES_DIR", dir.getAbsolutePath());
         } else {
             System.setProperty("GB_LOGFILES_DIR", "/dev/null"); // just to please logback configuration, not used at all
             try {
