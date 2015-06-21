@@ -173,7 +173,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private MorpheuzSupport mMorpheuzSupport = new MorpheuzSupport(PebbleProtocol.this);
     private WeatherNeatSupport mWeatherNeatSupport = new WeatherNeatSupport(PebbleProtocol.this);
 
-    private static byte[] encodeSimpleMessage( short endpoint, byte command ) {
+    private static byte[] encodeSimpleMessage(short endpoint, byte command) {
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_SIMPLEMESSAGE);
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putShort(LENGTH_SIMPLEMESSAGE);
@@ -282,6 +282,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putInt((int) (ts / 1000));
 
         return buf.array();
+    }
+
+    @Override
+    public byte[] encodeFindDevice(boolean start) {
+        return encodeSetCallState("Where are you?", "Gadgetbridge", start ? GBCommand.CALL_INCOMING : GBCommand.CALL_END);
     }
 
     private static byte[] encodeExtensibleNotification(int id, int timestamp, String[] parts) {
