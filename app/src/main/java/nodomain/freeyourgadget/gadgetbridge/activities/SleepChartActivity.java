@@ -225,17 +225,15 @@ public class SleepChartActivity extends Activity {
         LOG.info("number of samples:" + samples.size());
         if (samples.size() > 1) {
             float movement_divisor;
-            boolean annotate;
+            boolean annotate = true;
             boolean use_steps_as_movement;
             switch (getProvider(mGBDevice)) {
                 case GBActivitySample.PROVIDER_MIBAND:
                     movement_divisor = 256.0f;
-                    annotate = false; // sample density to high?
                     use_steps_as_movement = true;
                     break;
                 default: // Morpheuz
                     movement_divisor = 5000.0f;
-                    annotate = false;
                     use_steps_as_movement = false;
                     break;
             }
@@ -301,23 +299,23 @@ public class SleepChartActivity extends Activity {
                     date = cal.getTime();
                     String dateString = annotationDateFormat.format(date);
                     xLabel = dateString;
-                    if (last_type != type) {
-                        if (isSleep(last_type) && !isSleep(type)) {
-                            // woken up
-                            LimitLine line = new LimitLine(i, dateString);
-                            line.enableDashedLine(8, 8, 0);
-                            line.setTextColor(Color.WHITE);
-                            line.setTextSize(15);
-                            mChart.getXAxis().addLimitLine(line);
-                        } else if (!isSleep(last_type) && isSleep(type)) {
-                            // fallen asleep
-                            LimitLine line = new LimitLine(i, dateString);
-                            line.enableDashedLine(8, 8, 0);
-                            line.setTextSize(15);
-                            line.setTextColor(Color.WHITE);
-                            mChart.getXAxis().addLimitLine(line);
-                        }
-                    }
+//                    if (last_type != type) {
+//                        if (isSleep(last_type) && !isSleep(type)) {
+//                            // woken up
+//                            LimitLine line = new LimitLine(i, dateString);
+//                            line.enableDashedLine(8, 8, 0);
+//                            line.setTextColor(Color.WHITE);
+//                            line.setTextSize(15);
+//                            mChart.getXAxis().addLimitLine(line);
+//                        } else if (!isSleep(last_type) && isSleep(type)) {
+//                            // fallen asleep
+//                            LimitLine line = new LimitLine(i, dateString);
+//                            line.enableDashedLine(8, 8, 0);
+//                            line.setTextSize(15);
+//                            line.setTextColor(Color.WHITE);
+//                            mChart.getXAxis().addLimitLine(line);
+//                        }
+//                    }
                     last_type = type;
                 }
                 xLabels.add(xLabel);
