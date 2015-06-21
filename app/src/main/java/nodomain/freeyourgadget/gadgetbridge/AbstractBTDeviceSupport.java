@@ -164,7 +164,7 @@ public abstract class AbstractBTDeviceSupport extends AbstractDeviceSupport {
 
     @Override
     public void onFindDevice(boolean start) {
-        byte[] bytes = gbDeviceProtocol.encodeLocateDevice(start);
+        byte[] bytes = gbDeviceProtocol.encodeFindDevice(start);
         sendToDevice(bytes);
     }
 }

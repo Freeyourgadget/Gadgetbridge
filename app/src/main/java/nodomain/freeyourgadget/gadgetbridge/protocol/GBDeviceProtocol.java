@@ -62,7 +62,7 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
-    public byte[] encodeLocateDevice(boolean start) {
+    public byte[] encodeFindDevice(boolean start) {
         return null;
     }
 
