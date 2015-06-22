@@ -1,7 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -170,8 +169,17 @@ public class ControlCenter extends Activity {
             // no context menu when device is busy
             return;
         }
-        getMenuInflater().inflate(
-                R.menu.controlcenter_context, menu);
+        getMenuInflater().inflate(R.menu.controlcenter_context, menu);
+
+        if (!selectedDevice.isConnected() || selectedDevice.getType() == DeviceType.PEBBLE) {
+            menu.removeItem(R.id.controlcenter_fetch_activity_data);
+        }
+
+        if (!selectedDevice.isConnected()) {
+            menu.removeItem(R.id.controlcenter_disconnect);
+            menu.removeItem(R.id.controlcenter_find_device);
+        }
+
         menu.setHeaderTitle(selectedDevice.getName());
     }
 
@@ -212,7 +220,7 @@ public class ControlCenter extends Activity {
                             new DialogInterface.OnCancelListener() {
                                 @Override
                                 public void onCancel(DialogInterface dialog) {
-                                   findDevice(false);
+                                    findDevice(false);
                                 }
                             });
                 }
