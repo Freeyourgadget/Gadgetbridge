@@ -112,11 +112,13 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final byte PUTBYTES_TYPE_FILE = 6;
     public static final byte PUTBYTES_TYPE_WORKER = 7;
 
-    public static final byte RESET_REBOOT = 0;
+    static final byte RESET_REBOOT = 0;
 
-    private final byte SYSTEMMESSAGE_FIRMWARESTART = 1;
-    private final byte SYSTEMMESSAGE_FIRMWARECOMPLETE = 2;
-    private final byte SYSTEMMESSAGE_FIRMWAREFAIL = 3;
+    static final byte SCREENSHOT_TAKE = 0;
+
+    static final byte SYSTEMMESSAGE_FIRMWARESTART = 1;
+    static final byte SYSTEMMESSAGE_FIRMWARECOMPLETE = 2;
+    static final byte SYSTEMMESSAGE_FIRMWAREFAIL = 3;
 
     static final byte PHONEVERSION_REQUEST = 0;
     static final byte PHONEVERSION_APPVERSION_MAGIC = 2; // increase this if pebble complains
@@ -527,6 +529,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
     @Override
     public byte[] encodeReboot() {
         return encodeSimpleMessage(ENDPOINT_RESET, RESET_REBOOT);
+    }
+
+    @Override
+    public byte[] encodeScreenshotReq() {
+        return encodeSimpleMessage( ENDPOINT_SCREENSHOT, SCREENSHOT_TAKE );
     }
 
     /* pebble specific install methods */

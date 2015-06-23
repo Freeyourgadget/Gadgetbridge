@@ -8,7 +8,10 @@
         android:title="@string/controlcenter_start_sleepmonitor"/>
     <item
         android:id="@+id/controlcenter_find_device"
-        android:title="@string/control_center_find_device"/>
+        android:title="@string/controlcenter_find_device"/>
+    <item
+        android:id="@+id/controlcenter_take_screenshot"
+        android:title="@string/controlcenter_take_screenshot"/>
     <item
         android:id="@+id/controlcenter_disconnect"
         android:title="@string/controlcenter_disconnect"/>

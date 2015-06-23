@@ -176,6 +176,10 @@ public class ControlCenter extends Activity {
             menu.removeItem(R.id.controlcenter_fetch_activity_data);
         }
 
+        if (!selectedDevice.isConnected() || selectedDevice.getType() == DeviceType.MIBAND) {
+            menu.removeItem(R.id.controlcenter_take_screenshot);
+        }
+
         if (!selectedDevice.isConnected()) {
             menu.removeItem(R.id.controlcenter_disconnect);
             menu.removeItem(R.id.controlcenter_find_device);
@@ -214,7 +218,7 @@ public class ControlCenter extends Activity {
             case R.id.controlcenter_find_device:
                 if (selectedDevice != null) {
                     findDevice(true);
-                    ProgressDialog dialog = ProgressDialog.show(
+                    ProgressDialog.show(
                             this,
                             getString(R.string.control_center_find_lost_device),
                             getString(R.string.control_center_cancel_to_stop_vibration),
@@ -226,6 +230,14 @@ public class ControlCenter extends Activity {
                                 }
                             });
                 }
+                return true;
+            case R.id.controlcenter_take_screenshot:
+                if (selectedDevice != null) {
+                    Intent startIntent = new Intent(this, BluetoothCommunicationService.class);
+                    startIntent.setAction(BluetoothCommunicationService.ACTION_REQUEST_SCREENSHOT);
+                    startService(startIntent);
+                }
+                return true;
             default:
                 return super.onContextItemSelected(item);
         }

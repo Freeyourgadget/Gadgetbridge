@@ -6,7 +6,11 @@
     <string name="action_settings">Settings</string>
     <string name="action_debug">Debug</string>
     <string name="action_quit">Quit</string>
+    <string name="controlcenter_fetch_activity_data">Fetch Activity Data</string>
     <string name="controlcenter_start_sleepmonitor">Sleep Monitor (ALPHA)</string>
+    <string name="controlcenter_find_device">Find Device…</string>
+    <string name="controlcenter_take_screenshot">Take Screenshot</string>
+    <string name="controlcenter_disconnect">Disconnect</string>
 
     <string name="title_activity_debug">Debug</string>
 
@@ -113,8 +117,6 @@
     <string name="pref_write_logfiles">Write Log Files (needs restart)</string>
     <string name="initializing">initializing</string>
     <string name="busy_task_fetch_activity_data">Fetching Activity Data</string>
-    <string name="controlcenter_fetch_activity_data">Fetch Activity Data</string>
-    <string name="controlcenter_disconnect">Disconnect</string>
     <string name="sleep_activity_date_range">From %1$s to %2$s</string>
     <string name="miband_prefs_wearside">Wearing left or right?</string>
     <string name="pref_screen_vibration_profile">Vibration Profile</string>
@@ -133,15 +135,8 @@
     <string name="pref_screen_notification_profile_pebblemsg">Pebble Notification</string>
     <string name="pref_screen_notification_profile_k9mail">K9 Mail Notification</string>
     <string name="pref_screen_notification_profile_incoming_call">Incoming Call Notification</string>
-    <string name="control_center_find_device">Find Device…</string>
     <string name="control_center_find_lost_device">Find lost Device</string>
     <string name="control_center_cancel_to_stop_vibration">Cancel to stop vibration.</string>
     <string name="title_activity_charts">ChartsActivity</string>
-
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
-
-    <string name="hello_world">Hello world!</string>
 
 </resources>

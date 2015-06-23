@@ -491,6 +491,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onScreenshotReq() {
+        // not supported
+    }
+
+    @Override
     public void onCharacteristicChanged(BluetoothGatt gatt,
                                         BluetoothGattCharacteristic characteristic) {
         super.onCharacteristicChanged(gatt, characteristic);

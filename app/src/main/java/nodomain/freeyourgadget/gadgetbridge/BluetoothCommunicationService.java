@@ -30,8 +30,6 @@ import nodomain.freeyourgadget.gadgetbridge.pebble.PebbleSupport;
 public class BluetoothCommunicationService extends Service {
     public static final String ACTION_START
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.start";
-    public static final String ACTION_PAIR
-            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.pair";
     public static final String ACTION_CONNECT
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.connect";
     public static final String ACTION_NOTIFICATION_GENERIC
@@ -50,6 +48,8 @@ public class BluetoothCommunicationService extends Service {
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.request_versioninfo";
     public static final String ACTION_REQUEST_APPINFO
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.request_appinfo";
+    public static final String ACTION_REQUEST_SCREENSHOT
+            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.request_screenshot";
     public static final String ACTION_STARTAPP
             = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.startapp";
     public static final String ACTION_DELETEAPP
@@ -242,6 +242,9 @@ public class BluetoothCommunicationService extends Service {
                 break;
             case ACTION_REQUEST_APPINFO:
                 mDeviceSupport.onAppInfoReq();
+                break;
+            case ACTION_REQUEST_SCREENSHOT:
+                mDeviceSupport.onScreenshotReq();
                 break;
             case ACTION_STARTAPP:
                 UUID uuid = UUID.fromString(intent.getStringExtra("app_uuid"));

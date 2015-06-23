@@ -43,6 +43,10 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
+    public byte[] encodeScreenshotReq() {
+        return null;
+    }
+
     public byte[] encodeAppDelete(UUID uuid) {
         return null;
     }

@@ -218,4 +218,12 @@ public class ServiceDeviceSupport implements DeviceSupport {
         }
         delegate.onFindDevice(start);
     }
+
+    @Override
+    public void onScreenshotReq() {
+        if (checkBusy("request screenshot")) {
+            return;
+        }
+        delegate.onScreenshotReq();
+    }
 }

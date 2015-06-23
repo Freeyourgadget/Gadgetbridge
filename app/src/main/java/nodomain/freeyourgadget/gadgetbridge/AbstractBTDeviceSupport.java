@@ -167,4 +167,10 @@ public abstract class AbstractBTDeviceSupport extends AbstractDeviceSupport {
         byte[] bytes = gbDeviceProtocol.encodeFindDevice(start);
         sendToDevice(bytes);
     }
+
+    @Override
+    public void onScreenshotReq() {
+        byte[] bytes = gbDeviceProtocol.encodeScreenshotReq();
+        sendToDevice(bytes);
+    }
 }
