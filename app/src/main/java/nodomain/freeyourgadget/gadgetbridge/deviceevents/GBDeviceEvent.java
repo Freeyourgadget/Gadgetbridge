@@ -1,10 +1,10 @@
-package nodomain.freeyourgadget.gadgetbridge.protocol;
+package nodomain.freeyourgadget.gadgetbridge.deviceevents;
 
 
-public abstract class GBDeviceCommand {
-    public CommandClass commandClass = CommandClass.UNKNOWN;
+public abstract class GBDeviceEvent {
+    public EventClass eventClass = EventClass.UNKNOWN;
 
-    public enum CommandClass {
+    public enum EventClass {
         UNKNOWN,
         MUSIC_CONTROL,
         CALL_CONTROL,

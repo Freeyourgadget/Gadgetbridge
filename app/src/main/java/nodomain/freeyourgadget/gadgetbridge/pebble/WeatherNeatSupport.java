@@ -9,8 +9,8 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandSendBytes;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 
 public class WeatherNeatSupport {
 
@@ -48,8 +48,8 @@ public class WeatherNeatSupport {
         return buf.array();
     }
 
-    public GBDeviceCommand handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
-        GBDeviceCommandSendBytes sendBytes = new GBDeviceCommandSendBytes();
+    public GBDeviceEvent handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
+        GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
         sendBytes.encodedBytes = encodeWeatherNeatMessage("Berlin", "22 C", "cloudy", 0);
         return sendBytes;
     }

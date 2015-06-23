@@ -15,13 +15,13 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBCommand;
 import nodomain.freeyourgadget.gadgetbridge.GBDeviceApp;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppInfo;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppManagementResult;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandCallControl;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandMusicControl;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandSendBytes;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppManagementResult;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
 
 public class PebbleProtocol extends GBDeviceProtocol {
@@ -715,57 +715,57 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
 
     @Override
-    public GBDeviceCommand decodeResponse(byte[] responseData) {
+    public GBDeviceEvent decodeResponse(byte[] responseData) {
         ByteBuffer buf = ByteBuffer.wrap(responseData);
         buf.order(ByteOrder.BIG_ENDIAN);
         short length = buf.getShort();
         short endpoint = buf.getShort();
         byte pebbleCmd = buf.get();
-        GBDeviceCommand cmd = null;
+        GBDeviceEvent devEvt = null;
         switch (endpoint) {
             case ENDPOINT_MUSICCONTROL:
-                GBDeviceCommandMusicControl musicCmd = new GBDeviceCommandMusicControl();
+                GBDeviceEventMusicControl musicCmd = new GBDeviceEventMusicControl();
                 switch (pebbleCmd) {
                     case MUSICCONTROL_NEXT:
-                        musicCmd.command = GBDeviceCommandMusicControl.Command.NEXT;
+                        musicCmd.event = GBDeviceEventMusicControl.Event.NEXT;
                         break;
                     case MUSICCONTROL_PREVIOUS:
-                        musicCmd.command = GBDeviceCommandMusicControl.Command.PREVIOUS;
+                        musicCmd.event = GBDeviceEventMusicControl.Event.PREVIOUS;
                         break;
                     case MUSICCONTROL_PLAY:
-                        musicCmd.command = GBDeviceCommandMusicControl.Command.PLAY;
+                        musicCmd.event = GBDeviceEventMusicControl.Event.PLAY;
                         break;
                     case MUSICCONTROL_PAUSE:
-                        musicCmd.command = GBDeviceCommandMusicControl.Command.PAUSE;
+                        musicCmd.event = GBDeviceEventMusicControl.Event.PAUSE;
                         break;
                     case MUSICCONTROL_PLAYPAUSE:
-                        musicCmd.command = GBDeviceCommandMusicControl.Command.PLAYPAUSE;
+                        musicCmd.event = GBDeviceEventMusicControl.Event.PLAYPAUSE;
                         break;
                     case MUSICCONTROL_VOLUMEUP:
-                        musicCmd.command = GBDeviceCommandMusicControl.Command.VOLUMEUP;
+                        musicCmd.event = GBDeviceEventMusicControl.Event.VOLUMEUP;
                         break;
                     case MUSICCONTROL_VOLUMEDOWN:
-                        musicCmd.command = GBDeviceCommandMusicControl.Command.VOLUMEDOWN;
+                        musicCmd.event = GBDeviceEventMusicControl.Event.VOLUMEDOWN;
                         break;
                     default:
                         break;
                 }
-                cmd = musicCmd;
+                devEvt = musicCmd;
                 break;
             case ENDPOINT_PHONECONTROL:
-                GBDeviceCommandCallControl callCmd = new GBDeviceCommandCallControl();
+                GBDeviceEventCallControl callCmd = new GBDeviceEventCallControl();
                 switch (pebbleCmd) {
                     case PHONECONTROL_HANGUP:
-                        callCmd.command = GBDeviceCommandCallControl.Command.END;
+                        callCmd.event = GBDeviceEventCallControl.Event.END;
                         break;
                     default:
-                        LOG.info("Unknown PHONECONTROL command" + pebbleCmd);
+                        LOG.info("Unknown PHONECONTROL event" + pebbleCmd);
                         break;
                 }
-                cmd = callCmd;
+                devEvt = callCmd;
                 break;
             case ENDPOINT_FIRMWAREVERSION:
-                GBDeviceCommandVersionInfo versionCmd = new GBDeviceCommandVersionInfo();
+                GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
 
                 buf.getInt(); // skip
                 byte[] tmp = new byte[32];
@@ -781,12 +781,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 if (hwRev > 0 && hwRev < hwRevisions.length) {
                     versionCmd.hwVersion = hwRevisions[hwRev];
                 }
-                cmd = versionCmd;
+                devEvt = versionCmd;
                 break;
             case ENDPOINT_APPMANAGER:
                 switch (pebbleCmd) {
                     case APPMANAGER_GETAPPBANKSTATUS:
-                        GBDeviceCommandAppInfo appInfoCmd = new GBDeviceCommandAppInfo();
+                        GBDeviceEventAppInfo appInfoCmd = new GBDeviceEventAppInfo();
                         int slotCount = buf.getInt();
                         int slotsUsed = buf.getInt();
                         byte[] appName = new byte[32];
@@ -820,12 +820,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
                                 break;
                             }
                         }
-                        cmd = appInfoCmd;
+                        devEvt = appInfoCmd;
                         break;
                     case APPMANAGER_GETUUIDS:
-                        GBDeviceCommandSendBytes sendBytes = new GBDeviceCommandSendBytes();
+                        GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
                         sendBytes.encodedBytes = encodeSimpleMessage(ENDPOINT_APPMANAGER, APPMANAGER_GETAPPBANKSTATUS);
-                        cmd = sendBytes;
+                        devEvt = sendBytes;
                         tmpUUIDS.clear();
                         slotsUsed = buf.getInt();
                         for (int i = 0; i < slotsUsed; i++) {
@@ -837,39 +837,39 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         }
                         break;
                     case APPMANAGER_REMOVEAPP:
-                        GBDeviceCommandAppManagementResult deleteRes = new GBDeviceCommandAppManagementResult();
-                        deleteRes.type = GBDeviceCommandAppManagementResult.CommandType.DELETE;
+                        GBDeviceEventAppManagementResult deleteRes = new GBDeviceEventAppManagementResult();
+                        deleteRes.type = GBDeviceEventAppManagementResult.EventType.DELETE;
 
                         int result = buf.getInt();
                         switch (result) {
                             case APPMANAGER_RES_SUCCESS:
-                                deleteRes.result = GBDeviceCommandAppManagementResult.Result.SUCCESS;
+                                deleteRes.result = GBDeviceEventAppManagementResult.Result.SUCCESS;
                                 break;
                             default:
-                                deleteRes.result = GBDeviceCommandAppManagementResult.Result.FAILURE;
+                                deleteRes.result = GBDeviceEventAppManagementResult.Result.FAILURE;
                                 break;
                         }
-                        cmd = deleteRes;
+                        devEvt = deleteRes;
                         break;
                     default:
-                        LOG.info("Unknown APPMANAGER command" + pebbleCmd);
+                        LOG.info("Unknown APPMANAGER event" + pebbleCmd);
                         break;
                 }
                 break;
             case ENDPOINT_PUTBYTES:
-                GBDeviceCommandAppManagementResult installRes = new GBDeviceCommandAppManagementResult();
-                installRes.type = GBDeviceCommandAppManagementResult.CommandType.INSTALL;
+                GBDeviceEventAppManagementResult installRes = new GBDeviceEventAppManagementResult();
+                installRes.type = GBDeviceEventAppManagementResult.EventType.INSTALL;
                 switch (pebbleCmd) {
                     case PUTBYTES_INIT:
                         installRes.token = buf.getInt();
-                        installRes.result = GBDeviceCommandAppManagementResult.Result.SUCCESS;
+                        installRes.result = GBDeviceEventAppManagementResult.Result.SUCCESS;
                         break;
                     default:
                         installRes.token = buf.getInt();
-                        installRes.result = GBDeviceCommandAppManagementResult.Result.FAILURE;
+                        installRes.result = GBDeviceEventAppManagementResult.Result.FAILURE;
                         break;
                 }
-                cmd = installRes;
+                devEvt = installRes;
                 break;
             case ENDPOINT_APPLICATIONMESSAGE:
                 last_id = buf.get();
@@ -882,10 +882,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         LOG.info("got APPLICATIONMESSAGE PUSH from UUID " + uuid);
                         if (WeatherNeatSupport.uuid.equals(uuid)) {
                             ArrayList<Pair<Integer, Object>> dict = decodeDict(buf);
-                            cmd = mWeatherNeatSupport.handleMessage(dict);
+                            devEvt = mWeatherNeatSupport.handleMessage(dict);
                         } else if (MorpheuzSupport.uuid.equals(uuid)) {
                             ArrayList<Pair<Integer, Object>> dict = decodeDict(buf);
-                            cmd = mMorpheuzSupport.handleMessage(dict);
+                            devEvt = mMorpheuzSupport.handleMessage(dict);
                         }
                         break;
                     case APPLICATIONMESSAGE_ACK:
@@ -905,9 +905,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 if (pebbleCmd != DATALOG_TIMEOUT) {
                     byte id = buf.get();
                     LOG.info("DATALOG id " + id + " - sending 0x85 (ACK?)");
-                    GBDeviceCommandSendBytes sendBytes = new GBDeviceCommandSendBytes();
+                    GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
                     sendBytes.encodedBytes = encodeDatalog(id, (byte) 0x85);
-                    cmd = sendBytes;
+                    devEvt = sendBytes;
                 } else {
                     LOG.info("DATALOG TIMEOUT - ignoring");
                 }
@@ -916,9 +916,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 switch (pebbleCmd) {
                     case PHONEVERSION_REQUEST:
                         LOG.info("Pebble asked for Phone/App Version - repLYING!");
-                        GBDeviceCommandSendBytes sendBytes = new GBDeviceCommandSendBytes();
+                        GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
                         sendBytes.encodedBytes = encodePhoneVersion(PHONEVERSION_REMOTE_OS_ANDROID);
-                        cmd = sendBytes;
+                        devEvt = sendBytes;
                         break;
                     default:
                         break;
@@ -928,7 +928,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 break;
         }
 
-        return cmd;
+        return devEvt;
     }
 
     public void setForceProtocol(boolean force) {

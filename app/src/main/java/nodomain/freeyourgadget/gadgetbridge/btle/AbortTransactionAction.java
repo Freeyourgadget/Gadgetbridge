@@ -5,8 +5,6 @@ import android.bluetooth.BluetoothGatt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nodomain.freeyourgadget.gadgetbridge.GBDevice;
-
 /**
  * A special action that checks for an abort-condition, and if met, the currently
  * executing transaction will be aborted by returning false.

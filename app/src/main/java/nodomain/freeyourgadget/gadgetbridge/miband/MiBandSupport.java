@@ -29,7 +29,6 @@ import nodomain.freeyourgadget.gadgetbridge.btle.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
 
-import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_PROFILE;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.DEFAULT_VALUE_FLASH_COLOUR;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.DEFAULT_VALUE_FLASH_COUNT;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.DEFAULT_VALUE_FLASH_DURATION;
@@ -37,6 +36,7 @@ import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.DEFAULT_VA
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_COUNT;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_PAUSE;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_PROFILE;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.FLASH_COLOUR;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.FLASH_COUNT;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.FLASH_DURATION;

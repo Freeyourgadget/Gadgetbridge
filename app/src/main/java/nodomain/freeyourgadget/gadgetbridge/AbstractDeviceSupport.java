@@ -9,12 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.SleepChartActivity;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppInfo;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandCallControl;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandMusicControl;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandSleepMonitorResult;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSleepMonitorResult;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 
 // TODO: support option for a single reminder notification when notifications could not be delivered?
 // conditions: app was running and received notifications, but device was not connected.
@@ -56,77 +56,77 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         return context;
     }
 
-    public void evaluateGBDeviceCommand(GBDeviceCommand deviceCmd) {
+    public void evaluateGBDeviceEvent(GBDeviceEvent deviceEvent) {
 
-        switch (deviceCmd.commandClass) {
+        switch (deviceEvent.eventClass) {
             case MUSIC_CONTROL:
-                handleGBDeviceCommand((GBDeviceCommandMusicControl) deviceCmd);
+                handleGBDeviceEvent((GBDeviceEventMusicControl) deviceEvent);
                 break;
             case CALL_CONTROL:
-                handleGBDeviceCommand((GBDeviceCommandCallControl) deviceCmd);
+                handleGBDeviceEvent((GBDeviceEventCallControl) deviceEvent);
                 break;
             case VERSION_INFO:
-                handleGBDeviceCommand((GBDeviceCommandVersionInfo) deviceCmd);
+                handleGBDeviceEvent((GBDeviceEventVersionInfo) deviceEvent);
                 break;
             case APP_INFO:
-                handleGBDeviceCommand((GBDeviceCommandAppInfo) deviceCmd);
+                handleGBDeviceEvent((GBDeviceEventAppInfo) deviceEvent);
                 break;
             case SLEEP_MONITOR_RES:
-                handleGBDeviceCommand((GBDeviceCommandSleepMonitorResult) deviceCmd);
+                handleGBDeviceEvent((GBDeviceEventSleepMonitorResult) deviceEvent);
                 break;
             default:
                 break;
         }
     }
 
-    public void handleGBDeviceCommand(GBDeviceCommandMusicControl musicCmd) {
+    public void handleGBDeviceEvent(GBDeviceEventMusicControl musicEvent) {
         Context context = getContext();
-        LOG.info("Got command for MUSIC_CONTROL");
+        LOG.info("Got event for MUSIC_CONTROL");
         Intent musicIntent = new Intent(GBMusicControlReceiver.ACTION_MUSICCONTROL);
-        musicIntent.putExtra("command", musicCmd.command.ordinal());
+        musicIntent.putExtra("event", musicEvent.event.ordinal());
         musicIntent.setPackage(context.getPackageName());
         context.sendBroadcast(musicIntent);
     }
 
-    public void handleGBDeviceCommand(GBDeviceCommandCallControl callCmd) {
+    public void handleGBDeviceEvent(GBDeviceEventCallControl callEvent) {
         Context context = getContext();
-        LOG.info("Got command for CALL_CONTROL");
+        LOG.info("Got event for CALL_CONTROL");
         Intent callIntent = new Intent(GBCallControlReceiver.ACTION_CALLCONTROL);
-        callIntent.putExtra("command", callCmd.command.ordinal());
+        callIntent.putExtra("event", callEvent.event.ordinal());
         callIntent.setPackage(context.getPackageName());
         context.sendBroadcast(callIntent);
     }
 
-    public void handleGBDeviceCommand(GBDeviceCommandVersionInfo infoCmd) {
+    public void handleGBDeviceEvent(GBDeviceEventVersionInfo infoEvent) {
         Context context = getContext();
-        LOG.info("Got command for VERSION_INFO");
+        LOG.info("Got event for VERSION_INFO");
         if (gbDevice == null) {
             return;
         }
-        gbDevice.setFirmwareVersion(infoCmd.fwVersion);
-        gbDevice.setHardwareVersion(infoCmd.hwVersion);
+        gbDevice.setFirmwareVersion(infoEvent.fwVersion);
+        gbDevice.setHardwareVersion(infoEvent.hwVersion);
         gbDevice.sendDeviceUpdateIntent(context);
     }
 
-    public void handleGBDeviceCommand(GBDeviceCommandAppInfo appInfoCmd) {
+    public void handleGBDeviceEvent(GBDeviceEventAppInfo appInfoEvent) {
         Context context = getContext();
-        LOG.info("Got command for APP_INFO");
+        LOG.info("Got event for APP_INFO");
 
         Intent appInfoIntent = new Intent(AppManagerActivity.ACTION_REFRESH_APPLIST);
-        int appCount = appInfoCmd.apps.length;
+        int appCount = appInfoEvent.apps.length;
         appInfoIntent.putExtra("app_count", appCount);
         for (Integer i = 0; i < appCount; i++) {
-            appInfoIntent.putExtra("app_name" + i.toString(), appInfoCmd.apps[i].getName());
-            appInfoIntent.putExtra("app_creator" + i.toString(), appInfoCmd.apps[i].getCreator());
-            appInfoIntent.putExtra("app_uuid" + i.toString(), appInfoCmd.apps[i].getUUID().toString());
-            appInfoIntent.putExtra("app_type" + i.toString(), appInfoCmd.apps[i].getType().ordinal());
+            appInfoIntent.putExtra("app_name" + i.toString(), appInfoEvent.apps[i].getName());
+            appInfoIntent.putExtra("app_creator" + i.toString(), appInfoEvent.apps[i].getCreator());
+            appInfoIntent.putExtra("app_uuid" + i.toString(), appInfoEvent.apps[i].getUUID().toString());
+            appInfoIntent.putExtra("app_type" + i.toString(), appInfoEvent.apps[i].getType().ordinal());
         }
         LocalBroadcastManager.getInstance(context).sendBroadcast(appInfoIntent);
     }
 
-    public void handleGBDeviceCommand(GBDeviceCommandSleepMonitorResult sleepMonitorResult) {
+    public void handleGBDeviceEvent(GBDeviceEventSleepMonitorResult sleepMonitorResult) {
         Context context = getContext();
-        LOG.info("Got command for SLEEP_MONIOR_RES");
+        LOG.info("Got event for SLEEP_MONIOR_RES");
         Intent sleepMontiorIntent = new Intent(SleepChartActivity.ACTION_REFRESH);
         sleepMontiorIntent.putExtra("smartalarm_from", sleepMonitorResult.smartalarm_from);
         sleepMontiorIntent.putExtra("smartalarm_to", sleepMonitorResult.smartalarm_to);

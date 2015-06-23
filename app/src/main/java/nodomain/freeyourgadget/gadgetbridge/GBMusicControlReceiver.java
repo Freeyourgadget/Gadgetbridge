@@ -10,7 +10,7 @@ import android.view.KeyEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandMusicControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 
 public class GBMusicControlReceiver extends BroadcastReceiver {
     private static final Logger LOG = LoggerFactory.getLogger(GBMusicControlReceiver.class);
@@ -19,7 +19,7 @@ public class GBMusicControlReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        GBDeviceCommandMusicControl.Command musicCmd = GBDeviceCommandMusicControl.Command.values()[intent.getIntExtra("command", 0)];
+        GBDeviceEventMusicControl.Event musicCmd = GBDeviceEventMusicControl.Event.values()[intent.getIntExtra("event", 0)];
         int keyCode = -1;
         int volumeAdjust = AudioManager.ADJUST_LOWER;
 
@@ -43,8 +43,7 @@ public class GBMusicControlReceiver extends BroadcastReceiver {
                 // change default and fall through, :P
                 volumeAdjust = AudioManager.ADJUST_RAISE;
             case VOLUMEDOWN:
-                AudioManager audioManager =
-                        (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+                AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
                 audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, volumeAdjust, 0);
                 break;
             default:

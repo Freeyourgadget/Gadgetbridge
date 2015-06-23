@@ -5,8 +5,6 @@ import android.content.SharedPreferences;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nodomain.freeyourgadget.gadgetbridge.R;
-
 public final class MiBandConst {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandConst.class);
 

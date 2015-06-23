@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandSendBytes;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
 
 public abstract class AbstractBTDeviceSupport extends AbstractDeviceSupport {
@@ -60,22 +60,22 @@ public abstract class AbstractBTDeviceSupport extends AbstractDeviceSupport {
         }
     }
 
-    public void handleGBDeviceCommand(GBDeviceCommandSendBytes sendBytes) {
+    public void handleGBDeviceEvent(GBDeviceEventSendBytes sendBytes) {
         sendToDevice(sendBytes.encodedBytes);
     }
 
     @Override
-    public void evaluateGBDeviceCommand(GBDeviceCommand deviceCmd) {
+    public void evaluateGBDeviceEvent(GBDeviceEvent deviceEvent) {
 
-        switch (deviceCmd.commandClass) {
+        switch (deviceEvent.eventClass) {
             case SEND_BYTES:
-                handleGBDeviceCommand((GBDeviceCommandSendBytes) deviceCmd);
+                handleGBDeviceEvent((GBDeviceEventSendBytes) deviceEvent);
                 return;
             default:
                 break;
         }
 
-        super.evaluateGBDeviceCommand(deviceCmd);
+        super.evaluateGBDeviceEvent(deviceEvent);
     }
 
     @Override

@@ -13,9 +13,9 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandSendBytes;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandSleepMonitorResult;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSleepMonitorResult;
 
 public class MorpheuzSupport {
 
@@ -66,7 +66,7 @@ public class MorpheuzSupport {
         return buf.array();
     }
 
-    public GBDeviceCommand handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
+    public GBDeviceEvent handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
         for (Pair<Integer, Object> pair : pairs) {
             int ctrl_message = 0;
             switch (pair.first) {
@@ -84,7 +84,7 @@ public class MorpheuzSupport {
                     if (sent_to_gadgetbridge) {
                         ctrl_message = MorpheuzSupport.CTRL_VERSION_DONE | MorpheuzSupport.CTRL_GONEOFF_DONE | MorpheuzSupport.CTRL_TRANSMIT_DONE | MorpheuzSupport.CTRL_SET_LAST_SENT;
                     } else {
-                        GBDeviceCommandSleepMonitorResult sleepMonitorResult = new GBDeviceCommandSleepMonitorResult();
+                        GBDeviceEventSleepMonitorResult sleepMonitorResult = new GBDeviceEventSleepMonitorResult();
                         sleepMonitorResult.smartalarm_from = smartalarm_from;
                         sleepMonitorResult.smartalarm_to = smartalarm_to;
                         sleepMonitorResult.alarm_gone_off = alarm_gone_off;
@@ -144,12 +144,12 @@ public class MorpheuzSupport {
                     break;
             }
             if (ctrl_message > 0) {
-                GBDeviceCommandSendBytes sendBytes = new GBDeviceCommandSendBytes();
+                GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
                 sendBytes.encodedBytes = encodeMorpheuzMessage(MorpheuzSupport.KEY_CTRL, ctrl_message);
                 return sendBytes;
             }
         }
-        GBDeviceCommandSendBytes sendBytes = new GBDeviceCommandSendBytes();
+        GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
         sendBytes.encodedBytes = mPebbleProtocol.encodeApplicationMessageAck(uuid, mPebbleProtocol.last_id);
         return sendBytes;
     }

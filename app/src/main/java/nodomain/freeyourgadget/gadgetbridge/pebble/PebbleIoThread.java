@@ -28,9 +28,9 @@ import nodomain.freeyourgadget.gadgetbridge.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommand;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppInfo;
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandAppManagementResult;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppManagementResult;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
 
 public class PebbleIoThread extends GBDeviceIoThread {
@@ -245,12 +245,12 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     bytes += mInStream.read(buffer, bytes + 4, length - bytes);
                 }
 
-                GBDeviceCommand deviceCmd = mPebbleProtocol.decodeResponse(buffer);
-                if (deviceCmd == null) {
+                GBDeviceEvent deviceEvent = mPebbleProtocol.decodeResponse(buffer);
+                if (deviceEvent == null) {
                     LOG.info("unhandled message to endpoint " + endpoint + " (" + length + " bytes)");
                 } else {
-                    if (!evaluateGBDeviceCommandPebble(deviceCmd)) {
-                        mPebbleSupport.evaluateGBDeviceCommand(deviceCmd);
+                    if (!evaluateGBDeviceEventPebble(deviceEvent)) {
+                        mPebbleSupport.evaluateGBDeviceEvent(deviceEvent);
                     }
                 }
                 try {
@@ -305,10 +305,9 @@ public class PebbleIoThread extends GBDeviceIoThread {
     }
 
     // FIXME: parts are supporsed to be generic code
-    private boolean evaluateGBDeviceCommandPebble(GBDeviceCommand deviceCmd) {
-        Context context = getContext();
+    private boolean evaluateGBDeviceEventPebble(GBDeviceEvent deviceEvent) {
 
-        switch (deviceCmd.commandClass) {
+        switch (deviceEvent.eventClass) {
             case VERSION_INFO:
                 SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
                 if (sharedPrefs.getBoolean("datetime_synconconnect", true)) {
@@ -317,7 +316,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 }
                 return false;
             case APP_MANAGEMENT_RES:
-                GBDeviceCommandAppManagementResult appMgmtRes = (GBDeviceCommandAppManagementResult) deviceCmd;
+                GBDeviceEventAppManagementResult appMgmtRes = (GBDeviceEventAppManagementResult) deviceEvent;
                 switch (appMgmtRes.type) {
                     case DELETE:
                         // right now on the Pebble we also receive this on a failed/successful installation ;/
@@ -371,9 +370,9 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 }
                 return true;
             case APP_INFO:
-                LOG.info("Got command for APP_INFO");
-                GBDeviceCommandAppInfo appInfoCmd = (GBDeviceCommandAppInfo) deviceCmd;
-                setInstallSlot(appInfoCmd.freeSlot);
+                LOG.info("Got event for APP_INFO");
+                GBDeviceEventAppInfo appInfoEvent = (GBDeviceEventAppInfo) deviceEvent;
+                setInstallSlot(appInfoEvent.freeSlot);
                 return false;
             default:
                 return false;

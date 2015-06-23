@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 
-import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceCommandCallControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 
 public class GBCallControlReceiver extends BroadcastReceiver {
     public static final String ACTION_CALLCONTROL = "nodomain.freeyourgadget.gadgetbridge.callcontrol";
@@ -20,7 +20,7 @@ public class GBCallControlReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        GBDeviceCommandCallControl.Command callCmd = GBDeviceCommandCallControl.Command.values()[intent.getIntExtra("command", 0)];
+        GBDeviceEventCallControl.Event callCmd = GBDeviceEventCallControl.Event.values()[intent.getIntExtra("event", 0)];
         switch (callCmd) {
             case END:
             case START:
@@ -30,7 +30,7 @@ public class GBCallControlReceiver extends BroadcastReceiver {
                     Method method = clazz.getDeclaredMethod("getITelephony");
                     method.setAccessible(true);
                     ITelephony telephonyService = (ITelephony) method.invoke(telephonyManager);
-                    if (callCmd == GBDeviceCommandCallControl.Command.END) {
+                    if (callCmd == GBDeviceEventCallControl.Event.END) {
                         telephonyService.endCall();
                     } else {
                         telephonyService.answerRingingCall();
