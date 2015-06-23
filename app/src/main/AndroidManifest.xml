@@ -16,8 +16,16 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.fsck.k9.permission.READ_MESSAGES" />
 
-    <uses-feature android:name="android.hardware.bluetooth" android:required="true"/>
-    <uses-feature android:name="android.hardware.bluetooth_le" android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.bluetooth"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="false" />
+
+    <android:uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
 
     <application
         android:name=".GBApplication"
@@ -108,7 +116,8 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".externalevents.TimeChangeReceiver"
+        <receiver
+            android:name=".externalevents.TimeChangeReceiver"
             android:enabled="false" >
             <intent-filter>
                 <action android:name="android.intent.action.TIMEZONE_CHANGED" />
@@ -126,7 +135,7 @@
         </receiver>
         <receiver
             android:name=".externalevents.PebbleReceiver"
-            android:enabled="false">
+            android:enabled="false" >
             <intent-filter>
                 <action android:name="com.getpebble.action.SEND_NOTIFICATION" />
             </intent-filter>
@@ -182,6 +191,14 @@
         <activity
             android:name=".miband.MiBandPairingActivity"
             android:label="@string/title_activity_mi_band_pairing" >
+        </activity>
+        <activity
+            android:name=".activities.ChartsActivity"
+            android:label="@string/title_activity_charts"
+            android:parentActivityName=".ControlCenter" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="nodomain.freeyourgadget.gadgetbridge.ControlCenter" />
         </activity>
     </application>
 

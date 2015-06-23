@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import nodomain.freeyourgadget.gadgetbridge.activities.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.SleepChartActivity;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapter;
 import nodomain.freeyourgadget.gadgetbridge.discovery.DiscoveryActivity;
@@ -190,6 +191,7 @@ public class ControlCenter extends Activity {
                 if (selectedDevice != null) {
                     Intent startIntent;
                     startIntent = new Intent(ControlCenter.this, SleepChartActivity.class);
+//                    startIntent = new Intent(ControlCenter.this, ChartsActivity.class);
                     startIntent.putExtra("device", selectedDevice);
                     startActivity(startIntent);
                 }

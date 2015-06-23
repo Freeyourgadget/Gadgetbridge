@@ -136,5 +136,12 @@
     <string name="control_center_find_device">Find Device…</string>
     <string name="control_center_find_lost_device">Find lost Device</string>
     <string name="control_center_cancel_to_stop_vibration">Cancel to stop vibration.</string>
+    <string name="title_activity_charts">ChartsActivity</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="hello_world">Hello world!</string>
 
 </resources>
