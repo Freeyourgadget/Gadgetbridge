@@ -1,0 +1,123 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="nodomain.freeyourgadget.gadgetbridge.activities.AlarmDetails">
+
+
+    <TimePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/alarm_time_picker"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <CheckedTextView
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:text="@string/alarm_smart_wakeup"
+        android:orientation="vertical"
+        android:id="@+id/alarm_ctv_smart_wakeup"
+        android:checked="false"
+        android:drawableTop="@drawable/abc_btn_check_material"
+        android:layout_above="@+id/dowSelector"
+        android:layout_toEndOf="@+id/alarm_time_picker" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/alarm_time_picker"
+        android:layout_alignParentStart="true"
+        android:id="@+id/dowSelector">
+
+        <CheckedTextView
+            android:layout_marginLeft="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="@string/alarm_mon_short"
+            android:orientation="vertical"
+            android:id="@+id/alarm_ctv_mon"
+            android:checked="false"
+            android:clickable="true"
+            android:focusable="true"
+            android:drawableTop="@drawable/abc_btn_check_material"/>
+
+        <CheckedTextView
+            android:layout_marginLeft="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="@string/alarm_tue_short"
+            android:orientation="vertical"
+            android:id="@+id/alarm_ctv_tue"
+            android:checked="false"
+            android:clickable="true"
+            android:focusable="true"
+            android:drawableTop="@drawable/abc_btn_check_material"/>
+
+        <CheckedTextView
+            android:layout_marginLeft="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="@string/alarm_wed_short"
+            android:orientation="vertical"
+            android:id="@+id/alarm_ctv_wed"
+            android:checked="false"
+            android:clickable="true"
+            android:focusable="true"
+            android:drawableTop="@drawable/abc_btn_check_material"/>
+
+        <CheckedTextView
+            android:layout_marginLeft="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="@string/alarm_thu_short"
+            android:orientation="vertical"
+            android:id="@+id/alarm_ctv_thu"
+            android:checked="false"
+            android:clickable="true"
+            android:focusable="true"
+            android:drawableTop="@drawable/abc_btn_check_material"/>
+
+        <CheckedTextView
+            android:layout_marginLeft="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="@string/alarm_fri_short"
+            android:orientation="vertical"
+            android:id="@+id/alarm_ctv_fri"
+            android:checked="false"
+            android:clickable="true"
+            android:focusable="true"
+            android:drawableTop="@drawable/abc_btn_check_material"/>
+
+        <CheckedTextView
+            android:layout_marginLeft="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="@string/alarm_sat_short"
+            android:orientation="vertical"
+            android:id="@+id/alarm_ctv_sat"
+            android:checked="false"
+            android:clickable="true"
+            android:focusable="true"
+            android:drawableTop="@drawable/abc_btn_check_material"/>
+
+        <CheckedTextView
+            android:layout_marginLeft="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="@string/alarm_sun_short"
+            android:orientation="vertical"
+            android:id="@+id/alarm_ctv_sun"
+            android:checked="false"
+            android:clickable="true"
+            android:focusable="true"
+            android:drawableTop="@drawable/abc_btn_check_material"/>
+    </LinearLayout>
+
+
+
+</RelativeLayout>

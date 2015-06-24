@@ -13,6 +13,8 @@ public interface EventHandler {
 
     void onSetTime(long ts);
 
+    void onSetAlarms();
+
     void onSetCallState(String number, String name, GBCommand command);
 
     void onSetMusicInfo(String artist, String album, String track);

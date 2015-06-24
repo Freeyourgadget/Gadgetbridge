@@ -138,5 +138,15 @@
     <string name="control_center_find_lost_device">Find lost Device</string>
     <string name="control_center_cancel_to_stop_vibration">Cancel to stop vibration.</string>
     <string name="title_activity_charts">ChartsActivity</string>
-
+    <string name="title_activity_set_alarm">Configure Alarms</string>
+    <string name="controlcenter_start_configure_alarms">Configure alarms</string>
+    <string name="title_activity_alarm_details">Alarm Details</string>
+    <string name="alarm_sun_short">Sun</string>
+    <string name="alarm_mon_short">Mon</string>
+    <string name="alarm_tue_short">Tue</string>
+    <string name="alarm_wed_short">Wed</string>
+    <string name="alarm_thu_short">Thu</string>
+    <string name="alarm_fri_short">Fri</string>
+    <string name="alarm_sat_short">Sat</string>
+    <string name="alarm_smart_wakeup">smart wakeup</string>
 </resources>

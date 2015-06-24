@@ -226,4 +226,12 @@ public class ServiceDeviceSupport implements DeviceSupport {
         }
         delegate.onScreenshotReq();
     }
+
+    @Override
+    public void onSetAlarms() {
+        if (checkBusy("set alarms")) {
+            return;
+        }
+        delegate.onSetAlarms();
+    }
 }

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp" >
+
+        <TextView
+            android:id="@+id/alarm_item_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="00:00"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(Smart)"
+            android:layout_toRightOf="@+id/alarm_item_time"
+            android:id="@+id/alarm_smart_wakeup"
+            android:visibility="invisible"
+            android:layout_alignBaseline="@+id/alarm_item_time" />
+
+        <TextView
+            android:id="@+id/alarm_item_monday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/alarm_item_time"
+            android:layout_marginLeft="4dp"
+            android:text="@string/alarm_mon_short"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/alarm_item_tuesday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/alarm_item_monday"
+            android:layout_below="@+id/alarm_item_time"
+            android:layout_marginLeft="4dp"
+            android:text="@string/alarm_tue_short"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/alarm_item_wednesday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/alarm_item_tuesday"
+            android:layout_below="@+id/alarm_item_time"
+            android:layout_marginLeft="4dp"
+            android:text="@string/alarm_wed_short"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/alarm_item_thursday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/alarm_item_wednesday"
+            android:layout_below="@+id/alarm_item_time"
+            android:layout_marginLeft="4dp"
+            android:text="@string/alarm_thu_short"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/alarm_item_friday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/alarm_item_thursday"
+            android:layout_below="@+id/alarm_item_time"
+            android:layout_marginLeft="4dp"
+            android:text="@string/alarm_fri_short"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/alarm_item_saturday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/alarm_item_friday"
+            android:layout_below="@+id/alarm_item_time"
+            android:layout_marginLeft="4dp"
+            android:text="@string/alarm_sat_short"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/alarm_item_sunday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/alarm_item_saturday"
+            android:layout_below="@+id/alarm_item_time"
+            android:layout_marginLeft="4dp"
+            android:text="@string/alarm_sun_short"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <Switch
+            android:id="@+id/alarm_item_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true" />
+
+    </RelativeLayout>
+
+
+</FrameLayout>

@@ -38,4 +38,9 @@ public class PebbleSupport extends AbstractBTDeviceSupport {
     public synchronized PebbleIoThread getDeviceIOThread() {
         return (PebbleIoThread) super.getDeviceIOThread();
     }
+
+    @Override
+    public void onSetAlarms() {
+        //nothing to do ATM
+    }
 }

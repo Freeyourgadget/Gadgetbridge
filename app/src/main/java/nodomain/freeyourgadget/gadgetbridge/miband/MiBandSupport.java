@@ -18,6 +18,7 @@ import java.util.GregorianCalendar;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBCommand;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
@@ -44,6 +45,9 @@ import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.FLASH_ORIG
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_GENERIC;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_K9MAIL;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_SMS;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_MIBAND_ALARM1;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_MIBAND_ALARM2;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_MIBAND_ALARM3;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.VIBRATION_COUNT;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.VIBRATION_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.VIBRATION_PAUSE;
@@ -324,6 +328,21 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onSetAlarms() {
+        try {
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+            BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
+            TransactionBuilder builder = performInitialized("Set alarm");
+            queueAlarm(new GBAlarm(sharedPrefs.getString(PREF_MIBAND_ALARM1, GBAlarm.DEFAULT_ALARM1)), builder, characteristic);
+            queueAlarm(new GBAlarm(sharedPrefs.getString(PREF_MIBAND_ALARM2, GBAlarm.DEFAULT_ALARM2)), builder, characteristic);
+            queueAlarm(new GBAlarm(sharedPrefs.getString(PREF_MIBAND_ALARM3, GBAlarm.DEFAULT_ALARM3)), builder, characteristic);
+            builder.queue(getQueue());
+        } catch (IOException ex) {
+            LOG.error("Unable to set alarms on MI device", ex);
+        }
+    }
+
+    @Override
     public void onSMS(String from, String body) {
         performPreferredNotification("sms received", ORIGIN_SMS, null);
     }
@@ -542,6 +561,25 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             getDevice().setFirmwareVersion(info.getFirmwareVersion());
             getDevice().sendDeviceUpdateIntent(getContext());
         }
+    }
+
+
+    private void queueAlarm(GBAlarm alarm, TransactionBuilder builder, BluetoothGattCharacteristic characteristic) {
+        Calendar alarmCal = alarm.getAlarmCal();
+        byte[] alarmMessage = new byte[] {
+                (byte) MiBandService.COMMAND_SET_TIMER,
+                (byte) alarm.getIndex(),
+                (byte) (alarm.isEnabled() ? 1: 0),
+                (byte) (alarmCal.get(Calendar.YEAR) - 2000),
+                (byte) alarmCal.get(Calendar.MONTH),
+                (byte) alarmCal.get(Calendar.DATE),
+                (byte) alarmCal.get(Calendar.HOUR_OF_DAY),
+                (byte) alarmCal.get(Calendar.MINUTE),
+                (byte) alarmCal.get(Calendar.SECOND),
+                (byte) (alarm.isSmartWakeup() ? 30 : 0),
+                (byte) alarm.getRepetitionMask()
+        };
+        builder.write(characteristic, alarmMessage);
     }
 
     private void handleActivityNotif(byte[] value) {
