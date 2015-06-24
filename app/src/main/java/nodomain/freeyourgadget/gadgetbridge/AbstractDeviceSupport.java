@@ -13,6 +13,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSleepMonitorResult;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 
@@ -74,6 +75,9 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             case SLEEP_MONITOR_RES:
                 handleGBDeviceEvent((GBDeviceEventSleepMonitorResult) deviceEvent);
                 break;
+            case SCREENSHOT:
+                handleGBDeviceEvent((GBDeviceEventScreenshot) deviceEvent);
+                break;
             default:
                 break;
         }
@@ -134,5 +138,9 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         sleepMontiorIntent.putExtra("alarm_gone_off", sleepMonitorResult.alarm_gone_off);
 
         LocalBroadcastManager.getInstance(context).sendBroadcast(sleepMontiorIntent);
+    }
+
+    private void handleGBDeviceEvent(GBDeviceEventScreenshot screenshot) {
+        GB.writeScreenshot(screenshot, null);
     }
 }

@@ -13,6 +13,7 @@ import android.support.v4.app.NotificationCompat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.K9Receiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.MusicPlaybackReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PebbleReceiver;
@@ -86,7 +87,7 @@ public class GB {
     }
 
     public static String hexdump(byte[] buffer, int offset, int length) {
-        if (length == -1 ) {
+        if (length == -1) {
             length = buffer.length;
         }
         final char[] hexArray = "0123456789ABCDEF".toCharArray();
@@ -101,5 +102,10 @@ public class GB {
 
     public static String formatRssi(short rssi) {
         return String.valueOf(rssi);
+    }
+
+    public static void writeScreenshot(GBDeviceEventScreenshot screenshot, String filename) {
+        LOG.info("got screenshot: " + screenshot.width + "x" + screenshot.height + "x" + screenshot.bpp + "bpp");
+        // TODO encode bmp or something trivial
     }
 }

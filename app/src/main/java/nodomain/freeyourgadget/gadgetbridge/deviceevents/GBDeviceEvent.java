@@ -13,6 +13,7 @@ public abstract class GBDeviceEvent {
         APP_MANAGEMENT_RES,
         SEND_BYTES,
         SLEEP_MONITOR_RES,
+        SCREENSHOT,
     }
 }
 
