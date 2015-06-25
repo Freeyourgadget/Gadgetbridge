@@ -723,6 +723,15 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
+    private static byte reverseBits(byte in) {
+        byte out = 0;
+        for (int i = 0; i < 8; i++) {
+            byte bit = (byte) (in & 1);
+            out = (byte) ((out << 1) | bit);
+            in = (byte) (in >> 1);
+        }
+        return out;
+    }
 
     private GBDeviceEvent decodeResponseScreenshot(ByteBuffer buf, int length) {
         if (mDevEventScreenshot == null) {
@@ -735,6 +744,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
             mDevEventScreenshot.width = buf.getInt();
             mDevEventScreenshot.height = buf.getInt();
             mDevEventScreenshot.bpp = 1;
+            mDevEventScreenshot.clut = new byte[]{
+                    0x00, 0x00, 0x00, 0x00, (byte) 0xff,
+                    (byte) 0xff, (byte) 0xff, 0x00
+            };
 
             mScreenshotRemaining = (mDevEventScreenshot.width * mDevEventScreenshot.height) / 8;
             if (mScreenshotRemaining > 50000) {
@@ -748,7 +761,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
             return null;
         }
 
-        buf.get(mDevEventScreenshot.data, mDevEventScreenshot.data.length - mScreenshotRemaining, length);
+        for (int i = 0; i < length; i++) {
+            byte corrected = reverseBits(buf.get());
+            mDevEventScreenshot.data[mDevEventScreenshot.data.length - mScreenshotRemaining + i] = corrected;
+        }
+
         mScreenshotRemaining -= length;
         LOG.info("Screenshot remaining bytes " + mScreenshotRemaining);
         if (mScreenshotRemaining == 0) {

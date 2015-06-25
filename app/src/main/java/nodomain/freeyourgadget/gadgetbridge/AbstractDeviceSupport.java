@@ -8,6 +8,9 @@ import android.support.v4.content.LocalBroadcastManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import nodomain.freeyourgadget.gadgetbridge.activities.SleepChartActivity;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
@@ -141,6 +144,8 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     }
 
     private void handleGBDeviceEvent(GBDeviceEventScreenshot screenshot) {
-        GB.writeScreenshot(screenshot, null);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-hhmmss");
+
+        GB.writeScreenshot(screenshot, "screenshot_" + dateFormat.format(new Date()) + ".bmp");
     }
 }
