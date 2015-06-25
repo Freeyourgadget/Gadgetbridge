@@ -3,5 +3,6 @@
     <style name="GadgetbridgeTheme" parent="@android:style/Theme.Material.Light.DarkActionBar">
         <item name="android:colorPrimary">@color/primary</item>
         <item name="android:colorPrimaryDark">@color/primarydark</item>
+        <item name="android:colorAccent">@color/accent</item>
     </style>
 </resources>
