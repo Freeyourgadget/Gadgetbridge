@@ -268,7 +268,7 @@ public class BluetoothCommunicationService extends Service {
                 break;
             case ACTION_SET_ALARMS:
                 mDeviceSupport.onSetAlarms();
-
+                break;
         }
 
         return START_STICKY;
