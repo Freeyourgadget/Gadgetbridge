@@ -2,7 +2,10 @@ package nodomain.freeyourgadget.gadgetbridge.pebble;
 
 import android.net.Uri;
 
+import java.util.ArrayList;
+
 import nodomain.freeyourgadget.gadgetbridge.AbstractBTDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
 
@@ -40,7 +43,7 @@ public class PebbleSupport extends AbstractBTDeviceSupport {
     }
 
     @Override
-    public void onSetAlarms() {
+    public void onSetAlarms(ArrayList<GBAlarm> alarms) {
         //nothing to do ATM
     }
 }

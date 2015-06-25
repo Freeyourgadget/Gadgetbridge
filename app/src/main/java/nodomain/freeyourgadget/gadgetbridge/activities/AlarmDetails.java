@@ -3,6 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.view.View;
@@ -42,89 +43,81 @@ public class AlarmDetails extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_details);
 
-        int index = getIntent().getExtras().getInt("alarm_index");
-        if (index <0 || index > 2) {
-            finish();
-        }else {
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-            String pref = PREF_MIBAND_ALARM_PREFIX +(index+1);
-            alarm = new GBAlarm(sharedPrefs.getString(pref, ""));
-            //TODO: this is horrible and error-prone
+        Parcelable p = getIntent().getExtras().getParcelable("alarm");
+        alarm = (GBAlarm) p;
 
-            timePicker = (TimePicker) findViewById(R.id.alarm_time_picker);
-            ctvSmartWakeup = (CheckedTextView) findViewById(R.id.alarm_ctv_smart_wakeup);
-            ctvMonday = (CheckedTextView) findViewById(R.id.alarm_ctv_mon);
-            ctvTuesday = (CheckedTextView) findViewById(R.id.alarm_ctv_tue);
-            ctvWednesday = (CheckedTextView) findViewById(R.id.alarm_ctv_wed);
-            ctvThursday = (CheckedTextView) findViewById(R.id.alarm_ctv_thu);
-            ctvFriday = (CheckedTextView) findViewById(R.id.alarm_ctv_fri);
-            ctvSaturday = (CheckedTextView) findViewById(R.id.alarm_ctv_sat);
-            ctvSunday = (CheckedTextView) findViewById(R.id.alarm_ctv_sun);
+        timePicker = (TimePicker) findViewById(R.id.alarm_time_picker);
+        ctvSmartWakeup = (CheckedTextView) findViewById(R.id.alarm_ctv_smart_wakeup);
+        ctvMonday = (CheckedTextView) findViewById(R.id.alarm_ctv_mon);
+        ctvTuesday = (CheckedTextView) findViewById(R.id.alarm_ctv_tue);
+        ctvWednesday = (CheckedTextView) findViewById(R.id.alarm_ctv_wed);
+        ctvThursday = (CheckedTextView) findViewById(R.id.alarm_ctv_thu);
+        ctvFriday = (CheckedTextView) findViewById(R.id.alarm_ctv_fri);
+        ctvSaturday = (CheckedTextView) findViewById(R.id.alarm_ctv_sat);
+        ctvSunday = (CheckedTextView) findViewById(R.id.alarm_ctv_sun);
 
-            timePicker.setIs24HourView(DateFormat.is24HourFormat(GBApplication.getContext()));
-            timePicker.setCurrentHour(alarm.getHour());
-            timePicker.setCurrentMinute(alarm.getMinute());
+        timePicker.setIs24HourView(DateFormat.is24HourFormat(GBApplication.getContext()));
+        timePicker.setCurrentHour(alarm.getHour());
+        timePicker.setCurrentMinute(alarm.getMinute());
 
-            ctvSmartWakeup.setChecked(alarm.isSmartWakeup());
-            ctvSmartWakeup.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((CheckedTextView) v).toggle();
-                }
-            });
+        ctvSmartWakeup.setChecked(alarm.isSmartWakeup());
+        ctvSmartWakeup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((CheckedTextView) v).toggle();
+            }
+        });
 
-            ctvMonday.setChecked(alarm.getRepetition(GBAlarm.ALARM_MON));
-            ctvTuesday.setChecked(alarm.getRepetition(GBAlarm.ALARM_TUE));
-            ctvWednesday.setChecked(alarm.getRepetition(GBAlarm.ALARM_WED));
-            ctvThursday.setChecked(alarm.getRepetition(GBAlarm.ALARM_THU));
-            ctvFriday.setChecked(alarm.getRepetition(GBAlarm.ALARM_FRI));
-            ctvSaturday.setChecked(alarm.getRepetition(GBAlarm.ALARM_SAT));
-            ctvSunday.setChecked(alarm.getRepetition(GBAlarm.ALARM_SUN));
+        ctvMonday.setChecked(alarm.getRepetition(GBAlarm.ALARM_MON));
+        ctvTuesday.setChecked(alarm.getRepetition(GBAlarm.ALARM_TUE));
+        ctvWednesday.setChecked(alarm.getRepetition(GBAlarm.ALARM_WED));
+        ctvThursday.setChecked(alarm.getRepetition(GBAlarm.ALARM_THU));
+        ctvFriday.setChecked(alarm.getRepetition(GBAlarm.ALARM_FRI));
+        ctvSaturday.setChecked(alarm.getRepetition(GBAlarm.ALARM_SAT));
+        ctvSunday.setChecked(alarm.getRepetition(GBAlarm.ALARM_SUN));
 
-            ctvMonday.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((CheckedTextView) v).toggle();
-                }
-            });
-            ctvTuesday.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((CheckedTextView) v).toggle();
-                }
-            });
-            ctvWednesday.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((CheckedTextView) v).toggle();
-                }
-            });
-            ctvThursday.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((CheckedTextView) v).toggle();
-                }
-            });
-            ctvFriday.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((CheckedTextView) v).toggle();
-                }
-            });
-            ctvSaturday.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((CheckedTextView) v).toggle();
-                }
-            });
-            ctvSunday.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((CheckedTextView) v).toggle();
-                }
-            });
-
-        }
+        ctvMonday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((CheckedTextView) v).toggle();
+            }
+        });
+        ctvTuesday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((CheckedTextView) v).toggle();
+            }
+        });
+        ctvWednesday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((CheckedTextView) v).toggle();
+            }
+        });
+        ctvThursday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((CheckedTextView) v).toggle();
+            }
+        });
+        ctvFriday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((CheckedTextView) v).toggle();
+            }
+        });
+        ctvSaturday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((CheckedTextView) v).toggle();
+            }
+        });
+        ctvSunday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((CheckedTextView) v).toggle();
+            }
+        });
 
     }
 

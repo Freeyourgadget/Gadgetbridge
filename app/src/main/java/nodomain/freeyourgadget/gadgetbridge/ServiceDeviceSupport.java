@@ -7,6 +7,7 @@ import android.net.Uri;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -228,10 +229,10 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
-    public void onSetAlarms() {
+    public void onSetAlarms(ArrayList<GBAlarm> alarms) {
         if (checkBusy("set alarms")) {
             return;
         }
-        delegate.onSetAlarms();
+        delegate.onSetAlarms(alarms);
     }
 }

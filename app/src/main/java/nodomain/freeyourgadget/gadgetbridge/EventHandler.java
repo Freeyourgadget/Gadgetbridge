@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge;
 
 import android.net.Uri;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public interface EventHandler {
@@ -13,7 +14,7 @@ public interface EventHandler {
 
     void onSetTime(long ts);
 
-    void onSetAlarms();
+    void onSetAlarms(ArrayList<GBAlarm> alarms);
 
     void onSetCallState(String number, String name, GBCommand command);
 

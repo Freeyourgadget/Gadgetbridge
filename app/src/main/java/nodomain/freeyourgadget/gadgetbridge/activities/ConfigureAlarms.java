@@ -26,7 +26,7 @@ public class ConfigureAlarms extends Activity {
     ListView alarmListView;
     private GBAlarmListAdapter mGBAlarmListAdapter;
 
-    final List<GBAlarm> alarmList = new ArrayList<>();
+    final ArrayList<GBAlarm> alarmList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +49,9 @@ public class ConfigureAlarms extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         Intent startIntent = new Intent(ConfigureAlarms.this, BluetoothCommunicationService.class);
+        startIntent.putParcelableArrayListExtra("alarms", alarmList);
         startIntent.setAction(BluetoothCommunicationService.ACTION_SET_ALARMS);
         startService(startIntent);
     }
+
 }

@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -328,14 +329,13 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSetAlarms() {
+    public void onSetAlarms(ArrayList<GBAlarm> alarms) {
         try {
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
             BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
             TransactionBuilder builder = performInitialized("Set alarm");
-            queueAlarm(new GBAlarm(sharedPrefs.getString(PREF_MIBAND_ALARM1, GBAlarm.DEFAULT_ALARM1)), builder, characteristic);
-            queueAlarm(new GBAlarm(sharedPrefs.getString(PREF_MIBAND_ALARM2, GBAlarm.DEFAULT_ALARM2)), builder, characteristic);
-            queueAlarm(new GBAlarm(sharedPrefs.getString(PREF_MIBAND_ALARM3, GBAlarm.DEFAULT_ALARM3)), builder, characteristic);
+            for (GBAlarm alarm : alarms) {
+                queueAlarm(alarm, builder, characteristic);
+            }
             builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to set alarms on MI device", ex);

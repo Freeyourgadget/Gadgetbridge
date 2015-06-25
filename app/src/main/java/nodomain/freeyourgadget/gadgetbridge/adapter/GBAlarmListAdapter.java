@@ -74,7 +74,7 @@ public class GBAlarmListAdapter extends ArrayAdapter<GBAlarm> {
             public void onClick(View v) {
                 Intent startIntent;
                 startIntent = new Intent(mContext, AlarmDetails.class);
-                startIntent.putExtra("alarm_index", alarm.getIndex());
+                startIntent.putExtra("alarm", alarm);
                 mContext.startActivity(startIntent);
             }
         });

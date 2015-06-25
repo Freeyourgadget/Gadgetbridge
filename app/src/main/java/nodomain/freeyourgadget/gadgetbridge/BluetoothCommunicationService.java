@@ -21,6 +21,7 @@ import android.widget.Toast;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
@@ -267,7 +268,8 @@ public class BluetoothCommunicationService extends Service {
                 mStarted = true;
                 break;
             case ACTION_SET_ALARMS:
-                mDeviceSupport.onSetAlarms();
+                ArrayList<GBAlarm> alarms = intent.getParcelableArrayListExtra("alarms");
+                mDeviceSupport.onSetAlarms(alarms);
                 break;
         }
 

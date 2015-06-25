@@ -1,13 +1,16 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
 import android.content.SharedPreferences;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 
 import java.util.Calendar;
 
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_MIBAND_ALARM_PREFIX;
 
-public class GBAlarm {
+public class GBAlarm implements Parcelable {
+
     private int index;
     private boolean enabled;
     private boolean smartWakeup;
@@ -48,6 +51,41 @@ public class GBAlarm {
         this.hour = Integer.parseInt(tokens[4]);
         this.minute = Integer.parseInt(tokens[5]);
         store();
+    }
+
+    private static GBAlarm readFromParcel(Parcel pc) {
+        int index = pc.readInt();
+        boolean enabled = Boolean.parseBoolean(pc.readString());
+        boolean smartWakeup = Boolean.parseBoolean(pc.readString());
+        int repetition = pc.readInt();
+        int hour = pc.readInt();
+        int minute = pc.readInt();
+        return new GBAlarm(index, enabled, smartWakeup, (byte)repetition, hour, minute);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof GBAlarm) {
+            GBAlarm comp = (GBAlarm)o;
+            return comp.getIndex() == getIndex();
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.index);
+        dest.writeString(String.valueOf(this.enabled));
+        dest.writeString(String.valueOf(this.smartWakeup));
+        dest.writeInt(this.repetition);
+        dest.writeInt(this.hour);
+        dest.writeInt(this.minute);
     }
 
     public int getIndex() {
@@ -135,4 +173,15 @@ public class GBAlarm {
         String pref = PREF_MIBAND_ALARM_PREFIX +(this.index+1);
         sharedPrefs.edit().putString(pref, this.toPreferences()).apply();
     }
+
+    public static final Creator CREATOR = new Creator() {
+        public GBAlarm createFromParcel(Parcel in) {
+            return readFromParcel(in);
+        }
+
+        public GBAlarm[] newArray(int size) {
+            return new GBAlarm[size];
+        }
+
+    };
 }
