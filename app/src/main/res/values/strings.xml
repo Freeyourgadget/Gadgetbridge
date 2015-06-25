@@ -149,4 +149,6 @@
     <string name="alarm_fri_short">Fri</string>
     <string name="alarm_sat_short">Sat</string>
     <string name="alarm_smart_wakeup">smart wakeup</string>
+    <string name="user_feedback_miband_set_alarms_failed">There was an error setting the alarms, please try again!</string>
+    <string name="user_feedback_miband_set_alarms_ok">Alarms sent to device!</string>
 </resources>

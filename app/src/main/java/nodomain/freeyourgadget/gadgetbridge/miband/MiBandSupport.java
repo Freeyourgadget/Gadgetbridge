@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,9 +47,6 @@ import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.FLASH_ORIG
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_GENERIC;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_K9MAIL;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_SMS;
-import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_MIBAND_ALARM1;
-import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_MIBAND_ALARM2;
-import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_MIBAND_ALARM3;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.VIBRATION_COUNT;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.VIBRATION_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.VIBRATION_PAUSE;
@@ -337,7 +335,9 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 queueAlarm(alarm, builder, characteristic);
             }
             builder.queue(getQueue());
+            Toast.makeText(getContext(), getContext().getString(R.string.user_feedback_miband_set_alarms_ok), Toast.LENGTH_SHORT).show();
         } catch (IOException ex) {
+            Toast.makeText(getContext(), getContext().getString(R.string.user_feedback_miband_set_alarms_failed), Toast.LENGTH_LONG).show();
             LOG.error("Unable to set alarms on MI device", ex);
         }
     }
