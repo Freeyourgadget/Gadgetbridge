@@ -2,16 +2,19 @@ package nodomain.freeyourgadget.gadgetbridge;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -153,7 +156,13 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         String filename = "screenshot_" + dateFormat.format(new Date()) + ".bmp";
 
         if (GB.writeScreenshot(screenshot, filename)) {
-            Bitmap bmp = BitmapFactory.decodeFile(context.getExternalFilesDir(null) + "/" + filename);
+            String fullpath = context.getExternalFilesDir(null).toString() + "/" + filename;
+            Bitmap bmp = BitmapFactory.decodeFile(fullpath);
+            Intent intent = new Intent();
+            intent.setAction(android.content.Intent.ACTION_VIEW);
+            intent.setDataAndType(Uri.fromFile(new File(fullpath)), "image/*");
+
+            PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
             Notification notif = new Notification.Builder(context)
                     .setContentTitle("Screenshot taken")
@@ -162,7 +171,10 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                     .setSmallIcon(R.drawable.ic_notification)
                     .setStyle(new Notification.BigPictureStyle()
                             .bigPicture(bmp))
+                    .setContentIntent(pIntent)
                     .build();
+            notif.flags |= Notification.FLAG_AUTO_CANCEL;
+
             NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             nm.notify(NOTIFICATION_ID_SCREENSHOT, notif);
         }
