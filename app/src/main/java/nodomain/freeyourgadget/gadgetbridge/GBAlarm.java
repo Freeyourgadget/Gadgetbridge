@@ -6,10 +6,14 @@ import android.os.Parcelable;
 import android.preference.PreferenceManager;
 
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
-import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_MIBAND_ALARM_PREFIX;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_MIBAND_ALARMS;
 
-public class GBAlarm implements Parcelable {
+
+public class GBAlarm implements Parcelable, Comparable {
 
     private int index;
     private boolean enabled;
@@ -27,9 +31,8 @@ public class GBAlarm implements Parcelable {
     public static final byte ALARM_SAT = 32;
     public static final byte ALARM_SUN = 64;
 
-    public static final String DEFAULT_ALARM1 = "0,false,true,31,7,30";
-    public static final String DEFAULT_ALARM2 = "1,false,false,96,8,00";
-    public static final String DEFAULT_ALARM3 = "2,false,false,0,15,30";
+    public static final String[] DEFAULT_ALARMS = {"2,false,false,0,15,30","1,false,false,96,8,0","0,false,true,31,7,30"};
+
 
     public GBAlarm(int index, boolean enabled, boolean smartWakeup, byte repetition, int hour, int minute) {
         this.index = index;
@@ -38,7 +41,6 @@ public class GBAlarm implements Parcelable {
         this.repetition = repetition;
         this.hour = hour;
         this.minute = minute;
-        store();
     }
 
     public GBAlarm(String fromPreferences){
@@ -50,7 +52,6 @@ public class GBAlarm implements Parcelable {
         this.repetition =  Integer.parseInt(tokens[3]);
         this.hour = Integer.parseInt(tokens[4]);
         this.minute = Integer.parseInt(tokens[5]);
-        store();
     }
 
     private static GBAlarm readFromParcel(Parcel pc) {
@@ -74,6 +75,11 @@ public class GBAlarm implements Parcelable {
     }
 
     @Override
+    public int hashCode() {
+        return getIndex();
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
@@ -86,6 +92,16 @@ public class GBAlarm implements Parcelable {
         dest.writeInt(this.repetition);
         dest.writeInt(this.hour);
         dest.writeInt(this.minute);
+    }
+
+    @Override
+    public int compareTo(Object another) {
+        if (this.getIndex() < ((GBAlarm)another).getIndex()) {
+            return -1;
+        }else if (this.getIndex() > ((GBAlarm)another).getIndex()) {
+            return 1;
+        }
+        return 0;
     }
 
     public int getIndex() {
@@ -137,7 +153,6 @@ public class GBAlarm implements Parcelable {
 
     public void setSmartWakeup(boolean smartWakeup) {
         this.smartWakeup = smartWakeup;
-        store();
     }
 
     public void setRepetition(boolean mon, boolean tue, boolean wed, boolean thu, boolean fri, boolean sat, boolean sun) {
@@ -149,29 +164,37 @@ public class GBAlarm implements Parcelable {
                 (fri ? ALARM_FRI : 0) |
                 (sat ? ALARM_SAT : 0) |
                 (sun ? ALARM_SUN : 0);
-        store();
     }
 
     public void setHour(int hour) {
         this.hour = hour;
-        store();
     }
 
     public void setMinute(int minute) {
         this.minute = minute;
-        store();
     }
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-        store(); // TODO: if we have many setters, this may become a bottleneck
     }
 
-    private void store() {
-        //TODO: I don't like to have the alarm index both in the preference name and in the value
+    public void store() {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
-        String pref = PREF_MIBAND_ALARM_PREFIX +(this.index+1);
-        sharedPrefs.edit().putString(pref, this.toPreferences()).apply();
+        Set<String> preferencesAlarmListSet = sharedPrefs.getStringSet(PREF_MIBAND_ALARMS, new HashSet<String>());
+        //the old Set cannot be updated in place see http://developer.android.com/reference/android/content/SharedPreferences.html#getStringSet%28java.lang.String,%20java.util.Set%3Cjava.lang.String%3E%29
+        Set<String> newPrefs = new HashSet<String>(preferencesAlarmListSet);
+
+        Iterator<String> iterator = newPrefs.iterator();
+
+        while (iterator.hasNext()) {
+            String alarmString = iterator.next();
+            if(this.equals(new GBAlarm(alarmString))) {
+                iterator.remove();
+            }
+        }
+        newPrefs.add(this.toPreferences());
+        sharedPrefs.edit().putStringSet(PREF_MIBAND_ALARMS, newPrefs).commit();
+        return;
     }
 
     public static final Creator CREATOR = new Creator() {

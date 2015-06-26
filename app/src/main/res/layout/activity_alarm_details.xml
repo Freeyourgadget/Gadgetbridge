@@ -18,7 +18,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/alarm_time_picker"
             android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:timePickerMode="clock"
+            android:layout_weight="1" />
 
         <CheckedTextView
             android:layout_width="wrap_content"
@@ -28,20 +30,18 @@
             android:id="@+id/alarm_ctv_smart_wakeup"
             android:checked="false"
             android:drawableTop="@drawable/abc_btn_check_material"
-            android:layout_toEndOf="@+id/alarm_time_picker"
-            android:layout_gravity="center_vertical" />
+            android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal"
+            android:layout_weight="1" />
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/alarm_time_picker"
-        android:layout_alignParentStart="true"
         android:id="@+id/dowSelector">
 
         <CheckedTextView
-            android:layout_marginLeft="4dp"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:text="@string/alarm_mon_short"
@@ -50,10 +50,12 @@
             android:checked="false"
             android:clickable="true"
             android:focusable="true"
-            android:drawableTop="@drawable/abc_btn_check_material"/>
+            android:drawableTop="@drawable/abc_btn_check_material"
+            android:layout_weight="1"
+            android:enabled="true"
+            android:gravity="center_horizontal" />
 
         <CheckedTextView
-            android:layout_marginLeft="4dp"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:text="@string/alarm_tue_short"
@@ -62,10 +64,12 @@
             android:checked="false"
             android:clickable="true"
             android:focusable="true"
-            android:drawableTop="@drawable/abc_btn_check_material"/>
+            android:drawableTop="@drawable/abc_btn_check_material"
+            android:layout_weight="1"
+            android:enabled="true"
+            android:gravity="center_horizontal" />
 
         <CheckedTextView
-            android:layout_marginLeft="4dp"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:text="@string/alarm_wed_short"
@@ -74,10 +78,12 @@
             android:checked="false"
             android:clickable="true"
             android:focusable="true"
-            android:drawableTop="@drawable/abc_btn_check_material"/>
+            android:drawableTop="@drawable/abc_btn_check_material"
+            android:layout_weight="1"
+            android:enabled="true"
+            android:gravity="center_horizontal" />
 
         <CheckedTextView
-            android:layout_marginLeft="4dp"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:text="@string/alarm_thu_short"
@@ -86,10 +92,12 @@
             android:checked="false"
             android:clickable="true"
             android:focusable="true"
-            android:drawableTop="@drawable/abc_btn_check_material"/>
+            android:drawableTop="@drawable/abc_btn_check_material"
+            android:layout_weight="1"
+            android:enabled="true"
+            android:gravity="center_horizontal" />
 
         <CheckedTextView
-            android:layout_marginLeft="4dp"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:text="@string/alarm_fri_short"
@@ -98,10 +106,12 @@
             android:checked="false"
             android:clickable="true"
             android:focusable="true"
-            android:drawableTop="@drawable/abc_btn_check_material"/>
+            android:drawableTop="@drawable/abc_btn_check_material"
+            android:layout_weight="1"
+            android:enabled="true"
+            android:gravity="center_horizontal" />
 
         <CheckedTextView
-            android:layout_marginLeft="4dp"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:text="@string/alarm_sat_short"
@@ -110,10 +120,12 @@
             android:checked="false"
             android:clickable="true"
             android:focusable="true"
-            android:drawableTop="@drawable/abc_btn_check_material"/>
+            android:drawableTop="@drawable/abc_btn_check_material"
+            android:layout_weight="1"
+            android:enabled="true"
+            android:gravity="center_horizontal" />
 
         <CheckedTextView
-            android:layout_marginLeft="4dp"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:text="@string/alarm_sun_short"
@@ -122,7 +134,10 @@
             android:checked="false"
             android:clickable="true"
             android:focusable="true"
-            android:drawableTop="@drawable/abc_btn_check_material"/>
+            android:drawableTop="@drawable/abc_btn_check_material"
+            android:layout_weight="1"
+            android:enabled="true"
+            android:gravity="center_horizontal" />
     </LinearLayout>
 
 

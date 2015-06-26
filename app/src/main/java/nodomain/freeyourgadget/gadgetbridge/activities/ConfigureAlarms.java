@@ -1,57 +1,86 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.app.Activity;
 import android.preference.PreferenceManager;
-import android.widget.ListView;
+import android.view.MenuItem;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.BluetoothCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBAlarmListAdapter;
-import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_MIBAND_ALARM1;
-import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_MIBAND_ALARM2;
-import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_MIBAND_ALARM3;
+
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_MIBAND_ALARMS;
 
 
-import java.util.ArrayList;
-import java.util.List;
+public class ConfigureAlarms extends ListActivity {
 
-
-public class ConfigureAlarms extends Activity {
-
-    ListView alarmListView;
     private GBAlarmListAdapter mGBAlarmListAdapter;
-
-    final ArrayList<GBAlarm> alarmList = new ArrayList<>();
+    private Set<String> preferencesAlarmListSet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_configure_alarms);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        //The GBAlarm class initializes the sharedPrefs values if they're missing, no need to handle it here
-        alarmList.add(new GBAlarm(sharedPrefs.getString(PREF_MIBAND_ALARM1, GBAlarm.DEFAULT_ALARM1)));
-        alarmList.add(new GBAlarm(sharedPrefs.getString(PREF_MIBAND_ALARM2, GBAlarm.DEFAULT_ALARM2)));
-        alarmList.add(new GBAlarm(sharedPrefs.getString(PREF_MIBAND_ALARM3, GBAlarm.DEFAULT_ALARM3)));
+        preferencesAlarmListSet = sharedPrefs.getStringSet(PREF_MIBAND_ALARMS, new HashSet<String>());
+        if (preferencesAlarmListSet.isEmpty()) {
+            //initialize the preferences
+            preferencesAlarmListSet = new HashSet<>(Arrays.asList(GBAlarm.DEFAULT_ALARMS));
+            sharedPrefs.edit().putStringSet(PREF_MIBAND_ALARMS, preferencesAlarmListSet).commit();
+        }
 
-        alarmListView = (ListView) findViewById(R.id.alarmListView);
-        mGBAlarmListAdapter = new GBAlarmListAdapter(this, alarmList);
-        alarmListView.setAdapter(this.mGBAlarmListAdapter);
+        mGBAlarmListAdapter = new GBAlarmListAdapter(this, preferencesAlarmListSet);
+
+        setListAdapter(mGBAlarmListAdapter);
+
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        preferencesAlarmListSet = sharedPrefs.getStringSet(PREF_MIBAND_ALARMS, new HashSet<String>());
+
+        mGBAlarmListAdapter.setAlarmList(preferencesAlarmListSet);
+        mGBAlarmListAdapter.notifyDataSetChanged();
+
+        sendAlarmsToDevice();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // back button
+                sendAlarmsToDevice();
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void configureAlarm(GBAlarm alarm) {
+        Intent startIntent;
+        startIntent = new Intent(getApplicationContext(), AlarmDetails.class);
+        startIntent.putExtra("alarm", alarm);
+        startActivity(startIntent);
+    }
+
+    private void sendAlarmsToDevice() {
         Intent startIntent = new Intent(ConfigureAlarms.this, BluetoothCommunicationService.class);
-        startIntent.putParcelableArrayListExtra("alarms", alarmList);
+        startIntent.putParcelableArrayListExtra("alarms", mGBAlarmListAdapter.getAlarmList());
         startIntent.setAction(BluetoothCommunicationService.ACTION_SET_ALARMS);
         startService(startIntent);
     }
-
 }

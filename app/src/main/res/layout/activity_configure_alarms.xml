@@ -10,7 +10,7 @@
         android:descendantFocusability="blocksDescendants"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/alarmListView"
+        android:id="@android:id/list"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>

@@ -1,28 +1,19 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckedTextView;
 import android.widget.TimePicker;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
-import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_MIBAND_ALARM_PREFIX;
-
 public class AlarmDetails extends Activity {
-
-    private static final Logger LOG = LoggerFactory.getLogger(AlarmDetails.class);
-
 
     private GBAlarm alarm;
     private TimePicker timePicker;
@@ -121,13 +112,23 @@ public class AlarmDetails extends Activity {
 
     }
 
-
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // back button
+                updateAlarm();
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void updateAlarm() {
         alarm.setSmartWakeup(ctvSmartWakeup.isChecked());
-        alarm.setRepetition(ctvMonday.isChecked(),ctvTuesday.isChecked(),ctvWednesday.isChecked(),ctvThursday.isChecked(),ctvFriday.isChecked(),ctvSaturday.isChecked(),ctvSunday.isChecked());
+        alarm.setRepetition(ctvMonday.isChecked(), ctvTuesday.isChecked(), ctvWednesday.isChecked(), ctvThursday.isChecked(), ctvFriday.isChecked(), ctvSaturday.isChecked(), ctvSunday.isChecked());
         alarm.setHour(timePicker.getCurrentHour());
         alarm.setMinute(timePicker.getCurrentMinute());
+        alarm.store();
     }
 }

@@ -1,13 +1,9 @@
 package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
-import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -15,28 +11,98 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Set;
+
 import nodomain.freeyourgadget.gadgetbridge.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.AlarmDetails;
-
-
-import java.util.List;
-
-import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_MIBAND_ALARM1;
-import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_MIBAND_ALARM2;
-import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_MIBAND_ALARM3;
+import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
 
 
 public class GBAlarmListAdapter extends ArrayAdapter<GBAlarm> {
+
+
     private final Context mContext;
+    private ArrayList<GBAlarm> alarmList;
 
-    private List<GBAlarm> alarmList;
-
-    public GBAlarmListAdapter(Context context, List<GBAlarm> alarmList) {
+    public GBAlarmListAdapter(Context context, ArrayList<GBAlarm> alarmList) {
         super(context, 0, alarmList);
 
         this.mContext = context;
         this.alarmList = alarmList;
+    }
+
+    public GBAlarmListAdapter(Context context,Set<String> preferencesAlarmListSet) {
+        super(context, 0, new ArrayList<GBAlarm>());
+
+        this.mContext = context;
+        alarmList = new ArrayList<GBAlarm>();
+
+        if (preferencesAlarmListSet != null) {
+            Iterator<String> iterator = preferencesAlarmListSet.iterator();
+
+            while (iterator.hasNext()) {
+                String alarmString = iterator.next();
+                alarmList.add(new GBAlarm(alarmString));
+            }
+        }
+
+        Collections.sort(alarmList);
+    }
+
+    public void setAlarmList(Set<String> preferencesAlarmListSet) {
+        alarmList = new ArrayList<GBAlarm>();
+
+        if (preferencesAlarmListSet != null) {
+            Iterator<String> iterator = preferencesAlarmListSet.iterator();
+
+            while (iterator.hasNext()) {
+                String alarmString = iterator.next();
+                alarmList.add(new GBAlarm(alarmString));
+            }
+        }
+
+        Collections.sort(alarmList);
+    }
+
+    public ArrayList<GBAlarm> getAlarmList() {
+        return alarmList;
+    }
+
+
+    public void update(GBAlarm alarm) {
+        for (GBAlarm a : alarmList) {
+            if(alarm.equals(a)) {
+             a = alarm;
+            }
+        }
+        alarm.store();
+    }
+
+    @Override
+    public int getCount() {
+        if (alarmList != null) {
+            return alarmList.size();
+        }
+        return 0;
+    }
+
+    @Override
+    public GBAlarm getItem(int position) {
+        if (alarmList != null) {
+            return alarmList.get(position);
+        }
+        return null;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        if (alarmList != null) {
+            return alarmList.get(position).getIndex();
+        }
+        return 0;
     }
 
     @Override
@@ -66,16 +132,14 @@ public class GBAlarmListAdapter extends ArrayAdapter<GBAlarm> {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 alarm.setEnabled(isChecked);
+                update(alarm);
             }
         });
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent;
-                startIntent = new Intent(mContext, AlarmDetails.class);
-                startIntent.putExtra("alarm", alarm);
-                mContext.startActivity(startIntent);
+                ((ConfigureAlarms)mContext).configureAlarm(alarm);
             }
         });
         alarmTime.setText(alarm.getTime());
