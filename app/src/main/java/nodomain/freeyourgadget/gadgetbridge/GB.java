@@ -111,7 +111,7 @@ public class GB {
         return String.valueOf(rssi);
     }
 
-    public static void writeScreenshot(GBDeviceEventScreenshot screenshot, String filename) {
+    public static boolean writeScreenshot(GBDeviceEventScreenshot screenshot, String filename) {
 
         LOG.info("Will write screenshot: " + screenshot.width + "x" + screenshot.height + "x" + screenshot.bpp + "bpp");
         final int FILE_HEADER_SIZE = 14;
@@ -128,7 +128,7 @@ public class GB {
             fos = new FileOutputStream(dir + "/" + filename);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            return;
+            return false;
         }
 
         ByteBuffer headerbuf = ByteBuffer.allocate(FILE_HEADER_SIZE + INFO_HEADER_SIZE + screenshot.clut.length);
@@ -165,6 +165,8 @@ public class GB {
             fos.close();
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 }
