@@ -5,6 +5,9 @@
   <string name="action_settings">Настройки</string>
   <string name="action_debug">Отладка</string>
   <string name="action_quit">Выход</string>
+  <string name="controlcenter_fetch_activity_data">Получить данные активности</string>
+  <string name="controlcenter_start_sleepmonitor">Анализ сна (АЛЬФА)</string>
+  <string name="controlcenter_disconnect">Отключиться</string>
   <string name="title_activity_debug">Отладка</string>
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">App Mananger</string>
@@ -30,6 +33,9 @@
   <string name="never">никогда</string>
   <string name="pref_header_development">Настройки для разработчиков</string>
   <string name="pref_title_development_miaddr">Адрес Mi Band</string>
+  <string name="pref_title_pebble_settings">Настройки Pebble</string>
+  <string name="pref_title_pebble_forceprotocol">Принудительный протокол уведомлений</string>
+  <string name="pref_summary_pebble_forceprotocol">Эта настройка заставляет принудительно использовать самый новый протокол уведомлений, зависящий от версии прошивки. ВКЛЮЧАЙТЕ, ТОЛЬКО ЕСЛИ ЗНАЕТЕ НА ЧТО ВЫ ИДЁТЕ.</string>
   <string name="not_connected">нет соединения</string>
   <string name="connecting">соединение</string>
   <string name="connected">соединено</string>
@@ -86,4 +92,9 @@
   <string name="miband_prefs_height_cm">Рост в см</string>
   <string name="miband_prefs_weight_kg">Вес в кг</string>
   <string name="pref_header_vibration_count">Количество вибраций</string>
+  <string name="title_activity_sleepmonitor">Анализ сна</string>
+  <string name="pref_write_logfiles">Записывать  файлы журнала (нужен перезапуск)</string>
+  <string name="initializing">Инициализация</string>
+  <string name="busy_task_fetch_activity_data">Получение данных активности</string>
+  <string name="sleep_activity_date_range">От %1$s до %2$s</string>
 </resources>
