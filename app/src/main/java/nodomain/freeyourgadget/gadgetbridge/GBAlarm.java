@@ -190,6 +190,7 @@ public class GBAlarm implements Parcelable, Comparable {
             String alarmString = iterator.next();
             if(this.equals(new GBAlarm(alarmString))) {
                 iterator.remove();
+                break;
             }
         }
         newPrefs.add(this.toPreferences());

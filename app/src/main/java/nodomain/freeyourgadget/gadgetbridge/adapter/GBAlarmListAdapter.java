@@ -40,13 +40,8 @@ public class GBAlarmListAdapter extends ArrayAdapter<GBAlarm> {
         this.mContext = context;
         alarmList = new ArrayList<GBAlarm>();
 
-        if (preferencesAlarmListSet != null) {
-            Iterator<String> iterator = preferencesAlarmListSet.iterator();
-
-            while (iterator.hasNext()) {
-                String alarmString = iterator.next();
-                alarmList.add(new GBAlarm(alarmString));
-            }
+        for  (String alarmString : preferencesAlarmListSet) {
+            alarmList.add(new GBAlarm(alarmString));
         }
 
         Collections.sort(alarmList);
@@ -55,13 +50,8 @@ public class GBAlarmListAdapter extends ArrayAdapter<GBAlarm> {
     public void setAlarmList(Set<String> preferencesAlarmListSet) {
         alarmList = new ArrayList<GBAlarm>();
 
-        if (preferencesAlarmListSet != null) {
-            Iterator<String> iterator = preferencesAlarmListSet.iterator();
-
-            while (iterator.hasNext()) {
-                String alarmString = iterator.next();
-                alarmList.add(new GBAlarm(alarmString));
-            }
+        for  (String alarmString : preferencesAlarmListSet) {
+            alarmList.add(new GBAlarm(alarmString));
         }
 
         Collections.sort(alarmList);
