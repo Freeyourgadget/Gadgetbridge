@@ -1,5 +1,11 @@
 ###Changelog
 
+####Version 0.4.2
+* Material style for Lollipop
+* Support for finding a lost device (vibrate until cacelled)
+* Mi Band: Support for vibration profiles, configurable for notifications
+* Pebble: Support taking screenshots from the device context menu (Pebble Time not supported yet)
+
 ####Version 0.4.1
 * New icons, thanks xphnx!
 * Improvements to Sleep Monitor charts
