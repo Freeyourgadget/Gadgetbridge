@@ -121,9 +121,15 @@ public class GBAlarm implements Parcelable, Comparable {
     }
 
     public Calendar getAlarmCal() {
+
         Calendar alarm = Calendar.getInstance();
+        Calendar now = Calendar.getInstance();
         alarm.set(Calendar.HOUR_OF_DAY, this.hour);
         alarm.set(Calendar.MINUTE, this.minute);
+        if (now.after(alarm) && repetition == ALARM_ONCE) {
+            //if the alarm is in the past set it to tomorrow
+            alarm.add(Calendar.DATE, 1);
+        }
         return alarm;
     }
 
