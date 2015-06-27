@@ -22,17 +22,31 @@
             android:timePickerMode="clock"
             android:layout_weight="1" />
 
-        <CheckedTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/alarm_smart_wakeup"
+        <LinearLayout
             android:orientation="vertical"
-            android:id="@+id/alarm_ctv_smart_wakeup"
-            android:checked="false"
-            android:drawableTop="@drawable/abc_btn_check_material"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_horizontal"
-            android:layout_weight="1" />
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/alarm_cb_smart_wakeup"
+                android:layout_gravity="center_horizontal|bottom"
+                android:gravity="center_horizontal|bottom"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/alarm_smart_wakeup"
+                android:id="@+id/alarm_label_smart_wakeup"
+                android:layout_gravity="center_horizontal|top"
+                android:labelFor="@id/alarm_cb_smart_wakeup"
+                android:gravity="center_horizontal|top"
+                android:layout_weight="1" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -41,103 +55,196 @@
         android:layout_height="fill_parent"
         android:id="@+id/dowSelector">
 
-        <CheckedTextView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:text="@string/alarm_mon_short"
+        <LinearLayout
             android:orientation="vertical"
-            android:id="@+id/alarm_ctv_mon"
-            android:checked="false"
-            android:clickable="true"
-            android:focusable="true"
-            android:drawableTop="@drawable/abc_btn_check_material"
-            android:layout_weight="1"
-            android:enabled="true"
-            android:gravity="center_horizontal" />
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-        <CheckedTextView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:text="@string/alarm_tue_short"
-            android:orientation="vertical"
-            android:id="@+id/alarm_ctv_tue"
-            android:checked="false"
-            android:clickable="true"
-            android:focusable="true"
-            android:drawableTop="@drawable/abc_btn_check_material"
-            android:layout_weight="1"
-            android:enabled="true"
-            android:gravity="center_horizontal" />
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/alarm_cb_mon"
+                android:layout_gravity="center_horizontal|bottom"
+                android:gravity="center_horizontal|bottom"
+                android:layout_weight="1" />
 
-        <CheckedTextView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:text="@string/alarm_wed_short"
-            android:orientation="vertical"
-            android:id="@+id/alarm_ctv_wed"
-            android:checked="false"
-            android:clickable="true"
-            android:focusable="true"
-            android:drawableTop="@drawable/abc_btn_check_material"
-            android:layout_weight="1"
-            android:enabled="true"
-            android:gravity="center_horizontal" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/alarm_mon_short"
+                android:id="@+id/alarm_label_cb_mon"
+                android:layout_gravity="center_horizontal|top"
+                android:labelFor="@id/alarm_cb_mon"
+                android:gravity="center_horizontal|top"
+                android:layout_weight="1" />
 
-        <CheckedTextView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:text="@string/alarm_thu_short"
-            android:orientation="vertical"
-            android:id="@+id/alarm_ctv_thu"
-            android:checked="false"
-            android:clickable="true"
-            android:focusable="true"
-            android:drawableTop="@drawable/abc_btn_check_material"
-            android:layout_weight="1"
-            android:enabled="true"
-            android:gravity="center_horizontal" />
+        </LinearLayout>
 
-        <CheckedTextView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:text="@string/alarm_fri_short"
+        <LinearLayout
             android:orientation="vertical"
-            android:id="@+id/alarm_ctv_fri"
-            android:checked="false"
-            android:clickable="true"
-            android:focusable="true"
-            android:drawableTop="@drawable/abc_btn_check_material"
-            android:layout_weight="1"
-            android:enabled="true"
-            android:gravity="center_horizontal" />
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-        <CheckedTextView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:text="@string/alarm_sat_short"
-            android:orientation="vertical"
-            android:id="@+id/alarm_ctv_sat"
-            android:checked="false"
-            android:clickable="true"
-            android:focusable="true"
-            android:drawableTop="@drawable/abc_btn_check_material"
-            android:layout_weight="1"
-            android:enabled="true"
-            android:gravity="center_horizontal" />
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/alarm_cb_tue"
+                android:layout_gravity="center_horizontal|bottom"
+                android:gravity="center_horizontal|bottom"
+                android:layout_weight="1" />
 
-        <CheckedTextView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:text="@string/alarm_sun_short"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/alarm_tue_short"
+                android:id="@+id/alarm_label_cb_tue"
+                android:layout_gravity="center_horizontal|top"
+                android:labelFor="@id/alarm_cb_tue"
+                android:gravity="center_horizontal|top"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:orientation="vertical"
-            android:id="@+id/alarm_ctv_sun"
-            android:checked="false"
-            android:clickable="true"
-            android:focusable="true"
-            android:drawableTop="@drawable/abc_btn_check_material"
-            android:layout_weight="1"
-            android:enabled="true"
-            android:gravity="center_horizontal" />
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/alarm_cb_wed"
+                android:layout_gravity="center_horizontal|bottom"
+                android:gravity="center_horizontal|bottom"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/alarm_wed_short"
+                android:id="@+id/alarm_label_cb_wed"
+                android:layout_gravity="center_horizontal|top"
+                android:labelFor="@id/alarm_cb_wed"
+                android:gravity="center_horizontal|top"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/alarm_cb_thu"
+                android:layout_gravity="center_horizontal|bottom"
+                android:gravity="center_horizontal|bottom"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/alarm_thu_short"
+                android:id="@+id/alarm_label_cb_thu"
+                android:layout_gravity="center_horizontal|top"
+                android:labelFor="@id/alarm_cb_thu"
+                android:gravity="center_horizontal|top"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/alarm_cb_fri"
+                android:layout_gravity="center_horizontal|bottom"
+                android:gravity="center_horizontal|bottom"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/alarm_fri_short"
+                android:id="@+id/alarm_label_cb_fri"
+                android:layout_gravity="center_horizontal|top"
+                android:labelFor="@id/alarm_cb_fri"
+                android:gravity="center_horizontal|top"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/alarm_cb_sat"
+                android:layout_gravity="center_horizontal|bottom"
+                android:gravity="center_horizontal|bottom"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/alarm_sat_short"
+                android:id="@+id/alarm_label_cb_sat"
+                android:layout_gravity="center_horizontal|top"
+                android:labelFor="@id/alarm_cb_sat"
+                android:gravity="center_horizontal|top"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/alarm_cb_sun"
+                android:layout_gravity="center_horizontal|bottom"
+                android:gravity="center_horizontal|bottom"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/alarm_sun_short"
+                android:id="@+id/alarm_label_cb_sun"
+                android:layout_gravity="center_horizontal|top"
+                android:labelFor="@id/alarm_cb_sun"
+                android:gravity="center_horizontal|top"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
 

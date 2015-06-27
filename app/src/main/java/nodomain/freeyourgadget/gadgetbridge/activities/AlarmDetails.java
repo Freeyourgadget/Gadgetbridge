@@ -5,8 +5,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.CheckedTextView;
+import android.widget.CheckBox;
 import android.widget.TimePicker;
 
 import nodomain.freeyourgadget.gadgetbridge.GBAlarm;
@@ -17,17 +16,14 @@ public class AlarmDetails extends Activity {
 
     private GBAlarm alarm;
     private TimePicker timePicker;
-    //using CheckedTextView allows for vertically aligned text
-    private CheckedTextView ctvSmartWakeup;
-    private CheckedTextView ctvMonday;
-    private CheckedTextView ctvTuesday;
-    private CheckedTextView ctvWednesday;
-    private CheckedTextView ctvThursday;
-    private CheckedTextView ctvFriday;
-    private CheckedTextView ctvSaturday;
-    private CheckedTextView ctvSunday;
-
-
+    private CheckBox cbSmartWakeup;
+    private CheckBox cbMonday;
+    private CheckBox cbTuesday;
+    private CheckBox cbWednesday;
+    private CheckBox cbThursday;
+    private CheckBox cbFriday;
+    private CheckBox cbSaturday;
+    private CheckBox cbSunday;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,77 +34,28 @@ public class AlarmDetails extends Activity {
         alarm = (GBAlarm) p;
 
         timePicker = (TimePicker) findViewById(R.id.alarm_time_picker);
-        ctvSmartWakeup = (CheckedTextView) findViewById(R.id.alarm_ctv_smart_wakeup);
-        ctvMonday = (CheckedTextView) findViewById(R.id.alarm_ctv_mon);
-        ctvTuesday = (CheckedTextView) findViewById(R.id.alarm_ctv_tue);
-        ctvWednesday = (CheckedTextView) findViewById(R.id.alarm_ctv_wed);
-        ctvThursday = (CheckedTextView) findViewById(R.id.alarm_ctv_thu);
-        ctvFriday = (CheckedTextView) findViewById(R.id.alarm_ctv_fri);
-        ctvSaturday = (CheckedTextView) findViewById(R.id.alarm_ctv_sat);
-        ctvSunday = (CheckedTextView) findViewById(R.id.alarm_ctv_sun);
+        cbSmartWakeup = (CheckBox) findViewById(R.id.alarm_cb_smart_wakeup);
+        cbMonday = (CheckBox) findViewById(R.id.alarm_cb_mon);
+        cbTuesday = (CheckBox) findViewById(R.id.alarm_cb_tue);
+        cbWednesday = (CheckBox) findViewById(R.id.alarm_cb_wed);
+        cbThursday = (CheckBox) findViewById(R.id.alarm_cb_thu);
+        cbFriday = (CheckBox) findViewById(R.id.alarm_cb_fri);
+        cbSaturday = (CheckBox) findViewById(R.id.alarm_cb_sat);
+        cbSunday = (CheckBox) findViewById(R.id.alarm_cb_sun);
 
         timePicker.setIs24HourView(DateFormat.is24HourFormat(GBApplication.getContext()));
         timePicker.setCurrentHour(alarm.getHour());
         timePicker.setCurrentMinute(alarm.getMinute());
 
-        ctvSmartWakeup.setChecked(alarm.isSmartWakeup());
-        ctvSmartWakeup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((CheckedTextView) v).toggle();
-            }
-        });
+        cbSmartWakeup.setChecked(alarm.isSmartWakeup());
 
-        ctvMonday.setChecked(alarm.getRepetition(GBAlarm.ALARM_MON));
-        ctvTuesday.setChecked(alarm.getRepetition(GBAlarm.ALARM_TUE));
-        ctvWednesday.setChecked(alarm.getRepetition(GBAlarm.ALARM_WED));
-        ctvThursday.setChecked(alarm.getRepetition(GBAlarm.ALARM_THU));
-        ctvFriday.setChecked(alarm.getRepetition(GBAlarm.ALARM_FRI));
-        ctvSaturday.setChecked(alarm.getRepetition(GBAlarm.ALARM_SAT));
-        ctvSunday.setChecked(alarm.getRepetition(GBAlarm.ALARM_SUN));
-
-        ctvMonday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((CheckedTextView) v).toggle();
-            }
-        });
-        ctvTuesday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((CheckedTextView) v).toggle();
-            }
-        });
-        ctvWednesday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((CheckedTextView) v).toggle();
-            }
-        });
-        ctvThursday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((CheckedTextView) v).toggle();
-            }
-        });
-        ctvFriday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((CheckedTextView) v).toggle();
-            }
-        });
-        ctvSaturday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((CheckedTextView) v).toggle();
-            }
-        });
-        ctvSunday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((CheckedTextView) v).toggle();
-            }
-        });
+        cbMonday.setChecked(alarm.getRepetition(GBAlarm.ALARM_MON));
+        cbTuesday.setChecked(alarm.getRepetition(GBAlarm.ALARM_TUE));
+        cbWednesday.setChecked(alarm.getRepetition(GBAlarm.ALARM_WED));
+        cbThursday.setChecked(alarm.getRepetition(GBAlarm.ALARM_THU));
+        cbFriday.setChecked(alarm.getRepetition(GBAlarm.ALARM_FRI));
+        cbSaturday.setChecked(alarm.getRepetition(GBAlarm.ALARM_SAT));
+        cbSunday.setChecked(alarm.getRepetition(GBAlarm.ALARM_SUN));
 
     }
 
@@ -125,8 +72,8 @@ public class AlarmDetails extends Activity {
     }
 
     private void updateAlarm() {
-        alarm.setSmartWakeup(ctvSmartWakeup.isChecked());
-        alarm.setRepetition(ctvMonday.isChecked(), ctvTuesday.isChecked(), ctvWednesday.isChecked(), ctvThursday.isChecked(), ctvFriday.isChecked(), ctvSaturday.isChecked(), ctvSunday.isChecked());
+        alarm.setSmartWakeup(cbSmartWakeup.isChecked());
+        alarm.setRepetition(cbMonday.isChecked(), cbTuesday.isChecked(), cbWednesday.isChecked(), cbThursday.isChecked(), cbFriday.isChecked(), cbSaturday.isChecked(), cbSunday.isChecked());
         alarm.setHour(timePicker.getCurrentHour());
         alarm.setMinute(timePicker.getCurrentMinute());
         alarm.store();
