@@ -123,38 +123,30 @@ public class GB {
                 dir.mkdirs();
             }
         }
-        FileOutputStream fos;
-        try {
-            fos = new FileOutputStream(dir + "/" + filename);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return false;
-        }
+        try (FileOutputStream fos = new FileOutputStream(dir + "/" + filename)) {
+            ByteBuffer headerbuf = ByteBuffer.allocate(FILE_HEADER_SIZE + INFO_HEADER_SIZE + screenshot.clut.length);
+            headerbuf.order(ByteOrder.LITTLE_ENDIAN);
 
-        ByteBuffer headerbuf = ByteBuffer.allocate(FILE_HEADER_SIZE + INFO_HEADER_SIZE + screenshot.clut.length);
-        headerbuf.order(ByteOrder.LITTLE_ENDIAN);
+            // file header
+            headerbuf.put((byte) 'B');
+            headerbuf.put((byte) 'M');
+            headerbuf.putInt(0); // size in bytes (unconpressed = 0)
+            headerbuf.putInt(0); // reserved
+            headerbuf.putInt(FILE_HEADER_SIZE + INFO_HEADER_SIZE + screenshot.clut.length);
 
-        // file header
-        headerbuf.put((byte) 'B');
-        headerbuf.put((byte) 'M');
-        headerbuf.putInt(0); // size in bytes (unconpressed = 0)
-        headerbuf.putInt(0); // reserved
-        headerbuf.putInt(FILE_HEADER_SIZE + INFO_HEADER_SIZE + screenshot.clut.length);
-
-        // info header
-        headerbuf.putInt(INFO_HEADER_SIZE);
-        headerbuf.putInt(screenshot.width);
-        headerbuf.putInt(-screenshot.height);
-        headerbuf.putShort((short) 1); // planes
-        headerbuf.putShort((short) 1); // bit count
-        headerbuf.putInt(0); // compression
-        headerbuf.putInt(0); // length of pixeldata in byte (uncompressed=0)
-        headerbuf.putInt(0); // pixels per meter (x)
-        headerbuf.putInt(0); // pixels per meter (y)
-        headerbuf.putInt(2); // number of colors in CLUT
-        headerbuf.putInt(2); // numbers of used colors
-        headerbuf.put(screenshot.clut);
-        try {
+            // info header
+            headerbuf.putInt(INFO_HEADER_SIZE);
+            headerbuf.putInt(screenshot.width);
+            headerbuf.putInt(-screenshot.height);
+            headerbuf.putShort((short) 1); // planes
+            headerbuf.putShort((short) 1); // bit count
+            headerbuf.putInt(0); // compression
+            headerbuf.putInt(0); // length of pixeldata in byte (uncompressed=0)
+            headerbuf.putInt(0); // pixels per meter (x)
+            headerbuf.putInt(0); // pixels per meter (y)
+            headerbuf.putInt(2); // number of colors in CLUT
+            headerbuf.putInt(2); // numbers of used colors
+            headerbuf.put(screenshot.clut);
             fos.write(headerbuf.array());
             int rowbytes = screenshot.width / 8;
             byte[] pad = new byte[rowbytes % 4];
@@ -162,11 +154,11 @@ public class GB {
                 fos.write(screenshot.data, rowbytes * i, rowbytes);
                 fos.write(pad);
             }
-            fos.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error saving screenshot", e);
             return false;
         }
+
         return true;
     }
 }
