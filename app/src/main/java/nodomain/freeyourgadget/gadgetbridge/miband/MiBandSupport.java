@@ -6,18 +6,21 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBCommand;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
@@ -324,6 +327,22 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onSetAlarms(ArrayList<GBAlarm> alarms) {
+        try {
+            BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
+            TransactionBuilder builder = performInitialized("Set alarm");
+            for (GBAlarm alarm : alarms) {
+                queueAlarm(alarm, builder, characteristic);
+            }
+            builder.queue(getQueue());
+            Toast.makeText(getContext(), getContext().getString(R.string.user_feedback_miband_set_alarms_ok), Toast.LENGTH_SHORT).show();
+        } catch (IOException ex) {
+            Toast.makeText(getContext(), getContext().getString(R.string.user_feedback_miband_set_alarms_failed), Toast.LENGTH_LONG).show();
+            LOG.error("Unable to set alarms on MI device", ex);
+        }
+    }
+
+    @Override
     public void onSMS(String from, String body) {
         performPreferredNotification("sms received", ORIGIN_SMS, null);
     }
@@ -542,6 +561,25 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             getDevice().setFirmwareVersion(info.getFirmwareVersion());
             getDevice().sendDeviceUpdateIntent(getContext());
         }
+    }
+
+
+    private void queueAlarm(GBAlarm alarm, TransactionBuilder builder, BluetoothGattCharacteristic characteristic) {
+        Calendar alarmCal = alarm.getAlarmCal();
+        byte[] alarmMessage = new byte[] {
+                (byte) MiBandService.COMMAND_SET_TIMER,
+                (byte) alarm.getIndex(),
+                (byte) (alarm.isEnabled() ? 1: 0),
+                (byte) (alarmCal.get(Calendar.YEAR) - 2000),
+                (byte) alarmCal.get(Calendar.MONTH),
+                (byte) alarmCal.get(Calendar.DATE),
+                (byte) alarmCal.get(Calendar.HOUR_OF_DAY),
+                (byte) alarmCal.get(Calendar.MINUTE),
+                (byte) alarmCal.get(Calendar.SECOND),
+                (byte) (alarm.isSmartWakeup() ? 30 : 0),
+                (byte) alarm.getRepetitionMask()
+        };
+        builder.write(characteristic, alarmMessage);
     }
 
     private void handleActivityNotif(byte[] value) {

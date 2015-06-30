@@ -194,6 +194,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="nodomain.freeyourgadget.gadgetbridge.ControlCenter" />
         </activity>
+        <activity
+            android:name=".activities.ConfigureAlarms"
+            android:label="@string/title_activity_set_alarm"
+            android:parentActivityName=".SettingsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="nodomain.freeyourgadget.gadgetbridge.SettingsActivity" />
+        </activity>
+        <activity
+            android:name=".activities.AlarmDetails"
+            android:label="@string/title_activity_alarm_details"
+            android:parentActivityName=".activities.ConfigureAlarms" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms" />
+        </activity>
     </application>
 
 </manifest>

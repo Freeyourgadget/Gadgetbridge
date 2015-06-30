@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
 import nodomain.freeyourgadget.gadgetbridge.activities.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.SleepChartActivity;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapter;
@@ -229,6 +230,12 @@ public class ControlCenter extends Activity {
                                     findDevice(false);
                                 }
                             });
+                }
+            case R.id.controlcenter_configure_alarms:
+                if (selectedDevice != null) {
+                    Intent startIntent;
+                    startIntent = new Intent(ControlCenter.this, ConfigureAlarms.class);
+                    startActivity(startIntent);
                 }
                 return true;
             case R.id.controlcenter_take_screenshot:

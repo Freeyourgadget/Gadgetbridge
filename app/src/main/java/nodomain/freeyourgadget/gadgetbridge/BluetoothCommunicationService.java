@@ -21,6 +21,7 @@ import android.widget.Toast;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBDevice.State;
@@ -60,6 +61,7 @@ public class BluetoothCommunicationService extends Service {
     public static final String ACTION_FETCH_ACTIVITY_DATA = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.fetch_activity_data";
     public static final String ACTION_DISCONNECT = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.disconnect";
     public static final String ACTION_FIND_DEVICE = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.find_device";
+    public static final String ACTION_SET_ALARMS = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.set_alarms";
 
     public static final String EXTRA_PERFORM_PAIR = "perform_pair";
 
@@ -264,6 +266,10 @@ public class BluetoothCommunicationService extends Service {
             case ACTION_START:
                 startForeground(GB.NOTIFICATION_ID, GB.createNotification(getString(R.string.gadgetbridge_running), this));
                 mStarted = true;
+                break;
+            case ACTION_SET_ALARMS:
+                ArrayList<GBAlarm> alarms = intent.getParcelableArrayListExtra("alarms");
+                mDeviceSupport.onSetAlarms(alarms);
                 break;
         }
 

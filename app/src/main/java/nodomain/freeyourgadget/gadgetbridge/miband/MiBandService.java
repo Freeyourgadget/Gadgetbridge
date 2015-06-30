@@ -134,6 +134,9 @@ public class MiBandService {
     public static final byte COMMAND_CONFIRM_ACTIVITY_DATA_TRANSFER_COMPLETE = 0xa;
 
     public static final byte COMMAND_FETCH_DATA = 0x6;
+
+    public static final byte COMMAND_SET_TIMER = 0x4;
+
     /*
 
 
@@ -151,8 +154,6 @@ public class MiBandService {
 	public static final COMMAND_SET_REALTIME_STEP = 0x10t
 
 	public static final COMMAND_SET_REALTIME_STEPS_NOTIFICATION = 0x3t
-
-	public static final COMMAND_SET_TIMER = 0x4t
 
 	public static final COMMAND_SET_WEAR_LOCATION = 0xft
 
