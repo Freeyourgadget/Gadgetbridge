@@ -10,7 +10,7 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 /**
  * A legend renderer that does *not* calculate the labels and colors automatically
  * from the data sets or the data entries.
- *
+ * <p/>
  * Instead, they have to be provided manually, because otherwise the legend will
  * be empty.
  */

@@ -31,7 +31,7 @@ public class GBAlarm implements Parcelable, Comparable {
     public static final byte ALARM_SAT = 32;
     public static final byte ALARM_SUN = 64;
 
-    public static final String[] DEFAULT_ALARMS = {"2,false,false,0,15,30","1,false,false,96,8,0","0,false,true,31,7,30"};
+    public static final String[] DEFAULT_ALARMS = {"2,false,false,0,15,30", "1,false,false,96,8,0", "0,false,true,31,7,30"};
 
 
     public GBAlarm(int index, boolean enabled, boolean smartWakeup, byte repetition, int hour, int minute) {
@@ -43,13 +43,13 @@ public class GBAlarm implements Parcelable, Comparable {
         this.minute = minute;
     }
 
-    public GBAlarm(String fromPreferences){
+    public GBAlarm(String fromPreferences) {
         String[] tokens = fromPreferences.split(",");
         //TODO: sanify the string!
         this.index = Integer.parseInt(tokens[0]);
         this.enabled = Boolean.parseBoolean(tokens[1]);
         this.smartWakeup = Boolean.parseBoolean(tokens[2]);
-        this.repetition =  Integer.parseInt(tokens[3]);
+        this.repetition = Integer.parseInt(tokens[3]);
         this.hour = Integer.parseInt(tokens[4]);
         this.minute = Integer.parseInt(tokens[5]);
     }
@@ -61,13 +61,13 @@ public class GBAlarm implements Parcelable, Comparable {
         int repetition = pc.readInt();
         int hour = pc.readInt();
         int minute = pc.readInt();
-        return new GBAlarm(index, enabled, smartWakeup, (byte)repetition, hour, minute);
+        return new GBAlarm(index, enabled, smartWakeup, (byte) repetition, hour, minute);
     }
 
     @Override
     public boolean equals(Object o) {
         if (o instanceof GBAlarm) {
-            GBAlarm comp = (GBAlarm)o;
+            GBAlarm comp = (GBAlarm) o;
             return comp.getIndex() == getIndex();
         } else {
             return false;
@@ -96,9 +96,9 @@ public class GBAlarm implements Parcelable, Comparable {
 
     @Override
     public int compareTo(Object another) {
-        if (this.getIndex() < ((GBAlarm)another).getIndex()) {
+        if (this.getIndex() < ((GBAlarm) another).getIndex()) {
             return -1;
-        }else if (this.getIndex() > ((GBAlarm)another).getIndex()) {
+        } else if (this.getIndex() > ((GBAlarm) another).getIndex()) {
             return 1;
         }
         return 0;
@@ -109,16 +109,17 @@ public class GBAlarm implements Parcelable, Comparable {
     }
 
     public String getTime() {
-        return String.format("%02d",this.hour) + ":" + String.format("%02d",this.minute);
+        return String.format("%02d", this.hour) + ":" + String.format("%02d", this.minute);
     }
 
-    public int getHour(){
+    public int getHour() {
         return this.hour;
     }
 
-    public int getMinute(){
+    public int getMinute() {
         return this.minute;
     }
+
     public Calendar getAlarmCal() {
         Calendar alarm = Calendar.getInstance();
         alarm.set(Calendar.HOUR_OF_DAY, this.hour);
@@ -143,11 +144,11 @@ public class GBAlarm implements Parcelable, Comparable {
     }
 
     public String toPreferences() {
-        return  String.valueOf(this.index)+','+
-                String.valueOf(this.enabled)+','+
-                String.valueOf(this.smartWakeup)+','+
-                String.valueOf(this.repetition)+','+
-                String.valueOf(this.hour)+','+
+        return String.valueOf(this.index) + ',' +
+                String.valueOf(this.enabled) + ',' +
+                String.valueOf(this.smartWakeup) + ',' +
+                String.valueOf(this.repetition) + ',' +
+                String.valueOf(this.hour) + ',' +
                 String.valueOf(this.minute);
     }
 
@@ -188,7 +189,7 @@ public class GBAlarm implements Parcelable, Comparable {
 
         while (iterator.hasNext()) {
             String alarmString = iterator.next();
-            if(this.equals(new GBAlarm(alarmString))) {
+            if (this.equals(new GBAlarm(alarmString))) {
                 iterator.remove();
                 break;
             }

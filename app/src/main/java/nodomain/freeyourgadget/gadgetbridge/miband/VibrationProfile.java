@@ -20,22 +20,22 @@ public class VibrationProfile {
             return new VibrationProfile(id, new int[]{100, 0}, repeat);
         }
         if (ID_SHORT.equals(id)) {
-            return new VibrationProfile(id, new int[] {200, 200}, repeat);
+            return new VibrationProfile(id, new int[]{200, 200}, repeat);
         }
         if (ID_LONG.equals(id)) {
-            return new VibrationProfile(id, new int[] {500, 1000}, repeat);
+            return new VibrationProfile(id, new int[]{500, 1000}, repeat);
         }
         if (ID_WATERDROP.equals(id)) {
-            return new VibrationProfile(id, new int[] {100, 1500}, repeat);
+            return new VibrationProfile(id, new int[]{100, 1500}, repeat);
         }
         if (ID_RING.equals(id)) {
             return new VibrationProfile(id, new int[]{300, 200, 600, 2000}, repeat);
         }
         if (ID_ALARM_CLOCK.equals(id)) {
-            return new VibrationProfile(id, new int[] {30, 35, 30, 35, 30, 35, 30, 800}, repeat);
+            return new VibrationProfile(id, new int[]{30, 35, 30, 35, 30, 35, 30, 800}, repeat);
         }
         // medium
-        return new VibrationProfile(id, new int[] {300, 600}, repeat);
+        return new VibrationProfile(id, new int[]{300, 600}, repeat);
     }
 
     private final String id;
@@ -45,9 +45,10 @@ public class VibrationProfile {
 
     /**
      * Creates a new profile instance.
-     * @param id the ID, used as preference key.
+     *
+     * @param id            the ID, used as preference key.
      * @param onOffSequence a sequence of alternating on and off durations, in milliseconds
-     * @param repeat how ofoften the sequence shall be repeated
+     * @param repeat        how ofoften the sequence shall be repeated
      */
     public VibrationProfile(String id, int[] onOffSequence, short repeat) {
         this.id = id;

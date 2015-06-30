@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBAlarm;
@@ -34,13 +33,13 @@ public class GBAlarmListAdapter extends ArrayAdapter<GBAlarm> {
         this.alarmList = alarmList;
     }
 
-    public GBAlarmListAdapter(Context context,Set<String> preferencesAlarmListSet) {
+    public GBAlarmListAdapter(Context context, Set<String> preferencesAlarmListSet) {
         super(context, 0, new ArrayList<GBAlarm>());
 
         this.mContext = context;
         alarmList = new ArrayList<GBAlarm>();
 
-        for  (String alarmString : preferencesAlarmListSet) {
+        for (String alarmString : preferencesAlarmListSet) {
             alarmList.add(new GBAlarm(alarmString));
         }
 
@@ -50,7 +49,7 @@ public class GBAlarmListAdapter extends ArrayAdapter<GBAlarm> {
     public void setAlarmList(Set<String> preferencesAlarmListSet) {
         alarmList = new ArrayList<GBAlarm>();
 
-        for  (String alarmString : preferencesAlarmListSet) {
+        for (String alarmString : preferencesAlarmListSet) {
             alarmList.add(new GBAlarm(alarmString));
         }
 
@@ -64,8 +63,8 @@ public class GBAlarmListAdapter extends ArrayAdapter<GBAlarm> {
 
     public void update(GBAlarm alarm) {
         for (GBAlarm a : alarmList) {
-            if(alarm.equals(a)) {
-             a = alarm;
+            if (alarm.equals(a)) {
+                a = alarm;
             }
         }
         alarm.store();
@@ -129,12 +128,12 @@ public class GBAlarmListAdapter extends ArrayAdapter<GBAlarm> {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((ConfigureAlarms)mContext).configureAlarm(alarm);
+                ((ConfigureAlarms) mContext).configureAlarm(alarm);
             }
         });
         alarmTime.setText(alarm.getTime());
         isEnabled.setChecked(alarm.isEnabled());
-        if(alarm.isSmartWakeup()) {
+        if (alarm.isSmartWakeup()) {
             isSmartWakeup.setVisibility(TextView.VISIBLE);
         } else {
             isSmartWakeup.setVisibility(TextView.GONE);

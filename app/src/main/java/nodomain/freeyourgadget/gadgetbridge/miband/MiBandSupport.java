@@ -152,12 +152,13 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     /**
      * Sends a custom notification to the Mi Band.
+     *
      * @param vibrationProfile specifies how and how often the Band shall vibrate.
      * @param flashTimes
      * @param flashColour
      * @param originalColour
      * @param flashDuration
-     * @param extraAction an extra action to be executed after every vibration and flash sequence. Allows to abort the repetition, for example.
+     * @param extraAction      an extra action to be executed after every vibration and flash sequence. Allows to abort the repetition, for example.
      * @param builder
      */
     private void sendCustomNotification(VibrationProfile vibrationProfile, int flashTimes, int flashColour, int originalColour, long flashDuration, BtLEAction extraAction, TransactionBuilder builder) {
@@ -566,10 +567,10 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     private void queueAlarm(GBAlarm alarm, TransactionBuilder builder, BluetoothGattCharacteristic characteristic) {
         Calendar alarmCal = alarm.getAlarmCal();
-        byte[] alarmMessage = new byte[] {
+        byte[] alarmMessage = new byte[]{
                 (byte) MiBandService.COMMAND_SET_TIMER,
                 (byte) alarm.getIndex(),
-                (byte) (alarm.isEnabled() ? 1: 0),
+                (byte) (alarm.isEnabled() ? 1 : 0),
                 (byte) (alarmCal.get(Calendar.YEAR) - 2000),
                 (byte) alarmCal.get(Calendar.MONTH),
                 (byte) alarmCal.get(Calendar.DATE),
