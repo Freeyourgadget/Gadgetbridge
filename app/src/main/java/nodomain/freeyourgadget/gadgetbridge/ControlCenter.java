@@ -230,6 +230,7 @@ public class ControlCenter extends Activity {
                                 }
                             });
                 }
+                return true;
             case R.id.controlcenter_configure_alarms:
                 if (selectedDevice != null) {
                     Intent startIntent;
