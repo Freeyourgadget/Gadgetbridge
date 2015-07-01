@@ -3,7 +3,7 @@
   <string name="app_name">Gadgetbridge</string>
   <string name="title_activity_controlcenter">Gadgetbridge</string>
   <string name="action_settings">Ajustes</string>
-  <string name="action_debug">Depurar</string>
+  <string name="action_debug">Depuración</string>
   <string name="action_quit">Salir</string>
   <string name="controlcenter_fetch_activity_data">Extraer datos de actividad</string>
   <string name="controlcenter_start_sleepmonitor">Monitor de sueño (ALPHA)</string>
@@ -109,7 +109,7 @@
   <string name="vibration_profile_short">Corto</string>
   <string name="vibration_profile_medium">Medio</string>
   <string name="vibration_profile_long">Largo</string>
-  <string name="vibration_profile_waterdrop">Marca de agua</string>
+  <string name="vibration_profile_waterdrop">Goteo</string>
   <string name="vibration_profile_ring">Ring</string>
   <string name="vibration_profile_alarm_clock">Alarma</string>
   <string name="miband_prefs_vibration">Vibración</string>
@@ -122,4 +122,17 @@
   <string name="control_center_find_lost_device">Encuentra un dispositivo perdido</string>
   <string name="control_center_cancel_to_stop_vibration">Cancelar para detener la vibración.</string>
   <string name="title_activity_charts">Gráficos</string>
+  <string name="title_activity_set_alarm">Configurar alarmas</string>
+  <string name="controlcenter_start_configure_alarms">Configurar alarmas</string>
+  <string name="title_activity_alarm_details">Detalles de alarma</string>
+  <string name="alarm_sun_short">Dom</string>
+  <string name="alarm_mon_short">Lun</string>
+  <string name="alarm_tue_short">Mar</string>
+  <string name="alarm_wed_short">Mié</string>
+  <string name="alarm_thu_short">Jue</string>
+  <string name="alarm_fri_short">Vie</string>
+  <string name="alarm_sat_short">Sáb</string>
+  <string name="alarm_smart_wakeup">despertador inteligente</string>
+  <string name="user_feedback_miband_set_alarms_failed">Hubo un error al configurar las alarmas, ¡por favor inténtalo de nuevo!</string>
+  <string name="user_feedback_miband_set_alarms_ok">¡Alarmas enviadas al dispositivo!</string>
 </resources>
