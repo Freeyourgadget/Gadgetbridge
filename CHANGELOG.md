@@ -1,5 +1,8 @@
 ###Changelog
 
+####Version (next)
+* MiBand: Support for setting alarms
+
 ####Version 0.4.2
 * Material style for Lollipop
 * Support for finding a lost device (vibrate until cacelled)
