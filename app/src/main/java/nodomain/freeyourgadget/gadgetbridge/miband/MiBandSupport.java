@@ -73,7 +73,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private GregorianCalendar activityDataTimestampToAck = null;
     private volatile boolean telephoneRinging;
     private volatile boolean isLocatingDevice;
-
+    private volatile boolean isReadingSensorData;
 
     public MiBandSupport() {
         addSupportedService(MiBandService.UUID_SERVICE_MIBAND_SERVICE);
@@ -206,6 +206,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private static final byte[] startVibrate = new byte[]{MiBandService.COMMAND_SEND_NOTIFICATION, 1};
     private static final byte[] stopVibrate = new byte[]{MiBandService.COMMAND_STOP_MOTOR_VIBRATE};
     private static final byte[] reboot = new byte[]{MiBandService.COMMAND_REBOOT};
+    private static final byte[] sensorRead = new byte[]{MiBandService.COMMAND_GET_SENSOR_DATA, 1};
+    private static final byte[] sensorStop = new byte[]{MiBandService.COMMAND_GET_SENSOR_DATA, 0};
     private static final byte[] fetch = new byte[]{MiBandService.COMMAND_FETCH_DATA};
 
     private byte[] getNotification(long vibrateDuration, int vibrateTimes, int flashTimes, int flashColour, int originalColour, long flashDuration) {
@@ -422,7 +424,19 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetMusicInfo(String artist, String album, String track) {
-        // not supported
+        try {
+            TransactionBuilder builder = performInitialized("Toggle sensor reading");
+            if (isReadingSensorData){
+                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), sensorStop);
+                isReadingSensorData = false;
+            }else {
+                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), sensorRead);
+                isReadingSensorData = true;
+            }
+            builder.queue(getQueue());
+        } catch (IOException ex) {
+            LOG.error("Unable to toggle sensor reading MI", ex);
+        }
     }
 
     @Override
@@ -527,6 +541,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             handleBatteryInfo(characteristic.getValue(), BluetoothGatt.GATT_SUCCESS);
         } else if (MiBandService.UUID_CHARACTERISTIC_NOTIFICATION.equals(characteristicUUID)) {
             // device somehow changed, should we update e.g. battery level?
+        } else if (MiBandService.UUID_CHARACTERISTIC_SENSOR_DATA.equals(characteristicUUID)) {
+            handleSensorData(characteristic.getValue());
         }
     }
 
@@ -646,6 +662,27 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             }
         }
     }
+
+    private void handleSensorData(byte[] value) {
+        int counter=0, step=0, axis1=0, axis2=0, axis3 =0;
+        if((value.length - 2) % 6 != 0) {
+            LOG.warn("GOT UNEXPECTED SENSOR DATA WITH LENGTH: " + value.length);
+            for (byte b : value) {
+                LOG.warn("DATA: " + String.format("0x%4x", b));
+            }
+        }
+        else {
+            counter = (value[0] & 0xff) | ((value[1] & 0xff) << 8);
+            for (int idx = 0; idx < ((value.length - 2) / 6); idx++) {
+                step = idx * 6;
+                axis1 = (value[step+2] & 0xff) | ((value[step+3] & 0xff) << 8);
+                axis2 = (value[step+4] & 0xff) | ((value[step+5] & 0xff) << 8);
+                axis3 = (value[step+6] & 0xff) | ((value[step+7] & 0xff) << 8);
+            }
+            LOG.info("READ SENSOR DATA VALUES: counter:"+counter+" step:"+step+" axis1:"+axis1+" axis2:"+axis2+" axis3:"+axis3+";");
+        }
+    }
+
 
     private void flushActivityDataHolder() {
         GregorianCalendar timestamp = this.activityDataTimestampProgress;

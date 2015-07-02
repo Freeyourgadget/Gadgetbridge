@@ -137,13 +137,12 @@ public class MiBandService {
 
     public static final byte COMMAND_SET_TIMER = 0x4;
 
+    public static final byte COMMAND_GET_SENSOR_DATA = 0x12;
+
     /*
 
 
 	public static final byte COMMAND_FACTORY_RESET = 0x9t;
-
-
-	public static final byte COMMAND_GET_SENSOR_DATA = 0x12t
 
 	public static final byte COMMAND_SEND_FIRMWARE_INFO = 0x7t
 
