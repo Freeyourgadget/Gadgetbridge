@@ -3,6 +3,9 @@ package nodomain.freeyourgadget.gadgetbridge.btle;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 /**
  * The Bluedroid implementation only allows performing one GATT request at a time.
  * As they are asynchronous anyway, we encapsulate every GATT request (read and write)
@@ -13,9 +16,11 @@ import android.bluetooth.BluetoothGattCharacteristic;
  */
 public abstract class BtLEAction {
     private final BluetoothGattCharacteristic characteristic;
+    private final long creationTimestamp;
 
     public BtLEAction(BluetoothGattCharacteristic characteristic) {
         this.characteristic = characteristic;
+        creationTimestamp = System.currentTimeMillis();
     }
 
     /**
@@ -44,9 +49,13 @@ public abstract class BtLEAction {
         return characteristic;
     }
 
+    protected String getCreationTime() {
+        return DateFormat.getTimeInstance(DateFormat.MEDIUM).format(new Date(creationTimestamp));
+    }
+
     public String toString() {
         BluetoothGattCharacteristic characteristic = getCharacteristic();
         String uuid = characteristic == null ? "(null)" : characteristic.getUuid().toString();
-        return getClass().getSimpleName() + " on characteristic: " + uuid;
+        return getCreationTime() + ": " + getClass().getSimpleName() + " on characteristic: " + uuid;
     }
 }

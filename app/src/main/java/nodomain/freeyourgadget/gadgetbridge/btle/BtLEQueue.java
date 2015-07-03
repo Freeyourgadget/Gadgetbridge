@@ -71,6 +71,9 @@ public final class BtLEQueue {
                     for (BtLEAction action : transaction.getActions()) {
                         mWaitCharacteristic = action.getCharacteristic();
                         mWaitForActionResultLatch = new CountDownLatch(1);
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("About to run action: " + action);
+                        }
                         if (action.run(mBluetoothGatt)) {
                             // check again, maybe due to some condition, action did not need to write, so we can't wait
                             boolean waitForResult = action.expectsResult();

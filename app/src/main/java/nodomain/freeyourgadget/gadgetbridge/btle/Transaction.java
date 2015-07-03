@@ -1,7 +1,9 @@
 package nodomain.freeyourgadget.gadgetbridge.btle;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -14,6 +16,7 @@ import java.util.Locale;
 public class Transaction {
     private String mName;
     private List<BtLEAction> mActions = new ArrayList<>(4);
+    private long creationTimestamp = System.currentTimeMillis();
 
     public Transaction(String taskName) {
         this.mName = taskName;
@@ -35,8 +38,12 @@ public class Transaction {
         return mActions.isEmpty();
     }
 
+    protected String getCreationTime() {
+        return DateFormat.getTimeInstance(DateFormat.MEDIUM).format(new Date(creationTimestamp));
+    }
+
     @Override
     public String toString() {
-        return String.format(Locale.US, "Transaction task: %s with %d actions", getTaskName(), mActions.size());
+        return String.format(Locale.US, "%s: Transaction task: %s with %d actions", getCreationTime(), getTaskName(), mActions.size());
     }
 }
