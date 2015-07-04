@@ -1,7 +1,8 @@
 ###Changelog
 
-####Version (next)
-* MiBand: Support for setting alarms
+####Version 0.4.3
+* Mi Band: Support for setting alarms
+* Mi Band: Bugfix for activity data synchronization
 
 ####Version 0.4.2
 * Material style for Lollipop
