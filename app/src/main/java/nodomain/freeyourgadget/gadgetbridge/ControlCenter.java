@@ -174,6 +174,7 @@ public class ControlCenter extends Activity {
 
         if (!selectedDevice.isConnected() || selectedDevice.getType() == DeviceType.PEBBLE) {
             menu.removeItem(R.id.controlcenter_fetch_activity_data);
+            menu.removeItem(R.id.controlcenter_configure_alarms);
         }
 
         if (!selectedDevice.isConnected() || selectedDevice.getType() == DeviceType.MIBAND) {
