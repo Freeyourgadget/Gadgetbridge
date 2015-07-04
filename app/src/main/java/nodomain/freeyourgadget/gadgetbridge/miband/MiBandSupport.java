@@ -693,8 +693,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     private boolean isActivityDataSyncFinished(byte[] value) {
+        // byte 0 is the kind of message
+        // byte 1 to 6 represent a timestamp
+        // byte 7 to 8 represent the amount of data left (0 = done)
         if (value.length == 9) {
-            if (value[0] == 0xa && value[1] == 0xf && value[2] == 5 && value[7] == 0 && value[8] == 0) {
+            if (value[0] == 0xa && value[7] == 0 && value[8] == 0) {
                 return true;
             }
         }
