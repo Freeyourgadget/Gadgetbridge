@@ -41,6 +41,8 @@ need to create an account and transmit any of your data to the vendor's servers.
     * Generic Android notifications
 * Synchronize the time to the Mi Band
 * Display firmware version and battery state
+* Synchronize activity data
+* Set alarms on the Mi Band
 
 ## How to use (Mi Band)
 
@@ -68,11 +70,11 @@ Known Issues:
   and try connecting again. This only happens until you have "bonded" with the Mi Band, i.e. until it 
   knows your MAC address. This behavior may also only occur with older firmware versions.
 
-## Authors (in order of fist code contribution)
+## Authors (in order of first code contribution)
 
-Andreas Shimokawa
-Carsten Pfeiffer
-Daniele Gobbetti
+* Andreas Shimokawa
+* Carsten Pfeiffer
+* Daniele Gobbetti
 
 ## Contribute
 
