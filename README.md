@@ -22,6 +22,8 @@ need to create an account and transmit any of your data to the vendor's servers.
 * List and remove installed apps/watchfaces
 * Install .pbw files
 * Install firmware from .pbz files
+* Take and share screenshots from the Pebble's screen
+* Morpheuz sleep data syncronization (experimental)
 
 ## How to use (Pebble)
 
@@ -65,6 +67,12 @@ Known Issues:
 * The initial connection to a Mi Band sometimes takes a little patience. Try to connect a few times, wait, 
   and try connecting again. This only happens until you have "bonded" with the Mi Band, i.e. until it 
   knows your MAC address. This behavior may also only occur with older firmware versions.
+
+## Authors (in order of fist code contribution)
+
+Andreas Shimokawa
+Carsten Pfeiffer
+Daniele Gobbetti
 
 ## Contribute
 
