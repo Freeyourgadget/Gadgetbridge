@@ -12,8 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 public class GBApplication extends Application {
     private static GBApplication context;
@@ -47,20 +49,15 @@ public class GBApplication extends Application {
 
     private void setupLogging() {
         if (isFileLoggingEnabled()) {
-            File dir = getExternalFilesDir(null);
-            if (dir != null) {
-                if (!dir.exists()) {
-                    dir.mkdirs();
-                }
+            try {
+                File dir = FileUtils.getExternalFilesDir();
                 // used by assets/logback.xml since the location cannot be statically determined
                 System.setProperty("GB_LOGFILES_DIR", dir.getAbsolutePath());
-            } else {
-                Log.e("GBApplication", "External files dir is null, cannot log to file");
+            } catch (IOException ex) {
+                Log.e("GBApplication", "External files dir not available, cannot log to file, ex");
                 System.setProperty("GB_LOGFILES_DIR", "/dev/null");
-
             }
         } else {
-            System.setProperty("GB_LOGFILES_DIR", "/dev/null"); // just to please logback configuration, not used at all
             try {
                 ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
                 root.detachAppender("FILE");

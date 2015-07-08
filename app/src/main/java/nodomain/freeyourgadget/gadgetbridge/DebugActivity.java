@@ -13,20 +13,34 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+
+import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 
 public class DebugActivity extends Activity {
-    Button sendSMSButton;
-    Button sendEmailButton;
-    Button incomingCallButton;
-    Button outgoingCallButton;
-    Button startCallButton;
-    Button endCallButton;
-    Button testNotificationButton;
-    Button setMusicInfoButton;
-    Button setTimeButton;
-    Button rebootButton;
-    EditText editContent;
+    private static final Logger LOG = LoggerFactory.getLogger(DebugActivity.class);
+
+    private Button sendSMSButton;
+    private Button sendEmailButton;
+    private Button incomingCallButton;
+    private Button outgoingCallButton;
+    private Button startCallButton;
+    private Button endCallButton;
+    private Button testNotificationButton;
+    private Button setMusicInfoButton;
+    private Button setTimeButton;
+    private Button rebootButton;
+    private Button exportDBButton;
+    private Button importDBButton;
+    private EditText editContent;
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -114,6 +128,21 @@ public class DebugActivity extends Activity {
             }
         });
 
+        exportDBButton = (Button) findViewById(R.id.exportDBButton);
+        exportDBButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                exportDB();
+            }
+        });
+        importDBButton = (Button) findViewById(R.id.importDBButton);
+        importDBButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                importDB();
+            }
+        });
+
         rebootButton = (Button) findViewById(R.id.rebootButton);
         rebootButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,6 +183,34 @@ public class DebugActivity extends Activity {
                 testNotification();
             }
         });
+    }
+
+    private void exportDB() {
+        try {
+            ActivityDatabaseHandler dbHandler = GBApplication.getActivityDatabaseHandler();
+            DBHelper helper = new DBHelper(this);
+            File dir = FileUtils.getExternalFilesDir();
+            File destFile = helper.exportDB(dbHandler, dir);
+            Toast.makeText(this, "Exported to: " + destFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
+        } catch (Exception ex) {
+            LOG.error("Unable to export db", ex);
+            Toast.makeText(this, "Error exporting DB: " + ex.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void importDB() {
+        try {
+            ActivityDatabaseHandler dbHandler = GBApplication.getActivityDatabaseHandler();
+            DBHelper helper = new DBHelper(this);
+            File dir = FileUtils.getExternalFilesDir();
+            File sourceFile = new File(dir, dbHandler.getDatabaseName());
+            helper.importDB(dbHandler, sourceFile);
+            helper.validateDB(dbHandler);
+            Toast.makeText(this, "Import successful.", Toast.LENGTH_LONG).show();
+        } catch (Exception ex) {
+            LOG.error("Unable to import db", ex);
+            Toast.makeText(this, "Error importing DB: " + ex.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     private void testNotification() {
