@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 public class DBHelper {
@@ -64,4 +65,23 @@ public class DBHelper {
             }
         }
     }
+
+    public static void dropTable(String tableName, SQLiteDatabase db) {
+        db.delete(tableName, null, null);
+    }
+
+    /**
+     * WITHOUT ROWID is only available with sqlite 3.8.2, which is available
+     * with Lollipop and later.
+     *
+     * @return the "WITHOUT ROWID" string or an empty string for pre-Lollipop devices
+     */
+    public static String getWithoutRowId() {
+        if (GBApplication.isRunningLollipopOrLater()) {
+            return " WITHOUT ROWID;";
+        }
+        return "";
+    }
+
+
 }

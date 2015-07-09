@@ -5,25 +5,24 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.database.schema.ActivityDBCreationScript;
+
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.*;
 
 public class ActivityDatabaseHandler extends SQLiteOpenHelper {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ActivityDatabaseHandler.class);
+
     private static final int DATABASE_VERSION = 5;
-
-    private static final String DATABASE_NAME = "ActivityDatabase";
-
-    private static final String TABLE_GBACTIVITYSAMPLES = "GBActivitySamples";
-
-    private static final String KEY_TIMESTAMP = "timestamp";
-    private static final String KEY_PROVIDER = "provider";
-    private static final String KEY_INTENSITY = "intensity";
-    private static final String KEY_STEPS = "steps";
-    private static final String KEY_TYPE = "type";
 
     public ActivityDatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -31,50 +30,61 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_GBACTIVITYSAMPLES_TABLE = "CREATE TABLE " + TABLE_GBACTIVITYSAMPLES + " ("
-                + KEY_TIMESTAMP + " INT,"
-                + KEY_PROVIDER + " TINYINT,"
-                + KEY_INTENSITY + " SMALLINT,"
-                + KEY_STEPS + " TINYINT,"
-                + KEY_TYPE + " TINYINT,"
-                + " PRIMARY KEY (" + KEY_TIMESTAMP + "," + KEY_PROVIDER + ") ON CONFLICT REPLACE)" + getWithoutRowId();
-        db.execSQL(CREATE_GBACTIVITYSAMPLES_TABLE);
-    }
-
-    /**
-     * WITHOUT ROWID is only available with sqlite 3.8.2, which is available
-     * with Lollipop and later.
-     *
-     * @return the "WITHOUT ROWID" string or an empty string for pre-Lollipop devices
-     */
-    private String getWithoutRowId() {
-        if (GBApplication.isRunningLollipopOrLater()) {
-            return " WITHOUT ROWID;";
+        try {
+            ActivityDBCreationScript script = new ActivityDBCreationScript();
+            script.createSchema(db);
+        } catch (RuntimeException ex) {
+            LOG.error("Error creatomg database", ex);
+            Toast.makeText(GBApplication.getContext(), "Error creating database.", Toast.LENGTH_SHORT).show();
         }
-        return "";
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (newVersion == 5 && (oldVersion == 4 || oldVersion == 3)) {
-            String CREATE_NEW_GBACTIVITYSAMPLES_TABLE = "CREATE TABLE NEW ("
-                    + KEY_TIMESTAMP + " INT,"
-                    + KEY_PROVIDER + " TINYINT,"
-                    + KEY_INTENSITY + " SMALLINT,"
-                    + KEY_STEPS + " TINYINT,"
-                    + KEY_TYPE + " TINYINT,"
-                    + " PRIMARY KEY (" + KEY_TIMESTAMP + "," + KEY_PROVIDER + ") ON CONFLICT REPLACE)" + getWithoutRowId();
-            db.execSQL(CREATE_NEW_GBACTIVITYSAMPLES_TABLE);
-            db.execSQL("insert into NEW select timestamp,provider,intensity,steps,type from " + TABLE_GBACTIVITYSAMPLES + ";");
-            db.execSQL("Drop table " + TABLE_GBACTIVITYSAMPLES + ";");
-            db.execSQL("alter table NEW RENAME TO " + TABLE_GBACTIVITYSAMPLES + ";");
-        } else {
-            //FIXME: do not just recreate
-            db.execSQL("DROP TABLE IF EXISTS " + TABLE_GBACTIVITYSAMPLES);
-            onCreate(db);
+        try {
+            for (int i = oldVersion + 1; i <= newVersion; i++) {
+                DBUpdateScript updater = getUpdateScript(db, i);
+                if (updater != null) {
+                    LOG.info("upgrading activity database to version " + i);
+                    updater.upgradeSchema(db);
+                }
+            }
+            LOG.info("activity database is now at version " + newVersion);
+        } catch (RuntimeException ex) {
+            LOG.error("Error upgrading db version. ", ex);
+            Toast.makeText(GBApplication.getContext(), "Error upgrading database.", Toast.LENGTH_SHORT).show();
+            throw ex; // reject upgrade
         }
     }
 
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        try {
+            for (int i = oldVersion; i >= newVersion; i--) {
+                DBUpdateScript updater = getUpdateScript(db, i);
+                if (updater != null) {
+                    LOG.info("downgrading activity database to version " + (i - 1));
+                    updater.downgradeSchema(db);
+                }
+            }
+            LOG.info("activity database is now at version " + newVersion);
+        } catch (RuntimeException ex) {
+            LOG.error("Error downgrading db version. ", ex);
+            Toast.makeText(GBApplication.getContext(), "Error downgrading database.", Toast.LENGTH_SHORT).show();
+            throw ex; // reject downgrade
+        }
+    }
+
+    private DBUpdateScript getUpdateScript(SQLiteDatabase db, int version) {
+        try {
+            Class<?> updateClass = getClass().getClassLoader().loadClass(getClass().getPackage().getName() + ".schema.ActivityDBUpdate_" + version);
+            return (DBUpdateScript) updateClass.newInstance();
+        } catch (ClassNotFoundException e) {
+            return null;
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException("Error instantiating DBUpdate class for version " + version, e);
+        }
+    }
 
     public void addGBActivitySample(GBActivitySample GBActivitySample) {
         try (SQLiteDatabase db = this.getWritableDatabase()) {
