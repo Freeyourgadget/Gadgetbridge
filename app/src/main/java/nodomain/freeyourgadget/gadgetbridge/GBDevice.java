@@ -243,11 +243,11 @@ public class GBDevice implements Parcelable {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof GBDevice)) {
-            return false;
-        }
         if (obj == this) {
             return true;
+        }
+        if (!(obj instanceof GBDevice)) {
+            return false;
         }
         if (((GBDevice) obj).getAddress().equals(this.mAddress)) {
             return true;
@@ -286,6 +286,11 @@ public class GBDevice implements Parcelable {
 
     public void setBatteryState(String batteryState) {
         mBatteryState = batteryState;
+    }
+
+    @Override
+    public String toString() {
+        return "Device " + getName() + ", " + getAddress() + ", " + getStateString();
     }
 
     public enum State {

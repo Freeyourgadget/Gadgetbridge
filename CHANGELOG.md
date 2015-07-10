@@ -1,5 +1,9 @@
 ###Changelog
 
+####Version 0.4.4
+* Support for backup up and restoring of the activity database (via Debug activity)
+* Support for graceful upgrades and downgrades, keeping your activity database intact
+
 ####Version 0.4.3
 * Mi Band: Support for setting alarms
 * Mi Band: Bugfix for activity data synchronization

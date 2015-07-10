@@ -78,12 +78,14 @@ public class BluetoothCommunicationService extends Service {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (action.equals(GBDevice.ACTION_DEVICE_CHANGED)) {
-                GBDevice device = intent.getParcelableExtra("device");
+                GBDevice device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                 if (mGBDevice.equals(device)) {
                     mGBDevice = device;
                     boolean enableReceivers = mDeviceSupport != null && (mDeviceSupport.useAutoConnect() || mGBDevice.isConnected());
                     GB.setReceiversEnableState(enableReceivers, context);
                     GB.updateNotification(mGBDevice.getName() + " " + mGBDevice.getStateString(), context);
+                } else {
+                    LOG.error("Got ACTION_DEVICE_CHANGED from unexpected device: " + mGBDevice);
                 }
             }
         }
