@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * The Bluedroid implementation only allows performing one GATT request at a time.
@@ -50,7 +51,7 @@ public abstract class BtLEAction {
     }
 
     protected String getCreationTime() {
-        return DateFormat.getTimeInstance(DateFormat.MEDIUM).format(new Date(creationTimestamp));
+        return DateFormat.getTimeInstance().format(new Date(creationTimestamp));
     }
 
     public String toString() {
