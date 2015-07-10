@@ -120,7 +120,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
         String selectQuery = "SELECT  * FROM " + TABLE_GBACTIVITYSAMPLES
                 + " where (provider=" + provider + " and timestamp>=" + timestamp_from + " and timestamp<=" + timestamp_to + ") order by timestamp";
 
-        try (SQLiteDatabase db = this.getWritableDatabase()) {
+        try (SQLiteDatabase db = this.getReadableDatabase()) {
             Cursor cursor = db.rawQuery(selectQuery, null);
 
             if (cursor.moveToFirst()) {

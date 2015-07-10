@@ -1,15 +1,16 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarLineChartBase;
@@ -33,27 +34,11 @@ import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.charts.SleepUtils;
 
 
-public class SleepChartActivity extends Activity {
-    private static final float Y_VALUE_DEEP_SLEEP = 0.01f;
-    private static final float Y_VALUE_LIGHT_SLEEP = 0.016f;
-
-    private static final class ActivityKind {
-        public final byte type;
-        public final String label;
-        public final Integer color;
-
-        public ActivityKind(byte type, String label, Integer color) {
-            this.type = type;
-            this.label = label;
-            this.color = color;
-        }
-    }
-
-    public static final String ACTION_REFRESH
-            = "nodomain.freeyourgadget.gadgetbride.chart.action.refresh";
-    protected static final Logger LOG = LoggerFactory.getLogger(SleepChartActivity.class);
+public class ActivitySleepChartFragment extends AbstractChartFragment {
+    protected static final Logger LOG = LoggerFactory.getLogger(ActivitySleepChartFragment.class);
 
     private BarLineChartBase mChart;
 
@@ -63,17 +48,11 @@ public class SleepChartActivity extends Activity {
     private int mSmartAlarmGoneOff = -1;
     private GBDevice mGBDevice = null;
 
-    private ActivityKind akActivity = new ActivityKind(GBActivitySample.TYPE_UNKNOWN, "Activity", Color.rgb(89, 178, 44));
-    private ActivityKind akLightSleep = new ActivityKind(GBActivitySample.TYPE_LIGHT_SLEEP, "Light Sleep", Color.rgb(182, 191, 255));
-    private ActivityKind akDeepSleep = new ActivityKind(GBActivitySample.TYPE_DEEP_SLEEP, "Deep Sleep", Color.rgb(76, 90, 255));
-
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (action.equals(ControlCenter.ACTION_QUIT)) {
-                finish();
-            } else if (action.equals(ACTION_REFRESH)) {
+            if (action.equals(ACTION_REFRESH)) {
                 // TODO: use LimitLines to visualize smart alarms?
                 mSmartAlarmFrom = intent.getIntExtra("smartalarm_from", -1);
                 mSmartAlarmTo = intent.getIntExtra("smartalarm_to", -1);
@@ -85,55 +64,39 @@ public class SleepChartActivity extends Activity {
     };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_charts, container, false);
 
-        Bundle extras = getIntent().getExtras();
+        Bundle extras = getActivity().getIntent().getExtras();
         if (extras != null) {
-            mGBDevice = extras.getParcelable("device");
+            mGBDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
         }
-
-        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(ControlCenter.ACTION_QUIT);
         filter.addAction(ACTION_REFRESH);
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver, filter);
 
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_sleepmonitor2);
+        mChart = (BarLineChartBase) rootView.findViewById(R.id.sleepchart);
 
-        mChart = (BarLineChartBase) findViewById(R.id.sleepchart2);
-        mChart.setBackgroundColor(Color.rgb(24, 22, 24));
-        mChart.setDescriptionColor(Color.WHITE);
+        setupChart();
 
-        // if enabled, the chart will always start at zero on the y-axis
+        return rootView;
+    }
 
-        // disable value highlighting
-        mChart.setHighlightEnabled(false);
+    private void setupChart() {
+        mChart.setBackgroundColor(BACKGROUND_COLOR);
+        mChart.setDescriptionColor(DESCRIPTION_COLOR);
+        configureBarLineChartDefaults(mChart);
 
-        // enable touch gestures
-        mChart.setTouchEnabled(true);
-
-        // enable scaling and dragging
-        mChart.setDragEnabled(true);
-        mChart.setScaleEnabled(true);
-
-        // if disabled, scaling can be done on x- and y-axis separately
-//        mChart.setPinchZoom(true);
-
-        mChart.setDrawGridBackground(false);
-
-//        tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
 
         XAxis x = mChart.getXAxis();
         x.setDrawLabels(true);
         x.setDrawGridLines(false);
-//        x.setTypeface(tf);
         x.setEnabled(true);
-        x.setTextColor(Color.WHITE);
+        x.setTextColor(CHART_TEXT_COLOR);
         x.setDrawLimitLinesBehindData(true);
 
         YAxis y = mChart.getAxisLeft();
@@ -142,9 +105,8 @@ public class SleepChartActivity extends Activity {
         // TODO: make fixed max value optional
         y.setAxisMaxValue(1f);
         y.setDrawTopYLabelEntry(false);
-        y.setTextColor(Color.WHITE);
+        y.setTextColor(CHART_TEXT_COLOR);
 
-//        y.setTypeface(tf);
 //        y.setLabelCount(5);
         y.setEnabled(true);
 
@@ -153,58 +115,23 @@ public class SleepChartActivity extends Activity {
         yAxisRight.setEnabled(false);
         yAxisRight.setDrawLabels(false);
         yAxisRight.setDrawTopYLabelEntry(false);
-        yAxisRight.setTextColor(Color.WHITE);
+        yAxisRight.setTextColor(CHART_TEXT_COLOR);
 
         refresh();
 
-        mChart.getLegend().setTextColor(Color.WHITE);
+        mChart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
 //        mChart.getLegend().setEnabled(false);
 //
 //        mChart.animateXY(2000, 2000);
 
-        // dont forget to refresh the drawing
+        // don't forget to refresh the drawing
         mChart.invalidate();
     }
 
     @Override
-    protected void onDestroy() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+    public void onDestroy() {
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
         super.onDestroy();
-    }
-
-    private byte getProvider(GBDevice device) {
-        byte provider = -1;
-        switch (device.getType()) {
-            case MIBAND:
-                provider = GBActivitySample.PROVIDER_MIBAND;
-                break;
-            case PEBBLE:
-                provider = GBActivitySample.PROVIDER_PEBBLE_MORPHEUZ; // FIXME
-                break;
-        }
-        return provider;
-    }
-
-    private ArrayList<GBActivitySample> getSamples(GBDevice device, int tsFrom, int tsTo) {
-        if (tsFrom == -1) {
-            long ts = System.currentTimeMillis();
-            tsFrom = (int) ((ts / 1000) - (24 * 60 * 60) & 0xffffffff); // -24 hours
-        }
-
-        byte provider = getProvider(device);
-        return GBApplication.getActivityDatabaseHandler().getGBActivitySamples(tsFrom, tsTo, provider);
-    }
-
-    private ArrayList<GBActivitySample> getTestSamples(GBDevice device, int tsFrom, int tsTo) {
-        Calendar cal = Calendar.getInstance();
-        cal.clear();
-        cal.set(2015, Calendar.JUNE, 10, 6, 40);
-        // ignore provided date ranges
-        tsTo = (int) ((cal.getTimeInMillis() / 1000) & 0xffffffff);
-        tsFrom = tsTo - (24 * 60 * 60);
-
-        byte provider = getProvider(device);
-        return GBApplication.getActivityDatabaseHandler().getGBActivitySamples(tsFrom, tsTo, provider);
     }
 
     private void refresh() {
@@ -270,15 +197,15 @@ public class SleepChartActivity extends Activity {
                 if (type == GBActivitySample.TYPE_DEEP_SLEEP) {
 //                    value = Y_VALUE_DEEP_SLEEP;
                     value = ((float) movement) / movement_divisor;
-                    value += Y_VALUE_DEEP_SLEEP;
-                    activityEntries.add(createEntry(value, i));
+                    value += SleepUtils.Y_VALUE_DEEP_SLEEP;
+                    activityEntries.add(createBarEntry(value, i));
                     colors.add(akDeepSleep.color);
                 } else {
                     if (type == GBActivitySample.TYPE_LIGHT_SLEEP) {
                         value = ((float) movement) / movement_divisor;
-//                        value += Y_VALUE_LIGHT_SLEEP;
+//                        value += SleepUtils.Y_VALUE_LIGHT_SLEEP;
 //                        value = Math.min(1.0f, Y_VALUE_LIGHT_SLEEP);
-                        activityEntries.add(createEntry(value, i));
+                        activityEntries.add(createBarEntry(value, i));
                         colors.add(akLightSleep.color);
                     } else {
                         byte steps = sample.getSteps();
@@ -287,7 +214,7 @@ public class SleepChartActivity extends Activity {
                             movement = steps;
                         }
                         value = ((float) movement) / movement_divisor;
-                        activityEntries.add(createEntry(value, i));
+                        activityEntries.add(createBarEntry(value, i));
                         colors.add(akActivity.color);
                     }
                 }
@@ -343,14 +270,10 @@ public class SleepChartActivity extends Activity {
 
             mChart.setData(data);
 
-            mChart.animateX(1000, Easing.EasingOption.EaseInOutQuart);
+            mChart.animateX(500, Easing.EasingOption.EaseInOutQuart);
 
 //            textView.setText(dateStringFrom + " to " + dateStringTo);
         }
-    }
-
-    private boolean isSleep(byte type) {
-        return type == GBActivitySample.TYPE_DEEP_SLEEP || type == GBActivitySample.TYPE_LIGHT_SLEEP;
     }
 
     private void setupLegend(BarLineChartBase chart) {
@@ -364,70 +287,5 @@ public class SleepChartActivity extends Activity {
         legendLabels.add(akDeepSleep.label);
         chart.getLegend().setColors(legendColors);
         chart.getLegend().setLabels(legendLabels);
-    }
-
-    private BarEntry createEntry(float value, int index) {
-        return new BarEntry(value, index);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private BarDataSet createActivitySet(List<BarEntry> values, List<Integer> colors, String label) {
-        BarDataSet set1 = new BarDataSet(values, label);
-        set1.setColors(colors);
-//        set1.setDrawCubic(true);
-//        set1.setCubicIntensity(0.2f);
-//        //set1.setDrawFilled(true);
-//        set1.setDrawCircles(false);
-//        set1.setLineWidth(2f);
-//        set1.setCircleSize(5f);
-//        set1.setFillColor(ColorTemplate.getHoloBlue());
-        set1.setDrawValues(false);
-//        set1.setHighLightColor(Color.rgb(128, 0, 255));
-//        set1.setColor(Color.rgb(89, 178, 44));
-        set1.setValueTextColor(Color.WHITE);
-        return set1;
-    }
-
-    private BarDataSet createDeepSleepSet(List<BarEntry> values, String label) {
-        BarDataSet set1 = new BarDataSet(values, label);
-//        set1.setDrawCubic(true);
-//        set1.setCubicIntensity(0.2f);
-//        //set1.setDrawFilled(true);
-//        set1.setDrawCircles(false);
-//        set1.setLineWidth(2f);
-//        set1.setCircleSize(5f);
-//        set1.setFillColor(ColorTemplate.getHoloBlue());
-        set1.setDrawValues(false);
-//        set1.setHighLightColor(Color.rgb(244, 117, 117));
-//        set1.setColor(Color.rgb(76, 90, 255));
-        set1.setValueTextColor(Color.WHITE);
-        return set1;
-    }
-
-    private BarDataSet createLightSleepSet(List<BarEntry> values, String label) {
-        BarDataSet set1 = new BarDataSet(values, label);
-
-//        set1.setDrawCubic(true);
-//        set1.setCubicIntensity(0.2f);
-//        //set1.setDrawFilled(true);
-//        set1.setDrawCircles(false);
-//        set1.setLineWidth(2f);
-//        set1.setCircleSize(5f);
-//        set1.setFillColor(ColorTemplate.getHoloBlue());
-        set1.setDrawValues(false);
-//        set1.setHighLightColor(Color.rgb(244, 117, 117));
-//        set1.setColor(Color.rgb(182, 191, 255));
-        set1.setValueTextColor(Color.WHITE);
-//        set1.setColor(Color.CYAN);
-        return set1;
     }
 }

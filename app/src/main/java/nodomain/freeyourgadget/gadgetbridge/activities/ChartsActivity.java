@@ -51,29 +51,6 @@ public class ChartsActivity extends FragmentActivity {
 
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_charts, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     /**
      * A {@link FragmentStatePagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -86,8 +63,8 @@ public class ChartsActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            if (position == 1) {
-                return new SleepChartFragment();
+            if (position == 0) {
+                return new ActivitySleepChartFragment();
             }
 
             // getItem is called to instantiate the fragment for the given page.
@@ -97,8 +74,9 @@ public class ChartsActivity extends FragmentActivity {
 
         @Override
         public int getCount() {
+            return 1;
             // Show 3 total pages.
-            return 3;
+//            return 3;
         }
 
         @Override
