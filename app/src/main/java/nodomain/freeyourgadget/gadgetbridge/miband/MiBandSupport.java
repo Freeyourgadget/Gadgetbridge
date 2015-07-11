@@ -59,7 +59,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandSupport.class);
 
     //temporary buffer, size is a multiple of 60 because we want to store complete minutes (1 minute = 3 bytes)
-    private static final int activityDataHolderSize = 60 * 24; // 8h
+    private static final int activityDataHolderSize = 3 * 60 * 4; // 8h
     private byte[] activityDataHolder = new byte[activityDataHolderSize];
     //index of the buffer above
     private int activityDataHolderProgress = 0;
@@ -588,12 +588,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             // byte 0 is the data type: 1 means that each minute is represented by a triplet of bytes
             int dataType = value[0];
             // byte 1 to 6 represent a timestamp
-            GregorianCalendar timestamp = new GregorianCalendar(value[1] + 2000,
-                    value[2],
-                    value[3],
-                    value[4],
-                    value[5],
-                    value[6]);
+            GregorianCalendar timestamp = parseTimestamp(value, 1);
 
             // counter of all data held by the band
             int totalDataToRead = (value[7] & 0xff) | ((value[8] & 0xff) << 8);
@@ -625,6 +620,17 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    private GregorianCalendar parseTimestamp(byte[] value, int offset) {
+        GregorianCalendar timestamp = new GregorianCalendar(
+                value[offset] + 2000,
+                value[offset + 1],
+                value[offset + 2],
+                value[offset + 3],
+                value[offset + 4],
+                value[offset + 5]);
+        return timestamp;
+    }
+
     private void bufferActivityData(byte[] value) {
 
         if (this.activityDataRemainingBytes >= value.length) {
@@ -644,6 +650,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                     LOG.warn("DATA: " + String.format("0x%8x", b));
                 }
             }
+        } else {
+            LOG.error("error buffering activity data: remaining bytes: " + activityDataRemainingBytes + ", received: " + value.length);
         }
     }
 
@@ -666,10 +674,10 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                         category);
                 timestamp.add(Calendar.MINUTE, 1);
             }
+        } finally {
+            this.activityDataHolderProgress = 0;
+            this.activityDataTimestampProgress = timestamp;
         }
-
-        this.activityDataHolderProgress = 0;
-        this.activityDataTimestampProgress = timestamp;
     }
 
     private void handleControlPointResult(byte[] value, int status) {
@@ -681,6 +689,10 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         if (getDevice().isBusy()) {
             if (isActivityDataSyncFinished(value)) {
                 unsetBusy();
+            } else {
+                if (value != null && value.length == 9 && value[0] == 0xa) {
+                    handleActivityCheckpoint(value);
+                }
             }
         }
         if (value != null) {
@@ -690,6 +702,22 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         } else {
             LOG.warn("handleControlPoint GOT null");
         }
+    }
+
+    // I have no idea if this is anything we could or should do.
+    // For some reason, I got these bytes on the control point characteristic
+    // while in the middle of a activity data transfer:
+    // { 0xa, 0xf, 0x6, 0x5, 0x14, 0xe, 0x15, 0x70, 0x8 }
+    // 'a' = activity, then timestamp, then bytes to read
+    // After this, the communication stops. And this happened again and again
+    // so that I couldn't transfer the remaning data anymore.
+    // My idea was that this might be some kind of checkpointing, asking for an ACK
+    // of the transfer till now.
+    // Commented out for now until it can be reproduced and tested again.
+    private void handleActivityCheckpoint(byte[] value) {
+        GregorianCalendar timestamp = parseTimestamp(value, 1);
+        sendAckDataTransfer(timestamp, activityDataHolderProgress);
+        flushActivityDataHolder();
     }
 
     private boolean isActivityDataSyncFinished(byte[] value) {
