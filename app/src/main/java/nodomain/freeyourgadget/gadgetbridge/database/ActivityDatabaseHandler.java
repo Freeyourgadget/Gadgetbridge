@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 
+import nodomain.freeyourgadget.gadgetbridge.GB;
 import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.schema.ActivityDBCreationScript;
@@ -34,8 +35,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
             ActivityDBCreationScript script = new ActivityDBCreationScript();
             script.createSchema(db);
         } catch (RuntimeException ex) {
-            LOG.error("Error creatomg database", ex);
-            Toast.makeText(GBApplication.getContext(), "Error creating database.", Toast.LENGTH_SHORT).show();
+            GB.toast("Error creating database.", Toast.LENGTH_SHORT, GB.ERROR, ex);
         }
     }
 
@@ -51,8 +51,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
             }
             LOG.info("activity database is now at version " + newVersion);
         } catch (RuntimeException ex) {
-            LOG.error("Error upgrading db version. ", ex);
-            Toast.makeText(GBApplication.getContext(), "Error upgrading database.", Toast.LENGTH_SHORT).show();
+            GB.toast("Error upgrading database.", Toast.LENGTH_SHORT, GB.ERROR, ex);
             throw ex; // reject upgrade
         }
     }
@@ -69,8 +68,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
             }
             LOG.info("activity database is now at version " + newVersion);
         } catch (RuntimeException ex) {
-            LOG.error("Error downgrading db version. ", ex);
-            Toast.makeText(GBApplication.getContext(), "Error downgrading database.", Toast.LENGTH_SHORT).show();
+            GB.toast("Error downgrading database.", Toast.LENGTH_SHORT, GB.ERROR, ex);
             throw ex; // reject downgrade
         }
     }

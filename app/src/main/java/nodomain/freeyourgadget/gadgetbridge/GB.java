@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -8,7 +9,10 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +34,9 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.TimeChangeReceiver;
 public class GB {
     public static final int NOTIFICATION_ID = 1;
     private static final Logger LOG = LoggerFactory.getLogger(GB.class);
+    public static final int INFO = 1;
+    public static final int WARN = 2;
+    public static final int ERROR = 3;
 
     public static Notification createNotification(String text, Context context) {
         Intent notificationIntent = new Intent(context, ControlCenter.class);
@@ -159,5 +166,86 @@ public class GB {
         }
 
         return true;
+    }
+
+    /**
+     * Creates and display a Toast message using the application context.
+     * Additionally the toast is logged using the provided severity.
+     * Can be called from any thread.
+     * @param message the message to display.
+     * @param displayTime something like Toast.LENGTH_SHORT
+     * @param severity either INFO, WARNING, ERROR
+     */
+    public static void toast(String message, int displayTime, int severity) {
+        toast(GBApplication.getContext(), message, displayTime, severity, null);
+    }
+
+    /**
+     * Creates and display a Toast message using the application context.
+     * Additionally the toast is logged using the provided severity.
+     * Can be called from any thread.
+     * @param message the message to display.
+     * @param displayTime something like Toast.LENGTH_SHORT
+     * @param severity either INFO, WARNING, ERROR
+     */
+    public static void toast(String message, int displayTime, int severity, Throwable ex) {
+        toast(GBApplication.getContext(), message, displayTime, severity, ex);
+    }
+
+    /**
+     * Creates and display a Toast message using the application context
+     * Can be called from any thread.
+     * @param context the context to use
+     * @param message the message to display
+     * @param displayTime something like Toast.LENGTH_SHORT
+     * @param severity either INFO, WARNING, ERROR
+     */
+    public static void toast(final Context context, final String message, final int displayTime, final int severity) {
+       toast(context, message, displayTime, severity, null);
+    }
+
+    /**
+     * Creates and display a Toast message using the application context
+     * Can be called from any thread.
+     * @param context the context to use
+     * @param message the message to display
+     * @param displayTime something like Toast.LENGTH_SHORT
+     * @param severity either INFO, WARNING, ERROR
+     * @param ex optional exception to be logged
+     */
+    public static void toast(final Context context, final String message, final int displayTime, final int severity, final Throwable ex) {
+        Looper mainLooper = Looper.getMainLooper();
+        if (Thread.currentThread() == mainLooper.getThread()) {
+            log(message, severity, ex);
+            Toast.makeText(context, message, displayTime).show();
+        } else {
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    log(message, severity, ex);
+                    Toast.makeText(context, message, displayTime).show();
+                }
+            };
+
+            if (context instanceof Activity) {
+                ((Activity) context).runOnUiThread(runnable);
+            } else {
+                new Handler(mainLooper).post(runnable);
+            }
+        }
+    }
+
+    private static void log(String message, int severity, Throwable ex) {
+        switch (severity) {
+            case INFO:
+                LOG.info(message, ex);
+                break;
+            case WARN:
+                LOG.warn(message, ex);
+                break;
+            case ERROR:
+                LOG.error(message, ex);
+                break;
+        }
     }
 }
