@@ -67,7 +67,8 @@ public class DBHelper {
     }
 
     public static void dropTable(String tableName, SQLiteDatabase db) {
-        db.delete(tableName, null, null);
+        String statement = "DROP TABLE IF EXISTS '" + tableName + "'";
+        db.execSQL(statement);
     }
 
     /**
