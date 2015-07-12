@@ -15,6 +15,7 @@ import java.util.List;
 import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.R;
 
 public class AbstractChartFragment extends Fragment {
     public static final String ACTION_REFRESH
@@ -86,27 +87,28 @@ public class AbstractChartFragment extends Fragment {
         return GBApplication.getActivityDatabaseHandler().getGBActivitySamples(tsFrom, tsTo, provider);
     }
 
-    protected void configureChartDefaults(Chart<?> mChart) {
+    protected void configureChartDefaults(Chart<?> chart) {
         // if enabled, the chart will always start at zero on the y-axis
+        chart.setNoDataText(getString(R.string.chart_no_data_synchronize));
 
         // disable value highlighting
-        mChart.setHighlightEnabled(false);
+        chart.setHighlightEnabled(false);
 
         // enable touch gestures
-        mChart.setTouchEnabled(true);
+        chart.setTouchEnabled(true);
     }
 
-    protected void configureBarLineChartDefaults(BarLineChartBase<?> mChart) {
-        configureChartDefaults(mChart);
+    protected void configureBarLineChartDefaults(BarLineChartBase<?> chart) {
+        configureChartDefaults(chart);
 
         // enable scaling and dragging
-        mChart.setDragEnabled(true);
-        mChart.setScaleEnabled(true);
+        chart.setDragEnabled(true);
+        chart.setScaleEnabled(true);
 
         // if disabled, scaling can be done on x- and y-axis separately
 //        mChart.setPinchZoom(true);
 
-        mChart.setDrawGridBackground(false);
+        chart.setDrawGridBackground(false);
     }
 
     protected BarEntry createBarEntry(float value, int index) {
