@@ -115,11 +115,10 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
             timestamp_to = Integer.MAX_VALUE; // dont know what happens when I use more than max of a signed int
         }
         ArrayList<GBActivitySample> GBActivitySampleList = new ArrayList<GBActivitySample>();
-        String selectQuery = "SELECT  * FROM " + TABLE_GBACTIVITYSAMPLES
-                + " where (provider=" + provider + " and timestamp>=" + timestamp_from + " and timestamp<=" + timestamp_to + ") order by timestamp";
-
+        final String where = "(provider=" + provider + " and timestamp>=" + timestamp_from + " and timestamp<=" + timestamp_to + ")";
+        final String order = "timestamp";
         try (SQLiteDatabase db = this.getReadableDatabase()) {
-            Cursor cursor = db.rawQuery(selectQuery, null);
+            Cursor cursor = db.query(TABLE_GBACTIVITYSAMPLES, null, where, null, null, null, order);
 
             if (cursor.moveToFirst()) {
                 do {
