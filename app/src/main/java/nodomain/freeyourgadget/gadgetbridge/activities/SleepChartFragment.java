@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.ControlCenter;
@@ -58,7 +59,7 @@ public class SleepChartFragment extends AbstractChartFragment {
                 mSmartAlarmTo = intent.getIntExtra("smartalarm_to", -1);
                 mTimestampFrom = intent.getIntExtra("recording_base_timestamp", -1);
                 mSmartAlarmGoneOff = intent.getIntExtra("alarm_gone_off", -1);
-                refresh();
+                refresh(mGBDevice, mChart);
             }
         }
     };
@@ -116,7 +117,7 @@ public class SleepChartFragment extends AbstractChartFragment {
         yAxisRight.setDrawTopYLabelEntry(false);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
 
-        refresh();
+        refresh(mGBDevice, mChart);
 
         mChart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
 //        mChart.getLegend().setEnabled(false);
@@ -133,149 +134,7 @@ public class SleepChartFragment extends AbstractChartFragment {
         super.onDestroy();
     }
 
-    private void refresh() {
-        if (mGBDevice == null) {
-            return;
-        }
-
-//        ArrayList<GBActivitySample> samples = getTestSamples(mGBDevice, -1, -1);
-        ArrayList<GBActivitySample> samples = getSleepSamples(mGBDevice, -1, -1);
-
-        Calendar cal = Calendar.getInstance();
-        cal.clear();
-        Date date;
-        String dateStringFrom = "";
-        String dateStringTo = "";
-
-        LOG.info("number of samples:" + samples.size());
-        if (samples.size() > 1) {
-            float movement_divisor;
-            boolean annotate = true;
-            boolean use_steps_as_movement;
-            switch (getProvider(mGBDevice)) {
-                case GBActivitySample.PROVIDER_MIBAND:
-                    movement_divisor = 256.0f;
-                    use_steps_as_movement = true;
-                    break;
-                default: // Morpheuz
-                    movement_divisor = 5000.0f;
-                    use_steps_as_movement = false;
-                    break;
-            }
-
-            byte last_type = GBActivitySample.TYPE_UNKNOWN;
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-            SimpleDateFormat annotationDateFormat = new SimpleDateFormat("HH:mm");
-
-            int numEntries = samples.size();
-            List<String> xLabels = new ArrayList<>(numEntries);
-//            List<BarEntry> deepSleepEntries = new ArrayList<>(numEntries / 4);
-//            List<BarEntry> lightSleepEntries = new ArrayList<>(numEntries / 4);
-            List<BarEntry> activityEntries = new ArrayList<>(numEntries);
-            List<Integer> colors = new ArrayList<>(numEntries); // this is kinda inefficient...
-
-            for (int i = 0; i < numEntries; i++) {
-                GBActivitySample sample = samples.get(i);
-                byte type = sample.getType();
-
-                // determine start and end dates
-                if (i == 0) {
-                    cal.setTimeInMillis(sample.getTimestamp() * 1000L); // make sure it's converted to long
-                    date = cal.getTime();
-                    dateStringFrom = dateFormat.format(date);
-                } else if (i == samples.size() - 1) {
-                    cal.setTimeInMillis(sample.getTimestamp() * 1000L); // same here
-                    date = cal.getTime();
-                    dateStringTo = dateFormat.format(date);
-                }
-
-                short movement = sample.getIntensity();
-
-                float value;
-                if (type == GBActivitySample.TYPE_DEEP_SLEEP) {
-//                    value = Y_VALUE_DEEP_SLEEP;
-                    value = ((float) movement) / movement_divisor;
-                    value += SleepUtils.Y_VALUE_DEEP_SLEEP;
-                    activityEntries.add(createBarEntry(value, i));
-                    colors.add(akDeepSleep.color);
-                } else {
-                    if (type == GBActivitySample.TYPE_LIGHT_SLEEP) {
-                        value = ((float) movement) / movement_divisor;
-//                        value += SleepUtils.Y_VALUE_LIGHT_SLEEP;
-//                        value = Math.min(1.0f, Y_VALUE_LIGHT_SLEEP);
-                        activityEntries.add(createBarEntry(value, i));
-                        colors.add(akLightSleep.color);
-                    } else {
-                        byte steps = sample.getSteps();
-                        if (use_steps_as_movement && steps != 0) {
-                            // I'm not sure using steps for this is actually a good idea
-                            movement = steps;
-                        }
-                        value = ((float) movement) / movement_divisor;
-                        activityEntries.add(createBarEntry(value, i));
-                        colors.add(akActivity.color);
-                    }
-                }
-
-                String xLabel = "";
-                if (annotate) {
-                    cal.setTimeInMillis(sample.getTimestamp() * 1000L);
-                    date = cal.getTime();
-                    String dateString = annotationDateFormat.format(date);
-                    xLabel = dateString;
-//                    if (last_type != type) {
-//                        if (isSleep(last_type) && !isSleep(type)) {
-//                            // woken up
-//                            LimitLine line = new LimitLine(i, dateString);
-//                            line.enableDashedLine(8, 8, 0);
-//                            line.setTextColor(Color.WHITE);
-//                            line.setTextSize(15);
-//                            mChart.getXAxis().addLimitLine(line);
-//                        } else if (!isSleep(last_type) && isSleep(type)) {
-//                            // fallen asleep
-//                            LimitLine line = new LimitLine(i, dateString);
-//                            line.enableDashedLine(8, 8, 0);
-//                            line.setTextSize(15);
-//                            line.setTextColor(Color.WHITE);
-//                            mChart.getXAxis().addLimitLine(line);
-//                        }
-//                    }
-                    last_type = type;
-                }
-                xLabels.add(xLabel);
-            }
-
-            mChart.getXAxis().setValues(xLabels);
-
-//            BarDataSet deepSleepSet = createDeepSleepSet(deepSleepEntries, "Deep Sleep");
-//            BarDataSet lightSleepSet = createLightSleepSet(lightSleepEntries, "Light Sleep");
-            BarDataSet activitySet = createActivitySet(activityEntries, colors, "Activity");
-
-            ArrayList<BarDataSet> dataSets = new ArrayList<>();
-//            dataSets.add(deepSleepSet);
-//            dataSets.add(lightSleepSet);
-            dataSets.add(activitySet);
-
-            // create a data object with the datasets
-            BarData data = new BarData(xLabels, dataSets);
-            data.setGroupSpace(0);
-
-            mChart.setDescription(getString(R.string.sleep_activity_date_range, dateStringFrom, dateStringTo));
-//            mChart.setDescriptionPosition(?, ?);
-            // set data
-
-            setupLegend(mChart);
-
-            mChart.setData(data);
-
-            mChart.animateX(500, Easing.EasingOption.EaseInOutQuart);
-
-//            textView.setText(dateStringFrom + " to " + dateStringTo);
-        }
-    }
-
-    private void setupLegend(BarLineChartBase chart) {
+    protected void setupLegend(BarLineChartBase chart) {
         List<Integer> legendColors = new ArrayList<>(3);
         List<String> legendLabels = new ArrayList<>(3);
         legendColors.add(akActivity.color);

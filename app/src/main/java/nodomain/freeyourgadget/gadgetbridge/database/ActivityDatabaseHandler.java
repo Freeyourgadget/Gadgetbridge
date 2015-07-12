@@ -21,6 +21,13 @@ import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.*;
 
 public class ActivityDatabaseHandler extends SQLiteOpenHelper {
 
+    private static final int TYPE_ACTIVITY = 1;
+    private static final int TYPE_LIGHT_SLEEP = 2;
+    private static final int TYPE_DEEP_SLEEP = 4;
+    private static final int TYPE_SLEEP = TYPE_LIGHT_SLEEP | TYPE_DEEP_SLEEP;
+    private static final int TYPE_ALL = TYPE_ACTIVITY | TYPE_SLEEP;
+
+
     private static final Logger LOG = LoggerFactory.getLogger(ActivityDatabaseHandler.class);
 
     private static final int DATABASE_VERSION = 5;
@@ -110,7 +117,28 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
-    public ArrayList<GBActivitySample> getGBActivitySamples(int timestamp_from, int timestamp_to, byte provider) {
+    public ArrayList<GBActivitySample> getSleepSamples(int timestamp_from, int timestamp_to, byte provider) {
+        return getGBActivitySamples(timestamp_from, timestamp_to, TYPE_SLEEP, provider);
+    }
+
+    public ArrayList<GBActivitySample> getActivitySamples(int timestamp_from, int timestamp_to, byte provider) {
+        return getGBActivitySamples(timestamp_from, timestamp_to, TYPE_ACTIVITY, provider);
+    }
+
+    public ArrayList<GBActivitySample> getAllActivitySamples(int timestamp_from, int timestamp_to, byte provider) {
+        return getGBActivitySamples(timestamp_from, timestamp_to, TYPE_ALL, provider);
+    }
+
+    /**
+     * Returns all available activity samples from between the two timestamps (inclusive), of the given
+     * provided and type(s).
+     * @param timestamp_from
+     * @param timestamp_to
+     * @param activityTypes ORed combination of #TYPE_DEEP_SLEEP, #TYPE_LIGHT_SLEEP, #TYPE_ACTIVITY
+     * @param provider
+     * @return
+     */
+    private ArrayList<GBActivitySample> getGBActivitySamples(int timestamp_from, int timestamp_to, int activityTypes, byte provider) {
         if (timestamp_to == -1) {
             timestamp_to = Integer.MAX_VALUE; // dont know what happens when I use more than max of a signed int
         }
