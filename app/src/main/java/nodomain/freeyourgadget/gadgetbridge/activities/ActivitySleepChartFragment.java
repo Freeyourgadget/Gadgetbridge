@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.BarLineChartBase;
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 
@@ -47,7 +48,8 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
                 mSmartAlarmTo = intent.getIntExtra("smartalarm_to", -1);
                 mTimestampFrom = intent.getIntExtra("recording_base_timestamp", -1);
                 mSmartAlarmGoneOff = intent.getIntExtra("alarm_gone_off", -1);
-                refresh(mGBDevice, mChart);
+                List<GBActivitySample> samples = getSamples(mGBDevice, -1, -1);
+                refresh(mGBDevice, mChart, samples);
             }
         }
     };
@@ -68,7 +70,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
 
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver, filter);
 
-        mChart = (BarLineChartBase) rootView.findViewById(R.id.sleepchart);
+        mChart = (BarLineChartBase) rootView.findViewById(R.id.activitysleepchart);
 
         setupChart();
 
@@ -106,7 +108,8 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
         yAxisRight.setDrawTopYLabelEntry(false);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
 
-        refresh(mGBDevice, mChart);
+        List<GBActivitySample> samples = getSamples(mGBDevice, -1, -1);
+        refresh(mGBDevice, mChart, samples);
 
         mChart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
 //        mChart.getLegend().setEnabled(false);
@@ -123,7 +126,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
         super.onDestroy();
     }
 
-    protected void setupLegend(BarLineChartBase chart) {
+    protected void setupLegend(Chart chart) {
         List<Integer> legendColors = new ArrayList<>(3);
         List<String> legendLabels = new ArrayList<>(3);
         legendColors.add(akActivity.color);

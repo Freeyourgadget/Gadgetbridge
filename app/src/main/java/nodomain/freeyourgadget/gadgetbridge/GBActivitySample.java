@@ -33,6 +33,9 @@ public class GBActivitySample {
         this.type = type;
     }
 
+    /**
+     * Timestamp of the sample, resolution is seconds!
+     */
     public int getTimestamp() {
         return timestamp;
     }

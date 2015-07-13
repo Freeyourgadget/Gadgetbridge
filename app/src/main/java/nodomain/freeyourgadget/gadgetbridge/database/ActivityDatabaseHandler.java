@@ -15,6 +15,7 @@ import java.util.Arrays;
 
 import nodomain.freeyourgadget.gadgetbridge.GB;
 import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.charts.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.database.schema.ActivityDBCreationScript;
 
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.DATABASE_NAME;
@@ -26,13 +27,6 @@ import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_TYPE
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.TABLE_GBACTIVITYSAMPLES;
 
 public class ActivityDatabaseHandler extends SQLiteOpenHelper {
-
-    private static final int TYPE_ACTIVITY = 1;
-    private static final int TYPE_LIGHT_SLEEP = 2;
-    private static final int TYPE_DEEP_SLEEP = 4;
-    private static final int TYPE_SLEEP = TYPE_LIGHT_SLEEP | TYPE_DEEP_SLEEP;
-    private static final int TYPE_ALL = TYPE_ACTIVITY | TYPE_SLEEP;
-
 
     private static final Logger LOG = LoggerFactory.getLogger(ActivityDatabaseHandler.class);
 
@@ -124,15 +118,15 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
     }
 
     public ArrayList<GBActivitySample> getSleepSamples(int timestamp_from, int timestamp_to, byte provider) {
-        return getGBActivitySamples(timestamp_from, timestamp_to, TYPE_SLEEP, provider);
+        return getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_SLEEP, provider);
     }
 
     public ArrayList<GBActivitySample> getActivitySamples(int timestamp_from, int timestamp_to, byte provider) {
-        return getGBActivitySamples(timestamp_from, timestamp_to, TYPE_ACTIVITY, provider);
+        return getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_ACTIVITY, provider);
     }
 
     public ArrayList<GBActivitySample> getAllActivitySamples(int timestamp_from, int timestamp_to, byte provider) {
-        return getGBActivitySamples(timestamp_from, timestamp_to, TYPE_ALL, provider);
+        return getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_ALL, provider);
     }
 
     /**
@@ -171,12 +165,12 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
     }
 
     private String getWhereClauseFor(int activityTypes) {
-        if (activityTypes == TYPE_ALL) {
+        if (activityTypes == ActivityKind.TYPE_ALL) {
             return ""; // no further restriction
         }
 
         StringBuilder builder = new StringBuilder(" and (");
-        byte[] dbActivityTypes = mapToDBActivityTypes(activityTypes);
+        byte[] dbActivityTypes = ActivityKind.mapToDBActivityTypes(activityTypes);
         for (int i = 0; i < dbActivityTypes.length; i++) {
             builder.append(" type=").append(dbActivityTypes[i]);
             if (i + 1 < dbActivityTypes.length) {
@@ -185,20 +179,5 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
         }
         builder.append(')');
         return builder.toString();
-    }
-
-    private byte[] mapToDBActivityTypes(int types) {
-        byte[] result = new byte[3];
-        int i = 0;
-        if ((types & TYPE_ACTIVITY) != 0) {
-            result[i++] = GBActivitySample.TYPE_UNKNOWN;
-        }
-        if ((types & TYPE_DEEP_SLEEP) != 0) {
-            result[i++] = GBActivitySample.TYPE_DEEP_SLEEP;
-        }
-        if ((types & TYPE_LIGHT_SLEEP) != 0) {
-            result[i++] = GBActivitySample.TYPE_LIGHT_SLEEP;
-        }
-        return Arrays.copyOf(result, i);
     }
 }

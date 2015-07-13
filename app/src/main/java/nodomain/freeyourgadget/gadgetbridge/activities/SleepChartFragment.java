@@ -11,8 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.BarLineChartBase;
+import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,12 +29,16 @@ import nodomain.freeyourgadget.gadgetbridge.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.charts.ActivityAmount;
+import nodomain.freeyourgadget.gadgetbridge.charts.ActivityAmounts;
+import nodomain.freeyourgadget.gadgetbridge.charts.ActivityAnalysis;
 
 
 public class SleepChartFragment extends AbstractChartFragment {
     protected static final Logger LOG = LoggerFactory.getLogger(ActivitySleepChartFragment.class);
 
-    private BarLineChartBase mChart;
+    private BarLineChartBase mActivityChart;
+    private PieChart mSleepAmountChart;
 
     private int mSmartAlarmFrom = -1;
     private int mSmartAlarmTo = -1;
@@ -47,15 +56,62 @@ public class SleepChartFragment extends AbstractChartFragment {
                 mSmartAlarmTo = intent.getIntExtra("smartalarm_to", -1);
                 mTimestampFrom = intent.getIntExtra("recording_base_timestamp", -1);
                 mSmartAlarmGoneOff = intent.getIntExtra("alarm_gone_off", -1);
-                refresh(mGBDevice, mChart);
+                refresh();
             }
         }
     };
 
+    private void refresh() {
+        List<GBActivitySample> samples = getSamples();
+        refresh(mGBDevice, mActivityChart, getSamples());
+        refreshSleepAmounts(mGBDevice, mSleepAmountChart, samples);
+
+        mActivityChart.invalidate();
+        mSleepAmountChart.invalidate();
+    }
+
+    private List<GBActivitySample> getSamples() {
+        return getSamples(mGBDevice, -1, -1);
+    }
+
+    private void refreshSleepAmounts(GBDevice mGBDevice, PieChart pieChart, List<GBActivitySample> samples) {
+        ActivityAnalysis analysis = new ActivityAnalysis();
+        ActivityAmounts amounts = analysis.calculateActivityAmounts(samples);
+        float hoursOfSleep = amounts.getTotalSeconds() / (float) (60 * 60);
+        pieChart.setCenterText((int)hoursOfSleep + "h"); // FIXME
+        PieData data = new PieData();
+        List<Entry> entries = new ArrayList<>();
+        List<Integer> colors = new ArrayList<>();
+        int index = 0;
+        for (ActivityAmount amount : amounts.getAmounts()) {
+            entries.add(new Entry(amount.getTotalSeconds(), index++));
+            colors.add(getColorFor(amount.getActivityKind()));
+            data.addXValue(amount.getName(getActivity()));
+        }
+        PieDataSet set = new PieDataSet(entries, "Sleep comparison");
+        set.setColors(colors);
+        data.setDataSet(set);
+        pieChart.setData(data);
+
+        setupLegend(pieChart);
+
+        pieChart.invalidate();
+    }
+
+    private Integer getColorFor(int activityKind) {
+        switch (activityKind) {
+            case nodomain.freeyourgadget.gadgetbridge.charts.ActivityKind.TYPE_DEEP_SLEEP:
+                return akDeepSleep.color;
+            case nodomain.freeyourgadget.gadgetbridge.charts.ActivityKind.TYPE_LIGHT_SLEEP:
+                return akLightSleep.color;
+        }
+        return akActivity.color;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_charts, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_sleepchart, container, false);
 
         Bundle extras = getActivity().getIntent().getExtras();
         if (extras != null) {
@@ -68,11 +124,20 @@ public class SleepChartFragment extends AbstractChartFragment {
 
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver, filter);
 
-        mChart = (BarLineChartBase) rootView.findViewById(R.id.sleepchart);
+        mActivityChart = (BarLineChartBase) rootView.findViewById(R.id.sleepchart);
+        mSleepAmountChart = (PieChart) rootView.findViewById(R.id.sleepchart_pie_light_deep);
 
-        setupChart();
+        setupActivityChart();
+        setupSleepAmountChart();
+
+        refresh();
 
         return rootView;
+    }
+
+    private void setupSleepAmountChart() {
+        mSleepAmountChart.setBackgroundColor(BACKGROUND_COLOR);
+        mSleepAmountChart.setDescriptionColor(DESCRIPTION_COLOR);
     }
 
     @Override
@@ -81,19 +146,20 @@ public class SleepChartFragment extends AbstractChartFragment {
         super.onDestroy();
     }
 
-    private void setupChart() {
-        mChart.setBackgroundColor(BACKGROUND_COLOR);
-        mChart.setDescriptionColor(DESCRIPTION_COLOR);
-        configureBarLineChartDefaults(mChart);
 
-        XAxis x = mChart.getXAxis();
+    private void setupActivityChart() {
+        mActivityChart.setBackgroundColor(BACKGROUND_COLOR);
+        mActivityChart.setDescriptionColor(DESCRIPTION_COLOR);
+        configureBarLineChartDefaults(mActivityChart);
+
+        XAxis x = mActivityChart.getXAxis();
         x.setDrawLabels(true);
         x.setDrawGridLines(false);
         x.setEnabled(true);
         x.setTextColor(CHART_TEXT_COLOR);
         x.setDrawLimitLinesBehindData(true);
 
-        YAxis y = mChart.getAxisLeft();
+        YAxis y = mActivityChart.getAxisLeft();
         y.setDrawGridLines(false);
 //        y.setDrawLabels(false);
         // TODO: make fixed max value optional
@@ -104,33 +170,31 @@ public class SleepChartFragment extends AbstractChartFragment {
 //        y.setLabelCount(5);
         y.setEnabled(true);
 
-        YAxis yAxisRight = mChart.getAxisRight();
+        YAxis yAxisRight = mActivityChart.getAxisRight();
         yAxisRight.setDrawGridLines(false);
         yAxisRight.setEnabled(false);
         yAxisRight.setDrawLabels(false);
         yAxisRight.setDrawTopYLabelEntry(false);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
 
-        refresh(mGBDevice, mChart);
-
-        mChart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
-//        mChart.getLegend().setEnabled(false);
+//        mActivityChart.getLegend().setEnabled(false);
 //
-//        mChart.animateXY(2000, 2000);
+//        mActivityChart.animateXY(2000, 2000);
 
         // don't forget to refresh the drawing
-        mChart.invalidate();
+//        mActivityChart.invalidate();
     }
 
-    protected void setupLegend(BarLineChartBase chart) {
-        List<Integer> legendColors = new ArrayList<>(3);
-        List<String> legendLabels = new ArrayList<>(3);
+    protected void setupLegend(Chart chart) {
+        List<Integer> legendColors = new ArrayList<>(2);
+        List<String> legendLabels = new ArrayList<>(2);
         legendColors.add(akLightSleep.color);
         legendLabels.add(akLightSleep.label);
         legendColors.add(akDeepSleep.color);
         legendLabels.add(akDeepSleep.label);
         chart.getLegend().setColors(legendColors);
         chart.getLegend().setLabels(legendLabels);
+        chart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
     }
 
     @Override

@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="nodomain.freeyourgadget.gadgetbridge.activities.ChartsActivity$PlaceholderFragment"
+    android:orientation="vertical">
+
+    <nodomain.freeyourgadget.gadgetbridge.charts.CustomBarChart
+        android:id="@+id/sleepchart"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_weight="20" />
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/sleepchart_pie_light_deep"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="20">
+    </com.github.mikephil.charting.charts.PieChart>
+
+    <TextView
+        android:text="Test"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="20" />
+
+</LinearLayout>

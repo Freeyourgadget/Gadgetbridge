@@ -133,13 +133,10 @@ public abstract class AbstractChartFragment extends Fragment {
         chart.setDrawGridBackground(false);
     }
 
-    protected void refresh(GBDevice mGBDevice, BarLineChartBase chart) {
-        if (mGBDevice == null) {
+    protected void refresh(GBDevice gbDevice, BarLineChartBase chart, List<GBActivitySample> samples) {
+        if (gbDevice == null) {
             return;
         }
-
-//        ArrayList<GBActivitySample> samples = getTestSamples(mGBDevice, -1, -1);
-        List<GBActivitySample> samples = getSamples(mGBDevice, -1, -1);
 
         Calendar cal = GregorianCalendar.getInstance();
         cal.clear();
@@ -152,7 +149,7 @@ public abstract class AbstractChartFragment extends Fragment {
             float movement_divisor;
             boolean annotate = true;
             boolean use_steps_as_movement;
-            switch (getProvider(mGBDevice)) {
+            switch (getProvider(gbDevice)) {
                 case GBActivitySample.PROVIDER_MIBAND:
                     // maybe this should be configurable 256 seems way off, though.
                     movement_divisor = 180.0f; //256.0f;
@@ -278,7 +275,7 @@ public abstract class AbstractChartFragment extends Fragment {
 
     protected abstract List<GBActivitySample> getSamples(GBDevice device, int tsFrom, int tsTo);
 
-    protected abstract void setupLegend(BarLineChartBase chart);
+    protected abstract void setupLegend(Chart chart);
 
         protected BarEntry createBarEntry(float value, int index) {
         return new BarEntry(value, index);

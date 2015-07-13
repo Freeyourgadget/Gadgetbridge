@@ -4,7 +4,7 @@
     tools:context="nodomain.freeyourgadget.gadgetbridge.activities.ChartsActivity$PlaceholderFragment">
 
     <nodomain.freeyourgadget.gadgetbridge.charts.CustomBarChart
-        android:id="@+id/sleepchart"
+        android:id="@+id/activitysleepchart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
