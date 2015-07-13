@@ -154,7 +154,8 @@ public abstract class AbstractChartFragment extends Fragment {
             boolean use_steps_as_movement;
             switch (getProvider(mGBDevice)) {
                 case GBActivitySample.PROVIDER_MIBAND:
-                    movement_divisor = 256.0f;
+                    // maybe this should be configurable 256 seems way off, though.
+                    movement_divisor = 180.0f; //256.0f;
                     use_steps_as_movement = true;
                     break;
                 default: // Morpheuz
