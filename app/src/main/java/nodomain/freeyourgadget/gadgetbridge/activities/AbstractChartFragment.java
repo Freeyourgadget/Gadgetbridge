@@ -67,7 +67,7 @@ public abstract class AbstractChartFragment extends Fragment {
         return provider;
     }
 
-    protected ArrayList<GBActivitySample> getAllSamples(GBDevice device, int tsFrom, int tsTo) {
+    protected List<GBActivitySample> getAllSamples(GBDevice device, int tsFrom, int tsTo) {
         if (tsFrom == -1) {
             tsFrom = getTSLast24Hours();
         }
@@ -80,7 +80,7 @@ public abstract class AbstractChartFragment extends Fragment {
         return (int) ((now / 1000) - (24 * 60 * 60) & 0xffffffff); // -24 hours
     }
 
-    protected ArrayList<GBActivitySample> getActivitySamples(GBDevice device, int tsFrom, int tsTo) {
+    protected List<GBActivitySample> getActivitySamples(GBDevice device, int tsFrom, int tsTo) {
         if (tsFrom == -1) {
             tsFrom = getTSLast24Hours();
         }
@@ -89,7 +89,7 @@ public abstract class AbstractChartFragment extends Fragment {
     }
 
 
-    protected ArrayList<GBActivitySample> getSleepSamples(GBDevice device, int tsFrom, int tsTo) {
+    protected List<GBActivitySample> getSleepSamples(GBDevice device, int tsFrom, int tsTo) {
         if (tsFrom == -1) {
             tsFrom = getTSLast24Hours();
         }
@@ -97,7 +97,7 @@ public abstract class AbstractChartFragment extends Fragment {
         return GBApplication.getActivityDatabaseHandler().getSleepSamples(tsFrom, tsTo, provider);
     }
 
-    protected  ArrayList<GBActivitySample> getTestSamples(GBDevice device, int tsFrom, int tsTo) {
+    protected List<GBActivitySample> getTestSamples(GBDevice device, int tsFrom, int tsTo) {
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.set(2015, Calendar.JUNE, 10, 6, 40);
@@ -139,7 +139,7 @@ public abstract class AbstractChartFragment extends Fragment {
         }
 
 //        ArrayList<GBActivitySample> samples = getTestSamples(mGBDevice, -1, -1);
-        ArrayList<GBActivitySample> samples = getSleepSamples(mGBDevice, -1, -1);
+        List<GBActivitySample> samples = getSamples(mGBDevice, -1, -1);
 
         Calendar cal = GregorianCalendar.getInstance();
         cal.clear();
@@ -274,6 +274,8 @@ public abstract class AbstractChartFragment extends Fragment {
 //            textView.setText(dateStringFrom + " to " + dateStringTo);
         }
     }
+
+    protected abstract List<GBActivitySample> getSamples(GBDevice device, int tsFrom, int tsTo);
 
     protected abstract void setupLegend(BarLineChartBase chart);
 

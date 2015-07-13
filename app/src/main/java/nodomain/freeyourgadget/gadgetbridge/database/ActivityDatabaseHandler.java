@@ -11,13 +11,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import nodomain.freeyourgadget.gadgetbridge.GB;
 import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.schema.ActivityDBCreationScript;
 
-import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.*;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.DATABASE_NAME;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_INTENSITY;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_PROVIDER;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_STEPS;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_TIMESTAMP;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_TYPE;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.TABLE_GBACTIVITYSAMPLES;
 
 public class ActivityDatabaseHandler extends SQLiteOpenHelper {
 
@@ -143,7 +149,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
             timestamp_to = Integer.MAX_VALUE; // dont know what happens when I use more than max of a signed int
         }
         ArrayList<GBActivitySample> GBActivitySampleList = new ArrayList<GBActivitySample>();
-        final String where = "(provider=" + provider + " and timestamp>=" + timestamp_from + " and timestamp<=" + timestamp_to + ")";
+        final String where = "(provider=" + provider + " and timestamp>=" + timestamp_from + " and timestamp<=" + timestamp_to + getWhereClauseFor(activityTypes) +")";
         final String order = "timestamp";
         try (SQLiteDatabase db = this.getReadableDatabase()) {
             Cursor cursor = db.query(TABLE_GBACTIVITYSAMPLES, null, where, null, null, null, order);
@@ -162,5 +168,37 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
         }
 
         return GBActivitySampleList;
+    }
+
+    private String getWhereClauseFor(int activityTypes) {
+        if (activityTypes == TYPE_ALL) {
+            return ""; // no further restriction
+        }
+
+        StringBuilder builder = new StringBuilder(" and (");
+        byte[] dbActivityTypes = mapToDBActivityTypes(activityTypes);
+        for (int i = 0; i < dbActivityTypes.length; i++) {
+            builder.append(" type=").append(dbActivityTypes[i]);
+            if (i + 1 < dbActivityTypes.length) {
+                builder.append(" or ");
+            }
+        }
+        builder.append(')');
+        return builder.toString();
+    }
+
+    private byte[] mapToDBActivityTypes(int types) {
+        byte[] result = new byte[3];
+        int i = 0;
+        if ((types & TYPE_ACTIVITY) != 0) {
+            result[i++] = GBActivitySample.TYPE_UNKNOWN;
+        }
+        if ((types & TYPE_DEEP_SLEEP) != 0) {
+            result[i++] = GBActivitySample.TYPE_DEEP_SLEEP;
+        }
+        if ((types & TYPE_LIGHT_SLEEP) != 0) {
+            result[i++] = GBActivitySample.TYPE_LIGHT_SLEEP;
+        }
+        return Arrays.copyOf(result, i);
     }
 }

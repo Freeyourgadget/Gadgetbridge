@@ -33,6 +33,13 @@ public final class BtLEQueue {
     private GBDevice mGbDevice;
     private BluetoothAdapter mBluetoothAdapter;
     private BluetoothGatt mBluetoothGatt;
+    /**
+     * When an automatic reconnect was attempted after a connection breakdown (error)
+     */
+    private long lastReconnectTime = System.currentTimeMillis();
+
+    private static final long MIN_MILLIS_BEFORE_RECONNECT = 1000 * 60 * 5; // 5 minutes
+
     private volatile BlockingQueue<Transaction> mTransactions = new LinkedBlockingQueue<Transaction>();
     private volatile boolean mDisposed;
     private volatile boolean mCrashed;
@@ -169,16 +176,29 @@ public final class BtLEQueue {
         }
     }
 
-    private void handleDisconnected() {
+    private void handleDisconnected(int status) {
         mTransactions.clear();
         if (mWaitForActionResultLatch != null) {
             mWaitForActionResultLatch.countDown();
         }
         setDeviceConnectionState(State.NOT_CONNECTED);
+
         // either we've been disconnected because the device is out of range
         // or because of an explicit @{link #disconnect())
         // To support automatic reconnection, we keep the mBluetoothGatt instance
-        // alive (we do not close() it).
+        // alive (we do not close() it). Unfortunately we sometimes have problems
+        // reconnecting automatically, so we try to fix this by re-creating mBluetoothGatt.
+        if (status != 0 ) {
+            maybeReconnect();
+        }
+    }
+
+    private void maybeReconnect() {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastReconnectTime >= MIN_MILLIS_BEFORE_RECONNECT) {
+            lastReconnectTime = currentTime;
+            connect();
+        }
     }
 
     public void dispose() {
@@ -259,7 +279,7 @@ public final class BtLEQueue {
                     break;
                 case BluetoothProfile.STATE_DISCONNECTED:
                     LOG.info("Disconnected from GATT server.");
-                    handleDisconnected();
+                    handleDisconnected(status);
                     break;
                 case BluetoothProfile.STATE_CONNECTING:
                     LOG.info("Connecting to GATT server...");

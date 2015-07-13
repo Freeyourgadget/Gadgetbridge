@@ -4,38 +4,26 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.charts.SleepUtils;
 
 
 public class SleepChartFragment extends AbstractChartFragment {
@@ -87,10 +75,16 @@ public class SleepChartFragment extends AbstractChartFragment {
         return rootView;
     }
 
+    @Override
+    public void onDestroy() {
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
+        super.onDestroy();
+    }
+
     private void setupChart() {
         mChart.setBackgroundColor(BACKGROUND_COLOR);
         mChart.setDescriptionColor(DESCRIPTION_COLOR);
-
+        configureBarLineChartDefaults(mChart);
 
         XAxis x = mChart.getXAxis();
         x.setDrawLabels(true);
@@ -128,22 +122,19 @@ public class SleepChartFragment extends AbstractChartFragment {
         mChart.invalidate();
     }
 
-    @Override
-    public void onDestroy() {
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
-        super.onDestroy();
-    }
-
     protected void setupLegend(BarLineChartBase chart) {
         List<Integer> legendColors = new ArrayList<>(3);
         List<String> legendLabels = new ArrayList<>(3);
-        legendColors.add(akActivity.color);
-        legendLabels.add(akActivity.label);
         legendColors.add(akLightSleep.color);
         legendLabels.add(akLightSleep.label);
         legendColors.add(akDeepSleep.color);
         legendLabels.add(akDeepSleep.label);
         chart.getLegend().setColors(legendColors);
         chart.getLegend().setLabels(legendLabels);
+    }
+
+    @Override
+    protected List<GBActivitySample> getSamples(GBDevice device, int tsFrom, int tsTo) {
+        return super.getSleepSamples(device, tsFrom, tsTo);
     }
 }
