@@ -177,6 +177,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     private MorpheuzSupport mMorpheuzSupport = new MorpheuzSupport(PebbleProtocol.this);
     private WeatherNeatSupport mWeatherNeatSupport = new WeatherNeatSupport(PebbleProtocol.this);
+    private GadgetbridgePblSupport mGadgetbridgePblSupport = new GadgetbridgePblSupport(PebbleProtocol.this);
 
     private static byte[] encodeSimpleMessage(short endpoint, byte command) {
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_SIMPLEMESSAGE);
@@ -956,6 +957,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         } else if (MorpheuzSupport.uuid.equals(uuid)) {
                             ArrayList<Pair<Integer, Object>> dict = decodeDict(buf);
                             devEvt = mMorpheuzSupport.handleMessage(dict);
+                        } else if (GadgetbridgePblSupport.uuid.equals(uuid)) {
+                            ArrayList<Pair<Integer, Object>> dict = decodeDict(buf);
+                            devEvt = mGadgetbridgePblSupport.handleMessage(dict);
                         }
                         break;
                     case APPLICATIONMESSAGE_ACK:
