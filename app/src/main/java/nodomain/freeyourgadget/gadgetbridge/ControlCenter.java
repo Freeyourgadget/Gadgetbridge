@@ -40,10 +40,10 @@ public class ControlCenter extends Activity {
     private static final Logger LOG = LoggerFactory.getLogger(ControlCenter.class);
 
     public static final String ACTION_QUIT
-            = "nodomain.freeyourgadget.gadgetbride.controlcenter.action.quit";
+            = "nodomain.freeyourgadget.gadgetbridge.controlcenter.action.quit";
 
     public static final String ACTION_REFRESH_DEVICELIST
-            = "nodomain.freeyourgadget.gadgetbride.controlcenter.action.set_version";
+            = "nodomain.freeyourgadget.gadgetbridge.controlcenter.action.set_version";
 
     TextView hintTextView;
     ListView deviceListView;

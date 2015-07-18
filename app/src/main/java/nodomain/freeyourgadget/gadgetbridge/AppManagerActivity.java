@@ -26,7 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAppAdapter;
 
 public class AppManagerActivity extends Activity {
     public static final String ACTION_REFRESH_APPLIST
-            = "nodomain.freeyourgadget.gadgetbride.appmanager.action.refresh_applist";
+            = "nodomain.freeyourgadget.gadgetbridge.appmanager.action.refresh_applist";
     private static final Logger LOG = LoggerFactory.getLogger(AppManagerActivity.class);
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {

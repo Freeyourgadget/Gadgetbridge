@@ -30,38 +30,38 @@ import nodomain.freeyourgadget.gadgetbridge.pebble.PebbleSupport;
 
 public class BluetoothCommunicationService extends Service {
     public static final String ACTION_START
-            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.start";
+            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.start";
     public static final String ACTION_CONNECT
-            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.connect";
+            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.connect";
     public static final String ACTION_NOTIFICATION_GENERIC
-            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.notification_generic";
+            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.notification_generic";
     public static final String ACTION_NOTIFICATION_SMS
-            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.notification_sms";
+            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.notification_sms";
     public static final String ACTION_NOTIFICATION_EMAIL
-            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.notification_email";
+            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.notification_email";
     public static final String ACTION_CALLSTATE
-            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.callstate";
+            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.callstate";
     public static final String ACTION_SETTIME
-            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.settime";
+            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.settime";
     public static final String ACTION_SETMUSICINFO
-            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.setmusicinfo";
+            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.setmusicinfo";
     public static final String ACTION_REQUEST_VERSIONINFO
-            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.request_versioninfo";
+            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.request_versioninfo";
     public static final String ACTION_REQUEST_APPINFO
-            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.request_appinfo";
+            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.request_appinfo";
     public static final String ACTION_REQUEST_SCREENSHOT
-            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.request_screenshot";
+            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.request_screenshot";
     public static final String ACTION_STARTAPP
-            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.startapp";
+            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.startapp";
     public static final String ACTION_DELETEAPP
-            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.deleteapp";
+            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.deleteapp";
     public static final String ACTION_INSTALL_PEBBLEAPP
-            = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.install_pebbbleapp";
-    public static final String ACTION_REBOOT = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.reboot";
-    public static final String ACTION_FETCH_ACTIVITY_DATA = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.fetch_activity_data";
-    public static final String ACTION_DISCONNECT = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.disconnect";
-    public static final String ACTION_FIND_DEVICE = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.find_device";
-    public static final String ACTION_SET_ALARMS = "nodomain.freeyourgadget.gadgetbride.bluetoothcommunicationservice.action.set_alarms";
+            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.install_pebbbleapp";
+    public static final String ACTION_REBOOT = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.reboot";
+    public static final String ACTION_FETCH_ACTIVITY_DATA = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.fetch_activity_data";
+    public static final String ACTION_DISCONNECT = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.disconnect";
+    public static final String ACTION_FIND_DEVICE = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.find_device";
+    public static final String ACTION_SET_ALARMS = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.set_alarms";
 
     public static final String EXTRA_PERFORM_PAIR = "perform_pair";
 

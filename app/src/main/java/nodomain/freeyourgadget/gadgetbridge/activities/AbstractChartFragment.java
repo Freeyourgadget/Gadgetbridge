@@ -30,7 +30,7 @@ public abstract class AbstractChartFragment extends Fragment {
     private static final Logger LOG = LoggerFactory.getLogger(ActivitySleepChartFragment.class);
 
     public static final String ACTION_REFRESH
-            = "nodomain.freeyourgadget.gadgetbride.chart.action.refresh";
+            = "nodomain.freeyourgadget.gadgetbridge.chart.action.refresh";
 
 
     protected static final class ActivityKind {

@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 public class GBDevice implements Parcelable {
     public static final String ACTION_DEVICE_CHANGED
-            = "nodomain.freeyourgadget.gadgetbride.gbdevice.action.device_changed";
+            = "nodomain.freeyourgadget.gadgetbridge.gbdevice.action.device_changed";
     public static final Creator<GBDevice> CREATOR = new Creator<GBDevice>() {
         @Override
         public GBDevice createFromParcel(Parcel source) {
