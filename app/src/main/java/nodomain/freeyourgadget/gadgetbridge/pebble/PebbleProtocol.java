@@ -233,45 +233,39 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    @Override
-    public byte[] encodeSMS(String from, String body) {
+    private byte[] encodeNotification(int id, String title, String subtitle, String body, byte type) {
         Long ts = System.currentTimeMillis();
         ts += (SimpleTimeZone.getDefault().getOffset(ts));
         ts /= 1000;
 
-        if (isFw3x && mForceProtocol) {
-            String[] parts = {from, null, body};
+        if (isFw3x) {
+            // 3.x notification
+            String[] parts = {title, subtitle, body};
             return encodeBlobdbNotification((int) (ts & 0xffffffff), parts);
-        } else if (!isFw3x && !mForceProtocol) {
-            String[] parts = {from, body, ts.toString()};
-            return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_SMS, 0, parts);
+        } else if (mForceProtocol) {
+            // 2.x notification
+            String[] parts = {title, subtitle, body};
+            return encodeExtensibleNotification(id, (int) (ts & 0xffffffff), parts);
+        } else {
+            // 1.x notification on FW 2.X
+            String[] parts = {title, body, ts.toString(), subtitle};
+            return encodeMessage(ENDPOINT_NOTIFICATION, type, 0, parts);
         }
+    }
 
-        String[] parts = {from, null, body};
-        return encodeExtensibleNotification(mRandom.nextInt(), (int) (ts & 0xffffffff), parts);
+    @Override
+    public byte[] encodeSMS(String from, String body) {
+        return encodeNotification(mRandom.nextInt(), from, null, body, NOTIFICATION_SMS);
     }
 
     @Override
     public byte[] encodeEmail(String from, String subject, String body) {
-        Long ts = System.currentTimeMillis();
-        ts += (SimpleTimeZone.getDefault().getOffset(ts));
-        ts /= 1000;
-
-        if (isFw3x && mForceProtocol) {
-            String[] parts = {from, subject, body};
-            return encodeBlobdbNotification((int) (ts & 0xffffffff), parts);
-        } else if (!isFw3x && !mForceProtocol) {
-            String[] parts = {from, body, ts.toString(), subject};
-            return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_EMAIL, 0, parts);
-        }
-
-        String[] parts = {from, subject, body};
-        return encodeExtensibleNotification(mRandom.nextInt(), (int) (ts & 0xffffffff), parts);
+        return encodeNotification(mRandom.nextInt(), from, subject, body, NOTIFICATION_EMAIL);
     }
 
     @Override
     public byte[] encodeGenericNotification(String title, String details) {
-        return encodeSMS(title, details);
+        return encodeNotification(mRandom.nextInt(), title, null, details, NOTIFICATION_SMS);
     }
 
     @Override
