@@ -687,12 +687,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         LOG.info("handleControlPoint got status:" + status);
 
         if (getDevice().isBusy()) {
-            if (isActivityDataSyncFinished(value)) {
-                unsetBusy();
-            } else {
                 if (value != null && value.length == 9 && value[0] == 0xa) {
                     handleActivityCheckpoint(value);
-                }
             }
         }
         if (value != null) {
@@ -720,18 +716,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         flushActivityDataHolder();
     }
 
-    private boolean isActivityDataSyncFinished(byte[] value) {
-        // byte 0 is the kind of message
-        // byte 1 to 6 represent a timestamp
-        // byte 7 to 8 represent the amount of data left (0 = done)
-        if (value.length == 9) {
-            if (value[0] == 0xa && value[7] == 0 && value[8] == 0) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private void unsetBusy() {
         getDevice().unsetBusyTask();
         getDevice().sendDeviceUpdateIntent(getContext());
@@ -753,6 +737,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             TransactionBuilder builder = performInitialized("send acknowledge");
             builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), ack);
             builder.queue(getQueue());
+            //The last data chunk sent by the miband has always length 0.
+            //When we ack this chunk, the transfer is done.
+            if(getDevice().isBusy() && bytesTransferred==0) {
+                unsetBusy();
+            }
         } catch (IOException ex) {
             LOG.error("Unable to send ack to MI", ex);
         }
