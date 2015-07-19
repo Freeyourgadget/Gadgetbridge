@@ -152,4 +152,5 @@
     <string name="user_feedback_miband_set_alarms_failed">There was an error setting the alarms, please try again!</string>
     <string name="user_feedback_miband_set_alarms_ok">Alarms sent to device!</string>
     <string name="chart_no_data_synchronize">No data. Synchronize device?</string>
+    <string name="user_feedback_miband_activity_data_transfer">About to transfer %1$s minute(s) of data starting from %2$s</string>
 </resources>
