@@ -4,4 +4,9 @@
     tools:context="nodomain.freeyourgadget.gadgetbridge.activities.ChartsActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+
+    <item
+        android:id="@+id/charts_fetch_activity_data"
+        android:title="@string/controlcenter_fetch_activity_data"/>
+
 </menu>

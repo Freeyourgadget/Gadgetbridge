@@ -108,6 +108,7 @@ public class ControlCenter extends Activity {
                     Class<? extends Activity> primaryActivity = coordinator.getPrimaryActivity();
                     if (primaryActivity != null) {
                         Intent startIntent = new Intent(ControlCenter.this, primaryActivity);
+                        startIntent.putExtra(GBDevice.EXTRA_DEVICE, gbDevice);
                         startActivity(startIntent);
                     }
                 } else {

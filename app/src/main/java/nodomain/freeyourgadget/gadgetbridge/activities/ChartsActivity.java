@@ -1,24 +1,39 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Locale;
 
+import nodomain.freeyourgadget.gadgetbridge.BluetoothCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.ControlCenter;
+import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
 public class ChartsActivity extends FragmentActivity {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ChartsActivity.class);
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -28,17 +43,55 @@ public class ChartsActivity extends FragmentActivity {
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
-    SectionsPagerAdapter mSectionsPagerAdapter;
+    private SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    ViewPager mViewPager;
+    private ViewPager mViewPager;
+
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            switch (action) {
+                case ControlCenter.ACTION_QUIT:
+                    finish();
+                    break;
+                case ControlCenter.ACTION_REFRESH_DEVICELIST:
+                    break;
+                case GBDevice.ACTION_DEVICE_CHANGED:
+                    GBDevice dev = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
+                    refreshBusyState(dev);
+                    break;
+            }
+        }
+    };
+    private ProgressBar mProgressBar;
+
+    private void refreshBusyState(GBDevice dev) {
+        if (dev.isBusy()) {
+            mProgressBar.setVisibility(View.VISIBLE);
+        } else {
+            boolean wasBusy = mProgressBar.getVisibility() != View.GONE;
+            if (wasBusy) {
+                mProgressBar.setVisibility(View.GONE);
+                // TODO: refresh current fragment
+                LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(AbstractChartFragment.ACTION_REFRESH));
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charts);
+
+        IntentFilter filterLocal = new IntentFilter();
+        filterLocal.addAction(ControlCenter.ACTION_QUIT);
+        filterLocal.addAction(ControlCenter.ACTION_REFRESH_DEVICELIST);
+        filterLocal.addAction(GBDevice.ACTION_DEVICE_CHANGED);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
 
 
         // Create the adapter that will return a fragment for each of the three
@@ -49,6 +102,35 @@ public class ChartsActivity extends FragmentActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        mProgressBar = (ProgressBar) findViewById(R.id.charts_progress);
+    }
+
+    @Override
+    protected void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+        super.onDestroy();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_charts, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.charts_fetch_activity_data:
+                Intent startIntent = new Intent(this, BluetoothCommunicationService.class);
+                startIntent.setAction(BluetoothCommunicationService.ACTION_FETCH_ACTIVITY_DATA);
+                startService(startIntent);
+                return true;
+            default:
+            break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     /**
