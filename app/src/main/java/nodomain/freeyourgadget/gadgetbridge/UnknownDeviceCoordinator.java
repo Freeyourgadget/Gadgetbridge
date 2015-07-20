@@ -24,4 +24,9 @@ public class UnknownDeviceCoordinator implements DeviceCoordinator {
     public Class<? extends Activity> getPairingActivity() {
         return ControlCenter.class;
     }
+
+    @Override
+    public Class<? extends Activity> getPrimaryActivity() {
+        return null;
+    }
 }

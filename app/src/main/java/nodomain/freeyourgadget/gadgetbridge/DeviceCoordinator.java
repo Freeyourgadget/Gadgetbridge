@@ -14,4 +14,6 @@ public interface DeviceCoordinator {
     DeviceType getDeviceType();
 
     Class<? extends Activity> getPairingActivity();
+
+    Class<? extends Activity> getPrimaryActivity();
 }

@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.pebble;
 
 import android.app.Activity;
 
+import nodomain.freeyourgadget.gadgetbridge.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
@@ -26,5 +27,9 @@ public class PebbleCoordinator implements DeviceCoordinator {
     @Override
     public Class<? extends Activity> getPairingActivity() {
         return null;
+    }
+
+    public Class<? extends Activity> getPrimaryActivity() {
+        return AppManagerActivity.class;
     }
 }

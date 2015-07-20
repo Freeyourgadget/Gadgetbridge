@@ -9,10 +9,12 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Calendar;
 
+import nodomain.freeyourgadget.gadgetbridge.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.activities.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.discovery.DeviceCandidate;
 
 public class MiBandCoordinator implements DeviceCoordinator {
@@ -36,6 +38,10 @@ public class MiBandCoordinator implements DeviceCoordinator {
     @Override
     public Class<? extends Activity> getPairingActivity() {
         return MiBandPairingActivity.class;
+    }
+
+    public Class<? extends Activity> getPrimaryActivity() {
+        return ChartsActivity.class;
     }
 
     public static boolean hasValidUserInfo() {
