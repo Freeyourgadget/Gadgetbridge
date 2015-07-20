@@ -19,6 +19,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppManagementResult;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDismissNotification;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
@@ -244,8 +245,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             return encodeBlobdbNotification((int) (ts & 0xffffffff), parts);
         } else if (mForceProtocol) {
             // 2.x notification
-            String[] parts = {title, subtitle, body};
-            return encodeExtensibleNotification(id, (int) (ts & 0xffffffff), parts);
+            return encodeExtensibleNotification(id, (int) (ts & 0xffffffff), title, subtitle, body, type);
         } else {
             // 1.x notification on FW 2.X
             String[] parts = {title, body, ts.toString(), subtitle};
@@ -289,11 +289,13 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return encodeSetCallState("Where are you?", "Gadgetbridge", start ? GBCommand.CALL_INCOMING : GBCommand.CALL_END);
     }
 
-    private static byte[] encodeExtensibleNotification(int id, int timestamp, String[] parts) {
+    private static byte[] encodeExtensibleNotification(int id, int timestamp, String title, String subtitle, String body, byte type) {
+        String[] parts = {title, subtitle, body};
+
         // Calculate length first
         byte attributes_count = 0;
 
-        int length = 21;
+        int length = 21 + 17;
         if (parts != null) {
             for (String s : parts) {
                 if (s == null || s.equals("")) {
@@ -321,7 +323,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putInt(timestamp);
         buf.put((byte) 0x01); // layout - ?
         buf.put(attributes_count); // length attributes
-        buf.put((byte) 0); // len actions - none so far
+        buf.put((byte) 1); // len actions - only dismiss
 
         byte attribute_id = 0;
         // Encode Pascal-Style Strings
@@ -340,17 +342,15 @@ public class PebbleProtocol extends GBDeviceProtocol {
             }
         }
         // ACTION
-        /*
         buf.put((byte) 0x01);
-        buf.put((byte) 0x02);
+        buf.put((byte) 0x04);
         buf.put((byte) 0x01);
 
-        String actionstring = "test";
+        String actionstring = "dismiss all";
 
         buf.put((byte) 0x01);
-        buf.putShort((short) 4);
-        buf.put(actionstring.getBytes(), 0, 4);
-        */
+        buf.putShort((short) actionstring.length());
+        buf.put(actionstring.getBytes());
         return buf.array();
     }
 
@@ -773,6 +773,23 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return null;
     }
 
+    private GBDeviceEvent decodeResponseExtensibleNotifs(ByteBuffer buf, int length) {
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+
+        byte command = buf.get();
+        if (command == 0x02) { // dismiss notification ?
+            int id = buf.getInt();
+            short unk = buf.getShort();
+            if (unk == 0x0001) {
+                GBDeviceEventDismissNotification devEvtDismissNotification = new GBDeviceEventDismissNotification();
+                devEvtDismissNotification.notificationID = id;
+                return devEvtDismissNotification;
+            }
+        }
+
+        return null;
+    }
+
     @Override
     public GBDeviceEvent decodeResponse(byte[] responseData) {
         ByteBuffer buf = ByteBuffer.wrap(responseData);
@@ -996,6 +1013,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 break;
             case ENDPOINT_SCREENSHOT:
                 devEvt = decodeResponseScreenshot(buf, length);
+                break;
+            case ENDPOINT_EXTENSIBLENOTIFS:
+                devEvt = decodeResponseExtensibleNotifs(buf, length);
                 break;
             default:
                 break;
