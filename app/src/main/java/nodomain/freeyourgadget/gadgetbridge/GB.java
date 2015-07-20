@@ -14,6 +14,8 @@ import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
+import com.github.pfichtner.durationformatter.DurationFormatter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.K9Receiver;
@@ -247,5 +250,15 @@ public class GB {
                 LOG.error(message, ex);
                 break;
         }
+    }
+
+    public static String formatDurationHoursMinutes(long duration, TimeUnit unit) {
+        DurationFormatter df = DurationFormatter.Builder.SYMBOLS
+                .maximum(TimeUnit.DAYS)
+                .minimum(TimeUnit.MINUTES)
+                .suppressZeros(DurationFormatter.SuppressZeros.LEADING)
+                .maximumAmountOfUnitsToShow(2)
+                .build();
+        return df.format(duration, unit);
     }
 }

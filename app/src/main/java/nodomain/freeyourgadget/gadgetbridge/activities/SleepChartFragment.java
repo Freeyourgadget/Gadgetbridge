@@ -18,14 +18,18 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.utils.ValueFormatter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.ControlCenter;
+import nodomain.freeyourgadget.gadgetbridge.GB;
 import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -77,18 +81,25 @@ public class SleepChartFragment extends AbstractChartFragment {
     private void refreshSleepAmounts(GBDevice mGBDevice, PieChart pieChart, List<GBActivitySample> samples) {
         ActivityAnalysis analysis = new ActivityAnalysis();
         ActivityAmounts amounts = analysis.calculateActivityAmounts(samples);
-        float hoursOfSleep = amounts.getTotalSeconds() / (float) (60 * 60);
-        pieChart.setCenterText((int)hoursOfSleep + "h"); // FIXME
+        String totalSleep = GB.formatDurationHoursMinutes(amounts.getTotalSeconds(), TimeUnit.SECONDS);
+        pieChart.setCenterText(totalSleep);
         PieData data = new PieData();
         List<Entry> entries = new ArrayList<>();
         List<Integer> colors = new ArrayList<>();
         int index = 0;
         for (ActivityAmount amount : amounts.getAmounts()) {
+            long value = amount.getTotalSeconds();
             entries.add(new Entry(amount.getTotalSeconds(), index++));
             colors.add(getColorFor(amount.getActivityKind()));
             data.addXValue(amount.getName(getActivity()));
         }
-        PieDataSet set = new PieDataSet(entries, "Sleep comparison");
+        PieDataSet set = new PieDataSet(entries, "");
+        set.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                return GB.formatDurationHoursMinutes((long)value, TimeUnit.SECONDS);
+            }
+        });
         set.setColors(colors);
         data.setDataSet(set);
         pieChart.setData(data);
@@ -96,16 +107,6 @@ public class SleepChartFragment extends AbstractChartFragment {
         setupLegend(pieChart);
 
         pieChart.invalidate();
-    }
-
-    private Integer getColorFor(int activityKind) {
-        switch (activityKind) {
-            case nodomain.freeyourgadget.gadgetbridge.charts.ActivityKind.TYPE_DEEP_SLEEP:
-                return akDeepSleep.color;
-            case nodomain.freeyourgadget.gadgetbridge.charts.ActivityKind.TYPE_LIGHT_SLEEP:
-                return akLightSleep.color;
-        }
-        return akActivity.color;
     }
 
     @Override
@@ -138,6 +139,9 @@ public class SleepChartFragment extends AbstractChartFragment {
     private void setupSleepAmountChart() {
         mSleepAmountChart.setBackgroundColor(BACKGROUND_COLOR);
         mSleepAmountChart.setDescriptionColor(DESCRIPTION_COLOR);
+        mSleepAmountChart.setDescription("");
+        mSleepAmountChart.setNoDataTextDescription("");
+        mSleepAmountChart.setNoDataText("");
     }
 
     @Override

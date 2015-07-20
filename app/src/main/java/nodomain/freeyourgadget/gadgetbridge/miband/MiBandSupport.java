@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GB;
 import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
@@ -652,7 +653,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             // after dataUntilNextHeader bytes we will get a new packet of 11 bytes that should be parsed
             // as we just did
 
-            GB.toast(getContext().getString(R.string.user_feedback_miband_activity_data_transfer,(dataUntilNextHeader / 3), DateFormat.getDateTimeInstance().format(timestamp.getTime())), Toast.LENGTH_SHORT, GB.INFO);
+            if (dataUntilNextHeader != 0) {
+                GB.toast(getContext().getString(R.string.user_feedback_miband_activity_data_transfer,
+                        GB.formatDurationHoursMinutes(dataUntilNextHeader / 3, TimeUnit.MINUTES),
+                        DateFormat.getDateTimeInstance().format(timestamp.getTime())), Toast.LENGTH_LONG, GB.INFO);
+            }
             LOG.info("total data to read: " + totalDataToRead + " len: " + (totalDataToRead / 3) + " minute(s)");
             LOG.info("data to read until next header: " + dataUntilNextHeader + " len: " + (dataUntilNextHeader / 3) + " minute(s)");
             LOG.info("TIMESTAMP: " + DateFormat.getDateTimeInstance().format(timestamp.getTime()).toString() + " magic byte: " + dataUntilNextHeader);

@@ -24,6 +24,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.charts.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.charts.SleepUtils;
 
 public abstract class AbstractChartFragment extends Fragment {
@@ -53,6 +54,18 @@ public abstract class AbstractChartFragment extends Fragment {
     protected static final int DESCRIPTION_COLOR = Color.WHITE;
     protected static final int CHART_TEXT_COLOR = Color.WHITE;
     protected static final int LEGEND_TEXT_COLOR = Color.WHITE;
+
+    protected Integer getColorFor(int activityKind) {
+        switch (activityKind) {
+            case nodomain.freeyourgadget.gadgetbridge.charts.ActivityKind.TYPE_DEEP_SLEEP:
+                return akDeepSleep.color;
+            case nodomain.freeyourgadget.gadgetbridge.charts.ActivityKind.TYPE_LIGHT_SLEEP:
+                return akLightSleep.color;
+            case nodomain.freeyourgadget.gadgetbridge.charts.ActivityKind.TYPE_ACTIVITY:
+                    return akActivity.color;
+        }
+        return akActivity.color;
+    }
 
     protected byte getProvider(GBDevice device) {
         byte provider = -1;
