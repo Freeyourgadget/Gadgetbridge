@@ -2,13 +2,17 @@ package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
 import android.app.ActivityManager;
 import android.app.Notification;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
+import android.support.v4.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,13 +23,30 @@ public class NotificationListener extends NotificationListenerService {
 
     private static final Logger LOG = LoggerFactory.getLogger(NotificationListener.class);
 
+    public static final String ACTION_DISMISS
+            = "nodomain.freeyourgadget.gadgetbridge.notificationlistener.action.dismiss";
+
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(ACTION_DISMISS)) {
+                NotificationListener.this.cancelAllNotifications();
+            }
+        }
+    };
+
     @Override
     public void onCreate() {
         super.onCreate();
+        IntentFilter filterLocal = new IntentFilter();
+        filterLocal.addAction(ACTION_DISMISS);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
     }
 
     @Override
     public void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
         super.onDestroy();
     }
 
@@ -49,7 +70,6 @@ public class NotificationListener extends NotificationListenerService {
         if (!isServiceRunning) {
             return;
         }
-
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (!sharedPrefs.getBoolean("notifications_generic_whenscreenon", false)) {

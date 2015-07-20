@@ -14,6 +14,7 @@ public abstract class GBDeviceEvent {
         SEND_BYTES,
         SLEEP_MONITOR_RES,
         SCREENSHOT,
+        DISMISS_NOTIFICATION,
     }
 }
 

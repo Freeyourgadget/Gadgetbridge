@@ -22,10 +22,12 @@ import nodomain.freeyourgadget.gadgetbridge.activities.AbstractChartFragment;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDismissNotification;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSleepMonitorResult;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
 
 // TODO: support option for a single reminder notification when notifications could not be delivered?
 // conditions: app was running and received notifications, but device was not connected.
@@ -88,6 +90,9 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                 break;
             case SCREENSHOT:
                 handleGBDeviceEvent((GBDeviceEventScreenshot) deviceEvent);
+                break;
+            case DISMISS_NOTIFICATION:
+                handleGBDeviceEvent((GBDeviceEventDismissNotification) deviceEvent);
                 break;
             default:
                 break;
@@ -188,5 +193,13 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             nm.notify(NOTIFICATION_ID_SCREENSHOT, notif);
         }
+    }
+
+    private void handleGBDeviceEvent(GBDeviceEventDismissNotification deviceEvent) {
+        Context context = getContext();
+        LOG.info("Got DISMISS_NOTIFICATION device event");
+        Intent notificationListenerIntent = new Intent(NotificationListener.ACTION_DISMISS);
+        notificationListenerIntent.putExtra("id", deviceEvent.notificationID);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(notificationListenerIntent);
     }
 }
