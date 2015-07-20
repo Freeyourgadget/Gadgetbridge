@@ -59,6 +59,16 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(MiBandSupport.class);
 
+    public static final int MODE_CHARGING = 6;
+    public static final int MODE_NONWEAR = 3;
+    public static final int MODE_NREM = 5;
+    public static final int MODE_ONBED = 7;
+    public static final int MODE_REM = 4;
+    public static final int MODE_RUNNING = 2;
+    public static final int MODE_SLIENT = 0;
+    public static final int MODE_USER = 100;
+    public static final int MODE_WALKING = 1;
+
     //temporary buffer, size is a multiple of 60 because we want to store complete minutes (1 minute = 3 bytes)
     private static final int activityDataHolderSize = 3 * 60 * 4; // 8h
     private byte[] activityDataHolder = new byte[activityDataHolderSize];
@@ -74,7 +84,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private GregorianCalendar activityDataTimestampToAck = null;
     private volatile boolean telephoneRinging;
     private volatile boolean isLocatingDevice;
-
 
     public MiBandSupport() {
         addSupportedService(MiBandService.UUID_SERVICE_MIBAND_SERVICE);
@@ -478,6 +487,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     public void onFetchActivityData() {
         try {
             TransactionBuilder builder = performInitialized("fetch activity data");
+//            builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_LE_PARAMS), getLowLatency());
             builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.busy_task_fetch_activity_data), getContext()));
             builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), fetch);
             builder.queue(getQueue());
@@ -565,7 +575,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-
     private void queueAlarm(GBAlarm alarm, TransactionBuilder builder, BluetoothGattCharacteristic characteristic) {
         Calendar alarmCal = alarm.getAlarmCal();
         byte[] alarmMessage = new byte[]{
@@ -611,11 +620,14 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             LOG.info("TIMESTAMP: " + DateFormat.getDateTimeInstance().format(timestamp.getTime()).toString() + " magic byte: " + dataUntilNextHeader);
 
             this.activityDataRemainingBytes = this.activityDataUntilNextHeader = dataUntilNextHeader;
-            this.activityDataTimestampProgress = this.activityDataTimestampToAck = timestamp;
+            this.activityDataTimestampToAck = (GregorianCalendar) timestamp.clone();
+            this.activityDataTimestampProgress = timestamp;
 
         } else {
             bufferActivityData(value);
         }
+        LOG.debug("activity data: length: " + value.length + ", remaining bytes: " + activityDataRemainingBytes);
+
         if (this.activityDataRemainingBytes == 0) {
             sendAckDataTransfer(this.activityDataTimestampToAck, this.activityDataUntilNextHeader);
             flushActivityDataHolder();
@@ -658,7 +670,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void flushActivityDataHolder() {
-        GregorianCalendar timestamp = this.activityDataTimestampProgress;
         byte category, intensity, steps;
 
         ActivityDatabaseHandler dbHandler = GBApplication.getActivityDatabaseHandler();
@@ -669,16 +680,15 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 steps = this.activityDataHolder[i + 2];
 
                 dbHandler.addGBActivitySample(
-                        (int) (timestamp.getTimeInMillis() / 1000),
+                        (int) (activityDataTimestampProgress.getTimeInMillis() / 1000),
                         GBActivitySample.PROVIDER_MIBAND,
                         intensity,
                         steps,
                         category);
-                timestamp.add(Calendar.MINUTE, 1);
+                activityDataTimestampProgress.add(Calendar.MINUTE, 1);
             }
         } finally {
             this.activityDataHolderProgress = 0;
-            this.activityDataTimestampProgress = timestamp;
         }
     }
 
@@ -689,8 +699,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         LOG.info("handleControlPoint got status:" + status);
 
         if (getDevice().isBusy()) {
-                if (value != null && value.length == 9 && value[0] == 0xa) {
-                    handleActivityCheckpoint(value);
+            if (isActivityDataSyncFinished(value)) {
+                unsetBusy();
             }
         }
         if (value != null) {
@@ -702,20 +712,17 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    // I have no idea if this is anything we could or should do.
-    // For some reason, I got these bytes on the control point characteristic
-    // while in the middle of a activity data transfer:
-    // { 0xa, 0xf, 0x6, 0x5, 0x14, 0xe, 0x15, 0x70, 0x8 }
-    // 'a' = activity, then timestamp, then bytes to read
-    // After this, the communication stops. And this happened again and again
-    // so that I couldn't transfer the remaning data anymore.
-    // My idea was that this might be some kind of checkpointing, asking for an ACK
-    // of the transfer till now.
-    // Commented out for now until it can be reproduced and tested again.
-    private void handleActivityCheckpoint(byte[] value) {
-        GregorianCalendar timestamp = parseTimestamp(value, 1);
-        sendAckDataTransfer(timestamp, activityDataHolderProgress);
-        flushActivityDataHolder();
+    private boolean isActivityDataSyncFinished(byte[] value) {
+        // byte 0 is the kind of message
+        // byte 1 to 6 represent a timestamp
+        // byte 7 to 8 represent the amount of data left (0 = done)
+        LOG.info("finished?: " + GB.hexdump(value, 0, -1));
+        if (value.length == 9) {
+            if (value[0] == 0xa && value[7] == 0 && value[8] == 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void unsetBusy() {
