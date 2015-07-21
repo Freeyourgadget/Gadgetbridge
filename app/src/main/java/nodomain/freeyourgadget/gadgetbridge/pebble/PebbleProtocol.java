@@ -357,10 +357,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
         // Calculate length first
         final short BLOBDB_LENGTH = 23;
         final short NOTIFICATION_PIN_LENGTH = 46;
+        final short ACTIONS_LENGTH = 17;
 
         byte attributes_count = 0;
 
-        int attributes_length = 0;
+        short attributes_length = 0;
         if (parts != null) {
             for (String s : parts) {
                 if (s == null || s.equals("")) {
@@ -371,19 +372,21 @@ public class PebbleProtocol extends GBDeviceProtocol {
             }
         }
 
-        int length = BLOBDB_LENGTH + NOTIFICATION_PIN_LENGTH + attributes_length;
+        short length = (short) (BLOBDB_LENGTH + NOTIFICATION_PIN_LENGTH + attributes_length);
+        short pin_length = (short) (NOTIFICATION_PIN_LENGTH + attributes_length);
 
         byte actions_count = 0;
         if (mForceProtocol) {
             actions_count = 1;
-            length += 13; // dismiss action
+            length += ACTIONS_LENGTH; // dismiss action
+            pin_length += ACTIONS_LENGTH; // dismiss_action
         }
 
         // Encode Prefix
         ByteBuffer buf = ByteBuffer.allocate(length + LENGTH_PREFIX);
 
         buf.order(ByteOrder.BIG_ENDIAN);
-        buf.putShort((short) (length));
+        buf.putShort(length);
         buf.putShort(ENDPOINT_BLOBDB);
 
         buf.order(ByteOrder.LITTLE_ENDIAN);
@@ -396,7 +399,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         byte[] uuid_buf = new byte[16];
         mRandom.nextBytes(uuid_buf);
         buf.put(uuid_buf); // random UUID
-        buf.putShort((short) (NOTIFICATION_PIN_LENGTH + attributes_length)); // length of the encapsulated data
+        buf.putShort(pin_length); // length of the encapsulated data
 
         // pin - 46 bytes
         buf.put(uuid_buf); // random UUID
@@ -407,7 +410,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put((byte) 0x01); // type (0x01 = notification)
         buf.putShort((short) 0x0010); // flags 0x0010 = read?
         buf.put((byte) 0x01); // layout (0x01 = default?)
-        buf.putShort((short) attributes_length); // total length of all attributes in bytes
+        buf.putShort(attributes_length); // total length of all attributes in bytes
         buf.put(attributes_count);
         buf.put(actions_count);
 
