@@ -77,7 +77,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandSupport.class);
     private volatile boolean telephoneRinging;
     private volatile boolean isLocatingDevice;
-    private boolean startFetchingActivityData;
 
     private ActivityStruct activityStruct;
 
