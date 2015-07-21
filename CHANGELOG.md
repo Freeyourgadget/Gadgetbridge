@@ -3,6 +3,8 @@
 ####Version 0.4.4
 * Support for backup up and restoring of the activity database (via Debug activity)
 * Support for graceful upgrades and downgrades, keeping your activity database intact
+* Pebble: experimental support for dismissing (all) notifications via actionable notifications (disabled by default)
+* Pebble: make FW 3.x notifications available by default
 
 ####Version 0.4.3
 * Mi Band: Support for setting alarms
