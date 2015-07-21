@@ -76,7 +76,6 @@ public class ChartsActivity extends FragmentActivity {
             boolean wasBusy = mProgressBar.getVisibility() != View.GONE;
             if (wasBusy) {
                 mProgressBar.setVisibility(View.GONE);
-                // TODO: refresh current fragment
                 LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(AbstractChartFragment.ACTION_REFRESH));
             }
         }

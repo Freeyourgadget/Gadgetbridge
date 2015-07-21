@@ -21,6 +21,10 @@ public class CustomLegendRenderer extends LegendRenderer {
 
     @Override
     public void computeLegend(ChartData<?> data) {
+        if (!mLegend.isEnabled()) {
+            return;
+        }
+
         // don't call super to avoid computing colors and labels
         // super.computeLegend(data);
 

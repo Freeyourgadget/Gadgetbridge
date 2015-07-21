@@ -104,7 +104,8 @@ public class SleepChartFragment extends AbstractChartFragment {
         data.setDataSet(set);
         pieChart.setData(data);
 
-        setupLegend(pieChart);
+        pieChart.getLegend().setEnabled(false);
+        //setupLegend(pieChart);
 
         pieChart.invalidate();
     }
