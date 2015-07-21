@@ -741,11 +741,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
         LOG.info("handleControlPoint got status:" + status);
 
-        if (getDevice().isBusy()) {
-            if (isActivityDataSyncFinished(value)) {
-                unsetBusy();
-            }
-        }
         if (value != null) {
             for (byte b : value) {
                 LOG.info("handleControlPoint GOT DATA:" + String.format("0x%8x", b));
@@ -753,19 +748,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         } else {
             LOG.warn("handleControlPoint GOT null");
         }
-    }
-
-    private boolean isActivityDataSyncFinished(byte[] value) {
-        // byte 0 is the kind of message
-        // byte 1 to 6 represent a timestamp
-        // byte 7 to 8 represent the amount of data left (0 = done)
-        LOG.info("finished?: " + GB.hexdump(value, 0, -1));
-        if (value.length == 9) {
-            if (value[0] == 0xa && value[7] == 0 && value[8] == 0) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private void unsetBusy() {
