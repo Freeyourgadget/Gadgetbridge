@@ -372,15 +372,15 @@ public class PebbleProtocol extends GBDeviceProtocol {
             }
         }
 
-        short length = (short) (BLOBDB_LENGTH + NOTIFICATION_PIN_LENGTH + attributes_length);
-        short pin_length = (short) (NOTIFICATION_PIN_LENGTH + attributes_length);
-
         byte actions_count = 0;
+
         if (mForceProtocol) {
             actions_count = 1;
-            length += ACTIONS_LENGTH; // dismiss action
-            pin_length += ACTIONS_LENGTH; // dismiss_action
+            attributes_length += ACTIONS_LENGTH;
         }
+
+        short length = (short) (BLOBDB_LENGTH + NOTIFICATION_PIN_LENGTH + attributes_length);
+        short pin_length = (short) (NOTIFICATION_PIN_LENGTH + attributes_length);
 
         // Encode Prefix
         ByteBuffer buf = ByteBuffer.allocate(length + LENGTH_PREFIX);
@@ -410,7 +410,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put((byte) 0x01); // type (0x01 = notification)
         buf.putShort((short) 0x0010); // flags 0x0010 = read?
         buf.put((byte) 0x01); // layout (0x01 = default?)
-        buf.putShort(attributes_length); // total length of all attributes in bytes
+        buf.putShort(attributes_length); // total length of all attributes and actions in bytes
         buf.put(attributes_count);
         buf.put(actions_count);
 
