@@ -58,23 +58,28 @@ import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.getNotific
 
 public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MiBandSupport.class);
-
     //temporary buffer, size is a multiple of 60 because we want to store complete minutes (1 minute = 3 bytes)
     private static final int activityDataHolderSize = 3 * 60 * 4; // 8h
-    private byte[] activityDataHolder = new byte[activityDataHolderSize];
-    //index of the buffer above
-    private int activityDataHolderProgress = 0;
-    //number of bytes we will get in a single data transfer, used as counter
-    private int activityDataRemainingBytes = 0;
-    //same as above, but remains untouched for the ack message
-    private int activityDataUntilNextHeader = 0;
-    //timestamp of the single data transfer, incremented to store each minute's data
-    private GregorianCalendar activityDataTimestampProgress = null;
-    //same as above, but remains untouched for the ack message
-    private GregorianCalendar activityDataTimestampToAck = null;
+
+    private static class ActivityStruct {
+        public byte[] activityDataHolder = new byte[activityDataHolderSize];
+        //index of the buffer above
+        public int activityDataHolderProgress = 0;
+        //number of bytes we will get in a single data transfer, used as counter
+        public  int activityDataRemainingBytes = 0;
+        //same as above, but remains untouched for the ack message
+        public  int activityDataUntilNextHeader = 0;
+        //timestamp of the single data transfer, incremented to store each minute's data
+        public  GregorianCalendar activityDataTimestampProgress = null;
+        //same as above, but remains untouched for the ack message
+        public GregorianCalendar activityDataTimestampToAck = null;
+    }
+    private static final Logger LOG = LoggerFactory.getLogger(MiBandSupport.class);
     private volatile boolean telephoneRinging;
     private volatile boolean isLocatingDevice;
+    private boolean startFetchingActivityData;
+
+    private ActivityStruct activityStruct;
 
     public MiBandSupport() {
         addSupportedService(MiBandService.UUID_SERVICE_MIBAND_SERVICE);
@@ -477,6 +482,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onFetchActivityData() {
         try {
+            startFetchingActivityData = true;
             TransactionBuilder builder = performInitialized("fetch activity data");
 //            builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_LE_PARAMS), getLowLatency());
             builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.busy_task_fetch_activity_data), getContext()));
@@ -623,6 +629,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void handleActivityNotif(byte[] value) {
+        boolean firstChunk = activityStruct == null;
+        if (firstChunk) {
+            activityStruct = new ActivityStruct();
+        }
+
         if (value.length == 11) {
             // byte 0 is the data type: 1 means that each minute is represented by a triplet of bytes
             int dataType = value[0];
@@ -643,26 +654,26 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             // after dataUntilNextHeader bytes we will get a new packet of 11 bytes that should be parsed
             // as we just did
 
-            if (dataUntilNextHeader != 0) {
+            if (firstChunk && dataUntilNextHeader != 0) {
                 GB.toast(getContext().getString(R.string.user_feedback_miband_activity_data_transfer,
-                        GB.formatDurationHoursMinutes(dataUntilNextHeader / 3, TimeUnit.MINUTES),
+                        GB.formatDurationHoursMinutes((totalDataToRead / 3), TimeUnit.MINUTES),
                         DateFormat.getDateTimeInstance().format(timestamp.getTime())), Toast.LENGTH_LONG, GB.INFO);
             }
             LOG.info("total data to read: " + totalDataToRead + " len: " + (totalDataToRead / 3) + " minute(s)");
             LOG.info("data to read until next header: " + dataUntilNextHeader + " len: " + (dataUntilNextHeader / 3) + " minute(s)");
             LOG.info("TIMESTAMP: " + DateFormat.getDateTimeInstance().format(timestamp.getTime()).toString() + " magic byte: " + dataUntilNextHeader);
 
-            this.activityDataRemainingBytes = this.activityDataUntilNextHeader = dataUntilNextHeader;
-            this.activityDataTimestampToAck = (GregorianCalendar) timestamp.clone();
-            this.activityDataTimestampProgress = timestamp;
+            activityStruct.activityDataRemainingBytes = activityStruct.activityDataUntilNextHeader = dataUntilNextHeader;
+            activityStruct.activityDataTimestampToAck = (GregorianCalendar) timestamp.clone();
+            activityStruct.activityDataTimestampProgress = timestamp;
 
         } else {
             bufferActivityData(value);
         }
-        LOG.debug("activity data: length: " + value.length + ", remaining bytes: " + activityDataRemainingBytes);
+        LOG.debug("activity data: length: " + value.length + ", remaining bytes: " + activityStruct.activityDataRemainingBytes);
 
-        if (this.activityDataRemainingBytes == 0) {
-            sendAckDataTransfer(this.activityDataTimestampToAck, this.activityDataUntilNextHeader);
+        if (activityStruct.activityDataRemainingBytes == 0) {
+            sendAckDataTransfer(activityStruct.activityDataTimestampToAck, activityStruct.activityDataUntilNextHeader);
             flushActivityDataHolder();
         }
     }
@@ -680,25 +691,25 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     private void bufferActivityData(byte[] value) {
 
-        if (this.activityDataRemainingBytes >= value.length) {
+        if (activityStruct.activityDataRemainingBytes >= value.length) {
             //I don't like this clause, but until we figure out why we get different data sometimes this should work
-            if (value.length == 20 || value.length == this.activityDataRemainingBytes) {
-                System.arraycopy(value, 0, this.activityDataHolder, this.activityDataHolderProgress, value.length);
-                this.activityDataHolderProgress += value.length;
-                this.activityDataRemainingBytes -= value.length;
+            if (value.length == 20 || value.length == activityStruct.activityDataRemainingBytes) {
+                System.arraycopy(value, 0, activityStruct.activityDataHolder, activityStruct.activityDataHolderProgress, value.length);
+                activityStruct.activityDataHolderProgress += value.length;
+                activityStruct.activityDataRemainingBytes -= value.length;
 
-                if (this.activityDataHolderSize == this.activityDataHolderProgress) {
+                if (this.activityDataHolderSize == activityStruct.activityDataHolderProgress) {
                     flushActivityDataHolder();
                 }
             } else {
                 // the length of the chunk is not what we expect. We need to make sense of this data
-                LOG.warn("GOT UNEXPECTED ACTIVITY DATA WITH LENGTH: " + value.length + ", EXPECTED LENGTH: " + this.activityDataRemainingBytes);
+                LOG.warn("GOT UNEXPECTED ACTIVITY DATA WITH LENGTH: " + value.length + ", EXPECTED LENGTH: " + activityStruct.activityDataRemainingBytes);
                 for (byte b : value) {
                     LOG.warn("DATA: " + String.format("0x%8x", b));
                 }
             }
         } else {
-            LOG.error("error buffering activity data: remaining bytes: " + activityDataRemainingBytes + ", received: " + value.length);
+            LOG.error("error buffering activity data: remaining bytes: " + activityStruct.activityDataRemainingBytes + ", received: " + value.length);
         }
     }
 
@@ -707,21 +718,21 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
         ActivityDatabaseHandler dbHandler = GBApplication.getActivityDatabaseHandler();
         try (SQLiteDatabase db = dbHandler.getWritableDatabase()) { // explicitly keep the db open while looping over the samples
-            for (int i = 0; i < this.activityDataHolderProgress; i += 3) { //TODO: check if multiple of 3, if not something is wrong
-                category = this.activityDataHolder[i];
-                intensity = this.activityDataHolder[i + 1];
-                steps = this.activityDataHolder[i + 2];
+            for (int i = 0; i < activityStruct.activityDataHolderProgress; i += 3) { //TODO: check if multiple of 3, if not something is wrong
+                category = activityStruct.activityDataHolder[i];
+                intensity = activityStruct.activityDataHolder[i + 1];
+                steps = activityStruct.activityDataHolder[i + 2];
 
                 dbHandler.addGBActivitySample(
-                        (int) (activityDataTimestampProgress.getTimeInMillis() / 1000),
+                        (int) (activityStruct.activityDataTimestampProgress.getTimeInMillis() / 1000),
                         GBActivitySample.PROVIDER_MIBAND,
                         intensity,
                         steps,
                         category);
-                activityDataTimestampProgress.add(Calendar.MINUTE, 1);
+                activityStruct.activityDataTimestampProgress.add(Calendar.MINUTE, 1);
             }
         } finally {
-            this.activityDataHolderProgress = 0;
+            activityStruct.activityDataHolderProgress = 0;
         }
     }
 
@@ -764,11 +775,16 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             //The last data chunk sent by the miband has always length 0.
             //When we ack this chunk, the transfer is done.
             if(getDevice().isBusy() && bytesTransferred==0) {
-                unsetBusy();
+                handleActivityFetchFinish();
             }
         } catch (IOException ex) {
             LOG.error("Unable to send ack to MI", ex);
         }
+    }
+
+    private void handleActivityFetchFinish() {
+        activityStruct = null;
+        unsetBusy();
     }
 
     private void handleBatteryInfo(byte[] value, int status) {
