@@ -341,20 +341,19 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 buf.put(s.getBytes(), 0, partlength);
             }
         }
+
         // ACTION
-        buf.put((byte) 0x01);
-        buf.put((byte) 0x04);
-        buf.put((byte) 0x01);
-
+        buf.put((byte) 0x01); // id
+        buf.put((byte) 0x04); // dismiss action
+        buf.put((byte) 0x01); // number attributes
+        buf.put((byte) 0x01); // attribute id (title)
         String actionstring = "dismiss all";
-
-        buf.put((byte) 0x01);
         buf.putShort((short) actionstring.length());
         buf.put(actionstring.getBytes());
         return buf.array();
     }
 
-    private static byte[] encodeBlobdbNotification(int timestamp, String[] parts) {
+    private byte[] encodeBlobdbNotification(int timestamp, String[] parts) {
         // Calculate length first
         final short BLOBDB_LENGTH = 23;
         final short NOTIFICATION_PIN_LENGTH = 46;
@@ -373,6 +372,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
         }
 
         int length = BLOBDB_LENGTH + NOTIFICATION_PIN_LENGTH + attributes_length;
+
+        byte actions_count = 0;
+        if (mForceProtocol) {
+            actions_count = 1;
+            length += 13; // dismiss action
+        }
 
         // Encode Prefix
         ByteBuffer buf = ByteBuffer.allocate(length + LENGTH_PREFIX);
@@ -403,8 +408,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putShort((short) 0x0010); // flags 0x0010 = read?
         buf.put((byte) 0x01); // layout (0x01 = default?)
         buf.putShort((short) attributes_length); // total length of all attributes in bytes
-        buf.put(attributes_count); // count attributes
-        buf.put((byte) 0); // count actions - none so far
+        buf.put(attributes_count);
+        buf.put(actions_count);
 
         byte attribute_id = 0;
         // Encode Pascal-Style Strings
@@ -421,6 +426,17 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 buf.putShort((short) partlength);
                 buf.put(s.getBytes(), 0, partlength);
             }
+        }
+
+        if (mForceProtocol) {
+            // ACTION
+            buf.put((byte) 0x01); // id
+            buf.put((byte) 0x04); // dismiss action
+            buf.put((byte) 0x01); // number attributes
+            buf.put((byte) 0x01); // attribute id (title)
+            String actionstring = "dismiss all";
+            buf.putShort((short) actionstring.length());
+            buf.put(actionstring.getBytes());
         }
 
         return buf.array();
