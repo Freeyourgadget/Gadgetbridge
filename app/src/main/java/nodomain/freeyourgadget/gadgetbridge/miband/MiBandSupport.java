@@ -481,7 +481,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onFetchActivityData() {
         try {
-            startFetchingActivityData = true;
             TransactionBuilder builder = performInitialized("fetch activity data");
 //            builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_LE_PARAMS), getLowLatency());
             builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.busy_task_fetch_activity_data), getContext()));
