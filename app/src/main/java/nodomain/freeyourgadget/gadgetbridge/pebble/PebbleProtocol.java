@@ -53,6 +53,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     public static final short ENDPOINT_DATALOG = 6778;
     static final short ENDPOINT_RUNKEEPER = 7000;
     static final short ENDPOINT_SCREENSHOT = 8000;
+    static final short ENDPOINT_NOTIFICATIONACTION = 11440; // 3.x only, TODO: find a better name
     static final short ENDPOINT_BLOBDB = (short) 45531;  // 3.x only
     static final short ENDPOINT_PUTBYTES = (short) 48879;
 
@@ -792,18 +793,23 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return null;
     }
 
-    private GBDeviceEvent decodeResponseExtensibleNotifs(ByteBuffer buf, int length) {
+    private GBDeviceEvent decodeResponseNotificationAction(ByteBuffer buf, int length) {
         buf.order(ByteOrder.LITTLE_ENDIAN);
 
         byte command = buf.get();
         if (command == 0x02) { // dismiss notification ?
+            if (isFw3x) {
+                buf.getLong(); // skip 8 bytes of UUID
+                buf.getInt();  // skip 4 bytes of UUID
+            }
             int id = buf.getInt();
-            short unk = buf.getShort();
-            if (unk == 0x0001) {
+            short action = buf.getShort(); // at least the low byte should be the action - or not?
+            if (action == 0x0001) {
                 GBDeviceEventDismissNotification devEvtDismissNotification = new GBDeviceEventDismissNotification();
                 devEvtDismissNotification.notificationID = id;
                 return devEvtDismissNotification;
             }
+            LOG.info("unexpected paramerter in dismiss action: " + action);
         }
 
         return null;
@@ -1034,7 +1040,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 devEvt = decodeResponseScreenshot(buf, length);
                 break;
             case ENDPOINT_EXTENSIBLENOTIFS:
-                devEvt = decodeResponseExtensibleNotifs(buf, length);
+            case ENDPOINT_NOTIFICATIONACTION:
+                devEvt = decodeResponseNotificationAction(buf, length);
                 break;
             default:
                 break;
