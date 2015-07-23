@@ -84,8 +84,8 @@ public class PebbleAppInstallerActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent startIntent = new Intent(PebbleAppInstallerActivity.this, BluetoothCommunicationService.class);
-                startIntent.setAction(BluetoothCommunicationService.ACTION_INSTALL_PEBBLEAPP);
-                startIntent.putExtra("app_uri", uri.toString());
+                startIntent.setAction(BluetoothCommunicationService.ACTION_INSTALL);
+                startIntent.putExtra("uri", uri.toString());
                 startService(startIntent);
             }
         });

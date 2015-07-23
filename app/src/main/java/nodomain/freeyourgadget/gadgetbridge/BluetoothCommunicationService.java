@@ -55,8 +55,8 @@ public class BluetoothCommunicationService extends Service {
             = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.startapp";
     public static final String ACTION_DELETEAPP
             = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.deleteapp";
-    public static final String ACTION_INSTALL_PEBBLEAPP
-            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.install_pebbbleapp";
+    public static final String ACTION_INSTALL
+            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.install";
     public static final String ACTION_REBOOT = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.reboot";
     public static final String ACTION_FETCH_ACTIVITY_DATA = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.fetch_activity_data";
     public static final String ACTION_DISCONNECT = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.disconnect";
@@ -258,10 +258,10 @@ public class BluetoothCommunicationService extends Service {
                 uuid = UUID.fromString(intent.getStringExtra("app_uuid"));
                 mDeviceSupport.onAppDelete(uuid);
                 break;
-            case ACTION_INSTALL_PEBBLEAPP:
-                String uriString = intent.getStringExtra("app_uri");
+            case ACTION_INSTALL:
+                String uriString = intent.getStringExtra("uri");
                 if (uriString != null) {
-                    LOG.info("will try to install app");
+                    LOG.info("will try to install app/fw");
                     mDeviceSupport.onInstallApp(Uri.parse(uriString));
                 }
                 break;
