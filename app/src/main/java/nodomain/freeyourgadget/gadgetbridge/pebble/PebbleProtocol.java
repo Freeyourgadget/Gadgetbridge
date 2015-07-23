@@ -520,8 +520,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    @Override
-    public byte[] encodePhoneVersion(byte os) {
+    private byte[] encodePhoneVersion2x(byte os) {
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_PHONEVERSION);
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putShort(LENGTH_PHONEVERSION);
@@ -542,6 +541,35 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put(PHONEVERSION_APPVERSION_PATCH);
 
         return buf.array();
+    }
+
+    private byte[] encodePhoneVersion3x(byte os) {
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + 25);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort((short) 25);
+        buf.putShort(ENDPOINT_PHONEVERSION);
+        buf.put((byte) 0x01);
+        buf.putInt(-1); //0xffffffff
+        buf.putInt(0);
+
+        buf.putInt(os);
+
+        buf.put(PHONEVERSION_APPVERSION_MAGIC);
+        buf.put((byte) 3); // major?
+        buf.put((byte) 0); // minor?
+        buf.put((byte) 1); // patch?
+        buf.put((byte) 3); // ???
+        buf.put((byte) 0); // ???
+        buf.put((byte) 0); // ???
+        buf.put((byte) 0); // ???
+        buf.putInt(0); // ???
+
+        return buf.array();
+    }
+
+    @Override
+    public byte[] encodePhoneVersion(byte os) {
+        return encodePhoneVersion3x(os);
     }
 
     @Override
