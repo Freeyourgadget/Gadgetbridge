@@ -5,7 +5,6 @@
   <string name="action_settings">Einstellungen</string>
   <string name="action_debug">Debug</string>
   <string name="action_quit">Beenden</string>
-  <string name="controlcenter_fetch_activity_data">Aktivitätsdaten holen</string>
   <string name="controlcenter_start_sleepmonitor">Schlafmonitor (ALPHA)</string>
   <string name="controlcenter_find_device">Gerätesuche</string>
   <string name="controlcenter_take_screenshot">Bildschirmfoto</string>
