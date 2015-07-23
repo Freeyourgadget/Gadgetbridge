@@ -10,11 +10,20 @@ public class DeviceInfo extends AbstractInfo {
         super(data);
     }
 
-    public String getFirmwareVersion() {
+    public String getHumanFirmwareVersion() {
         if (mData.length == 16) {
             int last = 15;
             return String.format(Locale.US, "%d.%d.%d.%d", mData[last], mData[last - 1], mData[last - 2], mData[last - 3]);
         }
         return GBApplication.getContext().getString(R.string._unknown_);
     }
+
+    public int getFirmwareVersion() {
+        if (mData.length == 16) {
+            int last = 15;
+            return (mData[last] << 24) | (mData[last - 1] << 16) | (mData[last - 2] << 8) | mData[last - 3];
+        }
+        return -1;
+    }
+
 }
