@@ -404,7 +404,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         // pin - 46 bytes
         buf.put(uuid_buf); // random UUID
-        Arrays.fill(uuid_buf, (byte) 0);
         buf.put(uuid_buf); // parent UUID
         buf.putInt(timestamp); // 32-bit timestamp
         buf.putShort((short) 0); // duration
