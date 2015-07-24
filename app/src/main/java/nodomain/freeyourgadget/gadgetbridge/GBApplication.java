@@ -23,13 +23,15 @@ public class GBApplication extends Application {
 
     public GBApplication() {
         context = this;
-        mActivityDatabaseHandler = new ActivityDatabaseHandler(context);
+        // don't do anything here, add it to onCreate instead
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
 
+        // don't do anything here before we set up logging, otherwise
+        // slf4j may be implicitly initialized before we properly configured it.
         setupLogging();
 //        For debugging problems with the logback configuration
 //        LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
@@ -37,6 +39,7 @@ public class GBApplication extends Application {
 //        StatusPrinter.print(lc);
 //        Logger logger = LoggerFactory.getLogger(GBApplication.class);
 
+        mActivityDatabaseHandler = new ActivityDatabaseHandler(context);
 // for testing DB stuff
 //        SQLiteDatabase db = mActivityDatabaseHandler.getWritableDatabase();
 //        db.close();
