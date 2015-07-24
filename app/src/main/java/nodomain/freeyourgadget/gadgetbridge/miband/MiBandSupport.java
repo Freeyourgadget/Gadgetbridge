@@ -672,7 +672,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
         if (activityStruct.activityDataRemainingBytes == 0) {
             sendAckDataTransfer(activityStruct.activityDataTimestampToAck, activityStruct.activityDataUntilNextHeader);
-            flushActivityDataHolder();
         }
     }
 
@@ -712,6 +711,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void flushActivityDataHolder() {
+        if (activityStruct == null) {
+            LOG.debug("nothing to flush, struct is already null");
+            return;
+        }
+        LOG.debug("flushing activity data holder");
         byte category, intensity, steps;
 
         ActivityDatabaseHandler dbHandler = GBApplication.getActivityDatabaseHandler();
@@ -770,6 +774,10 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             TransactionBuilder builder = performInitialized("send acknowledge");
             builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), ack);
             builder.queue(getQueue());
+
+            // flush to the DB after sending the ACK
+            flushActivityDataHolder();
+
             //The last data chunk sent by the miband has always length 0.
             //When we ack this chunk, the transfer is done.
             if(getDevice().isBusy() && bytesTransferred==0) {
@@ -781,6 +789,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void handleActivityFetchFinish() {
+        LOG.info("Fetching activity data has finished.");
         activityStruct = null;
         unsetBusy();
     }
