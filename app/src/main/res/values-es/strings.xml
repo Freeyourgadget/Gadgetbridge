@@ -5,7 +5,6 @@
   <string name="action_settings">Ajustes</string>
   <string name="action_debug">Depuración</string>
   <string name="action_quit">Salir</string>
-  <string name="controlcenter_fetch_activity_data">Extraer datos de actividad</string>
   <string name="controlcenter_start_sleepmonitor">Monitor de sueño (ALPHA)</string>
   <string name="controlcenter_find_device">Encontrar dispositivo...</string>
   <string name="controlcenter_take_screenshot">Capturar pantall</string>
@@ -121,7 +120,6 @@
   <string name="pref_screen_notification_profile_incoming_call">Notificación de llamada entrante</string>
   <string name="control_center_find_lost_device">Encuentra un dispositivo perdido</string>
   <string name="control_center_cancel_to_stop_vibration">Cancelar para detener la vibración.</string>
-  <string name="title_activity_charts">Gráficos</string>
   <string name="title_activity_set_alarm">Configurar alarmas</string>
   <string name="controlcenter_start_configure_alarms">Configurar alarmas</string>
   <string name="title_activity_alarm_details">Detalles de alarma</string>
@@ -135,4 +133,5 @@
   <string name="alarm_smart_wakeup">despertador inteligente</string>
   <string name="user_feedback_miband_set_alarms_failed">Hubo un error al configurar las alarmas, ¡por favor inténtalo de nuevo!</string>
   <string name="user_feedback_miband_set_alarms_ok">¡Alarmas enviadas al dispositivo!</string>
+  <string name="chart_no_data_synchronize">Sin datos. ¿Sincronizar dispositivo?</string>
 </resources>

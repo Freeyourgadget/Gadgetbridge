@@ -1,10 +1,14 @@
 ###Changelog
 
 ####Version 0.4.4
+* Set GadgetBridge notification visibility to public, to show the connection status on the lockscreen
 * Support for backup up and restoring of the activity database (via Debug activity)
 * Support for graceful upgrades and downgrades, keeping your activity database intact
+* Enhancement to activity graphs: new graphs for sleep data (only last night) accessible swiping right from the main graph
+* Enhancement to graphs activity: it is now possible to fetch the activity data directly from this activity
 * Pebble: experimental support for dismissing (all) notifications via actionable notifications (disabled by default)
 * Pebble: make FW 3.x notifications available by default
+* Mi Band: Set the graphs activity as the default action available with a single tap on the connected device
 
 ####Version 0.4.3
 * Mi Band: Support for setting alarms

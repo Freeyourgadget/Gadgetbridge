@@ -5,7 +5,6 @@
   <string name="action_settings">Impostazioni</string>
   <string name="action_debug">Debug</string>
   <string name="action_quit">Esci</string>
-  <string name="controlcenter_fetch_activity_data">Recupera dati attività</string>
   <string name="controlcenter_start_sleepmonitor">Monitoraggio del sonno (ALPHA)</string>
   <string name="controlcenter_find_device">Trova dispositivo...</string>
   <string name="controlcenter_take_screenshot">Salva uno screenshot</string>
@@ -121,7 +120,6 @@
   <string name="pref_screen_notification_profile_incoming_call">Notiche chiamata in arrivo</string>
   <string name="control_center_find_lost_device">Trova dispositivo smarrito</string>
   <string name="control_center_cancel_to_stop_vibration">Annulla per fermare la vibrazion</string>
-  <string name="title_activity_charts">Grafici</string>
   <string name="title_activity_set_alarm">Configurazione sveglia</string>
   <string name="controlcenter_start_configure_alarms">Configurazione sveglia</string>
   <string name="title_activity_alarm_details">Sveglia</string>
