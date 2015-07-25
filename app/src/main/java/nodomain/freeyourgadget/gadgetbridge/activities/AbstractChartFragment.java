@@ -24,7 +24,6 @@ import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.charts.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.charts.SleepUtils;
 
 public abstract class AbstractChartFragment extends Fragment {
@@ -62,7 +61,7 @@ public abstract class AbstractChartFragment extends Fragment {
             case nodomain.freeyourgadget.gadgetbridge.charts.ActivityKind.TYPE_LIGHT_SLEEP:
                 return akLightSleep.color;
             case nodomain.freeyourgadget.gadgetbridge.charts.ActivityKind.TYPE_ACTIVITY:
-                    return akActivity.color;
+                return akActivity.color;
         }
         return akActivity.color;
     }
@@ -290,7 +289,7 @@ public abstract class AbstractChartFragment extends Fragment {
 
     protected abstract void setupLegend(Chart chart);
 
-        protected BarEntry createBarEntry(float value, int index) {
+    protected BarEntry createBarEntry(float value, int index) {
         return new BarEntry(value, index);
     }
 

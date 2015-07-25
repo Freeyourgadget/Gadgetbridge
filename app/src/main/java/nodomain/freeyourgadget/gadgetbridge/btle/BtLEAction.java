@@ -5,7 +5,6 @@ import android.bluetooth.BluetoothGattCharacteristic;
 
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * The Bluedroid implementation only allows performing one GATT request at a time.

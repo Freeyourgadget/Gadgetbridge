@@ -1,6 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.charts;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
@@ -13,7 +12,7 @@ public class ActivityAnalysis {
 
         ActivityAmount previousAmount = null;
         GBActivitySample previousSample = null;
-        for(GBActivitySample sample : samples) {
+        for (GBActivitySample sample : samples) {
             ActivityAmount amount = null;
             switch (sample.getType()) {
                 case GBActivitySample.TYPE_DEEP_SLEEP:

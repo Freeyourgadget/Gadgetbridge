@@ -188,7 +188,7 @@ public final class BtLEQueue {
         // To support automatic reconnection, we keep the mBluetoothGatt instance
         // alive (we do not close() it). Unfortunately we sometimes have problems
         // reconnecting automatically, so we try to fix this by re-creating mBluetoothGatt.
-        if (status != 0 ) {
+        if (status != 0) {
             maybeReconnect();
         }
     }

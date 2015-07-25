@@ -1,6 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,13 +12,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -126,7 +122,7 @@ public class ChartsActivity extends FragmentActivity {
                 startService(startIntent);
                 return true;
             default:
-            break;
+                break;
         }
 
         return super.onOptionsItemSelected(item);

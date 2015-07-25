@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import nodomain.freeyourgadget.gadgetbridge.GB;
 import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
@@ -132,9 +131,10 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
     /**
      * Returns all available activity samples from between the two timestamps (inclusive), of the given
      * provided and type(s).
+     *
      * @param timestamp_from
      * @param timestamp_to
-     * @param activityTypes ORed combination of #TYPE_DEEP_SLEEP, #TYPE_LIGHT_SLEEP, #TYPE_ACTIVITY
+     * @param activityTypes  ORed combination of #TYPE_DEEP_SLEEP, #TYPE_LIGHT_SLEEP, #TYPE_ACTIVITY
      * @param provider
      * @return
      */
@@ -143,7 +143,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
             timestamp_to = Integer.MAX_VALUE; // dont know what happens when I use more than max of a signed int
         }
         ArrayList<GBActivitySample> GBActivitySampleList = new ArrayList<GBActivitySample>();
-        final String where = "(provider=" + provider + " and timestamp>=" + timestamp_from + " and timestamp<=" + timestamp_to + getWhereClauseFor(activityTypes) +")";
+        final String where = "(provider=" + provider + " and timestamp>=" + timestamp_from + " and timestamp<=" + timestamp_to + getWhereClauseFor(activityTypes) + ")";
         final String order = "timestamp";
         try (SQLiteDatabase db = this.getReadableDatabase()) {
             Cursor cursor = db.query(TABLE_GBACTIVITYSAMPLES, null, where, null, null, null, order);

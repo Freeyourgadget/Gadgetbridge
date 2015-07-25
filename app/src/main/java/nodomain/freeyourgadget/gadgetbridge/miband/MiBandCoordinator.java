@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Calendar;
 
-import nodomain.freeyourgadget.gadgetbridge.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;

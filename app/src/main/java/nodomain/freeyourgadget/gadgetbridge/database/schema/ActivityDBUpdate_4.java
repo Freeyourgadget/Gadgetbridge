@@ -6,7 +6,6 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.database.DBUpdateScript;
 
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.TABLE_GBACTIVITYSAMPLES;
-import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.TABLE_STEPS_PER_DAY;
 
 /**
  * Upgrade and downgrade with DB versions <= 5 is not supported.

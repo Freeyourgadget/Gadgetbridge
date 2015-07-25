@@ -3,9 +3,13 @@ package nodomain.freeyourgadget.gadgetbridge.database.schema;
 import android.database.sqlite.SQLiteDatabase;
 
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
-import nodomain.freeyourgadget.gadgetbridge.database.DBUpdateScript;
 
-import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.*;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_INTENSITY;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_PROVIDER;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_STEPS;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_TIMESTAMP;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_TYPE;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.TABLE_GBACTIVITYSAMPLES;
 
 public class ActivityDBCreationScript {
     public void createSchema(SQLiteDatabase db) {

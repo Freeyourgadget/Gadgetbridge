@@ -36,7 +36,7 @@ public class GadgetbridgePblSupport {
                     break;
                 case KEY_SAMPLES:
                     byte[] samples = (byte[]) pair.second;
-                    LOG.info("got " + samples.length/2  + " samples");
+                    LOG.info("got " + samples.length / 2 + " samples");
                     ByteBuffer samplesBuffer = ByteBuffer.wrap(samples);
                     // TODO: read samples and put into database
                     break;

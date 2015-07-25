@@ -23,7 +23,6 @@ import com.github.mikephil.charting.utils.ValueFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -97,7 +96,7 @@ public class SleepChartFragment extends AbstractChartFragment {
         set.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
-                return GB.formatDurationHoursMinutes((long)value, TimeUnit.SECONDS);
+                return GB.formatDurationHoursMinutes((long) value, TimeUnit.SECONDS);
             }
         });
         set.setColors(colors);

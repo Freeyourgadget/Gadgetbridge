@@ -66,14 +66,15 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         //index of the buffer above
         public int activityDataHolderProgress = 0;
         //number of bytes we will get in a single data transfer, used as counter
-        public  int activityDataRemainingBytes = 0;
+        public int activityDataRemainingBytes = 0;
         //same as above, but remains untouched for the ack message
-        public  int activityDataUntilNextHeader = 0;
+        public int activityDataUntilNextHeader = 0;
         //timestamp of the single data transfer, incremented to store each minute's data
-        public  GregorianCalendar activityDataTimestampProgress = null;
+        public GregorianCalendar activityDataTimestampProgress = null;
         //same as above, but remains untouched for the ack message
         public GregorianCalendar activityDataTimestampToAck = null;
     }
+
     private static final Logger LOG = LoggerFactory.getLogger(MiBandSupport.class);
     private volatile boolean telephoneRinging;
     private volatile boolean isLocatingDevice;
@@ -503,18 +504,18 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     private byte[] getLatency(int minConnectionInterval, int maxConnectionInterval, int latency, int timeout, int advertisementInterval) {
         byte result[] = new byte[12];
-        result[0] = (byte)(minConnectionInterval & 0xff);
-        result[1] = (byte)(0xff & minConnectionInterval >> 8);
-        result[2] = (byte)(maxConnectionInterval & 0xff);
+        result[0] = (byte) (minConnectionInterval & 0xff);
+        result[1] = (byte) (0xff & minConnectionInterval >> 8);
+        result[2] = (byte) (maxConnectionInterval & 0xff);
         result[3] = (byte) (0xff & maxConnectionInterval >> 8);
-        result[4] = (byte)(latency & 0xff);
-        result[5] = (byte)(0xff & latency >> 8);
-        result[6] = (byte)(timeout & 0xff);
+        result[4] = (byte) (latency & 0xff);
+        result[5] = (byte) (0xff & latency >> 8);
+        result[6] = (byte) (timeout & 0xff);
         result[7] = (byte) (0xff & timeout >> 8);
         result[8] = 0;
         result[9] = 0;
-        result[10] = (byte)(advertisementInterval & 0xff);
-        result[11] = (byte)(0xff & advertisementInterval >> 8);
+        result[10] = (byte) (advertisementInterval & 0xff);
+        result[11] = (byte) (0xff & advertisementInterval >> 8);
 
         return result;
     }
@@ -780,7 +781,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
             //The last data chunk sent by the miband has always length 0.
             //When we ack this chunk, the transfer is done.
-            if(getDevice().isBusy() && bytesTransferred==0) {
+            if (getDevice().isBusy() && bytesTransferred == 0) {
                 handleActivityFetchFinish();
             }
         } catch (IOException ex) {

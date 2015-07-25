@@ -5,7 +5,10 @@ import android.database.sqlite.SQLiteDatabase;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.database.DBUpdateScript;
 
-import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.*;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_PROVIDER;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_STEPS;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_TIMESTAMP;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.TABLE_STEPS_PER_DAY;
 
 /**
  * Adds a table "STEPS_PER_DAY".

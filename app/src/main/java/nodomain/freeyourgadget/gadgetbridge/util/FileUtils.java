@@ -11,6 +11,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 public class FileUtils {
     /**
      * Copies the the given sourceFile to destFile, overwriting it, in case it exists.
+     *
      * @param sourceFile
      * @param destFile
      * @throws IOException
@@ -30,6 +31,7 @@ public class FileUtils {
 
     /**
      * Returns the existing external storage dir.
+     *
      * @throws IOException when the directory is not available
      */
     public static File getExternalFilesDir() throws IOException {
