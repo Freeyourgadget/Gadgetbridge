@@ -1,6 +1,7 @@
 ###Changelog
 
 ####Version 0.4.4
+* Set GadgetBridge notification visibility to public, to show the connection status on the lockscreen
 * Support for backup up and restoring of the activity database (via Debug activity)
 * Support for graceful upgrades and downgrades, keeping your activity database intact
 * Pebble: experimental support for dismissing (all) notifications via actionable notifications (disabled by default)

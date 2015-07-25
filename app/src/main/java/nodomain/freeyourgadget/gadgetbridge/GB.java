@@ -49,6 +49,7 @@ public class GB {
                 notificationIntent, 0);
 
         return new NotificationCompat.Builder(context)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentTitle(context.getString(R.string.app_name))
                 .setTicker(text)
                 .setContentText(text)
