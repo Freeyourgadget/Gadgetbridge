@@ -3,6 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge;
 public class GBActivitySample {
     public static final byte PROVIDER_MIBAND = 0;
     public static final byte PROVIDER_PEBBLE_MORPHEUZ = 1;
+    public static final byte PROVIDER_PEBBLE_GADGETBRIDGE = 2;
 
 //    public static final byte TYPE_CHARGING = 6;
 //    public static final byte TYPE_NONWEAR = 3;

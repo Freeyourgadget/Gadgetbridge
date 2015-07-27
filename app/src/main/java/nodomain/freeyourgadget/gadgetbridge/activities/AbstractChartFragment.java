@@ -74,6 +74,7 @@ public abstract class AbstractChartFragment extends Fragment {
                 break;
             case PEBBLE:
                 provider = GBActivitySample.PROVIDER_PEBBLE_MORPHEUZ; // FIXME
+                //provider = GBActivitySample.PROVIDER_PEBBLE_GADGETBRIDGE;
                 break;
         }
         return provider;
@@ -166,6 +167,10 @@ public abstract class AbstractChartFragment extends Fragment {
                     // maybe this should be configurable 256 seems way off, though.
                     movement_divisor = 180.0f; //256.0f;
                     use_steps_as_movement = true;
+                    break;
+                case GBActivitySample.PROVIDER_PEBBLE_GADGETBRIDGE:
+                    movement_divisor = 63.0f;
+                    use_steps_as_movement = false;
                     break;
                 default: // Morpheuz
                     movement_divisor = 5000.0f;

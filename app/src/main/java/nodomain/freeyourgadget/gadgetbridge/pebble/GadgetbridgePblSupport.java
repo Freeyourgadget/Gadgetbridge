@@ -6,9 +6,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.ArrayList;
+import java.util.SimpleTimeZone;
+import java.util.TimeZone;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 
@@ -31,14 +36,25 @@ public class GadgetbridgePblSupport {
         for (Pair<Integer, Object> pair : pairs) {
             switch (pair.first) {
                 case KEY_TIMESTAMP:
-                    timestamp = (int) pair.second;
+                    TimeZone tz = SimpleTimeZone.getDefault();
+                    timestamp = (int) pair.second - (tz.getOffset(System.currentTimeMillis())) / 1000;
                     LOG.info("got timestamp " + timestamp);
                     break;
                 case KEY_SAMPLES:
                     byte[] samples = (byte[]) pair.second;
-                    LOG.info("got " + samples.length / 2 + " samples");
                     ByteBuffer samplesBuffer = ByteBuffer.wrap(samples);
-                    // TODO: read samples and put into database
+                    samplesBuffer.order(ByteOrder.LITTLE_ENDIAN);
+                    int samples_remaining = samples.length / 2;
+                    LOG.info("got " + samples_remaining + " samples");
+                    int offset_seconds = 0;
+                    while (samples_remaining-- > 0) {
+                        short sample = samplesBuffer.getShort();
+                        byte type = (byte) ((sample & 0xe000) >>> 13);
+                        byte intensity = (byte) ((sample & 0x1f80) >>> 7);
+                        byte steps = (byte) (sample & 0x007f);
+                        GBApplication.getActivityDatabaseHandler().addGBActivitySample(timestamp + offset_seconds, GBActivitySample.PROVIDER_PEBBLE_GADGETBRIDGE, intensity, steps, type);
+                        offset_seconds += 60;
+                    }
                     break;
                 default:
                     LOG.info("unhandled key: " + pair.first);
