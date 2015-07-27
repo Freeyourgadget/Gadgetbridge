@@ -16,6 +16,8 @@ import nodomain.freeyourgadget.gadgetbridge.GB;
 import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.charts.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.database.schema.ActivityDBCreationScript;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.SampleProvider;
 
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.DATABASE_NAME;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_INTENSITY;
@@ -90,41 +92,49 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
-    public void addGBActivitySample(GBActivitySample GBActivitySample) {
+    public void addGBActivitySample(ActivitySample sample) {
         try (SQLiteDatabase db = this.getWritableDatabase()) {
             ContentValues values = new ContentValues();
-            values.put(KEY_TIMESTAMP, GBActivitySample.getTimestamp());
-            values.put(KEY_PROVIDER, GBActivitySample.getProvider());
-            values.put(KEY_INTENSITY, GBActivitySample.getIntensity());
-            values.put(KEY_STEPS, GBActivitySample.getSteps());
-            values.put(KEY_TYPE, GBActivitySample.getType());
+            values.put(KEY_TIMESTAMP, sample.getTimestamp());
+            values.put(KEY_PROVIDER, sample.getProvider().getID());
+            values.put(KEY_INTENSITY, sample.getRawIntensity());
+            values.put(KEY_STEPS, sample.getSteps());
+            values.put(KEY_TYPE, sample.getRawKind());
 
             db.insert(TABLE_GBACTIVITYSAMPLES, null, values);
         }
     }
 
-    public void addGBActivitySample(int timestamp, byte provider, short intensity, byte steps, byte type) {
+    /**
+     * Adds the a new sample to the database
+     * @param timestamp the timestamp of the same, second-based!
+     * @param provider the SampleProvider ID
+     * @param intensity the sample's raw intensity value
+     * @param steps the sample's steps value
+     * @param kind the raw activity kind of the sample
+     */
+    public void addGBActivitySample(int timestamp, byte provider, short intensity, byte steps, byte kind) {
         try (SQLiteDatabase db = this.getWritableDatabase()) {
             ContentValues values = new ContentValues();
             values.put(KEY_TIMESTAMP, timestamp);
             values.put(KEY_PROVIDER, provider);
             values.put(KEY_INTENSITY, intensity);
             values.put(KEY_STEPS, steps);
-            values.put(KEY_TYPE, type);
+            values.put(KEY_TYPE, kind);
 
             db.insert(TABLE_GBACTIVITYSAMPLES, null, values);
         }
     }
 
-    public ArrayList<GBActivitySample> getSleepSamples(int timestamp_from, int timestamp_to, byte provider) {
+    public ArrayList<ActivitySample> getSleepSamples(int timestamp_from, int timestamp_to, SampleProvider provider) {
         return getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_SLEEP, provider);
     }
 
-    public ArrayList<GBActivitySample> getActivitySamples(int timestamp_from, int timestamp_to, byte provider) {
+    public ArrayList<ActivitySample> getActivitySamples(int timestamp_from, int timestamp_to, SampleProvider provider) {
         return getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_ACTIVITY, provider);
     }
 
-    public ArrayList<GBActivitySample> getAllActivitySamples(int timestamp_from, int timestamp_to, byte provider) {
+    public ArrayList<ActivitySample> getAllActivitySamples(int timestamp_from, int timestamp_to, SampleProvider provider) {
         return getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_ALL, provider);
     }
 
@@ -135,42 +145,42 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
      * @param timestamp_from
      * @param timestamp_to
      * @param activityTypes  ORed combination of #TYPE_DEEP_SLEEP, #TYPE_LIGHT_SLEEP, #TYPE_ACTIVITY
-     * @param provider
+     * @param provider the producer of the samples to be sought
      * @return
      */
-    private ArrayList<GBActivitySample> getGBActivitySamples(int timestamp_from, int timestamp_to, int activityTypes, byte provider) {
+    private ArrayList<ActivitySample> getGBActivitySamples(int timestamp_from, int timestamp_to, int activityTypes, SampleProvider provider) {
         if (timestamp_to == -1) {
             timestamp_to = Integer.MAX_VALUE; // dont know what happens when I use more than max of a signed int
         }
-        ArrayList<GBActivitySample> GBActivitySampleList = new ArrayList<GBActivitySample>();
-        final String where = "(provider=" + provider + " and timestamp>=" + timestamp_from + " and timestamp<=" + timestamp_to + getWhereClauseFor(activityTypes) + ")";
+        ArrayList<ActivitySample> samples = new ArrayList<ActivitySample>();
+        final String where = "(provider=" + provider.getID() + " and timestamp>=" + timestamp_from + " and timestamp<=" + timestamp_to + getWhereClauseFor(activityTypes, provider) + ")";
         final String order = "timestamp";
         try (SQLiteDatabase db = this.getReadableDatabase()) {
             Cursor cursor = db.query(TABLE_GBACTIVITYSAMPLES, null, where, null, null, null, order);
 
             if (cursor.moveToFirst()) {
                 do {
-                    GBActivitySample GBActivitySample = new GBActivitySample(
+                    GBActivitySample sample = new GBActivitySample(
+                            provider,
                             cursor.getInt(cursor.getColumnIndex(KEY_TIMESTAMP)),
-                            (byte) cursor.getInt(cursor.getColumnIndex(KEY_PROVIDER)),
-                            (short) cursor.getInt(cursor.getColumnIndex(KEY_INTENSITY)),
-                            (byte) cursor.getInt(cursor.getColumnIndex(KEY_STEPS)),
-                            (byte) cursor.getInt(cursor.getColumnIndex(KEY_TYPE)));
-                    GBActivitySampleList.add(GBActivitySample);
+                            cursor.getShort(cursor.getColumnIndex(KEY_INTENSITY)),
+                            cursor.getShort(cursor.getColumnIndex(KEY_STEPS)),
+                            (byte) cursor.getShort(cursor.getColumnIndex(KEY_TYPE)));
+                    samples.add(sample);
                 } while (cursor.moveToNext());
             }
         }
 
-        return GBActivitySampleList;
+        return samples;
     }
 
-    private String getWhereClauseFor(int activityTypes) {
+    private String getWhereClauseFor(int activityTypes, SampleProvider provider) {
         if (activityTypes == ActivityKind.TYPE_ALL) {
             return ""; // no further restriction
         }
 
         StringBuilder builder = new StringBuilder(" and (");
-        byte[] dbActivityTypes = ActivityKind.mapToDBActivityTypes(activityTypes);
+        byte[] dbActivityTypes = ActivityKind.mapToDBActivityTypes(activityTypes, provider);
         for (int i = 0; i < dbActivityTypes.length; i++) {
             builder.append(" type=").append(dbActivityTypes[i]);
             if (i + 1 < dbActivityTypes.length) {

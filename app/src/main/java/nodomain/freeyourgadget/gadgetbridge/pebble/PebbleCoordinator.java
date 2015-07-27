@@ -7,8 +7,16 @@ import nodomain.freeyourgadget.gadgetbridge.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.discovery.DeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.model.SampleProvider;
 
 public class PebbleCoordinator implements DeviceCoordinator {
+    private MorpheuzSampleProvider sampleProvider;
+
+    public PebbleCoordinator() {
+        sampleProvider = new MorpheuzSampleProvider();
+//        sampleProvider = new PebbleGadgetBridgeSampleProvider();
+    }
+
     @Override
     public boolean supports(DeviceCandidate candidate) {
         return candidate.getName().startsWith("Pebble");
@@ -31,5 +39,10 @@ public class PebbleCoordinator implements DeviceCoordinator {
 
     public Class<? extends Activity> getPrimaryActivity() {
         return AppManagerActivity.class;
+    }
+
+    @Override
+    public SampleProvider getSampleProvider() {
+        return sampleProvider;
     }
 }

@@ -1,32 +1,16 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
-public class GBActivitySample {
-    public static final byte PROVIDER_MIBAND = 0;
-    public static final byte PROVIDER_PEBBLE_MORPHEUZ = 1;
-    public static final byte PROVIDER_PEBBLE_GADGETBRIDGE = 2;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.SampleProvider;
 
-//    public static final byte TYPE_CHARGING = 6;
-//    public static final byte TYPE_NONWEAR = 3;
-//    public static final byte TYPE_NREM = 5; // DEEP SLEEP
-//    public static final byte TYPE_ONBED = 7;
-//    public static final byte TYPE_REM = 4; // LIGHT SLEEP
-//    public static final byte TYPE_RUNNING = 2;
-//    public static final byte TYPE_SLIENT = 0;
-//    public static final byte TYPE_USER = 100;
-//    public static final byte TYPE_WALKING = 1;
-
-    public static final byte TYPE_DEEP_SLEEP = 5;
-    public static final byte TYPE_LIGHT_SLEEP = 4;
-    public static final byte TYPE_UNKNOWN = -1;
-    // add more here
-
+public class GBActivitySample implements ActivitySample {
     private final int timestamp;
-    private final byte provider;
+    private final SampleProvider provider;
     private final short intensity;
-    private final byte steps;
+    private final short steps;
     private final byte type;
 
-    public GBActivitySample(int timestamp, byte provider, short intensity, byte steps, byte type) {
+    public GBActivitySample(SampleProvider provider, int timestamp, short intensity, short steps, byte type) {
         this.timestamp = timestamp;
         this.provider = provider;
         this.intensity = intensity;
@@ -34,27 +18,38 @@ public class GBActivitySample {
         this.type = type;
     }
 
-    /**
-     * Timestamp of the sample, resolution is seconds!
-     */
+    @Override
     public int getTimestamp() {
         return timestamp;
     }
 
-    public byte getProvider() {
+    @Override
+    public SampleProvider getProvider() {
         return provider;
     }
 
-    public short getIntensity() {
+    @Override
+    public short getRawIntensity() {
         return intensity;
     }
 
-    public byte getSteps() {
+    @Override
+    public float getIntensity() {
+        return getProvider().normalizeIntensity(getRawIntensity());
+    }
+
+    @Override
+    public short getSteps() {
         return steps;
     }
 
-    public byte getType() {
+    @Override
+    public byte getRawKind() {
         return type;
     }
 
+    @Override
+    public int getKind() {
+        return getProvider().normalizeType(getRawKind());
+    }
 }

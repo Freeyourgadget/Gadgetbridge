@@ -33,6 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.btle.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
+import nodomain.freeyourgadget.gadgetbridge.model.SampleProvider;
 
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.DEFAULT_VALUE_FLASH_COLOUR;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.DEFAULT_VALUE_FLASH_COUNT;
@@ -720,6 +721,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         byte category, intensity, steps;
 
         ActivityDatabaseHandler dbHandler = GBApplication.getActivityDatabaseHandler();
+
         try (SQLiteDatabase db = dbHandler.getWritableDatabase()) { // explicitly keep the db open while looping over the samples
             for (int i = 0; i < activityStruct.activityDataHolderProgress; i += 3) { //TODO: check if multiple of 3, if not something is wrong
                 category = activityStruct.activityDataHolder[i];
@@ -728,7 +730,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
                 dbHandler.addGBActivitySample(
                         (int) (activityStruct.activityDataTimestampProgress.getTimeInMillis() / 1000),
-                        GBActivitySample.PROVIDER_MIBAND,
+                        SampleProvider.PROVIDER_MIBAND,
                         intensity,
                         steps,
                         category);

@@ -15,9 +15,15 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.activities.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.discovery.DeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.model.SampleProvider;
 
 public class MiBandCoordinator implements DeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandCoordinator.class);
+    private final MiBandSampleProvider sampleProvider;
+
+    public MiBandCoordinator() {
+        sampleProvider = new MiBandSampleProvider();
+    }
 
     @Override
     public boolean supports(DeviceCandidate candidate) {
@@ -41,6 +47,11 @@ public class MiBandCoordinator implements DeviceCoordinator {
 
     public Class<? extends Activity> getPrimaryActivity() {
         return ChartsActivity.class;
+    }
+
+    @Override
+    public SampleProvider getSampleProvider() {
+        return sampleProvider;
     }
 
     public static boolean hasValidUserInfo() {

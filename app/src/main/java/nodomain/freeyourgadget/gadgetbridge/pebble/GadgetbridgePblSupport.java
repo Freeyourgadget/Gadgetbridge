@@ -16,6 +16,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
+import nodomain.freeyourgadget.gadgetbridge.model.SampleProvider;
 
 public class GadgetbridgePblSupport {
 
@@ -52,7 +53,7 @@ public class GadgetbridgePblSupport {
                         byte type = (byte) ((sample & 0xe000) >>> 13);
                         byte intensity = (byte) ((sample & 0x1f80) >>> 7);
                         byte steps = (byte) (sample & 0x007f);
-                        GBApplication.getActivityDatabaseHandler().addGBActivitySample(timestamp + offset_seconds, GBActivitySample.PROVIDER_PEBBLE_GADGETBRIDGE, intensity, steps, type);
+                        GBApplication.getActivityDatabaseHandler().addGBActivitySample(timestamp + offset_seconds, SampleProvider.PROVIDER_PEBBLE_GADGETBRIDGE, intensity, steps, type);
                         offset_seconds += 60;
                     }
                     break;

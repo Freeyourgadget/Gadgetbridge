@@ -20,11 +20,16 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.charts.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.charts.SleepUtils;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.SampleProvider;
 
 public abstract class AbstractChartFragment extends Fragment {
     private static final Logger LOG = LoggerFactory.getLogger(ActivitySleepChartFragment.class);
@@ -33,21 +38,21 @@ public abstract class AbstractChartFragment extends Fragment {
             = "nodomain.freeyourgadget.gadgetbridge.chart.action.refresh";
 
 
-    protected static final class ActivityKind {
-        public final byte type;
+    protected static final class ActivityConfig {
+        public final int type;
         public final String label;
         public final Integer color;
 
-        public ActivityKind(byte type, String label, Integer color) {
-            this.type = type;
+        public ActivityConfig(int kind, String label, Integer color) {
+            this.type = kind;
             this.label = label;
             this.color = color;
         }
     }
 
-    protected ActivityKind akActivity = new ActivityKind(GBActivitySample.TYPE_UNKNOWN, "Activity", Color.rgb(89, 178, 44));
-    protected ActivityKind akLightSleep = new ActivityKind(GBActivitySample.TYPE_LIGHT_SLEEP, "Light Sleep", Color.rgb(182, 191, 255));
-    protected ActivityKind akDeepSleep = new ActivityKind(GBActivitySample.TYPE_DEEP_SLEEP, "Deep Sleep", Color.rgb(76, 90, 255));
+    protected ActivityConfig akActivity = new ActivityConfig(ActivityKind.TYPE_ACTIVITY, "Activity", Color.rgb(89, 178, 44));
+    protected ActivityConfig akLightSleep = new ActivityConfig(ActivityKind.TYPE_LIGHT_SLEEP, "Light Sleep", Color.rgb(182, 191, 255));
+    protected ActivityConfig akDeepSleep = new ActivityConfig(ActivityKind.TYPE_DEEP_SLEEP, "Deep Sleep", Color.rgb(76, 90, 255));
 
     protected static final int BACKGROUND_COLOR = Color.rgb(24, 22, 24);
     protected static final int DESCRIPTION_COLOR = Color.WHITE;
@@ -66,25 +71,16 @@ public abstract class AbstractChartFragment extends Fragment {
         return akActivity.color;
     }
 
-    protected byte getProvider(GBDevice device) {
-        byte provider = -1;
-        switch (device.getType()) {
-            case MIBAND:
-                provider = GBActivitySample.PROVIDER_MIBAND;
-                break;
-            case PEBBLE:
-                provider = GBActivitySample.PROVIDER_PEBBLE_MORPHEUZ; // FIXME
-                //provider = GBActivitySample.PROVIDER_PEBBLE_GADGETBRIDGE;
-                break;
-        }
-        return provider;
+    protected SampleProvider getProvider(GBDevice device) {
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        return coordinator.getSampleProvider();
     }
 
-    protected List<GBActivitySample> getAllSamples(GBDevice device, int tsFrom, int tsTo) {
+    protected List<ActivitySample> getAllSamples(GBDevice device, int tsFrom, int tsTo) {
         if (tsFrom == -1) {
             tsFrom = getTSLast24Hours();
         }
-        byte provider = getProvider(device);
+        SampleProvider provider = getProvider(device);
         return GBApplication.getActivityDatabaseHandler().getAllActivitySamples(tsFrom, tsTo, provider);
     }
 
@@ -93,24 +89,24 @@ public abstract class AbstractChartFragment extends Fragment {
         return (int) ((now / 1000) - (24 * 60 * 60) & 0xffffffff); // -24 hours
     }
 
-    protected List<GBActivitySample> getActivitySamples(GBDevice device, int tsFrom, int tsTo) {
+    protected List<ActivitySample> getActivitySamples(GBDevice device, int tsFrom, int tsTo) {
         if (tsFrom == -1) {
             tsFrom = getTSLast24Hours();
         }
-        byte provider = getProvider(device);
+        SampleProvider provider = getProvider(device);
         return GBApplication.getActivityDatabaseHandler().getActivitySamples(tsFrom, tsTo, provider);
     }
 
 
-    protected List<GBActivitySample> getSleepSamples(GBDevice device, int tsFrom, int tsTo) {
+    protected List<ActivitySample> getSleepSamples(GBDevice device, int tsFrom, int tsTo) {
         if (tsFrom == -1) {
             tsFrom = getTSLast24Hours();
         }
-        byte provider = getProvider(device);
+        SampleProvider provider = getProvider(device);
         return GBApplication.getActivityDatabaseHandler().getSleepSamples(tsFrom, tsTo, provider);
     }
 
-    protected List<GBActivitySample> getTestSamples(GBDevice device, int tsFrom, int tsTo) {
+    protected List<ActivitySample> getTestSamples(GBDevice device, int tsFrom, int tsTo) {
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.set(2015, Calendar.JUNE, 10, 6, 40);
@@ -118,7 +114,7 @@ public abstract class AbstractChartFragment extends Fragment {
         tsTo = (int) ((cal.getTimeInMillis() / 1000) & 0xffffffff);
         tsFrom = tsTo - (24 * 60 * 60);
 
-        byte provider = getProvider(device);
+        SampleProvider provider = getProvider(device);
         return GBApplication.getActivityDatabaseHandler().getAllActivitySamples(tsFrom, tsTo, provider);
     }
 
@@ -146,7 +142,7 @@ public abstract class AbstractChartFragment extends Fragment {
         chart.setDrawGridBackground(false);
     }
 
-    protected void refresh(GBDevice gbDevice, BarLineChartBase chart, List<GBActivitySample> samples) {
+    protected void refresh(GBDevice gbDevice, BarLineChartBase chart, List<ActivitySample> samples) {
         if (gbDevice == null) {
             return;
         }
@@ -162,37 +158,21 @@ public abstract class AbstractChartFragment extends Fragment {
             float movement_divisor;
             boolean annotate = true;
             boolean use_steps_as_movement;
-            switch (getProvider(gbDevice)) {
-                case GBActivitySample.PROVIDER_MIBAND:
-                    // maybe this should be configurable 256 seems way off, though.
-                    movement_divisor = 180.0f; //256.0f;
-                    use_steps_as_movement = true;
-                    break;
-                case GBActivitySample.PROVIDER_PEBBLE_GADGETBRIDGE:
-                    movement_divisor = 63.0f;
-                    use_steps_as_movement = false;
-                    break;
-                default: // Morpheuz
-                    movement_divisor = 5000.0f;
-                    use_steps_as_movement = false;
-                    break;
-            }
+            SampleProvider provider = getProvider(gbDevice);
 
-            byte last_type = GBActivitySample.TYPE_UNKNOWN;
+            int last_type = ActivityKind.TYPE_UNKNOWN;
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
             SimpleDateFormat annotationDateFormat = new SimpleDateFormat("HH:mm");
 
             int numEntries = samples.size();
             List<String> xLabels = new ArrayList<>(numEntries);
-//            List<BarEntry> deepSleepEntries = new ArrayList<>(numEntries / 4);
-//            List<BarEntry> lightSleepEntries = new ArrayList<>(numEntries / 4);
             List<BarEntry> activityEntries = new ArrayList<>(numEntries);
             List<Integer> colors = new ArrayList<>(numEntries); // this is kinda inefficient...
 
             for (int i = 0; i < numEntries; i++) {
-                GBActivitySample sample = samples.get(i);
-                byte type = sample.getType();
+                ActivitySample sample = samples.get(i);
+                int type = sample.getKind();
 
                 // determine start and end dates
                 if (i == 0) {
@@ -205,29 +185,24 @@ public abstract class AbstractChartFragment extends Fragment {
                     dateStringTo = dateFormat.format(date);
                 }
 
-                short movement = sample.getIntensity();
+                float movement = sample.getIntensity();
 
-                float value;
-                if (type == GBActivitySample.TYPE_DEEP_SLEEP) {
-//                    value = Y_VALUE_DEEP_SLEEP;
-                    value = ((float) movement) / movement_divisor;
+                float value = movement;
+                if (type == ActivityKind.TYPE_DEEP_SLEEP) {
                     value += SleepUtils.Y_VALUE_DEEP_SLEEP;
                     activityEntries.add(createBarEntry(value, i));
                     colors.add(akDeepSleep.color);
                 } else {
-                    if (type == GBActivitySample.TYPE_LIGHT_SLEEP) {
-                        value = ((float) movement) / movement_divisor;
-//                        value += SleepUtils.Y_VALUE_LIGHT_SLEEP;
-//                        value = Math.min(1.0f, Y_VALUE_LIGHT_SLEEP);
+                    if (type == ActivityKind.TYPE_LIGHT_SLEEP) {
                         activityEntries.add(createBarEntry(value, i));
                         colors.add(akLightSleep.color);
                     } else {
-                        byte steps = sample.getSteps();
-                        if (use_steps_as_movement && steps != 0) {
-                            // I'm not sure using steps for this is actually a good idea
-                            movement = steps;
-                        }
-                        value = ((float) movement) / movement_divisor;
+//                        short steps = sample.getSteps();
+//                        if (use_steps_as_movement && steps != 0) {
+//                            // I'm not sure using steps for this is actually a good idea
+//                            movement = steps;
+//                        }
+//                        value = ((float) movement) / movement_divisor;
                         activityEntries.add(createBarEntry(value, i));
                         colors.add(akActivity.color);
                     }
@@ -263,13 +238,9 @@ public abstract class AbstractChartFragment extends Fragment {
 
             chart.getXAxis().setValues(xLabels);
 
-//            BarDataSet deepSleepSet = createDeepSleepSet(deepSleepEntries, "Deep Sleep");
-//            BarDataSet lightSleepSet = createLightSleepSet(lightSleepEntries, "Light Sleep");
             BarDataSet activitySet = createActivitySet(activityEntries, colors, "Activity");
 
             ArrayList<BarDataSet> dataSets = new ArrayList<>();
-//            dataSets.add(deepSleepSet);
-//            dataSets.add(lightSleepSet);
             dataSets.add(activitySet);
 
             // create a data object with the datasets
@@ -278,19 +249,16 @@ public abstract class AbstractChartFragment extends Fragment {
 
             chart.setDescription(getString(R.string.sleep_activity_date_range, dateStringFrom, dateStringTo));
 //            chart.setDescriptionPosition(?, ?);
-            // set data
 
             setupLegend(chart);
 
             chart.setData(data);
 
             chart.animateX(500, Easing.EasingOption.EaseInOutQuart);
-
-//            textView.setText(dateStringFrom + " to " + dateStringTo);
         }
     }
 
-    protected abstract List<GBActivitySample> getSamples(GBDevice device, int tsFrom, int tsTo);
+    protected abstract List<ActivitySample> getSamples(GBDevice device, int tsFrom, int tsTo);
 
     protected abstract void setupLegend(Chart chart);
 

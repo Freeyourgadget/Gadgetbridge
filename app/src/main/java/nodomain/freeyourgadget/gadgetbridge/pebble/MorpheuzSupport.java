@@ -16,6 +16,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSleepMonitorResult;
+import nodomain.freeyourgadget.gadgetbridge.model.SampleProvider;
 
 public class MorpheuzSupport {
 
@@ -101,14 +102,14 @@ public class MorpheuzSupport {
                         short index = (short) ((int) pair.second >> 16);
                         short intensity = (short) ((int) pair.second & 0xffff);
                         LOG.info("got point:" + index + " " + intensity);
-                        byte type = GBActivitySample.TYPE_UNKNOWN;
+                        byte type = MorpheuzSampleProvider.TYPE_UNKNOWN;
                         if (intensity <= 120) {
-                            type = GBActivitySample.TYPE_DEEP_SLEEP;
+                            type = MorpheuzSampleProvider.TYPE_DEEP_SLEEP;
                         } else if (intensity <= 1000) {
-                            type = GBActivitySample.TYPE_LIGHT_SLEEP;
+                            type = MorpheuzSampleProvider.TYPE_LIGHT_SLEEP;
                         }
                         if (index >= 0) {
-                            GBApplication.getActivityDatabaseHandler().addGBActivitySample(recording_base_timestamp + index * 600, GBActivitySample.PROVIDER_PEBBLE_MORPHEUZ, intensity, (byte) 0, type);
+                            GBApplication.getActivityDatabaseHandler().addGBActivitySample(recording_base_timestamp + index * 600, SampleProvider.PROVIDER_PEBBLE_MORPHEUZ, intensity, (byte) 0, type);
                         }
 
                         ctrl_message = MorpheuzSupport.CTRL_VERSION_DONE | MorpheuzSupport.CTRL_SET_LAST_SENT | MorpheuzSupport.CTRL_DO_NEXT;

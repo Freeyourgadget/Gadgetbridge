@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.ControlCenter;
-import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 
 public class ActivitySleepChartFragment extends AbstractChartFragment {
@@ -48,7 +48,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
                 mSmartAlarmTo = intent.getIntExtra("smartalarm_to", -1);
                 mTimestampFrom = intent.getIntExtra("recording_base_timestamp", -1);
                 mSmartAlarmGoneOff = intent.getIntExtra("alarm_gone_off", -1);
-                List<GBActivitySample> samples = getSamples(mGBDevice, -1, -1);
+                List<ActivitySample> samples = getSamples(mGBDevice, -1, -1);
                 refresh(mGBDevice, mChart, samples);
             }
         }
@@ -108,7 +108,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
         yAxisRight.setDrawTopYLabelEntry(false);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
 
-        List<GBActivitySample> samples = getSamples(mGBDevice, -1, -1);
+        List<ActivitySample> samples = getSamples(mGBDevice, -1, -1);
         refresh(mGBDevice, mChart, samples);
 
         mChart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
@@ -140,7 +140,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
     }
 
     @Override
-    protected List<GBActivitySample> getSamples(GBDevice device, int tsFrom, int tsTo) {
+    protected List<ActivitySample> getSamples(GBDevice device, int tsFrom, int tsTo) {
         return getAllSamples(device, tsFrom, tsTo);
     }
 }

@@ -29,12 +29,12 @@ import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.GB;
-import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.charts.ActivityAmount;
 import nodomain.freeyourgadget.gadgetbridge.charts.ActivityAmounts;
 import nodomain.freeyourgadget.gadgetbridge.charts.ActivityAnalysis;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 
 public class SleepChartFragment extends AbstractChartFragment {
@@ -65,7 +65,7 @@ public class SleepChartFragment extends AbstractChartFragment {
     };
 
     private void refresh() {
-        List<GBActivitySample> samples = getSamples();
+        List<ActivitySample> samples = getSamples();
         refresh(mGBDevice, mActivityChart, getSamples());
         refreshSleepAmounts(mGBDevice, mSleepAmountChart, samples);
 
@@ -73,11 +73,11 @@ public class SleepChartFragment extends AbstractChartFragment {
         mSleepAmountChart.invalidate();
     }
 
-    private List<GBActivitySample> getSamples() {
+    private List<ActivitySample> getSamples() {
         return getSamples(mGBDevice, -1, -1);
     }
 
-    private void refreshSleepAmounts(GBDevice mGBDevice, PieChart pieChart, List<GBActivitySample> samples) {
+    private void refreshSleepAmounts(GBDevice mGBDevice, PieChart pieChart, List<ActivitySample> samples) {
         ActivityAnalysis analysis = new ActivityAnalysis();
         ActivityAmounts amounts = analysis.calculateActivityAmounts(samples);
         String totalSleep = GB.formatDurationHoursMinutes(amounts.getTotalSeconds(), TimeUnit.SECONDS);
@@ -202,7 +202,7 @@ public class SleepChartFragment extends AbstractChartFragment {
     }
 
     @Override
-    protected List<GBActivitySample> getSamples(GBDevice device, int tsFrom, int tsTo) {
+    protected List<ActivitySample> getSamples(GBDevice device, int tsFrom, int tsTo) {
         return super.getSleepSamples(device, tsFrom, tsTo);
     }
 }

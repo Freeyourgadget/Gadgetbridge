@@ -2,26 +2,26 @@ package nodomain.freeyourgadget.gadgetbridge.charts;
 
 import java.util.List;
 
-import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 public class ActivityAnalysis {
-    public ActivityAmounts calculateActivityAmounts(List<GBActivitySample> samples) {
+    public ActivityAmounts calculateActivityAmounts(List<ActivitySample> samples) {
         ActivityAmount deepSleep = new ActivityAmount(ActivityKind.TYPE_DEEP_SLEEP);
         ActivityAmount lightSleep = new ActivityAmount(ActivityKind.TYPE_LIGHT_SLEEP);
         ActivityAmount activity = new ActivityAmount(ActivityKind.TYPE_ACTIVITY);
 
         ActivityAmount previousAmount = null;
-        GBActivitySample previousSample = null;
-        for (GBActivitySample sample : samples) {
+        ActivitySample previousSample = null;
+        for (ActivitySample sample : samples) {
             ActivityAmount amount = null;
-            switch (sample.getType()) {
-                case GBActivitySample.TYPE_DEEP_SLEEP:
+            switch (sample.getKind()) {
+                case ActivityKind.TYPE_DEEP_SLEEP:
                     amount = deepSleep;
                     break;
-                case GBActivitySample.TYPE_LIGHT_SLEEP:
+                case ActivityKind.TYPE_LIGHT_SLEEP:
                     amount = lightSleep;
                     break;
-                case GBActivitySample.TYPE_UNKNOWN:
+                case ActivityKind.TYPE_ACTIVITY:
                 default:
                     amount = activity;
                     break;
@@ -29,7 +29,7 @@ public class ActivityAnalysis {
 
             if (previousSample != null) {
                 long timeDifference = sample.getTimestamp() - previousSample.getTimestamp();
-                if (previousSample.getType() == sample.getType()) {
+                if (previousSample.getRawKind() == sample.getRawKind()) {
                     amount.addSeconds(timeDifference);
                 } else {
                     long sharedTimeDifference = (long) (timeDifference / 2.0f);
