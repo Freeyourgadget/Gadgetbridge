@@ -900,10 +900,12 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
             if ((i > 0) && (i % 50 == 0)) {
                 if (!sendFirmwareSync()) {
+                    GB.updateInstallNotification("Firmware sync failed", false, 0, getContext());
                     LOG.error("Firmware sync failed");
                     return;
                 }
             }
+            GB.updateInstallNotification("Firmware update in progress", true, (firmwareProgress / len) * 100, getContext());
             LOG.info("Firmware update progress:" + firmwareProgress + " total lenL:" + len + " progress:" + firmwareProgress / len);
         }
 
@@ -918,10 +920,14 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
 
         LOG.info("Firmware update progress:" + firmwareProgress + " total lenL:" + len + " progress:" + firmwareProgress / len);
+        if (firmwareProgress >= len) {
+            GB.updateInstallNotification("Firmware installation complete", false, 100, getContext());
+        } else {
+            GB.updateInstallNotification("Firmware update in progress", true, (firmwareProgress / len) * 100, getContext());
+        }
 
         if (!sendFirmwareSync()) {
             LOG.error("Firmware sync failed");
-            return;
         }
 
     }
@@ -933,6 +939,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to send fw packet to MI", ex);
+            GB.updateInstallNotification("Firmware chunk write failed", false, 0, getContext());
             return false;
         }
         return true;
@@ -945,6 +952,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to send firmware sync to MI", ex);
+            GB.updateInstallNotification("Firmwar sync failed", false, 0, getContext());
             return false;
         }
         return true;

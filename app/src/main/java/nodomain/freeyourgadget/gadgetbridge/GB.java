@@ -266,4 +266,36 @@ public class GB {
                 .build();
         return df.format(duration, unit);
     }
+
+    private static Notification createInstallNotification(String text, boolean ongoing,
+                                                         int percentage, Context context) {
+        Intent notificationIntent = new Intent(context, AppManagerActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
+                notificationIntent, 0);
+
+        NotificationCompat.Builder nb = new NotificationCompat.Builder(context)
+                .setContentTitle(context.getString(R.string.app_name))
+                .setContentText(text)
+                .setTicker(text)
+
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentIntent(pendingIntent)
+                .setOngoing(ongoing);
+
+        if (ongoing) {
+            nb.setProgress(100, percentage, percentage == 0);
+        }
+
+        return nb.build();
+    }
+
+    public static void updateInstallNotification(String text, boolean ongoing, int percentage, Context context) {
+        Notification notification = createInstallNotification(text, ongoing, percentage, context);
+
+        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.notify(NOTIFICATION_ID, notification);
+    }
+
 }

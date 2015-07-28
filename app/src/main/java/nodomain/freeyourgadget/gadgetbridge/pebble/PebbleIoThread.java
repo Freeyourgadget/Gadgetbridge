@@ -1,18 +1,13 @@
 package nodomain.freeyourgadget.gadgetbridge.pebble;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.ParcelUuid;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +19,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.zip.ZipInputStream;
 
-import nodomain.freeyourgadget.gadgetbridge.AppManagerActivity;
+import nodomain.freeyourgadget.gadgetbridge.GB;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -35,7 +30,6 @@ import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
 
 public class PebbleIoThread extends GBDeviceIoThread {
     private static final Logger LOG = LoggerFactory.getLogger(PebbleIoThread.class);
-    private static final int NOTIFICATION_ID = 2;
     private final PebbleProtocol mPebbleProtocol;
     private final PebbleSupport mPebbleSupport;
     private BluetoothAdapter mBtAdapter = null;
@@ -66,36 +60,6 @@ public class PebbleIoThread extends GBDeviceIoThread {
         mPebbleSupport = pebbleSupport;
     }
 
-    public static Notification createInstallNotification(String text, boolean ongoing,
-                                                         int percentage, Context context) {
-        Intent notificationIntent = new Intent(context, AppManagerActivity.class);
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
-                notificationIntent, 0);
-
-        NotificationCompat.Builder nb = new NotificationCompat.Builder(context)
-                .setContentTitle(context.getString(R.string.app_name))
-                .setContentText(text)
-                .setTicker(text)
-
-                .setSmallIcon(R.drawable.ic_notification)
-                .setContentIntent(pendingIntent)
-                .setOngoing(ongoing);
-
-        if (ongoing) {
-            nb.setProgress(100, percentage, percentage == 0);
-        }
-
-        return nb.build();
-    }
-
-    public static void updateInstallNotification(String text, boolean ongoing, int percentage, Context context) {
-        Notification notification = createInstallNotification(text, ongoing, percentage, context);
-
-        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.notify(NOTIFICATION_ID, notification);
-    }
 
     @Override
     protected boolean connect(String btDeviceAddress) {
@@ -175,7 +139,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                             } while (bytes < 2000);
 
                             if (bytes > 0) {
-                                updateInstallNotification(getContext().getString(
+                                GB.updateInstallNotification(getContext().getString(
                                         R.string.installing_binary_d_d, (mCurrentInstallableIndex + 1), mPebbleInstallables.length), true, (int) (((float) mBytesWritten / mBinarySize) * 100), getContext());
                                 writeInstallApp(mPebbleProtocol.encodeUploadChunk(mAppInstallToken, buffer, bytes));
                                 mBytesWritten += bytes;
@@ -441,9 +405,9 @@ public class PebbleIoThread extends GBDeviceIoThread {
             return;
         }
         if (hadError) {
-            updateInstallNotification(getContext().getString(R.string.installation_failed_), false, 0, getContext());
+            GB.updateInstallNotification(getContext().getString(R.string.installation_failed_), false, 0, getContext());
         } else {
-            updateInstallNotification(getContext().getString(R.string.installation_successful), false, 0, getContext());
+            GB.updateInstallNotification(getContext().getString(R.string.installation_successful), false, 0, getContext());
         }
         mInstallState = PebbleAppInstallState.UNKNOWN;
 
