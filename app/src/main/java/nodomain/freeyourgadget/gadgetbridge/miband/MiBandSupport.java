@@ -30,6 +30,7 @@ import nodomain.freeyourgadget.gadgetbridge.btle.AbortTransactionAction;
 import nodomain.freeyourgadget.gadgetbridge.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.btle.SetDeviceBusyAction;
+import nodomain.freeyourgadget.gadgetbridge.btle.SetProgressAction;
 import nodomain.freeyourgadget.gadgetbridge.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
 import nodomain.freeyourgadget.gadgetbridge.model.SampleProvider;
@@ -906,7 +907,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
                 if ((i > 0) && (i % 50 == 0)) {
                     builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_SYNC});
-                    GB.updateInstallNotification("Firmware update in progress", true, (firmwareProgress / len) * 100, getContext());
+                    builder.add(new SetProgressAction("Firmware update in progress", true, (firmwareProgress / len) * 100, getContext()));
                 }
 
                 LOG.info("Firmware update progress:" + firmwareProgress + " total len:" + len + " progress:" + (firmwareProgress / len));
@@ -922,7 +923,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             LOG.info("Firmware update progress:" + firmwareProgress + " total len:" + len + " progress:" + (firmwareProgress / len));
             if (firmwareProgress >= len) {
                 builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_SYNC});
-                GB.updateInstallNotification("Firmware installation complete", false, 100, getContext());
+                builder.add(new SetProgressAction("Firmware installation complete", false, 100, getContext()));
             } else {
                 GB.updateInstallNotification("Firmware write failed", false, 0, getContext());
             }
