@@ -21,7 +21,6 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GB;
-import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBCommand;
@@ -543,7 +542,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         int oldFwVersion = mDeviceInfo.getFirmwareVersion();
         int checksum = (Integer.decode("0x" + mMacOctets[4]) << 8 | Integer.decode("0x" + mMacOctets[5])) ^ mFwHelper.getCRC16(mFwHelper.getFw());
 
-        sendFirmwareInfo(oldFwVersion,newFwVersion, mFwHelper.getFw().length, checksum);
+        sendFirmwareInfo(oldFwVersion, newFwVersion, mFwHelper.getFw().length, checksum);
         sendFirmwareData(mFwHelper.getFw());
         onReboot();
 
@@ -900,7 +899,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             firmwareProgress += packetLength;
 
             if ((i > 0) && (i % 50 == 0)) {
-                if(!sendFirmwareSync()) {
+                if (!sendFirmwareSync()) {
                     LOG.error("Firmware sync failed");
                     return;
                 }
@@ -918,9 +917,9 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             firmwareProgress += len % packetLength;
         }
 
-        LOG.info("Firmware update progress:" + firmwareProgress +" total lenL:"+ len + " progress:" + firmwareProgress/len);
+        LOG.info("Firmware update progress:" + firmwareProgress + " total lenL:" + len + " progress:" + firmwareProgress / len);
 
-        if(!sendFirmwareSync()) {
+        if (!sendFirmwareSync()) {
             LOG.error("Firmware sync failed");
             return;
         }
@@ -942,7 +941,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private boolean sendFirmwareSync() {
         try {
             TransactionBuilder builder = performInitialized("send firmware sync");
-            builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[] {MiBandService.COMMAND_SYNC});
+            builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_SYNC});
             builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to send firmware sync to MI", ex);

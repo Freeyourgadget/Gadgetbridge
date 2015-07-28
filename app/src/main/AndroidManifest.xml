@@ -60,24 +60,67 @@
                 android:value=".ControlCenter" />
         </activity>
         <activity
-            android:name=".pebble.PebbleAppInstallerActivity"
-            android:label="@string/title_activity_appinstaller">
+            android:name=".activities.FwAppInstallerActivity"
+            android:label="@string/title_activity_fw_app_insaller">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".AppManagerActivity" />
-
+                android:value="nodomain.freeyourgadget.gadgetbridge.ControlCenter" />
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
 
+                <data android:mimeType="*/*" /> <!-- needed for android 5 -->
+
+                <data android:host="*" />
+                <data android:scheme="file" />
+
+                <!-- as seen on openkeychain repo: https://github.com/open-keychain/open-keychain/blob/master/OpenKeychain/src/main/AndroidManifest.xml -->
+
+                <data android:pathPattern=".*\\.fw" />
+                <data android:pathPattern=".*\\..*\\.fw" />
+                <data android:pathPattern=".*\\..*\\..*\\.fw" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.fw" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.fw" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.fw" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
+
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:host="*" />
                 <data android:scheme="file" />
+
+                <!-- as seen on openkeychain repo: https://github.com/open-keychain/open-keychain/blob/master/OpenKeychain/src/main/AndroidManifest.xml -->
+
                 <data android:pathPattern=".*\\.pbw" />
+                <data android:pathPattern=".*\\..*\\.pbw" />
+                <data android:pathPattern=".*\\..*\\..*\\.pbw" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.pbw" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.pbw" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
+
                 <data android:pathPattern=".*\\.pbz" />
+                <data android:pathPattern=".*\\..*\\.pbz" />
+                <data android:pathPattern=".*\\..*\\..*\\.pbz" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.pbz" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.pbz" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
+
             </intent-filter>
         </activity>
-
         <service
             android:name=".externalevents.NotificationListener"
             android:label="@string/app_name"
@@ -202,36 +245,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms" />
-        </activity>
-        <activity
-            android:name=".miband.FwUpgrade"
-            android:label="@string/title_activity_fw_upgrade">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="nodomain.freeyourgadget.gadgetbridge.ControlCenter" />
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="*/*" /> <!-- needed for android 5 -->
-
-                <data android:host="*" />
-                <data android:scheme="file" />
-
-                <!-- as seen on openkeychain repo: https://github.com/open-keychain/open-keychain/blob/master/OpenKeychain/src/main/AndroidManifest.xml -->
-
-                <data android:pathPattern=".*\\.fw" />
-                <data android:pathPattern=".*\\..*\\.fw" />
-                <data android:pathPattern=".*\\..*\\..*\\.fw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\.fw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.fw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.fw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
-
-            </intent-filter>
         </activity>
     </application>
 

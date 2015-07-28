@@ -5,6 +5,7 @@ import nodomain.freeyourgadget.gadgetbridge.charts.ActivityKind;
 public interface ActivitySample {
     /**
      * Returns the provider of the data.
+     *
      * @return who created the sample data
      */
     SampleProvider getProvider();
@@ -21,6 +22,7 @@ public interface ActivitySample {
 
     /**
      * Returns the activity kind value as recorded by the SampleProvider
+     *
      * @see ActivityKind
      */
     int getKind();

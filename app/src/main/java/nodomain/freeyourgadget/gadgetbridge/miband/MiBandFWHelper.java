@@ -18,14 +18,14 @@ public class MiBandFWHelper {
     private final ContentResolver cr;
     private byte[] fw;
 
-    private final int firmwareVersionBuild    = 1056;
+    private final int firmwareVersionBuild = 1056;
     private final int firmwareVersionRevision = 1057;
-    private final int firmwareVersionMinor    = 1058;
-    private final int firmwareVersionMajor    = 1059;
+    private final int firmwareVersionMinor = 1058;
+    private final int firmwareVersionMajor = 1059;
 
     private final int[] whitelistedFirmwareVersion = {
-        16779534, // 1.0.9.14 tested by developer
-        16779547  //1.0.9.27 testd by developer
+            16779534, // 1.0.9.14 tested by developer
+            16779547  //1.0.9.27 testd by developer
     };
 
     public MiBandFWHelper(Uri uri, Context context) {
@@ -45,7 +45,7 @@ public class MiBandFWHelper {
             this.fw = null;
         }
 
-        if (fw[firmwareVersionMajor] != 1 ) {
+        if (fw[firmwareVersionMajor] != 1) {
             LOG.error("Firmware major version should be 1, probably this isn't a MiBand firmware.");
             this.fw = null;
         }
@@ -53,14 +53,14 @@ public class MiBandFWHelper {
     }
 
     public int getFirmwareVersion() {
-        if(fw == null) {
+        if (fw == null) {
             return -1;
         }
         return (fw[firmwareVersionMajor] << 24) | (fw[firmwareVersionMinor] << 16) | (fw[firmwareVersionRevision] << 8) | fw[firmwareVersionBuild];
     }
 
     public String getHumanFirmwareVersion() {
-        if(fw == null) {
+        if (fw == null) {
             return "UNK";
         }
         return String.format(Locale.US, "%d.%d.%d.%d", fw[firmwareVersionMajor], fw[firmwareVersionMinor], fw[firmwareVersionRevision], fw[firmwareVersionBuild]);
@@ -83,8 +83,8 @@ public class MiBandFWHelper {
     public int getCRC16(byte[] seq) {
         int crc = 0xFFFF;
 
-        for (int j = 0; j < seq.length ; j++) {
-            crc = ((crc  >>> 8) | (crc  << 8) )& 0xffff;
+        for (int j = 0; j < seq.length; j++) {
+            crc = ((crc >>> 8) | (crc << 8)) & 0xffff;
             crc ^= (seq[j] & 0xff);//byte to int, trunc sign
             crc ^= ((crc & 0xff) >> 4);
             crc ^= (crc << 12) & 0xffff;
@@ -94,4 +94,4 @@ public class MiBandFWHelper {
         return crc;
     }
 
- }
+}

@@ -22,7 +22,6 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.DeviceHelper;
-import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;

@@ -33,7 +33,7 @@ public class MiBandSampleProvider implements SampleProvider {
                 return ActivityKind.TYPE_ACTIVITY;
             default:
 //            case TYPE_UNKNOWN: // fall through
-            return ActivityKind.TYPE_UNKNOWN;
+                return ActivityKind.TYPE_UNKNOWN;
         }
     }
 

@@ -2,7 +2,6 @@ package nodomain.freeyourgadget.gadgetbridge.charts;
 
 import java.util.Arrays;
 
-import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.SampleProvider;
 
 public class ActivityKind {

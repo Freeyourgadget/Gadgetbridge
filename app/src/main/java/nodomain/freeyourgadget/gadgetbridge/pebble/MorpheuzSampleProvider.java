@@ -44,7 +44,7 @@ public class MorpheuzSampleProvider implements SampleProvider {
 
     @Override
     public float normalizeIntensity(short rawIntensity) {
-        return rawIntensity/movementDivisor;
+        return rawIntensity / movementDivisor;
     }
 
     @Override

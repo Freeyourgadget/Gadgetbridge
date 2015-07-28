@@ -107,11 +107,12 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
 
     /**
      * Adds the a new sample to the database
+     *
      * @param timestamp the timestamp of the same, second-based!
-     * @param provider the SampleProvider ID
+     * @param provider  the SampleProvider ID
      * @param intensity the sample's raw intensity value
-     * @param steps the sample's steps value
-     * @param kind the raw activity kind of the sample
+     * @param steps     the sample's steps value
+     * @param kind      the raw activity kind of the sample
      */
     public void addGBActivitySample(int timestamp, byte provider, short intensity, byte steps, byte kind) {
         try (SQLiteDatabase db = this.getWritableDatabase()) {
@@ -145,7 +146,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
      * @param timestamp_from
      * @param timestamp_to
      * @param activityTypes  ORed combination of #TYPE_DEEP_SLEEP, #TYPE_LIGHT_SLEEP, #TYPE_ACTIVITY
-     * @param provider the producer of the samples to be sought
+     * @param provider       the producer of the samples to be sought
      * @return
      */
     private ArrayList<ActivitySample> getGBActivitySamples(int timestamp_from, int timestamp_to, int activityTypes, SampleProvider provider) {

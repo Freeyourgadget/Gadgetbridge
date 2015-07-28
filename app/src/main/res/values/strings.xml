@@ -18,8 +18,12 @@
     <string name="title_activity_appmanager">App Manager</string>
     <string name="appmananger_app_delete">Delete</string>
 
-    <!-- Strings related to AppInstaller -->
-    <string name="title_activity_appinstaller">App Installer</string>
+    <!-- Strings related to FwAppInstaller -->
+    <string name="title_activity_fw_app_insaller">FW/App installer</string>
+    <string name="fw_upgrade_notice">You are about to install firmware %s instead of the one currently on your MiBand.</string>
+    <string name="miband_firmware_known">This firmware has been tested and is known to be compatible with GadgetBridge.</string>
+    <string name="miband_firmware_unknown_warning">"This firmware is untested and may not be compatible with GadgetBridge. You are not encouraged to flash it to your MiBand. "</string>
+    <string name="miband_firmware_suggest_whitelist">If you still want to proceed and things continue to work properly afterwards, please tell the GadgetBridge developers to whitelist firmware version: %s</string>
 
     <!-- Strings related to Settings -->
     <string name="title_activity_settings">Settings</string>
@@ -153,9 +157,4 @@
     <string name="user_feedback_miband_set_alarms_ok">Alarms sent to device!</string>
     <string name="chart_no_data_synchronize">No data. Synchronize device?</string>
     <string name="user_feedback_miband_activity_data_transfer">About to transfer %1$s of data starting from %2$s</string>
-    <string name="title_activity_fw_upgrade">FwUpgrade</string>
-    <string name="fw_upgrade_notice">You are about to install firmware %s instead of the one currently on your MiBand.</string>
-    <string name="miband_firmware_known">This firmware has been tested and is known to be compatible with GadgetBridge.</string>
-    <string name="miband_firmware_unknown_warning">"This firmware is untested and may not be compatible with GadgetBridge. You are not encouraged to flash it to your MiBand. "</string>
-    <string name="miband_firmware_suggest_whitelist">If you still want to proceed and things continue to work properly afterwards, please tell the GadgetBridge developers to whitelist firmware version: %s</string>
 </resources>

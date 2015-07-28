@@ -47,6 +47,7 @@ public class PBWReader {
     private GBDeviceApp app;
     private ArrayList<PebbleInstallable> pebbleInstallables;
     private boolean isFirmware = false;
+    private boolean isValid = false;
     private String hwRevision = null;
 
     public PBWReader(Uri uri, Context context) {
@@ -102,12 +103,14 @@ public class PBWReader {
                                 byte type = entry.getValue();
                                 pebbleInstallables.add(new PebbleInstallable(name, size, (int) crc, type));
                                 LOG.info("found file to install: " + name);
+                                isValid = true;
                             } catch (JSONException e) {
                                 // not fatal
                             }
                         }
                     } catch (JSONException e) {
                         // no JSON at all that is a problem
+                        isValid = false;
                         e.printStackTrace();
                         break;
                     }
@@ -132,9 +135,11 @@ public class PBWReader {
                         if (appName != null && appCreator != null && appVersion != null) {
                             // FIXME: dont assume WATCHFACE
                             app = new GBDeviceApp(uuid, appName, appCreator, appVersion, GBDeviceApp.Type.WATCHFACE);
+                            isValid = true;
                         }
 
                     } catch (JSONException e) {
+                        isValid = false;
                         e.printStackTrace();
                         break;
                     }
@@ -146,8 +151,12 @@ public class PBWReader {
         }
     }
 
-    protected boolean isFirmware() {
+    public boolean isFirmware() {
         return isFirmware;
+    }
+
+    public boolean isValid() {
+        return isValid;
     }
 
     public GBDeviceApp getGBDeviceApp() {

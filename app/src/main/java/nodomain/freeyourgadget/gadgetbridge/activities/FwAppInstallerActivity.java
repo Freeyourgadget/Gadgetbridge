@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.pebble;
+package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -19,19 +19,25 @@ import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.BluetoothCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.ControlCenter;
+import nodomain.freeyourgadget.gadgetbridge.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.miband.MiBandFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.pebble.PBWReader;
 
 
-public class PebbleAppInstallerActivity extends Activity {
+public class FwAppInstallerActivity extends Activity {
 
-    private static final Logger LOG = LoggerFactory.getLogger(PebbleAppInstallerActivity.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FwAppInstallerActivity.class);
 
-    TextView debugTextView;
+    TextView fwAppInstallTextView;
     Button installButton;
 
+    // FIXME: abstraction for these would make code cleaner in this class
     private PBWReader mPBWReader = null;
+    private MiBandFWHelper mFwReader = null;
+
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -40,7 +46,7 @@ public class PebbleAppInstallerActivity extends Activity {
                 finish();
             } else if (action.equals(GBDevice.ACTION_DEVICE_CHANGED)) {
                 GBDevice dev = intent.getParcelableExtra("device");
-                if (mPBWReader != null) {
+                if (dev.getType() == DeviceType.PEBBLE && mPBWReader != null) {
                     if (mPBWReader.isFirmware()) {
                         String hwRevision = mPBWReader.getHWRevision();
                         if (hwRevision != null && hwRevision.equals(dev.getHardwareVersion()) && dev.isConnected()) {
@@ -51,6 +57,8 @@ public class PebbleAppInstallerActivity extends Activity {
                     } else {
                         installButton.setEnabled(dev.isConnected());
                     }
+                } else if (dev.getType() == DeviceType.MIBAND && mFwReader != null) {
+                    installButton.setEnabled(dev.isInitialized());
                 }
             }
         }
@@ -62,7 +70,7 @@ public class PebbleAppInstallerActivity extends Activity {
         setContentView(R.layout.activity_appinstaller);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        debugTextView = (TextView) findViewById(R.id.debugTextView);
+        fwAppInstallTextView = (TextView) findViewById(R.id.debugTextView);
         installButton = (Button) findViewById(R.id.installButton);
         IntentFilter filter = new IntentFilter();
         filter.addAction(ControlCenter.ACTION_QUIT);
@@ -71,19 +79,33 @@ public class PebbleAppInstallerActivity extends Activity {
 
         final Uri uri = getIntent().getData();
         mPBWReader = new PBWReader(uri, getApplicationContext());
-        GBDeviceApp app = mPBWReader.getGBDeviceApp();
+        if (mPBWReader.isValid()) {
+            GBDeviceApp app = mPBWReader.getGBDeviceApp();
 
-        if (mPBWReader.isFirmware()) {
-            debugTextView.setText(getString(R.string.firmware_install_warning, mPBWReader.getHWRevision()));
+            if (mPBWReader.isFirmware()) {
+                fwAppInstallTextView.setText(getString(R.string.firmware_install_warning, mPBWReader.getHWRevision()));
 
-        } else if (app != null) {
-            debugTextView.setText(getString(R.string.app_install_info, app.getName(), app.getVersion(), app.getCreator()));
+            } else if (app != null) {
+                fwAppInstallTextView.setText(getString(R.string.app_install_info, app.getName(), app.getVersion(), app.getCreator()));
+            }
+        } else {
+            mPBWReader = null;
+            mFwReader = new MiBandFWHelper(uri, getApplicationContext());
+
+            fwAppInstallTextView.setText(getString(R.string.fw_upgrade_notice, mFwReader.getHumanFirmwareVersion()));
+
+            if (mFwReader.isFirmwareWhitelisted()) {
+                fwAppInstallTextView.append(" " + getString(R.string.miband_firmware_known));
+            } else {
+                fwAppInstallTextView.append("  " + getString(R.string.miband_firmware_unknown_warning) + " " +
+                        getString(R.string.miband_firmware_suggest_whitelist, mFwReader.getFirmwareVersion()));
+            }
         }
 
         installButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(PebbleAppInstallerActivity.this, BluetoothCommunicationService.class);
+                Intent startIntent = new Intent(FwAppInstallerActivity.this, BluetoothCommunicationService.class);
                 startIntent.setAction(BluetoothCommunicationService.ACTION_INSTALL);
                 startIntent.putExtra("uri", uri.toString());
                 startService(startIntent);
