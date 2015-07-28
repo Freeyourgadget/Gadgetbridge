@@ -137,6 +137,11 @@ public class MiBandService {
 
     public static final byte COMMAND_SET_TIMER = 0x4;
 
+    public static final byte COMMAND_SEND_FIRMWARE_INFO = 0x7;
+
+    public static final byte COMMAND_SYNC = 0xb;
+
+
     /*
 
 
@@ -145,7 +150,6 @@ public class MiBandService {
 
 	public static final byte COMMAND_GET_SENSOR_DATA = 0x12t
 
-	public static final byte COMMAND_SEND_FIRMWARE_INFO = 0x7t
 
 	public static final int COMMAND_SET_COLOR_THEME = et;
 
@@ -158,8 +162,6 @@ public class MiBandService {
 	public static final COMMAND_SET_WEAR_LOCATION = 0xft
 
 	public static final COMMAND_STOP_SYNC_DATA = 0x11t
-
-	public static final COMMAND_SYNC = 0xbt
 
 	public static final CONNECTION_LATENCY_LEVEL_HIGH = 0x2t;
 
