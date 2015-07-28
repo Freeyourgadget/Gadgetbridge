@@ -542,9 +542,15 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         int oldFwVersion = mDeviceInfo.getFirmwareVersion();
         int checksum = (Integer.decode("0x" + mMacOctets[4]) << 8 | Integer.decode("0x" + mMacOctets[5])) ^ mFwHelper.getCRC16(mFwHelper.getFw());
 
-        sendFirmwareInfo(oldFwVersion, newFwVersion, mFwHelper.getFw().length, checksum);
-        sendFirmwareData(mFwHelper.getFw());
-        onReboot();
+        if (sendFirmwareInfo(oldFwVersion, newFwVersion, mFwHelper.getFw().length, checksum)) {
+            //metadata were sent correctly, send the actual firmware
+            if(sendFirmwareData(mFwHelper.getFw())) {
+                //firmware was sent correctly, reboot
+                onReboot();
+            } else {
+                //TODO: the firmware transfer failed, but the miband should be still functional with the old firmware. What should we do?
+            }
+        }
 
         return;
     }
@@ -855,7 +861,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         LOG.info("MI Band pairing result: " + value);
     }
 
-    private void sendFirmwareInfo(int currentFwVersion, int newFwVersion, int newFwSize, int checksum) {
+    private boolean sendFirmwareInfo(int currentFwVersion, int newFwVersion, int newFwSize, int checksum) {
         byte[] fwInfo = new byte[]{
                 MiBandService.COMMAND_SEND_FIRMWARE_INFO,
                 (byte) currentFwVersion,
@@ -877,10 +883,12 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to send fwInfo to MI", ex);
+            return false;
         }
+        return true;
     }
 
-    private void sendFirmwareData(byte fwbytes[]) {
+    private boolean sendFirmwareData(byte fwbytes[]) {
         int len = fwbytes.length;
         final int packetLength = 20;
         int packets = len / packetLength;
@@ -888,76 +896,46 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
         int firmwareProgress = 0;
 
-        for (int i = 0; i < packets; i++) {
-            fwChunk = Arrays.copyOfRange(fwbytes, i * packetLength, i * packetLength + packetLength);
-
-            if (!sendFirmwareChunk(fwChunk)) {
-                LOG.error("Firmware chunk write failed");
-                return;
-            }
-
-            firmwareProgress += packetLength;
-
-            if ((i > 0) && (i % 50 == 0)) {
-                if (!sendFirmwareSync()) {
-                    GB.updateInstallNotification("Firmware sync failed", false, 0, getContext());
-                    LOG.error("Firmware sync failed");
-                    return;
-                }
-            }
-            GB.updateInstallNotification("Firmware update in progress", true, (firmwareProgress / len) * 100, getContext());
-            LOG.info("Firmware update progress:" + firmwareProgress + " total lenL:" + len + " progress:" + firmwareProgress / len);
-        }
-
-        if (!(len % packetLength == 0)) {
-            byte lastChunk[] = new byte[len % packetLength];
-            lastChunk = Arrays.copyOfRange(fwbytes, packets * packetLength, len);
-            if (!sendFirmwareChunk(lastChunk)) {
-                LOG.error("Firmware chunk write failed");
-                return;
-            }
-            firmwareProgress += len % packetLength;
-        }
-
-        LOG.info("Firmware update progress:" + firmwareProgress + " total lenL:" + len + " progress:" + firmwareProgress / len);
-        if (firmwareProgress >= len) {
-            GB.updateInstallNotification("Firmware installation complete", false, 100, getContext());
-        } else {
-            GB.updateInstallNotification("Firmware update in progress", true, (firmwareProgress / len) * 100, getContext());
-        }
-
-        if (!sendFirmwareSync()) {
-            LOG.error("Firmware sync failed");
-        }
-
-    }
-
-    private boolean sendFirmwareChunk(byte fwChunk[]) {
         try {
             TransactionBuilder builder = performInitialized("send firmware packet");
-            builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_FIRMWARE_DATA), fwChunk);
+            for (int i = 0; i < packets; i++) {
+                fwChunk = Arrays.copyOfRange(fwbytes, i * packetLength, i * packetLength + packetLength);
+
+                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_FIRMWARE_DATA), fwChunk);
+                firmwareProgress += packetLength;
+
+                if ((i > 0) && (i % 50 == 0)) {
+                    builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_SYNC});
+                    GB.updateInstallNotification("Firmware update in progress", true, (firmwareProgress / len) * 100, getContext());
+                }
+
+                LOG.info("Firmware update progress:" + firmwareProgress + " total len:" + len + " progress:" + (firmwareProgress / len));
+            }
+
+            if (!(len % packetLength == 0)) {
+                byte lastChunk[] = new byte[len % packetLength];
+                lastChunk = Arrays.copyOfRange(fwbytes, packets * packetLength, len);
+                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_FIRMWARE_DATA), lastChunk);
+                firmwareProgress += len % packetLength;
+            }
+
+            LOG.info("Firmware update progress:" + firmwareProgress + " total len:" + len + " progress:" + (firmwareProgress / len));
+            if (firmwareProgress >= len) {
+                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_SYNC});
+                GB.updateInstallNotification("Firmware installation complete", false, 100, getContext());
+            } else {
+                GB.updateInstallNotification("Firmware write failed", false, 0, getContext());
+            }
+
             builder.queue(getQueue());
+
         } catch (IOException ex) {
-            LOG.error("Unable to send fw packet to MI", ex);
-            GB.updateInstallNotification("Firmware chunk write failed", false, 0, getContext());
+            LOG.error("Unable to send fw to MI", ex);
+            GB.updateInstallNotification("Firmware write failed", false, 0, getContext());
             return false;
         }
         return true;
     }
-
-    private boolean sendFirmwareSync() {
-        try {
-            TransactionBuilder builder = performInitialized("send firmware sync");
-            builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_SYNC});
-            builder.queue(getQueue());
-        } catch (IOException ex) {
-            LOG.error("Unable to send firmware sync to MI", ex);
-            GB.updateInstallNotification("Firmwar sync failed", false, 0, getContext());
-            return false;
-        }
-        return true;
-    }
-
 
     @Override
     protected TransactionBuilder createTransactionBuilder(String taskName) {
