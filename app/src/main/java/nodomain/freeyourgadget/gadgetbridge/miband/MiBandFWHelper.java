@@ -25,7 +25,8 @@ public class MiBandFWHelper {
 
     private final int[] whitelistedFirmwareVersion = {
             16779534, // 1.0.9.14 tested by developer
-            16779547  //1.0.9.27 testd by developer
+            16779547,  //1.0.9.27 tested by developer
+            16779568 //1.0.9.48 tested by developer
     };
 
     public MiBandFWHelper(Uri uri, Context context) {
