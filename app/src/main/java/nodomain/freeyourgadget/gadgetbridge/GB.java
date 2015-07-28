@@ -36,6 +36,8 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.TimeChangeReceiver;
 
 public class GB {
     public static final int NOTIFICATION_ID = 1;
+    public static final int NOTIFICATION_ID_INSTALL = 2;
+
     private static final Logger LOG = LoggerFactory.getLogger(GB.class);
     public static final int INFO = 1;
     public static final int WARN = 2;
@@ -268,8 +270,8 @@ public class GB {
     }
 
     private static Notification createInstallNotification(String text, boolean ongoing,
-                                                         int percentage, Context context) {
-        Intent notificationIntent = new Intent(context, AppManagerActivity.class);
+                                                          int percentage, Context context) {
+        Intent notificationIntent = new Intent(context, ControlCenter.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
@@ -279,13 +281,15 @@ public class GB {
                 .setContentTitle(context.getString(R.string.app_name))
                 .setContentText(text)
                 .setTicker(text)
-
-                .setSmallIcon(R.drawable.ic_notification)
                 .setContentIntent(pendingIntent)
                 .setOngoing(ongoing);
 
         if (ongoing) {
             nb.setProgress(100, percentage, percentage == 0);
+            nb.setSmallIcon(android.R.drawable.stat_sys_upload);
+
+        } else {
+            nb.setSmallIcon(android.R.drawable.stat_sys_upload_done);
         }
 
         return nb.build();
@@ -295,7 +299,7 @@ public class GB {
         Notification notification = createInstallNotification(text, ongoing, percentage, context);
 
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.notify(NOTIFICATION_ID, notification);
+        nm.notify(NOTIFICATION_ID_INSTALL, notification);
     }
 
 }
