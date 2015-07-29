@@ -113,15 +113,20 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
 
         entries.add(new Entry(totalSteps, 0));
         colors.add(akActivity.color);
+        //we don't want labels on the pie chart
         data.addXValue("");
 
-        entries.add(new Entry((mTargetSteps - totalSteps), 1));
-        colors.add(Color.GRAY);
-        data.addXValue("");
+        if (totalSteps < mTargetSteps) {
+            entries.add(new Entry((mTargetSteps - totalSteps), 1));
+            colors.add(Color.GRAY);
+            //we don't want labels on the pie chart
+            data.addXValue("");
+        }
 
         PieDataSet set = new PieDataSet(entries, "");
         set.setColors(colors);
         data.setDataSet(set);
+        //this hides the values (numeric) added to the set. These would be shown aside the strings set with addXValue above
         data.setDrawValues(false);
         pieChart.setData(data);
 
