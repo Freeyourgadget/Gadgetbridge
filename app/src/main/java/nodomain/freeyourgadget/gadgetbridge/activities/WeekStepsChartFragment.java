@@ -37,6 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.charts.ActivityAnalysis;
+import nodomain.freeyourgadget.gadgetbridge.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 
@@ -44,7 +45,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
     protected static final Logger LOG = LoggerFactory.getLogger(WeekStepsChartFragment.class);
 
     private Locale mLocale;
-    private int mTargetSteps;
+    private int mTargetSteps = 10000;
 
     private BarLineChartBase mWeekStepsChart;
     private PieChart mTodayStepsChart;
@@ -138,15 +139,15 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
                              Bundle savedInstanceState) {
         mLocale = getResources().getConfiguration().locale;
 
-        //TODO: through mGBDevice we should be able to retrieve the steps goal set by the user
-        mTargetSteps = 10000;
-
-
         View rootView = inflater.inflate(R.layout.fragment_sleepchart, container, false);
 
         Bundle extras = getActivity().getIntent().getExtras();
         if (extras != null) {
             mGBDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
+        }
+
+        if(mGBDevice != null) {
+            mTargetSteps = MiBandCoordinator.getFitnessGoal(mGBDevice.getAddress());
         }
 
         IntentFilter filter = new IntentFilter();

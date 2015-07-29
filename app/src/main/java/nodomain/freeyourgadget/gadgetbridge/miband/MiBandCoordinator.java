@@ -106,4 +106,9 @@ public class MiBandCoordinator implements DeviceCoordinator {
         );
         return info;
     }
+
+    public static int getFitnessGoal(String miBandAddress) throws IllegalArgumentException {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
+        return Integer.parseInt(prefs.getString(MiBandConst.PREF_MIBAND_FITNESS_GOAL, "10000"));
+    }
 }

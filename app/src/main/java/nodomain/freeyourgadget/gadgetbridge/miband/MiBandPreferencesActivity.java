@@ -15,6 +15,7 @@ import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_K9M
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_PEBBLEMSG;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.ORIGIN_SMS;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_MIBAND_ADDRESS;
+import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_MIBAND_FITNESS_GOAL;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_MIBAND_WEARSIDE;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_USER_ALIAS;
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.PREF_USER_GENDER;
@@ -56,6 +57,7 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
                 PREF_USER_WEIGHT_KG,
                 PREF_MIBAND_WEARSIDE,
                 PREF_MIBAND_ADDRESS,
+                PREF_MIBAND_FITNESS_GOAL,
                 getNotificationPrefKey(VIBRATION_PROFILE, ORIGIN_SMS),
                 getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_SMS),
                 getNotificationPrefKey(VIBRATION_PROFILE, ORIGIN_INCOMING_CALL),

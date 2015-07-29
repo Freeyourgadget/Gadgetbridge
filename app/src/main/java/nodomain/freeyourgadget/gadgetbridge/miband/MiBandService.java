@@ -141,6 +141,7 @@ public class MiBandService {
 
     public static final byte COMMAND_SYNC = 0xb;
 
+    public static final byte COMMAND_SET_FITNESS_GOAL = 0x5;
 
     /*
 
@@ -152,8 +153,6 @@ public class MiBandService {
 
 
 	public static final int COMMAND_SET_COLOR_THEME = et;
-
-	public static final COMMAND_SET_FITNESS_GOAL = 0x5t
 
 	public static final COMMAND_SET_REALTIME_STEP = 0x10t
 

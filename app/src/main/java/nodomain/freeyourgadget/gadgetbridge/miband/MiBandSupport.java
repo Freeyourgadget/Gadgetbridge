@@ -93,6 +93,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         builder.add(new SetDeviceStateAction(getDevice(), State.INITIALIZING, getContext()));
         pair(builder)
                 .sendUserInfo(builder)
+                .setFitnessGoal(builder)
                 .enableNotifications(builder, true)
                 .setCurrentTime(builder)
                 .requestBatteryInfo(builder)
@@ -263,7 +264,29 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
         return this;
     }
+    /**
+     * Part of device initialization process. Do not call manually.
+     *
+     * @param transaction
+     * @return
+     */
 
+    private MiBandSupport setFitnessGoal(TransactionBuilder transaction) {
+        LOG.info("Attempting to set Fitness Goal...");
+        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
+        if (characteristic != null) {
+            int fitnessGoal = MiBandCoordinator.getFitnessGoal(getDevice().getAddress());
+            transaction.write(characteristic, new byte[]{
+                    MiBandService.COMMAND_SET_FITNESS_GOAL,
+                    0,
+                    (byte) (fitnessGoal  &  0xff),
+                    (byte) ((fitnessGoal >>> 8) & 0xff)
+            });
+        } else {
+            LOG.info("Unable to set Fitness Goal");
+        }
+        return this;
+    }
     private void performDefaultNotification(String task, short repeat, BtLEAction extraAction) {
         try {
             TransactionBuilder builder = performInitialized(task);
