@@ -1,5 +1,9 @@
 ###Changelog
 
+####Version (next)
+* Enhancement to activity graphs: new graph showing the number of steps done today and in the last week
+* Mi Band: support for flashing firmware from .fw files (upgrades and downgrades are possible)
+
 ####Version 0.4.4
 * Set GadgetBridge notification visibility to public, to show the connection status on the lockscreen
 * Support for backup up and restoring of the activity database (via Debug activity)
