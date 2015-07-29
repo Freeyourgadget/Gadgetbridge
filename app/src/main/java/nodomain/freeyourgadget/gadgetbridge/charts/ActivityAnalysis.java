@@ -58,4 +58,12 @@ public class ActivityAnalysis {
 
         return result;
     }
+
+    public int calculateTotalSteps(List<ActivitySample> samples) {
+        int totalSteps = 0;
+        for (ActivitySample sample : samples) {
+            totalSteps += sample.getSteps();
+        }
+        return totalSteps;
+    }
 }

@@ -146,6 +146,8 @@ public class ChartsActivity extends FragmentActivity {
                     return new ActivitySleepChartFragment();
                 case 1:
                     return new SleepChartFragment();
+                case 2:
+                    return new WeekStepsChartFragment();
 
             }
             return null;
@@ -153,8 +155,8 @@ public class ChartsActivity extends FragmentActivity {
 
         @Override
         public int getCount() {
-            // Show 2 total pages.
-            return 2;
+            // Show 3 total pages.
+            return 3;
         }
 
         @Override
