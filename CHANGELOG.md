@@ -4,6 +4,7 @@
 * Enhancement to activity graphs: new graph showing the number of steps done today and in the last week
 * New preference to set the desired fitness goal (number of steps to walk in one day)
 * Mi Band: support for setting the fitness goal (the band will show the progress to the goal with the leds and vibrates when the goal is reached)
+* Mi Band: send the wear location (left / right hand) to the device
 * Mi Band: support for flashing firmware from .fw files (upgrades and downgrades are possible)
 
 ####Version 0.4.4
