@@ -84,6 +84,10 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     private DeviceInfo mDeviceInfo;
 
+    private boolean firmwareInfoSent = false;
+    private byte[] newFirmware;
+    private boolean rebootWhenBandReady = false;
+
     public MiBandSupport() {
         addSupportedService(MiBandService.UUID_SERVICE_MIBAND_SERVICE);
     }
@@ -567,13 +571,9 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         int checksum = (Integer.decode("0x" + mMacOctets[4]) << 8 | Integer.decode("0x" + mMacOctets[5])) ^ mFwHelper.getCRC16(mFwHelper.getFw());
 
         if (sendFirmwareInfo(oldFwVersion, newFwVersion, mFwHelper.getFw().length, checksum)) {
-            //metadata were sent correctly, send the actual firmware
-            if(sendFirmwareData(mFwHelper.getFw())) {
-                //firmware was sent correctly, reboot
-                onReboot();
-            } else {
-                //TODO: the firmware transfer failed, but the miband should be still functional with the old firmware. What should we do?
-            }
+            firmwareInfoSent = true;
+            newFirmware = mFwHelper.getFw();
+            //the firmware will be sent by the notification listener if the band confirms that the metadata are ok.
         }
 
         return;
@@ -615,7 +615,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         } else if (MiBandService.UUID_CHARACTERISTIC_BATTERY.equals(characteristicUUID)) {
             handleBatteryInfo(characteristic.getValue(), BluetoothGatt.GATT_SUCCESS);
         } else if (MiBandService.UUID_CHARACTERISTIC_NOTIFICATION.equals(characteristicUUID)) {
-            // device somehow changed, should we update e.g. battery level?
+            handleNotificationNotif(characteristic.getValue());
         }
     }
 
@@ -645,6 +645,58 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    private void logMessageContent(byte[] value) {
+        LOG.info("RECEIVED DATA WITH LENGTH: " + value.length);
+        for (byte b : value) {
+            LOG.warn("DATA: " + String.format("0x%2x", b));
+        }
+    }
+
+    private void handleNotificationNotif(byte[] value) {
+        if(value.length != 1) {
+            LOG.error("Notifications should be 1 byte long.");
+            LOG.info("RECEIVED DATA WITH LENGTH: " + value.length);
+            for (byte b : value) {
+                LOG.warn("DATA: " + String.format("0x%2x", b));
+            }
+            return;
+        }
+        switch (value[0]) {
+            case MiBandService.NOTIFY_FW_CHECK_SUCCESS:
+                if(firmwareInfoSent && newFirmware != null) {
+                    if(sendFirmwareData(newFirmware)) {
+                        rebootWhenBandReady = true;
+                    } else {
+                        //TODO: the firmware transfer failed, but the miband should be still functional with the old firmware. What should we do?
+                        GB.toast("Problem with the firmware transfer. DO NOT REBOOT YOUR MIBAND!!!", Toast.LENGTH_LONG, GB.ERROR);
+                    }
+                    firmwareInfoSent = false;
+                    newFirmware = null;
+                }
+                break;
+            case MiBandService.NOTIFY_FW_CHECK_FAILED:
+                GB.toast("Problem with the firmware metadata transfer", Toast.LENGTH_LONG, GB.ERROR);
+                firmwareInfoSent = false;
+                newFirmware = null;
+                break;
+            case MiBandService.NOTIFY_FIRMWARE_UPDATE_SUCCESS:
+                if (rebootWhenBandReady) {
+                    onReboot();
+                }
+                rebootWhenBandReady = false;
+                break;
+            case MiBandService.NOTIFY_FIRMWARE_UPDATE_FAILED:
+                //TODO: the firmware transfer failed, but the miband should be still functional with the old firmware. What should we do?
+                GB.toast("Problem with the firmware transfer. DO NOT REBOOT YOUR MIBAND!!!", Toast.LENGTH_LONG, GB.ERROR);
+                rebootWhenBandReady = false;
+                break;
+
+            default:
+                for (byte b : value) {
+                LOG.warn("DATA: " + String.format("0x%2x", b));
+                }
+        }
+    }
     private void handleDeviceInfo(byte[] value, int status) {
         if (status == BluetoothGatt.GATT_SUCCESS) {
             mDeviceInfo = new DeviceInfo(value);
@@ -946,7 +998,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             LOG.info("Firmware update progress:" + firmwareProgress + " total len:" + len + " progress:" + (firmwareProgress / len));
             if (firmwareProgress >= len) {
                 builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_SYNC});
-                builder.wait(1000);
                 builder.add(new SetProgressAction("Firmware installation complete", false, 100, getContext()));
             } else {
                 GB.updateInstallNotification("Firmware write failed", false, 0, getContext());
