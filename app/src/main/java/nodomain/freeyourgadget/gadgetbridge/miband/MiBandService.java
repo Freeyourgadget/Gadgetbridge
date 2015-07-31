@@ -141,6 +141,8 @@ public class MiBandService {
 
     public static final byte COMMAND_REBOOT = 0xc;
 
+    public static final byte COMMAND_SET_WEAR_LOCATION = 0xf;
+
     public static final byte COMMAND_STOP_MOTOR_VIBRATE = 0x13;
 
     /*
@@ -148,9 +150,7 @@ public class MiBandService {
 
 	public static final byte COMMAND_FACTORY_RESET = 0x9t;
 
-
 	public static final byte COMMAND_GET_SENSOR_DATA = 0x12t
-
 
 	public static final int COMMAND_SET_COLOR_THEME = et;
 

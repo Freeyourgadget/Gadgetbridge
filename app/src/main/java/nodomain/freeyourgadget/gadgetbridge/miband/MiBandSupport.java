@@ -97,6 +97,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         builder.add(new SetDeviceStateAction(getDevice(), State.INITIALIZING, getContext()));
         pair(builder)
                 .sendUserInfo(builder)
+                .setWearLocation(builder)
                 .setFitnessGoal(builder)
                 .enableNotifications(builder, true)
                 .setCurrentTime(builder)
@@ -291,6 +292,28 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
         return this;
     }
+
+    /**
+     * Part of device initialization process. Do not call manually.
+     *
+     * @param transaction
+     * @return
+     */
+    private MiBandSupport setWearLocation(TransactionBuilder transaction) {
+        LOG.info("Attempting to set wear location...");
+        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
+        if (characteristic != null) {
+            int location = MiBandCoordinator.getWearLocation(getDevice().getAddress());
+            transaction.write(characteristic, new byte[]{
+                    MiBandService.COMMAND_SET_WEAR_LOCATION,
+                    (byte) location
+            });
+        } else {
+            LOG.info("Unable to set Wear Location");
+        }
+        return this;
+    }
+
     private void performDefaultNotification(String task, short repeat, BtLEAction extraAction) {
         try {
             TransactionBuilder builder = performInitialized(task);
