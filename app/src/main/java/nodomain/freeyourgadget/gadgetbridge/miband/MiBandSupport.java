@@ -946,6 +946,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             LOG.info("Firmware update progress:" + firmwareProgress + " total len:" + len + " progress:" + (firmwareProgress / len));
             if (firmwareProgress >= len) {
                 builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_SYNC});
+                builder.wait(1000);
                 builder.add(new SetProgressAction("Firmware installation complete", false, 100, getContext()));
             } else {
                 GB.updateInstallNotification("Firmware write failed", false, 0, getContext());
