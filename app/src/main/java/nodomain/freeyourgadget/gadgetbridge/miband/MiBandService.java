@@ -125,23 +125,23 @@ public class MiBandService {
 
     public static final byte MSG_BATTERY_STATUS_CHANGED = 0x7;
 
-    public static final byte COMMAND_REBOOT = 0xc;
+    public static final byte COMMAND_SET_TIMER = 0x4;
 
-    public static final byte COMMAND_SEND_NOTIFICATION = 0x8;
-
-    public static final byte COMMAND_STOP_MOTOR_VIBRATE = 0x13;
-
-    public static final byte COMMAND_CONFIRM_ACTIVITY_DATA_TRANSFER_COMPLETE = 0xa;
+    public static final byte COMMAND_SET_FITNESS_GOAL = 0x5;
 
     public static final byte COMMAND_FETCH_DATA = 0x6;
 
-    public static final byte COMMAND_SET_TIMER = 0x4;
-
     public static final byte COMMAND_SEND_FIRMWARE_INFO = 0x7;
+
+    public static final byte COMMAND_SEND_NOTIFICATION = 0x8;
+
+    public static final byte COMMAND_CONFIRM_ACTIVITY_DATA_TRANSFER_COMPLETE = 0xa;
 
     public static final byte COMMAND_SYNC = 0xb;
 
-    public static final byte COMMAND_SET_FITNESS_GOAL = 0x5;
+    public static final byte COMMAND_REBOOT = 0xc;
+
+    public static final byte COMMAND_STOP_MOTOR_VIBRATE = 0x13;
 
     /*
 
