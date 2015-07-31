@@ -681,6 +681,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 break;
             case MiBandService.NOTIFY_FIRMWARE_UPDATE_SUCCESS:
                 if (rebootWhenBandReady) {
+                    GB.updateInstallNotification("Firmware installation complete", false, 100, getContext());
                     onReboot();
                 }
                 rebootWhenBandReady = false;
@@ -688,6 +689,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             case MiBandService.NOTIFY_FIRMWARE_UPDATE_FAILED:
                 //TODO: the firmware transfer failed, but the miband should be still functional with the old firmware. What should we do?
                 GB.toast("Problem with the firmware transfer. DO NOT REBOOT YOUR MIBAND!!!", Toast.LENGTH_LONG, GB.ERROR);
+                GB.updateInstallNotification("Firmware write failed", false, 0, getContext());
                 rebootWhenBandReady = false;
                 break;
 
@@ -998,7 +1000,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             LOG.info("Firmware update progress:" + firmwareProgress + " total len:" + len + " progress:" + (firmwareProgress / len));
             if (firmwareProgress >= len) {
                 builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_SYNC});
-                builder.add(new SetProgressAction("Firmware installation complete", false, 100, getContext()));
             } else {
                 GB.updateInstallNotification("Firmware write failed", false, 0, getContext());
             }
