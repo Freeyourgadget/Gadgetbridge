@@ -9,6 +9,20 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.protocol.GBDeviceProtocol;
 
+/**
+ * An abstract base class for all devices connected via Bluetooth
+ * (not Bluetooth LE).
+ *
+ * Such devices are typically connected with an (rfcomm) socket connection.
+ * This class uses two helper classes to deal with that:
+ * - GBDeviceIoThread, which creates and maintains the actual socket connection and implements the transport layer
+ * - GBDeviceProtocol, which implements the encoding and decoding of messages, i.e. the actual device specific protocol
+ *
+ * Note that these two classes need to be implemented in a device specific way.
+ *
+ * This implementation implements all methods of {@link EventHandler}, calls the {@link GBDeviceProtocol device protocol}
+ * to create the device specific message for the respective events and sends them to the device via {@link #sendToDevice(byte[])}.
+ */
 public abstract class AbstractBTDeviceSupport extends AbstractDeviceSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractDeviceSupport.class);
@@ -16,8 +30,14 @@ public abstract class AbstractBTDeviceSupport extends AbstractDeviceSupport {
     private GBDeviceProtocol gbDeviceProtocol;
     private GBDeviceIoThread gbDeviceIOThread;
 
+    /**
+     * Factory method to create the device specific GBDeviceProtocol instance to be used.
+     */
     protected abstract GBDeviceProtocol createDeviceProtocol();
 
+    /**
+     * Factory method to create the device specific GBDeviceIoThread instance to be used.
+     */
     protected abstract GBDeviceIoThread createDeviceIOThread();
 
     @Override
@@ -40,6 +60,9 @@ public abstract class AbstractBTDeviceSupport extends AbstractDeviceSupport {
         // pairing dialog instead.
     }
 
+    /**
+     * Lazily creates and returns the GBDeviceProtocol instance to be used.
+     */
     public synchronized GBDeviceProtocol getDeviceProtocol() {
         if (gbDeviceProtocol == null) {
             gbDeviceProtocol = createDeviceProtocol();
@@ -47,6 +70,9 @@ public abstract class AbstractBTDeviceSupport extends AbstractDeviceSupport {
         return gbDeviceProtocol;
     }
 
+    /**
+     * Lazily creates and returns the GBDeviceIoThread instance to be used.
+     */
     public synchronized GBDeviceIoThread getDeviceIOThread() {
         if (gbDeviceIOThread == null) {
             gbDeviceIOThread = createDeviceIOThread();
@@ -54,6 +80,11 @@ public abstract class AbstractBTDeviceSupport extends AbstractDeviceSupport {
         return gbDeviceIOThread;
     }
 
+    /**
+     * Sends the given message to the device. This implementation delegates the
+     * writing to the {@link #getDeviceIOThread device io thread}
+     * @param bytes the message to send to the device
+     */
     protected void sendToDevice(byte[] bytes) {
         if (bytes != null && gbDeviceIOThread != null) {
             gbDeviceIOThread.write(bytes);

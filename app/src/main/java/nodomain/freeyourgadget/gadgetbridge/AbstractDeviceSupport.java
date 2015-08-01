@@ -32,6 +32,11 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
 // TODO: support option for a single reminder notification when notifications could not be delivered?
 // conditions: app was running and received notifications, but device was not connected.
 // maybe need to check for "unread notifications" on device for that.
+
+/**
+ * Abstract implementation of DeviceSupport with some implementations for
+ * common functionality. Still transport independent.
+ */
 public abstract class AbstractDeviceSupport implements DeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractDeviceSupport.class);
     private static final int NOTIFICATION_ID_SCREENSHOT = 8000;
@@ -40,7 +45,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     private BluetoothAdapter btAdapter;
     private Context context;
 
-    public void initialize(GBDevice gbDevice, BluetoothAdapter btAdapter, Context context) {
+    public void setContext(GBDevice gbDevice, BluetoothAdapter btAdapter, Context context) {
         this.gbDevice = gbDevice;
         this.btAdapter = btAdapter;
         this.context = context;
@@ -51,6 +56,11 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         return gbDevice.isConnected();
     }
 
+    /**
+     * Returns true if the device is not only connected, but also
+     * initialized.
+     * @see GBDevice#isInitialized()
+     */
     protected boolean isInitialized() {
         return gbDevice.isInitialized();
     }

@@ -26,8 +26,8 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
-    public void initialize(GBDevice gbDevice, BluetoothAdapter btAdapter, Context context) {
-        delegate.initialize(gbDevice, btAdapter, context);
+    public void setContext(GBDevice gbDevice, BluetoothAdapter btAdapter, Context context) {
+        delegate.setContext(gbDevice, btAdapter, context);
     }
 
     @Override

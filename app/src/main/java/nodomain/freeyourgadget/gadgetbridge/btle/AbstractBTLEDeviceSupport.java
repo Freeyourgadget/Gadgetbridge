@@ -18,6 +18,13 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.AbstractDeviceSupport;
 
 /**
+ * Abstract base class for all devices connected through Bluetooth Low Energy (LE) aka
+ * Bluetooth Smart.
+ *
+ * The connection to the device and all communication is made with a generic {@link BtLEQueue}.
+ * Messages to the device are encoded as {@link BtLEAction actions} that are grouped with a
+ * {@link Transaction} and sent via {@link BtLEQueue}.
+ *
  * @see TransactionBuilder
  * @see BtLEQueue
  */

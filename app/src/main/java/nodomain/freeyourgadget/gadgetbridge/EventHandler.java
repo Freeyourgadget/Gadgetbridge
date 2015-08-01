@@ -5,6 +5,11 @@ import android.net.Uri;
 import java.util.ArrayList;
 import java.util.UUID;
 
+/**
+ * Specifies all events that GadgetBridge intends to send to the gadget device.
+ * Implementations can decide to ignore events that they do not support.
+ * Implementations need to send/encode event to the connected device.
+ */
 public interface EventHandler {
     void onSMS(String from, String body);
 

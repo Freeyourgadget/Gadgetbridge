@@ -166,7 +166,7 @@ public class BluetoothCommunicationService extends Service {
                                 mDeviceSupport = new ServiceDeviceSupport(new PebbleSupport());
                             }
                             if (mDeviceSupport != null) {
-                                mDeviceSupport.initialize(mGBDevice, mBtAdapter, this);
+                                mDeviceSupport.setContext(mGBDevice, mBtAdapter, this);
                                 if (pair) {
                                     mDeviceSupport.pair();
                                 } else {
