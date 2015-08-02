@@ -201,9 +201,8 @@ public class ControlCenter extends Activity {
             case R.id.controlcenter_start_sleepmonitor:
                 if (selectedDevice != null) {
                     Intent startIntent;
-//                    startIntent = new Intent(ControlCenter.this, SleepChartActivity.class);
                     startIntent = new Intent(ControlCenter.this, ChartsActivity.class);
-                    startIntent.putExtra("device", selectedDevice);
+                    startIntent.putExtra(GBDevice.EXTRA_DEVICE, selectedDevice);
                     startActivity(startIntent);
                 }
                 return true;

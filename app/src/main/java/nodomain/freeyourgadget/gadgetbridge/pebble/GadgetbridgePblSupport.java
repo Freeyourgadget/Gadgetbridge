@@ -13,6 +13,8 @@ import java.util.TimeZone;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.model.SampleProvider;
@@ -47,13 +49,23 @@ public class GadgetbridgePblSupport {
                     int samples_remaining = samples.length / 2;
                     LOG.info("got " + samples_remaining + " samples");
                     int offset_seconds = 0;
-                    while (samples_remaining-- > 0) {
-                        short sample = samplesBuffer.getShort();
-                        byte type = (byte) ((sample & 0xe000) >>> 13);
-                        byte intensity = (byte) ((sample & 0x1f80) >>> 7);
-                        byte steps = (byte) (sample & 0x007f);
-                        GBApplication.getActivityDatabaseHandler().addGBActivitySample(timestamp + offset_seconds, SampleProvider.PROVIDER_PEBBLE_GADGETBRIDGE, intensity, steps, type);
-                        offset_seconds += 60;
+                    DBHandler db = null;
+                    try {
+                        db = GBApplication.acquireDB();
+                        while (samples_remaining-- > 0) {
+                            short sample = samplesBuffer.getShort();
+                            byte type = (byte) ((sample & 0xe000) >>> 13);
+                            byte intensity = (byte) ((sample & 0x1f80) >>> 7);
+                            byte steps = (byte) (sample & 0x007f);
+                            db.addGBActivitySample(timestamp + offset_seconds, SampleProvider.PROVIDER_PEBBLE_GADGETBRIDGE, intensity, steps, type);
+                            offset_seconds += 60;
+                        }
+                    } catch (GBException e) {
+                        LOG.error("Error acquiring database", e);
+                    } finally {
+                        if (db != null) {
+                            db.release();
+                        }
                     }
                     break;
                 default:

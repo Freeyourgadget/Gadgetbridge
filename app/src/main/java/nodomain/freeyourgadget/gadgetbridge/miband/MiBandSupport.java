@@ -32,7 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.btle.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.btle.SetProgressAction;
 import nodomain.freeyourgadget.gadgetbridge.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.model.SampleProvider;
 
 import static nodomain.freeyourgadget.gadgetbridge.miband.MiBandConst.DEFAULT_VALUE_FLASH_COLOUR;
@@ -840,24 +840,32 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         LOG.debug("flushing activity data holder");
         byte category, intensity, steps;
 
-        ActivityDatabaseHandler dbHandler = GBApplication.getActivityDatabaseHandler();
+        DBHandler dbHandler = null;
+        try {
+            dbHandler = GBApplication.acquireDB();
+            try (SQLiteDatabase db = dbHandler.getWritableDatabase()) { // explicitly keep the db open while looping over the samples
+                for (int i = 0; i < activityStruct.activityDataHolderProgress; i += 3) { //TODO: check if multiple of 3, if not something is wrong
+                    category = activityStruct.activityDataHolder[i];
+                    intensity = activityStruct.activityDataHolder[i + 1];
+                    steps = activityStruct.activityDataHolder[i + 2];
 
-        try (SQLiteDatabase db = dbHandler.getWritableDatabase()) { // explicitly keep the db open while looping over the samples
-            for (int i = 0; i < activityStruct.activityDataHolderProgress; i += 3) { //TODO: check if multiple of 3, if not something is wrong
-                category = activityStruct.activityDataHolder[i];
-                intensity = activityStruct.activityDataHolder[i + 1];
-                steps = activityStruct.activityDataHolder[i + 2];
-
-                dbHandler.addGBActivitySample(
-                        (int) (activityStruct.activityDataTimestampProgress.getTimeInMillis() / 1000),
-                        SampleProvider.PROVIDER_MIBAND,
-                        intensity,
-                        steps,
-                        category);
-                activityStruct.activityDataTimestampProgress.add(Calendar.MINUTE, 1);
+                    dbHandler.addGBActivitySample(
+                            (int) (activityStruct.activityDataTimestampProgress.getTimeInMillis() / 1000),
+                            SampleProvider.PROVIDER_MIBAND,
+                            intensity,
+                            steps,
+                            category);
+                    activityStruct.activityDataTimestampProgress.add(Calendar.MINUTE, 1);
+                }
+            } finally {
+                activityStruct.activityDataHolderProgress = 0;
             }
+        } catch (Exception ex) {
+            GB.toast(getContext(), ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR);
         } finally {
-            activityStruct.activityDataHolderProgress = 0;
+            if (dbHandler != null) {
+                dbHandler.release();
+            }
         }
     }
 

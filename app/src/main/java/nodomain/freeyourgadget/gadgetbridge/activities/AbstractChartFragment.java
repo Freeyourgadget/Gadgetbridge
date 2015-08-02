@@ -1,9 +1,9 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.data.BarData;
@@ -22,11 +22,12 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.DeviceHelper;
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.charts.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.charts.SleepUtils;
+import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.SampleProvider;
 
@@ -75,12 +76,19 @@ public abstract class AbstractChartFragment extends Fragment {
         return coordinator.getSampleProvider();
     }
 
-    protected List<ActivitySample> getAllSamples(GBDevice device, int tsFrom, int tsTo) {
+    /**
+     * Returns all kinds of samples for the given device.
+     * To be called from a background thread.
+     * @param device
+     * @param tsFrom
+     * @param tsTo
+     */
+    protected List<ActivitySample> getAllSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
         if (tsFrom == -1) {
             tsFrom = getTSLast24Hours();
         }
         SampleProvider provider = getProvider(device);
-        return GBApplication.getActivityDatabaseHandler().getAllActivitySamples(tsFrom, tsTo, provider);
+        return db.getAllActivitySamples(tsFrom, tsTo, provider);
     }
 
     private int getTSLast24Hours() {
@@ -88,24 +96,24 @@ public abstract class AbstractChartFragment extends Fragment {
         return (int) ((now / 1000) - (24 * 60 * 60) & 0xffffffff); // -24 hours
     }
 
-    protected List<ActivitySample> getActivitySamples(GBDevice device, int tsFrom, int tsTo) {
+    protected List<ActivitySample> getActivitySamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
         if (tsFrom == -1) {
             tsFrom = getTSLast24Hours();
         }
         SampleProvider provider = getProvider(device);
-        return GBApplication.getActivityDatabaseHandler().getActivitySamples(tsFrom, tsTo, provider);
+        return db.getActivitySamples(tsFrom, tsTo, provider);
     }
 
 
-    protected List<ActivitySample> getSleepSamples(GBDevice device, int tsFrom, int tsTo) {
+    protected List<ActivitySample> getSleepSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
         if (tsFrom == -1) {
             tsFrom = getTSLast24Hours();
         }
         SampleProvider provider = getProvider(device);
-        return GBApplication.getActivityDatabaseHandler().getSleepSamples(tsFrom, tsTo, provider);
+        return db.getSleepSamples(tsFrom, tsTo, provider);
     }
 
-    protected List<ActivitySample> getTestSamples(GBDevice device, int tsFrom, int tsTo) {
+    protected List<ActivitySample> getTestSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.set(2015, Calendar.JUNE, 10, 6, 40);
@@ -114,7 +122,7 @@ public abstract class AbstractChartFragment extends Fragment {
         tsFrom = tsTo - (24 * 60 * 60);
 
         SampleProvider provider = getProvider(device);
-        return GBApplication.getActivityDatabaseHandler().getAllActivitySamples(tsFrom, tsTo, provider);
+        return db.getAllActivitySamples(tsFrom, tsTo, provider);
     }
 
     protected void configureChartDefaults(Chart<?> chart) {
@@ -140,6 +148,28 @@ public abstract class AbstractChartFragment extends Fragment {
 
         chart.setDrawGridBackground(false);
     }
+
+    /**
+     * This method will invoke a background task to read the data from the
+     * database, analyze it, prepare it for the charts and eventually call
+     * #renderCharts
+     */
+    protected void refresh() {
+        createRefreshTask("Visualizing data", getActivity()).execute();
+    }
+
+    /**
+     * This method reads the data from the database, analyzes and prepares it for
+     * the charts. This will be called from a background task, so there must not be
+     * any UI access. #renderCharts will be automatically called after this method.
+     */
+    protected abstract void refreshInBackground(DBHandler db);
+
+    /**
+     * Performs a re-rendering of the chart.
+     * Always called from the UI thread.
+     */
+    protected abstract void renderCharts();
 
     protected void refresh(GBDevice gbDevice, BarLineChartBase chart, List<ActivitySample> samples) {
         if (gbDevice == null) {
@@ -252,12 +282,10 @@ public abstract class AbstractChartFragment extends Fragment {
             setupLegend(chart);
 
             chart.setData(data);
-
-            chart.animateX(500, Easing.EasingOption.EaseInOutQuart);
         }
     }
 
-    protected abstract List<ActivitySample> getSamples(GBDevice device, int tsFrom, int tsTo);
+    protected abstract List<ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo);
 
     protected abstract void setupLegend(Chart chart);
 
@@ -314,5 +342,26 @@ public abstract class AbstractChartFragment extends Fragment {
         set1.setValueTextColor(CHART_TEXT_COLOR);
 //        set1.setColor(Color.CYAN);
         return set1;
+    }
+
+    protected RefreshTask createRefreshTask(String task, Context context) {
+        return new RefreshTask(task, context);
+    }
+
+    public class RefreshTask extends DBAccess {
+        public RefreshTask(String task, Context context) {
+            super(task, context);
+        }
+
+        @Override
+        protected void doInBackground(DBHandler db) {
+            refreshInBackground(db);
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            renderCharts();
+        }
     }
 }

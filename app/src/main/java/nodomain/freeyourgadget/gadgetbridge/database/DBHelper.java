@@ -23,8 +23,8 @@ public class DBHelper {
     private String getClosedDBPath(SQLiteOpenHelper dbHandler) throws IllegalStateException {
         SQLiteDatabase db = dbHandler.getReadableDatabase();
         String path = db.getPath();
-        db.close(); // reference counted, so may still be open
-        if (db.isOpen()) {
+        db.close();
+        if (db.isOpen()) { // reference counted, so may still be open
             throw new IllegalStateException("Database must be closed");
         }
         return path;
@@ -82,6 +82,4 @@ public class DBHelper {
         }
         return "";
     }
-
-
 }

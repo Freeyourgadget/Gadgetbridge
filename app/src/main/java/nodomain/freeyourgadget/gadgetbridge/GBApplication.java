@@ -7,19 +7,27 @@ import android.os.Build;
 import android.os.Build.VERSION;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 public class GBApplication extends Application {
+    // Since this class must not log to slf4j, we use plain android.util.Log
+    private static final String TAG = "GBApplication";
     private static GBApplication context;
     private static ActivityDatabaseHandler mActivityDatabaseHandler;
+    private static Lock dbLock = new ReentrantLock();
 
     public GBApplication() {
         context = this;
@@ -75,8 +83,33 @@ public class GBApplication extends Application {
         return context;
     }
 
-    public static ActivityDatabaseHandler getActivityDatabaseHandler() {
-        return mActivityDatabaseHandler;
+    /**
+     * Returns the DBHandler instance for reading/writing or throws GBException
+     * when that was not successful
+     * If acquiring was successful, callers must call #releaseDB when they
+     * are done (from the same thread that acquired the lock!
+     * @return the DBHandler
+     * @see #releaseDB()
+     * @throws GBException
+     */
+    public static DBHandler acquireDB() throws GBException {
+        try {
+            if (dbLock.tryLock(30, TimeUnit.SECONDS)) {
+                return mActivityDatabaseHandler;
+            }
+        } catch (InterruptedException ex) {
+            Log.i(TAG, "Interrupted while waiting for DB lock");
+        }
+        throw new GBException("Unable to access the database.");
+    }
+
+    /**
+     * Releases the database lock.
+     * @throws IllegalMonitorStateException if the current thread is not owning the lock
+     * @see #acquireDB()
+     */
+    public static void releaseDB() {
+        dbLock.unlock();
     }
 
     public static boolean isRunningLollipopOrLater() {

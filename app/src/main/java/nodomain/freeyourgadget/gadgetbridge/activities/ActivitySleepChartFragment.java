@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.components.XAxis;
@@ -24,6 +25,7 @@ import java.util.List;
 import nodomain.freeyourgadget.gadgetbridge.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 
@@ -48,8 +50,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
                 mSmartAlarmTo = intent.getIntExtra("smartalarm_to", -1);
                 mTimestampFrom = intent.getIntExtra("recording_base_timestamp", -1);
                 mSmartAlarmGoneOff = intent.getIntExtra("alarm_gone_off", -1);
-                List<ActivitySample> samples = getSamples(mGBDevice, -1, -1);
-                refresh(mGBDevice, mChart, samples);
+                refresh();
             }
         }
     };
@@ -108,22 +109,25 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
         yAxisRight.setDrawTopYLabelEntry(false);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
 
-        List<ActivitySample> samples = getSamples(mGBDevice, -1, -1);
-        refresh(mGBDevice, mChart, samples);
-
-        mChart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
-//        mChart.getLegend().setEnabled(false);
-//
-//        mChart.animateXY(2000, 2000);
-
-        // don't forget to refresh the drawing
-        mChart.invalidate();
+        refresh();
     }
 
     @Override
     public void onDestroy() {
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
         super.onDestroy();
+    }
+
+    @Override
+    protected void refreshInBackground(DBHandler db) {
+        List<ActivitySample> samples = getSamples(db, mGBDevice, -1, -1);
+        refresh(mGBDevice, mChart, samples);
+
+        mChart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
+    }
+
+    protected void renderCharts() {
+        mChart.animateX(500, Easing.EasingOption.EaseInOutQuart);
     }
 
     protected void setupLegend(Chart chart) {
@@ -140,7 +144,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
     }
 
     @Override
-    protected List<ActivitySample> getSamples(GBDevice device, int tsFrom, int tsTo) {
-        return getAllSamples(device, tsFrom, tsTo);
+    protected List<ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+        return getAllSamples(db, device, tsFrom, tsTo);
     }
 }

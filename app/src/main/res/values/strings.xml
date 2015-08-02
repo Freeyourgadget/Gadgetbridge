@@ -158,4 +158,6 @@
     <string name="chart_no_data_synchronize">No data. Synchronize device?</string>
     <string name="user_feedback_miband_activity_data_transfer">About to transfer %1$s of data starting from %2$s</string>
     <string name="miband_prefs_fitness_goal">Target steps for each day</string>
+    <string name="dbaccess_error_executing">Error executing \'%1$s\'</string>
+    <string name="controlcenter_start_activitymonitor">Your Activity (ALPHA)</string>
 </resources>

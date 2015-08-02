@@ -5,7 +5,7 @@
         android:title="@string/controlcenter_fetch_activity_data"/>
     <item
         android:id="@+id/controlcenter_start_sleepmonitor"
-        android:title="@string/controlcenter_start_sleepmonitor"/>
+        android:title="@string/controlcenter_start_activitymonitor"/>
     <item
         android:id="@+id/controlcenter_configure_alarms"
         android:title="@string/controlcenter_start_configure_alarms"/>

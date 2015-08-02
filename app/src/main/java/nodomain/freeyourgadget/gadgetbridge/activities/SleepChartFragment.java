@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -34,6 +35,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.charts.ActivityAmount;
 import nodomain.freeyourgadget.gadgetbridge.charts.ActivityAmounts;
 import nodomain.freeyourgadget.gadgetbridge.charts.ActivityAnalysis;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 
@@ -64,17 +66,15 @@ public class SleepChartFragment extends AbstractChartFragment {
         }
     };
 
-    private void refresh() {
-        List<ActivitySample> samples = getSamples();
-        refresh(mGBDevice, mActivityChart, getSamples());
+    @Override
+    protected void refreshInBackground(DBHandler db) {
+        List<ActivitySample> samples = getSamples(db);
+        refresh(mGBDevice, mActivityChart, samples);
         refreshSleepAmounts(mGBDevice, mSleepAmountChart, samples);
-
-        mActivityChart.invalidate();
-        mSleepAmountChart.invalidate();
     }
 
-    private List<ActivitySample> getSamples() {
-        return getSamples(mGBDevice, -1, -1);
+    private List<ActivitySample> getSamples(DBHandler db) {
+        return getSamples(db, mGBDevice, -1, -1);
     }
 
     private void refreshSleepAmounts(GBDevice mGBDevice, PieChart pieChart, List<ActivitySample> samples) {
@@ -105,8 +105,6 @@ public class SleepChartFragment extends AbstractChartFragment {
 
         pieChart.getLegend().setEnabled(false);
         //setupLegend(pieChart);
-
-        pieChart.invalidate();
     }
 
     @Override
@@ -180,13 +178,6 @@ public class SleepChartFragment extends AbstractChartFragment {
         yAxisRight.setDrawLabels(false);
         yAxisRight.setDrawTopYLabelEntry(false);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
-
-//        mActivityChart.getLegend().setEnabled(false);
-//
-//        mActivityChart.animateXY(2000, 2000);
-
-        // don't forget to refresh the drawing
-//        mActivityChart.invalidate();
     }
 
     protected void setupLegend(Chart chart) {
@@ -202,7 +193,12 @@ public class SleepChartFragment extends AbstractChartFragment {
     }
 
     @Override
-    protected List<ActivitySample> getSamples(GBDevice device, int tsFrom, int tsTo) {
-        return super.getSleepSamples(device, tsFrom, tsTo);
+    protected List<ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+        return super.getSleepSamples(db, device, tsFrom, tsTo);
+    }
+
+    protected void renderCharts() {
+        mActivityChart.animateX(500, Easing.EasingOption.EaseInOutQuart);
+        mSleepAmountChart.invalidate();
     }
 }

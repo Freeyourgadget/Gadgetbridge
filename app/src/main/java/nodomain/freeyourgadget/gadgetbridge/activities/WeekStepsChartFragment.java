@@ -37,6 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.charts.ActivityAnalysis;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
@@ -62,19 +63,21 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         }
     };
 
-    private void refresh() {
+    @Override
+    protected void refreshInBackground(DBHandler db) {
         Calendar day = Calendar.getInstance();
-
         //NB: we could have omitted the day, but this way we can move things to the past easily
-        refreshDaySteps(mTodayStepsChart, day);
-        refreshWeekBeforeSteps(mWeekStepsChart, day);
+        refreshDaySteps(db, mTodayStepsChart, day);
+        refreshWeekBeforeSteps(db, mWeekStepsChart, day);
+    }
 
+    @Override
+    protected void renderCharts() {
         mWeekStepsChart.invalidate();
         mTodayStepsChart.invalidate();
     }
 
-
-    private void refreshWeekBeforeSteps(BarLineChartBase barChart, Calendar day) {
+    private void refreshWeekBeforeSteps(DBHandler db, BarLineChartBase barChart, Calendar day) {
 
         ActivityAnalysis analysis = new ActivityAnalysis();
 
@@ -83,7 +86,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         List<String> labels = new ArrayList<>();
 
         for (int counter = 0; counter < 7; counter++) {
-            entries.add(new BarEntry(analysis.calculateTotalSteps(getSamplesOfDay(day)), counter));
+            entries.add(new BarEntry(analysis.calculateTotalSteps(getSamplesOfDay(db, day)), counter));
             labels.add(day.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, mLocale));
             day.add(Calendar.DATE, 1);
         }
@@ -102,10 +105,10 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         barChart.getLegend().setEnabled(false);
     }
 
-    private void refreshDaySteps(PieChart pieChart, Calendar day) {
+    private void refreshDaySteps(DBHandler db, PieChart pieChart, Calendar day) {
         ActivityAnalysis analysis = new ActivityAnalysis();
 
-        int totalSteps = analysis.calculateTotalSteps(getSamplesOfDay(day));
+        int totalSteps = analysis.calculateTotalSteps(getSamplesOfDay(db, day));
 
         pieChart.setCenterText(NumberFormat.getNumberInstance(mLocale).format(totalSteps));
         PieData data = new PieData();
@@ -222,7 +225,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         chart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
     }
 
-    private List<ActivitySample> getSamplesOfDay(Calendar day) {
+    private List<ActivitySample> getSamplesOfDay(DBHandler db, Calendar day) {
         int startTs;
         int endTs;
 
@@ -236,11 +239,11 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         day.set(Calendar.SECOND, 59);
         endTs = (int) (day.getTimeInMillis() / 1000);
 
-        return getSamples(mGBDevice, startTs, endTs);
+        return getSamples(db, mGBDevice, startTs, endTs);
     }
 
     @Override
-    protected List<ActivitySample> getSamples(GBDevice device, int tsFrom, int tsTo) {
-        return super.getAllSamples(device, tsFrom, tsTo);
+    protected List<ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+        return super.getAllSamples(db, device, tsFrom, tsTo);
     }
 }

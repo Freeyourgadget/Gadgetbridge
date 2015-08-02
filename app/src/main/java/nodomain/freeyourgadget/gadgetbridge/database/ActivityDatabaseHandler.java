@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.GB;
 import nodomain.freeyourgadget.gadgetbridge.GBActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.charts.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.database.schema.ActivityDBCreationScript;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -27,7 +28,7 @@ import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_TIME
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_TYPE;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.TABLE_GBACTIVITYSAMPLES;
 
-public class ActivityDatabaseHandler extends SQLiteOpenHelper {
+public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(ActivityDatabaseHandler.class);
 
@@ -133,6 +134,16 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper {
 
     public ArrayList<ActivitySample> getActivitySamples(int timestamp_from, int timestamp_to, SampleProvider provider) {
         return getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_ACTIVITY, provider);
+    }
+
+    @Override
+    public SQLiteOpenHelper getHelper() {
+        return this;
+    }
+
+    @Override
+    public void release() {
+        GBApplication.releaseDB();
     }
 
     public ArrayList<ActivitySample> getAllActivitySamples(int timestamp_from, int timestamp_to, SampleProvider provider) {

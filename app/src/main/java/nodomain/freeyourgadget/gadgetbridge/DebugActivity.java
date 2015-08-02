@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.NotificationCompat;
@@ -20,7 +21,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
-import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
@@ -186,30 +187,40 @@ public class DebugActivity extends Activity {
     }
 
     private void exportDB() {
+        DBHandler dbHandler = null;
         try {
-            ActivityDatabaseHandler dbHandler = GBApplication.getActivityDatabaseHandler();
+            dbHandler = GBApplication.acquireDB();
             DBHelper helper = new DBHelper(this);
             File dir = FileUtils.getExternalFilesDir();
-            File destFile = helper.exportDB(dbHandler, dir);
-            Toast.makeText(this, "Exported to: " + destFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
+            File destFile = helper.exportDB(dbHandler.getHelper(), dir);
+            GB.toast(this, "Exported to: " + destFile.getAbsolutePath(), Toast.LENGTH_LONG, GB.INFO);
         } catch (Exception ex) {
             LOG.error("Unable to export db", ex);
             Toast.makeText(this, "Error exporting DB: " + ex.getMessage(), Toast.LENGTH_LONG).show();
+        } finally {
+            if (dbHandler != null) {
+                dbHandler.release();
+            }
         }
     }
 
     private void importDB() {
+        DBHandler dbHandler = null;
         try {
-            ActivityDatabaseHandler dbHandler = GBApplication.getActivityDatabaseHandler();
+            dbHandler = GBApplication.acquireDB();
             DBHelper helper = new DBHelper(this);
             File dir = FileUtils.getExternalFilesDir();
-            File sourceFile = new File(dir, dbHandler.getDatabaseName());
-            helper.importDB(dbHandler, sourceFile);
-            helper.validateDB(dbHandler);
-            Toast.makeText(this, "Import successful.", Toast.LENGTH_LONG).show();
+            SQLiteOpenHelper sqLiteOpenHelper = dbHandler.getHelper();
+            File sourceFile = new File(dir, sqLiteOpenHelper.getDatabaseName());
+            helper.importDB(sqLiteOpenHelper, sourceFile);
+            helper.validateDB(sqLiteOpenHelper);
+            GB.toast(this, "Import successful.", Toast.LENGTH_LONG, GB.INFO);
         } catch (Exception ex) {
-            LOG.error("Unable to import db", ex);
-            Toast.makeText(this, "Error importing DB: " + ex.getMessage(), Toast.LENGTH_LONG).show();
+            GB.toast(this, "Error importing DB: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        } finally {
+            if (dbHandler != null) {
+                dbHandler.release();
+            }
         }
     }
 

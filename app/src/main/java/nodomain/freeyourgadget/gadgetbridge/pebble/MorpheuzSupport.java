@@ -12,6 +12,8 @@ import java.util.TimeZone;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSleepMonitorResult;
@@ -108,7 +110,17 @@ public class MorpheuzSupport {
                             type = MorpheuzSampleProvider.TYPE_LIGHT_SLEEP;
                         }
                         if (index >= 0) {
-                            GBApplication.getActivityDatabaseHandler().addGBActivitySample(recording_base_timestamp + index * 600, SampleProvider.PROVIDER_PEBBLE_MORPHEUZ, intensity, (byte) 0, type);
+                            DBHandler db = null;
+                            try {
+                                db = GBApplication.acquireDB();
+                                db.addGBActivitySample(recording_base_timestamp + index * 600, SampleProvider.PROVIDER_PEBBLE_MORPHEUZ, intensity, (byte) 0, type);
+                            } catch (GBException e) {
+                                LOG.error("Error acquiring database", e);
+                            } finally {
+                                if (db != null) {
+                                    db.release();
+                                }
+                            }
                         }
 
                         ctrl_message = MorpheuzSupport.CTRL_VERSION_DONE | MorpheuzSupport.CTRL_SET_LAST_SENT | MorpheuzSupport.CTRL_DO_NEXT;
