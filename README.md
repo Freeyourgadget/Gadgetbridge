@@ -42,6 +42,8 @@ need to create an account and transmit any of your data to the vendor's servers.
 * Synchronize the time to the Mi Band
 * Display firmware version and battery state
 * Synchronize activity data
+* Display sleep data (alpha)
+* Display sports data (step count) (alpha)
 * Set alarms on the Mi Band
 
 ## How to use (Mi Band)
