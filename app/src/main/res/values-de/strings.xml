@@ -13,8 +13,7 @@
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">App Manager</string>
   <string name="appmananger_app_delete">Löschen</string>
-  <!--Strings related to AppInstaller-->
-  <string name="title_activity_appinstaller">App Installer</string>
+  <!--Strings related to FwAppInstaller-->
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Einstellungen</string>
   <string name="pref_header_general">Allgemeine Einstellungen</string>

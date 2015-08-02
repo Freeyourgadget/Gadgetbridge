@@ -5,6 +5,7 @@
   <string name="action_settings">Impostazioni</string>
   <string name="action_debug">Debug</string>
   <string name="action_quit">Esci</string>
+  <string name="controlcenter_fetch_activity_data">Sincronizza</string>
   <string name="controlcenter_start_sleepmonitor">Monitoraggio del sonno (ALPHA)</string>
   <string name="controlcenter_find_device">Trova dispositivo...</string>
   <string name="controlcenter_take_screenshot">Salva uno screenshot</string>
@@ -13,8 +14,7 @@
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">Gestione app</string>
   <string name="appmananger_app_delete">Cancella</string>
-  <!--Strings related to AppInstaller-->
-  <string name="title_activity_appinstaller">Installa app</string>
+  <!--Strings related to FwAppInstaller-->
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Impostazioni</string>
   <string name="pref_header_general">Impostazioni globali</string>
@@ -120,6 +120,7 @@
   <string name="pref_screen_notification_profile_incoming_call">Notiche chiamata in arrivo</string>
   <string name="control_center_find_lost_device">Trova dispositivo smarrito</string>
   <string name="control_center_cancel_to_stop_vibration">Annulla per fermare la vibrazion</string>
+  <string name="title_activity_charts">Le tue attività</string>
   <string name="title_activity_set_alarm">Configurazione sveglia</string>
   <string name="controlcenter_start_configure_alarms">Configurazione sveglia</string>
   <string name="title_activity_alarm_details">Sveglia</string>
@@ -133,4 +134,6 @@
   <string name="alarm_smart_wakeup">Risveglio intelligente</string>
   <string name="user_feedback_miband_set_alarms_failed">C\'è stato un errore impostando le sveglie, prova di nuovo.</string>
   <string name="user_feedback_miband_set_alarms_ok">Sveglie sincronizzate con il dispositivo!</string>
+  <string name="chart_no_data_synchronize">Non ci sono dati. Effettua una sincronizzazione con il tuo device.</string>
+  <string name="user_feedback_miband_activity_data_transfer">Vengono trasferiti %1$s a partire dal %2$s</string>
 </resources>

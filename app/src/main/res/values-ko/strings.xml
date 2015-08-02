@@ -13,8 +13,7 @@
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">앱 관리자</string>
   <string name="appmananger_app_delete">삭제</string>
-  <!--Strings related to AppInstaller-->
-  <string name="title_activity_appinstaller">앱 설치</string>
+  <!--Strings related to FwAppInstaller-->
   <!--Strings related to Settings-->
   <string name="title_activity_settings">설정</string>
   <string name="pref_header_general">일반 설정</string>
