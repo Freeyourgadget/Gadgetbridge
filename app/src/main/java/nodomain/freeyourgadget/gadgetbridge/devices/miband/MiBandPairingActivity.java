@@ -12,7 +12,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import nodomain.freeyourgadget.gadgetbridge.service.BluetoothCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -105,14 +105,14 @@ public class MiBandPairingActivity extends Activity {
         IntentFilter filter = new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED);
         LocalBroadcastManager.getInstance(this).registerReceiver(mPairingReceiver, filter);
 
-        Intent serviceIntent = new Intent(this, BluetoothCommunicationService.class);
-        serviceIntent.setAction(BluetoothCommunicationService.ACTION_START);
+        Intent serviceIntent = new Intent(this, DeviceCommunicationService.class);
+        serviceIntent.setAction(DeviceCommunicationService.ACTION_START);
         startService(serviceIntent);
 
-        serviceIntent = new Intent(this, BluetoothCommunicationService.class);
-        serviceIntent.setAction(BluetoothCommunicationService.ACTION_CONNECT);
-        serviceIntent.putExtra(BluetoothCommunicationService.EXTRA_PERFORM_PAIR, true);
-        serviceIntent.putExtra(BluetoothCommunicationService.EXTRA_DEVICE_ADDRESS, macAddress);
+        serviceIntent = new Intent(this, DeviceCommunicationService.class);
+        serviceIntent.setAction(DeviceCommunicationService.ACTION_CONNECT);
+        serviceIntent.putExtra(DeviceCommunicationService.EXTRA_PERFORM_PAIR, true);
+        serviceIntent.putExtra(DeviceCommunicationService.EXTRA_DEVICE_ADDRESS, macAddress);
         startService(serviceIntent);
     }
 

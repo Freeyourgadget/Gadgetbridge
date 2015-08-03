@@ -160,4 +160,5 @@
     <string name="miband_prefs_fitness_goal">Target steps for each day</string>
     <string name="dbaccess_error_executing">Error executing \'%1$s\'</string>
     <string name="controlcenter_start_activitymonitor">Your Activity (ALPHA)</string>
+    <string name="cannot_connect">Cannot connect: %1$s</string>
 </resources>

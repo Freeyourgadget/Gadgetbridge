@@ -21,13 +21,13 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
-import nodomain.freeyourgadget.gadgetbridge.service.BluetoothCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 
@@ -70,8 +70,8 @@ public class DebugActivity extends Activity {
         sendSMSButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(DebugActivity.this, BluetoothCommunicationService.class);
-                startIntent.setAction(BluetoothCommunicationService.ACTION_NOTIFICATION_SMS);
+                Intent startIntent = new Intent(DebugActivity.this, DeviceCommunicationService.class);
+                startIntent.setAction(DeviceCommunicationService.ACTION_NOTIFICATION_SMS);
                 startIntent.putExtra("notification_sender", getResources().getText(R.string.app_name));
                 startIntent.putExtra("notification_body", editContent.getText().toString());
                 startService(startIntent);
@@ -81,8 +81,8 @@ public class DebugActivity extends Activity {
         sendEmailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(DebugActivity.this, BluetoothCommunicationService.class);
-                startIntent.setAction(BluetoothCommunicationService.ACTION_NOTIFICATION_EMAIL);
+                Intent startIntent = new Intent(DebugActivity.this, DeviceCommunicationService.class);
+                startIntent.setAction(DeviceCommunicationService.ACTION_NOTIFICATION_EMAIL);
                 startIntent.putExtra("notification_sender", getResources().getText(R.string.app_name));
                 startIntent.putExtra("notification_subject", getResources().getText(R.string.test));
                 startIntent.putExtra("notification_body", editContent.getText().toString());
@@ -94,8 +94,8 @@ public class DebugActivity extends Activity {
         incomingCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(DebugActivity.this, BluetoothCommunicationService.class);
-                startIntent.setAction(BluetoothCommunicationService.ACTION_CALLSTATE);
+                Intent startIntent = new Intent(DebugActivity.this, DeviceCommunicationService.class);
+                startIntent.setAction(DeviceCommunicationService.ACTION_CALLSTATE);
                 startIntent.putExtra("call_phonenumber", editContent.getText().toString());
                 startIntent.putExtra("call_command", ServiceCommand.CALL_INCOMING.ordinal());
                 startService(startIntent);
@@ -105,8 +105,8 @@ public class DebugActivity extends Activity {
         outgoingCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(DebugActivity.this, BluetoothCommunicationService.class);
-                startIntent.setAction(BluetoothCommunicationService.ACTION_CALLSTATE);
+                Intent startIntent = new Intent(DebugActivity.this, DeviceCommunicationService.class);
+                startIntent.setAction(DeviceCommunicationService.ACTION_CALLSTATE);
                 startIntent.putExtra("call_phonenumber", editContent.getText().toString());
                 startIntent.putExtra("call_command", ServiceCommand.CALL_OUTGOING.ordinal());
                 startService(startIntent);
@@ -117,8 +117,8 @@ public class DebugActivity extends Activity {
         startCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(DebugActivity.this, BluetoothCommunicationService.class);
-                startIntent.setAction(BluetoothCommunicationService.ACTION_CALLSTATE);
+                Intent startIntent = new Intent(DebugActivity.this, DeviceCommunicationService.class);
+                startIntent.setAction(DeviceCommunicationService.ACTION_CALLSTATE);
                 startIntent.putExtra("call_command", ServiceCommand.CALL_START.ordinal());
                 startService(startIntent);
             }
@@ -127,8 +127,8 @@ public class DebugActivity extends Activity {
         endCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(DebugActivity.this, BluetoothCommunicationService.class);
-                startIntent.setAction(BluetoothCommunicationService.ACTION_CALLSTATE);
+                Intent startIntent = new Intent(DebugActivity.this, DeviceCommunicationService.class);
+                startIntent.setAction(DeviceCommunicationService.ACTION_CALLSTATE);
                 startIntent.putExtra("call_command", ServiceCommand.CALL_END.ordinal());
                 startService(startIntent);
             }
@@ -153,8 +153,8 @@ public class DebugActivity extends Activity {
         rebootButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(DebugActivity.this, BluetoothCommunicationService.class);
-                startIntent.setAction(BluetoothCommunicationService.ACTION_REBOOT);
+                Intent startIntent = new Intent(DebugActivity.this, DeviceCommunicationService.class);
+                startIntent.setAction(DeviceCommunicationService.ACTION_REBOOT);
                 startService(startIntent);
             }
         });
@@ -163,8 +163,8 @@ public class DebugActivity extends Activity {
         setMusicInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(DebugActivity.this, BluetoothCommunicationService.class);
-                startIntent.setAction(BluetoothCommunicationService.ACTION_SETMUSICINFO);
+                Intent startIntent = new Intent(DebugActivity.this, DeviceCommunicationService.class);
+                startIntent.setAction(DeviceCommunicationService.ACTION_SETMUSICINFO);
                 startIntent.putExtra("music_artist", editContent.getText().toString() + "(artist)");
                 startIntent.putExtra("music_album", editContent.getText().toString() + "(album)");
                 startIntent.putExtra("music_track", editContent.getText().toString() + "(track)");
@@ -176,8 +176,8 @@ public class DebugActivity extends Activity {
         setTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(DebugActivity.this, BluetoothCommunicationService.class);
-                startIntent.setAction(BluetoothCommunicationService.ACTION_SETTIME);
+                Intent startIntent = new Intent(DebugActivity.this, DeviceCommunicationService.class);
+                startIntent.setAction(DeviceCommunicationService.ACTION_SETTIME);
                 startService(startIntent);
             }
         });

@@ -12,7 +12,7 @@ import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nodomain.freeyourgadget.gadgetbridge.service.BluetoothCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
 public class PebbleReceiver extends BroadcastReceiver {
 
@@ -51,8 +51,8 @@ public class PebbleReceiver extends BroadcastReceiver {
         }
 
         if (title != null && body != null) {
-            Intent startIntent = new Intent(context, BluetoothCommunicationService.class);
-            startIntent.setAction(BluetoothCommunicationService.ACTION_NOTIFICATION_SMS);
+            Intent startIntent = new Intent(context, DeviceCommunicationService.class);
+            startIntent.setAction(DeviceCommunicationService.ACTION_NOTIFICATION_SMS);
             startIntent.putExtra("notification_sender", title);
             startIntent.putExtra("notification_body", body);
             context.startService(startIntent);

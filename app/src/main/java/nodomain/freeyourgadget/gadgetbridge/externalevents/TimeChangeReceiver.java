@@ -9,7 +9,7 @@ import android.preference.PreferenceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nodomain.freeyourgadget.gadgetbridge.service.BluetoothCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
 
 public class TimeChangeReceiver extends BroadcastReceiver {
@@ -23,8 +23,8 @@ public class TimeChangeReceiver extends BroadcastReceiver {
 
         if (sharedPrefs.getBoolean("datetime_synconconnect", true) && (action.equals(Intent.ACTION_TIME_CHANGED) || action.equals(Intent.ACTION_TIMEZONE_CHANGED))) {
             LOG.info("Time or Timezone changed, syncing with device");
-            Intent startIntent = new Intent(context, BluetoothCommunicationService.class);
-            startIntent.setAction(BluetoothCommunicationService.ACTION_SETTIME);
+            Intent startIntent = new Intent(context, DeviceCommunicationService.class);
+            startIntent.setAction(DeviceCommunicationService.ACTION_SETTIME);
             context.startService(startIntent);
         }
     }

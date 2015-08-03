@@ -17,7 +17,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nodomain.freeyourgadget.gadgetbridge.service.BluetoothCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
 public class NotificationListener extends NotificationListenerService {
 
@@ -53,7 +53,7 @@ public class NotificationListener extends NotificationListenerService {
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
        /*
-        * return early if BluetoothCommunicationService is not running,
+        * return early if DeviceCommunicationService is not running,
         * else the service would get started every time we get a notification.
         * unfortunately we cannot enable/disable NotificationListener at runtime like we do with
         * broadcast receivers because it seems to invalidate the permissions that are
@@ -62,7 +62,7 @@ public class NotificationListener extends NotificationListenerService {
         boolean isServiceRunning = false;
         ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (BluetoothCommunicationService.class.getName().equals(service.service.getClassName())) {
+            if (DeviceCommunicationService.class.getName().equals(service.service.getClassName())) {
                 isServiceRunning = true;
             }
         }
@@ -119,8 +119,8 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         if (content != null) {
-            Intent startIntent = new Intent(NotificationListener.this, BluetoothCommunicationService.class);
-            startIntent.setAction(BluetoothCommunicationService.ACTION_NOTIFICATION_GENERIC);
+            Intent startIntent = new Intent(NotificationListener.this, DeviceCommunicationService.class);
+            startIntent.setAction(DeviceCommunicationService.ACTION_NOTIFICATION_GENERIC);
             startIntent.putExtra("notification_title", title);
             startIntent.putExtra("notification_body", content);
             startService(startIntent);

@@ -17,7 +17,7 @@ import android.widget.TextView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nodomain.freeyourgadget.gadgetbridge.service.BluetoothCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
@@ -104,14 +104,14 @@ public class FwAppInstallerActivity extends Activity {
         installButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(FwAppInstallerActivity.this, BluetoothCommunicationService.class);
-                startIntent.setAction(BluetoothCommunicationService.ACTION_INSTALL);
+                Intent startIntent = new Intent(FwAppInstallerActivity.this, DeviceCommunicationService.class);
+                startIntent.setAction(DeviceCommunicationService.ACTION_INSTALL);
                 startIntent.putExtra("uri", uri.toString());
                 startService(startIntent);
             }
         });
-        Intent versionInfoIntent = new Intent(this, BluetoothCommunicationService.class);
-        versionInfoIntent.setAction(BluetoothCommunicationService.ACTION_REQUEST_VERSIONINFO);
+        Intent versionInfoIntent = new Intent(this, DeviceCommunicationService.class);
+        versionInfoIntent.setAction(DeviceCommunicationService.ACTION_REQUEST_VERSIONINFO);
         startService(versionInfoIntent);
     }
 

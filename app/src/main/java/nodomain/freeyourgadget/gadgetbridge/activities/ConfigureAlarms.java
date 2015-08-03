@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import nodomain.freeyourgadget.gadgetbridge.service.BluetoothCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBAlarmListAdapter;
@@ -78,9 +78,9 @@ public class ConfigureAlarms extends ListActivity {
     }
 
     private void sendAlarmsToDevice() {
-        Intent startIntent = new Intent(ConfigureAlarms.this, BluetoothCommunicationService.class);
+        Intent startIntent = new Intent(ConfigureAlarms.this, DeviceCommunicationService.class);
         startIntent.putParcelableArrayListExtra("alarms", mGBAlarmListAdapter.getAlarmList());
-        startIntent.setAction(BluetoothCommunicationService.ACTION_SET_ALARMS);
+        startIntent.setAction(DeviceCommunicationService.ACTION_SET_ALARMS);
         startService(startIntent);
     }
 }

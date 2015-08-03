@@ -2,8 +2,6 @@ package nodomain.freeyourgadget.gadgetbridge.service;
 
 import android.app.NotificationManager;
 import android.app.Service;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -24,54 +22,51 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
-import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleSupport;
+import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class BluetoothCommunicationService extends Service {
+public class DeviceCommunicationService extends Service {
     public static final String ACTION_START
-            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.start";
+            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.start";
     public static final String ACTION_CONNECT
-            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.connect";
+            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.connect";
     public static final String ACTION_NOTIFICATION_GENERIC
-            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.notification_generic";
+            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.notification_generic";
     public static final String ACTION_NOTIFICATION_SMS
-            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.notification_sms";
+            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.notification_sms";
     public static final String ACTION_NOTIFICATION_EMAIL
-            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.notification_email";
+            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.notification_email";
     public static final String ACTION_CALLSTATE
-            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.callstate";
+            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.callstate";
     public static final String ACTION_SETTIME
-            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.settime";
+            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.settime";
     public static final String ACTION_SETMUSICINFO
-            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.setmusicinfo";
+            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.setmusicinfo";
     public static final String ACTION_REQUEST_VERSIONINFO
-            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.request_versioninfo";
+            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.request_versioninfo";
     public static final String ACTION_REQUEST_APPINFO
-            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.request_appinfo";
+            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.request_appinfo";
     public static final String ACTION_REQUEST_SCREENSHOT
-            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.request_screenshot";
+            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.request_screenshot";
     public static final String ACTION_STARTAPP
-            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.startapp";
+            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.startapp";
     public static final String ACTION_DELETEAPP
-            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.deleteapp";
+            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.deleteapp";
     public static final String ACTION_INSTALL
-            = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.install";
-    public static final String ACTION_REBOOT = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.reboot";
-    public static final String ACTION_FETCH_ACTIVITY_DATA = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.fetch_activity_data";
-    public static final String ACTION_DISCONNECT = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.disconnect";
-    public static final String ACTION_FIND_DEVICE = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.find_device";
-    public static final String ACTION_SET_ALARMS = "nodomain.freeyourgadget.gadgetbridge.bluetoothcommunicationservice.action.set_alarms";
+            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.install";
+    public static final String ACTION_REBOOT = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.reboot";
+    public static final String ACTION_FETCH_ACTIVITY_DATA = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.fetch_activity_data";
+    public static final String ACTION_DISCONNECT = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.disconnect";
+    public static final String ACTION_FIND_DEVICE = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.find_device";
+    public static final String ACTION_SET_ALARMS = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.set_alarms";
 
     public static final String EXTRA_PERFORM_PAIR = "perform_pair";
 
-    private static final Logger LOG = LoggerFactory.getLogger(BluetoothCommunicationService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DeviceCommunicationService.class);
     public static final String EXTRA_DEVICE_ADDRESS = "device_address";
 
     private boolean mStarted = false;
@@ -99,7 +94,7 @@ public class BluetoothCommunicationService extends Service {
 
     @Override
     public void onCreate() {
-        LOG.debug("BluetoothCommunicationService is being created");
+        LOG.debug("DeviceCommunicationService is being created");
         super.onCreate();
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED));
     }
@@ -146,43 +141,30 @@ public class BluetoothCommunicationService extends Service {
 
         switch (action) {
             case ACTION_CONNECT:
-                //Check the system status
-                BluetoothAdapter mBtAdapter = BluetoothAdapter.getDefaultAdapter();
-                if (mBtAdapter == null) {
-                    Toast.makeText(this, R.string.bluetooth_is_not_supported_, Toast.LENGTH_SHORT).show();
-                } else if (!mBtAdapter.isEnabled()) {
-                    Toast.makeText(this, R.string.bluetooth_is_disabled_, Toast.LENGTH_SHORT).show();
-                } else {
-                    String btDeviceAddress = intent.getStringExtra(EXTRA_DEVICE_ADDRESS);
-                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-                    sharedPrefs.edit().putString("last_device_address", btDeviceAddress).apply();
+                String btDeviceAddress = intent.getStringExtra(EXTRA_DEVICE_ADDRESS);
+                SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+                sharedPrefs.edit().putString("last_device_address", btDeviceAddress).apply();
 
-                    if (btDeviceAddress != null && !isConnected() && !isConnecting()) {
+                if (btDeviceAddress != null && !isConnected() && !isConnecting()) {
+                    if (mDeviceSupport != null) {
+                        mDeviceSupport.dispose();
+                        mDeviceSupport = null;
+                    }
+                    try {
+                        DeviceSupportFactory factory = new DeviceSupportFactory(this);
+                        mDeviceSupport = factory.createDeviceSupport(btDeviceAddress);
                         if (mDeviceSupport != null) {
-                            mDeviceSupport.dispose();
-                            mDeviceSupport = null;
-                        }
-                        try {
-                            BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(btDeviceAddress);
-                            if (btDevice.getName() == null || btDevice.getName().equals("MI")) { //FIXME: workaround for Miband not being paired
-                                mGBDevice = new GBDevice(btDeviceAddress, "MI", DeviceType.MIBAND);
-                                mDeviceSupport = new ServiceDeviceSupport(new MiBandSupport());
-                            } else if (btDevice.getName().indexOf("Pebble") == 0) {
-                                mGBDevice = new GBDevice(btDeviceAddress, btDevice.getName(), DeviceType.PEBBLE);
-                                mDeviceSupport = new ServiceDeviceSupport(new PebbleSupport());
+                            mGBDevice = mDeviceSupport.getDevice();
+                            if (pair) {
+                                mDeviceSupport.pair();
+                            } else {
+                                mDeviceSupport.connect();
                             }
-                            if (mDeviceSupport != null) {
-                                mDeviceSupport.setContext(mGBDevice, mBtAdapter, this);
-                                if (pair) {
-                                    mDeviceSupport.pair();
-                                } else {
-                                    mDeviceSupport.connect();
-                                }
-                            }
-                        } catch (Exception e) {
-                            Toast.makeText(this, R.string.cannot_connect_bt_address_invalid_, Toast.LENGTH_SHORT).show();
-                            e.printStackTrace();
                         }
+                    } catch (Exception e) {
+                        GB.toast(this, getString(R.string.cannot_connect, e.getMessage()), Toast.LENGTH_SHORT, GB.ERROR);
+                        mDeviceSupport = null;
+                        mGBDevice = null;
                     }
                 }
                 break;
@@ -294,7 +276,7 @@ public class BluetoothCommunicationService extends Service {
 
     @Override
     public void onDestroy() {
-        LOG.debug("BluetoothCommunicationService is being destroyed");
+        LOG.debug("DeviceCommunicationService is being destroyed");
         super.onDestroy();
 
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);

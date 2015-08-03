@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
-import nodomain.freeyourgadget.gadgetbridge.service.BluetoothCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
@@ -117,8 +117,8 @@ public class ChartsActivity extends FragmentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.charts_fetch_activity_data:
-                Intent startIntent = new Intent(this, BluetoothCommunicationService.class);
-                startIntent.setAction(BluetoothCommunicationService.ACTION_FETCH_ACTIVITY_DATA);
+                Intent startIntent = new Intent(this, DeviceCommunicationService.class);
+                startIntent.setAction(DeviceCommunicationService.ACTION_FETCH_ACTIVITY_DATA);
                 startService(startIntent);
                 return true;
             default:

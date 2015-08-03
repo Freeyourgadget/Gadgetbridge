@@ -8,7 +8,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 /**
  * Provides the communication support for a specific device. Instances will <b>only</b>
- * be used inside the BluetoothCommunicationService. Has hooks to manage the life cycle
+ * be used inside the DeviceCommunicationService. Has hooks to manage the life cycle
  * of a device: instances of this interface will be created, initialized, and disposed
  * as needed.
  * <p/>

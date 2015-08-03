@@ -24,7 +24,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAppAdapter;
-import nodomain.freeyourgadget.gadgetbridge.service.BluetoothCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
 
 public class AppManagerActivity extends Activity {
@@ -71,8 +71,8 @@ public class AppManagerActivity extends Activity {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 UUID uuid = appList.get(position).getUUID();
-                Intent startAppIntent = new Intent(AppManagerActivity.this, BluetoothCommunicationService.class);
-                startAppIntent.setAction(BluetoothCommunicationService.ACTION_STARTAPP);
+                Intent startAppIntent = new Intent(AppManagerActivity.this, DeviceCommunicationService.class);
+                startAppIntent.setAction(DeviceCommunicationService.ACTION_STARTAPP);
                 startAppIntent.putExtra("app_uuid", uuid.toString());
                 startService(startAppIntent);
             }
@@ -86,8 +86,8 @@ public class AppManagerActivity extends Activity {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
 
-        Intent startIntent = new Intent(this, BluetoothCommunicationService.class);
-        startIntent.setAction(BluetoothCommunicationService.ACTION_REQUEST_APPINFO);
+        Intent startIntent = new Intent(this, DeviceCommunicationService.class);
+        startIntent.setAction(DeviceCommunicationService.ACTION_REQUEST_APPINFO);
         startService(startIntent);
     }
 
@@ -106,8 +106,8 @@ public class AppManagerActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.appmanager_app_delete:
                 if (selectedApp != null) {
-                    Intent deleteIntent = new Intent(this, BluetoothCommunicationService.class);
-                    deleteIntent.setAction(BluetoothCommunicationService.ACTION_DELETEAPP);
+                    Intent deleteIntent = new Intent(this, DeviceCommunicationService.class);
+                    deleteIntent.setAction(DeviceCommunicationService.ACTION_DELETEAPP);
                     deleteIntent.putExtra("app_uuid", selectedApp.getUUID().toString());
                     startService(deleteIntent);
                 }

@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -38,7 +39,6 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapter;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
-import nodomain.freeyourgadget.gadgetbridge.service.BluetoothCommunicationService;
 
 public class ControlCenter extends Activity {
 
@@ -117,9 +117,9 @@ public class ControlCenter extends Activity {
                         startActivity(startIntent);
                     }
                 } else {
-                    Intent startIntent = new Intent(ControlCenter.this, BluetoothCommunicationService.class);
-                    startIntent.setAction(BluetoothCommunicationService.ACTION_CONNECT);
-                    startIntent.putExtra(BluetoothCommunicationService.EXTRA_DEVICE_ADDRESS, deviceList.get(position).getAddress());
+                    Intent startIntent = new Intent(ControlCenter.this, DeviceCommunicationService.class);
+                    startIntent.setAction(DeviceCommunicationService.ACTION_CONNECT);
+                    startIntent.putExtra(DeviceCommunicationService.EXTRA_DEVICE_ADDRESS, deviceList.get(position).getAddress());
                     startService(startIntent);
                 }
             }
@@ -146,8 +146,8 @@ public class ControlCenter extends Activity {
             Intent enableIntent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
             startActivity(enableIntent);
         }
-        Intent startIntent = new Intent(this, BluetoothCommunicationService.class);
-        startIntent.setAction(BluetoothCommunicationService.ACTION_START);
+        Intent startIntent = new Intent(this, DeviceCommunicationService.class);
+        startIntent.setAction(DeviceCommunicationService.ACTION_START);
         startService(startIntent);
 
 
@@ -160,14 +160,14 @@ public class ControlCenter extends Activity {
     }
 
     /**
-     * Requests information from the {@link BluetoothCommunicationService} about the connection state,
+     * Requests information from the {@link DeviceCommunicationService} about the connection state,
      * firmware info, etc.
      * <p/>
      * Note that this method may cause an implicit device connection (for auto-connectable devices).
      */
     private void requestDeviceInfo() {
-        Intent versionInfoIntent = new Intent(ControlCenter.this, BluetoothCommunicationService.class);
-        versionInfoIntent.setAction(BluetoothCommunicationService.ACTION_REQUEST_VERSIONINFO);
+        Intent versionInfoIntent = new Intent(ControlCenter.this, DeviceCommunicationService.class);
+        versionInfoIntent.setAction(DeviceCommunicationService.ACTION_REQUEST_VERSIONINFO);
         startService(versionInfoIntent);
     }
 
@@ -213,16 +213,16 @@ public class ControlCenter extends Activity {
                 return true;
             case R.id.controlcenter_fetch_activity_data:
                 if (selectedDevice != null) {
-                    Intent startIntent = new Intent(this, BluetoothCommunicationService.class);
-                    startIntent.setAction(BluetoothCommunicationService.ACTION_FETCH_ACTIVITY_DATA);
+                    Intent startIntent = new Intent(this, DeviceCommunicationService.class);
+                    startIntent.setAction(DeviceCommunicationService.ACTION_FETCH_ACTIVITY_DATA);
                     startService(startIntent);
                 }
                 return true;
             case R.id.controlcenter_disconnect:
                 if (selectedDevice != null) {
                     selectedDevice = null;
-                    Intent startIntent = new Intent(this, BluetoothCommunicationService.class);
-                    startIntent.setAction(BluetoothCommunicationService.ACTION_DISCONNECT);
+                    Intent startIntent = new Intent(this, DeviceCommunicationService.class);
+                    startIntent.setAction(DeviceCommunicationService.ACTION_DISCONNECT);
                     startService(startIntent);
                 }
                 return true;
@@ -251,8 +251,8 @@ public class ControlCenter extends Activity {
                 return true;
             case R.id.controlcenter_take_screenshot:
                 if (selectedDevice != null) {
-                    Intent startIntent = new Intent(this, BluetoothCommunicationService.class);
-                    startIntent.setAction(BluetoothCommunicationService.ACTION_REQUEST_SCREENSHOT);
+                    Intent startIntent = new Intent(this, DeviceCommunicationService.class);
+                    startIntent.setAction(DeviceCommunicationService.ACTION_REQUEST_SCREENSHOT);
                     startService(startIntent);
                 }
                 return true;
@@ -262,9 +262,9 @@ public class ControlCenter extends Activity {
     }
 
     private void findDevice(boolean start) {
-        Intent startIntent = new Intent(this, BluetoothCommunicationService.class);
+        Intent startIntent = new Intent(this, DeviceCommunicationService.class);
         startIntent.putExtra("find_start", start);
-        startIntent.setAction(BluetoothCommunicationService.ACTION_FIND_DEVICE);
+        startIntent.setAction(DeviceCommunicationService.ACTION_FIND_DEVICE);
         startService(startIntent);
     }
 
@@ -288,7 +288,7 @@ public class ControlCenter extends Activity {
                 startActivity(debugIntent);
                 return true;
             case R.id.action_quit:
-                Intent stopIntent = new Intent(this, BluetoothCommunicationService.class);
+                Intent stopIntent = new Intent(this, DeviceCommunicationService.class);
                 stopService(stopIntent);
 
                 Intent quitIntent = new Intent(ControlCenter.ACTION_QUIT);

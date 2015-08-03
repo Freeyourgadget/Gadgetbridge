@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.telephony.TelephonyManager;
 
-import nodomain.freeyourgadget.gadgetbridge.service.BluetoothCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 
 
@@ -62,8 +62,8 @@ public class PhoneCallReceiver extends BroadcastReceiver {
                 break;
         }
         if (callCommand != null) {
-            Intent startIntent = new Intent(context, BluetoothCommunicationService.class);
-            startIntent.setAction(BluetoothCommunicationService.ACTION_CALLSTATE);
+            Intent startIntent = new Intent(context, DeviceCommunicationService.class);
+            startIntent.setAction(DeviceCommunicationService.ACTION_CALLSTATE);
             startIntent.putExtra("call_phonenumber", mSavedNumber);
             startIntent.putExtra("call_command", callCommand.ordinal());
             context.startService(startIntent);

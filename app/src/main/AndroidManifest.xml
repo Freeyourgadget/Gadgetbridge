@@ -164,7 +164,7 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
-        <service android:name=".service.BluetoothCommunicationService" />
+        <service android:name=".service.DeviceCommunicationService" />
 
         <receiver
             android:name=".externalevents.PhoneCallReceiver"
