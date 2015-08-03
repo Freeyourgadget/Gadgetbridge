@@ -30,7 +30,7 @@
         android:label="@string/app_name"
         android:theme="@style/GadgetbridgeTheme">
         <activity
-            android:name=".ControlCenter"
+            android:name=".activities.ControlCenter"
             android:label="@string/title_activity_controlcenter">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,32 +39,32 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ControlCenter" />
+                android:value=".activities.ControlCenter" />
         </activity>
         <activity
-            android:name=".miband.MiBandPreferencesActivity"
+            android:name=".devices.miband.MiBandPreferencesActivity"
             android:label="@string/preferences_miband_settings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".SettingsActivity" />
+                android:value=".activities.SettingsActivity" />
         </activity>
         <activity
-            android:name=".AppManagerActivity"
+            android:name=".activities.AppManagerActivity"
             android:label="@string/title_activity_appmanager">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ControlCenter" />
+                android:value=".activities.ControlCenter" />
         </activity>
         <activity
             android:name=".activities.FwAppInstallerActivity"
             android:label="@string/title_activity_fw_app_insaller">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="nodomain.freeyourgadget.gadgetbridge.ControlCenter" />
+                android:value=".activities.ControlCenter" />
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -164,7 +164,7 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
-        <service android:name=".BluetoothCommunicationService" />
+        <service android:name=".service.BluetoothCommunicationService" />
 
         <receiver
             android:name=".externalevents.PhoneCallReceiver"
@@ -223,14 +223,14 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".GBMusicControlReceiver"
+            android:name=".service.receivers.GBMusicControlReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="nodomain.freeyourgadget.gadgetbridge.musiccontrol" />
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".GBCallControlReceiver"
+            android:name=".service.receivers.GBCallControlReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="nodomain.freeyourgadget.gadgetbridge.callcontrol" />
@@ -238,40 +238,40 @@
         </receiver>
 
         <activity
-            android:name=".DebugActivity"
+            android:name=".activities.DebugActivity"
             android:label="@string/title_activity_debug">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ControlCenter" />
+                android:value=".activities.ControlCenter" />
         </activity>
         <activity
-            android:name=".discovery.DiscoveryActivity"
+            android:name=".activities.DiscoveryActivity"
             android:label="@string/title_activity_discovery">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ControlCenter" />
+                android:value=".activities.ControlCenter" />
         </activity>
         <activity
             android:name=".activities.AndroidPairingActivity"
             android:label="@string/title_activity_android_pairing"></activity>
         <activity
-            android:name=".miband.MiBandPairingActivity"
+            android:name=".devices.miband.MiBandPairingActivity"
             android:label="@string/title_activity_mi_band_pairing"></activity>
         <activity
-            android:name=".activities.ChartsActivity"
+            android:name=".activities.charts.ChartsActivity"
             android:label="@string/title_activity_charts"
-            android:parentActivityName=".ControlCenter">
+            android:parentActivityName=".activities.ControlCenter">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="nodomain.freeyourgadget.gadgetbridge.ControlCenter" />
+                android:value=".activities.ControlCenter" />
         </activity>
         <activity
             android:name=".activities.ConfigureAlarms"
             android:label="@string/title_activity_set_alarm"
-            android:parentActivityName=".SettingsActivity" >
+            android:parentActivityName=".activities.SettingsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="nodomain.freeyourgadget.gadgetbridge.SettingsActivity" />
+                android:value=".activities.SettingsActivity" />
         </activity>
         <activity
             android:name=".activities.AlarmDetails"

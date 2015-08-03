@@ -15,9 +15,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Set;
 
-import nodomain.freeyourgadget.gadgetbridge.GBAlarm;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
+import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 
 
 public class GBAlarmListAdapter extends ArrayAdapter<GBAlarm> {
@@ -109,13 +110,13 @@ public class GBAlarmListAdapter extends ArrayAdapter<GBAlarm> {
         Switch isEnabled = (Switch) view.findViewById(R.id.alarm_item_toggle);
         TextView isSmartWakeup = (TextView) view.findViewById(R.id.alarm_smart_wakeup);
 
-        highlightDay((TextView) view.findViewById(R.id.alarm_item_sunday), alarm.getRepetition(GBAlarm.ALARM_SUN));
-        highlightDay((TextView) view.findViewById(R.id.alarm_item_monday), alarm.getRepetition(GBAlarm.ALARM_MON));
-        highlightDay((TextView) view.findViewById(R.id.alarm_item_tuesday), alarm.getRepetition(GBAlarm.ALARM_TUE));
-        highlightDay((TextView) view.findViewById(R.id.alarm_item_wednesday), alarm.getRepetition(GBAlarm.ALARM_WED));
-        highlightDay((TextView) view.findViewById(R.id.alarm_item_thursday), alarm.getRepetition(GBAlarm.ALARM_THU));
-        highlightDay((TextView) view.findViewById(R.id.alarm_item_friday), alarm.getRepetition(GBAlarm.ALARM_FRI));
-        highlightDay((TextView) view.findViewById(R.id.alarm_item_saturday), alarm.getRepetition(GBAlarm.ALARM_SAT));
+        highlightDay((TextView) view.findViewById(R.id.alarm_item_sunday), alarm.getRepetition(Alarm.ALARM_SUN));
+        highlightDay((TextView) view.findViewById(R.id.alarm_item_monday), alarm.getRepetition(Alarm.ALARM_MON));
+        highlightDay((TextView) view.findViewById(R.id.alarm_item_tuesday), alarm.getRepetition(Alarm.ALARM_TUE));
+        highlightDay((TextView) view.findViewById(R.id.alarm_item_wednesday), alarm.getRepetition(Alarm.ALARM_WED));
+        highlightDay((TextView) view.findViewById(R.id.alarm_item_thursday), alarm.getRepetition(Alarm.ALARM_THU));
+        highlightDay((TextView) view.findViewById(R.id.alarm_item_friday), alarm.getRepetition(Alarm.ALARM_FRI));
+        highlightDay((TextView) view.findViewById(R.id.alarm_item_saturday), alarm.getRepetition(Alarm.ALARM_SAT));
 
         isEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

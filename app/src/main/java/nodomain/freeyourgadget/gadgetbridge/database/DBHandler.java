@@ -7,7 +7,7 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.model.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 
 public interface DBHandler {
     public SQLiteOpenHelper getHelper();

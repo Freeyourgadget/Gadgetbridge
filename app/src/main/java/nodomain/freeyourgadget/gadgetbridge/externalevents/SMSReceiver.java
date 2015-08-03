@@ -9,7 +9,7 @@ import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.telephony.SmsMessage;
 
-import nodomain.freeyourgadget.gadgetbridge.BluetoothCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.service.BluetoothCommunicationService;
 
 public class SMSReceiver extends BroadcastReceiver {
 

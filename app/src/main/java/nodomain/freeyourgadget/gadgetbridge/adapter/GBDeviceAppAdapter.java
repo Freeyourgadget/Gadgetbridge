@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import nodomain.freeyourgadget.gadgetbridge.GBDeviceApp;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
 public class GBDeviceAppAdapter extends ArrayAdapter<GBDeviceApp> {

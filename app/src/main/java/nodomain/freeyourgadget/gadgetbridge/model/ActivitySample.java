@@ -1,6 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.model;
 
-import nodomain.freeyourgadget.gadgetbridge.charts.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 
 public interface ActivitySample {
     /**

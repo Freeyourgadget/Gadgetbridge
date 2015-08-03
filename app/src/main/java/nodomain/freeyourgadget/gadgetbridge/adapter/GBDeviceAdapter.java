@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import nodomain.freeyourgadget.gadgetbridge.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
 public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {

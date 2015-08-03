@@ -6,7 +6,7 @@
     android:paddingRight="0px"
     android:paddingTop="0px"
     android:paddingBottom="0px"
-    tools:context="nodomain.freeyourgadget.gadgetbridge.activities.ChartsActivity">
+    tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -34,7 +34,7 @@
 
     <android.support.v4.view.ViewPager android:id="@+id/pager"
         android:layout_width="match_parent" android:layout_height="match_parent"
-        tools:context="nodomain.freeyourgadget.gadgetbridge.activities.ChartsActivity" />
+        tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity" />
 
 
 </LinearLayout>

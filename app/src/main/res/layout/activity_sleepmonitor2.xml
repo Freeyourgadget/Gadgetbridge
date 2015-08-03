@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <nodomain.freeyourgadget.gadgetbridge.charts.CustomBarChart
+    <nodomain.freeyourgadget.gadgetbridge.activities.charts.CustomBarChart
         android:id="@+id/sleepchart2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -10,16 +10,16 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import nodomain.freeyourgadget.gadgetbridge.GB;
-import nodomain.freeyourgadget.gadgetbridge.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.discovery.DeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 
-public class DeviceCandidateAdapter extends ArrayAdapter<DeviceCandidate> {
+public class DeviceCandidateAdapter extends ArrayAdapter<GBDeviceCandidate> {
 
     private final Context context;
 
-    public DeviceCandidateAdapter(Context context, List<DeviceCandidate> deviceCandidates) {
+    public DeviceCandidateAdapter(Context context, List<GBDeviceCandidate> deviceCandidates) {
         super(context, 0, deviceCandidates);
 
         this.context = context;
@@ -27,7 +27,7 @@ public class DeviceCandidateAdapter extends ArrayAdapter<DeviceCandidate> {
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
-        DeviceCandidate device = getItem(position);
+        GBDeviceCandidate device = getItem(position);
 
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context
@@ -57,7 +57,7 @@ public class DeviceCandidateAdapter extends ArrayAdapter<DeviceCandidate> {
         return view;
     }
 
-    private String formatDeviceCandidate(DeviceCandidate device) {
+    private String formatDeviceCandidate(GBDeviceCandidate device) {
         if (device.getRssi() > GBDevice.RSSI_UNKNOWN) {
             return context.getString(R.string.device_with_rssi, device.getName(), GB.formatRssi(device.getRssi()));
         }

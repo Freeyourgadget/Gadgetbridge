@@ -8,8 +8,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 
-import nodomain.freeyourgadget.gadgetbridge.BluetoothCommunicationService;
-import nodomain.freeyourgadget.gadgetbridge.ControlCenter;
+import nodomain.freeyourgadget.gadgetbridge.service.BluetoothCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
 
 public class BluetoothStateChangeReceiver extends BroadcastReceiver {
     @Override

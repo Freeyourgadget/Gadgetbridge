@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.telephony.TelephonyManager;
 
-import nodomain.freeyourgadget.gadgetbridge.BluetoothCommunicationService;
-import nodomain.freeyourgadget.gadgetbridge.GBCommand;
+import nodomain.freeyourgadget.gadgetbridge.service.BluetoothCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 
 
 public class PhoneCallReceiver extends BroadcastReceiver {
@@ -39,25 +39,25 @@ public class PhoneCallReceiver extends BroadcastReceiver {
             return;
         }
 
-        GBCommand callCommand = null;
+        ServiceCommand callCommand = null;
         switch (state) {
             case TelephonyManager.CALL_STATE_RINGING:
                 mSavedNumber = number;
-                callCommand = GBCommand.CALL_INCOMING;
+                callCommand = ServiceCommand.CALL_INCOMING;
                 break;
             case TelephonyManager.CALL_STATE_OFFHOOK:
                 if (mLastState == TelephonyManager.CALL_STATE_RINGING) {
-                    callCommand = GBCommand.CALL_START;
+                    callCommand = ServiceCommand.CALL_START;
                 } else {
-                    callCommand = GBCommand.CALL_OUTGOING;
+                    callCommand = ServiceCommand.CALL_OUTGOING;
                 }
                 break;
             case TelephonyManager.CALL_STATE_IDLE:
                 if (mLastState == TelephonyManager.CALL_STATE_RINGING) {
                     //missed call would be correct here
-                    callCommand = GBCommand.CALL_END;
+                    callCommand = ServiceCommand.CALL_END;
                 } else {
-                    callCommand = GBCommand.CALL_END;
+                    callCommand = ServiceCommand.CALL_END;
                 }
                 break;
         }

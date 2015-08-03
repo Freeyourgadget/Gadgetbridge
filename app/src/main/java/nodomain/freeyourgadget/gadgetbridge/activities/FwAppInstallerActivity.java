@@ -17,14 +17,13 @@ import android.widget.TextView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nodomain.freeyourgadget.gadgetbridge.BluetoothCommunicationService;
-import nodomain.freeyourgadget.gadgetbridge.ControlCenter;
-import nodomain.freeyourgadget.gadgetbridge.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.GBDeviceApp;
+import nodomain.freeyourgadget.gadgetbridge.service.BluetoothCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.miband.MiBandFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.pebble.PBWReader;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PBWReader;
 
 
 public class FwAppInstallerActivity extends Activity {
