@@ -668,6 +668,10 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    /**
+     * Utility method that may be used to log incoming messages when we don't know how to deal with them yet.
+     * @param value
+     */
     private void logMessageContent(byte[] value) {
         LOG.info("RECEIVED DATA WITH LENGTH: " + value.length);
         for (byte b : value) {
@@ -675,6 +679,16 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    /**
+     * React to unsolicited messages sent by the Mi Band to the MiBandService.UUID_CHARACTERISTIC_NOTIFICATION
+     * characteristic,
+     * These messages appear to be always 1 byte long, with values that are listed in MiBandService.
+     * It is not excluded that there are further values which are still unknown.
+     *
+     * Upon receiving known values that request further action by GB, the appropriate method is called.
+     *
+     * @param value
+     */
     private void handleNotificationNotif(byte[] value) {
         if(value.length != 1) {
             LOG.error("Notifications should be 1 byte long.");
@@ -730,6 +744,14 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    /**
+     * Convert an alarm from the GB internal structure to a Mi Band message and put on the specified
+     * builder queue as a write message for the passed characteristic
+     *
+     * @param alarm
+     * @param builder
+     * @param characteristic
+     */
     private void queueAlarm(GBAlarm alarm, TransactionBuilder builder, BluetoothGattCharacteristic characteristic) {
         Calendar alarmCal = alarm.getAlarmCal();
         byte[] alarmMessage = new byte[]{
@@ -748,6 +770,18 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         builder.write(characteristic, alarmMessage);
     }
 
+    /**
+     * Method to handle the incoming activity data.
+     * There are two kind of messages we currently know:
+     * - the first one is 11 bytes long and contains metadata (how many bytes to expect, when the data starts, etc.)
+     * - the second one is 20 bytes long and contains the actual activity data
+     *
+     * The first message type is parsed by this method, for every other length of the value param, bufferActivityData is called.
+     * @see #bufferActivityData(byte[])
+     *
+     *
+     * @param value
+     */
     private void handleActivityNotif(byte[] value) {
         boolean firstChunk = activityStruct == null;
         if (firstChunk) {
@@ -808,6 +842,13 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         return timestamp;
     }
 
+    /**
+     * Method to store temporarily the activity data values got from the Mi Band.
+     *
+     * Since we expect chunks of 20 bytes each, we do not store the received bytes it the length is different.
+     *
+     * @param value
+     */
     private void bufferActivityData(byte[] value) {
 
         if (activityStruct.activityDataRemainingBytes >= value.length) {
@@ -832,6 +873,10 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    /**
+     * empty the local buffer for activity data, arrange the values received in groups of three and
+     * store them in the DB
+     */
     private void flushActivityDataHolder() {
         if (activityStruct == null) {
             LOG.debug("nothing to flush, struct is already null");
@@ -869,6 +914,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+
     private void handleControlPointResult(byte[] value, int status) {
         if (status != BluetoothGatt.GATT_SUCCESS) {
             LOG.warn("Could not write to the control point.");
@@ -889,6 +935,15 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         getDevice().sendDeviceUpdateIntent(getContext());
     }
 
+    /**
+     * Acknowledge the transfer of activity data to the Mi Band.
+     *
+     * After receiving data from the band, it has to be acknowledged. This way the Mi Band will delete
+     * the data it has on record.
+     *
+     * @param time
+     * @param bytesTransferred
+     */
     private void sendAckDataTransfer(Calendar time, int bytesTransferred) {
         byte[] ack = new byte[]{
                 MiBandService.COMMAND_CONFIRM_ACTIVITY_DATA_TRANSFER_COMPLETE,
@@ -970,6 +1025,20 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         LOG.info("MI Band pairing result: " + value);
     }
 
+    /**
+     * Prepare the MiBand to receive the new firmware data.
+     * Some information about the new firmware version have to be pushed to the MiBand before sending
+     * the actual firmare.
+     *
+     * The Mi Band will send a notification after receiving these data to confirm if the metadata looks good to it.
+     * @see MiBandSupport#handleNotificationNotif
+     *
+     * @param currentFwVersion
+     * @param newFwVersion
+     * @param newFwSize
+     * @param checksum
+     * @return whether the transfer succeeded or not. Only a BT layer exception will cause the transmission to fail.
+     */
     private boolean sendFirmwareInfo(int currentFwVersion, int newFwVersion, int newFwSize, int checksum) {
         byte[] fwInfo = new byte[]{
                 MiBandService.COMMAND_SEND_FIRMWARE_INFO,
@@ -997,6 +1066,16 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         return true;
     }
 
+    /**
+     * Method that uploads a firmware (fwbytes) to the MiBand.
+     * The firmware has to be splitted into chunks of 20 bytes each, and periodically a COMMAND_SYNC comand has to be issued to the MiBand.
+     *
+     * The Mi Band will send a notification after receiving these data to confirm if the firmware looks good to it.
+     * @see MiBandSupport#handleNotificationNotif
+     *
+     * @param fwbytes
+     * @return whether the transfer succeeded or not. Only a BT layer exception will cause the transmission to fail.
+     * */
     private boolean sendFirmwareData(byte fwbytes[]) {
         int len = fwbytes.length;
         final int packetLength = 20;
