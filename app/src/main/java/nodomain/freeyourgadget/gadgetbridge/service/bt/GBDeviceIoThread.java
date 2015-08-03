@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.service;
+package nodomain.freeyourgadget.gadgetbridge.service.bt;
 
 import android.content.Context;
 

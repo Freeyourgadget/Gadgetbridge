@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.service.pebble;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 
 import android.util.Pair;
 

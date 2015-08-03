@@ -22,7 +22,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
-import nodomain.freeyourgadget.gadgetbridge.service.pebble.PebbleProtocol;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleProtocol;
 
 public class PBWReader {
     private static final Logger LOG = LoggerFactory.getLogger(PBWReader.class);

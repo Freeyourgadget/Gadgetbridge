@@ -31,8 +31,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
-import nodomain.freeyourgadget.gadgetbridge.service.miband.MiBandSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.pebble.PebbleSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleSupport;
 
 public class BluetoothCommunicationService extends Service {
     public static final String ACTION_START

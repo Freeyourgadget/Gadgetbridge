@@ -1,13 +1,13 @@
-package nodomain.freeyourgadget.gadgetbridge.service.pebble;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 
 import android.net.Uri;
 
 import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
-import nodomain.freeyourgadget.gadgetbridge.service.AbstractBTDeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.GBDeviceIoThread;
-import nodomain.freeyourgadget.gadgetbridge.service.GBDeviceProtocol;
+import nodomain.freeyourgadget.gadgetbridge.service.bt.AbstractBTDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.bt.GBDeviceIoThread;
+import nodomain.freeyourgadget.gadgetbridge.service.bt.GBDeviceProtocol;
 
 public class PebbleSupport extends AbstractBTDeviceSupport {
 

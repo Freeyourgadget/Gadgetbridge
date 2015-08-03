@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.service.pebble;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 
 import android.util.Pair;
 
@@ -24,7 +24,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicContr
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
-import nodomain.freeyourgadget.gadgetbridge.service.GBDeviceProtocol;
+import nodomain.freeyourgadget.gadgetbridge.service.bt.GBDeviceProtocol;
 
 public class PebbleProtocol extends GBDeviceProtocol {
 

@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.service;
+package nodomain.freeyourgadget.gadgetbridge.service.bt;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +9,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.EventHandler;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
+import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
 
 /**
  * An abstract base class for all devices connected via Bluetooth

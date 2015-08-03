@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.service.pebble;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -23,12 +23,12 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PBWReader;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleInstallable;
-import nodomain.freeyourgadget.gadgetbridge.service.GBDeviceIoThread;
+import nodomain.freeyourgadget.gadgetbridge.service.bt.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppManagementResult;
-import nodomain.freeyourgadget.gadgetbridge.service.GBDeviceProtocol;
+import nodomain.freeyourgadget.gadgetbridge.service.bt.GBDeviceProtocol;
 
 public class PebbleIoThread extends GBDeviceIoThread {
     private static final Logger LOG = LoggerFactory.getLogger(PebbleIoThread.class);

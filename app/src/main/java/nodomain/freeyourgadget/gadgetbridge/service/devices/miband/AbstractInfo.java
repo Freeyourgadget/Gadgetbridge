@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.service.miband;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.miband;
 
 public class AbstractInfo {
     protected byte[] mData;
