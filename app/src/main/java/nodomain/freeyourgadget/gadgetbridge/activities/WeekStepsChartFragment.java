@@ -95,6 +95,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         set.setColor(akActivity.color);
 
         BarData data = new BarData(labels, set);
+        data.setValueTextColor(Color.GRAY); //prevent tearing other graph elements with the black text. Another approach would be to hide the values cmpletely with data.setDrawValues(false);
 
         LimitLine target = new LimitLine(mTargetSteps);
 
