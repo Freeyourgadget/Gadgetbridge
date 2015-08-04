@@ -592,21 +592,23 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onInstallApp(Uri uri) {
-        MiBandFWHelper mFwHelper = new MiBandFWHelper(uri, getContext());
-        String mMac = getDevice().getAddress();
-        String[] mMacOctets = mMac.split(":");
+        try {
+            MiBandFWHelper mFwHelper = new MiBandFWHelper(uri, getContext());
+            String mMac = getDevice().getAddress();
+            String[] mMacOctets = mMac.split(":");
 
-        int newFwVersion = mFwHelper.getFirmwareVersion();
-        int oldFwVersion = mDeviceInfo.getFirmwareVersion();
-        int checksum = (Integer.decode("0x" + mMacOctets[4]) << 8 | Integer.decode("0x" + mMacOctets[5])) ^ mFwHelper.getCRC16(mFwHelper.getFw());
+            int newFwVersion = mFwHelper.getFirmwareVersion();
+            int oldFwVersion = mDeviceInfo.getFirmwareVersion();
+            int checksum = (Integer.decode("0x" + mMacOctets[4]) << 8 | Integer.decode("0x" + mMacOctets[5])) ^ mFwHelper.getCRC16(mFwHelper.getFw());
 
-        if (sendFirmwareInfo(oldFwVersion, newFwVersion, mFwHelper.getFw().length, checksum)) {
-            firmwareInfoSent = true;
-            newFirmware = mFwHelper.getFw();
-            //the firmware will be sent by the notification listener if the band confirms that the metadata are ok.
+            if (sendFirmwareInfo(oldFwVersion, newFwVersion, mFwHelper.getFw().length, checksum)) {
+                firmwareInfoSent = true;
+                newFirmware = mFwHelper.getFw();
+                //the firmware will be sent by the notification listener if the band confirms that the metadata are ok.
+            }
+        } catch (IOException ex) {
+            GB.toast(getContext(), "Firmware cannot be installed: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
-
-        return;
     }
 
     @Override

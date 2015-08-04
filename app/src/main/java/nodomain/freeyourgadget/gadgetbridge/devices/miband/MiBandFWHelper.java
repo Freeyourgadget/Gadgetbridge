@@ -8,8 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
+
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 public class MiBandFWHelper {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandFWHelper.class);
@@ -29,41 +32,25 @@ public class MiBandFWHelper {
             16779568 //1.0.9.48 tested by developer
     };
 
-    public MiBandFWHelper(Uri uri, Context context) {
+    public MiBandFWHelper(Uri uri, Context context) throws IOException {
         this.uri = uri;
         cr = context.getContentResolver();
 
-        InputStream fin;
-
-        try {
-            fin = new BufferedInputStream(cr.openInputStream(uri));
-            this.fw = new byte[fin.available()];
-            fin.read(fw);
-            fin.close();
-
+        try (InputStream in = new BufferedInputStream(cr.openInputStream(uri))){
+            this.fw = FileUtils.readAll(in, 1024 * 1024); // 1 MB
+            if (fw.length > firmwareVersionMajor && fw[firmwareVersionMajor] != 1) {
+                throw new IOException("Firmware major version should be 1, probably this isn't a MiBand firmware.");
+            }
         } catch (Exception e) {
-            e.printStackTrace();
-            this.fw = null;
+            throw new IOException("Error reading firmware file: " + uri.toString(), e);
         }
-
-        if (fw[firmwareVersionMajor] != 1) {
-            LOG.error("Firmware major version should be 1, probably this isn't a MiBand firmware.");
-            this.fw = null;
-        }
-
     }
 
     public int getFirmwareVersion() {
-        if (fw == null) {
-            return -1;
-        }
         return (fw[firmwareVersionMajor] << 24) | (fw[firmwareVersionMinor] << 16) | (fw[firmwareVersionRevision] << 8) | fw[firmwareVersionBuild];
     }
 
     public String getHumanFirmwareVersion() {
-        if (fw == null) {
-            return "UNK";
-        }
         return String.format(Locale.US, "%d.%d.%d.%d", fw[firmwareVersionMajor], fw[firmwareVersionMinor], fw[firmwareVersionRevision], fw[firmwareVersionBuild]);
     }
 
@@ -94,5 +81,4 @@ public class MiBandFWHelper {
         crc &= 0xffff;
         return crc;
     }
-
 }
