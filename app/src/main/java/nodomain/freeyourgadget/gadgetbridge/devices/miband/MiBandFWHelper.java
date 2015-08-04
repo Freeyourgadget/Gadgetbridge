@@ -38,7 +38,7 @@ public class MiBandFWHelper {
 
         try (InputStream in = new BufferedInputStream(cr.openInputStream(uri))){
             this.fw = FileUtils.readAll(in, 1024 * 1024); // 1 MB
-            if (fw.length > firmwareVersionMajor && fw[firmwareVersionMajor] != 1) {
+            if (fw.length <= firmwareVersionMajor || fw[firmwareVersionMajor] != 1) {
                 throw new IOException("Firmware major version should be 1, probably this isn't a MiBand firmware.");
             }
         } catch (Exception e) {
