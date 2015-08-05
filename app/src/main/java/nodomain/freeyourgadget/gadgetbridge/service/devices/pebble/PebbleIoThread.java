@@ -419,6 +419,11 @@ public class PebbleIoThread extends GBDeviceIoThread {
 
         mPBWReader = null;
         mIsInstalling = false;
+        try {
+            mZis.close();
+        } catch (IOException e) {
+            // ignore
+        }
         mZis = null;
         mAppInstallToken = -1;
         mInstallSlot = -2;
