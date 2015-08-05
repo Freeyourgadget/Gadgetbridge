@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.support.annotation.Nullable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,6 +59,19 @@ public class TransactionBuilder {
     public TransactionBuilder add(BtLEAction action) {
         mTransaction.add(action);
         return this;
+    }
+
+    /**
+     * Sets a GattCallback instance that will be called when the transaction is executed,
+     * resulting in GattCallback events.
+     * @param callback the callback to set, may be null
+     */
+    public void setGattCallback(@Nullable GattCallback callback) {
+        mTransaction.setGattCallback(callback);
+    }
+
+    public @Nullable GattCallback getGattCallback() {
+        return mTransaction.getGattCallback();
     }
 
     /**
