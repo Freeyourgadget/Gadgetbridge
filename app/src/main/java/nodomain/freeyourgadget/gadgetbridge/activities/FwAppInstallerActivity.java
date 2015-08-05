@@ -13,9 +13,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
@@ -24,6 +27,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PBWReader;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 
 public class FwAppInstallerActivity extends Activity {
@@ -89,16 +93,21 @@ public class FwAppInstallerActivity extends Activity {
             }
         } else {
             mPBWReader = null;
-            mFwReader = new MiBandFWHelper(uri, getApplicationContext());
+            try {
+                mFwReader = new MiBandFWHelper(uri, getApplicationContext());
 
-            fwAppInstallTextView.setText(getString(R.string.fw_upgrade_notice, mFwReader.getHumanFirmwareVersion()));
+                fwAppInstallTextView.setText(getString(R.string.fw_upgrade_notice, mFwReader.getHumanFirmwareVersion()));
 
-            if (mFwReader.isFirmwareWhitelisted()) {
-                fwAppInstallTextView.append(" " + getString(R.string.miband_firmware_known));
-            } else {
-                fwAppInstallTextView.append("  " + getString(R.string.miband_firmware_unknown_warning) + " " +
-                        getString(R.string.miband_firmware_suggest_whitelist, mFwReader.getFirmwareVersion()));
+                if (mFwReader.isFirmwareWhitelisted()) {
+                    fwAppInstallTextView.append(" " + getString(R.string.miband_firmware_known));
+                } else {
+                    fwAppInstallTextView.append("  " + getString(R.string.miband_firmware_unknown_warning) + " " +
+                            getString(R.string.miband_firmware_suggest_whitelist, mFwReader.getFirmwareVersion()));
+                }
+            } catch (IOException ex) {
+                GB.toast(getApplicationContext(), "Firmware cannot be installed: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR);
             }
+
         }
 
         installButton.setOnClickListener(new View.OnClickListener() {
