@@ -1,9 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.devices;
 
-import android.net.Uri;
-import android.support.annotation.Nullable;
-
-import nodomain.freeyourgadget.gadgetbridge.activities.FwAppInstallerActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.InstallActivity;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
