@@ -18,28 +18,25 @@ import android.widget.Toast;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PBWReader;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 
-public class FwAppInstallerActivity extends Activity {
+public class FwAppInstallerActivity extends Activity implements InstallActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(FwAppInstallerActivity.class);
 
-    TextView fwAppInstallTextView;
-    Button installButton;
-
-    // FIXME: abstraction for these would make code cleaner in this class
-    private PBWReader mPBWReader = null;
-    private MiBandFWHelper mFwReader = null;
+    private TextView fwAppInstallTextView;
+    private Button installButton;
+    private Uri uri;
+    private GBDevice device;
+    private InstallHandler installHandler;
+    private boolean mayConnect;
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -48,24 +45,35 @@ public class FwAppInstallerActivity extends Activity {
             if (action.equals(ControlCenter.ACTION_QUIT)) {
                 finish();
             } else if (action.equals(GBDevice.ACTION_DEVICE_CHANGED)) {
-                GBDevice dev = intent.getParcelableExtra("device");
-                if (dev.getType() == DeviceType.PEBBLE && mPBWReader != null) {
-                    if (mPBWReader.isFirmware()) {
-                        String hwRevision = mPBWReader.getHWRevision();
-                        if (hwRevision != null && hwRevision.equals(dev.getHardwareVersion()) && dev.isConnected()) {
-                            installButton.setEnabled(true);
+                device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
+                if (device != null) {
+                    if (!device.isConnected()) {
+                        if (mayConnect) {
+                            GB.toast(FwAppInstallerActivity.this, getString(R.string.connecting), Toast.LENGTH_SHORT, GB.INFO);
+                            connect();
                         } else {
-                            installButton.setEnabled(false);
+                            setInfoText(getString(R.string.not_connected));
                         }
                     } else {
-                        installButton.setEnabled(dev.isConnected());
+                        validateInstallation();
                     }
-                } else if (dev.getType() == DeviceType.MIBAND && mFwReader != null) {
-                    installButton.setEnabled(dev.isInitialized());
                 }
             }
         }
     };
+
+    private void connect() {
+        Intent startIntent = new Intent(FwAppInstallerActivity.this, DeviceCommunicationService.class);
+        startIntent.setAction(DeviceCommunicationService.ACTION_CONNECT);
+        startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+        startService(startIntent);
+    }
+
+    private void validateInstallation() {
+        if (installHandler != null) {
+            installHandler.validateInstallation(this, device);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +81,7 @@ public class FwAppInstallerActivity extends Activity {
         setContentView(R.layout.activity_appinstaller);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
+        mayConnect = true;
         fwAppInstallTextView = (TextView) findViewById(R.id.debugTextView);
         installButton = (Button) findViewById(R.id.installButton);
         IntentFilter filter = new IntentFilter();
@@ -80,48 +89,44 @@ public class FwAppInstallerActivity extends Activity {
         filter.addAction(GBDevice.ACTION_DEVICE_CHANGED);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
 
-        final Uri uri = getIntent().getData();
-        mPBWReader = new PBWReader(uri, getApplicationContext());
-        if (mPBWReader.isValid()) {
-            GBDeviceApp app = mPBWReader.getGBDeviceApp();
-
-            if (mPBWReader.isFirmware()) {
-                fwAppInstallTextView.setText(getString(R.string.firmware_install_warning, mPBWReader.getHWRevision()));
-
-            } else if (app != null) {
-                fwAppInstallTextView.setText(getString(R.string.app_install_info, app.getName(), app.getVersion(), app.getCreator()));
-            }
-        } else {
-            mPBWReader = null;
-            try {
-                mFwReader = new MiBandFWHelper(uri, getApplicationContext());
-
-                fwAppInstallTextView.setText(getString(R.string.fw_upgrade_notice, mFwReader.getHumanFirmwareVersion()));
-
-                if (mFwReader.isFirmwareWhitelisted()) {
-                    fwAppInstallTextView.append(" " + getString(R.string.miband_firmware_known));
-                } else {
-                    fwAppInstallTextView.append("  " + getString(R.string.miband_firmware_unknown_warning) + " " +
-                            getString(R.string.miband_firmware_suggest_whitelist, mFwReader.getFirmwareVersion()));
-                }
-            } catch (IOException ex) {
-                GB.toast(getApplicationContext(), "Firmware cannot be installed: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR);
-            }
-
-        }
-
         installButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent startIntent = new Intent(FwAppInstallerActivity.this, DeviceCommunicationService.class);
                 startIntent.setAction(DeviceCommunicationService.ACTION_INSTALL);
-                startIntent.putExtra("uri", uri.toString());
+                startIntent.putExtra("uri", uri);
                 startService(startIntent);
             }
         });
-        Intent versionInfoIntent = new Intent(this, DeviceCommunicationService.class);
-        versionInfoIntent.setAction(DeviceCommunicationService.ACTION_REQUEST_VERSIONINFO);
-        startService(versionInfoIntent);
+
+        uri = getIntent().getData();
+        installHandler = findInstallHandlerFor(uri);
+        if (installHandler == null) {
+            setInfoText(getString(R.string.installer_activity_unable_to_find_handler));
+            setInstallEnabled(false);
+        } else {
+            setInfoText(getString(R.string.installer_activity_wait_while_determining_status));
+            setInstallEnabled(false);
+
+            // needed to get the device
+            Intent connectIntent = new Intent(this, DeviceCommunicationService.class);
+            connectIntent.setAction(DeviceCommunicationService.ACTION_CONNECT);
+            startService(connectIntent);
+
+            Intent versionInfoIntent = new Intent(this, DeviceCommunicationService.class);
+            versionInfoIntent.setAction(DeviceCommunicationService.ACTION_REQUEST_VERSIONINFO);
+            startService(versionInfoIntent);
+        }
+    }
+
+    private InstallHandler findInstallHandlerFor(Uri uri) {
+        for (DeviceCoordinator coordinator : DeviceHelper.getInstance().getAllCoordinators()) {
+            InstallHandler handler = coordinator.findInstallHandler(uri, this);
+            if (handler != null) {
+                return handler;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -138,5 +143,15 @@ public class FwAppInstallerActivity extends Activity {
     protected void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
         super.onDestroy();
+    }
+
+    @Override
+    public void setInfoText(String text) {
+        fwAppInstallTextView.setText(text);
+    }
+
+    @Override
+    public void setInstallEnabled(boolean enable) {
+        installButton.setEnabled(device != null && device.isConnected() && enable);
     }
 }

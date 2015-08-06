@@ -1,15 +1,19 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Calendar;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -52,6 +56,12 @@ public class MiBandCoordinator implements DeviceCoordinator {
     @Override
     public SampleProvider getSampleProvider() {
         return sampleProvider;
+    }
+
+    @Override
+    public InstallHandler findInstallHandler(Uri uri, Context context) {
+        MiBandFWInstallHandler handler = new MiBandFWInstallHandler(uri, context);
+        return handler.isValid() ? handler : null;
     }
 
     public static boolean hasValidUserInfo() {

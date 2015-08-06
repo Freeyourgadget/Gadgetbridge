@@ -77,5 +77,4 @@ public class DeviceHelper {
         result.add(new PebbleCoordinator());
         return result;
     }
-
 }

@@ -173,7 +173,6 @@ public class PBWReader {
             e.printStackTrace();
             return null;
         }
-
         ZipInputStream zis = new ZipInputStream(fin);
         ZipEntry ze;
         try {
@@ -183,7 +182,12 @@ public class PBWReader {
                 }
             }
             zis.close();
-        } catch (IOException e) {
+        } catch (Throwable e) {
+            try {
+                zis.close();
+            } catch (IOException e1) {
+                // ignore
+            }
             e.printStackTrace();
         }
         return null;

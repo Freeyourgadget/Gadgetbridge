@@ -1,6 +1,8 @@
 package nodomain.freeyourgadget.gadgetbridge.devices;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.Uri;
 
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
@@ -65,5 +67,10 @@ public class UnknownDeviceCoordinator implements DeviceCoordinator {
     @Override
     public SampleProvider getSampleProvider() {
         return sampleProvider;
+    }
+
+    @Override
+    public InstallHandler findInstallHandler(Uri uri, Context context) {
+        return null;
     }
 }

@@ -143,7 +143,11 @@ public class DeviceCommunicationService extends Service {
             case ACTION_CONNECT:
                 String btDeviceAddress = intent.getStringExtra(EXTRA_DEVICE_ADDRESS);
                 SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-                sharedPrefs.edit().putString("last_device_address", btDeviceAddress).apply();
+                if (btDeviceAddress == null) {
+                    btDeviceAddress = sharedPrefs.getString("last_device_address", null);
+                } else {
+                    sharedPrefs.edit().putString("last_device_address", btDeviceAddress).apply();
+                }
 
                 if (btDeviceAddress != null && !isConnected() && !isConnecting()) {
                     if (mDeviceSupport != null) {
@@ -247,10 +251,10 @@ public class DeviceCommunicationService extends Service {
                 mDeviceSupport.onAppDelete(uuid);
                 break;
             case ACTION_INSTALL:
-                String uriString = intent.getStringExtra("uri");
-                if (uriString != null) {
+                Uri uri = intent.getParcelableExtra("uri");
+                if (uri != null) {
                     LOG.info("will try to install app/fw");
-                    mDeviceSupport.onInstallApp(Uri.parse(uriString));
+                    mDeviceSupport.onInstallApp(uri);
                 }
                 break;
             case ACTION_START:

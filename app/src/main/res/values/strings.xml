@@ -80,7 +80,7 @@
     <string name="installing_binary_d_d">installing binary %1$d/%2$d</string>
     <string name="installation_failed_">installation failed!</string>
     <string name="installation_successful">installation successful</string>
-    <string name="firmware_install_warning">YOUR ARE TRYING TO INSTALL A FIRMWARE, PROCEED AT YOUR OWN RISK.\n\n\n This firmware is for HW Revision: %s</string>
+    <string name="firmware_install_warning">YOU ARE TRYING TO INSTALL A FIRMWARE, PROCEED AT YOUR OWN RISK.\n\n\n This firmware is for HW Revision: %s</string>
     <string name="app_install_info">You are about to install the following app:\n\n\n%1$s Version %2$s by %3$s\n</string>
     <string name="n_a">N/A</string>
     <string name="initialized">initialized</string>
@@ -161,4 +161,8 @@
     <string name="dbaccess_error_executing">Error executing \'%1$s\'</string>
     <string name="controlcenter_start_activitymonitor">Your Activity (ALPHA)</string>
     <string name="cannot_connect">Cannot connect: %1$s</string>
+    <string name="installer_activity_unable_to_find_handler">Unable to find a handler to install this file.</string>
+    <string name="pbw_install_handler_unable_to_install">Unable to install the given file: $1%s</string>
+    <string name="pbw_install_handler_hw_revision_mismatch">Unable to install the given firmware: it doesn\'t match your Pebble\'s hardware revision.</string>
+    <string name="installer_activity_wait_while_determining_status">Please wait while determining the installation status...</string>
 </resources>
