@@ -57,17 +57,9 @@ public class NotificationListener extends NotificationListenerService {
         * else the service would get started every time we get a notification.
         * unfortunately we cannot enable/disable NotificationListener at runtime like we do with
         * broadcast receivers because it seems to invalidate the permissions that are
-        * neccessery for NotificationListenerService
+        * necessary for NotificationListenerService
         */
-        boolean isServiceRunning = false;
-        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (DeviceCommunicationService.class.getName().equals(service.service.getClassName())) {
-                isServiceRunning = true;
-            }
-        }
-
-        if (!isServiceRunning) {
+        if (!isServiceRunning()) {
             return;
         }
 
@@ -126,6 +118,16 @@ public class NotificationListener extends NotificationListenerService {
             startService(startIntent);
         }
 
+    }
+
+    private boolean isServiceRunning() {
+        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (DeviceCommunicationService.class.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
