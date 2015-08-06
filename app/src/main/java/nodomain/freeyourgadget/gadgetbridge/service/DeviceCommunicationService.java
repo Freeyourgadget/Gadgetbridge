@@ -117,18 +117,13 @@ public class DeviceCommunicationService extends Service {
 
         LOG.debug("Service startcommand: " + action);
 
-        if (!mStarted && !action.equals(ACTION_START)) {
-            // using the service before issuing ACTION_START
-            LOG.info("Must start service with " + ACTION_START + " before using it: " + action);
-            return START_NOT_STICKY;
-        }
-
-        if (mStarted && action.equals(ACTION_START)) {
-            // using ACTION_START when the service has already been started
-            return START_STICKY;
-        }
-
         if (!action.equals(ACTION_START) && !action.equals(ACTION_CONNECT)) {
+            if (!mStarted) {
+                // using the service before issuing ACTION_START
+                LOG.info("Must start service with " + ACTION_START + " or " + ACTION_CONNECT + " before using it: " + action);
+                return START_NOT_STICKY;
+            }
+
             if (mDeviceSupport == null || (!isConnected() && !mDeviceSupport.useAutoConnect())) {
                 // trying to send notification without valid Bluetooth connection
                 if (mGBDevice != null) {
@@ -139,8 +134,14 @@ public class DeviceCommunicationService extends Service {
             }
         }
 
+        // when we get past this, we should have a valid mDeviceSupport and mGBDevice instances
+
         switch (action) {
+            case ACTION_START:
+                start();
+                break;
             case ACTION_CONNECT:
+                start(); // ensure started
                 String btDeviceAddress = intent.getStringExtra(EXTRA_DEVICE_ADDRESS);
                 SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
                 if (btDeviceAddress == null) {
@@ -170,6 +171,13 @@ public class DeviceCommunicationService extends Service {
                         mDeviceSupport = null;
                         mGBDevice = null;
                     }
+                }
+                break;
+            case ACTION_REQUEST_VERSIONINFO:
+                if (mGBDevice.getFirmwareVersion() == null) {
+                    mDeviceSupport.onFirmwareVersionReq();
+                } else {
+                    mGBDevice.sendDeviceUpdateIntent(this);
                 }
                 break;
             case ACTION_NOTIFICATION_GENERIC: {
@@ -229,13 +237,6 @@ public class DeviceCommunicationService extends Service {
                 String track = intent.getStringExtra("music_track");
                 mDeviceSupport.onSetMusicInfo(artist, album, track);
                 break;
-            case ACTION_REQUEST_VERSIONINFO:
-                if (mGBDevice != null && mGBDevice.getFirmwareVersion() == null) {
-                    mDeviceSupport.onFirmwareVersionReq();
-                } else {
-                    mGBDevice.sendDeviceUpdateIntent(this);
-                }
-                break;
             case ACTION_REQUEST_APPINFO:
                 mDeviceSupport.onAppInfoReq();
                 break;
@@ -257,10 +258,6 @@ public class DeviceCommunicationService extends Service {
                     mDeviceSupport.onInstallApp(uri);
                 }
                 break;
-            case ACTION_START:
-                startForeground(GB.NOTIFICATION_ID, GB.createNotification(getString(R.string.gadgetbridge_running), this));
-                mStarted = true;
-                break;
             case ACTION_SET_ALARMS:
                 ArrayList<Alarm> alarms = intent.getParcelableArrayListExtra("alarms");
                 mDeviceSupport.onSetAlarms(alarms);
@@ -268,6 +265,13 @@ public class DeviceCommunicationService extends Service {
         }
 
         return START_STICKY;
+    }
+
+    private void start() {
+        if (!mStarted) {
+            startForeground(GB.NOTIFICATION_ID, GB.createNotification(getString(R.string.gadgetbridge_running), this));
+            mStarted = true;
+        }
     }
 
     private boolean isConnected() {

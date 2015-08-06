@@ -8,8 +8,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
 public class BluetoothStateChangeReceiver extends BroadcastReceiver {
     @Override
@@ -27,16 +27,9 @@ public class BluetoothStateChangeReceiver extends BroadcastReceiver {
                     return;
                 }
 
-                String deviceAddress = sharedPrefs.getString("last_device_address", null);
-                Intent startIntent = new Intent(context, DeviceCommunicationService.class);
-                startIntent.setAction(DeviceCommunicationService.ACTION_START);
-                context.startService(startIntent);
-                if (deviceAddress != null) {
-                    Intent connectIntent = new Intent(context, DeviceCommunicationService.class);
-                    connectIntent.setAction(DeviceCommunicationService.ACTION_CONNECT);
-                    connectIntent.putExtra(DeviceCommunicationService.EXTRA_DEVICE_ADDRESS, deviceAddress);
-                    context.startService(connectIntent);
-                }
+                Intent connectIntent = new Intent(context, DeviceCommunicationService.class);
+                connectIntent.setAction(DeviceCommunicationService.ACTION_CONNECT);
+                context.startService(connectIntent);
             } else if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF) {
                 Intent stopIntent = new Intent(context, DeviceCommunicationService.class);
                 context.stopService(stopIntent);

@@ -116,9 +116,6 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
 
             // needed to get the device
             if (device == null || !device.isConnected()) {
-                Intent startIntent = new Intent(this, DeviceCommunicationService.class);
-                startIntent.setAction(DeviceCommunicationService.ACTION_START);
-                startService(startIntent);
                 connect();
             }
 

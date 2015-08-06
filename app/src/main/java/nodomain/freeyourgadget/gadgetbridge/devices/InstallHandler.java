@@ -11,6 +11,7 @@ public interface InstallHandler {
 
     /**
      * Returns true if this handler is able to install the element.
+     * #validateInstallation may only be called if this method returned true.
      */
     public boolean isValid();
 
@@ -18,6 +19,9 @@ public interface InstallHandler {
      * Checks whether the installation of the 'element' on the device is possible
      * and configures the InstallActivity accordingly (sets helpful texts,
      * enables/disables the "Install" button, etc.
+     *
+     * Note: may only be called if #isValid previously returned true.
+     *
      * @param installActivity the activity to interact with
      * @param device the device to which the element shall be installed
      */

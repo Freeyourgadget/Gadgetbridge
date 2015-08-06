@@ -106,10 +106,6 @@ public class MiBandPairingActivity extends Activity {
         LocalBroadcastManager.getInstance(this).registerReceiver(mPairingReceiver, filter);
 
         Intent serviceIntent = new Intent(this, DeviceCommunicationService.class);
-        serviceIntent.setAction(DeviceCommunicationService.ACTION_START);
-        startService(serviceIntent);
-
-        serviceIntent = new Intent(this, DeviceCommunicationService.class);
         serviceIntent.setAction(DeviceCommunicationService.ACTION_CONNECT);
         serviceIntent.putExtra(DeviceCommunicationService.EXTRA_PERFORM_PAIR, true);
         serviceIntent.putExtra(DeviceCommunicationService.EXTRA_DEVICE_ADDRESS, macAddress);
