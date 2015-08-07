@@ -28,7 +28,6 @@
             android:layout_alignStart="@+id/statuswrapper"
             android:layout_toStartOf="@+id/device_info"
             android:singleLine="true"
-            android:textColor="@color/primarytext"
             android:typeface="sans" />
 
         <ProgressBar
@@ -51,7 +50,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:gravity="start"
-                android:textColor="@color/primarytext"
                 android:textStyle="bold" />
 
             <TextView

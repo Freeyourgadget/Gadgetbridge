@@ -3,12 +3,12 @@
     <style name="GadgetbridgeTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
         <item name="android:actionBarStyle">@style/GadgetbridgeActionBar</item>
         <item name="android:actionBarWidgetTheme">@style/GadgetbridgeActionBarWidget</item>
-
+        <item name="android:textColor">@color/primarytext</item>
     </style>
 
     <style name="GadgetbridgeActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/primary</item>
-        <item name="android:backgroundStacked">@color/primarydark</item>
+        <item name="android:background">@color/primary_light</item>
+        <item name="android:backgroundStacked">@color/primarydark_light</item>
         <item name="android:displayOptions">showHome|showTitle</item>
         <item name="android:icon">@android:color/transparent</item>
     </style>
