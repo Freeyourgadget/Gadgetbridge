@@ -17,6 +17,6 @@ public class MiBandTransactionBuilder extends TransactionBuilder {
 
     @Override
     protected NotifyAction createNotifyAction(BluetoothGattCharacteristic characteristic, boolean enable) {
-        return new MiBandNotifyAction(characteristic, enable);
+        return new NotifyAction(characteristic, enable);
     }
 }

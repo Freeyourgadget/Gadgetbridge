@@ -20,7 +20,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
 /**
  * Abstract base class for all devices connected through Bluetooth Low Energy (LE) aka
  * Bluetooth Smart.
- *
+ * <p/>
  * The connection to the device and all communication is made with a generic {@link BtLEQueue}.
  * Messages to the device are encoded as {@link BtLEAction actions} that are grouped with a
  * {@link Transaction} and sent via {@link BtLEQueue}.
@@ -34,6 +34,11 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     private BtLEQueue mQueue;
     private HashMap<UUID, BluetoothGattCharacteristic> mAvailableCharacteristics;
     private Set<UUID> mSupportedServices = new HashSet<>(4);
+
+    public static final String BASE_UUID = "0000%s-0000-1000-8000-00805f9b34fb"; //this is common for all BTLE devices. see http://stackoverflow.com/questions/18699251/finding-out-android-bluetooth-le-gatt-profiles
+    public static final UUID UUID_DESCRIPTOR_CHARACTERISTIC_USER_CONFIGURATION = UUID.fromString(String.format(BASE_UUID, "2901"));
+    public static final UUID UUID_DESCRIPTOR_CLIENT_CHARACTERISTIC_CONFIGURATION = UUID.fromString(String.format(BASE_UUID, "2902"));
+
 
     @Override
     public boolean connect() {

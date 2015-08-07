@@ -19,7 +19,11 @@ public class ReadAction extends BtLEAction {
 
     @Override
     public boolean run(BluetoothGatt gatt) {
-        return gatt.readCharacteristic(getCharacteristic());
+        int properties = getCharacteristic().getProperties();
+        if ((properties & BluetoothGattCharacteristic.PROPERTY_READ) > 0) {
+            return gatt.readCharacteristic(getCharacteristic());
+        }
+        return false;
     }
 
     @Override

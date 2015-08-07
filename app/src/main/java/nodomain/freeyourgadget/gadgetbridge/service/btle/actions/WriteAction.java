@@ -22,8 +22,11 @@ public class WriteAction extends BtLEAction {
 
     @Override
     public boolean run(BluetoothGatt gatt) {
-        if (getCharacteristic().setValue(value)) {
-            return gatt.writeCharacteristic(getCharacteristic());
+        int properties = getCharacteristic().getProperties();
+        if ((properties & BluetoothGattCharacteristic.PROPERTY_WRITE) > 0) {
+            if (getCharacteristic().setValue(value)) {
+                return gatt.writeCharacteristic(getCharacteristic());
+            }
         }
         return false;
     }
