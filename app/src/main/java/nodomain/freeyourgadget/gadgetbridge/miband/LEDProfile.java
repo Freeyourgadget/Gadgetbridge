@@ -5,7 +5,7 @@ import android.content.Context;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
-public class VibrationProfile {
+public class LEDProfile {
     public static final Context CONTEXT = GBApplication.getContext();
 
 
@@ -17,27 +17,27 @@ public class VibrationProfile {
     public static final String ID_RING = CONTEXT.getString(R.string.p_ring);
     public static final String ID_ALARM_CLOCK = CONTEXT.getString(R.string.p_alarm_clock);
 
-    public static VibrationProfile getProfile(String id, short repeat) {
+    public static LEDProfile getProfile(String id, short repeat) {
         if (ID_STACCATO.equals(id)) {
-            return new VibrationProfile(id, new int[]{100, 0}, repeat, new int[] { LEDColors.YELLOW, 100, 0, LEDColors.RED, 100, 0 }, repeat);
+            return new LEDProfile(id, new int[]{100, 0}, repeat, new int[] { LEDColors.YELLOW, 100, 0, LEDColors.RED, 100, 0 }, repeat);
         }
         if (ID_SHORT.equals(id)) {
-            return new VibrationProfile(id, new int[]{200, 200}, repeat, new int[] { LEDColors.GREEN, 200, 200 }, repeat);
+            return new LEDProfile(id, new int[]{200, 200}, repeat, new int[] { LEDColors.GREEN, 200, 200 }, repeat);
         }
         if (ID_LONG.equals(id)) {
-            return new VibrationProfile(id, new int[]{500, 1000}, repeat, new int[] { LEDColors.MAGENTA, 500, 1000 }, repeat);
+            return new LEDProfile(id, new int[]{500, 1000}, repeat, new int[] { LEDColors.MAGENTA, 500, 1000 }, repeat);
         }
         if (ID_WATERDROP.equals(id)) {
-            return new VibrationProfile(id, new int[]{100, 1500}, repeat, new int[] { LEDColors.BLUE, 100, 1500 }, repeat);
+            return new LEDProfile(id, new int[]{100, 1500}, repeat, new int[] { LEDColors.BLUE, 100, 1500 }, repeat);
         }
         if (ID_RING.equals(id)) {
-            return new VibrationProfile(id, new int[]{300, 200, 600, 2000}, repeat, new int[] { LEDColors.CYAN, 300, 200, LEDColors.MAGENTA, 600, 2000 }, repeat);
+            return new LEDProfile(id, new int[]{300, 200, 600, 2000}, repeat, new int[] { LEDColors.CYAN, 300, 200, LEDColors.MAGENTA, 600, 2000 }, repeat);
         }
         if (ID_ALARM_CLOCK.equals(id)) {
-            return new VibrationProfile(id, new int[]{30, 35, 30, 35, 30, 35, 30, 800}, repeat, new int[] {LEDColors.BLUE, 30, 35, LEDColors.CYAN, 30, 35, LEDColors.BLUE, 30, 35, LEDColors.CYAN, 30, 800 }, repeat);
+            return new LEDProfile(id, new int[]{30, 35, 30, 35, 30, 35, 30, 800}, repeat, new int[] {LEDColors.BLUE, 30, 35, LEDColors.CYAN, 30, 35, LEDColors.BLUE, 30, 35, LEDColors.CYAN, 30, 800 }, repeat);
         }
         // medium
-        return new VibrationProfile(id, new int[]{300, 600}, repeat, new int[]{ LEDColors.YELLOW, 300, 600 }, repeat);
+        return new LEDProfile(id, new int[]{300, 600}, repeat, new int[]{ LEDColors.YELLOW, 300, 600 }, repeat);
     }
 
     private final String id;
@@ -55,7 +55,7 @@ public class VibrationProfile {
      * @param vibrationOnOffSequence a sequence of alternating on and off durations, in milliseconds
      * @param vibrationRepeat        how often the sequence shall be repeated
      */
-    public VibrationProfile(String id, int[] vibrationOnOffSequence, short vibrationRepeat, int[] colorOnOffSequence, short colorRepeat) {
+    public LEDProfile(String id, int[] vibrationOnOffSequence, short vibrationRepeat, int[] colorOnOffSequence, short colorRepeat) {
         this.id = id;
         this.vibrationRepeat = vibrationRepeat;
         this.vibrationOnOffSequence = vibrationOnOffSequence;

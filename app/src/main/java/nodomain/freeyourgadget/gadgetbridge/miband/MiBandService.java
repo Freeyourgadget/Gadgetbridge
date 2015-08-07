@@ -137,6 +137,7 @@ public class MiBandService {
 
     public static final byte COMMAND_SET_TIMER = 0x4;
 
+    public static final byte COMMAND_SET_LED_COLOR = 0x0e;
     /*
 
 

@@ -59,7 +59,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandSupport.class);
 
     //temporary buffer, size is a multiple of 60 because we want to store complete minutes (1 minute = 3 bytes)
-    private static final int activityDataHolderSize = 60 * 24; // 8h
+    private static final int activityDataHolderSize = 60; // 20min
     private byte[] activityDataHolder = new byte[activityDataHolderSize];
     //index of the buffer above
     private int activityDataHolderProgress = 0;
@@ -154,27 +154,52 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      * Sends a custom notification to the Mi Band.
      *
      * @param vibrationProfile specifies how and how often the Band shall vibrate.
-     * @param flashTimes
-     * @param flashColour
-     * @param originalColour
-     * @param flashDuration
      * @param extraAction      an extra action to be executed after every vibration and flash sequence. Allows to abort the repetition, for example.
      * @param builder
      */
-    private void sendCustomNotification(VibrationProfile vibrationProfile, int flashTimes, int flashColour, int originalColour, long flashDuration, BtLEAction extraAction, TransactionBuilder builder) {
+    private void sendCustomNotification(VibrationProfile vibrationProfile, BtLEAction extraAction, TransactionBuilder builder) {
         BluetoothGattCharacteristic controlPoint = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
-        for (short i = 0; i < vibrationProfile.getRepeat(); i++) {
-            int[] onOffSequence = vibrationProfile.getOnOffSequence();
-            for (int j = 0; j < onOffSequence.length; j++) {
-                int on = onOffSequence[j];
-                on = Math.min(500, on); // longer than 500ms is not possible
-                builder.write(controlPoint, startVibrate);
-                builder.wait(on);
-                builder.write(controlPoint, stopVibrate);
 
-                if (++j < onOffSequence.length) {
-                    int off = Math.max(onOffSequence[j], 25); // wait at least 25ms
-                    builder.wait(off);
+        int[] vibrationOnOffSequence = vibrationProfile.getVibrationOnOffSequence();
+        // first vibration, then flash LEDs
+        for (short i = 0; i < vibrationProfile.getVibrationRepeat(); i++) {
+            for (int j = 0; j < vibrationOnOffSequence.length; j++) {
+                if (j < vibrationOnOffSequence.length) {
+                    int on = vibrationOnOffSequence[j];
+                    on = Math.min(500, on); // longer than 500ms is not possible
+                    builder.write(controlPoint, startVibrate);
+                    builder.wait(on);
+                    builder.write(controlPoint, stopVibrate);
+
+                    if (++j < vibrationOnOffSequence.length) {
+                        int off = Math.max(vibrationOnOffSequence[j], 25); // wait at least 25ms
+                        builder.wait(off);
+                    }
+                }
+
+                if (extraAction != null) {
+                    builder.add(extraAction);
+                }
+            }
+        }
+        int[] colorOnOffSequence = vibrationProfile.getColorOnOffSequence();
+        for (short i = 0; i < vibrationProfile.getColorRepeat(); i++) {
+            for (int j = 0; j < colorOnOffSequence.length; j++) {
+                int color = colorOnOffSequence[j];
+                builder.write(controlPoint, getLEDFlash(color));
+
+                if (++j < colorOnOffSequence.length) {
+                    int on = colorOnOffSequence[j];
+                    on = Math.min(500, on); // longer than 500ms is not possible
+                    builder.wait(on);
+
+                    if (++j < colorOnOffSequence.length) {
+                        int off = colorOnOffSequence[j];
+                        if (off >= 300) { // shorter periods don't seem to work
+                            builder.write(controlPoint, getLEDFlash(LEDColors.OFF));
+                            builder.wait(off);
+                        }
+                    }
                 }
 
                 if (extraAction != null) {
@@ -203,7 +228,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         builder.queue(getQueue());
     }
 
-    private static final byte[] startVibrate = new byte[]{MiBandService.COMMAND_SEND_NOTIFICATION, 1};
+    private static final byte[] startVibrate = new byte[]{MiBandService.COMMAND_SEND_NOTIFICATION, 0};
     private static final byte[] stopVibrate = new byte[]{MiBandService.COMMAND_STOP_MOTOR_VIBRATE};
     private static final byte[] reboot = new byte[]{MiBandService.COMMAND_REBOOT};
     private static final byte[] fetch = new byte[]{MiBandService.COMMAND_FETCH_DATA};
@@ -216,6 +241,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         boolean display = true;
         //      byte[] flashColor = new byte[]{ 14, r, g, b, display ? (byte) 1 : (byte) 0 };
         return vibrate;
+    }
+
+    private byte[] getLEDFlash(int color) {
+        byte[] rgb = LEDColors.toBytes(color);
+        return new byte[] { MiBandService.COMMAND_SET_LED_COLOR, rgb[0], rgb[1], rgb[2], 0x1 };
     }
 
     /**
@@ -282,12 +312,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             int vibrateTimes = getPreferredVibrateCount(notificationOrigin, prefs);
             VibrationProfile profile = getPreferredVibrateProfile(notificationOrigin, prefs, vibrateTimes);
 
-            int flashTimes = getPreferredFlashCount(notificationOrigin, prefs);
-            int flashColour = getPreferredFlashColour(notificationOrigin, prefs);
-            int originalColour = getPreferredOriginalColour(notificationOrigin, prefs);
-            int flashDuration = getPreferredFlashDuration(notificationOrigin, prefs);
-
-            sendCustomNotification(profile, flashTimes, flashColour, originalColour, flashDuration, extraAction, builder);
+            sendCustomNotification(profile, extraAction, builder);
 //            sendCustomNotification(vibrateDuration, vibrateTimes, vibratePause, flashTimes, flashColour, originalColour, flashDuration, builder);
         } catch (IOException ex) {
             LOG.error("Unable to send notification to MI device", ex);
