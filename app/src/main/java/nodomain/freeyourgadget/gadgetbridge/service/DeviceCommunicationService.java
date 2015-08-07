@@ -24,7 +24,6 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -82,7 +81,7 @@ public class DeviceCommunicationService extends Service {
                 GBDevice device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                 if (mGBDevice.equals(device)) {
                     mGBDevice = device;
-                    boolean enableReceivers = mDeviceSupport != null && (mDeviceSupport.useAutoConnect() || mGBDevice.isConnected());
+                    boolean enableReceivers = mDeviceSupport != null && (mDeviceSupport.useAutoConnect() || mGBDevice.isInitialized());
                     GB.setReceiversEnableState(enableReceivers, context);
                     GB.updateNotification(mGBDevice.getName() + " " + mGBDevice.getStateString(), context);
                 } else {
@@ -124,7 +123,7 @@ public class DeviceCommunicationService extends Service {
                 return START_NOT_STICKY;
             }
 
-            if (mDeviceSupport == null || (!isConnected() && !mDeviceSupport.useAutoConnect())) {
+            if ((mDeviceSupport == null) || (!(isConnected() && action.equals(ACTION_REQUEST_VERSIONINFO)) && !isInitialized() && !mDeviceSupport.useAutoConnect())) {
                 // trying to send notification without valid Bluetooth connection
                 if (mGBDevice != null) {
                     // at least send back the current device state
@@ -275,11 +274,15 @@ public class DeviceCommunicationService extends Service {
     }
 
     private boolean isConnected() {
-        return mGBDevice != null && mGBDevice.getState() == State.CONNECTED;
+        return mGBDevice != null && mGBDevice.isConnected();
     }
 
     private boolean isConnecting() {
-        return mGBDevice != null && mGBDevice.getState() == State.CONNECTING;
+        return mGBDevice != null && mGBDevice.isConnecting();
+    }
+
+    private boolean isInitialized() {
+        return mGBDevice != null && mGBDevice.isInitialized();
     }
 
     @Override

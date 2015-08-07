@@ -19,16 +19,16 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.zip.ZipInputStream;
 
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PBWReader;
-import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleInstallable;
-import nodomain.freeyourgadget.gadgetbridge.service.bt.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppManagementResult;
+import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PBWReader;
+import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleInstallable;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.service.bt.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.service.bt.GBDeviceProtocol;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class PebbleIoThread extends GBDeviceIoThread {
     private static final Logger LOG = LoggerFactory.getLogger(PebbleIoThread.class);
@@ -89,7 +89,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
         gbDevice.sendDeviceUpdateIntent(getContext());
 
         mIsConnected = true;
-
+        write(mPebbleProtocol.encodeFirmwareVersionReq());
         return true;
     }
 
@@ -280,6 +280,8 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     LOG.info("syncing time");
                     write(mPebbleProtocol.encodeSetTime(-1));
                 }
+                gbDevice.setState(GBDevice.State.INITIALIZED);
+                gbDevice.sendDeviceUpdateIntent(getContext());
                 return false;
             case APP_MANAGEMENT_RES:
                 GBDeviceEventAppManagementResult appMgmtRes = (GBDeviceEventAppManagementResult) deviceEvent;
