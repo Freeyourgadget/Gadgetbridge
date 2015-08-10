@@ -23,7 +23,8 @@ public class WriteAction extends BtLEAction {
     @Override
     public boolean run(BluetoothGatt gatt) {
         int properties = getCharacteristic().getProperties();
-        if ((properties & BluetoothGattCharacteristic.PROPERTY_WRITE) > 0) {
+        //TODO: expectsResult should return false if PROPERTY_WRITE_NO_RESPONSE is true, but this yelds to timing issues
+        if ((properties & BluetoothGattCharacteristic.PROPERTY_WRITE) > 0 || ((properties & BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE) > 0)) {
             if (getCharacteristic().setValue(value)) {
                 return gatt.writeCharacteristic(getCharacteristic());
             }
