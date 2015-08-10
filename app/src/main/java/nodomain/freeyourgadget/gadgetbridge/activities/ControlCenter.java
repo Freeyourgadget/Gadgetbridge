@@ -29,16 +29,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapter;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class ControlCenter extends Activity {
 
@@ -83,8 +83,8 @@ public class ControlCenter extends Activity {
 
                     refreshBusyState(dev);
 
-                    if (dev.isConnected() && dev.getFirmwareVersion() == null && !dev.isInitializing()) {
-                        LOG.info("device connected, requesting more info");
+                    if (dev.isInitialized() && dev.getFirmwareVersion() == null) {
+                        LOG.info("device initalized, requesting more info");
                         requestDeviceInfo();
                     }
                     break;

@@ -123,7 +123,7 @@ public class DeviceCommunicationService extends Service {
                 return START_NOT_STICKY;
             }
 
-            if ((mDeviceSupport == null) || (!(isConnected() && action.equals(ACTION_REQUEST_VERSIONINFO)) && !isInitialized() && !mDeviceSupport.useAutoConnect())) {
+            if (mDeviceSupport == null || (!isInitialized() && !mDeviceSupport.useAutoConnect())) {
                 // trying to send notification without valid Bluetooth connection
                 if (mGBDevice != null) {
                     // at least send back the current device state
