@@ -55,15 +55,6 @@ public class AppManagerActivity extends Activity {
 
                     appList.add(new GBDeviceApp(uuid, appName, appCreator, "", appType));
                 }
-
-                SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
-
-                if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
-                    List<GBDeviceApp> cachedApps = getCachedApps();
-                    for (GBDeviceApp app : cachedApps) {
-                        appList.add(app);
-                    }
-                }
                 mGBDeviceAppAdapter.notifyDataSetChanged();
             }
         }
@@ -111,6 +102,15 @@ public class AppManagerActivity extends Activity {
         });
 
         registerForContextMenu(appListView);
+        
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
+
+        if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
+            List<GBDeviceApp> cachedApps = getCachedApps();
+            for (GBDeviceApp app : cachedApps) {
+                appList.add(app);
+            }
+        }
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(ControlCenter.ACTION_QUIT);
