@@ -50,6 +50,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final short ENDPOINT_SYSREG = 5000;
     static final short ENDPOINT_FCTREG = 5001;
     static final short ENDPOINT_APPMANAGER = 6000;
+    static final short ENDPOINT_APPFETCH = 6001; // 3.x only
     public static final short ENDPOINT_DATALOG = 6778;
     static final short ENDPOINT_RUNKEEPER = 7000;
     static final short ENDPOINT_SCREENSHOT = 8000;
@@ -837,7 +838,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return null;
     }
 
-    private GBDeviceEventDismissNotification decodeResponseNotificationAction(ByteBuffer buf, int length) {
+    private GBDeviceEventDismissNotification decodeResponseNotificationAction(ByteBuffer buf) {
         buf.order(ByteOrder.LITTLE_ENDIAN);
 
         byte command = buf.get();
@@ -859,7 +860,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return null;
     }
 
-    private GBDeviceEventSendBytes decodeResponsePing(ByteBuffer buf, int length) {
+    private GBDeviceEventSendBytes decodeResponsePing(ByteBuffer buf) {
         byte command = buf.get();
         if (command == PING_PING) {
             int cookie = buf.getInt();
@@ -867,6 +868,19 @@ public class PebbleProtocol extends GBDeviceProtocol {
             GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
             sendBytes.encodedBytes = encodePing(PING_PONG, cookie);
             return sendBytes;
+        }
+        return null;
+    }
+
+    private GBDeviceEvent decodeAppFetch(ByteBuffer buf) {
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        byte command = buf.get();
+        if (command == 0x01) {
+            long uuid_high = buf.getLong();
+            long uuid_low = buf.getLong();
+            UUID uuid = new UUID(uuid_high, uuid_low);
+            int app_id = buf.getInt();
+            LOG.info("APPFETCH request: " + uuid + " / " + app_id);
         }
         return null;
     }
@@ -1097,10 +1111,13 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 break;
             case ENDPOINT_EXTENSIBLENOTIFS:
             case ENDPOINT_NOTIFICATIONACTION:
-                devEvt = decodeResponseNotificationAction(buf, length);
+                devEvt = decodeResponseNotificationAction(buf);
                 break;
             case ENDPOINT_PING:
-                devEvt = decodeResponsePing(buf, length);
+                devEvt = decodeResponsePing(buf);
+                break;
+            case ENDPOINT_APPFETCH:
+                decodeAppFetch(buf);
                 break;
             default:
                 break;
