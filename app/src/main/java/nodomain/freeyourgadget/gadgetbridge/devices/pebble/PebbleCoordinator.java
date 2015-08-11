@@ -2,22 +2,30 @@ package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 
 public class PebbleCoordinator implements DeviceCoordinator {
     private MorpheuzSampleProvider sampleProvider;
 
     public PebbleCoordinator() {
-        //sampleProvider = new MorpheuzSampleProvider();
-        sampleProvider = new PebbleGadgetBridgeSampleProvider();
+        // FIXME: make this configurable somewhere else
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
+        if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
+            sampleProvider = new PebbleGadgetBridgeSampleProvider();
+        } else {
+            sampleProvider = new MorpheuzSampleProvider();
+        }
     }
 
     @Override
