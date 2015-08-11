@@ -98,6 +98,7 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
         installButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                installHandler.onStartInstall();
                 Intent startIntent = new Intent(FwAppInstallerActivity.this, DeviceCommunicationService.class);
                 startIntent.setAction(DeviceCommunicationService.ACTION_INSTALL);
                 startIntent.putExtra("uri", uri);

@@ -26,4 +26,9 @@ public interface InstallHandler {
      * @param device the device to which the element shall be installed
      */
     void validateInstallation(InstallActivity installActivity, GBDevice device);
+
+    /**
+     * Allows device specivic code to be execute just before the installation starts
+     */
+    void onStartInstall();
 }

@@ -52,6 +52,11 @@ public class MiBandFWInstallHandler implements InstallHandler {
         installActivity.setInstallEnabled(true);
     }
 
+    @Override
+    public void onStartInstall() {
+
+    }
+
     public boolean isValid() {
         return helper != null;
     }

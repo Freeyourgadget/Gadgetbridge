@@ -1,14 +1,21 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 
+import java.io.File;
+import java.io.IOException;
+
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.InstallActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 public class PBWInstallHandler implements InstallHandler {
 
@@ -51,7 +58,30 @@ public class PBWInstallHandler implements InstallHandler {
         }
     }
 
+    @Override
+    public void onStartInstall() {
+        if (mPBWReader.isFirmware()) {
+            return;
+        }
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
+        if (!sharedPrefs.getBoolean("pebble_force_untested", false)) {
+            return;
+        }
+
+        GBDeviceApp app = mPBWReader.getGBDeviceApp();
+        File pbwFile = new File(mPBWReader.getUri().getPath());
+        try {
+            File destDir = new File(FileUtils.getExternalFilesDir() + "/pbw-cache");
+            destDir.mkdirs();
+            FileUtils.copyFile(pbwFile, new File(destDir + "/" + app.getUUID().toString() + ".pbw"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean isValid() {
         return mPBWReader.isValid();
     }
+
 }

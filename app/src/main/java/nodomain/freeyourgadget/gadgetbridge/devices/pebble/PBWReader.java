@@ -200,4 +200,8 @@ public class PBWReader {
     public String getHWRevision() {
         return hwRevision;
     }
+
+    public Uri getUri() {
+        return uri;
+    }
 }
