@@ -72,6 +72,11 @@
                     android:key="pebble_force_protocol"
                     android:title="@string/pref_title_pebble_forceprotocol"
                     android:summary="@string/pref_summary_pebble_forceprotocol" />
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="pebble_force_untested"
+                    android:title="@string/pref_title_pebble_forceuntested"
+                    android:summary="@string/pref_summary_pebble_forceuntested" />
             </PreferenceCategory>
         </PreferenceScreen>
     </PreferenceCategory>

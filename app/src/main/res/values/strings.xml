@@ -55,7 +55,8 @@
     <string name="pref_title_pebble_settings">Pebble Settings</string>
     <string name="pref_title_pebble_forceprotocol">Force Notification Protocol</string>
     <string name="pref_summary_pebble_forceprotocol">This option forces using the latest notification protocol depending on the firmware version. ENABLE ONLY IF YOU KNOW WHAT YOU ARE DOING!</string>
-
+    <string name="pref_title_pebble_forceuntested">Enable untested features</string>
+    <string name="pref_summary_pebble_forceuntested">Enable features that are untested. ENABLE ONLY IF YOU KNOW WHAT YOU ARE DOING!</string>
 
     <string name="not_connected">not connected</string>
     <string name="connecting">connecting</string>

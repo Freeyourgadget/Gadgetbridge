@@ -16,8 +16,8 @@ public class PebbleCoordinator implements DeviceCoordinator {
     private MorpheuzSampleProvider sampleProvider;
 
     public PebbleCoordinator() {
-        sampleProvider = new MorpheuzSampleProvider();
-//        sampleProvider = new PebbleGadgetBridgeSampleProvider();
+        //sampleProvider = new MorpheuzSampleProvider();
+        sampleProvider = new PebbleGadgetBridgeSampleProvider();
     }
 
     @Override
