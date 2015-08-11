@@ -25,7 +25,7 @@ public class PBWInstallHandler implements InstallHandler {
 
     public PBWInstallHandler(Uri uri, Context context) {
         mContext = context;
-        mPBWReader = new PBWReader(uri, context);
+        mPBWReader = new PBWReader(uri, context, ""); // FIXME: we should know the platform here
         mUri = uri;
     }
 

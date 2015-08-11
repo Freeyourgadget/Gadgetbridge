@@ -51,7 +51,12 @@ public class PBWReader {
     private boolean isValid = false;
     private String hwRevision = null;
 
-    public PBWReader(Uri uri, Context context) {
+    public PBWReader(Uri uri, Context context, String platform) {
+        String platformDir = "";
+        if (!platform.equals("aplite")) {
+            platformDir = platform + "/";
+        }
+
         this.uri = uri;
         cr = context.getContentResolver();
 
@@ -71,7 +76,7 @@ public class PBWReader {
         try {
             while ((ze = zis.getNextEntry()) != null) {
                 String fileName = ze.getName();
-                if (fileName.equals("manifest.json")) {
+                if (fileName.equals(platformDir + "manifest.json")) {
                     long bytes = ze.getSize();
                     if (bytes > 8192) // that should be too much
                         break;
@@ -102,8 +107,8 @@ public class PBWReader {
                                 int size = jo.getInt("size");
                                 long crc = jo.getLong("crc");
                                 byte type = entry.getValue();
-                                pebbleInstallables.add(new PebbleInstallable(name, size, (int) crc, type));
-                                LOG.info("found file to install: " + name);
+                                pebbleInstallables.add(new PebbleInstallable(platformDir + name, size, (int) crc, type));
+                                LOG.info("found file to install: " + platformDir + name);
                                 isValid = true;
                             } catch (JSONException e) {
                                 // not fatal
