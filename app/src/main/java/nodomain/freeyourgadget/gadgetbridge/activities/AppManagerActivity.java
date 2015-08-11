@@ -5,7 +5,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.ContextMenu;
@@ -17,14 +19,18 @@ import android.widget.ListView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAppAdapter;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 
 public class AppManagerActivity extends Activity {
@@ -49,6 +55,15 @@ public class AppManagerActivity extends Activity {
 
                     appList.add(new GBDeviceApp(uuid, appName, appCreator, "", appType));
                 }
+
+                SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
+
+                if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
+                    List<GBDeviceApp> cachedApps = getCachedApps();
+                    for (GBDeviceApp app : cachedApps) {
+                        appList.add(app);
+                    }
+                }
                 mGBDeviceAppAdapter.notifyDataSetChanged();
             }
         }
@@ -56,6 +71,23 @@ public class AppManagerActivity extends Activity {
     final List<GBDeviceApp> appList = new ArrayList<>();
     private GBDeviceAppAdapter mGBDeviceAppAdapter;
     private GBDeviceApp selectedApp = null;
+
+    private List<GBDeviceApp> getCachedApps() {
+        List<GBDeviceApp> cachedAppList = new ArrayList<>();
+        try {
+            File cachePath = new File(FileUtils.getExternalFilesDir().getPath() + "/pbw-cache");
+            File files[] = cachePath.listFiles();
+            for (File file : files) {
+                if (file.getName().endsWith(".pbw")) {
+                    UUID uuid = UUID.fromString(file.getName().substring(0, file.getName().length() - 4));
+                    cachedAppList.add(new GBDeviceApp(uuid, uuid.toString(), "N/A", "", GBDeviceApp.Type.UNKNOWN));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return cachedAppList;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

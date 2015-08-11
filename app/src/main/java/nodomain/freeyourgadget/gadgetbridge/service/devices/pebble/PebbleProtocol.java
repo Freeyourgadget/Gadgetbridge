@@ -38,6 +38,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final short ENDPOINT_PHONECONTROL = 33;
     static final short ENDPOINT_APPLICATIONMESSAGE = 48;
     static final short ENDPOINT_LAUNCHER = 49;
+    static final short ENDPOINT_APPRUNSTATE = 52;
     static final short ENDPOINT_LOGS = 2000;
     static final short ENDPOINT_PING = 2001;
     static final short ENDPOINT_LOGDUMP = 2002;
@@ -57,6 +58,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final short ENDPOINT_NOTIFICATIONACTION = 11440; // 3.x only, TODO: find a better name
     static final short ENDPOINT_BLOBDB = (short) 45531;  // 3.x only
     static final short ENDPOINT_PUTBYTES = (short) 48879;
+
+    static final byte APPRUNSTATE_START = 1;
 
     static final byte NOTIFICATION_EMAIL = 0;
     static final byte NOTIFICATION_SMS = 1;
@@ -161,18 +164,20 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final byte TYPE_INT32 = 3;
 
     static final short LENGTH_PREFIX = 4;
-    static final short LENGTH_PING = 5;
     static final short LENGTH_SIMPLEMESSAGE = 1;
-    static final short LENGTH_SETTIME = 5;
+
+    static final short LENGTH_APPRUNSTATE = 17;
+    static final short LENGTH_PING = 5;
+    static final short LENGTH_PHONEVERSION = 17;
     static final short LENGTH_REMOVEAPP = 17;
     static final short LENGTH_REFRESHAPP = 5;
-    static final short LENGTH_PHONEVERSION = 17;
+    static final short LENGTH_SETTIME = 5;
+    static final short LENGTH_SYSTEMMESSAGE = 2;
     static final short LENGTH_UPLOADSTART = 7;
     static final short LENGTH_UPLOADCHUNK = 9;
     static final short LENGTH_UPLOADCOMMIT = 9;
     static final short LENGTH_UPLOADCOMPLETE = 5;
     static final short LENGTH_UPLOADCANCEL = 5;
-    static final short LENGTH_SYSTEMMESSAGE = 2;
 
     private static final String[] hwRevisions = {"unknown", "ev1", "ev2", "ev2_3", "ev2_4", "v1_5", "v2_0", "evt2", "dvt"};
     private static Random mRandom = new Random();
@@ -509,9 +514,20 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeAppStart(UUID uuid) {
-        ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>();
-        pairs.add(new Pair<>(1, (Object) 1)); // launch
-        return encodeApplicationMessagePush(ENDPOINT_LAUNCHER, uuid, pairs);
+        if (isFw3x) {
+            ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_APPRUNSTATE);
+            buf.order(ByteOrder.BIG_ENDIAN);
+            buf.putShort(LENGTH_APPRUNSTATE);
+            buf.putShort(ENDPOINT_APPRUNSTATE);
+            buf.put(APPRUNSTATE_START);
+            buf.putLong(uuid.getMostSignificantBits());
+            buf.putLong(uuid.getLeastSignificantBits());
+            return buf.array();
+        } else {
+            ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>();
+            pairs.add(new Pair<>(1, (Object) 1)); // launch
+            return encodeApplicationMessagePush(ENDPOINT_LAUNCHER, uuid, pairs);
+        }
     }
 
     @Override
