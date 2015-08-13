@@ -28,4 +28,7 @@ dependencies {
     compile 'org.slf4j:slf4j-api:1.7.7'
     compile 'com.github.PhilJay:MPAndroidChart:2.1.0'
     compile 'com.github.pfichtner:durationformatter:0.1.1'
+
+    testCompile 'junit:junit:4.12'
+//    testCompile "org.mockito:mockito-core:1.9.5"
 }
