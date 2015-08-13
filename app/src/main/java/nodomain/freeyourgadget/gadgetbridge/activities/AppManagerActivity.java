@@ -68,10 +68,12 @@ public class AppManagerActivity extends Activity {
         try {
             File cachePath = new File(FileUtils.getExternalFilesDir().getPath() + "/pbw-cache");
             File files[] = cachePath.listFiles();
-            for (File file : files) {
-                if (file.getName().endsWith(".pbw")) {
-                    UUID uuid = UUID.fromString(file.getName().substring(0, file.getName().length() - 4));
-                    cachedAppList.add(new GBDeviceApp(uuid, uuid.toString(), "N/A", "", GBDeviceApp.Type.UNKNOWN));
+            if (files != null) {
+                for (File file : files) {
+                    if (file.getName().endsWith(".pbw")) {
+                        UUID uuid = UUID.fromString(file.getName().substring(0, file.getName().length() - 4));
+                        cachedAppList.add(new GBDeviceApp(uuid, uuid.toString(), "N/A", "", GBDeviceApp.Type.UNKNOWN));
+                    }
                 }
             }
         } catch (IOException e) {
@@ -102,7 +104,7 @@ public class AppManagerActivity extends Activity {
         });
 
         registerForContextMenu(appListView);
-        
+
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
 
         if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
