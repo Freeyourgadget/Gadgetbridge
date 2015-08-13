@@ -149,7 +149,7 @@ public class DeviceCommunicationService extends Service {
                     sharedPrefs.edit().putString("last_device_address", btDeviceAddress).apply();
                 }
 
-                if (btDeviceAddress != null && !isConnected() && !isConnecting()) {
+                if (btDeviceAddress != null && !isConnecting() && !isConnected()) {
                     if (mDeviceSupport != null) {
                         mDeviceSupport.dispose();
                         mDeviceSupport = null;
@@ -173,10 +173,9 @@ public class DeviceCommunicationService extends Service {
                 }
                 break;
             case ACTION_REQUEST_VERSIONINFO:
+                mGBDevice.sendDeviceUpdateIntent(this);
                 if (mGBDevice.getFirmwareVersion() == null) {
                     mDeviceSupport.onFirmwareVersionReq();
-                } else {
-                    mGBDevice.sendDeviceUpdateIntent(this);
                 }
                 break;
             case ACTION_NOTIFICATION_GENERIC: {
