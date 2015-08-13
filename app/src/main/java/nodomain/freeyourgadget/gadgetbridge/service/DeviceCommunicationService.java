@@ -133,7 +133,7 @@ public class DeviceCommunicationService extends Service {
             }
         }
 
-        // when we get past this, we should have a valid mDeviceSupport and mGBDevice instances
+        // when we get past this, we should have valid mDeviceSupport and mGBDevice instances
 
         switch (action) {
             case ACTION_START:

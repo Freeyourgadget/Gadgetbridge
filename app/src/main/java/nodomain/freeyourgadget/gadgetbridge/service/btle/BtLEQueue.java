@@ -80,6 +80,10 @@ public final class BtLEQueue {
                     mAbortTransaction = false;
                     // Run all actions of the transaction until one doesn't succeed
                     for (BtLEAction action : transaction.getActions()) {
+                        if (mAbortTransaction) { // got disconnected
+                            LOG.info("Aborting running transaction");
+                            break;
+                        }
                         mWaitCharacteristic = action.getCharacteristic();
                         mWaitForActionResultLatch = new CountDownLatch(1);
                         if (LOG.isDebugEnabled()) {
@@ -169,11 +173,12 @@ public final class BtLEQueue {
 
     public void disconnect() {
         synchronized (mGattMonitor) {
-            if (mBluetoothGatt != null) {
-                LOG.info("Disconnecting BtLEQueue from GATT device");
-                mBluetoothGatt.disconnect();
-                mBluetoothGatt.close();
+            BluetoothGatt gatt = mBluetoothGatt;
+            if (gatt != null) {
                 mBluetoothGatt = null;
+                LOG.info("Disconnecting BtLEQueue from GATT device");
+                gatt.disconnect();
+                gatt.close();
                 setDeviceConnectionState(State.NOT_CONNECTED);
             }
         }
@@ -181,6 +186,7 @@ public final class BtLEQueue {
 
     private void handleDisconnected(int status) {
         mTransactions.clear();
+        mAbortTransaction = true;
         if (mWaitForActionResultLatch != null) {
             mWaitForActionResultLatch.countDown();
         }
@@ -191,17 +197,26 @@ public final class BtLEQueue {
         // To support automatic reconnection, we keep the mBluetoothGatt instance
         // alive (we do not close() it). Unfortunately we sometimes have problems
         // reconnecting automatically, so we try to fix this by re-creating mBluetoothGatt.
+        // Not sure if this actually works without re-initializing the device...
         if (status != 0) {
-            maybeReconnect();
+            if (!maybeReconnect()) {
+                disconnect(); // ensure that we start over cleanly next time
+            }
         }
     }
 
-    private void maybeReconnect() {
+    /**
+     * Depending on certain criteria, connects to the BluetoothGatt.
+     * @return true if a reconnection attempt was made, or false otherwise
+     */
+    private boolean maybeReconnect() {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastReconnectTime >= MIN_MILLIS_BEFORE_RECONNECT) {
+            LOG.info("Automatic reconnection attempt...");
             lastReconnectTime = currentTime;
-            connect();
+            return connect();
         }
+        return false;
     }
 
     public void dispose() {
