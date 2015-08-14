@@ -61,6 +61,15 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     static final byte APPRUNSTATE_START = 1;
 
+    static final byte BLOBDB_INSERT = 1;
+    static final byte BLOBDB_DELETE = 4;
+    static final byte BLOBDB_CLEAR = 5;
+
+    static final byte BLOBDB_PIN = 1;
+    static final byte BLOBDB_APP = 2;
+    static final byte BLOBDB_REMINDER = 3;
+    static final byte BLOBDB_NOTIFICATION = 4;
+
     static final byte NOTIFICATION_EMAIL = 0;
     static final byte NOTIFICATION_SMS = 1;
     static final byte NOTIFICATION_TWITTER = 2;
@@ -178,6 +187,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final short LENGTH_UPLOADCOMMIT = 9;
     static final short LENGTH_UPLOADCOMPLETE = 5;
     static final short LENGTH_UPLOADCANCEL = 5;
+
+    static final byte LENGTH_UUID = 16;
 
     private static final String[] hwRevisions = {"unknown", "ev1", "ev2", "ev2_3", "ev2_4", "v1_5", "v2_0", "evt2", "dvt"};
     private static Random mRandom = new Random();
@@ -406,11 +417,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.order(ByteOrder.LITTLE_ENDIAN);
 
         // blobdb - 23 bytes
-        buf.put((byte) 0x01); // insert
+        buf.put(BLOBDB_INSERT);
         buf.putShort((short) mRandom.nextInt()); // token
-        buf.put((byte) 0x04); // db id (0x04 = notification)
-        buf.put((byte) 16); // uuid length
-        byte[] uuid_buf = new byte[16];
+        buf.put(BLOBDB_NOTIFICATION);
+        buf.put(LENGTH_UUID); // uuid length
+        byte[] uuid_buf = new byte[LENGTH_UUID];
         mRandom.nextBytes(uuid_buf);
         buf.put(uuid_buf); // random UUID
         buf.putShort(pin_length); // length of the encapsulated data
@@ -454,6 +465,47 @@ public class PebbleProtocol extends GBDeviceProtocol {
             buf.putShort((short) actionstring.length());
             buf.put(actionstring.getBytes());
         }
+
+        return buf.array();
+    }
+
+    public byte[] encodeInstallMetadata(UUID uuid, String appName, short appVersion, short sdkVersion) {
+        // Calculate length first
+        final short BLOBDB_LENGTH = 23;
+        final short METADATA_LENGTH = 126;
+
+        final short length = (short) (BLOBDB_LENGTH + METADATA_LENGTH);
+
+        byte[] name_buf = new byte[96];
+        System.arraycopy(appName.getBytes(), 0, name_buf, 0, appName.length());
+        ByteBuffer buf = ByteBuffer.allocate(length + LENGTH_PREFIX);
+
+        // Encode Prefix
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort(length);
+        buf.putShort(ENDPOINT_BLOBDB);
+
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        // blobdb - 23 bytes
+        buf.put(BLOBDB_INSERT); // insert
+        buf.putShort((short) mRandom.nextInt()); // token
+        buf.put(BLOBDB_APP);
+        buf.put(LENGTH_UUID);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putLong(uuid.getMostSignificantBits()); // watchapp uuid
+        buf.putLong(uuid.getLeastSignificantBits());
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        buf.putShort(METADATA_LENGTH); // length of the encapsulated data
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putLong(uuid.getMostSignificantBits()); // watchapp uuid
+        buf.putLong(uuid.getLeastSignificantBits());
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        buf.putInt(1); // icon_id
+        buf.putShort(appVersion);
+        buf.putShort(sdkVersion);
+        buf.put((byte) 0); // app_face_bgcolor
+        buf.put((byte) 0); // app_face_template_id
+        buf.put(name_buf); // 96 bytes
 
         return buf.array();
     }
@@ -762,7 +814,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     byte[] encodeApplicationMessagePush(short endpoint, UUID uuid, ArrayList<Pair<Integer, Object>> pairs) {
-        int length = 16 + 3; // UUID + (PUSH + id + length of dict)
+        int length = LENGTH_UUID + 3; // UUID + (PUSH + id + length of dict)
         for (Pair<Integer, Object> pair : pairs) {
             length += 7; // key + type + length
             if (pair.second instanceof Integer) {

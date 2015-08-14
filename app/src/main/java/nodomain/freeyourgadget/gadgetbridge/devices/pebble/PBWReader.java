@@ -14,6 +14,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,6 +52,10 @@ public class PBWReader {
     private boolean isFirmware = false;
     private boolean isValid = false;
     private String hwRevision = null;
+    private short mSdkVersion;
+    private short mAppVersion;
+    private int mIconId;
+    private int mFlags;
 
     public PBWReader(Uri uri, Context context, String platform) {
         String platformDir = "";
@@ -70,7 +76,7 @@ public class PBWReader {
         }
         ZipInputStream zis = new ZipInputStream(fin);
         ZipEntry ze;
-        pebbleInstallables = new ArrayList<PebbleInstallable>();
+        pebbleInstallables = new ArrayList<>();
         byte[] buffer = new byte[1024];
         int count;
         try {
@@ -149,6 +155,26 @@ public class PBWReader {
                         e.printStackTrace();
                         break;
                     }
+                } else if (fileName.equals(platformDir + "pebble-app.bin")) {
+                    zis.read(buffer, 0, 108);
+                    byte[] tmp_buf = new byte[32];
+                    ByteBuffer buf = ByteBuffer.wrap(buffer);
+                    buf.order(ByteOrder.LITTLE_ENDIAN);
+                    buf.getLong();  // header, TODO: verifiy
+                    buf.getShort(); // struct version, TODO: verify
+                    mSdkVersion = buf.getShort();
+                    mAppVersion = buf.getShort();
+                    buf.getShort(); // size
+                    buf.getInt(); // offset
+                    buf.getInt(); // crc
+                    buf.get(tmp_buf, 0, 32); // app name
+                    buf.get(tmp_buf, 0, 32); // author
+                    mIconId = buf.getInt();
+                    LOG.info("got icon id from pebble-app.bin: " + mIconId);
+                    buf.getInt(); // symbol table addr
+                    mFlags = buf.getInt();
+                    LOG.info("got flags from pebble-app.bin: " + mFlags);
+                    // more follows but, not interesting for us
                 }
             }
             zis.close();
@@ -206,7 +232,19 @@ public class PBWReader {
         return hwRevision;
     }
 
-    public Uri getUri() {
-        return uri;
+    public short getSdkVersion() {
+        return mSdkVersion;
+    }
+
+    public short getAppVersion() {
+        return mAppVersion;
+    }
+
+    public int getFlags() {
+        return mFlags;
+    }
+
+    public int getIconId() {
+        return mIconId;
     }
 }

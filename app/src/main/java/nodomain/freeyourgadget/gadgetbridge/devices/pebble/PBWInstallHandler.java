@@ -70,7 +70,7 @@ public class PBWInstallHandler implements InstallHandler {
         }
 
         GBDeviceApp app = mPBWReader.getGBDeviceApp();
-        File pbwFile = new File(mPBWReader.getUri().getPath());
+        File pbwFile = new File(mUri.getPath());
         try {
             File destDir = new File(FileUtils.getExternalFilesDir() + "/pbw-cache");
             destDir.mkdirs();

@@ -26,6 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppManagem
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PBWReader;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleInstallable;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.service.bt.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.service.bt.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -42,8 +43,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
     private boolean mIsConnected = false;
     private boolean mIsInstalling = false;
     private int mConnectionAttempts = 0;
-    /* app installation  */
-    private Uri mInstallURI = null;
+    private boolean mForceUntested = false;
     private PBWReader mPBWReader = null;
     private int mAppInstallToken = -1;
     private ZipInputStream mZis = null;
@@ -84,7 +84,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         mPebbleProtocol.setForceProtocol(sharedPrefs.getBoolean("pebble_force_protocol", false));
-
+        mForceUntested = sharedPrefs.getBoolean("pebble_force_untested", false);
         gbDevice.setState(GBDevice.State.CONNECTED);
         gbDevice.sendDeviceUpdateIntent(getContext());
 
@@ -375,9 +375,8 @@ public class PebbleIoThread extends GBDeviceIoThread {
             return;
         }
         mIsInstalling = true;
-        mInstallURI = uri;
 
-        mPBWReader = new PBWReader(mInstallURI, getContext(), gbDevice.getHardwareVersion().equals("dvt") ? "basalt" : "aplite");
+        mPBWReader = new PBWReader(uri, getContext(), gbDevice.getHardwareVersion().equals("dvt") ? "basalt" : "aplite");
         mPebbleInstallables = mPBWReader.getPebbleInstallables();
         mCurrentInstallableIndex = 0;
 
@@ -399,8 +398,12 @@ public class PebbleIoThread extends GBDeviceIoThread {
             mInstallSlot = 0;
             mInstallState = PebbleAppInstallState.START_INSTALL;
         } else {
-            writeInstallApp(mPebbleProtocol.encodeAppDelete(mPBWReader.getGBDeviceApp().getUUID()));
+            GBDeviceApp app = mPBWReader.getGBDeviceApp();
+            writeInstallApp(mPebbleProtocol.encodeAppDelete(app.getUUID()));
             mInstallState = PebbleAppInstallState.WAIT_SLOT;
+            if (mPebbleProtocol.isFw3x && mForceUntested) {
+                writeInstallApp(mPebbleProtocol.encodeInstallMetadata(app.getUUID(), app.getName(), mPBWReader.getAppVersion(), mPBWReader.getSdkVersion()));
+            }
         }
     }
 
