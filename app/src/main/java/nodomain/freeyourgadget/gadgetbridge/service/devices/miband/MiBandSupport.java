@@ -113,6 +113,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 .enableNotifications(builder, true)
                 .setCurrentTime(builder)
                 .requestBatteryInfo(builder)
+                .requestDeviceInfo(builder)
                 .setInitialized(builder);
 
         return builder;
@@ -261,6 +262,15 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         LOG.debug("Requesting Battery Info!");
         BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_BATTERY);
         builder.read(characteristic);
+        return this;
+    }
+
+    private MiBandSupport requestDeviceInfo(TransactionBuilder builder) {
+        LOG.debug("Requesting Device Info!");
+        BluetoothGattCharacteristic deviceInfo = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_DEVICE_INFO);
+        builder.read(deviceInfo);
+        BluetoothGattCharacteristic deviceName = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_DEVICE_NAME);
+        builder.read(deviceName);
         return this;
     }
 
@@ -493,20 +503,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onSetMusicInfo(String artist, String album, String track) {
         // not supported
-    }
-
-    @Override
-    public void onFirmwareVersionReq() {
-        try {
-            TransactionBuilder builder = performInitialized("Get MI Band device info");
-            BluetoothGattCharacteristic device_info = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_DEVICE_INFO);
-            builder.read(device_info);
-            BluetoothGattCharacteristic device_name = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_DEVICE_NAME);
-            builder.read(device_name);
-            builder.queue(getQueue());
-        } catch (IOException ex) {
-            LOG.error("Unable to read device info from MI", ex);
-        }
     }
 
     @Override
@@ -750,7 +746,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
             default:
                 for (byte b : value) {
-                LOG.warn("DATA: " + String.format("0x%2x", b));
+                    LOG.warn("DATA: " + String.format("0x%2x", b));
                 }
         }
     }

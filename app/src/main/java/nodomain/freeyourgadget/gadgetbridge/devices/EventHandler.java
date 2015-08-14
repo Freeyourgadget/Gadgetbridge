@@ -28,8 +28,6 @@ public interface EventHandler {
 
     void onSetMusicInfo(String artist, String album, String track);
 
-    void onFirmwareVersionReq();
-
     void onBatteryInfoReq();
 
     void onInstallApp(Uri uri);

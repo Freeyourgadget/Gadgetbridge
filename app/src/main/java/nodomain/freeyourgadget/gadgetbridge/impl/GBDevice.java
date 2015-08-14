@@ -303,6 +303,12 @@ public class GBDevice implements Parcelable {
         CONNECTING,
         CONNECTED,
         INITIALIZING,
+        /**
+         * Means that the device is connected AND all the necessary initialization steps
+         * have been performed. At the very least, this means that basic information like
+         * device name, firmware version, hardware revision (as applicable) is available
+         * in the GBDevice.
+         */
         INITIALIZED
     }
 }

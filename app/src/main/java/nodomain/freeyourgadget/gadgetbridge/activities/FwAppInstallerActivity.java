@@ -48,6 +48,7 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
                 device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                 if (device != null) {
                     if (!device.isConnected()) {
+                        setInstallEnabled(false);
                         if (mayConnect) {
                             GB.toast(FwAppInstallerActivity.this, getString(R.string.connecting), Toast.LENGTH_SHORT, GB.INFO);
                             connect();
@@ -90,6 +91,7 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
         mayConnect = true;
         fwAppInstallTextView = (TextView) findViewById(R.id.debugTextView);
         installButton = (Button) findViewById(R.id.installButton);
+        setInstallEnabled(false);
         IntentFilter filter = new IntentFilter();
         filter.addAction(ControlCenter.ACTION_QUIT);
         filter.addAction(GBDevice.ACTION_DEVICE_CHANGED);
@@ -98,6 +100,7 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
         installButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setInstallEnabled(false);
                 installHandler.onStartInstall();
                 Intent startIntent = new Intent(FwAppInstallerActivity.this, DeviceCommunicationService.class);
                 startIntent.setAction(DeviceCommunicationService.ACTION_INSTALL);
@@ -110,19 +113,17 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
         installHandler = findInstallHandlerFor(uri);
         if (installHandler == null) {
             setInfoText(getString(R.string.installer_activity_unable_to_find_handler));
-            setInstallEnabled(false);
         } else {
             setInfoText(getString(R.string.installer_activity_wait_while_determining_status));
-            setInstallEnabled(false);
 
             // needed to get the device
             if (device == null || !device.isConnected()) {
                 connect();
+            } else {
+                Intent deviceInfoIntent = new Intent(this, DeviceCommunicationService.class);
+                deviceInfoIntent.setAction(DeviceCommunicationService.ACTION_REQUEST_DEVICEINFO);
+                startService(deviceInfoIntent);
             }
-
-            Intent versionInfoIntent = new Intent(this, DeviceCommunicationService.class);
-            versionInfoIntent.setAction(DeviceCommunicationService.ACTION_REQUEST_VERSIONINFO);
-            startService(versionInfoIntent);
         }
     }
 

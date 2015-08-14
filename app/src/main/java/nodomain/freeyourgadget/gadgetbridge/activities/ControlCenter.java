@@ -82,11 +82,6 @@ public class ControlCenter extends Activity {
                     refreshPairedDevices();
 
                     refreshBusyState(dev);
-
-                    if (dev.isInitialized() && dev.getFirmwareVersion() == null) {
-                        LOG.info("device initalized, requesting more info");
-                        requestDeviceInfo();
-                    }
                     break;
             }
         }
@@ -163,11 +158,12 @@ public class ControlCenter extends Activity {
      * Requests information from the {@link DeviceCommunicationService} about the connection state,
      * firmware info, etc.
      * <p/>
-     * Note that this method may cause an implicit device connection (for auto-connectable devices).
+     * Note that this will not need a connection to the device -- only the cached information
+     * from the service will be reported.
      */
     private void requestDeviceInfo() {
         Intent versionInfoIntent = new Intent(ControlCenter.this, DeviceCommunicationService.class);
-        versionInfoIntent.setAction(DeviceCommunicationService.ACTION_REQUEST_VERSIONINFO);
+        versionInfoIntent.setAction(DeviceCommunicationService.ACTION_REQUEST_DEVICEINFO);
         startService(versionInfoIntent);
     }
 

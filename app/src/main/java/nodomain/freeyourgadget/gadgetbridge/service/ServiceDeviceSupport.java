@@ -145,14 +145,6 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
-    public void onFirmwareVersionReq() {
-        if (checkBusy("firmware version request")) {
-            return;
-        }
-        delegate.onFirmwareVersionReq();
-    }
-
-    @Override
     public void onBatteryInfoReq() {
         if (checkBusy("battery info request")) {
             return;

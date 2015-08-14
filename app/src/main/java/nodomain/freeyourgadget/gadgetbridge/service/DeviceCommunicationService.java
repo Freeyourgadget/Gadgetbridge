@@ -45,8 +45,8 @@ public class DeviceCommunicationService extends Service {
             = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.settime";
     public static final String ACTION_SETMUSICINFO
             = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.setmusicinfo";
-    public static final String ACTION_REQUEST_VERSIONINFO
-            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.request_versioninfo";
+    public static final String ACTION_REQUEST_DEVICEINFO
+            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.request_deviceinfo";
     public static final String ACTION_REQUEST_APPINFO
             = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.request_appinfo";
     public static final String ACTION_REQUEST_SCREENSHOT
@@ -170,13 +170,13 @@ public class DeviceCommunicationService extends Service {
                         mDeviceSupport = null;
                         mGBDevice = null;
                     }
+                } else if (mGBDevice != null) {
+                    // send an update at least
+                    mGBDevice.sendDeviceUpdateIntent(this);
                 }
                 break;
-            case ACTION_REQUEST_VERSIONINFO:
+            case ACTION_REQUEST_DEVICEINFO:
                 mGBDevice.sendDeviceUpdateIntent(this);
-                if (mGBDevice.getFirmwareVersion() == null) {
-                    mDeviceSupport.onFirmwareVersionReq();
-                }
                 break;
             case ACTION_NOTIFICATION_GENERIC: {
                 String title = intent.getStringExtra("notification_title");
