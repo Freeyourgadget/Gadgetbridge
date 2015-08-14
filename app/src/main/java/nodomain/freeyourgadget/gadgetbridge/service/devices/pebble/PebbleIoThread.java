@@ -281,7 +281,6 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     write(mPebbleProtocol.encodeSetTime(-1));
                 }
                 gbDevice.setState(GBDevice.State.INITIALIZED);
-                gbDevice.sendDeviceUpdateIntent(getContext());
                 return false;
             case APP_MANAGEMENT_RES:
                 GBDeviceEventAppManagementResult appMgmtRes = (GBDeviceEventAppManagementResult) deviceEvent;
