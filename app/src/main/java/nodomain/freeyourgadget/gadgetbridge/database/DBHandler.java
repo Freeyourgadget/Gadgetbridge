@@ -24,7 +24,7 @@ public interface DBHandler {
 
     List<ActivitySample> getSleepSamples(int tsFrom, int tsTo, SampleProvider provider);
 
-    void addGBActivitySample(int timestamp, byte provider, short intensity, byte steps, byte kind);
+    void addGBActivitySample(int timestamp, byte provider, short intensity, short steps, byte kind);
 
     SQLiteDatabase getWritableDatabase();
 }

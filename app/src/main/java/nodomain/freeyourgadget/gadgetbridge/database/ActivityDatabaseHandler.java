@@ -115,7 +115,8 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
      * @param steps     the sample's steps value
      * @param kind      the raw activity kind of the sample
      */
-    public void addGBActivitySample(int timestamp, byte provider, short intensity, byte steps, byte kind) {
+    @Override
+    public void addGBActivitySample(int timestamp, byte provider, short intensity, short steps, byte kind) {
         try (SQLiteDatabase db = this.getWritableDatabase()) {
             ContentValues values = new ContentValues();
             values.put(KEY_TIMESTAMP, timestamp);

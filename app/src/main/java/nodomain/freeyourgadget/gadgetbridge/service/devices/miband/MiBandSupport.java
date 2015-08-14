@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -918,7 +919,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                             (int) (activityStruct.activityDataTimestampProgress.getTimeInMillis() / 1000),
                             SampleProvider.PROVIDER_MIBAND,
                             intensity,
-                            steps,
+                            (short) (steps & 0xff),
                             category);
                     activityStruct.activityDataTimestampProgress.add(Calendar.MINUTE, 1);
                 }
