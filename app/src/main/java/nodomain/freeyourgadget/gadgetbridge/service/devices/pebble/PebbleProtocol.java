@@ -15,7 +15,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppManagementResult;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppManagement;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDismissNotification;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
@@ -182,7 +182,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final short LENGTH_REFRESHAPP = 5;
     static final short LENGTH_SETTIME = 5;
     static final short LENGTH_SYSTEMMESSAGE = 2;
-    static final short LENGTH_UPLOADSTART = 7;
+    static final short LENGTH_UPLOADSTART_2X = 7;
+    static final short LENGTH_UPLOADSTART_3X = 10;
     static final short LENGTH_UPLOADCHUNK = 9;
     static final short LENGTH_UPLOADCOMMIT = 9;
     static final short LENGTH_UPLOADCOMPLETE = 5;
@@ -658,15 +659,27 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     /* pebble specific install methods */
-    public byte[] encodeUploadStart(byte type, byte index, int size) {
-        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_UPLOADSTART);
+    public byte[] encodeUploadStart(byte type, int app_id, int size) {
+        short length;
+        if (isFw3x) {
+            length = LENGTH_UPLOADSTART_3X;
+            type |= 0b10000000;
+        } else {
+            length = LENGTH_UPLOADSTART_2X;
+        }
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + length);
         buf.order(ByteOrder.BIG_ENDIAN);
-        buf.putShort(LENGTH_UPLOADSTART);
+        buf.putShort(length);
         buf.putShort(ENDPOINT_PUTBYTES);
         buf.put(PUTBYTES_INIT);
         buf.putInt(size);
         buf.put(type);
-        buf.put(index);
+        if (isFw3x) {
+            buf.putInt(app_id);
+        } else {
+            // slot
+            buf.put((byte) app_id);
+        }
         return buf.array();
     }
 
@@ -940,7 +953,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return null;
     }
 
-    private GBDeviceEvent decodeAppFetch(ByteBuffer buf) {
+    private GBDeviceEventAppManagement decodeAppFetch(ByteBuffer buf) {
         buf.order(ByteOrder.LITTLE_ENDIAN);
         byte command = buf.get();
         if (command == 0x01) {
@@ -948,7 +961,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
             long uuid_low = buf.getLong();
             UUID uuid = new UUID(uuid_high, uuid_low);
             int app_id = buf.getInt();
-            LOG.info("APPFETCH request: " + uuid + " / " + app_id);
+            GBDeviceEventAppManagement fetchRequest = new GBDeviceEventAppManagement();
+            fetchRequest.type = GBDeviceEventAppManagement.EventType.INSTALL;
+            fetchRequest.event = GBDeviceEventAppManagement.Event.REQUEST;
+            fetchRequest.token = app_id;
+            fetchRequest.uuid = uuid;
+            return fetchRequest;
         }
         return null;
     }
@@ -1080,16 +1098,16 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         }
                         break;
                     case APPMANAGER_REMOVEAPP:
-                        GBDeviceEventAppManagementResult deleteRes = new GBDeviceEventAppManagementResult();
-                        deleteRes.type = GBDeviceEventAppManagementResult.EventType.DELETE;
+                        GBDeviceEventAppManagement deleteRes = new GBDeviceEventAppManagement();
+                        deleteRes.type = GBDeviceEventAppManagement.EventType.DELETE;
 
                         int result = buf.getInt();
                         switch (result) {
                             case APPMANAGER_RES_SUCCESS:
-                                deleteRes.result = GBDeviceEventAppManagementResult.Result.SUCCESS;
+                                deleteRes.event = GBDeviceEventAppManagement.Event.SUCCESS;
                                 break;
                             default:
-                                deleteRes.result = GBDeviceEventAppManagementResult.Result.FAILURE;
+                                deleteRes.event = GBDeviceEventAppManagement.Event.FAILURE;
                                 break;
                         }
                         devEvt = deleteRes;
@@ -1101,16 +1119,16 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 break;
             case ENDPOINT_PUTBYTES:
                 pebbleCmd = buf.get();
-                GBDeviceEventAppManagementResult installRes = new GBDeviceEventAppManagementResult();
-                installRes.type = GBDeviceEventAppManagementResult.EventType.INSTALL;
+                GBDeviceEventAppManagement installRes = new GBDeviceEventAppManagement();
+                installRes.type = GBDeviceEventAppManagement.EventType.INSTALL;
                 switch (pebbleCmd) {
                     case PUTBYTES_INIT:
                         installRes.token = buf.getInt();
-                        installRes.result = GBDeviceEventAppManagementResult.Result.SUCCESS;
+                        installRes.event = GBDeviceEventAppManagement.Event.SUCCESS;
                         break;
                     default:
                         installRes.token = buf.getInt();
-                        installRes.result = GBDeviceEventAppManagementResult.Result.FAILURE;
+                        installRes.event = GBDeviceEventAppManagement.Event.FAILURE;
                         break;
                 }
                 devEvt = installRes;

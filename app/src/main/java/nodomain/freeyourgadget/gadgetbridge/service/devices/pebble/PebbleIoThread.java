@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -22,13 +23,14 @@ import java.util.zip.ZipInputStream;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppManagementResult;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppManagement;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PBWReader;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleInstallable;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.service.bt.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.service.bt.GBDeviceProtocol;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class PebbleIoThread extends GBDeviceIoThread {
@@ -122,7 +124,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                             mCRC = pi.getCRC();
                             mBinarySize = pi.getFileSize();
                             mBytesWritten = 0;
-                            writeInstallApp(mPebbleProtocol.encodeUploadStart(pi.getType(), (byte) mInstallSlot, mBinarySize));
+                            writeInstallApp(mPebbleProtocol.encodeUploadStart(pi.getType(), mInstallSlot, mBinarySize));
                             mInstallState = PebbleAppInstallState.WAIT_TOKEN;
                             break;
                         case WAIT_TOKEN:
@@ -282,12 +284,12 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 }
                 gbDevice.setState(GBDevice.State.INITIALIZED);
                 return false;
-            case APP_MANAGEMENT_RES:
-                GBDeviceEventAppManagementResult appMgmtRes = (GBDeviceEventAppManagementResult) deviceEvent;
-                switch (appMgmtRes.type) {
+            case APP_MANAGEMENT:
+                GBDeviceEventAppManagement appMgmt = (GBDeviceEventAppManagement) deviceEvent;
+                switch (appMgmt.type) {
                     case DELETE:
                         // right now on the Pebble we also receive this on a failed/successful installation ;/
-                        switch (appMgmtRes.result) {
+                        switch (appMgmt.event) {
                             case FAILURE:
                                 if (mIsInstalling) {
                                     if (mInstallState == PebbleAppInstallState.WAIT_SLOT) {
@@ -320,13 +322,21 @@ public class PebbleIoThread extends GBDeviceIoThread {
                         }
                         break;
                     case INSTALL:
-                        switch (appMgmtRes.result) {
+                        switch (appMgmt.event) {
                             case FAILURE:
                                 LOG.info("failure installing app"); // TODO: report to Installer
                                 finishInstall(true);
                                 break;
                             case SUCCESS:
-                                setToken(appMgmtRes.token);
+                                setToken(appMgmt.token);
+                                break;
+                            case REQUEST:
+                                LOG.info("APPFETCH request: " + appMgmt.uuid + " / " + appMgmt.token);
+                                try {
+                                    installApp(Uri.fromFile(new File(FileUtils.getExternalFilesDir() + "/pbw-cache/" + appMgmt.uuid.toString() + ".pbw")), appMgmt.token);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                                 break;
                             default:
                                 break;
@@ -369,18 +379,21 @@ public class PebbleIoThread extends GBDeviceIoThread {
         }
     }
 
-    public void installApp(Uri uri) {
+    public void installApp(Uri uri, int appId) {
         if (mIsInstalling) {
             return;
         }
-        mIsInstalling = true;
 
         mPBWReader = new PBWReader(uri, getContext(), gbDevice.getHardwareVersion().equals("dvt") ? "basalt" : "aplite");
         mPebbleInstallables = mPBWReader.getPebbleInstallables();
         mCurrentInstallableIndex = 0;
 
         if (mPBWReader.isFirmware()) {
+            LOG.info("starting firmware installation");
+            mIsInstalling = true;
+            mInstallSlot = 0;
             writeInstallApp(mPebbleProtocol.encodeInstallFirmwareStart());
+            mInstallState = PebbleAppInstallState.START_INSTALL;
 
             /*
              * This is a hack for recovery mode, in which the blocking read has no timeout and the
@@ -392,16 +405,25 @@ public class PebbleIoThread extends GBDeviceIoThread {
              *
              */
             writeInstallApp(mPebbleProtocol.encodeGetTime());
-
-            LOG.info("starting firmware installation");
-            mInstallSlot = 0;
-            mInstallState = PebbleAppInstallState.START_INSTALL;
         } else {
             GBDeviceApp app = mPBWReader.getGBDeviceApp();
-            writeInstallApp(mPebbleProtocol.encodeAppDelete(app.getUUID()));
-            mInstallState = PebbleAppInstallState.WAIT_SLOT;
             if (mPebbleProtocol.isFw3x && mForceUntested) {
-                writeInstallApp(mPebbleProtocol.encodeInstallMetadata(app.getUUID(), app.getName(), mPBWReader.getAppVersion(), mPBWReader.getSdkVersion()));
+                if (appId == 0) {
+                    // only install metadata - not the binaries
+                    write(mPebbleProtocol.encodeInstallMetadata(app.getUUID(), app.getName(), mPBWReader.getAppVersion(), mPBWReader.getSdkVersion()));
+                    GB.toast("To finish installation please start the watchapp on your Pebble", 5, GB.INFO);
+                } else {
+                    // this came from an app fetch request, so do the real stuff
+                    mIsInstalling = true;
+                    mInstallSlot = appId;
+                    mInstallState = PebbleAppInstallState.START_INSTALL;
+
+                    writeInstallApp(mPebbleProtocol.encodeGetTime()); // EVIL HACK see hack above
+                }
+            } else {
+                mIsInstalling = true;
+                mInstallState = PebbleAppInstallState.WAIT_SLOT;
+                writeInstallApp(mPebbleProtocol.encodeAppDelete(app.getUUID()));
             }
         }
     }

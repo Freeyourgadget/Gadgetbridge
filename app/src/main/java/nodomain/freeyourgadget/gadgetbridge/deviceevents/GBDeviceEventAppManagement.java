@@ -1,12 +1,15 @@
 package nodomain.freeyourgadget.gadgetbridge.deviceevents;
 
-public class GBDeviceEventAppManagementResult extends GBDeviceEvent {
-    public Result result = Result.UNKNOWN;
+import java.util.UUID;
+
+public class GBDeviceEventAppManagement extends GBDeviceEvent {
+    public Event event = Event.UNKNOWN;
     public EventType type = EventType.UNKNOWN;
     public int token = -1;
+    public UUID uuid = null;
 
-    public GBDeviceEventAppManagementResult() {
-        eventClass = EventClass.APP_MANAGEMENT_RES;
+    public GBDeviceEventAppManagement() {
+        eventClass = EventClass.APP_MANAGEMENT;
     }
 
     public enum EventType {
@@ -15,10 +18,11 @@ public class GBDeviceEventAppManagementResult extends GBDeviceEvent {
         DELETE,
     }
 
-    public enum Result {
+    public enum Event {
         UNKNOWN,
         SUCCESS,
         ACKNOLEDGE,
         FAILURE,
+        REQUEST,
     }
 }

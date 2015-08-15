@@ -34,7 +34,7 @@ public class PebbleSupport extends AbstractBTDeviceSupport {
 
     @Override
     public void onInstallApp(Uri uri) {
-        getDeviceIOThread().installApp(uri);
+        getDeviceIOThread().installApp(uri, 0);
     }
 
     @Override

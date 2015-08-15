@@ -10,7 +10,7 @@ public abstract class GBDeviceEvent {
         CALL_CONTROL,
         APP_INFO,
         VERSION_INFO,
-        APP_MANAGEMENT_RES,
+        APP_MANAGEMENT,
         SEND_BYTES,
         SLEEP_MONITOR_RES,
         SCREENSHOT,
