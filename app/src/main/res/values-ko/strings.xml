@@ -61,7 +61,6 @@
   <string name="installing_binary_d_d">바이너리 설치중: %1$d/%2$d</string>
   <string name="installation_failed_">설치 실패!</string>
   <string name="installation_successful">설치 성공!</string>
-  <string name="firmware_install_warning">펌웨어 설치를 시도하려고 합니다. 이에 따르는 모든 위험과 결과와 책임은 사용자의 몫입니다.\n\n\n이 펌웨어는 다음 하드웨어 리비전 전용입니다: %s</string>
   <string name="app_install_info">지금 다음 앱을 설치하려고 합니다:\n\n\n%1$s 버전 %2$s , 다음으로부터: %3$s\n</string>
   <string name="n_a">N/A</string>
   <string name="initialized">시작됨</string>

@@ -61,7 +61,6 @@
   <string name="installing_binary_d_d">installiere Datei %1$d/%2$d</string>
   <string name="installation_failed_">Installation fehlgeschlagen!</string>
   <string name="installation_successful">Installation erfolgreich</string>
-  <string name="firmware_install_warning">DU VESUCHST EINE FIRMWARE ZU INSALLIEREN, FAHRE AUF DEIN EIGENES RISIKO FORT.\n\n\n Diese Firmware is für HW Revision: %s</string>
   <string name="app_install_info">Du bist dabei die folgende app zu installieren:\n\n\n%1$s Version %2$s von %3$s\n</string>
   <string name="n_a">N/A</string>
   <string name="initialized">initialisiert</string>

@@ -62,7 +62,6 @@
   <string name="installing_binary_d_d">installazione del binario %1$d/%2$d</string>
   <string name="installation_failed_">Installazione fallita!</string>
   <string name="installation_successful">installazione conclusa con successo</string>
-  <string name="firmware_install_warning">SI STA INSTALLANDO UN FIRMWARE, PROCEDERE A PROPRIO RISCHIO.\n\n\n Questo firmware è per la versione HW: %s</string>
   <string name="app_install_info">Si sta per installare la app:\n\n\n%1$s Versione %2$s di %3$s\n</string>
   <string name="n_a">N/A</string>
   <string name="initialized">inizializzato</string>
