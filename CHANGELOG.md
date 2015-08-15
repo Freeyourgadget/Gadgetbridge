@@ -2,6 +2,14 @@
 
 ####Version (next)
 
+####Version 0.4.6
+* Mi Band: Fixed negative number of steps displayed (#91)
+* Mi Band: fixed (re-) connection problems after band getting disconnected
+* Fixed slight steps graph distortion through black text labels
+* Fixed control center activity and notification showing different device connection state
+* Small firmware installation improvements
+* Various refactorings and code cleanups
+
 ####Version 0.4.5
 * Enhancement to activity graphs: new graph showing the number of steps done today and in the last week
 * New preference to set the desired fitness goal (number of steps to walk in one day)
