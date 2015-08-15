@@ -268,7 +268,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             // 3.x notification
             String[] parts = {title, subtitle, body};
             return encodeBlobdbNotification((int) (ts & 0xffffffff), parts);
-        } else if (mForceProtocol) {
+        } else if (mForceProtocol || type != NOTIFICATION_EMAIL) {
             // 2.x notification
             return encodeExtensibleNotification(id, (int) (ts & 0xffffffff), title, subtitle, body, type);
         } else {
