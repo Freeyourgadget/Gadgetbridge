@@ -4,6 +4,7 @@
 * Mi Band: Fixed negative number of steps displayed (#91)
 * Mi Band: fixed (re-) connection problems after band getting disconnected
 * Pebble: new option to enable untested code (enable only if you like bad surprises)
+* Pebble: always enable 2.x notifications with "dismiss all" action on FW 2.x (except for K9)
 * Fixed slight steps graph distortion through black text labels
 * Fixed control center activity and notification showing different device connection state
 * Small firmware installation improvements
