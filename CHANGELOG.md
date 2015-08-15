@@ -1,10 +1,9 @@
 ###Changelog
 
-####Version (next)
-
 ####Version 0.4.6
 * Mi Band: Fixed negative number of steps displayed (#91)
 * Mi Band: fixed (re-) connection problems after band getting disconnected
+* Pebble: new option to enable untested code (enable only if you like bad surprises)
 * Fixed slight steps graph distortion through black text labels
 * Fixed control center activity and notification showing different device connection state
 * Small firmware installation improvements
