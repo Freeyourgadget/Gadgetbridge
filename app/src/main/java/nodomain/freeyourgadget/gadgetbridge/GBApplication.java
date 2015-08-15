@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Build.VERSION;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +26,7 @@ public class GBApplication extends Application {
     private static final String TAG = "GBApplication";
     private static GBApplication context;
     private static ActivityDatabaseHandler mActivityDatabaseHandler;
-    private static Lock dbLock = new ReentrantLock();
+    private static final Lock dbLock = new ReentrantLock();
 
     public GBApplication() {
         context = this;

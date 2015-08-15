@@ -50,14 +50,14 @@ public class ControlCenter extends Activity {
     public static final String ACTION_REFRESH_DEVICELIST
             = "nodomain.freeyourgadget.gadgetbridge.controlcenter.action.set_version";
 
-    TextView hintTextView;
-    ListView deviceListView;
-    GBDeviceAdapter mGBDeviceAdapter;
+    private TextView hintTextView;
+    private ListView deviceListView;
+    private GBDeviceAdapter mGBDeviceAdapter;
     private GBDevice selectedDevice = null;
 
-    final List<GBDevice> deviceList = new ArrayList<>();
+    private final List<GBDevice> deviceList = new ArrayList<>();
 
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();

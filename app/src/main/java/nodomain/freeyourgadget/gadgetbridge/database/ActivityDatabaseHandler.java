@@ -169,18 +169,18 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
         final String where = "(provider=" + provider.getID() + " and timestamp>=" + timestamp_from + " and timestamp<=" + timestamp_to + getWhereClauseFor(activityTypes, provider) + ")";
         final String order = "timestamp";
         try (SQLiteDatabase db = this.getReadableDatabase()) {
-            Cursor cursor = db.query(TABLE_GBACTIVITYSAMPLES, null, where, null, null, null, order);
-
-            if (cursor.moveToFirst()) {
-                do {
-                    GBActivitySample sample = new GBActivitySample(
-                            provider,
-                            cursor.getInt(cursor.getColumnIndex(KEY_TIMESTAMP)),
-                            cursor.getShort(cursor.getColumnIndex(KEY_INTENSITY)),
-                            cursor.getShort(cursor.getColumnIndex(KEY_STEPS)),
-                            (byte) cursor.getShort(cursor.getColumnIndex(KEY_TYPE)));
-                    samples.add(sample);
-                } while (cursor.moveToNext());
+            try (Cursor cursor = db.query(TABLE_GBACTIVITYSAMPLES, null, where, null, null, null, order)) {
+                if (cursor.moveToFirst()) {
+                    do {
+                        GBActivitySample sample = new GBActivitySample(
+                                provider,
+                                cursor.getInt(cursor.getColumnIndex(KEY_TIMESTAMP)),
+                                cursor.getShort(cursor.getColumnIndex(KEY_INTENSITY)),
+                                cursor.getShort(cursor.getColumnIndex(KEY_STEPS)),
+                                (byte) cursor.getShort(cursor.getColumnIndex(KEY_TYPE)));
+                        samples.add(sample);
+                    } while (cursor.moveToNext());
+                }
             }
         }
 
