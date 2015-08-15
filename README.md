@@ -5,6 +5,8 @@ Gadgetbridge is an Android (4.4+) Application which will allow you to use your
 Pebble or Mi Band without the vendor's closed source application and without the
 need to create an account and transmit any of your data to the vendor's servers.
 
+[![Build](https://travis-ci.org/Freeyourgadget/Gadgetbridge.svg?branch=master)](https://travis-ci.org/Freeyourgadget/Gadgetbridge)
+
 ## Download
 
 [![Gadgetbridge on F-Droid](/Get_it_on_F-Droid.svg.png?raw=true "Download from F-Droid")](https://f-droid.org/repository/browse/?fdid=nodomain.freeyourgadget.gadgetbridge)
