@@ -1215,7 +1215,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 devEvt = decodeResponsePing(buf);
                 break;
             case ENDPOINT_APPFETCH:
-                decodeAppFetch(buf);
+                devEvt = decodeAppFetch(buf);
                 break;
             default:
                 break;
