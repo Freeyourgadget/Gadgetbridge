@@ -3,6 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
@@ -360,7 +361,12 @@ public abstract class AbstractChartFragment extends Fragment {
         @Override
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
-            renderCharts();
+            FragmentActivity activity = getActivity();
+            if (activity != null && !activity.isFinishing() && !activity.isDestroyed()) {
+                renderCharts();
+            } else {
+                LOG.info("Not rendering charts because activity is not available anymore");
+            }
         }
     }
 }
