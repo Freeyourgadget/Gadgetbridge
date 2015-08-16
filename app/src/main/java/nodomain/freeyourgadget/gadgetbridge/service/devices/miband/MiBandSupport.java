@@ -918,7 +918,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                     dbHandler.addGBActivitySample(
                             (int) (activityStruct.activityDataTimestampProgress.getTimeInMillis() / 1000),
                             SampleProvider.PROVIDER_MIBAND,
-                            intensity,
+                            (short) (intensity & 0xff),
                             (short) (steps & 0xff),
                             category);
                     activityStruct.activityDataTimestampProgress.add(Calendar.MINUTE, 1);
