@@ -16,16 +16,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class PebbleCoordinator implements DeviceCoordinator {
-    private MorpheuzSampleProvider sampleProvider;
-
     public PebbleCoordinator() {
-        // FIXME: make this configurable somewhere else
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
-        if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
-            sampleProvider = new PebbleGadgetBridgeSampleProvider();
-        } else {
-            sampleProvider = new MorpheuzSampleProvider();
-        }
     }
 
     @Override
@@ -54,7 +45,13 @@ public class PebbleCoordinator implements DeviceCoordinator {
 
     @Override
     public SampleProvider getSampleProvider() {
-        return sampleProvider;
+        // FIXME: make this configurable somewhere else.
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
+        if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
+            return new PebbleGadgetBridgeSampleProvider();
+        } else {
+            return new MorpheuzSampleProvider();
+        }
     }
 
     @Override
