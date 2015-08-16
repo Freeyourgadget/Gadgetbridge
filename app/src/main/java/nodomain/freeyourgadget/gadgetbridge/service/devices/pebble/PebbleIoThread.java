@@ -410,7 +410,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
             if (mPebbleProtocol.isFw3x && mForceUntested) {
                 if (appId == 0) {
                     // only install metadata - not the binaries
-                    write(mPebbleProtocol.encodeInstallMetadata(app.getUUID(), app.getName(), mPBWReader.getAppVersion(), mPBWReader.getSdkVersion()));
+                    write(mPebbleProtocol.encodeInstallMetadata(app.getUUID(), app.getName(), mPBWReader.getAppVersion(), mPBWReader.getSdkVersion(), mPBWReader.getIconId()));
                     GB.toast("To finish installation please start the watchapp on your Pebble", 5, GB.INFO);
                 } else {
                     // this came from an app fetch request, so do the real stuff
@@ -418,7 +418,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     mInstallSlot = appId;
                     mInstallState = PebbleAppInstallState.START_INSTALL;
 
-                    writeInstallApp(mPebbleProtocol.encodeGetTime()); // EVIL HACK see hack above
+                    writeInstallApp(mPebbleProtocol.encodeAppFetchAck());
                 }
             } else {
                 mIsInstalling = true;

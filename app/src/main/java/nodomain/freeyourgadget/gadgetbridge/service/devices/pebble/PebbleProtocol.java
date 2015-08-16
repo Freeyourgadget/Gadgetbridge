@@ -175,6 +175,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final short LENGTH_PREFIX = 4;
     static final short LENGTH_SIMPLEMESSAGE = 1;
 
+    static final short LENGTH_APPFETCH = 2;
     static final short LENGTH_APPRUNSTATE = 17;
     static final short LENGTH_PING = 5;
     static final short LENGTH_PHONEVERSION = 17;
@@ -470,7 +471,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    public byte[] encodeInstallMetadata(UUID uuid, String appName, short appVersion, short sdkVersion) {
+    public byte[] encodeInstallMetadata(UUID uuid, String appName, short appVersion, short sdkVersion, int iconId) {
         // Calculate length first
         final short BLOBDB_LENGTH = 23;
         final short METADATA_LENGTH = 126;
@@ -501,12 +502,23 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putLong(uuid.getMostSignificantBits()); // watchapp uuid
         buf.putLong(uuid.getLeastSignificantBits());
         buf.order(ByteOrder.LITTLE_ENDIAN);
-        buf.putInt(1); // icon_id
+        buf.putInt(iconId);
         buf.putShort(appVersion);
         buf.putShort(sdkVersion);
         buf.put((byte) 0); // app_face_bgcolor
         buf.put((byte) 0); // app_face_template_id
         buf.put(name_buf); // 96 bytes
+
+        return buf.array();
+    }
+
+    public byte[] encodeAppFetchAck() {
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_APPFETCH);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort(LENGTH_APPFETCH);
+        buf.putShort(ENDPOINT_APPFETCH);
+        buf.put((byte) 0x01);
+        buf.put((byte) 0x01);
 
         return buf.array();
     }
