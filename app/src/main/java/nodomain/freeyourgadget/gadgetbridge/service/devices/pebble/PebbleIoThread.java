@@ -123,6 +123,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                             mBinarySize = pi.getFileSize();
                             mBytesWritten = 0;
                             writeInstallApp(mPebbleProtocol.encodeUploadStart(pi.getType(), mInstallSlot, mBinarySize));
+                            mAppInstallToken = -1;
                             mInstallState = PebbleAppInstallState.WAIT_TOKEN;
                             break;
                         case WAIT_TOKEN:
