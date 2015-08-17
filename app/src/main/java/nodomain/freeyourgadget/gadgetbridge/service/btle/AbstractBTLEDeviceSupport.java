@@ -80,7 +80,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
      * @see #performConnected(Transaction)
      * @see #initializeDevice(TransactionBuilder)
      */
-    protected TransactionBuilder performInitialized(String taskName) throws IOException {
+    public TransactionBuilder performInitialized(String taskName) throws IOException {
         if (!isConnected()) {
             if (!connect()) {
                 throw new IOException("1: Unable to connect to device: " + getDevice());

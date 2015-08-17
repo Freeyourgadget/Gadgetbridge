@@ -917,10 +917,4 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
         return true;
     }
-
-    // overridden to make visible to operations
-    @Override
-    public TransactionBuilder performInitialized(String taskName) throws IOException {
-        return super.performInitialized(taskName);
-    }
 }

@@ -20,13 +20,14 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class FetchActivityOperation extends AbstractMiBandOperation {
+public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport> {
     private static final Logger LOG = LoggerFactory.getLogger(FetchActivityOperation.class);
     private static final byte[] fetch = new byte[]{MiBandService.COMMAND_FETCH_DATA};
 

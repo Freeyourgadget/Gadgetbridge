@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations;
+package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -9,33 +9,29 @@ import java.io.IOException;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEQueue;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCallback;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport;
 
 /**
- * Abstract base class for a MiBandOperation, i.e. an operation that does more than
- * just sending a few bytes to the band. It typically involves exchanging many messages
- * between the mobile and the band.
+ * Abstract base class for a BTLEOperation, i.e. an operation that does more than
+ * just sending a few bytes to the device. It typically involves exchanging many messages
+ * between the mobile and the device.
  *
  * One operation may execute multiple @{link Transaction transactions} with each
  * multiple @{link BTLEAction actions}.
  *
  * This class implements GattCallback so that subclasses may override those methods
  * to handle those events.
- * Note: by default all Gatt events are forwarded to MiBandSupport, subclasses may override
+ * Note: by default all Gatt events are forwarded to AbstractBTLEDeviceSupport, subclasses may override
  * this behavior.
  */
-public abstract class AbstractMiBandOperation implements GattCallback, MiBandOperation {
-    private final MiBandSupport mSupport;
+public abstract class AbstractBTLEOperation<T extends AbstractBTLEDeviceSupport> implements GattCallback, BTLEOperation {
+    private final T mSupport;
 
-    protected AbstractMiBandOperation(MiBandSupport support) {
+    protected AbstractBTLEOperation(T support) {
         mSupport = support;
     }
 
     /**
-     * Delegates to MiBandSupport and additionally sets this instance as the Gatt
+     * Delegates to the DeviceSupport instance and additionally sets this instance as the Gatt
      * callback for the transaction.
      * @param taskName
      * @return
@@ -68,7 +64,7 @@ public abstract class AbstractMiBandOperation implements GattCallback, MiBandOpe
         getDevice().sendDeviceUpdateIntent(getContext());
     }
 
-    public MiBandSupport getSupport() {
+    public T getSupport() {
         return mSupport;
     }
 

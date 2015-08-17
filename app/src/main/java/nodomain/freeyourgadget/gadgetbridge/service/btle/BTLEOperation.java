@@ -1,9 +1,9 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations;
+package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport;
 
-public interface MiBandOperation {
+public interface BTLEOperation {
     public void perform() throws IOException;
 }
