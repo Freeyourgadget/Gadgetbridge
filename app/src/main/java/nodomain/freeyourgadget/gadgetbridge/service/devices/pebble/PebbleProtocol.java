@@ -179,7 +179,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final short LENGTH_APPRUNSTATE = 17;
     static final short LENGTH_PING = 5;
     static final short LENGTH_PHONEVERSION = 17;
-    static final short LENGTH_REMOVEAPP = 17;
+    static final short LENGTH_REMOVEAPP_2X = 17;
+    static final short LENGTH_REMOVEAPP_3X = 21;
     static final short LENGTH_REFRESHAPP = 5;
     static final short LENGTH_SETTIME = 5;
     static final short LENGTH_SYSTEMMESSAGE = 2;
@@ -597,14 +598,27 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeAppDelete(UUID uuid) {
-        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_REMOVEAPP);
-        buf.order(ByteOrder.BIG_ENDIAN);
-        buf.putShort(LENGTH_REMOVEAPP);
-        buf.putShort(ENDPOINT_APPMANAGER);
-        buf.put(APPMANAGER_REMOVEAPP);
+        ByteBuffer buf;
+        if (isFw3x) {
+            buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_REMOVEAPP_3X);
+            buf.order(ByteOrder.BIG_ENDIAN);
+            buf.putShort(LENGTH_REMOVEAPP_3X);
+            buf.putShort(ENDPOINT_BLOBDB);
+            buf.order(ByteOrder.LITTLE_ENDIAN);
+            buf.put(BLOBDB_DELETE);
+            buf.putShort((short) mRandom.nextInt()); // token
+            buf.put(BLOBDB_APP);
+            buf.put(LENGTH_UUID);
+            buf.order(ByteOrder.BIG_ENDIAN);
+        } else {
+            buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_REMOVEAPP_2X);
+            buf.order(ByteOrder.BIG_ENDIAN);
+            buf.putShort(LENGTH_REMOVEAPP_2X);
+            buf.putShort(ENDPOINT_APPMANAGER);
+            buf.put(APPMANAGER_REMOVEAPP);
+        }
         buf.putLong(uuid.getMostSignificantBits());
         buf.putLong(uuid.getLeastSignificantBits());
-
         return buf.array();
     }
 
