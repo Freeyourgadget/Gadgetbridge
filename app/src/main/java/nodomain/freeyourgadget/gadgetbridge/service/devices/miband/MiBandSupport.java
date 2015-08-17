@@ -21,7 +21,6 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
@@ -32,9 +31,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.AbortTransactionAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.FetchActivityOperation;
-import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.UpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_FLASH_COLOUR;
@@ -66,11 +64,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private volatile boolean isLocatingDevice;
 
     private DeviceInfo mDeviceInfo;
-
-    private boolean firmwareInfoSent = false;
-    private byte[] newFirmware;
-    private boolean rebootWhenBandReady = false;
-
 
     GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
 
@@ -128,6 +121,10 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 return;
             }
         }
+    }
+
+    public DeviceInfo getDeviceInfo() {
+        return mDeviceInfo;
     }
 
     private byte[] getDefaultNotification() {
@@ -566,19 +563,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onInstallApp(Uri uri) {
         try {
-            MiBandFWHelper mFwHelper = new MiBandFWHelper(uri, getContext());
-            String mMac = getDevice().getAddress();
-            String[] mMacOctets = mMac.split(":");
-
-            int newFwVersion = mFwHelper.getFirmwareVersion();
-            int oldFwVersion = mDeviceInfo.getFirmwareVersion();
-            int checksum = (Integer.decode("0x" + mMacOctets[4]) << 8 | Integer.decode("0x" + mMacOctets[5])) ^ CheckSums.getCRC16(mFwHelper.getFw());
-
-            if (sendFirmwareInfo(oldFwVersion, newFwVersion, mFwHelper.getFw().length, checksum)) {
-                firmwareInfoSent = true;
-                newFirmware = mFwHelper.getFw();
-                //the firmware will be sent by the notification listener if the band confirms that the metadata are ok.
-            }
+            new UpdateFirmwareOperation(uri, this).perform();
         } catch (IOException ex) {
             GB.toast(getContext(), "Firmware cannot be installed: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
@@ -681,43 +666,13 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             return;
         }
         switch (value[0]) {
-            case MiBandService.NOTIFY_FW_CHECK_SUCCESS:
-                if(firmwareInfoSent && newFirmware != null) {
-                    if(sendFirmwareData(newFirmware)) {
-                        rebootWhenBandReady = true;
-                    } else {
-                        //TODO: the firmware transfer failed, but the miband should be still functional with the old firmware. What should we do?
-                        GB.toast("Problem with the firmware transfer. DO NOT REBOOT YOUR MIBAND!!!", Toast.LENGTH_LONG, GB.ERROR);
-                    }
-                    firmwareInfoSent = false;
-                    newFirmware = null;
-                }
-                break;
-            case MiBandService.NOTIFY_FW_CHECK_FAILED:
-                GB.toast("Problem with the firmware metadata transfer", Toast.LENGTH_LONG, GB.ERROR);
-                firmwareInfoSent = false;
-                newFirmware = null;
-                break;
-            case MiBandService.NOTIFY_FIRMWARE_UPDATE_SUCCESS:
-                if (rebootWhenBandReady) {
-                    GB.updateInstallNotification("Firmware installation complete", false, 100, getContext());
-                    onReboot();
-                }
-                rebootWhenBandReady = false;
-                break;
-            case MiBandService.NOTIFY_FIRMWARE_UPDATE_FAILED:
-                //TODO: the firmware transfer failed, but the miband should be still functional with the old firmware. What should we do?
-                GB.toast("Problem with the firmware transfer. DO NOT REBOOT YOUR MIBAND!!!", Toast.LENGTH_LONG, GB.ERROR);
-                GB.updateInstallNotification("Firmware write failed", false, 0, getContext());
-                rebootWhenBandReady = false;
-                break;
-
             default:
                 for (byte b : value) {
                     LOG.warn("DATA: " + String.format("0x%2x", b));
                 }
         }
     }
+
     private void handleDeviceInfo(byte[] value, int status) {
         if (status == BluetoothGatt.GATT_SUCCESS) {
             mDeviceInfo = new DeviceInfo(value);
@@ -817,104 +772,5 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             value = Arrays.toString(pairResult);
         }
         LOG.info("MI Band pairing result: " + value);
-    }
-
-    /**
-     * Prepare the MiBand to receive the new firmware data.
-     * Some information about the new firmware version have to be pushed to the MiBand before sending
-     * the actual firmare.
-     *
-     * The Mi Band will send a notification after receiving these data to confirm if the metadata looks good to it.
-     * @see MiBandSupport#handleNotificationNotif
-     *
-     * @param currentFwVersion
-     * @param newFwVersion
-     * @param newFwSize
-     * @param checksum
-     * @return whether the transfer succeeded or not. Only a BT layer exception will cause the transmission to fail.
-     */
-    private boolean sendFirmwareInfo(int currentFwVersion, int newFwVersion, int newFwSize, int checksum) {
-        byte[] fwInfo = new byte[]{
-                MiBandService.COMMAND_SEND_FIRMWARE_INFO,
-                (byte) currentFwVersion,
-                (byte) (currentFwVersion >> 8),
-                (byte) (currentFwVersion >> 16),
-                (byte) (currentFwVersion >> 24),
-                (byte) newFwVersion,
-                (byte) (newFwVersion >> 8),
-                (byte) (newFwVersion >> 16),
-                (byte) (newFwVersion >> 24),
-                (byte) newFwSize,
-                (byte) (newFwSize >> 8),
-                (byte) checksum,
-                (byte) (checksum >> 8)
-        };
-        try {
-            TransactionBuilder builder = performInitialized("send firmware info");
-            builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), fwInfo);
-            builder.queue(getQueue());
-        } catch (IOException ex) {
-            LOG.error("Unable to send fwInfo to MI", ex);
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Method that uploads a firmware (fwbytes) to the MiBand.
-     * The firmware has to be splitted into chunks of 20 bytes each, and periodically a COMMAND_SYNC comand has to be issued to the MiBand.
-     *
-     * The Mi Band will send a notification after receiving these data to confirm if the firmware looks good to it.
-     * @see MiBandSupport#handleNotificationNotif
-     *
-     * @param fwbytes
-     * @return whether the transfer succeeded or not. Only a BT layer exception will cause the transmission to fail.
-     * */
-    private boolean sendFirmwareData(byte fwbytes[]) {
-        int len = fwbytes.length;
-        final int packetLength = 20;
-        int packets = len / packetLength;
-        byte fwChunk[] = new byte[packetLength];
-
-        int firmwareProgress = 0;
-
-        try {
-            TransactionBuilder builder = performInitialized("send firmware packet");
-            for (int i = 0; i < packets; i++) {
-                fwChunk = Arrays.copyOfRange(fwbytes, i * packetLength, i * packetLength + packetLength);
-
-                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_FIRMWARE_DATA), fwChunk);
-                firmwareProgress += packetLength;
-
-                if ((i > 0) && (i % 50 == 0)) {
-                    builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_SYNC});
-                    builder.add(new SetProgressAction("Firmware update in progress", true, (firmwareProgress / len) * 100, getContext()));
-                }
-
-                LOG.info("Firmware update progress:" + firmwareProgress + " total len:" + len + " progress:" + (firmwareProgress / len));
-            }
-
-            if (!(len % packetLength == 0)) {
-                byte lastChunk[] = new byte[len % packetLength];
-                lastChunk = Arrays.copyOfRange(fwbytes, packets * packetLength, len);
-                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_FIRMWARE_DATA), lastChunk);
-                firmwareProgress += len % packetLength;
-            }
-
-            LOG.info("Firmware update progress:" + firmwareProgress + " total len:" + len + " progress:" + (firmwareProgress / len));
-            if (firmwareProgress >= len) {
-                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_SYNC});
-            } else {
-                GB.updateInstallNotification("Firmware write failed", false, 0, getContext());
-            }
-
-            builder.queue(getQueue());
-
-        } catch (IOException ex) {
-            LOG.error("Unable to send fw to MI", ex);
-            GB.updateInstallNotification("Firmware write failed", false, 0, getContext());
-            return false;
-        }
-        return true;
     }
 }
