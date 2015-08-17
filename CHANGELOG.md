@@ -1,5 +1,10 @@
 ###Changelog
 
+####Version (next)
+* Pebble: experimental watchapp installation support for FW 3.x/Pebble Time
+* Pebble: use SMS/EMAIL icons for FW 3.x/Pebble Time
+* Support going forward/backwards in time in the activy charts
+
 ####Version 0.4.6
 * Mi Band: Fixed negative number of steps displayed (#91)
 * Mi Band: fixed (re-) connection problems after band getting disconnected
