@@ -61,7 +61,7 @@ public final class BtLEQueue {
             while (!mDisposed && !mCrashed) {
                 try {
                     Transaction transaction = mTransactions.take();
-                    internalGattCallback.setTransactionGattCallback(null);
+                    internalGattCallback.reset();
 
                     if (!isConnected()) {
                         // TODO: request connection and initialization from the outside and wait until finished
@@ -114,7 +114,6 @@ public final class BtLEQueue {
                 } finally {
                     mWaitForActionResultLatch = null;
                     mWaitCharacteristic = null;
-                    internalGattCallback.reset();
                 }
             }
             LOG.info("Queue Dispatch Thread terminated.");
@@ -185,6 +184,7 @@ public final class BtLEQueue {
     }
 
     private void handleDisconnected(int status) {
+        internalGattCallback.reset();
         mTransactions.clear();
         mAbortTransaction = true;
         if (mWaitForActionResultLatch != null) {

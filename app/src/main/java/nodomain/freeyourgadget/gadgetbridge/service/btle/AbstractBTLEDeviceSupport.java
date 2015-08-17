@@ -132,7 +132,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
      * @return the characteristic for the given UUID or <code>null</code>
      * @see #addSupportedService(UUID)
      */
-    protected BluetoothGattCharacteristic getCharacteristic(UUID uuid) {
+    public BluetoothGattCharacteristic getCharacteristic(UUID uuid) {
         if (mAvailableCharacteristics == null) {
             return null;
         }
