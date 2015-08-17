@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.service.bt;
+package nodomain.freeyourgadget.gadgetbridge.service.serial;
 
 import java.util.UUID;
 

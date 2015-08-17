@@ -5,9 +5,9 @@ import android.net.Uri;
 import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
-import nodomain.freeyourgadget.gadgetbridge.service.bt.AbstractSerialDeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.bt.GBDeviceIoThread;
-import nodomain.freeyourgadget.gadgetbridge.service.bt.GBDeviceProtocol;
+import nodomain.freeyourgadget.gadgetbridge.service.serial.AbstractSerialDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
+import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 
 public class PebbleSupport extends AbstractSerialDeviceSupport {
 
