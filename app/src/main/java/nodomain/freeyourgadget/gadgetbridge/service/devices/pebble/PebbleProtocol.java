@@ -1066,6 +1066,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 Byte hwRev = buf.get();
                 if (hwRev > 0 && hwRev < hwRevisions.length) {
                     versionCmd.hwVersion = hwRevisions[hwRev];
+                } else if (hwRev == -3) { // basalt emulator
+                    versionCmd.hwVersion = "dvt";
                 }
                 devEvt = versionCmd;
                 break;
