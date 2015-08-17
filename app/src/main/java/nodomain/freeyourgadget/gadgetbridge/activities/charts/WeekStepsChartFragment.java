@@ -1,12 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,11 +28,10 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 
@@ -51,16 +45,6 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
     private PieChart mTodayStepsChart;
 
     private GBDevice mGBDevice = null;
-
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equals(ACTION_REFRESH)) {
-                refresh();
-            }
-        }
-    };
 
     @Override
     protected void refreshInBackground(DBHandler db) {
@@ -153,12 +137,6 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
             mTargetSteps = MiBandCoordinator.getFitnessGoal(mGBDevice.getAddress());
         }
 
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(ControlCenter.ACTION_QUIT);
-        filter.addAction(ACTION_REFRESH);
-
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver, filter);
-
         mWeekStepsChart = (BarLineChartBase) rootView.findViewById(R.id.sleepchart);
         mTodayStepsChart = (PieChart) rootView.findViewById(R.id.sleepchart_pie_light_deep);
 
@@ -177,13 +155,6 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         mTodayStepsChart.setNoDataTextDescription("");
         mTodayStepsChart.setNoDataText("");
     }
-
-    @Override
-    public void onDestroy() {
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
-        super.onDestroy();
-    }
-
 
     private void setupWeekStepsChart() {
         mWeekStepsChart.setBackgroundColor(BACKGROUND_COLOR);

@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.AppManagerActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsHost;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBCallControlReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -163,7 +164,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     public void handleGBDeviceEvent(GBDeviceEventSleepMonitorResult sleepMonitorResult) {
         Context context = getContext();
         LOG.info("Got event for SLEEP_MONIOR_RES");
-        Intent sleepMontiorIntent = new Intent(AbstractChartFragment.ACTION_REFRESH);
+        Intent sleepMontiorIntent = new Intent(ChartsHost.REFRESH);
         sleepMontiorIntent.putExtra("smartalarm_from", sleepMonitorResult.smartalarm_from);
         sleepMontiorIntent.putExtra("smartalarm_to", sleepMonitorResult.smartalarm_to);
         sleepMontiorIntent.putExtra("recording_base_timestamp", sleepMonitorResult.recording_base_timestamp);

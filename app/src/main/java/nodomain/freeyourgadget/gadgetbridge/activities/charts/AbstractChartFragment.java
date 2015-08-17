@@ -1,9 +1,17 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.LocalBroadcastManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
@@ -16,27 +24,35 @@ import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
 public abstract class AbstractChartFragment extends Fragment {
     private static final Logger LOG = LoggerFactory.getLogger(ActivitySleepChartFragment.class);
 
-    public static final String ACTION_REFRESH
-            = "nodomain.freeyourgadget.gadgetbridge.chart.action.refresh";
-
+    private final Set<String> mIntentFilterActions;
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            AbstractChartFragment.this.onReceive(context, intent);
+        }
+    };
 
     protected static final class ActivityConfig {
         public final int type;
@@ -50,6 +66,9 @@ public abstract class AbstractChartFragment extends Fragment {
         }
     }
 
+    private Date mStartDate;
+    private Date mEndDate;
+
     protected ActivityConfig akActivity = new ActivityConfig(ActivityKind.TYPE_ACTIVITY, "Activity", Color.rgb(89, 178, 44));
     protected ActivityConfig akLightSleep = new ActivityConfig(ActivityKind.TYPE_LIGHT_SLEEP, "Light Sleep", Color.rgb(182, 191, 255));
     protected ActivityConfig akDeepSleep = new ActivityConfig(ActivityKind.TYPE_DEEP_SLEEP, "Deep Sleep", Color.rgb(76, 90, 255));
@@ -58,6 +77,82 @@ public abstract class AbstractChartFragment extends Fragment {
     protected static final int DESCRIPTION_COLOR = Color.WHITE;
     protected static final int CHART_TEXT_COLOR = Color.WHITE;
     protected static final int LEGEND_TEXT_COLOR = Color.WHITE;
+
+    protected AbstractChartFragment(String... intentFilterActions) {
+        mIntentFilterActions = new HashSet<>();
+        if (intentFilterActions != null) {
+            mIntentFilterActions.addAll(Arrays.asList(intentFilterActions));
+            mIntentFilterActions.add(ChartsHost.DATE_NEXT);
+            mIntentFilterActions.add(ChartsHost.DATE_PREV);
+            mIntentFilterActions.add(ChartsHost.REFRESH);
+        }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        initDates();
+
+        IntentFilter filter = new IntentFilter();
+        for (String action : mIntentFilterActions) {
+            filter.addAction(action);
+        }
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver, filter);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        updateDateInfo(mStartDate, mEndDate);
+        return view;
+    }
+
+    public void setStartDate(Date date) {
+        mStartDate = date;
+    }
+
+    public void setEndDate(Date endDate) {
+        mEndDate = endDate;
+    }
+
+    protected void initDates() {
+        setEndDate(new Date());
+        setStartDate(DateTimeUtils.shiftByDays(mEndDate, -1));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
+    }
+
+    protected void onReceive(Context context, Intent intent) {
+        String action = intent.getAction();
+        if (ChartsHost.REFRESH.equals(action)) {
+            refresh();
+        } else if (ChartsHost.DATE_NEXT.equals(action)) {
+            handleDateNext(mStartDate, mEndDate);
+        } else if (ChartsHost.DATE_PREV.equals(action)) {
+            handleDatePrev(mStartDate, mEndDate);
+        }
+    }
+
+    protected void handleDatePrev(Date startDate, Date endDate) {
+        shiftDates(startDate, endDate, -1);
+    }
+
+    protected void handleDateNext(Date startDate, Date endDate) {
+        shiftDates(startDate, endDate, +1);
+    }
+
+    protected void shiftDates(Date startDate, Date endDate, int offset) {
+        Date newStart = DateTimeUtils.shiftByDays(startDate, offset);
+        Date newEnd = DateTimeUtils.shiftByDays(endDate, offset);
+
+        setDateRange(newStart, newEnd);
+        refresh();
+    }
 
     protected Integer getColorFor(int activityKind) {
         switch (activityKind) {
@@ -368,5 +463,42 @@ public abstract class AbstractChartFragment extends Fragment {
                 LOG.info("Not rendering charts because activity is not available anymore");
             }
         }
+    }
+
+    public void setDateRange(Date from, Date to) {
+        if (from.compareTo(to) > 0) {
+            throw new IllegalArgumentException("Bad date range: " +from + ".." + to);
+        }
+        mStartDate = from;
+        mEndDate = to;
+        updateDateInfo(mStartDate, mEndDate);
+    }
+
+    protected void updateDateInfo(Date from, Date to) {
+        if (from.equals(to)) {
+            getHost().setDateInfo(DateTimeUtils.formatDate(from));
+        } else {
+            getHost().setDateInfo(DateTimeUtils.formatDateRange(from, to));
+        }
+    }
+
+    protected List<ActivitySample> getSamples(DBHandler db, GBDevice device) {
+        return getAllSamples(db, device, getTSStart(), getTSEnd());
+    }
+
+    private int getTSEnd() {
+        return toTimestamp(mEndDate);
+    }
+
+    private int getTSStart() {
+        return toTimestamp(mStartDate);
+    }
+
+    private int toTimestamp(Date date) {
+        return (int) ((date.getTime() / 1000) & 0xffffffff);
+    }
+
+    protected ChartsHost getHost() {
+        return (ChartsHost) getActivity();
     }
 }

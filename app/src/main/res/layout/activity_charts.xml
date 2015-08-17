@@ -17,11 +17,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="&lt;" />
-        <Button
-            android:id="@+id/charts_next"
+        <TextView
+            android:id="@+id/charts_text_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=">" />
+            android:layout_weight="5"
+            android:text="Today"
+            />
 
         <ProgressBar
             android:id="@+id/charts_progress"
@@ -30,6 +32,13 @@
             android:indeterminate="true"
             android:visibility="gone"
             />
+
+        <Button
+            android:id="@+id/charts_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=">" />
+
     </LinearLayout>
 
     <android.support.v4.view.ViewPager android:id="@+id/pager"

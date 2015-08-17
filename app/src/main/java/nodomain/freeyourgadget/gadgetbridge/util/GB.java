@@ -24,6 +24,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -262,16 +266,6 @@ public class GB {
         }
     }
 
-    public static String formatDurationHoursMinutes(long duration, TimeUnit unit) {
-        DurationFormatter df = DurationFormatter.Builder.SYMBOLS
-                .maximum(TimeUnit.DAYS)
-                .minimum(TimeUnit.MINUTES)
-                .suppressZeros(DurationFormatter.SuppressZeros.LEADING)
-                .maximumAmountOfUnitsToShow(2)
-                .build();
-        return df.format(duration, unit);
-    }
-
     private static Notification createInstallNotification(String text, boolean ongoing,
                                                           int percentage, Context context) {
         Intent notificationIntent = new Intent(context, ControlCenter.class);
@@ -304,5 +298,4 @@ public class GB {
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         nm.notify(NOTIFICATION_ID_INSTALL, notification);
     }
-
 }

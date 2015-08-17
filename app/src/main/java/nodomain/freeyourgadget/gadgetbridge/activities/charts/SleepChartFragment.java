@@ -1,11 +1,8 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,14 +25,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmount;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmounts;
-import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 
 public class SleepChartFragment extends AbstractChartFragment {
@@ -50,21 +46,6 @@ public class SleepChartFragment extends AbstractChartFragment {
     private int mSmartAlarmGoneOff = -1;
     private GBDevice mGBDevice = null;
 
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equals(ACTION_REFRESH)) {
-                // TODO: use LimitLines to visualize smart alarms?
-                mSmartAlarmFrom = intent.getIntExtra("smartalarm_from", -1);
-                mSmartAlarmTo = intent.getIntExtra("smartalarm_to", -1);
-                mTimestampFrom = intent.getIntExtra("recording_base_timestamp", -1);
-                mSmartAlarmGoneOff = intent.getIntExtra("alarm_gone_off", -1);
-                refresh();
-            }
-        }
-    };
-
     @Override
     protected void refreshInBackground(DBHandler db) {
         List<ActivitySample> samples = getSamples(db);
@@ -73,13 +54,13 @@ public class SleepChartFragment extends AbstractChartFragment {
     }
 
     private List<ActivitySample> getSamples(DBHandler db) {
-        return getSamples(db, mGBDevice, -1, -1);
+        return getSamples(db, mGBDevice);
     }
 
     private void refreshSleepAmounts(GBDevice mGBDevice, PieChart pieChart, List<ActivitySample> samples) {
         ActivityAnalysis analysis = new ActivityAnalysis();
         ActivityAmounts amounts = analysis.calculateActivityAmounts(samples);
-        String totalSleep = GB.formatDurationHoursMinutes(amounts.getTotalSeconds(), TimeUnit.SECONDS);
+        String totalSleep = DateTimeUtils.formatDurationHoursMinutes(amounts.getTotalSeconds(), TimeUnit.SECONDS);
         pieChart.setCenterText(totalSleep);
         PieData data = new PieData();
         List<Entry> entries = new ArrayList<>();
@@ -95,7 +76,7 @@ public class SleepChartFragment extends AbstractChartFragment {
         set.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
-                return GB.formatDurationHoursMinutes((long) value, TimeUnit.SECONDS);
+                return DateTimeUtils.formatDurationHoursMinutes((long) value, TimeUnit.SECONDS);
             }
         });
         set.setColors(colors);
@@ -116,12 +97,6 @@ public class SleepChartFragment extends AbstractChartFragment {
             mGBDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
         }
 
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(ControlCenter.ACTION_QUIT);
-        filter.addAction(ACTION_REFRESH);
-
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver, filter);
-
         mActivityChart = (BarLineChartBase) rootView.findViewById(R.id.sleepchart);
         mSleepAmountChart = (PieChart) rootView.findViewById(R.id.sleepchart_pie_light_deep);
 
@@ -133,6 +108,21 @@ public class SleepChartFragment extends AbstractChartFragment {
         return rootView;
     }
 
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        String action = intent.getAction();
+        if (action.equals(ChartsHost.REFRESH)) {
+            // TODO: use LimitLines to visualize smart alarms?
+            mSmartAlarmFrom = intent.getIntExtra("smartalarm_from", -1);
+            mSmartAlarmTo = intent.getIntExtra("smartalarm_to", -1);
+            mTimestampFrom = intent.getIntExtra("recording_base_timestamp", -1);
+            mSmartAlarmGoneOff = intent.getIntExtra("alarm_gone_off", -1);
+            refresh();
+        } else {
+            super.onReceive(context, intent);
+        }
+    }
+
     private void setupSleepAmountChart() {
         mSleepAmountChart.setBackgroundColor(BACKGROUND_COLOR);
         mSleepAmountChart.setDescriptionColor(DESCRIPTION_COLOR);
@@ -140,13 +130,6 @@ public class SleepChartFragment extends AbstractChartFragment {
         mSleepAmountChart.setNoDataTextDescription("");
         mSleepAmountChart.setNoDataText("");
     }
-
-    @Override
-    public void onDestroy() {
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
-        super.onDestroy();
-    }
-
 
     private void setupActivityChart() {
         mActivityChart.setBackgroundColor(BACKGROUND_COLOR);

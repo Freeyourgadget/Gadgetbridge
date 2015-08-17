@@ -15,19 +15,21 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Locale;
 
-import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
-public class ChartsActivity extends FragmentActivity {
+public class ChartsActivity extends FragmentActivity implements ChartsHost {
 
     private static final Logger LOG = LoggerFactory.getLogger(ChartsActivity.class);
 
@@ -46,6 +48,11 @@ public class ChartsActivity extends FragmentActivity {
      */
     private ViewPager mViewPager;
 
+    private ProgressBar mProgressBar;
+    private Button mPrevButton;
+    private Button mNextButton;
+    private TextView mDateControl;
+
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -63,7 +70,6 @@ public class ChartsActivity extends FragmentActivity {
             }
         }
     };
-    private ProgressBar mProgressBar;
 
     private void refreshBusyState(GBDevice dev) {
         if (dev.isBusy()) {
@@ -72,7 +78,7 @@ public class ChartsActivity extends FragmentActivity {
             boolean wasBusy = mProgressBar.getVisibility() != View.GONE;
             if (wasBusy) {
                 mProgressBar.setVisibility(View.GONE);
-                LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(AbstractChartFragment.ACTION_REFRESH));
+                LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(REFRESH));
             }
         }
     }
@@ -98,6 +104,30 @@ public class ChartsActivity extends FragmentActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         mProgressBar = (ProgressBar) findViewById(R.id.charts_progress);
+        mPrevButton = (Button) findViewById(R.id.charts_previous);
+        mPrevButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handlePrevButtonClicked();
+            }
+        });
+        mNextButton = (Button) findViewById(R.id.charts_next);
+        mNextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleNextButtonClicked();
+            }
+        });
+
+        mDateControl = (TextView) findViewById(R.id.charts_text_date);
+    }
+
+    private void handleNextButtonClicked() {
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(DATE_NEXT));
+    }
+
+    private void handlePrevButtonClicked() {
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(DATE_PREV));
     }
 
     @Override
@@ -126,6 +156,11 @@ public class ChartsActivity extends FragmentActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void setDateInfo(String dateInfo) {
+        mDateControl.setText(dateInfo);
     }
 
     /**
