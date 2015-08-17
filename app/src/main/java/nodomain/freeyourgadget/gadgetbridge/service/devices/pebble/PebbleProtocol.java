@@ -966,12 +966,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     private GBDeviceEventAppManagement decodeAppFetch(ByteBuffer buf) {
-        buf.order(ByteOrder.LITTLE_ENDIAN);
         byte command = buf.get();
         if (command == 0x01) {
             long uuid_high = buf.getLong();
             long uuid_low = buf.getLong();
             UUID uuid = new UUID(uuid_high, uuid_low);
+            buf.order(ByteOrder.LITTLE_ENDIAN);
             int app_id = buf.getInt();
             GBDeviceEventAppManagement fetchRequest = new GBDeviceEventAppManagement();
             fetchRequest.type = GBDeviceEventAppManagement.EventType.INSTALL;
