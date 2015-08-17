@@ -5,11 +5,11 @@ import android.net.Uri;
 import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
-import nodomain.freeyourgadget.gadgetbridge.service.bt.AbstractBTDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.bt.AbstractSerialDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.bt.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.service.bt.GBDeviceProtocol;
 
-public class PebbleSupport extends AbstractBTDeviceSupport {
+public class PebbleSupport extends AbstractSerialDeviceSupport {
 
     @Override
     public boolean connect() {

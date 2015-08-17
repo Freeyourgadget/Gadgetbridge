@@ -12,10 +12,9 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
 
 /**
- * An abstract base class for all devices connected via Bluetooth
- * (not Bluetooth LE).
+ * An abstract base class for devices speaking a serial protocol, like via
+ * an rfcomm bluetooth socket or a TCP socket.
  *
- * Such devices are typically connected with an (rfcomm) socket connection.
  * This class uses two helper classes to deal with that:
  * - GBDeviceIoThread, which creates and maintains the actual socket connection and implements the transport layer
  * - GBDeviceProtocol, which implements the encoding and decoding of messages, i.e. the actual device specific protocol
@@ -25,7 +24,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
  * This implementation implements all methods of {@link EventHandler}, calls the {@link GBDeviceProtocol device protocol}
  * to create the device specific message for the respective events and sends them to the device via {@link #sendToDevice(byte[])}.
  */
-public abstract class AbstractBTDeviceSupport extends AbstractDeviceSupport {
+public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractDeviceSupport.class);
 
