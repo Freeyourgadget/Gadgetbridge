@@ -97,6 +97,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     static final byte TIME_GETTIME = 0;
     static final byte TIME_SETTIME = 2;
+    static final byte TIME_SETTIME_UTC = 3;
 
     static final byte FIRMWAREVERSION_GETVERSION = 0;
 
@@ -264,7 +265,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     private byte[] encodeNotification(int id, String title, String subtitle, String body, byte type) {
         Long ts = System.currentTimeMillis();
-        ts += (SimpleTimeZone.getDefault().getOffset(ts));
+        if (!isFw3x) {
+            ts += (SimpleTimeZone.getDefault().getOffset(ts));
+        }
         ts /= 1000;
 
         if (isFw3x) {
@@ -299,15 +302,30 @@ public class PebbleProtocol extends GBDeviceProtocol {
     public byte[] encodeSetTime(long ts) {
         if (ts == -1) {
             ts = System.currentTimeMillis();
-            ts += (SimpleTimeZone.getDefault().getOffset(ts));
         }
-        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_SETTIME);
-        buf.order(ByteOrder.BIG_ENDIAN);
-        buf.putShort(LENGTH_SETTIME);
-        buf.putShort(ENDPOINT_TIME);
-        buf.put(TIME_SETTIME);
-        buf.putInt((int) (ts / 1000));
-
+        long ts_offset = (SimpleTimeZone.getDefault().getOffset(ts));
+        ByteBuffer buf;
+        if (isFw3x) {
+            String timezone = SimpleTimeZone.getDefault().getDisplayName(false, SimpleTimeZone.SHORT);
+            short length = (short) (LENGTH_SETTIME + timezone.length() + 3);
+            buf = ByteBuffer.allocate(LENGTH_PREFIX + length);
+            buf.order(ByteOrder.BIG_ENDIAN);
+            buf.putShort(length);
+            buf.putShort(ENDPOINT_TIME);
+            buf.put(TIME_SETTIME_UTC);
+            buf.putInt((int) (ts / 1000));
+            buf.putShort((short) (ts_offset / 60000));
+            buf.put((byte) timezone.length());
+            buf.put(timezone.getBytes());
+            LOG.info(timezone);
+        } else {
+            buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_SETTIME);
+            buf.order(ByteOrder.BIG_ENDIAN);
+            buf.putShort(LENGTH_SETTIME);
+            buf.putShort(ENDPOINT_TIME);
+            buf.put(TIME_SETTIME);
+            buf.putInt((int) ((ts + ts_offset) / 1000));
+        }
         return buf.array();
     }
 
@@ -444,8 +462,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putInt(timestamp); // 32-bit timestamp
         buf.putShort((short) 0); // duration
         buf.put((byte) 0x01); // type (0x01 = notification)
-        buf.putShort((short) 0x0010); // flags 0x0010 = read?
-        buf.put((byte) 0x01); // layout (0x01 = default?)
+        buf.putShort((short) 0x0001); // flags 0x0001 = ?
+        buf.put((byte) 0x04); // layout (0x04 = notification?)
         buf.putShort(attributes_length); // total length of all attributes and actions in bytes
         buf.put(attributes_count);
         buf.put(actions_count);
