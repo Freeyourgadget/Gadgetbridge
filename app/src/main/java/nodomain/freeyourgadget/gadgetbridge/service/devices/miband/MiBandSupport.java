@@ -40,6 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.AbortTransactio
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
+import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -602,7 +603,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
             int newFwVersion = mFwHelper.getFirmwareVersion();
             int oldFwVersion = mDeviceInfo.getFirmwareVersion();
-            int checksum = (Integer.decode("0x" + mMacOctets[4]) << 8 | Integer.decode("0x" + mMacOctets[5])) ^ mFwHelper.getCRC16(mFwHelper.getFw());
+            int checksum = (Integer.decode("0x" + mMacOctets[4]) << 8 | Integer.decode("0x" + mMacOctets[5])) ^ CheckSums.getCRC16(mFwHelper.getFw());
 
             if (sendFirmwareInfo(oldFwVersion, newFwVersion, mFwHelper.getFw().length, checksum)) {
                 firmwareInfoSent = true;
