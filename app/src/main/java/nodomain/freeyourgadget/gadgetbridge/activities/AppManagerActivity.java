@@ -5,9 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.ContextMenu;
@@ -25,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAppAdapter;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
@@ -105,13 +102,9 @@ public class AppManagerActivity extends Activity {
 
         registerForContextMenu(appListView);
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
-
-        if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
-            List<GBDeviceApp> cachedApps = getCachedApps();
-            for (GBDeviceApp app : cachedApps) {
-                appList.add(app);
-            }
+        List<GBDeviceApp> cachedApps = getCachedApps();
+        for (GBDeviceApp app : cachedApps) {
+            appList.add(app);
         }
 
         IntentFilter filter = new IntentFilter();

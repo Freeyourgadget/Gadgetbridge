@@ -45,7 +45,6 @@ public class PebbleIoThread extends GBDeviceIoThread {
     private boolean mIsConnected = false;
     private boolean mIsInstalling = false;
     private int mConnectionAttempts = 0;
-    private boolean mForceUntested = false;
     private PBWReader mPBWReader = null;
     private int mAppInstallToken = -1;
     private ZipInputStream mZis = null;
@@ -86,7 +85,6 @@ public class PebbleIoThread extends GBDeviceIoThread {
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         mPebbleProtocol.setForceProtocol(sharedPrefs.getBoolean("pebble_force_protocol", false));
-        mForceUntested = sharedPrefs.getBoolean("pebble_force_untested", false);
         gbDevice.setState(GBDevice.State.CONNECTED);
         gbDevice.sendDeviceUpdateIntent(getContext());
 
@@ -409,7 +407,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
             writeInstallApp(mPebbleProtocol.encodeGetTime());
         } else {
             GBDeviceApp app = mPBWReader.getGBDeviceApp();
-            if (mPebbleProtocol.isFw3x && mForceUntested) {
+            if (mPebbleProtocol.isFw3x) {
                 if (appId == 0) {
                     // only install metadata - not the binaries
                     write(mPebbleProtocol.encodeInstallMetadata(app.getUUID(), app.getName(), mPBWReader.getAppVersion(), mPBWReader.getSdkVersion(), mPBWReader.getIconId()));

@@ -1,14 +1,11 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 
 import java.io.File;
 import java.io.IOException;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.InstallActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -59,13 +56,12 @@ public class PBWInstallHandler implements InstallHandler {
     }
 
     @Override
-    public void onStartInstall() {
+    public void onStartInstall(GBDevice device) {
         if (mPBWReader.isFirmware()) {
             return;
         }
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
-        if (!sharedPrefs.getBoolean("pebble_force_untested", false)) {
+        if (!device.getFirmwareVersion().startsWith("v3")) {
             return;
         }
 

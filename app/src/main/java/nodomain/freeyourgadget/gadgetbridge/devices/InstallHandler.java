@@ -19,16 +19,16 @@ public interface InstallHandler {
      * Checks whether the installation of the 'element' on the device is possible
      * and configures the InstallActivity accordingly (sets helpful texts,
      * enables/disables the "Install" button, etc.
-     *
+     * <p/>
      * Note: may only be called if #isValid previously returned true.
      *
      * @param installActivity the activity to interact with
-     * @param device the device to which the element shall be installed
+     * @param device          the device to which the element shall be installed
      */
     void validateInstallation(InstallActivity installActivity, GBDevice device);
 
     /**
      * Allows device specivic code to be execute just before the installation starts
      */
-    void onStartInstall();
+    void onStartInstall(GBDevice device);
 }

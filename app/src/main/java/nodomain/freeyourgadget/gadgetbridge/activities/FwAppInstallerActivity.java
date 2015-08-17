@@ -101,7 +101,7 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
             @Override
             public void onClick(View v) {
                 setInstallEnabled(false);
-                installHandler.onStartInstall();
+                installHandler.onStartInstall(device);
                 Intent startIntent = new Intent(FwAppInstallerActivity.this, DeviceCommunicationService.class);
                 startIntent.setAction(DeviceCommunicationService.ACTION_INSTALL);
                 startIntent.putExtra("uri", uri);

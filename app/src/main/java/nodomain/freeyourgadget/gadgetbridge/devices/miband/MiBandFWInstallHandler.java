@@ -53,7 +53,7 @@ public class MiBandFWInstallHandler implements InstallHandler {
     }
 
     @Override
-    public void onStartInstall() {
+    public void onStartInstall(GBDevice device) {
 
     }
 
