@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
@@ -18,15 +19,23 @@ import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
  * Wraps another device support instance and supports busy-checking and throttling of events.
  */
 public class ServiceDeviceSupport implements DeviceSupport {
+
+    static enum Flags {
+        THROTTLING,
+        BUSY_CHECKING,
+    }
     private static final Logger LOG = LoggerFactory.getLogger(ServiceDeviceSupport.class);
+
     private static final long THROTTLING_THRESHOLD = 1000; // throttle multiple events in between one second
-
     private final DeviceSupport delegate;
-    private long lastNoficationTime = 0;
-    private String lastNotificationKind;
 
-    public ServiceDeviceSupport(DeviceSupport delegate) {
+    private long lastNotificationTime = 0;
+    private String lastNotificationKind;
+    private final EnumSet<Flags> flags;
+
+    public ServiceDeviceSupport(DeviceSupport delegate, EnumSet<Flags> flags) {
         this.delegate = delegate;
+        this.flags = flags;
     }
 
     @Override
@@ -75,21 +84,28 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     private boolean checkBusy(String notificationKind) {
+        if (!flags.contains(Flags.BUSY_CHECKING)) {
+            return false;
+        }
         if (getDevice().isBusy()) {
             LOG.info("Ignoring " + notificationKind + " because we're busy with " + getDevice().getBusyTask());
+            return true;
         }
         return false;
     }
 
     private boolean checkThrottle(String notificationKind) {
+        if (!flags.contains(Flags.THROTTLING)) {
+            return false;
+        }
         long currentTime = System.currentTimeMillis();
-        if ((currentTime - lastNoficationTime) < THROTTLING_THRESHOLD) {
+        if ((currentTime - lastNotificationTime) < THROTTLING_THRESHOLD) {
             if (notificationKind != null && notificationKind.equals(lastNotificationKind)) {
                 LOG.info("Ignoring " + notificationKind + " because of throttling threshold reached");
                 return true;
             }
         }
-        lastNoficationTime = currentTime;
+        lastNotificationTime = currentTime;
         lastNotificationKind = notificationKind;
         return false;
     }

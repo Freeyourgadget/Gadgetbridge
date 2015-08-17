@@ -5,6 +5,8 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.widget.Toast;
 
+import java.util.EnumSet;
+
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -51,13 +53,12 @@ public class DeviceSupportFactory {
                 BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(deviceAddress);
                 if (btDevice.getName() == null || btDevice.getName().equals("MI")) { //FIXME: workaround for Miband not being paired
                     gbDevice = new GBDevice(deviceAddress, "MI", DeviceType.MIBAND);
-                    deviceSupport = new MiBandSupport();
+                    deviceSupport = new ServiceDeviceSupport(new MiBandSupport(), EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING));
                 } else if (btDevice.getName().indexOf("Pebble") == 0) {
                     gbDevice = new GBDevice(deviceAddress, btDevice.getName(), DeviceType.PEBBLE);
-                    deviceSupport = new PebbleSupport();
+                    deviceSupport = new ServiceDeviceSupport(new PebbleSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                 }
                 if (deviceSupport != null) {
-                    deviceSupport = new ServiceDeviceSupport(deviceSupport);
                     deviceSupport.setContext(gbDevice, mBtAdapter, mContext);
                     return deviceSupport;
                 }
