@@ -269,8 +269,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         if (isFw3x) {
             // 3.x notification
-            String[] parts = {title, subtitle, body};
-            return encodeBlobdbNotification((int) (ts & 0xffffffff), parts);
+            return encodeBlobdbNotification((int) (ts & 0xffffffff), title, subtitle, body, type);
         } else if (mForceProtocol || type != NOTIFICATION_EMAIL) {
             // 2.x notification
             return encodeExtensibleNotification(id, (int) (ts & 0xffffffff), title, subtitle, body, type);
@@ -381,15 +380,25 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    private byte[] encodeBlobdbNotification(int timestamp, String[] parts) {
+    private byte[] encodeBlobdbNotification(int timestamp, String title, String subtitle, String body, byte type) {
+        String[] parts = {title, subtitle, body};
+
+        int icon_id = 1;
+        switch (type) {
+            case NOTIFICATION_EMAIL:
+                icon_id = 19;
+                break;
+            case NOTIFICATION_SMS:
+                icon_id = 45;
+        }
         // Calculate length first
         final short BLOBDB_LENGTH = 23;
         final short NOTIFICATION_PIN_LENGTH = 46;
         final short ACTIONS_LENGTH = 17;
 
-        byte attributes_count = 0;
+        byte attributes_count = 1; // icon
 
-        short attributes_length = 0;
+        short attributes_length = 7; // icon
         if (parts != null) {
             for (String s : parts) {
                 if (s == null || s.equals("")) {
@@ -457,6 +466,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 buf.put(s.getBytes(), 0, partlength);
             }
         }
+
+        buf.put((byte) 4); // icon
+        buf.putShort((short) 4); // length of int
+        buf.putInt(icon_id);
 
         if (mForceProtocol) {
             // ACTION
