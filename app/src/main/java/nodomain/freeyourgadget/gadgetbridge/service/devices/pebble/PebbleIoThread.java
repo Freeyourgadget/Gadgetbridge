@@ -445,7 +445,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
             if (mPebbleProtocol.isFw3x) {
                 if (appId == 0) {
                     // only install metadata - not the binaries
-                    write(mPebbleProtocol.encodeInstallMetadata(app.getUUID(), app.getName(), mPBWReader.getAppVersion(), mPBWReader.getSdkVersion(), mPBWReader.getIconId()));
+                    write(mPebbleProtocol.encodeInstallMetadata(app.getUUID(), app.getName(), mPBWReader.getAppVersion(), mPBWReader.getSdkVersion(), mPBWReader.getFlags(), mPBWReader.getIconId()));
                     GB.toast("To finish installation please start the watchapp on your Pebble", 5, GB.INFO);
                 } else {
                     // this came from an app fetch request, so do the real stuff
