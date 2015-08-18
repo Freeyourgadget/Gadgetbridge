@@ -38,7 +38,8 @@ public class GBDevice implements Parcelable {
     private String mHardwareVersion = null;
     private State mState = State.NOT_CONNECTED;
     private short mBatteryLevel = BATTERY_UNKNOWN;
-    private String mBatteryState;
+    //TODO: get rid of String mBatteryStatus in favor of Enum mBatteryState
+    private String mBatteryStatus;
     private short mRssi = RSSI_UNKNOWN;
     private String mBusyTask;
 
@@ -57,7 +58,7 @@ public class GBDevice implements Parcelable {
         mHardwareVersion = in.readString();
         mState = State.values()[in.readInt()];
         mBatteryLevel = (short) in.readInt();
-        mBatteryState = in.readString();
+        mBatteryStatus = in.readString();
         mRssi = (short) in.readInt();
         mBusyTask = in.readString();
 
@@ -73,7 +74,7 @@ public class GBDevice implements Parcelable {
         dest.writeString(mHardwareVersion);
         dest.writeInt(mState.ordinal());
         dest.writeInt(mBatteryLevel);
-        dest.writeString(mBatteryState);
+        dest.writeString(mBatteryStatus);
         dest.writeInt(mRssi);
         dest.writeString(mBusyTask);
     }
@@ -177,7 +178,7 @@ public class GBDevice implements Parcelable {
 
     private void unsetDynamicState() {
         setBatteryLevel(BATTERY_UNKNOWN);
-        setBatteryState(null);
+        setBatteryStatus(null);
         setFirmwareVersion(null);
         setRssi(RSSI_UNKNOWN);
         if (mBusyTask != null) {
@@ -284,12 +285,12 @@ public class GBDevice implements Parcelable {
     /**
      * Returns a string representation of the battery state.
      */
-    public String getBatteryState() {
-        return mBatteryState != null ? mBatteryState : GBApplication.getContext().getString(R.string._unknown_);
+    public String getBatteryStatus() {
+        return mBatteryStatus != null ? mBatteryStatus : GBApplication.getContext().getString(R.string._unknown_);
     }
 
-    public void setBatteryState(String batteryState) {
-        mBatteryState = batteryState;
+    public void setBatteryStatus(String batteryStatus) {
+        mBatteryStatus = batteryStatus;
     }
 
     @Override

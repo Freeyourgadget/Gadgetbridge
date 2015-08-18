@@ -18,6 +18,7 @@ import java.util.GregorianCalendar;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
@@ -66,6 +67,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private DeviceInfo mDeviceInfo;
 
     GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
+    GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
 
     public MiBandSupport() {
         addSupportedService(MiBandService.UUID_SERVICE_MIBAND_SERVICE);
@@ -261,6 +263,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
         return this;
     }
+
     /**
      * Part of device initialization process. Do not call manually.
      *
@@ -276,7 +279,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             transaction.write(characteristic, new byte[]{
                     MiBandService.COMMAND_SET_FITNESS_GOAL,
                     0,
-                    (byte) (fitnessGoal  &  0xff),
+                    (byte) (fitnessGoal & 0xff),
                     (byte) ((fitnessGoal >>> 8) & 0xff)
             });
         } else {
@@ -637,6 +640,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     /**
      * Utility method that may be used to log incoming messages when we don't know how to deal with them yet.
+     *
      * @param value
      */
     private void logMessageContent(byte[] value) {
@@ -651,13 +655,13 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      * characteristic,
      * These messages appear to be always 1 byte long, with values that are listed in MiBandService.
      * It is not excluded that there are further values which are still unknown.
-     *
+     * <p/>
      * Upon receiving known values that request further action by GB, the appropriate method is called.
      *
      * @param value
      */
     private void handleNotificationNotif(byte[] value) {
-        if(value.length != 1) {
+        if (value.length != 1) {
             LOG.error("Notifications should be 1 byte long.");
             LOG.info("RECEIVED DATA WITH LENGTH: " + value.length);
             for (byte b : value) {
@@ -732,9 +736,10 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private void handleBatteryInfo(byte[] value, int status) {
         if (status == BluetoothGatt.GATT_SUCCESS) {
             BatteryInfo info = new BatteryInfo(value);
-            getDevice().setBatteryLevel((short) info.getLevelInPercent());
-            getDevice().setBatteryState(info.getStatus());
-            getDevice().sendDeviceUpdateIntent(getContext());
+            batteryCmd.level = ((short) info.getLevelInPercent());
+            batteryCmd.lastChargeTime = info.getLastChargeTime();
+            batteryCmd.numCharges = info.getNumCharges();
+            handleGBDeviceEvent(batteryCmd);
         }
     }
 

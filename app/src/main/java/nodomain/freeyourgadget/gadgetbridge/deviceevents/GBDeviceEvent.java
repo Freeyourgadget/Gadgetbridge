@@ -15,6 +15,7 @@ public abstract class GBDeviceEvent {
         SLEEP_MONITOR_RES,
         SCREENSHOT,
         DISMISS_NOTIFICATION,
+        BATTERY_INFO
     }
 }
 
