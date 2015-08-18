@@ -340,13 +340,23 @@ public class ControlCenter extends Activity {
             }
 
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-            String miAddr = sharedPrefs.getString(MiBandConst.PREF_MIBAND_ADDRESS, null);
-            if (miAddr != null && miAddr.length() > 0) {
+            String miAddr = sharedPrefs.getString(MiBandConst.PREF_MIBAND_ADDRESS, "");
+            if (miAddr.length() > 0) {
                 GBDevice miDevice = new GBDevice(miAddr, "MI", DeviceType.MIBAND);
                 if (!availableDevices.contains(miDevice)) {
                     availableDevices.add(miDevice);
                 }
             }
+
+            String pebbleEmuAddr = sharedPrefs.getString("pebble_emu_addr", "");
+            String pebbleEmuPort = sharedPrefs.getString("pebble_emu_port", "");
+            if (pebbleEmuAddr.length() >= 7 && pebbleEmuPort.length() > 0) {
+                GBDevice pebbleEmuDevice = new GBDevice(pebbleEmuAddr + ":" + pebbleEmuPort, "Pebble qemu", DeviceType.PEBBLE);
+                if (!availableDevices.contains(pebbleEmuDevice)) {
+                    availableDevices.add(pebbleEmuDevice);
+                }
+            }
+
             deviceList.retainAll(availableDevices);
             for (GBDevice dev : availableDevices) {
                 if (!deviceList.contains(dev)) {

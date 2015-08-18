@@ -77,6 +77,16 @@
                     android:key="pebble_force_untested"
                     android:title="@string/pref_title_pebble_forceuntested"
                     android:summary="@string/pref_summary_pebble_forceuntested" />
+                <EditTextPreference
+                    android:digits="0123456789."
+                    android:key="pebble_emu_addr"
+                    android:maxLength="15"
+                    android:title="Emulator IP" />
+                <EditTextPreference
+                    android:inputType="number"
+                    android:key="pebble_emu_port"
+                    android:maxLength="5"
+                    android:title="Emulator Port" />
             </PreferenceCategory>
         </PreferenceScreen>
     </PreferenceCategory>
