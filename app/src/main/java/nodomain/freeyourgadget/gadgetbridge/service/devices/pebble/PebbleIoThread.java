@@ -16,6 +16,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.zip.ZipInputStream;
@@ -37,14 +39,17 @@ public class PebbleIoThread extends GBDeviceIoThread {
     private static final Logger LOG = LoggerFactory.getLogger(PebbleIoThread.class);
     private final PebbleProtocol mPebbleProtocol;
     private final PebbleSupport mPebbleSupport;
+    private boolean mIsTCP = false;
     private BluetoothAdapter mBtAdapter = null;
     private BluetoothSocket mBtSocket = null;
+    private Socket mTCPSocket = null; // for emulator
     private InputStream mInStream = null;
     private OutputStream mOutStream = null;
     private boolean mQuit = false;
     private boolean mIsConnected = false;
     private boolean mIsInstalling = false;
     private int mConnectionAttempts = 0;
+
     private PBWReader mPBWReader = null;
     private int mAppInstallToken = -1;
     private ZipInputStream mZis = null;
@@ -66,14 +71,25 @@ public class PebbleIoThread extends GBDeviceIoThread {
 
     @Override
     protected boolean connect(String btDeviceAddress) {
-        BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(btDeviceAddress);
-        ParcelUuid uuids[] = btDevice.getUuids();
         GBDevice.State originalState = gbDevice.getState();
         try {
-            mBtSocket = btDevice.createRfcommSocketToServiceRecord(uuids[0].getUuid());
-            mBtSocket.connect();
-            mInStream = mBtSocket.getInputStream();
-            mOutStream = mBtSocket.getOutputStream();
+            // contains only one ":"? then it is addr:port
+            int firstColon = btDeviceAddress.indexOf(":");
+            if (firstColon == btDeviceAddress.lastIndexOf(":")) {
+                mIsTCP = true;
+                InetAddress serverAddr = InetAddress.getByName(btDeviceAddress.substring(0, firstColon));
+                mTCPSocket = new Socket(serverAddr, Integer.parseInt(btDeviceAddress.substring(firstColon + 1)));
+                mInStream = mTCPSocket.getInputStream();
+                mOutStream = mTCPSocket.getOutputStream();
+            } else {
+                mIsTCP = false;
+                BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(btDeviceAddress);
+                ParcelUuid uuids[] = btDevice.getUuids();
+                mBtSocket = btDevice.createRfcommSocketToServiceRecord(uuids[0].getUuid());
+                mBtSocket.connect();
+                mInStream = mBtSocket.getInputStream();
+                mOutStream = mBtSocket.getOutputStream();
+            }
         } catch (IOException e) {
             e.printStackTrace();
             gbDevice.setState(originalState);
@@ -187,11 +203,14 @@ public class PebbleIoThread extends GBDeviceIoThread {
                             break;
                     }
                 }
+                if (mIsTCP) {
+                    mInStream.skip(6);
+                }
                 int bytes = mInStream.read(buffer, 0, 4);
+
                 if (bytes < 4) {
                     continue;
                 }
-
                 ByteBuffer buf = ByteBuffer.wrap(buffer);
                 buf.order(ByteOrder.BIG_ENDIAN);
                 short length = buf.getShort();
@@ -212,6 +231,10 @@ public class PebbleIoThread extends GBDeviceIoThread {
                         e.printStackTrace();
                     }
                     bytes += mInStream.read(buffer, bytes + 4, length - bytes);
+                }
+
+                if (mIsTCP) {
+                    mInStream.skip(2);
                 }
 
                 GBDeviceEvent deviceEvent = mPebbleProtocol.decodeResponse(buffer);
@@ -261,15 +284,31 @@ public class PebbleIoThread extends GBDeviceIoThread {
         gbDevice.sendDeviceUpdateIntent(getContext());
     }
 
+    private void write_real(byte[] bytes) {
+        try {
+            if (mIsTCP) {
+                ByteBuffer buf = ByteBuffer.allocate(bytes.length + 8);
+                buf.order(ByteOrder.BIG_ENDIAN);
+                buf.putShort((short) 0xfeed);
+                buf.putShort((short) 1);
+                buf.putShort((short) bytes.length);
+                buf.put(bytes);
+                buf.putShort((short) 0xbeef);
+                mOutStream.write(buf.array());
+                mOutStream.flush();
+            } else {
+                mOutStream.write(bytes);
+                mOutStream.flush();
+            }
+        } catch (IOException e) {
+        }
+    }
+
     @Override
     synchronized public void write(byte[] bytes) {
         // block writes if app installation in in progress
         if (mIsConnected && (!mIsInstalling || mInstallState == PebbleAppInstallState.WAIT_SLOT)) {
-            try {
-                mOutStream.write(bytes);
-                mOutStream.flush();
-            } catch (IOException e) {
-            }
+            write_real(bytes);
         }
     }
 
@@ -371,13 +410,8 @@ public class PebbleIoThread extends GBDeviceIoThread {
         if (!mIsInstalling) {
             return;
         }
-        int length = bytes.length;
-        LOG.info("got " + length + "bytes for writeInstallApp()");
-        try {
-            mOutStream.write(bytes);
-            mOutStream.flush();
-        } catch (IOException e) {
-        }
+        LOG.info("got " + bytes.length + "bytes for writeInstallApp()");
+        write_real(bytes);
     }
 
     public void installApp(Uri uri, int appId) {
@@ -411,7 +445,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
             if (mPebbleProtocol.isFw3x) {
                 if (appId == 0) {
                     // only install metadata - not the binaries
-                    write(mPebbleProtocol.encodeInstallMetadata(app.getUUID(), app.getName(), mPBWReader.getAppVersion(), mPBWReader.getSdkVersion(), mPBWReader.getIconId()));
+                    write(mPebbleProtocol.encodeInstallMetadata(app.getUUID(), app.getName(), mPBWReader.getAppVersion(), mPBWReader.getSdkVersion(), mPBWReader.getFlags(), mPBWReader.getIconId()));
                     GB.toast("To finish installation please start the watchapp on your Pebble", 5, GB.INFO);
                 } else {
                     // this came from an app fetch request, so do the real stuff

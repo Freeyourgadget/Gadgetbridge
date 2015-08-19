@@ -483,7 +483,7 @@ public abstract class AbstractChartFragment extends Fragment {
     }
 
     protected List<ActivitySample> getSamples(DBHandler db, GBDevice device) {
-        return getAllSamples(db, device, getTSStart(), getTSEnd());
+        return getSamples(db, device, getTSStart(), getTSEnd());
     }
 
     private int getTSEnd() {

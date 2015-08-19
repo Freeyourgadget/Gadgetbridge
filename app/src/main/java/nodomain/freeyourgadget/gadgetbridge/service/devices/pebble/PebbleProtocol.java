@@ -503,7 +503,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    public byte[] encodeInstallMetadata(UUID uuid, String appName, short appVersion, short sdkVersion, int iconId) {
+    public byte[] encodeInstallMetadata(UUID uuid, String appName, short appVersion, short sdkVersion, int flags, int iconId) {
         // Calculate length first
         final short BLOBDB_LENGTH = 23;
         final short METADATA_LENGTH = 126;
@@ -534,6 +534,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putLong(uuid.getMostSignificantBits()); // watchapp uuid
         buf.putLong(uuid.getLeastSignificantBits());
         buf.order(ByteOrder.LITTLE_ENDIAN);
+        buf.putInt(flags);
         buf.putInt(iconId);
         buf.putShort(appVersion);
         buf.putShort(sdkVersion);

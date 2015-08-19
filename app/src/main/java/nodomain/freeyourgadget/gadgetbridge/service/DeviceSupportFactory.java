@@ -25,11 +25,16 @@ public class DeviceSupportFactory {
     }
 
     public synchronized DeviceSupport createDeviceSupport(String deviceAddress) throws GBException {
-        DeviceSupport deviceSupport = createBTDeviceSupport(deviceAddress);
+        DeviceSupport deviceSupport;
+        if (deviceAddress.indexOf(":") == deviceAddress.lastIndexOf(":")) { // only one colon
+            deviceSupport = createTCPDeviceSupport(deviceAddress);
+        } else {
+            deviceSupport = createBTDeviceSupport(deviceAddress);
+        }
+
         if (deviceSupport != null) {
             return deviceSupport;
         }
-        // support for other kinds of transports
 
         // no device found, check transport availability and warn
         checkBtAvailability();
@@ -68,4 +73,16 @@ public class DeviceSupportFactory {
         }
         return null;
     }
+
+    private DeviceSupport createTCPDeviceSupport(String deviceAddress) throws GBException {
+        try {
+            GBDevice gbDevice = new GBDevice(deviceAddress, "Pebble qemu", DeviceType.PEBBLE); //FIXME, do not hardcode
+            DeviceSupport deviceSupport = new ServiceDeviceSupport(new PebbleSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+            deviceSupport.setContext(gbDevice, mBtAdapter, mContext);
+            return deviceSupport;
+        } catch (Exception e) {
+            throw new GBException("cannot connect to " + deviceAddress, e); // FIXME: localize
+        }
+    }
+
 }
