@@ -300,7 +300,7 @@ public class GB {
         nm.notify(NOTIFICATION_ID_INSTALL, notification);
     }
 
-    private static Notification createBatteryNotification(int level, String text, Context context) {
+    private static Notification createBatteryNotification(String text, String bigText, Context context) {
         Intent notificationIntent = new Intent(context, ControlCenter.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -308,18 +308,22 @@ public class GB {
                 notificationIntent, 0);
 
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context)
-                .setContentTitle(context.getString(R.string.notif_battery_low_title))
-                .setContentText(context.getString(R.string.notif_battery_low_percent, level))
+                .setContentTitle( context.getString(R.string.notif_battery_low_title))
+                .setContentText(text)
                 .setContentIntent(pendingIntent)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(text))
+                .setSmallIcon(R.drawable.ic_notification_low_battery)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setOngoing(false);
+
+        if (bigText != null) {
+            nb.setStyle(new NotificationCompat.BigTextStyle().bigText(bigText));
+        }
 
         return nb.build();
     }
 
-    public static void updateBatteryNotification(int level, String text, Context context) {
-        Notification notification = createBatteryNotification(level, text, context);
+    public static void updateBatteryNotification(String text, String bigText, Context context) {
+        Notification notification = createBatteryNotification(text, bigText, context);
 
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         nm.notify(NOTIFICATION_ID_LOW_BATTERY, notification);

@@ -4,7 +4,7 @@ package nodomain.freeyourgadget.gadgetbridge.deviceevents;
 import java.util.GregorianCalendar;
 
 public class GBDeviceEventBatteryInfo extends GBDeviceEvent {
-    public GregorianCalendar lastChargeTime;
+    public GregorianCalendar lastChargeTime= null;
     public BatteryState state = BatteryState.UNKNOWN;
     //TODO: I think the string should be deprecated in favor of the Enum above
     public String status;
@@ -21,5 +21,12 @@ public class GBDeviceEventBatteryInfo extends GBDeviceEvent {
         CHARGE_MEDIUM,
         CHARGE_LOW,
         CHARGING,
+    }
+
+    public boolean extendedInfoAvailable() {
+        if (numCharges != -1 && lastChargeTime != null) {
+            return true;
+        }
+        return false;
     }
 }

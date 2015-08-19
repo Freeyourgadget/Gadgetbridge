@@ -30,6 +30,7 @@ public class GBDevice implements Parcelable {
     private static final Logger LOG = LoggerFactory.getLogger(GBDevice.class);
     public static final short RSSI_UNKNOWN = 0;
     public static final short BATTERY_UNKNOWN = -1;
+    private static final short BATTERY_THRESHOLD_PERCENT = 10;
     public static final String EXTRA_DEVICE = "device";
     private final String mName;
     private final String mAddress;
@@ -38,6 +39,7 @@ public class GBDevice implements Parcelable {
     private String mHardwareVersion = null;
     private State mState = State.NOT_CONNECTED;
     private short mBatteryLevel = BATTERY_UNKNOWN;
+    private short mBatteryThresholdPercent = BATTERY_THRESHOLD_PERCENT;
     //TODO: get rid of String mBatteryStatus in favor of Enum mBatteryState
     private String mBatteryStatus;
     private short mRssi = RSSI_UNKNOWN;
@@ -291,6 +293,15 @@ public class GBDevice implements Parcelable {
 
     public void setBatteryStatus(String batteryStatus) {
         mBatteryStatus = batteryStatus;
+    }
+
+
+    public short getBatteryThresholdPercent() {
+        return mBatteryThresholdPercent;
+    }
+
+    public void setBatteryThresholdPercent(short batteryThresholdPercent) {
+        this.mBatteryThresholdPercent = batteryThresholdPercent;
     }
 
     @Override
