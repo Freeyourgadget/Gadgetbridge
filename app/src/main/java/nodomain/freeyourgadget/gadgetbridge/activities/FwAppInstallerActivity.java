@@ -47,7 +47,7 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
             } else if (action.equals(GBDevice.ACTION_DEVICE_CHANGED)) {
                 device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                 if (device != null) {
-                    if (!device.isConnected()) {
+                    if (!device.isInitialized()) {
                         setInstallEnabled(false);
                         if (mayConnect) {
                             GB.toast(FwAppInstallerActivity.this, getString(R.string.connecting), Toast.LENGTH_SHORT, GB.INFO);
