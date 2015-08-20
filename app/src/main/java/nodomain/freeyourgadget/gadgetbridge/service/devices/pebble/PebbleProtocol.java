@@ -299,10 +299,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     @Override
-    public byte[] encodeSetTime(long ts) {
-        if (ts == -1) {
-            ts = System.currentTimeMillis();
-        }
+    public byte[] encodeSetTime() {
+        long ts = System.currentTimeMillis();
         long ts_offset = (SimpleTimeZone.getDefault().getOffset(ts));
         ByteBuffer buf;
         if (isFw3x) {
@@ -701,7 +699,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    @Override
     public byte[] encodePhoneVersion(byte os) {
         return encodePhoneVersion3x(os);
     }

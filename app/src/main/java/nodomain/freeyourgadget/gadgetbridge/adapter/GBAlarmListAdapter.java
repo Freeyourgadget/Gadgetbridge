@@ -57,7 +57,7 @@ public class GBAlarmListAdapter extends ArrayAdapter<GBAlarm> {
         Collections.sort(alarmList);
     }
 
-    public ArrayList<GBAlarm> getAlarmList() {
+    public ArrayList<? extends Alarm> getAlarmList() {
         return alarmList;
     }
 

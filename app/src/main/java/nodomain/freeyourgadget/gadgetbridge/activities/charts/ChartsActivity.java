@@ -24,10 +24,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Locale;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
 public class ChartsActivity extends FragmentActivity implements ChartsHost {
 
@@ -147,9 +147,7 @@ public class ChartsActivity extends FragmentActivity implements ChartsHost {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.charts_fetch_activity_data:
-                Intent startIntent = new Intent(this, DeviceCommunicationService.class);
-                startIntent.setAction(DeviceCommunicationService.ACTION_FETCH_ACTIVITY_DATA);
-                startService(startIntent);
+                GBApplication.deviceService().onFetchActivityData();
                 return true;
             default:
                 break;

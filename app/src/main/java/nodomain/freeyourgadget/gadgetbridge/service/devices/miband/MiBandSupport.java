@@ -379,7 +379,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSetAlarms(ArrayList<Alarm> alarms) {
+    public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
         try {
             BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
             TransactionBuilder builder = performInitialized("Set alarm");
@@ -410,7 +410,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSetTime(long ts) {
+    public void onSetTime() {
         try {
             TransactionBuilder builder = performInitialized("Set date and time");
             setCurrentTime(builder);
@@ -474,17 +474,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onSetMusicInfo(String artist, String album, String track) {
         // not supported
-    }
-
-    @Override
-    public void onBatteryInfoReq() {
-        try {
-            TransactionBuilder builder = performInitialized("Get MI Band battery info");
-            requestBatteryInfo(builder);
-            builder.queue(getQueue());
-        } catch (IOException ex) {
-            LOG.error("Unable to read battery info from MI", ex);
-        }
     }
 
     @Override
@@ -581,11 +570,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onAppDelete(UUID uuid) {
-        // not supported
-    }
-
-    @Override
-    public void onPhoneVersion(byte os) {
         // not supported
     }
 

@@ -19,6 +19,9 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 public class GBApplication extends Application {
@@ -27,10 +30,16 @@ public class GBApplication extends Application {
     private static GBApplication context;
     private static ActivityDatabaseHandler mActivityDatabaseHandler;
     private static final Lock dbLock = new ReentrantLock();
+    private static DeviceService deviceService;
 
     public GBApplication() {
         context = this;
+        deviceService = createDeviceService();
         // don't do anything here, add it to onCreate instead
+    }
+
+    protected DeviceService createDeviceService() {
+        return new GBDeviceService(this, DeviceCommunicationService.class);
     }
 
     @Override
@@ -80,6 +89,10 @@ public class GBApplication extends Application {
 
     public static Context getContext() {
         return context;
+    }
+
+    public static DeviceService deviceService() {
+        return deviceService;
     }
 
     /**

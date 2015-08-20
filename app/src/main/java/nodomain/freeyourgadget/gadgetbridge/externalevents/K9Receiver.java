@@ -12,7 +12,7 @@ import android.preference.PreferenceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 public class K9Receiver extends BroadcastReceiver {
 
@@ -65,12 +65,6 @@ public class K9Receiver extends BroadcastReceiver {
         } while (c.moveToNext());
         c.close();
 
-        Intent startIntent = new Intent(context, DeviceCommunicationService.class);
-        startIntent.setAction(DeviceCommunicationService.ACTION_NOTIFICATION_EMAIL);
-        startIntent.putExtra("notification_sender", sender);
-        startIntent.putExtra("notification_subject", subject);
-        startIntent.putExtra("notification_body", preview);
-
-        context.startService(startIntent);
+        GBApplication.deviceService().onEmail(sender, subject, preview);
     }
 }

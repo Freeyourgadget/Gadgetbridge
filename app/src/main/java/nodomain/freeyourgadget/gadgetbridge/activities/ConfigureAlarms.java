@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -78,9 +79,6 @@ public class ConfigureAlarms extends ListActivity {
     }
 
     private void sendAlarmsToDevice() {
-        Intent startIntent = new Intent(ConfigureAlarms.this, DeviceCommunicationService.class);
-        startIntent.putParcelableArrayListExtra("alarms", mGBAlarmListAdapter.getAlarmList());
-        startIntent.setAction(DeviceCommunicationService.ACTION_SET_ALARMS);
-        startService(startIntent);
+        GBApplication.deviceService().onSetAlarms(mGBAlarmListAdapter.getAlarmList());
     }
 }

@@ -7,7 +7,7 @@ import android.content.Intent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 public class MusicPlaybackReceiver extends BroadcastReceiver {
     private static final Logger LOG = LoggerFactory.getLogger(MusicPlaybackReceiver.class);
@@ -20,11 +20,6 @@ public class MusicPlaybackReceiver extends BroadcastReceiver {
 
         LOG.info("Current track: " + artist + ", " + album + ", " + track);
 
-        Intent startIntent = new Intent(context, DeviceCommunicationService.class);
-        startIntent.setAction(DeviceCommunicationService.ACTION_SETMUSICINFO);
-        startIntent.putExtra("music_artist", artist);
-        startIntent.putExtra("music_album", album);
-        startIntent.putExtra("music_track", track);
-        context.startService(startIntent);
+        GBApplication.deviceService().onSetMusicInfo(artist, album, track);
     }
 }

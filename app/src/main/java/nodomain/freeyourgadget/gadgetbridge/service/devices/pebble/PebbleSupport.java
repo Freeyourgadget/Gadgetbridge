@@ -43,7 +43,7 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
     }
 
     @Override
-    public void onSetAlarms(ArrayList<Alarm> alarms) {
+    public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
         //nothing to do ATM
     }
 }

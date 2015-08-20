@@ -320,7 +320,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
                 if (sharedPrefs.getBoolean("datetime_synconconnect", true)) {
                     LOG.info("syncing time");
-                    write(mPebbleProtocol.encodeSetTime(-1));
+                    write(mPebbleProtocol.encodeSetTime());
                 }
                 gbDevice.setState(GBDevice.State.INITIALIZED);
                 return false;
