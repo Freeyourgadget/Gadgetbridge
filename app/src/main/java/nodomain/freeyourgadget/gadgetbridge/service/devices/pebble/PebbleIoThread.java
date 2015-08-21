@@ -502,6 +502,13 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 e.printStackTrace();
             }
         }
+        if (mTCPSocket != null) {
+            try {
+                mTCPSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private enum PebbleAppInstallState {
