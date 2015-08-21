@@ -17,6 +17,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
 public class NotificationListener extends NotificationListenerService {
@@ -111,13 +112,8 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         if (content != null) {
-            Intent startIntent = new Intent(NotificationListener.this, DeviceCommunicationService.class);
-            startIntent.setAction(DeviceCommunicationService.ACTION_NOTIFICATION_GENERIC);
-            startIntent.putExtra("notification_title", title);
-            startIntent.putExtra("notification_body", content);
-            startService(startIntent);
+            GBApplication.deviceService().onGenericNotification(title, content);
         }
-
     }
 
     private boolean isServiceRunning() {

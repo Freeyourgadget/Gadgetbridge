@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
@@ -27,12 +28,9 @@ public class BluetoothStateChangeReceiver extends BroadcastReceiver {
                     return;
                 }
 
-                Intent connectIntent = new Intent(context, DeviceCommunicationService.class);
-                connectIntent.setAction(DeviceCommunicationService.ACTION_CONNECT);
-                context.startService(connectIntent);
+                GBApplication.deviceService().connect();
             } else if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF) {
-                Intent stopIntent = new Intent(context, DeviceCommunicationService.class);
-                context.stopService(stopIntent);
+                GBApplication.deviceService().quit();
 
                 Intent quitIntent = new Intent(ControlCenter.ACTION_QUIT);
 

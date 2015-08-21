@@ -320,7 +320,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
                 if (sharedPrefs.getBoolean("datetime_synconconnect", true)) {
                     LOG.info("syncing time");
-                    write(mPebbleProtocol.encodeSetTime(-1));
+                    write(mPebbleProtocol.encodeSetTime());
                 }
                 gbDevice.setState(GBDevice.State.INITIALIZED);
                 return false;
@@ -480,10 +480,12 @@ public class PebbleIoThread extends GBDeviceIoThread {
 
         mPBWReader = null;
         mIsInstalling = false;
-        try {
-            mZis.close();
-        } catch (IOException e) {
-            // ignore
+        if (mZis != null) {
+            try {
+                mZis.close();
+            } catch (IOException e) {
+                // ignore
+            }
         }
         mZis = null;
         mAppInstallToken = -1;
@@ -496,6 +498,13 @@ public class PebbleIoThread extends GBDeviceIoThread {
         if (mBtSocket != null) {
             try {
                 mBtSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (mTCPSocket != null) {
+            try {
+                mTCPSocket.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }

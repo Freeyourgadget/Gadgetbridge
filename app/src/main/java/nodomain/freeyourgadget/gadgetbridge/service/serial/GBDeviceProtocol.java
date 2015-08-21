@@ -19,7 +19,7 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
-    public byte[] encodeSetTime(long ts) {
+    public byte[] encodeSetTime() {
         return null;
     }
 
@@ -32,10 +32,6 @@ public abstract class GBDeviceProtocol {
     }
 
     public byte[] encodeFirmwareVersionReq() {
-        return null;
-    }
-
-    public byte[] encodeBatteryInfoReq() {
         return null;
     }
 
@@ -52,10 +48,6 @@ public abstract class GBDeviceProtocol {
     }
 
     public byte[] encodeAppStart(UUID uuid) {
-        return null;
-    }
-
-    public byte[] encodePhoneVersion(byte os) {
         return null;
     }
 

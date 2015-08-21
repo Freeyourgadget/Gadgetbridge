@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.devices;
 
 import android.net.Uri;
+import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -20,15 +21,13 @@ public interface EventHandler {
 
     void onGenericNotification(String title, String details);
 
-    void onSetTime(long ts);
+    void onSetTime();
 
-    void onSetAlarms(ArrayList<Alarm> alarms);
+    void onSetAlarms(ArrayList<? extends Alarm> alarms);
 
-    void onSetCallState(String number, String name, ServiceCommand command);
+    void onSetCallState(@Nullable String number, @Nullable String name, ServiceCommand command);
 
     void onSetMusicInfo(String artist, String album, String track);
-
-    void onBatteryInfoReq();
 
     void onInstallApp(Uri uri);
 
@@ -37,8 +36,6 @@ public interface EventHandler {
     void onAppStart(UUID uuid);
 
     void onAppDelete(UUID uuid);
-
-    void onPhoneVersion(byte os);
 
     void onFetchActivityData();
 

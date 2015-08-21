@@ -120,7 +120,7 @@ public class MiBandCoordinator implements DeviceCoordinator {
     public static int getWearLocation(String miBandAddress) throws IllegalArgumentException {
         int location = 0; //left hand
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
-        if (prefs.getString(MiBandConst.PREF_MIBAND_WEARSIDE, "left") == "right") {
+        if ("right".equals(prefs.getString(MiBandConst.PREF_MIBAND_WEARSIDE, "left"))) {
             location = 1; // right hand
         }
         return location;

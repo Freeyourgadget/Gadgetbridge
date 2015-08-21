@@ -27,46 +27,10 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.*;
 
 public class DeviceCommunicationService extends Service {
-    public static final String ACTION_START
-            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.start";
-    public static final String ACTION_CONNECT
-            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.connect";
-    public static final String ACTION_NOTIFICATION_GENERIC
-            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.notification_generic";
-    public static final String ACTION_NOTIFICATION_SMS
-            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.notification_sms";
-    public static final String ACTION_NOTIFICATION_EMAIL
-            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.notification_email";
-    public static final String ACTION_CALLSTATE
-            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.callstate";
-    public static final String ACTION_SETTIME
-            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.settime";
-    public static final String ACTION_SETMUSICINFO
-            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.setmusicinfo";
-    public static final String ACTION_REQUEST_DEVICEINFO
-            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.request_deviceinfo";
-    public static final String ACTION_REQUEST_APPINFO
-            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.request_appinfo";
-    public static final String ACTION_REQUEST_SCREENSHOT
-            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.request_screenshot";
-    public static final String ACTION_STARTAPP
-            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.startapp";
-    public static final String ACTION_DELETEAPP
-            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.deleteapp";
-    public static final String ACTION_INSTALL
-            = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.install";
-    public static final String ACTION_REBOOT = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.reboot";
-    public static final String ACTION_FETCH_ACTIVITY_DATA = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.fetch_activity_data";
-    public static final String ACTION_DISCONNECT = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.disconnect";
-    public static final String ACTION_FIND_DEVICE = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.find_device";
-    public static final String ACTION_SET_ALARMS = "nodomain.freeyourgadget.gadgetbridge.devicecommunicationservice.action.set_alarms";
-
-    public static final String EXTRA_PERFORM_PAIR = "perform_pair";
-
     private static final Logger LOG = LoggerFactory.getLogger(DeviceCommunicationService.class);
-    public static final String EXTRA_DEVICE_ADDRESS = "device_address";
 
     private boolean mStarted = false;
 
@@ -179,22 +143,22 @@ public class DeviceCommunicationService extends Service {
                 mGBDevice.sendDeviceUpdateIntent(this);
                 break;
             case ACTION_NOTIFICATION_GENERIC: {
-                String title = intent.getStringExtra("notification_title");
-                String body = intent.getStringExtra("notification_body");
+                String title = intent.getStringExtra(EXTRA_NOTIFICATION_TITLE);
+                String body = intent.getStringExtra(EXTRA_NOTIFICATION_BODY);
                 mDeviceSupport.onGenericNotification(title, body);
                 break;
             }
             case ACTION_NOTIFICATION_SMS: {
-                String sender = intent.getStringExtra("notification_sender");
-                String body = intent.getStringExtra("notification_body");
+                String sender = intent.getStringExtra(EXTRA_NOTIFICATION_SENDER);
+                String body = intent.getStringExtra(EXTRA_NOTIFICATION_BODY);
                 String senderName = getContactDisplayNameByNumber(sender);
                 mDeviceSupport.onSMS(senderName, body);
                 break;
             }
             case ACTION_NOTIFICATION_EMAIL: {
-                String sender = intent.getStringExtra("notification_sender");
-                String subject = intent.getStringExtra("notification_subject");
-                String body = intent.getStringExtra("notification_body");
+                String sender = intent.getStringExtra(EXTRA_NOTIFICATION_SENDER);
+                String subject = intent.getStringExtra(EXTRA_NOTIFICATION_SUBJECT);
+                String body = intent.getStringExtra(EXTRA_NOTIFICATION_BODY);
                 mDeviceSupport.onEmail(sender, subject, body);
                 break;
             }
@@ -212,14 +176,14 @@ public class DeviceCommunicationService extends Service {
                 break;
             }
             case ACTION_FIND_DEVICE: {
-                boolean start = intent.getBooleanExtra("find_start", false);
+                boolean start = intent.getBooleanExtra(EXTRA_FIND_START, false);
                 mDeviceSupport.onFindDevice(start);
                 break;
             }
             case ACTION_CALLSTATE:
-                ServiceCommand command = ServiceCommand.values()[intent.getIntExtra("call_command", 0)]; // UGLY
+                ServiceCommand command = (ServiceCommand) intent.getSerializableExtra(EXTRA_CALL_COMMAND);
 
-                String phoneNumber = intent.getStringExtra("call_phonenumber");
+                String phoneNumber = intent.getStringExtra(EXTRA_CALL_PHONENUMBER);
                 String callerName = null;
                 if (phoneNumber != null) {
                     callerName = getContactDisplayNameByNumber(phoneNumber);
@@ -227,12 +191,12 @@ public class DeviceCommunicationService extends Service {
                 mDeviceSupport.onSetCallState(phoneNumber, callerName, command);
                 break;
             case ACTION_SETTIME:
-                mDeviceSupport.onSetTime(-1);
+                mDeviceSupport.onSetTime();
                 break;
             case ACTION_SETMUSICINFO:
-                String artist = intent.getStringExtra("music_artist");
-                String album = intent.getStringExtra("music_album");
-                String track = intent.getStringExtra("music_track");
+                String artist = intent.getStringExtra(EXTRA_MUSIC_ARTIST);
+                String album = intent.getStringExtra(EXTRA_MUSIC_ALBUM);
+                String track = intent.getStringExtra(EXTRA_MUSIC_TRACK);
                 mDeviceSupport.onSetMusicInfo(artist, album, track);
                 break;
             case ACTION_REQUEST_APPINFO:
@@ -241,23 +205,25 @@ public class DeviceCommunicationService extends Service {
             case ACTION_REQUEST_SCREENSHOT:
                 mDeviceSupport.onScreenshotReq();
                 break;
-            case ACTION_STARTAPP:
-                UUID uuid = UUID.fromString(intent.getStringExtra("app_uuid"));
+            case ACTION_STARTAPP: {
+                UUID uuid = (UUID) intent.getSerializableExtra(EXTRA_APP_UUID);
                 mDeviceSupport.onAppStart(uuid);
                 break;
-            case ACTION_DELETEAPP:
-                uuid = UUID.fromString(intent.getStringExtra("app_uuid"));
+            }
+            case ACTION_DELETEAPP: {
+                UUID uuid = (UUID) intent.getSerializableExtra(EXTRA_APP_UUID);
                 mDeviceSupport.onAppDelete(uuid);
                 break;
+            }
             case ACTION_INSTALL:
-                Uri uri = intent.getParcelableExtra("uri");
+                Uri uri = intent.getParcelableExtra(EXTRA_URI);
                 if (uri != null) {
                     LOG.info("will try to install app/fw");
                     mDeviceSupport.onInstallApp(uri);
                 }
                 break;
             case ACTION_SET_ALARMS:
-                ArrayList<Alarm> alarms = intent.getParcelableArrayListExtra("alarms");
+                ArrayList<Alarm> alarms = intent.getParcelableArrayListExtra(EXTRA_ALARMS);
                 mDeviceSupport.onSetAlarms(alarms);
                 break;
         }

@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 
 /**
  * Wraps another device support instance and supports busy-checking and throttling of events.
@@ -135,11 +135,11 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
-    public void onSetTime(long ts) {
+    public void onSetTime() {
         if (checkBusy("set time") || checkThrottle("set time")) {
             return;
         }
-        delegate.onSetTime(ts);
+        delegate.onSetTime();
     }
 
     // No throttling for the other events
@@ -158,14 +158,6 @@ public class ServiceDeviceSupport implements DeviceSupport {
             return;
         }
         delegate.onSetMusicInfo(artist, album, track);
-    }
-
-    @Override
-    public void onBatteryInfoReq() {
-        if (checkBusy("battery info request")) {
-            return;
-        }
-        delegate.onBatteryInfoReq();
     }
 
     @Override
@@ -201,14 +193,6 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
-    public void onPhoneVersion(byte os) {
-        if (checkBusy("phone version")) {
-            return;
-        }
-        delegate.onPhoneVersion(os);
-    }
-
-    @Override
     public void onFetchActivityData() {
         if (checkBusy("fetch activity data")) {
             return;
@@ -241,7 +225,7 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
-    public void onSetAlarms(ArrayList<Alarm> alarms) {
+    public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
         if (checkBusy("set alarms")) {
             return;
         }

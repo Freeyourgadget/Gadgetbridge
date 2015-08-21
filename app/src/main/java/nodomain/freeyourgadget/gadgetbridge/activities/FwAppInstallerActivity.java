@@ -18,11 +18,11 @@ import android.widget.Toast;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -47,7 +47,7 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
             } else if (action.equals(GBDevice.ACTION_DEVICE_CHANGED)) {
                 device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                 if (device != null) {
-                    if (!device.isConnected()) {
+                    if (!device.isInitialized()) {
                         setInstallEnabled(false);
                         if (mayConnect) {
                             GB.toast(FwAppInstallerActivity.this, getString(R.string.connecting), Toast.LENGTH_SHORT, GB.INFO);
@@ -65,12 +65,7 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
 
     private void connect() {
         mayConnect = false; // only do that once per #onCreate
-        Intent startIntent = new Intent(FwAppInstallerActivity.this, DeviceCommunicationService.class);
-        startIntent.setAction(DeviceCommunicationService.ACTION_CONNECT);
-        if (device != null) {
-            startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
-        }
-        startService(startIntent);
+        GBApplication.deviceService().connect(device != null ? device.getAddress() : null);
     }
 
     private void validateInstallation() {
@@ -102,10 +97,7 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
             public void onClick(View v) {
                 setInstallEnabled(false);
                 installHandler.onStartInstall(device);
-                Intent startIntent = new Intent(FwAppInstallerActivity.this, DeviceCommunicationService.class);
-                startIntent.setAction(DeviceCommunicationService.ACTION_INSTALL);
-                startIntent.putExtra("uri", uri);
-                startService(startIntent);
+                GBApplication.deviceService().onInstallApp(uri);
             }
         });
 
@@ -120,9 +112,7 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
             if (device == null || !device.isConnected()) {
                 connect();
             } else {
-                Intent deviceInfoIntent = new Intent(this, DeviceCommunicationService.class);
-                deviceInfoIntent.setAction(DeviceCommunicationService.ACTION_REQUEST_DEVICEINFO);
-                startService(deviceInfoIntent);
+                GBApplication.deviceService().requestDeviceInfo();
             }
         }
     }

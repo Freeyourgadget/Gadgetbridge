@@ -147,7 +147,6 @@ public class PBWReader {
                         if (appName != null && appCreator != null && appVersion != null) {
                             // FIXME: dont assume WATCHFACE
                             app = new GBDeviceApp(uuid, appName, appCreator, appVersion, GBDeviceApp.Type.WATCHFACE);
-                            isValid = true;
                         }
 
                     } catch (JSONException e) {

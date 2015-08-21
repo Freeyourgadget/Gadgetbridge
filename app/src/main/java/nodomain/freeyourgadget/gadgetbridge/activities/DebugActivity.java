@@ -21,14 +21,13 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 
 public class DebugActivity extends Activity {
@@ -70,23 +69,17 @@ public class DebugActivity extends Activity {
         sendSMSButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(DebugActivity.this, DeviceCommunicationService.class);
-                startIntent.setAction(DeviceCommunicationService.ACTION_NOTIFICATION_SMS);
-                startIntent.putExtra("notification_sender", getResources().getText(R.string.app_name));
-                startIntent.putExtra("notification_body", editContent.getText().toString());
-                startService(startIntent);
+                GBApplication.deviceService().onSMS(getResources().getText(R.string.app_name).toString(), editContent.getText().toString());
             }
         });
         sendEmailButton = (Button) findViewById(R.id.sendEmailButton);
         sendEmailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(DebugActivity.this, DeviceCommunicationService.class);
-                startIntent.setAction(DeviceCommunicationService.ACTION_NOTIFICATION_EMAIL);
-                startIntent.putExtra("notification_sender", getResources().getText(R.string.app_name));
-                startIntent.putExtra("notification_subject", getResources().getText(R.string.test));
-                startIntent.putExtra("notification_body", editContent.getText().toString());
-                startService(startIntent);
+                GBApplication.deviceService().onEmail(
+                        getResources().getText(R.string.app_name).toString(),
+                        getResources().getText(R.string.test).toString(),
+                        editContent.getText().toString());
             }
         });
 
@@ -94,22 +87,20 @@ public class DebugActivity extends Activity {
         incomingCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(DebugActivity.this, DeviceCommunicationService.class);
-                startIntent.setAction(DeviceCommunicationService.ACTION_CALLSTATE);
-                startIntent.putExtra("call_phonenumber", editContent.getText().toString());
-                startIntent.putExtra("call_command", ServiceCommand.CALL_INCOMING.ordinal());
-                startService(startIntent);
+                GBApplication.deviceService().onSetCallState(
+                        editContent.getText().toString(),
+                        null,
+                        ServiceCommand.CALL_INCOMING);
             }
         });
         outgoingCallButton = (Button) findViewById(R.id.outgoingCallButton);
         outgoingCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(DebugActivity.this, DeviceCommunicationService.class);
-                startIntent.setAction(DeviceCommunicationService.ACTION_CALLSTATE);
-                startIntent.putExtra("call_phonenumber", editContent.getText().toString());
-                startIntent.putExtra("call_command", ServiceCommand.CALL_OUTGOING.ordinal());
-                startService(startIntent);
+                GBApplication.deviceService().onSetCallState(
+                        editContent.getText().toString(),
+                        null,
+                        ServiceCommand.CALL_OUTGOING);
             }
         });
 
@@ -117,20 +108,20 @@ public class DebugActivity extends Activity {
         startCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(DebugActivity.this, DeviceCommunicationService.class);
-                startIntent.setAction(DeviceCommunicationService.ACTION_CALLSTATE);
-                startIntent.putExtra("call_command", ServiceCommand.CALL_START.ordinal());
-                startService(startIntent);
+                GBApplication.deviceService().onSetCallState(
+                        null,
+                        null,
+                        ServiceCommand.CALL_START);
             }
         });
         endCallButton = (Button) findViewById(R.id.endCallButton);
         endCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(DebugActivity.this, DeviceCommunicationService.class);
-                startIntent.setAction(DeviceCommunicationService.ACTION_CALLSTATE);
-                startIntent.putExtra("call_command", ServiceCommand.CALL_END.ordinal());
-                startService(startIntent);
+                GBApplication.deviceService().onSetCallState(
+                        null,
+                        null,
+                        ServiceCommand.CALL_END);
             }
         });
 
@@ -153,9 +144,7 @@ public class DebugActivity extends Activity {
         rebootButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(DebugActivity.this, DeviceCommunicationService.class);
-                startIntent.setAction(DeviceCommunicationService.ACTION_REBOOT);
-                startService(startIntent);
+                GBApplication.deviceService().onReboot();
             }
         });
 
@@ -163,12 +152,10 @@ public class DebugActivity extends Activity {
         setMusicInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(DebugActivity.this, DeviceCommunicationService.class);
-                startIntent.setAction(DeviceCommunicationService.ACTION_SETMUSICINFO);
-                startIntent.putExtra("music_artist", editContent.getText().toString() + "(artist)");
-                startIntent.putExtra("music_album", editContent.getText().toString() + "(album)");
-                startIntent.putExtra("music_track", editContent.getText().toString() + "(track)");
-                startService(startIntent);
+                GBApplication.deviceService().onSetMusicInfo(
+                        editContent.getText().toString() + "(artist)",
+                        editContent.getText().toString() + "(album)",
+                        editContent.getText().toString() + "(tracl)");
             }
         });
 
@@ -176,9 +163,7 @@ public class DebugActivity extends Activity {
         setTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(DebugActivity.this, DeviceCommunicationService.class);
-                startIntent.setAction(DeviceCommunicationService.ACTION_SETTIME);
-                startService(startIntent);
+                GBApplication.deviceService().onSetTime();
             }
         });
 

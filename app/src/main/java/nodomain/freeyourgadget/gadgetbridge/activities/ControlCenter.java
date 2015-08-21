@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapter;
@@ -112,10 +113,7 @@ public class ControlCenter extends Activity {
                         startActivity(startIntent);
                     }
                 } else {
-                    Intent startIntent = new Intent(ControlCenter.this, DeviceCommunicationService.class);
-                    startIntent.setAction(DeviceCommunicationService.ACTION_CONNECT);
-                    startIntent.putExtra(DeviceCommunicationService.EXTRA_DEVICE_ADDRESS, deviceList.get(position).getAddress());
-                    startService(startIntent);
+                    GBApplication.deviceService().connect(deviceList.get(position).getAddress());
                 }
             }
         });
@@ -141,32 +139,16 @@ public class ControlCenter extends Activity {
             Intent enableIntent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
             startActivity(enableIntent);
         }
-        Intent startIntent = new Intent(this, DeviceCommunicationService.class);
-        startIntent.setAction(DeviceCommunicationService.ACTION_START);
-        startService(startIntent);
+        GBApplication.deviceService().start();
 
 
         if (GB.isBluetoothEnabled() && deviceList.isEmpty()) {
             // start discovery when no devices are present
             startActivity(new Intent(this, DiscoveryActivity.class));
         } else {
-            requestDeviceInfo();
+            GBApplication.deviceService().requestDeviceInfo();
         }
     }
-
-    /**
-     * Requests information from the {@link DeviceCommunicationService} about the connection state,
-     * firmware info, etc.
-     * <p/>
-     * Note that this will not need a connection to the device -- only the cached information
-     * from the service will be reported.
-     */
-    private void requestDeviceInfo() {
-        Intent versionInfoIntent = new Intent(ControlCenter.this, DeviceCommunicationService.class);
-        versionInfoIntent.setAction(DeviceCommunicationService.ACTION_REQUEST_DEVICEINFO);
-        startService(versionInfoIntent);
-    }
-
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -209,17 +191,13 @@ public class ControlCenter extends Activity {
                 return true;
             case R.id.controlcenter_fetch_activity_data:
                 if (selectedDevice != null) {
-                    Intent startIntent = new Intent(this, DeviceCommunicationService.class);
-                    startIntent.setAction(DeviceCommunicationService.ACTION_FETCH_ACTIVITY_DATA);
-                    startService(startIntent);
+                    GBApplication.deviceService().onFetchActivityData();
                 }
                 return true;
             case R.id.controlcenter_disconnect:
                 if (selectedDevice != null) {
                     selectedDevice = null;
-                    Intent startIntent = new Intent(this, DeviceCommunicationService.class);
-                    startIntent.setAction(DeviceCommunicationService.ACTION_DISCONNECT);
-                    startService(startIntent);
+                    GBApplication.deviceService().disconnect();
                 }
                 return true;
             case R.id.controlcenter_find_device:
@@ -247,9 +225,7 @@ public class ControlCenter extends Activity {
                 return true;
             case R.id.controlcenter_take_screenshot:
                 if (selectedDevice != null) {
-                    Intent startIntent = new Intent(this, DeviceCommunicationService.class);
-                    startIntent.setAction(DeviceCommunicationService.ACTION_REQUEST_SCREENSHOT);
-                    startService(startIntent);
+                    GBApplication.deviceService().onScreenshotReq();
                 }
                 return true;
             default:
@@ -258,10 +234,7 @@ public class ControlCenter extends Activity {
     }
 
     private void findDevice(boolean start) {
-        Intent startIntent = new Intent(this, DeviceCommunicationService.class);
-        startIntent.putExtra("find_start", start);
-        startIntent.setAction(DeviceCommunicationService.ACTION_FIND_DEVICE);
-        startService(startIntent);
+        GBApplication.deviceService().onFindDevice(start);
     }
 
     @Override
@@ -284,8 +257,7 @@ public class ControlCenter extends Activity {
                 startActivity(debugIntent);
                 return true;
             case R.id.action_quit:
-                Intent stopIntent = new Intent(this, DeviceCommunicationService.class);
-                stopService(stopIntent);
+                GBApplication.deviceService().quit();
 
                 Intent quitIntent = new Intent(ControlCenter.ACTION_QUIT);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(quitIntent);

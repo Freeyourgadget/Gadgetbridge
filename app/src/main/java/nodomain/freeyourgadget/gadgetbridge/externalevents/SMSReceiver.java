@@ -9,7 +9,7 @@ import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.telephony.SmsMessage;
 
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 public class SMSReceiver extends BroadcastReceiver {
 
@@ -36,11 +36,7 @@ public class SMSReceiver extends BroadcastReceiver {
                 String body = message.getDisplayMessageBody();
                 String sender = message.getOriginatingAddress();
                 if (sender != null && body != null) {
-                    Intent startIntent = new Intent(context, DeviceCommunicationService.class);
-                    startIntent.setAction(DeviceCommunicationService.ACTION_NOTIFICATION_SMS);
-                    startIntent.putExtra("notification_sender", sender);
-                    startIntent.putExtra("notification_body", body);
-                    context.startService(startIntent);
+                    GBApplication.deviceService().onSMS(sender, body);
                 }
             }
         }

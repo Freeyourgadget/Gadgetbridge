@@ -129,8 +129,8 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     }
 
     @Override
-    public void onSetTime(long ts) {
-        byte[] bytes = gbDeviceProtocol.encodeSetTime(ts);
+    public void onSetTime() {
+        byte[] bytes = gbDeviceProtocol.encodeSetTime();
         sendToDevice(bytes);
     }
 
@@ -143,12 +143,6 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     @Override
     public void onSetMusicInfo(String artist, String album, String track) {
         byte[] bytes = gbDeviceProtocol.encodeSetMusicInfo(artist, album, track);
-        sendToDevice(bytes);
-    }
-
-    @Override
-    public void onBatteryInfoReq() {
-        byte[] bytes = gbDeviceProtocol.encodeBatteryInfoReq();
         sendToDevice(bytes);
     }
 
@@ -167,12 +161,6 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     @Override
     public void onAppDelete(UUID uuid) {
         byte[] bytes = gbDeviceProtocol.encodeAppDelete(uuid);
-        sendToDevice(bytes);
-    }
-
-    @Override
-    public void onPhoneVersion(byte os) {
-        byte[] bytes = gbDeviceProtocol.encodePhoneVersion(os);
         sendToDevice(bytes);
     }
 

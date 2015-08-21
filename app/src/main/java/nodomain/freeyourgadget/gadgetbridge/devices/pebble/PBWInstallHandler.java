@@ -17,12 +17,11 @@ import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 public class PBWInstallHandler implements InstallHandler {
 
     private final Context mContext;
-    private final PBWReader mPBWReader;
+    private PBWReader mPBWReader;
     private final Uri mUri;
 
     public PBWInstallHandler(Uri uri, Context context) {
         mContext = context;
-        mPBWReader = new PBWReader(uri, context, ""); // FIXME: we should know the platform here
         mUri = uri;
     }
 
@@ -30,6 +29,13 @@ public class PBWInstallHandler implements InstallHandler {
     public void validateInstallation(InstallActivity installActivity, GBDevice device) {
         if (device.isBusy() || device.getType() != DeviceType.PEBBLE || !device.isConnected()) {
             installActivity.setInfoText("Element cannot be installed");
+            installActivity.setInstallEnabled(false);
+            return;
+        }
+
+        mPBWReader = new PBWReader(mUri, mContext, device.getHardwareVersion().equals("dvt") ? "basalt" : "aplite");
+        if (!mPBWReader.isValid()) {
+            installActivity.setInfoText("pbw/pbz is broken or incompatible with your Hardware or Firmware.");
             installActivity.setInstallEnabled(false);
             return;
         }
@@ -77,7 +83,8 @@ public class PBWInstallHandler implements InstallHandler {
     }
 
     public boolean isValid() {
-        return mPBWReader.isValid();
+        // always pretend it is valid, as we cant know yet about hw/fw version
+        return true;
     }
 
 }

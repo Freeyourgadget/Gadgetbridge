@@ -23,9 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAppAdapter;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
@@ -93,10 +95,7 @@ public class AppManagerActivity extends Activity {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 UUID uuid = appList.get(position).getUUID();
-                Intent startAppIntent = new Intent(AppManagerActivity.this, DeviceCommunicationService.class);
-                startAppIntent.setAction(DeviceCommunicationService.ACTION_STARTAPP);
-                startAppIntent.putExtra("app_uuid", uuid.toString());
-                startService(startAppIntent);
+                GBApplication.deviceService().onAppStart(uuid);
             }
         });
 
@@ -113,9 +112,7 @@ public class AppManagerActivity extends Activity {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
 
-        Intent startIntent = new Intent(this, DeviceCommunicationService.class);
-        startIntent.setAction(DeviceCommunicationService.ACTION_REQUEST_APPINFO);
-        startService(startIntent);
+        GBApplication.deviceService().onAppInfoReq();
     }
 
     @Override
@@ -133,10 +130,7 @@ public class AppManagerActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.appmanager_app_delete:
                 if (selectedApp != null) {
-                    Intent deleteIntent = new Intent(this, DeviceCommunicationService.class);
-                    deleteIntent.setAction(DeviceCommunicationService.ACTION_DELETEAPP);
-                    deleteIntent.putExtra("app_uuid", selectedApp.getUUID().toString());
-                    startService(deleteIntent);
+                    GBApplication.deviceService().onAppDelete(selectedApp.getUUID());
                 }
                 return true;
             default:

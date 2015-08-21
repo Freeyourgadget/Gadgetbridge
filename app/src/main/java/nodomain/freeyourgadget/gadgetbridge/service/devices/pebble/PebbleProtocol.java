@@ -38,7 +38,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final short ENDPOINT_PHONECONTROL = 33;
     static final short ENDPOINT_APPLICATIONMESSAGE = 48;
     static final short ENDPOINT_LAUNCHER = 49;
-    static final short ENDPOINT_APPRUNSTATE = 52;
+    static final short ENDPOINT_APPRUNSTATE = 52; // 3.x only
     static final short ENDPOINT_LOGS = 2000;
     static final short ENDPOINT_PING = 2001;
     static final short ENDPOINT_LOGDUMP = 2002;
@@ -178,10 +178,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     static final short LENGTH_APPFETCH = 2;
     static final short LENGTH_APPRUNSTATE = 17;
+    static final short LENGTH_BLOBDB = 21;
     static final short LENGTH_PING = 5;
     static final short LENGTH_PHONEVERSION = 17;
     static final short LENGTH_REMOVEAPP_2X = 17;
-    static final short LENGTH_REMOVEAPP_3X = 21;
     static final short LENGTH_REFRESHAPP = 5;
     static final short LENGTH_SETTIME = 5;
     static final short LENGTH_SYSTEMMESSAGE = 2;
@@ -299,10 +299,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     @Override
-    public byte[] encodeSetTime(long ts) {
-        if (ts == -1) {
-            ts = System.currentTimeMillis();
-        }
+    public byte[] encodeSetTime() {
+        long ts = System.currentTimeMillis();
         long ts_offset = (SimpleTimeZone.getDefault().getOffset(ts));
         ByteBuffer buf;
         if (isFw3x) {
@@ -398,6 +396,37 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
+    private byte[] encodeBlobdb(UUID uuid, byte command, byte db, byte[] blob) {
+
+        int length = LENGTH_BLOBDB;
+        if (blob != null) {
+            length += blob.length + 2;
+        }
+
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + length);
+
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort((short) length);
+        buf.putShort(ENDPOINT_BLOBDB);
+
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        buf.put(command);
+        buf.putShort((short) mRandom.nextInt()); // token
+        buf.put(db);
+        buf.put(LENGTH_UUID);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putLong(uuid.getMostSignificantBits());
+        buf.putLong(uuid.getLeastSignificantBits());
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+
+        if (blob != null) {
+            buf.putShort((short) blob.length);
+            buf.put(blob);
+        }
+
+        return buf.array();
+    }
+
     private byte[] encodeBlobdbNotification(int timestamp, String title, String subtitle, String body, byte type) {
         String[] parts = {title, subtitle, body};
 
@@ -410,7 +439,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 icon_id = 45;
         }
         // Calculate length first
-        final short BLOBDB_LENGTH = 23;
         final short NOTIFICATION_PIN_LENGTH = 46;
         final short ACTIONS_LENGTH = 17;
 
@@ -434,31 +462,18 @@ public class PebbleProtocol extends GBDeviceProtocol {
             attributes_length += ACTIONS_LENGTH;
         }
 
-        short length = (short) (BLOBDB_LENGTH + NOTIFICATION_PIN_LENGTH + attributes_length);
+        UUID uuid = UUID.randomUUID();
         short pin_length = (short) (NOTIFICATION_PIN_LENGTH + attributes_length);
 
-        // Encode Prefix
-        ByteBuffer buf = ByteBuffer.allocate(length + LENGTH_PREFIX);
-
-        buf.order(ByteOrder.BIG_ENDIAN);
-        buf.putShort(length);
-        buf.putShort(ENDPOINT_BLOBDB);
-
-        buf.order(ByteOrder.LITTLE_ENDIAN);
-
-        // blobdb - 23 bytes
-        buf.put(BLOBDB_INSERT);
-        buf.putShort((short) mRandom.nextInt()); // token
-        buf.put(BLOBDB_NOTIFICATION);
-        buf.put(LENGTH_UUID); // uuid length
-        byte[] uuid_buf = new byte[LENGTH_UUID];
-        mRandom.nextBytes(uuid_buf);
-        buf.put(uuid_buf); // random UUID
-        buf.putShort(pin_length); // length of the encapsulated data
+        ByteBuffer buf = ByteBuffer.allocate(pin_length);
 
         // pin - 46 bytes
-        buf.put(uuid_buf); // random UUID
-        buf.put(uuid_buf); // parent UUID
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putLong(uuid.getMostSignificantBits());
+        buf.putLong(uuid.getLeastSignificantBits());
+        buf.putLong(uuid.getMostSignificantBits());
+        buf.putLong(uuid.getLeastSignificantBits());
+        buf.order(ByteOrder.LITTLE_ENDIAN);
         buf.putInt(timestamp); // 32-bit timestamp
         buf.putShort((short) 0); // duration
         buf.put((byte) 0x01); // type (0x01 = notification)
@@ -500,36 +515,16 @@ public class PebbleProtocol extends GBDeviceProtocol {
             buf.put(actionstring.getBytes());
         }
 
-        return buf.array();
+        return encodeBlobdb(UUID.randomUUID(), BLOBDB_INSERT, BLOBDB_NOTIFICATION, buf.array());
     }
 
     public byte[] encodeInstallMetadata(UUID uuid, String appName, short appVersion, short sdkVersion, int flags, int iconId) {
-        // Calculate length first
-        final short BLOBDB_LENGTH = 23;
         final short METADATA_LENGTH = 126;
-
-        final short length = (short) (BLOBDB_LENGTH + METADATA_LENGTH);
 
         byte[] name_buf = new byte[96];
         System.arraycopy(appName.getBytes(), 0, name_buf, 0, appName.length());
-        ByteBuffer buf = ByteBuffer.allocate(length + LENGTH_PREFIX);
+        ByteBuffer buf = ByteBuffer.allocate(METADATA_LENGTH);
 
-        // Encode Prefix
-        buf.order(ByteOrder.BIG_ENDIAN);
-        buf.putShort(length);
-        buf.putShort(ENDPOINT_BLOBDB);
-
-        buf.order(ByteOrder.LITTLE_ENDIAN);
-        // blobdb - 23 bytes
-        buf.put(BLOBDB_INSERT); // insert
-        buf.putShort((short) mRandom.nextInt()); // token
-        buf.put(BLOBDB_APP);
-        buf.put(LENGTH_UUID);
-        buf.order(ByteOrder.BIG_ENDIAN);
-        buf.putLong(uuid.getMostSignificantBits()); // watchapp uuid
-        buf.putLong(uuid.getLeastSignificantBits());
-        buf.order(ByteOrder.LITTLE_ENDIAN);
-        buf.putShort(METADATA_LENGTH); // length of the encapsulated data
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putLong(uuid.getMostSignificantBits()); // watchapp uuid
         buf.putLong(uuid.getLeastSignificantBits());
@@ -542,7 +537,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put((byte) 0); // app_face_template_id
         buf.put(name_buf); // 96 bytes
 
-        return buf.array();
+        return encodeBlobdb(uuid, BLOBDB_INSERT, BLOBDB_APP, buf.array());
     }
 
     public byte[] encodeAppFetchAck() {
@@ -630,28 +625,18 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeAppDelete(UUID uuid) {
-        ByteBuffer buf;
         if (isFw3x) {
-            buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_REMOVEAPP_3X);
-            buf.order(ByteOrder.BIG_ENDIAN);
-            buf.putShort(LENGTH_REMOVEAPP_3X);
-            buf.putShort(ENDPOINT_BLOBDB);
-            buf.order(ByteOrder.LITTLE_ENDIAN);
-            buf.put(BLOBDB_DELETE);
-            buf.putShort((short) mRandom.nextInt()); // token
-            buf.put(BLOBDB_APP);
-            buf.put(LENGTH_UUID);
-            buf.order(ByteOrder.BIG_ENDIAN);
+            return encodeBlobdb(uuid, BLOBDB_DELETE, BLOBDB_APP, null);
         } else {
-            buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_REMOVEAPP_2X);
+            ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_REMOVEAPP_2X);
             buf.order(ByteOrder.BIG_ENDIAN);
             buf.putShort(LENGTH_REMOVEAPP_2X);
             buf.putShort(ENDPOINT_APPMANAGER);
             buf.put(APPMANAGER_REMOVEAPP);
+            buf.putLong(uuid.getMostSignificantBits());
+            buf.putLong(uuid.getLeastSignificantBits());
+            return buf.array();
         }
-        buf.putLong(uuid.getMostSignificantBits());
-        buf.putLong(uuid.getLeastSignificantBits());
-        return buf.array();
     }
 
     private byte[] encodePhoneVersion2x(byte os) {
@@ -701,7 +686,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    @Override
     public byte[] encodePhoneVersion(byte os) {
         return encodePhoneVersion3x(os);
     }
