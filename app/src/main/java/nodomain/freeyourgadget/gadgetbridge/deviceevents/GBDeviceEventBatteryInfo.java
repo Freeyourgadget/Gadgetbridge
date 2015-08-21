@@ -6,8 +6,6 @@ import java.util.GregorianCalendar;
 public class GBDeviceEventBatteryInfo extends GBDeviceEvent {
     public GregorianCalendar lastChargeTime= null;
     public BatteryState state = BatteryState.UNKNOWN;
-    //TODO: I think the string should be deprecated in favor of the Enum above
-    public String status;
     public short level = 50;
     public int numCharges = -1;
 
@@ -17,10 +15,11 @@ public class GBDeviceEventBatteryInfo extends GBDeviceEvent {
 
     public enum BatteryState {
         UNKNOWN,
-        CHARGE_FULL,
-        CHARGE_MEDIUM,
-        CHARGE_LOW,
-        CHARGING,
+        BATTERY_NORMAL,
+        BATTERY_LOW,
+        BATTERY_CHARGING,
+        BATTERY_CHARGING_FULL,
+        BATTERY_NOT_CHARGING_FULL
     }
 
     public boolean extendedInfoAvailable() {

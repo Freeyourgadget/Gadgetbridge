@@ -9,6 +9,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -42,6 +43,7 @@ public class GBDevice implements Parcelable {
     private short mBatteryThresholdPercent = BATTERY_THRESHOLD_PERCENT;
     //TODO: get rid of String mBatteryStatus in favor of Enum mBatteryState
     private String mBatteryStatus;
+    private BatteryState mBatteryState;
     private short mRssi = RSSI_UNKNOWN;
     private String mBusyTask;
 
@@ -180,7 +182,7 @@ public class GBDevice implements Parcelable {
 
     private void unsetDynamicState() {
         setBatteryLevel(BATTERY_UNKNOWN);
-        setBatteryStatus(null);
+        setBatteryState(BatteryState.UNKNOWN);
         setFirmwareVersion(null);
         setRssi(RSSI_UNKNOWN);
         if (mBusyTask != null) {
@@ -284,17 +286,13 @@ public class GBDevice implements Parcelable {
         }
     }
 
-    /**
-     * Returns a string representation of the battery state.
-     */
-    public String getBatteryStatus() {
-        return mBatteryStatus != null ? mBatteryStatus : GBApplication.getContext().getString(R.string._unknown_);
+    public BatteryState getBatteryState() {
+        return mBatteryState;
     }
 
-    public void setBatteryStatus(String batteryStatus) {
-        mBatteryStatus = batteryStatus;
+    public void setBatteryState(BatteryState mBatteryState) {
+        this.mBatteryState = mBatteryState;
     }
-
 
     public short getBatteryThresholdPercent() {
         return mBatteryThresholdPercent;

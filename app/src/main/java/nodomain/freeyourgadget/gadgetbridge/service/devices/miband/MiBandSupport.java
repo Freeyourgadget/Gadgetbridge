@@ -737,6 +737,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         if (status == BluetoothGatt.GATT_SUCCESS) {
             BatteryInfo info = new BatteryInfo(value);
             batteryCmd.level = ((short) info.getLevelInPercent());
+            batteryCmd.state = info.getState();
             batteryCmd.lastChargeTime = info.getLastChargeTime();
             batteryCmd.numCharges = info.getNumCharges();
             handleGBDeviceEvent(batteryCmd);

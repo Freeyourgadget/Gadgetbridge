@@ -3,10 +3,15 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.miband;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo.BatteryState;
 
 public class BatteryInfo extends AbstractInfo {
+    public static final byte DEVICE_BATTERY_NORMAL = 0;
+    public static final byte DEVICE_BATTERY_LOW = 1;
+    public static final byte DEVICE_BATTERY_CHARGING = 2;
+    public static final byte DEVICE_BATTERY_CHARGING_FULL = 3;
+    public static final byte DEVICE_BATTERY_CHARGE_OFF = 4;
+    
     public BatteryInfo(byte[] data) {
         super(data);
     }
@@ -18,21 +23,23 @@ public class BatteryInfo extends AbstractInfo {
         return 50; // actually unknown
     }
 
-    public String getStatus() {
+    public BatteryState getState() {
         if (mData.length >= 10) {
             int value = mData[9];
             switch (value) {
-                case 1:
-                    return GBApplication.getContext().getString(R.string.battery_low);
-                case 2:
-                    return GBApplication.getContext().getString(R.string.battery_medium);
-                case 3:
-                    return GBApplication.getContext().getString(R.string.battery_full);
-                case 4:
-                    return GBApplication.getContext().getString(R.string.battery_not_charging);
+                case DEVICE_BATTERY_NORMAL:
+                    return BatteryState.BATTERY_NORMAL;
+                case DEVICE_BATTERY_LOW:
+                    return BatteryState.BATTERY_LOW;
+                case DEVICE_BATTERY_CHARGING:
+                    return BatteryState.BATTERY_CHARGING;
+                case DEVICE_BATTERY_CHARGING_FULL:
+                    return BatteryState.BATTERY_CHARGING_FULL;
+                case DEVICE_BATTERY_CHARGE_OFF:
+                    return BatteryState.BATTERY_NOT_CHARGING_FULL;
             }
         }
-        return GBApplication.getContext().getString(R.string._unknown_);
+        return BatteryState.UNKNOWN;
     }
 
     public GregorianCalendar getLastChargeTime() {

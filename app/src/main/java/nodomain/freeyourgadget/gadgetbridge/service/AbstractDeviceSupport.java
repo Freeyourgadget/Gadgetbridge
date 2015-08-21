@@ -228,9 +228,13 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         Context context = getContext();
         LOG.info("Got BATTERY_INFO device event");
         gbDevice.setBatteryLevel(deviceEvent.level);
-        gbDevice.setBatteryStatus(deviceEvent.status);
+        gbDevice.setBatteryState(deviceEvent.state);
 
-        if (deviceEvent.level <= gbDevice.getBatteryThresholdPercent()) {
+        //show the notification if the battery level is below threshold and only if not connected to charger
+        if (deviceEvent.level <= gbDevice.getBatteryThresholdPercent() &&
+                (GBDeviceEventBatteryInfo.BatteryState.BATTERY_LOW.equals(deviceEvent.state) ||
+                        GBDeviceEventBatteryInfo.BatteryState.BATTERY_NORMAL.equals(deviceEvent.state))
+                ) {
             GB.updateBatteryNotification(context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), deviceEvent.level),
                     deviceEvent.extendedInfoAvailable() ?
                             context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), deviceEvent.level) + "\n" +

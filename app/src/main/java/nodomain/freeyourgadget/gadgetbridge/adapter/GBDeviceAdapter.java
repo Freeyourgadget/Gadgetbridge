@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
@@ -59,6 +60,11 @@ public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {
         short batteryLevel = device.getBatteryLevel();
         if (batteryLevel != GBDevice.BATTERY_UNKNOWN) {
             batteryStatusLabel.setText("BAT: " + device.getBatteryLevel() + "%");
+            GBDeviceEventBatteryInfo.BatteryState batteryState = device.getBatteryState();
+            if (GBDeviceEventBatteryInfo.BatteryState.BATTERY_CHARGING.equals(batteryState) ||
+                    GBDeviceEventBatteryInfo.BatteryState.BATTERY_CHARGING_FULL.equals(batteryState)) {
+                batteryStatusLabel.append(" CHG");
+            }
         } else {
             batteryStatusLabel.setText("");
         }
