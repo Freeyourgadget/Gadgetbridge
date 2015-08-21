@@ -568,7 +568,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putInt(timestamp); // 32-bit timestamp
         buf.putShort((short) 0); // duration
         buf.put((byte) 0x01); // type (0x01 = notification)
-        buf.putShort((short) 0x001f); // flags 0x0001 = ?
+        buf.putShort((short) 0x0001); // flags 0x0001 = ?
         buf.put((byte) 0x04); // layout (0x04 = notification?)
         buf.putShort(attributes_length); // total length of all attributes and actions in bytes
         buf.put(attributes_count);
@@ -597,7 +597,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         if (mForceProtocol) {
             // ACTION
-            buf.put((byte) 0x00); // id
+            buf.put((byte) 0x01); // id
             buf.put((byte) 0x04); // dismiss action
             buf.put((byte) 0x01); // number attributes
             buf.put((byte) 0x01); // attribute id (title)
