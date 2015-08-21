@@ -1,6 +1,7 @@
 ###Changelog
 
-####Version (next)
+####Version 0.5.0
+* Mi Band: fix setting wear location 
 * Pebble: experimental watchapp installation support for FW 3.x/Pebble Time
 * Pebble: support Pebble emulator via TCP connection (needs rebuild with INTERNET permission)
 * Pebble: use SMS/EMAIL icons for FW 3.x/Pebble Time

@@ -38,7 +38,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final short ENDPOINT_PHONECONTROL = 33;
     static final short ENDPOINT_APPLICATIONMESSAGE = 48;
     static final short ENDPOINT_LAUNCHER = 49;
-    static final short ENDPOINT_APPRUNSTATE = 52;
+    static final short ENDPOINT_APPRUNSTATE = 52; // 3.x only
     static final short ENDPOINT_LOGS = 2000;
     static final short ENDPOINT_PING = 2001;
     static final short ENDPOINT_LOGDUMP = 2002;
@@ -182,7 +182,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final short LENGTH_PING = 5;
     static final short LENGTH_PHONEVERSION = 17;
     static final short LENGTH_REMOVEAPP_2X = 17;
-    static final short LENGTH_REMOVEAPP_3X = 21;
     static final short LENGTH_REFRESHAPP = 5;
     static final short LENGTH_SETTIME = 5;
     static final short LENGTH_SYSTEMMESSAGE = 2;
