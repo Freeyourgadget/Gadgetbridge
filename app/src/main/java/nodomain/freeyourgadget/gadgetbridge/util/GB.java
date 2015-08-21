@@ -24,6 +24,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.GBEnvironment;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
@@ -42,6 +43,7 @@ public class GB {
     public static final int INFO = 1;
     public static final int WARN = 2;
     public static final int ERROR = 3;
+    public static GBEnvironment environment;
 
     public static Notification createNotification(String text, Context context) {
         Intent notificationIntent = new Intent(context, ControlCenter.class);
@@ -224,6 +226,9 @@ public class GB {
      * @param ex          optional exception to be logged
      */
     public static void toast(final Context context, final String message, final int displayTime, final int severity, final Throwable ex) {
+        if (env().isLocalTest()) {
+            return;
+        }
         Looper mainLooper = Looper.getMainLooper();
         if (Thread.currentThread() == mainLooper.getThread()) {
             log(message, severity, ex);
@@ -290,5 +295,9 @@ public class GB {
 
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         nm.notify(NOTIFICATION_ID_INSTALL, notification);
+    }
+
+    public static GBEnvironment env() {
+        return environment;
     }
 }

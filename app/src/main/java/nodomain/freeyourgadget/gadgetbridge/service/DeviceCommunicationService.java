@@ -107,10 +107,12 @@ public class DeviceCommunicationService extends Service {
                 start(); // ensure started
                 String btDeviceAddress = intent.getStringExtra(EXTRA_DEVICE_ADDRESS);
                 SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-                if (btDeviceAddress == null) {
-                    btDeviceAddress = sharedPrefs.getString("last_device_address", null);
-                } else {
-                    sharedPrefs.edit().putString("last_device_address", btDeviceAddress).apply();
+                if (sharedPrefs != null) { // may be null in test cases
+                    if (btDeviceAddress == null) {
+                        btDeviceAddress = sharedPrefs.getString("last_device_address", null);
+                    } else {
+                        sharedPrefs.edit().putString("last_device_address", btDeviceAddress).apply();
+                    }
                 }
 
                 if (btDeviceAddress != null && !isConnecting() && !isConnected()) {
