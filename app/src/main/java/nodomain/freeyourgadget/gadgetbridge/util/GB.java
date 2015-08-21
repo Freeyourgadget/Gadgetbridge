@@ -151,16 +151,16 @@ public class GB {
             headerbuf.putInt(screenshot.width);
             headerbuf.putInt(-screenshot.height);
             headerbuf.putShort((short) 1); // planes
-            headerbuf.putShort((short) 1); // bit count
+            headerbuf.putShort((short) screenshot.bpp);
             headerbuf.putInt(0); // compression
             headerbuf.putInt(0); // length of pixeldata in byte (uncompressed=0)
             headerbuf.putInt(0); // pixels per meter (x)
             headerbuf.putInt(0); // pixels per meter (y)
-            headerbuf.putInt(2); // number of colors in CLUT
-            headerbuf.putInt(2); // numbers of used colors
+            headerbuf.putInt(screenshot.clut.length / 4); // number of colors in CLUT
+            headerbuf.putInt(0); // numbers of used colors
             headerbuf.put(screenshot.clut);
             fos.write(headerbuf.array());
-            int rowbytes = screenshot.width / 8;
+            int rowbytes = (screenshot.width * screenshot.bpp) / 8;
             byte[] pad = new byte[rowbytes % 4];
             for (int i = 0; i < screenshot.height; i++) {
                 fos.write(screenshot.data, rowbytes * i, rowbytes);
