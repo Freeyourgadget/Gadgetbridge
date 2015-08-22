@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.test;
+package nodomain.freeyourgadget.gadgetbridge.service;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
@@ -27,7 +27,9 @@ public class TestDeviceSupport extends AbstractDeviceSupport {
 
     @Override
     public boolean connect() {
-        return false;
+        gbDevice.setState(GBDevice.State.INITIALIZED);
+        gbDevice.sendDeviceUpdateIntent(getContext());
+        return true;
     }
 
     @Override

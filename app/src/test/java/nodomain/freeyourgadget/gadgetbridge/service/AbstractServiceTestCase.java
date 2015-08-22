@@ -37,6 +37,10 @@ public abstract class AbstractServiceTestCase<T extends Service> {
         return mContext;
     }
 
+    public T getServiceInstance() {
+        return mServiceInstance;
+    }
+
     @Before
     public void setUp() throws Exception {
         mMockHelper = new MockHelper();
@@ -45,6 +49,7 @@ public abstract class AbstractServiceTestCase<T extends Service> {
         mContext = createContext(mApplication);
         mNotificationManager = mMockHelper.createNotificationManager(mContext);
         mServiceInstance = createService(mServiceClass, mApplication, mNotificationManager);
+        mServiceInstance.onCreate();
     }
 
     @After
@@ -55,10 +60,7 @@ public abstract class AbstractServiceTestCase<T extends Service> {
     }
 
     public void startService(Intent intent) {
-        if (!wasStarted) {
-            wasStarted = true;
-            mServiceInstance.onCreate();
-        }
+        wasStarted = true;
         mServiceInstance.onStartCommand(intent, Service.START_FLAG_REDELIVERY, ID);
     }
 
