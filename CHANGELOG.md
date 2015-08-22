@@ -1,5 +1,9 @@
 ###Changelog
 
+####Version 0.5.1
+* Pebble: support taking screenshot from Pebble Time
+* Fix broken "find lost device" which was broken in 0.5.0
+
 ####Version 0.5.0
 * Mi Band: fix setting wear location 
 * Pebble: experimental watchapp installation support for FW 3.x/Pebble Time
