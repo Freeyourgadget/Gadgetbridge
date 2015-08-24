@@ -8,9 +8,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
@@ -73,9 +70,6 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         }
     }
 
-    private Date mStartDate;
-    private Date mEndDate;
-
     protected ActivityConfig akActivity = new ActivityConfig(ActivityKind.TYPE_ACTIVITY, "Activity", Color.rgb(89, 178, 44));
     protected ActivityConfig akLightSleep = new ActivityConfig(ActivityKind.TYPE_LIGHT_SLEEP, "Light Sleep", Color.rgb(182, 191, 255));
     protected ActivityConfig akDeepSleep = new ActivityConfig(ActivityKind.TYPE_DEEP_SLEEP, "Deep Sleep", Color.rgb(76, 90, 255));
@@ -98,8 +92,6 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        initDates();
 
         IntentFilter filter = new IntentFilter();
         for (String action : mIntentFilterActions) {
@@ -145,17 +137,20 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 //        return view;
 //    }
 
-    public void setStartDate(Date date) {
-        mStartDate = date;
+    private void setStartDate(Date date) {
+        getHost().setStartDate(date);
     }
 
-    public void setEndDate(Date endDate) {
-        mEndDate = endDate;
+    private void setEndDate(Date date) {
+        getHost().setEndDate(date);
     }
 
-    protected void initDates() {
-        setEndDate(new Date());
-        setStartDate(DateTimeUtils.shiftByDays(mEndDate, -1));
+    public Date getStartDate() {
+        return getHost().getStartDate();
+    }
+
+    public Date getEndDate() {
+        return getHost().getEndDate();
     }
 
     /**
@@ -183,19 +178,23 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         if (ChartsHost.REFRESH.equals(action)) {
             refresh();
         } else if (ChartsHost.DATE_NEXT.equals(action)) {
-            handleDateNext(mStartDate, mEndDate);
+            handleDateNext(getStartDate(), getEndDate());
         } else if (ChartsHost.DATE_PREV.equals(action)) {
-            handleDatePrev(mStartDate, mEndDate);
+            handleDatePrev(getStartDate(), getEndDate());
         }
     }
 
     protected void handleDatePrev(Date startDate, Date endDate) {
-        shiftDates(startDate, endDate, -1);
+        if (isVisibleInActivity()) {
+            shiftDates(startDate, endDate, -1);
+        }
         refreshIfVisible();
     }
 
     protected void handleDateNext(Date startDate, Date endDate) {
-        shiftDates(startDate, endDate, +1);
+        if (isVisibleInActivity()) {
+            shiftDates(startDate, endDate, +1);
+        }
         refreshIfVisible();
     }
 
@@ -312,7 +311,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     protected void refresh() {
         if (getHost().getDevice() != null) {
             mChartDirty = false;
-            updateDateInfo(mStartDate, mEndDate);
+            updateDateInfo(getStartDate(), getEndDate());
             createRefreshTask("Visualizing data", getActivity()).execute();
         }
     }
@@ -529,8 +528,8 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         if (from.compareTo(to) > 0) {
             throw new IllegalArgumentException("Bad date range: " +from + ".." + to);
         }
-        mStartDate = from;
-        mEndDate = to;
+        setStartDate(from);
+        setEndDate(to);
     }
 
     protected void updateDateInfo(Date from, Date to) {
@@ -546,11 +545,11 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     private int getTSEnd() {
-        return toTimestamp(mEndDate);
+        return toTimestamp(getEndDate());
     }
 
     private int getTSStart() {
-        return toTimestamp(mStartDate);
+        return toTimestamp(getStartDate());
     }
 
     private int toTimestamp(Date date) {

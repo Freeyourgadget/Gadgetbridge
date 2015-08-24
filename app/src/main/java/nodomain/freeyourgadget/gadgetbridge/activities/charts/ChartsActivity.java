@@ -21,12 +21,15 @@ import android.widget.TextView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Date;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractFragmentPagerAdapter;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBFragmentActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 public class ChartsActivity extends AbstractGBFragmentActivity implements ChartsHost {
 
@@ -36,6 +39,10 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
     private Button mPrevButton;
     private Button mNextButton;
     private TextView mDateControl;
+
+    private Date mStartDate;
+    private Date mEndDate;
+
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -70,6 +77,8 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charts);
+
+        initDates();
 
         IntentFilter filterLocal = new IntentFilter();
         filterLocal.addAction(ControlCenter.ACTION_QUIT);
@@ -106,9 +115,34 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         mDateControl = (TextView) findViewById(R.id.charts_text_date);
     }
 
+    protected void initDates() {
+        setEndDate(new Date());
+        setStartDate(DateTimeUtils.shiftByDays(getEndDate(), -1));
+    }
+
     @Override
     public GBDevice getDevice() {
         return mGBDevice;
+    }
+
+    @Override
+    public void setStartDate(Date startDate) {
+        mStartDate = startDate;
+    }
+
+    @Override
+    public void setEndDate(Date endDate) {
+        mEndDate = endDate;
+    }
+
+    @Override
+    public Date getStartDate() {
+        return mStartDate;
+    }
+
+    @Override
+    public Date getEndDate() {
+        return mEndDate;
     }
 
     private void handleNextButtonClicked() {
