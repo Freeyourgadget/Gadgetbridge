@@ -41,6 +41,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
 public abstract class AbstractChartFragment extends AbstractGBFragment {
+    protected int ANIM_TIME = 350;
+
     private static final Logger LOG = LoggerFactory.getLogger(ActivitySleepChartFragment.class);
 
     private final Set<String> mIntentFilterActions;

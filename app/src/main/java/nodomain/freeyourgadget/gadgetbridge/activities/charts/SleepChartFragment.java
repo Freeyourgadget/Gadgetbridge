@@ -99,7 +99,7 @@ public class SleepChartFragment extends AbstractChartFragment {
         setupActivityChart();
         setupSleepAmountChart();
 
-//        refreshIfVisible();
+        // refresh immediately instead of use refreshIfVisible(), for perceived performance
         refresh();
 
         return rootView;
@@ -177,7 +177,7 @@ public class SleepChartFragment extends AbstractChartFragment {
     }
 
     protected void renderCharts() {
-        mActivityChart.animateX(500, Easing.EasingOption.EaseInOutQuart);
+        mActivityChart.animateX(ANIM_TIME, Easing.EasingOption.EaseInOutQuart);
         mSleepAmountChart.invalidate();
     }
 }

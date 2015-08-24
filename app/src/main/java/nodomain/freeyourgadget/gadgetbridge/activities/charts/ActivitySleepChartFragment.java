@@ -83,7 +83,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
         yAxisRight.setDrawTopYLabelEntry(false);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
 
-//        refreshIfVisible();
+        // refresh immediately instead of use refreshIfVisible(), for perceived performance
         refresh();
     }
 
@@ -111,7 +111,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
     }
 
     protected void renderCharts() {
-        mChart.animateX(500, Easing.EasingOption.EaseInOutQuart);
+        mChart.animateX(ANIM_TIME, Easing.EasingOption.EaseInOutQuart);
     }
 
     protected void setupLegend(Chart chart) {

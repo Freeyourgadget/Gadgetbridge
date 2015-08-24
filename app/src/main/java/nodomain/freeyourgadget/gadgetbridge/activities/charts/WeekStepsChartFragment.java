@@ -137,7 +137,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         setupWeekStepsChart();
         setupTodayStepsChart();
 
-//        refreshIfVisible();
+        // refresh immediately instead of use refreshIfVisible(), for perceived performance
         refresh();
 
         return rootView;
