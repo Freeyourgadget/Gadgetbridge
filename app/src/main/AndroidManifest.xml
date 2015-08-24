@@ -25,6 +25,10 @@
         android:name="android.hardware.bluetooth_le"
         android:required="false" />
 
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+
     <application
         android:name=".GBApplication"
         android:allowBackup="true"

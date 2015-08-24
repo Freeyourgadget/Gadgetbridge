@@ -202,6 +202,97 @@ public class PebbleProtocol extends GBDeviceProtocol {
     GBDeviceEventScreenshot mDevEventScreenshot = null;
     int mScreenshotRemaining = -1;
 
+    //monochrome black + white
+    static final byte[] clut_pebble = {
+            0x00, 0x00, 0x00, 0x00,
+            (byte) 0xff, (byte) 0xff, (byte) 0xff, 0x00
+    };
+
+    // linear BGR222 (6 bit, 64 entries)
+    static final byte[] clut_pebbletime = new byte[]{
+            0x00, 0x00, 0x00, 0x00,
+            0x55, 0x00, 0x00, 0x00,
+            (byte) 0xaa, 0x00, 0x00, 0x00,
+            (byte) 0xff, 0x00, 0x00, 0x00,
+
+            0x00, 0x55, 0x00, 0x00,
+            0x55, 0x55, 0x00, 0x00,
+            (byte) 0xaa, 0x55, 0x00, 0x00,
+            (byte) 0xff, 0x55, 0x00, 0x00,
+
+            0x00, (byte) 0xaa, 0x00, 0x00,
+            0x55, (byte) 0xaa, 0x00, 0x00,
+            (byte) 0xaa, (byte) 0xaa, 0x00, 0x00,
+            (byte) 0xff, (byte) 0xaa, 0x00, 0x00,
+
+            0x00, (byte) 0xff, 0x00, 0x00,
+            0x55, (byte) 0xff, 0x00, 0x00,
+            (byte) 0xaa, (byte) 0xff, 0x00, 0x00,
+            (byte) 0xff, (byte) 0xff, 0x00, 0x00,
+
+            0x00, 0x00, 0x55, 0x00,
+            0x55, 0x00, 0x55, 0x00,
+            (byte) 0xaa, 0x00, 0x55, 0x00,
+            (byte) 0xff, 0x00, 0x55, 0x00,
+
+            0x00, 0x55, 0x55, 0x00,
+            0x55, 0x55, 0x55, 0x00,
+            (byte) 0xaa, 0x55, 0x55, 0x00,
+            (byte) 0xff, 0x55, 0x55, 0x00,
+
+            0x00, (byte) 0xaa, 0x55, 0x00,
+            0x55, (byte) 0xaa, 0x55, 0x00,
+            (byte) 0xaa, (byte) 0xaa, 0x55, 0x00,
+            (byte) 0xff, (byte) 0xaa, 0x55, 0x00,
+
+            0x00, (byte) 0xff, 0x55, 0x00,
+            0x55, (byte) 0xff, 0x55, 0x00,
+            (byte) 0xaa, (byte) 0xff, 0x55, 0x00,
+            (byte) 0xff, (byte) 0xff, 0x55, 0x00,
+
+            0x00, 0x00, (byte) 0xaa, 0x00,
+            0x55, 0x00, (byte) 0xaa, 0x00,
+            (byte) 0xaa, 0x00, (byte) 0xaa, 0x00,
+            (byte) 0xff, 0x00, (byte) 0xaa, 0x00,
+
+            0x00, 0x55, (byte) 0xaa, 0x00,
+            0x55, 0x55, (byte) 0xaa, 0x00,
+            (byte) 0xaa, 0x55, (byte) 0xaa, 0x00,
+            (byte) 0xff, 0x55, (byte) 0xaa, 0x00,
+
+            0x00, (byte) 0xaa, (byte) 0xaa, 0x00,
+            0x55, (byte) 0xaa, (byte) 0xaa, 0x00,
+            (byte) 0xaa, (byte) 0xaa, (byte) 0xaa, 0x00,
+            (byte) 0xff, (byte) 0xaa, (byte) 0xaa, 0x00,
+
+            0x00, (byte) 0xff, (byte) 0xaa, 0x00,
+            0x55, (byte) 0xff, (byte) 0xaa, 0x00,
+            (byte) 0xaa, (byte) 0xff, (byte) 0xaa, 0x00,
+            (byte) 0xff, (byte) 0xff, (byte) 0xaa, 0x00,
+
+            0x00, 0x00, (byte) 0xff, 0x00,
+            0x55, 0x00, (byte) 0xff, 0x00,
+            (byte) 0xaa, 0x00, (byte) 0xff, 0x00,
+            (byte) 0xff, 0x00, (byte) 0xff, 0x00,
+
+            0x00, 0x55, (byte) 0xff, 0x00,
+            0x55, 0x55, (byte) 0xff, 0x00,
+            (byte) 0xaa, 0x55, (byte) 0xff, 0x00,
+            (byte) 0xff, 0x55, (byte) 0xff, 0x00,
+
+            0x00, (byte) 0xaa, (byte) 0xff, 0x00,
+            0x55, (byte) 0xaa, (byte) 0xff, 0x00,
+            (byte) 0xaa, (byte) 0xaa, (byte) 0xff, 0x00,
+            (byte) 0xff, (byte) 0xaa, (byte) 0xff, 0x00,
+
+            0x00, (byte) 0xff, (byte) 0xff, 0x00,
+            0x55, (byte) 0xff, (byte) 0xff, 0x00,
+            (byte) 0xaa, (byte) 0xff, (byte) 0xff, 0x00,
+            (byte) 0xff, (byte) 0xff, (byte) 0xff, 0x00,
+
+    };
+
+
     byte last_id = -1;
     private ArrayList<UUID> tmpUUIDS = new ArrayList<>();
 
@@ -921,34 +1012,38 @@ public class PebbleProtocol extends GBDeviceProtocol {
             byte result = buf.get();
             mDevEventScreenshot = new GBDeviceEventScreenshot();
             int version = buf.getInt();
-            if (result != 0 || version != 1) { // pebble time not yet
+            if (result != 0) {
                 return null;
             }
             mDevEventScreenshot.width = buf.getInt();
             mDevEventScreenshot.height = buf.getInt();
-            mDevEventScreenshot.bpp = 1;
-            mDevEventScreenshot.clut = new byte[]{
-                    0x00, 0x00, 0x00, 0x00, (byte) 0xff,
-                    (byte) 0xff, (byte) 0xff, 0x00
-            };
 
-            mScreenshotRemaining = (mDevEventScreenshot.width * mDevEventScreenshot.height) / 8;
-            if (mScreenshotRemaining > 50000) {
-                mScreenshotRemaining = -1; // ignore too big values
-                return null;
+            if (version == 1) {
+                mDevEventScreenshot.bpp = 1;
+                mDevEventScreenshot.clut = clut_pebble;
+            } else {
+                mDevEventScreenshot.bpp = 8;
+                mDevEventScreenshot.clut = clut_pebbletime;
             }
+
+            mScreenshotRemaining = (mDevEventScreenshot.width * mDevEventScreenshot.height * mDevEventScreenshot.bpp) / 8;
+
             mDevEventScreenshot.data = new byte[mScreenshotRemaining];
             length -= 13;
         }
         if (mScreenshotRemaining == -1) {
             return null;
         }
-
         for (int i = 0; i < length; i++) {
-            byte corrected = reverseBits(buf.get());
+            byte corrected = buf.get();
+            if (mDevEventScreenshot.bpp == 1) {
+                corrected = reverseBits(corrected);
+            } else {
+                corrected = (byte) (corrected & 0b00111111);
+            }
+
             mDevEventScreenshot.data[mDevEventScreenshot.data.length - mScreenshotRemaining + i] = corrected;
         }
-
         mScreenshotRemaining -= length;
         LOG.info("Screenshot remaining bytes " + mScreenshotRemaining);
         if (mScreenshotRemaining == 0) {

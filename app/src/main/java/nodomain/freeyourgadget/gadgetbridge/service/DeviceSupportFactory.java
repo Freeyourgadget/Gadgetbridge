@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.widget.Toast;
 
+import java.lang.reflect.Constructor;
 import java.util.EnumSet;
 
 import nodomain.freeyourgadget.gadgetbridge.GBException;
@@ -26,10 +27,17 @@ public class DeviceSupportFactory {
 
     public synchronized DeviceSupport createDeviceSupport(String deviceAddress) throws GBException {
         DeviceSupport deviceSupport;
-        if (deviceAddress.indexOf(":") == deviceAddress.lastIndexOf(":")) { // only one colon
-            deviceSupport = createTCPDeviceSupport(deviceAddress);
+        int indexFirstColon = deviceAddress.indexOf(":");
+        if (indexFirstColon > 0) {
+            if (indexFirstColon == deviceAddress.lastIndexOf(":")) { // only one colon
+                deviceSupport = createTCPDeviceSupport(deviceAddress);
+            } else {
+                // multiple colons -- bt?
+                deviceSupport = createBTDeviceSupport(deviceAddress);
+            }
         } else {
-            deviceSupport = createBTDeviceSupport(deviceAddress);
+            // no colon at all, maybe a class name?
+            deviceSupport = createClassNameDeviceSupport(deviceAddress);
         }
 
         if (deviceSupport != null) {
@@ -39,6 +47,21 @@ public class DeviceSupportFactory {
         // no device found, check transport availability and warn
         checkBtAvailability();
         return null;
+    }
+
+    private DeviceSupport createClassNameDeviceSupport(String className) throws GBException {
+        try {
+            Class<?> deviceSupportClass = Class.forName(className);
+            Constructor<?> constructor = deviceSupportClass.getConstructor();
+            DeviceSupport support = (DeviceSupport) constructor.newInstance();
+            // has to create the device itself
+            support.setContext(null, null, mContext);
+            return support;
+        } catch (ClassNotFoundException e) {
+            return null; // not a class, or not known at least
+        } catch (Exception e) {
+            throw new GBException("Error creating DeviceSupport instance for " + className, e);
+        }
     }
 
     private void checkBtAvailability() {

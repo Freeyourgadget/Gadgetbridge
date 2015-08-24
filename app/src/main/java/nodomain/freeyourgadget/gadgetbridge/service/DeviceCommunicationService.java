@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
@@ -27,13 +28,48 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.*;
+
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CALLSTATE;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CONNECT;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DELETEAPP;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DISCONNECT;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_FETCH_ACTIVITY_DATA;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_FIND_DEVICE;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_INSTALL;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_NOTIFICATION_EMAIL;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_NOTIFICATION_GENERIC;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_NOTIFICATION_SMS;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REBOOT;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_APPINFO;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_DEVICEINFO;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_SCREENSHOT;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETMUSICINFO;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETTIME;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_ALARMS;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_START;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_STARTAPP;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_ALARMS;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_UUID;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_COMMAND;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_PHONENUMBER;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_DEVICE_ADDRESS;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_FIND_START;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_ALBUM;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_ARTIST;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_TRACK;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_BODY;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_SENDER;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_SUBJECT;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_TITLE;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_PERFORM_PAIR;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_URI;
 
 public class DeviceCommunicationService extends Service {
     private static final Logger LOG = LoggerFactory.getLogger(DeviceCommunicationService.class);
 
     private boolean mStarted = false;
 
+    private DeviceSupportFactory mFactory;
     private GBDevice mGBDevice = null;
     private DeviceSupport mDeviceSupport;
 
@@ -60,6 +96,7 @@ public class DeviceCommunicationService extends Service {
         LOG.debug("DeviceCommunicationService is being created");
         super.onCreate();
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED));
+        mFactory = new DeviceSupportFactory(this);
     }
 
     @Override
@@ -107,32 +144,29 @@ public class DeviceCommunicationService extends Service {
                 start(); // ensure started
                 String btDeviceAddress = intent.getStringExtra(EXTRA_DEVICE_ADDRESS);
                 SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-                if (btDeviceAddress == null) {
-                    btDeviceAddress = sharedPrefs.getString("last_device_address", null);
-                } else {
-                    sharedPrefs.edit().putString("last_device_address", btDeviceAddress).apply();
+                if (sharedPrefs != null) { // may be null in test cases
+                    if (btDeviceAddress == null) {
+                        btDeviceAddress = sharedPrefs.getString("last_device_address", null);
+                    } else {
+                        sharedPrefs.edit().putString("last_device_address", btDeviceAddress).apply();
+                    }
                 }
 
                 if (btDeviceAddress != null && !isConnecting() && !isConnected()) {
-                    if (mDeviceSupport != null) {
-                        mDeviceSupport.dispose();
-                        mDeviceSupport = null;
-                    }
+                    setDeviceSupport(null);
                     try {
-                        DeviceSupportFactory factory = new DeviceSupportFactory(this);
-                        mDeviceSupport = factory.createDeviceSupport(btDeviceAddress);
-                        if (mDeviceSupport != null) {
-                            mGBDevice = mDeviceSupport.getDevice();
+                        DeviceSupport deviceSupport = mFactory.createDeviceSupport(btDeviceAddress);
+                        if (deviceSupport != null) {
+                            setDeviceSupport(deviceSupport);
                             if (pair) {
-                                mDeviceSupport.pair();
+                                deviceSupport.pair();
                             } else {
-                                mDeviceSupport.connect();
+                                deviceSupport.connect();
                             }
                         }
                     } catch (Exception e) {
                         GB.toast(this, getString(R.string.cannot_connect, e.getMessage()), Toast.LENGTH_SHORT, GB.ERROR);
-                        mDeviceSupport = null;
-                        mGBDevice = null;
+                        setDeviceSupport(null);
                     }
                 } else if (mGBDevice != null) {
                     // send an update at least
@@ -231,11 +265,38 @@ public class DeviceCommunicationService extends Service {
         return START_STICKY;
     }
 
+    /**
+     * For testing!
+     * @param factory
+     */
+    public void setDeviceSupportFactory(DeviceSupportFactory factory) {
+        mFactory = factory;
+    }
+
+    /**
+     * Disposes the current DeviceSupport instance (if any) and sets a new device support instance
+     * (if not null).
+     * @param deviceSupport
+     */
+    private void setDeviceSupport(@Nullable DeviceSupport deviceSupport) {
+        if (deviceSupport != mDeviceSupport && mDeviceSupport != null) {
+            mDeviceSupport.dispose();
+            mDeviceSupport = null;
+            mGBDevice = null;
+        }
+        mDeviceSupport = deviceSupport;
+        mGBDevice = mDeviceSupport != null ? mDeviceSupport.getDevice() : null;
+    }
+
     private void start() {
         if (!mStarted) {
             startForeground(GB.NOTIFICATION_ID, GB.createNotification(getString(R.string.gadgetbridge_running), this));
             mStarted = true;
         }
+    }
+
+    public boolean isStarted() {
+        return mStarted;
     }
 
     private boolean isConnected() {
@@ -258,9 +319,7 @@ public class DeviceCommunicationService extends Service {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
         GB.setReceiversEnableState(false, this); // disable BroadcastReceivers
 
-        if (mDeviceSupport != null) {
-            mDeviceSupport.dispose();
-        }
+        setDeviceSupport(null);
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         nm.cancel(GB.NOTIFICATION_ID); // need to do this because the updated notification wont be cancelled when service stops
     }

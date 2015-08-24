@@ -11,6 +11,8 @@ need to create an account and transmit any of your data to the vendor's servers.
 
 [![Gadgetbridge on F-Droid](/Get_it_on_F-Droid.svg.png?raw=true "Download from F-Droid")](https://f-droid.org/repository/browse/?fdid=nodomain.freeyourgadget.gadgetbridge)
 
+[List of changes](CHANGELOG.md)
+
 ## Features (Pebble)
 
 * Incoming calls notification and display (caller, phone number)

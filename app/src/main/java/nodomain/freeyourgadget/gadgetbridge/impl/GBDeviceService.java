@@ -12,17 +12,18 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
 public class GBDeviceService implements DeviceService {
     protected final Context mContext;
     protected final Class<? extends Service> mServiceClass;
 
-    public GBDeviceService(Context context, Class<? extends Service> serviceClass) {
+    public GBDeviceService(Context context) {
         mContext = context;
-        mServiceClass = serviceClass;
+        mServiceClass = DeviceCommunicationService.class;
     }
 
-    private Intent createIntent() {
+    protected Intent createIntent() {
         Intent startIntent = new Intent(mContext, mServiceClass);
         return startIntent;
     }
@@ -174,7 +175,7 @@ public class GBDeviceService implements DeviceService {
     @Override
     public void onFindDevice(boolean start) {
         Intent intent = createIntent().setAction(ACTION_FIND_DEVICE)
-                .putExtra(EXTRA_APP_UUID, start);
+                .putExtra(EXTRA_FIND_START, start);
         invokeService(intent);
     }
 

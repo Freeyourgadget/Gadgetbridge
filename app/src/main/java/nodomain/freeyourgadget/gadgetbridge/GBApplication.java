@@ -21,8 +21,8 @@ import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class GBApplication extends Application {
     // Since this class must not log to slf4j, we use plain android.util.Log
@@ -39,7 +39,7 @@ public class GBApplication extends Application {
     }
 
     protected DeviceService createDeviceService() {
-        return new GBDeviceService(this, DeviceCommunicationService.class);
+        return new GBDeviceService(this);
     }
 
     @Override
@@ -55,6 +55,7 @@ public class GBApplication extends Application {
 //        StatusPrinter.print(lc);
 //        Logger logger = LoggerFactory.getLogger(GBApplication.class);
 
+        GB.environment = GBEnvironment.createDeviceEnvironment();
         mActivityDatabaseHandler = new ActivityDatabaseHandler(context);
 // for testing DB stuff
 //        SQLiteDatabase db = mActivityDatabaseHandler.getWritableDatabase();

@@ -24,6 +24,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.GBEnvironment;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
@@ -43,6 +44,7 @@ public class GB {
     public static final int INFO = 1;
     public static final int WARN = 2;
     public static final int ERROR = 3;
+    public static GBEnvironment environment;
 
     public static Notification createNotification(String text, Context context) {
         Intent notificationIntent = new Intent(context, ControlCenter.class);
@@ -152,16 +154,16 @@ public class GB {
             headerbuf.putInt(screenshot.width);
             headerbuf.putInt(-screenshot.height);
             headerbuf.putShort((short) 1); // planes
-            headerbuf.putShort((short) 1); // bit count
+            headerbuf.putShort((short) screenshot.bpp);
             headerbuf.putInt(0); // compression
             headerbuf.putInt(0); // length of pixeldata in byte (uncompressed=0)
             headerbuf.putInt(0); // pixels per meter (x)
             headerbuf.putInt(0); // pixels per meter (y)
-            headerbuf.putInt(2); // number of colors in CLUT
-            headerbuf.putInt(2); // numbers of used colors
+            headerbuf.putInt(screenshot.clut.length / 4); // number of colors in CLUT
+            headerbuf.putInt(0); // numbers of used colors
             headerbuf.put(screenshot.clut);
             fos.write(headerbuf.array());
-            int rowbytes = screenshot.width / 8;
+            int rowbytes = (screenshot.width * screenshot.bpp) / 8;
             byte[] pad = new byte[rowbytes % 4];
             for (int i = 0; i < screenshot.height; i++) {
                 fos.write(screenshot.data, rowbytes * i, rowbytes);
@@ -225,6 +227,9 @@ public class GB {
      * @param ex          optional exception to be logged
      */
     public static void toast(final Context context, final String message, final int displayTime, final int severity, final Throwable ex) {
+        if (env().isLocalTest()) {
+            return;
+        }
         Looper mainLooper = Looper.getMainLooper();
         if (Thread.currentThread() == mainLooper.getThread()) {
             log(message, severity, ex);
@@ -320,5 +325,9 @@ public class GB {
 
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         nm.notify(NOTIFICATION_ID_LOW_BATTERY, notification);
+    }
+
+    public static GBEnvironment env() {
+        return environment;
     }
 }
