@@ -170,8 +170,10 @@ public class ControlCenter extends Activity {
             menu.removeItem(R.id.controlcenter_take_screenshot);
         }
 
-        if (!selectedDevice.isConnected()) {
+        if (selectedDevice.getState() == GBDevice.State.NOT_CONNECTED) {
             menu.removeItem(R.id.controlcenter_disconnect);
+        }
+        if (!selectedDevice.isInitialized()) {
             menu.removeItem(R.id.controlcenter_find_device);
         }
 
