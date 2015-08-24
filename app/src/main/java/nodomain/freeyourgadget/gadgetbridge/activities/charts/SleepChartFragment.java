@@ -44,17 +44,13 @@ public class SleepChartFragment extends AbstractChartFragment {
     private int mSmartAlarmTo = -1;
     private int mTimestampFrom = -1;
     private int mSmartAlarmGoneOff = -1;
-    private GBDevice mGBDevice = null;
 
     @Override
-    protected void refreshInBackground(DBHandler db) {
-        List<ActivitySample> samples = getSamples(db);
-        refresh(mGBDevice, mActivityChart, samples);
-        refreshSleepAmounts(mGBDevice, mSleepAmountChart, samples);
-    }
+    protected void refreshInBackground(DBHandler db, GBDevice device) {
+        List<ActivitySample> samples = getSamples(db, device);
 
-    private List<ActivitySample> getSamples(DBHandler db) {
-        return getSamples(db, mGBDevice);
+        refresh(device, mActivityChart, samples);
+        refreshSleepAmounts(device, mSleepAmountChart, samples);
     }
 
     private void refreshSleepAmounts(GBDevice mGBDevice, PieChart pieChart, List<ActivitySample> samples) {
@@ -88,14 +84,14 @@ public class SleepChartFragment extends AbstractChartFragment {
     }
 
     @Override
+    public String getTitle() {
+        return getString(R.string.sleepchart_your_sleep);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_sleepchart, container, false);
-
-        Bundle extras = getActivity().getIntent().getExtras();
-        if (extras != null) {
-            mGBDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
-        }
 
         mActivityChart = (BarLineChartBase) rootView.findViewById(R.id.sleepchart);
         mSleepAmountChart = (PieChart) rootView.findViewById(R.id.sleepchart_pie_light_deep);
@@ -103,6 +99,7 @@ public class SleepChartFragment extends AbstractChartFragment {
         setupActivityChart();
         setupSleepAmountChart();
 
+//        refreshIfVisible();
         refresh();
 
         return rootView;

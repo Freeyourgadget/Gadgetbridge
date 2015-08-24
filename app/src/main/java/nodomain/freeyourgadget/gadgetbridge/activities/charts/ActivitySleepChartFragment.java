@@ -34,24 +34,22 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
     private int mSmartAlarmTo = -1;
     private int mTimestampFrom = -1;
     private int mSmartAlarmGoneOff = -1;
-    private GBDevice mGBDevice = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_charts, container, false);
 
-        Bundle extras = getActivity().getIntent().getExtras();
-        if (extras != null) {
-            mGBDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
-        }
-
-
         mChart = (BarLineChartBase) rootView.findViewById(R.id.activitysleepchart);
 
         setupChart();
 
         return rootView;
+    }
+
+    @Override
+    public String getTitle() {
+        return getString(R.string.activity_sleepchart_activity_and_sleep);
     }
 
     private void setupChart() {
@@ -85,6 +83,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
         yAxisRight.setDrawTopYLabelEntry(false);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
 
+//        refreshIfVisible();
         refresh();
     }
 
@@ -104,9 +103,9 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
     }
 
     @Override
-    protected void refreshInBackground(DBHandler db) {
-        List<ActivitySample> samples = getSamples(db, mGBDevice);
-        refresh(mGBDevice, mChart, samples);
+    protected void refreshInBackground(DBHandler db, GBDevice device) {
+        List<ActivitySample> samples = getSamples(db, device);
+        refresh(device, mChart, samples);
 
         mChart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
     }

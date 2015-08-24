@@ -44,14 +44,12 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
     private BarLineChartBase mWeekStepsChart;
     private PieChart mTodayStepsChart;
 
-    private GBDevice mGBDevice = null;
-
     @Override
-    protected void refreshInBackground(DBHandler db) {
+    protected void refreshInBackground(DBHandler db, GBDevice device) {
         Calendar day = Calendar.getInstance();
         //NB: we could have omitted the day, but this way we can move things to the past easily
-        refreshDaySteps(db, mTodayStepsChart, day);
-        refreshWeekBeforeSteps(db, mWeekStepsChart, day);
+        refreshDaySteps(db, mTodayStepsChart, day, device);
+        refreshWeekBeforeSteps(db, mWeekStepsChart, day, device);
     }
 
     @Override
@@ -60,7 +58,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         mTodayStepsChart.invalidate();
     }
 
-    private void refreshWeekBeforeSteps(DBHandler db, BarLineChartBase barChart, Calendar day) {
+    private void refreshWeekBeforeSteps(DBHandler db, BarLineChartBase barChart, Calendar day, GBDevice device) {
 
         ActivityAnalysis analysis = new ActivityAnalysis();
 
@@ -69,7 +67,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         List<String> labels = new ArrayList<>();
 
         for (int counter = 0; counter < 7; counter++) {
-            entries.add(new BarEntry(analysis.calculateTotalSteps(getSamplesOfDay(db, day)), counter));
+            entries.add(new BarEntry(analysis.calculateTotalSteps(getSamplesOfDay(db, day, device)), counter));
             labels.add(day.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, mLocale));
             day.add(Calendar.DATE, 1);
         }
@@ -89,10 +87,10 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         barChart.getLegend().setEnabled(false);
     }
 
-    private void refreshDaySteps(DBHandler db, PieChart pieChart, Calendar day) {
+    private void refreshDaySteps(DBHandler db, PieChart pieChart, Calendar day, GBDevice device) {
         ActivityAnalysis analysis = new ActivityAnalysis();
 
-        int totalSteps = analysis.calculateTotalSteps(getSamplesOfDay(db, day));
+        int totalSteps = analysis.calculateTotalSteps(getSamplesOfDay(db, day, device));
 
         pieChart.setCenterText(NumberFormat.getNumberInstance(mLocale).format(totalSteps));
         PieData data = new PieData();
@@ -128,13 +126,9 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
 
         View rootView = inflater.inflate(R.layout.fragment_sleepchart, container, false);
 
-        Bundle extras = getActivity().getIntent().getExtras();
-        if (extras != null) {
-            mGBDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
-        }
-
-        if(mGBDevice != null) {
-            mTargetSteps = MiBandCoordinator.getFitnessGoal(mGBDevice.getAddress());
+        GBDevice device = getHost().getDevice();
+        if(device != null) {
+            mTargetSteps = MiBandCoordinator.getFitnessGoal(device.getAddress());
         }
 
         mWeekStepsChart = (BarLineChartBase) rootView.findViewById(R.id.sleepchart);
@@ -143,9 +137,15 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         setupWeekStepsChart();
         setupTodayStepsChart();
 
+//        refreshIfVisible();
         refresh();
 
         return rootView;
+    }
+
+    @Override
+    public String getTitle() {
+        return getString(R.string.weekstepschart_steps_a_week);
     }
 
     private void setupTodayStepsChart() {
@@ -196,7 +196,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         chart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
     }
 
-    private List<ActivitySample> getSamplesOfDay(DBHandler db, Calendar day) {
+    private List<ActivitySample> getSamplesOfDay(DBHandler db, Calendar day, GBDevice device) {
         int startTs;
         int endTs;
 
@@ -210,7 +210,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         day.set(Calendar.SECOND, 59);
         endTs = (int) (day.getTimeInMillis() / 1000);
 
-        return getSamples(db, mGBDevice, startTs, endTs);
+        return getSamples(db, device, startTs, endTs);
     }
 
     @Override

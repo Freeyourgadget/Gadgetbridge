@@ -6,11 +6,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,31 +21,16 @@ import android.widget.TextView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Locale;
-
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.AbstractFragmentPagerAdapter;
+import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBFragmentActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
-public class ChartsActivity extends FragmentActivity implements ChartsHost {
+public class ChartsActivity extends AbstractGBFragmentActivity implements ChartsHost {
 
     private static final Logger LOG = LoggerFactory.getLogger(ChartsActivity.class);
-
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    private ViewPager mViewPager;
 
     private ProgressBar mProgressBar;
     private Button mPrevButton;
@@ -61,8 +45,6 @@ public class ChartsActivity extends FragmentActivity implements ChartsHost {
                 case ControlCenter.ACTION_QUIT:
                     finish();
                     break;
-                case ControlCenter.ACTION_REFRESH_DEVICELIST:
-                    break;
                 case GBDevice.ACTION_DEVICE_CHANGED:
                     GBDevice dev = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                     refreshBusyState(dev);
@@ -70,6 +52,7 @@ public class ChartsActivity extends FragmentActivity implements ChartsHost {
             }
         }
     };
+    private GBDevice mGBDevice;
 
     private void refreshBusyState(GBDevice dev) {
         if (dev.isBusy()) {
@@ -90,18 +73,19 @@ public class ChartsActivity extends FragmentActivity implements ChartsHost {
 
         IntentFilter filterLocal = new IntentFilter();
         filterLocal.addAction(ControlCenter.ACTION_QUIT);
-        filterLocal.addAction(ControlCenter.ACTION_REFRESH_DEVICELIST);
         filterLocal.addAction(GBDevice.ACTION_DEVICE_CHANGED);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
 
-
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            mGBDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
+        } else {
+            throw new IllegalArgumentException("Must provide a device when invoking this activity");
+        }
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager.setAdapter(getPagerAdapter());
 
         mProgressBar = (ProgressBar) findViewById(R.id.charts_progress);
         mPrevButton = (Button) findViewById(R.id.charts_previous);
@@ -120,6 +104,11 @@ public class ChartsActivity extends FragmentActivity implements ChartsHost {
         });
 
         mDateControl = (TextView) findViewById(R.id.charts_text_date);
+    }
+
+    @Override
+    public GBDevice getDevice() {
+        return mGBDevice;
     }
 
     private void handleNextButtonClicked() {
@@ -161,11 +150,16 @@ public class ChartsActivity extends FragmentActivity implements ChartsHost {
         mDateControl.setText(dateInfo);
     }
 
+    @Override
+    protected AbstractFragmentPagerAdapter createFragmentPagerAdapter(FragmentManager fragmentManager) {
+        return new SectionsPagerAdapter(fragmentManager);
+    }
+
     /**
      * A {@link FragmentStatePagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public static class SectionsPagerAdapter extends FragmentStatePagerAdapter {
+    public static class SectionsPagerAdapter extends AbstractFragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -190,20 +184,6 @@ public class ChartsActivity extends FragmentActivity implements ChartsHost {
         public int getCount() {
             // Show 3 total pages.
             return 3;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            Locale l = Locale.getDefault();
-            switch (position) {
-                case 0:
-                    return "Today".toUpperCase(l);
-                case 1:
-                    return "Week".toUpperCase(l);
-                case 2:
-                    return "Month".toUpperCase(l);
-            }
-            return null;
         }
     }
 }

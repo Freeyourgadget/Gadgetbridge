@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
@@ -33,6 +32,7 @@ import java.util.List;
 import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBFragment;
 import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
@@ -43,7 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
-public abstract class AbstractChartFragment extends Fragment {
+public abstract class AbstractChartFragment extends AbstractGBFragment {
     private static final Logger LOG = LoggerFactory.getLogger(ActivitySleepChartFragment.class);
 
     private final Set<String> mIntentFilterActions;
@@ -53,6 +53,13 @@ public abstract class AbstractChartFragment extends Fragment {
             AbstractChartFragment.this.onReceive(context, intent);
         }
     };
+    private boolean mChartDirty = true;
+
+    public boolean isChartDirty() {
+        return mChartDirty;
+    }
+
+    public abstract String getTitle();
 
     protected static final class ActivityConfig {
         public final int type;
@@ -102,11 +109,41 @@ public abstract class AbstractChartFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-        updateDateInfo(mStartDate, mEndDate);
-        return view;
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        View view = super.onCreateView(inflater, container, savedInstanceState);
+//        updateDateInfo(mStartDate, mEndDate);
+//        return view;
+//    }
 
     public void setStartDate(Date date) {
         mStartDate = date;
@@ -119,6 +156,20 @@ public abstract class AbstractChartFragment extends Fragment {
     protected void initDates() {
         setEndDate(new Date());
         setStartDate(DateTimeUtils.shiftByDays(mEndDate, -1));
+    }
+
+    /**
+     * Called when this fragment has been fully scrolled into the activity.
+     *
+     * @see #isVisibleInActivity()
+     * @see #onMadeInvisibleInActivity()
+     */
+    @Override
+    protected void onMadeVisibleInActivity() {
+        super.onMadeVisibleInActivity();
+        if (isChartDirty()) {
+            refresh();
+        }
     }
 
     @Override
@@ -140,10 +191,20 @@ public abstract class AbstractChartFragment extends Fragment {
 
     protected void handleDatePrev(Date startDate, Date endDate) {
         shiftDates(startDate, endDate, -1);
+        refreshIfVisible();
     }
 
     protected void handleDateNext(Date startDate, Date endDate) {
         shiftDates(startDate, endDate, +1);
+        refreshIfVisible();
+    }
+
+    protected void refreshIfVisible() {
+        if (isVisibleInActivity()) {
+            refresh();
+        } else {
+            mChartDirty = true;
+        }
     }
 
     protected void shiftDates(Date startDate, Date endDate, int offset) {
@@ -151,7 +212,6 @@ public abstract class AbstractChartFragment extends Fragment {
         Date newEnd = DateTimeUtils.shiftByDays(endDate, offset);
 
         setDateRange(newStart, newEnd);
-        refresh();
     }
 
     protected Integer getColorFor(int activityKind) {
@@ -250,7 +310,11 @@ public abstract class AbstractChartFragment extends Fragment {
      * #renderCharts
      */
     protected void refresh() {
-        createRefreshTask("Visualizing data", getActivity()).execute();
+        if (getHost().getDevice() != null) {
+            mChartDirty = false;
+            updateDateInfo(mStartDate, mEndDate);
+            createRefreshTask("Visualizing data", getActivity()).execute();
+        }
     }
 
     /**
@@ -258,7 +322,7 @@ public abstract class AbstractChartFragment extends Fragment {
      * the charts. This will be called from a background task, so there must not be
      * any UI access. #renderCharts will be automatically called after this method.
      */
-    protected abstract void refreshInBackground(DBHandler db);
+    protected abstract void refreshInBackground(DBHandler db, GBDevice device);
 
     /**
      * Performs a re-rendering of the chart.
@@ -267,10 +331,6 @@ public abstract class AbstractChartFragment extends Fragment {
     protected abstract void renderCharts();
 
     protected void refresh(GBDevice gbDevice, BarLineChartBase chart, List<ActivitySample> samples) {
-        if (gbDevice == null) {
-            return;
-        }
-
         Calendar cal = GregorianCalendar.getInstance();
         cal.clear();
         Date date;
@@ -450,7 +510,7 @@ public abstract class AbstractChartFragment extends Fragment {
 
         @Override
         protected void doInBackground(DBHandler db) {
-            refreshInBackground(db);
+            refreshInBackground(db, getHost().getDevice());
         }
 
         @Override
@@ -471,7 +531,6 @@ public abstract class AbstractChartFragment extends Fragment {
         }
         mStartDate = from;
         mEndDate = to;
-        updateDateInfo(mStartDate, mEndDate);
     }
 
     protected void updateDateInfo(Date from, Date to) {
