@@ -18,10 +18,10 @@
         android:layout_weight="20">
     </com.github.mikephil.charting.charts.PieChart>
 
-    <TextView
-        android:text="Test"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="20" />
+    <!--<TextView-->
+        <!--android:text="Test"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:layout_weight="20" />-->
 
 </LinearLayout>
