@@ -4,19 +4,19 @@
     tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity$PlaceholderFragment"
     android:orientation="vertical">
 
-    <nodomain.freeyourgadget.gadgetbridge.activities.charts.CustomBarChart
-        android:id="@+id/sleepchart"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_weight="20" />
-
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/sleepchart_pie_light_deep"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="20">
     </com.github.mikephil.charting.charts.PieChart>
+
+    <nodomain.freeyourgadget.gadgetbridge.activities.charts.CustomBarChart
+        android:id="@+id/sleepchart"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_weight="20" />
 
     <!--<TextView-->
         <!--android:text="Test"-->
