@@ -15,7 +15,7 @@
         android:id="@+id/sleepchart_pie_light_deep"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="20">
+        android:layout_weight="40">
     </com.github.mikephil.charting.charts.PieChart>
 
     <!--<TextView-->
