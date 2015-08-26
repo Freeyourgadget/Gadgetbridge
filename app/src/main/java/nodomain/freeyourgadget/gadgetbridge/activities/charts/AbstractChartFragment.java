@@ -6,12 +6,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
@@ -33,6 +29,7 @@ import java.util.List;
 import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBFragment;
 import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
@@ -43,8 +40,28 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
-public abstract class AbstractChartFragment extends Fragment {
-    private static final Logger LOG = LoggerFactory.getLogger(ActivitySleepChartFragment.class);
+/**
+ * A base class fragment to be used with ChartsActivity. The fragment can supply
+ * a title to be displayed in the activity by returning non-null in #getTitle()
+ * Broadcast events can be received by overriding #onReceive(Context,Intent).
+ * The chart can be refreshed by calling #refresh()
+ * Implement refreshInBackground(DBHandler, GBDevice) to fetch the samples from the DB,
+ * and add the samples to the chart. The actual rendering, which must be performed in the UI
+ * thread, must be done in #renderCharts().
+ * Access functionality of the hosting activity with #getHost()
+ *
+ * The hosting ChartsHost activity provides a section for displaying a date or date range
+ * being the basis for the chart, as well as two buttons for moving backwards and forward
+ * in time. The date is held by the activity, so that it can be shared by multiple chart
+ * fragments. It is still the responsibility of the (currently visible) chart fragment
+ * to set the desired date in the ChartsActivity via #setDateRange(Date,Date).
+ * The default implementations #handleDatePrev(Date,Date) and #handleDateNext(Date,Date)
+ * shift the date by one day.
+ */
+public abstract class AbstractChartFragment extends AbstractGBFragment {
+    protected int ANIM_TIME = 350;
+
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractChartFragment.class);
 
     private final Set<String> mIntentFilterActions;
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -53,6 +70,13 @@ public abstract class AbstractChartFragment extends Fragment {
             AbstractChartFragment.this.onReceive(context, intent);
         }
     };
+    private boolean mChartDirty = true;
+
+    public boolean isChartDirty() {
+        return mChartDirty;
+    }
+
+    public abstract String getTitle();
 
     protected static final class ActivityConfig {
         public final int type;
@@ -65,9 +89,6 @@ public abstract class AbstractChartFragment extends Fragment {
             this.color = color;
         }
     }
-
-    private Date mStartDate;
-    private Date mEndDate;
 
     protected ActivityConfig akActivity = new ActivityConfig(ActivityKind.TYPE_ACTIVITY, "Activity", Color.rgb(89, 178, 44));
     protected ActivityConfig akLightSleep = new ActivityConfig(ActivityKind.TYPE_LIGHT_SLEEP, "Light Sleep", Color.rgb(182, 191, 255));
@@ -92,8 +113,6 @@ public abstract class AbstractChartFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        initDates();
-
         IntentFilter filter = new IntentFilter();
         for (String action : mIntentFilterActions) {
             filter.addAction(action);
@@ -101,24 +120,34 @@ public abstract class AbstractChartFragment extends Fragment {
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver, filter);
     }
 
+    private void setStartDate(Date date) {
+        getHost().setStartDate(date);
+    }
+
+    private void setEndDate(Date date) {
+        getHost().setEndDate(date);
+    }
+
+    public Date getStartDate() {
+        return getHost().getStartDate();
+    }
+
+    public Date getEndDate() {
+        return getHost().getEndDate();
+    }
+
+    /**
+     * Called when this fragment has been fully scrolled into the activity.
+     *
+     * @see #isVisibleInActivity()
+     * @see #onMadeInvisibleInActivity()
+     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-        updateDateInfo(mStartDate, mEndDate);
-        return view;
-    }
-
-    public void setStartDate(Date date) {
-        mStartDate = date;
-    }
-
-    public void setEndDate(Date endDate) {
-        mEndDate = endDate;
-    }
-
-    protected void initDates() {
-        setEndDate(new Date());
-        setStartDate(DateTimeUtils.shiftByDays(mEndDate, -1));
+    protected void onMadeVisibleInActivity() {
+        super.onMadeVisibleInActivity();
+        if (isChartDirty()) {
+            refresh();
+        }
     }
 
     @Override
@@ -132,26 +161,62 @@ public abstract class AbstractChartFragment extends Fragment {
         if (ChartsHost.REFRESH.equals(action)) {
             refresh();
         } else if (ChartsHost.DATE_NEXT.equals(action)) {
-            handleDateNext(mStartDate, mEndDate);
+            handleDateNext(getStartDate(), getEndDate());
         } else if (ChartsHost.DATE_PREV.equals(action)) {
-            handleDatePrev(mStartDate, mEndDate);
+            handleDatePrev(getStartDate(), getEndDate());
         }
     }
 
+    /**
+     * Default implementation shifts the dates by one day, if visible
+     * and calls #refreshIfVisible().
+     * @param startDate
+     * @param endDate
+     */
     protected void handleDatePrev(Date startDate, Date endDate) {
-        shiftDates(startDate, endDate, -1);
+        if (isVisibleInActivity()) {
+            if (!shiftDates(startDate, endDate, -1)) {
+                return;
+            }
+        }
+        refreshIfVisible();
     }
 
+    /**
+     * Default implementation shifts the dates by one day, if visible
+     * and calls #refreshIfVisible().
+     * @param startDate
+     * @param endDate
+     */
     protected void handleDateNext(Date startDate, Date endDate) {
-        shiftDates(startDate, endDate, +1);
+        if (isVisibleInActivity()) {
+            if (!shiftDates(startDate, endDate, +1)) {
+                return;
+            }
+        }
+        refreshIfVisible();
     }
 
-    protected void shiftDates(Date startDate, Date endDate, int offset) {
+    protected void refreshIfVisible() {
+        if (isVisibleInActivity()) {
+            refresh();
+        } else {
+            mChartDirty = true;
+        }
+    }
+
+    /**
+     * Shifts the given dates by offset days. offset may be positive or negative.
+     * @param startDate
+     * @param endDate
+     * @param offset a positive or negative number of days to shift the dates
+     * @return true if the shift was successful and false otherwise
+     */
+    protected boolean shiftDates(Date startDate, Date endDate, int offset) {
         Date newStart = DateTimeUtils.shiftByDays(startDate, offset);
         Date newEnd = DateTimeUtils.shiftByDays(endDate, offset);
 
-        setDateRange(newStart, newEnd);
-        refresh();
+        return setDateRange(newStart, newEnd);
     }
 
     protected Integer getColorFor(int activityKind) {
@@ -250,7 +315,11 @@ public abstract class AbstractChartFragment extends Fragment {
      * #renderCharts
      */
     protected void refresh() {
-        createRefreshTask("Visualizing data", getActivity()).execute();
+        if (getHost().getDevice() != null) {
+            mChartDirty = false;
+            updateDateInfo(getStartDate(), getEndDate());
+            createRefreshTask("Visualizing data", getActivity()).execute();
+        }
     }
 
     /**
@@ -258,19 +327,15 @@ public abstract class AbstractChartFragment extends Fragment {
      * the charts. This will be called from a background task, so there must not be
      * any UI access. #renderCharts will be automatically called after this method.
      */
-    protected abstract void refreshInBackground(DBHandler db);
+    protected abstract void refreshInBackground(DBHandler db, GBDevice device);
 
     /**
-     * Performs a re-rendering of the chart.
+     * Triggers the actual (re-) rendering of the chart.
      * Always called from the UI thread.
      */
     protected abstract void renderCharts();
 
     protected void refresh(GBDevice gbDevice, BarLineChartBase chart, List<ActivitySample> samples) {
-        if (gbDevice == null) {
-            return;
-        }
-
         Calendar cal = GregorianCalendar.getInstance();
         cal.clear();
         Date date;
@@ -380,6 +445,14 @@ public abstract class AbstractChartFragment extends Fragment {
         }
     }
 
+    /**
+     * Implement this to supply the samples to be displayed.
+     * @param db
+     * @param device
+     * @param tsFrom
+     * @param tsTo
+     * @return
+     */
     protected abstract List<ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo);
 
     protected abstract void setupLegend(Chart chart);
@@ -450,7 +523,7 @@ public abstract class AbstractChartFragment extends Fragment {
 
         @Override
         protected void doInBackground(DBHandler db) {
-            refreshInBackground(db);
+            refreshInBackground(db, getHost().getDevice());
         }
 
         @Override
@@ -465,13 +538,23 @@ public abstract class AbstractChartFragment extends Fragment {
         }
     }
 
-    public void setDateRange(Date from, Date to) {
+    /**
+     * Returns true if the date was successfully shifted, and false if the shift
+     * was ignored, e.g. when the to-value is in the future.
+     * @param from
+     * @param to
+     */
+    public boolean setDateRange(Date from, Date to) {
         if (from.compareTo(to) > 0) {
             throw new IllegalArgumentException("Bad date range: " +from + ".." + to);
         }
-        mStartDate = from;
-        mEndDate = to;
-        updateDateInfo(mStartDate, mEndDate);
+        Date now = new Date();
+        if (to.after(now)) {
+            return false;
+        }
+        setStartDate(from);
+        setEndDate(to);
+        return true;
     }
 
     protected void updateDateInfo(Date from, Date to) {
@@ -487,11 +570,11 @@ public abstract class AbstractChartFragment extends Fragment {
     }
 
     private int getTSEnd() {
-        return toTimestamp(mEndDate);
+        return toTimestamp(getEndDate());
     }
 
     private int getTSStart() {
-        return toTimestamp(mStartDate);
+        return toTimestamp(getStartDate());
     }
 
     private int toTimestamp(Date date) {

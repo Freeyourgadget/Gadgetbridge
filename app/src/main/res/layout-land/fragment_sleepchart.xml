@@ -2,13 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity$PlaceholderFragment"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/sleepchart_pie_light_deep"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="20">
+        android:layout_weight="40">
     </com.github.mikephil.charting.charts.PieChart>
 
     <nodomain.freeyourgadget.gadgetbridge.activities.charts.CustomBarChart
