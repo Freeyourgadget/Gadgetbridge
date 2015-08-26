@@ -113,8 +113,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final byte APPLICATIONMESSAGE_ACK = (byte) 0xff;
     static final byte APPLICATIONMESSAGE_NACK = (byte) 0x7f;
 
-    static final byte DATALOG_CLOSE = (byte) 0x03;
+    static final byte DATALOG_OPENSESSION = 0x01;
+    static final byte DATALOG_SENDDATA = 0x02;
+    static final byte DATALOG_CLOSE = 0x03;
     static final byte DATALOG_TIMEOUT = 0x07;
+    static final byte DATALOG_REPORTSESSIONS = (byte) 0x84;
     static final byte DATALOG_ACK = (byte) 0x85;
     static final byte DATALOG_NACK = (byte) 0x86;
 
@@ -1007,7 +1010,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return out;
     }
 
-    private GBDeviceEventScreenshot decodeResponseScreenshot(ByteBuffer buf, int length) {
+    private GBDeviceEventScreenshot decodeScreenshot(ByteBuffer buf, int length) {
         if (mDevEventScreenshot == null) {
             byte result = buf.get();
             mDevEventScreenshot = new GBDeviceEventScreenshot();
@@ -1056,7 +1059,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return null;
     }
 
-    private GBDeviceEventDismissNotification decodeResponseNotificationAction(ByteBuffer buf) {
+    private GBDeviceEventDismissNotification decodeNotificationAction(ByteBuffer buf) {
         buf.order(ByteOrder.LITTLE_ENDIAN);
 
         byte command = buf.get();
@@ -1078,7 +1081,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return null;
     }
 
-    private GBDeviceEventSendBytes decodeResponsePing(ByteBuffer buf) {
+    private GBDeviceEventSendBytes decodePing(ByteBuffer buf) {
         byte command = buf.get();
         if (command == PING_PING) {
             int cookie = buf.getInt();
@@ -1106,6 +1109,36 @@ public class PebbleProtocol extends GBDeviceProtocol {
             return fetchRequest;
         }
         return null;
+    }
+
+    private GBDeviceEventSendBytes decodeDatalog(ByteBuffer buf, short length) {
+        byte command = buf.get();
+        byte id = buf.get();
+        if (command == DATALOG_TIMEOUT) {
+            LOG.info("DATALOG TIMEOUT. id=" + (id & 0xff) + " - ignoring");
+            return null;
+        }
+        if (command == DATALOG_SENDDATA) {
+            buf.order(ByteOrder.LITTLE_ENDIAN);
+            int items_left = buf.getInt();
+            int crc = buf.getInt();
+            LOG.info("DATALOG SENDDATA. id=" + (id & 0xff) + ", items_left=" + items_left + ", total length=" + (length - 9));
+        } else if (command == DATALOG_OPENSESSION) {
+            buf.order(ByteOrder.BIG_ENDIAN);
+            long uuid_high = buf.getLong();
+            long uuid_low = buf.getLong();
+            UUID uuid = new UUID(uuid_high, uuid_low);
+            buf.order(ByteOrder.LITTLE_ENDIAN);
+            int timestamp = buf.getInt();
+            int log_tag = buf.getInt();
+            byte item_type = buf.get();
+            short item_size = buf.get();
+            LOG.info("DATALOG OPENSESSION. id=" + (id & 0xff) + ", App UUID=" + uuid.toString() + ", item_type=" + item_type + ", item_size=" + item_size);
+        }
+        LOG.info("sending ACK (0x85)");
+        GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
+        sendBytes.encodedBytes = encodeDatalog(id, DATALOG_ACK);
+        return sendBytes;
     }
 
     @Override
@@ -1306,18 +1339,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         break;
                 }
                 break;
-            case ENDPOINT_DATALOG:
-                pebbleCmd = buf.get();
-                if (pebbleCmd != DATALOG_TIMEOUT) {
-                    byte id = buf.get();
-                    LOG.info("DATALOG id " + id + " - sending ACK (0x85)");
-                    GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
-                    sendBytes.encodedBytes = encodeDatalog(id, DATALOG_ACK);
-                    devEvt = sendBytes;
-                } else {
-                    LOG.info("DATALOG TIMEOUT - ignoring");
-                }
-                break;
             case ENDPOINT_PHONEVERSION:
                 pebbleCmd = buf.get();
                 switch (pebbleCmd) {
@@ -1331,15 +1352,18 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         break;
                 }
                 break;
+            case ENDPOINT_DATALOG:
+                devEvt = decodeDatalog(buf, length);
+                break;
             case ENDPOINT_SCREENSHOT:
-                devEvt = decodeResponseScreenshot(buf, length);
+                devEvt = decodeScreenshot(buf, length);
                 break;
             case ENDPOINT_EXTENSIBLENOTIFS:
             case ENDPOINT_NOTIFICATIONACTION:
-                devEvt = decodeResponseNotificationAction(buf);
+                devEvt = decodeNotificationAction(buf);
                 break;
             case ENDPOINT_PING:
-                devEvt = decodeResponsePing(buf);
+                devEvt = decodePing(buf);
                 break;
             case ENDPOINT_APPFETCH:
                 devEvt = decodeAppFetch(buf);
