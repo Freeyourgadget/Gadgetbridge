@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.UUID;
 
@@ -429,14 +428,14 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      * @param builder
      */
     private MiBandSupport setCurrentTime(TransactionBuilder builder) {
-        Calendar now = GregorianCalendar.getInstance();
+        byte[] nowBytes = MiBandCoordinator.calendarToRawBytes(GregorianCalendar.getInstance());
         byte[] time = new byte[]{
-                (byte) (now.get(Calendar.YEAR) - 2000),
-                (byte) now.get(Calendar.MONTH),
-                (byte) now.get(Calendar.DATE),
-                (byte) now.get(Calendar.HOUR_OF_DAY),
-                (byte) now.get(Calendar.MINUTE),
-                (byte) now.get(Calendar.SECOND),
+                nowBytes[0],
+                nowBytes[1],
+                nowBytes[2],
+                nowBytes[3],
+                nowBytes[4],
+                nowBytes[5],
                 (byte) 0x0f,
                 (byte) 0x0f,
                 (byte) 0x0f,
@@ -685,17 +684,18 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      * @param characteristic
      */
     private void queueAlarm(Alarm alarm, TransactionBuilder builder, BluetoothGattCharacteristic characteristic) {
-        Calendar alarmCal = alarm.getAlarmCal();
+        byte[] alarmCalBytes = MiBandCoordinator.calendarToRawBytes(alarm.getAlarmCal());
+
         byte[] alarmMessage = new byte[]{
                 (byte) MiBandService.COMMAND_SET_TIMER,
                 (byte) alarm.getIndex(),
                 (byte) (alarm.isEnabled() ? 1 : 0),
-                (byte) (alarmCal.get(Calendar.YEAR) - 2000),
-                (byte) alarmCal.get(Calendar.MONTH),
-                (byte) alarmCal.get(Calendar.DATE),
-                (byte) alarmCal.get(Calendar.HOUR_OF_DAY),
-                (byte) alarmCal.get(Calendar.MINUTE),
-                (byte) alarmCal.get(Calendar.SECOND),
+                alarmCalBytes[0],
+                alarmCalBytes[1],
+                alarmCalBytes[2],
+                alarmCalBytes[3],
+                alarmCalBytes[4],
+                alarmCalBytes[5],
                 (byte) (alarm.isSmartWakeup() ? 30 : 0),
                 (byte) alarm.getRepetitionMask()
         };
