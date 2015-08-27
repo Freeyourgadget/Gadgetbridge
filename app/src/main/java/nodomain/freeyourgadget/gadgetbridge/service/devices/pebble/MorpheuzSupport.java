@@ -5,7 +5,6 @@ import android.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
@@ -41,7 +40,6 @@ public class MorpheuzSupport {
     public static final UUID uuid = UUID.fromString("5be44f1d-d262-4ea6-aa30-ddbec1e3cab2");
     private final PebbleProtocol mPebbleProtocol;
 
-    private boolean sent_to_gadgetbridge = false;
     // data received from Morpheuz in native format
     private int smartalarm_from = -1; // time in minutes relative from 0:00 for smart alarm (earliest)
     private int smartalarm_to = -1;// time in minutes relative from 0:00 for smart alarm (latest)
@@ -57,21 +55,15 @@ public class MorpheuzSupport {
     private byte[] encodeMorpheuzMessage(int key, int value) {
         ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>();
         pairs.add(new Pair<Integer, Object>(key, value));
-        byte[] ackMessage = mPebbleProtocol.encodeApplicationMessageAck(uuid, mPebbleProtocol.last_id);
-        byte[] testMessage = mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, uuid, pairs);
 
-        ByteBuffer buf = ByteBuffer.allocate(ackMessage.length + testMessage.length);
-
-        // encode ack and put in front of push message (hack for acknowledging the last message)
-        buf.put(ackMessage);
-        buf.put(testMessage);
-
-        return buf.array();
+        return mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, uuid, pairs);
     }
 
-    public GBDeviceEvent handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
+    public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
+        int ctrl_message = 0;
+        GBDeviceEventSleepMonitorResult sleepMonitorResult = null;
+
         for (Pair<Integer, Object> pair : pairs) {
-            int ctrl_message = 0;
             switch (pair.first) {
                 case KEY_TRANSMIT:
                 case KEY_GONEOFF:
@@ -79,22 +71,11 @@ public class MorpheuzSupport {
                         alarm_gone_off = (int) pair.second;
                         LOG.info("got gone off: " + alarm_gone_off / 60 + ":" + alarm_gone_off % 60);
                     }
-                    /* super-ugly hack: if if did not notice GadgetBridge yet, do so and delay confirmation so Morpheuz
-                     * will resend gone off data. The second time, we acknowledge it.
-                     *
-                     * this can be fixed by allowing to return multiple GBDeviceCommands
-                     */
-                    if (sent_to_gadgetbridge) {
-                        ctrl_message = MorpheuzSupport.CTRL_VERSION_DONE | MorpheuzSupport.CTRL_GONEOFF_DONE | MorpheuzSupport.CTRL_TRANSMIT_DONE | MorpheuzSupport.CTRL_SET_LAST_SENT;
-                    } else {
-                        GBDeviceEventSleepMonitorResult sleepMonitorResult = new GBDeviceEventSleepMonitorResult();
-                        sleepMonitorResult.smartalarm_from = smartalarm_from;
-                        sleepMonitorResult.smartalarm_to = smartalarm_to;
-                        sleepMonitorResult.alarm_gone_off = alarm_gone_off;
-                        sleepMonitorResult.recording_base_timestamp = recording_base_timestamp;
-                        sent_to_gadgetbridge = true;
-                        return sleepMonitorResult;
-                    }
+                    sleepMonitorResult = new GBDeviceEventSleepMonitorResult();
+                    sleepMonitorResult.smartalarm_from = smartalarm_from;
+                    sleepMonitorResult.smartalarm_to = smartalarm_to;
+                    sleepMonitorResult.alarm_gone_off = alarm_gone_off;
+                    sleepMonitorResult.recording_base_timestamp = recording_base_timestamp;
                     break;
                 case KEY_POINT:
                     if (recording_base_timestamp == -1) {
@@ -140,7 +121,6 @@ public class MorpheuzSupport {
                 case KEY_VERSION:
                     LOG.info("got version: " + ((float) ((int) pair.second) / 10.0f));
                     ctrl_message = MorpheuzSupport.CTRL_VERSION_DONE | MorpheuzSupport.CTRL_SET_LAST_SENT;
-                    sent_to_gadgetbridge = false;
                     break;
                 case KEY_BASE:
                     // fix timestamp
@@ -156,14 +136,20 @@ public class MorpheuzSupport {
                     LOG.info("unhandled key: " + pair.first);
                     break;
             }
-            if (ctrl_message > 0) {
-                GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
-                sendBytes.encodedBytes = encodeMorpheuzMessage(MorpheuzSupport.KEY_CTRL, ctrl_message);
-                return sendBytes;
-            }
         }
-        GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
-        sendBytes.encodedBytes = mPebbleProtocol.encodeApplicationMessageAck(uuid, mPebbleProtocol.last_id);
-        return sendBytes;
+
+        // always ack
+        GBDeviceEventSendBytes sendBytesAck = new GBDeviceEventSendBytes();
+        sendBytesAck.encodedBytes = mPebbleProtocol.encodeApplicationMessageAck(uuid, mPebbleProtocol.last_id);
+
+        // sometimes send control message
+        GBDeviceEventSendBytes sendBytesCtrl = null;
+        if (ctrl_message > 0) {
+            sendBytesCtrl = new GBDeviceEventSendBytes();
+            sendBytesCtrl.encodedBytes = encodeMorpheuzMessage(MorpheuzSupport.KEY_CTRL, ctrl_message);
+        }
+
+        // ctrl and sleep monitor might be null, thats okay
+        return new GBDeviceEvent[]{sendBytesAck, sendBytesCtrl, sleepMonitorResult};
     }
 }

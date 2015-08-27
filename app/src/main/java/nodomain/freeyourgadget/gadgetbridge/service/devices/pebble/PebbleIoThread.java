@@ -237,12 +237,17 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     mInStream.skip(2);
                 }
 
-                GBDeviceEvent deviceEvent = mPebbleProtocol.decodeResponse(buffer);
-                if (deviceEvent == null) {
+                GBDeviceEvent deviceEvents[] = mPebbleProtocol.decodeResponse(buffer);
+                if (deviceEvents == null) {
                     LOG.info("unhandled message to endpoint " + endpoint + " (" + length + " bytes)");
                 } else {
-                    if (!evaluateGBDeviceEventPebble(deviceEvent)) {
-                        mPebbleSupport.evaluateGBDeviceEvent(deviceEvent);
+                    for (GBDeviceEvent deviceEvent : deviceEvents) {
+                        if (deviceEvent == null) {
+                            continue;
+                        }
+                        if (!evaluateGBDeviceEventPebble(deviceEvent)) {
+                            mPebbleSupport.evaluateGBDeviceEvent(deviceEvent);
+                        }
                     }
                 }
                 try {
