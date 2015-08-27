@@ -22,6 +22,7 @@ import java.util.Date;
 import nodomain.freeyourgadget.gadgetbridge.activities.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsHost;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBCallControlReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -232,8 +233,8 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
 
         //show the notification if the battery level is below threshold and only if not connected to charger
         if (deviceEvent.level <= gbDevice.getBatteryThresholdPercent() &&
-                (GBDeviceEventBatteryInfo.BatteryState.BATTERY_LOW.equals(deviceEvent.state) ||
-                        GBDeviceEventBatteryInfo.BatteryState.BATTERY_NORMAL.equals(deviceEvent.state))
+                (BatteryState.BATTERY_LOW.equals(deviceEvent.state) ||
+                        BatteryState.BATTERY_NORMAL.equals(deviceEvent.state))
                 ) {
             GB.updateBatteryNotification(context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), deviceEvent.level),
                     deviceEvent.extendedInfoAvailable() ?

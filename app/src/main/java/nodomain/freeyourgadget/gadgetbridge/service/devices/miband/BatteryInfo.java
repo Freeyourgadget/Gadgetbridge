@@ -3,7 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.miband;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo.BatteryState;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 
 public class BatteryInfo extends AbstractInfo {
     public static final byte DEVICE_BATTERY_NORMAL = 0;

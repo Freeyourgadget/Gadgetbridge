@@ -3,6 +3,8 @@ package nodomain.freeyourgadget.gadgetbridge.deviceevents;
 
 import java.util.GregorianCalendar;
 
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
+
 public class GBDeviceEventBatteryInfo extends GBDeviceEvent {
     public GregorianCalendar lastChargeTime= null;
     public BatteryState state = BatteryState.UNKNOWN;
@@ -11,15 +13,6 @@ public class GBDeviceEventBatteryInfo extends GBDeviceEvent {
 
     public GBDeviceEventBatteryInfo() {
         eventClass = EventClass.BATTERY_INFO;
-    }
-
-    public enum BatteryState {
-        UNKNOWN,
-        BATTERY_NORMAL,
-        BATTERY_LOW,
-        BATTERY_CHARGING,
-        BATTERY_CHARGING_FULL,
-        BATTERY_NOT_CHARGING_FULL
     }
 
     public boolean extendedInfoAvailable() {
