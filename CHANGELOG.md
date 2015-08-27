@@ -1,5 +1,8 @@
 ###Changelog
 
+####next version
+* Pebble: support "dismiss all" action also on Pebble Time/FW 3.x notifications
+
 ####Version 0.5.1
 * Pebble: support taking screenshot from Pebble Time
 * Fix broken "find lost device" which was broken in 0.5.0

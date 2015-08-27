@@ -95,6 +95,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final byte MUSICCONTROL_VOLUMEDOWN = 7;
     static final byte MUSICCONTROL_GETNOWPLAYING = 7;
 
+    static final byte NOTIFICATIONACTION_ACK = 0;
+    static final byte NOTIFICATIONACTION_NACK = 1;
+    static final byte NOTIFICATIONACTION_INVOKE = 0x02;
+    static final byte NOTIFICATIONACTION_RESPONSE = 0x11;
+
     static final byte TIME_GETTIME = 0;
     static final byte TIME_SETTIME = 2;
     static final byte TIME_SETTIME_UTC = 3;
@@ -524,21 +529,22 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private byte[] encodeBlobdbNotification(int timestamp, String title, String subtitle, String body, byte type) {
         String[] parts = {title, subtitle, body};
 
-        int icon_id = 1;
+        int icon_id = 0x80000000 | 1;
         switch (type) {
             case NOTIFICATION_EMAIL:
-                icon_id = 19;
+                icon_id = 0x80000000 | 19;
                 break;
             case NOTIFICATION_SMS:
-                icon_id = 45;
+                icon_id = 0x80000000 | 45;
         }
         // Calculate length first
         final short NOTIFICATION_PIN_LENGTH = 46;
         final short ACTIONS_LENGTH = 17;
 
         byte attributes_count = 1; // icon
+        byte actions_count = 1; // dismiss
 
-        short attributes_length = 7; // icon
+        short attributes_length = 7 + ACTIONS_LENGTH; // icon
         if (parts != null) {
             for (String s : parts) {
                 if (s == null || s.equals("")) {
@@ -547,13 +553,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 attributes_count++;
                 attributes_length += (3 + s.getBytes().length);
             }
-        }
-
-        byte actions_count = 0;
-
-        if (mForceProtocol) {
-            actions_count = 1;
-            attributes_length += ACTIONS_LENGTH;
         }
 
         UUID uuid = UUID.randomUUID();
@@ -598,18 +597,37 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putShort((short) 4); // length of int
         buf.putInt(icon_id);
 
-        if (mForceProtocol) {
-            // ACTION
-            buf.put((byte) 0x01); // id
-            buf.put((byte) 0x04); // dismiss action
-            buf.put((byte) 0x01); // number attributes
-            buf.put((byte) 0x01); // attribute id (title)
-            String actionstring = "dismiss all";
-            buf.putShort((short) actionstring.length());
-            buf.put(actionstring.getBytes());
-        }
+        // ACTION
+        buf.put((byte) 0x01); // id
+        buf.put((byte) 0x02); // generic action, dismiss did not do anything
+        buf.put((byte) 0x01); // number attributes
+        buf.put((byte) 0x01); // attribute id (title)
+        String actionstring = "dismiss all";
+        buf.putShort((short) actionstring.length());
+        buf.put(actionstring.getBytes());
 
         return encodeBlobdb(UUID.randomUUID(), BLOBDB_INSERT, BLOBDB_NOTIFICATION, buf.array());
+    }
+
+    public byte[] encodeActionResponse(UUID uuid) {
+        short length = 38;
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + length);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort(length);
+        buf.putShort(ENDPOINT_NOTIFICATIONACTION);
+        buf.put(NOTIFICATIONACTION_RESPONSE);
+        buf.putLong(uuid.getMostSignificantBits());
+        buf.putLong(uuid.getLeastSignificantBits());
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        buf.put(NOTIFICATIONACTION_ACK);
+        buf.put((byte) 2); //nr of attributes
+        buf.put((byte) 6); // icon
+        buf.putShort((short) 4); // length
+        buf.putInt(0x80000033); // icon id
+        buf.put((byte) 2); // title
+        buf.putShort((short) 9); // length
+        buf.put("Dismissed".getBytes());
+        return buf.array();
     }
 
     public byte[] encodeInstallMetadata(UUID uuid, String appName, short appVersion, short sdkVersion, int flags, int iconId) {
@@ -1077,21 +1095,24 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return null;
     }
 
-    private GBDeviceEventDismissNotification decodeNotificationAction3x(ByteBuffer buf) {
+    private GBDeviceEvent[] decodeNotificationAction3x(ByteBuffer buf) {
         buf.order(ByteOrder.LITTLE_ENDIAN);
 
         byte command = buf.get();
-        if (command == 0x02) { // dismiss notification ?
-            buf.getLong(); // skip 8 bytes of UUID
-            buf.getInt();  // skip 4 bytes of UUID
-            int id = buf.getInt();
-            short action = buf.getShort(); // at least the low byte should be the action - or not?
-            if (action == 0x0001) {
-                GBDeviceEventDismissNotification devEvtDismissNotification = new GBDeviceEventDismissNotification();
-                devEvtDismissNotification.notificationID = id;
-                return devEvtDismissNotification;
+        if (command == NOTIFICATIONACTION_INVOKE) {
+            buf.order(ByteOrder.BIG_ENDIAN);
+            long uuid_high = buf.getLong();
+            long uuid_low = buf.getLong();
+            int id = (int) (uuid_low & 0xffff);
+            byte action = buf.get();
+            if (action == 0x01) {
+                GBDeviceEventDismissNotification dismissNotification = new GBDeviceEventDismissNotification();
+                dismissNotification.notificationID = id;
+                GBDeviceEventSendBytes sendBytesAck = new GBDeviceEventSendBytes();
+                sendBytesAck.encodedBytes = encodeActionResponse(new UUID(uuid_high, uuid_low));
+                return new GBDeviceEvent[]{sendBytesAck, dismissNotification};
             }
-            LOG.info("unexpected paramerter in dismiss action: " + action);
+            LOG.info("unexpected action: " + action);
         }
 
         return null;
@@ -1383,7 +1404,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 devEvts = new GBDeviceEvent[]{decodeNotificationAction2x(buf)};
                 break;
             case ENDPOINT_NOTIFICATIONACTION:
-                devEvts = new GBDeviceEvent[]{decodeNotificationAction3x(buf)};
+                devEvts = decodeNotificationAction3x(buf);
                 break;
             case ENDPOINT_PING:
                 devEvts = new GBDeviceEvent[]{decodePing(buf)};
