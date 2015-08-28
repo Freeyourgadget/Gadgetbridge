@@ -60,6 +60,7 @@ public class GBDevice implements Parcelable {
         mHardwareVersion = in.readString();
         mState = State.values()[in.readInt()];
         mBatteryLevel = (short) in.readInt();
+        mBatteryThresholdPercent = (short) in.readInt();
         mBatteryState = (BatteryState) in.readSerializable();
         mRssi = (short) in.readInt();
         mBusyTask = in.readString();
@@ -76,6 +77,7 @@ public class GBDevice implements Parcelable {
         dest.writeString(mHardwareVersion);
         dest.writeInt(mState.ordinal());
         dest.writeInt(mBatteryLevel);
+        dest.writeInt(mBatteryThresholdPercent);
         dest.writeSerializable(mBatteryState);
         dest.writeInt(mRssi);
         dest.writeString(mBusyTask);
