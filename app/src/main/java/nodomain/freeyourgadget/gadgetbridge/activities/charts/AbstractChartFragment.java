@@ -81,7 +81,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     protected static final class ActivityConfig {
         public final int type;
         public final String label;
-        public final Integer color;
+        public Integer color;
 
         public ActivityConfig(int kind, String label, Integer color) {
             this.type = kind;
@@ -94,10 +94,13 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     protected ActivityConfig akLightSleep = new ActivityConfig(ActivityKind.TYPE_LIGHT_SLEEP, "Light Sleep", Color.rgb(182, 191, 255));
     protected ActivityConfig akDeepSleep = new ActivityConfig(ActivityKind.TYPE_DEEP_SLEEP, "Deep Sleep", Color.rgb(76, 90, 255));
 
-    protected static final int BACKGROUND_COLOR = Color.rgb(24, 22, 24);
-    protected static final int DESCRIPTION_COLOR = Color.WHITE;
-    protected static final int CHART_TEXT_COLOR = Color.WHITE;
-    protected static final int LEGEND_TEXT_COLOR = Color.WHITE;
+    protected int BACKGROUND_COLOR;
+    protected int DESCRIPTION_COLOR;
+    protected int CHART_TEXT_COLOR;
+    protected int LEGEND_TEXT_COLOR;
+    protected int AK_ACTIVITY_COLOR;
+    protected int AK_DEEP_SLEEP_COLOR;
+    protected int AK_LIGHT_SLEEP_COLOR;
 
     protected AbstractChartFragment(String... intentFilterActions) {
         mIntentFilterActions = new HashSet<>();
@@ -113,11 +116,27 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        initColors();
+
         IntentFilter filter = new IntentFilter();
         for (String action : mIntentFilterActions) {
             filter.addAction(action);
         }
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver, filter);
+    }
+
+    protected void initColors() {
+        BACKGROUND_COLOR = getResources().getColor(R.color.background_material_light);
+        DESCRIPTION_COLOR = getResources().getColor(R.color.primarytext);
+        CHART_TEXT_COLOR = getResources().getColor(R.color.secondarytext);
+        LEGEND_TEXT_COLOR = getResources().getColor(R.color.primarytext);
+        AK_ACTIVITY_COLOR = getResources().getColor(R.color.chart_activity_light);
+        AK_DEEP_SLEEP_COLOR = getResources().getColor(R.color.chart_light_sleep_light);
+        AK_LIGHT_SLEEP_COLOR = getResources().getColor(R.color.chart_deep_sleep_light);
+
+        akActivity.color = AK_ACTIVITY_COLOR;
+        akLightSleep.color = AK_LIGHT_SLEEP_COLOR;
+        akDeepSleep.color = AK_DEEP_SLEEP_COLOR;
     }
 
     private void setStartDate(Date date) {

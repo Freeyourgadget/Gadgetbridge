@@ -9,6 +9,7 @@ public class ActivityKind {
     public static final int TYPE_ACTIVITY = 1;
     public static final int TYPE_LIGHT_SLEEP = 2;
     public static final int TYPE_DEEP_SLEEP = 4;
+
     public static final int TYPE_SLEEP = TYPE_LIGHT_SLEEP | TYPE_DEEP_SLEEP;
     public static final int TYPE_ALL = TYPE_ACTIVITY | TYPE_SLEEP;
 
