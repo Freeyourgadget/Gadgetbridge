@@ -63,7 +63,7 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
-    public GBDeviceEvent decodeResponse(byte[] responseData) {
+    public GBDeviceEvent[] decodeResponse(byte[] responseData) {
         return null;
     }
 }

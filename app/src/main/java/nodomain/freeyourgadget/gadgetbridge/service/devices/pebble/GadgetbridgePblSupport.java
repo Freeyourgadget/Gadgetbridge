@@ -33,7 +33,7 @@ public class GadgetbridgePblSupport {
         mPebbleProtocol = pebbleProtocol;
     }
 
-    public GBDeviceEvent handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
+    public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
         int timestamp = 0;
         for (Pair<Integer, Object> pair : pairs) {
             switch (pair.first) {
@@ -75,6 +75,6 @@ public class GadgetbridgePblSupport {
         }
         GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
         sendBytes.encodedBytes = mPebbleProtocol.encodeApplicationMessageAck(uuid, mPebbleProtocol.last_id);
-        return sendBytes;
+        return new GBDeviceEvent[]{sendBytes};
     }
 }
