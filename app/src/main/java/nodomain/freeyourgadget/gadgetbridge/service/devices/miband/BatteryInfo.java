@@ -2,7 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.miband;
 
 import java.util.GregorianCalendar;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandDateConverter;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 
 public class BatteryInfo extends AbstractInfo {
@@ -46,7 +46,7 @@ public class BatteryInfo extends AbstractInfo {
         GregorianCalendar lastCharge = new GregorianCalendar();
 
         if (mData.length >= 10) {
-            lastCharge = MiBandCoordinator.rawBytesToCalendar(new byte[]{
+            lastCharge = MiBandDateConverter.rawBytesToCalendar(new byte[]{
                     mData[1], mData[2], mData[3], mData[4], mData[5], mData[6]
             });
         }

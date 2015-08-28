@@ -19,7 +19,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandDateConverter;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -225,7 +225,7 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
      * @param bytesTransferred
      */
     private void sendAckDataTransfer(Calendar time, int bytesTransferred) {
-        byte[] ackTime = MiBandCoordinator.calendarToRawBytes(time);
+        byte[] ackTime = MiBandDateConverter.calendarToRawBytes(time);
         byte[] ack = new byte[]{
                 MiBandService.COMMAND_CONFIRM_ACTIVITY_DATA_TRANSFER_COMPLETE,
                 ackTime[0],

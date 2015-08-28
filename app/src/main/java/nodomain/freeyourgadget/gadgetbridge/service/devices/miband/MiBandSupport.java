@@ -21,6 +21,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInf
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandDateConverter;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
@@ -428,7 +429,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      * @param builder
      */
     private MiBandSupport setCurrentTime(TransactionBuilder builder) {
-        byte[] nowBytes = MiBandCoordinator.calendarToRawBytes(GregorianCalendar.getInstance());
+        byte[] nowBytes = MiBandDateConverter.calendarToRawBytes(GregorianCalendar.getInstance());
         byte[] time = new byte[]{
                 nowBytes[0],
                 nowBytes[1],
@@ -684,7 +685,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      * @param characteristic
      */
     private void queueAlarm(Alarm alarm, TransactionBuilder builder, BluetoothGattCharacteristic characteristic) {
-        byte[] alarmCalBytes = MiBandCoordinator.calendarToRawBytes(alarm.getAlarmCal());
+        byte[] alarmCalBytes = MiBandDateConverter.calendarToRawBytes(alarm.getAlarmCal());
 
         byte[] alarmMessage = new byte[]{
                 (byte) MiBandService.COMMAND_SET_TIMER,
