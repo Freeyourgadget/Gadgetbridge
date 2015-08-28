@@ -4,7 +4,7 @@
 
     <uses-sdk
         android:minSdkVersion="19"
-        android:targetSdkVersion="21" />
+        android:targetSdkVersion="23" />
 <!--
     <uses-permission android:name="android.permission.INTERNET" />
 -->
@@ -32,6 +32,7 @@
     <application
         android:name=".GBApplication"
         android:allowBackup="true"
+        android:fullBackupContent="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/GadgetbridgeTheme">
@@ -71,49 +72,51 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.ControlCenter" />
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="*/*" /> <!-- needed for aosp-derived ROMs? -->
+                <data android:mimeType="*/*" />
+                <!-- needed for aosp-derived ROMs? -->
 
                 <data android:host="*" />
                 <data android:scheme="file" />
 
                 <!-- as seen on openkeychain repo: https://github.com/open-keychain/open-keychain/blob/master/OpenKeychain/src/main/AndroidManifest.xml -->
 
-                <data android:pathPattern=".*\\.fw" />
-                <data android:pathPattern=".*\\..*\\.fw" />
-                <data android:pathPattern=".*\\..*\\..*\\.fw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\.fw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.fw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.fw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
+                <data android:pathPattern="/.*\\.fw" />
+                <data android:pathPattern="/.*\\..*\\.fw" />
+                <data android:pathPattern="/.*\\..*\\..*\\.fw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\.fw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\.fw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\.fw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
 
-                <data android:pathPattern=".*\\.pbw" />
-                <data android:pathPattern=".*\\..*\\.pbw" />
-                <data android:pathPattern=".*\\..*\\..*\\.pbw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\.pbw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.pbw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
+                <data android:pathPattern="/.*\\.pbw" />
+                <data android:pathPattern="/.*\\..*\\.pbw" />
+                <data android:pathPattern="/.*\\..*\\..*\\.pbw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\.pbw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\.pbw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
 
-                <data android:pathPattern=".*\\.pbz" />
-                <data android:pathPattern=".*\\..*\\.pbz" />
-                <data android:pathPattern=".*\\..*\\..*\\.pbz" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\.pbz" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.pbz" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
+                <data android:pathPattern="/.*\\.pbz" />
+                <data android:pathPattern="/.*\\..*\\.pbz" />
+                <data android:pathPattern="/.*\\..*\\..*\\.pbz" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\.pbz" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\.pbz" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
 
             </intent-filter>
             <intent-filter>
@@ -127,41 +130,42 @@
 
                 <!-- as seen on openkeychain repo: https://github.com/open-keychain/open-keychain/blob/master/OpenKeychain/src/main/AndroidManifest.xml -->
 
-                <data android:pathPattern=".*\\.fw" />
-                <data android:pathPattern=".*\\..*\\.fw" />
-                <data android:pathPattern=".*\\..*\\..*\\.fw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\.fw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.fw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.fw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
+                <data android:pathPattern="/.*\\.fw" />
+                <data android:pathPattern="/.*\\..*\\.fw" />
+                <data android:pathPattern="/.*\\..*\\..*\\.fw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\.fw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\.fw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\.fw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
 
-                <data android:pathPattern=".*\\.pbw" />
-                <data android:pathPattern=".*\\..*\\.pbw" />
-                <data android:pathPattern=".*\\..*\\..*\\.pbw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\.pbw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.pbw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
+                <data android:pathPattern="/.*\\.pbw" />
+                <data android:pathPattern="/.*\\..*\\.pbw" />
+                <data android:pathPattern="/.*\\..*\\..*\\.pbw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\.pbw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\.pbw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
 
-                <data android:pathPattern=".*\\.pbz" />
-                <data android:pathPattern=".*\\..*\\.pbz" />
-                <data android:pathPattern=".*\\..*\\..*\\.pbz" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\.pbz" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.pbz" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
+                <data android:pathPattern="/.*\\.pbz" />
+                <data android:pathPattern="/.*\\..*\\.pbz" />
+                <data android:pathPattern="/.*\\..*\\..*\\.pbz" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\.pbz" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\.pbz" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
+                <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
 
             </intent-filter>
         </activity>
+
         <service
             android:name=".externalevents.NotificationListener"
             android:label="@string/app_name"
@@ -259,10 +263,10 @@
         </activity>
         <activity
             android:name=".activities.AndroidPairingActivity"
-            android:label="@string/title_activity_android_pairing"></activity>
+            android:label="@string/title_activity_android_pairing" />
         <activity
             android:name=".devices.miband.MiBandPairingActivity"
-            android:label="@string/title_activity_mi_band_pairing"></activity>
+            android:label="@string/title_activity_mi_band_pairing" />
         <activity
             android:name=".activities.charts.ChartsActivity"
             android:label="@string/title_activity_charts"
@@ -274,7 +278,7 @@
         <activity
             android:name=".activities.ConfigureAlarms"
             android:label="@string/title_activity_set_alarm"
-            android:parentActivityName=".activities.SettingsActivity" >
+            android:parentActivityName=".activities.SettingsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.SettingsActivity" />
@@ -282,7 +286,7 @@
         <activity
             android:name=".activities.AlarmDetails"
             android:label="@string/title_activity_alarm_details"
-            android:parentActivityName=".activities.ConfigureAlarms" >
+            android:parentActivityName=".activities.ConfigureAlarms">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms" />
