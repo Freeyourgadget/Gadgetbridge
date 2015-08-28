@@ -38,6 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.TimeChangeReceiver;
 public class GB {
     public static final int NOTIFICATION_ID = 1;
     public static final int NOTIFICATION_ID_INSTALL = 2;
+    public static final int NOTIFICATION_ID_LOW_BATTERY = 3;
 
     private static final Logger LOG = LoggerFactory.getLogger(GB.class);
     public static final int INFO = 1;
@@ -295,6 +296,35 @@ public class GB {
 
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         nm.notify(NOTIFICATION_ID_INSTALL, notification);
+    }
+
+    private static Notification createBatteryNotification(String text, String bigText, Context context) {
+        Intent notificationIntent = new Intent(context, ControlCenter.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
+                notificationIntent, 0);
+
+        NotificationCompat.Builder nb = new NotificationCompat.Builder(context)
+                .setContentTitle( context.getString(R.string.notif_battery_low_title))
+                .setContentText(text)
+                .setContentIntent(pendingIntent)
+                .setSmallIcon(R.drawable.ic_notification_low_battery)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setOngoing(false);
+
+        if (bigText != null) {
+            nb.setStyle(new NotificationCompat.BigTextStyle().bigText(bigText));
+        }
+
+        return nb.build();
+    }
+
+    public static void updateBatteryNotification(String text, String bigText, Context context) {
+        Notification notification = createBatteryNotification(text, bigText, context);
+
+        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.notify(NOTIFICATION_ID_LOW_BATTERY, notification);
     }
 
     public static GBEnvironment env() {

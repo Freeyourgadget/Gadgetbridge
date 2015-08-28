@@ -15,17 +15,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsHost;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBCallControlReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBMusicControlReceiver;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.charts.AbstractChartFragment;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
@@ -110,6 +112,9 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                 break;
             case DISMISS_NOTIFICATION:
                 handleGBDeviceEvent((GBDeviceEventDismissNotification) deviceEvent);
+                break;
+            case BATTERY_INFO:
+                handleGBDeviceEvent((GBDeviceEventBatteryInfo) deviceEvent);
                 break;
             default:
                 break;
@@ -219,4 +224,28 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         notificationListenerIntent.putExtra("id", deviceEvent.notificationID);
         LocalBroadcastManager.getInstance(context).sendBroadcast(notificationListenerIntent);
     }
+
+    public void handleGBDeviceEvent(GBDeviceEventBatteryInfo deviceEvent) {
+        Context context = getContext();
+        LOG.info("Got BATTERY_INFO device event");
+        gbDevice.setBatteryLevel(deviceEvent.level);
+        gbDevice.setBatteryState(deviceEvent.state);
+
+        //show the notification if the battery level is below threshold and only if not connected to charger
+        if (deviceEvent.level <= gbDevice.getBatteryThresholdPercent() &&
+                (BatteryState.BATTERY_LOW.equals(deviceEvent.state) ||
+                        BatteryState.BATTERY_NORMAL.equals(deviceEvent.state))
+                ) {
+            GB.updateBatteryNotification(context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), deviceEvent.level),
+                    deviceEvent.extendedInfoAvailable() ?
+                            context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), deviceEvent.level) + "\n" +
+                            context.getString(R.string.notif_battery_low_bigtext_last_charge_time, DateFormat.getDateTimeInstance().format(deviceEvent.lastChargeTime.getTime()).toString()) +
+                            context.getString(R.string.notif_battery_low_bigtext_number_of_charges, deviceEvent.numCharges)
+                            : ""
+                    , context);
+        }
+
+        gbDevice.sendDeviceUpdateIntent(context);
+    }
+
 }

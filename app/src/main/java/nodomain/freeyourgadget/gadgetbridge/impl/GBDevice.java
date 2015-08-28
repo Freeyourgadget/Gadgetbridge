@@ -9,6 +9,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -30,6 +31,7 @@ public class GBDevice implements Parcelable {
     private static final Logger LOG = LoggerFactory.getLogger(GBDevice.class);
     public static final short RSSI_UNKNOWN = 0;
     public static final short BATTERY_UNKNOWN = -1;
+    private static final short BATTERY_THRESHOLD_PERCENT = 10;
     public static final String EXTRA_DEVICE = "device";
     private final String mName;
     private final String mAddress;
@@ -38,7 +40,10 @@ public class GBDevice implements Parcelable {
     private String mHardwareVersion = null;
     private State mState = State.NOT_CONNECTED;
     private short mBatteryLevel = BATTERY_UNKNOWN;
-    private String mBatteryState;
+    private short mBatteryThresholdPercent = BATTERY_THRESHOLD_PERCENT;
+    //TODO: get rid of String mBatteryStatus in favor of Enum mBatteryState
+    private String mBatteryStatus;
+    private BatteryState mBatteryState;
     private short mRssi = RSSI_UNKNOWN;
     private String mBusyTask;
 
@@ -57,7 +62,7 @@ public class GBDevice implements Parcelable {
         mHardwareVersion = in.readString();
         mState = State.values()[in.readInt()];
         mBatteryLevel = (short) in.readInt();
-        mBatteryState = in.readString();
+        mBatteryStatus = in.readString();
         mRssi = (short) in.readInt();
         mBusyTask = in.readString();
 
@@ -73,7 +78,7 @@ public class GBDevice implements Parcelable {
         dest.writeString(mHardwareVersion);
         dest.writeInt(mState.ordinal());
         dest.writeInt(mBatteryLevel);
-        dest.writeString(mBatteryState);
+        dest.writeString(mBatteryStatus);
         dest.writeInt(mRssi);
         dest.writeString(mBusyTask);
     }
@@ -177,7 +182,7 @@ public class GBDevice implements Parcelable {
 
     private void unsetDynamicState() {
         setBatteryLevel(BATTERY_UNKNOWN);
-        setBatteryState(null);
+        setBatteryState(BatteryState.UNKNOWN);
         setFirmwareVersion(null);
         setRssi(RSSI_UNKNOWN);
         if (mBusyTask != null) {
@@ -281,15 +286,20 @@ public class GBDevice implements Parcelable {
         }
     }
 
-    /**
-     * Returns a string representation of the battery state.
-     */
-    public String getBatteryState() {
-        return mBatteryState != null ? mBatteryState : GBApplication.getContext().getString(R.string._unknown_);
+    public BatteryState getBatteryState() {
+        return mBatteryState;
     }
 
-    public void setBatteryState(String batteryState) {
-        mBatteryState = batteryState;
+    public void setBatteryState(BatteryState mBatteryState) {
+        this.mBatteryState = mBatteryState;
+    }
+
+    public short getBatteryThresholdPercent() {
+        return mBatteryThresholdPercent;
+    }
+
+    public void setBatteryThresholdPercent(short batteryThresholdPercent) {
+        this.mBatteryThresholdPercent = batteryThresholdPercent;
     }
 
     @Override

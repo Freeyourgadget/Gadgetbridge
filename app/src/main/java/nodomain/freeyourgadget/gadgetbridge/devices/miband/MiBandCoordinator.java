@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -130,4 +131,5 @@ public class MiBandCoordinator implements DeviceCoordinator {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
         return Integer.parseInt(prefs.getString(MiBandConst.PREF_MIBAND_FITNESS_GOAL, "10000"));
     }
+
 }

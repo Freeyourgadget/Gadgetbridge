@@ -13,14 +13,15 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandDateConverter;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
@@ -66,6 +67,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private DeviceInfo mDeviceInfo;
 
     GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
+    GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
 
     public MiBandSupport() {
         addSupportedService(MiBandService.UUID_SERVICE_MIBAND_SERVICE);
@@ -261,6 +263,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
         return this;
     }
+
     /**
      * Part of device initialization process. Do not call manually.
      *
@@ -276,7 +279,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             transaction.write(characteristic, new byte[]{
                     MiBandService.COMMAND_SET_FITNESS_GOAL,
                     0,
-                    (byte) (fitnessGoal  &  0xff),
+                    (byte) (fitnessGoal & 0xff),
                     (byte) ((fitnessGoal >>> 8) & 0xff)
             });
         } else {
@@ -426,14 +429,14 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      * @param builder
      */
     private MiBandSupport setCurrentTime(TransactionBuilder builder) {
-        Calendar now = GregorianCalendar.getInstance();
+        byte[] nowBytes = MiBandDateConverter.calendarToRawBytes(GregorianCalendar.getInstance());
         byte[] time = new byte[]{
-                (byte) (now.get(Calendar.YEAR) - 2000),
-                (byte) now.get(Calendar.MONTH),
-                (byte) now.get(Calendar.DATE),
-                (byte) now.get(Calendar.HOUR_OF_DAY),
-                (byte) now.get(Calendar.MINUTE),
-                (byte) now.get(Calendar.SECOND),
+                nowBytes[0],
+                nowBytes[1],
+                nowBytes[2],
+                nowBytes[3],
+                nowBytes[4],
+                nowBytes[5],
                 (byte) 0x0f,
                 (byte) 0x0f,
                 (byte) 0x0f,
@@ -621,6 +624,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     /**
      * Utility method that may be used to log incoming messages when we don't know how to deal with them yet.
+     *
      * @param value
      */
     private void logMessageContent(byte[] value) {
@@ -635,13 +639,13 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      * characteristic,
      * These messages appear to be always 1 byte long, with values that are listed in MiBandService.
      * It is not excluded that there are further values which are still unknown.
-     *
+     * <p/>
      * Upon receiving known values that request further action by GB, the appropriate method is called.
      *
      * @param value
      */
     private void handleNotificationNotif(byte[] value) {
-        if(value.length != 1) {
+        if (value.length != 1) {
             LOG.error("Notifications should be 1 byte long.");
             LOG.info("RECEIVED DATA WITH LENGTH: " + value.length);
             for (byte b : value) {
@@ -681,17 +685,18 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      * @param characteristic
      */
     private void queueAlarm(Alarm alarm, TransactionBuilder builder, BluetoothGattCharacteristic characteristic) {
-        Calendar alarmCal = alarm.getAlarmCal();
+        byte[] alarmCalBytes = MiBandDateConverter.calendarToRawBytes(alarm.getAlarmCal());
+
         byte[] alarmMessage = new byte[]{
                 (byte) MiBandService.COMMAND_SET_TIMER,
                 (byte) alarm.getIndex(),
                 (byte) (alarm.isEnabled() ? 1 : 0),
-                (byte) (alarmCal.get(Calendar.YEAR) - 2000),
-                (byte) alarmCal.get(Calendar.MONTH),
-                (byte) alarmCal.get(Calendar.DATE),
-                (byte) alarmCal.get(Calendar.HOUR_OF_DAY),
-                (byte) alarmCal.get(Calendar.MINUTE),
-                (byte) alarmCal.get(Calendar.SECOND),
+                alarmCalBytes[0],
+                alarmCalBytes[1],
+                alarmCalBytes[2],
+                alarmCalBytes[3],
+                alarmCalBytes[4],
+                alarmCalBytes[5],
                 (byte) (alarm.isSmartWakeup() ? 30 : 0),
                 (byte) alarm.getRepetitionMask()
         };
@@ -716,9 +721,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private void handleBatteryInfo(byte[] value, int status) {
         if (status == BluetoothGatt.GATT_SUCCESS) {
             BatteryInfo info = new BatteryInfo(value);
-            getDevice().setBatteryLevel((short) info.getLevelInPercent());
-            getDevice().setBatteryState(info.getStatus());
-            getDevice().sendDeviceUpdateIntent(getContext());
+            batteryCmd.level = ((short) info.getLevelInPercent());
+            batteryCmd.state = info.getState();
+            batteryCmd.lastChargeTime = info.getLastChargeTime();
+            batteryCmd.numCharges = info.getNumCharges();
+            handleGBDeviceEvent(batteryCmd);
         }
     }
 
