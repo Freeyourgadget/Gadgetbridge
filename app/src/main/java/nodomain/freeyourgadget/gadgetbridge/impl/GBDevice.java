@@ -41,8 +41,6 @@ public class GBDevice implements Parcelable {
     private State mState = State.NOT_CONNECTED;
     private short mBatteryLevel = BATTERY_UNKNOWN;
     private short mBatteryThresholdPercent = BATTERY_THRESHOLD_PERCENT;
-    //TODO: get rid of String mBatteryStatus in favor of Enum mBatteryState
-    private String mBatteryStatus;
     private BatteryState mBatteryState;
     private short mRssi = RSSI_UNKNOWN;
     private String mBusyTask;
@@ -62,7 +60,7 @@ public class GBDevice implements Parcelable {
         mHardwareVersion = in.readString();
         mState = State.values()[in.readInt()];
         mBatteryLevel = (short) in.readInt();
-        mBatteryStatus = in.readString();
+        mBatteryState = (BatteryState) in.readSerializable();
         mRssi = (short) in.readInt();
         mBusyTask = in.readString();
 
@@ -78,7 +76,7 @@ public class GBDevice implements Parcelable {
         dest.writeString(mHardwareVersion);
         dest.writeInt(mState.ordinal());
         dest.writeInt(mBatteryLevel);
-        dest.writeString(mBatteryStatus);
+        dest.writeSerializable(mBatteryState);
         dest.writeInt(mRssi);
         dest.writeString(mBusyTask);
     }
