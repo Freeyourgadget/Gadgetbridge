@@ -10,7 +10,7 @@ android:
     #- build-tools-19.1.0
 
     # The SDK version used to compile your project
-    - android-21
+    - android-23
 
     # Additional components
     - extra-android-m2repository
