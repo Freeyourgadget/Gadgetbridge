@@ -20,4 +20,7 @@
     <color name="chart_activity_light" type="color">#60bd6d</color>
     <color name="chart_activity_dark" type="color">#59b22c</color>
 
+    <color name="chart_not_worn_light" type="color">#545254</color>
+    <color name="chart_not_worn_dark" type="color">#d8d9d8</color>
+
 </resources>

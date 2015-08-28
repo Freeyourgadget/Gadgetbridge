@@ -11,6 +11,7 @@ public class ActivityAnalysis {
     public ActivityAmounts calculateActivityAmounts(List<ActivitySample> samples) {
         ActivityAmount deepSleep = new ActivityAmount(ActivityKind.TYPE_DEEP_SLEEP);
         ActivityAmount lightSleep = new ActivityAmount(ActivityKind.TYPE_LIGHT_SLEEP);
+        ActivityAmount notWorn = new ActivityAmount(ActivityKind.TYPE_NOT_WORN);
         ActivityAmount activity = new ActivityAmount(ActivityKind.TYPE_ACTIVITY);
 
         ActivityAmount previousAmount = null;
@@ -23,6 +24,9 @@ public class ActivityAnalysis {
                     break;
                 case ActivityKind.TYPE_LIGHT_SLEEP:
                     amount = lightSleep;
+                    break;
+                case ActivityKind.TYPE_NOT_WORN:
+                    amount = notWorn;
                     break;
                 case ActivityKind.TYPE_ACTIVITY:
                 default:

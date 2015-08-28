@@ -8,9 +8,9 @@ public class MiBandSampleProvider implements SampleProvider {
     public static final byte TYPE_LIGHT_SLEEP = 4;
     public static final byte TYPE_ACTIVITY = -1;
     public static final byte TYPE_UNKNOWN = -1;
+    public static final byte TYPE_NONWEAR = 3;
+    public static final byte TYPE_CHARGING = 6;
 
-//    public static final byte TYPE_CHARGING = 6;
-//    public static final byte TYPE_NONWEAR = 3;
 //    public static final byte TYPE_NREM = 5; // DEEP SLEEP
 //    public static final byte TYPE_ONBED = 7;
 //    public static final byte TYPE_REM = 4; // LIGHT SLEEP
@@ -31,6 +31,10 @@ public class MiBandSampleProvider implements SampleProvider {
                 return ActivityKind.TYPE_LIGHT_SLEEP;
             case TYPE_ACTIVITY:
                 return ActivityKind.TYPE_ACTIVITY;
+            case TYPE_NONWEAR:
+                return ActivityKind.TYPE_NOT_WORN;
+            case TYPE_CHARGING:
+                return ActivityKind.TYPE_NOT_WORN; //I believe it's a safe assumption
             default:
 //            case TYPE_UNKNOWN: // fall through
                 return ActivityKind.TYPE_UNKNOWN;
@@ -46,6 +50,8 @@ public class MiBandSampleProvider implements SampleProvider {
                 return TYPE_DEEP_SLEEP;
             case ActivityKind.TYPE_LIGHT_SLEEP:
                 return TYPE_LIGHT_SLEEP;
+            case ActivityKind.TYPE_NOT_WORN:
+                return TYPE_NONWEAR;
             case ActivityKind.TYPE_UNKNOWN: // fall through
             default:
                 return TYPE_UNKNOWN;

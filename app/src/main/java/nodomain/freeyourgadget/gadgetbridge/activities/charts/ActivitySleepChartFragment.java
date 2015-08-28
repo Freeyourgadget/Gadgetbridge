@@ -115,14 +115,16 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
     }
 
     protected void setupLegend(Chart chart) {
-        List<Integer> legendColors = new ArrayList<>(3);
-        List<String> legendLabels = new ArrayList<>(3);
+        List<Integer> legendColors = new ArrayList<>(4);
+        List<String> legendLabels = new ArrayList<>(4);
         legendColors.add(akActivity.color);
         legendLabels.add(akActivity.label);
         legendColors.add(akLightSleep.color);
         legendLabels.add(akLightSleep.label);
         legendColors.add(akDeepSleep.color);
         legendLabels.add(akDeepSleep.label);
+        legendColors.add(akNotWorn.color);
+        legendLabels.add(akNotWorn.label);
         chart.getLegend().setColors(legendColors);
         chart.getLegend().setLabels(legendLabels);
     }

@@ -93,6 +93,8 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     protected ActivityConfig akActivity = new ActivityConfig(ActivityKind.TYPE_ACTIVITY, "Activity", Color.rgb(89, 178, 44));
     protected ActivityConfig akLightSleep = new ActivityConfig(ActivityKind.TYPE_LIGHT_SLEEP, "Light Sleep", Color.rgb(182, 191, 255));
     protected ActivityConfig akDeepSleep = new ActivityConfig(ActivityKind.TYPE_DEEP_SLEEP, "Deep Sleep", Color.rgb(76, 90, 255));
+    protected ActivityConfig akNotWorn = new ActivityConfig(ActivityKind.TYPE_NOT_WORN, "Not Worn", Color.rgb(84, 82, 84));
+
 
     protected int BACKGROUND_COLOR;
     protected int DESCRIPTION_COLOR;
@@ -101,6 +103,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     protected int AK_ACTIVITY_COLOR;
     protected int AK_DEEP_SLEEP_COLOR;
     protected int AK_LIGHT_SLEEP_COLOR;
+    protected int AK_NOT_WORN_COLOR;
 
     protected AbstractChartFragment(String... intentFilterActions) {
         mIntentFilterActions = new HashSet<>();
@@ -133,10 +136,12 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         AK_ACTIVITY_COLOR = getResources().getColor(R.color.chart_activity_light);
         AK_DEEP_SLEEP_COLOR = getResources().getColor(R.color.chart_light_sleep_light);
         AK_LIGHT_SLEEP_COLOR = getResources().getColor(R.color.chart_deep_sleep_light);
+        AK_NOT_WORN_COLOR = getResources().getColor(R.color.chart_not_worn_light);
 
         akActivity.color = AK_ACTIVITY_COLOR;
         akLightSleep.color = AK_LIGHT_SLEEP_COLOR;
         akDeepSleep.color = AK_DEEP_SLEEP_COLOR;
+        akNotWorn.color = AK_NOT_WORN_COLOR;
     }
 
     private void setStartDate(Date date) {
@@ -396,25 +401,28 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                 float movement = sample.getIntensity();
 
                 float value = movement;
-                if (type == ActivityKind.TYPE_DEEP_SLEEP) {
-                    value += SleepUtils.Y_VALUE_DEEP_SLEEP;
-                    activityEntries.add(createBarEntry(value, i));
-                    colors.add(akDeepSleep.color);
-                } else {
-                    if (type == ActivityKind.TYPE_LIGHT_SLEEP) {
-                        activityEntries.add(createBarEntry(value, i));
+                switch (type) {
+                    case ActivityKind.TYPE_DEEP_SLEEP:
+                        value += SleepUtils.Y_VALUE_DEEP_SLEEP;
+                        colors.add(akDeepSleep.color);
+                        break;
+                    case ActivityKind.TYPE_LIGHT_SLEEP:
                         colors.add(akLightSleep.color);
-                    } else {
+                        break;
+                    case ActivityKind.TYPE_NOT_WORN:
+                        value = SleepUtils.Y_VALUE_DEEP_SLEEP; //a small value, just to show something on the graphs
+                        colors.add(akNotWorn.color);
+                        break;
+                    default:
 //                        short steps = sample.getSteps();
 //                        if (use_steps_as_movement && steps != 0) {
 //                            // I'm not sure using steps for this is actually a good idea
 //                            movement = steps;
 //                        }
 //                        value = ((float) movement) / movement_divisor;
-                        activityEntries.add(createBarEntry(value, i));
                         colors.add(akActivity.color);
-                    }
                 }
+                activityEntries.add(createBarEntry(value, i));
 
                 String xLabel = "";
                 if (annotate) {
