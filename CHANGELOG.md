@@ -5,7 +5,8 @@
 * Miband: show a notification when the battery is below 10%
 * Graphs are now using the same theme as the rest of the application
 * Graphs now show when the device was not worn by the user (for devices that send this information)
-* Build target is now Android SDK 23 (Marshmallow)
+* Remove unused settings option in charts view
+* Build target is now Android SDK 23 (Marshmellow)
 
 ####Version 0.5.1
 * Pebble: support taking screenshot from Pebble Time
