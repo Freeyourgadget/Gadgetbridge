@@ -5,7 +5,7 @@
 * Miband: show a notification when the battery is below 10%
 * Graphs are now using the same theme as the rest of the application
 * Graphs now show when the device was not worn by the user (for devices that send this information)
-* Build target is now Android 23 (Android M)
+* Build target is now Android SDK 23 (Marshmallow)
 
 ####Version 0.5.1
 * Pebble: support taking screenshot from Pebble Time
@@ -16,6 +16,7 @@
 * Pebble: experimental watchapp installation support for FW 3.x/Pebble Time
 * Pebble: support Pebble emulator via TCP connection (needs rebuild with INTERNET permission)
 * Pebble: use SMS/EMAIL icons for FW 3.x/Pebble Time
+* Pebble: do not throttle notifications
 * Support going forward/backwards in time in the activy charts
 * Various small bugfixes to the App/Fw Installation Activity
 
