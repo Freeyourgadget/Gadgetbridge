@@ -49,7 +49,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
  * and add the samples to the chart. The actual rendering, which must be performed in the UI
  * thread, must be done in #renderCharts().
  * Access functionality of the hosting activity with #getHost()
- *
+ * <p/>
  * The hosting ChartsHost activity provides a section for displaying a date or date range
  * being the basis for the chart, as well as two buttons for moving backwards and forward
  * in time. The date is held by the activity, so that it can be shared by multiple chart
@@ -145,19 +145,19 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     private void setStartDate(Date date) {
-        getHost().setStartDate(date);
+        ((ChartsHost) getHost()).setStartDate(date);
     }
 
     private void setEndDate(Date date) {
-        getHost().setEndDate(date);
+        ((ChartsHost) getHost()).setEndDate(date);
     }
 
     public Date getStartDate() {
-        return getHost().getStartDate();
+        return ((ChartsHost) getHost()).getStartDate();
     }
 
     public Date getEndDate() {
-        return getHost().getEndDate();
+        return ((ChartsHost) getHost()).getEndDate();
     }
 
     /**
@@ -194,6 +194,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     /**
      * Default implementation shifts the dates by one day, if visible
      * and calls #refreshIfVisible().
+     *
      * @param startDate
      * @param endDate
      */
@@ -209,6 +210,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     /**
      * Default implementation shifts the dates by one day, if visible
      * and calls #refreshIfVisible().
+     *
      * @param startDate
      * @param endDate
      */
@@ -231,9 +233,10 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
     /**
      * Shifts the given dates by offset days. offset may be positive or negative.
+     *
      * @param startDate
      * @param endDate
-     * @param offset a positive or negative number of days to shift the dates
+     * @param offset    a positive or negative number of days to shift the dates
      * @return true if the shift was successful and false otherwise
      */
     protected boolean shiftDates(Date startDate, Date endDate, int offset) {
@@ -263,6 +266,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     /**
      * Returns all kinds of samples for the given device.
      * To be called from a background thread.
+     *
      * @param device
      * @param tsFrom
      * @param tsTo
@@ -339,7 +343,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
      * #renderCharts
      */
     protected void refresh() {
-        if (getHost().getDevice() != null) {
+        if (((ChartsHost) getHost()).getDevice() != null) {
             mChartDirty = false;
             updateDateInfo(getStartDate(), getEndDate());
             createRefreshTask("Visualizing data", getActivity()).execute();
@@ -474,6 +478,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
     /**
      * Implement this to supply the samples to be displayed.
+     *
      * @param db
      * @param device
      * @param tsFrom
@@ -550,13 +555,13 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
         @Override
         protected void doInBackground(DBHandler db) {
-            refreshInBackground(db, getHost().getDevice());
+            refreshInBackground(db, ((ChartsHost) getHost()).getDevice());
         }
 
         @Override
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
-            FragmentActivity activity = getActivity();
+            FragmentActivity activity = (FragmentActivity) getActivity();
             if (activity != null && !activity.isFinishing() && !activity.isDestroyed()) {
                 renderCharts();
             } else {
@@ -568,12 +573,13 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     /**
      * Returns true if the date was successfully shifted, and false if the shift
      * was ignored, e.g. when the to-value is in the future.
+     *
      * @param from
      * @param to
      */
     public boolean setDateRange(Date from, Date to) {
         if (from.compareTo(to) > 0) {
-            throw new IllegalArgumentException("Bad date range: " +from + ".." + to);
+            throw new IllegalArgumentException("Bad date range: " + from + ".." + to);
         }
         Date now = new Date();
         if (to.after(now)) {
@@ -586,9 +592,9 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
     protected void updateDateInfo(Date from, Date to) {
         if (from.equals(to)) {
-            getHost().setDateInfo(DateTimeUtils.formatDate(from));
+            ((ChartsHost) getHost()).setDateInfo(DateTimeUtils.formatDate(from));
         } else {
-            getHost().setDateInfo(DateTimeUtils.formatDateRange(from, to));
+            ((ChartsHost) getHost()).setDateInfo(DateTimeUtils.formatDateRange(from, to));
         }
     }
 
@@ -606,9 +612,5 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
     private int toTimestamp(Date date) {
         return (int) ((date.getTime() / 1000) & 0xffffffff);
-    }
-
-    protected ChartsHost getHost() {
-        return (ChartsHost) getActivity();
     }
 }

@@ -126,8 +126,8 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
 
         View rootView = inflater.inflate(R.layout.fragment_sleepchart, container, false);
 
-        GBDevice device = getHost().getDevice();
-        if(device != null) {
+        GBDevice device = ((ChartsHost) getHost()).getDevice();
+        if (device != null) {
             mTargetSteps = MiBandCoordinator.getFitnessGoal(device.getAddress());
         }
 

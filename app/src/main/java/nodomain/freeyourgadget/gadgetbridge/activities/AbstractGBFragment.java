@@ -1,7 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 
 /**
@@ -41,7 +41,7 @@ public abstract class AbstractGBFragment extends Fragment {
     }
 
     protected void updateActivityTitle() {
-        FragmentActivity activity = getActivity();
+        FragmentActivity activity = (FragmentActivity) getActivity();
         if (activity != null && !activity.isFinishing() && !activity.isDestroyed()) {
             if (getTitle() != null) {
                 activity.setTitle(getTitle());
