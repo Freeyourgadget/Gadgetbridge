@@ -1,7 +1,11 @@
 ###Changelog
 
-####next version
+####Version 0.5.2
 * Pebble: support "dismiss all" action also on Pebble Time/FW 3.x notifications
+* Miband: show a notification when the battery is below 10%
+* Graphs are now using the same theme as the rest of the application
+* Graphs now show when the device was not worn by the user (for devices that send this information)
+* Build target is now Android 23 (Android M)
 
 ####Version 0.5.1
 * Pebble: support taking screenshot from Pebble Time
