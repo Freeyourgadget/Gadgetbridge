@@ -33,11 +33,11 @@ public class DeviceCandidateAdapter extends ArrayAdapter<GBDeviceCandidate> {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            view = inflater.inflate(R.layout.device_candidate_item, parent, false);
+            view = inflater.inflate(R.layout.item_with_details, parent, false);
         }
-        ImageView deviceImageView = (ImageView) view.findViewById(R.id.device_candidate_image);
-        TextView deviceNameLabel = (TextView) view.findViewById(R.id.device_candidate_name);
-        TextView deviceAddressLabel = (TextView) view.findViewById(R.id.device_candidate_address);
+        ImageView deviceImageView = (ImageView) view.findViewById(R.id.item_image);
+        TextView deviceNameLabel = (TextView) view.findViewById(R.id.item_name);
+        TextView deviceAddressLabel = (TextView) view.findViewById(R.id.item_details);
 
         String name = formatDeviceCandidate(device);
         deviceNameLabel.setText(name);

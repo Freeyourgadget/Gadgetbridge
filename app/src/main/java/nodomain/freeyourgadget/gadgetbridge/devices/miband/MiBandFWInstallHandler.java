@@ -13,6 +13,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.InstallActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 
 public class MiBandFWInstallHandler implements InstallHandler {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandFWInstallHandler.class);
@@ -34,21 +35,35 @@ public class MiBandFWInstallHandler implements InstallHandler {
 
     @Override
     public void validateInstallation(InstallActivity installActivity, GBDevice device) {
-        if (device.isBusy() || device.getType() != DeviceType.MIBAND || !device.isInitialized()) {
-            installActivity.setInfoText("Element cannot be installed");
+        if (device.isBusy()) {
+            installActivity.setInfoText(device.getBusyTask());
             installActivity.setInstallEnabled(false);
             return;
         }
+
+        if (device.getType() != DeviceType.MIBAND || !device.isInitialized()) {
+            installActivity.setInfoText(mContext.getString(R.string.fwapp_install_device_not_ready));
+            installActivity.setInstallEnabled(false);
+            return;
+        }
+
+        GenericItem fwItem = new GenericItem(mContext.getString(R.string.miband_installhandler_miband_firmware, helper.getHumanFirmwareVersion()));
+        fwItem.setIcon(R.drawable.ic_device_miband);
 
         StringBuilder builder = new StringBuilder(mContext.getString(R.string.fw_upgrade_notice, helper.getHumanFirmwareVersion()));
 
         if (helper.isFirmwareWhitelisted()) {
             builder.append(" ").append(mContext.getString(R.string.miband_firmware_known));
+            fwItem.setDetails(mContext.getString(R.string.miband_fwinstaller_compatible_version));
+            // TODO: set a CHECK (OKAY) button
         } else {
-            builder.append("  ").append(mContext.getString(R.string.miband_firmware_unknown_warning)).append(" ")
+            builder.append("  ").append(mContext.getString(R.string.miband_firmware_unknown_warning)).append(" \n\n")
                     .append(mContext.getString(R.string.miband_firmware_suggest_whitelist, helper.getFirmwareVersion()));
+            fwItem.setDetails(mContext.getString(R.string.miband_fwinstaller_untested_version));
+            // TODO: set a UNKNOWN (question mark) button
         }
         installActivity.setInfoText(builder.toString());
+        installActivity.setInstallItem(fwItem);
         installActivity.setInstallEnabled(true);
     }
 

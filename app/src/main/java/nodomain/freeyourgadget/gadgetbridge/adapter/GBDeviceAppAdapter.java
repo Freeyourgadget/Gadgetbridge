@@ -31,11 +31,11 @@ public class GBDeviceAppAdapter extends ArrayAdapter<GBDeviceApp> {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            view = inflater.inflate(R.layout.device_candidate_item, parent, false);
+            view = inflater.inflate(R.layout.item_with_details, parent, false);
         }
-        TextView deviceAppVersionAuthorLabel = (TextView) view.findViewById(R.id.device_candidate_address);
-        TextView deviceAppNameLabel = (TextView) view.findViewById(R.id.device_candidate_name);
-        ImageView deviceImageView = (ImageView) view.findViewById(R.id.device_candidate_image);
+        TextView deviceAppVersionAuthorLabel = (TextView) view.findViewById(R.id.item_details);
+        TextView deviceAppNameLabel = (TextView) view.findViewById(R.id.item_name);
+        ImageView deviceImageView = (ImageView) view.findViewById(R.id.item_image);
 
         deviceAppVersionAuthorLabel.setText(getContext().getString(R.string.appversion_by_creator, deviceApp.getVersion(), deviceApp.getCreator()));
         deviceAppNameLabel.setText(deviceApp.getName());

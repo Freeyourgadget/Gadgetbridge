@@ -12,17 +12,25 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.adapter.ItemWithDetailsAdapter;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ItemWithDetails;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -47,13 +55,14 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
             } else if (action.equals(GBDevice.ACTION_DEVICE_CHANGED)) {
                 device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                 if (device != null) {
+                    refreshBusyState(device);
                     if (!device.isInitialized()) {
                         setInstallEnabled(false);
                         if (mayConnect) {
                             GB.toast(FwAppInstallerActivity.this, getString(R.string.connecting), Toast.LENGTH_SHORT, GB.INFO);
                             connect();
                         } else {
-                            setInfoText(device.getStateString());
+                            setInfoText(getString(R.string.fwappinstaller_connection_state, device.getStateString()));
                         }
                     } else {
                         validateInstallation();
@@ -62,6 +71,22 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
             }
         }
     };
+    private ProgressBar mProgressBar;
+    private ListView itemListView;
+    private List<ItemWithDetails> mItems = new ArrayList<>();
+    private ItemWithDetailsAdapter mItemAdapter;
+
+    private void refreshBusyState(GBDevice dev) {
+        if (dev.isConnecting() || dev.isBusy()) {
+            mProgressBar.setVisibility(View.VISIBLE);
+        } else {
+            boolean wasBusy = mProgressBar.getVisibility() != View.GONE;
+            if (wasBusy) {
+                mProgressBar.setVisibility(View.GONE);
+                // done!
+            }
+        }
+    }
 
     private void connect() {
         mayConnect = false; // only do that once per #onCreate
@@ -84,8 +109,12 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
             device = dev;
         }
         mayConnect = true;
-        fwAppInstallTextView = (TextView) findViewById(R.id.debugTextView);
+        itemListView = (ListView) findViewById(R.id.itemListView);
+        mItemAdapter = new ItemWithDetailsAdapter(this, mItems);
+        itemListView.setAdapter(mItemAdapter);
+        fwAppInstallTextView = (TextView) findViewById(R.id.infoTextView);
         installButton = (Button) findViewById(R.id.installButton);
+        mProgressBar = (ProgressBar) findViewById(R.id.installProgressBar);
         setInstallEnabled(false);
         IntentFilter filter = new IntentFilter();
         filter.addAction(ControlCenter.ACTION_QUIT);
@@ -151,5 +180,18 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
     @Override
     public void setInstallEnabled(boolean enable) {
         installButton.setEnabled(device != null && device.isConnected() && enable);
+    }
+
+    @Override
+    public void clearInstallItems() {
+        mItems.clear();
+        mItemAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setInstallItem(ItemWithDetails item) {
+        mItems.clear();
+        mItems.add(item);
+        mItemAdapter.notifyDataSetChanged();
     }
 }
