@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
@@ -47,6 +48,9 @@ public class GB {
     public static GBEnvironment environment;
 
     public static Notification createNotification(String text, Context context) {
+        if (env().isLocalTest()) {
+            return null;
+        }
         Intent notificationIntent = new Intent(context, ControlCenter.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -54,7 +58,7 @@ public class GB {
                 notificationIntent, 0);
 
         return new NotificationCompat.Builder(context)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+//                .setVisibility(Notification.VISIBILITY_PUBLIC)
                 .setContentTitle(context.getString(R.string.app_name))
                 .setTicker(text)
                 .setContentText(text)
@@ -65,9 +69,15 @@ public class GB {
 
     public static void updateNotification(String text, Context context) {
         Notification notification = createNotification(text, context);
+        updateNotification(notification, NOTIFICATION_ID, context);
+    }
 
+    private static void updateNotification(@Nullable Notification notification, int id, Context context) {
+        if (notification == null) {
+            return;
+        }
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.notify(NOTIFICATION_ID, notification);
+        nm.notify(id, notification);
     }
 
     public static void setReceiversEnableState(boolean enable, Context context) {
@@ -293,9 +303,7 @@ public class GB {
 
     public static void updateInstallNotification(String text, boolean ongoing, int percentage, Context context) {
         Notification notification = createInstallNotification(text, ongoing, percentage, context);
-
-        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.notify(NOTIFICATION_ID_INSTALL, notification);
+        updateNotification(notification, NOTIFICATION_ID_INSTALL, context);
     }
 
     private static Notification createBatteryNotification(String text, String bigText, Context context) {
@@ -310,7 +318,7 @@ public class GB {
                 .setContentText(text)
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.drawable.ic_notification_low_battery)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setPriority(Notification.PRIORITY_HIGH)
                 .setOngoing(false);
 
         if (bigText != null) {
@@ -321,10 +329,11 @@ public class GB {
     }
 
     public static void updateBatteryNotification(String text, String bigText, Context context) {
+        if (env().isLocalTest()) {
+            return;
+        }
         Notification notification = createBatteryNotification(text, bigText, context);
-
-        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.notify(NOTIFICATION_ID_LOW_BATTERY, notification);
+        updateNotification(notification, NOTIFICATION_ID_LOW_BATTERY, context);
     }
 
     public static GBEnvironment env() {
