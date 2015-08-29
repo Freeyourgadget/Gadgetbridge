@@ -54,10 +54,6 @@
   <string name="tap_a_device_to_connect">기기를 선택해 연결</string>
   <string name="cannot_connect_bt_address_invalid_">연결할 수 없습니다. 블루투스 주소가 올바르지 않은 것 같습니다.</string>
   <string name="gadgetbridge_running">가젯브릿지가 실행중입니다.</string>
-  <string name="battery_low">낮음</string>
-  <string name="battery_medium">보통</string>
-  <string name="battery_full">100%</string>
-  <string name="battery_not_charging">충전중이 아님</string>
   <string name="installing_binary_d_d">바이너리 설치중: %1$d/%2$d</string>
   <string name="installation_failed_">설치 실패!</string>
   <string name="installation_successful">설치 성공!</string>

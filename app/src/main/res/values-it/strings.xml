@@ -55,10 +55,6 @@
   <string name="tap_a_device_to_connect">tocca il dispositivo da connettere</string>
   <string name="cannot_connect_bt_address_invalid_">Impossibile connettersi. Indirizzo BT non valido?</string>
   <string name="gadgetbridge_running">Gadgetbridge in esecuzione</string>
-  <string name="battery_low">basso</string>
-  <string name="battery_medium">medio</string>
-  <string name="battery_full">pieno</string>
-  <string name="battery_not_charging">non in carica</string>
   <string name="installing_binary_d_d">installazione del binario %1$d/%2$d</string>
   <string name="installation_failed_">Installazione fallita!</string>
   <string name="installation_successful">installazione conclusa con successo</string>
