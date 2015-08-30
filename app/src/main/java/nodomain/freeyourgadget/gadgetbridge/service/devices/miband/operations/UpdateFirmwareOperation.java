@@ -93,7 +93,7 @@ public class UpdateFirmwareOperation extends AbstractBTLEOperation<MiBandSupport
                         rebootWhenBandReady = true;
                     } else {
                         //TODO: the firmware transfer failed, but the miband should be still functional with the old firmware. What should we do?
-                        GB.toast("Problem with the firmware transfer. DO NOT REBOOT YOUR MIBAND!!!", Toast.LENGTH_LONG, GB.ERROR);
+                        GB.toast(getContext().getString(R.string.updatefirmwareoperation_updateproblem_do_not_reboot), Toast.LENGTH_LONG, GB.ERROR);
                         done();
                     }
                     firmwareInfoSent = false;
@@ -101,23 +101,24 @@ public class UpdateFirmwareOperation extends AbstractBTLEOperation<MiBandSupport
                 }
                 break;
             case MiBandService.NOTIFY_FW_CHECK_FAILED:
-                GB.toast("Problem with the firmware metadata transfer", Toast.LENGTH_LONG, GB.ERROR);
+                GB.toast(getContext().getString(R.string.updatefirmwareoperation_metadata_updateproblem), Toast.LENGTH_LONG, GB.ERROR);
                 firmwareInfoSent = false;
                 newFirmware = null;
                 done();
                 break;
             case MiBandService.NOTIFY_FIRMWARE_UPDATE_SUCCESS:
                 if (rebootWhenBandReady) {
-                    GB.updateInstallNotification("Firmware installation complete", false, 100, getContext());
+                    GB.toast(getContext(), getContext().getString(R.string.updatefirmwareoperation_update_complete_rebooting), Toast.LENGTH_LONG, GB.INFO);
+                    GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_update_complete), false, 100, getContext());
                     getSupport().onReboot();
+                    rebootWhenBandReady = false;
                 }
-                rebootWhenBandReady = false;
                 done();
                 break;
             case MiBandService.NOTIFY_FIRMWARE_UPDATE_FAILED:
                 //TODO: the firmware transfer failed, but the miband should be still functional with the old firmware. What should we do?
-                GB.toast("Problem with the firmware transfer. DO NOT REBOOT YOUR MIBAND!!!", Toast.LENGTH_LONG, GB.ERROR);
-                GB.updateInstallNotification("Firmware write failed", false, 0, getContext());
+                GB.toast(getContext().getString(R.string.updatefirmwareoperation_updateproblem_do_not_reboot), Toast.LENGTH_LONG, GB.ERROR);
+                GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_write_failed), false, 0, getContext());
                 rebootWhenBandReady = false;
                 done();
                 break;
