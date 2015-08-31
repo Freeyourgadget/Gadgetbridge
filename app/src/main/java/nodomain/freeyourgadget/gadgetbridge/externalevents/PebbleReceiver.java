@@ -40,6 +40,12 @@ public class PebbleReceiver extends BroadcastReceiver {
             LOG.info("non PEBBLE_ALERT message type not supported");
             return;
         }
+
+        if (!intent.hasExtra("notificationData")) {
+            LOG.info("missing notificationData extra");
+            return;
+        }
+
         String notificationData = intent.getStringExtra("notificationData");
         try {
             JSONArray notificationJSON = new JSONArray(notificationData);
