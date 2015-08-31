@@ -15,7 +15,7 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
-    public byte[] encodeGenericNotification(String title, String details) {
+    public byte[] encodeGenericNotification(String title, String details, int handle) {
         return null;
     }
 

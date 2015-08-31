@@ -127,11 +127,11 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
-    public void onGenericNotification(String title, String details) {
+    public void onGenericNotification(String title, String details, int handle) {
         if (checkBusy("generic notification") || checkThrottle("generic notification")) {
             return;
         }
-        delegate.onGenericNotification(title, details);
+        delegate.onGenericNotification(title, details, handle);
     }
 
     @Override

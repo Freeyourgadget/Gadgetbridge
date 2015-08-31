@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
 import android.app.ActivityManager;
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -26,12 +27,29 @@ public class NotificationListener extends NotificationListenerService {
 
     public static final String ACTION_DISMISS
             = "nodomain.freeyourgadget.gadgetbridge.notificationlistener.action.dismiss";
+    public static final String ACTION_OPEN
+            = "nodomain.freeyourgadget.gadgetbridge.notificationlistener.action.open";
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (action.equals(ACTION_DISMISS)) {
+            if (action.equals(ACTION_OPEN)) {
+                StatusBarNotification[] sbns = NotificationListener.this.getActiveNotifications();
+                int handle = intent.getIntExtra("handle", -1);
+                for (StatusBarNotification sbn : sbns) {
+                    if ((int) sbn.getPostTime() == handle) {
+                        try {
+                            PendingIntent pi = sbn.getNotification().contentIntent;
+                            if (pi != null) {
+                                pi.send();
+                            }
+                        } catch (PendingIntent.CanceledException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            } else if (action.equals(ACTION_DISMISS)) {
                 NotificationListener.this.cancelAllNotifications();
             }
         }
@@ -42,6 +60,7 @@ public class NotificationListener extends NotificationListenerService {
         super.onCreate();
         IntentFilter filterLocal = new IntentFilter();
         filterLocal.addAction(ACTION_DISMISS);
+        filterLocal.addAction(ACTION_OPEN);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
     }
 
@@ -112,7 +131,7 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         if (content != null) {
-            GBApplication.deviceService().onGenericNotification(title, content);
+            GBApplication.deviceService().onGenericNotification(title, content, (int) sbn.getPostTime()); //FIMXE: a truly unique id would be better
         }
     }
 

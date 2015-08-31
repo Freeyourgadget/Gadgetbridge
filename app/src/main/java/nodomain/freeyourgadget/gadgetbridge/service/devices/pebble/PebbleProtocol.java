@@ -17,8 +17,8 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppManagement;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDismissNotification;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
@@ -393,8 +393,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     @Override
-    public byte[] encodeGenericNotification(String title, String details) {
-        return encodeNotification(mRandom.nextInt(), title, null, details, NOTIFICATION_SMS);
+    public byte[] encodeGenericNotification(String title, String details, int handle) {
+        return encodeNotification(handle, title, null, details, NOTIFICATION_SMS);
     }
 
     @Override
@@ -437,7 +437,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         // Calculate length first
         byte attributes_count = 0;
 
-        int length = 21 + 17;
+        int length = 21 + 17; //+ 19
         if (parts != null) {
             for (String s : parts) {
                 if (s == null || s.equals("")) {
@@ -465,7 +465,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putInt(timestamp);
         buf.put((byte) 0x01); // layout - ?
         buf.put(attributes_count); // length attributes
-        buf.put((byte) 1); // len actions - only dismiss
+        buf.put((byte) 1); // len actions
 
         byte attribute_id = 0;
         // Encode Pascal-Style Strings
@@ -485,13 +485,24 @@ public class PebbleProtocol extends GBDeviceProtocol {
         }
 
         // ACTION
-        buf.put((byte) 0x01); // id
+        buf.put((byte) 0x02); // id
         buf.put((byte) 0x04); // dismiss action
         buf.put((byte) 0x01); // number attributes
         buf.put((byte) 0x01); // attribute id (title)
         String actionstring = "dismiss all";
         buf.putShort((short) actionstring.length());
         buf.put(actionstring.getBytes());
+
+        /*
+        buf.put((byte) 0x01); // id
+        buf.put((byte) 0x02); // generic action
+        buf.put((byte) 0x01); // number attributes
+        buf.put((byte) 0x01); // attribute id (title)
+        actionstring = "open on phone";
+        buf.putShort((short) actionstring.length());
+        buf.put(actionstring.getBytes());
+        */
+
         return buf.array();
     }
 
@@ -598,7 +609,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putInt(icon_id);
 
         // ACTION
-        buf.put((byte) 0x01); // id
+        buf.put((byte) 0x02); // id
         buf.put((byte) 0x02); // generic action, dismiss did not do anything
         buf.put((byte) 0x01); // number attributes
         buf.put((byte) 0x01); // attribute id (title)
@@ -1077,17 +1088,27 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return null;
     }
 
-    private GBDeviceEventDismissNotification decodeNotificationAction2x(ByteBuffer buf) {
+    private GBDeviceEventNotificationControl decodeNotificationAction2x(ByteBuffer buf) {
         buf.order(ByteOrder.LITTLE_ENDIAN);
 
         byte command = buf.get();
-        if (command == 0x02) { // dismiss notification ?
+        if (command == 0x02) {
             int id = buf.getInt();
-            short action = buf.getShort(); // at least the low byte should be the action - or not?
-            if (action == 0x0001) {
-                GBDeviceEventDismissNotification devEvtDismissNotification = new GBDeviceEventDismissNotification();
-                devEvtDismissNotification.notificationID = id;
-                return devEvtDismissNotification;
+            byte action = buf.get();
+            if (action == 0x01 || action == 0x02) {
+                GBDeviceEventNotificationControl devEvtNotificationControl = new GBDeviceEventNotificationControl();
+                devEvtNotificationControl.handle = id;
+                switch (action) {
+                    case 0x01:
+                        devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.OPEN;
+                        break;
+                    case 0x02:
+                        devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.DISMISS;
+                        break;
+                    default:
+                        return null;
+                }
+                return devEvtNotificationControl;
             }
             LOG.info("unexpected paramerter in dismiss action: " + action);
         }
@@ -1105,9 +1126,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
             long uuid_low = buf.getLong();
             int id = (int) (uuid_low & 0xffff);
             byte action = buf.get();
-            if (action == 0x01) {
-                GBDeviceEventDismissNotification dismissNotification = new GBDeviceEventDismissNotification();
-                dismissNotification.notificationID = id;
+            if (action == 0x02) {
+                GBDeviceEventNotificationControl dismissNotification = new GBDeviceEventNotificationControl();
+                dismissNotification.handle = id;
+                dismissNotification.event = GBDeviceEventNotificationControl.Event.DISMISS;
                 GBDeviceEventSendBytes sendBytesAck = new GBDeviceEventSendBytes();
                 sendBytesAck.encodedBytes = encodeActionResponse(new UUID(uuid_high, uuid_low));
                 return new GBDeviceEvent[]{sendBytesAck, dismissNotification};

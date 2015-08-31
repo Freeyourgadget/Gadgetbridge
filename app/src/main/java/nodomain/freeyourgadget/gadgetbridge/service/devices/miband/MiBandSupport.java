@@ -408,7 +408,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onGenericNotification(String title, String details) {
+    public void onGenericNotification(String title, String details, int handle) {
         performPreferredNotification("generic notification received", ORIGIN_GENERIC, null);
     }
 

@@ -26,8 +26,8 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDismissNotification;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSleepMonitorResult;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
@@ -103,8 +103,8 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             handleGBDeviceEvent((GBDeviceEventSleepMonitorResult) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventScreenshot) {
             handleGBDeviceEvent((GBDeviceEventScreenshot) deviceEvent);
-        } else if (deviceEvent instanceof GBDeviceEventDismissNotification) {
-            handleGBDeviceEvent((GBDeviceEventDismissNotification) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceEventNotificationControl) {
+            handleGBDeviceEvent((GBDeviceEventNotificationControl) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventBatteryInfo) {
             handleGBDeviceEvent((GBDeviceEventBatteryInfo) deviceEvent);
         }
@@ -206,12 +206,23 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         }
     }
 
-    private void handleGBDeviceEvent(GBDeviceEventDismissNotification deviceEvent) {
+    private void handleGBDeviceEvent(GBDeviceEventNotificationControl deviceEvent) {
         Context context = getContext();
-        LOG.info("Got DISMISS_NOTIFICATION device event");
-        Intent notificationListenerIntent = new Intent(NotificationListener.ACTION_DISMISS);
-        notificationListenerIntent.putExtra("id", deviceEvent.notificationID);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(notificationListenerIntent);
+        LOG.info("Got NOTIFICATION CONTROL device event");
+        String action = null;
+        switch (deviceEvent.event) {
+            case DISMISS:
+                action = NotificationListener.ACTION_DISMISS;
+                break;
+            case OPEN:
+                action = NotificationListener.ACTION_OPEN;
+                break;
+        }
+        if (action != null) {
+            Intent notificationListenerIntent = new Intent(action);
+            notificationListenerIntent.putExtra("handle", deviceEvent.handle);
+            LocalBroadcastManager.getInstance(context).sendBroadcast(notificationListenerIntent);
+        }
     }
 
     public void handleGBDeviceEvent(GBDeviceEventBatteryInfo deviceEvent) {
