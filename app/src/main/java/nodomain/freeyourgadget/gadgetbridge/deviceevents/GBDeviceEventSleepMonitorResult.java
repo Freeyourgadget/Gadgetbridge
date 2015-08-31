@@ -6,8 +6,4 @@ public class GBDeviceEventSleepMonitorResult extends GBDeviceEvent {
     public int smartalarm_to = -1;// time in minutes relative from 0:00 for smart alarm (latest)
     public int recording_base_timestamp = -1; // timestamp for the first "point", all folowing are +10 minutes offset each
     public int alarm_gone_off = -1; // time in minutes relative from 0:00 when alarm gone off
-
-    public GBDeviceEventSleepMonitorResult() {
-        eventClass = EventClass.SLEEP_MONITOR_RES;
-    }
 }

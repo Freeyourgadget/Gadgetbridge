@@ -6,8 +6,4 @@ public class GBDeviceEventScreenshot extends GBDeviceEvent {
     public byte bpp;
     public byte[] clut;
     public byte[] data;
-
-    public GBDeviceEventScreenshot() {
-        eventClass = EventClass.SCREENSHOT;
-    }
 }

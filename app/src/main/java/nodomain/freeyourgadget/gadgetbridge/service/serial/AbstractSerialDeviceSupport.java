@@ -98,15 +98,10 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
 
     @Override
     public void evaluateGBDeviceEvent(GBDeviceEvent deviceEvent) {
-
-        switch (deviceEvent.eventClass) {
-            case SEND_BYTES:
-                handleGBDeviceEvent((GBDeviceEventSendBytes) deviceEvent);
-                return;
-            default:
-                break;
+        if (deviceEvent instanceof GBDeviceEventSendBytes) {
+            handleGBDeviceEvent((GBDeviceEventSendBytes) deviceEvent);
+            return;
         }
-
         super.evaluateGBDeviceEvent(deviceEvent);
     }
 

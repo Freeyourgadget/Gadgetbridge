@@ -26,6 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppManagement;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PBWReader;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleInstallable;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -320,85 +321,83 @@ public class PebbleIoThread extends GBDeviceIoThread {
     // FIXME: parts are supporsed to be generic code
     private boolean evaluateGBDeviceEventPebble(GBDeviceEvent deviceEvent) {
 
-        switch (deviceEvent.eventClass) {
-            case VERSION_INFO:
-                SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-                if (sharedPrefs.getBoolean("datetime_synconconnect", true)) {
-                    LOG.info("syncing time");
-                    write(mPebbleProtocol.encodeSetTime());
-                }
-                gbDevice.setState(GBDevice.State.INITIALIZED);
-                return false;
-            case APP_MANAGEMENT:
-                GBDeviceEventAppManagement appMgmt = (GBDeviceEventAppManagement) deviceEvent;
-                switch (appMgmt.type) {
-                    case DELETE:
-                        // right now on the Pebble we also receive this on a failed/successful installation ;/
-                        switch (appMgmt.event) {
-                            case FAILURE:
-                                if (mIsInstalling) {
-                                    if (mInstallState == PebbleAppInstallState.WAIT_SLOT) {
-                                        // get the free slot
-                                        writeInstallApp(mPebbleProtocol.encodeAppInfoReq());
-                                    } else {
-                                        finishInstall(true);
-                                    }
+        if (deviceEvent instanceof GBDeviceEventVersionInfo) {
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+            if (sharedPrefs.getBoolean("datetime_synconconnect", true)) {
+                LOG.info("syncing time");
+                write(mPebbleProtocol.encodeSetTime());
+            }
+            gbDevice.setState(GBDevice.State.INITIALIZED);
+            return false;
+        } else if (deviceEvent instanceof GBDeviceEventAppManagement) {
+            GBDeviceEventAppManagement appMgmt = (GBDeviceEventAppManagement) deviceEvent;
+            switch (appMgmt.type) {
+                case DELETE:
+                    // right now on the Pebble we also receive this on a failed/successful installation ;/
+                    switch (appMgmt.event) {
+                        case FAILURE:
+                            if (mIsInstalling) {
+                                if (mInstallState == PebbleAppInstallState.WAIT_SLOT) {
+                                    // get the free slot
+                                    writeInstallApp(mPebbleProtocol.encodeAppInfoReq());
                                 } else {
-                                    LOG.info("failure removing app");
+                                    finishInstall(true);
                                 }
-                                break;
-                            case SUCCESS:
-                                if (mIsInstalling) {
-                                    if (mInstallState == PebbleAppInstallState.WAIT_SLOT) {
-                                        // get the free slot
-                                        writeInstallApp(mPebbleProtocol.encodeAppInfoReq());
-                                    } else {
-                                        finishInstall(false);
-                                        // refresh app list
-                                        write(mPebbleProtocol.encodeAppInfoReq());
-                                    }
+                            } else {
+                                LOG.info("failure removing app");
+                            }
+                            break;
+                        case SUCCESS:
+                            if (mIsInstalling) {
+                                if (mInstallState == PebbleAppInstallState.WAIT_SLOT) {
+                                    // get the free slot
+                                    writeInstallApp(mPebbleProtocol.encodeAppInfoReq());
                                 } else {
-                                    LOG.info("successfully removed app");
+                                    finishInstall(false);
+                                    // refresh app list
                                     write(mPebbleProtocol.encodeAppInfoReq());
                                 }
-                                break;
-                            default:
-                                break;
-                        }
-                        break;
-                    case INSTALL:
-                        switch (appMgmt.event) {
-                            case FAILURE:
-                                LOG.info("failure installing app"); // TODO: report to Installer
-                                finishInstall(true);
-                                break;
-                            case SUCCESS:
-                                setToken(appMgmt.token);
-                                break;
-                            case REQUEST:
-                                LOG.info("APPFETCH request: " + appMgmt.uuid + " / " + appMgmt.token);
-                                try {
-                                    installApp(Uri.fromFile(new File(FileUtils.getExternalFilesDir() + "/pbw-cache/" + appMgmt.uuid.toString() + ".pbw")), appMgmt.token);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                return true;
-            case APP_INFO:
-                LOG.info("Got event for APP_INFO");
-                GBDeviceEventAppInfo appInfoEvent = (GBDeviceEventAppInfo) deviceEvent;
-                setInstallSlot(appInfoEvent.freeSlot);
-                return false;
-            default:
-                return false;
+                            } else {
+                                LOG.info("successfully removed app");
+                                write(mPebbleProtocol.encodeAppInfoReq());
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case INSTALL:
+                    switch (appMgmt.event) {
+                        case FAILURE:
+                            LOG.info("failure installing app"); // TODO: report to Installer
+                            finishInstall(true);
+                            break;
+                        case SUCCESS:
+                            setToken(appMgmt.token);
+                            break;
+                        case REQUEST:
+                            LOG.info("APPFETCH request: " + appMgmt.uuid + " / " + appMgmt.token);
+                            try {
+                                installApp(Uri.fromFile(new File(FileUtils.getExternalFilesDir() + "/pbw-cache/" + appMgmt.uuid.toString() + ".pbw")), appMgmt.token);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return true;
+        } else if (deviceEvent instanceof GBDeviceEventAppInfo) {
+            LOG.info("Got event for APP_INFO");
+            GBDeviceEventAppInfo appInfoEvent = (GBDeviceEventAppInfo) deviceEvent;
+            setInstallSlot(appInfoEvent.freeSlot);
+            return false;
         }
+        return false;
     }
 
     public void setToken(int token) {

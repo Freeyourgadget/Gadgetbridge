@@ -19,17 +19,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsHost;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
-import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBCallControlReceiver;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBMusicControlReceiver;
-import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDismissNotification;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
@@ -37,6 +32,11 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSleepMonitorResult;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
+import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBCallControlReceiver;
+import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBMusicControlReceiver;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 // TODO: support option for a single reminder notification when notifications could not be delivered?
 // conditions: app was running and received notifications, but device was not connected.
@@ -68,6 +68,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     /**
      * Returns true if the device is not only connected, but also
      * initialized.
+     *
      * @see GBDevice#isInitialized()
      */
     protected boolean isInitialized() {
@@ -90,34 +91,22 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     }
 
     public void evaluateGBDeviceEvent(GBDeviceEvent deviceEvent) {
-
-        switch (deviceEvent.eventClass) {
-            case MUSIC_CONTROL:
-                handleGBDeviceEvent((GBDeviceEventMusicControl) deviceEvent);
-                break;
-            case CALL_CONTROL:
-                handleGBDeviceEvent((GBDeviceEventCallControl) deviceEvent);
-                break;
-            case VERSION_INFO:
-                handleGBDeviceEvent((GBDeviceEventVersionInfo) deviceEvent);
-                break;
-            case APP_INFO:
-                handleGBDeviceEvent((GBDeviceEventAppInfo) deviceEvent);
-                break;
-            case SLEEP_MONITOR_RES:
-                handleGBDeviceEvent((GBDeviceEventSleepMonitorResult) deviceEvent);
-                break;
-            case SCREENSHOT:
-                handleGBDeviceEvent((GBDeviceEventScreenshot) deviceEvent);
-                break;
-            case DISMISS_NOTIFICATION:
-                handleGBDeviceEvent((GBDeviceEventDismissNotification) deviceEvent);
-                break;
-            case BATTERY_INFO:
-                handleGBDeviceEvent((GBDeviceEventBatteryInfo) deviceEvent);
-                break;
-            default:
-                break;
+        if (deviceEvent instanceof GBDeviceEventMusicControl) {
+            handleGBDeviceEvent((GBDeviceEventMusicControl) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceEventCallControl) {
+            handleGBDeviceEvent((GBDeviceEventCallControl) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceEventVersionInfo) {
+            handleGBDeviceEvent((GBDeviceEventVersionInfo) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceEventAppInfo) {
+            handleGBDeviceEvent((GBDeviceEventAppInfo) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceEventSleepMonitorResult) {
+            handleGBDeviceEvent((GBDeviceEventSleepMonitorResult) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceEventScreenshot) {
+            handleGBDeviceEvent((GBDeviceEventScreenshot) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceEventDismissNotification) {
+            handleGBDeviceEvent((GBDeviceEventDismissNotification) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceEventBatteryInfo) {
+            handleGBDeviceEvent((GBDeviceEventBatteryInfo) deviceEvent);
         }
     }
 
@@ -239,8 +228,8 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             GB.updateBatteryNotification(context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), deviceEvent.level),
                     deviceEvent.extendedInfoAvailable() ?
                             context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), deviceEvent.level) + "\n" +
-                            context.getString(R.string.notif_battery_low_bigtext_last_charge_time, DateFormat.getDateTimeInstance().format(deviceEvent.lastChargeTime.getTime()).toString()) +
-                            context.getString(R.string.notif_battery_low_bigtext_number_of_charges, deviceEvent.numCharges)
+                                    context.getString(R.string.notif_battery_low_bigtext_last_charge_time, DateFormat.getDateTimeInstance().format(deviceEvent.lastChargeTime.getTime()).toString()) +
+                                    context.getString(R.string.notif_battery_low_bigtext_number_of_charges, deviceEvent.numCharges)
                             : ""
                     , context);
         }

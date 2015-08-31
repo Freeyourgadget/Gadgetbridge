@@ -8,10 +8,6 @@ public class GBDeviceEventAppManagement extends GBDeviceEvent {
     public int token = -1;
     public UUID uuid = null;
 
-    public GBDeviceEventAppManagement() {
-        eventClass = EventClass.APP_MANAGEMENT;
-    }
-
     public enum EventType {
         UNKNOWN,
         INSTALL,
