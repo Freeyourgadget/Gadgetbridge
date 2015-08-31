@@ -47,6 +47,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
     @Override
     protected void refreshInBackground(DBHandler db, GBDevice device) {
         Calendar day = Calendar.getInstance();
+        day.setTime(((ChartsHost) getHost()).getStartDate());
         //NB: we could have omitted the day, but this way we can move things to the past easily
         refreshDaySteps(db, mTodayStepsChart, day, device);
         refreshWeekBeforeSteps(db, mWeekStepsChart, day, device);
