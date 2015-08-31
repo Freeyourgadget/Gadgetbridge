@@ -38,6 +38,12 @@ public class MiBandFWHelper {
         this.uri = uri;
         cr = context.getContentResolver();
 
+        String pebblePattern = ".*\\.(pbw|pbz)";
+
+        if (uri.getPath().matches(pebblePattern)) {
+            throw new IOException("Firmware has a filename that looks like a Pebble app/firmware.");
+        }
+
         try (InputStream in = new BufferedInputStream(cr.openInputStream(uri))){
             this.fw = FileUtils.readAll(in, 1024 * 1024); // 1 MB
             if (fw.length <= firmwareVersionMajor || fw[firmwareVersionMajor] != 1) {
