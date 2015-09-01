@@ -117,6 +117,15 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
      */
     @Override
     public void addGBActivitySample(int timestamp, byte provider, short intensity, short steps, byte kind) {
+        if (intensity < 0) {
+            LOG.error("negative intensity received, ignoring");
+            intensity = 0;
+        }
+        if (steps < 0) {
+            LOG.error("negative steps received, ignoring");
+            steps = 0;
+        }
+
         try (SQLiteDatabase db = this.getWritableDatabase()) {
             ContentValues values = new ContentValues();
             values.put(KEY_TIMESTAMP, timestamp);
