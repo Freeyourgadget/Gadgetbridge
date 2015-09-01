@@ -281,7 +281,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
     private int getTSLast24Hours() {
         long now = System.currentTimeMillis();
-        return (int) ((now / 1000) - (24 * 60 * 60) & 0xffffffff); // -24 hours
+        return (int) ((now / 1000) - (24 * 60 * 60)); // -24 hours
     }
 
     protected List<ActivitySample> getActivitySamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
@@ -306,7 +306,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         cal.clear();
         cal.set(2015, Calendar.JUNE, 10, 6, 40);
         // ignore provided date ranges
-        tsTo = (int) ((cal.getTimeInMillis() / 1000) & 0xffffffff);
+        tsTo = (int) ((cal.getTimeInMillis() / 1000));
         tsFrom = tsTo - (24 * 60 * 60);
 
         SampleProvider provider = getProvider(device);
@@ -611,6 +611,6 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     private int toTimestamp(Date date) {
-        return (int) ((date.getTime() / 1000) & 0xffffffff);
+        return (int) ((date.getTime() / 1000));
     }
 }

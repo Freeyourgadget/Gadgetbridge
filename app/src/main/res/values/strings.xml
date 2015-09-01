@@ -184,4 +184,5 @@
     <string name="updatefirmwareoperation_update_complete">Firmware installation complete</string>
     <string name="updatefirmwareoperation_update_complete_rebooting">Firmware installation complete, rebooting device…</string>
     <string name="updatefirmwareoperation_write_failed">Firmware write failed</string>
+    <string name="chart_steps">Steps</string>
 </resources>
