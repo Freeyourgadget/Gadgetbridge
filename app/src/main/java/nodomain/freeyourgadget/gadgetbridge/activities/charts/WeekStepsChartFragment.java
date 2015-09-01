@@ -153,7 +153,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
     private void setupTodayStepsChart() {
         mTodayStepsChart.setBackgroundColor(BACKGROUND_COLOR);
         mTodayStepsChart.setDescriptionColor(DESCRIPTION_COLOR);
-        mTodayStepsChart.setDescription("Steps today, target: " + mTargetSteps);
+        mTodayStepsChart.setDescription(getContext().getString(R.string.weeksteps_today_steps_description, mTargetSteps));
         mTodayStepsChart.setNoDataTextDescription("");
         mTodayStepsChart.setNoDataText("");
     }
