@@ -47,7 +47,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
     @Override
     protected void refreshInBackground(DBHandler db, GBDevice device) {
         Calendar day = Calendar.getInstance();
-        day.setTime(((ChartsHost) getHost()).getStartDate());
+        day.setTime(((ChartsHost) getHost()).getEndDate());
         //NB: we could have omitted the day, but this way we can move things to the past easily
         refreshDaySteps(db, mTodayStepsChart, day, device);
         refreshWeekBeforeSteps(db, mWeekStepsChart, day, device);
@@ -63,6 +63,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
 
         ActivityAnalysis analysis = new ActivityAnalysis();
 
+        day = (Calendar) day.clone(); // do not modify the caller's argument
         day.add(Calendar.DATE, -7);
         List<BarEntry> entries = new ArrayList<>();
         List<String> labels = new ArrayList<>();
@@ -201,6 +202,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         int startTs;
         int endTs;
 
+        day = (Calendar) day.clone(); // do not modify the caller's argument
         day.set(Calendar.HOUR_OF_DAY, 0);
         day.set(Calendar.MINUTE, 0);
         day.set(Calendar.SECOND, 0);
