@@ -19,7 +19,7 @@ public class ActivityDBUpdate_6 implements DBUpdateScript {
         String CREATE_STEPS_PER_DAY_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_STEPS_PER_DAY + " ("
                 + KEY_TIMESTAMP + " INT,"
                 + KEY_PROVIDER + " TINYINT,"
-                + KEY_STEPS + " TINYINT,"
+                + KEY_STEPS + " MEDIUMINT,"
                 + " PRIMARY KEY (" + KEY_TIMESTAMP + "," + KEY_PROVIDER + ") ON CONFLICT REPLACE)" + DBHelper.getWithoutRowId();
         db.execSQL(CREATE_STEPS_PER_DAY_TABLE);
     }
