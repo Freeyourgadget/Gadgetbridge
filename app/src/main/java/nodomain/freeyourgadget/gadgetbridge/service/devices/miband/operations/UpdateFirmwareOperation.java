@@ -80,10 +80,7 @@ public class UpdateFirmwareOperation extends AbstractBTLEOperation<MiBandSupport
     private void handleNotificationNotif(byte[] value) {
         if(value.length != 1) {
             LOG.error("Notifications should be 1 byte long.");
-            LOG.info("RECEIVED DATA WITH LENGTH: " + value.length);
-            for (byte b : value) {
-                LOG.warn("DATA: " + String.format("0x%2x", b));
-            }
+            getSupport().logMessageContent(value);
             return;
         }
         switch (value[0]) {

@@ -165,9 +165,7 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
             } else {
                 // the length of the chunk is not what we expect. We need to make sense of this data
                 LOG.warn("GOT UNEXPECTED ACTIVITY DATA WITH LENGTH: " + value.length + ", EXPECTED LENGTH: " + activityStruct.activityDataRemainingBytes);
-                for (byte b : value) {
-                    LOG.warn("DATA: " + String.format("0x%8x", b));
-                }
+                getSupport().logMessageContent(value);
             }
         } else {
             LOG.error("error buffering activity data: remaining bytes: " + activityStruct.activityDataRemainingBytes + ", received: " + value.length);

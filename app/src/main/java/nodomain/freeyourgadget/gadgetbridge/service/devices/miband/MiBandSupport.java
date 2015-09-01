@@ -627,7 +627,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      *
      * @param value
      */
-    private void logMessageContent(byte[] value) {
+    public void logMessageContent(byte[] value) {
         LOG.info("RECEIVED DATA WITH LENGTH: " + value.length);
         for (byte b : value) {
             LOG.warn("DATA: " + String.format("0x%2x", b));
