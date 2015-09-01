@@ -272,9 +272,6 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
      * @param tsTo
      */
     protected List<ActivitySample> getAllSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-        if (tsFrom == -1) {
-            tsFrom = getTSLast24Hours(tsTo);
-        }
         SampleProvider provider = getProvider(device);
         return db.getAllActivitySamples(tsFrom, tsTo, provider);
     }
@@ -284,18 +281,12 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     protected List<ActivitySample> getActivitySamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-        if (tsFrom == -1) {
-            tsFrom = getTSLast24Hours(tsTo);
-        }
         SampleProvider provider = getProvider(device);
         return db.getActivitySamples(tsFrom, tsTo, provider);
     }
 
 
     protected List<ActivitySample> getSleepSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-        if (tsFrom == -1) {
-            tsFrom = getTSLast24Hours(tsTo);
-        }
         SampleProvider provider = getProvider(device);
         return db.getSleepSamples(tsFrom, tsTo, provider);
     }

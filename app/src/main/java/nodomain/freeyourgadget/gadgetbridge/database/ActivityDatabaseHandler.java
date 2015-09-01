@@ -162,8 +162,11 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
      * @return
      */
     private ArrayList<ActivitySample> getGBActivitySamples(int timestamp_from, int timestamp_to, int activityTypes, SampleProvider provider) {
-        if (timestamp_to == -1) {
-            timestamp_to = Integer.MAX_VALUE; // dont know what happens when I use more than max of a signed int
+        if (timestamp_to < 0) {
+            throw new IllegalArgumentException("negative timestamp_to");
+        }
+        if (timestamp_from < 0) {
+            throw new IllegalArgumentException("negative timestamp_from");
         }
         ArrayList<ActivitySample> samples = new ArrayList<ActivitySample>();
         final String where = "(provider=" + provider.getID() + " and timestamp>=" + timestamp_from + " and timestamp<=" + timestamp_to + getWhereClauseFor(activityTypes, provider) + ")";
