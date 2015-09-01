@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -27,10 +28,13 @@ public class NotificationListener extends NotificationListenerService {
 
     public static final String ACTION_DISMISS
             = "nodomain.freeyourgadget.gadgetbridge.notificationlistener.action.dismiss";
+    public static final String ACTION_DISMISS_ALL
+            = "nodomain.freeyourgadget.gadgetbridge.notificationlistener.action.dismiss_all";
     public static final String ACTION_OPEN
             = "nodomain.freeyourgadget.gadgetbridge.notificationlistener.action.open";
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @SuppressLint("NewApi")
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -50,8 +54,25 @@ public class NotificationListener extends NotificationListenerService {
                     }
                 }
             } else if (action.equals(ACTION_DISMISS)) {
+                StatusBarNotification[] sbns = NotificationListener.this.getActiveNotifications();
+                int handle = intent.getIntExtra("handle", -1);
+                for (StatusBarNotification sbn : sbns) {
+                    if ((int) sbn.getPostTime() == handle) {
+                        if (GBApplication.isRunningLollipopOrLater()) {
+                            String key = sbn.getKey();
+                            NotificationListener.this.cancelNotification(key);
+                        } else {
+                            int id = sbn.getId();
+                            String pkg = sbn.getPackageName();
+                            String tag = sbn.getTag();
+                            NotificationListener.this.cancelNotification(pkg, tag, id);
+                        }
+                    }
+                }
+            } else if (action.equals(ACTION_DISMISS_ALL)) {
                 NotificationListener.this.cancelAllNotifications();
             }
+
         }
     };
 
@@ -59,8 +80,9 @@ public class NotificationListener extends NotificationListenerService {
     public void onCreate() {
         super.onCreate();
         IntentFilter filterLocal = new IntentFilter();
-        filterLocal.addAction(ACTION_DISMISS);
         filterLocal.addAction(ACTION_OPEN);
+        filterLocal.addAction(ACTION_DISMISS);
+        filterLocal.addAction(ACTION_DISMISS_ALL);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
     }
 

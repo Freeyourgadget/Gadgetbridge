@@ -8,6 +8,7 @@ public class GBDeviceEventNotificationControl extends GBDeviceEvent {
     public enum Event {
         UNKNOWN,
         DISMISS,
+        DISMISS_ALL,
         OPEN
     }
 }

@@ -362,7 +362,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    private byte[] encodeNotification(int id, String title, String subtitle, String body, byte type) {
+    private byte[] encodeNotification(int id, String title, String subtitle, String body, byte type, boolean hasHandle) {
         Long ts = System.currentTimeMillis();
         if (!isFw3x) {
             ts += (SimpleTimeZone.getDefault().getOffset(ts));
@@ -371,10 +371,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         if (isFw3x) {
             // 3.x notification
-            return encodeBlobdbNotification((int) (ts & 0xffffffff), title, subtitle, body, type);
+            return encodeBlobdbNotification(id, (int) (ts & 0xffffffff), title, subtitle, body, type, hasHandle);
         } else if (mForceProtocol || type != NOTIFICATION_EMAIL) {
             // 2.x notification
-            return encodeExtensibleNotification(id, (int) (ts & 0xffffffff), title, subtitle, body, type);
+            return encodeExtensibleNotification(id, (int) (ts & 0xffffffff), title, subtitle, body, type, hasHandle);
         } else {
             // 1.x notification on FW 2.X
             String[] parts = {title, body, ts.toString(), subtitle};
@@ -384,17 +384,17 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeSMS(String from, String body) {
-        return encodeNotification(mRandom.nextInt(), from, null, body, NOTIFICATION_SMS);
+        return encodeNotification(mRandom.nextInt(), from, null, body, NOTIFICATION_SMS, false);
     }
 
     @Override
     public byte[] encodeEmail(String from, String subject, String body) {
-        return encodeNotification(mRandom.nextInt(), from, subject, body, NOTIFICATION_EMAIL);
+        return encodeNotification(mRandom.nextInt(), from, subject, body, NOTIFICATION_EMAIL, false);
     }
 
     @Override
     public byte[] encodeGenericNotification(String title, String details, int handle) {
-        return encodeNotification(handle, title, null, details, NOTIFICATION_SMS);
+        return encodeNotification(handle, title, null, details, NOTIFICATION_SMS, true);
     }
 
     @Override
@@ -431,13 +431,23 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return encodeSetCallState("Where are you?", "Gadgetbridge", start ? ServiceCommand.CALL_INCOMING : ServiceCommand.CALL_END);
     }
 
-    private static byte[] encodeExtensibleNotification(int id, int timestamp, String title, String subtitle, String body, byte type) {
+    private static byte[] encodeExtensibleNotification(int id, int timestamp, String title, String subtitle, String body, byte type, boolean hasHandle) {
         String[] parts = {title, subtitle, body};
 
         // Calculate length first
+        String actionstring;
+        byte action_id;
+        if (hasHandle) {
+            actionstring = "dismiss";
+            action_id = 0x02;
+        } else {
+            actionstring = "dismiss all";
+            action_id = 0x03;
+        }
+
         byte attributes_count = 0;
 
-        int length = 21 + 17; //+ 19
+        int length = 21 + 10 + actionstring.length(); //+ 19
         if (parts != null) {
             for (String s : parts) {
                 if (s == null || s.equals("")) {
@@ -485,11 +495,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
         }
 
         // ACTION
-        buf.put((byte) 0x02); // id
+        buf.put(action_id);
         buf.put((byte) 0x04); // dismiss action
         buf.put((byte) 0x01); // number attributes
         buf.put((byte) 0x01); // attribute id (title)
-        String actionstring = "dismiss all";
         buf.putShort((short) actionstring.length());
         buf.put(actionstring.getBytes());
 
@@ -537,7 +546,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    private byte[] encodeBlobdbNotification(int timestamp, String title, String subtitle, String body, byte type) {
+    private byte[] encodeBlobdbNotification(int id, int timestamp, String title, String subtitle, String body, byte type, boolean hasHandle) {
         String[] parts = {title, subtitle, body};
 
         int icon_id = 0x80000000 | 1;
@@ -549,13 +558,24 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 icon_id = 0x80000000 | 45;
         }
         // Calculate length first
+
+        String actionstring;
+        byte action_id;
+        if (hasHandle) {
+            actionstring = "dismiss";
+            action_id = 0x02;
+        } else {
+            actionstring = "dismiss all";
+            action_id = 0x03;
+        }
+
         final short NOTIFICATION_PIN_LENGTH = 46;
-        final short ACTIONS_LENGTH = 17;
+        short actions_length = (short) (10 + actionstring.length());
 
         byte attributes_count = 1; // icon
         byte actions_count = 1; // dismiss
 
-        short attributes_length = 7 + ACTIONS_LENGTH; // icon
+        short attributes_length = (short) (7 + actions_length); // icon
         if (parts != null) {
             for (String s : parts) {
                 if (s == null || s.equals("")) {
@@ -574,9 +594,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
         // pin - 46 bytes
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putLong(uuid.getMostSignificantBits());
-        buf.putLong(uuid.getLeastSignificantBits());
+        buf.putInt((int) (uuid.getLeastSignificantBits() >>> 32));
+        buf.putInt(id);
         buf.putLong(uuid.getMostSignificantBits());
-        buf.putLong(uuid.getLeastSignificantBits());
+        buf.putInt((int) (uuid.getLeastSignificantBits() >>> 32));
+        buf.putInt(id);
+        LOG.info("id " + id);
         buf.order(ByteOrder.LITTLE_ENDIAN);
         buf.putInt(timestamp); // 32-bit timestamp
         buf.putShort((short) 0); // duration
@@ -609,19 +632,19 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putInt(icon_id);
 
         // ACTION
-        buf.put((byte) 0x02); // id
+        buf.put(action_id);
         buf.put((byte) 0x02); // generic action, dismiss did not do anything
         buf.put((byte) 0x01); // number attributes
         buf.put((byte) 0x01); // attribute id (title)
-        String actionstring = "dismiss all";
+
         buf.putShort((short) actionstring.length());
         buf.put(actionstring.getBytes());
 
         return encodeBlobdb(UUID.randomUUID(), BLOBDB_INSERT, BLOBDB_NOTIFICATION, buf.array());
     }
 
-    public byte[] encodeActionResponse(UUID uuid) {
-        short length = 38;
+    public byte[] encodeActionResponse(UUID uuid, int iconId, String caption) {
+        short length = (short) (29 + caption.length());
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + length);
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putShort(length);
@@ -634,10 +657,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put((byte) 2); //nr of attributes
         buf.put((byte) 6); // icon
         buf.putShort((short) 4); // length
-        buf.putInt(0x80000033); // icon id
+        buf.putInt(0x80000000 | iconId);
         buf.put((byte) 2); // title
-        buf.putShort((short) 9); // length
-        buf.put("Dismissed".getBytes());
+        buf.putShort((short) caption.length());
+        buf.put(caption.getBytes());
         return buf.array();
     }
 
@@ -1095,7 +1118,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         if (command == 0x02) {
             int id = buf.getInt();
             byte action = buf.get();
-            if (action == 0x01 || action == 0x02) {
+            if (action >= 0x01 && action <= 0x03) {
                 GBDeviceEventNotificationControl devEvtNotificationControl = new GBDeviceEventNotificationControl();
                 devEvtNotificationControl.handle = id;
                 switch (action) {
@@ -1104,6 +1127,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         break;
                     case 0x02:
                         devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.DISMISS;
+                        break;
+                    case 0x03:
+                        devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.DISMISS_ALL;
                         break;
                     default:
                         return null;
@@ -1124,14 +1150,33 @@ public class PebbleProtocol extends GBDeviceProtocol {
             buf.order(ByteOrder.BIG_ENDIAN);
             long uuid_high = buf.getLong();
             long uuid_low = buf.getLong();
-            int id = (int) (uuid_low & 0xffff);
+            int id = (int) (uuid_low & 0xffffffff);
+            LOG.info("id " + id);
             byte action = buf.get();
-            if (action == 0x02) {
+            if (action >= 0x01 && action <= 0x03) {
                 GBDeviceEventNotificationControl dismissNotification = new GBDeviceEventNotificationControl();
                 dismissNotification.handle = id;
-                dismissNotification.event = GBDeviceEventNotificationControl.Event.DISMISS;
+                String caption = "undefined";
+                int icon_id = 1;
+                switch (action) {
+                    case 0x01:
+                        dismissNotification.event = GBDeviceEventNotificationControl.Event.OPEN;
+                        caption = "Opened";
+                        icon_id = 47; // FIXME: find a better one
+                        break;
+                    case 0x02:
+                        dismissNotification.event = GBDeviceEventNotificationControl.Event.DISMISS;
+                        caption = "Dismissed";
+                        icon_id = 51;
+                        break;
+                    case 0x03:
+                        dismissNotification.event = GBDeviceEventNotificationControl.Event.DISMISS_ALL;
+                        caption = "All dismissed";
+                        icon_id = 51;
+                        break;
+                }
                 GBDeviceEventSendBytes sendBytesAck = new GBDeviceEventSendBytes();
-                sendBytesAck.encodedBytes = encodeActionResponse(new UUID(uuid_high, uuid_low));
+                sendBytesAck.encodedBytes = encodeActionResponse(new UUID(uuid_high, uuid_low), icon_id, caption);
                 return new GBDeviceEvent[]{sendBytesAck, dismissNotification};
             }
             LOG.info("unexpected action: " + action);

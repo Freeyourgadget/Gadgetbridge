@@ -214,6 +214,9 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             case DISMISS:
                 action = NotificationListener.ACTION_DISMISS;
                 break;
+            case DISMISS_ALL:
+                action = NotificationListener.ACTION_DISMISS_ALL;
+                break;
             case OPEN:
                 action = NotificationListener.ACTION_OPEN;
                 break;
