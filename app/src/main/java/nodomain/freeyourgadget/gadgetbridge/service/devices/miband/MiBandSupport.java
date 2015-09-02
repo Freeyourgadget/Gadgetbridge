@@ -524,6 +524,10 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     public void onEnableRealtimeSteps(boolean enable) {
         try {
             BluetoothGattCharacteristic controlPoint = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
+            if (enable) {
+                TransactionBuilder builder = performInitialized("Read realtime steps");
+                builder.read(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS)).queue(getQueue());
+            }
             performInitialized(enable ? "Enabling realtime steps notifications" : "Disabling realtime steps notifications")
                     .write(controlPoint, enable ? startRealTimeStepsNotifications : stopRealTimeStepsNotifications).queue(getQueue());
         } catch (IOException e) {
@@ -613,14 +617,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void handleRealtimeSteps(byte[] value) {
-        int steps = 0xff & value[0] | (0xff & value[1]) << 8;
-        LOG.debug("realtime steps: " + steps);
-        Intent intent = new Intent(DeviceService.ACTION_REALTIME_STEPS)
-                .putExtra(DeviceService.EXTRA_REALTIME_STEPS, steps);
-        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
-    }
-
     @Override
     public void onCharacteristicRead(BluetoothGatt gatt,
                                      BluetoothGattCharacteristic characteristic, int status) {
@@ -633,6 +629,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             handleDeviceName(characteristic.getValue(), status);
         } else if (MiBandService.UUID_CHARACTERISTIC_BATTERY.equals(characteristicUUID)) {
             handleBatteryInfo(characteristic.getValue(), status);
+        } else if (MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS.equals(characteristicUUID)) {
+            handleRealtimeSteps(characteristic.getValue());
         }
     }
 
@@ -659,6 +657,16 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         for (byte b : value) {
             LOG.warn("DATA: " + String.format("0x%2x", b));
         }
+    }
+
+
+
+    private void handleRealtimeSteps(byte[] value) {
+        int steps = 0xff & value[0] | (0xff & value[1]) << 8;
+        LOG.debug("realtime steps: " + steps);
+        Intent intent = new Intent(DeviceService.ACTION_REALTIME_STEPS)
+                .putExtra(DeviceService.EXTRA_REALTIME_STEPS, steps);
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
     }
 
     /**
