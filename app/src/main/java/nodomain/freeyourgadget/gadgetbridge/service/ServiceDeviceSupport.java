@@ -231,4 +231,12 @@ public class ServiceDeviceSupport implements DeviceSupport {
         }
         delegate.onSetAlarms(alarms);
     }
+
+    @Override
+    public void onEnableRealtimeSteps(boolean enable) {
+        if (checkBusy("enable realtime steps: " + enable)) {
+            return;
+        }
+        delegate.onEnableRealtimeSteps(enable);
+    }
 }

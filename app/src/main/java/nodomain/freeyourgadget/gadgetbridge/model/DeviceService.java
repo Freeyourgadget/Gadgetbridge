@@ -30,6 +30,8 @@ public interface DeviceService extends EventHandler {
     static final String ACTION_DISCONNECT = PREFIX + ".action.disconnect";
     static final String ACTION_FIND_DEVICE = PREFIX + ".action.find_device";
     static final String ACTION_SET_ALARMS = PREFIX + ".action.set_alarms";
+    static final String ACTION_ENABLE_REALTIME_STEPS = PREFIX + ".action.enable_realtime_steps";
+    static final String ACTION_REALTIME_STEPS = PREFIX + ".action.realtime_steps";
 
     static final String EXTRA_DEVICE_ADDRESS = "device_address";
     static final String EXTRA_NOTIFICATION_TITLE = "notification_title";
@@ -47,7 +49,8 @@ public interface DeviceService extends EventHandler {
     static final String EXTRA_URI = "uri";
     static final String EXTRA_ALARMS = "alarms";
     static final String EXTRA_PERFORM_PAIR = "perform_pair";
-
+    static final String EXTRA_ENABLE_REALTIME_STEPS = "enable_realtime_steps";
+    static final String EXTRA_REALTIME_STEPS = "realtime_steps";
 
 
     void start();

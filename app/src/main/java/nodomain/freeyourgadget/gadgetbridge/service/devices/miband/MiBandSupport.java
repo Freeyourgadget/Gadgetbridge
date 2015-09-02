@@ -2,9 +2,11 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.miband;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -26,7 +28,9 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -207,9 +211,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private static final byte[] startVibrate = new byte[]{MiBandService.COMMAND_SEND_NOTIFICATION, 1};
     private static final byte[] stopVibrate = new byte[]{MiBandService.COMMAND_STOP_MOTOR_VIBRATE};
     private static final byte[] reboot = new byte[]{MiBandService.COMMAND_REBOOT};
+    private static final byte[] startRealTimeStepsNotifications = new byte[]{MiBandService.COMMAND_SET_REALTIME_STEPS_NOTIFICATION, 1};
+    private static final byte[] stopRealTimeStepsNotifications = new byte[]{MiBandService.COMMAND_SET_REALTIME_STEPS_NOTIFICATION, 0};
 
     private byte[] getNotification(long vibrateDuration, int vibrateTimes, int flashTimes, int flashColour, int originalColour, long flashDuration) {
-        byte[] vibrate = new byte[]{MiBandService.COMMAND_SEND_NOTIFICATION, (byte) 1};
+        byte[] vibrate = startVibrate;
         byte r = 6;
         byte g = 0;
         byte b = 6;
@@ -514,6 +520,17 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    @Override
+    public void onEnableRealtimeSteps(boolean enable) {
+        try {
+            BluetoothGattCharacteristic controlPoint = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
+            performInitialized(enable ? "Enabling realtime steps notifications" : "Disabling realtime steps notifications")
+                    .write(controlPoint, enable ? startRealTimeStepsNotifications : stopRealTimeStepsNotifications).queue(getQueue());
+        } catch (IOException e) {
+            LOG.error("Unable to change realtime steps notification to: " + enable, e);
+        }
+    }
+
     private byte[] getHighLatency() {
         int minConnectionInterval = 460;
         int maxConnectionInterval = 500;
@@ -591,7 +608,17 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             handleBatteryInfo(characteristic.getValue(), BluetoothGatt.GATT_SUCCESS);
         } else if (MiBandService.UUID_CHARACTERISTIC_NOTIFICATION.equals(characteristicUUID)) {
             handleNotificationNotif(characteristic.getValue());
+        } else if (MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS.equals(characteristicUUID)) {
+            handleRealtimeSteps(characteristic.getValue());
         }
+    }
+
+    private void handleRealtimeSteps(byte[] value) {
+        int steps = 0xff & value[0] | (0xff & value[1]) << 8;
+        LOG.debug("realtime steps: " + steps);
+        Intent intent = new Intent(DeviceService.ACTION_REALTIME_STEPS)
+                .putExtra(DeviceService.EXTRA_REALTIME_STEPS, steps);
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
     }
 
     @Override

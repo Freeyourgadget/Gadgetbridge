@@ -185,4 +185,6 @@
     <string name="updatefirmwareoperation_update_complete_rebooting">Firmware installation complete, rebooting device…</string>
     <string name="updatefirmwareoperation_write_failed">Firmware write failed</string>
     <string name="chart_steps">Steps</string>
+    <string name="liveactivity_live_activity">Live Activity</string>
+    <string name="weeksteps_today_steps_description">Steps today, target: %1$s</string>
 </resources>

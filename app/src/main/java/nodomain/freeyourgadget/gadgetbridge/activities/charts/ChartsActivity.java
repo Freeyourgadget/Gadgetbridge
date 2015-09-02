@@ -208,6 +208,8 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
                     return new SleepChartFragment();
                 case 2:
                     return new WeekStepsChartFragment();
+                case 3:
+                    return new LiveActivityFragment();
 
             }
             return null;
@@ -216,7 +218,7 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 4;
         }
     }
 }

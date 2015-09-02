@@ -185,7 +185,6 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         yAxisRight.setDrawLabels(false);
         yAxisRight.setDrawTopYLabelEntry(false);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
-
     }
 
     protected void setupLegend(Chart chart) {

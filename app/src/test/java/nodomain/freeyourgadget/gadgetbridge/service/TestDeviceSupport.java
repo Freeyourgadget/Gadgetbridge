@@ -121,4 +121,9 @@ public class TestDeviceSupport extends AbstractDeviceSupport {
     public void onScreenshotReq() {
 
     }
+
+    @Override
+    public void onEnableRealtimeSteps(boolean enable) {
+
+    }
 }

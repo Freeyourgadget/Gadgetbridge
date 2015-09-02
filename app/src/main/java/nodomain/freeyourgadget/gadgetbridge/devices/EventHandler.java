@@ -29,6 +29,8 @@ public interface EventHandler {
 
     void onSetMusicInfo(String artist, String album, String track);
 
+    void onEnableRealtimeSteps(boolean enable);
+
     void onInstallApp(Uri uri);
 
     void onAppInfoReq();

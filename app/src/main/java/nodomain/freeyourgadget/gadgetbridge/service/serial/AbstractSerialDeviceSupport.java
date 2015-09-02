@@ -182,4 +182,10 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
         byte[] bytes = gbDeviceProtocol.encodeScreenshotReq();
         sendToDevice(bytes);
     }
+
+    @Override
+    public void onEnableRealtimeSteps(boolean enable) {
+        byte[] bytes = gbDeviceProtocol.encodeEnableRealtimeSteps(enable);
+        sendToDevice(bytes);
+    }
 }

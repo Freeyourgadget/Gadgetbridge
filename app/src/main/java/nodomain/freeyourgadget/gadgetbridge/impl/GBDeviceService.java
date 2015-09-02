@@ -185,4 +185,11 @@ public class GBDeviceService implements DeviceService {
         Intent intent = createIntent().setAction(ACTION_REQUEST_SCREENSHOT);
         invokeService(intent);
     }
+
+    @Override
+    public void onEnableRealtimeSteps(boolean enable) {
+        Intent intent = createIntent().setAction(ACTION_ENABLE_REALTIME_STEPS)
+                .putExtra(EXTRA_ENABLE_REALTIME_STEPS, enable);
+        invokeService(intent);
+    }
 }

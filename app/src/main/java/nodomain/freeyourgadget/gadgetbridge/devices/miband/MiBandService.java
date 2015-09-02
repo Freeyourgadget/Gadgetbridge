@@ -150,15 +150,16 @@ public class MiBandService {
 
     public static final byte COMMAND_STOP_MOTOR_VIBRATE = 0x13;
 
+    public static final byte COMMAND_SET_REALTIME_STEPS_NOTIFICATION = 0x3;
+
+    public static final byte COMMAND_SET_REALTIME_STEP = 0x10;
+
     /* FURTHER COMMANDS: unchecked therefore left commented
 
-	public static final COMMAND_SET_REALTIME_STEPS_NOTIFICATION = 0x3t
 
 	public static final byte COMMAND_FACTORY_RESET = 0x9t;
 
 	public static final int COMMAND_SET_COLOR_THEME = et;
-
-	public static final COMMAND_SET_REALTIME_STEP = 0x10t
 
 	public static final COMMAND_STOP_SYNC_DATA = 0x11t
 
