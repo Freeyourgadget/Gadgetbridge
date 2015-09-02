@@ -17,4 +17,11 @@
         android:layout_weight="20">
     </com.github.mikephil.charting.charts.PieChart>
 
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/livechart_steps_total"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="20">
+    </com.github.mikephil.charting.charts.PieChart>
+
 </LinearLayout>

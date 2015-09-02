@@ -51,6 +51,7 @@ public interface DeviceService extends EventHandler {
     static final String EXTRA_PERFORM_PAIR = "perform_pair";
     static final String EXTRA_ENABLE_REALTIME_STEPS = "enable_realtime_steps";
     static final String EXTRA_REALTIME_STEPS = "realtime_steps";
+    static final String EXTRA_TIMESTAMP = "timestamp";
 
 
     void start();
