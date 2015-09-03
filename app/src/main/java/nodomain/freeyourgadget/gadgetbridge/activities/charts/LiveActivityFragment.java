@@ -46,16 +46,23 @@ public class LiveActivityFragment extends AbstractChartFragment {
     private PieData mTotalStepsData;
 
     private class Steps {
+        private int initialSteps;
+
         private int steps;
         private long lastTimestamp;
         private int currentStepsPerMinute;
+        private int maxStepsPerMinute;
 
         public int getStepsPerMinute() {
             return currentStepsPerMinute;
         }
 
         public int getTotalSteps() {
-            return steps;
+            return steps - initialSteps;
+        }
+
+        public int getMaxStepsPerMinute() {
+            return maxStepsPerMinute;
         }
 
         public void updateCurrentSteps(int newSteps, long timestamp) {
@@ -63,6 +70,10 @@ public class LiveActivityFragment extends AbstractChartFragment {
                 if (steps == 0) {
                     steps = newSteps;
                     lastTimestamp = timestamp;
+
+                    if (newSteps > 0) {
+                        initialSteps = newSteps;
+                    }
                     return;
                 }
 
@@ -70,6 +81,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
                     int stepsDelta = newSteps - steps;
                     long timeDelta = timestamp - lastTimestamp;
                     currentStepsPerMinute = calculateStepsPerMinute(stepsDelta, timeDelta);
+                    maxStepsPerMinute = Math.max(maxStepsPerMinute, currentStepsPerMinute);
                     steps = newSteps;
                     lastTimestamp = timestamp;
                 } else {
@@ -123,8 +135,8 @@ public class LiveActivityFragment extends AbstractChartFragment {
         stepsPerMinuteEntry.setVal(mSteps.getStepsPerMinute());
         mStepsPerMinuteCurrentChart.setCenterText(NumberFormat.getNumberInstance().format(mSteps.getStepsPerMinute()));
 
-        mTotalStepsData.notifyDataChanged();
-        mStepsPerMinuteData.notifyDataChanged();
+//        mTotalStepsData.notifyDataChanged();
+//        mStepsPerMinuteData.notifyDataChanged();
 
         renderCharts();
     }
@@ -142,12 +154,12 @@ public class LiveActivityFragment extends AbstractChartFragment {
         mStepsPerMinuteCurrentChart = (PieChart) rootView.findViewById(R.id.livechart_steps_per_minute_current);
         mStepsTotalChart = (PieChart) rootView.findViewById(R.id.livechart_steps_total);
 
-        totalStepsEntry = new Entry(0, 0);
-        stepsPerMinuteEntry = new Entry(0, 0);
+        totalStepsEntry = new Entry(10, 0);
+        stepsPerMinuteEntry = new Entry(10, 0);
 
         setupHistoryChart(mStepsPerMinuteHistoryChart);
-        mStepsPerMinuteData = setupCurrentChart(mStepsPerMinuteCurrentChart, stepsPerMinuteEntry);
-        mTotalStepsData = setupTotalStepsChart(mStepsTotalChart, totalStepsEntry);
+        mStepsPerMinuteData = setupCurrentChart(mStepsPerMinuteCurrentChart, stepsPerMinuteEntry, "Steps/min");
+        mTotalStepsData = setupTotalStepsChart(mStepsTotalChart, totalStepsEntry, "Total Steps");
 
         return rootView;
     }
@@ -170,12 +182,13 @@ public class LiveActivityFragment extends AbstractChartFragment {
         super.onDestroyView();
     }
 
-    private PieData setupCurrentChart(PieChart chart, Entry entry) {
+    private PieData setupCurrentChart(PieChart chart, Entry entry, String title) {
         chart.setBackgroundColor(BACKGROUND_COLOR);
         chart.setDescriptionColor(DESCRIPTION_COLOR);
-        chart.setDescription("");
+        chart.setDescription(title);
         chart.setNoDataTextDescription("");
         chart.setNoDataText("");
+        chart.setDrawSliceText(false);
 
         PieData data = new PieData();
         List<Entry> entries = new ArrayList<>();
@@ -186,7 +199,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
         entries.add(entry);
         colors.add(akActivity.color);
         //we don't want labels on the pie chart
-        data.addXValue("");
+//        data.addXValue("");
 
 //            entries.add(new Entry((20), 1));
 //            colors.add(Color.GRAY);
@@ -197,7 +210,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
         set.setColors(colors);
         data.setDataSet(set);
         //this hides the values (numeric) added to the set. These would be shown aside the strings set with addXValue above
-        data.setDrawValues(false);
+//        data.setDrawValues(false);
         chart.setData(data);
 
         chart.getLegend().setEnabled(false);
@@ -205,8 +218,8 @@ public class LiveActivityFragment extends AbstractChartFragment {
         return data;
     }
 
-    private PieData setupTotalStepsChart(PieChart chart, Entry entry) {
-        return setupCurrentChart(chart, entry); // at the moment, these look the same
+    private PieData setupTotalStepsChart(PieChart chart, Entry entry, String label) {
+        return setupCurrentChart(chart, entry, label); // at the moment, these look the same
     }
 
 
@@ -245,15 +258,20 @@ public class LiveActivityFragment extends AbstractChartFragment {
     }
 
     @Override
+    protected void refresh() {
+        // do nothing, we don't have any db interaction
+    }
+    @Override
     protected void refreshInBackground(DBHandler db, GBDevice device) {
-
     }
 
     @Override
     protected void renderCharts() {
-        mStepsPerMinuteCurrentChart.animateXY(50, 50);
-        mStepsTotalChart.animateXY(50, 50);
-        mStepsPerMinuteHistoryChart.invalidate();
+        mStepsTotalChart.invalidate();
+        mStepsPerMinuteCurrentChart.invalidate();
+//        mStepsPerMinuteCurrentChart.animateXY(50, 50);
+//        mStepsTotalChart.animateXY(50, 50);
+//        mStepsPerMinuteHistoryChart.invalidate();
     }
 
     @Override
