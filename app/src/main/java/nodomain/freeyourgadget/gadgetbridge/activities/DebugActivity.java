@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.app.Activity;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -215,6 +216,12 @@ public class DebugActivity extends Activity {
     }
 
     private void testNotification() {
+        Intent notificationIntent = new Intent(getApplicationContext(), DebugActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
+                notificationIntent, 0);
+
         NotificationManager nManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         NotificationCompat.Builder ncomp = new NotificationCompat.Builder(this);
         ncomp.setContentTitle(getString(R.string.test_notification));
@@ -222,6 +229,7 @@ public class DebugActivity extends Activity {
         ncomp.setTicker(getString(R.string.this_is_a_test_notification_from_gadgetbridge));
         ncomp.setSmallIcon(R.drawable.ic_notification);
         ncomp.setAutoCancel(true);
+        ncomp.setContentIntent(pendingIntent);
         nManager.notify((int) System.currentTimeMillis(), ncomp.build());
     }
 

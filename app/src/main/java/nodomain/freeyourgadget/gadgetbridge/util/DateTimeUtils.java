@@ -12,6 +12,10 @@ import java.util.concurrent.TimeUnit;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 public class DateTimeUtils {
+    public static String formatDateTime(Date date) {
+        return DateUtils.formatDateTime(GBApplication.getContext(), date.getTime(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_TIME);
+    }
+
     public static String formatDate(Date date) {
         return DateUtils.formatDateTime(GBApplication.getContext(), date.getTime(), DateUtils.FORMAT_SHOW_DATE);
 //        long dateMillis = date.getTime();

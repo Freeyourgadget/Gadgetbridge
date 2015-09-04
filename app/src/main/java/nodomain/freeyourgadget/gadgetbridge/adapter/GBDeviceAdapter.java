@@ -1,6 +1,8 @@
 package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,9 +63,15 @@ public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {
         if (batteryLevel != GBDevice.BATTERY_UNKNOWN) {
             batteryStatusLabel.setText("BAT: " + device.getBatteryLevel() + "%");
             BatteryState batteryState = device.getBatteryState();
-            if (BatteryState.BATTERY_CHARGING.equals(batteryState) ||
-                    BatteryState.BATTERY_CHARGING_FULL.equals(batteryState)) {
-                batteryStatusLabel.append(" CHG");
+            if (BatteryState.BATTERY_LOW.equals(batteryState)) {
+                batteryStatusLabel.setTextColor(Color.RED);
+            } else {
+                batteryStatusLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.secondarytext));
+
+                if (BatteryState.BATTERY_CHARGING.equals(batteryState) ||
+                        BatteryState.BATTERY_CHARGING_FULL.equals(batteryState)) {
+                    batteryStatusLabel.append(" CHG");
+                }
             }
         } else {
             batteryStatusLabel.setText("");
