@@ -13,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -59,6 +60,7 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         }
     };
     private GBDevice mGBDevice;
+    private ViewGroup dateBar;
 
     private void refreshBusyState(GBDevice dev) {
         if (dev.isBusy()) {
@@ -94,6 +96,8 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         // Set up the ViewPager with the sections adapter.
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(getPagerAdapter());
+
+        dateBar = (ViewGroup) findViewById(R.id.charts_date_bar);
 
         mProgressBar = (ProgressBar) findViewById(R.id.charts_progress);
         mPrevButton = (Button) findViewById(R.id.charts_previous);
@@ -186,6 +190,11 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
     @Override
     protected AbstractFragmentPagerAdapter createFragmentPagerAdapter(FragmentManager fragmentManager) {
         return new SectionsPagerAdapter(fragmentManager);
+    }
+
+    @Override
+    public ViewGroup getDateBar() {
+        return dateBar;
     }
 
     /**

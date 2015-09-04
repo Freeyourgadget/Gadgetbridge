@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
+import android.view.ViewGroup;
+
 import java.util.Date;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -17,4 +19,6 @@ public interface ChartsHost {
     Date getStartDate();
     Date getEndDate();
     void setDateInfo(String dateInfo);
+
+    ViewGroup getDateBar();
 }

@@ -46,11 +46,14 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
 
     @Override
     protected void refreshInBackground(DBHandler db, GBDevice device) {
-        Calendar day = Calendar.getInstance();
-        day.setTime(((ChartsHost) getHost()).getEndDate());
-        //NB: we could have omitted the day, but this way we can move things to the past easily
-        refreshDaySteps(db, mTodayStepsChart, day, device);
-        refreshWeekBeforeSteps(db, mWeekStepsChart, day, device);
+        ChartsHost chartsHost = getChartsHost();
+        if (chartsHost != null) {
+            Calendar day = Calendar.getInstance();
+            day.setTime(chartsHost.getEndDate());
+            //NB: we could have omitted the day, but this way we can move things to the past easily
+            refreshDaySteps(db, mTodayStepsChart, day, device);
+            refreshWeekBeforeSteps(db, mWeekStepsChart, day, device);
+        }
     }
 
     @Override
@@ -128,7 +131,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
 
         View rootView = inflater.inflate(R.layout.fragment_sleepchart, container, false);
 
-        GBDevice device = ((ChartsHost) getHost()).getDevice();
+        GBDevice device = getChartsHost().getDevice();
         if (device != null) {
             mTargetSteps = MiBandCoordinator.getFitnessGoal(device.getAddress());
         }

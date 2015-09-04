@@ -6,8 +6,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
@@ -145,19 +148,24 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     private void setStartDate(Date date) {
-        ((ChartsHost) getHost()).setStartDate(date);
+        getChartsHost().setStartDate(date);
     }
 
+    @Nullable
+    protected ChartsHost getChartsHost() {
+        return (ChartsHost) getActivity();
+    }
+    
     private void setEndDate(Date date) {
-        ((ChartsHost) getHost()).setEndDate(date);
+        getChartsHost().setEndDate(date);
     }
 
     public Date getStartDate() {
-        return ((ChartsHost) getHost()).getStartDate();
+        return getChartsHost().getStartDate();
     }
 
     public Date getEndDate() {
-        return ((ChartsHost) getHost()).getEndDate();
+        return getChartsHost().getEndDate();
     }
 
     /**
@@ -169,9 +177,14 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     @Override
     protected void onMadeVisibleInActivity() {
         super.onMadeVisibleInActivity();
+        showDateBar(true);
         if (isChartDirty()) {
             refresh();
         }
+    }
+
+    protected void showDateBar(boolean show) {
+        getChartsHost().getDateBar().setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -333,10 +346,13 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
      * #renderCharts
      */
     protected void refresh() {
-        if (((ChartsHost) getHost()).getDevice() != null) {
-            mChartDirty = false;
-            updateDateInfo(getStartDate(), getEndDate());
-            createRefreshTask("Visualizing data", getActivity()).execute();
+        ChartsHost chartsHost = getChartsHost();
+        if (chartsHost != null) {
+            if (chartsHost.getDevice() != null) {
+                mChartDirty = false;
+                updateDateInfo(getStartDate(), getEndDate());
+                createRefreshTask("Visualizing data", getActivity()).execute();
+            }
         }
     }
 
@@ -545,7 +561,10 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
         @Override
         protected void doInBackground(DBHandler db) {
-            refreshInBackground(db, ((ChartsHost) getHost()).getDevice());
+            ChartsHost chartsHost = getChartsHost();
+            if (chartsHost != null) {
+                refreshInBackground(db, chartsHost.getDevice());
+            }
         }
 
         @Override
@@ -582,9 +601,9 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
     protected void updateDateInfo(Date from, Date to) {
         if (from.equals(to)) {
-            ((ChartsHost) getHost()).setDateInfo(DateTimeUtils.formatDate(from));
+            getChartsHost().setDateInfo(DateTimeUtils.formatDate(from));
         } else {
-            ((ChartsHost) getHost()).setDateInfo(DateTimeUtils.formatDateRange(from, to));
+            getChartsHost().setDateInfo(DateTimeUtils.formatDateRange(from, to));
         }
     }
 

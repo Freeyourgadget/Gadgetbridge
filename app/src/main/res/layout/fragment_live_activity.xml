@@ -8,34 +8,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/livechart_steps_total"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="20">
+        </com.github.mikephil.charting.charts.LineChart>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/livechart_steps_per_minute_current"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="20">
+        </com.github.mikephil.charting.charts.LineChart>
         <!--
-        <com.github.mikephil.charting.charts.LineChart
+        <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/livechart_steps_total"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="20">
-        </com.github.mikephil.charting.charts.LineChart>
+        </com.github.mikephil.charting.charts.PieChart>
 
-        <com.github.mikephil.charting.charts.LineChart
+        <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/livechart_steps_per_minute_current"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="20">
-        </com.github.mikephil.charting.charts.LineChart>
+        </com.github.mikephil.charting.charts.PieChart>
 -->
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/livechart_steps_total"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="20">
-        </com.github.mikephil.charting.charts.PieChart>
-
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/livechart_steps_per_minute_current"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="20">
-        </com.github.mikephil.charting.charts.PieChart>
     </LinearLayout>
 
     <com.github.mikephil.charting.charts.LineChart

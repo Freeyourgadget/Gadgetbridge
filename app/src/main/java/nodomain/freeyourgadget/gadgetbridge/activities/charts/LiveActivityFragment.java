@@ -4,29 +4,26 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
-import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,8 +39,8 @@ public class LiveActivityFragment extends AbstractChartFragment {
     private static final Logger LOG = LoggerFactory.getLogger(LiveActivityFragment.class);
     private Entry totalStepsEntry;
     private Entry stepsPerMinuteEntry;
-    private PieData mStepsPerMinuteData;
-    private PieData mTotalStepsData;
+    private LineDataSet mStepsPerMinuteData;
+    private LineDataSet mTotalStepsData;
 
     private class Steps {
         private int initialSteps;
@@ -109,8 +106,8 @@ public class LiveActivityFragment extends AbstractChartFragment {
 
 
     private BarLineChartBase mStepsPerMinuteHistoryChart;
-    private PieChart mStepsPerMinuteCurrentChart;
-    private PieChart mStepsTotalChart;
+    private BarLineChartBase mStepsPerMinuteCurrentChart;
+    private BarLineChartBase mStepsTotalChart;
 
     private Steps mSteps = new Steps();
 
@@ -130,13 +127,18 @@ public class LiveActivityFragment extends AbstractChartFragment {
 
     private void refreshCurrentSteps(int steps, long timestamp) {
         mSteps.updateCurrentSteps(steps, timestamp);
+        // Or: count down the steps until goal reached? And then flash GOAL REACHED -> Set stretch goal
         totalStepsEntry.setVal(mSteps.getTotalSteps());
-        mStepsTotalChart.setCenterText(NumberFormat.getNumberInstance().format(mSteps.getTotalSteps()));
+        LOG.info("Steps: " + steps + "total: " + mSteps.getTotalSteps() + " current: " + mSteps.getStepsPerMinute());
+//        mStepsTotalChart.setCenterText(NumberFormat.getNumberInstance().format(mSteps.getTotalSteps()));
+        mStepsPerMinuteCurrentChart.getAxisLeft().setAxisMaxValue(mSteps.getMaxStepsPerMinute());
         stepsPerMinuteEntry.setVal(mSteps.getStepsPerMinute());
-        mStepsPerMinuteCurrentChart.setCenterText(NumberFormat.getNumberInstance().format(mSteps.getStepsPerMinute()));
+//        mStepsPerMinuteCurrentChart.setCenterText(NumberFormat.getNumberInstance().format(mSteps.getStepsPerMinute()));
 
-//        mTotalStepsData.notifyDataChanged();
-//        mStepsPerMinuteData.notifyDataChanged();
+        mStepsTotalChart.getData().notifyDataChanged();
+        mTotalStepsData.notifyDataSetChanged();
+        mStepsPerMinuteCurrentChart.getData().notifyDataChanged();
+        mStepsPerMinuteData.notifyDataSetChanged();
 
         renderCharts();
     }
@@ -151,11 +153,11 @@ public class LiveActivityFragment extends AbstractChartFragment {
         View rootView = inflater.inflate(R.layout.fragment_live_activity, container, false);
 
         mStepsPerMinuteHistoryChart = (BarLineChartBase) rootView.findViewById(R.id.livechart_steps_per_minute_history);
-        mStepsPerMinuteCurrentChart = (PieChart) rootView.findViewById(R.id.livechart_steps_per_minute_current);
-        mStepsTotalChart = (PieChart) rootView.findViewById(R.id.livechart_steps_total);
+        mStepsPerMinuteCurrentChart = (BarLineChartBase) rootView.findViewById(R.id.livechart_steps_per_minute_current);
+        mStepsTotalChart = (BarLineChartBase) rootView.findViewById(R.id.livechart_steps_total);
 
-        totalStepsEntry = new Entry(10, 0);
-        stepsPerMinuteEntry = new Entry(10, 0);
+        totalStepsEntry = new Entry(0, 1);
+        stepsPerMinuteEntry = new Entry(0, 1);
 
         setupHistoryChart(mStepsPerMinuteHistoryChart);
         mStepsPerMinuteData = setupCurrentChart(mStepsPerMinuteCurrentChart, stepsPerMinuteEntry, "Steps/min");
@@ -165,15 +167,21 @@ public class LiveActivityFragment extends AbstractChartFragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    protected void onMadeVisibleInActivity() {
         GBApplication.deviceService().onEnableRealtimeSteps(true);
+        super.onMadeVisibleInActivity();
+        if (getActivity() != null) {
+            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    protected void onMadeInvisibleInActivity() {
         GBApplication.deviceService().onEnableRealtimeSteps(false);
+        if (getActivity() != null) {
+            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+        super.onMadeInvisibleInActivity();
     }
 
     @Override
@@ -182,46 +190,56 @@ public class LiveActivityFragment extends AbstractChartFragment {
         super.onDestroyView();
     }
 
-    private PieData setupCurrentChart(PieChart chart, Entry entry, String title) {
+    private LineDataSet setupCurrentChart(BarLineChartBase chart, Entry entry, String title) {
+        mStepsPerMinuteCurrentChart.getAxisLeft().setAxisMaxValue(300);
+        return setupCommonChart(chart, entry, title);
+    }
+
+    private LineDataSet setupCommonChart(BarLineChartBase chart, Entry entry, String title) {
         chart.setBackgroundColor(BACKGROUND_COLOR);
         chart.setDescriptionColor(DESCRIPTION_COLOR);
         chart.setDescription(title);
         chart.setNoDataTextDescription("");
         chart.setNoDataText("");
-        chart.setDrawSliceText(false);
+        chart.getAxisRight().setEnabled(false);
+//        chart.setDrawSliceText(false);
 
-        PieData data = new PieData();
         List<Entry> entries = new ArrayList<>();
+        List<String> xLabels = new ArrayList<>();
         List<Integer> colors = new ArrayList<>();
 
         int value = 0;
-        chart.setCenterText(NumberFormat.getNumberInstance().format(value));
+//        chart.setCenterText(NumberFormat.getNumberInstance().format(value));
+        entries.add(new Entry(0,0));
         entries.add(entry);
+        entries.add(new Entry(0,2));
         colors.add(akActivity.color);
         //we don't want labels on the pie chart
-//        data.addXValue("");
+        xLabels.add("");
+        xLabels.add("");
+        xLabels.add("");
 
 //            entries.add(new Entry((20), 1));
 //            colors.add(Color.GRAY);
 //            //we don't want labels on the pie chart
 //            data.addXValue("");
 
-        PieDataSet set = new PieDataSet(entries, "");
+        LineDataSet set = new LineDataSet(entries, "");
         set.setColors(colors);
-        data.setDataSet(set);
+        LineData data = new LineData(xLabels, set);
         //this hides the values (numeric) added to the set. These would be shown aside the strings set with addXValue above
 //        data.setDrawValues(false);
         chart.setData(data);
 
         chart.getLegend().setEnabled(false);
 
-        return data;
+        return set;
     }
 
-    private PieData setupTotalStepsChart(PieChart chart, Entry entry, String label) {
-        return setupCurrentChart(chart, entry, label); // at the moment, these look the same
+    private LineDataSet setupTotalStepsChart(BarLineChartBase chart, Entry entry, String label) {
+        mStepsTotalChart.getAxisLeft().setAxisMaxValue(5000); // TODO: use daily goal - already reached steps
+        return setupCommonChart(chart, entry, label); // at the moment, these look the same
     }
-
 
     private void setupHistoryChart(BarLineChartBase chart) {
         chart.setBackgroundColor(BACKGROUND_COLOR);
@@ -258,19 +276,26 @@ public class LiveActivityFragment extends AbstractChartFragment {
     }
 
     @Override
+    protected void showDateBar(boolean show) {
+        // never show the data bar
+        super.showDateBar(false);
+    }
+
+    @Override
     protected void refresh() {
         // do nothing, we don't have any db interaction
     }
+
     @Override
     protected void refreshInBackground(DBHandler db, GBDevice device) {
     }
 
     @Override
     protected void renderCharts() {
-        mStepsTotalChart.invalidate();
-        mStepsPerMinuteCurrentChart.invalidate();
-//        mStepsPerMinuteCurrentChart.animateXY(50, 50);
-//        mStepsTotalChart.animateXY(50, 50);
+//        mStepsTotalChart.invalidate();
+//        mStepsPerMinuteCurrentChart.invalidate();
+        mStepsPerMinuteCurrentChart.animateY(150);
+        mStepsTotalChart.animateY(150);
 //        mStepsPerMinuteHistoryChart.invalidate();
     }
 
