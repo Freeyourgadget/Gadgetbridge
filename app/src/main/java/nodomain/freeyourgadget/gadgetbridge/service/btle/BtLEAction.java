@@ -3,8 +3,9 @@ package nodomain.freeyourgadget.gadgetbridge.service.btle;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 
-import java.text.DateFormat;
 import java.util.Date;
+
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 /**
  * The Bluedroid implementation only allows performing one GATT request at a time.
@@ -50,7 +51,7 @@ public abstract class BtLEAction {
     }
 
     protected String getCreationTime() {
-        return DateFormat.getTimeInstance().format(new Date(creationTimestamp));
+        return DateTimeUtils.formatDateTime(new Date(creationTimestamp));
     }
 
     public String toString() {

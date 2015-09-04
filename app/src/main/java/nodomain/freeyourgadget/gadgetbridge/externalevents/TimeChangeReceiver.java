@@ -9,7 +9,11 @@ import android.preference.PreferenceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 
 public class TimeChangeReceiver extends BroadcastReceiver {
@@ -22,7 +26,8 @@ public class TimeChangeReceiver extends BroadcastReceiver {
         final String action = intent.getAction();
 
         if (sharedPrefs.getBoolean("datetime_synconconnect", true) && (action.equals(Intent.ACTION_TIME_CHANGED) || action.equals(Intent.ACTION_TIMEZONE_CHANGED))) {
-            LOG.info("Time or Timezone changed, syncing with device");
+            Date newTime = GregorianCalendar.getInstance().getTime();
+            LOG.info("Time or Timezone changed, syncing with device: " + DateTimeUtils.formatDate(newTime) + " (" + newTime.toGMTString() + "), " + intent.getAction());
             GBApplication.deviceService().onSetTime();
         }
     }
