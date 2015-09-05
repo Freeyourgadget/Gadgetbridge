@@ -21,7 +21,8 @@ need to create an account and transmit any of your data to the vendor's servers.
 * SMS notification (sender, body)
 * K-9 Mail notification support (sender, subject, preview)
 * Support for generic notifications (above filtered out)
-* Dismiss all notifications from the action menu of a notification 
+* Dismiss individial notifications or open corresponding app on phone from the action menu (generic notifications)
+* Dismiss all notifications from the action menu (non-generic notifications) 
 * Music playback info (artist, album, track). Apollo and CM 12.1 Music App supported.
 * Music control: play/pause, next track, previous track, volume up, volume down
 * List and remove installed apps/watchfaces
@@ -34,7 +35,7 @@ need to create an account and transmit any of your data to the vendor's servers.
 
 All features are also supported on the Pebble Time, except for the following:
 
-* Listing installed watchfaces (it will simply display the UUIDs of previously installed watchapps, no matter if they are stil installed or not)
+* Listing installed watchfaces (it will simply display the UUIDs of previously installed watchapps, no matter if they are still installed or not)
 * Firmware installation is untested and will probably not work.
 
 ## How to use (Pebble)

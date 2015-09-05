@@ -1,6 +1,6 @@
 ###Changelog
 
-####Next Version
+####Version 0.5.3
 * Pebble: For generic notifications, support dismissing individual notficications and "Open on Phone" feature (OG & PT)
 * Pebble: Allow to treat K9 notifcations as generic notifications (if notification mode is set to never)
 * Ignore QKSMS notificaions to avoid double notification for incoming SMS
