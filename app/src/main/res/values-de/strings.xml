@@ -6,7 +6,7 @@
   <string name="action_debug">Debug</string>
   <string name="action_quit">Beenden</string>
   <string name="controlcenter_start_sleepmonitor">Schlafmonitor (ALPHA)</string>
-  <string name="controlcenter_find_device">Gerätesuche</string>
+  <string name="controlcenter_find_device">Verlegtes Gerät finden</string>
   <string name="controlcenter_take_screenshot">Bildschirmfoto</string>
   <string name="controlcenter_disconnect">Trennen</string>
   <string name="title_activity_debug">Debug</string>
@@ -64,7 +64,7 @@
   <string name="title_activity_discovery">Gerätesuche</string>
   <string name="discovery_stop_scanning">Suche beenden</string>
   <string name="discovery_start_scanning">Suche starten</string>
-  <string name="action_discover">Gerät suchen</string>
+  <string name="action_discover">Neues Gerät verbinden</string>
   <string name="device_with_rssi">%1$s (%2$s)</string>
   <string name="title_activity_android_pairing">Gerät paaren</string>
   <string name="android_pairing_hint">Verwende den Android Bluetooth Paaren-Dialog um Dein Gerät zu paaren.</string>

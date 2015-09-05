@@ -130,13 +130,18 @@ public class NotificationListener extends NotificationListenerService {
                 source.equals("com.android.dialer") ||
                 source.equals("com.android.mms") ||
                 source.equals("com.moez.QKSMS") ||
-                source.equals("com.cyanogenmod.eleven") ||
-                source.equals("com.fsck.k9")) {
+                source.equals("com.cyanogenmod.eleven")) {
             return;
         }
 
         if (source.equals("eu.siacs.conversations")) {
             if (!"never".equals(sharedPrefs.getString("notification_mode_pebblemsg", "when_screen_off"))) {
+                return;
+            }
+        }
+
+        if (source.equals("com.fsck.k9")) {
+            if (!"never".equals(sharedPrefs.getString("notification_mode_k9mail", "when_screen_off"))) {
                 return;
             }
         }
