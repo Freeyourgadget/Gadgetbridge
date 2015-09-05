@@ -478,7 +478,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         buf.put((byte) 0x00); // ?
         buf.put((byte) 0x01); // add notifications
-        buf.putInt(0x00000002); // flags - ?
+        buf.putInt(0x00000000); // flags - ?
         buf.putInt(id);
         buf.putInt(0x00000000); // ANCS id
         buf.putInt(timestamp);
@@ -662,6 +662,27 @@ public class PebbleProtocol extends GBDeviceProtocol {
             buf.put(open_string.getBytes());
         }
         return encodeBlobdb(UUID.randomUUID(), BLOBDB_INSERT, BLOBDB_NOTIFICATION, buf.array());
+    }
+
+    public byte[] encodeActionResponse2x(int id, int iconId, String caption) {
+        short length = (short) (18 + caption.length());
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + length);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort(length);
+        buf.putShort(ENDPOINT_EXTENSIBLENOTIFS);
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        buf.put(NOTIFICATIONACTION_RESPONSE);
+        buf.putInt(id);
+        buf.put((byte) 0x01); // action id?
+        buf.put(NOTIFICATIONACTION_ACK);
+        buf.put((byte) 2); //nr of attributes
+        buf.put((byte) 6); // icon
+        buf.putShort((short) 4); // length
+        buf.putInt(iconId);
+        buf.put((byte) 2); // title
+        buf.putShort((short) caption.length());
+        buf.put(caption.getBytes());
+        return buf.array();
     }
 
     public byte[] encodeActionResponse(UUID uuid, int iconId, String caption) {
@@ -1132,7 +1153,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return null;
     }
 
-    private GBDeviceEventNotificationControl decodeNotificationAction2x(ByteBuffer buf) {
+    private GBDeviceEvent[] decodeNotificationAction2x(ByteBuffer buf) {
         buf.order(ByteOrder.LITTLE_ENDIAN);
 
         byte command = buf.get();
@@ -1142,9 +1163,13 @@ public class PebbleProtocol extends GBDeviceProtocol {
             if (action >= 0x01 && action <= 0x03) {
                 GBDeviceEventNotificationControl devEvtNotificationControl = new GBDeviceEventNotificationControl();
                 devEvtNotificationControl.handle = id;
+                GBDeviceEventSendBytes sendBytesAck = null;
+
                 switch (action) {
                     case 0x01:
                         devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.OPEN;
+                        sendBytesAck = new GBDeviceEventSendBytes();
+                        sendBytesAck.encodedBytes = encodeActionResponse2x(id, 6, "Opened");
                         break;
                     case 0x02:
                         devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.DISMISS;
@@ -1155,7 +1180,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                     default:
                         return null;
                 }
-                return devEvtNotificationControl;
+                return new GBDeviceEvent[]{sendBytesAck, devEvtNotificationControl};
             }
             LOG.info("unexpected paramerter in dismiss action: " + action);
         }
@@ -1488,7 +1513,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 devEvts = new GBDeviceEvent[]{decodeScreenshot(buf, length)};
                 break;
             case ENDPOINT_EXTENSIBLENOTIFS:
-                devEvts = new GBDeviceEvent[]{decodeNotificationAction2x(buf)};
+                devEvts = decodeNotificationAction2x(buf);
                 break;
             case ENDPOINT_NOTIFICATIONACTION:
                 devEvts = decodeNotificationAction3x(buf);
