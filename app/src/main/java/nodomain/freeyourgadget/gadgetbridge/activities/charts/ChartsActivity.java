@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -43,6 +45,32 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
     private Date mStartDate;
     private Date mEndDate;
 
+    private static class ShowDurationDialog extends Dialog {
+        private final String mDuration;
+        private TextView durationLabel;
+
+        public ShowDurationDialog(String duration, Context context) {
+            super(context);
+            mDuration = duration;
+        }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_charts_durationdialog);
+
+            durationLabel = (TextView) findViewById(R.id.charts_duration_label);
+            setDuration(mDuration);
+        }
+
+        public void setDuration(String duration) {
+            if (mDuration != null) {
+                durationLabel.setText(duration);
+            } else {
+                durationLabel.setText("");
+            }
+        }
+    }
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -98,6 +126,14 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         viewPager.setAdapter(getPagerAdapter());
 
         dateBar = (ViewGroup) findViewById(R.id.charts_date_bar);
+        mDateControl = (TextView) findViewById(R.id.charts_text_date);
+        mDateControl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String detailedDuration = formatDetailedDuration();
+                new ShowDurationDialog(detailedDuration, ChartsActivity.this).show();
+            }
+        });
 
         mProgressBar = (ProgressBar) findViewById(R.id.charts_progress);
         mPrevButton = (Button) findViewById(R.id.charts_previous);
@@ -114,8 +150,14 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
                 handleNextButtonClicked();
             }
         });
+    }
 
-        mDateControl = (TextView) findViewById(R.id.charts_text_date);
+    private String formatDetailedDuration() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        String dateStringFrom = dateFormat.format(getStartDate());
+        String dateStringTo = dateFormat.format(getEndDate());
+
+        return getString(R.string.sleep_activity_date_range, dateStringFrom, dateStringTo);
     }
 
     protected void initDates() {

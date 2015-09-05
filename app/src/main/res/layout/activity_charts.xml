@@ -9,6 +9,7 @@
     tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity">
 
     <LinearLayout
+        android:animateLayoutChanges="true"
         android:id="@+id/charts_date_bar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

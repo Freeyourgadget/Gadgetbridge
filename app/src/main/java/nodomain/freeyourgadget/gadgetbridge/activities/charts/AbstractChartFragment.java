@@ -473,7 +473,8 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             BarData data = new BarData(xLabels, dataSets);
             data.setGroupSpace(0);
 
-            chart.setDescription(getString(R.string.sleep_activity_date_range, dateStringFrom, dateStringTo));
+            chart.setDescription("");
+//            chart.setDescription(getString(R.string.sleep_activity_date_range, dateStringFrom, dateStringTo));
 //            chart.setDescriptionPosition(?, ?);
 
             setupLegend(chart);
