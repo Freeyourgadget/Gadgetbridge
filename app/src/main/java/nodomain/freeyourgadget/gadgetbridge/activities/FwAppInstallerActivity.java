@@ -179,7 +179,9 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
 
     @Override
     public void setInstallEnabled(boolean enable) {
-        installButton.setEnabled(device != null && device.isConnected() && enable);
+        boolean enabled = device != null && device.isConnected() && enable;
+        installButton.setEnabled(enabled);
+        installButton.setVisibility(enabled ? View.VISIBLE : View.GONE);
     }
 
     @Override
