@@ -8,7 +8,7 @@
     <string name="action_quit">Quit</string>
     <string name="controlcenter_fetch_activity_data">Synchronize</string>
     <string name="controlcenter_start_sleepmonitor">Sleep Monitor (ALPHA)</string>
-    <string name="controlcenter_find_device">Find Device…</string>
+    <string name="controlcenter_find_device">Find lost Device…</string>
     <string name="controlcenter_take_screenshot">Take Screenshot</string>
     <string name="controlcenter_disconnect">Disconnect</string>
 
@@ -86,7 +86,7 @@
 
     <string name="discovery_stop_scanning">Stop Scanning</string>
     <string name="discovery_start_scanning">Start Discovery</string>
-    <string name="action_discover">Discover Device</string>
+    <string name="action_discover">Connect new Device</string>
     <string name="device_with_rssi">%1$s (%2$s)</string>
     <string name="title_activity_android_pairing">Pair Device</string>
     <string name="android_pairing_hint">Use the Android Bluetooth Pairing dialog to pair the device.</string>
