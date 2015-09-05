@@ -1,5 +1,10 @@
 ###Changelog
 
+####Next Version
+* Pebble: For generic notifications, support dismissing individual notficications and "Open on Phone" feature (OG & PT)
+* Pebble: Allow to treat K9 notifcations as generic notifications (if notification mode is set to never)
+* Ignore QKSMS notificaions to avoid double notification for incoming SMS
+
 ####Version 0.5.2
 * Pebble: support "dismiss all" action also on Pebble Time/FW 3.x notifications
 * Miband: show a notification when the battery is below 10%
