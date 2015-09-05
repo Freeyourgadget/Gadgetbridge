@@ -1207,7 +1207,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                     case 0x01:
                         dismissNotification.event = GBDeviceEventNotificationControl.Event.OPEN;
                         caption = "Opened";
-                        icon_id = 47; // FIXME: find a better one
+                        icon_id = 49;
                         break;
                     case 0x02:
                         dismissNotification.event = GBDeviceEventNotificationControl.Event.DISMISS;
