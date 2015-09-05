@@ -58,8 +58,8 @@ public class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
-    public void onGenericNotification(String title, String details) {
-
+    public void onGenericNotification(String title, String details, int handle) {
+        
     }
 
     @Override
