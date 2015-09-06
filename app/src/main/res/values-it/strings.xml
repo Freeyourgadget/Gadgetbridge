@@ -7,7 +7,6 @@
   <string name="action_quit">Esci</string>
   <string name="controlcenter_fetch_activity_data">Sincronizza</string>
   <string name="controlcenter_start_sleepmonitor">Monitoraggio del sonno (ALPHA)</string>
-  <string name="controlcenter_find_device">Trova dispositivo...</string>
   <string name="controlcenter_take_screenshot">Salva uno screenshot</string>
   <string name="controlcenter_disconnect">Disconetti</string>
   <string name="title_activity_debug">Debug</string>
@@ -65,7 +64,6 @@
   <string name="title_activity_discovery">Ricerca dispositivi</string>
   <string name="discovery_stop_scanning">Interrompi scansione</string>
   <string name="discovery_start_scanning">Inizia scansione</string>
-  <string name="action_discover">Cerca dispositivo</string>
   <string name="device_with_rssi">%1$s (%2$s)</string>
   <string name="title_activity_android_pairing">Accoppia dispositivo</string>
   <string name="android_pairing_hint">Utilizza la funzione del sistema operativo per accoppiare il dispositivo.</string>

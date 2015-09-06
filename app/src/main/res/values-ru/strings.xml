@@ -6,7 +6,6 @@
   <string name="action_debug">Отладка</string>
   <string name="action_quit">Выход</string>
   <string name="controlcenter_start_sleepmonitor">Анализ сна (АЛЬФА)</string>
-  <string name="controlcenter_find_device">Найти устройство...</string>
   <string name="controlcenter_take_screenshot">Сделать снимок экрана</string>
   <string name="controlcenter_disconnect">Отключиться</string>
   <string name="title_activity_debug">Отладка</string>
@@ -64,7 +63,6 @@
   <string name="title_activity_discovery">Поиск устройства</string>
   <string name="discovery_stop_scanning">Остановить поиск</string>
   <string name="discovery_start_scanning">Умный поиск</string>
-  <string name="action_discover">Найти устройство</string>
   <string name="device_with_rssi">%1$s (%2$s)</string>
   <string name="title_activity_android_pairing">Сопряжение устройств</string>
   <string name="android_pairing_hint">Для сопряжения устройств используйте диалог Android.</string>
