@@ -2,7 +2,9 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -19,6 +21,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandDateConverter;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
@@ -224,6 +227,18 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
      */
     private void sendAckDataTransfer(Calendar time, int bytesTransferred) {
         byte[] ackTime = MiBandDateConverter.calendarToRawBytes(time);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
+
+        byte[] ackChecksum = new byte[]{
+                (byte) (bytesTransferred & 0xff),
+                (byte) (0xff & (bytesTransferred >> 8))
+        };
+        if (prefs.getBoolean(MiBandConst.PREF_MIBAND_DONT_ACK_TRANSFER, false)) {
+            ackChecksum = new byte[]{
+                    (byte) (~bytesTransferred & 0xff),
+                    (byte) (0xff & (~bytesTransferred >> 8))
+            };
+        }
         byte[] ack = new byte[]{
                 MiBandService.COMMAND_CONFIRM_ACTIVITY_DATA_TRANSFER_COMPLETE,
                 ackTime[0],
@@ -232,8 +247,8 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
                 ackTime[3],
                 ackTime[4],
                 ackTime[5],
-                (byte) (bytesTransferred & 0xff),
-                (byte) (0xff & (bytesTransferred >> 8))
+                ackChecksum[0],
+                ackChecksum[1]
         };
         try {
             TransactionBuilder builder = performInitialized("send acknowledge");
@@ -246,6 +261,12 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
             //The last data chunk sent by the miband has always length 0.
             //When we ack this chunk, the transfer is done.
             if (getDevice().isBusy() && bytesTransferred == 0) {
+                //if we are not clearing miband's data, we have to stop the sync
+                if (prefs.getBoolean(MiBandConst.PREF_MIBAND_DONT_ACK_TRANSFER, false)) {
+                    builder = performInitialized("send acknowledge");
+                    builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_STOP_SYNC_DATA});
+                    builder.queue(getQueue());
+                }
                 handleActivityFetchFinish();
             }
         } catch (IOException ex) {

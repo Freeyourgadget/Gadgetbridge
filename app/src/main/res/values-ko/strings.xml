@@ -6,7 +6,6 @@
   <string name="action_debug">디버그</string>
   <string name="action_quit">종료</string>
   <string name="controlcenter_start_sleepmonitor">수면 측정계 (초기 버전)</string>
-  <string name="controlcenter_find_device">기기 찾기</string>
   <string name="controlcenter_take_screenshot">스크린샷 찍기</string>
   <string name="controlcenter_disconnect">연결 해제</string>
   <string name="title_activity_debug">디버그</string>
@@ -64,7 +63,6 @@
   <string name="title_activity_discovery">기기 찾기</string>
   <string name="discovery_stop_scanning">스캔 중지</string>
   <string name="discovery_start_scanning">기기 탐색 시작</string>
-  <string name="action_discover">기기 발견</string>
   <string name="device_with_rssi">%1$s (%2$s)</string>
   <string name="title_activity_android_pairing">기기 페어링</string>
   <string name="android_pairing_hint">기기를 페어링하려면 안드로이드 블루투스 페어링 설정을 사용하세요</string>

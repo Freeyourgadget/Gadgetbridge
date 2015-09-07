@@ -103,6 +103,8 @@ public class MiBandService {
 
     public static final byte NOTIFY_STATUS_MOTOR_TEST = 0x16;
 
+    // 0x18 is returned when we cancel data sync, perhaps is an ack for this message
+
     public static final byte NOTIFY_UNKNOWN = -0x1;
 
     public static final int NOTIFY_PAIR_CANCEL = 0xef;
@@ -148,6 +150,8 @@ public class MiBandService {
 
     public static final byte COMMAND_SET_WEAR_LOCATION = 0xf;
 
+    public static final byte COMMAND_STOP_SYNC_DATA = 0x11;
+
     public static final byte COMMAND_STOP_MOTOR_VIBRATE = 0x13;
 
     public static final byte COMMAND_SET_REALTIME_STEPS_NOTIFICATION = 0x3;
@@ -160,8 +164,6 @@ public class MiBandService {
 	public static final byte COMMAND_FACTORY_RESET = 0x9t;
 
 	public static final int COMMAND_SET_COLOR_THEME = et;
-
-	public static final COMMAND_STOP_SYNC_DATA = 0x11t
 
 	public static final byte COMMAND_GET_SENSOR_DATA = 0x12t
 
