@@ -164,5 +164,10 @@
             android:key="development_miaddr"
             android:maxLength="17"
             android:title="@string/pref_title_development_miaddr" />
+        <CheckBoxPreference
+            android:key="mi_dont_ack_transfer"
+            android:title="@string/pref_title_dont_ack_transfer"
+            android:summary="@string/pref_summary_dont_ack_transfers"
+            android:defaultValue="false" />
     </PreferenceCategory>
 </PreferenceScreen>

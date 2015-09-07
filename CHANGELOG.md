@@ -1,5 +1,8 @@
 ###Changelog
 
+####Version next
+* Miband: allow the transfer of activity data without clearing MiBand's memory
+
 ####Version 0.5.3
 * Pebble: For generic notifications, support dismissing individual notficications and "Open on Phone" feature (OG & PT)
 * Pebble: Allow to treat K9 notifcations as generic notifications (if notification mode is set to never)

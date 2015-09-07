@@ -17,6 +17,8 @@ public final class MiBandConst {
     public static final String PREF_MIBAND_ADDRESS = "development_miaddr";  // FIXME: should be prefixed mi_
     public static final String PREF_MIBAND_ALARMS = "mi_alarms";
     public static final String PREF_MIBAND_FITNESS_GOAL = "mi_fitness_goal";
+    public static final String PREF_MIBAND_DONT_ACK_TRANSFER = "mi_dont_ack_transfer";
+
 
     public static final String ORIGIN_SMS = "sms";
     public static final String ORIGIN_INCOMING_CALL = "incoming_call";

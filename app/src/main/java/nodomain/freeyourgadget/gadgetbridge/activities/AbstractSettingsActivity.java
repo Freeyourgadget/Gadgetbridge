@@ -120,10 +120,16 @@ public class AbstractSettingsActivity extends PreferenceActivity {
         preference.setOnPreferenceChangeListener(listener);
 
         // Trigger the listener immediately with the preference's current value.
-        listener.updateSummary(preference,
-                PreferenceManager
-                        .getDefaultSharedPreferences(preference.getContext())
-                        .getString(preference.getKey(), ""));
+        try {
+            listener.updateSummary(preference,
+                    PreferenceManager
+                            .getDefaultSharedPreferences(preference.getContext())
+                            .getString(preference.getKey(), ""));
+        } catch (ClassCastException cce) {
+            //the preference is not a string, use the provided summary
+            //TODO: it shows true/false instead of the xml summary
+            listener.updateSummary(preference, preference.getSummary());
+        }
     }
 
     @Override
