@@ -371,6 +371,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         if (isFw3x) {
             // 3.x notification
+            //return encodeTimelinePin(id, (int) (ts + 600 & 0xffffffff), (short) 90, 21, title); // really, this is just for testing
             return encodeBlobdbNotification(id, (int) (ts & 0xffffffff), title, subtitle, body, type, hasHandle);
         } else if (mForceProtocol || type != NOTIFICATION_EMAIL) {
             // 2.x notification
@@ -554,6 +555,45 @@ public class PebbleProtocol extends GBDeviceProtocol {
         }
 
         return buf.array();
+    }
+
+    private byte[] encodeTimelinePin(int id, int timestamp, short duration, int icon_id, String title) {
+        final short TIMELINE_PIN_LENGTH = 46;
+
+        icon_id |= 0x80000000;
+        UUID uuid = new UUID(mRandom.nextLong(), ((long) mRandom.nextInt() << 32) | id);
+        byte attributes_count = 2;
+        byte actions_count = 0;
+
+        int attributes_length = 10 + title.length();
+        int pin_length = TIMELINE_PIN_LENGTH + attributes_length;
+        ByteBuffer buf = ByteBuffer.allocate(pin_length);
+
+        // pin - 46 bytes
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putLong(uuid.getMostSignificantBits());
+        buf.putLong(uuid.getLeastSignificantBits());
+        buf.putLong(0); // parent
+        buf.putLong(0);
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        buf.putInt(timestamp); // 32-bit timestamp
+        buf.putShort(duration);
+        buf.put((byte) 0x02); // type (0x02 = pin)
+        buf.putShort((short) 0x0001); // flags 0x0001 = ?
+        buf.put((byte) 0x02); // layout (0x02 = pin?)
+
+        buf.putShort((short) attributes_length); // total length of all attributes and actions in bytes
+        buf.put(attributes_count);
+        buf.put(actions_count);
+
+        buf.put((byte) 4); // icon
+        buf.putShort((short) 4); // length of int
+        buf.putInt(icon_id);
+        buf.put((byte) 1); // title
+        buf.putShort((short) title.getBytes().length);
+        buf.put(title.getBytes());
+
+        return encodeBlobdb(uuid, BLOBDB_INSERT, BLOBDB_PIN, buf.array());
     }
 
     private byte[] encodeBlobdbNotification(int id, int timestamp, String title, String subtitle, String body, byte type, boolean hasHandle) {
