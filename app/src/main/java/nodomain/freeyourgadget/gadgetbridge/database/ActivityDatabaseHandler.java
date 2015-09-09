@@ -179,6 +179,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
         }
         ArrayList<ActivitySample> samples = new ArrayList<ActivitySample>();
         final String where = "(provider=" + provider.getID() + " and timestamp>=" + timestamp_from + " and timestamp<=" + timestamp_to + getWhereClauseFor(activityTypes, provider) + ")";
+        LOG.info("Activity query where: "+ where);
         final String order = "timestamp";
         try (SQLiteDatabase db = this.getReadableDatabase()) {
             try (Cursor cursor = db.query(TABLE_GBACTIVITYSAMPLES, null, where, null, null, null, order)) {
