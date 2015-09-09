@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.UUID;
 
@@ -34,6 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.AbortTransactio
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.FetchActivityOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.UpdateFirmwareOperation;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_FLASH_COLOUR;
@@ -429,7 +432,10 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      * @param builder
      */
     private MiBandSupport setCurrentTime(TransactionBuilder builder) {
-        byte[] nowBytes = MiBandDateConverter.calendarToRawBytes(GregorianCalendar.getInstance());
+        Calendar now = GregorianCalendar.getInstance();
+        Date date = now.getTime();
+        LOG.info("Sending current time to Mi Band: " + DateTimeUtils.formatDate(date) + " (" + date.toGMTString() + ")");
+        byte[] nowBytes = MiBandDateConverter.calendarToRawBytes(now);
         byte[] time = new byte[]{
                 nowBytes[0],
                 nowBytes[1],
