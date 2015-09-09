@@ -183,6 +183,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
         final String order = "timestamp";
         try (SQLiteDatabase db = this.getReadableDatabase()) {
             try (Cursor cursor = db.query(TABLE_GBACTIVITYSAMPLES, null, where, null, null, null, order)) {
+                LOG.info("Activity query result: " + cursor.getCount() + " samples");
                 if (cursor.moveToFirst()) {
                     do {
                         GBActivitySample sample = new GBActivitySample(
