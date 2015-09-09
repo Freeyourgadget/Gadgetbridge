@@ -403,6 +403,8 @@ public final class BtLEQueue {
             }
             if (getCallbackToUse() != null) {
                 getCallbackToUse().onCharacteristicChanged(gatt, characteristic);
+            } else {
+                LOG.info("No gattcallback registered, ignoring characteristic change");
             }
         }
 
