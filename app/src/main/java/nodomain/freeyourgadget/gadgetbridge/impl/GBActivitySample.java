@@ -16,6 +16,19 @@ public class GBActivitySample implements ActivitySample {
         this.intensity = intensity;
         this.steps = steps;
         this.type = type;
+        validate();
+    }
+
+    private void validate() {
+        if (steps < 0) {
+            throw new IllegalArgumentException("steps must be > 0");
+        }
+        if (intensity < 0) {
+            throw new IllegalArgumentException("intensity must be > 0");
+        }
+        if (timestamp < 0) {
+            throw new IllegalArgumentException("timestamp must be > 0");
+        }
     }
 
     @Override
