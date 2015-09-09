@@ -184,7 +184,7 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
             LOG.debug("nothing to flush, struct is already null");
             return;
         }
-        LOG.debug("flushing activity data holder");
+        LOG.debug("flushing activity data samples: " + activityStruct.activityDataHolderProgress / 3);
         byte category, intensity, steps;
 
         DBHandler dbHandler = null;
