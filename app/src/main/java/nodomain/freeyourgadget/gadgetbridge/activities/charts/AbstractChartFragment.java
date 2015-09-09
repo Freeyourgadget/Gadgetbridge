@@ -360,7 +360,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         String dateStringFrom = "";
         String dateStringTo = "";
 
-        LOG.info("number of samples:" + samples.size());
+        LOG.info("" + getTitle() + ": number of samples:" + samples.size());
         if (samples.size() > 1) {
             float movement_divisor;
             boolean annotate = true;

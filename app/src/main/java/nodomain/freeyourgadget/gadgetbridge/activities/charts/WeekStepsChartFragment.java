@@ -130,6 +130,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
 
         GBDevice device = ((ChartsHost) getHost()).getDevice();
         if (device != null) {
+            // TODO: eek, this is device specific!
             mTargetSteps = MiBandCoordinator.getFitnessGoal(device.getAddress());
         }
 
