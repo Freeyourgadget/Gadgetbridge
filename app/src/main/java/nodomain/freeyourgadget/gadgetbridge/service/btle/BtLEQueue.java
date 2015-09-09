@@ -20,7 +20,6 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
@@ -62,10 +61,10 @@ public final class BtLEQueue {
             while (!mDisposed && !mCrashed) {
                 try {
                     Transaction transaction = mTransactions.take();
-                    internalGattCallback.reset();
 
                     if (!isConnected()) {
                         // TODO: request connection and initialization from the outside and wait until finished
+                        internalGattCallback.reset();
 
                         // wait until the connection succeeds before running the actions
                         // Note that no automatic connection is performed. This has to be triggered
