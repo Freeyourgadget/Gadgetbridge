@@ -20,6 +20,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
@@ -444,6 +445,9 @@ public final class BtLEQueue {
         }
 
         public void reset() {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("internal gatt callback set to null");
+            }
             mTransactionGattCallback = null;
         }
     };

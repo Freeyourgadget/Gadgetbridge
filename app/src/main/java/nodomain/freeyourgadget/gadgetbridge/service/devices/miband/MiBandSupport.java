@@ -597,6 +597,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             handleBatteryInfo(characteristic.getValue(), BluetoothGatt.GATT_SUCCESS);
         } else if (MiBandService.UUID_CHARACTERISTIC_NOTIFICATION.equals(characteristicUUID)) {
             handleNotificationNotif(characteristic.getValue());
+        } else{
+            LOG.info("Unhandled characteristic changed: " + characteristicUUID);
         }
     }
 
