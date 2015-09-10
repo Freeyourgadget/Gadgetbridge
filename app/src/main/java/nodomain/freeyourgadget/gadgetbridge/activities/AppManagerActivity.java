@@ -5,7 +5,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.ContextMenu;
@@ -52,13 +54,29 @@ public class AppManagerActivity extends Activity {
 
                     appList.add(new GBDeviceApp(uuid, appName, appCreator, "", appType));
                 }
+
+                if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
+                    appList.addAll(getSystemApps());
+                }
+
                 mGBDeviceAppAdapter.notifyDataSetChanged();
             }
         }
     };
-    final List<GBDeviceApp> appList = new ArrayList<>();
+
+    SharedPreferences sharedPrefs;
+
+    private final List<GBDeviceApp> appList = new ArrayList<>();
     private GBDeviceAppAdapter mGBDeviceAppAdapter;
     private GBDeviceApp selectedApp = null;
+
+    private List<GBDeviceApp> getSystemApps() {
+        List<GBDeviceApp> systemApps = new ArrayList<>();
+        systemApps.add(new GBDeviceApp(UUID.fromString("4dab81a6-d2fc-458a-992c-7a1f3b96a970"), "Sports (System)", "Pebble Inc.", "", GBDeviceApp.Type.UNKNOWN));
+        systemApps.add(new GBDeviceApp(UUID.fromString("cf1e816a-9db0-4511-bbb8-f60c48ca8fac"), "Golf (System)", "Pebble Inc.", "", GBDeviceApp.Type.UNKNOWN));
+
+        return systemApps;
+    }
 
     private List<GBDeviceApp> getCachedApps() {
         List<GBDeviceApp> cachedAppList = new ArrayList<>();
@@ -82,6 +100,9 @@ public class AppManagerActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
         setContentView(R.layout.activity_appmanager);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -99,9 +120,10 @@ public class AppManagerActivity extends Activity {
 
         registerForContextMenu(appListView);
 
-        List<GBDeviceApp> cachedApps = getCachedApps();
-        for (GBDeviceApp app : cachedApps) {
-            appList.add(app);
+        appList.addAll(getCachedApps());
+
+        if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
+            appList.addAll(getSystemApps());
         }
 
         IntentFilter filter = new IntentFilter();
