@@ -51,6 +51,9 @@
             android:defaultValue="false"
             android:key="notifications_generic_whenscreenon"
             android:title="@string/pref_title_whenscreenon" />
+        <Preference
+            android:key="pref_key_blacklist"
+            android:title="@string/pref_blacklist" />
     </PreferenceCategory>
 
     <PreferenceCategory

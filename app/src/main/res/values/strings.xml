@@ -18,6 +18,9 @@
     <string name="title_activity_appmanager">App Manager</string>
     <string name="appmananger_app_delete">Delete</string>
 
+    <!-- Strings related to AppBlacklist -->
+    <string name="title_activity_appblacklist">Notification Blacklist</string>
+
     <!-- Strings related to FwAppInstaller -->
     <string name="title_activity_fw_app_insaller">FW/App installer</string>
     <string name="fw_upgrade_notice">You are about to install firmware %s instead of the one currently on your Mi Band.</string>
@@ -48,6 +51,8 @@
     <string name="always">always</string>
     <string name="when_screen_off">when screen is off</string>
     <string name="never">never</string>
+
+    <string name="pref_blacklist">Blacklist Apps</string>
 
     <string name="pref_header_development">Developer Options</string>
     <string name="pref_title_development_miaddr">Mi Band address</string>

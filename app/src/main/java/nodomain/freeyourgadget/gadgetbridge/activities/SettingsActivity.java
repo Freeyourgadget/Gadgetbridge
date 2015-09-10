@@ -36,6 +36,15 @@ public class SettingsActivity extends AbstractSettingsActivity {
             }
         });
 
+        pref = findPreference("pref_key_blacklist");
+        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                Intent enableIntent = new Intent(SettingsActivity.this, AppBlacklistActivity.class);
+                startActivity(enableIntent);
+                return true;
+            }
+        });
+
         final Preference pebbleEmuAddr = findPreference("pebble_emu_addr");
         pebbleEmuAddr.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
