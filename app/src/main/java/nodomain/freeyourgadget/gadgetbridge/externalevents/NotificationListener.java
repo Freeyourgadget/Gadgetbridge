@@ -19,6 +19,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashSet;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
@@ -144,6 +146,11 @@ public class NotificationListener extends NotificationListenerService {
             if (!"never".equals(sharedPrefs.getString("notification_mode_k9mail", "when_screen_off"))) {
                 return;
             }
+        }
+
+        HashSet<String> blacklist = (HashSet<String>) sharedPrefs.getStringSet("package_blacklist", null);
+        if (blacklist != null && blacklist.contains(source)) {
+            return;
         }
 
         LOG.info("Processing notification from source " + source);

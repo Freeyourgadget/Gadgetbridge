@@ -64,7 +64,7 @@ public class AppManagerActivity extends Activity {
         }
     };
 
-    SharedPreferences sharedPrefs;
+    private SharedPreferences sharedPrefs;
 
     private final List<GBDeviceApp> appList = new ArrayList<>();
     private GBDeviceAppAdapter mGBDeviceAppAdapter;
