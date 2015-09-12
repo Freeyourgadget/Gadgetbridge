@@ -70,10 +70,104 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final byte BLOBDB_REMINDER = 3;
     static final byte BLOBDB_NOTIFICATION = 4;
 
+    // This is not in the Pebble protocol
+    static final byte NOTIFICATION_UNDEFINED = -1;
+
     static final byte NOTIFICATION_EMAIL = 0;
     static final byte NOTIFICATION_SMS = 1;
     static final byte NOTIFICATION_TWITTER = 2;
     static final byte NOTIFICATION_FACEBOOK = 3;
+
+    static final byte ICON_NOTIFICATION_GENERIC = 1;
+    static final byte ICON_TIMELINE_MISSED_CALL = 2;
+    static final byte ICON_NOTIFICATION_REMINDER = 3;
+    static final byte ICON_NOTIFICATION_FLAG = 4;
+    static final byte ICON_NOTIFICATION_WHATSAPP = 5;
+    static final byte ICON_NOTIFICATION_TWITTER = 6;
+    static final byte ICON_NOTIFICATION_TELEGRAM = 7;
+    static final byte ICON_NOTIFICATION_GOOGLE_HANGOUTS = 8;
+    static final byte ICON_NOTIFICATION_GMAIL = 9;
+    static final byte ICON_NOTIFICATION_FACEBOOK_MESSENGER = 10;
+    static final byte ICON_NOTIFICATION_FACEBOOK = 11;
+    static final byte ICON_AUDIO_CASSETTE = 12;
+    static final byte ICON_ALARM_CLOCK = 13;
+    static final byte ICON_TIMELINE_WEATHER = 14;
+    static final byte ICON_TIMELINE_SUN = 16;
+    static final byte ICON_TIMELINE_SPORTS = 17;
+    static final byte ICON_GENERIC_EMAIL = 19;
+    static final byte ICON_AMERICAN_FOOTBALL = 20;
+    static final byte ICON_TIMELINE_CALENDAR = 21;
+    static final byte ICON_TIMELINE_BASEBALL = 22;
+    static final byte ICON_BIRTHDAY_EVENT = 23;
+    static final byte ICON_CAR_RENTAL = 24;
+    static final byte ICON_CLOUDY_DAY = 25;
+    static final byte ICON_CRICKET_GAME = 26;
+    static final byte ICON_DINNER_RESERVATION = 27;
+    static final byte ICON_GENERIC_WARNING = 28;
+    static final byte ICON_GLUCOSE_MONITOR = 29;
+    static final byte ICON_HOCKEY_GAME = 30;
+    static final byte ICON_HOTEL_RESERVATION = 31;
+    static final byte ICON_LIGHT_RAIN = 32;
+    static final byte ICON_LIGHT_SNOW = 33;
+    static final byte ICON_MOVIE_EVENT = 34;
+    static final byte ICON_MUSIC_EVENT = 35;
+    static final byte ICON_NEWS_EVENT = 36;
+    static final byte ICON_PARTLY_CLOUDY = 37;
+    static final byte ICON_PAY_BILL = 38;
+    static final byte ICON_RADIO_SHOW = 39;
+    static final byte ICON_SCHEDULED_EVENT = 40;
+    static final byte ICON_SOCCER_GAME = 41;
+    static final byte ICON_STOCKS_EVENT = 42;
+    static final byte ICON_RESULT_DELETED = 43;
+    static final byte ICON_CHECK_INTERNET_CONNECTION = 44;
+    static final byte ICON_GENERIC_SMS = 45;
+    static final byte ICON_RESULT_MUTE = 46;
+    static final byte ICON_RESULT_SENT = 47;
+    static final byte ICON_WATCH_DISCONNECTED = 48;
+    static final byte ICON_DURING_PHONE_CALL = 49;
+    static final byte ICON_TIDE_IS_HIGH = 50;
+    static final byte ICON_RESULT_DISMISSED = 51;
+    static final byte ICON_HEAVY_RAIN = 52;
+    static final byte ICON_HEAVY_SNOW = 53;
+    static final byte ICON_SCHEDULED_FLIGHT = 54;
+    static final byte ICON_GENERIC_CONFIRMATION = 55;
+    static final byte ICON_DAY_SEPARATOR = 56;
+    static final byte ICON_NO_EVENTS = 57;
+    static final byte ICON_NOTIFICATION_BLACKBERRY_MESSENGER = 58;
+    static final byte ICON_NOTIFICATION_INSTAGRAM = 59;
+    static final byte ICON_NOTIFICATION_MAILBOX = 60;
+    static final byte ICON_NOTIFICATION_GOOGLE_INBOX = 61;
+    static final byte ICON_RESULT_FAILED = 62;
+    static final byte ICON_GENERIC_QUESTION = 63;
+    static final byte ICON_NOTIFICATION_OUTLOOK = 64;
+    static final byte ICON_RAINING_AND_SNOWING = 65;
+    static final byte ICON_REACHED_FITNESS_GOAL = 66;
+    static final byte ICON_NOTIFICATION_LINE = 67;
+    static final byte ICON_NOTIFICATION_SKYPE = 68;
+    static final byte ICON_NOTIFICATION_SNAPCHAT = 69;
+    static final byte ICON_NOTIFICATION_VIBER = 70;
+    static final byte ICON_NOTIFICATION_WECHAT = 71;
+    static final byte ICON_NOTIFICATION_YAHOO_MAIL = 72;
+    static final byte ICON_TV_SHOW = 73;
+    static final byte ICON_BASKETBALL = 74;
+    static final byte ICON_DISMISSED_PHONE_CALL = 75;
+    static final byte ICON_NOTIFICATION_GOOGLE_MESSENGER = 76;
+    static final byte ICON_NOTIFICATION_HIPCHAT = 77;
+    static final byte ICON_INCOMING_PHONE_CALL = 78;
+    static final byte ICON_NOTIFICATION_KAKAOTALK = 79;
+    static final byte ICON_NOTIFICATION_KIK = 80;
+    static final byte ICON_NOTIFICATION_LIGHTHOUSE = 81;
+    static final byte ICON_LOCATION = 82;
+    static final byte ICON_SETTINGS = 83;
+    static final byte ICON_SUNRISE = 84;
+    static final byte ICON_SUNSET = 85;
+    static final byte ICON_FACETIME_DISMISSED = 86;
+    static final byte ICON_FACETIME_INCOMING = 87;
+    static final byte ICON_FACETIME_OUTGOING = 88;
+    static final byte ICON_FACETIME_MISSED = 89;
+    static final byte ICON_FACETIME_DURING = 90;
+    static final byte ICON_BLUESCREEN_OF_DEATH = 91;
+    static final byte ICON_START_MUSIC_PHONE = 92;
 
     static final byte PHONECONTROL_ANSWER = 1;
     static final byte PHONECONTROL_HANGUP = 2;
@@ -379,6 +473,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         } else {
             // 1.x notification on FW 2.X
             String[] parts = {title, body, ts.toString(), subtitle};
+            // be aware that type is at this point always NOTIFICATION_EMAIL
             return encodeMessage(ENDPOINT_NOTIFICATION, type, 0, parts);
         }
     }
@@ -395,7 +490,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeGenericNotification(String title, String details, int handle) {
-        return encodeNotification(handle, title, null, details, NOTIFICATION_SMS, true);
+        return encodeNotification(handle, title, null, details, NOTIFICATION_UNDEFINED, true);
     }
 
     @Override
@@ -602,13 +697,23 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         String[] parts = {title, subtitle, body};
 
-        int icon_id = 0x80000000 | 1;
+        int icon_id;
         switch (type) {
             case NOTIFICATION_EMAIL:
-                icon_id = 0x80000000 | 19;
+                icon_id = ICON_GENERIC_EMAIL;
                 break;
             case NOTIFICATION_SMS:
-                icon_id = 0x80000000 | 45;
+                icon_id = ICON_GENERIC_SMS;
+                break;
+            case NOTIFICATION_FACEBOOK:
+                icon_id = ICON_NOTIFICATION_FACEBOOK;
+                break;
+            case NOTIFICATION_TWITTER:
+                icon_id = ICON_NOTIFICATION_TWITTER;
+                break;
+            default:
+                icon_id = ICON_NOTIFICATION_GENERIC;
+                break;
         }
         // Calculate length first
         byte actions_count;
@@ -682,7 +787,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         buf.put((byte) 4); // icon
         buf.putShort((short) 4); // length of int
-        buf.putInt(icon_id);
+        buf.putInt(0x80000000 | icon_id);
 
         // dismiss action
         buf.put(dismiss_action_id);
