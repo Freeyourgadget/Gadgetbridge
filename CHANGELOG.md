@@ -1,7 +1,9 @@
 ###Changelog
 
-####Version next
+####Version 0.5.4
 * Miband: allow the transfer of activity data without clearing MiBand's memory
+* Pebble: for generic notificataions use generic icon insted of SMS icons on FW 3.x (thanks @roidelapluie)
+* In settings, support blacklisting apps for generic notifications
 
 ####Version 0.5.3
 * Pebble: For generic notifications, support dismissing individual notficications and "Open on Phone" feature (OG & PT)
