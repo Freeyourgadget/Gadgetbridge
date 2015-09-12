@@ -23,6 +23,7 @@ import java.util.HashSet;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationKind;
 
 public class NotificationListener extends NotificationListenerService {
 
@@ -153,6 +154,20 @@ public class NotificationListener extends NotificationListenerService {
             return;
         }
 
+        // Set application icons for generic notifications
+        NotificationKind notification_kind;
+        if (source.equals("org.mariotaku.twidere") ||
+                source.equals("com.twitter.android") ||
+                source.equals("org.andstatus.app")) {
+            notification_kind = NotificationKind.TWITTER;
+        } else if (source.equals("com.fsck.k9")) {
+            notification_kind = NotificationKind.EMAIL;
+        } else if (source.equals("eu.siacs.conversations")) {
+            notification_kind = NotificationKind.CHAT;
+        } else {
+            notification_kind = NotificationKind.UNDEFINED;
+        }
+
         LOG.info("Processing notification from source " + source);
 
         Bundle extras = notification.extras;
@@ -166,7 +181,7 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         if (content != null) {
-            GBApplication.deviceService().onGenericNotification(title, content, (int) sbn.getPostTime()); //FIMXE: a truly unique id would be better
+            GBApplication.deviceService().onGenericNotification(title, content, (int) sbn.getPostTime(), notification_kind); //FIMXE: a truly unique id would be better
         }
     }
 

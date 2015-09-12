@@ -3,6 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.serial;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationKind;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 
 public abstract class GBDeviceProtocol {
@@ -15,7 +16,7 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
-    public byte[] encodeGenericNotification(String title, String details, int handle) {
+    public byte[] encodeGenericNotification(String title, String details, int handle, NotificationKind notification_kind) {
         return null;
     }
 

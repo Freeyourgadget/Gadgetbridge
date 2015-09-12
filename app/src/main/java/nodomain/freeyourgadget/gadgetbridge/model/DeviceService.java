@@ -37,6 +37,7 @@ public interface DeviceService extends EventHandler {
     static final String EXTRA_NOTIFICATION_SENDER = "notification_sender";
     static final String EXTRA_NOTIFICATION_SUBJECT = "notification_subject";
     static final String EXTRA_NOTIFICATION_HANDLE = "notification_handle";
+    static final String EXTRA_NOTIFICATION_KIND = "notification_kind";
     static final String EXTRA_FIND_START = "find_start";
     static final String EXTRA_CALL_COMMAND = "call_command";
     static final String EXTRA_CALL_PHONENUMBER = "call_phonenumber";

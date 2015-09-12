@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationKind;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 
 /**
@@ -19,7 +20,7 @@ public interface EventHandler {
 
     void onEmail(String from, String subject, String body);
 
-    void onGenericNotification(String title, String details, int handle);
+    void onGenericNotification(String title, String details, int handle, NotificationKind notification_kind);
 
     void onSetTime();
 
