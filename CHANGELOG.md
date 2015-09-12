@@ -2,13 +2,13 @@
 
 ####Version 0.5.4
 * Miband: allow the transfer of activity data without clearing MiBand's memory
-* Pebble: for generic notificataions use generic icon insted of SMS icons on FW 3.x (thanks @roidelapluie)
+* Pebble: for generic notifications use generic icon instead of SMS icons on FW 3.x (thanks @roidelapluie)
 * In settings, support blacklisting apps for generic notifications
 
 ####Version 0.5.3
-* Pebble: For generic notifications, support dismissing individual notficications and "Open on Phone" feature (OG & PT)
-* Pebble: Allow to treat K9 notifcations as generic notifications (if notification mode is set to never)
-* Ignore QKSMS notificaions to avoid double notification for incoming SMS
+* Pebble: For generic notifications, support dismissing individual notifications and "Open on Phone" feature (OG & PT)
+* Pebble: Allow to treat K9 notifications as generic notifications (if notification mode is set to never)
+* Ignore QKSMS notifications to avoid double notification for incoming SMS
 * Improved UI of Firmware/App installer
 * Device state again visible on lockscreen
 * Date display and navigation now working properly for all charts
@@ -26,12 +26,12 @@
 * Fix broken "find lost device" which was broken in 0.5.0
 
 ####Version 0.5.0
-* Mi Band: fix setting wear location 
+* Mi Band: fix setting wear location
 * Pebble: experimental watchapp installation support for FW 3.x/Pebble Time
 * Pebble: support Pebble emulator via TCP connection (needs rebuild with INTERNET permission)
 * Pebble: use SMS/EMAIL icons for FW 3.x/Pebble Time
 * Pebble: do not throttle notifications
-* Support going forward/backwards in time in the activy charts
+* Support going forward/backwards in time in the activity charts
 * Various small bugfixes to the App/Fw Installation Activity
 
 ####Version 0.4.6
@@ -68,7 +68,7 @@
 
 ####Version 0.4.2
 * Material style for Lollipop
-* Support for finding a lost device (vibrate until cacelled)
+* Support for finding a lost device (vibrate until cancelled)
 * Mi Band: Support for vibration profiles, configurable for notifications
 * Pebble: Support taking screenshots from the device context menu (Pebble Time not supported yet)
 
@@ -76,7 +76,7 @@
 * New icons, thanks xphnx!
 * Improvements to Sleep Monitor charts
 * Pebble: use new Sleep Monitor for Morpheuz (previously Mi Band only)
-* Pebble: expermimental support for FW 3.x notification protocol
+* Pebble: experimental support for FW 3.x notification protocol
 * Pebble: dev option to force latest notification protocol
 
 ####Version 0.4.0
@@ -84,13 +84,13 @@
 * Pebble: Support launching of watchapps though the AppManager Activity
 * Pebble: Support CM 12.1 default music app (Eleven)
 * Pebble: Fix firmware installation when all 8 app slots are in use
-* Pebble: Fix firmware installation when Pebble is in recovery mode 
+* Pebble: Fix firmware installation when Pebble is in recovery mode
 * Pebble: Fix error when reinstalling apps, useful for upgrading/downgrading
 * Mi Band: Make vibration count configurable for different kinds of Notifications
 * Mi Band: Initial support for fetching activity data
 * Support rebooting Mi Band/Pebble through the Debug Activity
 * Add highly experimental sleep monitor (accessible via long press on a device)
-* Fix Debug activity (SMS and E-Mail buttons were broken) 
+* Fix Debug activity (SMS and E-Mail buttons were broken)
 * Add Turkish translation contributed by Tarik Sekmen
 
 ####Version 0.3.5
@@ -102,7 +102,7 @@
 ####Version 0.3.4
 * Pebble: Huge speedup for app/firmware installation.
 * Pebble: Use a separate notification with progress bar for installation procedure
-* Pebble: Bugfix for beeing stuck while waiting for a slot, when none is available
+* Pebble: Bugfix for being stuck while waiting for a slot, when none is available
 * Mi Band: Display connection status in notification (previously Pebble only)
 
 ####Version 0.3.3
@@ -117,7 +117,7 @@
 * Pebble: Check if firmware is compatible before allowing installation
 
 ####Version 0.3.1
-* Mi Band: Fix for notifications only woking in Debug
+* Mi Band: Fix for notifications only working in Debug
 
 ####Version 0.3.0
 * Mi Band: Initial support (see README.md)
@@ -131,7 +131,7 @@
 * Experimental pbw installation support (watchfaces/apps)
 * New icons for device and app lists
 * Fix for device list not refreshing when bluetooth gets turned on
-* Filter out annyoing low battery notifications
+* Filter out annoying low battery notifications
 * Fix for crash on some devices when creating a debug notification
 * Lots of internal changes preparing multi device support
 
@@ -139,16 +139,16 @@
 * Fix for DST (summer time)
 * Option to sync time on connect (enabled by default)
 * Opening .pbw files with Gadgetbridge prints some package information
-  (This was not meant to be released yet, but the DST fix made a new release neccessary)
+  (This was not meant to be released yet, but the DST fix made a new release necessary)
 
 ####Version 0.1.4
 * New AppManager shows installed Apps/Watchfaces (removal possible via context menu)
 * Allow back navigation in ActionBar (Debug and AppMananger Activities)
 * Make sure Intent broadcasts do not leave Gadgetbridge
-* Show hint in the Main Activiy (tap to connect etc)
+* Show hint in the Main Activity (tap to connect etc)
 
 ####Version 0.1.3
-* Remove the connect button, list all suported devices and connect on tap instead
+* Remove the connect button, list all supported devices and connect on tap instead
 * Display connection status and firmware of connected devices in the device list
 * Remove quit button from the service notification, put a quit item in the context menu instead
 
@@ -159,7 +159,7 @@
 
 ####Version 0.1.1
 * Fixed various bugs regarding K-9 Mail notifications.
-* "Generic notification support" in Setting now opens Androids "Notifcaion access" dialog.
+* "Generic notification support" in Setting now opens Androids "Notification access" dialog.
 
 ####Version 0.1.0
 * Initial release
