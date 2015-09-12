@@ -12,6 +12,7 @@
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">App Mananger</string>
   <string name="appmananger_app_delete">Удалить</string>
+  <!--Strings related to AppBlacklist-->
   <!--Strings related to FwAppInstaller-->
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Настройки</string>

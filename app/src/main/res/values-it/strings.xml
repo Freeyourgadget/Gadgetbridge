@@ -7,13 +7,21 @@
   <string name="action_quit">Esci</string>
   <string name="controlcenter_fetch_activity_data">Sincronizza</string>
   <string name="controlcenter_start_sleepmonitor">Monitoraggio del sonno (ALPHA)</string>
+  <string name="controlcenter_find_device">Trova dispositivo smarrito...</string>
   <string name="controlcenter_take_screenshot">Salva uno screenshot</string>
   <string name="controlcenter_disconnect">Disconetti</string>
   <string name="title_activity_debug">Debug</string>
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">Gestione app</string>
   <string name="appmananger_app_delete">Cancella</string>
+  <!--Strings related to AppBlacklist-->
+  <string name="title_activity_appblacklist">Blocco notifiche</string>
   <!--Strings related to FwAppInstaller-->
+  <string name="title_activity_fw_app_insaller">Installazione FW/App</string>
+  <string name="fw_upgrade_notice">Il firmware %s verrà installato al posto di quello attualmente sulla Mi Band.</string>
+  <string name="miband_firmware_known">Questo firmware è stato testato ed è compatibile con Gadgetbridge.</string>
+  <string name="miband_firmware_unknown_warning">Questo firmware NON è stato testato e potrebbe non essere compatibile con Gadgetbridge.\n\nInstallarlo a proprio rischio sulla Mi Band.</string>
+  <string name="miband_firmware_suggest_whitelist">Se hai intenzione di procedere e tutto continua a funzionare ti invitiamo a contattare gli sviluppatori e dire loro di aggiungere il firmware: %s a quelli testati</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Impostazioni</string>
   <string name="pref_header_general">Impostazioni globali</string>
@@ -33,11 +41,14 @@
   <string name="always">sempre</string>
   <string name="when_screen_off">se lo schermo è spento</string>
   <string name="never">mai</string>
+  <string name="pref_blacklist">Blocca applicazioni</string>
   <string name="pref_header_development">Opzioni di sviluppo</string>
   <string name="pref_title_development_miaddr">Indirizzo Miband</string>
   <string name="pref_title_pebble_settings">Impostazioni Pebble</string>
   <string name="pref_title_pebble_forceprotocol">Forza protocollo delle notifiche</string>
   <string name="pref_summary_pebble_forceprotocol">Questa opzione forza l\'utilizzo della versione più recente delle notifiche in dipendenza del firmware del tuo dispositivo. ABILITALO SOLO SE SAI COSA STAI FACENDO!</string>
+  <string name="pref_title_pebble_forceuntested">Abilita funzionalità non testate</string>
+  <string name="pref_summary_pebble_forceuntested">Abilita funzionalità non testate. ABILITARE SOLO SE SI SA QUELLO CHE SI STA FACENDO!</string>
   <string name="not_connected">non connesso</string>
   <string name="connecting">in collegamento</string>
   <string name="connected">connesso</string>
@@ -57,6 +68,7 @@
   <string name="installing_binary_d_d">installazione del binario %1$d/%2$d</string>
   <string name="installation_failed_">Installazione fallita!</string>
   <string name="installation_successful">installazione conclusa con successo</string>
+  <string name="firmware_install_warning">STAI INSTALLANDO UN FIRMWARE, PROCEDI A TUO RISCHIO.\n\n Questo firmware è per la versione HW: %s</string>
   <string name="app_install_info">Si sta per installare la app:\n\n\n%1$s Versione %2$s di %3$s\n</string>
   <string name="n_a">N/A</string>
   <string name="initialized">inizializzato</string>
@@ -64,6 +76,7 @@
   <string name="title_activity_discovery">Ricerca dispositivi</string>
   <string name="discovery_stop_scanning">Interrompi scansione</string>
   <string name="discovery_start_scanning">Inizia scansione</string>
+  <string name="action_discover">Connetti un nuovo dispositivo</string>
   <string name="device_with_rssi">%1$s (%2$s)</string>
   <string name="title_activity_android_pairing">Accoppia dispositivo</string>
   <string name="android_pairing_hint">Utilizza la funzione del sistema operativo per accoppiare il dispositivo.</string>
@@ -124,9 +137,44 @@
   <string name="alarm_thu_short">Gio</string>
   <string name="alarm_fri_short">Ven</string>
   <string name="alarm_sat_short">Sab</string>
-  <string name="alarm_smart_wakeup">Risveglio intelligente</string>
+  <string name="alarm_smart_wakeup">Sveglia intelligente</string>
   <string name="user_feedback_miband_set_alarms_failed">C\'è stato un errore impostando le sveglie, prova di nuovo.</string>
   <string name="user_feedback_miband_set_alarms_ok">Sveglie sincronizzate con il dispositivo!</string>
   <string name="chart_no_data_synchronize">Non ci sono dati. Effettua una sincronizzazione con il tuo device.</string>
   <string name="user_feedback_miband_activity_data_transfer">Vengono trasferiti %1$s a partire dal %2$s</string>
+  <string name="miband_prefs_fitness_goal">Traguardo giornaliero di passi</string>
+  <string name="dbaccess_error_executing">Errore eseguendo \'%1$s\'</string>
+  <string name="controlcenter_start_activitymonitor">Le tue attività (ALPHA)</string>
+  <string name="cannot_connect">Impossibile connettere: %1$s</string>
+  <string name="installer_activity_unable_to_find_handler">Impossibile aprire questo file.</string>
+  <string name="pbw_install_handler_unable_to_install">Impossibile installare il file: %1$s</string>
+  <string name="pbw_install_handler_hw_revision_mismatch">Impossibile installare il firmware: non corrisponde alla versione hardware del tuo Pebble.</string>
+  <string name="installer_activity_wait_while_determining_status">Lo stato dell\'installazione viene rilevato...</string>
+  <string name="notif_battery_low_title">Batteria del dispositivo bassa!</string>
+  <string name="notif_battery_low_percent">%1$s batteria rimanente: %2$s%%</string>
+  <string name="notif_battery_low_bigtext_last_charge_time">Ultima ricarica: %s \n</string>
+  <string name="notif_battery_low_bigtext_number_of_charges">Numero di ricariche: %s</string>
+  <string name="sleepchart_your_sleep">Il tuo sonno</string>
+  <string name="weekstepschart_steps_a_week">Passi della settimana</string>
+  <string name="activity_sleepchart_activity_and_sleep">Attività e sonno</string>
+  <string name="updating_firmware">Aggiornamento del Firmware...</string>
+  <string name="fwapp_install_device_not_ready">Il file non può essere installato, il dispositivo non è pronto.</string>
+  <string name="miband_installhandler_miband_firmware">Firmware Mi Band: %1$s</string>
+  <string name="miband_fwinstaller_compatible_version">Versione compatibile</string>
+  <string name="miband_fwinstaller_untested_version">Versione non testata!</string>
+  <string name="fwappinstaller_connection_state">Connessione al device: %1$s</string>
+  <string name="pbw_installhandler_pebble_firmware">Firmware Pebble: %1$s</string>
+  <string name="pbwinstallhandler_correct_hw_revision">Versione hardware corretta</string>
+  <string name="pbwinstallhandler_incorrect_hw_revision">Conflitto nella versione hardware!</string>
+  <string name="pbwinstallhandler_app_item">%1$s (%2$s)</string>
+  <string name="updatefirmwareoperation_updateproblem_do_not_reboot">Problema durante il caricamento del firmware. NON RIAVVIARE la Mi Band!</string>
+  <string name="updatefirmwareoperation_metadata_updateproblem">Problema durante il caricamento dei metadati del firmware</string>
+  <string name="updatefirmwareoperation_update_complete">Installazione del firmware completata</string>
+  <string name="updatefirmwareoperation_update_complete_rebooting">Installazione del firmware completata, riavvio del dispositivo...</string>
+  <string name="updatefirmwareoperation_write_failed">Scrittura del firmware non riuscita</string>
+  <string name="chart_steps">Passi</string>
+  <string name="liveactivity_live_activity">Attività in tempo reale</string>
+  <string name="weeksteps_today_steps_description">Passi di oggi, traguardo: %1$s</string>
+  <string name="pref_title_dont_ack_transfer">Non confermare il trasferimento dati</string>
+  <string name="pref_summary_dont_ack_transfers">Se il trasferimento non viene confermato, i dati rimangono memorizzati sulla Mi Band. Utile se GB è usato insieme ad altre app.</string>
 </resources>
