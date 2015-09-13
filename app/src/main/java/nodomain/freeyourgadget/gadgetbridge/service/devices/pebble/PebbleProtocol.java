@@ -457,7 +457,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    private byte[] encodeNotification(int id, String title, String subtitle, String body, byte type, boolean hasHandle, NotificationKind notification_kind) {
+    private byte[] encodeNotification(int id, String title, String subtitle, String body, byte type, boolean hasHandle, NotificationKind notificationKind) {
         Long ts = System.currentTimeMillis();
         if (!isFw3x) {
             ts += (SimpleTimeZone.getDefault().getOffset(ts));
@@ -467,7 +467,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         if (isFw3x) {
             // 3.x notification
             //return encodeTimelinePin(id, (int) (ts + 600 & 0xffffffff), (short) 90, ICON_TIMELINE_CALENDAR, title); // really, this is just for testing
-            return encodeBlobdbNotification(id, (int) (ts & 0xffffffff), title, subtitle, body, type, hasHandle, notification_kind);
+            return encodeBlobdbNotification(id, (int) (ts & 0xffffffff), title, subtitle, body, type, hasHandle, notificationKind);
         } else if (mForceProtocol || type != NOTIFICATION_EMAIL) {
             // 2.x notification
             return encodeExtensibleNotification(id, (int) (ts & 0xffffffff), title, subtitle, body, type, hasHandle);
@@ -490,8 +490,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     @Override
-    public byte[] encodeGenericNotification(String title, String details, int handle, NotificationKind notification_kind) {
-        return encodeNotification(handle, title, null, details, NOTIFICATION_UNDEFINED, true, notification_kind);
+    public byte[] encodeGenericNotification(String title, String details, int handle, NotificationKind notificationKind) {
+        return encodeNotification(handle, title, null, details, NOTIFICATION_UNDEFINED, true, notificationKind);
     }
 
     @Override
@@ -692,7 +692,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return encodeBlobdb(uuid, BLOBDB_INSERT, BLOBDB_PIN, buf.array());
     }
 
-    private byte[] encodeBlobdbNotification(int id, int timestamp, String title, String subtitle, String body, byte type, boolean hasHandle, NotificationKind notification_kind) {
+    private byte[] encodeBlobdbNotification(int id, int timestamp, String title, String subtitle, String body, byte type, boolean hasHandle, NotificationKind notificationKind) {
         final short NOTIFICATION_PIN_LENGTH = 46;
         final short ACTION_LENGTH_MIN = 10;
 
@@ -707,7 +707,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 icon_id = ICON_GENERIC_SMS;
                 break;
             default:
-                switch(notification_kind){
+                switch(notificationKind){
                     case TWITTER:
                         icon_id = ICON_NOTIFICATION_TWITTER;
                         break;
@@ -716,6 +716,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         break;
                     case FACEBOOK:
                         icon_id = ICON_NOTIFICATION_FACEBOOK;
+                        break;
+                    case CHAT:
+                        icon_id = ICON_NOTIFICATION_HIPCHAT;
                         break;
                     default:
                         icon_id = ICON_NOTIFICATION_GENERIC;
