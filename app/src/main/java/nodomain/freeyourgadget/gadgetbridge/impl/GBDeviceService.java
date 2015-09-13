@@ -97,12 +97,12 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void onGenericNotification(String title, String details, int handle, NotificationKind notification_kind) {
+    public void onGenericNotification(String title, String details, int handle, NotificationKind notificationKind) {
         Intent intent = createIntent().setAction(ACTION_NOTIFICATION_GENERIC)
                 .putExtra(EXTRA_NOTIFICATION_TITLE, title)
                 .putExtra(EXTRA_NOTIFICATION_BODY, details)
                 .putExtra(EXTRA_NOTIFICATION_HANDLE, handle)
-                .putExtra(EXTRA_NOTIFICATION_KIND, notification_kind);
+                .putExtra(EXTRA_NOTIFICATION_KIND, notificationKind);
         invokeService(intent);
     }
 

@@ -155,17 +155,17 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         // Set application icons for generic notifications
-        NotificationKind notification_kind;
+        NotificationKind notificationKind;
         if (source.equals("org.mariotaku.twidere") ||
                 source.equals("com.twitter.android") ||
                 source.equals("org.andstatus.app")) {
-            notification_kind = NotificationKind.TWITTER;
+            notificationKind = NotificationKind.TWITTER;
         } else if (source.equals("com.fsck.k9")) {
-            notification_kind = NotificationKind.EMAIL;
+            notificationKind = NotificationKind.EMAIL;
         } else if (source.equals("eu.siacs.conversations")) {
-            notification_kind = NotificationKind.CHAT;
+            notificationKind = NotificationKind.CHAT;
         } else {
-            notification_kind = NotificationKind.UNDEFINED;
+            notificationKind = NotificationKind.UNDEFINED;
         }
 
         LOG.info("Processing notification from source " + source);
@@ -181,7 +181,7 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         if (content != null) {
-            GBApplication.deviceService().onGenericNotification(title, content, (int) sbn.getPostTime(), notification_kind); //FIMXE: a truly unique id would be better
+            GBApplication.deviceService().onGenericNotification(title, content, (int) sbn.getPostTime(), notificationKind); //FIMXE: a truly unique id would be better
         }
     }
 

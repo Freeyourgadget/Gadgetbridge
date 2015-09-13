@@ -119,8 +119,8 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     }
 
     @Override
-    public void onGenericNotification(String title, String details, int handle, NotificationKind notification_kind) {
-        byte[] bytes = gbDeviceProtocol.encodeGenericNotification(title, details, handle, notification_kind);
+    public void onGenericNotification(String title, String details, int handle, NotificationKind notificationKind) {
+        byte[] bytes = gbDeviceProtocol.encodeGenericNotification(title, details, handle, notificationKind);
         sendToDevice(bytes);
     }
 

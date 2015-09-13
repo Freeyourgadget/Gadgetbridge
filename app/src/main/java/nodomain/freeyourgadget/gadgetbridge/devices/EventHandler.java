@@ -20,7 +20,7 @@ public interface EventHandler {
 
     void onEmail(String from, String subject, String body);
 
-    void onGenericNotification(String title, String details, int handle, NotificationKind notification_kind);
+    void onGenericNotification(String title, String details, int handle, NotificationKind notificationKind);
 
     void onSetTime();
 

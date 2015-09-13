@@ -128,11 +128,11 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
-    public void onGenericNotification(String title, String details, int handle, NotificationKind notification_kind) {
+    public void onGenericNotification(String title, String details, int handle, NotificationKind notificationKind) {
         if (checkBusy("generic notification") || checkThrottle("generic notification")) {
             return;
         }
-        delegate.onGenericNotification(title, details, handle, notification_kind);
+        delegate.onGenericNotification(title, details, handle, notificationKind);
     }
 
     @Override

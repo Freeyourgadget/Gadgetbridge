@@ -184,8 +184,8 @@ public class DeviceCommunicationService extends Service {
                 String title = intent.getStringExtra(EXTRA_NOTIFICATION_TITLE);
                 String body = intent.getStringExtra(EXTRA_NOTIFICATION_BODY);
                 int handle = intent.getIntExtra(EXTRA_NOTIFICATION_HANDLE,-1);
-                NotificationKind notification_kind = (NotificationKind) intent.getSerializableExtra(EXTRA_NOTIFICATION_KIND);
-                mDeviceSupport.onGenericNotification(title, body, handle, notification_kind);
+                NotificationKind notificationKind = (NotificationKind) intent.getSerializableExtra(EXTRA_NOTIFICATION_KIND);
+                mDeviceSupport.onGenericNotification(title, body, handle, notificationKind);
                 break;
             }
             case ACTION_NOTIFICATION_SMS: {
