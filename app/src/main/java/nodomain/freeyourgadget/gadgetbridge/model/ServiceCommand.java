@@ -2,7 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.model;
 
 public enum ServiceCommand {
 
-    UNDEFINEND,
+    UNDEFINED,
 
     CALL_ACCEPT,
     CALL_END,
