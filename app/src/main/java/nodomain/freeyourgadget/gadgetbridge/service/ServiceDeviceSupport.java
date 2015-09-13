@@ -14,6 +14,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationKind;
 
 /**
  * Wraps another device support instance and supports busy-checking and throttling of events.
@@ -127,11 +128,11 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
-    public void onGenericNotification(String title, String details, int handle) {
+    public void onGenericNotification(String title, String details, int handle, NotificationKind notification_kind) {
         if (checkBusy("generic notification") || checkThrottle("generic notification")) {
             return;
         }
-        delegate.onGenericNotification(title, details, handle);
+        delegate.onGenericNotification(title, details, handle, notification_kind);
     }
 
     @Override

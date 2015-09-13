@@ -12,6 +12,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationKind;
 import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
 
 public class TestDeviceSupport extends AbstractDeviceSupport {
@@ -58,7 +59,7 @@ public class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
-    public void onGenericNotification(String title, String details, int handle) {
+    public void onGenericNotification(String title, String details, int handle, NotificationKind notification_kind) {
         
     }
 

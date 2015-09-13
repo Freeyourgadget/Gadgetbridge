@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.EventHandler;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationKind;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
@@ -118,8 +119,8 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     }
 
     @Override
-    public void onGenericNotification(String title, String details, int handle) {
-        byte[] bytes = gbDeviceProtocol.encodeGenericNotification(title, details, handle);
+    public void onGenericNotification(String title, String details, int handle, NotificationKind notification_kind) {
+        byte[] bytes = gbDeviceProtocol.encodeGenericNotification(title, details, handle, notification_kind);
         sendToDevice(bytes);
     }
 

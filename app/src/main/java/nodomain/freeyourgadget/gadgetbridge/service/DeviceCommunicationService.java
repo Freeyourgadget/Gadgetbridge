@@ -27,6 +27,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -60,6 +61,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUS
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_TRACK;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_BODY;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_HANDLE;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_KIND;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_SENDER;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_SUBJECT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_TITLE;
@@ -182,7 +184,8 @@ public class DeviceCommunicationService extends Service {
                 String title = intent.getStringExtra(EXTRA_NOTIFICATION_TITLE);
                 String body = intent.getStringExtra(EXTRA_NOTIFICATION_BODY);
                 int handle = intent.getIntExtra(EXTRA_NOTIFICATION_HANDLE,-1);
-                mDeviceSupport.onGenericNotification(title, body, handle);
+                NotificationKind notification_kind = (NotificationKind) intent.getSerializableExtra(EXTRA_NOTIFICATION_KIND);
+                mDeviceSupport.onGenericNotification(title, body, handle, notification_kind);
                 break;
             }
             case ACTION_NOTIFICATION_SMS: {

@@ -29,6 +29,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationKind;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -411,7 +412,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onGenericNotification(String title, String details, int handle) {
+    public void onGenericNotification(String title, String details, int handle, NotificationKind notification_kind) {
         performPreferredNotification("generic notification received", ORIGIN_GENERIC, null);
     }
 

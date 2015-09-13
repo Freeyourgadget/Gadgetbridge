@@ -12,6 +12,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationKind;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
 public class GBDeviceService implements DeviceService {
@@ -96,11 +97,12 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void onGenericNotification(String title, String details, int handle) {
+    public void onGenericNotification(String title, String details, int handle, NotificationKind notification_kind) {
         Intent intent = createIntent().setAction(ACTION_NOTIFICATION_GENERIC)
                 .putExtra(EXTRA_NOTIFICATION_TITLE, title)
                 .putExtra(EXTRA_NOTIFICATION_BODY, details)
-                .putExtra(EXTRA_NOTIFICATION_HANDLE, handle);
+                .putExtra(EXTRA_NOTIFICATION_HANDLE, handle)
+                .putExtra(EXTRA_NOTIFICATION_KIND, notification_kind);
         invokeService(intent);
     }
 

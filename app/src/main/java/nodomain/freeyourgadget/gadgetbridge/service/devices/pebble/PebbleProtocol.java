@@ -24,6 +24,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationKind;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 
 public class PebbleProtocol extends GBDeviceProtocol {
@@ -456,7 +457,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    private byte[] encodeNotification(int id, String title, String subtitle, String body, byte type, boolean hasHandle) {
+    private byte[] encodeNotification(int id, String title, String subtitle, String body, byte type, boolean hasHandle, NotificationKind notification_kind) {
         Long ts = System.currentTimeMillis();
         if (!isFw3x) {
             ts += (SimpleTimeZone.getDefault().getOffset(ts));
@@ -466,7 +467,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         if (isFw3x) {
             // 3.x notification
             //return encodeTimelinePin(id, (int) (ts + 600 & 0xffffffff), (short) 90, 21, title); // really, this is just for testing
-            return encodeBlobdbNotification(id, (int) (ts & 0xffffffff), title, subtitle, body, type, hasHandle);
+            return encodeBlobdbNotification(id, (int) (ts & 0xffffffff), title, subtitle, body, type, hasHandle, notification_kind);
         } else if (mForceProtocol || type != NOTIFICATION_EMAIL) {
             // 2.x notification
             return encodeExtensibleNotification(id, (int) (ts & 0xffffffff), title, subtitle, body, type, hasHandle);
@@ -480,17 +481,17 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeSMS(String from, String body) {
-        return encodeNotification(mRandom.nextInt(), from, null, body, NOTIFICATION_SMS, false);
+        return encodeNotification(mRandom.nextInt(), from, null, body, NOTIFICATION_SMS, false, NotificationKind.UNDEFINED);
     }
 
     @Override
     public byte[] encodeEmail(String from, String subject, String body) {
-        return encodeNotification(mRandom.nextInt(), from, subject, body, NOTIFICATION_EMAIL, false);
+        return encodeNotification(mRandom.nextInt(), from, subject, body, NOTIFICATION_EMAIL, false, NotificationKind.UNDEFINED);
     }
 
     @Override
-    public byte[] encodeGenericNotification(String title, String details, int handle) {
-        return encodeNotification(handle, title, null, details, NOTIFICATION_UNDEFINED, true);
+    public byte[] encodeGenericNotification(String title, String details, int handle, NotificationKind notification_kind) {
+        return encodeNotification(handle, title, null, details, NOTIFICATION_UNDEFINED, true, notification_kind);
     }
 
     @Override
@@ -691,7 +692,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return encodeBlobdb(uuid, BLOBDB_INSERT, BLOBDB_PIN, buf.array());
     }
 
-    private byte[] encodeBlobdbNotification(int id, int timestamp, String title, String subtitle, String body, byte type, boolean hasHandle) {
+    private byte[] encodeBlobdbNotification(int id, int timestamp, String title, String subtitle, String body, byte type, boolean hasHandle, NotificationKind notification_kind) {
         final short NOTIFICATION_PIN_LENGTH = 46;
         final short ACTION_LENGTH_MIN = 10;
 
@@ -705,14 +706,21 @@ public class PebbleProtocol extends GBDeviceProtocol {
             case NOTIFICATION_SMS:
                 icon_id = ICON_GENERIC_SMS;
                 break;
-            case NOTIFICATION_FACEBOOK:
-                icon_id = ICON_NOTIFICATION_FACEBOOK;
-                break;
-            case NOTIFICATION_TWITTER:
-                icon_id = ICON_NOTIFICATION_TWITTER;
-                break;
             default:
-                icon_id = ICON_NOTIFICATION_GENERIC;
+                switch(notification_kind){
+                    case TWITTER:
+                        icon_id = ICON_NOTIFICATION_TWITTER;
+                        break;
+                    case EMAIL:
+                        icon_id = ICON_GENERIC_EMAIL;
+                        break;
+                    case FACEBOOK:
+                        icon_id = ICON_NOTIFICATION_FACEBOOK;
+                        break;
+                    default:
+                        icon_id = ICON_NOTIFICATION_GENERIC;
+                        break;
+                }
                 break;
         }
         // Calculate length first
