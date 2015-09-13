@@ -466,7 +466,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         if (isFw3x) {
             // 3.x notification
-            //return encodeTimelinePin(id, (int) (ts + 600 & 0xffffffff), (short) 90, 21, title); // really, this is just for testing
+            //return encodeTimelinePin(id, (int) (ts + 600 & 0xffffffff), (short) 90, ICON_TIMELINE_CALENDAR, title); // really, this is just for testing
             return encodeBlobdbNotification(id, (int) (ts & 0xffffffff), title, subtitle, body, type, hasHandle, notification_kind);
         } else if (mForceProtocol || type != NOTIFICATION_EMAIL) {
             // 2.x notification
@@ -1360,17 +1360,17 @@ public class PebbleProtocol extends GBDeviceProtocol {
                     case 0x01:
                         dismissNotification.event = GBDeviceEventNotificationControl.Event.OPEN;
                         caption = "Opened";
-                        icon_id = 49;
+                        icon_id = ICON_DURING_PHONE_CALL;
                         break;
                     case 0x02:
                         dismissNotification.event = GBDeviceEventNotificationControl.Event.DISMISS;
                         caption = "Dismissed";
-                        icon_id = 51;
+                        icon_id = ICON_RESULT_DISMISSED;
                         break;
                     case 0x03:
                         dismissNotification.event = GBDeviceEventNotificationControl.Event.DISMISS_ALL;
                         caption = "All dismissed";
-                        icon_id = 51;
+                        icon_id = ICON_RESULT_DISMISSED;
                         break;
                 }
                 GBDeviceEventSendBytes sendBytesAck = new GBDeviceEventSendBytes();
