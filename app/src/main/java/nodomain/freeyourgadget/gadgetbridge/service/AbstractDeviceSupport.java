@@ -220,6 +220,9 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             case OPEN:
                 action = NotificationListener.ACTION_OPEN;
                 break;
+            case REPLY:
+                action = NotificationListener.ACTION_REPLY;
+                break;
         }
         if (action != null) {
             Intent notificationListenerIntent = new Intent(action);

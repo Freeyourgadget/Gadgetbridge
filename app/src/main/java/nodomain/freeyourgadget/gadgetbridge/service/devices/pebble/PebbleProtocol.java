@@ -611,6 +611,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         int icon_id;
         byte color_id;
+        boolean hasQuickReply = false;
         switch (type) {
             case NOTIFICATION_EMAIL:
                 icon_id = PebbleIconID.GENERIC_EMAIL;
@@ -619,6 +620,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             case NOTIFICATION_SMS:
                 icon_id = PebbleIconID.GENERIC_SMS;
                 color_id = PebbleColor.VividViolet;
+                hasQuickReply = true;
                 break;
             default:
                 switch(notificationKind){
@@ -646,21 +648,26 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 break;
         }
         // Calculate length first
-        byte actions_count;
-        short actions_length;
+        byte actions_count = 1;
+        short actions_length = ACTION_LENGTH_MIN;
         String dismiss_string;
         String open_string = "Open on phone";
         byte dismiss_action_id;
+        String quick_reply_string = "Quick Reply";
+        byte quick_reply_action_id = 0x04;
         if (hasHandle) {
-            actions_count = 2;
+            actions_count += 1;
             dismiss_string = "Dismiss";
             dismiss_action_id = 0x02;
-            actions_length = (short) (ACTION_LENGTH_MIN * actions_count + dismiss_string.length() + open_string.length());
+            actions_length += (short) (ACTION_LENGTH_MIN + dismiss_string.length() + open_string.length());
         } else {
-            actions_count = 1;
             dismiss_string = "Dismiss all";
             dismiss_action_id = 0x03;
-            actions_length = (short) (ACTION_LENGTH_MIN * actions_count + dismiss_string.length() + open_string.length());
+            actions_length += (short) (dismiss_string.length() + open_string.length());
+        }
+        if (hasQuickReply) {
+            actions_count += 1;
+            actions_length += (short) (1 + quick_reply_string.length());
         }
 
         byte attributes_count = 2; // icon
@@ -730,6 +737,16 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put((byte) 0x01); // attribute id (title)
         buf.putShort((short) dismiss_string.length());
         buf.put(dismiss_string.getBytes());
+
+        // open action
+        if (hasQuickReply) {
+            buf.put((byte) quick_reply_action_id);
+            buf.put((byte) 0x02); // generic action
+            buf.put((byte) 0x01); // number attributes
+            buf.put((byte) 0x01); // attribute id (title)
+            buf.putShort((short) quick_reply_string.length());
+            buf.put(quick_reply_string.getBytes());
+        }
 
         // open action
         if (hasHandle) {
@@ -1297,6 +1314,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         dismissNotification.event = GBDeviceEventNotificationControl.Event.DISMISS_ALL;
                         caption = "All dismissed";
                         icon_id = PebbleIconID.RESULT_DISMISSED;
+                        break;
+                    case 0x04:
+                        dismissNotification.event = GBDeviceEventNotificationControl.Event.REPLY;
+                        caption = "Sent";
+                        icon_id = PebbleIconID.RESULT_SENT;
                         break;
                 }
                 GBDeviceEventSendBytes sendBytesAck = new GBDeviceEventSendBytes();
