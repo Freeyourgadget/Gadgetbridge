@@ -3,7 +3,7 @@
 ####Version 0.5.4
 * Miband: allow the transfer of activity data without clearing MiBand's memory
 * Pebble: for generic notifications use generic icon instead of SMS icons on FW 3.x (thanks @roidelapluie)
-* Pebble: use different icons for specific groups of applications (chat, mail, etc) (thanks @roidelapluie)
+* Pebble: use different icons and background colors for specific groups of applications (chat, mail, etc) (thanks @roidelapluie)
 * In settings, support blacklisting apps for generic notifications
 
 ####Version 0.5.3
