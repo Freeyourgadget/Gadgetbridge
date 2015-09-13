@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 
+import android.util.Base64;
 import android.util.Pair;
 
 import org.json.JSONArray;
@@ -1146,8 +1147,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 length += 4;
             } else if (pair.second instanceof String) {
                 length += ((String) pair.second).length() + 1;
+            } else if (pair.second instanceof byte[]) {
+                length += ((byte[]) pair.second).length;
             }
         }
+
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + length);
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putShort((short) length);
@@ -1166,10 +1170,16 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 buf.putShort((short) 4); // length of int
                 buf.putInt((int) pair.second);
             } else if (pair.second instanceof String) {
+                String str = (String) pair.second;
                 buf.put(TYPE_CSTRING);
-                buf.putShort((short) (((String) pair.second).length() + 1));
-                buf.put(((String) pair.second).getBytes());
+                buf.putShort((short) (str.length() + 1));
+                buf.put(str.getBytes());
                 buf.put((byte) 0);
+            } else if (pair.second instanceof byte[]) {
+                byte[] bytes = (byte[]) pair.second;
+                buf.put(TYPE_BYTEARRAY);
+                buf.putShort((short) bytes.length);
+                buf.put(bytes);
             }
         }
 
@@ -1187,6 +1197,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
                     pairs.add(new Pair<>(key, (Object) jsonObject.getInt("value")));
                 } else if (type.equals("string")) {
                     pairs.add(new Pair<>(key, (Object) jsonObject.getString("value")));
+                } else if (type.equals("bytes")) {
+                    byte[] bytes = Base64.decode(jsonObject.getString("value"), Base64.NO_WRAP);
+                    pairs.add(new Pair<>(key, (Object) bytes));
                 }
             } catch (JSONException e) {
                 return null;
