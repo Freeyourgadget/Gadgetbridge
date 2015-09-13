@@ -13,6 +13,7 @@ import java.util.Random;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.devices.pebble.ColorConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppManagement;
@@ -699,29 +700,37 @@ public class PebbleProtocol extends GBDeviceProtocol {
         String[] parts = {title, subtitle, body};
 
         int icon_id;
+        byte color_id;
         switch (type) {
             case NOTIFICATION_EMAIL:
                 icon_id = ICON_GENERIC_EMAIL;
+                color_id = ColorConst.COLOR_JaegerGreen;
                 break;
             case NOTIFICATION_SMS:
                 icon_id = ICON_GENERIC_SMS;
+                color_id = ColorConst.COLOR_VividViolet;
                 break;
             default:
                 switch(notificationKind){
                     case TWITTER:
                         icon_id = ICON_NOTIFICATION_TWITTER;
+                        color_id = ColorConst.COLOR_BlueMoon;
                         break;
                     case EMAIL:
                         icon_id = ICON_GENERIC_EMAIL;
+                        color_id = ColorConst.COLOR_JaegerGreen;
                         break;
                     case FACEBOOK:
                         icon_id = ICON_NOTIFICATION_FACEBOOK;
+                        color_id = ColorConst.COLOR_VeryLightBlue;
                         break;
                     case CHAT:
                         icon_id = ICON_NOTIFICATION_HIPCHAT;
+                        color_id = ColorConst.COLOR_Inchworm;
                         break;
                     default:
                         icon_id = ICON_NOTIFICATION_GENERIC;
+                        color_id = ColorConst.COLOR_Red;
                         break;
                 }
                 break;
@@ -744,8 +753,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
             actions_length = (short) (ACTION_LENGTH_MIN * actions_count + dismiss_string.length() + open_string.length());
         }
 
-        byte attributes_count = 1; // icon
-        short attributes_length = (short) (7 + actions_length); // icon
+        byte attributes_count = 2; // icon
+        short attributes_length = (short) (11 + actions_length);
         if (parts != null) {
             for (String s : parts) {
                 if (s == null || s.equals("")) {
@@ -799,6 +808,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put((byte) 4); // icon
         buf.putShort((short) 4); // length of int
         buf.putInt(0x80000000 | icon_id);
+
+        buf.put((byte) 28); // background_color
+        buf.putShort((short) 1); // length of int
+        buf.put(color_id);
 
         // dismiss action
         buf.put(dismiss_action_id);
