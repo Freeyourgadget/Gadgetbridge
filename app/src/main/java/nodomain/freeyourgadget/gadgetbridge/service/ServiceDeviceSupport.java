@@ -178,11 +178,11 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
-    public void onAppStart(UUID uuid) {
+    public void onAppStart(UUID uuid, boolean start) {
         if (checkBusy("app start")) {
             return;
         }
-        delegate.onAppStart(uuid);
+        delegate.onAppStart(uuid, start);
     }
 
     @Override

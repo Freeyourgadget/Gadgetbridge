@@ -11,8 +11,8 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
-import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
 public class GBDeviceService implements DeviceService {
@@ -150,9 +150,10 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void onAppStart(UUID uuid) {
+    public void onAppStart(UUID uuid, boolean start) {
         Intent intent = createIntent().setAction(ACTION_STARTAPP)
-                .putExtra(EXTRA_APP_UUID, uuid);
+                .putExtra(EXTRA_APP_UUID, uuid)
+                .putExtra(EXTRA_APP_START, start);
         invokeService(intent);
     }
 

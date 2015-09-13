@@ -67,6 +67,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final short ENDPOINT_PUTBYTES = (short) 48879;
 
     static final byte APPRUNSTATE_START = 1;
+    static final byte APPRUNSTATE_STOP = 2;
 
     static final byte BLOBDB_INSERT = 1;
     static final byte BLOBDB_DELETE = 4;
@@ -877,19 +878,20 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     @Override
-    public byte[] encodeAppStart(UUID uuid) {
+    public byte[] encodeAppStart(UUID uuid, boolean start) {
         if (isFw3x) {
             ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_APPRUNSTATE);
             buf.order(ByteOrder.BIG_ENDIAN);
             buf.putShort(LENGTH_APPRUNSTATE);
             buf.putShort(ENDPOINT_APPRUNSTATE);
-            buf.put(APPRUNSTATE_START);
+            buf.put(start ? APPRUNSTATE_START : APPRUNSTATE_STOP);
             buf.putLong(uuid.getMostSignificantBits());
             buf.putLong(uuid.getLeastSignificantBits());
             return buf.array();
         } else {
             ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>();
-            pairs.add(new Pair<>(1, (Object) 1)); // launch
+            int param = start ? 1 : 0;
+            pairs.add(new Pair<>(1, (Object) param));
             return encodeApplicationMessagePush(ENDPOINT_LAUNCHER, uuid, pairs);
         }
     }

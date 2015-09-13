@@ -45,6 +45,7 @@ public interface DeviceService extends EventHandler {
     static final String EXTRA_MUSIC_ALBUM = "music_album";
     static final String EXTRA_MUSIC_TRACK = "music_track";
     static final String EXTRA_APP_UUID = "app_uuid";
+    static final String EXTRA_APP_START = "app_start";
     static final String EXTRA_URI = "uri";
     static final String EXTRA_ALARMS = "alarms";
     static final String EXTRA_PERFORM_PAIR = "perform_pair";

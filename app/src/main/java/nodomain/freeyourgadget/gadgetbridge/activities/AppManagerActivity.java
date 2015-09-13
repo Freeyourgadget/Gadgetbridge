@@ -114,7 +114,7 @@ public class AppManagerActivity extends Activity {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 UUID uuid = appList.get(position).getUUID();
-                GBApplication.deviceService().onAppStart(uuid);
+                GBApplication.deviceService().onAppStart(uuid, true);
             }
         });
 

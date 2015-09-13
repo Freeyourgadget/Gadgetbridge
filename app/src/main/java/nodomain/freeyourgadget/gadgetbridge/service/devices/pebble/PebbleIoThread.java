@@ -88,9 +88,10 @@ public class PebbleIoThread extends GBDeviceIoThread {
             UUID uuid;
             switch (action) {
                 case PEBBLEKIT_ACTION_APP_START:
+                case PEBBLEKIT_ACTION_APP_STOP:
                     uuid = (UUID) intent.getSerializableExtra("uuid");
                     if (uuid != null) {
-                        write(mPebbleProtocol.encodeAppStart(uuid));
+                        write(mPebbleProtocol.encodeAppStart(uuid, action == PEBBLEKIT_ACTION_APP_START));
                     }
                     break;
                 case PEBBLEKIT_ACTION_APP_SEND:

@@ -34,7 +34,7 @@ public interface EventHandler {
 
     void onAppInfoReq();
 
-    void onAppStart(UUID uuid);
+    void onAppStart(UUID uuid, boolean start);
 
     void onAppDelete(UUID uuid);
 

@@ -26,7 +26,6 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -51,6 +50,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SE
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_STARTAPP;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_ALARMS;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_UUID;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_COMMAND;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_PHONENUMBER;
@@ -183,7 +183,7 @@ public class DeviceCommunicationService extends Service {
             case ACTION_NOTIFICATION_GENERIC: {
                 String title = intent.getStringExtra(EXTRA_NOTIFICATION_TITLE);
                 String body = intent.getStringExtra(EXTRA_NOTIFICATION_BODY);
-                int handle = intent.getIntExtra(EXTRA_NOTIFICATION_HANDLE,-1);
+                int handle = intent.getIntExtra(EXTRA_NOTIFICATION_HANDLE, -1);
                 NotificationKind notificationKind = (NotificationKind) intent.getSerializableExtra(EXTRA_NOTIFICATION_KIND);
                 mDeviceSupport.onGenericNotification(title, body, handle, notificationKind);
                 break;
@@ -247,7 +247,8 @@ public class DeviceCommunicationService extends Service {
                 break;
             case ACTION_STARTAPP: {
                 UUID uuid = (UUID) intent.getSerializableExtra(EXTRA_APP_UUID);
-                mDeviceSupport.onAppStart(uuid);
+                boolean start = intent.getBooleanExtra(EXTRA_APP_START, true);
+                mDeviceSupport.onAppStart(uuid, start);
                 break;
             }
             case ACTION_DELETEAPP: {
@@ -273,6 +274,7 @@ public class DeviceCommunicationService extends Service {
 
     /**
      * For testing!
+     *
      * @param factory
      */
     public void setDeviceSupportFactory(DeviceSupportFactory factory) {
@@ -282,6 +284,7 @@ public class DeviceCommunicationService extends Service {
     /**
      * Disposes the current DeviceSupport instance (if any) and sets a new device support instance
      * (if not null).
+     *
      * @param deviceSupport
      */
     private void setDeviceSupport(@Nullable DeviceSupport deviceSupport) {

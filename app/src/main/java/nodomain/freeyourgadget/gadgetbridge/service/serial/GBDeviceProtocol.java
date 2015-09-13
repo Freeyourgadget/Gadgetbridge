@@ -2,9 +2,9 @@ package nodomain.freeyourgadget.gadgetbridge.service.serial;
 
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
-import nodomain.freeyourgadget.gadgetbridge.model.NotificationKind;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 
 public abstract class GBDeviceProtocol {
 
@@ -48,7 +48,7 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
-    public byte[] encodeAppStart(UUID uuid) {
+    public byte[] encodeAppStart(UUID uuid, boolean start) {
         return null;
     }
 
