@@ -2,6 +2,9 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 
 import android.util.Pair;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,8 +16,6 @@ import java.util.Random;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleColor;
-import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleIconID;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppManagement;
@@ -24,9 +25,11 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificati
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleColor;
+import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleIconID;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
-import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 
 public class PebbleProtocol extends GBDeviceProtocol {
@@ -621,7 +624,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 color_id = PebbleColor.VividViolet;
                 break;
             default:
-                switch(notificationKind){
+                switch (notificationKind) {
                     case TWITTER:
                         icon_id = PebbleIconID.NOTIFICATION_TWITTER;
                         color_id = PebbleColor.BlueMoon;
@@ -1171,6 +1174,26 @@ public class PebbleProtocol extends GBDeviceProtocol {
         }
 
         return buf.array();
+    }
+
+    public byte[] encodeApplicationMessageFromJSON(UUID uuid, JSONArray jsonArray) {
+        ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                String type = (String) jsonObject.get("type");
+                int key = (int) jsonObject.get("key");
+                if (type.equals("uint") || type.equals("int")) {
+                    pairs.add(new Pair<>(key, (Object) jsonObject.getInt("value")));
+                } else if (type.equals("string")) {
+                    pairs.add(new Pair<>(key, (Object) jsonObject.getString("value")));
+                }
+            } catch (JSONException e) {
+                return null;
+            }
+        }
+
+        return encodeApplicationMessagePush(ENDPOINT_APPLICATIONMESSAGE, uuid, pairs);
     }
 
     private static byte reverseBits(byte in) {
