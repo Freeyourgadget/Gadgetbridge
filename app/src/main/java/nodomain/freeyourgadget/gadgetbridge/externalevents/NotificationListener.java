@@ -156,16 +156,26 @@ public class NotificationListener extends NotificationListenerService {
 
         // Set application icons for generic notifications
         NotificationKind notificationKind;
-        if (source.equals("org.mariotaku.twidere") ||
-                source.equals("com.twitter.android") ||
-                source.equals("org.andstatus.app")) {
-            notificationKind = NotificationKind.TWITTER;
-        } else if (source.equals("com.fsck.k9")) {
-            notificationKind = NotificationKind.EMAIL;
-        } else if (source.equals("eu.siacs.conversations")) {
-            notificationKind = NotificationKind.CHAT;
-        } else {
-            notificationKind = NotificationKind.UNDEFINED;
+        switch (source) {
+            case "org.mariotaku.twidere":
+            case "com.twitter.android":
+            case "org.andstatus.app":
+            case "org.mustard.android":
+                notificationKind = NotificationKind.TWITTER;
+                break;
+            case "com.fsck.k9":
+            case "com.android.email":
+                notificationKind = NotificationKind.EMAIL;
+                break;
+            case "eu.siacs.conversations":
+                notificationKind = NotificationKind.CHAT;
+                break;
+            case "org.indywidualni.fblite":
+                notificationKind = NotificationKind.FACEBOOK;
+                break;
+            default:
+                notificationKind = NotificationKind.UNDEFINED;
+                break;
         }
 
         LOG.info("Processing notification from source " + source);
