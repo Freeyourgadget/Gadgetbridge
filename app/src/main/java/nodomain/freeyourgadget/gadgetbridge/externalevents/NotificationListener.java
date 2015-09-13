@@ -35,6 +35,8 @@ public class NotificationListener extends NotificationListenerService {
             = "nodomain.freeyourgadget.gadgetbridge.notificationlistener.action.dismiss_all";
     public static final String ACTION_OPEN
             = "nodomain.freeyourgadget.gadgetbridge.notificationlistener.action.open";
+    public static final String ACTION_REPLY
+            = "nodomain.freeyourgadget.gadgetbridge.notificationlistener.action.reply";
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @SuppressLint("NewApi")
