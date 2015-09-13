@@ -132,7 +132,6 @@ public class NotificationListener extends NotificationListenerService {
                 source.equals("com.android.systemui") ||
                 source.equals("com.android.dialer") ||
                 source.equals("com.android.mms") ||
-                source.equals("com.moez.QKSMS") ||
                 source.equals("com.cyanogenmod.eleven")) {
             return;
         }
@@ -145,6 +144,12 @@ public class NotificationListener extends NotificationListenerService {
 
         if (source.equals("com.fsck.k9")) {
             if (!"never".equals(sharedPrefs.getString("notification_mode_k9mail", "when_screen_off"))) {
+                return;
+            }
+        }
+
+        if (source.equals("com.moez.QKSMS")) {
+            if (!"never".equals(sharedPrefs.getString("notification_mode_sms", "when_screen_off"))) {
                 return;
             }
         }
@@ -166,6 +171,9 @@ public class NotificationListener extends NotificationListenerService {
             case "com.fsck.k9":
             case "com.android.email":
                 notificationKind = NotificationKind.EMAIL;
+                break;
+            case "com.moez.QKSMS":
+                notificationKind = NotificationKind.SMS;
                 break;
             case "eu.siacs.conversations":
                 notificationKind = NotificationKind.CHAT;
