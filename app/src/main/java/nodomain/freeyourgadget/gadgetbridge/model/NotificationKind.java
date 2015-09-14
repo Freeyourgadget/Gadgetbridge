@@ -7,5 +7,6 @@ public enum NotificationKind {
     CHAT,
     EMAIL,
     FACEBOOK,
+    SMS,
     TWITTER,
 }

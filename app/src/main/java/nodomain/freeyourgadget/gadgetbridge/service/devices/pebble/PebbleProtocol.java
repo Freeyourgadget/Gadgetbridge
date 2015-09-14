@@ -635,6 +635,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         icon_id = PebbleIconID.GENERIC_EMAIL;
                         color_id = PebbleColor.JaegerGreen;
                         break;
+                    case SMS:
+                        icon_id = PebbleIconID.GENERIC_SMS;
+                        color_id = PebbleColor.VividViolet;
+                        break;
                     case FACEBOOK:
                         icon_id = PebbleIconID.NOTIFICATION_FACEBOOK;
                         color_id = PebbleColor.VeryLightBlue;
