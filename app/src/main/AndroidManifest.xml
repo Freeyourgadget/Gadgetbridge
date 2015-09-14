@@ -230,6 +230,7 @@
             <intent-filter>
                 <action android:name="com.andrew.apollo.metachanged" />
                 <action android:name="com.cyanogenmod.eleven.metachanged" />
+                <action android:name="com.spotify.music.metadatachanged" />
             </intent-filter>
         </receiver>
         <receiver
