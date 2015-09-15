@@ -22,8 +22,8 @@ import org.slf4j.LoggerFactory;
 import java.util.HashSet;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationKind;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
 public class NotificationListener extends NotificationListenerService {
 
@@ -131,7 +131,6 @@ public class NotificationListener extends NotificationListenerService {
         if (source.equals("android") ||
                 source.equals("com.android.systemui") ||
                 source.equals("com.android.dialer") ||
-                source.equals("com.android.mms") ||
                 source.equals("com.cyanogenmod.eleven")) {
             return;
         }
@@ -148,7 +147,7 @@ public class NotificationListener extends NotificationListenerService {
             }
         }
 
-        if (source.equals("com.moez.QKSMS")) {
+        if (source.equals("com.moez.QKSMS") || source.equals("com.android.mms")) {
             if (!"never".equals(sharedPrefs.getString("notification_mode_sms", "when_screen_off"))) {
                 return;
             }
