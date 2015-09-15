@@ -228,9 +228,7 @@
             android:name=".externalevents.MusicPlaybackReceiver"
             android:enabled="false">
             <intent-filter>
-                <action android:name="com.andrew.apollo.metachanged" />
-                <action android:name="com.cyanogenmod.eleven.metachanged" />
-                <action android:name="com.spotify.music.metadatachanged" />
+                <action android:name="com.android.music.metachanged"/>
             </intent-filter>
         </receiver>
         <receiver

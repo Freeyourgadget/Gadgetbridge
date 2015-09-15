@@ -7,6 +7,10 @@
             android:defaultValue="false"
             android:key="general_autoconnectonbluetooth"
             android:title="@string/pref_title_general_autoconnectonbluetooth" />
+        <ListPreference
+            android:defaultValue="default"
+             android:key="audio_player"
+            android:title="@string/pref_title_audo_player" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="pref_key_datetime"
@@ -60,26 +64,26 @@
         android:key="pref_key_device_specific_category"
         android:title="@string/preferences_category_device_specific_settings">
         <Preference
-            android:key="pref_key_miband"
             android:icon="@drawable/ic_device_miband"
+            android:key="pref_key_miband"
             android:title="@string/preferences_miband_settings" />
         <PreferenceScreen
-            android:key="pref_key_pebble"
             android:icon="@drawable/ic_device_pebble"
-            android:title="@string/pref_title_pebble_settings" >
+            android:key="pref_key_pebble"
+            android:title="@string/pref_title_pebble_settings">
             <PreferenceCategory
                 android:key="pref_key_development"
                 android:title="@string/pref_header_development">
                 <CheckBoxPreference
                     android:defaultValue="false"
                     android:key="pebble_force_protocol"
-                    android:title="@string/pref_title_pebble_forceprotocol"
-                    android:summary="@string/pref_summary_pebble_forceprotocol" />
+                    android:summary="@string/pref_summary_pebble_forceprotocol"
+                    android:title="@string/pref_title_pebble_forceprotocol" />
                 <CheckBoxPreference
                     android:defaultValue="false"
                     android:key="pebble_force_untested"
-                    android:title="@string/pref_title_pebble_forceuntested"
-                    android:summary="@string/pref_summary_pebble_forceuntested" />
+                    android:summary="@string/pref_summary_pebble_forceuntested"
+                    android:title="@string/pref_title_pebble_forceuntested" />
                 <EditTextPreference
                     android:digits="0123456789."
                     android:key="pebble_emu_addr"

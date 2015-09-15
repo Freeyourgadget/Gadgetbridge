@@ -18,19 +18,6 @@ public class MusicPlaybackReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        String action = intent.getAction();
-        int lastDot = action.lastIndexOf(".");
-        String source = action.substring(0, lastDot);
-
-        if (!source.equals(mLastSource)) {
-            mLastSource = source;
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-            SharedPreferences.Editor edit = sharedPrefs.edit();
-            edit.putString("last_audiosource", mLastSource);
-            LOG.info("set last audiosource to " + mLastSource);
-            edit.apply();
-        }
-
         String artist = intent.getStringExtra("artist");
         String album = intent.getStringExtra("album");
         String track = intent.getStringExtra("track");

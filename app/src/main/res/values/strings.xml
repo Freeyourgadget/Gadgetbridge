@@ -33,7 +33,8 @@
 
     <string name="pref_header_general">General Settings</string>
     <string name="pref_title_general_autoconnectonbluetooth">Connect to device when Bluetooth turned on</string>
-
+    <string name="pref_title_audo_player">Preferred audio player</string>
+    <string name="pref_default">default</string>
     <string name="pref_header_datetime">Date and Time</string>
     <string name="pref_title_datetime_syctimeonconnect">Sync time</string>
     <string name="pref_summary_datetime_syctimeonconnect">Sync time to device when connecting and when time or timezone changes on Android</string>
