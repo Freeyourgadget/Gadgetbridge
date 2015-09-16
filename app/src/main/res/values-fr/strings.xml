@@ -61,7 +61,7 @@
   <string name="cannot_connect_bt_address_invalid_">Ne peut être connecter. L’adresse bluetooth est invalide? </string>
   <string name="gadgetbridge_running">Gadgetbridge est en fonctionnement</string>
   <string name="installing_binary_d_d">Installation du binaire %1$d/%2$d</string>
-  <string name="installation_failed_">Echec d'installation</string>
+  <string name="installation_failed_">Echec d\'installation</string>
   <string name="installation_successful">Installation réalisé</string>
   <string name="firmware_install_warning">VOUS ÊTES EN TRAIN D\'INSTALLER UN FIRMWARE, PROCEDEZ À VOS PROPRES RISQUES. CE FIRMWARE EST POUR LA VERSION HW: %s</string>
   <string name="app_install_info">Vous êtes sur le point d\'installer l\'application suivante:\n\n\n%1$s Version %2$s par %3$s\n</string>
