@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationKind;
 
 public class PebbleReceiver extends BroadcastReceiver {
 
@@ -46,6 +47,7 @@ public class PebbleReceiver extends BroadcastReceiver {
             return;
         }
 
+
         String notificationData = intent.getStringExtra("notificationData");
         try {
             JSONArray notificationJSON = new JSONArray(notificationData);
@@ -57,7 +59,12 @@ public class PebbleReceiver extends BroadcastReceiver {
         }
 
         if (title != null && body != null) {
-            GBApplication.deviceService().onSMS(title, body);
+            NotificationKind notificationKind = NotificationKind.UNDEFINED;
+            String sender = intent.getStringExtra("sender");
+            if ("Conversations".equals(sender)) {
+                notificationKind = NotificationKind.CHAT;
+            }
+            GBApplication.deviceService().onGenericNotification(title, body, -1, notificationKind);
         }
     }
 }

@@ -383,11 +383,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         if (isFw3x) {
             // 3.x notification
-            //return encodeTimelinePin(id, (int) (ts + 600 & 0xffffffff), (short) 90, ICON_TIMELINE_CALENDAR, title); // really, this is just for testing
-            return encodeBlobdbNotification(id, (int) (ts & 0xffffffff), title, subtitle, body, type, hasHandle, notificationKind);
+            //return encodeTimelinePin(id, (int) ((ts + 600) & 0xffffffffL), (short) 90, PebbleIconID.TIMELINE_CALENDAR, title); // really, this is just for testing
+            return encodeBlobdbNotification(id, (int) (ts & 0xffffffffL), title, subtitle, body, type, hasHandle, notificationKind);
         } else if (mForceProtocol || type != NOTIFICATION_EMAIL) {
             // 2.x notification
-            return encodeExtensibleNotification(id, (int) (ts & 0xffffffff), title, subtitle, body, type, hasHandle);
+            return encodeExtensibleNotification(id, (int) (ts & 0xffffffffL), title, subtitle, body, type, hasHandle);
         } else {
             // 1.x notification on FW 2.X
             String[] parts = {title, body, ts.toString(), subtitle};
@@ -408,7 +408,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeGenericNotification(String title, String details, int handle, NotificationKind notificationKind) {
-        return encodeNotification(handle, title, null, details, NOTIFICATION_UNDEFINED, true, notificationKind);
+        return encodeNotification(handle, title, null, details, NOTIFICATION_UNDEFINED, handle != -1, notificationKind);
     }
 
     @Override
