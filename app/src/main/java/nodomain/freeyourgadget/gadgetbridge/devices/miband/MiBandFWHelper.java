@@ -32,6 +32,10 @@ public class MiBandFWHelper {
             16779547,  //1.0.9.27 tested by developer
             16779568, //1.0.9.48 tested by developer
             16779585, //1.0.9.65 tested by developer
+            16779779, //1.0.10.3 reported on the wiki
+            16779782, //1.0.10.6 reported on the wikiew
+            16779787, //1.0.10.11 tested by developer
+            16779790, //1.0.10.14 reported on the wiki
     };
 
     public MiBandFWHelper(Uri uri, Context context) throws IOException {
