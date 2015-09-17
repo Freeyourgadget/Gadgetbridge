@@ -1218,6 +1218,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
             length += 7; // key + type + length
             if (pair.second instanceof Integer) {
                 length += 4;
+            }
+            if (pair.second instanceof Short) {
+                length += 2;
+            }
+            if (pair.second instanceof Byte) {
+                length += 1;
             } else if (pair.second instanceof String) {
                 length += ((String) pair.second).length() + 1;
             } else if (pair.second instanceof byte[]) {
@@ -1235,13 +1241,21 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putLong(uuid.getLeastSignificantBits());
         buf.put((byte) pairs.size());
 
-        buf.order(ByteOrder.LITTLE_ENDIAN); // Um, yes, really
+        buf.order(ByteOrder.LITTLE_ENDIAN);
         for (Pair<Integer, Object> pair : pairs) {
             buf.putInt(pair.first);
             if (pair.second instanceof Integer) {
                 buf.put(TYPE_INT);
-                buf.putShort((short) 4); // length of int
+                buf.putShort((short) 4); // length
                 buf.putInt((int) pair.second);
+            } else if (pair.second instanceof Short) {
+                buf.put(TYPE_INT);
+                buf.putShort((short) 2); // length
+                buf.putShort((short) pair.second);
+            } else if (pair.second instanceof Byte) {
+                buf.put(TYPE_INT);
+                buf.putShort((short) 1); // length
+                buf.put((byte) pair.second);
             } else if (pair.second instanceof String) {
                 String str = (String) pair.second;
                 buf.put(TYPE_CSTRING);
@@ -1266,13 +1280,29 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
                 String type = (String) jsonObject.get("type");
                 int key = (int) jsonObject.get("key");
-                if (type.equals("uint") || type.equals("int")) {
-                    pairs.add(new Pair<>(key, (Object) jsonObject.getInt("value")));
-                } else if (type.equals("string")) {
-                    pairs.add(new Pair<>(key, (Object) jsonObject.getString("value")));
-                } else if (type.equals("bytes")) {
-                    byte[] bytes = Base64.decode(jsonObject.getString("value"), Base64.NO_WRAP);
-                    pairs.add(new Pair<>(key, (Object) bytes));
+                int length = (int) jsonObject.get("length");
+                switch (type) {
+                    case "uint":
+                    case "int":
+                        if (length == 1) {
+                            pairs.add(new Pair<>(key, (Object) (byte) jsonObject.getInt("value")));
+                        } else if (length == 2) {
+                            pairs.add(new Pair<>(key, (Object) (short) jsonObject.getInt("value")));
+                        } else {
+                            if (type.equals("uint")) {
+                                pairs.add(new Pair<>(key, (Object) (int) (jsonObject.getInt("value") & 0xffffffffL)));
+                            } else {
+                                pairs.add(new Pair<>(key, (Object) jsonObject.getInt("value")));
+                            }
+                        }
+                        break;
+                    case "string":
+                        pairs.add(new Pair<>(key, (Object) jsonObject.getString("value")));
+                        break;
+                    case "bytes":
+                        byte[] bytes = Base64.decode(jsonObject.getString("value"), Base64.NO_WRAP);
+                        pairs.add(new Pair<>(key, (Object) bytes));
+                        break;
                 }
             } catch (JSONException e) {
                 return null;
