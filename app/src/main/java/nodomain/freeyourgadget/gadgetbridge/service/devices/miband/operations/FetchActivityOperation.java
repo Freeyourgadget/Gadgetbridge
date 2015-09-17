@@ -111,14 +111,14 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
 
             // counter of all data held by the band
             int totalDataToRead = (value[7] & 0xff) | ((value[8] & 0xff) << 8);
-            totalDataToRead *= (dataType == 1) ? 3 : 1;
+            totalDataToRead *= (dataType == MiBandService.MODE_REGULAR_DATA_LEN_MINUTE) ? 3 : 1;
 
 
             // counter of this data block
             int dataUntilNextHeader = (value[9] & 0xff) | ((value[10] & 0xff) << 8);
-            dataUntilNextHeader *= (dataType == 1) ? 3 : 1;
+            dataUntilNextHeader *= (dataType == MiBandService.MODE_REGULAR_DATA_LEN_MINUTE) ? 3 : 1;
 
-            // there is a total of totalDataToRead that will come in chunks (3 bytes per minute if dataType == 1),
+            // there is a total of totalDataToRead that will come in chunks (3 bytes per minute if dataType == 1 (MiBandService.MODE_REGULAR_DATA_LEN_MINUTE)),
             // these chunks are usually 20 bytes long and grouped in blocks
             // after dataUntilNextHeader bytes we will get a new packet of 11 bytes that should be parsed
             // as we just did
