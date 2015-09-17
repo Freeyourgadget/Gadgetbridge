@@ -97,6 +97,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
         final ListPreference audioPlayer = (ListPreference) findPreference("audio_player");
         audioPlayer.setEntries(newEntries);
         audioPlayer.setEntryValues(newValues);
+        audioPlayer.setDefaultValue(newValues[0]);
     }
 
     @Override
@@ -107,6 +108,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 "notification_mode_k9mail",
                 "pebble_emu_addr",
                 "pebble_emu_port",
+                "pebble_reconnect_attempts",
         };
     }
 

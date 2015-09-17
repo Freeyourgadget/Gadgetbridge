@@ -85,6 +85,12 @@
                     android:summary="@string/pref_summary_pebble_forceuntested"
                     android:title="@string/pref_title_pebble_forceuntested" />
                 <EditTextPreference
+                    android:inputType="number"
+                    android:key="pebble_reconnect_attempts"
+                    android:defaultValue="12"
+                    android:maxLength="4"
+                    android:title="@string/pref_title_pebble_reconnect_attempts" />
+                <EditTextPreference
                     android:digits="0123456789."
                     android:key="pebble_emu_addr"
                     android:maxLength="15"

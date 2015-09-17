@@ -56,6 +56,8 @@ public class PebbleIoThread extends GBDeviceIoThread {
     public static final String PEBBLEKIT_ACTION_APP_START = "com.getpebble.action.app.START";
     public static final String PEBBLEKIT_ACTION_APP_STOP = "com.getpebble.action.app.STOP";
 
+    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+
     private final PebbleProtocol mPebbleProtocol;
     private final PebbleSupport mPebbleSupport;
     private boolean mIsTCP = false;
@@ -67,7 +69,6 @@ public class PebbleIoThread extends GBDeviceIoThread {
     private boolean mQuit = false;
     private boolean mIsConnected = false;
     private boolean mIsInstalling = false;
-    private int mConnectionAttempts = 0;
 
     private PBWReader mPBWReader = null;
     private int mAppInstallToken = -1;
@@ -148,7 +149,6 @@ public class PebbleIoThread extends GBDeviceIoThread {
             return false;
         }
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         mPebbleProtocol.setForceProtocol(sharedPrefs.getBoolean("pebble_force_protocol", false));
         gbDevice.setState(GBDevice.State.CONNECTED);
         gbDevice.sendDeviceUpdateIntent(getContext());
@@ -311,13 +311,13 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     gbDevice.setState(GBDevice.State.CONNECTING);
                     gbDevice.sendDeviceUpdateIntent(getContext());
 
-                    while (mConnectionAttempts++ < 10 && !mQuit) {
-                        LOG.info("Trying to reconnect (attempt " + mConnectionAttempts + ")");
+                    int reconnectAttempts = Integer.valueOf(sharedPrefs.getString("pebble_reconnect_attempts", "10"));
+                    while (reconnectAttempts-- > 0 && !mQuit) {
+                        LOG.info("Trying to reconnect (attempts left " + reconnectAttempts + ")");
                         mIsConnected = connect(gbDevice.getAddress());
                         if (mIsConnected)
                             break;
                     }
-                    mConnectionAttempts = 0;
                     if (!mIsConnected) {
                         mBtSocket = null;
                         LOG.info("Bluetooth socket closed, will quit IO Thread");
@@ -341,7 +341,6 @@ public class PebbleIoThread extends GBDeviceIoThread {
     }
 
     private void enablePebbleKitReceiver(boolean enable) {
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         boolean force_untested = sharedPrefs.getBoolean("pebble_force_untested", false);
 
         if (enable && force_untested) {
@@ -403,7 +402,6 @@ public class PebbleIoThread extends GBDeviceIoThread {
     private boolean evaluateGBDeviceEventPebble(GBDeviceEvent deviceEvent) {
 
         if (deviceEvent instanceof GBDeviceEventVersionInfo) {
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
             if (sharedPrefs.getBoolean("datetime_synconconnect", true)) {
                 LOG.info("syncing time");
                 write(mPebbleProtocol.encodeSetTime());
