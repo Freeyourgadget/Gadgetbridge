@@ -94,7 +94,7 @@ public class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
-    public void onAppStart(UUID uuid) {
+    public void onAppStart(UUID uuid, boolean start) {
 
     }
 
