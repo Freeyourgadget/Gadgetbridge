@@ -32,6 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppManagement;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppMessage;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PBWReader;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleInstallable;
@@ -92,10 +93,11 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 case PEBBLEKIT_ACTION_APP_STOP:
                     uuid = (UUID) intent.getSerializableExtra("uuid");
                     if (uuid != null) {
-                        write(mPebbleProtocol.encodeAppStart(uuid, action == PEBBLEKIT_ACTION_APP_START));
+                        write(mPebbleProtocol.encodeAppStart(uuid, action.equals(PEBBLEKIT_ACTION_APP_START)));
                     }
                     break;
                 case PEBBLEKIT_ACTION_APP_SEND:
+                    int transaction_id = intent.getIntExtra("transaction_id", -1);
                     uuid = (UUID) intent.getSerializableExtra("uuid");
                     String jsonString = intent.getStringExtra("msg_data");
                     LOG.info("json string: " + jsonString);
@@ -103,13 +105,47 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     try {
                         JSONArray jsonArray = new JSONArray(jsonString);
                         write(mPebbleProtocol.encodeApplicationMessageFromJSON(uuid, jsonArray));
+                        sendAppMessageAck(transaction_id);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     break;
+                case PEBBLEKIT_ACTION_APP_ACK:
+                    // we do not get a uuid and cannot map a transaction id to it, so we ack in PebbleProtocol early
+                    /*
+                    uuid = (UUID) intent.getSerializableExtra("uuid");
+                    int transaction_id = intent.getIntExtra("transaction_id", -1);
+                    if (transaction_id >= 0 && transaction_id <= 255) {
+                        write(mPebbleProtocol.encodeApplicationMessageAck(uuid, (byte) transaction_id));
+                    } else {
+                        LOG.warn("illegal transacktion id " + transaction_id);
+                    }
+                    */
+                    break;
             }
         }
     };
+
+    private void sendAppMessageIntent(GBDeviceEventAppMessage appMessage) {
+        Intent intent = new Intent();
+        intent.setAction(PEBBLEKIT_ACTION_APP_RECEIVE);
+        intent.putExtra("uuid", appMessage.appUUID);
+        intent.putExtra("msg_data", appMessage.message);
+        intent.putExtra("transaction_id", appMessage.id);
+        LOG.info("broadcasting to uuid " + appMessage.appUUID + " transaction id: " + appMessage.id + " JSON: " + appMessage.message);
+        getContext().sendBroadcast(intent);
+    }
+
+    private void sendAppMessageAck(int transactionId) {
+        if (transactionId > 0 && transactionId <= 255) {
+            Intent intent = new Intent();
+            intent.setAction(PEBBLEKIT_ACTION_APP_RECEIVE_ACK);
+            intent.putExtra("transaction_id", transactionId);
+            LOG.info("broadcasting ACK (transaction id " + transactionId + ")");
+            getContext().sendBroadcast(intent);
+        }
+    }
 
     public PebbleIoThread(PebbleSupport pebbleSupport, GBDevice gbDevice, GBDeviceProtocol gbDeviceProtocol, BluetoothAdapter btAdapter, Context context) {
         super(gbDevice, context);
@@ -347,14 +383,9 @@ public class PebbleIoThread extends GBDeviceIoThread {
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction(PEBBLEKIT_ACTION_APP_ACK);
             intentFilter.addAction(PEBBLEKIT_ACTION_APP_NACK);
-            intentFilter.addAction(PEBBLEKIT_ACTION_APP_RECEIVE);
-            intentFilter.addAction(PEBBLEKIT_ACTION_APP_RECEIVE_ACK);
-            intentFilter.addAction(PEBBLEKIT_ACTION_APP_RECEIVE_NACK);
             intentFilter.addAction(PEBBLEKIT_ACTION_APP_SEND);
             intentFilter.addAction(PEBBLEKIT_ACTION_APP_START);
             intentFilter.addAction(PEBBLEKIT_ACTION_APP_STOP);
-            intentFilter.addAction(PEBBLEKIT_ACTION_PEBBLE_CONNECTED);
-            intentFilter.addAction(PEBBLEKIT_ACTION_PEBBLE_DISCONNECTED);
             try {
                 getContext().registerReceiver(mPebbleKitReceiver, intentFilter);
             } catch (IllegalArgumentException e) {
@@ -475,7 +506,13 @@ public class PebbleIoThread extends GBDeviceIoThread {
             GBDeviceEventAppInfo appInfoEvent = (GBDeviceEventAppInfo) deviceEvent;
             setInstallSlot(appInfoEvent.freeSlot);
             return false;
+        } else if (deviceEvent instanceof GBDeviceEventAppMessage) {
+            if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
+                LOG.info("Got AppMessage event");
+                sendAppMessageIntent((GBDeviceEventAppMessage) deviceEvent);
+            }
         }
+
         return false;
     }
 

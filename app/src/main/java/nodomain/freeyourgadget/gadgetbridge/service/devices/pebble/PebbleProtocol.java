@@ -20,6 +20,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppManagement;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppMessage;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
@@ -189,8 +190,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     static final byte TYPE_BYTEARRAY = 0;
     static final byte TYPE_CSTRING = 1;
-    static final byte TYPE_UINT32 = 2;
-    static final byte TYPE_INT32 = 3;
+    static final byte TYPE_UINT = 2;
+    static final byte TYPE_INT = 3;
 
     static final short LENGTH_PREFIX = 4;
     static final short LENGTH_SIMPLEMESSAGE = 1;
@@ -1123,10 +1124,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
         while (dictSize-- > 0) {
             Integer key = buf.getInt();
             byte type = buf.get();
-            short length = buf.getShort(); // length
+            short length = buf.getShort();
             switch (type) {
-                case TYPE_INT32:
-                case TYPE_UINT32:
+                case TYPE_INT:
+                case TYPE_UINT:
                     dict.add(new Pair<Integer, Object>(key, buf.getInt()));
                     break;
                 case TYPE_CSTRING:
@@ -1143,6 +1144,72 @@ public class PebbleProtocol extends GBDeviceProtocol {
             }
         }
         return dict;
+    }
+
+    private GBDeviceEvent[] decodeDictToJSONAppMessage(UUID uuid, ByteBuffer buf) throws JSONException {
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        byte dictSize = buf.get();
+        if (dictSize == 0) {
+            LOG.info("dict size is 0, ignoring");
+            return null;
+        }
+        JSONArray jsonArray = new JSONArray();
+        while (dictSize-- > 0) {
+            JSONObject jsonObject = new JSONObject();
+            Integer key = buf.getInt();
+            byte type = buf.get();
+            short length = buf.getShort();
+            jsonObject.put("key", key);
+            jsonObject.put("length", length);
+            switch (type) {
+                case TYPE_UINT:
+                    jsonObject.put("type", "uint");
+                    if (length == 1) {
+                        jsonObject.put("value", buf.get() & 0xff);
+                    } else if (length == 2) {
+                        jsonObject.put("value", buf.getShort() & 0xffff);
+                    } else {
+                        jsonObject.put("value", buf.getInt() & 0xffffffffL);
+                    }
+                    break;
+                case TYPE_INT:
+                    jsonObject.put("type", "int");
+                    if (length == 1) {
+                        jsonObject.put("value", buf.get());
+                    } else if (length == 2) {
+                        jsonObject.put("value", buf.getShort());
+                    } else {
+                        jsonObject.put("value", buf.getInt());
+                    }
+                    break;
+                case TYPE_BYTEARRAY:
+                case TYPE_CSTRING:
+                    byte[] bytes = new byte[length];
+                    buf.get(bytes);
+                    if (type == TYPE_BYTEARRAY) {
+                        jsonObject.put("type", "bytes");
+                        jsonObject.put("value", Base64.encode(bytes, Base64.NO_WRAP));
+                    } else {
+                        jsonObject.put("type", "string");
+                        jsonObject.put("value", Arrays.toString(bytes));
+                    }
+                    break;
+                default:
+                    LOG.info("unknown type in appmessage, ignoring");
+                    return null;
+            }
+            jsonArray.put(jsonObject);
+        }
+
+        // this is a hack we send an ack to the Pebble immediately because we cannot map the transaction_id from the intent back to a uuid yet
+        GBDeviceEventSendBytes sendBytesAck = new GBDeviceEventSendBytes();
+        sendBytesAck.encodedBytes = encodeApplicationMessageAck(uuid, last_id);
+
+        GBDeviceEventAppMessage appMessage = new GBDeviceEventAppMessage();
+        appMessage.appUUID = uuid;
+        appMessage.id = last_id & 0xff;
+        appMessage.message = jsonArray.toString();
+        return new GBDeviceEvent[]{appMessage, sendBytesAck};
     }
 
     byte[] encodeApplicationMessagePush(short endpoint, UUID uuid, ArrayList<Pair<Integer, Object>> pairs) {
@@ -1172,7 +1239,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         for (Pair<Integer, Object> pair : pairs) {
             buf.putInt(pair.first);
             if (pair.second instanceof Integer) {
-                buf.put(TYPE_INT32);
+                buf.put(TYPE_INT);
                 buf.putShort((short) 4); // length of int
                 buf.putInt((int) pair.second);
             } else if (pair.second instanceof String) {
@@ -1599,6 +1666,13 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         } else if (GadgetbridgePblSupport.uuid.equals(uuid)) {
                             ArrayList<Pair<Integer, Object>> dict = decodeDict(buf);
                             devEvts = mGadgetbridgePblSupport.handleMessage(dict);
+                        } else {
+                            try {
+                                devEvts = decodeDictToJSONAppMessage(uuid, buf);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                return null;
+                            }
                         }
                         break;
                     case APPLICATIONMESSAGE_ACK:
