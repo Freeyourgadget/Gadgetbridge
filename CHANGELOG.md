@@ -2,10 +2,12 @@
 
 ####Next Version
 * Pebble: WIP implementantion of PebbleKit Intents to make some 3rd party Android apps work with the Pebble (eg. Ventoo)
-* Pebble: Option to set reconnect attempts in settings (one attempt ususally takes about 5 seconds)
+* Pebble: Option to set reconnect attempts in settings (one attempt usually takes about 5 seconds)
 * Support contolling all audio players that react to media buttons (can be chosen in settings)
 * Treat SMS as generic notification if set to "never" (can be blacklisted there also if desired)
 * Treat Conversations messagess as chat messages, even if arrived via Pebble Intents (nice icon for Pebble FW 3.x)
+* Allow opening firmware / app files from the download manager "app" (technically a content provider)
+* Miband: withelisted a few firmware versions
 
 ####Version 0.5.4
 * Miband: allow the transfer of activity data without clearing MiBand's memory
