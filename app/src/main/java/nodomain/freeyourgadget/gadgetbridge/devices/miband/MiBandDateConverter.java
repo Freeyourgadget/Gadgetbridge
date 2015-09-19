@@ -5,23 +5,43 @@ import java.util.GregorianCalendar;
 
 public class MiBandDateConverter {
     /**
+     * Creates a calendar object representing the current date and time.
+     */
+    public static GregorianCalendar createCalendar() {
+        return new GregorianCalendar();
+    }
+
+    /**
      * uses the standard algorithm to convert bytes received from the MiBand to a Calendar object
      * @param value
      * @return
      */
     public static GregorianCalendar rawBytesToCalendar(byte[] value) {
-        GregorianCalendar timestamp = new GregorianCalendar();
-
         if (value.length == 6) {
-            timestamp.set(Calendar.YEAR, (2000 + value[0]));
-            timestamp.set(Calendar.MONTH, value[1]);
-            timestamp.set(Calendar.DATE, value[2]);
-            timestamp.set(Calendar.HOUR_OF_DAY, value[3]);
-            timestamp.set(Calendar.MINUTE, value[4]);
-            timestamp.set(Calendar.SECOND, value[5]);
+            return rawBytesToCalendar(value, 0);
+        }
+        return createCalendar();
+    }
+
+    /**
+     * uses the standard algorithm to convert bytes received from the MiBand to a Calendar object
+     * @param value
+     * @return
+     */
+    public static GregorianCalendar rawBytesToCalendar(byte[] value, int offset) {
+        if (value.length - offset >= 6) {
+            GregorianCalendar timestamp = new GregorianCalendar(
+                    value[offset] + 2000,
+                    value[offset + 1],
+                    value[offset + 2],
+                    value[offset + 3],
+                    value[offset + 4],
+                    value[offset + 5]);
+
+            return timestamp;
         }
 
-        return timestamp;
+        return createCalendar();
     }
 
     /**

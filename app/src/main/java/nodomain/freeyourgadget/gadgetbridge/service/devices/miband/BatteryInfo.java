@@ -43,7 +43,7 @@ public class BatteryInfo extends AbstractInfo {
     }
 
     public GregorianCalendar getLastChargeTime() {
-        GregorianCalendar lastCharge = new GregorianCalendar();
+        GregorianCalendar lastCharge = MiBandDateConverter.createCalendar();
 
         if (mData.length >= 10) {
             lastCharge = MiBandDateConverter.rawBytesToCalendar(new byte[]{

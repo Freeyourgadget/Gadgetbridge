@@ -107,7 +107,7 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
             // byte 0 is the data type: 1 means that each minute is represented by a triplet of bytes
             int dataType = value[0];
             // byte 1 to 6 represent a timestamp
-            GregorianCalendar timestamp = parseTimestamp(value, 1);
+            GregorianCalendar timestamp = MiBandDateConverter.rawBytesToCalendar(value, 1);
 
             // counter of all data held by the band
             int totalDataToRead = (value[7] & 0xff) | ((value[8] & 0xff) << 8);
@@ -272,16 +272,5 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
         } catch (IOException ex) {
             LOG.error("Unable to send ack to MI", ex);
         }
-    }
-
-    private GregorianCalendar parseTimestamp(byte[] value, int offset) {
-        GregorianCalendar timestamp = new GregorianCalendar(
-                value[offset] + 2000,
-                value[offset + 1],
-                value[offset + 2],
-                value[offset + 3],
-                value[offset + 4],
-                value[offset + 5]);
-        return timestamp;
     }
 }
