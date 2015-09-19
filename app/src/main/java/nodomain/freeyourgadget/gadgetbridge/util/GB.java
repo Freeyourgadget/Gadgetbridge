@@ -339,4 +339,10 @@ public class GB {
     public static GBEnvironment env() {
         return environment;
     }
+
+    public static void assertThat(boolean condition, String errorMessage) {
+        if (!condition) {
+            throw new AssertionError(errorMessage);
+        }
+    }
 }
