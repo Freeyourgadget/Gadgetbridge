@@ -1,16 +1,16 @@
 ###Changelog
 
-####Next Version
+####Version 0.6.0
 * Pebble: WIP implementantion of PebbleKit Intents to make some 3rd party Android apps work with the Pebble (eg. Ventoo)
-* Pebble: Option to set reconnect attempts in settings (one attempt usually takes about 5 seconds)
+* Pebble: Option to set reconnection attempts in settings (one attempt usually takes about 5 seconds)
 * Support contolling all audio players that react to media buttons (can be chosen in settings)
 * Treat SMS as generic notification if set to "never" (can be blacklisted there also if desired)
 * Treat Conversations messagess as chat messages, even if arrived via Pebble Intents (nice icon for Pebble FW 3.x)
 * Allow opening firmware / app files from the download manager "app" (technically a content provider)
-* Miband: withelisted a few firmware versions
+* Mi Band: whitelisted a few firmware versions
 
 ####Version 0.5.4
-* Miband: allow the transfer of activity data without clearing MiBand's memory
+* Mi Band: allow the transfer of activity data without clearing MiBand's memory
 * Pebble: for generic notifications use generic icon instead of SMS icons on FW 3.x (thanks @roidelapluie)
 * Pebble: use different icons and background colors for specific groups of applications (chat, mail, etc) (thanks @roidelapluie)
 * In settings, support blacklisting apps for generic notifications
@@ -25,7 +25,7 @@
 
 ####Version 0.5.2
 * Pebble: support "dismiss all" action also on Pebble Time/FW 3.x notifications
-* Miband: show a notification when the battery is below 10%
+* Mi Band: show a notification when the battery is below 10%
 * Graphs are now using the same theme as the rest of the application
 * Graphs now show when the device was not worn by the user (for devices that send this information)
 * Remove unused settings option in charts view
