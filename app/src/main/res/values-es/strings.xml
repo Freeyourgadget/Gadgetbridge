@@ -26,6 +26,8 @@
   <string name="title_activity_settings">Ajustes</string>
   <string name="pref_header_general">Ajustes generales</string>
   <string name="pref_title_general_autoconnectonbluetooth">Conectar al encender el bluetooth</string>
+  <string name="pref_title_audo_player">Reproductor de audio preferido</string>
+  <string name="pref_default">Predeterminado</string>
   <string name="pref_header_datetime">Fecha y hora</string>
   <string name="pref_title_datetime_syctimeonconnect">Sincronizar hora</string>
   <string name="pref_summary_datetime_syctimeonconnect">Sincroniza la hora en el dispositivo cuando se conecte o se cambie la hora o zona horaria en Android</string>
@@ -49,6 +51,7 @@
   <string name="pref_summary_pebble_forceprotocol">Esta opción fuerza el uso del último protocolo de notificación dependiendo de la versión de firmware. ¡HABILÍTALO SOLO SI SABES LO QUE ESTÁS HACIENDO!</string>
   <string name="pref_title_pebble_forceuntested">Habilitar características no probadas</string>
   <string name="pref_summary_pebble_forceuntested">Habilita características que no han sido comprobadas. ¡HABILÍTALO SOLO SI SABES LO QUE ESTÁS HACIENDO!</string>
+  <string name="pref_title_pebble_reconnect_attempts">Intentos de reconectar</string>
   <string name="not_connected">no conectado</string>
   <string name="connecting">conectando</string>
   <string name="connected">conectado</string>
