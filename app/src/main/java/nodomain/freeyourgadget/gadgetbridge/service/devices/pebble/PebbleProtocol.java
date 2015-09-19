@@ -408,7 +408,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeGenericNotification(String title, String details, int handle, NotificationKind notificationKind) {
-        return encodeNotification(handle, title, null, details, NOTIFICATION_UNDEFINED, handle != -1, notificationKind);
+        return encodeNotification(handle != -1 ? handle : mRandom.nextInt(), title, null, details, NOTIFICATION_UNDEFINED, handle != -1, notificationKind);
     }
 
     @Override
