@@ -61,6 +61,8 @@ public class PebbleIoThread extends GBDeviceIoThread {
 
     private final PebbleProtocol mPebbleProtocol;
     private final PebbleSupport mPebbleSupport;
+    private final boolean mEnablePebblekit;
+
     private boolean mIsTCP = false;
     private BluetoothAdapter mBtAdapter = null;
     private BluetoothSocket mBtSocket = null;
@@ -152,6 +154,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
         mPebbleProtocol = (PebbleProtocol) gbDeviceProtocol;
         mBtAdapter = btAdapter;
         mPebbleSupport = pebbleSupport;
+        mEnablePebblekit = sharedPrefs.getBoolean("pebble_enable_pebblekit", false);
     }
 
 
@@ -346,7 +349,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     LOG.info(e.getMessage());
                     gbDevice.setState(GBDevice.State.CONNECTING);
                     gbDevice.sendDeviceUpdateIntent(getContext());
-
+                    mIsConnected = false;
                     int reconnectAttempts = Integer.valueOf(sharedPrefs.getString("pebble_reconnect_attempts", "10"));
                     while (reconnectAttempts-- > 0 && !mQuit) {
                         LOG.info("Trying to reconnect (attempts left " + reconnectAttempts + ")");
@@ -377,9 +380,8 @@ public class PebbleIoThread extends GBDeviceIoThread {
     }
 
     private void enablePebbleKitReceiver(boolean enable) {
-        boolean force_untested = sharedPrefs.getBoolean("pebble_force_untested", false);
 
-        if (enable && force_untested) {
+        if (enable && mEnablePebblekit) {
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction(PEBBLEKIT_ACTION_APP_ACK);
             intentFilter.addAction(PEBBLEKIT_ACTION_APP_NACK);
@@ -507,7 +509,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
             setInstallSlot(appInfoEvent.freeSlot);
             return false;
         } else if (deviceEvent instanceof GBDeviceEventAppMessage) {
-            if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
+            if (mEnablePebblekit) {
                 LOG.info("Got AppMessage event");
                 sendAppMessageIntent((GBDeviceEventAppMessage) deviceEvent);
             }

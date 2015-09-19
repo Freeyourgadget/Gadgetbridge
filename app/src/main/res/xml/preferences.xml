@@ -9,7 +9,7 @@
             android:title="@string/pref_title_general_autoconnectonbluetooth" />
         <ListPreference
             android:defaultValue="default"
-             android:key="audio_player"
+            android:key="audio_player"
             android:title="@string/pref_title_audo_player" />
     </PreferenceCategory>
     <PreferenceCategory
@@ -72,6 +72,21 @@
             android:key="pref_key_pebble"
             android:title="@string/pref_title_pebble_settings">
             <PreferenceCategory
+                android:key="pref_key_general"
+                android:title="@string/pref_header_general">
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="pebble_enable_pebblekit"
+                    android:summary="@string/pref_summary_enable_pebblekit"
+                    android:title="@string/pref_title_enable_pebblekit" />
+                <EditTextPreference
+                    android:defaultValue="12"
+                    android:inputType="number"
+                    android:key="pebble_reconnect_attempts"
+                    android:maxLength="4"
+                    android:title="@string/pref_title_pebble_reconnect_attempts" />
+            </PreferenceCategory>
+            <PreferenceCategory
                 android:key="pref_key_development"
                 android:title="@string/pref_header_development">
                 <CheckBoxPreference
@@ -84,12 +99,6 @@
                     android:key="pebble_force_untested"
                     android:summary="@string/pref_summary_pebble_forceuntested"
                     android:title="@string/pref_title_pebble_forceuntested" />
-                <EditTextPreference
-                    android:inputType="number"
-                    android:key="pebble_reconnect_attempts"
-                    android:defaultValue="12"
-                    android:maxLength="4"
-                    android:title="@string/pref_title_pebble_reconnect_attempts" />
                 <EditTextPreference
                     android:digits="0123456789."
                     android:key="pebble_emu_addr"

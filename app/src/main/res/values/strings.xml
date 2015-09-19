@@ -33,7 +33,7 @@
 
     <string name="pref_header_general">General Settings</string>
     <string name="pref_title_general_autoconnectonbluetooth">Connect to device when Bluetooth turned on</string>
-    <string name="pref_title_audo_player">Preferred audio player</string>
+    <string name="pref_title_audo_player">Preferred Audioplayer</string>
     <string name="pref_default">Default</string>
     <string name="pref_header_datetime">Date and Time</string>
     <string name="pref_title_datetime_syctimeonconnect">Sync time</string>
@@ -59,6 +59,8 @@
     <string name="pref_title_development_miaddr">Mi Band address</string>
 
     <string name="pref_title_pebble_settings">Pebble Settings</string>
+    <string name="pref_title_enable_pebblekit">Allow 3rd Party Android App Access</string>
+    <string name="pref_summary_enable_pebblekit">Enable experimental support for Android Apps using PebbleKit</string>
     <string name="pref_title_pebble_forceprotocol">Force Notification Protocol</string>
     <string name="pref_summary_pebble_forceprotocol">This option forces using the latest notification protocol depending on the firmware version. ENABLE ONLY IF YOU KNOW WHAT YOU ARE DOING!</string>
     <string name="pref_title_pebble_forceuntested">Enable untested features</string>
