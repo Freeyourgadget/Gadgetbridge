@@ -460,12 +460,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
             actions_count = 2;
             dismiss_string = "Dismiss";
             dismiss_action_id = 0x02;
-            actions_length = (short) (ACTION_LENGTH_MIN * actions_count + dismiss_string.length() + open_string.length());
+            actions_length = (short) (ACTION_LENGTH_MIN * actions_count + dismiss_string.getBytes().length + open_string.getBytes().length);
         } else {
             actions_count = 1;
             dismiss_string = "Dismiss all";
             dismiss_action_id = 0x03;
-            actions_length = (short) (ACTION_LENGTH_MIN * actions_count + dismiss_string.length() + open_string.length());
+            actions_length = (short) (ACTION_LENGTH_MIN * actions_count + dismiss_string.getBytes().length);
         }
 
         byte attributes_count = 0;
@@ -523,7 +523,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put((byte) 0x04); // dismiss
         buf.put((byte) 0x01); // number attributes
         buf.put((byte) 0x01); // attribute id (title)
-        buf.putShort((short) dismiss_string.length());
+        buf.putShort((short) dismiss_string.getBytes().length);
         buf.put(dismiss_string.getBytes());
 
         // open action
@@ -532,7 +532,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             buf.put((byte) 0x02); // dissmiss - FIXME: find out how to answer to 2.x generic actions
             buf.put((byte) 0x01); // number attributes
             buf.put((byte) 0x01); // attribute id (title)
-            buf.putShort((short) open_string.length());
+            buf.putShort((short) open_string.getBytes().length);
             buf.put(open_string.getBytes());
         }
 
@@ -578,7 +578,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         byte attributes_count = 2;
         byte actions_count = 0;
 
-        int attributes_length = 10 + title.length();
+        int attributes_length = 10 + title.getBytes().length;
         int pin_length = TIMELINE_PIN_LENGTH + attributes_length;
         ByteBuffer buf = ByteBuffer.allocate(pin_length);
 
@@ -665,12 +665,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
             actions_count = 2;
             dismiss_string = "Dismiss";
             dismiss_action_id = 0x02;
-            actions_length = (short) (ACTION_LENGTH_MIN * actions_count + dismiss_string.length() + open_string.length());
+            actions_length = (short) (ACTION_LENGTH_MIN * actions_count + dismiss_string.getBytes().length + open_string.getBytes().length);
         } else {
             actions_count = 1;
             dismiss_string = "Dismiss all";
             dismiss_action_id = 0x03;
-            actions_length = (short) (ACTION_LENGTH_MIN * actions_count + dismiss_string.length() + open_string.length());
+            actions_length = (short) (ACTION_LENGTH_MIN * actions_count + dismiss_string.getBytes().length);
         }
 
         byte attributes_count = 2; // icon
@@ -738,7 +738,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put((byte) 0x02); // generic action, dismiss did not do anything
         buf.put((byte) 0x01); // number attributes
         buf.put((byte) 0x01); // attribute id (title)
-        buf.putShort((short) dismiss_string.length());
+        buf.putShort((short) dismiss_string.getBytes().length);
         buf.put(dismiss_string.getBytes());
 
         // open action
@@ -747,14 +747,14 @@ public class PebbleProtocol extends GBDeviceProtocol {
             buf.put((byte) 0x02); // generic action
             buf.put((byte) 0x01); // number attributes
             buf.put((byte) 0x01); // attribute id (title)
-            buf.putShort((short) open_string.length());
+            buf.putShort((short) open_string.getBytes().length);
             buf.put(open_string.getBytes());
         }
         return encodeBlobdb(UUID.randomUUID(), BLOBDB_INSERT, BLOBDB_NOTIFICATION, buf.array());
     }
 
     public byte[] encodeActionResponse2x(int id, int iconId, String caption) {
-        short length = (short) (18 + caption.length());
+        short length = (short) (18 + caption.getBytes().length);
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + length);
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putShort(length);
@@ -769,13 +769,13 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putShort((short) 4); // length
         buf.putInt(iconId);
         buf.put((byte) 2); // title
-        buf.putShort((short) caption.length());
+        buf.putShort((short) caption.getBytes().length);
         buf.put(caption.getBytes());
         return buf.array();
     }
 
     public byte[] encodeActionResponse(UUID uuid, int iconId, String caption) {
-        short length = (short) (29 + caption.length());
+        short length = (short) (29 + caption.getBytes().length);
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + length);
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putShort(length);
@@ -790,7 +790,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putShort((short) 4); // length
         buf.putInt(0x80000000 | iconId);
         buf.put((byte) 2); // title
-        buf.putShort((short) caption.length());
+        buf.putShort((short) caption.getBytes().length);
         buf.put(caption.getBytes());
         return buf.array();
     }
@@ -799,7 +799,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         final short METADATA_LENGTH = 126;
 
         byte[] name_buf = new byte[96];
-        System.arraycopy(appName.getBytes(), 0, name_buf, 0, appName.length());
+        System.arraycopy(appName.getBytes(), 0, name_buf, 0, appName.getBytes().length);
         ByteBuffer buf = ByteBuffer.allocate(METADATA_LENGTH);
 
         buf.order(ByteOrder.BIG_ENDIAN);
@@ -1218,14 +1218,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
             length += 7; // key + type + length
             if (pair.second instanceof Integer) {
                 length += 4;
-            }
-            if (pair.second instanceof Short) {
+            } else if (pair.second instanceof Short) {
                 length += 2;
-            }
-            if (pair.second instanceof Byte) {
+            } else if (pair.second instanceof Byte) {
                 length += 1;
             } else if (pair.second instanceof String) {
-                length += ((String) pair.second).length() + 1;
+                length += ((String) pair.second).getBytes().length + 1;
             } else if (pair.second instanceof byte[]) {
                 length += ((byte[]) pair.second).length;
             }
@@ -1259,7 +1257,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             } else if (pair.second instanceof String) {
                 String str = (String) pair.second;
                 buf.put(TYPE_CSTRING);
-                buf.putShort((short) (str.length() + 1));
+                buf.putShort((short) (str.getBytes().length + 1));
                 buf.put(str.getBytes());
                 buf.put((byte) 0);
             } else if (pair.second instanceof byte[]) {
