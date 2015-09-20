@@ -35,7 +35,7 @@ public class MiBandFWHelper {
             16779779, //1.0.10.3 reported on the wiki
             16779782, //1.0.10.6 reported on the wikiew
             16779787, //1.0.10.11 tested by developer
-            16779790, //1.0.10.14 reported on the wiki
+            //16779790, //1.0.10.14 reported on the wiki (vibration does not work currently)
     };
 
     public MiBandFWHelper(Uri uri, Context context) throws IOException {
