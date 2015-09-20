@@ -541,7 +541,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
             return;
         }
 
-        mPBWReader = new PBWReader(uri, getContext(), gbDevice.getHardwareVersion().equals("dvt") ? "basalt" : "aplite");
+        mPBWReader = new PBWReader(uri, getContext(), gbDevice.getHardwareVersion().startsWith("snowy") ? "basalt" : "aplite");
         mPebbleInstallables = mPBWReader.getPebbleInstallables();
         mCurrentInstallableIndex = 0;
 

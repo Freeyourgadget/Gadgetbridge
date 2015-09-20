@@ -214,7 +214,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     static final byte LENGTH_UUID = 16;
 
-    private static final String[] hwRevisions = {"unknown", "ev1", "ev2", "ev2_3", "ev2_4", "v1_5", "v2_0", "evt2", "dvt"};
+    // base is -4
+    private static final String[] hwRevisions = {"snowy_bb2", "snowy_bb", "bb2", "bb", "unknown", "ev1", "ev2", "ev2_3", "ev2_4", "v1_5", "v2_0", "snowy_evt2", "snowy_dvt", "unknown", "snowy_s3"};
     private static Random mRandom = new Random();
 
     boolean isFw3x = false;
@@ -1578,10 +1579,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
                 buf.get(tmp, 0, 9);
                 Byte hwRev = buf.get();
-                if (hwRev > 0 && hwRev < hwRevisions.length) {
-                    versionCmd.hwVersion = hwRevisions[hwRev];
-                } else if (hwRev == -3) { // basalt emulator
-                    versionCmd.hwVersion = "dvt";
+                if (hwRev >= -4 && hwRev < hwRevisions.length - 4) {
+                    versionCmd.hwVersion = hwRevisions[hwRev+4];
                 }
                 devEvts = new GBDeviceEvent[]{versionCmd};
                 break;
