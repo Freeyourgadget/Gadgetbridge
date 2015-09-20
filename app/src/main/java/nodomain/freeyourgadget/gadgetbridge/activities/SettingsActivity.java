@@ -104,6 +104,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
     protected String[] getPreferenceKeysWithSummary() {
         return new String[]{
                 "audio_player",
+                "notification_mode_calls",
                 "notification_mode_sms",
                 "notification_mode_k9mail",
                 "pebble_emu_addr",

@@ -26,6 +26,13 @@
         android:title="@string/pref_header_notifications">
 
         <ListPreference
+            android:defaultValue="always"
+            android:entries="@array/notification_mode_toggle"
+            android:entryValues="@array/notification_mode_values_toggle"
+            android:key="notification_mode_calls"
+            android:title="@string/pref_title_notifications_call" />
+
+        <ListPreference
             android:defaultValue="when_screen_off"
             android:entries="@array/notification_mode"
             android:entryValues="@array/notification_mode_values"

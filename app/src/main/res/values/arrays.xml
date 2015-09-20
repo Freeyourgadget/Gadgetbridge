@@ -11,6 +11,15 @@
         <item>never</item>
     </string-array>
 
+    <string-array name="notification_mode_toggle">
+        <item>@string/always</item>
+        <item>@string/never</item>
+    </string-array>
+    <string-array name="notification_mode_values_toggle">
+        <item>always</item>
+        <item>never</item>
+    </string-array>
+
     <string-array name="gender">
         <item>@string/male</item>
         <item>@string/female</item>
