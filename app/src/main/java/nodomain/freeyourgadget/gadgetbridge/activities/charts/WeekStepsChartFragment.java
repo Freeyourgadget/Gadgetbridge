@@ -194,8 +194,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         List<String> legendLabels = new ArrayList<>(1);
         legendColors.add(akActivity.color);
         legendLabels.add(getContext().getString(R.string.chart_steps));
-        chart.getLegend().setColors(legendColors);
-        chart.getLegend().setLabels(legendLabels);
+        chart.getLegend().setCustom(legendColors, legendLabels);
         chart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
     }
 

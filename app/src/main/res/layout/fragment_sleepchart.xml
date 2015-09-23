@@ -11,10 +11,10 @@
         android:layout_weight="20">
     </com.github.mikephil.charting.charts.PieChart>
 
-    <nodomain.freeyourgadget.gadgetbridge.activities.charts.CustomBarChart
+    <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/sleepchart"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
 
         android:layout_weight="20" />
 
