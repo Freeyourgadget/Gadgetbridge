@@ -222,7 +222,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             // Pebble
             "ev1", "ev2", "ev2_3", "ev2_4", "v1_5", "v2_0",
             // Pebble Time
-            "snowy_evt2", "snowy_dvt", "spalding_dvt", "snowy_s3", "spalding_pvt"
+            "snowy_evt2", "snowy_dvt", "spalding_dvt", "snowy_s3", "spalding"
     };
 
     private static Random mRandom = new Random();

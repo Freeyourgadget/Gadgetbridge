@@ -1,5 +1,9 @@
 ###Changelog
 
+####Next Version
+* Pebble: Detect all known Pebble Versions including new "chalk" platform (Pebble Time Round)
+* Option to ignore phone calls (useful for Pebble Dialer)
+
 ####Version 0.6.0
 * Pebble: WIP implementantion of PebbleKit Intents to make some 3rd party Android apps work with the Pebble (eg. Ventoo)
 * Pebble: Option to set reconnection attempts in settings (one attempt usually takes about 5 seconds)
