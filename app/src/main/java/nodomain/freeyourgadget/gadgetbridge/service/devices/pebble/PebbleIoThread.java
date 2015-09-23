@@ -541,7 +541,17 @@ public class PebbleIoThread extends GBDeviceIoThread {
             return;
         }
 
-        mPBWReader = new PBWReader(uri, getContext(), gbDevice.getHardwareVersion().startsWith("snowy") ? "basalt" : "aplite");
+        String hwRev = gbDevice.getHardwareVersion();
+        String platformName;
+        if (hwRev.startsWith("snowy")) {
+            platformName = "basalt";
+        } else if (hwRev.startsWith("spalding")) {
+            platformName = "chalk";
+        } else {
+            platformName = "aplite";
+        }
+
+        mPBWReader = new PBWReader(uri, getContext(), platformName);
         mPebbleInstallables = mPBWReader.getPebbleInstallables();
         mCurrentInstallableIndex = 0;
 

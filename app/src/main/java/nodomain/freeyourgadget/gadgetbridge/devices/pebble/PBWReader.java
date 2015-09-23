@@ -59,7 +59,7 @@ public class PBWReader {
 
     public PBWReader(Uri uri, Context context, String platform) {
         String platformDir = "";
-        if (!uri.toString().endsWith(".pbz") && platform.equals("basalt")) {
+        if (!uri.toString().endsWith(".pbz") && !platform.equals("aplite")) {
             platformDir = platform + "/";
         }
 
