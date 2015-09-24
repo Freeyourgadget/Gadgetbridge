@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -31,6 +32,7 @@ public class GBApplication extends Application {
     private static ActivityDatabaseHandler mActivityDatabaseHandler;
     private static final Lock dbLock = new ReentrantLock();
     private static DeviceService deviceService;
+    private static SharedPreferences sharedPrefs;
 
     public GBApplication() {
         context = this;
@@ -46,6 +48,8 @@ public class GBApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
         // don't do anything here before we set up logging, otherwise
         // slf4j may be implicitly initialized before we properly configured it.
         setupLogging();
@@ -57,14 +61,14 @@ public class GBApplication extends Application {
 
         GB.environment = GBEnvironment.createDeviceEnvironment();
         mActivityDatabaseHandler = new ActivityDatabaseHandler(context);
+        loadBlackList();
 // for testing DB stuff
 //        SQLiteDatabase db = mActivityDatabaseHandler.getWritableDatabase();
 //        db.close();
     }
 
     public static boolean isFileLoggingEnabled() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
-        return prefs.getBoolean("log_to_file", false);
+        return sharedPrefs.getBoolean("log_to_file", false);
     }
 
     private void setupLogging() {
@@ -130,4 +134,36 @@ public class GBApplication extends Application {
     public static boolean isRunningLollipopOrLater() {
         return VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
+
+    public static HashSet<String> blacklist = null;
+
+    public static void loadBlackList() {
+        blacklist = (HashSet<String>) sharedPrefs.getStringSet("package_blacklist", null);
+        if (blacklist == null) {
+            blacklist = new HashSet<>();
+        }
+    }
+
+    public static void saveBlackList() {
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        if (blacklist.isEmpty()) {
+            editor.putStringSet("package_blacklist", null);
+        } else {
+            editor.putStringSet("package_blacklist", blacklist);
+        }
+        editor.apply();
+    }
+
+    public static void addToBlacklist(String packageName) {
+        if (!blacklist.contains(packageName)) {
+            blacklist.add(packageName);
+            saveBlackList();
+        }
+    }
+
+    public static synchronized void removeFromBlacklist(String packageName) {
+        blacklist.remove(packageName);
+        saveBlackList();
+    }
+
 }

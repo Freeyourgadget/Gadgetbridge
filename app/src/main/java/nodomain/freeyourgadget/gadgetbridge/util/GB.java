@@ -308,7 +308,7 @@ public class GB {
     }
 
     public static void updateTransferNotification(String text, boolean ongoing, int percentage, Context context) {
-        if(percentage == 100) {
+        if (percentage == 100) {
             removeNotification(NOTIFICATION_ID_TRANSFER, context);
         } else {
             Notification notification = createTransferNotification(text, ongoing, percentage, context);

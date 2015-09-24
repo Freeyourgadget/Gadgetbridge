@@ -26,9 +26,9 @@ import android.widget.TextView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashSet;
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
 
@@ -47,37 +47,6 @@ public class AppBlacklistActivity extends Activity {
 
     private SharedPreferences sharedPrefs;
 
-    private HashSet<String> blacklist = null;
-
-    private void loadBlackList() {
-        blacklist = (HashSet<String>) sharedPrefs.getStringSet("package_blacklist", null);
-        if (blacklist == null) {
-            blacklist = new HashSet<>();
-        }
-    }
-
-    private void saveBlackList() {
-        SharedPreferences.Editor editor = sharedPrefs.edit();
-        if (blacklist.isEmpty()) {
-            editor.putStringSet("package_blacklist", null);
-        } else {
-            editor.putStringSet("package_blacklist", blacklist);
-        }
-        editor.apply();
-    }
-
-    private synchronized void addToBlacklist(String packageName) {
-        if (!blacklist.contains(packageName)) {
-            blacklist.add(packageName);
-            saveBlackList();
-        }
-    }
-
-    private synchronized void removeFromBlacklist(String packageName) {
-        blacklist.remove(packageName);
-        saveBlackList();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,8 +55,6 @@ public class AppBlacklistActivity extends Activity {
 
         final PackageManager pm = getPackageManager();
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-        loadBlackList();
 
         final List<ApplicationInfo> packageList = pm.getInstalledApplications(PackageManager.GET_META_DATA);
         ListView appListView = (ListView) findViewById(R.id.appListView);
@@ -110,7 +77,7 @@ public class AppBlacklistActivity extends Activity {
                 deviceAppNameLabel.setText(appInfo.loadLabel(pm));
                 deviceImageView.setImageDrawable(appInfo.loadIcon(pm));
 
-                if (blacklist.contains(appInfo.packageName)) {
+                if (GBApplication.blacklist.contains(appInfo.packageName)) {
                     checkbox.setChecked(true);
                 }
 
@@ -126,9 +93,9 @@ public class AppBlacklistActivity extends Activity {
                 CheckBox checkBox = ((CheckBox) v.findViewById(R.id.item_checkbox));
                 checkBox.toggle();
                 if (checkBox.isChecked()) {
-                    addToBlacklist(packageName);
+                    GBApplication.addToBlacklist(packageName);
                 } else {
-                    removeFromBlacklist(packageName);
+                    GBApplication.removeFromBlacklist(packageName);
                 }
             }
         });

@@ -9,6 +9,7 @@ public class GBDeviceEventNotificationControl extends GBDeviceEvent {
         UNKNOWN,
         DISMISS,
         DISMISS_ALL,
-        OPEN
+        OPEN,
+        MUTE
     }
 }

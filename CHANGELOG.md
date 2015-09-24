@@ -1,6 +1,7 @@
 ###Changelog
 
 ####Next Version
+* Pebble: Allow muting (blacklisting) Apps from within generic notifications on the watch
 * Pebble: Detect all known Pebble Versions including new "chalk" platform (Pebble Time Round)
 * Option to ignore phone calls (useful for Pebble Dialer)
 
