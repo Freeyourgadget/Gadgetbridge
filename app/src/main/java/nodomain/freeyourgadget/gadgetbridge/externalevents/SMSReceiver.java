@@ -10,6 +10,8 @@ import android.preference.PreferenceManager;
 import android.telephony.SmsMessage;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 
 public class SMSReceiver extends BroadcastReceiver {
 
@@ -27,16 +29,20 @@ public class SMSReceiver extends BroadcastReceiver {
             }
         }
 
+        NotificationSpec notificationSpec = new NotificationSpec();
+        notificationSpec.id = -1;
+        notificationSpec.type = NotificationType.SMS;
+
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
             Object[] pdus = (Object[]) bundle.get("pdus");
             for (Object pdu1 : pdus) {
                 byte[] pdu = (byte[]) pdu1;
                 SmsMessage message = SmsMessage.createFromPdu(pdu);
-                String body = message.getDisplayMessageBody();
-                String sender = message.getOriginatingAddress();
-                if (sender != null && body != null) {
-                    GBApplication.deviceService().onSMS(sender, body);
+                notificationSpec.body = message.getDisplayMessageBody();
+                notificationSpec.phoneNumber = message.getOriginatingAddress();
+                if (notificationSpec.phoneNumber != null) {
+                    GBApplication.deviceService().onNotification(notificationSpec);
                 }
             }
         }

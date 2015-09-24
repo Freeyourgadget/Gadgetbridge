@@ -13,6 +13,7 @@ public class MiBandDateConverter {
 
     /**
      * uses the standard algorithm to convert bytes received from the MiBand to a Calendar object
+     *
      * @param value
      * @return
      */
@@ -25,6 +26,7 @@ public class MiBandDateConverter {
 
     /**
      * uses the standard algorithm to convert bytes received from the MiBand to a Calendar object
+     *
      * @param value
      * @return
      */
@@ -46,6 +48,7 @@ public class MiBandDateConverter {
 
     /**
      * uses the standard algorithm to convert a Calendar object to a byte array to send to MiBand
+     *
      * @param timestamp
      * @return
      */

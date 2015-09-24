@@ -8,7 +8,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.devices.EventHandler;
-import nodomain.freeyourgadget.gadgetbridge.model.NotificationKind;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
 
@@ -108,20 +108,8 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     }
 
     @Override
-    public void onSMS(String from, String body) {
-        byte[] bytes = gbDeviceProtocol.encodeSMS(from, body);
-        sendToDevice(bytes);
-    }
-
-    @Override
-    public void onEmail(String from, String subject, String body) {
-        byte[] bytes = gbDeviceProtocol.encodeEmail(from, subject, body);
-        sendToDevice(bytes);
-    }
-
-    @Override
-    public void onGenericNotification(String title, String details, int handle, NotificationKind notificationKind) {
-        byte[] bytes = gbDeviceProtocol.encodeGenericNotification(title, details, handle, notificationKind);
+    public void onNotification(NotificationSpec notificationSpec) {
+        byte[] bytes = gbDeviceProtocol.encodeNotification(notificationSpec);
         sendToDevice(bytes);
     }
 

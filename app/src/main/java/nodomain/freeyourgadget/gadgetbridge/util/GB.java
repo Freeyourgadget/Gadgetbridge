@@ -355,7 +355,7 @@ public class GB {
                 notificationIntent, 0);
 
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context)
-                .setContentTitle( context.getString(R.string.notif_battery_low_title))
+                .setContentTitle(context.getString(R.string.notif_battery_low_title))
                 .setContentText(text)
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.drawable.ic_notification_low_battery)

@@ -1,20 +1,15 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.util.AttributeSet;
-import android.view.View;
 
 /**
  * A base activity that supports paging through fragments by swiping.
  * Subclasses will have to add a ViewPager to their layout and add something
  * like this to hook it to the fragments:
- *
+ * <p/>
  * <pre>
  * // Set up the ViewPager with the sections adapter.
  * ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
@@ -50,6 +45,7 @@ public abstract class AbstractGBFragmentActivity extends FragmentActivity {
     /**
      * Creates a PagerAdapter that will create the fragments to be used with this
      * activity. The fragments should typically extend AbstractGBFragment
+     *
      * @param fragmentManager
      * @return
      */

@@ -13,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 
 public class K9Receiver extends BroadcastReceiver {
 
@@ -42,9 +44,9 @@ public class K9Receiver extends BroadcastReceiver {
                 "uri"
         };
 
-        String sender = "";
-        String subject = "";
-        String preview = "";
+        NotificationSpec notificationSpec = new NotificationSpec();
+        notificationSpec.id = -1;
+        notificationSpec.type = NotificationType.EMAIL;
 
         /*
          * there seems to be no way to specify the the uri in the where clause.
@@ -57,14 +59,14 @@ public class K9Receiver extends BroadcastReceiver {
         do {
             String uri = c.getString(c.getColumnIndex("uri"));
             if (uri.equals(uriWanted)) {
-                sender = c.getString(c.getColumnIndex("senderAddress"));
-                subject = c.getString(c.getColumnIndex("subject"));
-                preview = c.getString(c.getColumnIndex("preview"));
+                notificationSpec.sender = c.getString(c.getColumnIndex("senderAddress"));
+                notificationSpec.subject = c.getString(c.getColumnIndex("subject"));
+                notificationSpec.body = c.getString(c.getColumnIndex("preview"));
                 break;
             }
         } while (c.moveToNext());
         c.close();
 
-        GBApplication.deviceService().onEmail(sender, subject, preview);
+        GBApplication.deviceService().onNotification(notificationSpec);
     }
 }

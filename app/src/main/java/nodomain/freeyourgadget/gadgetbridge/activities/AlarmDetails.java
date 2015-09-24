@@ -8,9 +8,9 @@ import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.TimePicker;
 
-import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
 
 public class AlarmDetails extends Activity {
 

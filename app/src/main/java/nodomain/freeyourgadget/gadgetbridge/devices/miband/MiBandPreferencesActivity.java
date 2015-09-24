@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.support.v4.content.LocalBroadcastManager;
 
-import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_GENERIC;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_INCOMING_CALL;
@@ -15,8 +15,8 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.OR
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_PEBBLEMSG;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_SMS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_ADDRESS;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_FITNESS_GOAL;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_DONT_ACK_TRANSFER;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_FITNESS_GOAL;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_WEARSIDE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_USER_ALIAS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_USER_GENDER;

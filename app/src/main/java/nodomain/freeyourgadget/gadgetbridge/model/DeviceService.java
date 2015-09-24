@@ -13,9 +13,8 @@ public interface DeviceService extends EventHandler {
 
     static final String ACTION_START = PREFIX + ".action.start";
     static final String ACTION_CONNECT = PREFIX + ".action.connect";
-    static final String ACTION_NOTIFICATION_GENERIC = PREFIX + ".action.notification_generic";
+    static final String ACTION_NOTIFICATION = PREFIX + ".action.notification";
     static final String ACTION_NOTIFICATION_SMS = PREFIX + ".action.notification_sms";
-    static final String ACTION_NOTIFICATION_EMAIL = PREFIX + ".action.notification_email";
     static final String ACTION_CALLSTATE = PREFIX + ".action.callstate";
     static final String ACTION_SETTIME = PREFIX + ".action.settime";
     static final String ACTION_SETMUSICINFO = PREFIX + ".action.setmusicinfo";
@@ -32,12 +31,14 @@ public interface DeviceService extends EventHandler {
     static final String ACTION_SET_ALARMS = PREFIX + ".action.set_alarms";
 
     static final String EXTRA_DEVICE_ADDRESS = "device_address";
-    static final String EXTRA_NOTIFICATION_TITLE = "notification_title";
     static final String EXTRA_NOTIFICATION_BODY = "notification_body";
+    static final String EXTRA_NOTIFICATION_ID = "notification_id";
+    static final String EXTRA_NOTIFICATION_PHONENUMBER = "notification_phonenumber";
     static final String EXTRA_NOTIFICATION_SENDER = "notification_sender";
+    static final String EXTRA_NOTIFICATION_SOURCENAME = "notification_sourcename";
     static final String EXTRA_NOTIFICATION_SUBJECT = "notification_subject";
-    static final String EXTRA_NOTIFICATION_HANDLE = "notification_handle";
-    static final String EXTRA_NOTIFICATION_KIND = "notificationKind";
+    static final String EXTRA_NOTIFICATION_TITLE = "notification_title";
+    static final String EXTRA_NOTIFICATION_TYPE = "notification_type";
     static final String EXTRA_FIND_START = "find_start";
     static final String EXTRA_CALL_COMMAND = "call_command";
     static final String EXTRA_CALL_PHONENUMBER = "call_phonenumber";
@@ -51,15 +52,18 @@ public interface DeviceService extends EventHandler {
     static final String EXTRA_PERFORM_PAIR = "perform_pair";
 
 
-
     void start();
 
     void connect();
+
     void connect(@Nullable String deviceAddress);
+
     void connect(@Nullable String deviceAddress, boolean performPair);
+
     void disconnect();
 
     void quit();
+
     /**
      * Requests information from the {@link DeviceCommunicationService} about the connection state,
      * firmware info, etc.

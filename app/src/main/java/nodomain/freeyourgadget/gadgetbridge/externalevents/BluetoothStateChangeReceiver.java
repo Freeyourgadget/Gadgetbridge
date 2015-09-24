@@ -10,7 +10,6 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
 public class BluetoothStateChangeReceiver extends BroadcastReceiver {
     @Override

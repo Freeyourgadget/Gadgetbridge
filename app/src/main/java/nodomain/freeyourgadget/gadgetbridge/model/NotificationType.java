@@ -1,6 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.model;
 
-public enum NotificationKind {
+public enum NotificationType {
 
     UNDEFINED,
 

@@ -10,10 +10,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class DeviceCandidateAdapter extends ArrayAdapter<GBDeviceCandidate> {
 

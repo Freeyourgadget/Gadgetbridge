@@ -3,20 +3,12 @@ package nodomain.freeyourgadget.gadgetbridge.service.serial;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
-import nodomain.freeyourgadget.gadgetbridge.model.NotificationKind;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 
 public abstract class GBDeviceProtocol {
 
-    public byte[] encodeSMS(String from, String body) {
-        return null;
-    }
-
-    public byte[] encodeEmail(String from, String subject, String body) {
-        return null;
-    }
-
-    public byte[] encodeGenericNotification(String title, String details, int handle, NotificationKind notificationKind) {
+    public byte[] encodeNotification(NotificationSpec notificationSpec) {
         return null;
     }
 

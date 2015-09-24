@@ -4,9 +4,9 @@ import android.bluetooth.BluetoothDevice;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 /**
  */

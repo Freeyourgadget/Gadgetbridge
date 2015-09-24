@@ -101,9 +101,10 @@ public class GBApplication extends Application {
      * when that was not successful
      * If acquiring was successful, callers must call #releaseDB when they
      * are done (from the same thread that acquired the lock!
+     *
      * @return the DBHandler
-     * @see #releaseDB()
      * @throws GBException
+     * @see #releaseDB()
      */
     public static DBHandler acquireDB() throws GBException {
         try {
@@ -118,6 +119,7 @@ public class GBApplication extends Application {
 
     /**
      * Releases the database lock.
+     *
      * @throws IllegalMonitorStateException if the current thread is not owning the lock
      * @see #acquireDB()
      */

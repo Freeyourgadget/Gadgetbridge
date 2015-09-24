@@ -1,7 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public class MorpheuzSampleProvider implements SampleProvider {
     // raw types

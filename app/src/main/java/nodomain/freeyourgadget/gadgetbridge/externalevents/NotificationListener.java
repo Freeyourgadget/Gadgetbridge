@@ -22,7 +22,8 @@ import org.slf4j.LoggerFactory;
 import java.util.HashSet;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.model.NotificationKind;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
 public class NotificationListener extends NotificationListenerService {
@@ -159,47 +160,45 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         // Set application icons for generic notifications
-        NotificationKind notificationKind;
+        NotificationSpec notificationSpec = new NotificationSpec();
         switch (source) {
             case "org.mariotaku.twidere":
             case "com.twitter.android":
             case "org.andstatus.app":
             case "org.mustard.android":
-                notificationKind = NotificationKind.TWITTER;
+                notificationSpec.type = NotificationType.TWITTER;
                 break;
             case "com.fsck.k9":
             case "com.android.email":
-                notificationKind = NotificationKind.EMAIL;
+                notificationSpec.type = NotificationType.EMAIL;
                 break;
             case "com.moez.QKSMS":
-                notificationKind = NotificationKind.SMS;
+                notificationSpec.type = NotificationType.SMS;
                 break;
             case "eu.siacs.conversations":
-                notificationKind = NotificationKind.CHAT;
+                notificationSpec.type = NotificationType.CHAT;
                 break;
             case "org.indywidualni.fblite":
-                notificationKind = NotificationKind.FACEBOOK;
+                notificationSpec.type = NotificationType.FACEBOOK;
                 break;
             default:
-                notificationKind = NotificationKind.UNDEFINED;
+                notificationSpec.type = NotificationType.UNDEFINED;
                 break;
         }
 
         LOG.info("Processing notification from source " + source);
 
         Bundle extras = notification.extras;
-        String title = extras.getCharSequence(Notification.EXTRA_TITLE).toString();
-        String content = null;
+        notificationSpec.title = extras.getCharSequence(Notification.EXTRA_TITLE).toString();
         if (extras.containsKey(Notification.EXTRA_TEXT)) {
             CharSequence contentCS = extras.getCharSequence(Notification.EXTRA_TEXT);
             if (contentCS != null) {
-                content = contentCS.toString();
+                notificationSpec.body = contentCS.toString();
             }
         }
 
-        if (content != null) {
-            GBApplication.deviceService().onGenericNotification(title, content, (int) sbn.getPostTime(), notificationKind); //FIMXE: a truly unique id would be better
-        }
+        notificationSpec.id = (int) sbn.getPostTime(); //FIMXE: a truly unique id would be better
+        GBApplication.deviceService().onNotification(notificationSpec);
     }
 
     private boolean isServiceRunning() {

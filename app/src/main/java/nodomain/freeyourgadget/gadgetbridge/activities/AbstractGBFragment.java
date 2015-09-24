@@ -1,13 +1,14 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 /**
  * Abstract base class for fragments. Provides hooks that are called when
  * the fragment is made visible and invisible in the activity. also allows
  * the fragment to define the title to be shown in the activity.
+ *
  * @see AbstractGBFragmentActivity
  */
 public abstract class AbstractGBFragment extends Fragment {
@@ -25,6 +26,7 @@ public abstract class AbstractGBFragment extends Fragment {
 
     /**
      * Called when this fragment has been scrolled out of the activity.
+     *
      * @see #isVisibleInActivity()
      * @see #onMadeVisibleInActivity()
      */
@@ -54,6 +56,7 @@ public abstract class AbstractGBFragment extends Fragment {
 
     /**
      * Internal
+     *
      * @hide
      */
     public void onMadeVisibleInActivityInternal() {

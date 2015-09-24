@@ -72,21 +72,21 @@ public class UpdateFirmwareOperation extends AbstractBTLEOperation<MiBandSupport
      * characteristic,
      * These messages appear to be always 1 byte long, with values that are listed in MiBandService.
      * It is not excluded that there are further values which are still unknown.
-     *
+     * <p/>
      * Upon receiving known values that request further action by GB, the appropriate method is called.
      *
      * @param value
      */
     private void handleNotificationNotif(byte[] value) {
-        if(value.length != 1) {
+        if (value.length != 1) {
             LOG.error("Notifications should be 1 byte long.");
             getSupport().logMessageContent(value);
             return;
         }
         switch (value[0]) {
             case MiBandService.NOTIFY_FW_CHECK_SUCCESS:
-                if(firmwareInfoSent && newFirmware != null) {
-                    if(sendFirmwareData(newFirmware)) {
+                if (firmwareInfoSent && newFirmware != null) {
+                    if (sendFirmwareData(newFirmware)) {
                         rebootWhenBandReady = true;
                     } else {
                         //TODO: the firmware transfer failed, but the miband should be still functional with the old firmware. What should we do?
@@ -131,14 +131,14 @@ public class UpdateFirmwareOperation extends AbstractBTLEOperation<MiBandSupport
      * Prepare the MiBand to receive the new firmware data.
      * Some information about the new firmware version have to be pushed to the MiBand before sending
      * the actual firmare.
-     *
+     * <p/>
      * The Mi Band will send a notification after receiving these data to confirm if the metadata looks good to it.
-     * @see MiBandSupport#handleNotificationNotif
      *
      * @param currentFwVersion
      * @param newFwVersion
      * @param newFwSize
      * @param checksum
+     * @see MiBandSupport#handleNotificationNotif
      */
     private void sendFirmwareInfo(int currentFwVersion, int newFwVersion, int newFwSize, int checksum) throws IOException {
         byte[] fwInfo = new byte[]{
@@ -165,13 +165,13 @@ public class UpdateFirmwareOperation extends AbstractBTLEOperation<MiBandSupport
     /**
      * Method that uploads a firmware (fwbytes) to the MiBand.
      * The firmware has to be splitted into chunks of 20 bytes each, and periodically a COMMAND_SYNC comand has to be issued to the MiBand.
-     *
+     * <p/>
      * The Mi Band will send a notification after receiving these data to confirm if the firmware looks good to it.
-     * @see MiBandSupport#handleNotificationNotif
      *
      * @param fwbytes
      * @return whether the transfer succeeded or not. Only a BT layer exception will cause the transmission to fail.
-     * */
+     * @see MiBandSupport#handleNotificationNotif
+     */
     private boolean sendFirmwareData(byte fwbytes[]) {
         int len = fwbytes.length;
         final int packetLength = 20;

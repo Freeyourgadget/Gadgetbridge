@@ -28,8 +28,8 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
-import nodomain.freeyourgadget.gadgetbridge.model.NotificationKind;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -54,6 +54,7 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.FL
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.FLASH_ORIGINAL_COLOUR;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_GENERIC;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_K9MAIL;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_PEBBLEMSG;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_SMS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_COUNT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_DURATION;
@@ -402,18 +403,21 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSMS(String from, String body) {
-        performPreferredNotification("sms received", ORIGIN_SMS, null);
-    }
-
-    @Override
-    public void onEmail(String from, String subject, String body) {
-        performPreferredNotification("email received", ORIGIN_K9MAIL, null);
-    }
-
-    @Override
-    public void onGenericNotification(String title, String details, int handle, NotificationKind notificationKind) {
-        performPreferredNotification("generic notification received", ORIGIN_GENERIC, null);
+    public void onNotification(NotificationSpec notificationSpec) {
+        // FIXME: these ORIGIN contants do not really make sense anymore
+        switch (notificationSpec.type) {
+            case SMS:
+                performPreferredNotification("sms received", ORIGIN_SMS, null);
+                break;
+            case EMAIL:
+                performPreferredNotification("email received", ORIGIN_K9MAIL, null);
+                break;
+            case CHAT:
+                performPreferredNotification("chat message received", ORIGIN_PEBBLEMSG, null);
+                break;
+            default:
+                performPreferredNotification("generic notification received", ORIGIN_GENERIC, null);
+        }
     }
 
     @Override
@@ -598,7 +602,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             handleBatteryInfo(characteristic.getValue(), BluetoothGatt.GATT_SUCCESS);
         } else if (MiBandService.UUID_CHARACTERISTIC_NOTIFICATION.equals(characteristicUUID)) {
             handleNotificationNotif(characteristic.getValue());
-        } else{
+        } else {
             LOG.info("Unhandled characteristic changed: " + characteristicUUID);
         }
     }

@@ -13,12 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
+import nodomain.freeyourgadget.gadgetbridge.activities.DiscoveryActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.DiscoveryActivity;
 
 public class MiBandPairingActivity extends Activity {
 

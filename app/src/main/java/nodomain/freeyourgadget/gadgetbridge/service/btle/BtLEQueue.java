@@ -207,6 +207,7 @@ public final class BtLEQueue {
 
     /**
      * Depending on certain criteria, connects to the BluetoothGatt.
+     *
      * @return true if a reconnection attempt was made, or false otherwise
      */
     private boolean maybeReconnect() {
@@ -275,7 +276,9 @@ public final class BtLEQueue {
     // Implements callback methods for GATT events that the app cares about.  For example,
     // connection change and services discovered.
     private final class InternalGattCallback extends BluetoothGattCallback {
-        private @Nullable GattCallback mTransactionGattCallback;
+        private
+        @Nullable
+        GattCallback mTransactionGattCallback;
         private GattCallback mExternalGattCallback;
 
         public InternalGattCallback(GattCallback externalGattCallback) {
@@ -449,5 +452,7 @@ public final class BtLEQueue {
             }
             mTransactionGattCallback = null;
         }
-    };
+    }
+
+    ;
 }

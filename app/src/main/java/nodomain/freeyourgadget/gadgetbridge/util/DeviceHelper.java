@@ -5,10 +5,10 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.UnknownDeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 
 public class DeviceHelper {
     private static DeviceHelper instance = new DeviceHelper();

@@ -11,7 +11,7 @@ public class BatteryInfo extends AbstractInfo {
     public static final byte DEVICE_BATTERY_CHARGING = 2;
     public static final byte DEVICE_BATTERY_CHARGING_FULL = 3;
     public static final byte DEVICE_BATTERY_CHARGE_OFF = 4;
-    
+
     public BatteryInfo(byte[] data) {
         super(data);
     }

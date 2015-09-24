@@ -13,7 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.model.NotificationKind;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 
 public class PebbleReceiver extends BroadcastReceiver {
 
@@ -33,9 +34,6 @@ public class PebbleReceiver extends BroadcastReceiver {
             }
         }
 
-        String title;
-        String body;
-
         String messageType = intent.getStringExtra("messageType");
         if (!messageType.equals("PEBBLE_ALERT")) {
             LOG.info("non PEBBLE_ALERT message type not supported");
@@ -47,24 +45,25 @@ public class PebbleReceiver extends BroadcastReceiver {
             return;
         }
 
+        NotificationSpec notificationSpec = new NotificationSpec();
 
         String notificationData = intent.getStringExtra("notificationData");
         try {
             JSONArray notificationJSON = new JSONArray(notificationData);
-            title = notificationJSON.getJSONObject(0).getString("title");
-            body = notificationJSON.getJSONObject(0).getString("body");
+            notificationSpec.title = notificationJSON.getJSONObject(0).getString("title");
+            notificationSpec.body = notificationJSON.getJSONObject(0).getString("body");
         } catch (JSONException e) {
             e.printStackTrace();
             return;
         }
 
-        if (title != null && body != null) {
-            NotificationKind notificationKind = NotificationKind.UNDEFINED;
+        if (notificationSpec.title != null) {
+            notificationSpec.type = NotificationType.UNDEFINED;
             String sender = intent.getStringExtra("sender");
             if ("Conversations".equals(sender)) {
-                notificationKind = NotificationKind.CHAT;
+                notificationSpec.type = NotificationType.CHAT;
             }
-            GBApplication.deviceService().onGenericNotification(title, body, -1, notificationKind);
+            GBApplication.deviceService().onNotification(notificationSpec);
         }
     }
 }

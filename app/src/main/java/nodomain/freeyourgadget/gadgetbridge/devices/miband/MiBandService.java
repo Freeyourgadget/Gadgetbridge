@@ -179,12 +179,12 @@ public class MiBandService {
     */
 
     /* MODES: probably related to the sample data structure
-	*/
+    */
 
-	public static final byte MODE_REGULAR_DATA_LEN_BYTE = 0x0;
+    public static final byte MODE_REGULAR_DATA_LEN_BYTE = 0x0;
 
     // was MODE_REGULAR_DATA_LEN_MINITE
-	public static final byte MODE_REGULAR_DATA_LEN_MINUTE = 0x1;
+    public static final byte MODE_REGULAR_DATA_LEN_MINUTE = 0x1;
 
     /* PROFILE: unknown
 

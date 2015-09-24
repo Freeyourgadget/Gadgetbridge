@@ -19,7 +19,9 @@ public class Transaction {
     private String mName;
     private List<BtLEAction> mActions = new ArrayList<>(4);
     private long creationTimestamp = System.currentTimeMillis();
-    private @Nullable GattCallback gattCallback;
+    private
+    @Nullable
+    GattCallback gattCallback;
 
     public Transaction(String taskName) {
         this.mName = taskName;
@@ -57,7 +59,9 @@ public class Transaction {
     /**
      * Returns the GattCallback for this transaction, or null if none.
      */
-    public @Nullable GattCallback getGattCallback() {
+    public
+    @Nullable
+    GattCallback getGattCallback() {
         return gattCallback;
     }
 }

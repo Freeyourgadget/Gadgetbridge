@@ -151,12 +151,11 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
      * There are two kind of messages we currently know:
      * - the first one is 11 bytes long and contains metadata (how many bytes to expect, when the data starts, etc.)
      * - the second one is 20 bytes long and contains the actual activity data
-     *
+     * <p/>
      * The first message type is parsed by this method, for every other length of the value param, bufferActivityData is called.
-     * @see #bufferActivityData(byte[])
-     *
      *
      * @param value
+     * @see #bufferActivityData(byte[])
      */
     private void handleActivityNotif(byte[] value) {
         if (value.length == 11) {
@@ -205,7 +204,7 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
 
     /**
      * Method to store temporarily the activity data values got from the Mi Band.
-     *
+     * <p/>
      * Since we expect chunks of 20 bytes each, we do not store the received bytes it the length is different.
      *
      * @param value
@@ -275,7 +274,7 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
 
     /**
      * Acknowledge the transfer of activity data to the Mi Band.
-     *
+     * <p/>
      * After receiving data from the band, it has to be acknowledged. This way the Mi Band will delete
      * the data it has on record.
      *

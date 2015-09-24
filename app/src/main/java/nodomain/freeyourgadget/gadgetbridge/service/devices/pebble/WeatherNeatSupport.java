@@ -51,6 +51,6 @@ public class WeatherNeatSupport {
     public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
         GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
         sendBytes.encodedBytes = encodeWeatherNeatMessage("Berlin", "22 C", "cloudy", 0);
-        return new GBDeviceEvent[] {sendBytes};
+        return new GBDeviceEvent[]{sendBytes};
     }
 }

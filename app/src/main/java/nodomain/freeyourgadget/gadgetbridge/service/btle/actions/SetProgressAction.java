@@ -14,6 +14,7 @@ public class SetProgressAction extends PlainAction {
 
     /**
      * When run, will update the progress notification.
+     *
      * @param text
      * @param ongoing
      * @param percentage

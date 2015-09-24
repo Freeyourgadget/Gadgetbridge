@@ -26,6 +26,8 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -70,17 +72,25 @@ public class DebugActivity extends Activity {
         sendSMSButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GBApplication.deviceService().onSMS(getResources().getText(R.string.app_name).toString(), editContent.getText().toString());
+                NotificationSpec notificationSpec = new NotificationSpec();
+                notificationSpec.sender = getResources().getText(R.string.app_name).toString();
+                notificationSpec.body = editContent.getText().toString();
+                notificationSpec.type = NotificationType.SMS;
+                notificationSpec.id = -1;
+                GBApplication.deviceService().onNotification(notificationSpec);
             }
         });
         sendEmailButton = (Button) findViewById(R.id.sendEmailButton);
         sendEmailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GBApplication.deviceService().onEmail(
-                        getResources().getText(R.string.app_name).toString(),
-                        getResources().getText(R.string.test).toString(),
-                        editContent.getText().toString());
+                NotificationSpec notificationSpec = new NotificationSpec();
+                notificationSpec.sender = getResources().getText(R.string.app_name).toString();
+                notificationSpec.subject = editContent.getText().toString();
+                notificationSpec.body = editContent.getText().toString();
+                notificationSpec.type = NotificationType.EMAIL;
+                notificationSpec.id = -1;
+                GBApplication.deviceService().onNotification(notificationSpec);
             }
         });
 
