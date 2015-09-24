@@ -40,6 +40,7 @@ public class GB {
     public static final int NOTIFICATION_ID = 1;
     public static final int NOTIFICATION_ID_INSTALL = 2;
     public static final int NOTIFICATION_ID_LOW_BATTERY = 3;
+    public static final int NOTIFICATION_ID_TRANSFER = 4;
 
     private static final Logger LOG = LoggerFactory.getLogger(GB.class);
     public static final int INFO = 1;
@@ -78,6 +79,11 @@ public class GB {
         }
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         nm.notify(id, notification);
+    }
+
+    private static void removeNotification(int id, Context context) {
+        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.cancel(id);
     }
 
     public static void setReceiversEnableState(boolean enable, Context context) {
@@ -272,6 +278,41 @@ public class GB {
             case ERROR:
                 LOG.error(message, ex);
                 break;
+        }
+    }
+
+    private static Notification createTransferNotification(String text, boolean ongoing,
+                                                           int percentage, Context context) {
+        Intent notificationIntent = new Intent(context, ControlCenter.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
+                notificationIntent, 0);
+
+        NotificationCompat.Builder nb = new NotificationCompat.Builder(context)
+                .setVisibility(Notification.VISIBILITY_PUBLIC)
+                .setContentTitle(context.getString(R.string.app_name))
+                .setContentText(text)
+                .setContentIntent(pendingIntent)
+                .setOngoing(ongoing);
+
+        if (ongoing) {
+            nb.setProgress(100, percentage, percentage == 0);
+            nb.setSmallIcon(android.R.drawable.stat_sys_download);
+        } else {
+            nb.setProgress(0, 0, false);
+            nb.setSmallIcon(android.R.drawable.stat_sys_download_done);
+        }
+
+        return nb.build();
+    }
+
+    public static void updateTransferNotification(String text, boolean ongoing, int percentage, Context context) {
+        if(percentage == 100) {
+            removeNotification(NOTIFICATION_ID_TRANSFER, context);
+        } else {
+            Notification notification = createTransferNotification(text, ongoing, percentage, context);
+            updateNotification(notification, NOTIFICATION_ID_TRANSFER, context);
         }
     }
 

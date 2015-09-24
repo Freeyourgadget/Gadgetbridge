@@ -195,8 +195,11 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
         }
         LOG.debug("activity data: length: " + value.length + ", remaining bytes: " + activityStruct.activityDataRemainingBytes);
 
+        GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), true, (int)(((float) (activityStruct.activityDataUntilNextHeader - activityStruct.activityDataRemainingBytes)) / activityStruct.activityDataUntilNextHeader * 100), getContext());
+
         if (activityStruct.isBlockFinished()) {
             sendAckDataTransfer(activityStruct.activityDataTimestampToAck, activityStruct.activityDataUntilNextHeader);
+            GB.updateTransferNotification("", false, 100, getContext());
         }
     }
 
