@@ -173,6 +173,7 @@ public class NotificationListener extends NotificationListenerService {
                 notificationSpec.type = NotificationType.EMAIL;
                 break;
             case "com.moez.QKSMS":
+            case "com.android.mms":
                 notificationSpec.type = NotificationType.SMS;
                 break;
             case "eu.siacs.conversations":
