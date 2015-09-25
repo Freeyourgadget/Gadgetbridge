@@ -77,9 +77,7 @@ public class AppBlacklistActivity extends Activity {
                 deviceAppNameLabel.setText(appInfo.loadLabel(pm));
                 deviceImageView.setImageDrawable(appInfo.loadIcon(pm));
 
-                if (GBApplication.blacklist.contains(appInfo.packageName)) {
-                    checkbox.setChecked(true);
-                }
+                checkbox.setChecked(GBApplication.blacklist.contains(appInfo.packageName));
 
                 return view;
             }
