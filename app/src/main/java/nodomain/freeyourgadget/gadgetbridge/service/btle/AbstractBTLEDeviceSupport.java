@@ -39,6 +39,8 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     public static final UUID UUID_DESCRIPTOR_CHARACTERISTIC_USER_CONFIGURATION = UUID.fromString(String.format(BASE_UUID, "2901"));
     public static final UUID UUID_DESCRIPTOR_CLIENT_CHARACTERISTIC_CONFIGURATION = UUID.fromString(String.format(BASE_UUID, "2902"));
 
+    //part of the generic BLE specs see https://developer.bluetooth.org/gatt/services/Pages/ServiceViewer.aspx?u=org.bluetooth.service.immediate_alert.xml
+    public static final UUID UUID_SERVICE_IMMEDIATE_ALERT = UUID.fromString((String.format(BASE_UUID, "1802")));
 
     @Override
     public boolean connect() {
@@ -140,13 +142,13 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     }
 
     private void gattServicesDiscovered(List<BluetoothGattService> discoveredGattServices) {
-        mAvailableCharacteristics = null;
+
 
         if (discoveredGattServices == null) {
             return;
         }
         Set<UUID> supportedServices = getSupportedServices();
-
+        mAvailableCharacteristics = new HashMap();
         for (BluetoothGattService service : discoveredGattServices) {
             if (supportedServices.contains(service.getUuid())) {
                 List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
@@ -154,10 +156,11 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
                     LOG.warn("Supported LE service " + service.getUuid() + "did not return any characteristics");
                     continue;
                 }
-                mAvailableCharacteristics = new HashMap<>(characteristics.size());
+                HashMap<UUID, BluetoothGattCharacteristic> intmAvailableCharacteristics = new HashMap<>(characteristics.size());
                 for (BluetoothGattCharacteristic characteristic : characteristics) {
-                    mAvailableCharacteristics.put(characteristic.getUuid(), characteristic);
+                    intmAvailableCharacteristics.put(characteristic.getUuid(), characteristic);
                 }
+                mAvailableCharacteristics.putAll(intmAvailableCharacteristics);
             }
         }
     }
