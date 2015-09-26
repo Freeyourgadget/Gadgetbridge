@@ -34,7 +34,6 @@
   <string name="pref_header_notifications">Notificaciones</string>
   <string name="pref_title_notifications_repetitions">Repeticiones</string>
   <string name="pref_title_notifications_sms">SMS</string>
-  <string name="pref_title_notifications_incoming_call">Llamadas entrantes</string>
   <string name="pref_title_notifications_k9mail">K9-Mail</string>
   <string name="pref_title_notifications_pebblemsg">Mensajes de Pebble</string>
   <string name="pref_summary_notifications_pebblemsg">Soporte para aplicaciones que envían notificaciones a Pebble a través de Intent. Puede ser usado por Conversations.</string>

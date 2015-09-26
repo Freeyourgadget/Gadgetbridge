@@ -33,7 +33,6 @@
   <string name="pref_header_notifications">Benachrichtigungen</string>
   <string name="pref_title_notifications_repetitions">Wiederholungen</string>
   <string name="pref_title_notifications_sms">SMS</string>
-  <string name="pref_title_notifications_incoming_call">Eingehende Anrufe</string>
   <string name="pref_title_notifications_k9mail">K9-Mail</string>
   <string name="pref_title_notifications_pebblemsg">Pebble Nachrichten</string>
   <string name="pref_summary_notifications_pebblemsg">Unterstützung für Anwendungen, die Benachrichtigungen per Intent an die Pebble schicken. Kann für Conversations verwendet werden.</string>
