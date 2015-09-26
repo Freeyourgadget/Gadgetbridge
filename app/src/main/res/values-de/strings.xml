@@ -32,6 +32,7 @@
   <string name="pref_summary_datetime_syctimeonconnect">Synchronisiere die Urzeit mit dem Gerät (bei Verbindingsaufbau und wenn die Zeit oder Zeitzone auf dem Android Gerät eingestellt wird)</string>
   <string name="pref_header_notifications">Benachrichtigungen</string>
   <string name="pref_title_notifications_repetitions">Wiederholungen</string>
+  <string name="pref_title_notifications_call">Anrufe</string>
   <string name="pref_title_notifications_sms">SMS</string>
   <string name="pref_title_notifications_k9mail">K9-Mail</string>
   <string name="pref_title_notifications_pebblemsg">Pebble Nachrichten</string>
