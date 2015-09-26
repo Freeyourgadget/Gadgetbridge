@@ -1,9 +1,11 @@
 ###Changelog
 
-####Next Version
+####Version 0.6.1
 * Pebble: Allow muting (blacklisting) Apps from within generic notifications on the watch
 * Pebble: Detect all known Pebble Versions including new "chalk" platform (Pebble Time Round)
 * Option to ignore phone calls (useful for Pebble Dialer)
+* Mi Band: Added progressbar for activity data transfer and fixes for firmware transfer progressbar
+* Bugfix for app blacklist (some checkboxes where wrongly drawn as checked)
 
 ####Version 0.6.0
 * Pebble: WIP implementantion of PebbleKit Intents to make some 3rd party Android apps work with the Pebble (eg. Ventoo)
