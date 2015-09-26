@@ -6,8 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 public interface DBHandler {
     public SQLiteOpenHelper getHelper();

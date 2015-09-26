@@ -67,6 +67,13 @@
                 android:value=".activities.ControlCenter" />
         </activity>
         <activity
+            android:name=".activities.AppBlacklistActivity"
+            android:label="@string/title_activity_appblacklist">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.SettingsActivity" />
+        </activity>
+        <activity
             android:name=".activities.FwAppInstallerActivity"
             android:label="@string/title_activity_fw_app_insaller">
             <meta-data
@@ -164,6 +171,14 @@
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
 
             </intent-filter>
+
+            <!-- to receive the firmwares from the donwload content provider -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/octet-stream" />
+            </intent-filter>
+
         </activity>
 
         <service
@@ -221,8 +236,7 @@
             android:name=".externalevents.MusicPlaybackReceiver"
             android:enabled="false">
             <intent-filter>
-                <action android:name="com.andrew.apollo.metachanged" />
-                <action android:name="com.cyanogenmod.eleven.metachanged" />
+                <action android:name="com.android.music.metachanged"/>
             </intent-filter>
         </receiver>
         <receiver

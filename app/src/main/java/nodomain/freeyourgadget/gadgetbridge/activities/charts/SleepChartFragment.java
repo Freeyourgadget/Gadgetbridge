@@ -16,7 +16,8 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.utils.ValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +72,7 @@ public class SleepChartFragment extends AbstractChartFragment {
         PieDataSet set = new PieDataSet(entries, "");
         set.setValueFormatter(new ValueFormatter() {
             @Override
-            public String getFormattedValue(float value) {
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
                 return DateTimeUtils.formatDurationHoursMinutes((long) value, TimeUnit.SECONDS);
             }
         });
@@ -166,8 +167,7 @@ public class SleepChartFragment extends AbstractChartFragment {
         legendLabels.add(akLightSleep.label);
         legendColors.add(akDeepSleep.color);
         legendLabels.add(akDeepSleep.label);
-        chart.getLegend().setColors(legendColors);
-        chart.getLegend().setLabels(legendLabels);
+        chart.getLegend().setCustom(legendColors, legendLabels);
         chart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
     }
 

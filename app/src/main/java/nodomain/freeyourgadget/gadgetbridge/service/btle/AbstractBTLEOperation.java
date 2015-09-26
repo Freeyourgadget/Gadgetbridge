@@ -14,10 +14,10 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
  * Abstract base class for a BTLEOperation, i.e. an operation that does more than
  * just sending a few bytes to the device. It typically involves exchanging many messages
  * between the mobile and the device.
- *
+ * <p/>
  * One operation may execute multiple @{link Transaction transactions} with each
  * multiple @{link BTLEAction actions}.
- *
+ * <p/>
  * This class implements GattCallback so that subclasses may override those methods
  * to handle those events.
  * Note: by default all Gatt events are forwarded to AbstractBTLEDeviceSupport, subclasses may override
@@ -33,6 +33,7 @@ public abstract class AbstractBTLEOperation<T extends AbstractBTLEDeviceSupport>
     /**
      * Delegates to the DeviceSupport instance and additionally sets this instance as the Gatt
      * callback for the transaction.
+     *
      * @param taskName
      * @return
      * @throws IOException

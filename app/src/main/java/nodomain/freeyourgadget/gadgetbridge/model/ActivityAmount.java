@@ -2,8 +2,6 @@ package nodomain.freeyourgadget.gadgetbridge.model;
 
 import android.content.Context;
 
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
-
 public class ActivityAmount {
     private int activityKind;
     private short percent;

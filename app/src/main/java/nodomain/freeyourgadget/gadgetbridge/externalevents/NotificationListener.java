@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
@@ -20,6 +22,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
 public class NotificationListener extends NotificationListenerService {
@@ -32,45 +36,60 @@ public class NotificationListener extends NotificationListenerService {
             = "nodomain.freeyourgadget.gadgetbridge.notificationlistener.action.dismiss_all";
     public static final String ACTION_OPEN
             = "nodomain.freeyourgadget.gadgetbridge.notificationlistener.action.open";
+    public static final String ACTION_MUTE
+            = "nodomain.freeyourgadget.gadgetbridge.notificationlistener.action.mute";
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @SuppressLint("NewApi")
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (action.equals(ACTION_OPEN)) {
-                StatusBarNotification[] sbns = NotificationListener.this.getActiveNotifications();
-                int handle = intent.getIntExtra("handle", -1);
-                for (StatusBarNotification sbn : sbns) {
-                    if ((int) sbn.getPostTime() == handle) {
-                        try {
-                            PendingIntent pi = sbn.getNotification().contentIntent;
-                            if (pi != null) {
-                                pi.send();
+            switch (action) {
+                case ACTION_MUTE:
+                case ACTION_OPEN: {
+                    StatusBarNotification[] sbns = NotificationListener.this.getActiveNotifications();
+                    int handle = intent.getIntExtra("handle", -1);
+                    for (StatusBarNotification sbn : sbns) {
+                        if ((int) sbn.getPostTime() == handle) {
+                            if (action.equals(ACTION_OPEN)) {
+                                try {
+                                    PendingIntent pi = sbn.getNotification().contentIntent;
+                                    if (pi != null) {
+                                        pi.send();
+                                    }
+                                } catch (PendingIntent.CanceledException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                // ACTION_MUTE
+                                LOG.info("going to mute " + sbn.getPackageName());
+                                GBApplication.addToBlacklist(sbn.getPackageName());
                             }
-                        } catch (PendingIntent.CanceledException e) {
-                            e.printStackTrace();
                         }
                     }
+                    break;
                 }
-            } else if (action.equals(ACTION_DISMISS)) {
-                StatusBarNotification[] sbns = NotificationListener.this.getActiveNotifications();
-                int handle = intent.getIntExtra("handle", -1);
-                for (StatusBarNotification sbn : sbns) {
-                    if ((int) sbn.getPostTime() == handle) {
-                        if (GBApplication.isRunningLollipopOrLater()) {
-                            String key = sbn.getKey();
-                            NotificationListener.this.cancelNotification(key);
-                        } else {
-                            int id = sbn.getId();
-                            String pkg = sbn.getPackageName();
-                            String tag = sbn.getTag();
-                            NotificationListener.this.cancelNotification(pkg, tag, id);
+                case ACTION_DISMISS: {
+                    StatusBarNotification[] sbns = NotificationListener.this.getActiveNotifications();
+                    int handle = intent.getIntExtra("handle", -1);
+                    for (StatusBarNotification sbn : sbns) {
+                        if ((int) sbn.getPostTime() == handle) {
+                            if (GBApplication.isRunningLollipopOrLater()) {
+                                String key = sbn.getKey();
+                                NotificationListener.this.cancelNotification(key);
+                            } else {
+                                int id = sbn.getId();
+                                String pkg = sbn.getPackageName();
+                                String tag = sbn.getTag();
+                                NotificationListener.this.cancelNotification(pkg, tag, id);
+                            }
                         }
                     }
+                    break;
                 }
-            } else if (action.equals(ACTION_DISMISS_ALL)) {
-                NotificationListener.this.cancelAllNotifications();
+                case ACTION_DISMISS_ALL:
+                    NotificationListener.this.cancelAllNotifications();
+                    break;
             }
 
         }
@@ -83,6 +102,7 @@ public class NotificationListener extends NotificationListenerService {
         filterLocal.addAction(ACTION_OPEN);
         filterLocal.addAction(ACTION_DISMISS);
         filterLocal.addAction(ACTION_DISMISS_ALL);
+        filterLocal.addAction(ACTION_MUTE);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
     }
 
@@ -128,8 +148,6 @@ public class NotificationListener extends NotificationListenerService {
         if (source.equals("android") ||
                 source.equals("com.android.systemui") ||
                 source.equals("com.android.dialer") ||
-                source.equals("com.android.mms") ||
-                source.equals("com.moez.QKSMS") ||
                 source.equals("com.cyanogenmod.eleven")) {
             return;
         }
@@ -146,21 +164,69 @@ public class NotificationListener extends NotificationListenerService {
             }
         }
 
-        LOG.info("Processing notification from source " + source);
-
-        Bundle extras = notification.extras;
-        String title = extras.getCharSequence(Notification.EXTRA_TITLE).toString();
-        String content = null;
-        if (extras.containsKey(Notification.EXTRA_TEXT)) {
-            CharSequence contentCS = extras.getCharSequence(Notification.EXTRA_TEXT);
-            if (contentCS != null) {
-                content = contentCS.toString();
+        if (source.equals("com.moez.QKSMS") || source.equals("com.android.mms")) {
+            if (!"never".equals(sharedPrefs.getString("notification_mode_sms", "when_screen_off"))) {
+                return;
             }
         }
 
-        if (content != null) {
-            GBApplication.deviceService().onGenericNotification(title, content, (int) sbn.getPostTime()); //FIMXE: a truly unique id would be better
+        if (GBApplication.blacklist != null && GBApplication.blacklist.contains(source)) {
+            return;
         }
+
+        NotificationSpec notificationSpec = new NotificationSpec();
+
+        // determinate Source App Name ("Label")
+        PackageManager pm = getPackageManager();
+        ApplicationInfo ai = null;
+        try {
+            ai = pm.getApplicationInfo(source, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (ai != null) {
+            notificationSpec.sourceName = (String) pm.getApplicationLabel(ai);
+        }
+        
+        switch (source) {
+            case "org.mariotaku.twidere":
+            case "com.twitter.android":
+            case "org.andstatus.app":
+            case "org.mustard.android":
+                notificationSpec.type = NotificationType.TWITTER;
+                break;
+            case "com.fsck.k9":
+            case "com.android.email":
+                notificationSpec.type = NotificationType.EMAIL;
+                break;
+            case "com.moez.QKSMS":
+            case "com.android.mms":
+                notificationSpec.type = NotificationType.SMS;
+                break;
+            case "eu.siacs.conversations":
+                notificationSpec.type = NotificationType.CHAT;
+                break;
+            case "org.indywidualni.fblite":
+                notificationSpec.type = NotificationType.FACEBOOK;
+                break;
+            default:
+                notificationSpec.type = NotificationType.UNDEFINED;
+                break;
+        }
+
+        LOG.info("Processing notification from source " + source);
+
+        Bundle extras = notification.extras;
+        notificationSpec.title = extras.getCharSequence(Notification.EXTRA_TITLE).toString();
+        if (extras.containsKey(Notification.EXTRA_TEXT)) {
+            CharSequence contentCS = extras.getCharSequence(Notification.EXTRA_TEXT);
+            if (contentCS != null) {
+                notificationSpec.body = contentCS.toString();
+            }
+        }
+
+        notificationSpec.id = (int) sbn.getPostTime(); //FIMXE: a truly unique id would be better
+        GBApplication.deviceService().onNotification(notificationSpec);
     }
 
     private boolean isServiceRunning() {

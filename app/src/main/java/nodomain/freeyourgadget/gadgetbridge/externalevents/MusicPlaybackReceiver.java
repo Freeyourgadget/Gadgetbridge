@@ -12,6 +12,8 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 public class MusicPlaybackReceiver extends BroadcastReceiver {
     private static final Logger LOG = LoggerFactory.getLogger(MusicPlaybackReceiver.class);
 
+    private static String mLastSource;
+
     @Override
     public void onReceive(Context context, Intent intent) {
         String artist = intent.getStringExtra("artist");

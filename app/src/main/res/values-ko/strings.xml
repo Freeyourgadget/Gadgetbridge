@@ -12,6 +12,7 @@
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">앱 관리자</string>
   <string name="appmananger_app_delete">삭제</string>
+  <!--Strings related to AppBlacklist-->
   <!--Strings related to FwAppInstaller-->
   <!--Strings related to Settings-->
   <string name="title_activity_settings">설정</string>
@@ -23,7 +24,6 @@
   <string name="pref_header_notifications">알림</string>
   <string name="pref_title_notifications_repetitions">반복</string>
   <string name="pref_title_notifications_sms">SMS</string>
-  <string name="pref_title_notifications_incoming_call">걸려오는 전화</string>
   <string name="pref_title_notifications_k9mail">K-9 메일</string>
   <string name="pref_title_notifications_pebblemsg">Pebble 메세지</string>
   <string name="pref_summary_notifications_pebblemsg">인텐트를 통해 Pebble에 알림을 전송할 수 있는 앱 지원. Conversations 앱 등에 사용할 수 있습니다.</string>

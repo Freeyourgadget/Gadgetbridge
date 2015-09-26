@@ -14,10 +14,13 @@ public interface ChartsHost {
     GBDevice getDevice();
 
     void setStartDate(Date startDate);
+
     void setEndDate(Date endDate);
 
     Date getStartDate();
+
     Date getEndDate();
+
     void setDateInfo(String dateInfo);
 
     ViewGroup getDateBar();

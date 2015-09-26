@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 
 /**
@@ -24,6 +25,7 @@ public class ServiceDeviceSupport implements DeviceSupport {
         THROTTLING,
         BUSY_CHECKING,
     }
+
     private static final Logger LOG = LoggerFactory.getLogger(ServiceDeviceSupport.class);
 
     private static final long THROTTLING_THRESHOLD = 1000; // throttle multiple events in between one second
@@ -111,27 +113,11 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
-    public void onSMS(String from, String body) {
-        if (checkBusy("sms") || checkThrottle("sms")) {
-            return;
-        }
-        delegate.onSMS(from, body);
-    }
-
-    @Override
-    public void onEmail(String from, String subject, String body) {
-        if (checkBusy("email") || checkThrottle("email")) {
-            return;
-        }
-        delegate.onEmail(from, subject, body);
-    }
-
-    @Override
-    public void onGenericNotification(String title, String details, int handle) {
+    public void onNotification(NotificationSpec notificationSpec) {
         if (checkBusy("generic notification") || checkThrottle("generic notification")) {
             return;
         }
-        delegate.onGenericNotification(title, details, handle);
+        delegate.onNotification(notificationSpec);
     }
 
     @Override
@@ -177,11 +163,11 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
-    public void onAppStart(UUID uuid) {
+    public void onAppStart(UUID uuid, boolean start) {
         if (checkBusy("app start")) {
             return;
         }
-        delegate.onAppStart(uuid);
+        delegate.onAppStart(uuid, start);
     }
 
     @Override

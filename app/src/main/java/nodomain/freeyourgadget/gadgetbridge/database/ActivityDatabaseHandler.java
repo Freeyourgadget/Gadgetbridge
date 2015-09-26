@@ -12,13 +12,13 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.database.schema.ActivityDBCreationScript;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.DATABASE_NAME;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_INTENSITY;
@@ -179,9 +179,11 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
         }
         ArrayList<ActivitySample> samples = new ArrayList<ActivitySample>();
         final String where = "(provider=" + provider.getID() + " and timestamp>=" + timestamp_from + " and timestamp<=" + timestamp_to + getWhereClauseFor(activityTypes, provider) + ")";
+        LOG.info("Activity query where: " + where);
         final String order = "timestamp";
         try (SQLiteDatabase db = this.getReadableDatabase()) {
             try (Cursor cursor = db.query(TABLE_GBACTIVITYSAMPLES, null, where, null, null, null, order)) {
+                LOG.info("Activity query result: " + cursor.getCount() + " samples");
                 if (cursor.moveToFirst()) {
                     do {
                         GBActivitySample sample = new GBActivitySample(

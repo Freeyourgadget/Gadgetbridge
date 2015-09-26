@@ -125,8 +125,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
         legendLabels.add(akDeepSleep.label);
         legendColors.add(akNotWorn.color);
         legendLabels.add(akNotWorn.label);
-        chart.getLegend().setColors(legendColors);
-        chart.getLegend().setLabels(legendLabels);
+        chart.getLegend().setCustom(legendColors, legendLabels);
     }
 
     @Override

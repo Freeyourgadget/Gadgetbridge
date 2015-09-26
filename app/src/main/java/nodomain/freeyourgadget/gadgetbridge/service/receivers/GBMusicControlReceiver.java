@@ -3,8 +3,10 @@ package nodomain.freeyourgadget.gadgetbridge.service.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 
 import org.slf4j.Logger;
@@ -51,16 +53,25 @@ public class GBMusicControlReceiver extends BroadcastReceiver {
         }
 
         if (keyCode != -1) {
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+            String audioPlayer = sharedPrefs.getString("audio_player", "default");
+
             long eventtime = SystemClock.uptimeMillis();
 
             Intent downIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
             KeyEvent downEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_DOWN, keyCode, 0);
             downIntent.putExtra(Intent.EXTRA_KEY_EVENT, downEvent);
+            if (!"default".equals(audioPlayer)) {
+                downIntent.setPackage(audioPlayer);
+            }
             context.sendOrderedBroadcast(downIntent, null);
 
             Intent upIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
             KeyEvent upEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_UP, keyCode, 0);
             upIntent.putExtra(Intent.EXTRA_KEY_EVENT, upEvent);
+            if (audioPlayer != null) {
+                upIntent.setPackage(audioPlayer);
+            }
             context.sendOrderedBroadcast(upIntent, null);
         }
     }

@@ -64,13 +64,16 @@ public class TransactionBuilder {
     /**
      * Sets a GattCallback instance that will be called when the transaction is executed,
      * resulting in GattCallback events.
+     *
      * @param callback the callback to set, may be null
      */
     public void setGattCallback(@Nullable GattCallback callback) {
         mTransaction.setGattCallback(callback);
     }
 
-    public @Nullable GattCallback getGattCallback() {
+    public
+    @Nullable
+    GattCallback getGattCallback() {
         return mTransaction.getGattCallback();
     }
 

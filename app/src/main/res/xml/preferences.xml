@@ -7,6 +7,10 @@
             android:defaultValue="false"
             android:key="general_autoconnectonbluetooth"
             android:title="@string/pref_title_general_autoconnectonbluetooth" />
+        <ListPreference
+            android:defaultValue="default"
+            android:key="audio_player"
+            android:title="@string/pref_title_audo_player" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="pref_key_datetime"
@@ -20,6 +24,13 @@
     <PreferenceCategory
         android:key="pref_key_notifications"
         android:title="@string/pref_header_notifications">
+
+        <ListPreference
+            android:defaultValue="always"
+            android:entries="@array/notification_mode_toggle"
+            android:entryValues="@array/notification_mode_values_toggle"
+            android:key="notification_mode_calls"
+            android:title="@string/pref_title_notifications_call" />
 
         <ListPreference
             android:defaultValue="when_screen_off"
@@ -51,32 +62,50 @@
             android:defaultValue="false"
             android:key="notifications_generic_whenscreenon"
             android:title="@string/pref_title_whenscreenon" />
+        <Preference
+            android:key="pref_key_blacklist"
+            android:title="@string/pref_blacklist" />
     </PreferenceCategory>
 
     <PreferenceCategory
         android:key="pref_key_device_specific_category"
         android:title="@string/preferences_category_device_specific_settings">
         <Preference
-            android:key="pref_key_miband"
             android:icon="@drawable/ic_device_miband"
+            android:key="pref_key_miband"
             android:title="@string/preferences_miband_settings" />
         <PreferenceScreen
-            android:key="pref_key_pebble"
             android:icon="@drawable/ic_device_pebble"
-            android:title="@string/pref_title_pebble_settings" >
+            android:key="pref_key_pebble"
+            android:title="@string/pref_title_pebble_settings">
+            <PreferenceCategory
+                android:key="pref_key_general"
+                android:title="@string/pref_header_general">
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="pebble_enable_pebblekit"
+                    android:summary="@string/pref_summary_enable_pebblekit"
+                    android:title="@string/pref_title_enable_pebblekit" />
+                <EditTextPreference
+                    android:defaultValue="12"
+                    android:inputType="number"
+                    android:key="pebble_reconnect_attempts"
+                    android:maxLength="4"
+                    android:title="@string/pref_title_pebble_reconnect_attempts" />
+            </PreferenceCategory>
             <PreferenceCategory
                 android:key="pref_key_development"
                 android:title="@string/pref_header_development">
                 <CheckBoxPreference
                     android:defaultValue="false"
                     android:key="pebble_force_protocol"
-                    android:title="@string/pref_title_pebble_forceprotocol"
-                    android:summary="@string/pref_summary_pebble_forceprotocol" />
+                    android:summary="@string/pref_summary_pebble_forceprotocol"
+                    android:title="@string/pref_title_pebble_forceprotocol" />
                 <CheckBoxPreference
                     android:defaultValue="false"
                     android:key="pebble_force_untested"
-                    android:title="@string/pref_title_pebble_forceuntested"
-                    android:summary="@string/pref_summary_pebble_forceuntested" />
+                    android:summary="@string/pref_summary_pebble_forceuntested"
+                    android:title="@string/pref_title_pebble_forceuntested" />
                 <EditTextPreference
                     android:digits="0123456789."
                     android:key="pebble_emu_addr"

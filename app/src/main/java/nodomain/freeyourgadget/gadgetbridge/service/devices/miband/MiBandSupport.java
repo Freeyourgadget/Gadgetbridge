@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.UUID;
 
@@ -29,6 +31,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
@@ -38,6 +41,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.AbortTransactio
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.FetchActivityOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.UpdateFirmwareOperation;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_FLASH_COLOUR;
@@ -54,6 +58,7 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.FL
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.FLASH_ORIGINAL_COLOUR;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_GENERIC;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_K9MAIL;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_PEBBLEMSG;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_SMS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_COUNT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_DURATION;
@@ -404,18 +409,21 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSMS(String from, String body) {
-        performPreferredNotification("sms received", ORIGIN_SMS, null);
-    }
-
-    @Override
-    public void onEmail(String from, String subject, String body) {
-        performPreferredNotification("email received", ORIGIN_K9MAIL, null);
-    }
-
-    @Override
-    public void onGenericNotification(String title, String details, int handle) {
-        performPreferredNotification("generic notification received", ORIGIN_GENERIC, null);
+    public void onNotification(NotificationSpec notificationSpec) {
+        // FIXME: these ORIGIN contants do not really make sense anymore
+        switch (notificationSpec.type) {
+            case SMS:
+                performPreferredNotification("sms received", ORIGIN_SMS, null);
+                break;
+            case EMAIL:
+                performPreferredNotification("email received", ORIGIN_K9MAIL, null);
+                break;
+            case CHAT:
+                performPreferredNotification("chat message received", ORIGIN_PEBBLEMSG, null);
+                break;
+            default:
+                performPreferredNotification("generic notification received", ORIGIN_GENERIC, null);
+        }
     }
 
     @Override
@@ -435,7 +443,10 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      * @param builder
      */
     private MiBandSupport setCurrentTime(TransactionBuilder builder) {
-        byte[] nowBytes = MiBandDateConverter.calendarToRawBytes(GregorianCalendar.getInstance());
+        Calendar now = GregorianCalendar.getInstance();
+        Date date = now.getTime();
+        LOG.info("Sending current time to Mi Band: " + DateTimeUtils.formatDate(date) + " (" + date.toGMTString() + ")");
+        byte[] nowBytes = MiBandDateConverter.calendarToRawBytes(now);
         byte[] time = new byte[]{
                 nowBytes[0],
                 nowBytes[1],
@@ -588,7 +599,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onAppStart(UUID uuid) {
+    public void onAppStart(UUID uuid, boolean start) {
         // not supported
     }
 
@@ -614,6 +625,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             handleNotificationNotif(characteristic.getValue());
         } else if (MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS.equals(characteristicUUID)) {
             handleRealtimeSteps(characteristic.getValue());
+        } else {
+            LOG.info("Unhandled characteristic changed: " + characteristicUUID);
         }
     }
 

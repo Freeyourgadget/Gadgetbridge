@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
@@ -79,28 +80,16 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void onSMS(String from, String body) {
-        Intent intent = createIntent().setAction(ACTION_NOTIFICATION_SMS)
-                .putExtra(EXTRA_NOTIFICATION_SENDER, from)
-                .putExtra(EXTRA_NOTIFICATION_BODY, body);
-        invokeService(intent);
-    }
-
-    @Override
-    public void onEmail(String from, String subject, String body) {
-        Intent intent = createIntent().setAction(ACTION_NOTIFICATION_EMAIL)
-                .putExtra(EXTRA_NOTIFICATION_SENDER, from)
-                .putExtra(EXTRA_NOTIFICATION_SUBJECT, subject)
-                .putExtra(EXTRA_NOTIFICATION_BODY, body);
-        invokeService(intent);
-    }
-
-    @Override
-    public void onGenericNotification(String title, String details, int handle) {
-        Intent intent = createIntent().setAction(ACTION_NOTIFICATION_GENERIC)
-                .putExtra(EXTRA_NOTIFICATION_TITLE, title)
-                .putExtra(EXTRA_NOTIFICATION_BODY, details)
-                .putExtra(EXTRA_NOTIFICATION_HANDLE, handle);
+    public void onNotification(NotificationSpec notificationSpec) {
+        Intent intent = createIntent().setAction(ACTION_NOTIFICATION)
+                .putExtra(EXTRA_NOTIFICATION_PHONENUMBER, notificationSpec.phoneNumber)
+                .putExtra(EXTRA_NOTIFICATION_SENDER, notificationSpec.sender)
+                .putExtra(EXTRA_NOTIFICATION_SUBJECT, notificationSpec.subject)
+                .putExtra(EXTRA_NOTIFICATION_TITLE, notificationSpec.title)
+                .putExtra(EXTRA_NOTIFICATION_BODY, notificationSpec.body)
+                .putExtra(EXTRA_NOTIFICATION_ID, notificationSpec.id)
+                .putExtra(EXTRA_NOTIFICATION_TYPE, notificationSpec.type)
+                .putExtra(EXTRA_NOTIFICATION_SOURCENAME, notificationSpec.sourceName);
         invokeService(intent);
     }
 
@@ -148,9 +137,10 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void onAppStart(UUID uuid) {
+    public void onAppStart(UUID uuid, boolean start) {
         Intent intent = createIntent().setAction(ACTION_STARTAPP)
-                .putExtra(EXTRA_APP_UUID, uuid);
+                .putExtra(EXTRA_APP_UUID, uuid)
+                .putExtra(EXTRA_APP_START, start);
         invokeService(intent);
     }
 

@@ -26,7 +26,8 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -38,9 +39,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_EN
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_FETCH_ACTIVITY_DATA;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_FIND_DEVICE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_INSTALL;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_NOTIFICATION_EMAIL;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_NOTIFICATION_GENERIC;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_NOTIFICATION_SMS;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_NOTIFICATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REBOOT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_APPINFO;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_DEVICEINFO;
@@ -51,6 +50,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SE
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_STARTAPP;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_ALARMS;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_UUID;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_COMMAND;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_PHONENUMBER;
@@ -61,10 +61,13 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUS
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_ARTIST;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_TRACK;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_BODY;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_HANDLE;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_ID;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_PHONENUMBER;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_SENDER;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_SOURCENAME;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_SUBJECT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_TITLE;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_TYPE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_PERFORM_PAIR;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_URI;
 
@@ -180,25 +183,20 @@ public class DeviceCommunicationService extends Service {
             case ACTION_REQUEST_DEVICEINFO:
                 mGBDevice.sendDeviceUpdateIntent(this);
                 break;
-            case ACTION_NOTIFICATION_GENERIC: {
-                String title = intent.getStringExtra(EXTRA_NOTIFICATION_TITLE);
-                String body = intent.getStringExtra(EXTRA_NOTIFICATION_BODY);
-                int handle = intent.getIntExtra(EXTRA_NOTIFICATION_HANDLE,-1);
-                mDeviceSupport.onGenericNotification(title, body, handle);
-                break;
-            }
-            case ACTION_NOTIFICATION_SMS: {
-                String sender = intent.getStringExtra(EXTRA_NOTIFICATION_SENDER);
-                String body = intent.getStringExtra(EXTRA_NOTIFICATION_BODY);
-                String senderName = getContactDisplayNameByNumber(sender);
-                mDeviceSupport.onSMS(senderName, body);
-                break;
-            }
-            case ACTION_NOTIFICATION_EMAIL: {
-                String sender = intent.getStringExtra(EXTRA_NOTIFICATION_SENDER);
-                String subject = intent.getStringExtra(EXTRA_NOTIFICATION_SUBJECT);
-                String body = intent.getStringExtra(EXTRA_NOTIFICATION_BODY);
-                mDeviceSupport.onEmail(sender, subject, body);
+            case ACTION_NOTIFICATION: {
+                NotificationSpec notificationSpec = new NotificationSpec();
+                notificationSpec.phoneNumber = intent.getStringExtra(EXTRA_NOTIFICATION_PHONENUMBER);
+                notificationSpec.sender = intent.getStringExtra(EXTRA_NOTIFICATION_SENDER);
+                notificationSpec.subject = intent.getStringExtra(EXTRA_NOTIFICATION_SUBJECT);
+                notificationSpec.title = intent.getStringExtra(EXTRA_NOTIFICATION_TITLE);
+                notificationSpec.body = intent.getStringExtra(EXTRA_NOTIFICATION_BODY);
+                notificationSpec.type = (NotificationType) intent.getSerializableExtra(EXTRA_NOTIFICATION_TYPE);
+                notificationSpec.id = intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1);
+                notificationSpec.sourceName = intent.getStringExtra(EXTRA_NOTIFICATION_SOURCENAME);
+                if (notificationSpec.type == NotificationType.SMS && notificationSpec.phoneNumber != null) {
+                    notificationSpec.sender = getContactDisplayNameByNumber(notificationSpec.phoneNumber);
+                }
+                mDeviceSupport.onNotification(notificationSpec);
                 break;
             }
             case ACTION_REBOOT: {
@@ -246,7 +244,8 @@ public class DeviceCommunicationService extends Service {
                 break;
             case ACTION_STARTAPP: {
                 UUID uuid = (UUID) intent.getSerializableExtra(EXTRA_APP_UUID);
-                mDeviceSupport.onAppStart(uuid);
+                boolean start = intent.getBooleanExtra(EXTRA_APP_START, true);
+                mDeviceSupport.onAppStart(uuid, start);
                 break;
             }
             case ACTION_DELETEAPP: {
@@ -276,6 +275,7 @@ public class DeviceCommunicationService extends Service {
 
     /**
      * For testing!
+     *
      * @param factory
      */
     public void setDeviceSupportFactory(DeviceSupportFactory factory) {
@@ -285,6 +285,7 @@ public class DeviceCommunicationService extends Service {
     /**
      * Disposes the current DeviceSupport instance (if any) and sets a new device support instance
      * (if not null).
+     *
      * @param deviceSupport
      */
     private void setDeviceSupport(@Nullable DeviceSupport deviceSupport) {

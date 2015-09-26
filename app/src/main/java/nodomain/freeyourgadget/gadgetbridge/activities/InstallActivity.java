@@ -4,6 +4,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ItemWithDetails;
 
 public interface InstallActivity {
     void setInfoText(String text);
+
     void setInstallEnabled(boolean enable);
 
     void clearInstallItems();

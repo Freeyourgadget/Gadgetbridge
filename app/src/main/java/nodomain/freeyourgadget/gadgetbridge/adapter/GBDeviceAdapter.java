@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 
 public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {

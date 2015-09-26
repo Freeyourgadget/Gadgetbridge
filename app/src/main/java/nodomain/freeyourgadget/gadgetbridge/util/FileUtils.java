@@ -51,7 +51,8 @@ public class FileUtils {
      * Reads the contents of the given InputStream into a byte array, but does not
      * read more than maxLen bytes. If the stream provides more than maxLen bytes,
      * an IOException is thrown.
-     * @param in the stream to read from
+     *
+     * @param in     the stream to read from
      * @param maxLen the maximum number of bytes to read/return
      * @return the bytes read from the InputStream
      * @throws IOException when reading failed or when maxLen was exceeded

@@ -22,14 +22,16 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 public interface DeviceSupport extends EventHandler {
     /**
      * Sets all context information needed for the instance to operate.
-     * @param gbDevice the device to operate with
+     *
+     * @param gbDevice  the device to operate with
      * @param btAdapter the bluetooth adapter to use
-     * @param context the android context, e.g. to look up resources
+     * @param context   the android context, e.g. to look up resources
      */
     void setContext(GBDevice gbDevice, BluetoothAdapter btAdapter, Context context);
 
     /**
      * Returns whether a transport-level connection is established with the device
+     *
      * @return whether the device is connected with the system running this software
      */
     boolean isConnected();
@@ -40,9 +42,10 @@ public interface DeviceSupport extends EventHandler {
      * Returns true if a connection attempt was made. If the implementation is synchronous
      * it may also return true if the connection was successfully established, however
      * callers shall not rely on that.
-     *
+     * <p/>
      * The actual connection state change (successful or not) will be reported via the
      * #getDevice device as a device change Intent.
+     *
      * @see GBDevice#ACTION_DEVICE_CHANGED
      */
     boolean connect();
@@ -62,6 +65,7 @@ public interface DeviceSupport extends EventHandler {
     /**
      * Attempts to pair and connect this device with the gadget device. Success
      * will be reported via a device change Intent.
+     *
      * @see GBDevice#ACTION_DEVICE_CHANGED
      */
     void pair();

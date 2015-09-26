@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 public class MiBandFWHelper {
@@ -32,6 +31,10 @@ public class MiBandFWHelper {
             16779547,  //1.0.9.27 tested by developer
             16779568, //1.0.9.48 tested by developer
             16779585, //1.0.9.65 tested by developer
+            16779779, //1.0.10.3 reported on the wiki
+            16779782, //1.0.10.6 reported on the wikiew
+            16779787, //1.0.10.11 tested by developer
+            //16779790, //1.0.10.14 reported on the wiki (vibration does not work currently)
     };
 
     public MiBandFWHelper(Uri uri, Context context) throws IOException {
@@ -44,7 +47,7 @@ public class MiBandFWHelper {
             throw new IOException("Firmware has a filename that looks like a Pebble app/firmware.");
         }
 
-        try (InputStream in = new BufferedInputStream(cr.openInputStream(uri))){
+        try (InputStream in = new BufferedInputStream(cr.openInputStream(uri))) {
             this.fw = FileUtils.readAll(in, 1024 * 1024); // 1 MB
             if (fw.length <= firmwareVersionMajor || fw[firmwareVersionMajor] != 1) {
                 throw new IOException("Firmware major version should be 1, probably this isn't a MiBand firmware.");

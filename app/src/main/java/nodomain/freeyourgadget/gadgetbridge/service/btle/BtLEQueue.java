@@ -61,10 +61,10 @@ public final class BtLEQueue {
             while (!mDisposed && !mCrashed) {
                 try {
                     Transaction transaction = mTransactions.take();
-                    internalGattCallback.reset();
 
                     if (!isConnected()) {
                         // TODO: request connection and initialization from the outside and wait until finished
+                        internalGattCallback.reset();
 
                         // wait until the connection succeeds before running the actions
                         // Note that no automatic connection is performed. This has to be triggered
@@ -207,6 +207,7 @@ public final class BtLEQueue {
 
     /**
      * Depending on certain criteria, connects to the BluetoothGatt.
+     *
      * @return true if a reconnection attempt was made, or false otherwise
      */
     private boolean maybeReconnect() {
@@ -275,7 +276,9 @@ public final class BtLEQueue {
     // Implements callback methods for GATT events that the app cares about.  For example,
     // connection change and services discovered.
     private final class InternalGattCallback extends BluetoothGattCallback {
-        private @Nullable GattCallback mTransactionGattCallback;
+        private
+        @Nullable
+        GattCallback mTransactionGattCallback;
         private GattCallback mExternalGattCallback;
 
         public InternalGattCallback(GattCallback externalGattCallback) {
@@ -403,6 +406,8 @@ public final class BtLEQueue {
             }
             if (getCallbackToUse() != null) {
                 getCallbackToUse().onCharacteristicChanged(gatt, characteristic);
+            } else {
+                LOG.info("No gattcallback registered, ignoring characteristic change");
             }
         }
 
@@ -442,7 +447,12 @@ public final class BtLEQueue {
         }
 
         public void reset() {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("internal gatt callback set to null");
+            }
             mTransactionGattCallback = null;
         }
-    };
+    }
+
+    ;
 }

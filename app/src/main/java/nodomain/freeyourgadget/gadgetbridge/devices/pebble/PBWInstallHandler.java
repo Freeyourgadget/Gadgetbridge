@@ -39,7 +39,17 @@ public class PBWInstallHandler implements InstallHandler {
             return;
         }
 
-        mPBWReader = new PBWReader(mUri, mContext, device.getHardwareVersion().equals("dvt") ? "basalt" : "aplite");
+        String hwRev = device.getHardwareVersion();
+        String platformName;
+        if (hwRev.startsWith("snowy")) {
+            platformName = "basalt";
+        } else if (hwRev.startsWith("spalding")) {
+            platformName = "chalk";
+        } else {
+            platformName = "aplite";
+        }
+
+        mPBWReader = new PBWReader(mUri, mContext, platformName);
         if (!mPBWReader.isValid()) {
             installActivity.setInfoText("pbw/pbz is broken or incompatible with your Hardware or Firmware.");
             installActivity.setInstallEnabled(false);

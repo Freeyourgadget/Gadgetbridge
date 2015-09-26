@@ -13,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 
 public class PebbleReceiver extends BroadcastReceiver {
 
@@ -32,9 +34,6 @@ public class PebbleReceiver extends BroadcastReceiver {
             }
         }
 
-        String title;
-        String body;
-
         String messageType = intent.getStringExtra("messageType");
         if (!messageType.equals("PEBBLE_ALERT")) {
             LOG.info("non PEBBLE_ALERT message type not supported");
@@ -46,18 +45,26 @@ public class PebbleReceiver extends BroadcastReceiver {
             return;
         }
 
+        NotificationSpec notificationSpec = new NotificationSpec();
+        notificationSpec.id = -1;
+
         String notificationData = intent.getStringExtra("notificationData");
         try {
             JSONArray notificationJSON = new JSONArray(notificationData);
-            title = notificationJSON.getJSONObject(0).getString("title");
-            body = notificationJSON.getJSONObject(0).getString("body");
+            notificationSpec.title = notificationJSON.getJSONObject(0).getString("title");
+            notificationSpec.body = notificationJSON.getJSONObject(0).getString("body");
         } catch (JSONException e) {
             e.printStackTrace();
             return;
         }
 
-        if (title != null && body != null) {
-            GBApplication.deviceService().onSMS(title, body);
+        if (notificationSpec.title != null) {
+            notificationSpec.type = NotificationType.UNDEFINED;
+            String sender = intent.getStringExtra("sender");
+            if ("Conversations".equals(sender)) {
+                notificationSpec.type = NotificationType.CHAT;
+            }
+            GBApplication.deviceService().onNotification(notificationSpec);
         }
     }
 }

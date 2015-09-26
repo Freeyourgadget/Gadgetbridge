@@ -5,22 +5,23 @@ import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.EventHandler;
-import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
+import nodomain.freeyourgadget.gadgetbridge.devices.EventHandler;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
 
 /**
  * An abstract base class for devices speaking a serial protocol, like via
  * an rfcomm bluetooth socket or a TCP socket.
- *
+ * <p/>
  * This class uses two helper classes to deal with that:
  * - GBDeviceIoThread, which creates and maintains the actual socket connection and implements the transport layer
  * - GBDeviceProtocol, which implements the encoding and decoding of messages, i.e. the actual device specific protocol
- *
+ * <p/>
  * Note that these two classes need to be implemented in a device specific way.
- *
+ * <p/>
  * This implementation implements all methods of {@link EventHandler}, calls the {@link GBDeviceProtocol device protocol}
  * to create the device specific message for the respective events and sends them to the device via {@link #sendToDevice(byte[])}.
  */
@@ -84,6 +85,7 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     /**
      * Sends the given message to the device. This implementation delegates the
      * writing to the {@link #getDeviceIOThread device io thread}
+     *
      * @param bytes the message to send to the device
      */
     protected void sendToDevice(byte[] bytes) {
@@ -106,20 +108,8 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     }
 
     @Override
-    public void onSMS(String from, String body) {
-        byte[] bytes = gbDeviceProtocol.encodeSMS(from, body);
-        sendToDevice(bytes);
-    }
-
-    @Override
-    public void onEmail(String from, String subject, String body) {
-        byte[] bytes = gbDeviceProtocol.encodeEmail(from, subject, body);
-        sendToDevice(bytes);
-    }
-
-    @Override
-    public void onGenericNotification(String title, String details, int handle) {
-        byte[] bytes = gbDeviceProtocol.encodeGenericNotification(title, details, handle);
+    public void onNotification(NotificationSpec notificationSpec) {
+        byte[] bytes = gbDeviceProtocol.encodeNotification(notificationSpec);
         sendToDevice(bytes);
     }
 
@@ -148,8 +138,8 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     }
 
     @Override
-    public void onAppStart(UUID uuid) {
-        byte[] bytes = gbDeviceProtocol.encodeAppStart(uuid);
+    public void onAppStart(UUID uuid, boolean start) {
+        byte[] bytes = gbDeviceProtocol.encodeAppStart(uuid, start);
         sendToDevice(bytes);
     }
 

@@ -1,7 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public class MiBandSampleProvider implements SampleProvider {
     public static final byte TYPE_DEEP_SLEEP = 5;

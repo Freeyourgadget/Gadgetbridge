@@ -3,6 +3,8 @@ package nodomain.freeyourgadget.gadgetbridge.externalevents;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -22,11 +24,11 @@ public class PhoneCallReceiver extends BroadcastReceiver {
             String stateStr = intent.getExtras().getString(TelephonyManager.EXTRA_STATE);
             String number = intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
             int state = 0;
-            if (stateStr.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
+            if (TelephonyManager.EXTRA_STATE_IDLE.equals(stateStr)) {
                 state = TelephonyManager.CALL_STATE_IDLE;
-            } else if (stateStr.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
+            } else if (TelephonyManager.EXTRA_STATE_OFFHOOK.equals(stateStr)) {
                 state = TelephonyManager.CALL_STATE_OFFHOOK;
-            } else if (stateStr.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
+            } else if (TelephonyManager.EXTRA_STATE_RINGING.equals(stateStr)) {
                 state = TelephonyManager.CALL_STATE_RINGING;
             }
 
@@ -62,6 +64,10 @@ public class PhoneCallReceiver extends BroadcastReceiver {
                 break;
         }
         if (callCommand != null) {
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+            if ("never".equals(sharedPrefs.getString("notification_mode_calls", "always"))) {
+                return;
+            }
             GBApplication.deviceService().onSetCallState(mSavedNumber, null, callCommand);
         }
         mLastState = state;

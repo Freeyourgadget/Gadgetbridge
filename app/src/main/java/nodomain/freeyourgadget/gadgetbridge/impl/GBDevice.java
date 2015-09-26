@@ -9,10 +9,10 @@ import android.support.v4.content.LocalBroadcastManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class GBDevice implements Parcelable {
     public static final String ACTION_DEVICE_CHANGED
@@ -153,7 +153,7 @@ public class GBDevice implements Parcelable {
         if (mBusyTask != null) {
             LOG.warn("Attempt to mark device as busy with: " + task + ", but is already busy with: " + mBusyTask);
         }
-        LOG.info("Mark device as busy: " + mBusyTask);
+        LOG.info("Mark device as busy: " + task);
         mBusyTask = task;
     }
 

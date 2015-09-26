@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class UnknownDeviceCoordinator implements DeviceCoordinator {
     private final UnknownSampleProvider sampleProvider;
