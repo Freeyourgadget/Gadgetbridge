@@ -32,6 +32,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.AbortTransactionAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
@@ -75,7 +77,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
 
     public MiBandSupport() {
+
+        addSupportedService(GattService.UUID_SERVICE_GENERIC_ACCESS);
+        addSupportedService(GattService.UUID_SERVICE_GENERIC_ATTRIBUTE);
         addSupportedService(MiBandService.UUID_SERVICE_MIBAND_SERVICE);
+        addSupportedService(GattService.UUID_SERVICE_IMMEDIATE_ALERT);
     }
 
     @Override
@@ -168,28 +174,54 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      * @param builder
      */
     private void sendCustomNotification(VibrationProfile vibrationProfile, int flashTimes, int flashColour, int originalColour, long flashDuration, BtLEAction extraAction, TransactionBuilder builder) {
-        BluetoothGattCharacteristic controlPoint = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
-        for (short i = 0; i < vibrationProfile.getRepeat(); i++) {
-            int[] onOffSequence = vibrationProfile.getOnOffSequence();
-            for (int j = 0; j < onOffSequence.length; j++) {
-                int on = onOffSequence[j];
-                on = Math.min(500, on); // longer than 500ms is not possible
-                builder.write(controlPoint, startVibrate);
-                builder.wait(on);
-                builder.write(controlPoint, stopVibrate);
 
-                if (++j < onOffSequence.length) {
-                    int off = Math.max(onOffSequence[j], 25); // wait at least 25ms
-                    builder.wait(off);
-                }
+        if(mDeviceInfo.getFirmwareVersion() >= 16779790) {
+            //use the new alert characteristic
+            BluetoothGattCharacteristic alert = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL);
+            for (short i = 0; i < vibrationProfile.getRepeat(); i++) {
+                int[] onOffSequence = vibrationProfile.getOnOffSequence();
+                for (int j = 0; j < onOffSequence.length; j++) {
+                    int on = onOffSequence[j];
+                    on = Math.min(500, on); // longer than 500ms is not possible
+                    builder.write(alert, new byte[]{GattCharacteristic.MILD_ALERT}); //MILD_ALERT lights up GREEN leds, HIGH_ALERT lights up RED leds
+                    builder.wait(on);
+                    builder.write(alert, new byte[]{GattCharacteristic.NO_ALERT});
 
-                if (extraAction != null) {
-                    builder.add(extraAction);
+                    if (++j < onOffSequence.length) {
+                        int off = Math.max(onOffSequence[j], 25); // wait at least 25ms
+                        builder.wait(off);
+                    }
+
+                    if (extraAction != null) {
+                        builder.add(extraAction);
+                    }
                 }
             }
+            LOG.info("Sending notification to MiBand: " + alert);
+        } else {
+            BluetoothGattCharacteristic controlPoint = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
+            for (short i = 0; i < vibrationProfile.getRepeat(); i++) {
+                int[] onOffSequence = vibrationProfile.getOnOffSequence();
+                for (int j = 0; j < onOffSequence.length; j++) {
+                    int on = onOffSequence[j];
+                    on = Math.min(500, on); // longer than 500ms is not possible
+                    builder.write(controlPoint, startVibrate);
+                    builder.wait(on);
+                    builder.write(controlPoint, stopVibrate);
+
+                    if (++j < onOffSequence.length) {
+                        int off = Math.max(onOffSequence[j], 25); // wait at least 25ms
+                        builder.wait(off);
+                    }
+
+                    if (extraAction != null) {
+                        builder.add(extraAction);
+                    }
+                }
+            }
+            LOG.info("Sending notification to MiBand: " + controlPoint);
         }
 
-        LOG.info("Sending notification to MiBand: " + controlPoint);
         builder.queue(getQueue());
     }
 
