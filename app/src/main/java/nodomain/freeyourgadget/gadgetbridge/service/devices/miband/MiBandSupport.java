@@ -77,7 +77,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
 
     public MiBandSupport() {
-
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ACCESS);
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ATTRIBUTE);
         addSupportedService(MiBandService.UUID_SERVICE_MIBAND_SERVICE);
@@ -279,7 +278,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         LOG.debug("Requesting Device Info!");
         BluetoothGattCharacteristic deviceInfo = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_DEVICE_INFO);
         builder.read(deviceInfo);
-        BluetoothGattCharacteristic deviceName = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_DEVICE_NAME);
+        BluetoothGattCharacteristic deviceName = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_GAP_DEVICE_NAME);
         builder.read(deviceName);
         return this;
     }
@@ -636,6 +635,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             handleNotificationNotif(characteristic.getValue());
         } else {
             LOG.info("Unhandled characteristic changed: " + characteristicUUID);
+            logMessageContent(characteristic.getValue());
         }
     }
 
@@ -647,10 +647,13 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         UUID characteristicUUID = characteristic.getUuid();
         if (MiBandService.UUID_CHARACTERISTIC_DEVICE_INFO.equals(characteristicUUID)) {
             handleDeviceInfo(characteristic.getValue(), status);
-        } else if (MiBandService.UUID_CHARACTERISTIC_DEVICE_NAME.equals(characteristicUUID)) {
+        } else if (GattCharacteristic.UUID_CHARACTERISTIC_GAP_DEVICE_NAME.equals(characteristicUUID)) {
             handleDeviceName(characteristic.getValue(), status);
         } else if (MiBandService.UUID_CHARACTERISTIC_BATTERY.equals(characteristicUUID)) {
             handleBatteryInfo(characteristic.getValue(), status);
+        } else {
+            LOG.info("Unhandled characteristic read: "+ characteristicUUID);
+            logMessageContent(characteristic.getValue());
         }
     }
 
@@ -752,14 +755,14 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         if (status != BluetoothGatt.GATT_SUCCESS) {
             LOG.warn("Could not write to the control point.");
         }
-        LOG.info("handleControlPoint got status:" + status);
+        LOG.info("handleControlPoint write status:" + status);
 
         if (value != null) {
             for (byte b : value) {
-                LOG.info("handleControlPoint GOT DATA:" + String.format("0x%8x", b));
+                LOG.info("handleControlPoint WROTE DATA:" + String.format("0x%8x", b));
             }
         } else {
-            LOG.warn("handleControlPoint GOT null");
+            LOG.warn("handleControlPoint WROTE null");
         }
     }
 
