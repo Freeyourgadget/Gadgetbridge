@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class GattService {
@@ -38,5 +40,25 @@ public class GattService {
     public static final UUID UUID_SERVICE_TX_POWER = UUID.fromString((String.format(AbstractBTLEDeviceSupport.BASE_UUID, "1804")));
     public static final UUID UUID_SERVICE_USER_DATA = UUID.fromString((String.format(AbstractBTLEDeviceSupport.BASE_UUID, "181C")));
     public static final UUID UUID_SERVICE_WEIGHT_SCALE = UUID.fromString((String.format(AbstractBTLEDeviceSupport.BASE_UUID, "181D")));
+
+    //do we need this?
+
+    private static Map<UUID, String> GATTSERVICE_DEBUG;
+
+    static {
+        GATTSERVICE_DEBUG = new HashMap<>();
+        GATTSERVICE_DEBUG.put(UUID_SERVICE_GENERIC_ACCESS, "Generic Access Service");
+        GATTSERVICE_DEBUG.put(UUID_SERVICE_GENERIC_ATTRIBUTE, "Generic Attribute Service");
+        GATTSERVICE_DEBUG.put(UUID_SERVICE_IMMEDIATE_ALERT, "Immediate Alert");
+
+    }
+
+    public static String lookup(UUID uuid, String fallback) {
+        String name = GATTSERVICE_DEBUG.get(uuid);
+        if (name == null) {
+            name = fallback;
+        }
+        return name;
+    }
 
 }
