@@ -45,12 +45,6 @@ public class MiBandService {
 
     /* FURTHER UUIDS that were mixed with the other params below. The base UUID for these is unknown */
 
-    public static final String UUID_CHARACTERISTIC_FEATURE = "2A9E";
-
-    public static final String UUID_CHARACTERISTIC_MEASUREMENT = "2A9D";
-
-    public static final String UUID_SERVICE_WEIGHT_SCALE_SERVICE = "181D";
-
     public static final String UUID_SERVICE_WEIGHT_SERVICE = "00001530-0000-3512-2118-0009af100700";
 
     public static final byte ALIAS_LEN = 0xa;
@@ -235,6 +229,7 @@ public class MiBandService {
         MIBAND_DEBUG.put(UUID_CHARACTERISTIC_PAIR, "Pair");
 
         // extra:
+        //TODO: these UUIDs come from GattCharacteristic now, we should use these
         MIBAND_DEBUG.put(UUID.fromString("00001800-0000-1000-8000-00805f9b34fb"), "Generic Access Service");
         MIBAND_DEBUG.put(UUID.fromString("00001801-0000-1000-8000-00805f9b34fb"), "Generic Attribute Service");
         MIBAND_DEBUG.put(UUID.fromString("00002a43-0000-1000-8000-00805f9b34fb"), "Alert Category ID");
@@ -286,7 +281,6 @@ public class MiBandService {
         MIBAND_DEBUG.put(UUID.fromString("00002a11-0000-1000-8000-00805f9b34fb"), "Time with DST");
         MIBAND_DEBUG.put(UUID.fromString("00002a0e-0000-1000-8000-00805f9b34fb"), "Time Zone");
         MIBAND_DEBUG.put(UUID.fromString("00002a07-0000-1000-8000-00805f9b34fb"), "Tx Power Level");
-        MIBAND_DEBUG.put(UUID.fromString("00002a45-0000-1000-8000-00805f9b34fb"), "Unread Alert Status");
     }
 
     public static String lookup(UUID uuid, String fallback) {

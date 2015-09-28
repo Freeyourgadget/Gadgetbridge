@@ -36,11 +36,6 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     private Set<UUID> mSupportedServices = new HashSet<>(4);
 
     public static final String BASE_UUID = "0000%s-0000-1000-8000-00805f9b34fb"; //this is common for all BTLE devices. see http://stackoverflow.com/questions/18699251/finding-out-android-bluetooth-le-gatt-profiles
-    public static final UUID UUID_DESCRIPTOR_CHARACTERISTIC_USER_CONFIGURATION = UUID.fromString(String.format(BASE_UUID, "2901"));
-    public static final UUID UUID_DESCRIPTOR_CLIENT_CHARACTERISTIC_CONFIGURATION = UUID.fromString(String.format(BASE_UUID, "2902"));
-
-    //part of the generic BLE specs see https://developer.bluetooth.org/gatt/services/Pages/ServiceViewer.aspx?u=org.bluetooth.service.immediate_alert.xml
-    public static final UUID UUID_SERVICE_IMMEDIATE_ALERT = UUID.fromString((String.format(BASE_UUID, "1802")));
 
     @Override
     public boolean connect() {
@@ -142,7 +137,6 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     }
 
     private void gattServicesDiscovered(List<BluetoothGattService> discoveredGattServices) {
-
 
         if (discoveredGattServices == null) {
             return;

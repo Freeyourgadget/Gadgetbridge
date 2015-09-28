@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
+import android.bluetooth.BluetoothGattService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 
-import static nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport.UUID_DESCRIPTOR_CLIENT_CHARACTERISTIC_CONFIGURATION;
+import static nodomain.freeyourgadget.gadgetbridge.service.btle.GattDescriptor.UUID_DESCRIPTOR_GATT_CLIENT_CHARACTERISTIC_CONFIGURATION;
 
 /**
  * Enables or disables notifications for a given GATT characteristic.
@@ -33,7 +34,7 @@ public class NotifyAction extends BtLEAction {
     public boolean run(BluetoothGatt gatt) {
         boolean result = gatt.setCharacteristicNotification(getCharacteristic(), enableFlag);
         if (result) {
-            BluetoothGattDescriptor notifyDescriptor = getCharacteristic().getDescriptor(UUID_DESCRIPTOR_CLIENT_CHARACTERISTIC_CONFIGURATION);
+            BluetoothGattDescriptor notifyDescriptor = getCharacteristic().getDescriptor(UUID_DESCRIPTOR_GATT_CLIENT_CHARACTERISTIC_CONFIGURATION);
             if (notifyDescriptor != null) {
                 int properties = getCharacteristic().getProperties();
                 if ((properties & BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
