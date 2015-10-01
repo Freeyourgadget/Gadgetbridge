@@ -17,9 +17,9 @@ import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,10 +37,10 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class LiveActivityFragment extends AbstractChartFragment {
     private static final Logger LOG = LoggerFactory.getLogger(LiveActivityFragment.class);
-    private Entry totalStepsEntry;
-    private Entry stepsPerMinuteEntry;
-    private LineDataSet mStepsPerMinuteData;
-    private LineDataSet mTotalStepsData;
+    private BarEntry totalStepsEntry;
+    private BarEntry stepsPerMinuteEntry;
+    private BarDataSet mStepsPerMinuteData;
+    private BarDataSet mTotalStepsData;
 
     private class Steps {
         private int initialSteps;
@@ -106,8 +106,8 @@ public class LiveActivityFragment extends AbstractChartFragment {
 
 
     private BarLineChartBase mStepsPerMinuteHistoryChart;
-    private BarLineChartBase mStepsPerMinuteCurrentChart;
-    private BarLineChartBase mStepsTotalChart;
+    private CustomBarChart mStepsPerMinuteCurrentChart;
+    private CustomBarChart mTotalStepsChart;
 
     private Steps mSteps = new Steps();
 
@@ -128,14 +128,16 @@ public class LiveActivityFragment extends AbstractChartFragment {
     private void refreshCurrentSteps(int steps, long timestamp) {
         mSteps.updateCurrentSteps(steps, timestamp);
         // Or: count down the steps until goal reached? And then flash GOAL REACHED -> Set stretch goal
-        totalStepsEntry.setVal(mSteps.getTotalSteps());
-        LOG.info("Steps: " + steps + "total: " + mSteps.getTotalSteps() + " current: " + mSteps.getStepsPerMinute());
-//        mStepsTotalChart.setCenterText(NumberFormat.getNumberInstance().format(mSteps.getTotalSteps()));
+        mTotalStepsChart.setSingleEntryYValue(mSteps.getTotalSteps());
+//        totalStepsEntry.setVal(mSteps.getTotalSteps());
+        LOG.info("Steps: " + steps + ", total: " + mSteps.getTotalSteps() + ", current: " + mSteps.getStepsPerMinute());
+//        mTotalStepsChart.setCenterText(NumberFormat.getNumberInstance().format(mSteps.getTotalSteps()));
         mStepsPerMinuteCurrentChart.getAxisLeft().setAxisMaxValue(mSteps.getMaxStepsPerMinute());
-        stepsPerMinuteEntry.setVal(mSteps.getStepsPerMinute());
+        mStepsPerMinuteCurrentChart.setSingleEntryYValue(mSteps.getStepsPerMinute());
+//        stepsPerMinuteEntry.setVal(mSteps.getStepsPerMinute());
 //        mStepsPerMinuteCurrentChart.setCenterText(NumberFormat.getNumberInstance().format(mSteps.getStepsPerMinute()));
 
-        mStepsTotalChart.getData().notifyDataChanged();
+        mTotalStepsChart.getData().notifyDataChanged();
         mTotalStepsData.notifyDataSetChanged();
         mStepsPerMinuteCurrentChart.getData().notifyDataChanged();
         mStepsPerMinuteData.notifyDataSetChanged();
@@ -153,15 +155,15 @@ public class LiveActivityFragment extends AbstractChartFragment {
         View rootView = inflater.inflate(R.layout.fragment_live_activity, container, false);
 
         mStepsPerMinuteHistoryChart = (BarLineChartBase) rootView.findViewById(R.id.livechart_steps_per_minute_history);
-        mStepsPerMinuteCurrentChart = (BarLineChartBase) rootView.findViewById(R.id.livechart_steps_per_minute_current);
-        mStepsTotalChart = (BarLineChartBase) rootView.findViewById(R.id.livechart_steps_total);
+        mStepsPerMinuteCurrentChart = (CustomBarChart) rootView.findViewById(R.id.livechart_steps_per_minute_current);
+        mTotalStepsChart = (CustomBarChart) rootView.findViewById(R.id.livechart_steps_total);
 
-        totalStepsEntry = new Entry(0, 1);
-        stepsPerMinuteEntry = new Entry(0, 1);
+        totalStepsEntry = new BarEntry(0, 1);
+        stepsPerMinuteEntry = new BarEntry(0, 1);
 
         setupHistoryChart(mStepsPerMinuteHistoryChart);
         mStepsPerMinuteData = setupCurrentChart(mStepsPerMinuteCurrentChart, stepsPerMinuteEntry, "Steps/min");
-        mTotalStepsData = setupTotalStepsChart(mStepsTotalChart, totalStepsEntry, "Total Steps");
+        mTotalStepsData = setupTotalStepsChart(mTotalStepsChart, totalStepsEntry, "Total Steps");
 
         return rootView;
     }
@@ -190,12 +192,14 @@ public class LiveActivityFragment extends AbstractChartFragment {
         super.onDestroyView();
     }
 
-    private LineDataSet setupCurrentChart(BarLineChartBase chart, Entry entry, String title) {
+    private BarDataSet setupCurrentChart(CustomBarChart chart, BarEntry entry, String title) {
         mStepsPerMinuteCurrentChart.getAxisLeft().setAxisMaxValue(300);
         return setupCommonChart(chart, entry, title);
     }
 
-    private LineDataSet setupCommonChart(BarLineChartBase chart, Entry entry, String title) {
+    private BarDataSet setupCommonChart(CustomBarChart chart, BarEntry entry, String title) {
+        chart.setSinglAnimationEntry(entry);
+
         chart.setBackgroundColor(BACKGROUND_COLOR);
         chart.setDescriptionColor(DESCRIPTION_COLOR);
         chart.setDescription(title);
@@ -204,29 +208,27 @@ public class LiveActivityFragment extends AbstractChartFragment {
         chart.getAxisRight().setEnabled(false);
 //        chart.setDrawSliceText(false);
 
-        List<Entry> entries = new ArrayList<>();
+        List<BarEntry> entries = new ArrayList<>();
         List<String> xLabels = new ArrayList<>();
         List<Integer> colors = new ArrayList<>();
 
-        int value = 0;
+//        int value = 0;
 //        chart.setCenterText(NumberFormat.getNumberInstance().format(value));
-        entries.add(new Entry(0,0));
+        entries.add(new BarEntry(0,0));
         entries.add(entry);
-        entries.add(new Entry(0,2));
+        entries.add(new BarEntry(0,2));
+        colors.add(akActivity.color);
+        colors.add(akActivity.color);
         colors.add(akActivity.color);
         //we don't want labels on the pie chart
         xLabels.add("");
         xLabels.add("");
         xLabels.add("");
 
-//            entries.add(new Entry((20), 1));
-//            colors.add(Color.GRAY);
-//            //we don't want labels on the pie chart
-//            data.addXValue("");
-
-        LineDataSet set = new LineDataSet(entries, "");
+        BarDataSet set = new BarDataSet(entries, "");
         set.setColors(colors);
-        LineData data = new LineData(xLabels, set);
+        BarData data = new BarData(xLabels, set);
+        data.setGroupSpace(0);
         //this hides the values (numeric) added to the set. These would be shown aside the strings set with addXValue above
 //        data.setDrawValues(false);
         chart.setData(data);
@@ -236,8 +238,8 @@ public class LiveActivityFragment extends AbstractChartFragment {
         return set;
     }
 
-    private LineDataSet setupTotalStepsChart(BarLineChartBase chart, Entry entry, String label) {
-        mStepsTotalChart.getAxisLeft().setAxisMaxValue(5000); // TODO: use daily goal - already reached steps
+    private BarDataSet setupTotalStepsChart(CustomBarChart chart, BarEntry entry, String label) {
+        mTotalStepsChart.getAxisLeft().setAxisMaxValue(5000); // TODO: use daily goal - already reached steps
         return setupCommonChart(chart, entry, label); // at the moment, these look the same
     }
 
@@ -292,10 +294,10 @@ public class LiveActivityFragment extends AbstractChartFragment {
 
     @Override
     protected void renderCharts() {
-//        mStepsTotalChart.invalidate();
+//        mTotalStepsChart.invalidate();
 //        mStepsPerMinuteCurrentChart.invalidate();
         mStepsPerMinuteCurrentChart.animateY(150);
-        mStepsTotalChart.animateY(150);
+        mTotalStepsChart.animateY(150);
 //        mStepsPerMinuteHistoryChart.invalidate();
     }
 

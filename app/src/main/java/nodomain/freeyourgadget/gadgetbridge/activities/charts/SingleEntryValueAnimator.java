@@ -7,7 +7,12 @@ import android.animation.ValueAnimator;
 import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.data.Entry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class SingleEntryValueAnimator extends ChartAnimator {
+    private static final Logger LOG = LoggerFactory.getLogger(SingleEntryValueAnimator.class);
+
     private final Entry entry;
     private final ValueAnimator.AnimatorUpdateListener listener;
     private float previousValue;
@@ -39,6 +44,8 @@ public class SingleEntryValueAnimator extends ChartAnimator {
         } else {
             startAnim = previousValue / entry.getVal();
         }
+
+        LOG.debug("anim factors: " + startAnim + ", " + endAnim);
 
         ObjectAnimator animatorY = ObjectAnimator.ofFloat(this, "phaseY", startAnim, endAnim);
         animatorY.setDuration(durationMillis);
