@@ -20,6 +20,9 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +44,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
     private BarEntry stepsPerMinuteEntry;
     private BarDataSet mStepsPerMinuteData;
     private BarDataSet mTotalStepsData;
+    private LineDataSet mHistorySet = new LineDataSet(new ArrayList<Entry>(), "History");
 
     private class Steps {
         private int initialSteps;
@@ -136,11 +140,17 @@ public class LiveActivityFragment extends AbstractChartFragment {
         mStepsPerMinuteCurrentChart.setSingleEntryYValue(mSteps.getStepsPerMinute());
 //        stepsPerMinuteEntry.setVal(mSteps.getStepsPerMinute());
 //        mStepsPerMinuteCurrentChart.setCenterText(NumberFormat.getNumberInstance().format(mSteps.getStepsPerMinute()));
+        mStepsPerMinuteHistoryChart.getData().addEntry(new Entry(mSteps.getStepsPerMinute(), mHistorySet.getEntryCount()), 0);
+        mStepsPerMinuteHistoryChart.getData().addXValue("");
+        mHistorySet.addColor(akActivity.color);
+
 
         mTotalStepsChart.getData().notifyDataChanged();
         mTotalStepsData.notifyDataSetChanged();
         mStepsPerMinuteCurrentChart.getData().notifyDataChanged();
         mStepsPerMinuteData.notifyDataSetChanged();
+        mStepsPerMinuteHistoryChart.getData().notifyDataChanged();
+        mHistorySet.notifyDataSetChanged();
 
         renderCharts();
     }
@@ -150,20 +160,21 @@ public class LiveActivityFragment extends AbstractChartFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         IntentFilter filterLocal = new IntentFilter();
         filterLocal.addAction(DeviceService.ACTION_REALTIME_STEPS);
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver, filterLocal);
 
         View rootView = inflater.inflate(R.layout.fragment_live_activity, container, false);
 
-        mStepsPerMinuteHistoryChart = (BarLineChartBase) rootView.findViewById(R.id.livechart_steps_per_minute_history);
         mStepsPerMinuteCurrentChart = (CustomBarChart) rootView.findViewById(R.id.livechart_steps_per_minute_current);
         mTotalStepsChart = (CustomBarChart) rootView.findViewById(R.id.livechart_steps_total);
+        mStepsPerMinuteHistoryChart = (BarLineChartBase) rootView.findViewById(R.id.livechart_steps_per_minute_history);
 
         totalStepsEntry = new BarEntry(0, 1);
         stepsPerMinuteEntry = new BarEntry(0, 1);
 
-        setupHistoryChart(mStepsPerMinuteHistoryChart);
         mStepsPerMinuteData = setupCurrentChart(mStepsPerMinuteCurrentChart, stepsPerMinuteEntry, "Steps/min");
         mTotalStepsData = setupTotalStepsChart(mTotalStepsChart, totalStepsEntry, "Total Steps");
+        setupHistoryChart(mStepsPerMinuteHistoryChart);
+
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver, filterLocal);
 
         return rootView;
     }
@@ -244,11 +255,12 @@ public class LiveActivityFragment extends AbstractChartFragment {
     }
 
     private void setupHistoryChart(BarLineChartBase chart) {
+        configureBarLineChartDefaults(chart);
+
         chart.setBackgroundColor(BACKGROUND_COLOR);
         chart.setDescriptionColor(DESCRIPTION_COLOR);
         chart.setDescription("");
-
-        configureBarLineChartDefaults(chart);
+        chart.setNoDataText("Start your activity");
 
         XAxis x = chart.getXAxis();
         x.setDrawLabels(true);
@@ -270,6 +282,16 @@ public class LiveActivityFragment extends AbstractChartFragment {
         yAxisRight.setDrawLabels(false);
         yAxisRight.setDrawTopYLabelEntry(false);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
+
+        LineData data = new LineData();
+        data.addDataSet(mHistorySet);
+        // add dummy value because we get ArrayIndexOutOfBoundsExceptions without ;(
+        mHistorySet.addEntry(new Entry(0, 0));
+        mHistorySet.addColor(akActivity.color);
+        data.addXValue("");
+        chart.setData(data);
+
+
     }
 
     @Override
@@ -294,11 +316,9 @@ public class LiveActivityFragment extends AbstractChartFragment {
 
     @Override
     protected void renderCharts() {
-//        mTotalStepsChart.invalidate();
-//        mStepsPerMinuteCurrentChart.invalidate();
         mStepsPerMinuteCurrentChart.animateY(150);
         mTotalStepsChart.animateY(150);
-//        mStepsPerMinuteHistoryChart.invalidate();
+        mStepsPerMinuteHistoryChart.invalidate();
     }
 
     @Override
