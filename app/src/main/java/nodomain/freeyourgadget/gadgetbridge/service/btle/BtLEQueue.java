@@ -157,6 +157,7 @@ public final class BtLEQueue {
         BluetoothDevice remoteDevice = mBluetoothAdapter.getRemoteDevice(mGbDevice.getAddress());
         synchronized (mGattMonitor) {
             mBluetoothGatt = remoteDevice.connectGatt(mContext, true, internalGattCallback);
+            mBluetoothGatt.connect();
         }
         setDeviceConnectionState(State.CONNECTING);
         return true;
