@@ -1,5 +1,9 @@
 ###Changelog
 
+####Version (Next)
+* Mi Band: support firmare versione 1.0.10.14 (and onwards?) vibration
+* Mi Band: get device name from official BT SIG endpoint
+* 
 ####Version 0.6.1
 * Pebble: Allow muting (blacklisting) Apps from within generic notifications on the watch
 * Pebble: Detect all known Pebble Versions including new "chalk" platform (Pebble Time Round)
