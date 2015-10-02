@@ -27,3 +27,5 @@ proguard/
 
 .idea
 *.iml
+
+MPChartLib

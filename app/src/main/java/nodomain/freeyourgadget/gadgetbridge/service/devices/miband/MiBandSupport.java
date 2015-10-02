@@ -540,6 +540,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 builder.read(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS)).queue(getQueue());
             }
             performInitialized(enable ? "Enabling realtime steps notifications" : "Disabling realtime steps notifications")
+                    .write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_LE_PARAMS), enable ? getLowLatency() : getHighLatency())
                     .write(controlPoint, enable ? startRealTimeStepsNotifications : stopRealTimeStepsNotifications).queue(getQueue());
         } catch (IOException e) {
             LOG.error("Unable to change realtime steps notification to: " + enable, e);

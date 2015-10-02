@@ -45,7 +45,7 @@ public class SingleEntryValueAnimator extends ChartAnimator {
             startAnim = previousValue / entry.getVal();
         }
 
-        LOG.debug("anim factors: " + startAnim + ", " + endAnim);
+//        LOG.debug("anim factors: " + startAnim + ", " + endAnim);
 
         ObjectAnimator animatorY = ObjectAnimator.ofFloat(this, "phaseY", startAnim, endAnim);
         animatorY.setDuration(durationMillis);
