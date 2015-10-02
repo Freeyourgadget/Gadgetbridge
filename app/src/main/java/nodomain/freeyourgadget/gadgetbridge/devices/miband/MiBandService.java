@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
+
 import static nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport.BASE_UUID;
 
 public class MiBandService {
@@ -44,12 +47,6 @@ public class MiBandService {
     public static final UUID UUID_CHARACTERISTIC_PAIR = UUID.fromString(String.format(BASE_UUID, "FF0F"));
 
     /* FURTHER UUIDS that were mixed with the other params below. The base UUID for these is unknown */
-
-    public static final String UUID_CHARACTERISTIC_FEATURE = "2A9E";
-
-    public static final String UUID_CHARACTERISTIC_MEASUREMENT = "2A9D";
-
-    public static final String UUID_SERVICE_WEIGHT_SCALE_SERVICE = "181D";
 
     public static final String UUID_SERVICE_WEIGHT_SERVICE = "00001530-0000-3512-2118-0009af100700";
 
@@ -234,60 +231,6 @@ public class MiBandService {
         MIBAND_DEBUG.put(UUID_CHARACTERISTIC_TEST, "Test");
         MIBAND_DEBUG.put(UUID_CHARACTERISTIC_SENSOR_DATA, "Sensor Data");
         MIBAND_DEBUG.put(UUID_CHARACTERISTIC_PAIR, "Pair");
-
-        // extra:
-        MIBAND_DEBUG.put(UUID.fromString("00001800-0000-1000-8000-00805f9b34fb"), "Generic Access Service");
-        MIBAND_DEBUG.put(UUID.fromString("00001801-0000-1000-8000-00805f9b34fb"), "Generic Attribute Service");
-        MIBAND_DEBUG.put(UUID.fromString("00002a43-0000-1000-8000-00805f9b34fb"), "Alert Category ID");
-        MIBAND_DEBUG.put(UUID.fromString("00002a42-0000-1000-8000-00805f9b34fb"), "Alert Category ID Bit Mask");
-        MIBAND_DEBUG.put(UUID.fromString("00002a06-0000-1000-8000-00805f9b34fb"), "Alert Level");
-        MIBAND_DEBUG.put(UUID.fromString("00002a44-0000-1000-8000-00805f9b34fb"), "Alert Notification Control Point");
-        MIBAND_DEBUG.put(UUID.fromString("00002a3f-0000-1000-8000-00805f9b34fb"), "Alert Status");
-        MIBAND_DEBUG.put(UUID.fromString("00002a01-0000-1000-8000-00805f9b34fb"), "Appearance");
-        MIBAND_DEBUG.put(UUID.fromString("00002a49-0000-1000-8000-00805f9b34fb"), "Blood Pressure Feature");
-        MIBAND_DEBUG.put(UUID.fromString("00002a35-0000-1000-8000-00805f9b34fb"), "Blood Pressure Measurement");
-        MIBAND_DEBUG.put(UUID.fromString("00002a38-0000-1000-8000-00805f9b34fb"), "Body Sensor Location");
-        MIBAND_DEBUG.put(UUID.fromString("00002a2b-0000-1000-8000-00805f9b34fb"), "Current Time");
-        MIBAND_DEBUG.put(UUID.fromString("00002a08-0000-1000-8000-00805f9b34fb"), "Date Time");
-        MIBAND_DEBUG.put(UUID.fromString("00002a0a-0000-1000-8000-00805f9b34fb"), "Day Date Time");
-        MIBAND_DEBUG.put(UUID.fromString("00002a09-0000-1000-8000-00805f9b34fb"), "Day of Week");
-        MIBAND_DEBUG.put(UUID.fromString("00002a00-0000-1000-8000-00805f9b34fb"), "Device Name");
-        MIBAND_DEBUG.put(UUID.fromString("00002a0d-0000-1000-8000-00805f9b34fb"), "DST Offset");
-        MIBAND_DEBUG.put(UUID.fromString("00002a0c-0000-1000-8000-00805f9b34fb"), "Exact Time 256");
-        MIBAND_DEBUG.put(UUID.fromString("00002a26-0000-1000-8000-00805f9b34fb"), "Firmware Revision String");
-        MIBAND_DEBUG.put(UUID.fromString("00002a27-0000-1000-8000-00805f9b34fb"), "Hardware Revision String");
-        MIBAND_DEBUG.put(UUID.fromString("00002a39-0000-1000-8000-00805f9b34fb"), "Heart Rate Control Point");
-        MIBAND_DEBUG.put(UUID.fromString("00002a37-0000-1000-8000-00805f9b34fb"), "Heart Rate Measurement");
-        MIBAND_DEBUG.put(UUID.fromString("00002a2a-0000-1000-8000-00805f9b34fb"), "IEEE 11073-20601 Regulatory");
-        MIBAND_DEBUG.put(UUID.fromString("00002a36-0000-1000-8000-00805f9b34fb"), "Intermediate Cuff Pressure");
-        MIBAND_DEBUG.put(UUID.fromString("00002a1e-0000-1000-8000-00805f9b34fb"), "Intermediate Temperature");
-        MIBAND_DEBUG.put(UUID.fromString("00002a0f-0000-1000-8000-00805f9b34fb"), "Local Time Information");
-        MIBAND_DEBUG.put(UUID.fromString("00002a29-0000-1000-8000-00805f9b34fb"), "Manufacturer Name String");
-        MIBAND_DEBUG.put(UUID.fromString("00002a21-0000-1000-8000-00805f9b34fb"), "Measurement Interval");
-        MIBAND_DEBUG.put(UUID.fromString("00002a24-0000-1000-8000-00805f9b34fb"), "Model Number String");
-        MIBAND_DEBUG.put(UUID.fromString("00002a46-0000-1000-8000-00805f9b34fb"), "New Alert");
-        MIBAND_DEBUG.put(UUID.fromString("00002a04-0000-1000-8000-00805f9b34fb"), "Peripheral Preferred Connection Parameters");
-        MIBAND_DEBUG.put(UUID.fromString("00002a02-0000-1000-8000-00805f9b34fb"), "Peripheral Privacy Flag");
-        MIBAND_DEBUG.put(UUID.fromString("00002a03-0000-1000-8000-00805f9b34fb"), "Reconnection Address");
-        MIBAND_DEBUG.put(UUID.fromString("00002a14-0000-1000-8000-00805f9b34fb"), "Reference Time Information");
-        MIBAND_DEBUG.put(UUID.fromString("00002a40-0000-1000-8000-00805f9b34fb"), "Ringer Control Point");
-        MIBAND_DEBUG.put(UUID.fromString("00002a41-0000-1000-8000-00805f9b34fb"), "Ringer Setting");
-        MIBAND_DEBUG.put(UUID.fromString("00002a25-0000-1000-8000-00805f9b34fb"), "Serial Number String");
-        MIBAND_DEBUG.put(UUID.fromString("00002a05-0000-1000-8000-00805f9b34fb"), "Service Changed");
-        MIBAND_DEBUG.put(UUID.fromString("00002a28-0000-1000-8000-00805f9b34fb"), "Software Revision String");
-        MIBAND_DEBUG.put(UUID.fromString("00002a47-0000-1000-8000-00805f9b34fb"), "Supported New Alert Category");
-        MIBAND_DEBUG.put(UUID.fromString("00002a48-0000-1000-8000-00805f9b34fb"), "Supported Unread Alert Category");
-        MIBAND_DEBUG.put(UUID.fromString("00002a23-0000-1000-8000-00805f9b34fb"), "System ID");
-        MIBAND_DEBUG.put(UUID.fromString("00002a1c-0000-1000-8000-00805f9b34fb"), "Temperature Measurement");
-        MIBAND_DEBUG.put(UUID.fromString("00002a1d-0000-1000-8000-00805f9b34fb"), "Temperature DeviceType");
-        MIBAND_DEBUG.put(UUID.fromString("00002a12-0000-1000-8000-00805f9b34fb"), "Time Accuracy");
-        MIBAND_DEBUG.put(UUID.fromString("00002a13-0000-1000-8000-00805f9b34fb"), "Time Source");
-        MIBAND_DEBUG.put(UUID.fromString("00002a16-0000-1000-8000-00805f9b34fb"), "Time Update Control Point");
-        MIBAND_DEBUG.put(UUID.fromString("00002a17-0000-1000-8000-00805f9b34fb"), "Time Update State");
-        MIBAND_DEBUG.put(UUID.fromString("00002a11-0000-1000-8000-00805f9b34fb"), "Time with DST");
-        MIBAND_DEBUG.put(UUID.fromString("00002a0e-0000-1000-8000-00805f9b34fb"), "Time Zone");
-        MIBAND_DEBUG.put(UUID.fromString("00002a07-0000-1000-8000-00805f9b34fb"), "Tx Power Level");
-        MIBAND_DEBUG.put(UUID.fromString("00002a45-0000-1000-8000-00805f9b34fb"), "Unread Alert Status");
     }
 
     public static String lookup(UUID uuid, String fallback) {
