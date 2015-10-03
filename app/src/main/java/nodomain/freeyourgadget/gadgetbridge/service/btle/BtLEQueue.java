@@ -401,10 +401,6 @@ public final class BtLEQueue {
             if (!checkCorrectGattInstance(gatt, "characteristic changed")) {
                 return;
             }
-            if (gatt != mBluetoothGatt) {
-                LOG.info("Ignoring characteristic change event from wrong BluetoothGatt instance");
-                return;
-            }
             if (getCallbackToUse() != null) {
                 getCallbackToUse().onCharacteristicChanged(gatt, characteristic);
             } else {
@@ -416,10 +412,6 @@ public final class BtLEQueue {
         public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
             LOG.debug("remote rssi: " + rssi + getStatusString(status));
             if (!checkCorrectGattInstance(gatt, "remote rssi")) {
-                return;
-            }
-            if (gatt != mBluetoothGatt) {
-                LOG.info("Ignoring remote rssi event from wrong BluetoothGatt instance");
                 return;
             }
             if (getCallbackToUse() != null) {
