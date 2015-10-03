@@ -77,6 +77,7 @@ public class GBApplication extends Application {
                 File dir = FileUtils.getExternalFilesDir();
                 // used by assets/logback.xml since the location cannot be statically determined
                 System.setProperty("GB_LOGFILES_DIR", dir.getAbsolutePath());
+                getLogger().info("Gadgetbridge version: " + BuildConfig.VERSION_NAME);
             } catch (IOException ex) {
                 Log.e("GBApplication", "External files dir not available, cannot log to file, ex");
                 System.setProperty("GB_LOGFILES_DIR", "/dev/null");
@@ -90,6 +91,10 @@ public class GBApplication extends Application {
                 ex.printStackTrace();
             }
         }
+    }
+
+    private Logger getLogger() {
+        return LoggerFactory.getLogger(GBApplication.class);
     }
 
     public static Context getContext() {
