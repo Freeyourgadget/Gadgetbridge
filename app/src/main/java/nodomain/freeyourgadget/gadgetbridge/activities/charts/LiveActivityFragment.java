@@ -46,7 +46,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
     private BarEntry stepsPerMinuteEntry;
     private BarDataSet mStepsPerMinuteData;
     private BarDataSet mTotalStepsData;
-    private LineDataSet mHistorySet = new LineDataSet(new ArrayList<Entry>(), getString(R.string.live_activity_steps_history));
+    private LineDataSet mHistorySet;
 
     private class Steps {
         private int initialSteps;
@@ -291,6 +291,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
         yAxisRight.setDrawTopYLabelEntry(false);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
 
+        mHistorySet = new LineDataSet(new ArrayList<Entry>(), getString(R.string.live_activity_steps_history));
         mHistorySet.setColor(akActivity.color);
         mHistorySet.setDrawCircles(false);
         mHistorySet.setDrawCubic(true);
