@@ -36,7 +36,6 @@ public class GBApplication extends Application {
 
     public GBApplication() {
         context = this;
-        deviceService = createDeviceService();
         // don't do anything here, add it to onCreate instead
     }
 
@@ -59,6 +58,7 @@ public class GBApplication extends Application {
 //        StatusPrinter.print(lc);
 //        Logger logger = LoggerFactory.getLogger(GBApplication.class);
 
+        deviceService = createDeviceService();
         GB.environment = GBEnvironment.createDeviceEnvironment();
         mActivityDatabaseHandler = new ActivityDatabaseHandler(context);
         loadBlackList();
@@ -79,17 +79,20 @@ public class GBApplication extends Application {
                 System.setProperty("GB_LOGFILES_DIR", dir.getAbsolutePath());
                 getLogger().info("Gadgetbridge version: " + BuildConfig.VERSION_NAME);
             } catch (IOException ex) {
-                Log.e("GBApplication", "External files dir not available, cannot log to file, ex");
-                System.setProperty("GB_LOGFILES_DIR", "/dev/null");
+                Log.e("GBApplication", "External files dir not available, cannot log to file", ex);
+                removeFileLogger();
             }
         } else {
-            try {
-                ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-                root.detachAppender("FILE");
-            } catch (Throwable ex) {
-                System.out.println("Error removing logger FILE appender");
-                ex.printStackTrace();
-            }
+            removeFileLogger();
+        }
+    }
+
+    private void removeFileLogger() {
+        try {
+            ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+            root.detachAppender("FILE");
+        } catch (Throwable ex) {
+            Log.e("GBApplication", "Error removing logger FILE appender", ex);
         }
     }
 
