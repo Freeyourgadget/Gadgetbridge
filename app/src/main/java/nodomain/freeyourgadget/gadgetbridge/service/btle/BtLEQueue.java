@@ -365,7 +365,11 @@ public final class BtLEQueue {
                 return;
             }
             if (getCallbackToUse() != null) {
-                getCallbackToUse().onCharacteristicRead(gatt, characteristic, status);
+                try {
+                    getCallbackToUse().onCharacteristicRead(gatt, characteristic, status);
+                } catch (Throwable ex) {
+                    LOG.error("onCharaceristicRead: " + ex.getMessage(), ex);
+                }
             }
             checkWaitingCharacteristic(characteristic, status);
         }
@@ -377,7 +381,11 @@ public final class BtLEQueue {
                 return;
             }
             if (getCallbackToUse() != null) {
-                getCallbackToUse().onDescriptorRead(gatt, descriptor, status);
+                try {
+                    getCallbackToUse().onDescriptorRead(gatt, descriptor, status);
+                } catch (Throwable ex) {
+                    LOG.error("onDescriptorRead: " + ex.getMessage(), ex);
+                }
             }
             checkWaitingCharacteristic(descriptor.getCharacteristic(), status);
         }
@@ -389,7 +397,11 @@ public final class BtLEQueue {
                 return;
             }
             if (getCallbackToUse() != null) {
-                getCallbackToUse().onDescriptorWrite(gatt, descriptor, status);
+                try {
+                    getCallbackToUse().onDescriptorWrite(gatt, descriptor, status);
+                } catch (Throwable ex) {
+                    LOG.error("onDescriptorWrite: " + ex.getMessage(), ex);
+                }
             }
             checkWaitingCharacteristic(descriptor.getCharacteristic(), status);
         }
@@ -402,7 +414,11 @@ public final class BtLEQueue {
                 return;
             }
             if (getCallbackToUse() != null) {
-                getCallbackToUse().onCharacteristicChanged(gatt, characteristic);
+                try {
+                    getCallbackToUse().onCharacteristicChanged(gatt, characteristic);
+                } catch (Throwable ex) {
+                    LOG.error("onCharaceristicChanged: " + ex.getMessage(), ex);
+                }
             } else {
                 LOG.info("No gattcallback registered, ignoring characteristic change");
             }
@@ -415,7 +431,11 @@ public final class BtLEQueue {
                 return;
             }
             if (getCallbackToUse() != null) {
-                getCallbackToUse().onReadRemoteRssi(gatt, rssi, status);
+                try {
+                    getCallbackToUse().onReadRemoteRssi(gatt, rssi, status);
+                } catch (Throwable ex) {
+                    LOG.error("onReadRemoteRssi: " + ex.getMessage(), ex);
+                }
             }
         }
 
@@ -446,6 +466,4 @@ public final class BtLEQueue {
             mTransactionGattCallback = null;
         }
     }
-
-    ;
 }
