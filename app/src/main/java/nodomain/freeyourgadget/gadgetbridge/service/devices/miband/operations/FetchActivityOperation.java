@@ -96,6 +96,7 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
                     // something is fishy here... better not trust the given timestamp and simply
                     // (re)use the current one
                     // we do accept the timestamp to ack though, so that the bogus data is properly cleared on the band
+                    LOG.warn("Got bogus timestamp: " + timestamp.getTime() + " that is smaller than the previous timestamp: " + activityDataTimestampProgress.getTime());
                 }
             }
             activityDataTimestampToAck = (GregorianCalendar) timestamp.clone();
