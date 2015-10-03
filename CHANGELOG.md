@@ -1,6 +1,6 @@
 ###Changelog
 
-####Version (Next)
+####Version 0.6.2
 * Mi Band: support firmare versione 1.0.10.14 (and onwards?) vibration
 * Mi Band: get device name from official BT SIG endpoint
 * Mi Band: initial support for displaying live activity data, screen stays on
