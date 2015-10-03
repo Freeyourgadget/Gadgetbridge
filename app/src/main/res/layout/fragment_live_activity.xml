@@ -10,18 +10,19 @@
         android:layout_weight="20">
 
         <nodomain.freeyourgadget.gadgetbridge.activities.charts.CustomBarChart
-            android:id="@+id/livechart_steps_total"
+            android:id="@+id/livechart_steps_per_minute_current"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="20">
         </nodomain.freeyourgadget.gadgetbridge.activities.charts.CustomBarChart>
 
         <nodomain.freeyourgadget.gadgetbridge.activities.charts.CustomBarChart
-            android:id="@+id/livechart_steps_per_minute_current"
+            android:id="@+id/livechart_steps_total"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="20">
         </nodomain.freeyourgadget.gadgetbridge.activities.charts.CustomBarChart>
+
         <!--
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/livechart_steps_total"

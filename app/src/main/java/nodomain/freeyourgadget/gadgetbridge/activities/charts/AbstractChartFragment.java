@@ -4,13 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
@@ -93,10 +91,10 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         }
     }
 
-    protected ActivityConfig akActivity = new ActivityConfig(ActivityKind.TYPE_ACTIVITY, "Activity", Color.rgb(89, 178, 44));
-    protected ActivityConfig akLightSleep = new ActivityConfig(ActivityKind.TYPE_LIGHT_SLEEP, "Light Sleep", Color.rgb(182, 191, 255));
-    protected ActivityConfig akDeepSleep = new ActivityConfig(ActivityKind.TYPE_DEEP_SLEEP, "Deep Sleep", Color.rgb(76, 90, 255));
-    protected ActivityConfig akNotWorn = new ActivityConfig(ActivityKind.TYPE_NOT_WORN, "Not Worn", Color.rgb(84, 82, 84));
+    protected ActivityConfig akActivity;
+    protected ActivityConfig akLightSleep;
+    protected ActivityConfig akDeepSleep;
+    protected ActivityConfig akNotWorn;
 
 
     protected int BACKGROUND_COLOR;
@@ -122,7 +120,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        initColors();
+        init();
 
         IntentFilter filter = new IntentFilter();
         for (String action : mIntentFilterActions) {
@@ -131,7 +129,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver, filter);
     }
 
-    protected void initColors() {
+    protected void init() {
         BACKGROUND_COLOR = getResources().getColor(R.color.background_material_light);
         DESCRIPTION_COLOR = getResources().getColor(R.color.primarytext);
         CHART_TEXT_COLOR = getResources().getColor(R.color.secondarytext);
@@ -141,10 +139,10 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         AK_LIGHT_SLEEP_COLOR = getResources().getColor(R.color.chart_deep_sleep_light);
         AK_NOT_WORN_COLOR = getResources().getColor(R.color.chart_not_worn_light);
 
-        akActivity.color = AK_ACTIVITY_COLOR;
-        akLightSleep.color = AK_LIGHT_SLEEP_COLOR;
-        akDeepSleep.color = AK_DEEP_SLEEP_COLOR;
-        akNotWorn.color = AK_NOT_WORN_COLOR;
+        akActivity = new ActivityConfig(ActivityKind.TYPE_ACTIVITY, getString(R.string.abstract_chart_fragment_kind_activity), AK_ACTIVITY_COLOR);
+        akLightSleep = new ActivityConfig(ActivityKind.TYPE_LIGHT_SLEEP, getString(R.string.abstract_chart_fragment_kind_light_sleep), AK_LIGHT_SLEEP_COLOR);
+        akDeepSleep = new ActivityConfig(ActivityKind.TYPE_DEEP_SLEEP, getString(R.string.abstract_chart_fragment_kind_deep_sleep), AK_DEEP_SLEEP_COLOR);
+        akNotWorn = new ActivityConfig(ActivityKind.TYPE_NOT_WORN, getString(R.string.abstract_chart_fragment_kind_not_worn), AK_NOT_WORN_COLOR);
     }
 
     private void setStartDate(Date date) {
