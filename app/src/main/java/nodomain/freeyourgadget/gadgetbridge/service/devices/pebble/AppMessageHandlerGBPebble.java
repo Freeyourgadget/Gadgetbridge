@@ -19,20 +19,18 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 
-public class GadgetbridgePblSupport {
+public class AppMessageHandlerGBPebble extends AppMessageHandler {
 
     public static final int KEY_TIMESTAMP = 1;
     public static final int KEY_SAMPLES = 2;
 
-    public static final UUID uuid = UUID.fromString("61476764-7465-7262-6469-656775527a6c");
-    private final PebbleProtocol mPebbleProtocol;
+    private static final Logger LOG = LoggerFactory.getLogger(AppMessageHandlerGBPebble.class);
 
-    private static final Logger LOG = LoggerFactory.getLogger(GadgetbridgePblSupport.class);
-
-    public GadgetbridgePblSupport(PebbleProtocol pebbleProtocol) {
-        mPebbleProtocol = pebbleProtocol;
+    AppMessageHandlerGBPebble(UUID uuid, PebbleProtocol pebbleProtocol) {
+        super(uuid, pebbleProtocol);
     }
 
+    @Override
     public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
         int timestamp = 0;
         for (Pair<Integer, Object> pair : pairs) {
@@ -74,7 +72,7 @@ public class GadgetbridgePblSupport {
             }
         }
         GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
-        sendBytes.encodedBytes = mPebbleProtocol.encodeApplicationMessageAck(uuid, mPebbleProtocol.last_id);
+        sendBytes.encodedBytes = mPebbleProtocol.encodeApplicationMessageAck(mUUID, mPebbleProtocol.last_id);
         return new GBDeviceEvent[]{sendBytes};
     }
 }

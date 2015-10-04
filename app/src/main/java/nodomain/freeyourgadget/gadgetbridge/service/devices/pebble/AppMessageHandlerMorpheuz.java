@@ -19,7 +19,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSleepMonit
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.MorpheuzSampleProvider;
 
-public class MorpheuzSupport {
+public class AppMessageHandlerMorpheuz extends AppMessageHandler {
 
     public static final int KEY_POINT = 1;
     public static final int KEY_CTRL = 2;
@@ -37,28 +37,26 @@ public class MorpheuzSupport {
     public static final int CTRL_DO_NEXT = 8;
     public static final int CTRL_SET_LAST_SENT = 16;
 
-    public static final UUID uuid = UUID.fromString("5be44f1d-d262-4ea6-aa30-ddbec1e3cab2");
-    private final PebbleProtocol mPebbleProtocol;
-
     // data received from Morpheuz in native format
     private int smartalarm_from = -1; // time in minutes relative from 0:00 for smart alarm (earliest)
     private int smartalarm_to = -1;// time in minutes relative from 0:00 for smart alarm (latest)
     private int recording_base_timestamp = -1; // timestamp for the first "point", all folowing are +10 minutes offset each
     private int alarm_gone_off = -1; // time in minutes relative from 0:00 when alarm gone off
 
-    private static final Logger LOG = LoggerFactory.getLogger(MorpheuzSupport.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AppMessageHandlerMorpheuz.class);
 
-    public MorpheuzSupport(PebbleProtocol pebbleProtocol) {
-        mPebbleProtocol = pebbleProtocol;
+    public AppMessageHandlerMorpheuz(UUID uuid, PebbleProtocol pebbleProtocol) {
+        super(uuid, pebbleProtocol);
     }
 
     private byte[] encodeMorpheuzMessage(int key, int value) {
         ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>();
         pairs.add(new Pair<Integer, Object>(key, value));
 
-        return mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, uuid, pairs);
+        return mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs);
     }
 
+    @Override
     public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
         int ctrl_message = 0;
         GBDeviceEventSleepMonitorResult sleepMonitorResult = null;
@@ -80,7 +78,7 @@ public class MorpheuzSupport {
                 case KEY_POINT:
                     if (recording_base_timestamp == -1) {
                         // we have no base timestamp but received points, stop this
-                        ctrl_message = MorpheuzSupport.CTRL_VERSION_DONE | MorpheuzSupport.CTRL_GONEOFF_DONE | MorpheuzSupport.CTRL_TRANSMIT_DONE | MorpheuzSupport.CTRL_SET_LAST_SENT;
+                        ctrl_message = AppMessageHandlerMorpheuz.CTRL_VERSION_DONE | AppMessageHandlerMorpheuz.CTRL_GONEOFF_DONE | AppMessageHandlerMorpheuz.CTRL_TRANSMIT_DONE | AppMessageHandlerMorpheuz.CTRL_SET_LAST_SENT;
                     } else {
                         short index = (short) ((int) pair.second >> 16);
                         short intensity = (short) ((int) pair.second & 0xffff);
@@ -105,32 +103,32 @@ public class MorpheuzSupport {
                             }
                         }
 
-                        ctrl_message = MorpheuzSupport.CTRL_VERSION_DONE | MorpheuzSupport.CTRL_SET_LAST_SENT | MorpheuzSupport.CTRL_DO_NEXT;
+                        ctrl_message = AppMessageHandlerMorpheuz.CTRL_VERSION_DONE | AppMessageHandlerMorpheuz.CTRL_SET_LAST_SENT | AppMessageHandlerMorpheuz.CTRL_DO_NEXT;
                     }
                     break;
                 case KEY_FROM:
                     smartalarm_from = (int) pair.second;
                     LOG.info("got from: " + smartalarm_from / 60 + ":" + smartalarm_from % 60);
-                    ctrl_message = MorpheuzSupport.CTRL_VERSION_DONE | MorpheuzSupport.CTRL_SET_LAST_SENT | MorpheuzSupport.CTRL_DO_NEXT;
+                    ctrl_message = AppMessageHandlerMorpheuz.CTRL_VERSION_DONE | AppMessageHandlerMorpheuz.CTRL_SET_LAST_SENT | AppMessageHandlerMorpheuz.CTRL_DO_NEXT;
                     break;
                 case KEY_TO:
                     smartalarm_to = (int) pair.second;
                     LOG.info("got from: " + smartalarm_to / 60 + ":" + smartalarm_to % 60);
-                    ctrl_message = MorpheuzSupport.CTRL_VERSION_DONE | MorpheuzSupport.CTRL_SET_LAST_SENT | MorpheuzSupport.CTRL_DO_NEXT;
+                    ctrl_message = AppMessageHandlerMorpheuz.CTRL_VERSION_DONE | AppMessageHandlerMorpheuz.CTRL_SET_LAST_SENT | AppMessageHandlerMorpheuz.CTRL_DO_NEXT;
                     break;
                 case KEY_VERSION:
                     LOG.info("got version: " + ((float) ((int) pair.second) / 10.0f));
-                    ctrl_message = MorpheuzSupport.CTRL_VERSION_DONE | MorpheuzSupport.CTRL_SET_LAST_SENT;
+                    ctrl_message = AppMessageHandlerMorpheuz.CTRL_VERSION_DONE | AppMessageHandlerMorpheuz.CTRL_SET_LAST_SENT;
                     break;
                 case KEY_BASE:
                     // fix timestamp
                     TimeZone tz = SimpleTimeZone.getDefault();
                     recording_base_timestamp = (int) pair.second - (tz.getOffset(System.currentTimeMillis())) / 1000;
                     LOG.info("got base: " + recording_base_timestamp);
-                    ctrl_message = MorpheuzSupport.CTRL_VERSION_DONE | MorpheuzSupport.CTRL_SET_LAST_SENT | MorpheuzSupport.CTRL_DO_NEXT;
+                    ctrl_message = AppMessageHandlerMorpheuz.CTRL_VERSION_DONE | AppMessageHandlerMorpheuz.CTRL_SET_LAST_SENT | AppMessageHandlerMorpheuz.CTRL_DO_NEXT;
                     break;
                 case KEY_AUTO_RESET:
-                    ctrl_message = MorpheuzSupport.CTRL_VERSION_DONE | MorpheuzSupport.CTRL_SET_LAST_SENT | MorpheuzSupport.CTRL_DO_NEXT;
+                    ctrl_message = AppMessageHandlerMorpheuz.CTRL_VERSION_DONE | AppMessageHandlerMorpheuz.CTRL_SET_LAST_SENT | AppMessageHandlerMorpheuz.CTRL_DO_NEXT;
                     break;
                 default:
                     LOG.info("unhandled key: " + pair.first);
@@ -140,13 +138,13 @@ public class MorpheuzSupport {
 
         // always ack
         GBDeviceEventSendBytes sendBytesAck = new GBDeviceEventSendBytes();
-        sendBytesAck.encodedBytes = mPebbleProtocol.encodeApplicationMessageAck(uuid, mPebbleProtocol.last_id);
+        sendBytesAck.encodedBytes = mPebbleProtocol.encodeApplicationMessageAck(mUUID, mPebbleProtocol.last_id);
 
         // sometimes send control message
         GBDeviceEventSendBytes sendBytesCtrl = null;
         if (ctrl_message > 0) {
             sendBytesCtrl = new GBDeviceEventSendBytes();
-            sendBytesCtrl.encodedBytes = encodeMorpheuzMessage(MorpheuzSupport.KEY_CTRL, ctrl_message);
+            sendBytesCtrl.encodedBytes = encodeMorpheuzMessage(AppMessageHandlerMorpheuz.KEY_CTRL, ctrl_message);
         }
 
         // ctrl and sleep monitor might be null, thats okay

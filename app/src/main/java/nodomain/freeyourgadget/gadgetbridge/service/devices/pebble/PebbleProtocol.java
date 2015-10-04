@@ -13,6 +13,8 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
@@ -327,9 +329,19 @@ public class PebbleProtocol extends GBDeviceProtocol {
     byte last_id = -1;
     private ArrayList<UUID> tmpUUIDS = new ArrayList<>();
 
-    private MorpheuzSupport mMorpheuzSupport = new MorpheuzSupport(PebbleProtocol.this);
-    private WeatherNeatSupport mWeatherNeatSupport = new WeatherNeatSupport(PebbleProtocol.this);
-    private GadgetbridgePblSupport mGadgetbridgePblSupport = new GadgetbridgePblSupport(PebbleProtocol.this);
+    private static final UUID UUID_GBPEBBLE = UUID.fromString("61476764-7465-7262-6469-656775527a6c");
+    private static final UUID UUID_MORPHEUZ = UUID.fromString("5be44f1d-d262-4ea6-aa30-ddbec1e3cab2");
+    private static final UUID UUID_WHETHERNEAT = UUID.fromString("3684003b-a685-45f9-a713-abc6364ba051");
+    private static final UUID UUID_MISFIT = UUID.fromString("0b73b76a-cd65-4dc2-9585-aaa213320858");
+
+    private static Map<UUID, AppMessageHandler> mAppMessageHandlers = new HashMap<>();
+
+    {
+        mAppMessageHandlers.put(UUID_GBPEBBLE, new AppMessageHandlerGBPebble(UUID_GBPEBBLE, PebbleProtocol.this));
+        mAppMessageHandlers.put(UUID_MORPHEUZ, new AppMessageHandlerMorpheuz(UUID_MORPHEUZ, PebbleProtocol.this));
+        mAppMessageHandlers.put(UUID_WHETHERNEAT, new AppMessageHandlerWeatherNeat(UUID_WHETHERNEAT, PebbleProtocol.this));
+        //mAppMessageHandlers.put(UUID_MISFIT,new AppMessageHandlerMisfit(UUID_MISFIT,PebbleProtocol.this));
+    }
 
     private static byte[] encodeSimpleMessage(short endpoint, byte command) {
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_SIMPLEMESSAGE);
@@ -1453,7 +1465,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             buf.order(ByteOrder.BIG_ENDIAN);
             long uuid_high = buf.getLong();
             long uuid_low = buf.getLong();
-            int id = (int) (uuid_low & 0xffffffff);
+            int id = (int) (uuid_low & 0xffffffffL);
             byte action = buf.get();
             if (action >= 0x01 && action <= 0x04) {
                 GBDeviceEventNotificationControl dismissNotification = new GBDeviceEventNotificationControl();
@@ -1729,15 +1741,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
                     case APPLICATIONMESSAGE_PUSH:
                         UUID uuid = new UUID(uuid_high, uuid_low);
                         LOG.info("got APPLICATIONMESSAGE PUSH from UUID " + uuid);
-                        if (WeatherNeatSupport.uuid.equals(uuid)) {
+                        AppMessageHandler handler = mAppMessageHandlers.get(uuid);
+                        if (handler != null) {
                             ArrayList<Pair<Integer, Object>> dict = decodeDict(buf);
-                            devEvts = mWeatherNeatSupport.handleMessage(dict);
-                        } else if (MorpheuzSupport.uuid.equals(uuid)) {
-                            ArrayList<Pair<Integer, Object>> dict = decodeDict(buf);
-                            devEvts = mMorpheuzSupport.handleMessage(dict);
-                        } else if (GadgetbridgePblSupport.uuid.equals(uuid)) {
-                            ArrayList<Pair<Integer, Object>> dict = decodeDict(buf);
-                            devEvts = mGadgetbridgePblSupport.handleMessage(dict);
+                            devEvts = handler.handleMessage(dict);
                         } else {
                             try {
                                 devEvts = decodeDictToJSONAppMessage(uuid, buf);
