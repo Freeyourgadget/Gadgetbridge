@@ -182,4 +182,9 @@
   <string name="weeksteps_today_steps_description">Кроків сьогодні, мета: %1$s</string>
   <string name="pref_title_dont_ack_transfer">Не передавати дані про активність</string>
   <string name="pref_summary_dont_ack_transfers">Якщо дані не будуть передані на пристрій, пристрій не буде очищений. Корисно, якщо Gadgetbridge використовується разом з іншими додатками.</string>
+  <string name="live_activity_steps_history">Історія кроків</string>
+  <string name="live_activity_current_steps_per_minute">Поточні кроки/хв</string>
+  <string name="live_activity_total_steps">Загалом кроків</string>
+  <string name="live_activity_steps_per_minute_history">Історія кроків за хвилину</string>
+  <string name="live_activity_start_your_activity">Почати вашу активність</string>
 </resources>
