@@ -281,15 +281,10 @@ public class PebbleIoThread extends GBDeviceIoThread {
                             if (mPBWReader.isFirmware()) {
                                 writeInstallApp(mPebbleProtocol.encodeInstallFirmwareComplete());
                                 finishInstall(false);
-                            } else if (mPebbleProtocol.isFw3x) {
+                            } else if (mPBWReader.isLanguage() || mPebbleProtocol.isFw3x) {
                                 finishInstall(false); // FIXME: dont know yet how to detect success
                             } else {
-                                if (mPBWReader.isLanguage()) {
-                                    finishInstall(false);
-                                    write(mPebbleProtocol.encodeReboot());
-                                } else {
-                                    writeInstallApp(mPebbleProtocol.encodeAppRefresh(mInstallSlot));
-                                }
+                                writeInstallApp(mPebbleProtocol.encodeAppRefresh(mInstallSlot));
                             }
                             break;
                         default:
