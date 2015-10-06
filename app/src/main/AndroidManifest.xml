@@ -125,6 +125,7 @@
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
 
+                <data android:pathPattern="/.*\\.pbl" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -170,6 +171,7 @@
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
 
+                <data android:pathPattern="/.*\\.pbl" />
             </intent-filter>
 
             <!-- to receive the firmwares from the donwload content provider -->

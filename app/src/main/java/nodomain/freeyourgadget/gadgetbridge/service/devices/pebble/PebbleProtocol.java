@@ -155,7 +155,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     public static final byte PUTBYTES_TYPE_SYSRESOURCES = 3;
     public static final byte PUTBYTES_TYPE_RESOURCES = 4;
     public static final byte PUTBYTES_TYPE_BINARY = 5;
-    static final byte PUTBYTES_TYPE_FILE = 6;
+    public static final byte PUTBYTES_TYPE_FILE = 6;
     public static final byte PUTBYTES_TYPE_WORKER = 7;
 
     static final byte RESET_REBOOT = 0;
@@ -1027,7 +1027,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     /* pebble specific install methods */
-    public byte[] encodeUploadStart(byte type, int app_id, int size) {
+    public byte[] encodeUploadStart(byte type, int app_id, int size, String filename) {
         short length;
         if (isFw3x) {
             length = LENGTH_UPLOADSTART_3X;
@@ -1035,6 +1035,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
         } else {
             length = LENGTH_UPLOADSTART_2X;
         }
+
+        if (type == PUTBYTES_TYPE_FILE && filename != null) {
+            length += filename.getBytes().length + 1;
+        }
+
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + length);
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putShort(length);
@@ -1042,12 +1047,19 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put(PUTBYTES_INIT);
         buf.putInt(size);
         buf.put(type);
+
         if (isFw3x) {
             buf.putInt(app_id);
         } else {
             // slot
             buf.put((byte) app_id);
         }
+
+        if (type == PUTBYTES_TYPE_FILE && filename != null) {
+            buf.put(filename.getBytes());
+            buf.put((byte) 0);
+        }
+
         return buf.array();
     }
 

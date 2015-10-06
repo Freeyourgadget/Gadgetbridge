@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,6 +51,7 @@ public class PBWReader {
     private GBDeviceApp app;
     private ArrayList<PebbleInstallable> pebbleInstallables;
     private boolean isFirmware = false;
+    private boolean isLanguage = false;
     private boolean isValid = false;
     private String hwRevision = null;
     private short mSdkVersion;
@@ -58,13 +60,24 @@ public class PBWReader {
     private int mFlags;
 
     public PBWReader(Uri uri, Context context, String platform) {
+        this.uri = uri;
+        cr = context.getContentResolver();
+
+        if (uri.toString().endsWith(".pbl") && platform.equals("aplite")) {
+            // language file
+            app = new GBDeviceApp(UUID.randomUUID(), "Language File", "unknown", "unknown", GBDeviceApp.Type.UNKNOWN);
+            File f = new File(uri.getPath());
+            pebbleInstallables = new ArrayList<>();
+            pebbleInstallables.add(new PebbleInstallable("lang", (int) f.length(), (int)4218691521L, PebbleProtocol.PUTBYTES_TYPE_FILE));
+            isValid = true;
+            isLanguage = true;
+            return;
+        }
+
         String platformDir = "";
         if (!uri.toString().endsWith(".pbz") && !platform.equals("aplite")) {
             platformDir = platform + "/";
         }
-
-        this.uri = uri;
-        cr = context.getContentResolver();
 
         InputStream fin;
         try {
@@ -186,6 +199,10 @@ public class PBWReader {
         return isFirmware;
     }
 
+    public boolean isLanguage() {
+        return isLanguage;
+    }
+
     public boolean isValid() {
         return isValid;
     }
@@ -194,11 +211,13 @@ public class PBWReader {
         return app;
     }
 
-    public ZipInputStream getInputStreamFile(String filename) {
+    public InputStream getInputStreamFile(String filename) {
         InputStream fin;
         try {
             fin = new BufferedInputStream(cr.openInputStream(uri));
-
+            if (isLanguage) {
+                return fin;
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return null;

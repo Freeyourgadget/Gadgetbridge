@@ -41,7 +41,7 @@ public class MiBandFWHelper {
         this.uri = uri;
         cr = context.getContentResolver();
 
-        String pebblePattern = ".*\\.(pbw|pbz)";
+        String pebblePattern = ".*\\.(pbw|pbz|pbl)";
 
         if (uri.getPath().matches(pebblePattern)) {
             throw new IOException("Firmware has a filename that looks like a Pebble app/firmware.");

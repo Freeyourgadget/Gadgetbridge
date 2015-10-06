@@ -26,7 +26,6 @@ import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.UUID;
-import java.util.zip.ZipInputStream;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
@@ -75,7 +74,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
 
     private PBWReader mPBWReader = null;
     private int mAppInstallToken = -1;
-    private ZipInputStream mZis = null;
+    private InputStream mFis = null;
     private PebbleAppInstallState mInstallState = PebbleAppInstallState.UNKNOWN;
     private PebbleInstallable[] mPebbleInstallables = null;
     private int mCurrentInstallableIndex = -1;
@@ -223,11 +222,11 @@ public class PebbleIoThread extends GBDeviceIoThread {
                         case START_INSTALL:
                             LOG.info("start installing app binary");
                             PebbleInstallable pi = mPebbleInstallables[mCurrentInstallableIndex];
-                            mZis = mPBWReader.getInputStreamFile(pi.getFileName());
+                            mFis = mPBWReader.getInputStreamFile(pi.getFileName());
                             mCRC = pi.getCRC();
                             mBinarySize = pi.getFileSize();
                             mBytesWritten = 0;
-                            writeInstallApp(mPebbleProtocol.encodeUploadStart(pi.getType(), mInstallSlot, mBinarySize));
+                            writeInstallApp(mPebbleProtocol.encodeUploadStart(pi.getType(), mInstallSlot, mBinarySize, mPBWReader.isLanguage() ? "lang" : null));
                             mAppInstallToken = -1;
                             mInstallState = PebbleAppInstallState.WAIT_TOKEN;
                             break;
@@ -241,7 +240,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                         case UPLOAD_CHUNK:
                             int bytes = 0;
                             do {
-                                int read = mZis.read(buffer, bytes, 2000 - bytes);
+                                int read = mFis.read(buffer, bytes, 2000 - bytes);
                                 if (read <= 0) break;
                                 bytes += read;
                             } while (bytes < 2000);
@@ -285,7 +284,12 @@ public class PebbleIoThread extends GBDeviceIoThread {
                             } else if (mPebbleProtocol.isFw3x) {
                                 finishInstall(false); // FIXME: dont know yet how to detect success
                             } else {
-                                writeInstallApp(mPebbleProtocol.encodeAppRefresh(mInstallSlot));
+                                if (mPBWReader.isLanguage()) {
+                                    finishInstall(false);
+                                    write(mPebbleProtocol.encodeReboot());
+                                } else {
+                                    writeInstallApp(mPebbleProtocol.encodeAppRefresh(mInstallSlot));
+                                }
                             }
                             break;
                         default:
@@ -589,8 +593,16 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 }
             } else {
                 mIsInstalling = true;
-                mInstallState = PebbleAppInstallState.WAIT_SLOT;
-                writeInstallApp(mPebbleProtocol.encodeAppDelete(app.getUUID()));
+                if (mPBWReader.isLanguage()) {
+                    mInstallSlot = 0;
+                    mInstallState = PebbleAppInstallState.START_INSTALL;
+
+                    // unblock HACK
+                    writeInstallApp(mPebbleProtocol.encodeGetTime());
+                } else {
+                    mInstallState = PebbleAppInstallState.WAIT_SLOT;
+                    writeInstallApp(mPebbleProtocol.encodeAppDelete(app.getUUID()));
+                }
             }
         }
     }
@@ -612,14 +624,14 @@ public class PebbleIoThread extends GBDeviceIoThread {
 
         mPBWReader = null;
         mIsInstalling = false;
-        if (mZis != null) {
+        if (mFis != null) {
             try {
-                mZis.close();
+                mFis.close();
             } catch (IOException e) {
                 // ignore
             }
         }
-        mZis = null;
+        mFis = null;
         mAppInstallToken = -1;
         mInstallSlot = -2;
     }
