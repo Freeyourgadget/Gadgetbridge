@@ -1,5 +1,8 @@
 ###Changelog
 
+####Next Version
+* Pebble: support installation of language files (.pbl) on FW 2.x
+
 ####Version 0.6.2
 * Mi Band: support firmare versione 1.0.10.14 (and onwards?) vibration
 * Mi Band: get device name from official BT SIG endpoint

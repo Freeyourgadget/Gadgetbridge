@@ -27,6 +27,7 @@ need to create an account and transmit any of your data to the vendor's servers.
 * Music control: play/pause, next track, previous track, volume up, volume down
 * List and remove installed apps/watchfaces
 * Install watchfaces and firmware files (.pbw and .pbz)
+* Install language files (.pbl) (currently on Firmware 2.x only)
 * Take and share screenshots from the Pebble's screen
 * PebbleKit support for 3rd Party Android Apps support (experimental). 
 * Morpheuz sleep data syncronization (experimental)
