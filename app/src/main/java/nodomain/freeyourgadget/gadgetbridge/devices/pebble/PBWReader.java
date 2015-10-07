@@ -64,11 +64,29 @@ public class PBWReader {
         cr = context.getContentResolver();
 
         if (uri.toString().endsWith(".pbl") && platform.equals("aplite")) {
+            InputStream fin;
+            STM32CRC stm32crc = new STM32CRC();
+            try {
+                fin = new BufferedInputStream(cr.openInputStream(uri));
+                byte[] buf = new byte[2000];
+                while (fin.available() > 0) {
+                    int count = fin.read(buf);
+                    stm32crc.addData(buf, count);
+                }
+                fin.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+
+            int crc = stm32crc.getResult();
             // language file
             app = new GBDeviceApp(UUID.randomUUID(), "Language File", "unknown", "unknown", GBDeviceApp.Type.UNKNOWN);
             File f = new File(uri.getPath());
+
             pebbleInstallables = new ArrayList<>();
-            pebbleInstallables.add(new PebbleInstallable("lang", (int) f.length(), (int)4218691521L, PebbleProtocol.PUTBYTES_TYPE_FILE));
+            pebbleInstallables.add(new PebbleInstallable("lang", (int) f.length(), crc, PebbleProtocol.PUTBYTES_TYPE_FILE));
+
             isValid = true;
             isLanguage = true;
             return;
