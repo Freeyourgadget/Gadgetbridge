@@ -52,6 +52,8 @@ public class GBApplication extends Application {
         // don't do anything here before we set up logging, otherwise
         // slf4j may be implicitly initialized before we properly configured it.
         setupLogging();
+
+        setupExceptionHandler();
 //        For debugging problems with the logback configuration
 //        LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
 //         print logback's internal status
@@ -65,6 +67,11 @@ public class GBApplication extends Application {
 // for testing DB stuff
 //        SQLiteDatabase db = mActivityDatabaseHandler.getWritableDatabase();
 //        db.close();
+    }
+
+    private void setupExceptionHandler() {
+        LoggingExceptionHandler handler = new LoggingExceptionHandler(Thread.getDefaultUncaughtExceptionHandler());
+        Thread.setDefaultUncaughtExceptionHandler(handler);
     }
 
     public static boolean isFileLoggingEnabled() {
