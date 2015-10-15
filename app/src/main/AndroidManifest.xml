@@ -210,56 +210,7 @@
             </intent-filter>
         </service>
         <service android:name=".service.DeviceCommunicationService" />
-
-        <receiver
-            android:name=".externalevents.PhoneCallReceiver"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="android.intent.action.PHONE_STATE" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name=".externalevents.SMSReceiver"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name=".externalevents.TimeChangeReceiver"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
-                <action android:name="android.intent.action.TIME_SET" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name=".externalevents.K9Receiver"
-            android:enabled="false">
-            <intent-filter>
-                <data android:scheme="email" />
-
-                <action android:name="com.fsck.k9.intent.action.EMAIL_RECEIVED" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name=".externalevents.PebbleReceiver"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="com.getpebble.action.SEND_NOTIFICATION" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name=".externalevents.MusicPlaybackReceiver"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="com.android.music.metachanged"/>
-            </intent-filter>
-        </receiver>
-        <receiver
+       <receiver
             android:name=".externalevents.BluetoothStateChangeReceiver"
             android:exported="false">
             <intent-filter>

@@ -24,6 +24,12 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.K9Receiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.MusicPlaybackReceiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.PebbleReceiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.PhoneCallReceiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.SMSReceiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.TimeChangeReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -80,6 +86,13 @@ public class DeviceCommunicationService extends Service {
     private GBDevice mGBDevice = null;
     private DeviceSupport mDeviceSupport;
 
+    private PhoneCallReceiver mPhoneCallReceiver = null;
+    private SMSReceiver mSMSReceiver = null;
+    private K9Receiver mK9Receiver = null;
+    private PebbleReceiver mPebbleReceiver = null;
+    private MusicPlaybackReceiver mMusicPlaybackReceiver = null;
+    private TimeChangeReceiver mTimeChangeReceiver = null;
+
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -89,7 +102,7 @@ public class DeviceCommunicationService extends Service {
                 if (mGBDevice.equals(device)) {
                     mGBDevice = device;
                     boolean enableReceivers = mDeviceSupport != null && (mDeviceSupport.useAutoConnect() || mGBDevice.isInitialized());
-                    GB.setReceiversEnableState(enableReceivers, context);
+                    setReceiversEnableState(enableReceivers);
                     GB.updateNotification(mGBDevice.getName() + " " + mGBDevice.getStateString(), context);
                 } else {
                     LOG.error("Got ACTION_DEVICE_CHANGED from unexpected device: " + mGBDevice);
@@ -321,13 +334,79 @@ public class DeviceCommunicationService extends Service {
         return mGBDevice != null && mGBDevice.isInitialized();
     }
 
+
+    private void setReceiversEnableState(boolean enable) {
+        LOG.info("Setting broadcast receivers to: " + enable);
+
+        if (enable) {
+            if (mPhoneCallReceiver == null) {
+                mPhoneCallReceiver = new PhoneCallReceiver();
+                IntentFilter filter = new IntentFilter();
+                filter.addAction("android.intent.action.PHONE_STATE");
+                filter.addAction("android.intent.action.NEW_OUTGOING_CALL");
+                registerReceiver(mPhoneCallReceiver, filter);
+            }
+            if (mSMSReceiver == null) {
+                mSMSReceiver = new SMSReceiver();
+                registerReceiver(mSMSReceiver, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
+            }
+            if (mK9Receiver == null) {
+                mK9Receiver = new K9Receiver();
+                IntentFilter filter = new IntentFilter();
+                filter.addDataScheme("email");
+                filter.addAction("com.fsck.k9.intent.action.EMAIL_RECEIVED");
+                registerReceiver(mK9Receiver, filter);
+            }
+            if (mPebbleReceiver == null) {
+                mPebbleReceiver = new PebbleReceiver();
+                registerReceiver(mPebbleReceiver, new IntentFilter("com.getpebble.action.SEND_NOTIFICATION"));
+            }
+            if (mMusicPlaybackReceiver == null) {
+                mMusicPlaybackReceiver = new MusicPlaybackReceiver();
+                registerReceiver(mMusicPlaybackReceiver, new IntentFilter("com.android.music.metachanged"));
+            }
+            if (mTimeChangeReceiver == null) {
+                mTimeChangeReceiver = new TimeChangeReceiver();
+                IntentFilter filter = new IntentFilter();
+                filter.addAction("android.intent.action.TIME_SET");
+                filter.addAction("android.intent.action.TIMEZONE_CHANGED");
+                registerReceiver(mTimeChangeReceiver, filter);
+            }
+        } else {
+            if (mPhoneCallReceiver != null) {
+                unregisterReceiver(mPhoneCallReceiver);
+                mPhoneCallReceiver = null;
+            }
+            if (mSMSReceiver != null) {
+                unregisterReceiver(mSMSReceiver);
+                mSMSReceiver = null;
+            }
+            if (mK9Receiver != null) {
+                unregisterReceiver(mK9Receiver);
+                mK9Receiver = null;
+            }
+            if (mPebbleReceiver != null) {
+                unregisterReceiver(mPebbleReceiver);
+                mPebbleReceiver = null;
+            }
+            if (mMusicPlaybackReceiver != null) {
+                unregisterReceiver(mMusicPlaybackReceiver);
+                mMusicPlaybackReceiver = null;
+            }
+            if (mTimeChangeReceiver != null) {
+                unregisterReceiver(mTimeChangeReceiver);
+                mTimeChangeReceiver = null;
+            }
+        }
+    }
+
     @Override
     public void onDestroy() {
         LOG.debug("DeviceCommunicationService is being destroyed");
         super.onDestroy();
 
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
-        GB.setReceiversEnableState(false, this); // disable BroadcastReceivers
+        setReceiversEnableState(false); // disable BroadcastReceivers
 
         setDeviceSupport(null);
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

@@ -5,7 +5,6 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -29,12 +28,6 @@ import nodomain.freeyourgadget.gadgetbridge.GBEnvironment;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.K9Receiver;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.MusicPlaybackReceiver;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.PebbleReceiver;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.PhoneCallReceiver;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.SMSReceiver;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.TimeChangeReceiver;
 
 public class GB {
     public static final int NOTIFICATION_ID = 1;
@@ -84,35 +77,6 @@ public class GB {
     private static void removeNotification(int id, Context context) {
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         nm.cancel(id);
-    }
-
-    public static void setReceiversEnableState(boolean enable, Context context) {
-        LOG.info("Setting broadcast receivers to: " + enable);
-        final Class<?>[] receiverClasses = {
-                PhoneCallReceiver.class,
-                SMSReceiver.class,
-                K9Receiver.class,
-                PebbleReceiver.class,
-                MusicPlaybackReceiver.class,
-                TimeChangeReceiver.class,
-                //NotificationListener.class, // disabling this leads to loss of permission to read notifications
-        };
-
-        int newState;
-
-        if (enable) {
-            newState = PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
-        } else {
-            newState = PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
-        }
-
-        PackageManager pm = context.getPackageManager();
-
-        for (Class<?> receiverClass : receiverClasses) {
-            ComponentName compName = new ComponentName(context, receiverClass);
-
-            pm.setComponentEnabledSetting(compName, newState, PackageManager.DONT_KILL_APP);
-        }
     }
 
     public static boolean isBluetoothEnabled() {
