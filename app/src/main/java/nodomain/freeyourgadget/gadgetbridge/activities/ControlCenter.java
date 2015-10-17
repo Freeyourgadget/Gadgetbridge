@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,6 +54,7 @@ public class ControlCenter extends Activity {
 
     private TextView hintTextView;
     private ListView deviceListView;
+    private SwipeRefreshLayout swipeLayout;
     private GBDeviceAdapter mGBDeviceAdapter;
     private GBDevice selectedDevice = null;
 
@@ -80,15 +82,41 @@ public class ControlCenter extends Activity {
                             deviceList.add(dev);
                         }
                     }
+                    updateSelectedDevice(dev);
                     refreshPairedDevices();
 
                     refreshBusyState(dev);
+                    enableSwipeRefresh(selectedDevice);
                     break;
             }
         }
     };
 
+    private void updateSelectedDevice(GBDevice dev) {
+        if (selectedDevice == null) {
+            selectedDevice = dev;
+        } else {
+            if (!selectedDevice.equals(dev)) {
+                if (selectedDevice.isConnected() && dev.isConnected()) {
+                    LOG.warn("multiple connected devices -- this is currently not really supported");
+                    selectedDevice = dev; // use the last one that changed
+                }
+                if (!selectedDevice.isConnected()) {
+                    selectedDevice = dev; // use the last one that changed
+                }
+            }
+        }
+    }
+
     private void refreshBusyState(GBDevice dev) {
+        if (dev.isBusy()) {
+            swipeLayout.setRefreshing(true);
+        } else {
+            boolean wasBusy = swipeLayout.isRefreshing();
+            if (wasBusy) {
+                swipeLayout.setRefreshing(false);
+            }
+        }
         mGBDeviceAdapter.notifyDataSetChanged();
     }
 
@@ -118,6 +146,14 @@ public class ControlCenter extends Activity {
             }
         });
 
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.controlcenter_swipe_layout);
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fetchActivityData();
+            }
+        });
+
         registerForContextMenu(deviceListView);
 
         IntentFilter filterLocal = new IntentFilter();
@@ -141,7 +177,7 @@ public class ControlCenter extends Activity {
         }
         GBApplication.deviceService().start();
 
-
+        enableSwipeRefresh(selectedDevice);
         if (GB.isBluetoothEnabled() && deviceList.isEmpty()) {
             // start discovery when no devices are present
             startActivity(new Intent(this, DiscoveryActivity.class));
@@ -180,6 +216,23 @@ public class ControlCenter extends Activity {
         menu.setHeaderTitle(selectedDevice.getName());
     }
 
+    private void enableSwipeRefresh(GBDevice device) {
+        boolean enable = device != null && device.isInitialized() && !device.isBusy();
+        swipeLayout.setEnabled(enable);
+    }
+
+    private void fetchActivityData() {
+        if (selectedDevice == null) {
+            return;
+        }
+        if (selectedDevice.isInitialized()) {
+            GBApplication.deviceService().onFetchActivityData();
+        } else {
+            swipeLayout.setRefreshing(false);
+            GB.toast(this, getString(R.string.device_not_connected), Toast.LENGTH_SHORT, GB.ERROR);
+        }
+    }
+
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -192,9 +245,7 @@ public class ControlCenter extends Activity {
                 }
                 return true;
             case R.id.controlcenter_fetch_activity_data:
-                if (selectedDevice != null) {
-                    GBApplication.deviceService().onFetchActivityData();
-                }
+                fetchActivityData();
                 return true;
             case R.id.controlcenter_disconnect:
                 if (selectedDevice != null) {
