@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -297,17 +298,13 @@ public class ControlCenter extends Activity {
             Toast.makeText(this, R.string.bluetooth_is_disabled_, Toast.LENGTH_SHORT).show();
         } else {
             Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
+            DeviceHelper deviceHelper = DeviceHelper.getInstance();
             for (BluetoothDevice pairedDevice : pairedDevices) {
-                DeviceType deviceDeviceType;
-                if (pairedDevice.getName().indexOf("Pebble") == 0) {
-                    deviceDeviceType = DeviceType.PEBBLE;
-                } else if (pairedDevice.getName().equals("MI")) {
-                    deviceDeviceType = DeviceType.MIBAND;
-                } else {
+                if (isDeviceContainedIn(pairedDevice, availableDevices)) {
                     continue;
                 }
-                GBDevice device = new GBDevice(pairedDevice.getAddress(), pairedDevice.getName(), deviceDeviceType);
-                if (!availableDevices.contains(device)) {
+                GBDevice device = deviceHelper.toSupportedDevice(pairedDevice);
+                if (device != null) {
                     availableDevices.add(device);
                 }
             }
@@ -344,5 +341,14 @@ public class ControlCenter extends Activity {
             }
         }
         mGBDeviceAdapter.notifyDataSetChanged();
+    }
+
+    private boolean isDeviceContainedIn(BluetoothDevice device, List<GBDevice> availableDevices) {
+        for (GBDevice avail : availableDevices) {
+            if (avail.getAddress().equals(device.getAddress())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import android.bluetooth.BluetoothDevice;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +34,19 @@ public class DeviceHelper {
             }
         }
         return false;
+    }
+
+    public GBDevice toSupportedDevice(BluetoothDevice device) {
+        GBDeviceCandidate candidate = new GBDeviceCandidate(device, GBDevice.RSSI_UNKNOWN);
+        if (coordinator != null && coordinator.supports(candidate)) {
+            return new GBDevice(device.getAddress(), device.getName(), coordinator.getDeviceType());
+        }
+        for (DeviceCoordinator coordinator : getAllCoordinators()) {
+            if (coordinator.supports(candidate)) {
+                return new GBDevice(device.getAddress(), device.getName(), coordinator.getDeviceType());
+            }
+        }
+        return null;
     }
 
     public DeviceCoordinator getCoordinator(GBDeviceCandidate device) {
