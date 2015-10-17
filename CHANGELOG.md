@@ -3,7 +3,7 @@
 ####Version 0.6.3
 * Pebble: support installation of language files (.pbl) on FW 2.x
 * Try to prevent service being killed by disallowing backups
-* Pull down to sync (in the Charts activity)
+* Now supports pull down to synchronize activity data
 * Display tabs in the Charts activity
 
 ####Version 0.6.2
