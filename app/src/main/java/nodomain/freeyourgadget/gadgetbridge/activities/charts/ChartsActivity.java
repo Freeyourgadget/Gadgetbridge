@@ -10,18 +10,24 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.PagerTabStrip;
+import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -32,18 +38,21 @@ import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBFragmentActivit
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class ChartsActivity extends AbstractGBFragmentActivity implements ChartsHost {
 
     private static final Logger LOG = LoggerFactory.getLogger(ChartsActivity.class);
 
-    private ProgressBar mProgressBar;
     private Button mPrevButton;
     private Button mNextButton;
     private TextView mDateControl;
 
     private Date mStartDate;
     private Date mEndDate;
+    private SwipeRefreshLayout swipeLayout;
+    private PagerTabStrip mPagerTabStrip;
+    private ViewPager viewPager;
 
     private static class ShowDurationDialog extends Dialog {
         private final String mDuration;
@@ -92,11 +101,11 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
 
     private void refreshBusyState(GBDevice dev) {
         if (dev.isBusy()) {
-            mProgressBar.setVisibility(View.VISIBLE);
+            swipeLayout.setRefreshing(true);
         } else {
-            boolean wasBusy = mProgressBar.getVisibility() != View.GONE;
+            boolean wasBusy = swipeLayout.isRefreshing();
             if (wasBusy) {
-                mProgressBar.setVisibility(View.GONE);
+                swipeLayout.setRefreshing(false);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(REFRESH));
             }
         }
@@ -121,9 +130,31 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
             throw new IllegalArgumentException("Must provide a device when invoking this activity");
         }
 
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.activity_swipe_layout);
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fetchActivityData();
+            }
+        });
+
         // Set up the ViewPager with the sections adapter.
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager = (ViewPager) findViewById(R.id.charts_pager);
         viewPager.setAdapter(getPagerAdapter());
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                enableSwipeRefresh(state == ViewPager.SCROLL_STATE_IDLE);
+            }
+        });
 
         dateBar = (ViewGroup) findViewById(R.id.charts_date_bar);
         mDateControl = (TextView) findViewById(R.id.charts_text_date);
@@ -135,7 +166,6 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
             }
         });
 
-        mProgressBar = (ProgressBar) findViewById(R.id.charts_progress);
         mPrevButton = (Button) findViewById(R.id.charts_previous);
         mPrevButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,6 +180,9 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
                 handleNextButtonClicked();
             }
         });
+        mPagerTabStrip = (PagerTabStrip) findViewById(R.id.charts_pagerTabStrip);
+
+        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.charts_main_layout);
     }
 
     private String formatDetailedDuration() {
@@ -215,13 +248,26 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.charts_fetch_activity_data:
-                GBApplication.deviceService().onFetchActivityData();
+                fetchActivityData();
                 return true;
             default:
                 break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void enableSwipeRefresh(boolean enable) {
+        swipeLayout.setEnabled(enable);
+    }
+
+    private void fetchActivityData() {
+        if (getDevice().isInitialized()) {
+            GBApplication.deviceService().onFetchActivityData();
+        } else {
+            swipeLayout.setRefreshing(false);
+            GB.toast(this, getString(R.string.device_not_connected), Toast.LENGTH_SHORT, GB.ERROR);
+        }
     }
 
     @Override
@@ -239,11 +285,12 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         return dateBar;
     }
 
+
     /**
      * A {@link FragmentStatePagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public static class SectionsPagerAdapter extends AbstractFragmentPagerAdapter {
+    public class SectionsPagerAdapter extends AbstractFragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -270,6 +317,21 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         public int getCount() {
             // Show 3 total pages.
             return 4;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return getString(R.string.activity_sleepchart_activity_and_sleep);
+                case 1:
+                    return getString(R.string.sleepchart_your_sleep);
+                case 2:
+                    return getString(R.string.weekstepschart_steps_a_week);
+                case 3:
+                    return getString(R.string.liveactivity_live_activity);
+            }
+            return super.getPageTitle(position);
         }
     }
 }

@@ -206,4 +206,5 @@
     <string name="abstract_chart_fragment_kind_light_sleep">Light Sleep</string>
     <string name="abstract_chart_fragment_kind_deep_sleep">Deep Sleep</string>
     <string name="abstract_chart_fragment_kind_not_worn">Not Worn</string>
+    <string name="device_not_connected">Not connected.</string>
 </resources>
