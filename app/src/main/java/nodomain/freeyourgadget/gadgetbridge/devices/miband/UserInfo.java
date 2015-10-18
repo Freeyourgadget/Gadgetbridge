@@ -1,6 +1,9 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
+
+import java.util.Arrays;
 
 /**
  * Created by UgoRaffaele on 30/01/2015.
@@ -56,46 +59,6 @@ public class UserInfo {
         this.height = height;
         this.weight = weight;
         this.type = type;
-
-        byte[] sequence = new byte[20];
-
-        int uid = calculateUidFrom(alias);
-        String normalizedAlias = ensureTenCharacters(alias);
-        sequence[0] = (byte) uid;
-        sequence[1] = (byte) (uid >>> 8);
-        sequence[2] = (byte) (uid >>> 16);
-        sequence[3] = (byte) (uid >>> 24);
-
-        sequence[4] = (byte) (gender & 0xff);
-        sequence[5] = (byte) (age & 0xff);
-        sequence[6] = (byte) (height & 0xff);
-        sequence[7] = (byte) (weight & 0xff);
-        sequence[8] = (byte) (type & 0xff);
-
-        for (int u = 9; u < 19; u++)
-            sequence[u] = normalizedAlias.getBytes()[u - 9];
-
-        byte[] crcSequence = new byte[19];
-        System.arraycopy(sequence, 0, crcSequence, 0, crcSequence.length);
-
-        sequence[19] = (byte) ((CheckSums.getCRC8(crcSequence) ^ Integer.parseInt(address.substring(address.length() - 2), 16)) & 0xff);
-
-        this.data = sequence;
-    }
-
-
-    private String ensureTenCharacters(String alias) {
-        char[] result = new char[10];
-        int aliasLen = alias.length();
-        int maxLen = Math.min(10, alias.length());
-        int diff = 10 - maxLen;
-        for (int i = 0; i < maxLen; i++) {
-            result[i + diff] = alias.charAt(i);
-        }
-        for (int i = 0; i < diff; i++) {
-            result[i] = '0';
-        }
-        return new String(result);
     }
 
     private int calculateUidFrom(String alias) {
@@ -108,7 +71,34 @@ public class UserInfo {
         return uid;
     }
 
-    public byte[] getData() {
-        return this.data;
+    public byte[] getData(DeviceInfo mDeviceInfo) {
+        byte[] sequence = new byte[20];
+        int uid = calculateUidFrom(alias);
+
+        sequence[0] = (byte) uid;
+        sequence[1] = (byte) (uid >>> 8);
+        sequence[2] = (byte) (uid >>> 16);
+        sequence[3] = (byte) (uid >>> 24);
+
+        sequence[4] = (byte) (gender & 0xff);
+        sequence[5] = (byte) (age & 0xff);
+        sequence[6] = (byte) (height & 0xff);
+        sequence[7] = (byte) (weight & 0xff);
+        sequence[8] = (byte) (type & 0xff);
+
+        int aliasFrom = 9;
+        if (mDeviceInfo.isMili1A()) {
+            sequence[9] = (byte) (mDeviceInfo.feature & 255);
+            sequence[10] = (byte) (mDeviceInfo.appearance & 255);
+            aliasFrom = 11;
+        }
+
+        byte[] aliasBytes = alias.substring(0, Math.min(alias.length(), 19-aliasFrom)).getBytes();
+        System.arraycopy(aliasBytes, 0, sequence, aliasFrom, aliasBytes.length);
+
+        byte[] crcSequence = Arrays.copyOf(sequence, 19);
+        sequence[19] = (byte) ((CheckSums.getCRC8(crcSequence) ^ Integer.parseInt(this.btAddress.substring(this.btAddress.length() - 2), 16)) & 0xff);
+
+        return sequence;
     }
 }
