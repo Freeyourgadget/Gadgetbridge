@@ -368,7 +368,7 @@ public final class BtLEQueue {
                 try {
                     getCallbackToUse().onCharacteristicRead(gatt, characteristic, status);
                 } catch (Throwable ex) {
-                    LOG.error("onCharaceristicRead: " + ex.getMessage(), ex);
+                    LOG.error("onCharacteristicRead: " + ex.getMessage(), ex);
                 }
             }
             checkWaitingCharacteristic(characteristic, status);

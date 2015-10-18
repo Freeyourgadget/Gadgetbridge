@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WriteAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -91,13 +92,13 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         builder.add(new SetDeviceStateAction(getDevice(), State.INITIALIZING, getContext()));
         pair(builder)
+                .requestDeviceInfo(builder)
                 .sendUserInfo(builder)
                 .setWearLocation(builder)
                 .setFitnessGoal(builder)
                 .enableNotifications(builder, true)
                 .setCurrentTime(builder)
                 .requestBatteryInfo(builder)
-                .requestDeviceInfo(builder)
                 .setInitialized(builder);
 
         return builder;
@@ -268,8 +269,19 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      */
     private MiBandSupport sendUserInfo(TransactionBuilder builder) {
         LOG.debug("Writing User Info!");
-        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_USER_INFO);
-        builder.write(characteristic, MiBandCoordinator.getAnyUserInfo(getDevice().getAddress()).getData());
+        builder.add(new BtLEAction(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_USER_INFO)) {
+            @Override
+            public boolean expectsResult() {
+                return true;
+            }
+
+            @Override
+            public boolean run(BluetoothGatt gatt) {
+                return new WriteAction(getCharacteristic(),
+                        MiBandCoordinator.getAnyUserInfo(getDevice().getAddress()).getData(mDeviceInfo)
+                ).run(gatt);
+            }
+        });
         return this;
     }
 
@@ -749,6 +761,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private void handleDeviceInfo(byte[] value, int status) {
         if (status == BluetoothGatt.GATT_SUCCESS) {
             mDeviceInfo = new DeviceInfo(value);
+            LOG.warn(mDeviceInfo.toString());
             versionCmd.fwVersion = mDeviceInfo.getHumanFirmwareVersion();
             handleGBDeviceEvent(versionCmd);
         }
