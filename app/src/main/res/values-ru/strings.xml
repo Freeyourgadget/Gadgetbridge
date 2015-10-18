@@ -182,4 +182,13 @@
   <string name="weeksteps_today_steps_description">Шагов сегодня, цель: %1$s</string>
   <string name="pref_title_dont_ack_transfer">Не передавать данные об активности</string>
   <string name="pref_summary_dont_ack_transfers">Если данные об активности не будут переданы на устройство, оно не будет очищено. Полезно, если GB используется с другими приложениями.</string>
+  <string name="live_activity_steps_history">История шагов</string>
+  <string name="live_activity_current_steps_per_minute">Текущие шаги в минуту</string>
+  <string name="live_activity_total_steps">Всего шагов</string>
+  <string name="live_activity_steps_per_minute_history">История шагов за минуту</string>
+  <string name="live_activity_start_your_activity">Начните вашу активность</string>
+  <string name="abstract_chart_fragment_kind_activity">Активность</string>
+  <string name="abstract_chart_fragment_kind_light_sleep">Неглубокий сон</string>
+  <string name="abstract_chart_fragment_kind_deep_sleep">Глубокий сон</string>
+  <string name="abstract_chart_fragment_kind_not_worn">Не носилось</string>
 </resources>

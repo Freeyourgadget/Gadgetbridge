@@ -1,10 +1,13 @@
 ###Changelog
 
+####Version 0.6.4
+* Support pull down to synchronize activity data
+* Display tabs in the Charts activity
+* Register/unregister BroadcastReceivers instead of enabling/disabling them with PackageManager
+
 ####Version 0.6.3
 * Pebble: support installation of language files (.pbl) on FW 2.x
 * Try to prevent service being killed by disallowing backups
-* Now supports pull down to synchronize activity data
-* Display tabs in the Charts activity
 
 ####Version 0.6.2
 * Mi Band: support firmare versione 1.0.10.14 (and onwards?) vibration

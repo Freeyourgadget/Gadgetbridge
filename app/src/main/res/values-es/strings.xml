@@ -182,4 +182,13 @@
   <string name="weeksteps_today_steps_description">Pasos hoy, objetivo: %1$s</string>
   <string name="pref_title_dont_ack_transfer">No \"ackear\" transferencia de datos de actividad</string>
   <string name="pref_summary_dont_ack_transfers">Si los datos de actividad no son \"ackeados\" a la banda, no serán despejados. Útil si GB se usa conjuntamente con otras apps.</string>
+  <string name="live_activity_steps_history">Historial de pasos</string>
+  <string name="live_activity_current_steps_per_minute">Pasos/min actuales</string>
+  <string name="live_activity_total_steps">Pasos totales</string>
+  <string name="live_activity_steps_per_minute_history">Historial de pasos por minuto</string>
+  <string name="live_activity_start_your_activity">Empieza tu actividad</string>
+  <string name="abstract_chart_fragment_kind_activity">Actividad</string>
+  <string name="abstract_chart_fragment_kind_light_sleep">Sueño ligero</string>
+  <string name="abstract_chart_fragment_kind_deep_sleep">Sueño profundo</string>
+  <string name="abstract_chart_fragment_kind_not_worn">Sin usar</string>
 </resources>

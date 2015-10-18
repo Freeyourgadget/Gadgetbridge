@@ -12,8 +12,8 @@ android {
         applicationId "nodomain.freeyourgadget.gadgetbridge"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 29
-        versionName "0.6.3"
+        versionCode 30
+        versionName "0.6.4"
     }
     buildTypes {
         release {
