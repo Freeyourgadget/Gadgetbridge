@@ -79,7 +79,7 @@ public class DeviceSupportFactory {
 
             try {
                 BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(deviceAddress);
-                if (btDevice.getName() == null || btDevice.getName().equals("MI")) { //FIXME: workaround for Miband not being paired
+                if (btDevice.getName() == null || btDevice.getName().startsWith("MI")) { //FIXME: workaround for Miband not being paired
                     gbDevice = new GBDevice(deviceAddress, "MI", DeviceType.MIBAND);
                     deviceSupport = new ServiceDeviceSupport(new MiBandSupport(), EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING));
                 } else if (btDevice.getName().indexOf("Pebble") == 0) {
