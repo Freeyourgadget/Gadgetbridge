@@ -38,6 +38,9 @@ public class UpdateFirmwareOperation extends AbstractBTLEOperation<MiBandSupport
 
     @Override
     public void perform() throws IOException {
+        if (getSupport().getDeviceInfo().isMili1A()) {
+            throw new IOException("Firmware update is not supported for the Mi Band 1A, yet.");
+        }
         MiBandFWHelper mFwHelper = new MiBandFWHelper(uri, getContext());
         String mMac = getDevice().getAddress();
         String[] mMacOctets = mMac.split(":");
