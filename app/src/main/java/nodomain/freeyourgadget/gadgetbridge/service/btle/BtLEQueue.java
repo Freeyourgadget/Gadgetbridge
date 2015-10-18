@@ -108,7 +108,7 @@ public final class BtLEQueue {
                     mConnectionLatch = null;
                     LOG.debug("Thread interrupted");
                 } catch (Throwable ex) {
-                    LOG.error("Queue Dispatch Thread died: " + ex.getMessage());
+                    LOG.error("Queue Dispatch Thread died: " + ex.getMessage(), ex);
                     mCrashed = true;
                     mConnectionLatch = null;
                 } finally {

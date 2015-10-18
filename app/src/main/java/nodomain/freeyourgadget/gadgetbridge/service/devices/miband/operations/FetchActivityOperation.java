@@ -124,9 +124,16 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
     public void perform() throws IOException {
         TransactionBuilder builder = performInitialized("fetch activity data");
 //            builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_LE_PARAMS), getLowLatency());
+
+        enableOtherNotifications(builder, false);
         builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.busy_task_fetch_activity_data), getContext()));
         builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), fetch);
         builder.queue(getQueue());
+    }
+
+    private void enableOtherNotifications(TransactionBuilder builder, boolean enable) {
+        builder.notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS), enable)
+                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_SENSOR_DATA), enable);
     }
 
 
@@ -141,9 +148,12 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
         }
     }
 
-    private void handleActivityFetchFinish() {
+    private void handleActivityFetchFinish() throws IOException {
         LOG.info("Fetching activity data has finished.");
         activityStruct = null;
+        TransactionBuilder builder = performInitialized("enabling other notifications again");
+        enableOtherNotifications(builder, true);
+        builder.queue(getQueue());
         unsetBusy();
     }
 

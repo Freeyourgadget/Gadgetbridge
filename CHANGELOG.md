@@ -4,6 +4,7 @@
 * Support pull down to synchronize activity data (#138)
 * Display tabs in the Charts activity (#139)
 * Mi Band: initial support for Mi Band 1a (the one with white LEDs) (thanks @sarg) (#136)
+* Mi Band: Attempt at fixing problem with never finishing activity data fetching (#141, #142)
 * Register/unregister BroadcastReceivers instead of enabling/disabling them with PackageManager (#134)
   (should fix disconnection because the service is being killed)
 

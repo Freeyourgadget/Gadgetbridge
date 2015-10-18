@@ -15,6 +15,7 @@ public class TransactionBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(TransactionBuilder.class);
 
     private Transaction mTransaction;
+    private boolean mQueued;
 
     public TransactionBuilder(String taskName) {
         mTransaction = new Transaction(taskName);
@@ -83,6 +84,10 @@ public class TransactionBuilder {
      * @param queue
      */
     public void queue(BtLEQueue queue) {
+        if (mQueued) {
+            throw new IllegalStateException("This builder had already been queued. You must not reuse it.");
+        }
+        mQueued = true;
         queue.add(mTransaction);
     }
 
