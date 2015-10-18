@@ -443,14 +443,19 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         try {
             BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
             TransactionBuilder builder = performInitialized("Set alarm");
+            boolean anyAlarmEnabled = false;
             for (Alarm alarm : alarms) {
+                anyAlarmEnabled |= alarm.isEnabled();
                 queueAlarm(alarm, builder, characteristic);
             }
             builder.queue(getQueue());
-            Toast.makeText(getContext(), getContext().getString(R.string.user_feedback_miband_set_alarms_ok), Toast.LENGTH_SHORT).show();
+            if (anyAlarmEnabled) {
+                GB.toast(getContext(), getContext().getString(R.string.user_feedback_miband_set_alarms_ok), Toast.LENGTH_SHORT, GB.INFO);
+            } else {
+                GB.toast(getContext(), getContext().getString(R.string.user_feedback_all_alarms_disabled), Toast.LENGTH_SHORT, GB.INFO);
+            }
         } catch (IOException ex) {
-            Toast.makeText(getContext(), getContext().getString(R.string.user_feedback_miband_set_alarms_failed), Toast.LENGTH_LONG).show();
-            LOG.error("Unable to set alarms on MI device", ex);
+            GB.toast(getContext(), getContext().getString(R.string.user_feedback_miband_set_alarms_failed), Toast.LENGTH_LONG, GB.ERROR, ex);
         }
     }
 
@@ -636,7 +641,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         try {
             new UpdateFirmwareOperation(uri, this).perform();
         } catch (IOException ex) {
-            GB.toast(getContext(), "Firmware cannot be installed: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR);
+            GB.toast(getContext(), "Firmware cannot be installed: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
         }
     }
 

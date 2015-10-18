@@ -21,8 +21,11 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PR
 
 public class ConfigureAlarms extends ListActivity {
 
+    private static final int REQ_CONFIGURE_ALARM = 1;
+
     private GBAlarmListAdapter mGBAlarmListAdapter;
     private Set<String> preferencesAlarmListSet;
+    private boolean avoidSendAlarmsToDevice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,26 +39,37 @@ public class ConfigureAlarms extends ListActivity {
         if (preferencesAlarmListSet.isEmpty()) {
             //initialize the preferences
             preferencesAlarmListSet = new HashSet<>(Arrays.asList(GBAlarm.DEFAULT_ALARMS));
-            sharedPrefs.edit().putStringSet(PREF_MIBAND_ALARMS, preferencesAlarmListSet).commit();
+            sharedPrefs.edit().putStringSet(PREF_MIBAND_ALARMS, preferencesAlarmListSet).apply();
         }
 
         mGBAlarmListAdapter = new GBAlarmListAdapter(this, preferencesAlarmListSet);
 
         setListAdapter(mGBAlarmListAdapter);
-
+        updateAlarmsFromPrefs();
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onPause() {
+        if (!avoidSendAlarmsToDevice) {
+            sendAlarmsToDevice();
+        }
+        super.onPause();
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQ_CONFIGURE_ALARM) {
+            avoidSendAlarmsToDevice = false;
+            updateAlarmsFromPrefs();
+        }
+    }
+
+    private void updateAlarmsFromPrefs() {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         preferencesAlarmListSet = sharedPrefs.getStringSet(PREF_MIBAND_ALARMS, new HashSet<String>());
 
         mGBAlarmListAdapter.setAlarmList(preferencesAlarmListSet);
         mGBAlarmListAdapter.notifyDataSetChanged();
-
-        sendAlarmsToDevice();
     }
 
     @Override
@@ -63,7 +77,6 @@ public class ConfigureAlarms extends ListActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 // back button
-                sendAlarmsToDevice();
                 finish();
                 return true;
         }
@@ -71,10 +84,11 @@ public class ConfigureAlarms extends ListActivity {
     }
 
     public void configureAlarm(GBAlarm alarm) {
+        avoidSendAlarmsToDevice = true;
         Intent startIntent;
         startIntent = new Intent(getApplicationContext(), AlarmDetails.class);
         startIntent.putExtra("alarm", alarm);
-        startActivity(startIntent);
+        startActivityForResult(startIntent, REQ_CONFIGURE_ALARM);
     }
 
     private void sendAlarmsToDevice() {

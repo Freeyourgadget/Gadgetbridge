@@ -64,7 +64,6 @@ public class AlarmDetails extends Activity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 // back button
-                updateAlarm();
                 finish();
                 return true;
         }
@@ -77,5 +76,11 @@ public class AlarmDetails extends Activity {
         alarm.setHour(timePicker.getCurrentHour());
         alarm.setMinute(timePicker.getCurrentMinute());
         alarm.store();
+    }
+
+    @Override
+    protected void onPause() {
+        updateAlarm();
+        super.onPause();
     }
 }

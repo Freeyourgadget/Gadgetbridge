@@ -3,6 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.impl;
 import android.content.SharedPreferences;
 import android.os.Parcel;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 
 import java.util.Calendar;
 import java.util.HashSet;
@@ -88,7 +89,7 @@ public class GBAlarm implements Alarm {
     }
 
     @Override
-    public int compareTo(Alarm another) {
+    public int compareTo(@NonNull Alarm another) {
         if (this.getIndex() < another.getIndex()) {
             return -1;
         } else if (this.getIndex() > another.getIndex()) {
@@ -201,8 +202,7 @@ public class GBAlarm implements Alarm {
             }
         }
         newPrefs.add(this.toPreferences());
-        sharedPrefs.edit().putStringSet(PREF_MIBAND_ALARMS, newPrefs).commit();
-        return;
+        sharedPrefs.edit().putStringSet(PREF_MIBAND_ALARMS, newPrefs).apply();
     }
 
     public static final Creator CREATOR = new Creator() {
