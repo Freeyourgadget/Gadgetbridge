@@ -187,7 +187,7 @@ public class DeviceCommunicationService extends Service {
                             GB.toast(this, getString(R.string.cannot_connect, "Can't create device support"), Toast.LENGTH_SHORT, GB.ERROR);
                         }
                     } catch (Exception e) {
-                        GB.toast(this, getString(R.string.cannot_connect, e.getMessage()), Toast.LENGTH_SHORT, GB.ERROR);
+                        GB.toast(this, getString(R.string.cannot_connect, e.getMessage()), Toast.LENGTH_SHORT, GB.ERROR, e);
                         setDeviceSupport(null);
                     }
                 } else if (mGBDevice != null) {
