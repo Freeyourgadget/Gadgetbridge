@@ -1,10 +1,10 @@
 ###Changelog
 
 ####Version 0.6.4
-* Support pull down to synchronize activity data
-* Display tabs in the Charts activity
-* Mi Band: initial support for Mi Band 1a (the one with white LEDs) (thanks @sarg)
-* Register/unregister BroadcastReceivers instead of enabling/disabling them with PackageManager
+* Support pull down to synchronize activity data (#138)
+* Display tabs in the Charts activity (#139)
+* Mi Band: initial support for Mi Band 1a (the one with white LEDs) (thanks @sarg) (#136)
+* Register/unregister BroadcastReceivers instead of enabling/disabling them with PackageManager (#134)
   (should fix disconnection because the service is being killed)
 
 ####Version 0.6.3
