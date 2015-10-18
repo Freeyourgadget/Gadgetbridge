@@ -269,6 +269,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      */
     private MiBandSupport sendUserInfo(TransactionBuilder builder) {
         LOG.debug("Writing User Info!");
+        // Use a custom action instead of just builder.write() because mDeviceInfo
+        // is set by handleDeviceInfo *after* this action is created.
         builder.add(new BtLEAction(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_USER_INFO)) {
             @Override
             public boolean expectsResult() {
@@ -277,6 +279,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
             @Override
             public boolean run(BluetoothGatt gatt) {
+                // at this point, mDeviceInfo should be set
                 return new WriteAction(getCharacteristic(),
                         MiBandCoordinator.getAnyUserInfo(getDevice().getAddress()).getData(mDeviceInfo)
                 ).run(gatt);
@@ -761,7 +764,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private void handleDeviceInfo(byte[] value, int status) {
         if (status == BluetoothGatt.GATT_SUCCESS) {
             mDeviceInfo = new DeviceInfo(value);
-            LOG.warn(mDeviceInfo.toString());
+            LOG.warn("Device info: " + mDeviceInfo);
             versionCmd.fwVersion = mDeviceInfo.getHumanFirmwareVersion();
             handleGBDeviceEvent(versionCmd);
         }
