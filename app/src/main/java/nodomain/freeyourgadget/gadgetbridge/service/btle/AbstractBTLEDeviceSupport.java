@@ -142,7 +142,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
             return;
         }
         Set<UUID> supportedServices = getSupportedServices();
-        mAvailableCharacteristics = new HashMap();
+        mAvailableCharacteristics = new HashMap<>();
         for (BluetoothGattService service : discoveredGattServices) {
             if (supportedServices.contains(service.getUuid())) {
                 List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
