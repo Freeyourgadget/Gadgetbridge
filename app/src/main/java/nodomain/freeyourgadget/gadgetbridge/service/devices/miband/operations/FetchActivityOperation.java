@@ -15,6 +15,9 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.UUID;
+//import java.util.concurrent.Executors;
+//import java.util.concurrent.ScheduledExecutorService;
+//import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -38,6 +41,12 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport> {
     private static final Logger LOG = LoggerFactory.getLogger(FetchActivityOperation.class);
     private static final byte[] fetch = new byte[]{MiBandService.COMMAND_FETCH_DATA};
+
+    //sometimes the Mi Band stops sending data, we confirm the part of the data transfer after some time
+    //private ScheduledExecutorService scheduleTaskExecutor;
+    //private ScheduledFuture scheduledTask;
+
+    private int activityMetadataLength = 11;
 
     //temporary buffer, size is a multiple of 60 because we want to store complete minutes (1 minute = 3 bytes)
     private static final int activityDataHolderSize = 3 * 60 * 4; // 4h
@@ -122,6 +131,8 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
 
     @Override
     public void perform() throws IOException {
+//        scheduleTaskExecutor = Executors.newScheduledThreadPool(1);
+
         TransactionBuilder builder = performInitialized("fetch activity data");
 //            builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_LE_PARAMS), getLowLatency());
 
@@ -169,48 +180,56 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
      * @see #bufferActivityData(byte[])
      */
     private void handleActivityNotif(byte[] value) {
-        if (value.length == 11) {
-            // byte 0 is the data type: 1 means that each minute is represented by a triplet of bytes
-            int dataType = value[0];
-            // byte 1 to 6 represent a timestamp
-            GregorianCalendar timestamp = MiBandDateConverter.rawBytesToCalendar(value, 1);
-
-            // counter of all data held by the band
-            int totalDataToRead = (value[7] & 0xff) | ((value[8] & 0xff) << 8);
-            totalDataToRead *= (dataType == MiBandService.MODE_REGULAR_DATA_LEN_MINUTE) ? 3 : 1;
-
-
-            // counter of this data block
-            int dataUntilNextHeader = (value[9] & 0xff) | ((value[10] & 0xff) << 8);
-            dataUntilNextHeader *= (dataType == MiBandService.MODE_REGULAR_DATA_LEN_MINUTE) ? 3 : 1;
-
-            // there is a total of totalDataToRead that will come in chunks (3 bytes per minute if dataType == 1 (MiBandService.MODE_REGULAR_DATA_LEN_MINUTE)),
-            // these chunks are usually 20 bytes long and grouped in blocks
-            // after dataUntilNextHeader bytes we will get a new packet of 11 bytes that should be parsed
-            // as we just did
-
-            if (activityStruct.isFirstChunk() && dataUntilNextHeader != 0) {
-                GB.toast(getContext().getString(R.string.user_feedback_miband_activity_data_transfer,
-                        DateTimeUtils.formatDurationHoursMinutes((totalDataToRead / 3), TimeUnit.MINUTES),
-                        DateFormat.getDateTimeInstance().format(timestamp.getTime())), Toast.LENGTH_LONG, GB.INFO);
-            }
-            LOG.info("total data to read: " + totalDataToRead + " len: " + (totalDataToRead / 3) + " minute(s)");
-            LOG.info("data to read until next header: " + dataUntilNextHeader + " len: " + (dataUntilNextHeader / 3) + " minute(s)");
-            LOG.info("TIMESTAMP: " + DateFormat.getDateTimeInstance().format(timestamp.getTime()).toString() + " magic byte: " + dataUntilNextHeader);
-
-            activityStruct.startNewBlock(timestamp, dataUntilNextHeader);
-
+        if (value.length == activityMetadataLength) {
+            handleActivityMetadata(value);
         } else {
             bufferActivityData(value);
         }
         LOG.debug("activity data: length: " + value.length + ", remaining bytes: " + activityStruct.activityDataRemainingBytes);
 
-        GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), true, (int)(((float) (activityStruct.activityDataUntilNextHeader - activityStruct.activityDataRemainingBytes)) / activityStruct.activityDataUntilNextHeader * 100), getContext());
+        GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (((float) (activityStruct.activityDataUntilNextHeader - activityStruct.activityDataRemainingBytes)) / activityStruct.activityDataUntilNextHeader * 100), getContext());
 
         if (activityStruct.isBlockFinished()) {
             sendAckDataTransfer(activityStruct.activityDataTimestampToAck, activityStruct.activityDataUntilNextHeader);
             GB.updateTransferNotification("", false, 100, getContext());
         }
+    }
+
+    private void handleActivityMetadata(byte[] value) {
+
+        if (value.length != activityMetadataLength) {
+            return;
+        }
+
+        // byte 0 is the data type: 1 means that each minute is represented by a triplet of bytes
+        int dataType = value[0];
+        // byte 1 to 6 represent a timestamp
+        GregorianCalendar timestamp = MiBandDateConverter.rawBytesToCalendar(value, 1);
+
+        // counter of all data held by the band
+        int totalDataToRead = (value[7] & 0xff) | ((value[8] & 0xff) << 8);
+        totalDataToRead *= (dataType == MiBandService.MODE_REGULAR_DATA_LEN_MINUTE) ? 3 : 1;
+
+
+        // counter of this data block
+        int dataUntilNextHeader = (value[9] & 0xff) | ((value[10] & 0xff) << 8);
+        dataUntilNextHeader *= (dataType == MiBandService.MODE_REGULAR_DATA_LEN_MINUTE) ? 3 : 1;
+
+        // there is a total of totalDataToRead that will come in chunks (3 bytes per minute if dataType == 1 (MiBandService.MODE_REGULAR_DATA_LEN_MINUTE)),
+        // these chunks are usually 20 bytes long and grouped in blocks
+        // after dataUntilNextHeader bytes we will get a new packet of 11 bytes that should be parsed
+        // as we just did
+
+        if (activityStruct.isFirstChunk() && dataUntilNextHeader != 0) {
+            GB.toast(getContext().getString(R.string.user_feedback_miband_activity_data_transfer,
+                    DateTimeUtils.formatDurationHoursMinutes((totalDataToRead / 3), TimeUnit.MINUTES),
+                    DateFormat.getDateTimeInstance().format(timestamp.getTime())), Toast.LENGTH_LONG, GB.INFO);
+        }
+        LOG.info("total data to read: " + totalDataToRead + " len: " + (totalDataToRead / 3) + " minute(s)");
+        LOG.info("data to read until next header: " + dataUntilNextHeader + " len: " + (dataUntilNextHeader / 3) + " minute(s)");
+        LOG.info("TIMESTAMP: " + DateFormat.getDateTimeInstance().format(timestamp.getTime()).toString() + " magic byte: " + dataUntilNextHeader);
+
+        activityStruct.startNewBlock(timestamp, dataUntilNextHeader);
     }
 
     /**
@@ -221,10 +240,24 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
      * @param value
      */
     private void bufferActivityData(byte[] value) {
+/*
+        if (scheduledTask != null) {
+            scheduledTask.cancel(true);
+        }
+*/
         if (activityStruct.hasRoomFor(value)) {
             if (activityStruct.isValidData(value)) {
                 activityStruct.buffer(value);
 
+/*                scheduledTask = scheduleTaskExecutor.schedule(new Runnable() {
+                    @Override
+                    public void run() {
+                        GB.toast(getContext(), "chiederei " + activityStruct.activityDataTimestampToAck + "   "+ activityStruct.activityDataUntilNextHeader, Toast.LENGTH_LONG, GB.ERROR);
+                        //sendAckDataTransfer(activityStruct.activityDataTimestampToAck, activityStruct.activityDataUntilNextHeader);
+                        LOG.debug("runnable called");
+                    }
+                }, 10l, TimeUnit.SECONDS);
+*/
                 if (activityStruct.isBufferFull()) {
                     flushActivityDataHolder();
                 }
@@ -234,6 +267,17 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
                 getSupport().logMessageContent(value);
             }
         } else {
+            try {
+                TransactionBuilder builder = performInitialized("send stop sync data");
+                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_STOP_SYNC_DATA});
+                builder.queue(getQueue());
+                GB.updateTransferNotification("Data transfer failed", false, 0, getContext());
+                handleActivityFetchFinish();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            GB.toast(getContext(), "error buffering activity data: remaining bytes: " + activityStruct.activityDataRemainingBytes + ", received: " + value.length, Toast.LENGTH_LONG, GB.ERROR);
             LOG.error("error buffering activity data: remaining bytes: " + activityStruct.activityDataRemainingBytes + ", received: " + value.length);
         }
     }
