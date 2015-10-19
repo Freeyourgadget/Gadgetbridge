@@ -17,7 +17,7 @@ public class DeviceInfo extends AbstractInfo {
 
     private boolean isChecksumCorrect(byte[] data) {
         int crc8 = CheckSums.getCRC8(new byte[]{data[0], data[1], data[2], data[3], data[4], data[5], data[6]});
-        return data[7] == (crc8 ^ data[3] & 255);
+        return (data[7] & 255) == (crc8 ^ data[3] & 255);
     }
 
     public DeviceInfo(byte[] data) {
@@ -27,9 +27,9 @@ public class DeviceInfo extends AbstractInfo {
             deviceId = String.format("%02X%02X%02X%02X%02X%02X%02X%02X", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]);
             profileVersion = getInt(data, 8);
             fwVersion = getInt(data, 12);
-            hwVersion = Integer.decode("0x" + deviceId.substring(12, 14)).intValue();
-            feature = Integer.decode("0x" + deviceId.substring(8, 10)).intValue();
-            appearance = Integer.decode("0x" + deviceId.substring(10, 12)).intValue();
+            hwVersion = data[6] & 255;
+            appearance = data[5] & 255;
+            feature = data[4] & 255;
         } else {
             deviceId = "crc error";
             profileVersion = -1;
@@ -56,7 +56,7 @@ public class DeviceInfo extends AbstractInfo {
         if (fwVersion == -1)
             return GBApplication.getContext().getString(R.string._unknown_);
 
-        return String.format(Locale.US, "%d.%d.%d.%d",
+        return String.format("%d.%d.%d.%d",
                 fwVersion >> 24 & 255,
                 fwVersion >> 16 & 255,
                 fwVersion >> 8 & 255,
@@ -78,7 +78,7 @@ public class DeviceInfo extends AbstractInfo {
     }
 
     public boolean isMili1A() {
-        return (this.feature & 255) == 5 && (this.appearance & 255) == 0 || (this.feature & 255) == 0 && (this.hwVersion & 255) == 208;
+        return feature == 5 && appearance == 0 || feature == 0 && hwVersion == 208;
     }
 
 }
