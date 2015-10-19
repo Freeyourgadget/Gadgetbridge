@@ -409,7 +409,11 @@ public final class BtLEQueue {
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic) {
-            LOG.debug("characteristic changed: " + characteristic.getUuid());
+            String content = "";
+            for (byte b : characteristic.getValue()) {
+                content += String.format(" 0x%1x", b);
+            }
+            LOG.debug("characteristic changed: " + characteristic.getUuid() + " value: " + content );
             if (!checkCorrectGattInstance(gatt, "characteristic changed")) {
                 return;
             }
