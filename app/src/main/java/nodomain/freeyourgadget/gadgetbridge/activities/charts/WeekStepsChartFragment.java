@@ -84,7 +84,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         data.setValueTextColor(Color.GRAY); //prevent tearing other graph elements with the black text. Another approach would be to hide the values cmpletely with data.setDrawValues(false);
 
         LimitLine target = new LimitLine(mTargetSteps);
-        barChart.getAxisLeft().getLimitLines().clear();
+        barChart.getAxisLeft().removeAllLimitLines();
         barChart.getAxisLeft().addLimitLine(target);
 
         setupLegend(barChart);

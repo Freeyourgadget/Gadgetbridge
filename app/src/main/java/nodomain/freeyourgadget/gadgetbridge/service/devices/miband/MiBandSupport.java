@@ -732,7 +732,9 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     private void handleRealtimeSteps(byte[] value) {
         int steps = 0xff & value[0] | (0xff & value[1]) << 8;
-        LOG.debug("realtime steps: " + steps);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("realtime steps: " + steps);
+        }
         Intent intent = new Intent(DeviceService.ACTION_REALTIME_STEPS)
                 .putExtra(DeviceService.EXTRA_REALTIME_STEPS, steps)
                 .putExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
