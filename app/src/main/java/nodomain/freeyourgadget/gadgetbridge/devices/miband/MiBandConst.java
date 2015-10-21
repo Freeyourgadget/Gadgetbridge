@@ -31,7 +31,7 @@ public final class MiBandConst {
         String value = null;
         try {
             value = prefs.getString(key, String.valueOf(defaultValue));
-            return Integer.valueOf(value).intValue();
+            return Integer.valueOf(value);
         } catch (NumberFormatException ex) {
             LOG.error("Error converting preference value to int: " + key + ": " + value);
             return defaultValue;
@@ -43,8 +43,8 @@ public final class MiBandConst {
         return prefs.getString(key, defaultValue);
     }
 
-    public static final String getNotificationPrefKey(String pref, String origin) {
-        return new StringBuilder(pref).append('_').append(origin).toString();
+    public static String getNotificationPrefKey(String pref, String origin) {
+        return pref + '_' + origin;
     }
 
     public static final String VIBRATION_PROFILE = "mi_vibration_profile";
