@@ -120,7 +120,7 @@ public class DeviceCommunicationService extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public synchronized int onStartCommand(Intent intent, int flags, int startId) {
 
         if (intent == null) {
             LOG.info("no intent");
