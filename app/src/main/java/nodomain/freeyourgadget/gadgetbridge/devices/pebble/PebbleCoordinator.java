@@ -48,7 +48,8 @@ public class PebbleCoordinator implements DeviceCoordinator {
         // FIXME: make this configurable somewhere else.
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
         if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
-            return new PebbleGadgetBridgeSampleProvider();
+            //return new PebbleGadgetBridgeSampleProvider();
+            return new MisfitSampleProvider();
         } else {
             return new MorpheuzSampleProvider();
         }

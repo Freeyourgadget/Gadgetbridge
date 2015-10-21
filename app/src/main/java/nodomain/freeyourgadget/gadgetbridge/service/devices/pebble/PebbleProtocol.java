@@ -340,7 +340,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         mAppMessageHandlers.put(UUID_GBPEBBLE, new AppMessageHandlerGBPebble(UUID_GBPEBBLE, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_MORPHEUZ, new AppMessageHandlerMorpheuz(UUID_MORPHEUZ, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_WHETHERNEAT, new AppMessageHandlerWeatherNeat(UUID_WHETHERNEAT, PebbleProtocol.this));
-        //mAppMessageHandlers.put(UUID_MISFIT,new AppMessageHandlerMisfit(UUID_MISFIT,PebbleProtocol.this));
+        mAppMessageHandlers.put(UUID_MISFIT, new AppMessageHandlerMisfit(UUID_MISFIT, PebbleProtocol.this));
     }
 
     private static byte[] encodeSimpleMessage(short endpoint, byte command) {
