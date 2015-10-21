@@ -15,7 +15,7 @@ public class VibrationProfile {
     public static final String ID_RING = CONTEXT.getString(R.string.p_ring);
     public static final String ID_ALARM_CLOCK = CONTEXT.getString(R.string.p_alarm_clock);
 
-    public static VibrationProfile getProfile(String id, byte repeat) {
+    public static VibrationProfile getProfile(String id, short repeat) {
         if (ID_STACCATO.equals(id)) {
             return new VibrationProfile(id, new int[]{100, 0}, repeat);
         }

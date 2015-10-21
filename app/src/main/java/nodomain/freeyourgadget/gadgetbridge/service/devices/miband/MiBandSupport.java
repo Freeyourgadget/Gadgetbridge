@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WriteAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -144,30 +145,17 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         return mDeviceInfo;
     }
 
-    private byte[] getDefaultNotification() {
-        final int vibrateTimes = 1;
-        final long vibrateDuration = 250l;
-        final int flashTimes = 1;
-        final int flashColour = 0xFFFFFFFF;
-        final int originalColour = 0xFFFFFFFF;
-        final long flashDuration = 250l;
-
-        return getNotification(vibrateDuration, vibrateTimes, flashTimes, flashColour, originalColour, flashDuration);
-    }
-
-    private void sendDefaultNotification(TransactionBuilder builder, short repeat, BtLEAction extraAction) {
-        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
-        LOG.info("Sending notification to MiBand: " + characteristic + " (" + repeat + " times)");
-        byte[] defaultNotification = getDefaultNotification();
+    private MiBandSupport sendDefaultNotification(TransactionBuilder builder, short repeat, BtLEAction extraAction) {
+        LOG.info("Sending notification to MiBand: (" + repeat + " times)");
+        NotificationStrategy strategy = getNotificationStrategy();
         for (short i = 0; i < repeat; i++) {
-            builder.write(characteristic, defaultNotification);
-            builder.add(extraAction);
+            strategy.sendDefaultNotification(builder, extraAction);
         }
-        builder.queue(getQueue());
+        return this;
     }
 
     /**
-     * Sends a custom notification to the Mi Band.
+     * Adds a custom notification to the given transaction builder
      *
      * @param vibrationProfile specifies how and how often the Band shall vibrate.
      * @param flashTimes
@@ -177,89 +165,24 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      * @param extraAction      an extra action to be executed after every vibration and flash sequence. Allows to abort the repetition, for example.
      * @param builder
      */
-    private void sendCustomNotification(VibrationProfile vibrationProfile, int flashTimes, int flashColour, int originalColour, long flashDuration, BtLEAction extraAction, TransactionBuilder builder) {
+    private MiBandSupport sendCustomNotification(VibrationProfile vibrationProfile, int flashTimes, int flashColour, int originalColour, long flashDuration, BtLEAction extraAction, TransactionBuilder builder) {
+        getNotificationStrategy().sendCustomNotification(vibrationProfile, flashTimes, flashColour, originalColour, flashDuration, extraAction, builder);
+        LOG.info("Sending notification to MiBand");
+        return this;
+    }
 
-        if(mDeviceInfo.getFirmwareVersion() >= 16779790) {
-            //use the new alert characteristic
-            BluetoothGattCharacteristic alert = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL);
-            for (short i = 0; i < vibrationProfile.getRepeat(); i++) {
-                int[] onOffSequence = vibrationProfile.getOnOffSequence();
-                for (int j = 0; j < onOffSequence.length; j++) {
-                    int on = onOffSequence[j];
-                    on = Math.min(500, on); // longer than 500ms is not possible
-                    builder.write(alert, new byte[]{GattCharacteristic.MILD_ALERT}); //MILD_ALERT lights up GREEN leds, HIGH_ALERT lights up RED leds
-                    builder.wait(on);
-                    builder.write(alert, new byte[]{GattCharacteristic.NO_ALERT});
-
-                    if (++j < onOffSequence.length) {
-                        int off = Math.max(onOffSequence[j], 25); // wait at least 25ms
-                        builder.wait(off);
-                    }
-
-                    if (extraAction != null) {
-                        builder.add(extraAction);
-                    }
-                }
-            }
-            LOG.info("Sending notification to MiBand: " + alert);
+    private NotificationStrategy getNotificationStrategy() {
+        if (mDeviceInfo.getFirmwareVersion() < MiBandFWHelper.FW_16779790) {
+            return new V1NotificationStrategy(this);
         } else {
-            BluetoothGattCharacteristic controlPoint = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
-            for (short i = 0; i < vibrationProfile.getRepeat(); i++) {
-                int[] onOffSequence = vibrationProfile.getOnOffSequence();
-                for (int j = 0; j < onOffSequence.length; j++) {
-                    int on = onOffSequence[j];
-                    on = Math.min(500, on); // longer than 500ms is not possible
-                    builder.write(controlPoint, startVibrate);
-                    builder.wait(on);
-                    builder.write(controlPoint, stopVibrate);
-
-                    if (++j < onOffSequence.length) {
-                        int off = Math.max(onOffSequence[j], 25); // wait at least 25ms
-                        builder.wait(off);
-                    }
-
-                    if (extraAction != null) {
-                        builder.add(extraAction);
-                    }
-                }
-            }
-            LOG.info("Sending notification to MiBand: " + controlPoint);
+            //use the new alert characteristic
+            return new V2NotificationStrategy(this);
         }
-
-        builder.queue(getQueue());
     }
 
-    private void sendCustomNotification(int vibrateDuration, int vibrateTimes, int pause, int flashTimes, int flashColour, int originalColour, long flashDuration, TransactionBuilder builder) {
-        BluetoothGattCharacteristic controlPoint = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
-        int vDuration = Math.min(500, vibrateDuration); // longer than 500ms is not possible
-        for (int i = 0; i < vibrateTimes; i++) {
-            builder.write(controlPoint, startVibrate);
-            builder.wait(vDuration);
-            builder.write(controlPoint, stopVibrate);
-            if (pause > 0) {
-                builder.wait(pause);
-            }
-        }
-
-        LOG.info("Sending notification to MiBand: " + controlPoint);
-        builder.queue(getQueue());
-    }
-
-    private static final byte[] startVibrate = new byte[]{MiBandService.COMMAND_SEND_NOTIFICATION, 1};
-    private static final byte[] stopVibrate = new byte[]{MiBandService.COMMAND_STOP_MOTOR_VIBRATE};
-    private static final byte[] reboot = new byte[]{MiBandService.COMMAND_REBOOT};
-    private static final byte[] startRealTimeStepsNotifications = new byte[]{MiBandService.COMMAND_SET_REALTIME_STEPS_NOTIFICATION, 1};
-    private static final byte[] stopRealTimeStepsNotifications = new byte[]{MiBandService.COMMAND_SET_REALTIME_STEPS_NOTIFICATION, 0};
-
-    private byte[] getNotification(long vibrateDuration, int vibrateTimes, int flashTimes, int flashColour, int originalColour, long flashDuration) {
-        byte[] vibrate = startVibrate;
-        byte r = 6;
-        byte g = 0;
-        byte b = 6;
-        boolean display = true;
-        //      byte[] flashColor = new byte[]{ 14, r, g, b, display ? (byte) 1 : (byte) 0 };
-        return vibrate;
-    }
+    static final byte[] reboot = new byte[]{MiBandService.COMMAND_REBOOT};
+    static final byte[] startRealTimeStepsNotifications = new byte[]{MiBandService.COMMAND_SET_REALTIME_STEPS_NOTIFICATION, 1};
+    static final byte[] stopRealTimeStepsNotifications = new byte[]{MiBandService.COMMAND_SET_REALTIME_STEPS_NOTIFICATION, 0};
 
     /**
      * Part of device initialization process. Do not call manually.
@@ -370,19 +293,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         try {
             TransactionBuilder builder = performInitialized(task);
             sendDefaultNotification(builder, repeat, extraAction);
+            builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to send notification to MI device", ex);
         }
     }
-
-//    private void performCustomNotification(String task, int vibrateDuration, int vibrateTimes, int pause, int flashTimes, int flashColour, int originalColour, long flashDuration) {
-//        try {
-//            TransactionBuilder builder = performInitialized(task);
-//            sendCustomNotification(vibrateDuration, vibrateTimes, pause, flashTimes, flashColour, originalColour, flashDuration, builder);
-//        } catch (IOException ex) {
-//            LOG.error("Unable to send notification to MI device", ex);
-//        }
-//    }
 
     private void performPreferredNotification(String task, String notificationOrigin, BtLEAction extraAction) {
         try {
@@ -390,7 +305,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
             int vibrateDuration = getPreferredVibrateDuration(notificationOrigin, prefs);
             int vibratePause = getPreferredVibratePause(notificationOrigin, prefs);
-            int vibrateTimes = getPreferredVibrateCount(notificationOrigin, prefs);
+            short vibrateTimes = getPreferredVibrateCount(notificationOrigin, prefs);
             VibrationProfile profile = getPreferredVibrateProfile(notificationOrigin, prefs, vibrateTimes);
 
             int flashTimes = getPreferredFlashCount(notificationOrigin, prefs);
@@ -400,6 +315,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
             sendCustomNotification(profile, flashTimes, flashColour, originalColour, flashDuration, extraAction, builder);
 //            sendCustomNotification(vibrateDuration, vibrateTimes, vibratePause, flashTimes, flashColour, originalColour, flashDuration, builder);
+            builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to send notification to MI device", ex);
         }
@@ -425,17 +341,17 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         return getNotificationPrefIntValue(VIBRATION_PAUSE, notificationOrigin, prefs, DEFAULT_VALUE_VIBRATION_PAUSE);
     }
 
-    private int getPreferredVibrateCount(String notificationOrigin, SharedPreferences prefs) {
-        return getNotificationPrefIntValue(VIBRATION_COUNT, notificationOrigin, prefs, DEFAULT_VALUE_VIBRATION_COUNT);
+    private short getPreferredVibrateCount(String notificationOrigin, SharedPreferences prefs) {
+        return (short) Math.min(Short.MAX_VALUE, getNotificationPrefIntValue(VIBRATION_COUNT, notificationOrigin, prefs, DEFAULT_VALUE_VIBRATION_COUNT));
     }
 
     private int getPreferredVibrateDuration(String notificationOrigin, SharedPreferences prefs) {
         return getNotificationPrefIntValue(VIBRATION_DURATION, notificationOrigin, prefs, DEFAULT_VALUE_VIBRATION_DURATION);
     }
 
-    private VibrationProfile getPreferredVibrateProfile(String notificationOrigin, SharedPreferences prefs, int repeat) {
+    private VibrationProfile getPreferredVibrateProfile(String notificationOrigin, SharedPreferences prefs, short repeat) {
         String profileId = getNotificationPrefStringValue(VIBRATION_PROFILE, notificationOrigin, prefs, DEFAULT_VALUE_VIBRATION_PROFILE);
-        return VibrationProfile.getProfile(profileId, (byte) (repeat & 0xfff));
+        return VibrationProfile.getProfile(profileId, repeat);
     }
 
     @Override

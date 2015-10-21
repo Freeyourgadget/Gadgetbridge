@@ -26,6 +26,11 @@ public class MiBandFWHelper {
     private final int firmwareVersionMinor = 1058;
     private final int firmwareVersionMajor = 1059;
 
+    /**
+     * Provides a different notification API which is also used on Mi1A devices.
+     */
+    public static final int FW_16779790 = 16779790;
+
     private final int[] whitelistedFirmwareVersion = {
             16779534, // 1.0.9.14 tested by developer
             16779547,  //1.0.9.27 tested by developer
@@ -34,7 +39,7 @@ public class MiBandFWHelper {
             16779779, //1.0.10.3 reported on the wiki
             16779782, //1.0.10.6 reported on the wikiew
             16779787, //1.0.10.11 tested by developer
-            //16779790, //1.0.10.14 reported on the wiki (vibration does not work currently)
+            //FW_16779790, //1.0.10.14 reported on the wiki (vibration does not work currently)
     };
 
     public MiBandFWHelper(Uri uri, Context context) throws IOException {
