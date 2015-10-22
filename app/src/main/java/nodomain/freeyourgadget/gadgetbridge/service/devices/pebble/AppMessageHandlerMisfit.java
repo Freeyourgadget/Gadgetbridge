@@ -78,10 +78,12 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
                     int totalSteps = 0;
                     for (int i = 0; i < samples; i++) {
                         short sample = buf.getShort();
-                        if ((sample & 0x0001) == 1 && (sample & 0xff000) != 0) {
+                        if ((sample & 0x0001) == 0 || (sample & 0xff00) == 0) { // 16-??? steps encoded in bits 1-7
+                            steps = (sample & 0x00fe);
+                        } else if ((sample & 0xfc71) == 0xfc71) { // 0-14 steps encoded in bits 1-3, bits 8-9 unknown, all other seem to be all 1 in this case
                             steps = (sample & 0x000e);
                         } else {
-                            steps = (sample & 0x00fe);
+                            steps = 0;
                         }
                         totalSteps += steps;
                         LOG.info("got steps for sample " + i + " : " + steps + "(" + Integer.toHexString(sample & 0xffff) + ")");
