@@ -180,8 +180,8 @@
   <string name="chart_steps">Шаги</string>
   <string name="liveactivity_live_activity">Жизненная активность</string>
   <string name="weeksteps_today_steps_description">Шагов сегодня, цель: %1$s</string>
-  <string name="pref_title_dont_ack_transfer">Не передавать данные об активности</string>
   <string name="pref_summary_dont_ack_transfers">Если данные об активности не будут переданы на устройство, оно не будет очищено. Полезно, если GB используется с другими приложениями.</string>
+  <string name="pref_title_dont_ack_transfer">Не передавать данные об активности</string>
   <string name="live_activity_steps_history">История шагов</string>
   <string name="live_activity_current_steps_per_minute">Текущие шаги в минуту</string>
   <string name="live_activity_total_steps">Всего шагов</string>
