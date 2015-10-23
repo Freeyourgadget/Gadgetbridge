@@ -7,7 +7,6 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 public interface DBHandler {
@@ -27,7 +26,7 @@ public interface DBHandler {
 
     void addGBActivitySample(int timestamp, byte provider, short intensity, short steps, byte kind);
 
-    void addGBActivitySamples(GBActivitySample[] activitySamples);
+    void addGBActivitySamples(ActivitySample[] activitySamples);
 
     SQLiteDatabase getWritableDatabase();
 }
