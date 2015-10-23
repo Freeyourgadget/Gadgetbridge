@@ -17,7 +17,8 @@ import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.pebble.MisfitSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public class AppMessageHandlerMisfit extends AppMessageHandler {
@@ -38,6 +39,8 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
         super(uuid, pebbleProtocol);
     }
 
+    private final MisfitSampleProvider sampleProvider = new MisfitSampleProvider();
+
     @Override
     public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
         for (Pair<Integer, Object> pair : pairs) {
@@ -49,14 +52,6 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
                     LOG.info("incoming data end");
                     break;
                 case KEY_INCOMING_DATA:
-                    DBHandler db = null;
-                    try {
-                        db = GBApplication.acquireDB();
-                    } catch (GBException e) {
-                        LOG.error("Error acquiring database", e);
-                        return null;
-                    }
-
                     byte[] data = (byte[]) pair.second;
                     ByteBuffer buf = ByteBuffer.wrap(data);
                     buf.order(ByteOrder.LITTLE_ENDIAN);
@@ -76,11 +71,13 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
 
                     int steps = 0;
                     int totalSteps = 0;
+                    GBActivitySample[] activitySamples = new GBActivitySample[samples];
                     for (int i = 0; i < samples; i++) {
                         short sample = buf.getShort();
                         if ((sample & 0x0001) == 0 || (sample & 0xff00) == 0) { // 16-??? steps encoded in bits 1-7
                             steps = (sample & 0x00fe);
-                        } else if ((sample & 0xfc71) == 0xfc71) { // 0-14 steps encoded in bits 1-3, bits 8-9 unknown, all other seem to be all 1 in this case
+                        } else if ((sample & 0x0001) == 0x0001) { // 0-14 steps encoded in bits 1-3, most of the time fc71 bits are set in that case
+                            // 0040 also set always?
                             steps = (sample & 0x000e);
                         } else {
                             steps = 0;
@@ -91,12 +88,21 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
                         if (steps > 0) {
                             activityKind = ActivityKind.TYPE_ACTIVITY;
                         }
-                        db.addGBActivitySample(timestamp + i * 60, SampleProvider.PROVIDER_PEBBLE_MISFIT, (short) steps, (short) steps, activityKind);
+                        activitySamples[i] = new GBActivitySample(sampleProvider, timestamp + i * 60, (short) steps, (short) steps, activityKind);
                     }
                     LOG.info("total steps for above period: " + totalSteps);
 
-                    if (db != null) {
-                        db.release();
+                    DBHandler db = null;
+                    try {
+                        db = GBApplication.acquireDB();
+                        db.addGBActivitySamples(activitySamples);
+                    } catch (GBException e) {
+                        LOG.error("Error acquiring database", e);
+                        return null;
+                    } finally {
+                        if (db != null) {
+                            db.release();
+                        }
                     }
                     break;
                 default:

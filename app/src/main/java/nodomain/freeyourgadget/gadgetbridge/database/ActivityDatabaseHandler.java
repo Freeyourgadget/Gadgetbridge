@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -135,6 +136,30 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
             values.put(KEY_TYPE, kind);
 
             db.insert(TABLE_GBACTIVITYSAMPLES, null, values);
+        }
+    }
+
+    @Override
+    public void addGBActivitySamples(GBActivitySample[] activitySamples) {
+        try (SQLiteDatabase db = this.getWritableDatabase()) {
+
+            String sql = "INSERT INTO " + TABLE_GBACTIVITYSAMPLES + " (" + KEY_TIMESTAMP + "," +
+                    KEY_PROVIDER + "," + KEY_INTENSITY + "," + KEY_STEPS + "," + KEY_TYPE + ")" +
+                    " VALUES (?,?,?,?,?);";
+            SQLiteStatement statement = db.compileStatement(sql);
+            db.beginTransaction();
+
+            for (GBActivitySample activitySample : activitySamples) {
+                statement.clearBindings();
+                statement.bindLong(1, activitySample.getTimestamp());
+                statement.bindLong(2, activitySample.getProvider().getID());
+                statement.bindLong(3, activitySample.getRawIntensity());
+                statement.bindLong(4, activitySample.getSteps());
+                statement.bindLong(5, activitySample.getRawKind());
+                statement.execute();
+            }
+            db.setTransactionSuccessful();
+            db.endTransaction();
         }
     }
 
