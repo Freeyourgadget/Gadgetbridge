@@ -140,7 +140,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
     }
 
     @Override
-    public void addGBActivitySamples(GBActivitySample[] activitySamples) {
+    public void addGBActivitySamples(ActivitySample[] activitySamples) {
         try (SQLiteDatabase db = this.getWritableDatabase()) {
 
             String sql = "INSERT INTO " + TABLE_GBACTIVITYSAMPLES + " (" + KEY_TIMESTAMP + "," +
@@ -149,7 +149,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
             SQLiteStatement statement = db.compileStatement(sql);
             db.beginTransaction();
 
-            for (GBActivitySample activitySample : activitySamples) {
+            for (ActivitySample activitySample : activitySamples) {
                 statement.clearBindings();
                 statement.bindLong(1, activitySample.getTimestamp());
                 statement.bindLong(2, activitySample.getProvider().getID());
