@@ -319,7 +319,7 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
                 activityStruct.bufferFlushed(minutes);
             }
         } catch (Exception ex) {
-            GB.toast(getContext(), ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR);
+            GB.toast(getContext(), ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
         } finally {
             if (dbHandler != null) {
                 dbHandler.release();
