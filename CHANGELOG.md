@@ -1,5 +1,10 @@
 ###Changelog
 
+####Version 0,6.5
+* Support "Locate Device" with Mi Band 1A (and Mi Band 1 with new firmware)
+* Disable activity fetching when not supported
+* Small improvements to live activity charts
+
 ####Version 0.6.4
 * Support pull down to synchronize activity data (#138)
 * Display tabs in the Charts activity (#139)

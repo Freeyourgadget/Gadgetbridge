@@ -58,6 +58,7 @@ All features are also supported on the Pebble Time, except for the following:
 * Synchronize activity data
 * Display sleep data (alpha)
 * Display sports data (step count) (alpha)
+* Display live activity data (alpha)
 * Set alarms on the Mi Band
 
 ## How to use (Mi Band)
