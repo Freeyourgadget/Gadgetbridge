@@ -10,7 +10,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
-public class UnknownDeviceCoordinator implements DeviceCoordinator {
+public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     private final UnknownSampleProvider sampleProvider;
 
     private static final class UnknownSampleProvider implements SampleProvider {
@@ -72,5 +72,15 @@ public class UnknownDeviceCoordinator implements DeviceCoordinator {
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         return null;
+    }
+
+    @Override
+    public boolean supportsActivityDataFetching() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsScreenshots() {
+        return false;
     }
 }

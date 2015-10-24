@@ -24,4 +24,10 @@ public interface DeviceCoordinator {
     SampleProvider getSampleProvider();
 
     InstallHandler findInstallHandler(Uri uri, Context context);
+
+    boolean allowFetchActivityData(GBDevice device);
+
+    boolean supportsActivityDataFetching();
+
+    boolean supportsScreenshots();
 }

@@ -197,12 +197,13 @@ public class ControlCenter extends Activity {
         }
         getMenuInflater().inflate(R.menu.controlcenter_context, menu);
 
-        if (!selectedDevice.isConnected() || selectedDevice.getType() == DeviceType.PEBBLE) {
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(selectedDevice);
+        if (!selectedDevice.isConnected() || !coordinator.supportsActivityDataFetching()) {
             menu.removeItem(R.id.controlcenter_fetch_activity_data);
             menu.removeItem(R.id.controlcenter_configure_alarms);
         }
 
-        if (!selectedDevice.isConnected() || selectedDevice.getType() == DeviceType.MIBAND) {
+        if (!selectedDevice.isConnected() || !coordinator.supportsScreenshots()) {
             menu.removeItem(R.id.controlcenter_take_screenshot);
         }
 
@@ -217,8 +218,13 @@ public class ControlCenter extends Activity {
     }
 
     private void enableSwipeRefresh(GBDevice device) {
-        boolean enable = device != null && device.isInitialized() && !device.isBusy();
-        swipeLayout.setEnabled(enable);
+        if (device == null) {
+            swipeLayout.setEnabled(false);
+        } else {
+            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+            boolean enable = coordinator.allowFetchActivityData(device);
+            swipeLayout.setEnabled(enable);
+        }
     }
 
     private void fetchActivityData() {

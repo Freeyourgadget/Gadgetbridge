@@ -13,6 +13,7 @@ import java.util.Calendar;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
+import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -20,7 +21,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
-public class MiBandCoordinator implements DeviceCoordinator {
+public class MiBandCoordinator extends AbstractDeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandCoordinator.class);
     private final MiBandSampleProvider sampleProvider;
 
@@ -61,6 +62,16 @@ public class MiBandCoordinator implements DeviceCoordinator {
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         MiBandFWInstallHandler handler = new MiBandFWInstallHandler(uri, context);
         return handler.isValid() ? handler : null;
+    }
+
+    @Override
+    public boolean supportsActivityDataFetching() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsScreenshots() {
+        return false;
     }
 
     public static boolean hasValidUserInfo() {

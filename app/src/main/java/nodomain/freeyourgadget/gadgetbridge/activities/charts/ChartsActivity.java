@@ -36,8 +36,10 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractFragmentPagerAdapter;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBFragmentActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class ChartsActivity extends AbstractGBFragmentActivity implements ChartsHost {
@@ -109,6 +111,7 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
                 LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(REFRESH));
             }
         }
+        enableSwipeRefresh(true);
     }
 
     @Override
@@ -137,6 +140,7 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
                 fetchActivityData();
             }
         });
+        enableSwipeRefresh(true);
 
         // Set up the ViewPager with the sections adapter.
         viewPager = (ViewPager) findViewById(R.id.charts_pager);
@@ -241,6 +245,11 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_charts, menu);
+
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(mGBDevice);
+        if (!mGBDevice.isConnected() || !coordinator.supportsActivityDataFetching()) {
+            menu.removeItem(R.id.charts_fetch_activity_data);
+        }
         return true;
     }
 
@@ -258,7 +267,8 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
     }
 
     private void enableSwipeRefresh(boolean enable) {
-        swipeLayout.setEnabled(enable);
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(mGBDevice);
+        swipeLayout.setEnabled(enable && coordinator.allowFetchActivityData(mGBDevice));
     }
 
     private void fetchActivityData() {
