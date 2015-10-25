@@ -29,8 +29,9 @@ need to create an account and transmit any of your data to the vendor's servers.
 * Install watchfaces and firmware files (.pbw and .pbz)
 * Install language files (.pbl) (currently on Firmware 2.x only)
 * Take and share screenshots from the Pebble's screen
-* PebbleKit support for 3rd Party Android Apps support (experimental). 
+* PebbleKit support for 3rd Party Android Apps support (experimental) 
 * Morpheuz sleep data syncronization (experimental)
+* Misfit steps data synchronization (experimental)
 
 ## Notes about the Pebble Time
 
@@ -38,6 +39,7 @@ All features are also supported on the Pebble Time, except for the following:
 
 * Listing installed watchfaces (it will simply display the UUIDs of previously installed watchapps, no matter if they are still installed or not)
 * Firmware installation is untested and will probably not work.
+* Installation of language files (.pbl) is not supported.
 
 ## How to use (Pebble)
 
