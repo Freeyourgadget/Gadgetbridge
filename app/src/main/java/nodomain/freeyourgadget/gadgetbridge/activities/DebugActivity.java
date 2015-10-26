@@ -196,8 +196,7 @@ public class DebugActivity extends Activity {
             File destFile = helper.exportDB(dbHandler.getHelper(), dir);
             GB.toast(this, "Exported to: " + destFile.getAbsolutePath(), Toast.LENGTH_LONG, GB.INFO);
         } catch (Exception ex) {
-            LOG.error("Unable to export db", ex);
-            Toast.makeText(this, "Error exporting DB: " + ex.getMessage(), Toast.LENGTH_LONG).show();
+            GB.toast(this, "Error exporting DB: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
         } finally {
             if (dbHandler != null) {
                 dbHandler.release();
@@ -217,7 +216,7 @@ public class DebugActivity extends Activity {
             helper.validateDB(sqLiteOpenHelper);
             GB.toast(this, "Import successful.", Toast.LENGTH_LONG, GB.INFO);
         } catch (Exception ex) {
-            GB.toast(this, "Error importing DB: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR);
+            GB.toast(this, "Error importing DB: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
         } finally {
             if (dbHandler != null) {
                 dbHandler.release();
