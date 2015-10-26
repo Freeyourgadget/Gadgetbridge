@@ -9,6 +9,9 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 /**
+ * A device candidate is a Bluetooth device that is not yet managed by
+ * Gadgetbridge. Only if a DeviceCoordinator steps up and confirms to
+ * support this candidate, will the candidate be promoted to a GBDevice.
  */
 public class GBDeviceCandidate implements Parcelable {
     private BluetoothDevice device;

@@ -13,6 +13,9 @@ import java.util.List;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.ItemWithDetails;
 
+/**
+ * Adapter for displaying generic ItemWithDetails instances.
+ */
 public class ItemWithDetailsAdapter extends ArrayAdapter<ItemWithDetails> {
 
     private final Context context;

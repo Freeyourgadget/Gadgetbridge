@@ -20,7 +20,9 @@ import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 
-
+/**
+ * Adapter for displaying GBAlarm instances.
+ */
 public class GBAlarmListAdapter extends ArrayAdapter<GBAlarm> {
 
 

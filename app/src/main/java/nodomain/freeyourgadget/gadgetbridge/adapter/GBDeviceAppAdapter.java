@@ -13,6 +13,9 @@ import java.util.List;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 
+/**
+ * Adapter for displaying GBDeviceApp instances.
+ */
 public class GBDeviceAppAdapter extends ArrayAdapter<GBDeviceApp> {
 
     private final Context context;

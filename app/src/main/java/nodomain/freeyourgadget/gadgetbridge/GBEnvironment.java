@@ -1,5 +1,8 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
+/**
+ * Some more or less useful utility methods to aid local (non-device) testing.
+ */
 public class GBEnvironment {
     private boolean localTest;
     private boolean deviceTest;

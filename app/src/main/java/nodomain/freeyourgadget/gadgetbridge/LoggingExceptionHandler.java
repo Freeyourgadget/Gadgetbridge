@@ -4,6 +4,9 @@ package nodomain.freeyourgadget.gadgetbridge;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Catches otherwise uncaught exceptions, logs them and terminates the app.
+ */
 public class LoggingExceptionHandler implements Thread.UncaughtExceptionHandler {
     private static final Logger LOG = LoggerFactory.getLogger(LoggingExceptionHandler.class);
     private final Thread.UncaughtExceptionHandler mDelegate;

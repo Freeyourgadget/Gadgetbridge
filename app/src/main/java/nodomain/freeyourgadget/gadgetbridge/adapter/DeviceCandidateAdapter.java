@@ -15,6 +15,9 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
+/**
+ * Adapter for displaying GBDeviceCandate instances.
+ */
 public class DeviceCandidateAdapter extends ArrayAdapter<GBDeviceCandidate> {
 
     private final Context context;

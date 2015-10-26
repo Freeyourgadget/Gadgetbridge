@@ -25,6 +25,10 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
+/**
+ * Main Application class that initializes and provides access to certain things like
+ * logging and DB access.
+ */
 public class GBApplication extends Application {
     // Since this class must not log to slf4j, we use plain android.util.Log
     private static final String TAG = "GBApplication";
@@ -111,6 +115,12 @@ public class GBApplication extends Application {
         return context;
     }
 
+    /**
+     * Returns the facade for talking to devices. Devices are managed by
+     * an Android Service and this facade provides access to its functionality.
+     *
+     * @return the facade for talking to the service/devices.
+     */
     public static DeviceService deviceService() {
         return deviceService;
     }
@@ -152,14 +162,14 @@ public class GBApplication extends Application {
 
     public static HashSet<String> blacklist = null;
 
-    public static void loadBlackList() {
+    private static void loadBlackList() {
         blacklist = (HashSet<String>) sharedPrefs.getStringSet("package_blacklist", null);
         if (blacklist == null) {
             blacklist = new HashSet<>();
         }
     }
 
-    public static void saveBlackList() {
+    private static void saveBlackList() {
         SharedPreferences.Editor editor = sharedPrefs.edit();
         if (blacklist.isEmpty()) {
             editor.putStringSet("package_blacklist", null);
