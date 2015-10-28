@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -171,8 +172,8 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-hhmmss");
         String filename = "screenshot_" + dateFormat.format(new Date()) + ".bmp";
 
-        if (GB.writeScreenshot(screenshot, filename)) {
-            String fullpath = context.getExternalFilesDir(null).toString() + "/" + filename;
+        try {
+            String fullpath = GB.writeScreenshot(screenshot, filename);
             Bitmap bmp = BitmapFactory.decodeFile(fullpath);
             Intent intent = new Intent();
             intent.setAction(android.content.Intent.ACTION_VIEW);
@@ -203,6 +204,8 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
 
             NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             nm.notify(NOTIFICATION_ID_SCREENSHOT, notif);
+        } catch (IOException ex) {
+            LOG.error("Error writing screenshot", ex);
         }
     }
 

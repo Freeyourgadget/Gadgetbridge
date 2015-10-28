@@ -106,19 +106,15 @@ public class GB {
         return String.valueOf(rssi);
     }
 
-    public static boolean writeScreenshot(GBDeviceEventScreenshot screenshot, String filename) {
+    public static String writeScreenshot(GBDeviceEventScreenshot screenshot, String filename) throws IOException {
 
         LOG.info("Will write screenshot: " + screenshot.width + "x" + screenshot.height + "x" + screenshot.bpp + "bpp");
         final int FILE_HEADER_SIZE = 14;
         final int INFO_HEADER_SIZE = 40;
 
-        File dir = GBApplication.getContext().getExternalFilesDir(null);
-        if (dir != null) {
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-        }
-        try (FileOutputStream fos = new FileOutputStream(dir + "/" + filename)) {
+        File dir = FileUtils.getExternalFilesDir();
+        File outputFile = new File(dir, filename);
+        try (FileOutputStream fos = new FileOutputStream(outputFile)) {
             ByteBuffer headerbuf = ByteBuffer.allocate(FILE_HEADER_SIZE + INFO_HEADER_SIZE + screenshot.clut.length);
             headerbuf.order(ByteOrder.LITTLE_ENDIAN);
 
@@ -149,12 +145,8 @@ public class GB {
                 fos.write(screenshot.data, rowbytes * i, rowbytes);
                 fos.write(pad);
             }
-        } catch (IOException e) {
-            LOG.error("Error saving screenshot", e);
-            return false;
         }
-
-        return true;
+        return outputFile.getAbsolutePath();
     }
 
     /**
