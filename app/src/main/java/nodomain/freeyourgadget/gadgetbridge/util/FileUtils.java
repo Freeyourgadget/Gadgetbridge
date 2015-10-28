@@ -1,16 +1,26 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import android.content.Context;
+import android.os.Environment;
+import android.util.Log;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 public class FileUtils {
+    // Don't use slf4j here -- would be a bootstrapping problem
+    private static final String TAG = "FileUtils";
+
     /**
      * Copies the the given sourceFile to destFile, overwriting it, in case it exists.
      *
@@ -37,14 +47,59 @@ public class FileUtils {
      * @throws IOException when the directory is not available
      */
     public static File getExternalFilesDir() throws IOException {
-        File dir = GBApplication.getContext().getExternalFilesDir(null);
-        if (dir == null) {
-            throw new IOException("Unable to access external files dir: null");
+        List<File> dirs = getWritableExternalFilesDirs();
+        for (File dir : dirs) {
+            if (canWriteTo(dir)) {
+                return dir;
+            }
         }
-        if (!dir.exists() && !dir.mkdirs()) {
-            throw new IOException("Unable to access external files dir: does not exist");
+        throw new IOException("no writable external directory found");
+    }
+
+    private static boolean canWriteTo(File dir) {
+        File file = new File(dir, "gbtest");
+        try {
+            FileOutputStream test = new FileOutputStream(file);
+            try {
+                test.close();
+            } catch (IOException e) {
+                // ignore
+            }
+            file.delete();
+            return true;
+        } catch (FileNotFoundException e) {
+            return false;
         }
-        return dir;
+    }
+
+    private static List<File> getWritableExternalFilesDirs() throws IOException {
+        Context context = GBApplication.getContext();
+        File[] dirs = context.getExternalFilesDirs(null);
+        List<File> result = new ArrayList<>(dirs.length);
+        if (dirs == null) {
+            throw new IOException("Unable to access external files dirs: null");
+        }
+        if (dirs.length == 0) {
+            throw new IOException("Unable to access external files dirs: 0");
+        }
+        for (int i = 0; i < dirs.length; i++) {
+            File dir = dirs[i];
+            if (!dir.exists() && !dir.mkdirs()) {
+                continue;
+            }
+//            if (!dir.canWrite() || !Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState(dir))) {
+            if (!dir.canWrite() || (i == 0 && !Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()))) {
+                Log.i(TAG, "ignoring non-writable external storage dir: " + dir);
+                continue;
+            }
+//            if (Environment.isExternalStorageEmulated(dir)) {
+            if (i == 0 && Environment.isExternalStorageEmulated()) {
+                result.add(dir); // add last
+            } else {
+                result.add(0, dir); // add first
+            }
+        }
+        return result;
     }
 
     /**
