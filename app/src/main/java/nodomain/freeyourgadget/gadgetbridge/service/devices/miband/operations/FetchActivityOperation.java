@@ -15,9 +15,6 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.UUID;
-//import java.util.concurrent.Executors;
-//import java.util.concurrent.ScheduledExecutorService;
-//import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -26,13 +23,20 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandDateConverter;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+
+//import java.util.concurrent.Executors;
+//import java.util.concurrent.ScheduledExecutorService;
+//import java.util.concurrent.ScheduledFuture;
 
 /**
  * An operation that fetches activity data. For every fetch, a new operation must
@@ -300,21 +304,31 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
             int minutes = 0;
             try (SQLiteDatabase db = dbHandler.getWritableDatabase()) { // explicitly keep the db open while looping over the samples
                 int timestampInSeconds = (int) (activityStruct.activityDataTimestampProgress.getTimeInMillis() / 1000);
-                for (int i = 0; i < activityStruct.activityDataHolderProgress; i += 3) { //TODO: check if multiple of 3, if not something is wrong
+                if ((activityStruct.activityDataHolderProgress % 3) != 0) {
+                    throw new IllegalStateException("Unexpected data, progress should be mutiple of 3: " + activityStruct.activityDataHolderProgress);
+                }
+                int numSamples = activityStruct.activityDataHolderProgress/3;
+                ActivitySample[] samples = new ActivitySample[numSamples];
+                SampleProvider sampleProvider = new MiBandSampleProvider();
+                int s = 0;
+
+                for (int i = 0; i < activityStruct.activityDataHolderProgress; i += 3) {
                     category = activityStruct.activityDataHolder[i];
                     intensity = activityStruct.activityDataHolder[i + 1];
                     steps = activityStruct.activityDataHolder[i + 2];
 
-                    dbHandler.addGBActivitySample(
+                    samples[minutes] = new GBActivitySample(
+                            sampleProvider,
                             timestampInSeconds,
-                            SampleProvider.PROVIDER_MIBAND,
                             (short) (intensity & 0xff),
                             (short) (steps & 0xff),
                             category);
+
                     // next minute
                     minutes++;
                     timestampInSeconds += 60;
                 }
+                dbHandler.addGBActivitySamples(samples);
             } finally {
                 activityStruct.bufferFlushed(minutes);
             }
