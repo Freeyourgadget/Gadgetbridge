@@ -491,7 +491,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                             try {
                                 installApp(Uri.fromFile(new File(FileUtils.getExternalFilesDir() + "/pbw-cache/" + appMgmt.uuid.toString() + ".pbw")), appMgmt.token);
                             } catch (IOException e) {
-                                e.printStackTrace();
+                                LOG.error("Error installing app: " + e.getMessage(), e);
                             }
                             break;
                         default:

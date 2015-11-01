@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.content.Context;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
@@ -42,7 +43,8 @@ public class FileUtils {
     }
 
     /**
-     * Returns the existing external storage dir.
+     * Returns the existing external storage dir. The directory is guaranteed to
+     * exist and to be writable.
      *
      * @throws IOException when the directory is not available
      */
@@ -72,6 +74,17 @@ public class FileUtils {
         }
     }
 
+    /**
+     * Returns a list of directories to write to. The list is sorted by priority,
+     * i.e. the first directory should be preferred, the last one is the least
+     * preferred one.
+     *
+     * Note that the directories may not exist, so it is not guaranteed that you
+     * can actually write to them. But when created, they *should* be writable.
+     * @return the list of writable directories
+     * @throws IOException
+     */
+    @NonNull
     private static List<File> getWritableExternalFilesDirs() throws IOException {
         Context context = GBApplication.getContext();
         File[] dirs = context.getExternalFilesDirs(null);
@@ -87,17 +100,13 @@ public class FileUtils {
             if (!dir.exists() && !dir.mkdirs()) {
                 continue;
             }
-//            if (!dir.canWrite() || !Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState(dir))) {
+            // the first directory is also the primary external storage, i.e. the same as Environment.getExternalFilesDir()
+            // TODO: check the mount state of *all* dirs when switching to later API level
             if (!dir.canWrite() || (i == 0 && !Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()))) {
                 Log.i(TAG, "ignoring non-writable external storage dir: " + dir);
                 continue;
             }
-//            if (Environment.isExternalStorageEmulated(dir)) {
-            if (i == 0 && Environment.isExternalStorageEmulated()) {
-                result.add(dir); // add last
-            } else {
-                result.add(0, dir); // add first
-            }
+            result.add(dir); // add last
         }
         return result;
     }

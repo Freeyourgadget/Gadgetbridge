@@ -92,7 +92,7 @@ public class AppManagerActivity extends Activity {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error getting cached apps: " + e.getMessage(), e);
         }
         return cachedAppList;
     }

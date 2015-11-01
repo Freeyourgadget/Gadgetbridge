@@ -3,6 +3,9 @@ package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 import android.content.Context;
 import android.net.Uri;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -16,6 +19,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 public class PBWInstallHandler implements InstallHandler {
+    private static final Logger LOG = LoggerFactory.getLogger(PBWInstallHandler.class);
 
     private final Context mContext;
     private PBWReader mPBWReader;
@@ -110,7 +114,7 @@ public class PBWInstallHandler implements InstallHandler {
             destDir.mkdirs();
             FileUtils.copyFile(pbwFile, new File(destDir + "/" + app.getUUID().toString() + ".pbw"));
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Installation failed: " + e.getMessage(), e);
         }
     }
 
