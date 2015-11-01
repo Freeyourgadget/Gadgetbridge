@@ -154,6 +154,7 @@ public final class BtLEQueue {
             }
         }
         LOG.info("Attempting to connect to " + mGbDevice.getName());
+        mBluetoothAdapter.cancelDiscovery();
         BluetoothDevice remoteDevice = mBluetoothAdapter.getRemoteDevice(mGbDevice.getAddress());
         boolean result;
         synchronized (mGattMonitor) {
