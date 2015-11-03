@@ -12,7 +12,7 @@
   <string name="controlcenter_disconnect">Desconectar</string>
   <string name="title_activity_debug">Depuración</string>
   <!--Strings related to AppManager-->
-  <string name="title_activity_appmanager">Gestor de App</string>
+  <string name="title_activity_appmanager">Gestor de app</string>
   <string name="appmananger_app_delete">Borrar</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Lista negra de notificaciones</string>
@@ -180,9 +180,9 @@
   <string name="chart_steps">Pasos</string>
   <string name="liveactivity_live_activity">Actividad</string>
   <string name="weeksteps_today_steps_description">Pasos hoy, objetivo: %1$s</string>
-  <string name="pref_summary_dont_ack_transfers">Si los datos de actividad no son \"ackeados\" a la banda, no serán despejados. Útil si GB se usa conjuntamente con otras apps.</string>
+  <string name="pref_summary_dont_ack_transfers">Si los datos no están marcados como descargados, no serán borrados en tu MiBand. Útil si Gadgetbridge se usa conjuntamente con otras apps.</string>
   <string name="pref_summary_keep_data_on_device">Mantendrá los datos de actividad en la MiBand incluso después de la sincronización. Útil si GB se usa junto con otras apps.</string>
-  <string name="pref_title_dont_ack_transfer">No \"ackear\" transferencia de datos de actividad</string>
+  <string name="pref_title_dont_ack_transfer">No confirmar transferencia</string>
   <string name="live_activity_steps_history">Historial de pasos</string>
   <string name="live_activity_current_steps_per_minute">Pasos/min actuales</string>
   <string name="live_activity_total_steps">Pasos totales</string>
