@@ -1,4 +1,8 @@
 ###Changelog
+#### next Version 0.6.6
+* Mi Band: Huge performance improvement fetching activity data
+* Mi Band: attempt at fixing connection problems (#156)
+* Fix exporting the activity database on devices with read-only external storage (#153)
 
 ####Version 0,6.5
 * Mi Band: Support "Locate Device" with Mi Band 1A (and Mi Band 1 with new firmware)
