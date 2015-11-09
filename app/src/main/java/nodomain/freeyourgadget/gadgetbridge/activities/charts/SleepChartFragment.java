@@ -64,7 +64,6 @@ public class SleepChartFragment extends AbstractChartFragment {
         List<Integer> colors = new ArrayList<>();
         int index = 0;
         for (ActivityAmount amount : amounts.getAmounts()) {
-            long value = amount.getTotalSeconds();
             entries.add(new Entry(amount.getTotalSeconds(), index++));
             colors.add(getColorFor(amount.getActivityKind()));
             data.addXValue(amount.getName(getActivity()));

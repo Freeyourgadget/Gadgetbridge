@@ -2,6 +2,8 @@ package nodomain.freeyourgadget.gadgetbridge.model;
 
 import android.content.Context;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
+
 public class ActivityAmount {
     private int activityKind;
     private short percent;
@@ -34,10 +36,10 @@ public class ActivityAmount {
     public String getName(Context context) {
         switch (activityKind) {
             case ActivityKind.TYPE_DEEP_SLEEP:
-                return "Deep Sleep";
+                return context.getString(R.string.abstract_chart_fragment_kind_deep_sleep);
             case ActivityKind.TYPE_LIGHT_SLEEP:
-                return "Light Sleep";
+                return context.getString(R.string.abstract_chart_fragment_kind_light_sleep);
         }
-        return "Activity";
+        return context.getString(R.string.abstract_chart_fragment_kind_activity);
     }
 }
