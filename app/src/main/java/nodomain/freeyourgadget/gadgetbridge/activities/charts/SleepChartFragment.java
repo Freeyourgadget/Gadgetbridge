@@ -31,6 +31,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmount;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmounts;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
@@ -57,17 +58,22 @@ public class SleepChartFragment extends AbstractChartFragment {
     private void refreshSleepAmounts(GBDevice mGBDevice, PieChart pieChart, List<ActivitySample> samples) {
         ActivityAnalysis analysis = new ActivityAnalysis();
         ActivityAmounts amounts = analysis.calculateActivityAmounts(samples);
-        String totalSleep = DateTimeUtils.formatDurationHoursMinutes(amounts.getTotalSeconds(), TimeUnit.SECONDS);
-        pieChart.setCenterText(totalSleep);
         PieData data = new PieData();
         List<Entry> entries = new ArrayList<>();
         List<Integer> colors = new ArrayList<>();
         int index = 0;
+        long totalSeconds = 0;
         for (ActivityAmount amount : amounts.getAmounts()) {
-            entries.add(new Entry(amount.getTotalSeconds(), index++));
-            colors.add(getColorFor(amount.getActivityKind()));
-            data.addXValue(amount.getName(getActivity()));
+            if ((amount.getActivityKind() & ActivityKind.TYPE_SLEEP) != 0) {
+                long value = amount.getTotalSeconds();
+                totalSeconds += value;
+                entries.add(new Entry(value, index++));
+                colors.add(getColorFor(amount.getActivityKind()));
+                data.addXValue(amount.getName(getActivity()));
+            }
         }
+        String totalSleep = DateTimeUtils.formatDurationHoursMinutes(totalSeconds, TimeUnit.SECONDS);
+        pieChart.setCenterText(totalSleep);
         PieDataSet set = new PieDataSet(entries, "");
         set.setValueFormatter(new ValueFormatter() {
             @Override
@@ -172,7 +178,9 @@ public class SleepChartFragment extends AbstractChartFragment {
 
     @Override
     protected List<ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-        return super.getSleepSamples(db, device, tsFrom, tsTo);
+// temporary fix for totally wrong sleep amounts
+//        return super.getSleepSamples(db, device, tsFrom, tsTo);
+        return super.getAllSamples(db, device, tsFrom, tsTo);
     }
 
     protected void renderCharts() {
