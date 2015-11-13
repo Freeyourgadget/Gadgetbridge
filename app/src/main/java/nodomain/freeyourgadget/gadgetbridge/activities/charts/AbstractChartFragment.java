@@ -319,7 +319,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         chart.setNoDataText(getString(R.string.chart_no_data_synchronize));
 
         // disable value highlighting
-        chart.setHighlightEnabled(false);
+        chart.setHighlightPerTapEnabled(false);
 
         // enable touch gestures
         chart.setTouchEnabled(true);

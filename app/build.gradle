@@ -46,7 +46,7 @@ dependencies {
     compile 'com.android.support:support-v4:23.1.0'
     compile 'com.github.tony19:logback-android-classic:1.1.1-4'
     compile 'org.slf4j:slf4j-api:1.7.7'
-    compile 'com.github.PhilJay:MPAndroidChart:v2.1.5'
+    compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
     compile 'com.github.pfichtner:durationformatter:0.1.1'
 }
 
