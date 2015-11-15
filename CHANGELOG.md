@@ -1,11 +1,13 @@
 ###Changelog
-#### next Version 0.6.6
+
+####Version 0.6.6
 * Mi Band: Huge performance improvement fetching activity data
 * Mi Band: attempt at fixing connection problems (#156)
+* Pebble: Try to interpret sleep data from Misfit data
 * Fix exporting the activity database on devices with read-only external storage (#153)
 * Fix totally wrong sleep time in the sleep chart
 
-####Version 0,6.5
+####Version 0.6.5
 * Mi Band: Support "Locate Device" with Mi Band 1A (and Mi Band 1 with new firmware)
 * Pebble: Support syncing steps from Misfit (untested features must be turned on to see them), intensity=steps, no sleep support yet
 * Disable activity fetching when not supported
