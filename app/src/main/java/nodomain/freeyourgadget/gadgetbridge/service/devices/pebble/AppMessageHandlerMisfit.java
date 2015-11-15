@@ -69,25 +69,39 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
                     Date endDate = new Date((long) (timestamp + samples * 60) * 1000L);
                     LOG.info("got data from " + startDate + " to " + endDate);
 
-                    int steps = 0;
                     int totalSteps = 0;
                     GBActivitySample[] activitySamples = new GBActivitySample[samples];
                     for (int i = 0; i < samples; i++) {
                         short sample = buf.getShort();
-                        if ((sample & 0x0001) == 0) { // 16-??? steps encoded in bits 1-7
-                            steps = (sample & 0x00fe);
-                        } else  { // 0-14 steps encoded in bits 1-3, most of the time fc71 bits are set in that case
-                            // 0040 also set always?
-                            steps = (sample & 0x000e);
+                        int steps = 0;
+                        int intensity = 0;
+                        byte activityKind = ActivityKind.TYPE_UNKNOWN;
+
+                        if (((sample & 0x83ff) == 0x0001) && ((sample & 0xff00) <= 0x4800)) {
+                            // sleep seems to be from 0x2401 to 0x4801  (0b0IIIII0000000001) where I = intensity ?
+                            intensity = (sample & 0x7c00) >>> 10;
+                            // 9-18 decimal after shift
+                            if (intensity <= 13) {
+                                activityKind = ActivityKind.TYPE_DEEP_SLEEP;
+                            } else {
+                                // FIXME: this leads to too much false positives, ignore for now
+                                //activityKind = ActivityKind.TYPE_LIGHT_SLEEP;
+                                //intensity *= 2; // better visual distinction
+                            }
+                        } else {
+                            if ((sample & 0x0001) == 0) { // 16-??? steps encoded in bits 1-7
+                                steps = (sample & 0x00fe);
+                            } else { // 0-14 steps encoded in bits 1-3, most of the time fc71 bits are set in that case
+                                steps = (sample & 0x000e);
+                            }
+                            intensity = steps;
+                            activityKind = ActivityKind.TYPE_ACTIVITY;
                         }
 
                         totalSteps += steps;
                         LOG.info("got steps for sample " + i + " : " + steps + "(" + Integer.toHexString(sample & 0xffff) + ")");
-                        byte activityKind = ActivityKind.TYPE_UNKNOWN;
-                        if (steps > 0) {
-                            activityKind = ActivityKind.TYPE_ACTIVITY;
-                        }
-                        activitySamples[i] = new GBActivitySample(sampleProvider, timestamp + i * 60, (short) steps, (short) steps, activityKind);
+
+                        activitySamples[i] = new GBActivitySample(sampleProvider, timestamp + i * 60, (short) intensity, (short) steps, activityKind);
                     }
                     LOG.info("total steps for above period: " + totalSteps);
 
