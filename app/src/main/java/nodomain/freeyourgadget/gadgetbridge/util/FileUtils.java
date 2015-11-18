@@ -97,7 +97,7 @@ public class FileUtils {
         }
         for (int i = 0; i < dirs.length; i++) {
             File dir = dirs[i];
-            if (!dir.exists() && !dir.mkdirs()) {
+            if (dir == null || (!dir.exists() && !dir.mkdirs())) {
                 continue;
             }
             // the first directory is also the primary external storage, i.e. the same as Environment.getExternalFilesDir()
