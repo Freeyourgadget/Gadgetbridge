@@ -88,10 +88,10 @@ public class FileUtils {
     private static List<File> getWritableExternalFilesDirs() throws IOException {
         Context context = GBApplication.getContext();
         File[] dirs = context.getExternalFilesDirs(null);
-        List<File> result = new ArrayList<>(dirs.length);
         if (dirs == null) {
             throw new IOException("Unable to access external files dirs: null");
         }
+        List<File> result = new ArrayList<>(dirs.length);
         if (dirs.length == 0) {
             throw new IOException("Unable to access external files dirs: 0");
         }
