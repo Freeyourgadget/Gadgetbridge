@@ -231,7 +231,7 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
         }
         LOG.info("total data to read: " + totalDataToRead + " len: " + (totalDataToRead / 3) + " minute(s)");
         LOG.info("data to read until next header: " + dataUntilNextHeader + " len: " + (dataUntilNextHeader / 3) + " minute(s)");
-        LOG.info("TIMESTAMP: " + DateFormat.getDateTimeInstance().format(timestamp.getTime()).toString() + " magic byte: " + dataUntilNextHeader);
+        LOG.info("TIMESTAMP: " + DateFormat.getDateTimeInstance().format(timestamp.getTime()) + " magic byte: " + dataUntilNextHeader);
 
         activityStruct.startNewBlock(timestamp, dataUntilNextHeader);
     }
