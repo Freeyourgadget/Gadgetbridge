@@ -124,7 +124,7 @@
   <string name="pref_screen_notification_profile_k9mail">Notifiche email da K9 Mail</string>
   <string name="pref_screen_notification_profile_incoming_call">Notiche chiamata in arrivo</string>
   <string name="control_center_find_lost_device">Trova dispositivo smarrito</string>
-  <string name="control_center_cancel_to_stop_vibration">Annulla per fermare la vibrazion</string>
+  <string name="control_center_cancel_to_stop_vibration">Annulla per fermare la vibrazione</string>
   <string name="title_activity_charts">Le tue attività</string>
   <string name="title_activity_set_alarm">Configurazione sveglia</string>
   <string name="controlcenter_start_configure_alarms">Configurazione sveglia</string>
