@@ -36,13 +36,15 @@ public class SMSReceiver extends BroadcastReceiver {
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
             Object[] pdus = (Object[]) bundle.get("pdus");
-            for (Object pdu1 : pdus) {
-                byte[] pdu = (byte[]) pdu1;
-                SmsMessage message = SmsMessage.createFromPdu(pdu);
-                notificationSpec.body = message.getDisplayMessageBody();
-                notificationSpec.phoneNumber = message.getOriginatingAddress();
-                if (notificationSpec.phoneNumber != null) {
-                    GBApplication.deviceService().onNotification(notificationSpec);
+            if (pdus != null) {
+                for (Object pdu1 : pdus) {
+                    byte[] pdu = (byte[]) pdu1;
+                    SmsMessage message = SmsMessage.createFromPdu(pdu);
+                    notificationSpec.body = message.getDisplayMessageBody();
+                    notificationSpec.phoneNumber = message.getOriginatingAddress();
+                    if (notificationSpec.phoneNumber != null) {
+                        GBApplication.deviceService().onNotification(notificationSpec);
+                    }
                 }
             }
         }
