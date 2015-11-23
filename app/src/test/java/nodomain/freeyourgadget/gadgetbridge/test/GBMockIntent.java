@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class GBMockIntent extends Intent {
     private String mAction;
-    private Map<String,Object> extras = new HashMap<>();
+    private final Map<String,Object> extras = new HashMap<>();
 
     @NonNull
     @Override

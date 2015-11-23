@@ -14,7 +14,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WriteAction;
 public class TransactionBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(TransactionBuilder.class);
 
-    private Transaction mTransaction;
+    private final Transaction mTransaction;
     private boolean mQueued;
 
     public TransactionBuilder(String taskName) {

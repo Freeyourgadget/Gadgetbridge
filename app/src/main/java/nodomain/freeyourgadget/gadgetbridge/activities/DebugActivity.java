@@ -50,7 +50,7 @@ public class DebugActivity extends Activity {
     private Button importDBButton;
     private EditText editContent;
 
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(ControlCenter.ACTION_QUIT)) {

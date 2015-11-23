@@ -20,7 +20,7 @@ public class MiBandSampleProvider implements SampleProvider {
 //    public static final byte TYPE_WALKING = 1;
 
     // maybe this should be configurable 256 seems way off, though.
-    private float movementDivisor = 180.0f; //256.0f;
+    private final float movementDivisor = 180.0f; //256.0f;
 
     @Override
     public int normalizeType(byte rawType) {

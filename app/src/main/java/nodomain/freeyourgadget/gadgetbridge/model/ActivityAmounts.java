@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityAmounts {
-    private List<ActivityAmount> amounts = new ArrayList<>(4);
+    private final List<ActivityAmount> amounts = new ArrayList<>(4);
     private long totalSeconds;
 
     public void addAmount(ActivityAmount amount) {

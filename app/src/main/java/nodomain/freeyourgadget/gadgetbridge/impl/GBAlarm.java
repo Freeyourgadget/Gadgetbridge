@@ -18,7 +18,7 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PR
 
 public class GBAlarm implements Alarm {
 
-    private int index;
+    private final int index;
     private boolean enabled;
     private boolean smartWakeup;
     private int repetition;

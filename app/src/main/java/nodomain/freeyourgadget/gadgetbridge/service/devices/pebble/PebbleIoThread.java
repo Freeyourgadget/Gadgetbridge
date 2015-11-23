@@ -56,7 +56,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
     public static final String PEBBLEKIT_ACTION_APP_START = "com.getpebble.action.app.START";
     public static final String PEBBLEKIT_ACTION_APP_STOP = "com.getpebble.action.app.STOP";
 
-    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+    final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 
     private final PebbleProtocol mPebbleProtocol;
     private final PebbleSupport mPebbleSupport;
@@ -419,6 +419,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 mOutStream.flush();
             }
         } catch (IOException e) {
+            LOG.error("Error writing.", e);
         }
     }
 

@@ -26,7 +26,7 @@ public class MiBandPairingActivity extends Activity {
     private TextView message;
     private boolean isPairing;
     private String macAddress;
-    private BroadcastReceiver mPairingReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mPairingReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (GBDevice.ACTION_DEVICE_CHANGED.equals(intent.getAction())) {

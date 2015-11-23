@@ -1,7 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -12,7 +11,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
@@ -41,7 +39,7 @@ public class NotificationListener extends NotificationListenerService {
     public static final String ACTION_MUTE
             = "nodomain.freeyourgadget.gadgetbridge.notificationlistener.action.mute";
 
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @SuppressLint("NewApi")
         @Override
         public void onReceive(Context context, Intent intent) {

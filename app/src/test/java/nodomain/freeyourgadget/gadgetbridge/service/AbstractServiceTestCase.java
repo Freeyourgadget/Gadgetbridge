@@ -19,7 +19,7 @@ import nodomain.freeyourgadget.gadgetbridge.test.MockHelper;
 
 public abstract class AbstractServiceTestCase<T extends Service> {
     private static final int ID = -1; // currently not supported
-    private Class<T> mServiceClass;
+    private final Class<T> mServiceClass;
     private T mServiceInstance;
     private Context mContext;
     private Application mApplication;

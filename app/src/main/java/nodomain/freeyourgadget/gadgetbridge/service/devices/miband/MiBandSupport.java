@@ -78,8 +78,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     private DeviceInfo mDeviceInfo;
 
-    GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
-    GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
+    private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
+    private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
 
     public MiBandSupport() {
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ACCESS);

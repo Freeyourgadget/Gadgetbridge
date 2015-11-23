@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public abstract class AbstractFragmentPagerAdapter extends FragmentStatePagerAdapter {
-    private Set<AbstractGBFragment> fragments = new HashSet<>();
+    private final Set<AbstractGBFragment> fragments = new HashSet<>();
     private Object primaryFragment;
 
     public AbstractFragmentPagerAdapter(FragmentManager fm) {

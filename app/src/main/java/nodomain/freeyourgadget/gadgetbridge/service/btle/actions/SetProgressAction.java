@@ -7,9 +7,9 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class SetProgressAction extends PlainAction {
 
-    private String text;
-    private boolean ongoing;
-    private int percentage;
+    private final String text;
+    private final boolean ongoing;
+    private final int percentage;
     private final Context context;
 
     /**

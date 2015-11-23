@@ -60,12 +60,12 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
  * shift the date by one day.
  */
 public abstract class AbstractChartFragment extends AbstractGBFragment {
-    protected int ANIM_TIME = 350;
+    protected final int ANIM_TIME = 350;
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractChartFragment.class);
 
     private final Set<String> mIntentFilterActions;
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             AbstractChartFragment.this.onReceive(context, intent);
@@ -82,7 +82,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     protected static final class ActivityConfig {
         public final int type;
         public final String label;
-        public Integer color;
+        public final Integer color;
 
         public ActivityConfig(int kind, String label, Integer color) {
             this.type = kind;

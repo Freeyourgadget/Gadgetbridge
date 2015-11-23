@@ -56,7 +56,7 @@ public abstract class AbstractSettingsActivity extends PreferenceActivity {
     }
 
     private static class ExtraSetSummaryOnChangeListener extends SimpleSetSummaryOnChangeListener {
-        private Preference.OnPreferenceChangeListener delegate;
+        private final Preference.OnPreferenceChangeListener delegate;
 
         public ExtraSetSummaryOnChangeListener(Preference.OnPreferenceChangeListener delegate) {
             this.delegate = delegate;
@@ -72,7 +72,7 @@ public abstract class AbstractSettingsActivity extends PreferenceActivity {
         }
     }
 
-    private static SimpleSetSummaryOnChangeListener sBindPreferenceSummaryToValueListener = new SimpleSetSummaryOnChangeListener();
+    private static final SimpleSetSummaryOnChangeListener sBindPreferenceSummaryToValueListener = new SimpleSetSummaryOnChangeListener();
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {

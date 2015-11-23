@@ -31,8 +31,8 @@ public final class BtLEQueue {
     private static final Logger LOG = LoggerFactory.getLogger(BtLEQueue.class);
 
     private final Object mGattMonitor = new Object();
-    private GBDevice mGbDevice;
-    private BluetoothAdapter mBluetoothAdapter;
+    private final GBDevice mGbDevice;
+    private final BluetoothAdapter mBluetoothAdapter;
     private BluetoothGatt mBluetoothGatt;
     /**
      * When an automatic reconnect was attempted after a connection breakdown (error)
@@ -41,12 +41,12 @@ public final class BtLEQueue {
 
     private static final long MIN_MILLIS_BEFORE_RECONNECT = 1000 * 60 * 5; // 5 minutes
 
-    private volatile BlockingQueue<Transaction> mTransactions = new LinkedBlockingQueue<>();
+    private final BlockingQueue<Transaction> mTransactions = new LinkedBlockingQueue<>();
     private volatile boolean mDisposed;
     private volatile boolean mCrashed;
     private volatile boolean mAbortTransaction;
 
-    private Context mContext;
+    private final Context mContext;
     private CountDownLatch mWaitForActionResultLatch;
     private CountDownLatch mConnectionLatch;
     private BluetoothGattCharacteristic mWaitCharacteristic;
@@ -284,7 +284,7 @@ public final class BtLEQueue {
         private
         @Nullable
         GattCallback mTransactionGattCallback;
-        private GattCallback mExternalGattCallback;
+        private final GattCallback mExternalGattCallback;
 
         public InternalGattCallback(GattCallback externalGattCallback) {
             mExternalGattCallback = externalGattCallback;

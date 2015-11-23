@@ -10,13 +10,13 @@ import java.util.Arrays;
  */
 public class UserInfo {
 
-    private String btAddress;
-    private String alias;
-    private int gender;
-    private int age;
-    private int height;
-    private int weight;
-    private int type;
+    private final String btAddress;
+    private final String alias;
+    private final int gender;
+    private final int age;
+    private final int height;
+    private final int weight;
+    private final int type;
 
     private byte[] data = new byte[20];
 

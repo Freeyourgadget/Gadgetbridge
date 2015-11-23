@@ -60,7 +60,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
     private CustomBarChart mStepsPerMinuteCurrentChart;
     private CustomBarChart mTotalStepsChart;
 
-    private Steps mSteps = new Steps();
+    private final Steps mSteps = new Steps();
     private ScheduledExecutorService pulseScheduler;
     private int maxStepsResetCounter;
 
@@ -140,7 +140,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
         }
     }
 
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();

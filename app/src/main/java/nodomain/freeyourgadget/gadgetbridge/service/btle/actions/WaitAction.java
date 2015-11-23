@@ -4,7 +4,7 @@ import android.bluetooth.BluetoothGatt;
 
 public class WaitAction extends PlainAction {
 
-    private int mMillis;
+    private final int mMillis;
 
     public WaitAction(int millis) {
         mMillis = millis;

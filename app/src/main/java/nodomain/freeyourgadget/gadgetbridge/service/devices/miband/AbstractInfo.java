@@ -1,7 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.miband;
 
 public class AbstractInfo {
-    protected byte[] mData;
+    protected final byte[] mData;
 
     public AbstractInfo(byte[] data) {
         mData = new byte[data.length];

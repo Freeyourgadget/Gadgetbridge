@@ -18,7 +18,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class DeviceSupportFactory {
     private final BluetoothAdapter mBtAdapter;
-    private Context mContext;
+    private final Context mContext;
 
     public DeviceSupportFactory(Context context) {
         mContext = context;

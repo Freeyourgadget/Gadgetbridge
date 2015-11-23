@@ -13,7 +13,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 
 public class DeviceHelper {
-    private static DeviceHelper instance = new DeviceHelper();
+    private static final DeviceHelper instance = new DeviceHelper();
 
     public static DeviceHelper getInstance() {
         return instance;

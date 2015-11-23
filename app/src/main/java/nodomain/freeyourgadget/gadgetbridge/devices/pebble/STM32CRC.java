@@ -14,7 +14,7 @@ import java.nio.ByteOrder;
 public class STM32CRC {
     private int crc;
     private byte rem;
-    private byte buffer[] = {0, 0, 0, 0};
+    private final byte[] buffer = {0, 0, 0, 0};
 
     private static final int[] crc_table = {
             0x00000000, 0x04c11db7, 0x09823b6e, 0x0d4326d9,

@@ -228,7 +228,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             "snowy_evt2", "snowy_dvt", "spalding_dvt", "snowy_s3", "spalding"
     };
 
-    private static Random mRandom = new Random();
+    private static final Random mRandom = new Random();
 
     boolean isFw3x = false;
     boolean mForceProtocol = false;
@@ -327,14 +327,14 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
 
     byte last_id = -1;
-    private ArrayList<UUID> tmpUUIDS = new ArrayList<>();
+    private final ArrayList<UUID> tmpUUIDS = new ArrayList<>();
 
     private static final UUID UUID_GBPEBBLE = UUID.fromString("61476764-7465-7262-6469-656775527a6c");
     private static final UUID UUID_MORPHEUZ = UUID.fromString("5be44f1d-d262-4ea6-aa30-ddbec1e3cab2");
     private static final UUID UUID_WHETHERNEAT = UUID.fromString("3684003b-a685-45f9-a713-abc6364ba051");
     private static final UUID UUID_MISFIT = UUID.fromString("0b73b76a-cd65-4dc2-9585-aaa213320858");
 
-    private static Map<UUID, AppMessageHandler> mAppMessageHandlers = new HashMap<>();
+    private static final Map<UUID, AppMessageHandler> mAppMessageHandlers = new HashMap<>();
 
     {
         mAppMessageHandlers.put(UUID_GBPEBBLE, new AppMessageHandlerGBPebble(UUID_GBPEBBLE, PebbleProtocol.this));

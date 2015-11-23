@@ -40,8 +40,8 @@ public class VibrationProfile {
 
     private final String id;
 
-    private int[] onOffSequence;
-    private short repeat;
+    private final int[] onOffSequence;
+    private final short repeat;
 
     /**
      * Creates a new profile instance.

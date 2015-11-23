@@ -43,7 +43,7 @@ public class GattService {
 
     //do we need this?
 
-    private static Map<UUID, String> GATTSERVICE_DEBUG;
+    private static final Map<UUID, String> GATTSERVICE_DEBUG;
 
     static {
         GATTSERVICE_DEBUG = new HashMap<>();

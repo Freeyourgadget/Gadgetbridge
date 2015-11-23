@@ -5,7 +5,7 @@ import android.content.Context;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
 public class ActivityAmount {
-    private int activityKind;
+    private final int activityKind;
     private short percent;
     private long totalSeconds;
 

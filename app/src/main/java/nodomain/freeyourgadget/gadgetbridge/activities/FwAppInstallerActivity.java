@@ -45,7 +45,7 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
     private InstallHandler installHandler;
     private boolean mayConnect;
 
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -72,7 +72,7 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
     };
     private ProgressBar mProgressBar;
     private ListView itemListView;
-    private List<ItemWithDetails> mItems = new ArrayList<>();
+    private final List<ItemWithDetails> mItems = new ArrayList<>();
     private ItemWithDetailsAdapter mItemAdapter;
 
     private void refreshBusyState(GBDevice dev) {

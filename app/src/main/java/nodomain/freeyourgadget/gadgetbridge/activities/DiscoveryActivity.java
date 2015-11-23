@@ -36,9 +36,9 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
     private static final Logger LOG = LoggerFactory.getLogger(DiscoveryActivity.class);
     private static final long SCAN_DURATION = 60000; // 60s
 
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler();
 
-    private BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (intent.getAction()) {
@@ -78,14 +78,14 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
         }
     };
 
-    private BluetoothAdapter.LeScanCallback leScanCallback = new BluetoothAdapter.LeScanCallback() {
+    private final BluetoothAdapter.LeScanCallback leScanCallback = new BluetoothAdapter.LeScanCallback() {
         @Override
         public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
             handleDeviceFound(device, (short) rssi);
         }
     };
 
-    private Runnable stopRunnable = new Runnable() {
+    private final Runnable stopRunnable = new Runnable() {
         @Override
         public void run() {
             stopDiscovery();
@@ -94,7 +94,7 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
 
     private ProgressBar progressView;
     private BluetoothAdapter adapter;
-    private ArrayList<GBDeviceCandidate> deviceCandidates = new ArrayList<>();
+    private final ArrayList<GBDeviceCandidate> deviceCandidates = new ArrayList<>();
     private DeviceCandidateAdapter cadidateListAdapter;
     private Button startButton;
     private Scanning isScanning = Scanning.SCANNING_OFF;

@@ -13,7 +13,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
  */
 public class WriteAction extends BtLEAction {
 
-    private byte[] value;
+    private final byte[] value;
 
     public WriteAction(BluetoothGattCharacteristic characteristic, byte[] value) {
         super(characteristic);

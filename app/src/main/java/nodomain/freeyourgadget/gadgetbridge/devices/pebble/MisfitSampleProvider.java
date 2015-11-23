@@ -4,7 +4,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 
 public class MisfitSampleProvider implements SampleProvider {
 
-    protected float movementDivisor = 300f;
+    protected final float movementDivisor = 300f;
 
     @Override
     public int normalizeType(byte rawType) {

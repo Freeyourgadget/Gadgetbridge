@@ -33,7 +33,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
 
     private BtLEQueue mQueue;
     private HashMap<UUID, BluetoothGattCharacteristic> mAvailableCharacteristics;
-    private Set<UUID> mSupportedServices = new HashSet<>(4);
+    private final Set<UUID> mSupportedServices = new HashSet<>(4);
 
     public static final String BASE_UUID = "0000%s-0000-1000-8000-00805f9b34fb"; //this is common for all BTLE devices. see http://stackoverflow.com/questions/18699251/finding-out-android-bluetooth-le-gatt-profiles
 

@@ -178,7 +178,7 @@ public class GattCharacteristic {
 
     //do we need this?
 
-    private static Map<UUID, String> GATTCHARACTERISTIC_DEBUG;
+    private static final Map<UUID, String> GATTCHARACTERISTIC_DEBUG;
 
     static {
         GATTCHARACTERISTIC_DEBUG = new HashMap<>();

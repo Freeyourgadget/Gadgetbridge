@@ -35,7 +35,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 public class AppBlacklistActivity extends Activity {
     private static final Logger LOG = LoggerFactory.getLogger(AppBlacklistActivity.class);
 
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();

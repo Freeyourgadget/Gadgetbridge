@@ -16,9 +16,9 @@ import java.util.Locale;
  * @author TREND
  */
 public class Transaction {
-    private String mName;
-    private List<BtLEAction> mActions = new ArrayList<>(4);
-    private long creationTimestamp = System.currentTimeMillis();
+    private final String mName;
+    private final List<BtLEAction> mActions = new ArrayList<>(4);
+    private final long creationTimestamp = System.currentTimeMillis();
     private
     @Nullable
     GattCallback gattCallback;

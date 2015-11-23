@@ -14,8 +14,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
  * support this candidate, will the candidate be promoted to a GBDevice.
  */
 public class GBDeviceCandidate implements Parcelable {
-    private BluetoothDevice device;
-    private short rssi;
+    private final BluetoothDevice device;
+    private final short rssi;
     private DeviceType deviceType = DeviceType.UNKNOWN;
 
     public GBDeviceCandidate(BluetoothDevice device, short rssi) {

@@ -50,13 +50,13 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
     //private ScheduledExecutorService scheduleTaskExecutor;
     //private ScheduledFuture scheduledTask;
 
-    private int activityMetadataLength = 11;
+    private final int activityMetadataLength = 11;
 
     //temporary buffer, size is a multiple of 60 because we want to store complete minutes (1 minute = 3 bytes)
     private static final int activityDataHolderSize = 3 * 60 * 4; // 4h
 
     private static class ActivityStruct {
-        private byte[] activityDataHolder = new byte[activityDataHolderSize];
+        private final byte[] activityDataHolder = new byte[activityDataHolderSize];
         //index of the buffer above
         private int activityDataHolderProgress = 0;
         //number of bytes we will get in a single data transfer, used as counter
