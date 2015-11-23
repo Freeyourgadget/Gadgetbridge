@@ -156,6 +156,9 @@ public class GBApplication extends Application {
         dbLock.unlock();
     }
 
+    public static boolean isRunningOnKitkatOrLater() {
+        return VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+    }
     public static boolean isRunningLollipopOrLater() {
         return VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
@@ -190,5 +193,4 @@ public class GBApplication extends Application {
         blacklist.remove(packageName);
         saveBlackList();
     }
-
 }

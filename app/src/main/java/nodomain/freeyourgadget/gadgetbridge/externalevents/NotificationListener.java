@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -11,6 +12,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
@@ -216,17 +218,26 @@ public class NotificationListener extends NotificationListenerService {
 
         LOG.info("Processing notification from source " + source);
 
+        if (GBApplication.isRunningOnKitkatOrLater()) {
+            dissectNotificationTo(notification, notificationSpec);
+        }
+        notificationSpec.id = (int) sbn.getPostTime(); //FIMXE: a truly unique id would be better
+        GBApplication.deviceService().onNotification(notificationSpec);
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    private void dissectNotificationTo(Notification notification, NotificationSpec notificationSpec) {
         Bundle extras = notification.extras;
-        notificationSpec.title = extras.getCharSequence(Notification.EXTRA_TITLE).toString();
+        CharSequence title = extras.getCharSequence(Notification.EXTRA_TITLE);
+        if (title != null) {
+            notificationSpec.title = title.toString();
+        }
         if (extras.containsKey(Notification.EXTRA_TEXT)) {
             CharSequence contentCS = extras.getCharSequence(Notification.EXTRA_TEXT);
             if (contentCS != null) {
                 notificationSpec.body = contentCS.toString();
             }
         }
-
-        notificationSpec.id = (int) sbn.getPostTime(); //FIMXE: a truly unique id would be better
-        GBApplication.deviceService().onNotification(notificationSpec);
     }
 
     private boolean isServiceRunning() {
