@@ -9,8 +9,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WriteAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInf
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandDateConverter;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
@@ -35,7 +34,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
@@ -43,6 +41,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.AbortTransactionAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WriteAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.FetchActivityOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.UpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
@@ -712,7 +711,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         byte[] alarmCalBytes = MiBandDateConverter.calendarToRawBytes(alarm.getAlarmCal());
 
         byte[] alarmMessage = new byte[]{
-                (byte) MiBandService.COMMAND_SET_TIMER,
+                MiBandService.COMMAND_SET_TIMER,
                 (byte) alarm.getIndex(),
                 (byte) (alarm.isEnabled() ? 1 : 0),
                 alarmCalBytes[0],

@@ -1178,7 +1178,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     private ArrayList<Pair<Integer, Object>> decodeDict(ByteBuffer buf) {
-        ArrayList<Pair<Integer, Object>> dict = new ArrayList<Pair<Integer, Object>>();
+        ArrayList<Pair<Integer, Object>> dict = new ArrayList<>();
         buf.order(ByteOrder.LITTLE_ENDIAN);
         byte dictSize = buf.get();
         while (dictSize-- > 0) {

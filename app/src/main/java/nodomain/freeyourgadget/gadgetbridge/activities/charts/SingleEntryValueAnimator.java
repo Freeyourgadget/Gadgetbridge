@@ -1,6 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
-import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 

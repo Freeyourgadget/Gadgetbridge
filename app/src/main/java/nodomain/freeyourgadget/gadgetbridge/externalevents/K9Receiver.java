@@ -55,17 +55,24 @@ public class K9Receiver extends BroadcastReceiver {
          * It should be the first one returned by the query in most cases,
          */
         Cursor c = context.getContentResolver().query(k9Uri, messagesProjection, null, null, null);
-        c.moveToFirst();
-        do {
-            String uri = c.getString(c.getColumnIndex("uri"));
-            if (uri.equals(uriWanted)) {
-                notificationSpec.sender = c.getString(c.getColumnIndex("senderAddress"));
-                notificationSpec.subject = c.getString(c.getColumnIndex("subject"));
-                notificationSpec.body = c.getString(c.getColumnIndex("preview"));
-                break;
+        try {
+            if (c != null) {
+                c.moveToFirst();
+                do {
+                    String uri = c.getString(c.getColumnIndex("uri"));
+                    if (uri.equals(uriWanted)) {
+                        notificationSpec.sender = c.getString(c.getColumnIndex("senderAddress"));
+                        notificationSpec.subject = c.getString(c.getColumnIndex("subject"));
+                        notificationSpec.body = c.getString(c.getColumnIndex("preview"));
+                        break;
+                    }
+                } while (c.moveToNext());
             }
-        } while (c.moveToNext());
-        c.close();
+        } finally {
+            if (c != null) {
+                c.close();
+            }
+        }
 
         GBApplication.deviceService().onNotification(notificationSpec);
     }

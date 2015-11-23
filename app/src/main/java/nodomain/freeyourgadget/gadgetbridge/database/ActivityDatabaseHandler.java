@@ -202,7 +202,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
         if (timestamp_from < 0) {
             throw new IllegalArgumentException("negative timestamp_from");
         }
-        ArrayList<ActivitySample> samples = new ArrayList<ActivitySample>();
+        ArrayList<ActivitySample> samples = new ArrayList<>();
         final String where = "(provider=" + provider.getID() + " and timestamp>=" + timestamp_from + " and timestamp<=" + timestamp_to + getWhereClauseFor(activityTypes, provider) + ")";
         LOG.info("Activity query where: " + where);
         final String order = "timestamp";

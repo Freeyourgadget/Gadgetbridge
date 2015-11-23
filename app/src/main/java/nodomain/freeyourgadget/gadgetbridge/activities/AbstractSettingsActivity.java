@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  * to set that listener in #onCreate, *not* in #onPostCreate, otherwise the value will
  * not be displayed.
  */
-public class AbstractSettingsActivity extends PreferenceActivity {
+public abstract class AbstractSettingsActivity extends PreferenceActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractSettingsActivity.class);
 

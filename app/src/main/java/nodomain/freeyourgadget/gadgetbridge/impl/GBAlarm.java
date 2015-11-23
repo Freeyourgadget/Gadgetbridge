@@ -190,7 +190,7 @@ public class GBAlarm implements Alarm {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
         Set<String> preferencesAlarmListSet = sharedPrefs.getStringSet(PREF_MIBAND_ALARMS, new HashSet<String>());
         //the old Set cannot be updated in place see http://developer.android.com/reference/android/content/SharedPreferences.html#getStringSet%28java.lang.String,%20java.util.Set%3Cjava.lang.String%3E%29
-        Set<String> newPrefs = new HashSet<String>(preferencesAlarmListSet);
+        Set<String> newPrefs = new HashSet<>(preferencesAlarmListSet);
 
         Iterator<String> iterator = newPrefs.iterator();
 

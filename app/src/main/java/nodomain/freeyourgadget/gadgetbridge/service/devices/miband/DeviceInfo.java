@@ -4,8 +4,6 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 
-import java.util.Locale;
-
 public class DeviceInfo extends AbstractInfo {
     public final String deviceId;
     public final int profileVersion;

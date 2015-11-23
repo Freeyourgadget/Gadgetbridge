@@ -13,7 +13,7 @@ public interface InstallHandler {
      * Returns true if this handler is able to install the element.
      * #validateInstallation may only be called if this method returned true.
      */
-    public boolean isValid();
+    boolean isValid();
 
     /**
      * Checks whether the installation of the 'element' on the device is possible

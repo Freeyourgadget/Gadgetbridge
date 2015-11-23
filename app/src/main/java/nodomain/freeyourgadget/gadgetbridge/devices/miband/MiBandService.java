@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
-
 import static nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport.BASE_UUID;
 
 public class MiBandService {

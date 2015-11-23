@@ -248,7 +248,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             GB.updateBatteryNotification(context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), deviceEvent.level),
                     deviceEvent.extendedInfoAvailable() ?
                             context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), deviceEvent.level) + "\n" +
-                                    context.getString(R.string.notif_battery_low_bigtext_last_charge_time, DateFormat.getDateTimeInstance().format(deviceEvent.lastChargeTime.getTime()).toString()) +
+                                    context.getString(R.string.notif_battery_low_bigtext_last_charge_time, DateFormat.getDateTimeInstance().format(deviceEvent.lastChargeTime.getTime())) +
                                     context.getString(R.string.notif_battery_low_bigtext_number_of_charges, deviceEvent.numCharges)
                             : ""
                     , context);

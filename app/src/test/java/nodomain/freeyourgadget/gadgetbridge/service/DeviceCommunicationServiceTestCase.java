@@ -2,7 +2,6 @@ package nodomain.freeyourgadget.gadgetbridge.service;
 
 import android.content.Context;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;

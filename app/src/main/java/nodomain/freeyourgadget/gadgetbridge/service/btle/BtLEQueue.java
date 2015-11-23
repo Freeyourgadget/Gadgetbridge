@@ -30,7 +30,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 public final class BtLEQueue {
     private static final Logger LOG = LoggerFactory.getLogger(BtLEQueue.class);
 
-    private Object mGattMonitor = new Object();
+    private final Object mGattMonitor = new Object();
     private GBDevice mGbDevice;
     private BluetoothAdapter mBluetoothAdapter;
     private BluetoothGatt mBluetoothGatt;
@@ -41,7 +41,7 @@ public final class BtLEQueue {
 
     private static final long MIN_MILLIS_BEFORE_RECONNECT = 1000 * 60 * 5; // 5 minutes
 
-    private volatile BlockingQueue<Transaction> mTransactions = new LinkedBlockingQueue<Transaction>();
+    private volatile BlockingQueue<Transaction> mTransactions = new LinkedBlockingQueue<>();
     private volatile boolean mDisposed;
     private volatile boolean mCrashed;
     private volatile boolean mAbortTransaction;
@@ -460,7 +460,7 @@ public final class BtLEQueue {
                 }
             } else {
                 if (BtLEQueue.this.mWaitCharacteristic != null) {
-                    LOG.error("checkWaitingCharacteristic: mismatched characteristic received: " + characteristic != null ? characteristic.getUuid().toString() : "(null)");
+                    LOG.error("checkWaitingCharacteristic: mismatched characteristic received: " + ((characteristic != null && characteristic.getUuid() != null) ? characteristic.getUuid().toString() : "(null)"));
                 }
             }
         }

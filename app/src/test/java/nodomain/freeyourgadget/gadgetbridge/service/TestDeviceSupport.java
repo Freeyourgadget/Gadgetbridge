@@ -11,10 +11,8 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
-import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 
 public class TestDeviceSupport extends AbstractDeviceSupport {
 

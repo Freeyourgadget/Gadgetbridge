@@ -43,7 +43,7 @@ public abstract class AbstractGBFragment extends Fragment {
     }
 
     protected void updateActivityTitle() {
-        FragmentActivity activity = (FragmentActivity) getActivity();
+        FragmentActivity activity = getActivity();
         if (activity != null && !activity.isFinishing() && !activity.isDestroyed()) {
             if (getTitle() != null) {
                 activity.setTitle(getTitle());

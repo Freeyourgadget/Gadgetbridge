@@ -569,7 +569,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         @Override
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
-            FragmentActivity activity = (FragmentActivity) getActivity();
+            FragmentActivity activity = getActivity();
             if (activity != null && !activity.isFinishing() && !activity.isDestroyed()) {
                 renderCharts();
             } else {

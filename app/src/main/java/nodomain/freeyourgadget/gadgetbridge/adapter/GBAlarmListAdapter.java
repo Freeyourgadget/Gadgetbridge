@@ -40,7 +40,7 @@ public class GBAlarmListAdapter extends ArrayAdapter<GBAlarm> {
         super(context, 0, new ArrayList<GBAlarm>());
 
         this.mContext = context;
-        alarmList = new ArrayList<GBAlarm>();
+        alarmList = new ArrayList<>();
 
         for (String alarmString : preferencesAlarmListSet) {
             alarmList.add(new GBAlarm(alarmString));
@@ -50,7 +50,7 @@ public class GBAlarmListAdapter extends ArrayAdapter<GBAlarm> {
     }
 
     public void setAlarmList(Set<String> preferencesAlarmListSet) {
-        alarmList = new ArrayList<GBAlarm>();
+        alarmList = new ArrayList<>();
 
         for (String alarmString : preferencesAlarmListSet) {
             alarmList.add(new GBAlarm(alarmString));

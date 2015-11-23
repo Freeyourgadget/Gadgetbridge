@@ -73,7 +73,7 @@ public interface GattCallback {
      * @param status
      * @see BluetoothGattCallback#onDescriptorRead(BluetoothGatt, BluetoothGattDescriptor, int)
      */
-    public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor,
+    void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor,
                                  int status);
 
     /**
@@ -82,7 +82,7 @@ public interface GattCallback {
      * @param status
      * @see BluetoothGattCallback#onDescriptorWrite(BluetoothGatt, BluetoothGattDescriptor, int)
      */
-    public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor,
+    void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor,
                                   int status);
 //
 //    /**

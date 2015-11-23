@@ -1,12 +1,12 @@
 package nodomain.freeyourgadget.gadgetbridge.model;
 
 public interface SummaryOfDay {
-    public byte getProvider();
+    byte getProvider();
 
-    public int getSteps();
+    int getSteps();
 
-    public int getDayStartWakeupTime();
+    int getDayStartWakeupTime();
 
-    public int getDayEndFallAsleepTime();
+    int getDayEndFallAsleepTime();
 
 }

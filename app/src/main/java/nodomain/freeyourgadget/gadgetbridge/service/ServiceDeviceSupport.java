@@ -21,7 +21,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
  */
 public class ServiceDeviceSupport implements DeviceSupport {
 
-    static enum Flags {
+    enum Flags {
         THROTTLING,
         BUSY_CHECKING,
     }

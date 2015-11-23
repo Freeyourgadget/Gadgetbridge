@@ -45,6 +45,9 @@ public class MiBandFWHelper {
     public MiBandFWHelper(Uri uri, Context context) throws IOException {
         this.uri = uri;
         cr = context.getContentResolver();
+        if (cr == null) {
+            throw new IOException("No content resolver");
+        }
 
         String pebblePattern = ".*\\.(pbw|pbz|pbl)";
 

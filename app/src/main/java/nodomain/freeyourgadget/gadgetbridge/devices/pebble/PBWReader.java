@@ -32,7 +32,7 @@ public class PBWReader {
     private static final HashMap<String, Byte> appFileTypesMap;
 
     static {
-        appFileTypesMap = new HashMap<String, Byte>();
+        appFileTypesMap = new HashMap<>();
         appFileTypesMap.put("application", PebbleProtocol.PUTBYTES_TYPE_BINARY);
         appFileTypesMap.put("resources", PebbleProtocol.PUTBYTES_TYPE_RESOURCES);
         appFileTypesMap.put("worker", PebbleProtocol.PUTBYTES_TYPE_WORKER);
@@ -41,7 +41,7 @@ public class PBWReader {
     private static final HashMap<String, Byte> fwFileTypesMap;
 
     static {
-        fwFileTypesMap = new HashMap<String, Byte>();
+        fwFileTypesMap = new HashMap<>();
         fwFileTypesMap.put("firmware", PebbleProtocol.PUTBYTES_TYPE_FIRMWARE);
         fwFileTypesMap.put("resources", PebbleProtocol.PUTBYTES_TYPE_SYSRESOURCES);
     }
