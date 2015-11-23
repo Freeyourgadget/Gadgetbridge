@@ -218,14 +218,11 @@ public class NotificationListener extends NotificationListenerService {
 
         LOG.info("Processing notification from source " + source);
 
-        if (GBApplication.isRunningOnKitkatOrLater()) {
-            dissectNotificationTo(notification, notificationSpec);
-        }
+        dissectNotificationTo(notification, notificationSpec);
         notificationSpec.id = (int) sbn.getPostTime(); //FIMXE: a truly unique id would be better
         GBApplication.deviceService().onNotification(notificationSpec);
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     private void dissectNotificationTo(Notification notification, NotificationSpec notificationSpec) {
         Bundle extras = notification.extras;
         CharSequence title = extras.getCharSequence(Notification.EXTRA_TITLE);
