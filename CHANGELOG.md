@@ -1,5 +1,8 @@
 ###Changelog
 
+####Version 0.6.7 (next)
+* Fix Crash when not having K9 Mail permissions (happens when installing K9 after Gadgetbridge) (#175)
+
 ####Version 0.6.6
 * Mi Band: Huge performance improvement fetching activity data
 * Mi Band: attempt at fixing connection problems (#156)
