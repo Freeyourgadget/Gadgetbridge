@@ -54,7 +54,17 @@ public class K9Receiver extends BroadcastReceiver {
          * So, we will just search our message and match the uri manually.
          * It should be the first one returned by the query in most cases,
          */
-        Cursor c = context.getContentResolver().query(k9Uri, messagesProjection, null, null, null);
+
+        Cursor c = null;
+        try {
+            c = context.getContentResolver().query(k9Uri, messagesProjection, null, null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            notificationSpec.sender = "Permission Error?";
+            notificationSpec.sender = "Gadgetbridge";
+            notificationSpec.body = "Please reinstall Gadgerbridge to enable K-9 Mail notifications";
+        }
+
         try {
             if (c != null) {
                 c.moveToFirst();
