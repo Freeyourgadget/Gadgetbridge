@@ -33,4 +33,9 @@ public class SetProgressAction extends PlainAction {
         GB.updateInstallNotification(this.text, this.ongoing, this.percentage, this.context);
         return true;
     }
+
+    @Override
+    public String toString() {
+        return getCreationTime() + ": " + getClass().getSimpleName() + ": " + text + "; " + percentage + "%";
+    }
 }
