@@ -16,4 +16,9 @@ public abstract class PlainAction extends BtLEAction {
     public boolean expectsResult() {
         return false;
     }
+
+    @Override
+    public String toString() {
+        return getCreationTime() + ": " + getClass().getSimpleName();
+    }
 }
