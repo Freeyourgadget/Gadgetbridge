@@ -25,4 +25,9 @@ public abstract class AbortTransactionAction extends PlainAction {
     }
 
     protected abstract boolean shouldAbort();
+
+    @Override
+    public String toString() {
+        return getCreationTime() + ": " + getClass().getSimpleName() + ": aborting? " + shouldAbort();
+    }
 }
