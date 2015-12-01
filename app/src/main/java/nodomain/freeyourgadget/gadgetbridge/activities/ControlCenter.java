@@ -52,7 +52,6 @@ public class ControlCenter extends Activity {
             = "nodomain.freeyourgadget.gadgetbridge.controlcenter.action.set_version";
 
     private TextView hintTextView;
-    private ListView deviceListView;
     private SwipeRefreshLayout swipeLayout;
     private GBDeviceAdapter mGBDeviceAdapter;
     private GBDevice selectedDevice = null;
@@ -124,7 +123,7 @@ public class ControlCenter extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_controlcenter);
         hintTextView = (TextView) findViewById(R.id.hintTextView);
-        deviceListView = (ListView) findViewById(R.id.deviceListView);
+        ListView deviceListView = (ListView) findViewById(R.id.deviceListView);
         mGBDeviceAdapter = new GBDeviceAdapter(this, deviceList);
         deviceListView.setAdapter(this.mGBDeviceAdapter);
         deviceListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

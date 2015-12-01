@@ -14,6 +14,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class DeviceSupportFactory {
@@ -74,18 +75,23 @@ public class DeviceSupportFactory {
 
     private DeviceSupport createBTDeviceSupport(String deviceAddress) throws GBException {
         if (mBtAdapter != null && mBtAdapter.isEnabled()) {
-            GBDevice gbDevice = null;
+            GBDevice gbDevice;
             DeviceSupport deviceSupport = null;
 
             try {
                 BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(deviceAddress);
-                if (btDevice.getName() == null || btDevice.getName().startsWith("MI")) { //FIXME: workaround for Miband not being paired
-                    gbDevice = new GBDevice(deviceAddress, "MI", DeviceType.MIBAND);
-                    deviceSupport = new ServiceDeviceSupport(new MiBandSupport(), EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING));
-                } else if (btDevice.getName().indexOf("Pebble") == 0) {
-                    gbDevice = new GBDevice(deviceAddress, btDevice.getName(), DeviceType.PEBBLE);
-                    deviceSupport = new ServiceDeviceSupport(new PebbleSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                gbDevice = DeviceHelper.getInstance().toSupportedDevice(btDevice);
+                if (gbDevice != null) {
+                    switch (gbDevice.getType()) {
+                        case PEBBLE:
+                            deviceSupport = new ServiceDeviceSupport(new PebbleSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                            break;
+                        case MIBAND:
+                            deviceSupport = new ServiceDeviceSupport(new MiBandSupport(), EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                            break;
+                    }
                 }
+
                 if (deviceSupport != null) {
                     deviceSupport.setContext(gbDevice, mBtAdapter, mContext);
                     return deviceSupport;
