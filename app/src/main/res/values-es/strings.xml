@@ -25,7 +25,7 @@
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Ajustes</string>
   <string name="pref_header_general">Ajustes generales</string>
-  <string name="pref_title_general_autoconnectonbluetooth">Conectar al encender el bluetooth</string>
+  <string name="pref_title_general_autoconnectonbluetooth">Conectarse al dispositivo cuando el Bluetooth esté activado</string>
   <string name="pref_title_audo_player">Reproductor de audio preferido</string>
   <string name="pref_default">Predeterminado</string>
   <string name="pref_header_datetime">Fecha y hora</string>
@@ -43,7 +43,7 @@
   <string name="always">siempre</string>
   <string name="when_screen_off">cuando la pantalla está apagada</string>
   <string name="never">nunca</string>
-  <string name="pref_blacklist">Añadir app a la lista negra</string>
+  <string name="pref_blacklist">Excluir aplicaciones</string>
   <string name="pref_header_development">Opciones de desarrollador</string>
   <string name="pref_title_development_miaddr">Dirección de MiBand</string>
   <string name="pref_title_pebble_settings">Ajustes de Pebble</string>
@@ -52,8 +52,8 @@
   <string name="pref_title_pebble_forceprotocol">Forzar protocolo de notificación</string>
   <string name="pref_summary_pebble_forceprotocol">Esta opción fuerza el uso del último protocolo de notificación dependiendo de la versión de firmware. ¡HABILÍTALO SOLO SI SABES LO QUE ESTÁS HACIENDO!</string>
   <string name="pref_title_pebble_forceuntested">Habilitar características no probadas</string>
-  <string name="pref_summary_pebble_forceuntested">Habilita características que no han sido comprobadas. ¡HABILÍTALO SOLO SI SABES LO QUE ESTÁS HACIENDO!</string>
-  <string name="pref_title_pebble_reconnect_attempts">Intentos de reconectar</string>
+  <string name="pref_summary_pebble_forceuntested">Habilita características que no han sido probadas. ¡HABILÍTALO SOLO SI SABES LO QUE ESTÁS HACIENDO!</string>
+  <string name="pref_title_pebble_reconnect_attempts">Intentos de reconexión</string>
   <string name="not_connected">no conectado</string>
   <string name="connecting">conectando</string>
   <string name="connected">conectado</string>
@@ -93,12 +93,12 @@
   <string name="male">masculino</string>
   <string name="female">femenino</string>
   <string name="other">otro</string>
-  <string name="left">izquierda</string>
-  <string name="right">derecha</string>
-  <string name="miband_pairing_using_dummy_userdata">No se han proporcionado datos de usuario válidos, se usarán datos de usuario dummy por ahora.</string>
+  <string name="left">zurdo</string>
+  <string name="right">diestro</string>
+  <string name="miband_pairing_using_dummy_userdata">No se han proporcionado datos de usuario válidos, se usarán datos de usuario por defecto.</string>
   <string name="miband_pairing_tap_hint">Cuando tu MiBand vibre y parpadee, púlsala repetidas veces.</string>
   <string name="appinstaller_install">Instalar</string>
-  <string name="discovery_connected_devices_hint">Hace visible tu dispositivo. No es probable que se detecten los dispositivos que ya están conectados.</string>
+  <string name="discovery_connected_devices_hint">Haz visible tu dispositivo. No es probable que se detecten los dispositivos que ya están conectados.</string>
   <string name="discovery_note">Nota:</string>
   <string name="candidate_item_device_image">Imagen del dispositivo</string>
   <string name="miband_prefs_about_you">Sobre ti</string>
@@ -113,7 +113,7 @@
   <string name="initializing">iniciando</string>
   <string name="busy_task_fetch_activity_data">Recuperando datos de actividad</string>
   <string name="sleep_activity_date_range">Desde %1$s a %2$s</string>
-  <string name="miband_prefs_wearside">¿Dispositivo en derecha o izquierda?</string>
+  <string name="miband_prefs_wearside">¿Zurdo o diestro?</string>
   <string name="pref_screen_vibration_profile">Perfil de vibración</string>
   <string name="vibration_profile_staccato">Muy corto</string>
   <string name="vibration_profile_short">Corto</string>
@@ -164,13 +164,13 @@
   <string name="activity_sleepchart_activity_and_sleep">Tu actividad y sueño</string>
   <string name="updating_firmware">Actualizando firmware...</string>
   <string name="fwapp_install_device_not_ready">El archivo no puede ser instalado, el dispositivo no está listo.</string>
-  <string name="miband_installhandler_miband_firmware">Firmware de Miband %1$s</string>
+  <string name="miband_installhandler_miband_firmware">Miband firmware %1$s</string>
   <string name="miband_fwinstaller_compatible_version">Versión compatible</string>
   <string name="miband_fwinstaller_untested_version">Versión no probada!</string>
   <string name="fwappinstaller_connection_state">Conexión al dispositivo: %1$s</string>
-  <string name="pbw_installhandler_pebble_firmware">Firmware de Pebble %1$s</string>
+  <string name="pbw_installhandler_pebble_firmware">Pebble firmware %1$s</string>
   <string name="pbwinstallhandler_correct_hw_revision">Revisión de hardware correcta</string>
-  <string name="pbwinstallhandler_incorrect_hw_revision">La revisión de hardware no coincide!</string>
+  <string name="pbwinstallhandler_incorrect_hw_revision">La revisión de hardware incorrecta!</string>
   <string name="pbwinstallhandler_app_item">%1$s (%2$s)</string>
   <string name="updatefirmwareoperation_updateproblem_do_not_reboot">Hubo un problema con la transferencia de firmware. NO REINICIES tu MiBand!</string>
   <string name="updatefirmwareoperation_metadata_updateproblem">Hubo un problema con la transferencia de metadatos del firmware</string>
@@ -180,7 +180,7 @@
   <string name="chart_steps">Pasos</string>
   <string name="liveactivity_live_activity">Actividad</string>
   <string name="weeksteps_today_steps_description">Pasos hoy, objetivo: %1$s</string>
-  <string name="pref_summary_dont_ack_transfers">Si los datos no están marcados como descargados, no serán borrados en tu MiBand. Útil si Gadgetbridge se usa conjuntamente con otras apps.</string>
+  <string name="pref_summary_dont_ack_transfers">Si los datos no son marcados como descargados, no serán borrados de tu MiBand. Útil si Gadgetbridge se usa conjuntamente con otras apps.</string>
   <string name="pref_summary_keep_data_on_device">Mantendrá los datos de actividad en la MiBand incluso después de la sincronización. Útil si GB se usa junto con otras apps.</string>
   <string name="pref_title_dont_ack_transfer">No confirmar transferencia</string>
   <string name="live_activity_steps_history">Historial de pasos</string>

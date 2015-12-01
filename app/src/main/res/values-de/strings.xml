@@ -15,6 +15,7 @@
   <string name="title_activity_appmanager">App Manager</string>
   <string name="appmananger_app_delete">Löschen</string>
   <!--Strings related to AppBlacklist-->
+  <string name="title_activity_appblacklist">Sperre für Benachrichtigungen</string>
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">FW/App Installer</string>
   <string name="fw_upgrade_notice">Es soll die Firmware %s anstelle der aktuell installierten Version aufs Mi Band gespielt werden.</string>
@@ -42,6 +43,7 @@
   <string name="always">immer</string>
   <string name="when_screen_off">wenn der Bildschirm aus ist</string>
   <string name="never">niemals</string>
+  <string name="pref_blacklist">Sperre für Apps</string>
   <string name="pref_header_development">Entwickleroptionen</string>
   <string name="pref_title_development_miaddr">Mi Band MAC Adresse</string>
   <string name="pref_title_pebble_settings">Pebble Einstellungen</string>
@@ -178,19 +180,19 @@
   <string name="chart_steps">Schritte</string>
   <string name="liveactivity_live_activity">Live Aktivität</string>
   <string name="weeksteps_today_steps_description">Schritte heute, Ziel: %1$s</string>
-  <string name="pref_title_dont_ack_transfer">Transfer von Aktivitätsdaten nicht bestätigen</string>
   <string name="pref_summary_dont_ack_transfers">Wenn der Transfer der Aktivitätsdaten nicht bestätigt wird, werden die Daten nicht auf dem Mi Band gelöscht. Das ist Sinnvoll, wenn neben Gadgetbridge noch andere Apps auf das Mi Band zugreifen.</string>
-  <string name="abstract_chart_fragment_kind_activity">Aktivität</string>
-  <string name="abstract_chart_fragment_kind_deep_sleep">Tiefschlaf</string>
-  <string name="abstract_chart_fragment_kind_light_sleep">Leichter Schlaf</string>
-  <string name="abstract_chart_fragment_kind_not_worn">Nicht getragen</string>
-  <string name="battery_full">Voll aufgeladen</string>
-  <string name="battery_low">Akku fast leer</string>
-  <string name="battery_medium">Akku mittelvoll</string>
-  <string name="battery_not_charging">Akku wird nicht geladen</string>
-  <string name="live_activity_current_steps_per_minute">Aktuelle Schritte/Minute</string>
+  <string name="pref_summary_keep_data_on_device">Aktivitätsdaten verbleiben auf dem Mi Band, auch nach der Synchronisierung. Hilfreich wenn das Mi Band mit weiteren Apps verwendet wird.</string>
+  <string name="pref_title_dont_ack_transfer">Transfer von Aktivitätsdaten nicht bestätigen</string>
+  <string name="live_activity_steps_history">Verlauf Schritte</string>
+  <string name="live_activity_current_steps_per_minute">Akt. Schritte pro Minute</string>
+  <string name="live_activity_total_steps">Schritte insgesamt</string>
+  <string name="live_activity_steps_per_minute_history">Verlauf Schritte pro Minute</string>
   <string name="live_activity_start_your_activity">Starte Deine Aktivität</string>
-  <string name="live_activity_steps_history">Verlauf der Schritte</string>
-  <string name="live_activity_steps_per_minute_history">Verlauf der Schritte pro Minute</string>
-  <string name="live_activity_total_steps">Gesamtanzahl Schritte</string>
+  <string name="abstract_chart_fragment_kind_activity">Aktivität</string>
+  <string name="abstract_chart_fragment_kind_light_sleep">Leichter Schlaf</string>
+  <string name="abstract_chart_fragment_kind_deep_sleep">Tiefschlaf</string>
+  <string name="abstract_chart_fragment_kind_not_worn">Nicht getragen</string>
+  <string name="device_not_connected">Nicht verbunden</string>
+  <string name="user_feedback_all_alarms_disabled">Alle Alarme deaktiviert</string>
+  <string name="pref_title_keep_data_on_device">Aktivitätsdaten auf dem Gerät lassen</string>
 </resources>
