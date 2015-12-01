@@ -1,6 +1,7 @@
 ###Changelog
 
 ####Version 0.6.7 (next)
++ Fix Pebble being detected as MI when unpaired and autoconnect is enabled
 * Fix Crash when not having K9 Mail permissions (happens when installing K9 after Gadgetbridge) (#175)
 
 ####Version 0.6.6
