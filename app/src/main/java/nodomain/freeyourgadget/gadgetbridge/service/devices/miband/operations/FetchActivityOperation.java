@@ -271,6 +271,7 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
                 getSupport().logMessageContent(value);
             }
         } else {
+            GB.toast(getContext(), "error buffering activity data: remaining bytes: " + activityStruct.activityDataRemainingBytes + ", received: " + value.length, Toast.LENGTH_LONG, GB.ERROR);
             try {
                 TransactionBuilder builder = performInitialized("send stop sync data");
                 builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_STOP_SYNC_DATA});
@@ -279,10 +280,8 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
                 handleActivityFetchFinish();
 
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error("error stopping activity sync", e);
             }
-            GB.toast(getContext(), "error buffering activity data: remaining bytes: " + activityStruct.activityDataRemainingBytes + ", received: " + value.length, Toast.LENGTH_LONG, GB.ERROR);
-            LOG.error("error buffering activity data: remaining bytes: " + activityStruct.activityDataRemainingBytes + ", received: " + value.length);
         }
     }
 
