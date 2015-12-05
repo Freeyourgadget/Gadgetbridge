@@ -18,10 +18,12 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
@@ -93,25 +95,43 @@ public class PBWReader {
         }
 
         String platformDir = "";
-        if (!uri.toString().endsWith(".pbz") && !platform.equals("aplite")) {
+        if (!uri.toString().endsWith(".pbz")) {
             platformDir = platform + "/";
         }
 
-        InputStream fin;
+        ZipFile zipFile;
         try {
-            fin = new BufferedInputStream(cr.openInputStream(uri));
-
-        } catch (FileNotFoundException e) {
+            zipFile = new ZipFile(uri.getPath());
+        } catch (IOException e) {
             e.printStackTrace();
             return;
         }
-        ZipInputStream zis = new ZipInputStream(fin);
-        ZipEntry ze;
+
+
+        if (platform.equals("aplite")) {
+            boolean hasApliteDir = false;
+            Enumeration zentries = zipFile.entries();
+            while (zentries.hasMoreElements()) {
+                ZipEntry entry = (ZipEntry) zentries.nextElement();
+                if (entry.getName().startsWith("aplite/")) {
+                    hasApliteDir = true;
+                    break;
+                }
+            }
+            if (!hasApliteDir) {
+                platformDir = "";
+            }
+        }
+
         pebbleInstallables = new ArrayList<>();
         byte[] buffer = new byte[1024];
         int count;
         try {
-            while ((ze = zis.getNextEntry()) != null) {
+            Enumeration zentries = zipFile.entries();
+            while (zentries.hasMoreElements()) {
+                ZipEntry ze = (ZipEntry) zentries.nextElement();
+                InputStream zis = zipFile.getInputStream(ze);
+
                 String fileName = ze.getName();
                 if (fileName.equals(platformDir + "manifest.json")) {
                     long bytes = ze.getSize();
@@ -206,8 +226,8 @@ public class PBWReader {
                     LOG.info("got flags from pebble-app.bin: " + mFlags);
                     // more follows but, not interesting for us
                 }
+                zis.close();
             }
-            zis.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
