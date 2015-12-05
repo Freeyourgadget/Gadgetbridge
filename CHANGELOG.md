@@ -1,6 +1,8 @@
 ###Changelog
 
-####Version 0.6.7 (next)
+####Version 0.6.7
+* Pebble: Allow installation of 3.x apps on OG Pebble (FW will be released soon)
+* Fix crashes on startup when logging is enabled or when entering the app manager on some phones
 + Fix Pebble being detected as MI when unpaired and autoconnect is enabled
 * Fix Crash when not having K9 Mail permissions (happens when installing K9 after Gadgetbridge) (#175)
 
