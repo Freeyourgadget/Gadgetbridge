@@ -34,12 +34,20 @@ need to create an account and transmit any of your data to the vendor's servers.
 * Morpheuz sleep data syncronization (experimental)
 * Misfit steps data synchronization (experimental)
 
-## Notes about the Pebble Time
+## Notes about Firmware 3.x (Pebble Time, updated OG)
 
-All features are also supported on the Pebble Time, except for the following:
+All above features are also supported on Firmware 3.x, except for the following:
 
 * Listing installed watchfaces (it will simply display the UUIDs of previously installed watchapps, no matter if they are still installed or not)
 * Installation of language files (.pbl) is not supported.
+
+You should also disable the "Stand-By-Mode" introduced in firmware 3.4.
+According to pebble, This mode will disable bluetooth automatically when the
+pebble does not sense motion for about 30 minutes, and then re-enable it if it
+senses motion again. We do not support initiation connections from the pebble
+yet, so this will leave you pebble disconnected until you connect it again
+manually, and/or use even more energy by triggering a reconnect from
+Gadgetbridge.
 
 ## How to use (Pebble)
 
