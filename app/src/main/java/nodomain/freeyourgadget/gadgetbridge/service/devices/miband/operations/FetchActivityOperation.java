@@ -42,7 +42,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
  * An operation that fetches activity data. For every fetch, a new operation must
  * be created, i.e. an operation may not be reused for multiple fetches.
  */
-public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport> {
+public class FetchActivityOperation extends AbstractMiBandOperation {
     private static final Logger LOG = LoggerFactory.getLogger(FetchActivityOperation.class);
     private static final byte[] fetch = new byte[]{MiBandService.COMMAND_FETCH_DATA};
 
@@ -134,23 +134,15 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
     }
 
     @Override
-    public void perform() throws IOException {
+    protected void doPerform() throws IOException {
 //        scheduleTaskExecutor = Executors.newScheduledThreadPool(1);
 
         TransactionBuilder builder = performInitialized("fetch activity data");
 //            builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_LE_PARAMS), getLowLatency());
-
-        enableOtherNotifications(builder, false);
         builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.busy_task_fetch_activity_data), getContext()));
         builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), fetch);
         builder.queue(getQueue());
     }
-
-    private void enableOtherNotifications(TransactionBuilder builder, boolean enable) {
-        builder.notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS), enable)
-                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_SENSOR_DATA), enable);
-    }
-
 
     @Override
     public void onCharacteristicChanged(BluetoothGatt gatt,
@@ -166,9 +158,7 @@ public class FetchActivityOperation extends AbstractBTLEOperation<MiBandSupport>
     private void handleActivityFetchFinish() throws IOException {
         LOG.info("Fetching activity data has finished.");
         activityStruct = null;
-        TransactionBuilder builder = performInitialized("enabling other notifications again");
-        enableOtherNotifications(builder, true);
-        builder.queue(getQueue());
+        operationFinished();
         unsetBusy();
     }
 

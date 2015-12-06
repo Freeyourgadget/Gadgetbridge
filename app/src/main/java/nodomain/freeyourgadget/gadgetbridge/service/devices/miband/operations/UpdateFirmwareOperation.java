@@ -23,7 +23,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class UpdateFirmwareOperation extends AbstractBTLEOperation<MiBandSupport> {
+public class UpdateFirmwareOperation extends AbstractMiBandOperation {
     private static final Logger LOG = LoggerFactory.getLogger(UpdateFirmwareOperation.class);
 
     private final Uri uri;
@@ -37,7 +37,7 @@ public class UpdateFirmwareOperation extends AbstractBTLEOperation<MiBandSupport
     }
 
     @Override
-    public void perform() throws IOException {
+    protected void doPerform() throws IOException {
         if (getSupport().getDeviceInfo().isMili1A()) {
             throw new IOException("Firmware update is not supported for the Mi Band 1A, yet.");
         }
@@ -56,7 +56,8 @@ public class UpdateFirmwareOperation extends AbstractBTLEOperation<MiBandSupport
     }
 
     private void done() {
-        getDevice().unsetBusyTask();
+        operationFinished();
+        unsetBusy();
     }
 
     @Override
@@ -124,9 +125,8 @@ public class UpdateFirmwareOperation extends AbstractBTLEOperation<MiBandSupport
                 break;
 
             default:
-                for (byte b : value) {
-                    LOG.warn("DATA: " + String.format("0x%2x", b));
-                }
+                getSupport().logMessageContent(value);
+                break;
         }
     }
 

@@ -31,6 +31,42 @@ public abstract class AbstractBTLEOperation<T extends AbstractBTLEDeviceSupport>
     }
 
     /**
+     * Performs this operation. The whole operation is asynchronous, i.e.
+     * this method quickly returns before the actual operation is finished.
+     * Calls #prePerform() and, if successful, #doPerform().
+     * @throws IOException
+     */
+    @Override
+    public final void perform() throws IOException {
+        prePerform();
+        doPerform();
+    }
+
+    /**
+     * Hook for subclasses to perform something before #doPerform() is invoked.
+     * @throws IOException
+     */
+    protected void prePerform() throws IOException {
+    }
+
+    /**
+     * Subclasses must implement this. When invoked, #prePerform() returned
+     * successfully.
+     * Note that subclasses HAVE TO call #operationFinished() when the entire
+     * opreation is done (successful or not).
+     * @throws IOException
+     */
+    protected abstract void doPerform() throws IOException;
+
+    /**
+     * You MUST call this method when the operation has finished, either
+     * successfull or unsuccessfully.
+     * @throws IOException
+     */
+    protected void operationFinished() throws IOException {
+    }
+
+    /**
      * Delegates to the DeviceSupport instance and additionally sets this instance as the Gatt
      * callback for the transaction.
      *
