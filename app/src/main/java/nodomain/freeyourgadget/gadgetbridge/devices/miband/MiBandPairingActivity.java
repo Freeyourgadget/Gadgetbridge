@@ -9,8 +9,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -20,6 +24,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public class MiBandPairingActivity extends Activity {
+    private static final Logger LOG = LoggerFactory.getLogger(MiBandPairingActivity.class);
 
     private static final int REQ_CODE_USER_SETTINGS = 52;
     private static final String STATE_MIBAND_ADDRESS = "mibandMacAddress";
@@ -31,6 +36,7 @@ public class MiBandPairingActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
             if (GBDevice.ACTION_DEVICE_CHANGED.equals(intent.getAction())) {
                 GBDevice device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
+                LOG.debug("pairing activity: device changed: " + device);
                 if (macAddress.equals(device.getAddress()) && device.isInitialized()) {
                     pairingFinished(true);
                 }
