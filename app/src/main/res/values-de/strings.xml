@@ -20,7 +20,7 @@
   <string name="title_activity_fw_app_insaller">FW/App Installer</string>
   <string name="fw_upgrade_notice">Es soll die Firmware %s anstelle der aktuell installierten Version aufs Mi Band gespielt werden.</string>
   <string name="miband_firmware_known">Diese Firmware ist getestet worden und ist zu Gadgetbridge kompatibel.</string>
-  <string name="miband_firmware_unknown_warning">Diese Firmware ist nicht getestet und könnte inkompatibel mit Gadgetbridge sind.\n\nEs wird nicht empfohlen sie zu installieren!</string>
+  <string name="miband_firmware_unknown_warning">Diese Firmware ist nicht getestet und könnte inkompatibel mit Gadgetbridge sein.\n\nEs wird nicht empfohlen sie zu installieren!</string>
   <string name="miband_firmware_suggest_whitelist">Falls die Firmware trotzdem installiert werden soll und nachher alles korrekt funktioniert, melde bitte den Gadgetbridge Entwicklern, dass die Firmware %s tauglich ist.</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Einstellungen</string>
