@@ -38,7 +38,6 @@ need to create an account and transmit any of your data to the vendor's servers.
 All features are also supported on the Pebble Time, except for the following:
 
 * Listing installed watchfaces (it will simply display the UUIDs of previously installed watchapps, no matter if they are still installed or not)
-* Firmware installation is untested and will probably not work.
 * Installation of language files (.pbl) is not supported.
 
 ## How to use (Pebble)
@@ -80,10 +79,6 @@ All features are also supported on the Pebble Time, except for the following:
 4. To test, chose "Debug" from the menu and play around
 
 Known Issues:
-
-* Android 4.4+ only, we can only change this by not handling generic
-  notifications or by using AccessibiltyService. Don't know if it is worth the
-  hassle.
 
 * The initial connection to a Mi Band sometimes takes a little patience. Try to connect a few times, wait, 
   and try connecting again. This only happens until you have "bonded" with the Mi Band, i.e. until it 
