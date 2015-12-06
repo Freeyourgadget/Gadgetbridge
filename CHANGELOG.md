@@ -1,6 +1,7 @@
 ###Changelog
 
 ####Next Version
++ Treat Signal notifications as chat notifications
 * Fix crash when contacts cannot be read on Android 6.0 (non-granted pemissions)
 
 ####Version 0.6.7

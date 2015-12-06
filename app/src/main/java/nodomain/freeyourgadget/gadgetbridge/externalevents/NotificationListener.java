@@ -204,6 +204,7 @@ public class NotificationListener extends NotificationListenerService {
                 notificationSpec.type = NotificationType.SMS;
                 break;
             case "eu.siacs.conversations":
+            case "org.thoughtcrime.securesms":
                 notificationSpec.type = NotificationType.CHAT;
                 break;
             case "org.indywidualni.fblite":
