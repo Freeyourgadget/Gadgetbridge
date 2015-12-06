@@ -433,7 +433,7 @@ public class DeviceCommunicationService extends Service {
 
         Cursor contactLookup = null;
         try {
-            contentResolver.query(uri, null, null, null, null);
+            contactLookup = contentResolver.query(uri, null, null, null, null);
         } catch (SecurityException e) {
             return name;
         }
