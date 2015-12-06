@@ -18,12 +18,10 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
@@ -32,6 +30,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleProtoco
 public class PBWReader {
     private static final Logger LOG = LoggerFactory.getLogger(PBWReader.class);
     private static final HashMap<String, Byte> appFileTypesMap;
+    private static final HashMap<String, Byte> fwFileTypesMap;
 
     static {
         appFileTypesMap = new HashMap<>();
@@ -39,8 +38,6 @@ public class PBWReader {
         appFileTypesMap.put("resources", PebbleProtocol.PUTBYTES_TYPE_RESOURCES);
         appFileTypesMap.put("worker", PebbleProtocol.PUTBYTES_TYPE_WORKER);
     }
-
-    private static final HashMap<String, Byte> fwFileTypesMap;
 
     static {
         fwFileTypesMap = new HashMap<>();
@@ -65,11 +62,17 @@ public class PBWReader {
         this.uri = uri;
         cr = context.getContentResolver();
 
+        InputStream fin;
+        try {
+            fin = new BufferedInputStream(cr.openInputStream(uri));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return;
+        }
+
         if (uri.toString().endsWith(".pbl") && platform.equals("aplite")) {
-            InputStream fin;
             STM32CRC stm32crc = new STM32CRC();
             try {
-                fin = new BufferedInputStream(cr.openInputStream(uri));
                 byte[] buf = new byte[2000];
                 while (fin.available() > 0) {
                     int count = fin.read(buf);
@@ -95,43 +98,48 @@ public class PBWReader {
         }
 
         String platformDir = "";
+
         if (!uri.toString().endsWith(".pbz")) {
             platformDir = platform + "/";
-        }
 
-        ZipFile zipFile;
-        try {
-            zipFile = new ZipFile(uri.getPath());
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
+            if (platform.equals("aplite")) {
+                boolean hasApliteDir = false;
+                InputStream afin;
 
+                try {
+                    afin = new BufferedInputStream(cr.openInputStream(uri));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    return;
+                }
 
-        if (platform.equals("aplite")) {
-            boolean hasApliteDir = false;
-            Enumeration zentries = zipFile.entries();
-            while (zentries.hasMoreElements()) {
-                ZipEntry entry = (ZipEntry) zentries.nextElement();
-                if (entry.getName().startsWith("aplite/")) {
-                    hasApliteDir = true;
-                    break;
+                ZipInputStream zis = new ZipInputStream(afin);
+                ZipEntry ze;
+                try {
+                    while ((ze = zis.getNextEntry()) != null) {
+                        if (ze.getName().startsWith("aplite/")) {
+                            hasApliteDir = true;
+                            break;
+                        }
+                    }
+                    zis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (!hasApliteDir) {
+                    platformDir = "";
                 }
             }
-            if (!hasApliteDir) {
-                platformDir = "";
-            }
         }
 
+        ZipInputStream zis = new ZipInputStream(fin);
+        ZipEntry ze;
         pebbleInstallables = new ArrayList<>();
         byte[] buffer = new byte[1024];
         int count;
         try {
-            Enumeration zentries = zipFile.entries();
-            while (zentries.hasMoreElements()) {
-                ZipEntry ze = (ZipEntry) zentries.nextElement();
-                InputStream zis = zipFile.getInputStream(ze);
-
+            while ((ze = zis.getNextEntry()) != null) {
                 String fileName = ze.getName();
                 if (fileName.equals(platformDir + "manifest.json")) {
                     long bytes = ze.getSize();
@@ -226,8 +234,8 @@ public class PBWReader {
                     LOG.info("got flags from pebble-app.bin: " + mFlags);
                     // more follows but, not interesting for us
                 }
-                zis.close();
             }
+            zis.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
