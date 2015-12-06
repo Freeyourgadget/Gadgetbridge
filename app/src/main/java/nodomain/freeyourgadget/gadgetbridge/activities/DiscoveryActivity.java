@@ -69,7 +69,7 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
                     if (device != null && device.getAddress().equals(bondingAddress)) {
                         int bondState = intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE, BluetoothDevice.BOND_NONE);
                         if (bondState == BluetoothDevice.BOND_BONDED) {
-                            LOG.info("Successfully bonded with: " + bondingAddress);
+                            GB.toast(DiscoveryActivity.this, "Successfully bonded with: " + bondingAddress, Toast.LENGTH_SHORT, GB.INFO);
                             finish();
                         }
                     }
