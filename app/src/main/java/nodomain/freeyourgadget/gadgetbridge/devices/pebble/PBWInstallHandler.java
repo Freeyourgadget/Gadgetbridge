@@ -108,11 +108,10 @@ public class PBWInstallHandler implements InstallHandler {
         }
 
         GBDeviceApp app = mPBWReader.getGBDeviceApp();
-        File pbwFile = new File(mUri.getPath());
         try {
             File destDir = new File(FileUtils.getExternalFilesDir() + "/pbw-cache");
             destDir.mkdirs();
-            FileUtils.copyFile(pbwFile, new File(destDir + "/" + app.getUUID().toString() + ".pbw"));
+            FileUtils.copyURItoFile(mContext, mUri, new File(destDir + "/" + app.getUUID().toString() + ".pbw"));
         } catch (IOException e) {
             LOG.error("Installation failed: " + e.getMessage(), e);
         }

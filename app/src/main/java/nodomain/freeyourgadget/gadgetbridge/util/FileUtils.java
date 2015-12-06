@@ -1,10 +1,13 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,6 +43,25 @@ public class FileUtils {
         try (FileChannel fromChannel = sourceStream.getChannel(); FileChannel toChannel = destStream.getChannel()) {
             fromChannel.transferTo(0, fromChannel.size(), toChannel);
         }
+    }
+
+    public static void copyURItoFile(Context ctx, Uri uri, File destFile) throws IOException {
+        ContentResolver cr = ctx.getContentResolver();
+        InputStream fin;
+        try {
+            fin = new BufferedInputStream(cr.openInputStream(uri));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return;
+        }
+        FileOutputStream fout = new FileOutputStream(destFile);
+        byte[] buf = new byte[4096];
+        while (fin.available() > 0) {
+            int bytes = fin.read(buf);
+            fout.write(buf, 0, bytes);
+        }
+        fin.close();
+        fout.close();
     }
 
     /**
@@ -78,9 +100,10 @@ public class FileUtils {
      * Returns a list of directories to write to. The list is sorted by priority,
      * i.e. the first directory should be preferred, the last one is the least
      * preferred one.
-     *
+     * <p/>
      * Note that the directories may not exist, so it is not guaranteed that you
      * can actually write to them. But when created, they *should* be writable.
+     *
      * @return the list of writable directories
      * @throws IOException
      */
