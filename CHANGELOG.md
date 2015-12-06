@@ -3,6 +3,7 @@
 ####Next Version
 * Pebble: fix regression in 0.6.7 when installing pbw/pbz files from content providers (eg. download manager)
 * Pebble: fix installation of pbw files on firmware 3.x when using content providers (eg. download manager)   
+* Pebble: fix crash on firmware 3.x when pebble requests a pbw that is not in Gadgetbridge's cache 
 + Treat Signal notifications as chat notifications
 * Fix crash when contacts cannot be read on Android 6.0 (non-granted pemissions)
 

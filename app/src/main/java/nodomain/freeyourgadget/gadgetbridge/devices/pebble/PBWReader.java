@@ -48,7 +48,7 @@ public class PBWReader {
     private final Uri uri;
     private final ContentResolver cr;
     private GBDeviceApp app;
-    private ArrayList<PebbleInstallable> pebbleInstallables;
+    private ArrayList<PebbleInstallable> pebbleInstallables = null;
     private boolean isFirmware = false;
     private boolean isLanguage = false;
     private boolean isValid = false;
@@ -58,17 +58,11 @@ public class PBWReader {
     private int mIconId;
     private int mFlags;
 
-    public PBWReader(Uri uri, Context context, String platform) {
+    public PBWReader(Uri uri, Context context, String platform) throws FileNotFoundException {
         this.uri = uri;
         cr = context.getContentResolver();
 
-        InputStream fin;
-        try {
-            fin = new BufferedInputStream(cr.openInputStream(uri));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        InputStream fin = new BufferedInputStream(cr.openInputStream(uri));
 
         if (uri.toString().endsWith(".pbl") && platform.equals("aplite")) {
             STM32CRC stm32crc = new STM32CRC();
@@ -104,14 +98,7 @@ public class PBWReader {
 
             if (platform.equals("aplite")) {
                 boolean hasApliteDir = false;
-                InputStream afin;
-
-                try {
-                    afin = new BufferedInputStream(cr.openInputStream(uri));
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    return;
-                }
+                InputStream afin = new BufferedInputStream(cr.openInputStream(uri));
 
                 ZipInputStream zis = new ZipInputStream(afin);
                 ZipEntry ze;
@@ -289,6 +276,9 @@ public class PBWReader {
     }
 
     public PebbleInstallable[] getPebbleInstallables() {
+        if (pebbleInstallables == null) {
+            return null;
+        }
         return pebbleInstallables.toArray(new PebbleInstallable[pebbleInstallables.size()]);
     }
 

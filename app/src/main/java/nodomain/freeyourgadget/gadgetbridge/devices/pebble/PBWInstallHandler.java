@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -53,7 +54,14 @@ public class PBWInstallHandler implements InstallHandler {
             platformName = "aplite";
         }
 
-        mPBWReader = new PBWReader(mUri, mContext, platformName);
+        try {
+            mPBWReader = new PBWReader(mUri, mContext, platformName);
+        } catch (FileNotFoundException e) {
+            installActivity.setInfoText("file not found");
+            installActivity.setInstallEnabled(false);
+            return;
+        }
+
         if (!mPBWReader.isValid()) {
             installActivity.setInfoText("pbw/pbz is broken or incompatible with your Hardware or Firmware.");
             installActivity.setInstallEnabled(false);

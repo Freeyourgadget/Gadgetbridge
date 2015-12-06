@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -551,7 +552,13 @@ public class PebbleIoThread extends GBDeviceIoThread {
             platformName = "aplite";
         }
 
-        mPBWReader = new PBWReader(uri, getContext(), platformName);
+        try {
+            mPBWReader = new PBWReader(uri, getContext(), platformName);
+        } catch (FileNotFoundException e) {
+            LOG.warn("file not found!");
+            return;
+        }
+
         mPebbleInstallables = mPBWReader.getPebbleInstallables();
         mCurrentInstallableIndex = 0;
 
