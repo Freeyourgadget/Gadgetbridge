@@ -1,5 +1,8 @@
 ###Changelog
 
+####Next Version
+* Fix crash when contacts cannot be read on Android 6.0 (non-granted pemissions)
+
 ####Version 0.6.7
 * Pebble: Allow installation of 3.x apps on OG Pebble (FW will be released soon)
 * Fix crashes on startup when logging is enabled or when entering the app manager on some phones

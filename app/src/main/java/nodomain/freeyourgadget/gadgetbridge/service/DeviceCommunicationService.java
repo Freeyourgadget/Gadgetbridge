@@ -430,7 +430,13 @@ public class DeviceCommunicationService extends Service {
         }
 
         ContentResolver contentResolver = getContentResolver();
-        Cursor contactLookup = contentResolver.query(uri, null, null, null, null);
+
+        Cursor contactLookup = null;
+        try {
+            contentResolver.query(uri, null, null, null, null);
+        } catch (SecurityException e) {
+            return name;
+        }
 
         try {
             if (contactLookup != null && contactLookup.getCount() > 0) {
