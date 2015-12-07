@@ -50,6 +50,12 @@ public class MiBandFWInstallHandler implements InstallHandler {
         GenericItem fwItem = new GenericItem(mContext.getString(R.string.miband_installhandler_miband_firmware, helper.getHumanFirmwareVersion()));
         fwItem.setIcon(R.drawable.ic_device_miband);
 
+        if (!helper.isFirmwareGenerallyCompatibleWith(device)) {
+            fwItem.setDetails(mContext.getString(R.string.miband_fwinstaller_incompatible_version));
+            installActivity.setInfoText(mContext.getString(R.string.fwinstaller_firmware_not_compatible_to_device));
+            installActivity.setInstallEnabled(false);
+            return;
+        }
         StringBuilder builder = new StringBuilder(mContext.getString(R.string.fw_upgrade_notice, helper.getHumanFirmwareVersion()));
 
         if (helper.isFirmwareWhitelisted()) {

@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.miband;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 
 public class DeviceInfo extends AbstractInfo {
@@ -75,8 +76,28 @@ public class DeviceInfo extends AbstractInfo {
                 '}';
     }
 
+    public boolean isMili1() {
+        return hwVersion == 2;
+    }
+
     public boolean isMili1A() {
         return feature == 5 && appearance == 0 || feature == 0 && hwVersion == 208;
     }
 
+    public boolean isMilli1S() {
+        return false; // FIXME: what to do here?
+    }
+
+    public String getHwVersion() {
+        if (isMili1()) {
+            return MiBandConst.MI_1;
+        }
+        if (isMili1A()) {
+            return MiBandConst.MI_1A;
+        }
+        if (isMilli1S()) {
+            return MiBandConst.MI_1S;
+        }
+        return "?";
+    }
 }

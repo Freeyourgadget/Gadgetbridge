@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 public class MiBandFWHelper {
@@ -21,10 +22,10 @@ public class MiBandFWHelper {
     private final ContentResolver cr;
     private byte[] fw;
 
-    private final int firmwareVersionBuild = 1056;
-    private final int firmwareVersionRevision = 1057;
-    private final int firmwareVersionMinor = 1058;
-    private final int firmwareVersionMajor = 1059;
+    private final int offsetFirmwareVersionBuild = 1056;
+    private final int offsetFirmwareVersionRevision = 1057;
+    private final int offsetFirmwareVersionMinor = 1058;
+    private final int offsetFirmwareVersionMajor = 1059;
 
     /**
      * Provides a different notification API which is also used on Mi1A devices.
@@ -57,20 +58,38 @@ public class MiBandFWHelper {
 
         try (InputStream in = new BufferedInputStream(cr.openInputStream(uri))) {
             this.fw = FileUtils.readAll(in, 1024 * 1024); // 1 MB
-            if (fw.length <= firmwareVersionMajor || fw[firmwareVersionMajor] != 1) {
-                throw new IOException("Firmware major version should be 1, probably this isn't a MiBand firmware.");
+            if (fw.length <= offsetFirmwareVersionMajor) {
+                throw new IOException("This doesn't seem to be a Mi Band firmware, file size too small.");
             }
+            byte firmwareVersionMajor = fw[offsetFirmwareVersionMajor];
+            if (!isSupportedFirmwareVersionMajor(firmwareVersionMajor)) {
+                throw new IOException("Firmware major version not supported, either too new or this isn't a Mi Band firmware: " + firmwareVersionMajor);
+            }
+        } catch (IOException ex) {
+            throw ex; // pass through
         } catch (Exception e) {
             throw new IOException("Error reading firmware file: " + uri.toString(), e);
         }
     }
 
+    private byte getFirmwareVersionMajor() {
+        return fw[offsetFirmwareVersionMajor];
+    }
+
+    private byte getFirmwareVersionMinor() {
+        return fw[offsetFirmwareVersionMinor];
+    }
+
+    private boolean isSupportedFirmwareVersionMajor(byte firmwareVersionMajor) {
+        return firmwareVersionMajor == 1 || firmwareVersionMajor == 5;
+    }
+
     public int getFirmwareVersion() {
-        return (fw[firmwareVersionMajor] << 24) | (fw[firmwareVersionMinor] << 16) | (fw[firmwareVersionRevision] << 8) | fw[firmwareVersionBuild];
+        return (fw[offsetFirmwareVersionMajor] << 24) | (fw[offsetFirmwareVersionMinor] << 16) | (fw[offsetFirmwareVersionRevision] << 8) | fw[offsetFirmwareVersionBuild];
     }
 
     public String getHumanFirmwareVersion() {
-        return String.format(Locale.US, "%d.%d.%d.%d", fw[firmwareVersionMajor], fw[firmwareVersionMinor], fw[firmwareVersionRevision], fw[firmwareVersionBuild]);
+        return String.format(Locale.US, "%d.%d.%d.%d", fw[offsetFirmwareVersionMajor], fw[offsetFirmwareVersionMinor], fw[offsetFirmwareVersionRevision], fw[offsetFirmwareVersionBuild]);
     }
 
     public byte[] getFw() {
@@ -82,6 +101,17 @@ public class MiBandFWHelper {
             if (wlf == getFirmwareVersion()) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    public boolean isFirmwareGenerallyCompatibleWith(GBDevice device) {
+        String deviceHW = device.getHardwareVersion();
+        if (MiBandConst.MI_1.equals(deviceHW)) {
+            return getFirmwareVersionMajor() == 1;
+        }
+        if (MiBandConst.MI_1A.equals(deviceHW)) {
+            return getFirmwareVersionMajor() == 5;
         }
         return false;
     }

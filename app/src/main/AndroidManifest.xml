@@ -73,11 +73,8 @@
         </activity>
         <activity
             android:name=".activities.FwAppInstallerActivity"
-            android:label="@string/title_activity_fw_app_insaller">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.ControlCenter" />
-
+            android:label="@string/title_activity_fw_app_insaller"
+            android:parentActivityName=".activities.ControlCenter">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />

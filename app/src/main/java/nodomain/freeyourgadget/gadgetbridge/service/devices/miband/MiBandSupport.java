@@ -687,16 +687,17 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         if (status == BluetoothGatt.GATT_SUCCESS) {
             mDeviceInfo = new DeviceInfo(value);
             LOG.warn("Device info: " + mDeviceInfo);
+            versionCmd.hwVersion = mDeviceInfo.getHwVersion();
             versionCmd.fwVersion = mDeviceInfo.getHumanFirmwareVersion();
             handleGBDeviceEvent(versionCmd);
         }
     }
 
     private void handleDeviceName(byte[] value, int status) {
-        if (status == BluetoothGatt.GATT_SUCCESS) {
-            versionCmd.hwVersion = new String(value);
-            handleGBDeviceEvent(versionCmd);
-        }
+//        if (status == BluetoothGatt.GATT_SUCCESS) {
+//            versionCmd.hwVersion = new String(value);
+//            handleGBDeviceEvent(versionCmd);
+//        }
     }
 
     /**

@@ -25,6 +25,9 @@ public final class MiBandConst {
     public static final String ORIGIN_K9MAIL = "k9mail";
     public static final String ORIGIN_PEBBLEMSG = "pebblemsg";
     public static final String ORIGIN_GENERIC = "generic";
+    public static final String MI_1 = "1";
+    public static final String MI_1A = "1A";
+    public static final String MI_1S = "1S";
 
     public static int getNotificationPrefIntValue(String pref, String origin, SharedPreferences prefs, int defaultValue) {
         String key = getNotificationPrefKey(pref, origin);

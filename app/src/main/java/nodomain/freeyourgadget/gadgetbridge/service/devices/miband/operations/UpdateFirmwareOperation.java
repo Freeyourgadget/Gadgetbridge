@@ -15,7 +15,6 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
@@ -38,9 +37,6 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
 
     @Override
     protected void doPerform() throws IOException {
-        if (getSupport().getDeviceInfo().isMili1A()) {
-            throw new IOException("Firmware update is not supported for the Mi Band 1A, yet.");
-        }
         MiBandFWHelper mFwHelper = new MiBandFWHelper(uri, getContext());
         String mMac = getDevice().getAddress();
         String[] mMacOctets = mMac.split(":");

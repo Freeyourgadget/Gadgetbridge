@@ -210,4 +210,6 @@
     <string name="device_not_connected">Not connected.</string>
     <string name="user_feedback_all_alarms_disabled">All alarms disabled</string>
     <string name="pref_title_keep_data_on_device">Keep activity data on device</string>
+    <string name="miband_fwinstaller_incompatible_version">Incompatible firmware</string>
+    <string name="fwinstaller_firmware_not_compatible_to_device">This firmware is not compatible with the device</string>
 </resources>
