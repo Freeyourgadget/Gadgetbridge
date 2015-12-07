@@ -51,14 +51,17 @@ public class GB {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
                 notificationIntent, 0);
 
-        return new NotificationCompat.Builder(context)
-                .setVisibility(Notification.VISIBILITY_PUBLIC)
-                .setContentTitle(context.getString(R.string.app_name))
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        builder.setContentTitle(context.getString(R.string.app_name))
                 .setTicker(text)
                 .setContentText(text)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentIntent(pendingIntent)
-                .setOngoing(true).build();
+                .setOngoing(true);
+        if (GBApplication.isRunningLollipopOrLater()) {
+            builder.setVisibility(Notification.VISIBILITY_PUBLIC);
+        }
+        return builder.build();
     }
 
     public static void updateNotification(String text, Context context) {
