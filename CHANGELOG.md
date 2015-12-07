@@ -1,6 +1,7 @@
 ###Changelog
 
 ####Next Version
+* Pebble: Increase maximum notification body length from 255 to 512 bytes on firmware 3.x
 
 ####Version 0.6.8
 * Mi Band support for Firmware upgrade/downgrade on Mi Band 1A (white LEDs, no heartrate sensor)

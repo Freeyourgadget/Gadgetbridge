@@ -759,7 +759,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 }
 
                 int partlength = s.getBytes().length;
-                if (partlength > 255) partlength = 255;
+                if (partlength > 512) partlength = 512;
                 buf.put(attribute_id);
                 buf.putShort((short) partlength);
                 buf.put(s.getBytes(), 0, partlength);
