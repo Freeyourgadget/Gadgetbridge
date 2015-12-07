@@ -45,31 +45,23 @@
         </activity>
         <activity
             android:name=".activities.SettingsActivity"
-            android:label="@string/title_activity_settings">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.ControlCenter" />
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".activities.ControlCenter">
         </activity>
         <activity
             android:name=".devices.miband.MiBandPreferencesActivity"
-            android:label="@string/preferences_miband_settings">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.SettingsActivity" />
+            android:label="@string/preferences_miband_settings"
+            android:parentActivityName=".activities.SettingsActivity">
         </activity>
         <activity
             android:name=".activities.AppManagerActivity"
-            android:label="@string/title_activity_appmanager">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.ControlCenter" />
+            android:label="@string/title_activity_appmanager"
+            android:parentActivityName=".activities.ControlCenter">
         </activity>
         <activity
             android:name=".activities.AppBlacklistActivity"
-            android:label="@string/title_activity_appblacklist">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.SettingsActivity" />
+            android:label="@string/title_activity_appblacklist"
+            android:parentActivityName=".activities.SettingsActivity">
         </activity>
         <activity
             android:name=".activities.FwAppInstallerActivity"
@@ -229,17 +221,13 @@
 
         <activity
             android:name=".activities.DebugActivity"
-            android:label="@string/title_activity_debug">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.ControlCenter" />
+            android:label="@string/title_activity_debug"
+            android:parentActivityName=".activities.ControlCenter">
         </activity>
         <activity
             android:name=".activities.DiscoveryActivity"
-            android:label="@string/title_activity_discovery">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.ControlCenter" />
+            android:label="@string/title_activity_discovery"
+            android:parentActivityName=".activities.ControlCenter">
         </activity>
         <activity
             android:name=".activities.AndroidPairingActivity"
@@ -251,25 +239,16 @@
             android:name=".activities.charts.ChartsActivity"
             android:label="@string/title_activity_charts"
             android:parentActivityName=".activities.ControlCenter">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.ControlCenter" />
         </activity>
         <activity
             android:name=".activities.ConfigureAlarms"
             android:label="@string/title_activity_set_alarm"
             android:parentActivityName=".activities.SettingsActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.SettingsActivity" />
         </activity>
         <activity
             android:name=".activities.AlarmDetails"
             android:label="@string/title_activity_alarm_details"
             android:parentActivityName=".activities.ConfigureAlarms">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms" />
         </activity>
     </application>
 
