@@ -12,7 +12,7 @@ android {
         applicationId "nodomain.freeyourgadget.gadgetbridge"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 33
+        versionCode 34
         versionName "0.6.8"
     }
     buildTypes {
