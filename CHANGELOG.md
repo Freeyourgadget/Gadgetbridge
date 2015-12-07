@@ -1,6 +1,9 @@
 ###Changelog
 
 ####Next Version
+
+####Version 0.6.8
+* Mi Band support for Firmware upgrade/downgrade on Mi Band 1A (white LEDs, no heartrate sensor)
 * Pebble: fix regression in 0.6.7 when installing pbw/pbz files from content providers (eg. download manager)
 * Pebble: fix installation of pbw files on firmware 3.x when using content providers (eg. download manager)   
 * Pebble: fix crash on firmware 3.x when pebble requests a pbw that is not in Gadgetbridge's cache 
