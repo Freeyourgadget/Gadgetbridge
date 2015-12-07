@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,19 +81,30 @@ public class AppManagerActivity extends Activity {
 
     private List<GBDeviceApp> getCachedApps() {
         List<GBDeviceApp> cachedAppList = new ArrayList<>();
+        File cachePath;
         try {
-            File cachePath = new File(FileUtils.getExternalFilesDir().getPath() + "/pbw-cache");
-            File files[] = cachePath.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    if (file.getName().endsWith(".pbw")) {
-                        UUID uuid = UUID.fromString(file.getName().substring(0, file.getName().length() - 4));
-                        cachedAppList.add(new GBDeviceApp(uuid, uuid.toString(), "N/A", "", GBDeviceApp.Type.UNKNOWN));
+            cachePath = new File(FileUtils.getExternalFilesDir().getPath() + "/pbw-cache");
+        } catch (IOException e) {
+            LOG.warn("could not get external dir while reading pbw cache.");
+            return cachedAppList;
+        }
+
+        File files[] = cachePath.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.getName().endsWith(".pbw")) {
+                    String baseName = file.getName().substring(0, file.getName().length() - 4);
+                    File jsonFile = new File(cachePath, baseName + ".json");
+                    try {
+                        String jsonstring = FileUtils.getStringFromFile(jsonFile);
+                        JSONObject json = new JSONObject(jsonstring);
+                        cachedAppList.add(new GBDeviceApp(json));
+                    } catch (Exception e) {
+                        LOG.warn("could not read json file for " + baseName, e.getMessage(), e);
+                        cachedAppList.add(new GBDeviceApp(UUID.fromString(baseName), baseName, "N/A", "", GBDeviceApp.Type.UNKNOWN));
                     }
                 }
             }
-        } catch (IOException e) {
-            LOG.error("Error getting cached apps: " + e.getMessage(), e);
         }
         return cachedAppList;
     }

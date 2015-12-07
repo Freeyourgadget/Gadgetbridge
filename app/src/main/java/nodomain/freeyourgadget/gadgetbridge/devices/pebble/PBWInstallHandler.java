@@ -6,9 +6,12 @@ import android.net.Uri;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.InstallActivity;
@@ -115,13 +118,31 @@ public class PBWInstallHandler implements InstallHandler {
             return;
         }
 
+        File destDir;
         GBDeviceApp app = mPBWReader.getGBDeviceApp();
         try {
-            File destDir = new File(FileUtils.getExternalFilesDir() + "/pbw-cache");
+            destDir = new File(FileUtils.getExternalFilesDir() + "/pbw-cache");
             destDir.mkdirs();
-            FileUtils.copyURItoFile(mContext, mUri, new File(destDir + "/" + app.getUUID().toString() + ".pbw"));
+            FileUtils.copyURItoFile(mContext, mUri, new File(destDir, app.getUUID().toString() + ".pbw"));
         } catch (IOException e) {
             LOG.error("Installation failed: " + e.getMessage(), e);
+            return;
+        }
+
+        File outputFile = new File(destDir, app.getUUID().toString() + ".json");
+        Writer writer;
+        try {
+            writer = new BufferedWriter(new FileWriter(outputFile));
+        } catch (IOException e) {
+            LOG.error("Failed to open output file: " + e.getMessage(), e);
+            return;
+        }
+        try {
+            LOG.info(app.getJSON().toString());
+            writer.write(app.getJSON().toString());
+            writer.close();
+        } catch (IOException e) {
+            LOG.error("Failed to write to output file: " + e.getMessage(), e);
         }
     }
 
