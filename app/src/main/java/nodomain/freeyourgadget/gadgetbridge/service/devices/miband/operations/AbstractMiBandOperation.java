@@ -43,7 +43,7 @@ public abstract class AbstractMiBandOperation extends AbstractBTLEOperation<MiBa
      * @param builder
      * @param enable true to enable, false to disable the other notifications
      */
-    private void enableOtherNotifications(TransactionBuilder builder, boolean enable) {
+    protected void enableOtherNotifications(TransactionBuilder builder, boolean enable) {
         builder.notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS), enable)
                 .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_SENSOR_DATA), enable);
     }
