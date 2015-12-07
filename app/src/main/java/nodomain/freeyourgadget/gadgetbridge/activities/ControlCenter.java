@@ -45,9 +45,6 @@ public class ControlCenter extends Activity {
 
     private static final Logger LOG = LoggerFactory.getLogger(ControlCenter.class);
 
-    public static final String ACTION_QUIT
-            = "nodomain.freeyourgadget.gadgetbridge.controlcenter.action.quit";
-
     public static final String ACTION_REFRESH_DEVICELIST
             = "nodomain.freeyourgadget.gadgetbridge.controlcenter.action.set_version";
 
@@ -63,7 +60,7 @@ public class ControlCenter extends Activity {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             switch (action) {
-                case ACTION_QUIT:
+                case GBApplication.ACTION_QUIT:
                     finish();
                     break;
                 case ACTION_REFRESH_DEVICELIST:
@@ -155,7 +152,7 @@ public class ControlCenter extends Activity {
         registerForContextMenu(deviceListView);
 
         IntentFilter filterLocal = new IntentFilter();
-        filterLocal.addAction(ACTION_QUIT);
+        filterLocal.addAction(GBApplication.ACTION_QUIT);
         filterLocal.addAction(ACTION_REFRESH_DEVICELIST);
         filterLocal.addAction(GBDevice.ACTION_DEVICE_CHANGED);
         filterLocal.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
@@ -316,7 +313,7 @@ public class ControlCenter extends Activity {
             case R.id.action_quit:
                 GBApplication.deviceService().quit();
 
-                Intent quitIntent = new Intent(ControlCenter.ACTION_QUIT);
+                Intent quitIntent = new Intent(GBApplication.ACTION_QUIT);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(quitIntent);
                 return true;
             case R.id.action_discover:

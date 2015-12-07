@@ -49,7 +49,7 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (action.equals(ControlCenter.ACTION_QUIT)) {
+            if (action.equals(GBApplication.ACTION_QUIT)) {
                 finish();
             } else if (action.equals(GBDevice.ACTION_DEVICE_CHANGED)) {
                 device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
@@ -116,7 +116,7 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
         mProgressBar = (ProgressBar) findViewById(R.id.installProgressBar);
         setInstallEnabled(false);
         IntentFilter filter = new IntentFilter();
-        filter.addAction(ControlCenter.ACTION_QUIT);
+        filter.addAction(GBApplication.ACTION_QUIT);
         filter.addAction(GBDevice.ACTION_DEVICE_CHANGED);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
 

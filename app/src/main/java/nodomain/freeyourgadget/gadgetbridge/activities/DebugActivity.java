@@ -53,7 +53,7 @@ public class DebugActivity extends Activity {
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(ControlCenter.ACTION_QUIT)) {
+            if (intent.getAction().equals(GBApplication.ACTION_QUIT)) {
                 finish();
             }
         }
@@ -65,7 +65,7 @@ public class DebugActivity extends Activity {
         setContentView(R.layout.activity_debug);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        registerReceiver(mReceiver, new IntentFilter(ControlCenter.ACTION_QUIT));
+        registerReceiver(mReceiver, new IntentFilter(GBApplication.ACTION_QUIT));
 
         editContent = (EditText) findViewById(R.id.editContent);
         sendSMSButton = (Button) findViewById(R.id.sendSMSButton);

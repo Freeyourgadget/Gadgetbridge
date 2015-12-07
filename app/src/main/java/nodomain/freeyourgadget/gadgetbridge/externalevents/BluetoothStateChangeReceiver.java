@@ -31,7 +31,7 @@ public class BluetoothStateChangeReceiver extends BroadcastReceiver {
             } else if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF) {
                 GBApplication.deviceService().quit();
 
-                Intent quitIntent = new Intent(ControlCenter.ACTION_QUIT);
+                Intent quitIntent = new Intent(GBApplication.ACTION_QUIT);
 
                 LocalBroadcastManager.getInstance(context).sendBroadcast(quitIntent);
             }

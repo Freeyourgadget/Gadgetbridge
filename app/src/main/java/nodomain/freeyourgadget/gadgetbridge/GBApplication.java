@@ -1,11 +1,16 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
 import android.app.Application;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Build.VERSION;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import org.slf4j.Logger;
@@ -20,6 +25,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
@@ -37,6 +43,24 @@ public class GBApplication extends Application {
     private static final Lock dbLock = new ReentrantLock();
     private static DeviceService deviceService;
     private static SharedPreferences sharedPrefs;
+
+    public static final String ACTION_QUIT
+            = "nodomain.freeyourgadget.gadgetbridge.gbapplication.action.quit";
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            switch (action) {
+                case ACTION_QUIT:
+                    quit();
+                    break;
+            }
+        }
+    };
+
+    private void quit() {
+        GB.removeAllNotifications(this);
+    }
 
     public GBApplication() {
         context = this;
@@ -68,6 +92,11 @@ public class GBApplication extends Application {
         GB.environment = GBEnvironment.createDeviceEnvironment();
         mActivityDatabaseHandler = new ActivityDatabaseHandler(context);
         loadBlackList();
+
+        IntentFilter filterLocal = new IntentFilter();
+        filterLocal.addAction(ACTION_QUIT);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
+
 // for testing DB stuff
 //        SQLiteDatabase db = mActivityDatabaseHandler.getWritableDatabase();
 //        db.close();

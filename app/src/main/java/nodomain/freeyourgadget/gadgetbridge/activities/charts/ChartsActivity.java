@@ -32,7 +32,6 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractFragmentPagerAdapter;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBFragmentActivity;
-import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
@@ -85,7 +84,7 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             switch (action) {
-                case ControlCenter.ACTION_QUIT:
+                case GBApplication.ACTION_QUIT:
                     finish();
                     break;
                 case GBDevice.ACTION_DEVICE_CHANGED:
@@ -119,7 +118,7 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         initDates();
 
         IntentFilter filterLocal = new IntentFilter();
-        filterLocal.addAction(ControlCenter.ACTION_QUIT);
+        filterLocal.addAction(GBApplication.ACTION_QUIT);
         filterLocal.addAction(GBDevice.ACTION_DEVICE_CHANGED);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
 

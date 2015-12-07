@@ -39,7 +39,7 @@ public class AppBlacklistActivity extends Activity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (action.equals(ControlCenter.ACTION_QUIT)) {
+            if (action.equals(GBApplication.ACTION_QUIT)) {
                 finish();
             }
         }
@@ -99,7 +99,7 @@ public class AppBlacklistActivity extends Activity {
         });
 
         IntentFilter filter = new IntentFilter();
-        filter.addAction(ControlCenter.ACTION_QUIT);
+        filter.addAction(GBApplication.ACTION_QUIT);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
     }

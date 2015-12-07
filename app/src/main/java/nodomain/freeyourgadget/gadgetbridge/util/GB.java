@@ -266,6 +266,12 @@ public class GB {
         return nb.build();
     }
 
+    public static void removeAllNotifications(Context context) {
+        removeNotification(NOTIFICATION_ID_TRANSFER, context);
+        removeNotification(NOTIFICATION_ID_INSTALL, context);
+        removeNotification(NOTIFICATION_ID_LOW_BATTERY, context);
+    }
+
     public static void updateTransferNotification(String text, boolean ongoing, int percentage, Context context) {
         if (percentage == 100) {
             removeNotification(NOTIFICATION_ID_TRANSFER, context);
