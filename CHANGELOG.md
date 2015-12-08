@@ -7,6 +7,11 @@
 * Pebble: Correct setting the timezone on firmware 3.x (pebble expects the "ID" eg. Europe/Berlin)
 * Pebble: Show correct icon for activity tracker and watchfaces in app installer (language and fw icons still missing)
 * Pebble: Fix crash when trying to install files though a file manager which are located inside the pbw-cache on firmware 3.x
+* Support for deleting all activity data (in the 'Debug' screen)
+* Don't pop up the virtual keyboard when entering the Debug screen
+* Remove all pending notifications on quit
+* Mi Band: KitKat: hopefully fixed showing the progress bar during activity data synchronization (#155)
+* Mi Band 1S: hopefully fixed connection errors (#178) Notifications probably do not work yet, though
 
 ####Version 0.6.8
 * Mi Band support for Firmware upgrade/downgrade on Mi Band 1A (white LEDs, no heartrate sensor)
