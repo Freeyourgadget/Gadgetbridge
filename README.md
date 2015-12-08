@@ -28,7 +28,7 @@ need to create an account and transmit any of your data to the vendor's servers.
 * List and remove installed apps/watchfaces
 * Install watchfaces and watchapps (.pbw)
 * Install firwmare files (.pbz) [READ THE WIKI](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble-Firmware-updates)
-* Install language files (.pbl) (currently on Firmware 2.x only)
+* Install language files (.pbl)
 * Take and share screenshots from the Pebble's screen
 * PebbleKit support for 3rd Party Android Apps support (experimental) 
 * Morpheuz sleep data syncronization (experimental)
@@ -36,15 +36,11 @@ need to create an account and transmit any of your data to the vendor's servers.
 
 ## Notes about Firmware 3.x (Pebble Time, updated OG)
 
-All above features are also supported on Firmware 3.x, except for the following:
-
-* Listing installed watchfaces (it will simply display the UUIDs of previously installed watchapps, no matter if they are still installed or not)
-* Installation of language files (.pbl) is not supported.
-
-You should also disable the "Stand-By-Mode" introduced in firmware 3.4.
-According to pebble, This mode will disable bluetooth automatically when the
+* Listing installed watchfaces will simply display previously installed watchapps, no matter if they are still installed or not.
+* You should disable the "Stand-By-Mode" introduced in firmware 3.4.
+According to pebble, this mode will disable bluetooth automatically when the
 pebble does not sense motion for about 30 minutes, and then re-enable it if it
-senses motion again. We do not support initiation connections from the pebble
+senses motion again. We do not support initiating connections from the pebble
 yet, so this will leave you pebble disconnected until you connect it again
 manually, and/or use even more energy by triggering a reconnect from
 Gadgetbridge.
