@@ -110,7 +110,7 @@ public class PBWInstallHandler implements InstallHandler {
 
     @Override
     public void onStartInstall(GBDevice device) {
-        if (mPBWReader.isFirmware()) {
+        if (mPBWReader.isFirmware() || mPBWReader.isLanguage()) {
             return;
         }
 

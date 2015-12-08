@@ -1,8 +1,9 @@
 ###Changelog
 
 ####Next Version
-* Pebble: store app details in pbw-cache and display them in app manager on firmware 3.x 
+* Pebble: Store app details in pbw-cache and display them in app manager on firmware 3.x 
 * Pebble: Increase maximum notification body length from 255 to 512 bytes on firmware 3.x
+* Pebble: Support installing .pbl (language files) on firmware 3.x
 
 ####Version 0.6.8
 * Mi Band support for Firmware upgrade/downgrade on Mi Band 1A (white LEDs, no heartrate sensor)

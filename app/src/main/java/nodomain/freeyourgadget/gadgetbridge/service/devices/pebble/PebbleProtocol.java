@@ -1029,7 +1029,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     /* pebble specific install methods */
     public byte[] encodeUploadStart(byte type, int app_id, int size, String filename) {
         short length;
-        if (isFw3x) {
+        if (isFw3x && (type != PUTBYTES_TYPE_FILE)) {
             length = LENGTH_UPLOADSTART_3X;
             type |= 0b10000000;
         } else {
@@ -1048,7 +1048,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putInt(size);
         buf.put(type);
 
-        if (isFw3x) {
+        if (isFw3x && (type != PUTBYTES_TYPE_FILE)) {
             buf.putInt(app_id);
         } else {
             // slot

@@ -64,7 +64,7 @@ public class PBWReader {
 
         InputStream fin = new BufferedInputStream(cr.openInputStream(uri));
 
-        if (uri.toString().endsWith(".pbl") && platform.equals("aplite")) {
+        if (uri.toString().endsWith(".pbl")) {
             STM32CRC stm32crc = new STM32CRC();
             try {
                 byte[] buf = new byte[2000];

@@ -581,7 +581,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
             writeInstallApp(mPebbleProtocol.encodeGetTime());
         } else {
             GBDeviceApp app = mPBWReader.getGBDeviceApp();
-            if (mPebbleProtocol.isFw3x) {
+            if (mPebbleProtocol.isFw3x && !mPBWReader.isLanguage()) {
                 if (appId == 0) {
                     // only install metadata - not the binaries
                     write(mPebbleProtocol.encodeInstallMetadata(app.getUUID(), app.getName(), mPBWReader.getAppVersion(), mPBWReader.getSdkVersion(), mPBWReader.getFlags(), mPBWReader.getIconId()));
