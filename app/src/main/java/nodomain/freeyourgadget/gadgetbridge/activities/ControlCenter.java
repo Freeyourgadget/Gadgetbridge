@@ -193,12 +193,10 @@ public class ControlCenter extends Activity {
         getMenuInflater().inflate(R.menu.controlcenter_context, menu);
 
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(selectedDevice);
-        if (!selectedDevice.isConnected() || !coordinator.supportsActivityDataFetching()) {
+        if (!coordinator.supportsActivityDataFetching()) {
             menu.removeItem(R.id.controlcenter_fetch_activity_data);
-            menu.removeItem(R.id.controlcenter_configure_alarms);
         }
-
-        if (!selectedDevice.isConnected() || !coordinator.supportsScreenshots()) {
+        if (!coordinator.supportsScreenshots()) {
             menu.removeItem(R.id.controlcenter_take_screenshot);
         }
 
@@ -207,6 +205,9 @@ public class ControlCenter extends Activity {
         }
         if (!selectedDevice.isInitialized()) {
             menu.removeItem(R.id.controlcenter_find_device);
+            menu.removeItem(R.id.controlcenter_fetch_activity_data);
+            menu.removeItem(R.id.controlcenter_configure_alarms);
+            menu.removeItem(R.id.controlcenter_take_screenshot);
         }
 
         menu.setHeaderTitle(selectedDevice.getName());
