@@ -48,6 +48,10 @@ public class FileUtils {
     }
 
     public static void copyURItoFile(Context ctx, Uri uri, File destFile) throws IOException {
+        if (uri.getPath().equals(destFile.getPath())) {
+            return;
+        }
+
         ContentResolver cr = ctx.getContentResolver();
         InputStream fin;
         try {

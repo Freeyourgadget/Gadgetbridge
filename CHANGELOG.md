@@ -6,6 +6,7 @@
 * Pebble: Support installing .pbl (language files) on firmware 3.x
 * Pebble: Correct setting the timezone on firmware 3.x (pebble expects the "ID" eg. Europe/Berlin)
 * Pebble: Show correct icon for activity tracker and watchfaces in app installer (language and fw icons still missing)
+* Pebble: Fix crash when trying to install files though a file manager which are located inside the pbw-cache on firmware 3.x
 
 ####Version 0.6.8
 * Mi Band support for Firmware upgrade/downgrade on Mi Band 1A (white LEDs, no heartrate sensor)
