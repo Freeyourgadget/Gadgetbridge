@@ -5,6 +5,7 @@
 * Pebble: Increase maximum notification body length from 255 to 512 bytes on firmware 3.x
 * Pebble: Support installing .pbl (language files) on firmware 3.x
 * Pebble: Correct setting the timezone on firmware 3.x (pebble expects the "ID" eg. Europe/Berlin)
+* Pebble: Show correct icon for activity tracker and watchfaces in app installer (language and fw icons still missing)
 
 ####Version 0.6.8
 * Mi Band support for Firmware upgrade/downgrade on Mi Band 1A (white LEDs, no heartrate sensor)

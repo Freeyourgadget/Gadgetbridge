@@ -95,6 +95,19 @@ public class PBWInstallHandler implements InstallHandler {
             if (app != null) {
                 installItem.setName(app.getName());
                 installItem.setDetails(mContext.getString(R.string.pbwinstallhandler_app_item, app.getCreator(), app.getVersion()));
+                int drawable;
+                switch (app.getType()) {
+                    case WATCHFACE:
+                        drawable = R.drawable.ic_watchface;
+                        break;
+                    case APP_ACTIVITYTRACKER:
+                        drawable = R.drawable.ic_activitytracker;
+                        break;
+                    default:
+                        drawable = R.drawable.ic_device_pebble;
+                }
+                installItem.setIcon(drawable);
+
                 installActivity.setInfoText(mContext.getString(R.string.app_install_info, app.getName(), app.getVersion(), app.getCreator()));
                 installActivity.setInstallEnabled(true);
             } else {
