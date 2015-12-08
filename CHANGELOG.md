@@ -1,6 +1,6 @@
 ###Changelog
 
-####Next Version
+####Version 0.6.9
 * Pebble: Store app details in pbw-cache and display them in app manager on firmware 3.x 
 * Pebble: Increase maximum notification body length from 255 to 512 bytes on firmware 3.x
 * Pebble: Support installing .pbl (language files) on firmware 3.x
