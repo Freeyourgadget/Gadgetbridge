@@ -222,7 +222,8 @@
         <activity
             android:name=".activities.DebugActivity"
             android:label="@string/title_activity_debug"
-            android:parentActivityName=".activities.ControlCenter">
+            android:parentActivityName=".activities.ControlCenter"
+            android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
             android:name=".activities.DiscoveryActivity"
