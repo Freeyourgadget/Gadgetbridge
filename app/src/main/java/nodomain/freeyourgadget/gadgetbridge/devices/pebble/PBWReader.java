@@ -120,11 +120,17 @@ public class PBWReader {
             }
         }
 
+        String appName = null;
+        String appCreator = null;
+        String appVersion = null;
+        UUID appUUID = null;
+
         ZipInputStream zis = new ZipInputStream(fin);
         ZipEntry ze;
         pebbleInstallables = new ArrayList<>();
         byte[] buffer = new byte[1024];
         int count;
+
         try {
             while ((ze = zis.getNextEntry()) != null) {
                 String fileName = ze.getName();
@@ -186,15 +192,10 @@ public class PBWReader {
                     String jsonString = baos.toString();
                     try {
                         JSONObject json = new JSONObject(jsonString);
-                        String appName = json.getString("shortName");
-                        String appCreator = json.getString("companyName");
-                        String appVersion = json.getString("versionLabel");
-                        UUID uuid = UUID.fromString(json.getString("uuid"));
-                        if (appName != null && appCreator != null && appVersion != null) {
-                            // FIXME: dont assume WATCHFACE
-                            app = new GBDeviceApp(uuid, appName, appCreator, appVersion, GBDeviceApp.Type.WATCHFACE);
-                        }
-
+                        appName = json.getString("shortName");
+                        appCreator = json.getString("companyName");
+                        appVersion = json.getString("versionLabel");
+                        appUUID = UUID.fromString(json.getString("uuid"));
                     } catch (JSONException e) {
                         isValid = false;
                         e.printStackTrace();
@@ -223,6 +224,16 @@ public class PBWReader {
                 }
             }
             zis.close();
+            if (appUUID != null && appName != null && appCreator != null && appVersion != null) {
+                GBDeviceApp.Type appType = GBDeviceApp.Type.APP_GENERIC;
+
+                if ((mFlags & 16) == 16) {
+                    appType = GBDeviceApp.Type.APP_ACTIVITYTRACKER;
+                } else if ((mFlags & 1) == 1) {
+                    appType = GBDeviceApp.Type.WATCHFACE;
+                }
+                app = new GBDeviceApp(appUUID, appName, appCreator, appVersion, appType);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
