@@ -1,10 +1,12 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -48,8 +50,9 @@ public class DebugActivity extends Activity {
     private Button rebootButton;
     private Button exportDBButton;
     private Button importDBButton;
-    private EditText editContent;
+    private Button deleteDBButton;
 
+    private EditText editContent;
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -151,6 +154,14 @@ public class DebugActivity extends Activity {
             }
         });
 
+        deleteDBButton = (Button) findViewById(R.id.emptyDBButton);
+        deleteDBButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteActivityDatabase();
+            }
+        });
+
         rebootButton = (Button) findViewById(R.id.rebootButton);
         rebootButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,6 +233,29 @@ public class DebugActivity extends Activity {
                 dbHandler.release();
             }
         }
+    }
+
+    private void deleteActivityDatabase() {
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setCancelable(true)
+                .setTitle("Delete Activity Data?")
+                .setMessage("Really delete the entire activity database? All your activity data will be lost.")
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (GBApplication.deleteActivityDatabase()) {
+                            GB.toast(DebugActivity.this, "Activity database successfully deleted.", Toast.LENGTH_SHORT, GB.INFO);
+                        } else {
+                            GB.toast(DebugActivity.this, "Activity database deletion failed.", Toast.LENGTH_SHORT, GB.INFO);
+                        }
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .show();
     }
 
     private void testNotification() {

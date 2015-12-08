@@ -24,6 +24,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBConstants;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
@@ -221,5 +222,19 @@ public class GBApplication extends Application {
     public static synchronized void removeFromBlacklist(String packageName) {
         blacklist.remove(packageName);
         saveBlackList();
+    }
+
+    /**
+     * Deletes the entire Activity database and recreates it with empty tables.
+     * @return true on successful deletion
+     */
+    public static synchronized boolean deleteActivityDatabase() {
+        if (mActivityDatabaseHandler != null) {
+            mActivityDatabaseHandler.close();
+            mActivityDatabaseHandler = null;
+        }
+        boolean result = getContext().deleteDatabase(DBConstants.DATABASE_NAME);
+        mActivityDatabaseHandler = new ActivityDatabaseHandler(getContext());
+        return result;
     }
 }
