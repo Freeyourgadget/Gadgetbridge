@@ -439,8 +439,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
         long ts_offset = (SimpleTimeZone.getDefault().getOffset(ts));
         ByteBuffer buf;
         if (isFw3x) {
-            String timezone = SimpleTimeZone.getDefault().getDisplayName(false, SimpleTimeZone.SHORT);
-            short length = (short) (LENGTH_SETTIME + timezone.length() + 3);
+            String timezone = SimpleTimeZone.getDefault().getID();
+            short length = (short) (LENGTH_SETTIME + timezone.getBytes().length + 3);
             buf = ByteBuffer.allocate(LENGTH_PREFIX + length);
             buf.order(ByteOrder.BIG_ENDIAN);
             buf.putShort(length);
@@ -448,7 +448,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             buf.put(TIME_SETTIME_UTC);
             buf.putInt((int) (ts / 1000));
             buf.putShort((short) (ts_offset / 60000));
-            buf.put((byte) timezone.length());
+            buf.put((byte) timezone.getBytes().length);
             buf.put(timezone.getBytes());
             LOG.info(timezone);
         } else {
