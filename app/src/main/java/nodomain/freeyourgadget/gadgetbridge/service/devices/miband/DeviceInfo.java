@@ -73,6 +73,8 @@ public class DeviceInfo extends AbstractInfo {
                 ", profileVersion=" + profileVersion +
                 ", fwVersion=" + fwVersion +
                 ", hwVersion=" + hwVersion +
+                ", feature=" + feature +
+                ", appearance=" + appearance +
                 '}';
     }
 
@@ -85,7 +87,8 @@ public class DeviceInfo extends AbstractInfo {
     }
 
     public boolean isMilli1S() {
-        return false; // FIXME: what to do here?
+        // TODO: this is probably not quite correct, but hopefully sufficient for early 1S support
+        return feature == 4 && appearance == 0 || feature == 4 && hwVersion == 4;
     }
 
     public String getHwVersion() {
