@@ -171,6 +171,10 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     private NotificationStrategy getNotificationStrategy() {
+        if (mDeviceInfo == null) {
+            // not initialized yet?
+            return new NoNotifcationStrategy();
+        }
         if (mDeviceInfo.getFirmwareVersion() < MiBandFWHelper.FW_16779790) {
             return new V1NotificationStrategy(this);
         } else {
