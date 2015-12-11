@@ -50,7 +50,7 @@ public class GBDeviceAppAdapter extends ArrayAdapter<GBDeviceApp> {
                 deviceImageView.setImageResource(R.drawable.ic_watchface);
                 break;
             default:
-                deviceImageView.setImageResource(R.drawable.ic_device_pebble);
+                deviceImageView.setImageResource(R.drawable.ic_watchapp);
         }
 
         return view;

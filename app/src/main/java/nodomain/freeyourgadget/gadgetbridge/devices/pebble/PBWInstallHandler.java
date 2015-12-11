@@ -72,9 +72,11 @@ public class PBWInstallHandler implements InstallHandler {
         }
 
         GenericItem installItem = new GenericItem();
-        installItem.setIcon(R.drawable.ic_device_pebble);
+        installItem.setIcon(R.drawable.ic_watchapp); // FIXME: do not set twice
 
         if (mPBWReader.isFirmware()) {
+            installItem.setIcon(R.drawable.ic_firmware);
+
             String hwRevision = mPBWReader.getHWRevision();
             if (hwRevision != null && hwRevision.equals(device.getHardwareVersion())) {
                 installItem.setName(mContext.getString(R.string.pbw_installhandler_pebble_firmware, ""));
@@ -96,15 +98,19 @@ public class PBWInstallHandler implements InstallHandler {
                 installItem.setName(app.getName());
                 installItem.setDetails(mContext.getString(R.string.pbwinstallhandler_app_item, app.getCreator(), app.getVersion()));
                 int drawable;
-                switch (app.getType()) {
-                    case WATCHFACE:
-                        drawable = R.drawable.ic_watchface;
-                        break;
-                    case APP_ACTIVITYTRACKER:
-                        drawable = R.drawable.ic_activitytracker;
-                        break;
-                    default:
-                        drawable = R.drawable.ic_device_pebble;
+                if (mPBWReader.isLanguage()) {
+                    drawable = R.drawable.ic_languagepack;
+                } else {
+                    switch (app.getType()) {
+                        case WATCHFACE:
+                            drawable = R.drawable.ic_watchface;
+                            break;
+                        case APP_ACTIVITYTRACKER:
+                            drawable = R.drawable.ic_activitytracker;
+                            break;
+                        default:
+                            drawable = R.drawable.ic_watchapp;
+                    }
                 }
                 installItem.setIcon(drawable);
 
