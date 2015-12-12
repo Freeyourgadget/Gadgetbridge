@@ -27,7 +27,7 @@ public class DeviceCommunicationServiceTestCase extends AbstractServiceTestCase<
         }
 
         @Override
-        public synchronized DeviceSupport createDeviceSupport(String deviceAddress) throws GBException {
+        public synchronized DeviceSupport createDeviceSupport(GBDevice device) throws GBException {
             return mockSupport;
         }
     }
@@ -62,7 +62,7 @@ public class DeviceCommunicationServiceTestCase extends AbstractServiceTestCase<
 
     @Test
     public void ensureConnected() {
-        mDeviceService.connect(TEST_DEVICE_ADDRESS);
+        mDeviceService.connect(realSupport.getDevice());
         Mockito.verify(mockSupport, Mockito.times(1)).connect();
         assertTrue(realSupport.getDevice().isInitialized());
     }

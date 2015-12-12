@@ -21,7 +21,6 @@ public class TestDeviceSupport extends AbstractDeviceSupport {
 
     @Override
     public void setContext(GBDevice gbDevice, BluetoothAdapter btAdapter, Context context) {
-        gbDevice = new GBDevice(getClass().getName(), "Test Device", DeviceType.TEST);
         super.setContext(gbDevice, btAdapter, context);
     }
 

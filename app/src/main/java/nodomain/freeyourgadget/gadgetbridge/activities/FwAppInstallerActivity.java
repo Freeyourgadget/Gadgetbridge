@@ -89,7 +89,7 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
 
     private void connect() {
         mayConnect = false; // only do that once per #onCreate
-        GBApplication.deviceService().connect(device != null ? device.getAddress() : null);
+        GBApplication.deviceService().connect(device);
     }
 
     private void validateInstallation() {

@@ -49,6 +49,13 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
+    public void connect(GBDevice device) {
+        Intent intent = createIntent().setAction(ACTION_CONNECT)
+                .putExtra(GBDevice.EXTRA_DEVICE, device);
+        invokeService(intent);
+    }
+
+    @Override
     public void connect(@Nullable String deviceAddress) {
         connect(deviceAddress, false);
     }

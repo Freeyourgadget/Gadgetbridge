@@ -35,6 +35,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CALLSTATE;
@@ -162,20 +163,26 @@ public class DeviceCommunicationService extends Service {
                 break;
             case ACTION_CONNECT:
                 start(); // ensure started
-                String btDeviceAddress = intent.getStringExtra(EXTRA_DEVICE_ADDRESS);
-                SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-                if (sharedPrefs != null) { // may be null in test cases
-                    if (btDeviceAddress == null) {
-                        btDeviceAddress = sharedPrefs.getString("last_device_address", null);
-                    } else {
-                        sharedPrefs.edit().putString("last_device_address", btDeviceAddress).apply();
+                GBDevice gbDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
+                if (gbDevice == null) {
+                    String btDeviceAddress = intent.getStringExtra(EXTRA_DEVICE_ADDRESS);
+                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+                    if (sharedPrefs != null) { // may be null in test cases
+                        if (btDeviceAddress == null) {
+                            btDeviceAddress = sharedPrefs.getString("last_device_address", null);
+                        } else {
+                            sharedPrefs.edit().putString("last_device_address", btDeviceAddress).apply();
+                        }
+                    }
+                    if (btDeviceAddress != null) {
+                        gbDevice = DeviceHelper.getInstance().findAvailableDevice(btDeviceAddress, this);
                     }
                 }
 
-                if (btDeviceAddress != null && !isConnecting() && !isConnected()) {
+                if (gbDevice != null && !isConnecting() && !isConnected()) {
                     setDeviceSupport(null);
                     try {
-                        DeviceSupport deviceSupport = mFactory.createDeviceSupport(btDeviceAddress);
+                        DeviceSupport deviceSupport = mFactory.createDeviceSupport(gbDevice);
                         if (deviceSupport != null) {
                             setDeviceSupport(deviceSupport);
                             if (pair) {

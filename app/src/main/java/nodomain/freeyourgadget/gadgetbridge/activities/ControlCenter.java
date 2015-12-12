@@ -136,7 +136,7 @@ public class ControlCenter extends Activity {
                         startActivity(startIntent);
                     }
                 } else {
-                    GBApplication.deviceService().connect(deviceList.get(position).getAddress());
+                    GBApplication.deviceService().connect(deviceList.get(position));
                 }
             }
         });
@@ -334,74 +334,27 @@ public class ControlCenter extends Activity {
     }
 
     private void refreshPairedDevices() {
+        Set<GBDevice> availableDevices = DeviceHelper.getInstance().getAvailableDevices(this);
+        deviceList.retainAll(availableDevices);
+        for (GBDevice availableDevice : availableDevices) {
+            if (!deviceList.contains(availableDevice)) {
+                deviceList.add(availableDevice);
+            }
+        }
         boolean connected = false;
-        List<GBDevice> availableDevices = new ArrayList<>();
         for (GBDevice device : deviceList) {
             if (device.isConnected() || device.isConnecting()) {
                 connected = true;
-                availableDevices.add(device);
+                break;
             }
         }
 
-        BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
-
-        if (btAdapter == null) {
-            Toast.makeText(this, R.string.bluetooth_is_not_supported_, Toast.LENGTH_SHORT).show();
-        } else if (!btAdapter.isEnabled()) {
-            Toast.makeText(this, R.string.bluetooth_is_disabled_, Toast.LENGTH_SHORT).show();
-        } else {
-            Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
-            DeviceHelper deviceHelper = DeviceHelper.getInstance();
-            for (BluetoothDevice pairedDevice : pairedDevices) {
-                if (isDeviceContainedIn(pairedDevice, availableDevices)) {
-                    continue;
-                }
-                GBDevice device = deviceHelper.toSupportedDevice(pairedDevice);
-                if (device != null) {
-                    availableDevices.add(device);
-                }
-            }
-
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-            String miAddr = sharedPrefs.getString(MiBandConst.PREF_MIBAND_ADDRESS, "");
-            if (miAddr.length() > 0) {
-                GBDevice miDevice = new GBDevice(miAddr, "MI", DeviceType.MIBAND);
-                if (!availableDevices.contains(miDevice)) {
-                    availableDevices.add(miDevice);
-                }
-            }
-
-            String pebbleEmuAddr = sharedPrefs.getString("pebble_emu_addr", "");
-            String pebbleEmuPort = sharedPrefs.getString("pebble_emu_port", "");
-            if (pebbleEmuAddr.length() >= 7 && pebbleEmuPort.length() > 0) {
-                GBDevice pebbleEmuDevice = new GBDevice(pebbleEmuAddr + ":" + pebbleEmuPort, "Pebble qemu", DeviceType.PEBBLE);
-                if (!availableDevices.contains(pebbleEmuDevice)) {
-                    availableDevices.add(pebbleEmuDevice);
-                }
-            }
-
-            deviceList.retainAll(availableDevices);
-            for (GBDevice dev : availableDevices) {
-                if (!deviceList.contains(dev)) {
-                    deviceList.add(dev);
-                }
-            }
-
-            if (connected) {
-                hintTextView.setText(R.string.tap_connected_device_for_app_mananger);
-            } else if (!deviceList.isEmpty()) {
-                hintTextView.setText(R.string.tap_a_device_to_connect);
-            }
+        if (connected) {
+            hintTextView.setText(R.string.tap_connected_device_for_app_mananger);
+        } else if (!deviceList.isEmpty()) {
+            hintTextView.setText(R.string.tap_a_device_to_connect);
         }
+
         mGBDeviceAdapter.notifyDataSetChanged();
-    }
-
-    private boolean isDeviceContainedIn(BluetoothDevice device, List<GBDevice> availableDevices) {
-        for (GBDevice avail : availableDevices) {
-            if (avail.getAddress().equals(device.getAddress())) {
-                return true;
-            }
-        }
-        return false;
     }
 }

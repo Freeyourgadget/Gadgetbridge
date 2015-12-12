@@ -26,19 +26,20 @@ public class DeviceSupportFactory {
         mBtAdapter = BluetoothAdapter.getDefaultAdapter();
     }
 
-    public synchronized DeviceSupport createDeviceSupport(String deviceAddress) throws GBException {
-        DeviceSupport deviceSupport;
+    public synchronized DeviceSupport createDeviceSupport(GBDevice device) throws GBException {
+        DeviceSupport deviceSupport = null;
+        String deviceAddress = device.getAddress();
         int indexFirstColon = deviceAddress.indexOf(":");
         if (indexFirstColon > 0) {
             if (indexFirstColon == deviceAddress.lastIndexOf(":")) { // only one colon
-                deviceSupport = createTCPDeviceSupport(deviceAddress);
+                deviceSupport = createTCPDeviceSupport(device);
             } else {
                 // multiple colons -- bt?
-                deviceSupport = createBTDeviceSupport(deviceAddress);
+                deviceSupport = createBTDeviceSupport(device);
             }
         } else {
             // no colon at all, maybe a class name?
-            deviceSupport = createClassNameDeviceSupport(deviceAddress);
+            deviceSupport = createClassNameDeviceSupport(device);
         }
 
         if (deviceSupport != null) {
@@ -50,13 +51,14 @@ public class DeviceSupportFactory {
         return null;
     }
 
-    private DeviceSupport createClassNameDeviceSupport(String className) throws GBException {
+    private DeviceSupport createClassNameDeviceSupport(GBDevice device) throws GBException {
+        String className = device.getAddress();
         try {
             Class<?> deviceSupportClass = Class.forName(className);
             Constructor<?> constructor = deviceSupportClass.getConstructor();
             DeviceSupport support = (DeviceSupport) constructor.newInstance();
             // has to create the device itself
-            support.setContext(null, null, mContext);
+            support.setContext(device, null, mContext);
             return support;
         } catch (ClassNotFoundException e) {
             return null; // not a class, or not known at least
@@ -73,25 +75,19 @@ public class DeviceSupportFactory {
         }
     }
 
-    private DeviceSupport createBTDeviceSupport(String deviceAddress) throws GBException {
+    private DeviceSupport createBTDeviceSupport(GBDevice gbDevice) throws GBException {
         if (mBtAdapter != null && mBtAdapter.isEnabled()) {
-            GBDevice gbDevice;
             DeviceSupport deviceSupport = null;
 
             try {
-                BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(deviceAddress);
-                gbDevice = DeviceHelper.getInstance().toSupportedDevice(btDevice);
-                if (gbDevice != null) {
-                    switch (gbDevice.getType()) {
-                        case PEBBLE:
-                            deviceSupport = new ServiceDeviceSupport(new PebbleSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
-                            break;
-                        case MIBAND:
-                            deviceSupport = new ServiceDeviceSupport(new MiBandSupport(), EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING));
-                            break;
-                    }
+                switch (gbDevice.getType()) {
+                    case PEBBLE:
+                        deviceSupport = new ServiceDeviceSupport(new PebbleSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
+                    case MIBAND:
+                        deviceSupport = new ServiceDeviceSupport(new MiBandSupport(), EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
                 }
-
                 if (deviceSupport != null) {
                     deviceSupport.setContext(gbDevice, mBtAdapter, mContext);
                     return deviceSupport;
@@ -103,14 +99,13 @@ public class DeviceSupportFactory {
         return null;
     }
 
-    private DeviceSupport createTCPDeviceSupport(String deviceAddress) throws GBException {
+    private DeviceSupport createTCPDeviceSupport(GBDevice gbDevice) throws GBException {
         try {
-            GBDevice gbDevice = new GBDevice(deviceAddress, "Pebble qemu", DeviceType.PEBBLE); //FIXME, do not hardcode
             DeviceSupport deviceSupport = new ServiceDeviceSupport(new PebbleSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
             deviceSupport.setContext(gbDevice, mBtAdapter, mContext);
             return deviceSupport;
         } catch (Exception e) {
-            throw new GBException("cannot connect to " + deviceAddress, e); // FIXME: localize
+            throw new GBException("cannot connect to " + gbDevice, e); // FIXME: localize
         }
     }
 

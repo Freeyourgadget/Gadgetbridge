@@ -22,6 +22,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.activities.DiscoveryActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class MiBandPairingActivity extends Activity {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandPairingActivity.class);
@@ -90,7 +91,7 @@ public class MiBandPairingActivity extends Activity {
         // start pairing immediately when we return from the user settings
         if (requestCode == REQ_CODE_USER_SETTINGS) {
             if (!MiBandCoordinator.hasValidUserInfo()) {
-                Toast.makeText(this, getString(R.string.miband_pairing_using_dummy_userdata), Toast.LENGTH_SHORT).show();
+                GB.toast(this, getString(R.string.miband_pairing_using_dummy_userdata), Toast.LENGTH_LONG, GB.WARN);
             }
             startPairing();
         }
