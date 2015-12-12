@@ -69,6 +69,7 @@ public class GBDeviceApp {
         WATCHFACE,
         APP_GENERIC,
         APP_ACTIVITYTRACKER,
+        APP_SYSTEM,
     }
 
     public JSONObject getJSON() {

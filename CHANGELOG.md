@@ -2,6 +2,7 @@
 
 ####Next Version
 * Pebble: Allow installing apps compiled with SDK 2.x also on the balast platform (Time, Time Steel)
+* Some new and updated icons
 
 ####Version 0.6.9
 * Pebble: Store app details in pbw-cache and display them in app manager on firmware 3.x 
