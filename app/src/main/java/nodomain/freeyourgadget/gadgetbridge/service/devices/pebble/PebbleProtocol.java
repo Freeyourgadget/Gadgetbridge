@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -1252,7 +1251,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                     if (type == TYPE_BYTEARRAY) {
                         dict.add(new Pair<Integer, Object>(key, bytes));
                     } else {
-                        dict.add(new Pair<Integer, Object>(key, Arrays.toString(bytes)));
+                        dict.add(new Pair<Integer, Object>(key, new String(bytes)));
                     }
                     break;
                 default:
@@ -1306,7 +1305,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         jsonObject.put("value", Base64.encode(bytes, Base64.NO_WRAP));
                     } else {
                         jsonObject.put("type", "string");
-                        jsonObject.put("value", Arrays.toString(bytes));
+                        jsonObject.put("value", new String(bytes));
                     }
                     break;
                 default:
