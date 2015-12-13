@@ -217,6 +217,21 @@ public class DeviceCommunicationService extends Service {
                 notificationSpec.sourceName = intent.getStringExtra(EXTRA_NOTIFICATION_SOURCENAME);
                 if (notificationSpec.type == NotificationType.SMS && notificationSpec.phoneNumber != null) {
                     notificationSpec.sender = getContactDisplayNameByNumber(notificationSpec.phoneNumber);
+
+                    // NOTE: maybe not where it belongs
+                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+                    if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
+                        // I would rather like to save that as an array in ShadredPreferences
+                        // this would work but I dont know how to do the same in the Settings Activity's xml
+                        ArrayList<String> replies = new ArrayList<>();
+                        for (int i = 1; i <= 8; i++) {
+                            String reply = sharedPrefs.getString("canned_reply_" + i, null);
+                            if (reply != null && !reply.equals("")) {
+                                replies.add(reply);
+                            }
+                        }
+                        notificationSpec.cannedReplies = replies.toArray(new String[replies.size()]);
+                    }
                 }
                 mDeviceSupport.onNotification(notificationSpec);
                 break;

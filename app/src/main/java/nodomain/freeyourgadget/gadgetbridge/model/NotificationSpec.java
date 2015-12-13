@@ -9,4 +9,5 @@ public class NotificationSpec {
     public String body;
     public NotificationType type;
     public String sourceName;
+    public String[] cannedReplies;
 }

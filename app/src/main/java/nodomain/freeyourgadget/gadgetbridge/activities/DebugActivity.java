@@ -76,7 +76,7 @@ public class DebugActivity extends Activity {
             @Override
             public void onClick(View v) {
                 NotificationSpec notificationSpec = new NotificationSpec();
-                notificationSpec.sender = getResources().getText(R.string.app_name).toString();
+                notificationSpec.phoneNumber = getResources().getText(R.string.app_name).toString();
                 notificationSpec.body = editContent.getText().toString();
                 notificationSpec.type = NotificationType.SMS;
                 notificationSpec.id = -1;

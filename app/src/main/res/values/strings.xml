@@ -55,6 +55,8 @@
 
     <string name="pref_blacklist">Blacklist Apps</string>
 
+    <string name="pref_title_canned_replies">Canned Replies</string>
+
     <string name="pref_header_development">Developer Options</string>
     <string name="pref_title_development_miaddr">Mi Band address</string>
 

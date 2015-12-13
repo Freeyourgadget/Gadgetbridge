@@ -65,6 +65,35 @@
         <Preference
             android:key="pref_key_blacklist"
             android:title="@string/pref_blacklist" />
+        <PreferenceScreen
+            android:key="pref_key_canned_replies"
+            android:title="@string/pref_title_canned_replies"
+            android:dependency="pebble_force_untested" >
+            <EditTextPreference
+                android:key="canned_reply_1"
+                android:maxLength="64" />
+            <EditTextPreference
+                android:key="canned_reply_2"
+                android:maxLength="64" />
+            <EditTextPreference
+                android:key="canned_reply_3"
+                android:maxLength="64" />
+            <EditTextPreference
+                android:key="canned_reply_4"
+                android:maxLength="64" />
+            <EditTextPreference
+                android:key="canned_reply_5"
+                android:maxLength="64" />
+            <EditTextPreference
+                android:key="canned_reply_6"
+                android:maxLength="64" />
+            <EditTextPreference
+                android:key="canned_reply_7"
+                android:maxLength="64" />
+            <EditTextPreference
+                android:key="canned_reply_8"
+                android:maxLength="64" />
+        </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory

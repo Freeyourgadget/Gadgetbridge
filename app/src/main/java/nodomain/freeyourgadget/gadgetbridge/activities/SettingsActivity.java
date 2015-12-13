@@ -50,8 +50,8 @@ public class SettingsActivity extends AbstractSettingsActivity {
             }
         });
 
-        final Preference pebbleEmuAddr = findPreference("pebble_emu_addr");
-        pebbleEmuAddr.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        pref = findPreference("pebble_emu_addr");
+        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newVal) {
                 Intent refreshIntent = new Intent(ControlCenter.ACTION_REFRESH_DEVICELIST);
@@ -62,8 +62,8 @@ public class SettingsActivity extends AbstractSettingsActivity {
 
         });
 
-        final Preference pebbleEmuPort = findPreference("pebble_emu_port");
-        pebbleEmuPort.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        pref = findPreference("pebble_emu_port");
+        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newVal) {
                 Intent refreshIntent = new Intent(ControlCenter.ACTION_REFRESH_DEVICELIST);
@@ -110,6 +110,14 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 "pebble_emu_addr",
                 "pebble_emu_port",
                 "pebble_reconnect_attempts",
+                "canned_reply_1",
+                "canned_reply_2",
+                "canned_reply_3",
+                "canned_reply_4",
+                "canned_reply_5",
+                "canned_reply_6",
+                "canned_reply_7",
+                "canned_reply_8",
         };
     }
 
