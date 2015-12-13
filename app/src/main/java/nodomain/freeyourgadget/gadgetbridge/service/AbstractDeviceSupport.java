@@ -226,6 +226,9 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             case MUTE:
                 action = NotificationListener.ACTION_MUTE;
                 break;
+            case REPLY:
+                GB.toast(context, "got notfication reply: " + deviceEvent.reply, 2, GB.INFO);
+                break;
         }
         if (action != null) {
             Intent notificationListenerIntent = new Intent(action);

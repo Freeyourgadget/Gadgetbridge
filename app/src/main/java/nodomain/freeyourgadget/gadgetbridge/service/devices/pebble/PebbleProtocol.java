@@ -1486,7 +1486,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     private GBDeviceEvent[] decodeNotificationAction2x(ByteBuffer buf) {
         buf.order(ByteOrder.LITTLE_ENDIAN);
-
         byte command = buf.get();
         if (command == 0x02) {
             int id = buf.getInt();
@@ -1514,7 +1513,22 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         sendBytesAck.encodedBytes = encodeActionResponse2x(id, action, 6, "Muted");
                         break;
                     case 0x05:
-                        devEvtNotificationControl = null; // not implemented
+                        byte attribute_count = buf.get();
+                        if (attribute_count > 0) {
+                            byte attribute = buf.get();
+                            if (attribute == 0x01) { // reply string is in attribute 0x01
+                                short length = buf.getShort();
+                                if (length > 64) length = 64;
+                                byte[] reply = new byte[length];
+                                buf.get(reply);
+                                devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
+                                devEvtNotificationControl.reply = new String(reply);
+                            } else {
+                                devEvtNotificationControl = null; // error
+                            }
+                        } else {
+                            devEvtNotificationControl = null; // error
+                        }
                         sendBytesAck = new GBDeviceEventSendBytes();
                         sendBytesAck.encodedBytes = encodeActionResponse2x(id, action, 6, "NOT IMPLEMENTED");
                         break;
@@ -1531,49 +1545,64 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     private GBDeviceEvent[] decodeNotificationAction3x(ByteBuffer buf) {
         buf.order(ByteOrder.LITTLE_ENDIAN);
-
         byte command = buf.get();
         if (command == NOTIFICATIONACTION_INVOKE) {
             buf.order(ByteOrder.BIG_ENDIAN);
             long uuid_high = buf.getLong();
             long uuid_low = buf.getLong();
+            buf.order(ByteOrder.LITTLE_ENDIAN);
             int id = (int) (uuid_low & 0xffffffffL);
             byte action = buf.get();
             if (action >= 0x01 && action <= 0x05) {
-                GBDeviceEventNotificationControl dismissNotification = new GBDeviceEventNotificationControl();
-                dismissNotification.handle = id;
+                GBDeviceEventNotificationControl devEvtNotificationControl = new GBDeviceEventNotificationControl();
+                devEvtNotificationControl.handle = id;
                 String caption = "undefined";
                 int icon_id = 1;
                 switch (action) {
                     case 0x01:
-                        dismissNotification.event = GBDeviceEventNotificationControl.Event.OPEN;
+                        devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.OPEN;
                         caption = "Opened";
                         icon_id = PebbleIconID.DURING_PHONE_CALL;
                         break;
                     case 0x02:
-                        dismissNotification.event = GBDeviceEventNotificationControl.Event.DISMISS;
+                        devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.DISMISS;
                         caption = "Dismissed";
                         icon_id = PebbleIconID.RESULT_DISMISSED;
                         break;
                     case 0x03:
-                        dismissNotification.event = GBDeviceEventNotificationControl.Event.DISMISS_ALL;
+                        devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.DISMISS_ALL;
                         caption = "All dismissed";
                         icon_id = PebbleIconID.RESULT_DISMISSED;
                         break;
                     case 0x04:
-                        dismissNotification.event = GBDeviceEventNotificationControl.Event.MUTE;
+                        devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.MUTE;
                         caption = "Muted";
                         icon_id = PebbleIconID.RESULT_MUTE;
                         break;
                     case 0x05:
-                        dismissNotification = null; // not implemented
+                        byte attribute_count = buf.get();
+                        if (attribute_count > 0) {
+                            byte attribute = buf.get();
+                            if (attribute == 0x01) { // reply string is in attribute 0x01
+                                short length = buf.getShort();
+                                if (length > 64) length = 64;
+                                byte[] reply = new byte[length];
+                                buf.get(reply);
+                                devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
+                                devEvtNotificationControl.reply = new String(reply);
+                            } else {
+                                devEvtNotificationControl = null; // error
+                            }
+                        } else {
+                            devEvtNotificationControl = null; // error
+                        }
                         caption = "NOT IMPLEMENTED";
                         icon_id = PebbleIconID.GENERIC_WARNING;
                         break;
                 }
                 GBDeviceEventSendBytes sendBytesAck = new GBDeviceEventSendBytes();
                 sendBytesAck.encodedBytes = encodeActionResponse(new UUID(uuid_high, uuid_low), icon_id, caption);
-                return new GBDeviceEvent[]{sendBytesAck, dismissNotification};
+                return new GBDeviceEvent[]{sendBytesAck, devEvtNotificationControl};
             }
             LOG.info("unexpected action: " + action);
         }
