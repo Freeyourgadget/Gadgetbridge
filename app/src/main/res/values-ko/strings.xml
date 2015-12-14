@@ -195,4 +195,6 @@
   <string name="device_not_connected">연결되지 않음</string>
   <string name="user_feedback_all_alarms_disabled">모든 알람 해제됨</string>
   <string name="pref_title_keep_data_on_device">기기에 활동 데이터 유지</string>
+  <string name="miband_fwinstaller_incompatible_version">호환되지 않는 펌웨어</string>
+  <string name="fwinstaller_firmware_not_compatible_to_device">이 펌웨어는 기기와 호환되지 않습니다</string>
 </resources>
