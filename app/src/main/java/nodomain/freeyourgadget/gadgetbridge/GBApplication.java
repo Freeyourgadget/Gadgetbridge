@@ -1,7 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
 import android.app.Application;
-import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -26,11 +25,11 @@ import java.util.concurrent.locks.ReentrantLock;
 import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBConstants;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.IDSenderLookup;
 
 /**
  * Main Application class that initializes and provides access to certain things like
@@ -44,6 +43,7 @@ public class GBApplication extends Application {
     private static final Lock dbLock = new ReentrantLock();
     private static DeviceService deviceService;
     private static SharedPreferences sharedPrefs;
+    private static IDSenderLookup mIDSenderLookup = new IDSenderLookup();
 
     public static final String ACTION_QUIT
             = "nodomain.freeyourgadget.gadgetbridge.gbapplication.action.quit";
@@ -189,6 +189,7 @@ public class GBApplication extends Application {
     public static boolean isRunningOnKitkatOrLater() {
         return VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
     }
+
     public static boolean isRunningLollipopOrLater() {
         return VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
@@ -226,6 +227,7 @@ public class GBApplication extends Application {
 
     /**
      * Deletes the entire Activity database and recreates it with empty tables.
+     *
      * @return true on successful deletion
      */
     public static synchronized boolean deleteActivityDatabase() {
@@ -236,5 +238,9 @@ public class GBApplication extends Application {
         boolean result = getContext().deleteDatabase(DBConstants.DATABASE_NAME);
         mActivityDatabaseHandler = new ActivityDatabaseHandler(getContext());
         return result;
+    }
+
+    public static IDSenderLookup getIDSenderLookup() {
+        return mIDSenderLookup;
     }
 }

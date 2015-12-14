@@ -398,7 +398,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeNotification(NotificationSpec notificationSpec) {
-        boolean hasHandle = notificationSpec.id != -1;
+        boolean hasHandle = notificationSpec.id != -1 && notificationSpec.phoneNumber == null;
         int id = notificationSpec.id != -1 ? notificationSpec.id : mRandom.nextInt();
         String title;
         String subtitle = null;

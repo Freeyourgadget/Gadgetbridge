@@ -20,6 +20,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsHost;
@@ -227,7 +228,10 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                 action = NotificationListener.ACTION_MUTE;
                 break;
             case REPLY:
-                GB.toast(context, "got notfication reply: " + deviceEvent.reply, 2, GB.INFO);
+                String phoneNumber = GBApplication.getIDSenderLookup().lookup(deviceEvent.handle);
+                if (phoneNumber != null) {
+                    GB.toast(context, "got notfication reply for  " + phoneNumber + " : " + deviceEvent.reply, 2, GB.INFO);
+                }
                 break;
         }
         if (action != null) {

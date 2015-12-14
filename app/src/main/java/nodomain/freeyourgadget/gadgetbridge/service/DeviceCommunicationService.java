@@ -21,8 +21,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.K9Receiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.MusicPlaybackReceiver;
@@ -37,6 +39,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.IDSenderLookup;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CALLSTATE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CONNECT;
@@ -93,6 +96,8 @@ public class DeviceCommunicationService extends Service {
     private PebbleReceiver mPebbleReceiver = null;
     private MusicPlaybackReceiver mMusicPlaybackReceiver = null;
     private TimeChangeReceiver mTimeChangeReceiver = null;
+
+    private Random mRandom = new Random();
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -217,6 +222,9 @@ public class DeviceCommunicationService extends Service {
                 notificationSpec.sourceName = intent.getStringExtra(EXTRA_NOTIFICATION_SOURCENAME);
                 if (notificationSpec.type == NotificationType.SMS && notificationSpec.phoneNumber != null) {
                     notificationSpec.sender = getContactDisplayNameByNumber(notificationSpec.phoneNumber);
+
+                    notificationSpec.id = mRandom.nextInt(); // FIXME: add this in external SMS Receiver?
+                    GBApplication.getIDSenderLookup().add(notificationSpec.id, notificationSpec.phoneNumber);
 
                     // NOTE: maybe not where it belongs
                     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
