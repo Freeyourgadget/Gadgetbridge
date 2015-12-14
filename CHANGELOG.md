@@ -1,6 +1,7 @@
 ###Changelog
 
 ####Next Version
+* Pebble: Support replying to SMS form the watch (canned replies)
 * Pebble: Allow installing apps compiled with SDK 2.x also on the basalt platform (Time, Time Steel)
 * Pebble: Fix decoding strings in appmessages from the pebble (fixes sending SMS from "Dialer for Pebble")
 * Some new and updated icons

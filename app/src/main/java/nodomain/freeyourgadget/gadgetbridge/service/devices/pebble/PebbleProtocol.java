@@ -1512,6 +1512,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         sendBytesAck.encodedBytes = encodeActionResponse2x(id, action, 6, "Muted");
                         break;
                     case 0x05:
+                        String caption = "";
                         byte attribute_count = buf.get();
                         if (attribute_count > 0) {
                             byte attribute = buf.get();
@@ -1522,14 +1523,17 @@ public class PebbleProtocol extends GBDeviceProtocol {
                                 buf.get(reply);
                                 devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
                                 devEvtNotificationControl.reply = new String(reply);
+                                caption = "Sent";
                             } else {
+                                caption = "FAILED";
                                 devEvtNotificationControl = null; // error
                             }
                         } else {
+                            caption = "FAILED";
                             devEvtNotificationControl = null; // error
                         }
                         sendBytesAck = new GBDeviceEventSendBytes();
-                        sendBytesAck.encodedBytes = encodeActionResponse2x(id, action, 6, "NOT IMPLEMENTED");
+                        sendBytesAck.encodedBytes = encodeActionResponse2x(id, action, 6, caption);
                         break;
                     default:
                         return null;
@@ -1589,14 +1593,18 @@ public class PebbleProtocol extends GBDeviceProtocol {
                                 buf.get(reply);
                                 devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
                                 devEvtNotificationControl.reply = new String(reply);
+                                caption = "SENT";
+                                icon_id = PebbleIconID.RESULT_SENT;
                             } else {
                                 devEvtNotificationControl = null; // error
+                                caption = "FAILED";
+                                icon_id = PebbleIconID.RESULT_FAILED;
                             }
                         } else {
+                            caption = "FAILED";
+                            icon_id = PebbleIconID.RESULT_FAILED;
                             devEvtNotificationControl = null; // error
                         }
-                        caption = "NOT IMPLEMENTED";
-                        icon_id = PebbleIconID.GENERIC_WARNING;
                         break;
                 }
                 GBDeviceEventSendBytes sendBytesAck = new GBDeviceEventSendBytes();

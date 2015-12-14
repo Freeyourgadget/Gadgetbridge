@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
+import android.telephony.SmsManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -230,7 +231,8 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             case REPLY:
                 String phoneNumber = GBApplication.getIDSenderLookup().lookup(deviceEvent.handle);
                 if (phoneNumber != null) {
-                    GB.toast(context, "got notfication reply for  " + phoneNumber + " : " + deviceEvent.reply, 2, GB.INFO);
+                    LOG.info("got notfication reply for  " + phoneNumber + " : " + deviceEvent.reply);
+                    SmsManager.getDefault().sendTextMessage(phoneNumber, null, deviceEvent.reply, null, null);
                 }
                 break;
         }
