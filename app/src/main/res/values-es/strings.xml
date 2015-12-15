@@ -44,6 +44,7 @@
   <string name="when_screen_off">cuando la pantalla está apagada</string>
   <string name="never">nunca</string>
   <string name="pref_blacklist">Excluir aplicaciones</string>
+  <string name="pref_title_canned_replies">Respuestas rápidas</string>
   <string name="pref_header_development">Opciones de desarrollador</string>
   <string name="pref_title_development_miaddr">Dirección de MiBand</string>
   <string name="pref_title_pebble_settings">Ajustes de Pebble</string>
