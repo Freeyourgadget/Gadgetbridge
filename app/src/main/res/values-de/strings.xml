@@ -195,4 +195,6 @@
   <string name="device_not_connected">Nicht verbunden</string>
   <string name="user_feedback_all_alarms_disabled">Alle Alarme deaktiviert</string>
   <string name="pref_title_keep_data_on_device">Aktivitätsdaten auf dem Gerät lassen</string>
+  <string name="miband_fwinstaller_incompatible_version">Inkompatible Firmware</string>
+  <string name="fwinstaller_firmware_not_compatible_to_device">Diese Firmware ist nicht mit dem Gerät kompatibel</string>
 </resources>
