@@ -93,6 +93,30 @@
             <EditTextPreference
                 android:key="canned_reply_8"
                 android:maxLength="64" />
+            <EditTextPreference
+                android:key="canned_reply_9"
+                android:maxLength="64" />
+            <EditTextPreference
+                android:key="canned_reply_10"
+                android:maxLength="64" />
+            <EditTextPreference
+                android:key="canned_reply_11"
+                android:maxLength="64" />
+            <EditTextPreference
+                android:key="canned_reply_12"
+                android:maxLength="64" />
+            <EditTextPreference
+                android:key="canned_reply_13"
+                android:maxLength="64" />
+            <EditTextPreference
+                android:key="canned_reply_14"
+                android:maxLength="64" />
+            <EditTextPreference
+                android:key="canned_reply_15"
+                android:maxLength="64" />
+            <EditTextPreference
+                android:key="canned_reply_16"
+                android:maxLength="64" />
         </PreferenceScreen>
     </PreferenceCategory>
 

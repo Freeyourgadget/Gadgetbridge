@@ -232,7 +232,7 @@ public class DeviceCommunicationService extends Service {
                         // I would rather like to save that as an array in ShadredPreferences
                         // this would work but I dont know how to do the same in the Settings Activity's xml
                         ArrayList<String> replies = new ArrayList<>();
-                        for (int i = 1; i <= 8; i++) {
+                        for (int i = 1; i <= 16; i++) {
                             String reply = sharedPrefs.getString("canned_reply_" + i, null);
                             if (reply != null && !reply.equals("")) {
                                 replies.add(reply);

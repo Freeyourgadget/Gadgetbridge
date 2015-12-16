@@ -581,7 +581,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         }
 
-        if (cannedReplies != null) {
+        if (cannedReplies != null && replies_length > 0) {
             buf.put((byte) 0x05);
             buf.put((byte) 0x03); // reply action
             buf.put((byte) 0x02); // number attributes
@@ -835,7 +835,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             buf.put(mute_string.getBytes());
         }
 
-        if (cannedReplies != null) {
+        if (cannedReplies != null && replies_length > 0) {
             buf.put((byte) 0x05);
             buf.put((byte) 0x03); // reply action
             buf.put((byte) 0x02); // number attributes
