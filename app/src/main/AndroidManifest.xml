@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.fsck.k9.permission.READ_MESSAGES" />
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
 
     <uses-feature
         android:name="android.hardware.bluetooth"
