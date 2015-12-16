@@ -118,6 +118,14 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 "canned_reply_6",
                 "canned_reply_7",
                 "canned_reply_8",
+                "canned_reply_9",
+                "canned_reply_10",
+                "canned_reply_11",
+                "canned_reply_12",
+                "canned_reply_13",
+                "canned_reply_14",
+                "canned_reply_15",
+                "canned_reply_16",
         };
     }
 
