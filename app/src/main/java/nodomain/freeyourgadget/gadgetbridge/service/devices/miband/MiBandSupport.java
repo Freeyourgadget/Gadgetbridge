@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -29,8 +30,10 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandDateConverter;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.CalendarEvents;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
@@ -792,4 +795,50 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
         LOG.info("MI Band pairing result: " + value);
     }
+
+    private void sendEvents() {
+        try {
+            TransactionBuilder builder = performInitialized("Send upcoming events");
+            BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
+
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+            int availableSlots = Integer.parseInt(prefs.getString(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, "0"));
+
+            if (availableSlots > 0) {
+                CalendarEvents upcomingEvents = new CalendarEvents();
+                List<CalendarEvents.CalendarEvent> mEvents =  upcomingEvents.getCalendarEventList(getContext());
+
+                int iteration = 0;
+                ArrayList<GBAlarm> alarmList = new ArrayList<>();
+                for(CalendarEvents.CalendarEvent mEvt : mEvents) {
+                    if (iteration >= availableSlots) {
+                        break;
+                    }
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTimeInMillis(mEvt.getBegin());
+                    byte[] calBytes = MiBandDateConverter.calendarToRawBytes(calendar);
+
+                    byte[] alarmMessage = new byte[]{
+                            MiBandService.COMMAND_SET_TIMER,
+                            (byte)(3-iteration),
+                            (byte) 1,
+                            calBytes[0],
+                            calBytes[1],
+                            calBytes[2],
+                            calBytes[3],
+                            calBytes[4],
+                            calBytes[5],
+                            (byte) 0,
+                            (byte) 0
+                    };
+                    builder.write(characteristic, alarmMessage);
+                    iteration++;
+                }
+            }
+        } catch (IOException ex) {
+            LOG.error("Unable to send Events to MI device", ex);
+        }
+    }
+
+
 }
