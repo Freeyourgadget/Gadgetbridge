@@ -48,6 +48,13 @@
             android:maxLength="5"
             android:title="@string/miband_prefs_fitness_goal" />
 
+        <EditTextPreference
+            android:defaultValue="0"
+            android:inputType="number"
+            android:key="mi_reserve_alarm_calendar"
+            android:maxLength="1"
+            android:digits="0123"
+            android:title="@string/miband_prefs_reserve_alarm_calendar" />
     </PreferenceCategory>
 
     <PreferenceCategory

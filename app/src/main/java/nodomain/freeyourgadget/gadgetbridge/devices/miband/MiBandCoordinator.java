@@ -140,4 +140,8 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
         return Integer.parseInt(prefs.getString(MiBandConst.PREF_MIBAND_FITNESS_GOAL, "10000"));
     }
 
+    public static int getReservedAlarmSlots(String miBandAddress) throws IllegalArgumentException {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
+        return Integer.parseInt(prefs.getString(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, "0"));
+    }
 }
