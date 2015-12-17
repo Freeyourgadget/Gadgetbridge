@@ -161,9 +161,14 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     static final byte SCREENSHOT_TAKE = 0;
 
+    static final byte SYSTEMMESSAGE_NEWFIRMWAREAVAILABLE = 0;
     static final byte SYSTEMMESSAGE_FIRMWARESTART = 1;
     static final byte SYSTEMMESSAGE_FIRMWARECOMPLETE = 2;
     static final byte SYSTEMMESSAGE_FIRMWAREFAIL = 3;
+    static final byte SYSTEMMESSAGE_FIRMWARE_UPTODATE = 4;
+    static final byte SYSTEMMESSAGE_FIRMWARE_OUTOFDATE = 5;
+    static final byte SYSTEMMESSAGE_STOPRECONNECTING = 6;
+    static final byte SYSTEMMESSAGE_STARTRECONNECTING = 7;
 
     static final byte PHONEVERSION_REQUEST = 0;
     static final byte PHONEVERSION_APPVERSION_MAGIC = 2; // increase this if pebble complains
@@ -981,6 +986,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeAppInfoReq() {
+        if (isFw3x) {
+            return null; // can't do this on 3.x :(
+        }
         return encodeSimpleMessage(ENDPOINT_APPMANAGER, APPMANAGER_GETUUIDS);
     }
 
@@ -1629,6 +1637,44 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return null;
     }
 
+    private GBDeviceEvent decodeSystemMessage(ByteBuffer buf) {
+        buf.get(); // unknown;
+        byte command = buf.get();
+        final String ENDPOINT_NAME = "SYSTEM MESSAGE";
+        switch (command) {
+            case SYSTEMMESSAGE_STOPRECONNECTING:
+                LOG.info(ENDPOINT_NAME + ": stop reconnecting");
+                break;
+            case SYSTEMMESSAGE_STARTRECONNECTING:
+                LOG.info(ENDPOINT_NAME + ": start reconnecting");
+                break;
+            default:
+                LOG.info(ENDPOINT_NAME + ": " + command);
+                break;
+        }
+        return null;
+    }
+
+    private GBDeviceEvent decodeAppRunState(ByteBuffer buf) {
+        byte command = buf.get();
+        long uuid_high = buf.getLong();
+        long uuid_low = buf.getLong();
+        UUID uuid = new UUID(uuid_high, uuid_low);
+        final String ENDPOINT_NAME = "APPRUNSTATE";
+        switch (command) {
+            case APPRUNSTATE_START:
+                LOG.info(ENDPOINT_NAME + ": started " + uuid);
+                break;
+            case APPRUNSTATE_STOP:
+                LOG.info(ENDPOINT_NAME + ": stopped " + uuid);
+                break;
+            default:
+                LOG.info(ENDPOINT_NAME + ": (cmd:" + command + ")" + uuid);
+                break;
+        }
+        return null;
+    }
+
     private GBDeviceEventAppManagement decodeAppFetch(ByteBuffer buf) {
         byte command = buf.get();
         if (command == 0x01) {
@@ -1910,6 +1956,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 break;
             case ENDPOINT_APPFETCH:
                 devEvts = new GBDeviceEvent[]{decodeAppFetch(buf)};
+                break;
+            case ENDPOINT_SYSTEMMESSAGE:
+                devEvts = new GBDeviceEvent[]{decodeSystemMessage(buf)};
+                break;
+            case ENDPOINT_APPRUNSTATE:
+                devEvts = new GBDeviceEvent[]{decodeAppRunState(buf)};
                 break;
             default:
                 break;
