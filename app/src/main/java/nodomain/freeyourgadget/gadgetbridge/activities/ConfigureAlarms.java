@@ -14,6 +14,7 @@ import java.util.Set;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBAlarmListAdapter;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_ALARMS;
@@ -67,8 +68,9 @@ public class ConfigureAlarms extends ListActivity {
     private void updateAlarmsFromPrefs() {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         preferencesAlarmListSet = sharedPrefs.getStringSet(PREF_MIBAND_ALARMS, new HashSet<String>());
+        int reservedSlots = Integer.parseInt(sharedPrefs.getString(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, "0"));
 
-        mGBAlarmListAdapter.setAlarmList(preferencesAlarmListSet);
+        mGBAlarmListAdapter.setAlarmList(preferencesAlarmListSet, reservedSlots);
         mGBAlarmListAdapter.notifyDataSetChanged();
     }
 

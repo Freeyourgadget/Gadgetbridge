@@ -49,7 +49,7 @@ public class GBAlarmListAdapter extends ArrayAdapter<GBAlarm> {
         Collections.sort(alarmList);
     }
 
-    public void setAlarmList(Set<String> preferencesAlarmListSet) {
+    public void setAlarmList(Set<String> preferencesAlarmListSet, int reservedSlots) {
         alarmList = new ArrayList<>();
 
         for (String alarmString : preferencesAlarmListSet) {
@@ -57,6 +57,9 @@ public class GBAlarmListAdapter extends ArrayAdapter<GBAlarm> {
         }
 
         Collections.sort(alarmList);
+
+        //cannot do this earlier because the Set is not guaranteed to be in order by ID
+        alarmList.subList(alarmList.size() - reservedSlots, alarmList.size()).clear();
     }
 
     public ArrayList<? extends Alarm> getAlarmList() {
