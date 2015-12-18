@@ -820,7 +820,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
                     byte[] alarmMessage = new byte[]{
                             MiBandService.COMMAND_SET_TIMER,
-                            (byte)(3-iteration),
+                            (byte)(2-iteration),
                             (byte) 1,
                             calBytes[0],
                             calBytes[1],

@@ -1,9 +1,11 @@
 ###Changelog
 
 ####Next Version
+* Read upcoming events (up to 7 days in the future). Requires READ_CALENDAR permission 
 * Pebble: Support replying to SMS form the watch (canned replies)
 * Pebble: Allow installing apps compiled with SDK 2.x also on the basalt platform (Time, Time Steel)
 * Pebble: Fix decoding strings in appmessages from the pebble (fixes sending SMS from "Dialer for Pebble")
+* Miband: reserve some alarm slots for alerting when upcoming events begin. NB: the band will vibrate at the start time of the event, android reminders are ignored
 * Some new and updated icons
 
 ####Version 0.6.9
