@@ -81,6 +81,16 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final byte BLOBDB_REMINDER = 3;
     static final byte BLOBDB_NOTIFICATION = 4;
 
+    static final byte BLOBDB_SUCCESS = 1;
+    static final byte BLOBDB_GENERALFAILURE = 2;
+    static final byte BLOBDB_INVALIDOPERATION = 3;
+    static final byte BLOBDB_INVALIDDATABASEID = 4;
+    static final byte BLOBDB_INVALIDDATA = 5;
+    static final byte BLOBDB_KEYDOESNOTEXIST = 6;
+    static final byte BLOBDB_DATABASEFULL = 7;
+    static final byte BLOBDB_DATASTALE = 8;
+
+
     // This is not in the Pebble protocol
     static final byte NOTIFICATION_UNDEFINED = -1;
 
@@ -1675,6 +1685,31 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return null;
     }
 
+    private GBDeviceEvent decodeBlobDb(ByteBuffer buf) {
+        final String ENDPOINT_NAME = "BLOBDB";
+        final String statusString[] = {
+                "unknown",
+                "success",
+                "general failure",
+                "invalid operation",
+                "invalid database id",
+                "invalid data",
+                "key does not exist",
+                "database full",
+                "data stale",
+        };
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        short token = buf.getShort();
+        byte status = buf.get();
+
+        if (status >= 0 && status < statusString.length) {
+            LOG.info(ENDPOINT_NAME + ": " + statusString[status] + " (token " + (token & 0xffff) + ")");
+        } else {
+            LOG.warn(ENDPOINT_NAME + ": unknown status " + status + " (token " + (token & 0xffff) + ")");
+        }
+        return null;
+    }
+
     private GBDeviceEventAppManagement decodeAppFetch(ByteBuffer buf) {
         byte command = buf.get();
         if (command == 0x01) {
@@ -1962,6 +1997,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 break;
             case ENDPOINT_APPRUNSTATE:
                 devEvts = new GBDeviceEvent[]{decodeAppRunState(buf)};
+                break;
+            case ENDPOINT_BLOBDB:
+                devEvts = new GBDeviceEvent[]{decodeBlobDb(buf)};
                 break;
             default:
                 break;
