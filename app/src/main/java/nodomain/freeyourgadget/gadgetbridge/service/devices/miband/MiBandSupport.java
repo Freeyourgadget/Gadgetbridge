@@ -834,6 +834,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                     builder.write(characteristic, alarmMessage);
                     iteration++;
                 }
+                builder.queue(getQueue());
             }
         } catch (IOException ex) {
             LOG.error("Unable to send Events to MI device", ex);

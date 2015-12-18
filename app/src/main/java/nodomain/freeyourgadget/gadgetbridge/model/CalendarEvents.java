@@ -55,7 +55,7 @@ public class CalendarEvents {
         Uri eventsUri = eventsUriBuilder.build();
 
         Cursor evtCursor = null;
-        evtCursor = mContext.getContentResolver().query(eventsUri, EVENT_INSTANCE_PROJECTION, null, null, CalendarContract.Instances.DTSTART + " ASC");
+        evtCursor = mContext.getContentResolver().query(eventsUri, EVENT_INSTANCE_PROJECTION, null, null, CalendarContract.Instances.BEGIN + " ASC");
 
         if (evtCursor.moveToFirst()) {
             do {
