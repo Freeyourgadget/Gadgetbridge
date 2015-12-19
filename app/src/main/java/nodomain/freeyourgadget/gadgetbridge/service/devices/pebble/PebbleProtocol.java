@@ -347,6 +347,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private static final UUID UUID_MORPHEUZ = UUID.fromString("5be44f1d-d262-4ea6-aa30-ddbec1e3cab2");
     private static final UUID UUID_WHETHERNEAT = UUID.fromString("3684003b-a685-45f9-a713-abc6364ba051");
     private static final UUID UUID_MISFIT = UUID.fromString("0b73b76a-cd65-4dc2-9585-aaa213320858");
+    private static final UUID UUID_PEBBLE_HEALTH = UUID.fromString("36d8c6ed-4c83-4fa1-a9e2-8f12dc941f8c");
 
     private static final Map<UUID, AppMessageHandler> mAppMessageHandlers = new HashMap<>();
 
