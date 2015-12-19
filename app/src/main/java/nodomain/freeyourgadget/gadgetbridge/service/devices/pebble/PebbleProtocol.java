@@ -1927,6 +1927,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 devEvts = new GBDeviceEvent[]{installRes};
                 break;
             case ENDPOINT_APPLICATIONMESSAGE:
+            case ENDPOINT_LAUNCHER:
                 pebbleCmd = buf.get();
                 last_id = buf.get();
                 long uuid_high = buf.getLong();
@@ -1935,7 +1936,13 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 switch (pebbleCmd) {
                     case APPLICATIONMESSAGE_PUSH:
                         UUID uuid = new UUID(uuid_high, uuid_low);
+
+                        if (endpoint == ENDPOINT_LAUNCHER) {
+                            LOG.info("got LAUNCHER PUSH from UUID " + uuid);
+                            break;
+                        }
                         LOG.info("got APPLICATIONMESSAGE PUSH from UUID " + uuid);
+
                         AppMessageHandler handler = mAppMessageHandlers.get(uuid);
                         if (handler != null) {
                             ArrayList<Pair<Integer, Object>> dict = decodeDict(buf);
@@ -1950,13 +1957,16 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         }
                         break;
                     case APPLICATIONMESSAGE_ACK:
-                        LOG.info("got APPLICATIONMESSAGE ACK");
+                        LOG.info("got APPLICATIONMESSAGE/LAUNCHER (EP " + endpoint + ")  ACK");
+                        devEvts = new GBDeviceEvent[]{null};
                         break;
                     case APPLICATIONMESSAGE_NACK:
-                        LOG.info("got APPLICATIONMESSAGE NACK");
+                        LOG.info("got APPLICATIONMESSAGE/LAUNCHER (EP " + endpoint + ")  NACK");
+                        devEvts = new GBDeviceEvent[]{null};
                         break;
                     case APPLICATIONMESSAGE_REQUEST:
-                        LOG.info("got APPLICATIONMESSAGE REQUEST");
+                        LOG.info("got APPLICATIONMESSAGE/LAUNCHER (EP " + endpoint + ")  REQUEST");
+                        devEvts = new GBDeviceEvent[]{null};
                         break;
                     default:
                         break;
