@@ -164,7 +164,7 @@ public class NotificationListener extends NotificationListenerService {
             }
         }
 
-        if (source.equals("com.moez.QKSMS") || source.equals("com.android.mms")) {
+        if (source.equals("com.moez.QKSMS") || source.equals("com.android.mms") || source.equals("com.sonyericsson.conversations")) {
             if (!"never".equals(sharedPrefs.getString("notification_mode_sms", "when_screen_off"))) {
                 return;
             }
@@ -201,6 +201,7 @@ public class NotificationListener extends NotificationListenerService {
                 break;
             case "com.moez.QKSMS":
             case "com.android.mms":
+            case "com.sonyericsson.conversations":
                 notificationSpec.type = NotificationType.SMS;
                 break;
             case "eu.siacs.conversations":
