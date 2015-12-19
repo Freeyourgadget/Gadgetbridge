@@ -513,7 +513,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         }
 
         int replies_length = -1;
-        if (cannedReplies != null) {
+        if (cannedReplies != null && cannedReplies.length > 0) {
             actions_count++;
             for (String reply : cannedReplies) {
                 replies_length += reply.getBytes().length + 1;
@@ -774,7 +774,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         }
 
         int replies_length = -1;
-        if (cannedReplies != null) {
+        if (cannedReplies != null && cannedReplies.length > 0) {
             actions_count++;
             for (String reply : cannedReplies) {
                 replies_length += reply.getBytes().length + 1;
