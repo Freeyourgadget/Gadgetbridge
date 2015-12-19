@@ -648,7 +648,24 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    private byte[] encodeTimelinePin(int id, int timestamp, short duration, int icon_id, String title) {
+    //TODO: works for fw 3.8 but untested for anything else
+    private byte[] encodeClearDB() {
+        int length = 4;
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + length);
+
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort((short) length);
+        buf.putShort(ENDPOINT_BLOBDB);
+
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        buf.put(BLOBDB_CLEAR);
+        buf.putShort((short) mRandom.nextInt()); // token
+        buf.put(BLOBDB_PIN);
+
+        return buf.array();
+    }
+
+    public byte[] encodeTimelinePin(int id, int timestamp, short duration, int icon_id, String title) {
         final short TIMELINE_PIN_LENGTH = 46;
 
         icon_id |= 0x80000000;
