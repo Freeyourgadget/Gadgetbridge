@@ -99,12 +99,24 @@ public class CalendarEvents {
             return begin;
         }
 
+        public int getBeginSeconds() {
+            return (int)(begin/1000);
+        }
+
         public long getEnd() {
             return end;
         }
 
         public long getDuration() {
             return end - begin;
+        }
+
+        public int getDurationSeconds() {
+            return (int)((getDuration())/1000);
+        }
+
+        public short getDurationMinutes() {
+            return (short)(getDurationSeconds()/60);
         }
 
 
