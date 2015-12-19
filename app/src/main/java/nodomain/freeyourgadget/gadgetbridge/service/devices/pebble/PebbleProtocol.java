@@ -648,24 +648,23 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    //TODO: works for fw 3.8 but untested for anything else
-    private byte[] encodeClearDB() {
-        int length = 4;
-        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + length);
+    private byte[] encodeBlobDBClear(byte database) {
+        final short LENGTH_BLOBDB_CLEAR = 4;
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_BLOBDB_CLEAR);
 
         buf.order(ByteOrder.BIG_ENDIAN);
-        buf.putShort((short) length);
+        buf.putShort(LENGTH_BLOBDB_CLEAR);
         buf.putShort(ENDPOINT_BLOBDB);
 
         buf.order(ByteOrder.LITTLE_ENDIAN);
         buf.put(BLOBDB_CLEAR);
         buf.putShort((short) mRandom.nextInt()); // token
-        buf.put(BLOBDB_PIN);
+        buf.put(database);
 
         return buf.array();
     }
 
-    public byte[] encodeTimelinePin(int id, int timestamp, short duration, int icon_id, String title) {
+    private byte[] encodeTimelinePin(int id, int timestamp, short duration, int icon_id, String title) {
         final short TIMELINE_PIN_LENGTH = 46;
 
         icon_id |= 0x80000000;
@@ -1079,9 +1078,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     private byte[] encodePhoneVersion3x(byte os) {
-        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + 25);
+        final short LENGTH_PHONEVERSION3X = 25;
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_PHONEVERSION3X);
         buf.order(ByteOrder.BIG_ENDIAN);
-        buf.putShort((short) 25);
+        buf.putShort(LENGTH_PHONEVERSION3X);
         buf.putShort(ENDPOINT_PHONEVERSION);
         buf.put((byte) 0x01);
         buf.putInt(-1); //0xffffffff
@@ -1090,14 +1090,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putInt(os);
 
         buf.put(PHONEVERSION_APPVERSION_MAGIC);
-        buf.put((byte) 3); // major?
-        buf.put((byte) 8); // minor?
-        buf.put((byte) 1); // patch?
-        buf.put((byte) 3); // ???
-        buf.put((byte) 0); // ???
-        buf.put((byte) 0); // ???
-        buf.put((byte) 0); // ???
-        buf.putInt(0); // ???
+        buf.put((byte) 3); // major
+        buf.put((byte) 8); // minor
+        buf.put((byte) 1); // patch
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        buf.putLong(0x0000000000000003); //flags
 
         return buf.array();
     }
