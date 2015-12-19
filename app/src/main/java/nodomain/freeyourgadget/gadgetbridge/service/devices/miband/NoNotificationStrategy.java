@@ -10,8 +10,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 /**
  * Does not do anything.
  */
-public class NoNotifcationStrategy implements NotificationStrategy {
-    private static final Logger LOG = LoggerFactory.getLogger(NoNotifcationStrategy.class);
+public class NoNotificationStrategy implements NotificationStrategy {
+    private static final Logger LOG = LoggerFactory.getLogger(NoNotificationStrategy.class);
 
     @Override
     public void sendDefaultNotification(TransactionBuilder builder, BtLEAction extraAction) {
