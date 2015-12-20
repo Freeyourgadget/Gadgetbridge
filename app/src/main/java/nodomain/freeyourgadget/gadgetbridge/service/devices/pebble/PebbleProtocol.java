@@ -664,7 +664,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    private byte[] encodeTimelinePin(int id, int timestamp, short duration, int icon_id, String title) {
+    private byte[] encodeTimelinePin(int id, int timestamp, short duration, int icon_id, String title, String subtitle) {
         final short TIMELINE_PIN_LENGTH = 46;
 
         icon_id |= 0x80000000;
@@ -673,6 +673,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
         byte actions_count = 0;
 
         int attributes_length = 10 + title.getBytes().length;
+        if (subtitle != null && !subtitle.isEmpty()) {
+            attributes_length += 3 + subtitle.getBytes().length;
+            attributes_count += 1;
+        }
+
         int pin_length = TIMELINE_PIN_LENGTH + attributes_length;
         ByteBuffer buf = ByteBuffer.allocate(pin_length);
 
@@ -687,7 +692,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putShort(duration);
         buf.put((byte) 0x02); // type (0x02 = pin)
         buf.putShort((short) 0x0001); // flags 0x0001 = ?
-        buf.put((byte) 0x02); // layout (0x02 = pin?)
+        buf.put((byte) 0x01); // layout was (0x02 = pin?), 0x01 needed for subtitle aber seems to do no harm if there isn't one
 
         buf.putShort((short) attributes_length); // total length of all attributes and actions in bytes
         buf.put(attributes_count);
@@ -699,6 +704,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put((byte) 1); // title
         buf.putShort((short) title.getBytes().length);
         buf.put(title.getBytes());
+        if (subtitle != null && !subtitle.isEmpty()) {
+            buf.put((byte) 2); //subtitle
+            buf.putShort((short) subtitle.getBytes().length);
+            buf.put(subtitle.getBytes());
+        }
+
 
         return encodeBlobdb(uuid, BLOBDB_INSERT, BLOBDB_PIN, buf.array());
     }
