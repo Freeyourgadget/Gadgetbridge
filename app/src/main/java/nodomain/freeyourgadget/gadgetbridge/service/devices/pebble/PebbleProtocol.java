@@ -1527,84 +1527,29 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return null;
     }
 
-    private GBDeviceEvent[] decodeNotificationAction2x(ByteBuffer buf) {
-        buf.order(ByteOrder.LITTLE_ENDIAN);
-        byte command = buf.get();
-        if (command == 0x02) {
-            int id = buf.getInt();
-            byte action = buf.get();
-            if (action >= 0x01 && action <= 0x05) {
-                GBDeviceEventNotificationControl devEvtNotificationControl = new GBDeviceEventNotificationControl();
-                devEvtNotificationControl.handle = id;
-                GBDeviceEventSendBytes sendBytesAck = null;
-
-                switch (action) {
-                    case 0x01:
-                        devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.OPEN;
-                        sendBytesAck = new GBDeviceEventSendBytes();
-                        sendBytesAck.encodedBytes = encodeActionResponse2x(id, action, 6, "Opened");
-                        break;
-                    case 0x02:
-                        devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.DISMISS;
-                        break;
-                    case 0x03:
-                        devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.DISMISS_ALL;
-                        break;
-                    case 0x04:
-                        devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.MUTE;
-                        sendBytesAck = new GBDeviceEventSendBytes();
-                        sendBytesAck.encodedBytes = encodeActionResponse2x(id, action, 6, "Muted");
-                        break;
-                    case 0x05:
-                        String caption = "";
-                        byte attribute_count = buf.get();
-                        if (attribute_count > 0) {
-                            byte attribute = buf.get();
-                            if (attribute == 0x01) { // reply string is in attribute 0x01
-                                short length = buf.getShort();
-                                if (length > 64) length = 64;
-                                byte[] reply = new byte[length];
-                                buf.get(reply);
-                                devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
-                                devEvtNotificationControl.reply = new String(reply);
-                                caption = "Sent";
-                            } else {
-                                caption = "FAILED";
-                                devEvtNotificationControl = null; // error
-                            }
-                        } else {
-                            caption = "FAILED";
-                            devEvtNotificationControl = null; // error
-                        }
-                        sendBytesAck = new GBDeviceEventSendBytes();
-                        sendBytesAck.encodedBytes = encodeActionResponse2x(id, action, 6, caption);
-                        break;
-                    default:
-                        return null;
-                }
-                return new GBDeviceEvent[]{sendBytesAck, devEvtNotificationControl};
-            }
-            LOG.info("unexpected paramerter in dismiss action: " + action);
-        }
-
-        return null;
-    }
-
-    private GBDeviceEvent[] decodeNotificationAction3x(ByteBuffer buf) {
+    private GBDeviceEvent[] decodeAction(ByteBuffer buf) {
         buf.order(ByteOrder.LITTLE_ENDIAN);
         byte command = buf.get();
         if (command == NOTIFICATIONACTION_INVOKE) {
-            buf.order(ByteOrder.BIG_ENDIAN);
-            long uuid_high = buf.getLong();
-            long uuid_low = buf.getLong();
-            buf.order(ByteOrder.LITTLE_ENDIAN);
-            int id = (int) (uuid_low & 0xffffffffL);
+            int id;
+            long uuid_high = 0;
+            long uuid_low = 0;
+            if (isFw3x) {
+                buf.order(ByteOrder.BIG_ENDIAN);
+                uuid_high = buf.getLong();
+                uuid_low = buf.getLong();
+                buf.order(ByteOrder.LITTLE_ENDIAN);
+                id = (int) (uuid_low & 0xffffffffL);
+            } else {
+                id = buf.getInt();
+            }
             byte action = buf.get();
             if (action >= 0x01 && action <= 0x05) {
                 GBDeviceEventNotificationControl devEvtNotificationControl = new GBDeviceEventNotificationControl();
                 devEvtNotificationControl.handle = id;
                 String caption = "undefined";
                 int icon_id = 1;
+                boolean needsAck2x = true;
                 switch (action) {
                     case 0x01:
                         devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.OPEN;
@@ -1615,11 +1560,13 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.DISMISS;
                         caption = "Dismissed";
                         icon_id = PebbleIconID.RESULT_DISMISSED;
+                        needsAck2x = false;
                         break;
                     case 0x03:
                         devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.DISMISS_ALL;
                         caption = "All dismissed";
                         icon_id = PebbleIconID.RESULT_DISMISSED;
+                        needsAck2x = false;
                         break;
                     case 0x04:
                         devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.MUTE;
@@ -1651,8 +1598,15 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         }
                         break;
                 }
-                GBDeviceEventSendBytes sendBytesAck = new GBDeviceEventSendBytes();
-                sendBytesAck.encodedBytes = encodeActionResponse(new UUID(uuid_high, uuid_low), icon_id, caption);
+                GBDeviceEventSendBytes sendBytesAck = null;
+                if (isFw3x || needsAck2x) {
+                    sendBytesAck = new GBDeviceEventSendBytes();
+                    if (isFw3x) {
+                        sendBytesAck.encodedBytes = encodeActionResponse(new UUID(uuid_high, uuid_low), icon_id, caption);
+                    } else {
+                        sendBytesAck.encodedBytes = encodeActionResponse2x(id, action, 6, caption);
+                    }
+                }
                 return new GBDeviceEvent[]{sendBytesAck, devEvtNotificationControl};
             }
             LOG.info("unexpected action: " + action);
@@ -2017,10 +1971,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 devEvts = new GBDeviceEvent[]{decodeScreenshot(buf, length)};
                 break;
             case ENDPOINT_EXTENSIBLENOTIFS:
-                devEvts = decodeNotificationAction2x(buf);
-                break;
             case ENDPOINT_NOTIFICATIONACTION:
-                devEvts = decodeNotificationAction3x(buf);
+                devEvts = decodeAction(buf);
                 break;
             case ENDPOINT_PING:
                 devEvts = new GBDeviceEvent[]{decodePing(buf)};
