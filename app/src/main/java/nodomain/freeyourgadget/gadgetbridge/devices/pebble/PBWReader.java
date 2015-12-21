@@ -186,7 +186,7 @@ public class PBWReader {
 
                 } else if (fileName.equals("appinfo.json")) {
                     long bytes = ze.getSize();
-                    if (bytes > 8192) // that should be too much
+                    if (bytes > 65536) // that should be too much
                         break;
 
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
