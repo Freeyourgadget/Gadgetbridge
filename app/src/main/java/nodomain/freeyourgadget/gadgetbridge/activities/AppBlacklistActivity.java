@@ -26,6 +26,8 @@ import android.widget.TextView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -79,6 +81,13 @@ public class AppBlacklistActivity extends Activity {
 
                 checkbox.setChecked(GBApplication.blacklist.contains(appInfo.packageName));
 
+                Collections.sort(packageList, new Comparator<ApplicationInfo>() {
+                    @Override
+                    public int compare(ApplicationInfo ai1, ApplicationInfo ai2) {
+                        int retval = GBApplication.blacklist.contains(ai1.packageName) ? -1 : 0;
+                        return GBApplication.blacklist.contains(ai2.packageName) ? retval+=1 : retval;
+                    }
+                });
                 return view;
             }
         };
