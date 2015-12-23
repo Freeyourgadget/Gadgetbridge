@@ -25,12 +25,13 @@ import java.util.concurrent.locks.ReentrantLock;
 import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBConstants;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.IDSenderLookup;
+
+//import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
 
 /**
  * Main Application class that initializes and provides access to certain things like
@@ -60,10 +61,10 @@ public class GBApplication extends Application {
         }
     };
 
-    private BluetoothConnectReceiver systemBTReceiver = new BluetoothConnectReceiver();
+    //private BluetoothConnectReceiver systemBTReceiver = new BluetoothConnectReceiver();
 
     private void quit() {
-        unregisterSystemBTReceiver();
+        //unregisterSystemBTReceiver();
         GB.removeAllNotifications(this);
     }
 
@@ -102,22 +103,24 @@ public class GBApplication extends Application {
         filterLocal.addAction(ACTION_QUIT);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
 
-        registerSystemBTReceiver();
+        //registerSystemBTReceiver();
 // for testing DB stuff
 //        SQLiteDatabase db = mActivityDatabaseHandler.getWritableDatabase();
 //        db.close();
     }
 
-    private void registerSystemBTReceiver() {
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("android.bluetooth.device.action.ACL_CONNECTED");
-        filter.addAction("android.bluetooth.device.action.ACL_CONNECTED");
-        registerReceiver(systemBTReceiver, filter);
-    }
+    /*
+        private void registerSystemBTReceiver() {
+            IntentFilter filter = new IntentFilter();
+            filter.addAction("android.bluetooth.device.action.ACL_CONNECTED");
+            filter.addAction("android.bluetooth.device.action.ACL_CONNECTED");
+            registerReceiver(systemBTReceiver, filter);
+        }
 
-    private void unregisterSystemBTReceiver() {
-        unregisterReceiver(systemBTReceiver);
-    }
+        private void unregisterSystemBTReceiver() {
+            unregisterReceiver(systemBTReceiver);
+        }
+    */
 
     private void setupExceptionHandler() {
         LoggingExceptionHandler handler = new LoggingExceptionHandler(Thread.getDefaultUncaughtExceptionHandler());
