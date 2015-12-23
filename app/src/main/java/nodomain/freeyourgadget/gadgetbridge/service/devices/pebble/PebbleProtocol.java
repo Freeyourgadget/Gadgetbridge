@@ -349,6 +349,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private static final UUID UUID_MISFIT = UUID.fromString("0b73b76a-cd65-4dc2-9585-aaa213320858");
     private static final UUID UUID_PEBBLE_HEALTH = UUID.fromString("36d8c6ed-4c83-4fa1-a9e2-8f12dc941f8c");
     private static final UUID UUID_PEBBLE_TIMESTYLE = UUID.fromString("4368ffa4-f0fb-4823-90be-f754b076bdaa");
+    private static final UUID UUID_PEBSTYLE = UUID.fromString("da05e84d-e2a2-4020-a2dc-9cdcf265fcdd");
 
     private static final Map<UUID, AppMessageHandler> mAppMessageHandlers = new HashMap<>();
 
@@ -358,6 +359,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
         mAppMessageHandlers.put(UUID_WHETHERNEAT, new AppMessageHandlerWeatherNeat(UUID_WHETHERNEAT, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_MISFIT, new AppMessageHandlerMisfit(UUID_MISFIT, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_PEBBLE_TIMESTYLE, new AppMessageHandlerTimeStylePebble(UUID_PEBBLE_TIMESTYLE, PebbleProtocol.this));
+        mAppMessageHandlers.put(UUID_PEBSTYLE, new AppMessageHandlerPebStyle(UUID_PEBSTYLE, PebbleProtocol.this));
+
     }
 
     private static byte[] encodeSimpleMessage(short endpoint, byte command) {
@@ -1656,6 +1659,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
         switch (command) {
             case APPRUNSTATE_START:
                 LOG.info(ENDPOINT_NAME + ": started " + uuid);
+                if (UUID_PEBSTYLE.equals(uuid)) {
+                    AppMessageHandler handler = mAppMessageHandlers.get(uuid);
+                    return handler.pushMessage()[0];
+                }
                 break;
             case APPRUNSTATE_STOP:
                 LOG.info(ENDPOINT_NAME + ": stopped " + uuid);

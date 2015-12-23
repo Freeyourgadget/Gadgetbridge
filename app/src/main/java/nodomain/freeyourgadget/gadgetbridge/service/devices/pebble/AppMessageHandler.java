@@ -25,4 +25,7 @@ public class AppMessageHandler {
         return null;
     }
 
+    public GBDeviceEvent[] pushMessage() {
+        return null;
+    }
 }
