@@ -16,7 +16,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.fsck.k9.permission.READ_MESSAGES" />
-    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
 
     <uses-feature
         android:name="android.hardware.bluetooth"
@@ -48,19 +48,19 @@
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".activities.ControlCenter"></activity>
+            android:parentActivityName=".activities.ControlCenter"/>
         <activity
             android:name=".devices.miband.MiBandPreferencesActivity"
             android:label="@string/preferences_miband_settings"
-            android:parentActivityName=".activities.SettingsActivity"></activity>
+            android:parentActivityName=".activities.SettingsActivity"/>
         <activity
             android:name=".activities.AppManagerActivity"
             android:label="@string/title_activity_appmanager"
-            android:parentActivityName=".activities.ControlCenter"></activity>
+            android:parentActivityName=".activities.ControlCenter"/>
         <activity
             android:name=".activities.AppBlacklistActivity"
             android:label="@string/title_activity_appblacklist"
-            android:parentActivityName=".activities.SettingsActivity"></activity>
+            android:parentActivityName=".activities.SettingsActivity"/>
         <activity
             android:name=".activities.FwAppInstallerActivity"
             android:label="@string/title_activity_fw_app_insaller"
@@ -236,15 +236,15 @@
         <activity
             android:name=".activities.charts.ChartsActivity"
             android:label="@string/title_activity_charts"
-            android:parentActivityName=".activities.ControlCenter"></activity>
+            android:parentActivityName=".activities.ControlCenter"/>
         <activity
             android:name=".activities.ConfigureAlarms"
             android:label="@string/title_activity_set_alarm"
-            android:parentActivityName=".activities.SettingsActivity"></activity>
+            android:parentActivityName=".activities.SettingsActivity"/>
         <activity
             android:name=".activities.AlarmDetails"
             android:label="@string/title_activity_alarm_details"
-            android:parentActivityName=".activities.ConfigureAlarms"></activity>
+            android:parentActivityName=".activities.ConfigureAlarms"/>
     </application>
 
 </manifest>
