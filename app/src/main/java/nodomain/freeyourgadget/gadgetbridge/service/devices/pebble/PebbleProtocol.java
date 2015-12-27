@@ -1110,7 +1110,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put((byte) 8); // minor
         buf.put((byte) 1); // patch
         buf.order(ByteOrder.LITTLE_ENDIAN);
-        buf.putLong(0x0000000000000003); //flags
+        buf.putLong(0x00000000000000af); //flags
 
         return buf.array();
     }

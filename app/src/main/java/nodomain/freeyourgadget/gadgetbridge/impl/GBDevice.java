@@ -194,6 +194,8 @@ public class GBDevice implements Parcelable {
         switch (mState) {
             case NOT_CONNECTED:
                 return GBApplication.getContext().getString(R.string.not_connected);
+            case WAITING_FOR_RECONNECT:
+                return GBApplication.getContext().getString(R.string.waiting_for_reconnect);
             case CONNECTING:
                 return GBApplication.getContext().getString(R.string.connecting);
             case CONNECTED:
@@ -310,6 +312,7 @@ public class GBDevice implements Parcelable {
     public enum State {
         // Note: the order is important!
         NOT_CONNECTED,
+        WAITING_FOR_RECONNECT,
         CONNECTING,
         CONNECTED,
         INITIALIZING,
@@ -319,6 +322,6 @@ public class GBDevice implements Parcelable {
          * device name, firmware version, hardware revision (as applicable) is available
          * in the GBDevice.
          */
-        INITIALIZED
+        INITIALIZED,
     }
 }

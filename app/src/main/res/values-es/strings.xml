@@ -44,7 +44,7 @@
   <string name="when_screen_off">cuando la pantalla está apagada</string>
   <string name="never">nunca</string>
   <string name="pref_blacklist">Excluir aplicaciones</string>
-  <string name="pref_title_canned_replies">Respuestas rápidas</string>
+  <string name="pref_title_canned_replies">Respuestas enlatadas</string>
   <string name="pref_header_development">Opciones de desarrollador</string>
   <string name="pref_title_development_miaddr">Dirección de MiBand</string>
   <string name="pref_title_pebble_settings">Ajustes de Pebble</string>
@@ -198,4 +198,5 @@
   <string name="pref_title_keep_data_on_device">Mantener los datos de actividad en el dispositivo</string>
   <string name="miband_fwinstaller_incompatible_version">Firmware incompatible</string>
   <string name="fwinstaller_firmware_not_compatible_to_device">Este firmware no es compatible con tu dispositivo</string>
+  <string name="miband_prefs_reserve_alarm_calendar">Reserva de alarmas para próximos eventos</string>
 </resources>
