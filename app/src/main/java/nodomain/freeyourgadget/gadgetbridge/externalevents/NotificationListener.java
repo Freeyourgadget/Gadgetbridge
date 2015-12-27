@@ -164,7 +164,8 @@ public class NotificationListener extends NotificationListenerService {
             }
         }
 
-        if (source.equals("com.moez.QKSMS") || source.equals("com.android.mms") || source.equals("com.sonyericsson.conversations")) {
+        if (source.equals("com.moez.QKSMS") || source.equals("com.android.mms") ||
+                source.equals("com.sonyericsson.conversations") || source.equals("com.android.messaging")) {
             if (!"never".equals(sharedPrefs.getString("notification_mode_sms", "when_screen_off"))) {
                 return;
             }
@@ -187,7 +188,7 @@ public class NotificationListener extends NotificationListenerService {
         if (ai != null) {
             notificationSpec.sourceName = (String) pm.getApplicationLabel(ai);
         }
-        
+
         switch (source) {
             case "org.mariotaku.twidere":
             case "com.twitter.android":
@@ -201,6 +202,7 @@ public class NotificationListener extends NotificationListenerService {
                 break;
             case "com.moez.QKSMS":
             case "com.android.mms":
+            case "com.android.messaging":
             case "com.sonyericsson.conversations":
                 notificationSpec.type = NotificationType.SMS;
                 break;
