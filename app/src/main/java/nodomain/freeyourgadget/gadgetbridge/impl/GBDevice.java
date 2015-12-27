@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
@@ -307,6 +308,22 @@ public class GBDevice implements Parcelable {
     @Override
     public String toString() {
         return "Device " + getName() + ", " + getAddress() + ", " + getStateString();
+    }
+
+    /**
+     * Returns a shortened form of the device's address, in order to form a
+     * unique name in companion with #getName().
+     */
+    @NonNull
+    public String getShortAddress() {
+        String address = getAddress();
+        if (address != null) {
+            if (address.length() > 5) {
+                return address.substring(address.length() - 5);
+            }
+            return address;
+        }
+        return "";
     }
 
     public enum State {
