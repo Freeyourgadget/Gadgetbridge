@@ -197,6 +197,13 @@
         <service android:name=".service.DeviceCommunicationService" />
 
         <receiver
+            android:name=".externalevents.WeatherNotificationReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="ru.gelin.android.weather.notification.ACTION_WEATHER_UPDATE_2" />
+            </intent-filter>
+        </receiver>
+        <receiver
             android:name=".externalevents.BluetoothStateChangeReceiver"
             android:exported="false">
             <intent-filter>
