@@ -47,6 +47,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DI
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ENABLE_REALTIME_STEPS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_FETCH_ACTIVITY_DATA;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_FIND_DEVICE;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_HEARTRATE_TEST;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_INSTALL;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_NOTIFICATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REBOOT;
@@ -249,6 +250,10 @@ public class DeviceCommunicationService extends Service {
             }
             case ACTION_REBOOT: {
                 mDeviceSupport.onReboot();
+                break;
+            }
+            case ACTION_HEARTRATE_TEST: {
+                mDeviceSupport.onHearRateTest();
                 break;
             }
             case ACTION_FETCH_ACTIVITY_DATA: {

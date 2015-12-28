@@ -26,13 +26,13 @@ public interface DeviceService extends EventHandler {
     String ACTION_DELETEAPP = PREFIX + ".action.deleteapp";
     String ACTION_INSTALL = PREFIX + ".action.install";
     String ACTION_REBOOT = PREFIX + ".action.reboot";
+    String ACTION_HEARTRATE_TEST = PREFIX + ".action.heartrate_test";
     String ACTION_FETCH_ACTIVITY_DATA = PREFIX + ".action.fetch_activity_data";
     String ACTION_DISCONNECT = PREFIX + ".action.disconnect";
     String ACTION_FIND_DEVICE = PREFIX + ".action.find_device";
     String ACTION_SET_ALARMS = PREFIX + ".action.set_alarms";
     String ACTION_ENABLE_REALTIME_STEPS = PREFIX + ".action.enable_realtime_steps";
     String ACTION_REALTIME_STEPS = PREFIX + ".action.realtime_steps";
-
     String EXTRA_DEVICE_ADDRESS = "device_address";
     String EXTRA_NOTIFICATION_BODY = "notification_body";
     String EXTRA_NOTIFICATION_FLAGS = "notification_flags";

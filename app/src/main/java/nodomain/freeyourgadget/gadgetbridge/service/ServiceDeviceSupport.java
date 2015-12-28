@@ -195,6 +195,14 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
+    public void onHearRateTest() {
+        if (checkBusy("heartrate")) {
+            return;
+        }
+        delegate.onHearRateTest();
+    }
+
+    @Override
     public void onFindDevice(boolean start) {
         if (checkBusy("find device")) {
             return;

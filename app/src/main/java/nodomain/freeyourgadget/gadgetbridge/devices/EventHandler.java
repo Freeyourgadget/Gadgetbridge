@@ -40,6 +40,8 @@ public interface EventHandler {
 
     void onReboot();
 
+    void onHearRateTest();
+
     void onFindDevice(boolean start);
 
     void onScreenshotReq();

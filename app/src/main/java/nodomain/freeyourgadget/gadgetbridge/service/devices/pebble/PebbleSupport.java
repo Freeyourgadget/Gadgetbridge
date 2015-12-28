@@ -38,6 +38,11 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
     }
 
     @Override
+    public void onHearRateTest() {
+
+    }
+
+    @Override
     public synchronized PebbleIoThread getDeviceIOThread() {
         return (PebbleIoThread) super.getDeviceIOThread();
     }
