@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -71,7 +72,7 @@ public class WeatherNotificationReceiver extends BroadcastReceiver {
         }
         Bundle bundle = intent.getExtras();
 
-        for (String key : bundle.keySet()) {
+/*        for (String key : bundle.keySet()) {
             Object value = bundle.get(key);
             LOG.info(String.format("%s %s (%s)", key,
                     value.toString(), value.getClass().getName()));
@@ -85,6 +86,6 @@ public class WeatherNotificationReceiver extends BroadcastReceiver {
         Weather weather = intent.getParcelableExtra("ru.gelin.android.weather.notification.EXTRA_WEATHER");
         if (weather != null) {
             LOG.info("weather in " + weather.location + " is " + weather.currentTemp);
-        }
+        }*/
     }
 }
