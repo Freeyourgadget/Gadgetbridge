@@ -1,6 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 
-import android.graphics.Color;
 import android.util.Pair;
 
 import org.slf4j.Logger;
@@ -12,6 +11,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
+import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleColor;
 
 public class AppMessageHandlerPebStyle extends AppMessageHandler {
     public static final int KEY_AMPM_TEXT = 21;
@@ -62,10 +62,9 @@ public class AppMessageHandlerPebStyle extends AppMessageHandler {
         pairs.add(new Pair<>(KEY_SECONDARY_INFO_TYPE, (Object) 3)); //1 time, 2 location
         pairs.add(new Pair<>(KEY_SIDEBAR_LOCATION, (Object) 1)); //0 right
         pairs.add(new Pair<>(KEY_COLOR_SELECTION, (Object) 1)); //1 custom
-        pairs.add(new Pair<>(KEY_MAIN_COLOR, (Object) Color.parseColor("#000000")));
-        pairs.add(new Pair<>(KEY_MAIN_BG_COLOR, (Object) Color.parseColor("#ffffff")));
+        pairs.add(new Pair<>(KEY_MAIN_COLOR, (Object) PebbleColor.Black));
+        pairs.add(new Pair<>(KEY_MAIN_BG_COLOR, (Object) PebbleColor.White));
         pairs.add(new Pair<>(KEY_WEATHER_TEMP, (Object) 10)); //2 = Deutsch
-
         /*
         pairs.add(new Pair<>(KEY_SETTING_COLOR_SIDEBAR, (Object) Color.parseColor("#00aaff")));
 
