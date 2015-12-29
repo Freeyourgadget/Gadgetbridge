@@ -47,7 +47,7 @@ public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {
         ImageView deviceImageView = (ImageView) view.findViewById(R.id.device_image);
         ProgressBar busyIndicator = (ProgressBar) view.findViewById(R.id.device_busy_indicator);
 
-        deviceNameLabel.setText(device.getName());
+        deviceNameLabel.setText(getUniqueDeviceName(device));
         deviceInfoLabel.setText(device.getInfoString());
 
         if (device.isBusy()) {
@@ -92,5 +92,26 @@ public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {
         }
 
         return view;
+    }
+
+    private String getUniqueDeviceName(GBDevice device) {
+        String deviceName = device.getName();
+        if (!isUniqueDeviceName(device, deviceName)) {
+            deviceName = deviceName + " " + device.getShortAddress();
+        }
+        return deviceName;
+    }
+
+    private boolean isUniqueDeviceName(GBDevice device, String deviceName) {
+        for (int i = 0; i < getCount(); i++) {
+            GBDevice item = getItem(i);
+            if (item == device) {
+                continue;
+            }
+            if (deviceName.equals(item.getName())) {
+                return false;
+            }
+        }
+        return true;
     }
 }

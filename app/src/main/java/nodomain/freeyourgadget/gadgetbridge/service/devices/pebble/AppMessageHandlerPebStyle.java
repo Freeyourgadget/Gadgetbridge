@@ -54,22 +54,33 @@ public class AppMessageHandlerPebStyle extends AppMessageHandler {
     private byte[] encodePebStyleConfig() {
         ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>();
         //settings that give good legibility on pebble time
-        pairs.add(new Pair<>(KEY_MAIN_CLOCK, (Object) 1)); //0 analog
         pairs.add(new Pair<>(KEY_SECOND_HAND, (Object) 0)); //1 enabled
         pairs.add(new Pair<>(KEY_BLUETOOTH_ALERT, (Object) 0)); //1 silent, 2 weak, up to 5
         pairs.add(new Pair<>(KEY_TEMPERATURE_FORMAT, (Object) 1)); //0 fahrenheit
         pairs.add(new Pair<>(KEY_LOCATION_SERVICE, (Object) 2)); //0 uto, 1 manual
-        pairs.add(new Pair<>(KEY_SECONDARY_INFO_TYPE, (Object) 3)); //1 time, 2 location
         pairs.add(new Pair<>(KEY_SIDEBAR_LOCATION, (Object) 1)); //0 right
         pairs.add(new Pair<>(KEY_COLOR_SELECTION, (Object) 1)); //1 custom
         pairs.add(new Pair<>(KEY_MAIN_COLOR, (Object) PebbleColor.Black));
         pairs.add(new Pair<>(KEY_MAIN_BG_COLOR, (Object) PebbleColor.White));
-        pairs.add(new Pair<>(KEY_WEATHER_TEMP, (Object) 10)); //2 = Deutsch
+        pairs.add(new Pair<>(KEY_SIDEBAR_BG_COLOR, (Object) PebbleColor.MediumSpringGreen));
+
+        //DIGITAL settings
         /*
-        pairs.add(new Pair<>(KEY_SETTING_COLOR_SIDEBAR, (Object) Color.parseColor("#00aaff")));
+        pairs.add(new Pair<>(KEY_MAIN_CLOCK, (Object) 1)); //0 analog
+        pairs.add(new Pair<>(KEY_SECONDARY_INFO_TYPE, (Object) 3)); //1 time, 2 location
+        */
+        //ANALOG + DIGITAL settings
+        pairs.add(new Pair<>(KEY_MAIN_CLOCK, (Object) 0)); //0 analog, 1 digital
+        pairs.add(new Pair<>(KEY_SECONDARY_INFO_TYPE, (Object) 1)); //1 time, 2 location
 
 
-*/
+        //WEATHER
+        /*
+        //comment the same key in the general section above!
+        pairs.add(new Pair<>(KEY_LOCATION_SERVICE, (Object) 0)); //0 auto, 1 manual
+        pairs.add(new Pair<>(KEY_WEATHER_CODE, (Object) 3));
+        pairs.add(new Pair<>(KEY_WEATHER_TEMP, (Object) 10));
+        */
 
         byte[] testMessage = mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs);
 

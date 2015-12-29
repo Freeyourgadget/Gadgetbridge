@@ -408,6 +408,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         } catch (IOException ex) {
             LOG.error("Unable to set time on MI device", ex);
         }
+        //TODO: once we have a common strategy for sending events (e.g. EventHandler), remove this call from here. Meanwhile it does no harm.
+        sendCalendarEvents();
     }
 
     /**
@@ -796,7 +798,10 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         LOG.info("MI Band pairing result: " + value);
     }
 
-    private void sendEvents() {
+    /**
+     * Fetch the events from the android device calendars and set the alarms on the miband.
+     */
+    private void sendCalendarEvents() {
         try {
             TransactionBuilder builder = performInitialized("Send upcoming events");
             BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
@@ -811,16 +816,17 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 int iteration = 0;
                 ArrayList<GBAlarm> alarmList = new ArrayList<>();
                 for(CalendarEvents.CalendarEvent mEvt : mEvents) {
-                    if (iteration >= availableSlots) {
+                    if (iteration >= availableSlots || iteration > 2) {
                         break;
                     }
+                    int slotToUse = 2 - iteration;
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis(mEvt.getBegin());
                     byte[] calBytes = MiBandDateConverter.calendarToRawBytes(calendar);
 
                     byte[] alarmMessage = new byte[]{
                             MiBandService.COMMAND_SET_TIMER,
-                            (byte)(2-iteration),
+                            (byte) slotToUse,
                             (byte) 1,
                             calBytes[0],
                             calBytes[1],
