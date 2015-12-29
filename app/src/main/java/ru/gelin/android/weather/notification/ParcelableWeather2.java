@@ -17,24 +17,31 @@ public class ParcelableWeather2 implements Parcelable {
     public int version = 0;
     public String location = "";
     public int currentTemp = 0;
+    public String currentCondition = "";
 
     private ParcelableWeather2(Parcel in) {
         int version = in.readInt();
         if (version != 2) {
             return;
         }
-        Bundle bundle = in.readBundle(this.getClass().getClassLoader());
+        Bundle bundle = in.readBundle();
         location = bundle.getString("weather_location");
         time = bundle.getLong("weather_time");
         queryTime = bundle.getLong("weather_query_time");
         bundle.getString("weather_forecast_url");
         int conditions = bundle.getInt("weather_conditions");
         if (conditions > 0) {
-            Bundle conditionBundle = in.readBundle(this.getClass().getClassLoader());
-            conditionBundle.getString("weather_condition_text");
+            Bundle conditionBundle = in.readBundle();
+            currentCondition = conditionBundle.getString("weather_condition_text");
             conditionBundle.getStringArray("weather_condition_types");
             currentTemp = conditionBundle.getInt("weather_current_temp");
-
+        }
+        // get the rest
+        while(--conditions > 0) {
+            Bundle conditionBundle = in.readBundle();
+            conditionBundle.getString("weather_condition_text");
+            conditionBundle.getStringArray("weather_condition_types");
+            conditionBundle.getInt("weather_current_temp");
         }
     }
 
