@@ -6,7 +6,8 @@
 * Pebble: Support replying to SMS form the watch (canned replies)
 * Pebble: Allow installing apps compiled with SDK 2.x also on the basalt platform (Time, Time Steel)
 * Pebble: Fix decoding strings in appmessages from the pebble (fixes sending SMS from "Dialer for Pebble")
-* Pebble: support incoming reconnections when device returns from "Airplane Mode" or "Stand-By Mode"
+* Pebble: Support incoming reconnections when device returns from "Airplane Mode" or "Stand-By Mode"
+* Pebble: Fix crash when turning off bluetooth when connected on Android 6.0
 * Mi Band: reserve some alarm slots for alerting when upcoming events begin. NB: the band will vibrate at the start time of the event, android reminders are ignored
 * Mi Band: Display unique devices Names, not just "MI"
 * Some new and updated icons
