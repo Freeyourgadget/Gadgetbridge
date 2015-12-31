@@ -18,6 +18,7 @@ import java.util.Random;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppManagement;
@@ -1579,6 +1580,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         icon_id = PebbleIconID.RESULT_MUTE;
                         break;
                     case 0x05:
+                        boolean failed = true;
                         byte attribute_count = buf.get();
                         if (attribute_count > 0) {
                             byte attribute = buf.get();
@@ -1587,16 +1589,18 @@ public class PebbleProtocol extends GBDeviceProtocol {
                                 if (length > 64) length = 64;
                                 byte[] reply = new byte[length];
                                 buf.get(reply);
-                                devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
-                                devEvtNotificationControl.reply = new String(reply);
-                                caption = "SENT";
-                                icon_id = PebbleIconID.RESULT_SENT;
-                            } else {
-                                devEvtNotificationControl = null; // error
-                                caption = "FAILED";
-                                icon_id = PebbleIconID.RESULT_FAILED;
+                                // FIXME: this does not belong here, but we want at least check if there is no chance at all to send out the SMS later before we report success
+                                String phoneNumber = GBApplication.getIDSenderLookup().lookup(id);
+                                if (phoneNumber != null) {
+                                    devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
+                                    devEvtNotificationControl.reply = new String(reply);
+                                    caption = "SENT";
+                                    icon_id = PebbleIconID.RESULT_SENT;
+                                    failed = false;
+                                }
                             }
-                        } else {
+                        }
+                        if (failed) {
                             caption = "FAILED";
                             icon_id = PebbleIconID.RESULT_FAILED;
                             devEvtNotificationControl = null; // error
