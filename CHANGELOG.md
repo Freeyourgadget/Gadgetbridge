@@ -1,6 +1,9 @@
 ###Changelog
 
 ####Next Version
+*Pebble: Fix regression which freezes Gadgetbridge when disconnecting via long-press menu
+
+####Version 0.7.0
 * Read upcoming events (up to 7 days in the future). Requires READ_CALENDAR permission 
 * Fix double SMS on Sony Android and Android 6.0
 * Pebble: Support replying to SMS form the watch (canned replies)

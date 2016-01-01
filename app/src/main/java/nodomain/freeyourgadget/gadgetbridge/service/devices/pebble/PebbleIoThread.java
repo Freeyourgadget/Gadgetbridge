@@ -367,7 +367,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                             mIsConnected = connect(gbDevice.getAddress());
                         }
                     }
-                    if (!mIsConnected) {
+                    if (!mIsConnected && !mQuit) {
                         try {
                             gbDevice.setState(GBDevice.State.WAITING_FOR_RECONNECT);
                             gbDevice.sendDeviceUpdateIntent(getContext());
