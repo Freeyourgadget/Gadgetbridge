@@ -84,8 +84,17 @@ public class AppBlacklistActivity extends Activity {
                 Collections.sort(packageList, new Comparator<ApplicationInfo>() {
                     @Override
                     public int compare(ApplicationInfo ai1, ApplicationInfo ai2) {
-                        int retval = GBApplication.blacklist.contains(ai1.packageName) ? -1 : 0;
-                        return GBApplication.blacklist.contains(ai2.packageName) ? retval+=1 : retval;
+                        boolean blacklisted1 = GBApplication.blacklist.contains(ai1.packageName);
+                        boolean blacklisted2 = GBApplication.blacklist.contains(ai2.packageName);
+
+                        if ((blacklisted1 && blacklisted2) || (!blacklisted1 && !blacklisted2)) {
+                            // both blacklisted or both not blacklisted = sort by alphabet
+                            return ai1.packageName.compareTo(ai2.packageName);
+                        } else if (blacklisted1) {
+                            return -1;
+                        } else {
+                            return 1;
+                        }
                     }
                 });
                 return view;
