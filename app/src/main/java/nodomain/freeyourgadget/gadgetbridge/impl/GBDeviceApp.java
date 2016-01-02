@@ -11,6 +11,7 @@ public class GBDeviceApp {
     private final String version;
     private final UUID uuid;
     private final Type type;
+    private final boolean inCache;
 
     public GBDeviceApp(UUID uuid, String name, String creator, String version, Type type) {
         this.uuid = uuid;
@@ -18,6 +19,8 @@ public class GBDeviceApp {
         this.creator = creator;
         this.version = version;
         this.type = type;
+        //FIXME: do not assume
+        this.inCache = false;
     }
 
     public GBDeviceApp(JSONObject json) {
@@ -42,6 +45,12 @@ public class GBDeviceApp {
         this.creator = creator;
         this.version = version;
         this.type = type;
+        //FIXME: do not assume
+        this.inCache = true;
+    }
+
+    public boolean isInCache() {
+        return inCache;
     }
 
     public String getName() {

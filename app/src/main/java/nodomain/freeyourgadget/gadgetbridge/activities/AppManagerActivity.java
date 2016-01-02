@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
@@ -150,10 +151,13 @@ public class AppManagerActivity extends Activity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater().inflate(
-                R.menu.appmanager_context, menu);
+        getMenuInflater().inflate(R.menu.appmanager_context, menu);
         AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
         selectedApp = appList.get(acmi.position);
+
+        if (!selectedApp.isInCache()) {
+            menu.removeItem(R.id.appmanager_app_reinstall);
+        }
         menu.setHeaderTitle(selectedApp.getName());
     }
 
@@ -161,9 +165,17 @@ public class AppManagerActivity extends Activity {
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.appmanager_app_delete:
-                if (selectedApp != null) {
-                    GBApplication.deviceService().onAppDelete(selectedApp.getUUID());
+                GBApplication.deviceService().onAppDelete(selectedApp.getUUID());
+                return true;
+            case R.id.appmanager_app_reinstall:
+                File cachePath;
+                try {
+                    cachePath = new File(FileUtils.getExternalFilesDir().getPath() + "/pbw-cache/" + selectedApp.getUUID() + ".pbw");
+                } catch (IOException e) {
+                    LOG.warn("could not get external dir while reading pbw cache.");
+                    return true;
                 }
+                GBApplication.deviceService().onInstallApp(Uri.fromFile(cachePath));
                 return true;
             default:
                 return super.onContextItemSelected(item);

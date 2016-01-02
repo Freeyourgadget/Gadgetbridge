@@ -216,4 +216,5 @@
     <string name="fwinstaller_firmware_not_compatible_to_device">This firmware is not compatible with the device</string>
     <string name="miband_prefs_reserve_alarm_calendar">Alarms to reserve for upcoming events</string>
     <string name="waiting_for_reconnect">waiting for reconnect</string>
+    <string name="appmananger_app_reinstall">Reinstall</string>
 </resources>

@@ -1,7 +1,8 @@
 ###Changelog
 
-####Next Version
-*Pebble: Fix regression which freezes Gadgetbridge when disconnecting via long-press menu
+####Version 0.7.1
+* Pebble: allow reinstallation of apps in pbw-cache from App Manager (long press menu)
+* Pebble: Fix regression which freezes Gadgetbridge when disconnecting via long-press menu
 
 ####Version 0.7.0
 * Read upcoming events (up to 7 days in the future). Requires READ_CALENDAR permission 
