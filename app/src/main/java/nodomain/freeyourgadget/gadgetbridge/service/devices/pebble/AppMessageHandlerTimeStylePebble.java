@@ -12,6 +12,8 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
+import nodomain.freeyourgadget.gadgetbridge.model.Weather;
+import ru.gelin.android.weather.notification.ParcelableWeather2;
 
 public class AppMessageHandlerTimeStylePebble extends AppMessageHandler {
     public static final int KEY_SETTING_SIDEBAR_LEFT = 9;
@@ -59,43 +61,44 @@ public class AppMessageHandlerTimeStylePebble extends AppMessageHandler {
         pairs.add(new Pair<>(KEY_SETTING_SHOW_LEADING_ZERO, (Object) 1));
         pairs.add(new Pair<>(KEY_SETTING_LANGUAGE_ID, (Object) 2)); //2 = Deutsch
         pairs.add(new Pair<>(KEY_SETTING_USE_METRIC, (Object) 1));
+        pairs.add(new Pair<>(KEY_SETTING_SHOW_BATTERY_PCT, (Object) 1));
 
         pairs.add(new Pair<>(KEY_WIDGET_0_ID, (Object) 7)); //7 = current weather
         pairs.add(new Pair<>(KEY_WIDGET_1_ID, (Object) 2)); //2 = battery
         pairs.add(new Pair<>(KEY_WIDGET_2_ID, (Object) 4)); //4 = Date
 
-/*
-        pairs.add(new Pair<>(KEY_TEMPERATURE, (Object) 6));
-        pairs.add(new Pair<>(KEY_CONDITION_CODE, (Object) 25));
-        pairs.add(new Pair<>(KEY_FORECAST_CONDITION, (Object) 2));
-        pairs.add(new Pair<>(KEY_FORECAST_TEMP_HIGH, (Object) 12));
-        pairs.add(new Pair<>(KEY_FORECAST_TEMP_LOW, (Object) 0));
-*/
-
         byte[] ackMessage = mPebbleProtocol.encodeApplicationMessageAck(mUUID, mPebbleProtocol.last_id);
         byte[] testMessage = mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs);
 
-        //byte[] weatherMessage=encodeTimeStylePebbleWeather();
-
-        ByteBuffer buf = ByteBuffer.allocate(ackMessage.length + testMessage.length );
+        byte[] weatherMessage=encodeTimeStylePebbleWeather();
+        ByteBuffer buf = ByteBuffer.allocate(ackMessage.length + testMessage.length + weatherMessage.length);
 
         // encode ack and put in front of push message (hack for acknowledging the last message)
         buf.put(ackMessage);
         buf.put(testMessage);
+        buf.put(weatherMessage);
 
         return buf.array();
     }
 
     private byte[] encodeTimeStylePebbleWeather() {
         ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>();
-        pairs.add(new Pair<>(KEY_TEMPERATURE, (Object) 6));
-        pairs.add(new Pair<>(KEY_CONDITION_CODE, (Object) 1));
-        pairs.add(new Pair<>(KEY_FORECAST_CONDITION, (Object) 2));
-        pairs.add(new Pair<>(KEY_FORECAST_TEMP_HIGH, (Object) 12));
-        pairs.add(new Pair<>(KEY_FORECAST_TEMP_LOW, (Object) 0));
+        ParcelableWeather2 weather = Weather.getInstance().getWeather2();
 
-        byte[] weatherMessage = mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs);
-        return weatherMessage;
+        if (weather != null) {
+            //TODO: use the night icons when night
+            pairs.add(new Pair<>(KEY_USE_NIGHT_ICON, (Object) 0));
+            pairs.add(new Pair<>(KEY_TEMPERATURE, (Object) (weather.currentTemp - 273)));
+            pairs.add(new Pair<>(KEY_CONDITION_CODE, (Object) weather.currentConditionCode));
+            pairs.add(new Pair<>(KEY_FORECAST_CONDITION, (Object) weather.forecastConditionCode));
+            pairs.add(new Pair<>(KEY_FORECAST_TEMP_HIGH, (Object) (weather.highTemp - 273)));
+            pairs.add(new Pair<>(KEY_FORECAST_TEMP_LOW, (Object) (weather.lowTemp - 273)));
+            byte[] weatherMessage = mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs);
+            return weatherMessage;
+        }
+
+        return null;
+
     }
 
         @Override

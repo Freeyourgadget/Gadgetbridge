@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import ru.gelin.android.weather.notification.ParcelableWeather2;
 
 
@@ -30,6 +31,7 @@ public class WeatherNotificationReceiver extends BroadcastReceiver {
         }
 
         if (weather != null) {
+            Weather.getInstance().setWeather2(weather);
             LOG.info("weather in " + weather.location + " is " + weather.currentCondition + " (" + (weather.currentTemp - 273) + "°C)");
 
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);

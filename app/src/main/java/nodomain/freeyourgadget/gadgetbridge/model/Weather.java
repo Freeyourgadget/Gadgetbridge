@@ -1,6 +1,14 @@
 package nodomain.freeyourgadget.gadgetbridge.model;
 
+import ru.gelin.android.weather.notification.ParcelableWeather2;
+
 public class Weather {
+    private ParcelableWeather2 weather2 = null;
+    public ParcelableWeather2 getWeather2() {return weather2;}
+    public void setWeather2(ParcelableWeather2 weather2) {this.weather2 = weather2;}
+
+    private static final Weather weather = new Weather();
+    public static Weather getInstance() {return weather;}
 
     public int mapToYahooCondition(int openWeatherMapCondition) {
         // openweathermap.org conditions:
