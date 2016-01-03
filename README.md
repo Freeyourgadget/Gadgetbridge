@@ -15,13 +15,13 @@ need to create an account and transmit any of your data to the vendor's servers.
 
 ## Features (Pebble)
 
-* Incoming calls notification and display (caller, phone number)
+* Incoming calls notification and display
 * Outgoing call display
 * Reject/hangup calls
-* SMS notification (sender, body)
-* K-9 Mail notification support (sender, subject, preview)
+* SMS notification including experimental support for 16 predefined replies
+* K-9 Mail notification support
 * Support for generic notifications (above filtered out)
-* Dismiss individial notifications or open corresponding app on phone from the action menu (generic notifications)
+* Dismiss individial notifications, mute or open corresponding app on phone from the action menu (generic notifications)
 * Dismiss all notifications from the action menu (non-generic notifications) 
 * Music playback info (artist, album, track)
 * Music control: play/pause, next track, previous track, volume up, volume down
@@ -37,13 +37,6 @@ need to create an account and transmit any of your data to the vendor's servers.
 ## Notes about Firmware 3.x (Pebble Time, updated OG)
 
 * Listing installed watchfaces will simply display previously installed watchapps, no matter if they are still installed or not.
-* You should disable the "Stand-By-Mode" introduced in firmware 3.4.
-According to pebble, this mode will disable bluetooth automatically when the
-pebble does not sense motion for about 30 minutes, and then re-enable it if it
-senses motion again. We do not support initiating connections from the pebble
-yet, so this will leave you pebble disconnected until you connect it again
-manually, and/or use even more energy by triggering a reconnect from
-Gadgetbridge.
 
 ## How to use (Pebble)
 

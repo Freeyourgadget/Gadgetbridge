@@ -178,6 +178,9 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 mIsTCP = false;
                 BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(btDeviceAddress);
                 ParcelUuid uuids[] = btDevice.getUuids();
+                if (uuids == null) {
+                    return false;
+                }
                 for (ParcelUuid uuid : uuids) {
                     LOG.info("found service UUID " + uuid);
                 }
@@ -364,7 +367,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                             mIsConnected = connect(gbDevice.getAddress());
                         }
                     }
-                    if (!mIsConnected) {
+                    if (!mIsConnected && !mQuit) {
                         try {
                             gbDevice.setState(GBDevice.State.WAITING_FOR_RECONNECT);
                             gbDevice.sendDeviceUpdateIntent(getContext());

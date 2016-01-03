@@ -94,8 +94,8 @@
   <string name="male">masculino</string>
   <string name="female">femenino</string>
   <string name="other">otro</string>
-  <string name="left">zurdo</string>
-  <string name="right">diestro</string>
+  <string name="left">izquierda</string>
+  <string name="right">derecha</string>
   <string name="miband_pairing_using_dummy_userdata">No se han proporcionado datos de usuario válidos, se usarán datos de usuario por defecto.</string>
   <string name="miband_pairing_tap_hint">Cuando tu MiBand vibre y parpadee, púlsala repetidas veces.</string>
   <string name="appinstaller_install">Instalar</string>
@@ -114,7 +114,7 @@
   <string name="initializing">iniciando</string>
   <string name="busy_task_fetch_activity_data">Recuperando datos de actividad</string>
   <string name="sleep_activity_date_range">Desde %1$s a %2$s</string>
-  <string name="miband_prefs_wearside">¿Zurdo o diestro?</string>
+  <string name="miband_prefs_wearside">¿En derecha o en izquierda?</string>
   <string name="pref_screen_vibration_profile">Perfil de vibración</string>
   <string name="vibration_profile_staccato">Muy corto</string>
   <string name="vibration_profile_short">Corto</string>
@@ -199,4 +199,5 @@
   <string name="miband_fwinstaller_incompatible_version">Firmware incompatible</string>
   <string name="fwinstaller_firmware_not_compatible_to_device">Este firmware no es compatible con tu dispositivo</string>
   <string name="miband_prefs_reserve_alarm_calendar">Reserva de alarmas para próximos eventos</string>
+  <string name="waiting_for_reconnect">esperando reconexión</string>
 </resources>

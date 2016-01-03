@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item
+        android:id="@+id/appmanager_app_reinstall"
+        android:title="@string/appmananger_app_reinstall"/>
+    <item
         android:id="@+id/appmanager_app_delete"
         android:title="@string/appmananger_app_delete"/>
 </menu>

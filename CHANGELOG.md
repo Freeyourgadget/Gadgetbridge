@@ -1,11 +1,19 @@
 ###Changelog
 
-####Next Version
+####Version 0.7.1
+* Pebble: allow reinstallation of apps in pbw-cache from App Manager (long press menu)
+* Pebble: Fix regression which freezes Gadgetbridge when disconnecting via long-press menu
+
+####Version 0.7.0
 * Read upcoming events (up to 7 days in the future). Requires READ_CALENDAR permission 
+* Fix double SMS on Sony Android and Android 6.0
 * Pebble: Support replying to SMS form the watch (canned replies)
 * Pebble: Allow installing apps compiled with SDK 2.x also on the basalt platform (Time, Time Steel)
 * Pebble: Fix decoding strings in appmessages from the pebble (fixes sending SMS from "Dialer for Pebble")
-* Miband: reserve some alarm slots for alerting when upcoming events begin. NB: the band will vibrate at the start time of the event, android reminders are ignored
+* Pebble: Support incoming reconnections when device returns from "Airplane Mode" or "Stand-By Mode"
+* Pebble: Fix crash when turning off bluetooth when connected on Android 6.0
+* Mi Band: reserve some alarm slots for alerting when upcoming events begin. NB: the band will vibrate at the start time of the event, android reminders are ignored
+* Mi Band: Display unique devices Names, not just "MI"
 * Some new and updated icons
 
 ####Version 0.6.9
@@ -22,7 +30,7 @@
 * Mi Band 1S: hopefully fixed connection errors (#178) Notifications probably do not work yet, though
 
 ####Version 0.6.8
-* Mi Band support for Firmware upgrade/downgrade on Mi Band 1A (white LEDs, no heartrate sensor)
+* Mi Band: support for Firmware upgrade/downgrade on Mi Band 1A (white LEDs, no heartrate sensor)
 * Pebble: fix regression in 0.6.7 when installing pbw/pbz files from content providers (eg. download manager)
 * Pebble: fix installation of pbw files on firmware 3.x when using content providers (eg. download manager)   
 * Pebble: fix crash on firmware 3.x when pebble requests a pbw that is not in Gadgetbridge's cache 
