@@ -216,23 +216,38 @@ public class DebugActivity extends Activity {
     }
 
     private void importDB() {
-        DBHandler dbHandler = null;
-        try {
-            dbHandler = GBApplication.acquireDB();
-            DBHelper helper = new DBHelper(this);
-            File dir = FileUtils.getExternalFilesDir();
-            SQLiteOpenHelper sqLiteOpenHelper = dbHandler.getHelper();
-            File sourceFile = new File(dir, sqLiteOpenHelper.getDatabaseName());
-            helper.importDB(sqLiteOpenHelper, sourceFile);
-            helper.validateDB(sqLiteOpenHelper);
-            GB.toast(this, "Import successful.", Toast.LENGTH_LONG, GB.INFO);
-        } catch (Exception ex) {
-            GB.toast(this, "Error importing DB: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
-        } finally {
-            if (dbHandler != null) {
-                dbHandler.release();
-            }
-        }
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setCancelable(true)
+                .setTitle("Import Activity Data?")
+                .setMessage("Really overwrite the current activity database? All your activity data (if any) will be lost.")
+                .setPositiveButton("Overwrite", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        DBHandler dbHandler = null;
+                        try {
+                            dbHandler = GBApplication.acquireDB();
+                            DBHelper helper = new DBHelper(DebugActivity.this);
+                            File dir = FileUtils.getExternalFilesDir();
+                            SQLiteOpenHelper sqLiteOpenHelper = dbHandler.getHelper();
+                            File sourceFile = new File(dir, sqLiteOpenHelper.getDatabaseName());
+                            helper.importDB(sqLiteOpenHelper, sourceFile);
+                            helper.validateDB(sqLiteOpenHelper);
+                            GB.toast(DebugActivity.this, "Import successful.", Toast.LENGTH_LONG, GB.INFO);
+                        } catch (Exception ex) {
+                            GB.toast(DebugActivity.this, "Error importing DB: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
+                        } finally {
+                            if (dbHandler != null) {
+                                dbHandler.release();
+                            }
+                        }
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .show();
     }
 
     private void deleteActivityDatabase() {
