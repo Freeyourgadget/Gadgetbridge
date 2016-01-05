@@ -10,7 +10,7 @@ public class Weather {
     private static final Weather weather = new Weather();
     public static Weather getInstance() {return weather;}
 
-    public int mapToYahooCondition(int openWeatherMapCondition) {
+    public static int mapToYahooCondition(int openWeatherMapCondition) {
         // openweathermap.org conditions:
         // http://openweathermap.org/weather-conditions
         switch (openWeatherMapCondition) {
@@ -135,8 +135,7 @@ public class Weather {
         }
     }
 
-
-    public int mapToOpenWeatherMapCondition(int yahooCondition) {
+    public static int mapToOpenWeatherMapCondition(int yahooCondition) {
         switch (yahooCondition) {
 //yahoo weather conditions:
 //https://developer.yahoo.com/weather/documentation.html
