@@ -52,7 +52,7 @@ public class ParcelableWeather2 implements Parcelable {
             if (--conditions > 0) {
                 Bundle forecastBundle = in.readBundle();
                 forecastConditionType = forecastBundle.getStringArray("weather_condition_types");
-                forecastConditionCode = weatherConditionTypesToOpenWeatherMapIds(currentConditionType[0]);
+                forecastConditionCode = weatherConditionTypesToOpenWeatherMapIds(forecastConditionType[0]);
             }
         }
         // get the rest
