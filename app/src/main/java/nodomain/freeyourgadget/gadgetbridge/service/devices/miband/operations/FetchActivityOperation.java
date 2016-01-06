@@ -174,6 +174,12 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
      * @see #bufferActivityData(byte[])
      */
     private void handleActivityNotif(byte[] value) {
+        if (!isOperationRunning()) {
+            LOG.error("ignoring activity data notification because operation is not running. Data length: " + value.length);
+            getSupport().logMessageContent(value);
+            return;
+        }
+
         if (value.length == activityMetadataLength) {
             handleActivityMetadata(value);
         } else {

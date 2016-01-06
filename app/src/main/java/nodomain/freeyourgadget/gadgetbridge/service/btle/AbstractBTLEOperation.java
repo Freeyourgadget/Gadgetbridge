@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.OperationStatus;
 
 /**
  * Abstract base class for a BTLEOperation, i.e. an operation that does more than
@@ -25,6 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
  */
 public abstract class AbstractBTLEOperation<T extends AbstractBTLEDeviceSupport> implements GattCallback, BTLEOperation {
     private final T mSupport;
+    protected OperationStatus operationStatus = OperationStatus.INITIAL;
 
     protected AbstractBTLEOperation(T support) {
         mSupport = support;
@@ -38,7 +40,9 @@ public abstract class AbstractBTLEOperation<T extends AbstractBTLEDeviceSupport>
      */
     @Override
     public final void perform() throws IOException {
+        operationStatus = OperationStatus.STARTED;
         prePerform();
+        operationStatus = OperationStatus.RUNNING;
         doPerform();
     }
 
@@ -99,6 +103,10 @@ public abstract class AbstractBTLEOperation<T extends AbstractBTLEDeviceSupport>
     protected void unsetBusy() {
         getDevice().unsetBusyTask();
         getDevice().sendDeviceUpdateIntent(getContext());
+    }
+
+    public boolean isOperationRunning() {
+        return operationStatus == OperationStatus.RUNNING;
     }
 
     public T getSupport() {

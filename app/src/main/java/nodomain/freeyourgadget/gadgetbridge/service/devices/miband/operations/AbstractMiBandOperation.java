@@ -25,6 +25,7 @@ public abstract class AbstractMiBandOperation extends AbstractBTLEOperation<MiBa
 
     @Override
     protected void operationFinished() {
+        operationStatus = OperationStatus.FINISHED;
         if (getDevice() != null && getDevice().isConnected()) {
             try {
                 TransactionBuilder builder = performInitialized("reenabling disabled notifications");
