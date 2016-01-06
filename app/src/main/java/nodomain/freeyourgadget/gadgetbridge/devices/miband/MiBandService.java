@@ -9,7 +9,8 @@ import static nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDevi
 public class MiBandService {
 
 
-    public static final String MAC_ADDRESS_FILTER = "88:0F:10";
+    public static final String MAC_ADDRESS_FILTER_1_1A = "88:0F:10";
+    public static final String MAC_ADDRESS_FILTER_1S = "C8:0F:10";
 
     public static final UUID UUID_SERVICE_MIBAND_SERVICE = UUID.fromString(String.format(BASE_UUID, "FEE0"));
 
