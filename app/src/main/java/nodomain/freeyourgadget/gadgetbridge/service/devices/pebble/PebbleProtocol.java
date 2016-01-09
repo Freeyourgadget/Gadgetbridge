@@ -1590,7 +1590,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                                 byte[] reply = new byte[length];
                                 buf.get(reply);
                                 // FIXME: this does not belong here, but we want at least check if there is no chance at all to send out the SMS later before we report success
-                                String phoneNumber = GBApplication.getIDSenderLookup().lookup(id);
+                                String phoneNumber = (String) GBApplication.getIDSenderLookup().lookup(id);
                                 if (phoneNumber != null) {
                                     devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
                                     devEvtNotificationControl.reply = new String(reply);

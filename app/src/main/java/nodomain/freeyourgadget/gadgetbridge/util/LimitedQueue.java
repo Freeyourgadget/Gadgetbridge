@@ -4,21 +4,25 @@ import android.util.Pair;
 
 import java.util.LinkedList;
 
-public class IDSenderLookup {
-    private static final int LIMIT = 16;
+public class LimitedQueue {
+    private final int limit;
     private LinkedList<Pair> list = new LinkedList<>();
 
-    public void add(int id, String sender) {
-        if (list.size() > LIMIT - 1) {
+    public LimitedQueue(int limit) {
+        this.limit = limit;
+    }
+
+    public void add(int id, Object sender) {
+        if (list.size() > limit - 1) {
             list.removeFirst();
         }
         list.add(new Pair<>(id, sender));
     }
 
-    public String lookup(int id) {
+    public Object lookup(int id) {
         for (Pair entry : list) {
             if (id == (Integer) entry.first) {
-                return (String) entry.second;
+                return entry.second;
             }
         }
         return null;

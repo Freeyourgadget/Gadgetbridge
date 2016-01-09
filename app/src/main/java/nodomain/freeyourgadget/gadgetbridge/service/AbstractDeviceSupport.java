@@ -229,7 +229,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                 action = NotificationListener.ACTION_MUTE;
                 break;
             case REPLY:
-                String phoneNumber = GBApplication.getIDSenderLookup().lookup(deviceEvent.handle);
+                String phoneNumber = (String) GBApplication.getIDSenderLookup().lookup(deviceEvent.handle);
                 if (phoneNumber != null) {
                     LOG.info("got notfication reply for  " + phoneNumber + " : " + deviceEvent.reply);
                     SmsManager.getDefault().sendTextMessage(phoneNumber, null, deviceEvent.reply, null, null);
