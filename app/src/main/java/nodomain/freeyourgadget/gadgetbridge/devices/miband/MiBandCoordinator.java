@@ -30,7 +30,9 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supports(GBDeviceCandidate candidate) {
-        return candidate.getMacAddress().toUpperCase().startsWith(MiBandService.MAC_ADDRESS_FILTER);
+        String macAddress = candidate.getMacAddress().toUpperCase();
+        return macAddress.startsWith(MiBandService.MAC_ADDRESS_FILTER_1_1A)
+                || macAddress.startsWith(MiBandService.MAC_ADDRESS_FILTER_1S);
     }
 
     @Override
@@ -74,7 +76,7 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static boolean hasValidUserInfo() {
-        String dummyMacAddress = MiBandService.MAC_ADDRESS_FILTER + ":00:00:00";
+        String dummyMacAddress = MiBandService.MAC_ADDRESS_FILTER_1_1A + ":00:00:00";
         try {
             UserInfo userInfo = getConfiguredUserInfo(dummyMacAddress);
             return true;

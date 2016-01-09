@@ -29,7 +29,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.util.IDSenderLookup;
+import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 
 //import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
 
@@ -45,7 +45,7 @@ public class GBApplication extends Application {
     private static final Lock dbLock = new ReentrantLock();
     private static DeviceService deviceService;
     private static SharedPreferences sharedPrefs;
-    private static IDSenderLookup mIDSenderLookup = new IDSenderLookup();
+    private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
 
     public static final String ACTION_QUIT
             = "nodomain.freeyourgadget.gadgetbridge.gbapplication.action.quit";
@@ -61,10 +61,7 @@ public class GBApplication extends Application {
         }
     };
 
-    //private BluetoothConnectReceiver systemBTReceiver = new BluetoothConnectReceiver();
-
     private void quit() {
-        //unregisterSystemBTReceiver();
         GB.removeAllNotifications(this);
     }
 
@@ -103,24 +100,10 @@ public class GBApplication extends Application {
         filterLocal.addAction(ACTION_QUIT);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
 
-        //registerSystemBTReceiver();
 // for testing DB stuff
 //        SQLiteDatabase db = mActivityDatabaseHandler.getWritableDatabase();
 //        db.close();
     }
-
-    /*
-        private void registerSystemBTReceiver() {
-            IntentFilter filter = new IntentFilter();
-            filter.addAction("android.bluetooth.device.action.ACL_CONNECTED");
-            filter.addAction("android.bluetooth.device.action.ACL_CONNECTED");
-            registerReceiver(systemBTReceiver, filter);
-        }
-
-        private void unregisterSystemBTReceiver() {
-            unregisterReceiver(systemBTReceiver);
-        }
-    */
 
     private void setupExceptionHandler() {
         LoggingExceptionHandler handler = new LoggingExceptionHandler(Thread.getDefaultUncaughtExceptionHandler());
@@ -259,7 +242,7 @@ public class GBApplication extends Application {
         return result;
     }
 
-    public static IDSenderLookup getIDSenderLookup() {
+    public static LimitedQueue getIDSenderLookup() {
         return mIDSenderLookup;
     }
 }

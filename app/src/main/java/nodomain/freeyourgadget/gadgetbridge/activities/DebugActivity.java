@@ -13,6 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.RemoteInput;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -38,6 +39,10 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 public class DebugActivity extends Activity {
     private static final Logger LOG = LoggerFactory.getLogger(DebugActivity.class);
 
+    private static final String EXTRA_REPLY = "reply";
+    private static final String ACTION_REPLY
+            = "nodomain.freeyourgadget.gadgetbridge.DebugActivity.action.reply";
+
     private Button sendSMSButton;
     private Button sendEmailButton;
     private Button incomingCallButton;
@@ -56,8 +61,16 @@ public class DebugActivity extends Activity {
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(GBApplication.ACTION_QUIT)) {
-                finish();
+            switch (intent.getAction()) {
+                case GBApplication.ACTION_QUIT:
+                    finish();
+                    break;
+                case ACTION_REPLY:
+                    Bundle remoteInput = RemoteInput.getResultsFromIntent(intent);
+                    CharSequence reply = remoteInput.getCharSequence(EXTRA_REPLY);
+                    LOG.info("got wearable reply: " + reply);
+                    GB.toast(context, "got wearable reply: " + reply, Toast.LENGTH_SHORT, GB.INFO);
+                    break;
             }
         }
     };
@@ -68,7 +81,10 @@ public class DebugActivity extends Activity {
         setContentView(R.layout.activity_debug);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        registerReceiver(mReceiver, new IntentFilter(GBApplication.ACTION_QUIT));
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(GBApplication.ACTION_QUIT);
+        filter.addAction(ACTION_REPLY);
+        registerReceiver(mReceiver, filter);
 
         editContent = (EditText) findViewById(R.id.editContent);
         sendSMSButton = (Button) findViewById(R.id.sendSMSButton);
@@ -216,27 +232,42 @@ public class DebugActivity extends Activity {
     }
 
     private void importDB() {
-        DBHandler dbHandler = null;
-        try {
-            dbHandler = GBApplication.acquireDB();
-            DBHelper helper = new DBHelper(this);
-            File dir = FileUtils.getExternalFilesDir();
-            SQLiteOpenHelper sqLiteOpenHelper = dbHandler.getHelper();
-            File sourceFile = new File(dir, sqLiteOpenHelper.getDatabaseName());
-            helper.importDB(sqLiteOpenHelper, sourceFile);
-            helper.validateDB(sqLiteOpenHelper);
-            GB.toast(this, "Import successful.", Toast.LENGTH_LONG, GB.INFO);
-        } catch (Exception ex) {
-            GB.toast(this, "Error importing DB: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
-        } finally {
-            if (dbHandler != null) {
-                dbHandler.release();
-            }
-        }
+        new AlertDialog.Builder(this)
+                .setCancelable(true)
+                .setTitle("Import Activity Data?")
+                .setMessage("Really overwrite the current activity database? All your activity data (if any) will be lost.")
+                .setPositiveButton("Overwrite", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        DBHandler dbHandler = null;
+                        try {
+                            dbHandler = GBApplication.acquireDB();
+                            DBHelper helper = new DBHelper(DebugActivity.this);
+                            File dir = FileUtils.getExternalFilesDir();
+                            SQLiteOpenHelper sqLiteOpenHelper = dbHandler.getHelper();
+                            File sourceFile = new File(dir, sqLiteOpenHelper.getDatabaseName());
+                            helper.importDB(sqLiteOpenHelper, sourceFile);
+                            helper.validateDB(sqLiteOpenHelper);
+                            GB.toast(DebugActivity.this, "Import successful.", Toast.LENGTH_LONG, GB.INFO);
+                        } catch (Exception ex) {
+                            GB.toast(DebugActivity.this, "Error importing DB: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
+                        } finally {
+                            if (dbHandler != null) {
+                                dbHandler.release();
+                            }
+                        }
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .show();
     }
 
     private void deleteActivityDatabase() {
-        AlertDialog dialog = new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this)
                 .setCancelable(true)
                 .setTitle("Delete Activity Data?")
                 .setMessage("Really delete the entire activity database? All your activity data will be lost.")
@@ -266,13 +297,30 @@ public class DebugActivity extends Activity {
                 notificationIntent, 0);
 
         NotificationManager nManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        NotificationCompat.Builder ncomp = new NotificationCompat.Builder(this);
-        ncomp.setContentTitle(getString(R.string.test_notification));
-        ncomp.setContentText(getString(R.string.this_is_a_test_notification_from_gadgetbridge));
-        ncomp.setTicker(getString(R.string.this_is_a_test_notification_from_gadgetbridge));
-        ncomp.setSmallIcon(R.drawable.ic_notification);
-        ncomp.setAutoCancel(true);
-        ncomp.setContentIntent(pendingIntent);
+
+        RemoteInput remoteInput = new RemoteInput.Builder(EXTRA_REPLY)
+                .build();
+
+        Intent replyIntent = new Intent(ACTION_REPLY);
+
+        PendingIntent replyPendingIntent = PendingIntent.getBroadcast(this, 0, replyIntent, 0);
+
+        NotificationCompat.Action action =
+                new NotificationCompat.Action.Builder(android.R.drawable.ic_input_add, "Reply", replyPendingIntent)
+                        .addRemoteInput(remoteInput)
+                        .build();
+
+        NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender().addAction(action);
+
+        NotificationCompat.Builder ncomp = new NotificationCompat.Builder(this)
+                .setContentTitle(getString(R.string.test_notification))
+                .setContentText(getString(R.string.this_is_a_test_notification_from_gadgetbridge))
+                .setTicker(getString(R.string.this_is_a_test_notification_from_gadgetbridge))
+                .setSmallIcon(R.drawable.ic_notification)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+                .extend(wearableExtender);
+
         nManager.notify((int) System.currentTimeMillis(), ncomp.build());
     }
 

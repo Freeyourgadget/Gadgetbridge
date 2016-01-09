@@ -39,7 +39,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.util.IDSenderLookup;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CALLSTATE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CONNECT;
@@ -71,6 +70,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUS
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_ARTIST;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_TRACK;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_BODY;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_FLAGS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_ID;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_PHONENUMBER;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_SENDER;
@@ -219,13 +219,16 @@ public class DeviceCommunicationService extends Service {
                 notificationSpec.body = intent.getStringExtra(EXTRA_NOTIFICATION_BODY);
                 notificationSpec.type = (NotificationType) intent.getSerializableExtra(EXTRA_NOTIFICATION_TYPE);
                 notificationSpec.id = intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1);
+                notificationSpec.flags = intent.getIntExtra(EXTRA_NOTIFICATION_FLAGS, 0);
                 notificationSpec.sourceName = intent.getStringExtra(EXTRA_NOTIFICATION_SOURCENAME);
                 if (notificationSpec.type == NotificationType.SMS && notificationSpec.phoneNumber != null) {
                     notificationSpec.sender = getContactDisplayNameByNumber(notificationSpec.phoneNumber);
 
                     notificationSpec.id = mRandom.nextInt(); // FIXME: add this in external SMS Receiver?
                     GBApplication.getIDSenderLookup().add(notificationSpec.id, notificationSpec.phoneNumber);
-
+                }
+                if (((notificationSpec.flags & NotificationSpec.FLAG_WEARABLE_REPLY) > 0)
+                        || (notificationSpec.type == NotificationType.SMS && notificationSpec.phoneNumber != null)) {
                     // NOTE: maybe not where it belongs
                     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
                     if (sharedPrefs.getBoolean("pebble_force_untested", false)) {

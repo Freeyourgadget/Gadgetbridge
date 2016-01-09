@@ -16,15 +16,20 @@ import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.RemoteInput;
 import android.support.v4.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 
 public class NotificationListener extends NotificationListenerService {
 
@@ -38,6 +43,10 @@ public class NotificationListener extends NotificationListenerService {
             = "nodomain.freeyourgadget.gadgetbridge.notificationlistener.action.open";
     public static final String ACTION_MUTE
             = "nodomain.freeyourgadget.gadgetbridge.notificationlistener.action.mute";
+    public static final String ACTION_REPLY
+            = "nodomain.freeyourgadget.gadgetbridge.notificationlistener.action.reply";
+
+    private LimitedQueue mActionLookup = new LimitedQueue(16);
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @SuppressLint("NewApi")
@@ -90,6 +99,28 @@ public class NotificationListener extends NotificationListenerService {
                 case ACTION_DISMISS_ALL:
                     NotificationListener.this.cancelAllNotifications();
                     break;
+                case ACTION_REPLY:
+                    int id = intent.getIntExtra("handle", -1);
+                    String reply = intent.getStringExtra("reply");
+                    NotificationCompat.Action replyAction = (NotificationCompat.Action) mActionLookup.lookup(id);
+                    if (replyAction != null && replyAction.getRemoteInputs() != null) {
+                        RemoteInput[] remoteInputs = replyAction.getRemoteInputs();
+                        PendingIntent actionIntent = replyAction.getActionIntent();
+                        Intent localIntent = new Intent();
+                        localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Bundle extras = new Bundle();
+                        extras.putCharSequence(remoteInputs[0].getResultKey(), reply);
+                        RemoteInput.addResultsToIntent(remoteInputs, localIntent, extras);
+
+                        try {
+                            LOG.info("will send reply intent to remote application");
+                            actionIntent.send(context, 0, localIntent);
+                            mActionLookup.remove(id);
+                        } catch (PendingIntent.CanceledException e) {
+                            LOG.warn("replyToLastNotification error: " + e.getLocalizedMessage());
+                        }
+                    }
+                    break;
             }
 
         }
@@ -103,6 +134,7 @@ public class NotificationListener extends NotificationListenerService {
         filterLocal.addAction(ACTION_DISMISS);
         filterLocal.addAction(ACTION_DISMISS_ALL);
         filterLocal.addAction(ACTION_MUTE);
+        filterLocal.addAction(ACTION_REPLY);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
     }
 
@@ -222,6 +254,18 @@ public class NotificationListener extends NotificationListenerService {
 
         dissectNotificationTo(notification, notificationSpec);
         notificationSpec.id = (int) sbn.getPostTime(); //FIMXE: a truly unique id would be better
+
+        NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender(notification);
+        List<NotificationCompat.Action> actions = wearableExtender.getActions();
+        for (NotificationCompat.Action act : actions) {
+            if (act != null && act.getRemoteInputs() != null) {
+                LOG.info("found wearable action: " + act.getTitle() + "  " + sbn.getTag());
+                mActionLookup.add(notificationSpec.id, act);
+                notificationSpec.flags |= NotificationSpec.FLAG_WEARABLE_REPLY;
+                break;
+            }
+        }
+
         GBApplication.deviceService().onNotification(notificationSpec);
     }
 
