@@ -89,6 +89,7 @@ public class GBDeviceService implements DeviceService {
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
         Intent intent = createIntent().setAction(ACTION_NOTIFICATION)
+                .putExtra(EXTRA_NOTIFICATION_FLAGS, notificationSpec.flags)
                 .putExtra(EXTRA_NOTIFICATION_PHONENUMBER, notificationSpec.phoneNumber)
                 .putExtra(EXTRA_NOTIFICATION_SENDER, notificationSpec.sender)
                 .putExtra(EXTRA_NOTIFICATION_SUBJECT, notificationSpec.subject)

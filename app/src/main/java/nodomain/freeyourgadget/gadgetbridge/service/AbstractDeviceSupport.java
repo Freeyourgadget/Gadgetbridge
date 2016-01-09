@@ -231,14 +231,20 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             case REPLY:
                 String phoneNumber = (String) GBApplication.getIDSenderLookup().lookup(deviceEvent.handle);
                 if (phoneNumber != null) {
-                    LOG.info("got notfication reply for  " + phoneNumber + " : " + deviceEvent.reply);
+                    LOG.info("got notfication reply for SMS from " + phoneNumber + " : " + deviceEvent.reply);
                     SmsManager.getDefault().sendTextMessage(phoneNumber, null, deviceEvent.reply, null, null);
+                } else {
+                    LOG.info("got notfication reply for notification id " + deviceEvent.handle + " : " + deviceEvent.reply);
+                    action = NotificationListener.ACTION_REPLY;
                 }
                 break;
         }
         if (action != null) {
             Intent notificationListenerIntent = new Intent(action);
             notificationListenerIntent.putExtra("handle", deviceEvent.handle);
+            if (deviceEvent.reply != null) {
+                notificationListenerIntent.putExtra("reply", deviceEvent.reply);
+            }
             LocalBroadcastManager.getInstance(context).sendBroadcast(notificationListenerIntent);
         }
     }
