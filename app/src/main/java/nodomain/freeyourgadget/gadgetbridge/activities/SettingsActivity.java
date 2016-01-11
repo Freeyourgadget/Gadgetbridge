@@ -110,6 +110,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 "pebble_emu_addr",
                 "pebble_emu_port",
                 "pebble_reconnect_attempts",
+                "canned_reply_suffix",
                 "canned_reply_1",
                 "canned_reply_2",
                 "canned_reply_3",
