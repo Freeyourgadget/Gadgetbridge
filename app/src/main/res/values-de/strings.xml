@@ -44,6 +44,7 @@
   <string name="when_screen_off">wenn der Bildschirm aus ist</string>
   <string name="never">niemals</string>
   <string name="pref_blacklist">Sperre für Apps</string>
+  <string name="pref_title_canned_replies">Vorgefertigte Antworten</string>
   <string name="pref_header_development">Entwickleroptionen</string>
   <string name="pref_title_development_miaddr">Mi Band MAC Adresse</string>
   <string name="pref_title_pebble_settings">Pebble Einstellungen</string>
@@ -197,4 +198,6 @@
   <string name="pref_title_keep_data_on_device">Aktivitätsdaten auf dem Gerät lassen</string>
   <string name="miband_fwinstaller_incompatible_version">Inkompatible Firmware</string>
   <string name="fwinstaller_firmware_not_compatible_to_device">Diese Firmware ist nicht mit dem Gerät kompatibel</string>
+  <string name="waiting_for_reconnect">warte auf eingehende Verbindung</string>
+  <string name="appmananger_app_reinstall">Erneut installieren</string>
 </resources>
