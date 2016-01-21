@@ -1,6 +1,6 @@
 ###Changelog
 
-####Next Version
+####Version 0.7.2
 * Pebble: Allow replying to generic notifications that contain a wearable reply action (tested with Signal)
 * Pebble: Support seting up a common suffix for canned replies (defaults to " (canned reply)")
 * Mi Band: Avoid NPEs when aborting an erroneous sync #205
