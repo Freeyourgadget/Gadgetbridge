@@ -67,7 +67,7 @@
   <string name="bluetooth_is_not_supported_">Bluetooth wird nicht unterstützt.</string>
   <string name="bluetooth_is_disabled_">Bluetooth ist abgeschaltet.</string>
   <string name="tap_connected_device_for_app_mananger">berühre das verbundene Gerät, um den App Mananger zu starten</string>
-  <string name="tap_a_device_to_connect">berühre ein Gerät zum verbinden</string>
+  <string name="tap_a_device_to_connect">berühre ein Gerät zum Verbinden</string>
   <string name="cannot_connect_bt_address_invalid_">Verbindung kann nicht aufgebaut werden. BT Adresse ungültig?</string>
   <string name="gadgetbridge_running">Gadgetbridge läuft</string>
   <string name="installing_binary_d_d">installiere Datei %1$d/%2$d</string>
