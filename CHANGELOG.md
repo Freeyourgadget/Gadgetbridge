@@ -1,5 +1,13 @@
 ###Changelog
 
+####Version 0.7.2
+* Pebble: Allow replying to generic notifications that contain a wearable reply action (tested with Signal)
+* Pebble: Support seting up a common suffix for canned replies (defaults to " (canned reply)")
+* Mi Band: Avoid NPEs when aborting an erroneous sync #205
+* Mi Band: Fix discovery of Mi Band 1S
+* Add a confirmation dialog when performing a db import
+* Sort blacklist by package names
+
 ####Version 0.7.1
 * Pebble: allow reinstallation of apps in pbw-cache from App Manager (long press menu)
 * Pebble: Fix regression which freezes Gadgetbridge when disconnecting via long-press menu

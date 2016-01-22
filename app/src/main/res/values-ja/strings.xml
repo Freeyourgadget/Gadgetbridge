@@ -45,6 +45,7 @@
   <string name="never">なし</string>
   <string name="pref_blacklist">アップのブラックリスト</string>
   <string name="pref_title_canned_replies">定型の返信</string>
+  <string name="pref_title_canned_reply_suffix">共通の接尾語</string>
   <string name="pref_header_development">開発者用設定</string>
   <string name="pref_title_development_miaddr">Mi Bandのアドレス</string>
   <string name="pref_title_pebble_settings">Pebbleの設定</string>

@@ -67,8 +67,12 @@
             android:title="@string/pref_blacklist" />
         <PreferenceScreen
             android:key="pref_key_canned_replies"
-            android:title="@string/pref_title_canned_replies"
-            android:dependency="pebble_force_untested" >
+            android:title="@string/pref_title_canned_replies">
+            <EditTextPreference
+                android:defaultValue=" (canned reply)"
+                android:key="canned_reply_suffix"
+                android:maxLength="64"
+                android:title="@string/pref_title_canned_reply_suffix" />
             <EditTextPreference
                 android:key="canned_reply_1"
                 android:maxLength="64" />

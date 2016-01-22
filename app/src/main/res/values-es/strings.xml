@@ -45,6 +45,7 @@
   <string name="never">nunca</string>
   <string name="pref_blacklist">Excluir aplicaciones</string>
   <string name="pref_title_canned_replies">Respuestas enlatadas</string>
+  <string name="pref_title_canned_reply_suffix">Sufijo habitual</string>
   <string name="pref_header_development">Opciones de desarrollador</string>
   <string name="pref_title_development_miaddr">Dirección de MiBand</string>
   <string name="pref_title_pebble_settings">Ajustes de Pebble</string>
@@ -200,4 +201,5 @@
   <string name="fwinstaller_firmware_not_compatible_to_device">Este firmware no es compatible con tu dispositivo</string>
   <string name="miband_prefs_reserve_alarm_calendar">Reserva de alarmas para próximos eventos</string>
   <string name="waiting_for_reconnect">esperando reconexión</string>
+  <string name="appmananger_app_reinstall">Reinstalar</string>
 </resources>

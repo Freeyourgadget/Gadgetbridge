@@ -44,6 +44,8 @@
   <string name="when_screen_off">когда экран выключен</string>
   <string name="never">никогда</string>
   <string name="pref_blacklist">Нежелательные приложения</string>
+  <string name="pref_title_canned_replies">Типовые ответы</string>
+  <string name="pref_title_canned_reply_suffix">Общий суффикс</string>
   <string name="pref_header_development">Настройки для разработчиков</string>
   <string name="pref_title_development_miaddr">Адрес Mi Band</string>
   <string name="pref_title_pebble_settings">Настройки Pebble</string>
@@ -181,6 +183,7 @@
   <string name="liveactivity_live_activity">Жизненная активность</string>
   <string name="weeksteps_today_steps_description">Шагов сегодня, цель: %1$s</string>
   <string name="pref_summary_dont_ack_transfers">Если данные об активности не будут переданы на устройство, оно не будет очищено. Полезно, если GB используется с другими приложениями.</string>
+  <string name="pref_summary_keep_data_on_device">Хранить данные о деятельности на Mi Band, даже после синхронизации. Полезно, если Mi Band используется совместно с другими приложениями.</string>
   <string name="pref_title_dont_ack_transfer">Не передавать данные об активности</string>
   <string name="live_activity_steps_history">История шагов</string>
   <string name="live_activity_current_steps_per_minute">Текущие шаги в минуту</string>
@@ -191,4 +194,12 @@
   <string name="abstract_chart_fragment_kind_light_sleep">Неглубокий сон</string>
   <string name="abstract_chart_fragment_kind_deep_sleep">Глубокий сон</string>
   <string name="abstract_chart_fragment_kind_not_worn">Не носилось</string>
+  <string name="device_not_connected">Не подключен.</string>
+  <string name="user_feedback_all_alarms_disabled">Все будильники отключены</string>
+  <string name="pref_title_keep_data_on_device">Храните данные о деятельности на устройстве</string>
+  <string name="miband_fwinstaller_incompatible_version">Несовместимая прошивка</string>
+  <string name="fwinstaller_firmware_not_compatible_to_device">Эта прошивка не совместима с устройством</string>
+  <string name="miband_prefs_reserve_alarm_calendar">Резервные сигналы для предстоящих событий</string>
+  <string name="waiting_for_reconnect">Ожидание переподключения</string>
+  <string name="appmananger_app_reinstall">Переустановка</string>
 </resources>
