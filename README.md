@@ -18,9 +18,10 @@ need to create an account and transmit any of your data to the vendor's servers.
 * Incoming calls notification and display
 * Outgoing call display
 * Reject/hangup calls
-* SMS notification including experimental support for 16 predefined replies
+* SMS notification
 * K-9 Mail notification support
 * Support for generic notifications (above filtered out)
+* Support for up to 16 predefined replies for SMS and Android Wear compatible notifications (experimental, tested with Signal)
 * Dismiss individial notifications, mute or open corresponding app on phone from the action menu (generic notifications)
 * Dismiss all notifications from the action menu (non-generic notifications) 
 * Music playback info (artist, album, track)

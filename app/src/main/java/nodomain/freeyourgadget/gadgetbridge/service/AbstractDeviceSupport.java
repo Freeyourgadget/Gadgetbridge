@@ -6,9 +6,11 @@ import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.SmsManager;
 
@@ -20,6 +22,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -243,6 +246,11 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             Intent notificationListenerIntent = new Intent(action);
             notificationListenerIntent.putExtra("handle", deviceEvent.handle);
             if (deviceEvent.reply != null) {
+                SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
+                String suffix = sharedPrefs.getString("canned_reply_suffix", null);
+                if (suffix != null && !Objects.equals(suffix, "")) {
+                    deviceEvent.reply += suffix;
+                }
                 notificationListenerIntent.putExtra("reply", deviceEvent.reply);
             }
             LocalBroadcastManager.getInstance(context).sendBroadcast(notificationListenerIntent);
