@@ -12,6 +12,8 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleColor;
+import nodomain.freeyourgadget.gadgetbridge.model.Weather;
+import ru.gelin.android.weather.notification.ParcelableWeather2;
 
 public class AppMessageHandlerPebStyle extends AppMessageHandler {
     public static final int KEY_AMPM_TEXT = 21;
@@ -57,7 +59,7 @@ public class AppMessageHandlerPebStyle extends AppMessageHandler {
         pairs.add(new Pair<>(KEY_SECOND_HAND, (Object) 0)); //1 enabled
         pairs.add(new Pair<>(KEY_BLUETOOTH_ALERT, (Object) 0)); //1 silent, 2 weak, up to 5
         pairs.add(new Pair<>(KEY_TEMPERATURE_FORMAT, (Object) 1)); //0 fahrenheit
-        pairs.add(new Pair<>(KEY_LOCATION_SERVICE, (Object) 2)); //0 uto, 1 manual
+        //pairs.add(new Pair<>(KEY_LOCATION_SERVICE, (Object) 2)); //0 uto, 1 manual
         pairs.add(new Pair<>(KEY_SIDEBAR_LOCATION, (Object) 1)); //0 right
         pairs.add(new Pair<>(KEY_COLOR_SELECTION, (Object) 1)); //1 custom
         pairs.add(new Pair<>(KEY_MAIN_COLOR, (Object) PebbleColor.Black));
@@ -65,7 +67,7 @@ public class AppMessageHandlerPebStyle extends AppMessageHandler {
         pairs.add(new Pair<>(KEY_SIDEBAR_BG_COLOR, (Object) PebbleColor.MediumSpringGreen));
 
         //DIGITAL settings
-        /*
+       /*
         pairs.add(new Pair<>(KEY_MAIN_CLOCK, (Object) 1)); //0 analog
         pairs.add(new Pair<>(KEY_SECONDARY_INFO_TYPE, (Object) 3)); //1 time, 2 location
         */
@@ -75,12 +77,13 @@ public class AppMessageHandlerPebStyle extends AppMessageHandler {
 
 
         //WEATHER
-        /*
-        //comment the same key in the general section above!
-        pairs.add(new Pair<>(KEY_LOCATION_SERVICE, (Object) 0)); //0 auto, 1 manual
-        pairs.add(new Pair<>(KEY_WEATHER_CODE, (Object) 3));
-        pairs.add(new Pair<>(KEY_WEATHER_TEMP, (Object) 10));
-        */
+        ParcelableWeather2 weather = Weather.getInstance().getWeather2();
+        if (weather != null) {
+            //comment the same key in the general section above!
+            pairs.add(new Pair<>(KEY_LOCATION_SERVICE, (Object) 0)); //0 auto, 1 manual
+            pairs.add(new Pair<>(KEY_WEATHER_CODE, (Object) Weather.mapToYahooCondition(weather.currentConditionCode)));
+            pairs.add(new Pair<>(KEY_WEATHER_TEMP, (Object) (weather.currentTemp - 273)));
+        }
 
         byte[] testMessage = mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs);
 
