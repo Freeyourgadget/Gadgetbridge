@@ -1,8 +1,7 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
+package nodomain.freeyourgadget.gadgetbridge.contentprovider;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
-import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;

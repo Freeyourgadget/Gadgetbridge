@@ -245,7 +245,7 @@
             android:name=".activities.AlarmDetails"
             android:label="@string/title_activity_alarm_details"
             android:parentActivityName=".activities.ConfigureAlarms"/>
-        <provider android:authorities="com.getpebble.android.provider" android:exported="true" android:name=".service.devices.pebble.PebbleContentProvider" android:process=":framework"/>
+        <provider android:authorities="com.getpebble.android.provider" android:exported="true" android:name=".contentprovider.PebbleContentProvider" />
     </application>
 
 </manifest>
