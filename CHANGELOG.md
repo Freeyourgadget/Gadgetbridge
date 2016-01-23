@@ -1,5 +1,9 @@
 ###Changelog
 
+####Next Version
+* Pebble: Report connection state to PebbleKit companion apps via content provider. NOTE: Makes Gadgetbridge mutual exclusive with the original Pebble app.
+* Ignore generic notification when from SMSSecure when SMS Notifications are on
+
 ####Version 0.7.2
 * Pebble: Allow replying to generic notifications that contain a wearable reply action (tested with Signal)
 * Pebble: Support seting up a common suffix for canned replies (defaults to " (canned reply)")
