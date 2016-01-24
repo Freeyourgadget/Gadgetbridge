@@ -1,6 +1,6 @@
 ###Changelog
 
-####Next Version
+####Version 0.7.3
 * Pebble: Report connection state to PebbleKit companion apps via content provider. NOTE: Makes Gadgetbridge mutual exclusive with the original Pebble app.
 * Ignore generic notification when from SMSSecure when SMS Notifications are on
 
