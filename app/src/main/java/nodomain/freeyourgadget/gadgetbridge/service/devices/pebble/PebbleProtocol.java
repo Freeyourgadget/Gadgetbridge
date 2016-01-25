@@ -654,6 +654,38 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
+    private byte[] encodeBlobdbActivateHealth() {
+        byte[] activityPreferences = new byte[] {0x61,0x63,0x74,0x69,0x76,0x69,0x74,0x79,0x50,0x72,0x65,0x66,0x65,0x72,0x65,0x6e,0x63,0x65,0x73};
+        byte[] blob = new byte[] {0x00,0x00,0x00,0x00,0x01,0x00,0x00,0x00,0x02};
+        int length = LENGTH_BLOBDB+3;
+        if (blob != null) {
+            length += blob.length + 2;
+        }
+
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + length);
+
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort((short) length);
+        buf.putShort(ENDPOINT_BLOBDB);
+
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        buf.put(BLOBDB_INSERT);
+        buf.putShort((short) mRandom.nextInt()); // token
+        buf.put((byte) 0x07);
+        buf.put((byte)activityPreferences.length);
+        //TODO: works this way, but perhaps should be reversed?
+        //buf.order(ByteOrder.BIG_ENDIAN);
+        buf.put(activityPreferences);
+        //buf.order(ByteOrder.LITTLE_ENDIAN);
+
+        if (blob != null) {
+            buf.putShort((short) blob.length);
+            buf.put(blob);
+        }
+
+        return buf.array();
+    }
+
     private byte[] encodeBlobDBClear(byte database) {
         final short LENGTH_BLOBDB_CLEAR = 4;
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_BLOBDB_CLEAR);
