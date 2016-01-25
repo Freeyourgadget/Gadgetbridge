@@ -1,11 +1,21 @@
 package nodomain.freeyourgadget.gadgetbridge.contentprovider;
 
+import android.content.BroadcastReceiver;
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
+
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class PebbleContentProvider extends ContentProvider {
 
@@ -24,8 +34,22 @@ public class PebbleContentProvider extends ContentProvider {
     static final String URL = "content://" + PROVIDER_NAME + "/state";
     static final Uri CONTENT_URI = Uri.parse(URL);
 
+    private GBDevice mGBDevice = null;
+
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(GBDevice.ACTION_DEVICE_CHANGED)) {
+                mGBDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
+            }
+        }
+    };
+
     @Override
     public boolean onCreate() {
+        LocalBroadcastManager.getInstance(this.getContext()).registerReceiver(mReceiver, new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED));
+
         return true;
     }
 
@@ -33,7 +57,17 @@ public class PebbleContentProvider extends ContentProvider {
     public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         if (uri.equals(CONTENT_URI)) {
             MatrixCursor mc = new MatrixCursor(columnNames);
-            mc.addRow(new Object[]{1, 1, 0, 3, 8, 0, "Gadgetbridge"});
+            int connected = 0;
+            int appMessage = 0;
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+            if (sharedPrefs.getBoolean("pebble_enable_pebblekit", false)) {
+                appMessage = 1;
+            }
+            if (mGBDevice != null && mGBDevice.getType() == DeviceType.PEBBLE && mGBDevice.isInitialized()) {
+                connected = 1;
+            }
+            mc.addRow(new Object[]{connected, appMessage, 0, 3, 8, 2, "Gadgetbridge"});
+
             return mc;
         } else {
             return null;
