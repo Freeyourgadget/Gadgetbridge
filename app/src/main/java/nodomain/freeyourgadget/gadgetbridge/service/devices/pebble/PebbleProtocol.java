@@ -81,7 +81,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final byte BLOBDB_APP = 2;
     static final byte BLOBDB_REMINDER = 3;
     static final byte BLOBDB_NOTIFICATION = 4;
-
+    static final byte BLOBDB_HEALTH = 7; // might also be some generic registry database
     static final byte BLOBDB_SUCCESS = 1;
     static final byte BLOBDB_GENERALFAILURE = 2;
     static final byte BLOBDB_INVALIDOPERATION = 3;
@@ -216,7 +216,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     static final short LENGTH_APPFETCH = 2;
     static final short LENGTH_APPRUNSTATE = 17;
-    static final short LENGTH_BLOBDB = 21;
     static final short LENGTH_PING = 5;
     static final short LENGTH_PHONEVERSION = 17;
     static final short LENGTH_REMOVEAPP_2X = 17;
@@ -623,9 +622,25 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    private byte[] encodeBlobdb(UUID uuid, byte command, byte db, byte[] blob) {
+    private byte[] encodeBlobdb(Object key, byte command, byte db, byte[] blob) {
 
-        int length = LENGTH_BLOBDB;
+        int length = 5;
+
+        int key_length;
+        if (key instanceof UUID) {
+            key_length = LENGTH_UUID;
+        } else if (key instanceof String) {
+            key_length = ((String) key).getBytes().length;
+        } else {
+            LOG.warn("unknown key type");
+            return null;
+        }
+        if (key_length > 255) {
+            LOG.warn("key is too long");
+            return null;
+        }
+        length += key_length;
+
         if (blob != null) {
             length += blob.length + 2;
         }
@@ -640,11 +655,17 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put(command);
         buf.putShort((short) mRandom.nextInt()); // token
         buf.put(db);
-        buf.put(LENGTH_UUID);
-        buf.order(ByteOrder.BIG_ENDIAN);
-        buf.putLong(uuid.getMostSignificantBits());
-        buf.putLong(uuid.getLeastSignificantBits());
-        buf.order(ByteOrder.LITTLE_ENDIAN);
+
+        buf.put((byte) key_length);
+        if (key instanceof UUID) {
+            UUID uuid = (UUID) key;
+            buf.order(ByteOrder.BIG_ENDIAN);
+            buf.putLong(uuid.getMostSignificantBits());
+            buf.putLong(uuid.getLeastSignificantBits());
+            buf.order(ByteOrder.LITTLE_ENDIAN);
+        } else {
+            buf.put(((String) key).getBytes());
+        }
 
         if (blob != null) {
             buf.putShort((short) blob.length);
@@ -654,36 +675,17 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    private byte[] encodeBlobdbActivateHealth() {
-        byte[] activityPreferences = new byte[] {0x61,0x63,0x74,0x69,0x76,0x69,0x74,0x79,0x50,0x72,0x65,0x66,0x65,0x72,0x65,0x6e,0x63,0x65,0x73};
-        byte[] blob = new byte[] {0x00,0x00,0x00,0x00,0x01,0x00,0x00,0x00,0x02};
-        int length = LENGTH_BLOBDB+3;
-        if (blob != null) {
-            length += blob.length + 2;
+    private byte[] encodeBlobdbActivateHealth(boolean activate) {
+        byte[] blob;
+        byte command;
+        if (activate) {
+            command = BLOBDB_INSERT;
+            blob = new byte[]{0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x02};
+        } else {
+            command = BLOBDB_DELETE;
+            blob = null;
         }
-
-        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + length);
-
-        buf.order(ByteOrder.BIG_ENDIAN);
-        buf.putShort((short) length);
-        buf.putShort(ENDPOINT_BLOBDB);
-
-        buf.order(ByteOrder.LITTLE_ENDIAN);
-        buf.put(BLOBDB_INSERT);
-        buf.putShort((short) mRandom.nextInt()); // token
-        buf.put((byte) 0x07);
-        buf.put((byte)activityPreferences.length);
-        //TODO: works this way, but perhaps should be reversed?
-        //buf.order(ByteOrder.BIG_ENDIAN);
-        buf.put(activityPreferences);
-        //buf.order(ByteOrder.LITTLE_ENDIAN);
-
-        if (blob != null) {
-            buf.putShort((short) blob.length);
-            buf.put(blob);
-        }
-
-        return buf.array();
+        return encodeBlobdb("activityPreferences", command, BLOBDB_HEALTH, blob);
     }
 
     private byte[] encodeBlobDBClear(byte database) {
