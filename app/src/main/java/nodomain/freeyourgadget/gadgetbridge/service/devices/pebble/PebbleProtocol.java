@@ -343,11 +343,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
     byte last_id = -1;
     private final ArrayList<UUID> tmpUUIDS = new ArrayList<>();
 
+    public static final UUID UUID_PEBBLE_HEALTH = UUID.fromString("36d8c6ed-4c83-4fa1-a9e2-8f12dc941f8c"); // FIXME: store somewhere else, this is also accessed by other code
     private static final UUID UUID_GBPEBBLE = UUID.fromString("61476764-7465-7262-6469-656775527a6c");
     private static final UUID UUID_MORPHEUZ = UUID.fromString("5be44f1d-d262-4ea6-aa30-ddbec1e3cab2");
     private static final UUID UUID_WHETHERNEAT = UUID.fromString("3684003b-a685-45f9-a713-abc6364ba051");
     private static final UUID UUID_MISFIT = UUID.fromString("0b73b76a-cd65-4dc2-9585-aaa213320858");
-    private static final UUID UUID_PEBBLE_HEALTH = UUID.fromString("36d8c6ed-4c83-4fa1-a9e2-8f12dc941f8c");
     private static final UUID UUID_PEBBLE_TIMESTYLE = UUID.fromString("4368ffa4-f0fb-4823-90be-f754b076bdaa");
     private static final UUID UUID_PEBSTYLE = UUID.fromString("da05e84d-e2a2-4020-a2dc-9cdcf265fcdd");
 
@@ -675,7 +675,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    private byte[] encodeBlobdbActivateHealth(boolean activate) {
+    public byte[] encodeActivateHealth(boolean activate) {
         byte[] blob;
         byte command;
         if (activate) {
@@ -1092,6 +1092,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
     @Override
     public byte[] encodeAppDelete(UUID uuid) {
         if (isFw3x) {
+            if (UUID_PEBBLE_HEALTH.equals(uuid)) {
+                return encodeActivateHealth(false);
+            }
             return encodeBlobdb(uuid, BLOBDB_DELETE, BLOBDB_APP, null);
         } else {
             ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_REMOVEAPP_2X);
