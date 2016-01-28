@@ -678,12 +678,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
     public byte[] encodeActivateHealth(boolean activate) {
         byte[] blob;
         byte command;
+        command = BLOBDB_INSERT;
         if (activate) {
-            command = BLOBDB_INSERT;
             blob = new byte[]{0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x02};
         } else {
-            command = BLOBDB_DELETE;
-            blob = null;
+            blob = new byte[]{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
         }
         return encodeBlobdb("activityPreferences", command, BLOBDB_HEALTH, blob);
     }
