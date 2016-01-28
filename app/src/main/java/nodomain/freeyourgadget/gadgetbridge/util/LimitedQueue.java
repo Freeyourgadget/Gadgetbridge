@@ -23,7 +23,7 @@ public class LimitedQueue {
     public void remove(int id) {
         for (Iterator<Pair> iter = list.iterator(); iter.hasNext(); ) {
             Pair pair = iter.next();
-            if (pair.first == id) {
+            if (((int)pair.first) == id) {
                 iter.remove();
             }
         }
