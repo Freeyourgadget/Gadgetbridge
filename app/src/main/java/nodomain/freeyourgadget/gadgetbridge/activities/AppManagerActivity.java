@@ -31,6 +31,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAppAdapter;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 
@@ -76,6 +77,7 @@ public class AppManagerActivity extends Activity {
         List<GBDeviceApp> systemApps = new ArrayList<>();
         systemApps.add(new GBDeviceApp(UUID.fromString("4dab81a6-d2fc-458a-992c-7a1f3b96a970"), "Sports (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
         systemApps.add(new GBDeviceApp(UUID.fromString("cf1e816a-9db0-4511-bbb8-f60c48ca8fac"), "Golf (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
+        systemApps.add(new GBDeviceApp(PebbleProtocol.UUID_PEBBLE_HEALTH, "Health (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
 
         return systemApps;
     }
@@ -155,7 +157,7 @@ public class AppManagerActivity extends Activity {
         AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
         selectedApp = appList.get(acmi.position);
 
-        if (!selectedApp.isInCache()) {
+        if (!selectedApp.isInCache() && !PebbleProtocol.UUID_PEBBLE_HEALTH.equals(selectedApp.getUUID())) {
             menu.removeItem(R.id.appmanager_app_reinstall);
         }
         menu.setHeaderTitle(selectedApp.getName());
@@ -168,6 +170,11 @@ public class AppManagerActivity extends Activity {
                 GBApplication.deviceService().onAppDelete(selectedApp.getUUID());
                 return true;
             case R.id.appmanager_app_reinstall:
+                if (PebbleProtocol.UUID_PEBBLE_HEALTH.equals(selectedApp.getUUID())) {
+                    GBApplication.deviceService().onInstallApp(Uri.parse("fake://health"));
+                    return true;
+                }
+
                 File cachePath;
                 try {
                     cachePath = new File(FileUtils.getExternalFilesDir().getPath() + "/pbw-cache/" + selectedApp.getUUID() + ".pbw");

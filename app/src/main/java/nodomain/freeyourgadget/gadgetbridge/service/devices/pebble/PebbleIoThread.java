@@ -570,6 +570,11 @@ public class PebbleIoThread extends GBDeviceIoThread {
             return;
         }
 
+        if (uri.equals(Uri.parse("fake://health"))) {
+            write(mPebbleProtocol.encodeActivateHealth(true));
+            return;
+        }
+
         String hwRev = gbDevice.getHardwareVersion();
         String platformName;
         if (hwRev.startsWith("snowy")) {

@@ -81,7 +81,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final byte BLOBDB_APP = 2;
     static final byte BLOBDB_REMINDER = 3;
     static final byte BLOBDB_NOTIFICATION = 4;
-
+    static final byte BLOBDB_HEALTH = 7; // might also be some generic registry database
     static final byte BLOBDB_SUCCESS = 1;
     static final byte BLOBDB_GENERALFAILURE = 2;
     static final byte BLOBDB_INVALIDOPERATION = 3;
@@ -216,7 +216,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     static final short LENGTH_APPFETCH = 2;
     static final short LENGTH_APPRUNSTATE = 17;
-    static final short LENGTH_BLOBDB = 21;
     static final short LENGTH_PING = 5;
     static final short LENGTH_PHONEVERSION = 17;
     static final short LENGTH_REMOVEAPP_2X = 17;
@@ -344,11 +343,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
     byte last_id = -1;
     private final ArrayList<UUID> tmpUUIDS = new ArrayList<>();
 
+    public static final UUID UUID_PEBBLE_HEALTH = UUID.fromString("36d8c6ed-4c83-4fa1-a9e2-8f12dc941f8c"); // FIXME: store somewhere else, this is also accessed by other code
     private static final UUID UUID_GBPEBBLE = UUID.fromString("61476764-7465-7262-6469-656775527a6c");
     private static final UUID UUID_MORPHEUZ = UUID.fromString("5be44f1d-d262-4ea6-aa30-ddbec1e3cab2");
     private static final UUID UUID_WHETHERNEAT = UUID.fromString("3684003b-a685-45f9-a713-abc6364ba051");
     private static final UUID UUID_MISFIT = UUID.fromString("0b73b76a-cd65-4dc2-9585-aaa213320858");
-    private static final UUID UUID_PEBBLE_HEALTH = UUID.fromString("36d8c6ed-4c83-4fa1-a9e2-8f12dc941f8c");
     private static final UUID UUID_PEBBLE_TIMESTYLE = UUID.fromString("4368ffa4-f0fb-4823-90be-f754b076bdaa");
     private static final UUID UUID_PEBSTYLE = UUID.fromString("da05e84d-e2a2-4020-a2dc-9cdcf265fcdd");
     private static final UUID UUID_MARIOTIME = UUID.fromString("43caa750-2896-4f46-94dc-1adbd4bc1ff3");
@@ -624,9 +623,25 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    private byte[] encodeBlobdb(UUID uuid, byte command, byte db, byte[] blob) {
+    private byte[] encodeBlobdb(Object key, byte command, byte db, byte[] blob) {
 
-        int length = LENGTH_BLOBDB;
+        int length = 5;
+
+        int key_length;
+        if (key instanceof UUID) {
+            key_length = LENGTH_UUID;
+        } else if (key instanceof String) {
+            key_length = ((String) key).getBytes().length;
+        } else {
+            LOG.warn("unknown key type");
+            return null;
+        }
+        if (key_length > 255) {
+            LOG.warn("key is too long");
+            return null;
+        }
+        length += key_length;
+
         if (blob != null) {
             length += blob.length + 2;
         }
@@ -641,11 +656,17 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put(command);
         buf.putShort((short) mRandom.nextInt()); // token
         buf.put(db);
-        buf.put(LENGTH_UUID);
-        buf.order(ByteOrder.BIG_ENDIAN);
-        buf.putLong(uuid.getMostSignificantBits());
-        buf.putLong(uuid.getLeastSignificantBits());
-        buf.order(ByteOrder.LITTLE_ENDIAN);
+
+        buf.put((byte) key_length);
+        if (key instanceof UUID) {
+            UUID uuid = (UUID) key;
+            buf.order(ByteOrder.BIG_ENDIAN);
+            buf.putLong(uuid.getMostSignificantBits());
+            buf.putLong(uuid.getLeastSignificantBits());
+            buf.order(ByteOrder.LITTLE_ENDIAN);
+        } else {
+            buf.put(((String) key).getBytes());
+        }
 
         if (blob != null) {
             buf.putShort((short) blob.length);
@@ -653,6 +674,19 @@ public class PebbleProtocol extends GBDeviceProtocol {
         }
 
         return buf.array();
+    }
+
+    public byte[] encodeActivateHealth(boolean activate) {
+        byte[] blob;
+        byte command;
+        if (activate) {
+            command = BLOBDB_INSERT;
+            blob = new byte[]{0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x02};
+        } else {
+            command = BLOBDB_DELETE;
+            blob = null;
+        }
+        return encodeBlobdb("activityPreferences", command, BLOBDB_HEALTH, blob);
     }
 
     private byte[] encodeBlobDBClear(byte database) {
@@ -1059,6 +1093,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
     @Override
     public byte[] encodeAppDelete(UUID uuid) {
         if (isFw3x) {
+            if (UUID_PEBBLE_HEALTH.equals(uuid)) {
+                return encodeActivateHealth(false);
+            }
             return encodeBlobdb(uuid, BLOBDB_DELETE, BLOBDB_APP, null);
         } else {
             ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_REMOVEAPP_2X);
