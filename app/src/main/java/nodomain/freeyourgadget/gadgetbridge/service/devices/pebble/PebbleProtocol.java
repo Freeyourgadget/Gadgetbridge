@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Base64;
 import android.util.Pair;
 
@@ -12,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -29,6 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificati
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleColor;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleIconID;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
@@ -680,7 +684,34 @@ public class PebbleProtocol extends GBDeviceProtocol {
         byte command;
         command = BLOBDB_INSERT;
         if (activate) {
-            blob = new byte[]{0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x02};
+
+            ByteBuffer buf = ByteBuffer.allocate(9);
+            buf.order(ByteOrder.LITTLE_ENDIAN);
+
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
+
+            Integer heightMm = Integer.parseInt(prefs.getString(MiBandConst.PREF_USER_HEIGHT_CM, "175")) * 10;
+            buf.putShort(heightMm.shortValue());
+            Integer weigthDag = Integer.parseInt(prefs.getString(MiBandConst.PREF_USER_WEIGHT_KG, "70")) * 100;
+            buf.putShort(weigthDag.shortValue());
+            buf.put((byte)0x01); //activate tracking
+            buf.put((byte)0x01); //activity Insights
+            buf.put((byte)0x01); //sleep Insights
+            int userYear = Integer.parseInt(prefs.getString(MiBandConst.PREF_USER_YEAR_OF_BIRTH, "0"));
+            int age = 25;
+            if (userYear > 1900) {
+                age = Calendar.getInstance().get(Calendar.YEAR) - userYear;
+                if (age <= 0) {
+                    age = 25;
+                }
+            }
+            buf.put((byte)age);
+
+            int gender = ("male".equals(prefs.getString(MiBandConst.PREF_USER_GENDER, null)) ? 1 : 0);
+            buf.put((byte)gender);
+            //blob = new byte[]{0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x02};
+
+            blob = buf.array();
         } else {
             blob = new byte[]{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
         }
