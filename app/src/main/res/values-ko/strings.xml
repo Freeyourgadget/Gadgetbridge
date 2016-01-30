@@ -44,6 +44,7 @@
   <string name="when_screen_off">화면이 꺼져 있을 때</string>
   <string name="never">하지 않음</string>
   <string name="pref_blacklist">블랙리스트 앱</string>
+  <string name="pref_title_canned_reply_suffix">일반적인 접미사</string>
   <string name="pref_header_development">개발자 옵션</string>
   <string name="pref_title_development_miaddr">Mi Band 주소</string>
   <string name="pref_title_pebble_settings">Pebble 설정</string>
@@ -197,4 +198,7 @@
   <string name="pref_title_keep_data_on_device">기기에 활동 데이터 유지</string>
   <string name="miband_fwinstaller_incompatible_version">호환되지 않는 펌웨어</string>
   <string name="fwinstaller_firmware_not_compatible_to_device">이 펌웨어는 기기와 호환되지 않습니다</string>
+  <string name="miband_prefs_reserve_alarm_calendar">다가오는 이벤트를 위해 예약할 알람</string>
+  <string name="waiting_for_reconnect">재접속을 기다리는 중</string>
+  <string name="appmananger_app_reinstall">재설치</string>
 </resources>
