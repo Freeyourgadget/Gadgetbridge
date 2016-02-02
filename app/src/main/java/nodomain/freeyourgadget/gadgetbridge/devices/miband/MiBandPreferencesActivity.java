@@ -20,10 +20,6 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PR
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_WEARSIDE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_USER_ALIAS;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_USER_GENDER;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_USER_HEIGHT_CM;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_USER_WEIGHT_KG;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_USER_YEAR_OF_BIRTH;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_COUNT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_PROFILE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.getNotificationPrefKey;

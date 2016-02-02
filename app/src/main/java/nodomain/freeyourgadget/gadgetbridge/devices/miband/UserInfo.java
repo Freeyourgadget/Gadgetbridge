@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 
@@ -23,7 +24,7 @@ public class UserInfo {
      * @param btAddress the address of the MI Band to connect to.
      */
     public static UserInfo getDefault(String btAddress) {
-        return new UserInfo(btAddress, "1550050550", 0, 25, 175, 70, 0);
+        return new UserInfo(btAddress, "1550050550", ActivityUser.defaultUserGender, ActivityUser.defaultUserAge, ActivityUser.defaultUserHeightCm, ActivityUser.defaultUserWeightKg, 0);
     }
 
     /**

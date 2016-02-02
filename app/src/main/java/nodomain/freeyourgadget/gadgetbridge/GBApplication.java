@@ -26,6 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBConstants;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -45,6 +46,9 @@ public class GBApplication extends Application {
     private static final Lock dbLock = new ReentrantLock();
     private static DeviceService deviceService;
     private static SharedPreferences sharedPrefs;
+    private static final String PREFS_VERSION = "shared_preferences_version";
+    //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
+    private static final int CURRENT_PREFS_VERSION = 1;
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
 
     public static final String ACTION_QUIT
@@ -83,6 +87,10 @@ public class GBApplication extends Application {
         // don't do anything here before we set up logging, otherwise
         // slf4j may be implicitly initialized before we properly configured it.
         setupLogging();
+
+        if (getPrefsFileVersion() != CURRENT_PREFS_VERSION) {
+            migratePrefs(getPrefsFileVersion());
+        }
 
         setupExceptionHandler();
 //        For debugging problems with the logback configuration
@@ -240,6 +248,41 @@ public class GBApplication extends Application {
         boolean result = getContext().deleteDatabase(DBConstants.DATABASE_NAME);
         mActivityDatabaseHandler = new ActivityDatabaseHandler(getContext());
         return result;
+    }
+
+    private int getPrefsFileVersion() {
+        return sharedPrefs.getInt(PREFS_VERSION, 0); //0 is legacy
+    }
+
+    private void migratePrefs(int oldVersion) {
+        switch (oldVersion)  {
+            case 0:
+                SharedPreferences.Editor editor = sharedPrefs.edit();
+                String legacyGender = sharedPrefs.getString("mi_user_gender", null);
+                String legacyHeight = sharedPrefs.getString("mi_user_height_cm", null);
+                String legacyWeigth = sharedPrefs.getString("mi_user_weight_kg", null);
+                String legacyYOB = sharedPrefs.getString("mi_user_year_of_birth",null);
+                if(legacyGender != null) {
+                    int gender = "male".equals(legacyGender) ? 1 : "female".equals(legacyGender) ? 0 : 2;
+                    editor.putInt(ActivityUser.PREF_USER_GENDER, gender);
+                    editor.remove("mi_user_gender");
+                }
+                if(legacyHeight != null) {
+                    editor.putString(ActivityUser.PREF_USER_HEIGHT_CM, legacyHeight);
+                    editor.remove("mi_user_height_cm");
+                }
+                if(legacyWeigth != null) {
+                    editor.putString(ActivityUser.PREF_USER_WEIGHT_KG, legacyWeigth);
+                    editor.remove("mi_user_weight_kg");
+                }
+                if(legacyYOB != null) {
+                    editor.putString(ActivityUser.PREF_USER_YEAR_OF_BIRTH, legacyYOB);
+                    editor.remove("mi_user_year_of_birth");
+                }
+                editor.putInt(PREFS_VERSION, CURRENT_PREFS_VERSION);
+                editor.commit();
+                break;
+        }
     }
 
     public static LimitedQueue getIDSenderLookup() {

@@ -13,10 +13,10 @@ import java.util.List;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
 
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_USER_GENDER;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_USER_HEIGHT_CM;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_USER_WEIGHT_KG;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_USER_YEAR_OF_BIRTH;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_GENDER;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_HEIGHT_CM;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_WEIGHT_KG;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_YEAR_OF_BIRTH;
 
 public class SettingsActivity extends AbstractSettingsActivity {
     @Override

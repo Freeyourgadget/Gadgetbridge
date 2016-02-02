@@ -9,8 +9,6 @@ import android.preference.PreferenceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Calendar;
-
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
@@ -18,6 +16,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class MiBandCoordinator extends AbstractDeviceCoordinator {
@@ -107,22 +106,16 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
      * @throws IllegalArgumentException when the user info can not be created
      */
     public static UserInfo getConfiguredUserInfo(String miBandAddress) throws IllegalArgumentException {
+        ActivityUser activityUser = new ActivityUser();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
-        int userYear = Integer.parseInt(prefs.getString(MiBandConst.PREF_USER_YEAR_OF_BIRTH, "0"));
-        int age = 25;
-        if (userYear > 1900) {
-            age = Calendar.getInstance().get(Calendar.YEAR) - userYear;
-            if (age <= 0) {
-                age = 25;
-            }
-        }
+
         UserInfo info = UserInfo.create(
                 miBandAddress,
                 prefs.getString(MiBandConst.PREF_USER_ALIAS, null),
-                ("male".equals(prefs.getString(MiBandConst.PREF_USER_GENDER, null)) ? 1 : 0),
-                age,
-                Integer.parseInt(prefs.getString(MiBandConst.PREF_USER_HEIGHT_CM, "175")),
-                Integer.parseInt(prefs.getString(MiBandConst.PREF_USER_WEIGHT_KG, "70")),
+                activityUser.getActivityUserGender(),
+                activityUser.getActivityUserAge(),
+                activityUser.getActivityUserHeightCm(),
+                activityUser.getActivityUserWeightKg(),
                 0
         );
         return info;

@@ -9,10 +9,6 @@ public final class MiBandConst {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandConst.class);
 
     public static final String PREF_USER_ALIAS = "mi_user_alias";
-    public static final String PREF_USER_YEAR_OF_BIRTH = "mi_user_year_of_birth";
-    public static final String PREF_USER_GENDER = "mi_user_gender";
-    public static final String PREF_USER_HEIGHT_CM = "mi_user_height_cm";
-    public static final String PREF_USER_WEIGHT_KG = "mi_user_weight_kg";
     public static final String PREF_MIBAND_WEARSIDE = "mi_wearside";
     public static final String PREF_MIBAND_ADDRESS = "development_miaddr";  // FIXME: should be prefixed mi_
     public static final String PREF_MIBAND_ALARMS = "mi_alarms";

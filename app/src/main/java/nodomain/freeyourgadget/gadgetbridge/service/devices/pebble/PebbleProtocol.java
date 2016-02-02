@@ -1,7 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Base64;
 import android.util.Pair;
 
@@ -14,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -32,10 +29,10 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificati
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleColor;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleIconID;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
@@ -688,27 +685,16 @@ public class PebbleProtocol extends GBDeviceProtocol {
             ByteBuffer buf = ByteBuffer.allocate(9);
             buf.order(ByteOrder.LITTLE_ENDIAN);
 
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
-
-            Integer heightMm = Integer.parseInt(prefs.getString(MiBandConst.PREF_USER_HEIGHT_CM, "175")) * 10;
+            ActivityUser activityUser = new ActivityUser();
+            Integer heightMm = activityUser.getActivityUserHeightCm() * 10;
             buf.putShort(heightMm.shortValue());
-            Integer weigthDag = Integer.parseInt(prefs.getString(MiBandConst.PREF_USER_WEIGHT_KG, "70")) * 100;
+            Integer weigthDag = activityUser.getActivityUserWeightKg() * 100;
             buf.putShort(weigthDag.shortValue());
             buf.put((byte)0x01); //activate tracking
             buf.put((byte)0x01); //activity Insights
             buf.put((byte)0x01); //sleep Insights
-            int userYear = Integer.parseInt(prefs.getString(MiBandConst.PREF_USER_YEAR_OF_BIRTH, "0"));
-            int age = 25;
-            if (userYear > 1900) {
-                age = Calendar.getInstance().get(Calendar.YEAR) - userYear;
-                if (age <= 0) {
-                    age = 25;
-                }
-            }
-            buf.put((byte)age);
-
-            int gender = ("male".equals(prefs.getString(MiBandConst.PREF_USER_GENDER, null)) ? 1 : 0);
-            buf.put((byte)gender);
+            buf.put((byte)activityUser.getActivityUserAge());
+            buf.put((byte)activityUser.getActivityUserGender());
             //blob = new byte[]{0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x02};
 
             blob = buf.array();
