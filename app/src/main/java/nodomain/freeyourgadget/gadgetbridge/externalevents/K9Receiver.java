@@ -62,7 +62,7 @@ public class K9Receiver extends BroadcastReceiver {
             e.printStackTrace();
             notificationSpec.sender = "Gadgetbridge";
             notificationSpec.subject = "Permission Error?";
-            notificationSpec.body = "Please reinstall Gadgerbridge to enable K-9 Mail notifications";
+            notificationSpec.body = "Please reinstall Gadgetbridge to enable K-9 Mail notifications";
         }
 
         try {
