@@ -103,12 +103,12 @@
   <string name="discovery_connected_devices_hint">Rendez votre appareil découvrable.  Les appareils déjà connectés ne seront pas découverts.</string>
   <string name="discovery_note">Note:</string>
   <string name="candidate_item_device_image">Image de l\'appareil</string>
-  <string name="miband_prefs_about_you">À propos de vous</string>
+  <string name="activity_prefs_about_you">À propos de vous</string>
   <string name="miband_prefs_alias">Nom/Pseudo</string>
-  <string name="miband_prefs_year_birth">Année de naissance</string>
-  <string name="miband_prefs_gender">Genre</string>
-  <string name="miband_prefs_height_cm">Taille en cm</string>
-  <string name="miband_prefs_weight_kg">Poids en kg</string>
+  <string name="activity_prefs_year_birth">Année de naissance</string>
+  <string name="activity_prefs_gender">Genre</string>
+  <string name="activity_prefs_height_cm">Taille en cm</string>
+  <string name="activity_prefs_weight_kg">Poids en kg</string>
   <string name="pref_header_vibration_count">Nombre de vibrations</string>
   <string name="title_activity_sleepmonitor">Moniteur de sommeil</string>
   <string name="pref_write_logfiles">Écrire les fichiers journaux (redémarrage requis)</string>

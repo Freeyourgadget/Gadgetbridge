@@ -103,12 +103,12 @@
   <string name="discovery_connected_devices_hint">Haz visible tu dispositivo. No es probable que se detecten los dispositivos que ya están conectados.</string>
   <string name="discovery_note">Nota:</string>
   <string name="candidate_item_device_image">Imagen del dispositivo</string>
-  <string name="miband_prefs_about_you">Sobre ti</string>
+  <string name="activity_prefs_about_you">Sobre ti</string>
   <string name="miband_prefs_alias">Nombre/Apodo</string>
-  <string name="miband_prefs_year_birth">Año de nacimiento</string>
-  <string name="miband_prefs_gender">Sexo</string>
-  <string name="miband_prefs_height_cm">Altura en cm</string>
-  <string name="miband_prefs_weight_kg">Peso en kg</string>
+  <string name="activity_prefs_year_birth">Año de nacimiento</string>
+  <string name="activity_prefs_gender">Sexo</string>
+  <string name="activity_prefs_height_cm">Altura en cm</string>
+  <string name="activity_prefs_weight_kg">Peso en kg</string>
   <string name="pref_header_vibration_count">Número de vibraciones</string>
   <string name="title_activity_sleepmonitor">Monitor de sueño</string>
   <string name="pref_write_logfiles">Guardar logs (requiere reiniciar)</string>

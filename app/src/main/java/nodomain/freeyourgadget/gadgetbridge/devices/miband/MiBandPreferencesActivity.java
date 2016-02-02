@@ -53,10 +53,6 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
     protected String[] getPreferenceKeysWithSummary() {
         return new String[]{
                 PREF_USER_ALIAS,
-                PREF_USER_YEAR_OF_BIRTH,
-                PREF_USER_GENDER,
-                PREF_USER_HEIGHT_CM,
-                PREF_USER_WEIGHT_KG,
                 PREF_MIBAND_WEARSIDE,
                 PREF_MIBAND_ADDRESS,
                 PREF_MIBAND_FITNESS_GOAL,

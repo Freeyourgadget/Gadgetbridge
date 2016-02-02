@@ -103,12 +103,12 @@
   <string name="discovery_connected_devices_hint">お使いのデバイスを検出可能にしてください。現在、接続されたデバイスは、おそらく検出されません。</string>
   <string name="discovery_note">注:</string>
   <string name="candidate_item_device_image">デバイスイメージ</string>
-  <string name="miband_prefs_about_you">あなたについて</string>
+  <string name="activity_prefs_about_you">あなたについて</string>
   <string name="miband_prefs_alias">名前/別名</string>
-  <string name="miband_prefs_year_birth">誕生年</string>
-  <string name="miband_prefs_gender">性別</string>
-  <string name="miband_prefs_height_cm">身長（cm）</string>
-  <string name="miband_prefs_weight_kg">体重（kg）</string>
+  <string name="activity_prefs_year_birth">誕生年</string>
+  <string name="activity_prefs_gender">性別</string>
+  <string name="activity_prefs_height_cm">身長（cm）</string>
+  <string name="activity_prefs_weight_kg">体重（kg）</string>
   <string name="pref_header_vibration_count">バイブレーション回数</string>
   <string name="title_activity_sleepmonitor">睡眠観測</string>
   <string name="pref_write_logfiles">ログファイルを出力 (再起動が必要)</string>

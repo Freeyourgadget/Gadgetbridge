@@ -102,12 +102,12 @@
   <string name="discovery_connected_devices_hint">Mach Dein Gerät auffindbar. Derzeit verbundene Geräte sind in der Regel nicht auffindbar.</string>
   <string name="discovery_note">Tipp:</string>
   <string name="candidate_item_device_image">Bild des Geräts</string>
-  <string name="miband_prefs_about_you">Über Dich</string>
+  <string name="activity_prefs_about_you">Über Dich</string>
   <string name="miband_prefs_alias">Name/Alias</string>
-  <string name="miband_prefs_year_birth">Geburtsjahr</string>
-  <string name="miband_prefs_gender">Geschlecht</string>
-  <string name="miband_prefs_height_cm">Größe in cm</string>
-  <string name="miband_prefs_weight_kg">Gewicht in kg</string>
+  <string name="activity_prefs_year_birth">Geburtsjahr</string>
+  <string name="activity_prefs_gender">Geschlecht</string>
+  <string name="activity_prefs_height_cm">Größe in cm</string>
+  <string name="activity_prefs_weight_kg">Gewicht in kg</string>
   <string name="pref_header_vibration_count">Anzahl der Vibrationen</string>
   <string name="title_activity_sleepmonitor">Schlafmonitor</string>
   <string name="pref_write_logfiles">Log-Dateien schreiben (Neustart erforderlich)</string>

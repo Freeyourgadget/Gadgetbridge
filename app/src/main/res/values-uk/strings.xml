@@ -101,12 +101,12 @@
   <string name="discovery_connected_devices_hint">Під\'єднані на даний момент пристрої, скоріш за все не будуть виявлені.</string>
   <string name="discovery_note">Замітка:</string>
   <string name="candidate_item_device_image">Зображення пристрою</string>
-  <string name="miband_prefs_about_you">Ваші дані</string>
+  <string name="activity_prefs_about_you">Ваші дані</string>
   <string name="miband_prefs_alias">Ім\'я/нік</string>
-  <string name="miband_prefs_year_birth">Рік народження</string>
-  <string name="miband_prefs_gender">Стать</string>
-  <string name="miband_prefs_height_cm">Зріст в см</string>
-  <string name="miband_prefs_weight_kg">Вага в кг</string>
+  <string name="activity_prefs_year_birth">Рік народження</string>
+  <string name="activity_prefs_gender">Стать</string>
+  <string name="activity_prefs_height_cm">Зріст в см</string>
+  <string name="activity_prefs_weight_kg">Вага в кг</string>
   <string name="pref_header_vibration_count">Кількість вібрацій</string>
   <string name="title_activity_sleepmonitor">Аналіз сну</string>
   <string name="pref_write_logfiles">Записувати файли звіту (потрібен перезапуск)</string>

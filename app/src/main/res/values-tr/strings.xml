@@ -93,12 +93,12 @@
     <string name="discovery_connected_devices_hint">Cihazınızı keşfedilebilir yapın. Bağlı durumdaki cihazlar tekrar keşfedilmeyebilir.</string>
     <string name="discovery_note">Not:</string>
     <string name="candidate_item_device_image">Cihaz resmi</string>
-    <string name="miband_prefs_about_you">Hakkınızda</string>
+    <string name="activity_prefs_about_you">Hakkınızda</string>
     <string name="miband_prefs_alias">İsim</string>
-    <string name="miband_prefs_year_birth">Doğum yılı</string>
-    <string name="miband_prefs_gender">Cinsiyet</string>
-    <string name="miband_prefs_height_cm">Boy(cm)</string>
-    <string name="miband_prefs_weight_kg">Ağırlık (kg)</string>
+    <string name="activity_prefs_year_birth">Doğum yılı</string>
+    <string name="activity_prefs_gender">Cinsiyet</string>
+    <string name="activity_prefs_height_cm">Boy(cm)</string>
+    <string name="activity_prefs_weight_kg">Ağırlık (kg)</string>
     <string name="pref_header_vibration_count">Titreşim adedi</string>
 
     <string name="title_activity_sleepmonitor">Uyku Monitörü</string>

@@ -103,12 +103,12 @@
   <string name="discovery_connected_devices_hint">Подключённые в настоящее время устройства, скорее всего, не будут обнаружены.</string>
   <string name="discovery_note">Заметка:</string>
   <string name="candidate_item_device_image">Изображение устройства</string>
-  <string name="miband_prefs_about_you">Ваши данные</string>
+  <string name="activity_prefs_about_you">Ваши данные</string>
   <string name="miband_prefs_alias">Имя/псевдоним</string>
-  <string name="miband_prefs_year_birth">Год рождения</string>
-  <string name="miband_prefs_gender">Пол</string>
-  <string name="miband_prefs_height_cm">Рост в см</string>
-  <string name="miband_prefs_weight_kg">Вес в кг</string>
+  <string name="activity_prefs_year_birth">Год рождения</string>
+  <string name="activity_prefs_gender">Пол</string>
+  <string name="activity_prefs_height_cm">Рост в см</string>
+  <string name="activity_prefs_weight_kg">Вес в кг</string>
   <string name="pref_header_vibration_count">Количество вибраций</string>
   <string name="title_activity_sleepmonitor">Анализ сна</string>
   <string name="pref_write_logfiles">Записывать  файлы журнала (нужен перезапуск)</string>

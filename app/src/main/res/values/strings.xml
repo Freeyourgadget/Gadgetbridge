@@ -117,12 +117,7 @@
     <string name="discovery_connected_devices_hint">Make your device discoverable. Currently connected devices will likely not be discovered.</string>
     <string name="discovery_note">Note:</string>
     <string name="candidate_item_device_image">Device Image</string>
-    <string name="miband_prefs_about_you">About You</string>
     <string name="miband_prefs_alias">Name/Alias</string>
-    <string name="miband_prefs_year_birth">Year of Birth</string>
-    <string name="miband_prefs_gender">Gender</string>
-    <string name="miband_prefs_height_cm">Height in cm</string>
-    <string name="miband_prefs_weight_kg">Weight in kg</string>
     <string name="pref_header_vibration_count">Vibration Count</string>
 
     <string name="title_activity_sleepmonitor">Sleep Monitor</string>
@@ -218,4 +213,11 @@
     <string name="miband_prefs_reserve_alarm_calendar">Alarms to reserve for upcoming events</string>
     <string name="waiting_for_reconnect">waiting for reconnect</string>
     <string name="appmananger_app_reinstall">Reinstall</string>
+
+    <string name="activity_prefs_about_you">About You</string>
+    <string name="activity_prefs_year_birth">Year of Birth</string>
+    <string name="activity_prefs_gender">Gender</string>
+    <string name="activity_prefs_height_cm">Height in cm</string>
+    <string name="activity_prefs_weight_kg">Weight in kg</string>
+
 </resources>
