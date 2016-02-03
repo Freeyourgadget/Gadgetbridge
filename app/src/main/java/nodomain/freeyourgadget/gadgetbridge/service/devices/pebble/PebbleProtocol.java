@@ -37,6 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class PebbleProtocol extends GBDeviceProtocol {
 
@@ -351,6 +352,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private static final UUID UUID_MISFIT = UUID.fromString("0b73b76a-cd65-4dc2-9585-aaa213320858");
     private static final UUID UUID_PEBBLE_TIMESTYLE = UUID.fromString("4368ffa4-f0fb-4823-90be-f754b076bdaa");
     private static final UUID UUID_PEBSTYLE = UUID.fromString("da05e84d-e2a2-4020-a2dc-9cdcf265fcdd");
+    private static final UUID UUID_ZERO = new UUID(0, 0);
 
     private static final Map<UUID, AppMessageHandler> mAppMessageHandlers = new HashMap<>();
 
@@ -364,6 +366,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     }
 
+    private final HashMap<Byte, DatalogSession> mDatalogSessions = new HashMap<>();
+
     private static byte[] encodeSimpleMessage(short endpoint, byte command) {
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_SIMPLEMESSAGE);
         buf.order(ByteOrder.BIG_ENDIAN);
@@ -374,7 +378,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    private static byte[] encodeMessage(short endpoint, byte type, int cookie, String[] parts) {
+    private byte[] encodeMessage(short endpoint, byte type, int cookie, String[] parts) {
         // Calculate length first
         int length = LENGTH_PREFIX + 1;
         if (parts != null) {
@@ -702,6 +706,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
             blob = new byte[]{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
         }
         return encodeBlobdb("activityPreferences", command, BLOBDB_HEALTH, blob);
+    }
+
+    public byte[] encodeReportDataLogSessions() {
+        return encodeSimpleMessage(ENDPOINT_DATALOG, DATALOG_REPORTSESSIONS);
     }
 
     private byte[] encodeBlobDBClear(byte database) {
@@ -1645,11 +1653,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
                                 // FIXME: this does not belong here, but we want at least check if there is no chance at all to send out the SMS later before we report success
                                 String phoneNumber = (String) GBApplication.getIDSenderLookup().lookup(id);
                                 //if (phoneNumber != null) {
-                                    devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
-                                    devEvtNotificationControl.reply = new String(reply);
-                                    caption = "SENT";
-                                    icon_id = PebbleIconID.RESULT_SENT;
-                                    failed = false;
+                                devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
+                                devEvtNotificationControl.reply = new String(reply);
+                                caption = "SENT";
+                                icon_id = PebbleIconID.RESULT_SENT;
+                                failed = false;
                                 //}
                             }
                         }
@@ -1782,10 +1790,29 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 LOG.info("DATALOG TIMEOUT. id=" + (id & 0xff) + " - ignoring");
                 return null;
             case DATALOG_SENDDATA:
+                boolean doHexdump = false;
                 buf.order(ByteOrder.LITTLE_ENDIAN);
                 int items_left = buf.getInt();
                 int crc = buf.getInt();
+                DatalogSession datalogSession = mDatalogSessions.get(id);
                 LOG.info("DATALOG SENDDATA. id=" + (id & 0xff) + ", items_left=" + items_left + ", total length=" + (length - 10));
+                if (datalogSession != null) {
+                    String taginfo = "";
+                    if (datalogSession.uuid.equals(UUID_ZERO)) {
+                        if (datalogSession.tag >= 78 && datalogSession.tag <= 80) {
+                            taginfo = "(analytics?)";
+                        } else if (datalogSession.tag >= 81 && datalogSession.tag <= 83) {
+                            taginfo = "(health?)";
+                            doHexdump = true;
+                        } else {
+                            taginfo = "(unknown)";
+                        }
+                    }
+                    LOG.info("DATALOG UUID=" + datalogSession.uuid + ", tag=" + datalogSession.tag + taginfo + ", item_size=" + datalogSession.item_size + ", item_type=" + datalogSession.item_type);
+                }
+                if (doHexdump) {
+                    LOG.info(GB.hexdump(buf.array(), 10, length - 10));
+                }
                 break;
             case DATALOG_OPENSESSION:
                 buf.order(ByteOrder.BIG_ENDIAN);
@@ -1798,9 +1825,15 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 byte item_type = buf.get();
                 short item_size = buf.get();
                 LOG.info("DATALOG OPENSESSION. id=" + (id & 0xff) + ", App UUID=" + uuid.toString() + ", log_tag=" + log_tag + ", item_type=" + item_type + ", item_size=" + item_size);
+                if (!mDatalogSessions.containsKey(id)) {
+                    mDatalogSessions.put(id, new DatalogSession(id, uuid, log_tag, item_type, item_size));
+                }
                 break;
             case DATALOG_CLOSE:
                 LOG.info("DATALOG_CLOSE. id=" + (id & 0xff));
+                if (mDatalogSessions.containsKey(id)) {
+                    mDatalogSessions.remove(id);
+                }
                 break;
             default:
                 LOG.info("unknown DATALOG command: " + (command & 0xff));
