@@ -690,11 +690,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
             buf.putShort(heightMm.shortValue());
             Integer weigthDag = activityUser.getActivityUserWeightKg() * 100;
             buf.putShort(weigthDag.shortValue());
-            buf.put((byte)0x01); //activate tracking
-            buf.put((byte)0x01); //activity Insights
-            buf.put((byte)0x01); //sleep Insights
-            buf.put((byte)activityUser.getActivityUserAge());
-            buf.put((byte)activityUser.getActivityUserGender());
+            buf.put((byte) 0x01); //activate tracking
+            buf.put((byte) 0x01); //activity Insights
+            buf.put((byte) 0x01); //sleep Insights
+            buf.put((byte) activityUser.getActivityUserAge());
+            buf.put((byte) activityUser.getActivityUserGender());
             //blob = new byte[]{0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x02};
 
             blob = buf.array();
@@ -1785,7 +1785,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 buf.order(ByteOrder.LITTLE_ENDIAN);
                 int items_left = buf.getInt();
                 int crc = buf.getInt();
-                LOG.info("DATALOG SENDDATA. id=" + (id & 0xff) + ", items_left=" + items_left + ", total length=" + (length - 9));
+                LOG.info("DATALOG SENDDATA. id=" + (id & 0xff) + ", items_left=" + items_left + ", total length=" + (length - 10));
                 break;
             case DATALOG_OPENSESSION:
                 buf.order(ByteOrder.BIG_ENDIAN);
@@ -1797,7 +1797,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 int log_tag = buf.getInt();
                 byte item_type = buf.get();
                 short item_size = buf.get();
-                LOG.info("DATALOG OPENSESSION. id=" + (id & 0xff) + ", App UUID=" + uuid.toString() + ", item_type=" + item_type + ", item_size=" + item_size);
+                LOG.info("DATALOG OPENSESSION. id=" + (id & 0xff) + ", App UUID=" + uuid.toString() + ", log_tag=" + log_tag + ", item_type=" + item_type + ", item_size=" + item_size);
+                break;
+            case DATALOG_CLOSE:
+                LOG.info("DATALOG_CLOSE. id=" + (id & 0xff));
                 break;
             default:
                 LOG.info("unknown DATALOG command: " + (command & 0xff));
