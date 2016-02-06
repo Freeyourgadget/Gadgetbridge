@@ -157,8 +157,14 @@ public class AppManagerActivity extends Activity {
         AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
         selectedApp = appList.get(acmi.position);
 
-        if (!selectedApp.isInCache() && !PebbleProtocol.UUID_PEBBLE_HEALTH.equals(selectedApp.getUUID())) {
+        if (!selectedApp.isInCache()) {
             menu.removeItem(R.id.appmanager_app_reinstall);
+        }
+        if (!PebbleProtocol.UUID_PEBBLE_HEALTH.equals(selectedApp.getUUID())) {
+            menu.removeItem(R.id.appmanager_health_activate);
+            menu.removeItem(R.id.appmanager_health_deactivate);
+        } else if (PebbleProtocol.UUID_PEBBLE_HEALTH.equals(selectedApp.getUUID())) {
+            menu.removeItem(R.id.appmanager_app_delete);
         }
         menu.setHeaderTitle(selectedApp.getName());
     }
@@ -166,15 +172,11 @@ public class AppManagerActivity extends Activity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.appmanager_health_deactivate:
             case R.id.appmanager_app_delete:
                 GBApplication.deviceService().onAppDelete(selectedApp.getUUID());
                 return true;
             case R.id.appmanager_app_reinstall:
-                if (PebbleProtocol.UUID_PEBBLE_HEALTH.equals(selectedApp.getUUID())) {
-                    GBApplication.deviceService().onInstallApp(Uri.parse("fake://health"));
-                    return true;
-                }
-
                 File cachePath;
                 try {
                     cachePath = new File(FileUtils.getExternalFilesDir().getPath() + "/pbw-cache/" + selectedApp.getUUID() + ".pbw");
@@ -183,6 +185,9 @@ public class AppManagerActivity extends Activity {
                     return true;
                 }
                 GBApplication.deviceService().onInstallApp(Uri.fromFile(cachePath));
+                return true;
+            case R.id.appmanager_health_activate:
+                GBApplication.deviceService().onInstallApp(Uri.parse("fake://health"));
                 return true;
             default:
                 return super.onContextItemSelected(item);

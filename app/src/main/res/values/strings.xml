@@ -219,5 +219,7 @@
     <string name="activity_prefs_gender">Gender</string>
     <string name="activity_prefs_height_cm">Height in cm</string>
     <string name="activity_prefs_weight_kg">Weight in kg</string>
+    <string name="appmanager_health_activate">Activate</string>
+    <string name="appmanager_health_deactivate">Deactivate</string>
 
 </resources>
