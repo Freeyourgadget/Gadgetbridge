@@ -695,12 +695,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
             Integer weigthDag = activityUser.getActivityUserWeightKg() * 100;
             buf.putShort(weigthDag.shortValue());
             buf.put((byte) 0x01); //activate tracking
-            buf.put((byte) 0x01); //activity Insights
-            buf.put((byte) 0x01); //sleep Insights
+            buf.put((byte) 0x00); //activity Insights
+            buf.put((byte) 0x00); //sleep Insights
             buf.put((byte) activityUser.getActivityUserAge());
             buf.put((byte) activityUser.getActivityUserGender());
-            //blob = new byte[]{0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x02};
-
             blob = buf.array();
         } else {
             blob = new byte[]{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
