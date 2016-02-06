@@ -362,7 +362,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     if (reconnectAttempts > 0) {
                         gbDevice.setState(GBDevice.State.CONNECTING);
                         gbDevice.sendDeviceUpdateIntent(getContext());
-                        while (reconnectAttempts-- > 0 && !mQuit) {
+                        while (reconnectAttempts-- > 0 && !mQuit && !mIsConnected) {
                             LOG.info("Trying to reconnect (attempts left " + reconnectAttempts + ")");
                             mIsConnected = connect(gbDevice.getAddress());
                         }
