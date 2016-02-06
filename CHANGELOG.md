@@ -1,10 +1,10 @@
 ###Changelog
 
-####Version 0.7.4 (next)
+####Version 0.7.4
 * Refactored the settings activity: User details are now generic instead of miband specific. Old settings are preserved.
 * Pebble: Fix regression with broken active reconnect since 0.7.0
 * Pebble: Support activation and deactivation of Pebble Health. Activation uses the User details as seen above. Insigths are NOT activated.
-** Please be aware that deactivation does NOT delete the data stored on the watch (but it seems to stop the tracking), and we do not know how to switch to metric length units.
+  Please be aware that deactivation does NOT delete the data stored on the watch (but it seems to stop the tracking), and we do not know how to switch to metric length units.
 
 ####Version 0.7.3
 * Pebble: Report connection state to PebbleKit companion apps via content provider. NOTE: Makes Gadgetbridge mutual exclusive with the original Pebble app.
