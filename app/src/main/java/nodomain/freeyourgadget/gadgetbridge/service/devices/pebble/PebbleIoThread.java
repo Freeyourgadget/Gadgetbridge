@@ -573,7 +573,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
 
         if (uri.equals(Uri.parse("fake://health"))) {
             write(mPebbleProtocol.encodeActivateHealth(true));
-            write(mPebbleProtocol.encodeSaneDistanceUnit());
+            write(mPebbleProtocol.encodeSetSaneDistanceUnit(true));
             return;
         }
 

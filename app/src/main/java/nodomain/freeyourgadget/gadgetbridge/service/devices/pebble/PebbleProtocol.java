@@ -83,7 +83,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final byte BLOBDB_APP = 2;
     static final byte BLOBDB_REMINDER = 3;
     static final byte BLOBDB_NOTIFICATION = 4;
-    static final byte BLOBDB_HEALTH = 7; // might also be some generic registry database
+    static final byte BLOBDB_PREFERENCES = 7;
     static final byte BLOBDB_SUCCESS = 1;
     static final byte BLOBDB_GENERALFAILURE = 2;
     static final byte BLOBDB_INVALIDOPERATION = 3;
@@ -369,7 +369,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private static final Map<Integer, DatalogHandler> mDatalogHandlers = new HashMap<>();
 
     {
-        mDatalogHandlers.put(81,new DatalogHandlerHealth(81, PebbleProtocol.this));
+        mDatalogHandlers.put(81, new DatalogHandlerHealth(81, PebbleProtocol.this));
     }
 
     private final HashMap<Byte, DatalogSession> mDatalogSessions = new HashMap<>();
@@ -709,15 +709,17 @@ public class PebbleProtocol extends GBDeviceProtocol {
         } else {
             blob = new byte[]{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
         }
-        return encodeBlobdb("activityPreferences", command, BLOBDB_HEALTH, blob);
+        return encodeBlobdb("activityPreferences", command, BLOBDB_PREFERENCES, blob);
     }
 
-    public byte[] encodeSaneDistanceUnit() {
-        byte[] blob;
-        byte command;
-        command = BLOBDB_INSERT;
-        blob = new byte[]{0x00};
-        return encodeBlobdb("unitsDistance", command, BLOBDB_HEALTH, blob);
+    public byte[] encodeSetSaneDistanceUnit(boolean sane) {
+        byte value;
+        if (sane) {
+            value = 0x00;
+        } else {
+            value = 0x01;
+        }
+        return encodeBlobdb("unitsDistance", BLOBDB_INSERT, BLOBDB_PREFERENCES, new byte[]{value});
     }
 
     public byte[] encodeReportDataLogSessions() {
@@ -1859,7 +1861,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 break;
         }
         GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
-        if(ack) {
+        if (ack) {
             LOG.info("sending ACK (0x85)");
             sendBytes.encodedBytes = encodeDatalog(id, DATALOG_ACK);
         } else {
