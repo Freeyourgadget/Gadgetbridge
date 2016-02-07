@@ -712,6 +712,14 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return encodeBlobdb("activityPreferences", command, BLOBDB_HEALTH, blob);
     }
 
+    public byte[] encodeSaneDistanceUnit() {
+        byte[] blob;
+        byte command;
+        command = BLOBDB_INSERT;
+        blob = new byte[]{0x00};
+        return encodeBlobdb("unitsDistance", command, BLOBDB_HEALTH, blob);
+    }
+
     public byte[] encodeReportDataLogSessions() {
         return encodeSimpleMessage(ENDPOINT_DATALOG, DATALOG_REPORTSESSIONS);
     }
