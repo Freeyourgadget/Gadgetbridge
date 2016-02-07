@@ -1,5 +1,8 @@
 ###Changelog
 
+####Version (next)
+* Pebble: Support reading Pebble Health steps/activity data
+
 ####Version 0.7.4
 * Refactored the settings activity: User details are now generic instead of miband specific. Old settings are preserved.
 * Pebble: Fix regression with broken active reconnect since 0.7.0

@@ -366,6 +366,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     }
 
+    private static final Map<Integer, DatalogHandler> mDatalogHandlers = new HashMap<>();
+
+    {
+        mDatalogHandlers.put(81,new DatalogHandlerHealth(81, PebbleProtocol.this));
+    }
+
     private final HashMap<Byte, DatalogSession> mDatalogSessions = new HashMap<>();
 
     private static byte[] encodeSimpleMessage(short endpoint, byte command) {
@@ -1781,6 +1787,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     private GBDeviceEventSendBytes decodeDatalog(ByteBuffer buf, short length) {
+        boolean ack = true;
         byte command = buf.get();
         byte id = buf.get();
         switch (command) {
@@ -1797,13 +1804,19 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 if (datalogSession != null) {
                     String taginfo = "";
                     if (datalogSession.uuid.equals(UUID_ZERO)) {
-                        if (datalogSession.tag >= 78 && datalogSession.tag <= 80) {
-                            taginfo = "(analytics?)";
-                        } else if (datalogSession.tag >= 81 && datalogSession.tag <= 83) {
-                            taginfo = "(health?)";
-                            doHexdump = true;
+                        DatalogHandler datalogHandler = mDatalogHandlers.get(datalogSession.tag);
+                        if (datalogHandler != null) {
+                            taginfo = datalogHandler.getTagInfo();
+                            ack = datalogHandler.handleMessage(buf, length);
                         } else {
-                            taginfo = "(unknown)";
+                            if (datalogSession.tag >= 78 && datalogSession.tag <= 80) {
+                                taginfo = "(analytics?)";
+                            } else if (datalogSession.tag == 83) {
+                                taginfo = "(health?)";
+                                doHexdump = true;
+                            } else {
+                                taginfo = "(unknown)";
+                            }
                         }
                     }
                     LOG.info("DATALOG UUID=" + datalogSession.uuid + ", tag=" + datalogSession.tag + taginfo + ", item_size=" + datalogSession.item_size + ", item_type=" + datalogSession.item_type);
@@ -1837,9 +1850,14 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 LOG.info("unknown DATALOG command: " + (command & 0xff));
                 break;
         }
-        LOG.info("sending ACK (0x85)");
         GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
-        sendBytes.encodedBytes = encodeDatalog(id, DATALOG_ACK);
+        if(ack) {
+            LOG.info("sending ACK (0x85)");
+            sendBytes.encodedBytes = encodeDatalog(id, DATALOG_ACK);
+        } else {
+            LOG.info("sending NACK (0x86)");
+            sendBytes.encodedBytes = encodeDatalog(id, DATALOG_NACK);
+        }
         return sendBytes;
     }
 
