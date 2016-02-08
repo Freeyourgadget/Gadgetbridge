@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 import java.util.Date;
+import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
@@ -19,25 +20,21 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class DatalogHandlerHealth extends DatalogHandler {
+public class DatalogSessionHealth extends DatalogSession {
 
-    private final int preambleLength = 10;
+    private final int preambleLength = 10; // FIXME: this is 14 but if would break the code if corrected
     private final int packetLength = 99;
 
-    private static final Logger LOG = LoggerFactory.getLogger(DatalogHandlerHealth.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DatalogSessionHealth.class);
 
-    public DatalogHandlerHealth(int tag, PebbleProtocol pebbleProtocol) {
-       super(tag, pebbleProtocol);
-    }
-
-    @Override
-    public String getTagInfo() {
-        return "(health)";
+    public DatalogSessionHealth(byte id, UUID uuid, int tag, byte item_type, short item_size) {
+        super(id, uuid, tag, item_type, item_size);
+        taginfo = "(health)";
     }
 
     @Override
     public boolean handleMessage(ByteBuffer datalogMessage, int length) {
-        LOG.info(GB.hexdump(datalogMessage.array(), preambleLength, length-preambleLength));
+        LOG.info(GB.hexdump(datalogMessage.array(), datalogMessage.position(), length));
 
         int unknownPacketPreamble, timestamp;
         byte unknownC, recordLength, recordNum;
@@ -47,11 +44,10 @@ public class DatalogHandlerHealth extends DatalogHandler {
         byte steps, orientation; //possibly
         short intensity; // possibly
 
-        if (0 == ((length - preambleLength) % packetLength)) { // one datalog message may contain several packets
-            for (int packet = 0; packet < ((length - preambleLength) / packetLength); packet++) {
+        if (0 == (length % packetLength)) { // one datalog message may contain several packets
+            for (int packet = 0; packet < (length / packetLength); packet++) {
                 beginOfPacketPosition = preambleLength + packet*packetLength;
                 datalogMessage.position(beginOfPacketPosition);
-                unknownPacketPreamble = datalogMessage.getInt();
                 unknownA = datalogMessage.getShort();
                 timestamp = datalogMessage.getInt();
                 unknownC = datalogMessage.get();

@@ -37,7 +37,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class PebbleProtocol extends GBDeviceProtocol {
 
@@ -364,12 +363,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
         mAppMessageHandlers.put(UUID_PEBBLE_TIMESTYLE, new AppMessageHandlerTimeStylePebble(UUID_PEBBLE_TIMESTYLE, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_PEBSTYLE, new AppMessageHandlerPebStyle(UUID_PEBSTYLE, PebbleProtocol.this));
 
-    }
-
-    private static final Map<Integer, DatalogHandler> mDatalogHandlers = new HashMap<>();
-
-    {
-        mDatalogHandlers.put(81, new DatalogHandlerHealth(81, PebbleProtocol.this));
     }
 
     private final HashMap<Byte, DatalogSession> mDatalogSessions = new HashMap<>();
@@ -1805,34 +1798,14 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 LOG.info("DATALOG TIMEOUT. id=" + (id & 0xff) + " - ignoring");
                 return null;
             case DATALOG_SENDDATA:
-                boolean doHexdump = false;
                 buf.order(ByteOrder.LITTLE_ENDIAN);
                 int items_left = buf.getInt();
                 int crc = buf.getInt();
                 DatalogSession datalogSession = mDatalogSessions.get(id);
                 LOG.info("DATALOG SENDDATA. id=" + (id & 0xff) + ", items_left=" + items_left + ", total length=" + (length - 10));
                 if (datalogSession != null) {
-                    String taginfo = "";
-                    if (datalogSession.uuid.equals(UUID_ZERO)) {
-                        DatalogHandler datalogHandler = mDatalogHandlers.get(datalogSession.tag);
-                        if (datalogHandler != null) {
-                            taginfo = datalogHandler.getTagInfo();
-                            ack = datalogHandler.handleMessage(buf, length);
-                        } else {
-                            if (datalogSession.tag >= 78 && datalogSession.tag <= 80) {
-                                taginfo = "(analytics?)";
-                            } else if (datalogSession.tag == 83) {
-                                taginfo = "(health?)";
-                                doHexdump = true;
-                            } else {
-                                taginfo = "(unknown)";
-                            }
-                        }
-                    }
-                    LOG.info("DATALOG UUID=" + datalogSession.uuid + ", tag=" + datalogSession.tag + taginfo + ", item_size=" + datalogSession.item_size + ", item_type=" + datalogSession.item_type);
-                }
-                if (doHexdump) {
-                    LOG.info(GB.hexdump(buf.array(), buf.position(), length - buf.position()));
+                    LOG.info("DATALOG UUID=" + datalogSession.uuid + ", tag=" + datalogSession.tag + datalogSession.getTaginfo() + ", item_size=" + datalogSession.item_size + ", item_type=" + datalogSession.item_type);
+                    ack = datalogSession.handleMessage(buf, length - 10);
                 }
                 break;
             case DATALOG_OPENSESSION:
@@ -1847,7 +1820,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 short item_size = buf.get();
                 LOG.info("DATALOG OPENSESSION. id=" + (id & 0xff) + ", App UUID=" + uuid.toString() + ", log_tag=" + log_tag + ", item_type=" + item_type + ", item_size=" + item_size);
                 if (!mDatalogSessions.containsKey(id)) {
-                    mDatalogSessions.put(id, new DatalogSession(id, uuid, log_tag, item_type, item_size));
+                    if (uuid.equals(UUID_ZERO) && log_tag == 81) {
+                        mDatalogSessions.put(id, new DatalogSessionHealth(id, uuid, log_tag, item_type, item_size));
+                    }
+                    else {
+                        mDatalogSessions.put(id, new DatalogSession(id, uuid, log_tag, item_type, item_size));
+                    }
                 }
                 break;
             case DATALOG_CLOSE:
