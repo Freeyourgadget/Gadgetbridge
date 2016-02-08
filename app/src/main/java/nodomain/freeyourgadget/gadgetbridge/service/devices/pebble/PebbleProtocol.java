@@ -1832,7 +1832,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                     LOG.info("DATALOG UUID=" + datalogSession.uuid + ", tag=" + datalogSession.tag + taginfo + ", item_size=" + datalogSession.item_size + ", item_type=" + datalogSession.item_type);
                 }
                 if (doHexdump) {
-                    LOG.info(GB.hexdump(buf.array(), 10, length - 10));
+                    LOG.info(GB.hexdump(buf.array(), buf.position(), length - buf.position()));
                 }
                 break;
             case DATALOG_OPENSESSION:
