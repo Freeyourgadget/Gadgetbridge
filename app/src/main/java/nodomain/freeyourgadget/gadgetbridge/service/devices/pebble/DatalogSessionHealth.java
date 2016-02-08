@@ -22,7 +22,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class DatalogSessionHealth extends DatalogSession {
 
-    private final int preambleLength = 10; // FIXME: this is 14 but if would break the code if corrected
+    private final int preambleLength = 14;
     private final int packetLength = 99;
 
     private static final Logger LOG = LoggerFactory.getLogger(DatalogSessionHealth.class);
