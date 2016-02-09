@@ -2,13 +2,11 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 
 
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
-import java.util.Date;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -22,9 +20,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class DatalogSessionHealth extends DatalogSession {
 
-    private final int preambleLength = 14;
-    private final int packetLength = 99;
-
     private static final Logger LOG = LoggerFactory.getLogger(DatalogSessionHealth.class);
 
     public DatalogSessionHealth(byte id, UUID uuid, int tag, byte item_type, short item_size) {
@@ -36,7 +31,7 @@ public class DatalogSessionHealth extends DatalogSession {
     public boolean handleMessage(ByteBuffer datalogMessage, int length) {
         LOG.info(GB.hexdump(datalogMessage.array(), datalogMessage.position(), length));
 
-        int unknownPacketPreamble, timestamp;
+        int timestamp;
         byte unknownC, recordLength, recordNum;
         short unknownA;
         int beginOfPacketPosition, beginOfSamplesPosition;
@@ -44,9 +39,10 @@ public class DatalogSessionHealth extends DatalogSession {
         byte steps, orientation; //possibly
         short intensity; // possibly
 
-        if (0 == (length % packetLength)) { // one datalog message may contain several packets
-            for (int packet = 0; packet < (length / packetLength); packet++) {
-                beginOfPacketPosition = preambleLength + packet*packetLength;
+        int initialPosition = datalogMessage.position();
+        if (0 == (length % itemSize)) { // one datalog message may contain several packets
+            for (int packet = 0; packet < (length / itemSize); packet++) {
+                beginOfPacketPosition = initialPosition + packet * itemSize;
                 datalogMessage.position(beginOfPacketPosition);
                 unknownA = datalogMessage.getShort();
                 timestamp = datalogMessage.getInt();
@@ -64,10 +60,10 @@ public class DatalogSessionHealth extends DatalogSession {
                         SampleProvider sampleProvider = new HealthSampleProvider();
 
                         for (int j = 0; j < recordNum; j++) {
-                            datalogMessage.position(beginOfSamplesPosition + j*recordLength);
+                            datalogMessage.position(beginOfSamplesPosition + j * recordLength);
                             steps = datalogMessage.get();
                             orientation = datalogMessage.get();
-                            if (j<(recordNum-1)) {
+                            if (j < (recordNum - 1)) {
                                 //TODO:apparently last minute data do not contain intensity. I guess we are reading it wrong but this approach is our best bet ATM
                                 intensity = datalogMessage.getShort();
                             } else {
@@ -85,9 +81,9 @@ public class DatalogSessionHealth extends DatalogSession {
                         dbHandler.addGBActivitySamples(samples);
                     }
                 } catch (Exception ex) {
-                  LOG.debug(ex.getMessage());
+                    LOG.debug(ex.getMessage());
                     return false;//NACK, so that we get the data again
-                }finally {
+                } finally {
                     if (dbHandler != null) {
                         dbHandler.release();
                     }

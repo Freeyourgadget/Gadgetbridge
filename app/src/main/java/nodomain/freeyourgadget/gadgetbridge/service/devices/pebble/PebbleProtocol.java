@@ -1804,7 +1804,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 DatalogSession datalogSession = mDatalogSessions.get(id);
                 LOG.info("DATALOG SENDDATA. id=" + (id & 0xff) + ", items_left=" + items_left + ", total length=" + (length - 10));
                 if (datalogSession != null) {
-                    LOG.info("DATALOG UUID=" + datalogSession.uuid + ", tag=" + datalogSession.tag + datalogSession.getTaginfo() + ", item_size=" + datalogSession.item_size + ", item_type=" + datalogSession.item_type);
+                    LOG.info("DATALOG UUID=" + datalogSession.uuid + ", tag=" + datalogSession.tag + datalogSession.getTaginfo() + ", itemSize=" + datalogSession.itemSize + ", itemType=" + datalogSession.itemType);
                     ack = datalogSession.handleMessage(buf, length - 10);
                 }
                 break;
@@ -1818,12 +1818,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 int log_tag = buf.getInt();
                 byte item_type = buf.get();
                 short item_size = buf.get();
-                LOG.info("DATALOG OPENSESSION. id=" + (id & 0xff) + ", App UUID=" + uuid.toString() + ", log_tag=" + log_tag + ", item_type=" + item_type + ", item_size=" + item_size);
+                LOG.info("DATALOG OPENSESSION. id=" + (id & 0xff) + ", App UUID=" + uuid.toString() + ", log_tag=" + log_tag + ", item_type=" + item_type + ", itemSize=" + item_size);
                 if (!mDatalogSessions.containsKey(id)) {
                     if (uuid.equals(UUID_ZERO) && log_tag == 81) {
                         mDatalogSessions.put(id, new DatalogSessionHealth(id, uuid, log_tag, item_type, item_size));
-                    }
-                    else {
+                    } else {
                         mDatalogSessions.put(id, new DatalogSession(id, uuid, log_tag, item_type, item_size));
                     }
                 }
