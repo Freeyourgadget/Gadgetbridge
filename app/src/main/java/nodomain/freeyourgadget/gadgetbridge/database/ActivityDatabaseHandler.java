@@ -242,4 +242,20 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
         builder.append(')');
         return builder.toString();
     }
+
+    @Override
+    public void changeStoredSamplesType(int timestampFrom, int timestampTo, byte kind, SampleProvider provider) {
+        try (SQLiteDatabase db = this.getReadableDatabase()) {
+            String sql = "UPDATE " + TABLE_GBACTIVITYSAMPLES + " SET " + KEY_TYPE +"= ? WHERE "
+                    + KEY_PROVIDER + " = ? AND "
+                    + KEY_TIMESTAMP + " >= ? AND "+ KEY_TIMESTAMP + " < ? ;"; //do not use BETWEEN because the range is inclusive in that case!
+
+            SQLiteStatement statement = db.compileStatement(sql);
+            statement.bindLong(1, kind);
+            statement.bindLong(2, provider.getID());
+            statement.bindLong(3, timestampFrom);
+            statement.bindLong(4, timestampTo);
+            statement.execute();
+        }
+    }
 }
