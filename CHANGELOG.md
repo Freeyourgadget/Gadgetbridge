@@ -1,7 +1,7 @@
 ###Changelog
 
 ####Version (next)
-* Pebble: Support reading Pebble Health steps/activity data
+* Pebble: Support Pebble Health: steps/activity data are stored correctly. Sleep time is considered as light sleep. Deep sleep is discarded. The pebble will send data where it deems appropriate, there is no action to perform on the watch for this to happen. 
 
 ####Version 0.7.4
 * Refactored the settings activity: User details are now generic instead of miband specific. Old settings are preserved.

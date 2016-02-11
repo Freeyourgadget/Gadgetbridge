@@ -246,9 +246,9 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
     @Override
     public void changeStoredSamplesType(int timestampFrom, int timestampTo, byte kind, SampleProvider provider) {
         try (SQLiteDatabase db = this.getReadableDatabase()) {
-            String sql = "UPDATE " + TABLE_GBACTIVITYSAMPLES + " SET " + KEY_TYPE +"= ? WHERE "
+            String sql = "UPDATE " + TABLE_GBACTIVITYSAMPLES + " SET " + KEY_TYPE + "= ? WHERE "
                     + KEY_PROVIDER + " = ? AND "
-                    + KEY_TIMESTAMP + " >= ? AND "+ KEY_TIMESTAMP + " < ? ;"; //do not use BETWEEN because the range is inclusive in that case!
+                    + KEY_TIMESTAMP + " >= ? AND " + KEY_TIMESTAMP + " < ? ;"; //do not use BETWEEN because the range is inclusive in that case!
 
             SQLiteStatement statement = db.compileStatement(sql);
             statement.bindLong(1, kind);
@@ -257,5 +257,17 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
             statement.bindLong(4, timestampTo);
             statement.execute();
         }
+    }
+
+    @Override
+    public int fetchLatestTimestamp(SampleProvider provider) {
+        try (SQLiteDatabase db = this.getReadableDatabase()) {
+            try (Cursor cursor = db.query(TABLE_GBACTIVITYSAMPLES, new String[]{KEY_TIMESTAMP}, KEY_PROVIDER + "=" + String.valueOf(provider.getID()), null, null, null, KEY_TIMESTAMP + " DESC", "1")) {
+                if (cursor.moveToFirst()) {
+                    return cursor.getInt(0);
+                }
+            }
+        }
+        return -1;
     }
 }

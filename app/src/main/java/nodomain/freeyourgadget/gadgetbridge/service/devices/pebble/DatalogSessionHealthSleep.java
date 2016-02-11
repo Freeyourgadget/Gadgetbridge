@@ -43,36 +43,38 @@ class DatalogSessionHealthSleep extends DatalogSession {
             beginOfRecordPosition = initialPosition + recordIdx * itemSize;
             datalogMessage.position(beginOfRecordPosition);//we may not consume all the bytes of a record
             recordVersion = datalogMessage.getShort();
-            if (recordVersion!=1)
+            if (recordVersion != 1)
                 return false;//we don't know how to deal with the data TODO: this is not ideal because we will get the same message again and again since we NACK it
 
             sleepRecords[recordIdx] = new SleepRecord(datalogMessage.getInt(),
                     datalogMessage.getInt(),
                     datalogMessage.getInt(),
                     datalogMessage.getInt());
-
         }
 
-        store(sleepRecords);
-        return true;//ACK by default
+        return store(sleepRecords);//NACK if we cannot store the data yet, the watch will send the sleep records again.
     }
 
-    private void store(SleepRecord[] sleepRecords) {
+    private boolean store(SleepRecord[] sleepRecords) {
         DBHandler dbHandler = null;
         SampleProvider sampleProvider = new HealthSampleProvider();
         GB.toast("We don't know how to store deep sleep from the pebble yet.", Toast.LENGTH_LONG, GB.INFO);
         try {
             dbHandler = GBApplication.acquireDB();
-            for (SleepRecord sleepRecord: sleepRecords) {
-                dbHandler.changeStoredSamplesType(sleepRecord.bedTimeStart,sleepRecord.bedTimeEnd, sampleProvider.toRawActivityKind(ActivityKind.TYPE_LIGHT_SLEEP),sampleProvider);
+            int latestTimestamp = dbHandler.fetchLatestTimestamp(sampleProvider);
+            for (SleepRecord sleepRecord : sleepRecords) {
+                if (latestTimestamp < sleepRecord.bedTimeEnd)
+                    return false;
+                dbHandler.changeStoredSamplesType(sleepRecord.bedTimeStart, sleepRecord.bedTimeEnd, sampleProvider.toRawActivityKind(ActivityKind.TYPE_LIGHT_SLEEP), sampleProvider);
             }
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             LOG.debug(ex.getMessage());
         } finally {
             if (dbHandler != null) {
                 dbHandler.release();
             }
         }
+        return true;
     }
 
     private class SleepRecord {
