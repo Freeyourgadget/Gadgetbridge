@@ -113,12 +113,12 @@ public class AppMessageHandlerMorpheuz extends AppMessageHandler {
                     break;
                 case KEY_TO:
                     smartalarm_to = (int) pair.second;
-                    LOG.info("got from: " + smartalarm_to / 60 + ":" + smartalarm_to % 60);
+                    LOG.info("got to: " + smartalarm_to / 60 + ":" + smartalarm_to % 60);
                     ctrl_message = AppMessageHandlerMorpheuz.CTRL_VERSION_DONE | AppMessageHandlerMorpheuz.CTRL_SET_LAST_SENT | AppMessageHandlerMorpheuz.CTRL_DO_NEXT;
                     break;
                 case KEY_VERSION:
                     LOG.info("got version: " + ((float) ((int) pair.second) / 10.0f));
-                    ctrl_message = AppMessageHandlerMorpheuz.CTRL_VERSION_DONE | AppMessageHandlerMorpheuz.CTRL_SET_LAST_SENT;
+                    ctrl_message = AppMessageHandlerMorpheuz.CTRL_VERSION_DONE;
                     break;
                 case KEY_BASE:
                     // fix timestamp
