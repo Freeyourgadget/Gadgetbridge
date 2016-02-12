@@ -271,8 +271,8 @@ public final class BtLEQueue {
     }
 
     private boolean checkCorrectGattInstance(BluetoothGatt gatt, String where) {
-        if (gatt != mBluetoothGatt) {
-            LOG.info("Ignoring event from wrong BluetoothGatt instance: " + where);
+        if (gatt != mBluetoothGatt && mBluetoothGatt != null) {
+            LOG.info("Ignoring event from wrong BluetoothGatt instance: " + where + "; " + gatt);
             return false;
         }
         return true;
@@ -319,7 +319,7 @@ public final class BtLEQueue {
                     setDeviceConnectionState(State.CONNECTED);
                     // Attempts to discover services after successful connection.
                     LOG.info("Attempting to start service discovery:" +
-                            mBluetoothGatt.discoverServices());
+                            gatt.discoverServices());
                     break;
                 case BluetoothProfile.STATE_DISCONNECTED:
                     LOG.info("Disconnected from GATT server.");

@@ -203,6 +203,10 @@ public class GBDevice implements Parcelable {
                 return GBApplication.getContext().getString(R.string.connected);
             case INITIALIZING:
                 return GBApplication.getContext().getString(R.string.initializing);
+            case AUTHENTICATION_REQUIRED:
+                return GBApplication.getContext().getString(R.string.authentication_required);
+            case AUTHENTICATING:
+                return GBApplication.getContext().getString(R.string.authenticating);
             case INITIALIZED:
                 return GBApplication.getContext().getString(R.string.initialized);
         }
@@ -333,6 +337,8 @@ public class GBDevice implements Parcelable {
         CONNECTING,
         CONNECTED,
         INITIALIZING,
+        AUTHENTICATION_REQUIRED, // some kind of pairing is required by the device
+        AUTHENTICATING, // some kind of pairing is requested by the device
         /**
          * Means that the device is connected AND all the necessary initialization steps
          * have been performed. At the very least, this means that basic information like

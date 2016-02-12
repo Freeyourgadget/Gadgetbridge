@@ -159,6 +159,12 @@ public class MiBandPairingActivity extends Activity {
     }
 
     private void pairingFinished(boolean pairedSuccessfully) {
+        LOG.debug("pairingFinished: " + pairedSuccessfully);
+        if (!isPairing) {
+            // already gone?
+            return;
+        }
+
         isPairing = false;
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mPairingReceiver);
         unregisterReceiver(mBondingReceiver);
@@ -188,12 +194,13 @@ public class MiBandPairingActivity extends Activity {
 
         bondingMacAddress = device.getAddress();
         if (bondState == BluetoothDevice.BOND_BONDING) {
-            LOG.info("Bonding in progress: " + device.getAddress());
+            GB.toast(this, "Bonding in progress: " + bondingMacAddress, Toast.LENGTH_LONG, GB.INFO);
             return;
         }
 
+        GB.toast(this, "Creating bond with" + bondingMacAddress, Toast.LENGTH_LONG, GB.INFO);
         if (!device.createBond()) {
-            GB.toast(this, "Unable to pair with " + device.getAddress(), Toast.LENGTH_LONG, GB.ERROR);
+            GB.toast(this, "Unable to pair with " + bondingMacAddress, Toast.LENGTH_LONG, GB.ERROR);
         }
     }
 

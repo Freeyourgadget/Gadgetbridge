@@ -31,6 +31,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEvents;
@@ -94,17 +95,24 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         builder.add(new SetDeviceStateAction(getDevice(), State.INITIALIZING, getContext()));
-        pair(builder)
+        enableNotifications(builder, true)
+                .pair(builder)
                 .requestDeviceInfo(builder)
                 .sendUserInfo(builder)
+                .checkAuthenticationNeeded(builder, getDevice())
                 .setWearLocation(builder)
                 .setFitnessGoal(builder)
-                .enableNotifications(builder, true)
+                .enableFurtherNotifications(builder, true)
                 .setCurrentTime(builder)
                 .requestBatteryInfo(builder)
                 .setInitialized(builder);
 
         return builder;
+    }
+
+    private MiBandSupport checkAuthenticationNeeded(TransactionBuilder builder, GBDevice device) {
+        builder.add(new CheckAuthenticationNeededAction(device));
+        return this;
     }
 
     /**
@@ -120,8 +128,12 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     // TODO: tear down the notifications on quit
     private MiBandSupport enableNotifications(TransactionBuilder builder, boolean enable) {
-        builder.notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_NOTIFICATION), enable)
-                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS), enable)
+        builder.notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_NOTIFICATION), enable);
+        return this;
+    }
+
+    private MiBandSupport enableFurtherNotifications(TransactionBuilder builder, boolean enable) {
+        builder.notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS), enable)
                 .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_ACTIVITY_DATA), enable)
                 .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_BATTERY), enable)
                 .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_SENSOR_DATA), enable);
@@ -685,10 +697,39 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             return;
         }
         switch (value[0]) {
+            case MiBandService.NOTIFY_AUTHENTICATION_FAILED:
+                // we get first FAILED, then NOTIFY_STATUS_MOTOR_AUTH (0x13)
+                // which means, we need to authenticate by tapping
+                getDevice().setState(State.AUTHENTICATION_REQUIRED);
+                getDevice().sendDeviceUpdateIntent(getContext());
+                GB.toast(getContext(), "Band needs pairing", Toast.LENGTH_LONG, GB.ERROR);
+                break;
+            case MiBandService.NOTIFY_AUTHENTICATION_SUCCESS: // fall through -- not sure which one we get
+            case MiBandService.NOTIFY_STATUS_MOTOR_AUTH_SUCCESS:
+                LOG.info("Band successfully authenticated");
+                // maybe we can perform the rest of the initialization from here
+                doInitialize();
+                break;
+
+            case MiBandService.NOTIFY_STATUS_MOTOR_AUTH:
+                LOG.info("Band needs authentication (MOTOR_AUTH)");
+                getDevice().setState(State.AUTHENTICATING);
+                getDevice().sendDeviceUpdateIntent(getContext());
+                break;
+
             default:
                 for (byte b : value) {
                     LOG.warn("DATA: " + String.format("0x%2x", b));
                 }
+        }
+    }
+
+    private void doInitialize() {
+        try {
+            TransactionBuilder builder = performInitialized("just initializing after authentication");
+            builder.queue(getQueue());
+        } catch (IOException ex) {
+            LOG.error("Unable to initialize device after authentication", ex);
         }
     }
 
@@ -763,10 +804,12 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void handleUserInfoResult(byte[] value, int status) {
-        // successfully transfered user info means we're initialized
-        if (status == BluetoothGatt.GATT_SUCCESS) {
-            setConnectionState(State.INITIALIZED);
-        }
+        // successfully transferred user info means we're initialized
+// commented out, because we have SetDeviceStateAction which sets initialized
+// state on every successful initialization.
+//        if (status == BluetoothGatt.GATT_SUCCESS) {
+//            setConnectionState(State.INITIALIZED);
+//        }
     }
 
     private void setConnectionState(State newState) {
