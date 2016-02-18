@@ -63,6 +63,7 @@ public final class BtLEQueue {
                     Transaction transaction = mTransactions.take();
 
                     if (!isConnected()) {
+                        LOG.debug("not connected, waiting for connection...");
                         // TODO: request connection and initialization from the outside and wait until finished
                         internalGattCallback.reset();
 
@@ -168,15 +169,17 @@ public final class BtLEQueue {
     }
 
     private void setDeviceConnectionState(State newState) {
+        LOG.debug("new device connection state: " + newState);
         mGbDevice.setState(newState);
         mGbDevice.sendDeviceUpdateIntent(mContext);
-        if (mConnectionLatch != null) {
+        if (mConnectionLatch != null && newState == State.CONNECTED) {
             mConnectionLatch.countDown();
         }
     }
 
     public void disconnect() {
         synchronized (mGattMonitor) {
+            LOG.debug("disconnect()");
             BluetoothGatt gatt = mBluetoothGatt;
             if (gatt != null) {
                 mBluetoothGatt = null;
@@ -189,6 +192,7 @@ public final class BtLEQueue {
     }
 
     private void handleDisconnected(int status) {
+        LOG.debug("handleDisconnected: " + status);
         internalGattCallback.reset();
         mTransactions.clear();
         mAbortTransaction = true;
