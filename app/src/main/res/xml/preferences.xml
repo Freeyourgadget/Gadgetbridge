@@ -180,6 +180,12 @@
                     android:key="pebble_reconnect_attempts"
                     android:maxLength="4"
                     android:title="@string/pref_title_pebble_reconnect_attempts" />
+                <ListPreference
+                    android:defaultValue="4"
+                    android:entries="@array/pebble_activitytracker"
+                    android:entryValues="@array/pebble_activitytracker_values"
+                    android:key="pebble_activitytracker"
+                    android:title="@string/pref_title_pebble_activitytracker" />
             </PreferenceCategory>
             <PreferenceCategory
                 android:key="pref_key_development"

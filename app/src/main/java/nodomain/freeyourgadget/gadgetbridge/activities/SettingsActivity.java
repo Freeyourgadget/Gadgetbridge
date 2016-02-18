@@ -112,6 +112,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 "notification_mode_calls",
                 "notification_mode_sms",
                 "notification_mode_k9mail",
+                "pebble_activitytracker",
                 "pebble_emu_addr",
                 "pebble_emu_port",
                 "pebble_reconnect_attempts",

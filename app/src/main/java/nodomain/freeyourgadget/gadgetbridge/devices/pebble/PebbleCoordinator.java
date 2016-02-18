@@ -45,13 +45,19 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public SampleProvider getSampleProvider() {
-        // FIXME: make this configurable somewhere else.
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
-        if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
-            //return new PebbleGadgetBridgeSampleProvider();
-            return new HealthSampleProvider();
-        } else {
-            return new MorpheuzSampleProvider();
+        int activityTracker = Integer.parseInt(sharedPrefs.getString("pebble_activitytracker", Integer.toString(SampleProvider.PROVIDER_PEBBLE_HEALTH)));
+        switch (activityTracker) {
+            case SampleProvider.PROVIDER_PEBBLE_HEALTH:
+                return new HealthSampleProvider();
+            case SampleProvider.PROVIDER_PEBBLE_MISFIT:
+                return new MisfitSampleProvider();
+            case SampleProvider.PROVIDER_PEBBLE_MORPHEUZ:
+                return new MorpheuzSampleProvider();
+            case SampleProvider.PROVIDER_PEBBLE_GADGETBRIDGE:
+                return new PebbleGadgetBridgeSampleProvider();
+            default:
+                return new HealthSampleProvider();
         }
     }
 

@@ -59,4 +59,16 @@
         <item>@string/p_alarm_clock</item>
     </string-array>
 
+    <string-array name="pebble_activitytracker">
+        <item name="4">Pebble Health</item>
+        <item name="3">Misfit</item>
+        <item name="1">Morpheuz</item>
+    </string-array>
+
+    <string-array name="pebble_activitytracker_values">
+        <item>4</item>
+        <item>3</item>
+        <item>1</item>
+    </string-array>
+
 </resources>

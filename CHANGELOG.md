@@ -2,6 +2,8 @@
 
 ####Version (next)
 * Pebble: Support Pebble Health: steps/activity data are stored correctly. Sleep time is considered as light sleep. Deep sleep is discarded. The pebble will send data where it deems appropriate, there is no action to perform on the watch for this to happen.
+* Pebble: Fix support for newer version of morpheuz (>=3.3?)
+* Pebble: Allow to select the preferred activity tracker via settings activity (Health, Misfit, Morpheuz)
 * Mi Band: improvements to pairing
 
 ####Version 0.7.4
