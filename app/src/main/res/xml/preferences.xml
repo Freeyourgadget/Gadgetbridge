@@ -130,7 +130,7 @@
 
         <EditTextPreference
             android:inputType="number"
-            android:key="mi_user_year_of_birth"
+            android:key="activity_user_year_of_birth"
             android:maxLength="4"
             android:title="@string/activity_prefs_year_birth" />
 
@@ -138,19 +138,19 @@
             android:defaultValue="male"
             android:entries="@array/gender"
             android:entryValues="@array/gender_values"
-            android:key="mi_user_gender"
+            android:key="activity_user_gender"
             android:title="@string/activity_prefs_gender" />
 
         <!--TODO: support localized heights and weights -->
         <EditTextPreference
             android:inputType="number"
-            android:key="mi_user_height_cm"
+            android:key="activity_user_height_cm"
             android:maxLength="3"
             android:title="@string/activity_prefs_height_cm" />
 
         <EditTextPreference
             android:inputType="number"
-            android:key="mi_user_weight_kg"
+            android:key="activity_user_weight_kg"
             android:maxLength="3"
             android:title="@string/activity_prefs_weight_kg" />
     </PreferenceScreen>
