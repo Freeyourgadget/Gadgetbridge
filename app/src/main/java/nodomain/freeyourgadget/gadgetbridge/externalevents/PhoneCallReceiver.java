@@ -31,7 +31,6 @@ public class PhoneCallReceiver extends BroadcastReceiver {
             } else if (TelephonyManager.EXTRA_STATE_RINGING.equals(stateStr)) {
                 state = TelephonyManager.CALL_STATE_RINGING;
             }
-
             onCallStateChanged(context, state, number);
         }
     }
@@ -52,6 +51,7 @@ public class PhoneCallReceiver extends BroadcastReceiver {
                     callCommand = ServiceCommand.CALL_START;
                 } else {
                     callCommand = ServiceCommand.CALL_OUTGOING;
+                    mSavedNumber = number;
                 }
                 break;
             case TelephonyManager.CALL_STATE_IDLE:
