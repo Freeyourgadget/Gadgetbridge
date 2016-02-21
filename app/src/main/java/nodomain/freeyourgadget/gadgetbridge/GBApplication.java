@@ -285,13 +285,17 @@ public class GBApplication extends Application {
                     editor.remove("mi_user_year_of_birth");
                 }
                 editor.putString(PREFS_VERSION, Integer.toString(CURRENT_PREFS_VERSION));
-                editor.commit();
                 break;
             case 1:
-                Integer legacyGender_1 = sharedPrefs.getInt(ActivityUser.PREF_USER_GENDER, 2);
-                if(legacyGender_1 != null) {
-                    editor.putString(ActivityUser.PREF_USER_GENDER, Integer.toString(legacyGender_1));
+                //migrate the integer version of gender introduced in version 1 to a string value, needed for the way Android accesses the shared preferences
+                int legacyGender_1 = 2;
+                try {
+                    legacyGender_1 = sharedPrefs.getInt(ActivityUser.PREF_USER_GENDER, 2);
+                } catch (Exception e) {
+                    Log.e(TAG, "Could not access legacy activity gender", e);
                 }
+                editor.putString(ActivityUser.PREF_USER_GENDER, Integer.toString(legacyGender_1));
+                //also silently migrate the version to a string value
                 editor.putString(PREFS_VERSION, Integer.toString(CURRENT_PREFS_VERSION));
                 break;
         }
