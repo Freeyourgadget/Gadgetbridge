@@ -5,7 +5,7 @@
 * Pebble: Fix support for newer version of morpheuz (>=3.3?)
 * Pebble: Allow to select the preferred activity tracker via settings activity (Health, Misfit, Morpheuz)
 * Pebble: Fix wrong(previous) contact being displayed on the pebble 
-* Mi Band: improvements to pairing
+* Mi Band: improvements to pairing and connecting
 * Fix a problem related to shared preferences storage of activity settings.
 * Very basic support Android 6 runtime permission
 
