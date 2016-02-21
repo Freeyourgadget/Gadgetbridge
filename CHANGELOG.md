@@ -1,13 +1,14 @@
 ###Changelog
 
-####Version (next)
-* Pebble: Support Pebble Health: steps/activity data are stored correctly. Sleep time is considered as light sleep. Deep sleep is discarded. The pebble will send data where it deems appropriate, there is no action to perform on the watch for this to happen.
+####Version 0.8.0
+* Pebble: Support Pebble Health: steps/activity data are stored correctly. Sleep time is considered as light sleep. Deep sleep is discarded. The pebble will send data where it seems appropriate, there is no action to perform on the watch for this to happen.
 * Pebble: Fix support for newer version of morpheuz (>=3.3?)
 * Pebble: Allow to select the preferred activity tracker via settings activity (Health, Misfit, Morpheuz)
 * Pebble: Fix wrong(previous) contact being displayed on the pebble 
 * Mi Band: improvements to pairing and connecting
-* Fix a problem related to shared preferences storage of activity settings.
+* Fix a problem related to shared preferences storage of activity settings
 * Very basic support Android 6 runtime permission
+* Fix layout of the alarms activity
 
 ####Version 0.7.4
 * Refactored the settings activity: User details are now generic instead of miband specific. Old settings are preserved.
