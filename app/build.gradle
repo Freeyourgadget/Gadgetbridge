@@ -14,8 +14,8 @@ android {
         targetSdkVersion 23
 
         // note: always bump BOTH versionCode and versionName!
-        versionName "0.7.4"
-        versionCode 40
+        versionName "0.8.0"
+        versionCode 41
     }
     buildTypes {
         release {

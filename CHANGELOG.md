@@ -7,6 +7,7 @@
 * Pebble: Fix wrong(previous) contact being displayed on the pebble 
 * Mi Band: improvements to pairing
 * Fix a problem related to shared preferences storage of activity settings.
+* Very basic support Android 6 runtime permission
 
 ####Version 0.7.4
 * Refactored the settings activity: User details are now generic instead of miband specific. Old settings are preserved.
