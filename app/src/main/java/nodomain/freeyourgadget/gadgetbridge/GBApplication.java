@@ -48,7 +48,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 1;
+    private static final int CURRENT_PREFS_VERSION = 2;
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
 
     public static final String ACTION_QUIT
@@ -251,20 +251,25 @@ public class GBApplication extends Application {
     }
 
     private int getPrefsFileVersion() {
-        return sharedPrefs.getInt(PREFS_VERSION, 0); //0 is legacy
+        try {
+            return Integer.parseInt(sharedPrefs.getString(PREFS_VERSION, "0")); //0 is legacy
+        } catch (Exception e) {
+            //in version 1 this was an int
+            return 1;
+        }
     }
 
     private void migratePrefs(int oldVersion) {
+        SharedPreferences.Editor editor = sharedPrefs.edit();
         switch (oldVersion)  {
             case 0:
-                SharedPreferences.Editor editor = sharedPrefs.edit();
                 String legacyGender = sharedPrefs.getString("mi_user_gender", null);
                 String legacyHeight = sharedPrefs.getString("mi_user_height_cm", null);
                 String legacyWeigth = sharedPrefs.getString("mi_user_weight_kg", null);
                 String legacyYOB = sharedPrefs.getString("mi_user_year_of_birth",null);
                 if(legacyGender != null) {
                     int gender = "male".equals(legacyGender) ? 1 : "female".equals(legacyGender) ? 0 : 2;
-                    editor.putInt(ActivityUser.PREF_USER_GENDER, gender);
+                    editor.putString(ActivityUser.PREF_USER_GENDER, Integer.toString(gender));
                     editor.remove("mi_user_gender");
                 }
                 if(legacyHeight != null) {
@@ -279,10 +284,18 @@ public class GBApplication extends Application {
                     editor.putString(ActivityUser.PREF_USER_YEAR_OF_BIRTH, legacyYOB);
                     editor.remove("mi_user_year_of_birth");
                 }
-                editor.putInt(PREFS_VERSION, CURRENT_PREFS_VERSION);
+                editor.putString(PREFS_VERSION, Integer.toString(CURRENT_PREFS_VERSION));
                 editor.commit();
                 break;
+            case 1:
+                Integer legacyGender_1 = sharedPrefs.getInt(ActivityUser.PREF_USER_GENDER, 2);
+                if(legacyGender_1 != null) {
+                    editor.putString(ActivityUser.PREF_USER_GENDER, Integer.toString(legacyGender_1));
+                }
+                editor.putString(PREFS_VERSION, Integer.toString(CURRENT_PREFS_VERSION));
+                break;
         }
+        editor.commit();
     }
 
     public static LimitedQueue getIDSenderLookup() {

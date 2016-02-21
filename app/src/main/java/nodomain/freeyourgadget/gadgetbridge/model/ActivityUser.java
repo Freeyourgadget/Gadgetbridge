@@ -70,7 +70,7 @@ public class ActivityUser {
 
     private void fetchPreferences() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
-        activityUserGender = prefs.getInt(PREF_USER_GENDER, defaultUserGender);
+        activityUserGender = Integer.parseInt(prefs.getString(PREF_USER_GENDER, Integer.toString(defaultUserGender)));
         activityUserHeightCm = Integer.parseInt(prefs.getString(PREF_USER_HEIGHT_CM, Integer.toString(defaultUserHeightCm)));
         activityUserWeightKg = Integer.parseInt(prefs.getString(PREF_USER_WEIGHT_KG, Integer.toString(defaultUserWeightKg)));
         activityUserYearOfBirth = Integer.parseInt(prefs.getString(PREF_USER_YEAR_OF_BIRTH, Integer.toString(defaultUserYearOfBirth)));

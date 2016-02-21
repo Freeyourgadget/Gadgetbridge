@@ -135,7 +135,7 @@
             android:title="@string/activity_prefs_year_birth" />
 
         <ListPreference
-            android:defaultValue="male"
+            android:defaultValue="2"
             android:entries="@array/gender"
             android:entryValues="@array/gender_values"
             android:key="activity_user_gender"
