@@ -202,18 +202,17 @@ public class GB {
      * @param ex          optional exception to be logged
      */
     public static void toast(final Context context, final String message, final int displayTime, final int severity, final Throwable ex) {
+        log(message, severity, ex); // log immediately, not delayed
         if (env().isLocalTest()) {
             return;
         }
         Looper mainLooper = Looper.getMainLooper();
         if (Thread.currentThread() == mainLooper.getThread()) {
-            log(message, severity, ex);
             Toast.makeText(context, message, displayTime).show();
         } else {
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
-                    log(message, severity, ex);
                     Toast.makeText(context, message, displayTime).show();
                 }
             };
