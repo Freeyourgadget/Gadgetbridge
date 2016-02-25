@@ -305,7 +305,7 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
         }
         int bpm = getBytesPerMinuteOfActivityData();
         LOG.debug("flushing activity data samples: " + activityStruct.activityDataHolderProgress / bpm);
-        byte category, intensity, steps;
+        byte category, intensity, steps, heartrate;
 
         DBHandler dbHandler = null;
         try {
@@ -325,7 +325,9 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
                     category = activityStruct.activityDataHolder[i];
                     intensity = activityStruct.activityDataHolder[i + 1];
                     steps = activityStruct.activityDataHolder[i + 2];
-                    byte unknown = activityStruct.activityDataHolder[i + 3];
+                    if (hasExtendedActivityData) {
+                        heartrate = activityStruct.activityDataHolder[i + 3];
+                    }
 
                     samples[minutes] = new GBActivitySample(
                             sampleProvider,
