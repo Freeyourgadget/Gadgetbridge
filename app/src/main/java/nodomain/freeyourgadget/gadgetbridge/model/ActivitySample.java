@@ -41,4 +41,6 @@ public interface ActivitySample {
      * Returns the number of steps performed during the period of this sample
      */
     short getSteps();
+
+    short getHeartRate();
 }
