@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -39,7 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 public class SleepChartFragment extends AbstractChartFragment {
     protected static final Logger LOG = LoggerFactory.getLogger(ActivitySleepChartFragment.class);
 
-    private BarLineChartBase mActivityChart;
+    private CombinedChart mActivityChart;
     private PieChart mSleepAmountChart;
 
     private int mSmartAlarmFrom = -1;
@@ -99,7 +100,7 @@ public class SleepChartFragment extends AbstractChartFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_sleepchart, container, false);
 
-        mActivityChart = (BarLineChartBase) rootView.findViewById(R.id.sleepchart);
+        mActivityChart = (CombinedChart) rootView.findViewById(R.id.sleepchart);
         mSleepAmountChart = (PieChart) rootView.findViewById(R.id.sleepchart_pie_light_deep);
 
         setupActivityChart();

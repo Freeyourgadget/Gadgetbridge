@@ -78,7 +78,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
 
         YAxis yAxisRight = mChart.getAxisRight();
         yAxisRight.setDrawGridLines(false);
-        yAxisRight.setEnabled(false);
+        yAxisRight.setEnabled(supportsHeartrate());
         yAxisRight.setDrawLabels(false);
         yAxisRight.setDrawTopYLabelEntry(false);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);

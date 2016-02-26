@@ -12,9 +12,14 @@ import android.view.View;
 
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.CombinedData;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
@@ -72,12 +78,16 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         }
     };
     private boolean mChartDirty = true;
+    private boolean supportsHeartrateChart = false;
 
     public boolean isChartDirty() {
         return mChartDirty;
     }
 
     public abstract String getTitle();
+    public boolean supportsHeartrate() {
+        return supportsHeartrateChart;
+    }
 
     protected static final class ActivityConfig {
         public final int type;
@@ -101,6 +111,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     protected int DESCRIPTION_COLOR;
     protected int CHART_TEXT_COLOR;
     protected int LEGEND_TEXT_COLOR;
+    protected int HEARTRATE_COLOR;
     protected int AK_ACTIVITY_COLOR;
     protected int AK_DEEP_SLEEP_COLOR;
     protected int AK_LIGHT_SLEEP_COLOR;
@@ -134,6 +145,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         DESCRIPTION_COLOR = getResources().getColor(R.color.primarytext);
         CHART_TEXT_COLOR = getResources().getColor(R.color.secondarytext);
         LEGEND_TEXT_COLOR = getResources().getColor(R.color.primarytext);
+        HEARTRATE_COLOR = getResources().getColor(R.color.chart_heartrate);
         AK_ACTIVITY_COLOR = getResources().getColor(R.color.chart_activity_light);
         AK_DEEP_SLEEP_COLOR = getResources().getColor(R.color.chart_light_sleep_light);
         AK_LIGHT_SLEEP_COLOR = getResources().getColor(R.color.chart_deep_sleep_light);
@@ -389,6 +401,8 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             int numEntries = samples.size();
             List<String> xLabels = new ArrayList<>(numEntries);
             List<BarEntry> activityEntries = new ArrayList<>(numEntries);
+            boolean hr = supportsHeartrate();
+            List<Entry> heartrateEntries = hr ? new ArrayList<Entry>(numEntries) : null;
             List<Integer> colors = new ArrayList<>(numEntries); // this is kinda inefficient...
 
             for (int i = 0; i < numEntries; i++) {
@@ -431,6 +445,9 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                         colors.add(akActivity.color);
                 }
                 activityEntries.add(createBarEntry(value, i));
+                if (hr) {
+                    heartrateEntries.add(createLineEntry(sample.getCustomShortValue(), i));
+                }
 
                 String xLabel = "";
                 if (annotate) {
@@ -463,13 +480,19 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             chart.getXAxis().setValues(xLabels);
 
             BarDataSet activitySet = createActivitySet(activityEntries, colors, "Activity");
-
-            ArrayList<BarDataSet> dataSets = new ArrayList<>();
-            dataSets.add(activitySet);
-
             // create a data object with the datasets
-            BarData data = new BarData(xLabels, dataSets);
-            data.setGroupSpace(0);
+            CombinedData combinedData = new CombinedData(xLabels);
+            List<BarDataSet> list = new ArrayList<>();
+            list.add(activitySet);
+            BarData barData = new BarData(xLabels, list);
+            barData.setGroupSpace(0);
+            combinedData.setData(barData);
+
+            if (hr) {
+                LineDataSet heartrateSet = createHeartrateSet(heartrateEntries, "Heart Rate");
+                LineData lineData = new LineData(xLabels, heartrateSet);
+                combinedData.setData(lineData);
+            }
 
             chart.setDescription("");
 //            chart.setDescription(getString(R.string.sleep_activity_date_range, dateStringFrom, dateStringTo));
@@ -477,7 +500,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
             setupLegend(chart);
 
-            chart.setData(data);
+            chart.setData(combinedData);
         }
     }
 
@@ -498,9 +521,31 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         return new BarEntry(value, index);
     }
 
+    protected Entry createLineEntry(float value, int index) {
+        return new Entry(value, index);
+    }
+
     protected BarDataSet createActivitySet(List<BarEntry> values, List<Integer> colors, String label) {
         BarDataSet set1 = new BarDataSet(values, label);
         set1.setColors(colors);
+//        set1.setDrawCubic(true);
+//        set1.setCubicIntensity(0.2f);
+//        //set1.setDrawFilled(true);
+//        set1.setDrawCircles(false);
+//        set1.setLineWidth(2f);
+//        set1.setCircleSize(5f);
+//        set1.setFillColor(ColorTemplate.getHoloBlue());
+        set1.setDrawValues(false);
+//        set1.setHighLightColor(Color.rgb(128, 0, 255));
+//        set1.setColor(Color.rgb(89, 178, 44));
+        set1.setValueTextColor(CHART_TEXT_COLOR);
+        return set1;
+    }
+
+    protected LineDataSet createHeartrateSet(List<Entry> values, String label) {
+        LineDataSet set1 = new LineDataSet(values, label);
+        set1.setColor(HEARTRATE_COLOR);
+//        set1.setColors(colors);
 //        set1.setDrawCubic(true);
 //        set1.setCubicIntensity(0.2f);
 //        //set1.setDrawFilled(true);

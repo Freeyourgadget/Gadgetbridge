@@ -27,13 +27,14 @@ import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_PROV
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_STEPS;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_TIMESTAMP;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_TYPE;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_CUSTOM_SHORT;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.TABLE_GBACTIVITYSAMPLES;
 
-public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandler {
+public class    ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(ActivityDatabaseHandler.class);
 
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
 
     public ActivityDatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -101,6 +102,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
             values.put(KEY_PROVIDER, sample.getProvider().getID());
             values.put(KEY_INTENSITY, sample.getRawIntensity());
             values.put(KEY_STEPS, sample.getSteps());
+            values.put(KEY_CUSTOM_SHORT, sample.getCustomShortValue());
             values.put(KEY_TYPE, sample.getRawKind());
 
             db.insert(TABLE_GBACTIVITYSAMPLES, null, values);
@@ -117,7 +119,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
      * @param kind      the raw activity kind of the sample
      */
     @Override
-    public void addGBActivitySample(int timestamp, byte provider, short intensity, short steps, byte kind) {
+    public void addGBActivitySample(int timestamp, byte provider, short intensity, short steps, byte kind, short customShortValue) {
         if (intensity < 0) {
             LOG.error("negative intensity received, ignoring");
             intensity = 0;
@@ -127,6 +129,11 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
             steps = 0;
         }
 
+        if (customShortValue < 0) {
+            LOG.error("negative short value received, ignoring");
+            customShortValue = 0;
+        }
+
         try (SQLiteDatabase db = this.getWritableDatabase()) {
             ContentValues values = new ContentValues();
             values.put(KEY_TIMESTAMP, timestamp);
@@ -134,6 +141,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
             values.put(KEY_INTENSITY, intensity);
             values.put(KEY_STEPS, steps);
             values.put(KEY_TYPE, kind);
+            values.put(KEY_CUSTOM_SHORT, customShortValue);
 
             db.insert(TABLE_GBACTIVITYSAMPLES, null, values);
         }
@@ -144,8 +152,8 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
         try (SQLiteDatabase db = this.getWritableDatabase()) {
 
             String sql = "INSERT INTO " + TABLE_GBACTIVITYSAMPLES + " (" + KEY_TIMESTAMP + "," +
-                    KEY_PROVIDER + "," + KEY_INTENSITY + "," + KEY_STEPS + "," + KEY_TYPE + ")" +
-                    " VALUES (?,?,?,?,?);";
+                    KEY_PROVIDER + "," + KEY_INTENSITY + "," + KEY_STEPS + "," + KEY_TYPE + "," + KEY_CUSTOM_SHORT + ")" +
+                    " VALUES (?,?,?,?,?,?);";
             SQLiteStatement statement = db.compileStatement(sql);
             db.beginTransaction();
 
@@ -156,6 +164,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
                 statement.bindLong(3, activitySample.getRawIntensity());
                 statement.bindLong(4, activitySample.getSteps());
                 statement.bindLong(5, activitySample.getRawKind());
+                statement.bindLong(6, activitySample.getCustomShortValue());
                 statement.execute();
             }
             db.setTransactionSuccessful();
@@ -216,7 +225,8 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
                                 cursor.getInt(cursor.getColumnIndex(KEY_TIMESTAMP)),
                                 cursor.getShort(cursor.getColumnIndex(KEY_INTENSITY)),
                                 cursor.getShort(cursor.getColumnIndex(KEY_STEPS)),
-                                (byte) cursor.getShort(cursor.getColumnIndex(KEY_TYPE)));
+                                (byte) cursor.getShort(cursor.getColumnIndex(KEY_TYPE)),
+                                cursor.getShort(cursor.getColumnIndex(KEY_CUSTOM_SHORT)));
                         samples.add(sample);
                     } while (cursor.moveToNext());
                 }

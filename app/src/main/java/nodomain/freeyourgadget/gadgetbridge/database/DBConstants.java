@@ -10,5 +10,6 @@ public class DBConstants {
     public static final String KEY_PROVIDER = "provider";
     public static final String KEY_INTENSITY = "intensity";
     public static final String KEY_STEPS = "steps";
+    public static final String KEY_CUSTOM_SHORT = "customShort";
     public static final String KEY_TYPE = "type";
 }

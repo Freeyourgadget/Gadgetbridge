@@ -42,5 +42,5 @@ public interface ActivitySample {
      */
     short getSteps();
 
-    short getHeartRate();
+    short getCustomShortValue();
 }

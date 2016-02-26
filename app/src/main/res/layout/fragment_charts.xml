@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity$PlaceholderFragment">
 
-    <com.github.mikephil.charting.charts.BarChart
+    <com.github.mikephil.charting.charts.CombinedChart
         android:id="@+id/activitysleepchart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

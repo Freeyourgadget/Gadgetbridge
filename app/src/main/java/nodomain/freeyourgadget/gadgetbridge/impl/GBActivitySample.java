@@ -9,19 +9,19 @@ public class GBActivitySample implements ActivitySample {
     private final SampleProvider provider;
     private final short intensity;
     private final short steps;
-    private final short heartrate;
     private final byte type;
+    private final short customShortValue;
 
     public GBActivitySample(SampleProvider provider, int timestamp, short intensity, short steps, byte type) {
-        this(provider, timestamp, intensity, steps, (short) 0, type);
+        this(provider, timestamp, intensity, steps, type, (short) 0);
     }
 
-    public GBActivitySample(SampleProvider provider, int timestamp, short intensity, short steps, short heartrate, byte type) {
+    public GBActivitySample(SampleProvider provider, int timestamp, short intensity, short steps, byte type, short customShortValue) {
         this.timestamp = timestamp;
         this.provider = provider;
         this.intensity = intensity;
         this.steps = steps;
-        this.heartrate = heartrate;
+        this.customShortValue = customShortValue;
         this.type = type;
         validate();
     }
@@ -36,8 +36,8 @@ public class GBActivitySample implements ActivitySample {
         if (timestamp < 0) {
             throw new IllegalArgumentException("timestamp must be >= 0");
         }
-        if (heartrate < 0) {
-            throw new IllegalArgumentException("heartrate must be >= 0");
+        if (customShortValue < 0) {
+            throw new IllegalArgumentException("customShortValue must be >= 0");
         }
     }
 
@@ -77,8 +77,8 @@ public class GBActivitySample implements ActivitySample {
     }
 
     @Override
-    public short getHeartRate() {
-        return heartrate;
+    public short getCustomShortValue() {
+        return customShortValue;
     }
 
     @Override
@@ -87,7 +87,7 @@ public class GBActivitySample implements ActivitySample {
                 "timestamp=" + DateTimeUtils.formatDateTime(DateTimeUtils.parseTimeStamp(timestamp)) +
                 ", intensity=" + getIntensity() +
                 ", steps=" + getSteps() +
-                ", heartrate=" + getHeartRate() +
+                ", customShortValue=" + getCustomShortValue() +
                 ", type=" + getKind() +
                 '}';
     }

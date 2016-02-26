@@ -55,7 +55,7 @@ public class AppMessageHandlerGBPebble extends AppMessageHandler {
                             byte type = (byte) ((sample & 0xe000) >>> 13);
                             byte intensity = (byte) ((sample & 0x1f80) >>> 7);
                             byte steps = (byte) (sample & 0x007f);
-                            db.addGBActivitySample(timestamp + offset_seconds, SampleProvider.PROVIDER_PEBBLE_GADGETBRIDGE, (short) (intensity & 0xff), (short) (steps & 0xff), type);
+                            db.addGBActivitySample(timestamp + offset_seconds, SampleProvider.PROVIDER_PEBBLE_GADGETBRIDGE, (short) (intensity & 0xff), (short) (steps & 0xff), type, (short)0);
                             offset_seconds += 60;
                         }
                     } catch (GBException e) {
