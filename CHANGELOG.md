@@ -1,5 +1,8 @@
 ###Changelog
 
+####Version (next)
+* Pebble: install (and start) freshly-installed apps on the watch instead of showing a Toast that tells the user to do so. (only applies to firmware 3.x)
+
 ####Version 0.8.0
 * Pebble: Support Pebble Health: steps/activity data are stored correctly. Sleep time is considered as light sleep. Deep sleep is discarded. The pebble will send data where it seems appropriate, there is no action to perform on the watch for this to happen.
 * Pebble: Fix support for newer version of morpheuz (>=3.3?)
