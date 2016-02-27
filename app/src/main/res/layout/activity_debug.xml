@@ -141,7 +141,7 @@
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="8"
-                android:text="HR Rate Test" />
+                android:text="Heart Rate Test" />
             <Button
                 android:id="@+id/rebootButton"
                 android:layout_width="wrap_content"
