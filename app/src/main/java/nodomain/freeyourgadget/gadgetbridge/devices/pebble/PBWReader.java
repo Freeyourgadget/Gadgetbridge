@@ -58,6 +58,8 @@ public class PBWReader {
     private int mIconId;
     private int mFlags;
 
+    private JSONObject mAppKeys = null;
+
     public PBWReader(Uri uri, Context context, String platform) throws FileNotFoundException {
         this.uri = uri;
         cr = context.getContentResolver();
@@ -201,6 +203,10 @@ public class PBWReader {
                         appCreator = json.getString("companyName");
                         appVersion = json.getString("versionLabel");
                         appUUID = UUID.fromString(json.getString("uuid"));
+                        if (json.has("appKeys")) {
+                            mAppKeys = json.getJSONObject("appKeys");
+                            LOG.info("found appKeys:" + mAppKeys.toString());
+                        }
                     } catch (JSONException e) {
                         isValid = false;
                         e.printStackTrace();
@@ -316,5 +322,9 @@ public class PBWReader {
 
     public int getIconId() {
         return mIconId;
+    }
+
+    public JSONObject getAppKeysJSON() {
+        return mAppKeys;
     }
 }

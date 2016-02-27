@@ -3,6 +3,8 @@ package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 import android.content.Context;
 import android.net.Uri;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -158,10 +160,18 @@ public class PBWInstallHandler implements InstallHandler {
         }
         try {
             LOG.info(app.getJSON().toString());
-            writer.write(app.getJSON().toString());
+            JSONObject appJSON = app.getJSON();
+            JSONObject appKeysJSON = mPBWReader.getAppKeysJSON();
+            if (appKeysJSON != null) {
+                appJSON.put("appKeys", appKeysJSON);
+            }
+            writer.write(appJSON.toString());
+
             writer.close();
         } catch (IOException e) {
             LOG.error("Failed to write to output file: " + e.getMessage(), e);
+        } catch (JSONException e) {
+            LOG.error(e.getMessage(), e);
         }
     }
 
