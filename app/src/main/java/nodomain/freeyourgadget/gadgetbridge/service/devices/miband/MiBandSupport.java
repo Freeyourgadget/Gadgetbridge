@@ -137,9 +137,12 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_ACTIVITY_DATA), enable)
                 .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_BATTERY), enable)
                 .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_SENSOR_DATA), enable);
-        if (supportsHeartRate()) {
+        // unconditionally try to get notifications for HR -- will silently fail when characteristic
+        // is not available. And at this point, we don't even know whether we support it, because
+        // no device info is available yet. We would have to do the check in a custom NotifyAction.
+//        if (supportsHeartRate()) {
             builder.notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT), enable);
-        }
+//        }
 
         return this;
     }
@@ -533,6 +536,9 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         if (supportsHeartRate()) {
             try {
                 TransactionBuilder builder = performInitialized("HeartRateTest");
+                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementContinuous);
+                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementManual);
+                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementSleep);
                 builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), startHeartMeasurementManual);
                 builder.queue(getQueue());
             } catch (IOException ex) {

@@ -79,7 +79,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         }
     };
     private boolean mChartDirty = true;
-    private boolean supportsHeartrateChart = true;
+    private boolean supportsHeartrateChart = false;
 
     public boolean isChartDirty() {
         return mChartDirty;
