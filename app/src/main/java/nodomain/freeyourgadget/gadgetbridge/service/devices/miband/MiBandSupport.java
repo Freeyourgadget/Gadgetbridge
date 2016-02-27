@@ -731,7 +731,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     public void logHeartrate(byte[] value) {
         LOG.info("Got heartrate:");
         if (value.length == 2 && value[0] == 6) {
-            LOG.info("Heartrate: " + (value[1] & 0xff));
+            int hrValue = (value[1] & 0xff);
+            GB.toast(getContext(), "Heart Rate measured: " + hrValue, Toast.LENGTH_LONG, GB.INFO);
         } else {
             logMessageContent(value);
         }
