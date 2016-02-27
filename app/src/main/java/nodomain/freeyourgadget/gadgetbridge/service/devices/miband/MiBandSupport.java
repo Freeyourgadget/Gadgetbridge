@@ -138,7 +138,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         builder.notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS), enable)
                 .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_ACTIVITY_DATA), enable)
                 .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_BATTERY), enable)
-                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_SENSOR_DATA), enable);
+                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_SENSOR_DATA), enable)
+                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT), enable);
 
         return this;
     }
@@ -202,8 +203,12 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     static final byte[] reboot = new byte[]{MiBandService.COMMAND_REBOOT};
 
-//    static final byte[] HeartMode = new byte[]{MiBandService.COMMAND_SET_HR_MANUAL};
-    static final byte[] HeartMode = new byte[]{MiBandService.COMMAND_SET_HR_SLEEP};
+    static final byte[] startHeartMeasurementManual = new byte[]{ 0x15, MiBandService.COMMAND_SET_HR_MANUAL, 1};
+    static final byte[] stopHeartMeasurementManual = new byte[]{ 0x15, MiBandService.COMMAND_SET_HR_MANUAL, 0};
+    static final byte[] startHeartMeasurementContinuous = new byte[]{ 0x15, MiBandService.COMMAND_SET__HR_CONTINUOUS, 1};
+    static final byte[] stopHeartMeasurementContinuous = new byte[]{ 0x15, MiBandService.COMMAND_SET__HR_CONTINUOUS, 0};
+    static final byte[] startHeartMeasurementSleep = new byte[]{ 0x15, MiBandService.COMMAND_SET_HR_SLEEP, 1};
+    static final byte[] stopHeartMeasurementSleep = new byte[]{ 0x15, MiBandService.COMMAND_SET_HR_SLEEP, 0};
 
     static final byte[] startRealTimeStepsNotifications = new byte[]{MiBandService.COMMAND_SET_REALTIME_STEPS_NOTIFICATION, 1};
     static final byte[] stopRealTimeStepsNotifications = new byte[]{MiBandService.COMMAND_SET_REALTIME_STEPS_NOTIFICATION, 0};
@@ -527,7 +532,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     public void onHearRateTest() {
         try {
             TransactionBuilder builder = performInitialized("HeartRateTest");
-            builder.write(getCharacteristic(MiBandService.UUID_CHAR_HEART_RATE_CONTROL_POINT), HeartMode);
+            builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), startHeartMeasurementManual);
             builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to read HearRate in  MI1S", ex);
@@ -654,8 +659,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             handleRealtimeSteps(characteristic.getValue());
         } else if (MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS.equals(characteristicUUID)) {
         handleRealtimeSteps(characteristic.getValue());
-         } else if (MiBandService.UUID_CHAR_HEART_RATE_MEASUREMENT.equals(characteristicUUID)) {
-            logMessageContent(characteristic.getValue());
+         } else if (MiBandService.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT.equals(characteristicUUID)) {
+            logHeartrate(characteristic.getValue());
         }
         else {
             LOG.info("Unhandled characteristic changed: " + characteristicUUID);
@@ -675,8 +680,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             handleDeviceName(characteristic.getValue(), status);
         } else if (MiBandService.UUID_CHARACTERISTIC_BATTERY.equals(characteristicUUID)) {
             handleBatteryInfo(characteristic.getValue(), status);
-        } else if (MiBandService.UUID_CHAR_HEART_RATE_MEASUREMENT.equals(characteristicUUID)) {
-            logMessageContent(characteristic.getValue());
+        } else if (MiBandService.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT.equals(characteristicUUID)) {
+            logHeartrate(characteristic.getValue());
         } else {
             LOG.info("Unhandled characteristic read: "+ characteristicUUID);
             logMessageContent(characteristic.getValue());
@@ -708,6 +713,14 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    public void logHeartrate(byte[] value) {
+        LOG.info("Got heartrate:");
+        if (value.length == 2 && value[0] == 6) {
+            LOG.info("Heartrate: " + (value[1] & 0xff));
+        } else {
+            logMessageContent(value);
+        }
+    }
 
 
     private void handleRealtimeSteps(byte[] value) {

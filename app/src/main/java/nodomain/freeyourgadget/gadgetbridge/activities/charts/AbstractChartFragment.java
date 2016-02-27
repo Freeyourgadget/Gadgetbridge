@@ -13,6 +13,7 @@ import android.view.View;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.CombinedChart;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -539,6 +540,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 //        set1.setHighLightColor(Color.rgb(128, 0, 255));
 //        set1.setColor(Color.rgb(89, 178, 44));
         set1.setValueTextColor(CHART_TEXT_COLOR);
+        set1.setAxisDependency(YAxis.AxisDependency.LEFT);
         return set1;
     }
 
@@ -550,13 +552,14 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 //        set1.setCubicIntensity(0.2f);
 //        //set1.setDrawFilled(true);
 //        set1.setDrawCircles(false);
-//        set1.setLineWidth(2f);
+        set1.setLineWidth(2f);
 //        set1.setCircleSize(5f);
 //        set1.setFillColor(ColorTemplate.getHoloBlue());
         set1.setDrawValues(false);
 //        set1.setHighLightColor(Color.rgb(128, 0, 255));
 //        set1.setColor(Color.rgb(89, 178, 44));
         set1.setValueTextColor(CHART_TEXT_COLOR);
+        set1.setAxisDependency(YAxis.AxisDependency.RIGHT);
         return set1;
     }
 

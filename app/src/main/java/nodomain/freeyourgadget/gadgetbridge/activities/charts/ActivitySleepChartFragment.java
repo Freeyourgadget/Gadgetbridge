@@ -79,8 +79,8 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
         YAxis yAxisRight = mChart.getAxisRight();
         yAxisRight.setDrawGridLines(false);
         yAxisRight.setEnabled(supportsHeartrate());
-        yAxisRight.setDrawLabels(false);
-        yAxisRight.setDrawTopYLabelEntry(false);
+        yAxisRight.setDrawLabels(true);
+        yAxisRight.setDrawTopYLabelEntry(true);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
 
         // refresh immediately instead of use refreshIfVisible(), for perceived performance
