@@ -149,7 +149,7 @@
                 android:layout_column="0"
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill_horizontal"
-                android:layout_row="7"
+                android:layout_row="11"
                 android:text="reboot" />
 
 
