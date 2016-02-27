@@ -107,8 +107,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 .setCurrentTime(builder)
                 .requestBatteryInfo(builder)
                 .setInitialized(builder);
-       // heartrate(builder)
-       // .requestHRInfo(builder);
         return builder;
     }
 
@@ -138,8 +136,10 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         builder.notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS), enable)
                 .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_ACTIVITY_DATA), enable)
                 .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_BATTERY), enable)
-                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_SENSOR_DATA), enable)
-                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT), enable);
+                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_SENSOR_DATA), enable);
+        if (supportsHeartRate()) {
+            builder.notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT), enable);
+        }
 
         return this;
     }
@@ -530,14 +530,23 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
     @Override
     public void onHearRateTest() {
-        try {
-            TransactionBuilder builder = performInitialized("HeartRateTest");
-            builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), startHeartMeasurementManual);
-            builder.queue(getQueue());
-        } catch (IOException ex) {
-            LOG.error("Unable to read HearRate in  MI1S", ex);
+        if (supportsHeartRate()) {
+            try {
+                TransactionBuilder builder = performInitialized("HeartRateTest");
+                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), startHeartMeasurementManual);
+                builder.queue(getQueue());
+            } catch (IOException ex) {
+                LOG.error("Unable to read HearRate in  MI1S", ex);
+            }
+        } else {
+            GB.toast(getContext(), "Heart rate is not supported on this device", Toast.LENGTH_LONG, GB.ERROR);
         }
     }
+
+    public boolean supportsHeartRate() {
+        return getDeviceInfo() != null && getDeviceInfo().isMilli1S();
+    }
+
     @Override
     public void onFindDevice(boolean start) {
         isLocatingDevice = start;
