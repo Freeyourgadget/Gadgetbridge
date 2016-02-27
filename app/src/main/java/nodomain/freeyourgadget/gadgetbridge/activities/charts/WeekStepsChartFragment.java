@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
@@ -15,6 +16,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -41,7 +43,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
     private Locale mLocale;
     private int mTargetSteps = 10000;
 
-    private BarLineChartBase mWeekStepsChart;
+    private CombinedChart mWeekStepsChart;
     private PieChart mTodayStepsChart;
 
     @Override
@@ -62,7 +64,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         mTodayStepsChart.invalidate();
     }
 
-    private void refreshWeekBeforeSteps(DBHandler db, BarLineChartBase barChart, Calendar day, GBDevice device) {
+    private void refreshWeekBeforeSteps(DBHandler db, CombinedChart combinedChart, Calendar day, GBDevice device) {
 
         ActivityAnalysis analysis = new ActivityAnalysis();
 
@@ -80,16 +82,19 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         BarDataSet set = new BarDataSet(entries, "");
         set.setColor(akActivity.color);
 
-        BarData data = new BarData(labels, set);
-        data.setValueTextColor(Color.GRAY); //prevent tearing other graph elements with the black text. Another approach would be to hide the values cmpletely with data.setDrawValues(false);
+        BarData barData = new BarData(labels, set);
+        barData.setValueTextColor(Color.GRAY); //prevent tearing other graph elements with the black text. Another approach would be to hide the values cmpletely with data.setDrawValues(false);
 
         LimitLine target = new LimitLine(mTargetSteps);
-        barChart.getAxisLeft().removeAllLimitLines();
-        barChart.getAxisLeft().addLimitLine(target);
+        combinedChart.getAxisLeft().removeAllLimitLines();
+        combinedChart.getAxisLeft().addLimitLine(target);
 
-        setupLegend(barChart);
-        barChart.setData(data);
-        barChart.getLegend().setEnabled(false);
+        CombinedData combinedData = new CombinedData(labels);
+        combinedData.setData(barData);
+
+        setupLegend(combinedChart);
+        combinedChart.setData(combinedData);
+        combinedChart.getLegend().setEnabled(false);
     }
 
     private void refreshDaySteps(DBHandler db, PieChart pieChart, Calendar day, GBDevice device) {
@@ -137,7 +142,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
             mTargetSteps = MiBandCoordinator.getFitnessGoal(device.getAddress());
         }
 
-        mWeekStepsChart = (BarLineChartBase) rootView.findViewById(R.id.sleepchart);
+        mWeekStepsChart = (CombinedChart) rootView.findViewById(R.id.sleepchart);
         mTodayStepsChart = (PieChart) rootView.findViewById(R.id.sleepchart_pie_light_deep);
 
         setupWeekStepsChart();
