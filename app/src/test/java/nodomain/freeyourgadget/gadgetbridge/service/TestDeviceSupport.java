@@ -102,6 +102,11 @@ public class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
+    public void onHearRateTest() {
+
+    }
+
+    @Override
     public void onFindDevice(boolean start) {
 
     }
