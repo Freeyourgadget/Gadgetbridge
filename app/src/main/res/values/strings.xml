@@ -224,6 +224,7 @@
     <string name="appmanager_health_deactivate">Deactivate</string>
     <string name="authenticating">authenticating</string>
     <string name="authentication_required">authentication required</string>
+    <string name="app_configure">Configure</string>
 
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">Add widget</string>

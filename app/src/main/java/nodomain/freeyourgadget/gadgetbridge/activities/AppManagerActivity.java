@@ -189,6 +189,11 @@ public class AppManagerActivity extends Activity {
             case R.id.appmanager_health_activate:
                 GBApplication.deviceService().onInstallApp(Uri.parse("fake://health"));
                 return true;
+            case R.id.appmanager_app_configure:
+                Intent startIntent = new Intent(getApplicationContext(), ExternalPebbleJSActivity.class);
+                startIntent.putExtra("app_uuid", selectedApp.getUUID());
+                startActivity(startIntent);
+                return true;
             default:
                 return super.onContextItemSelected(item);
         }

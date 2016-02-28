@@ -257,6 +257,22 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/sleep_alarm_widget_info" />
         </receiver>
+
+        <activity
+            android:name=".activities.ExternalPebbleJSActivity"
+            android:label="external_js"
+            android:parentActivityName=".activities.AppManagerActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter" />
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="gadgetbridge" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

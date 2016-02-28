@@ -173,6 +173,24 @@ public class PBWInstallHandler implements InstallHandler {
         } catch (JSONException e) {
             LOG.error(e.getMessage(), e);
         }
+
+        String jsConfigFile = mPBWReader.getJsConfigurationFile();
+
+        if (jsConfigFile != null) {
+            outputFile = new File(destDir, app.getUUID().toString() + "_config.js");
+            try {
+                writer = new BufferedWriter(new FileWriter(outputFile));
+            } catch (IOException e) {
+                LOG.error("Failed to open output file: " + e.getMessage(), e);
+                return;
+            }
+            try {
+                writer.write(jsConfigFile);
+                writer.close();
+            } catch (IOException e) {
+                LOG.error("Failed to write to output file: " + e.getMessage(), e);
+            }
+        }
     }
 
     public boolean isValid() {

@@ -12,5 +12,7 @@
     <item
         android:id="@+id/appmanager_health_deactivate"
         android:title="@string/appmanager_health_deactivate"/>
-
+    <item
+        android:id="@+id/appmanager_app_configure"
+        android:title="@string/app_configure"/>
 </menu>

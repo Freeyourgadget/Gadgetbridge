@@ -57,6 +57,7 @@ public class PBWReader {
     private short mAppVersion;
     private int mIconId;
     private int mFlags;
+    private String jsConfigurationFile = null;
 
     private JSONObject mAppKeys = null;
 
@@ -212,6 +213,18 @@ public class PBWReader {
                         e.printStackTrace();
                         break;
                     }
+                } else if (fileName.equals("pebble-js-app.js")) {
+                    LOG.info("Found JS file: app supports configuration.");
+                    long bytes = ze.getSize();
+                    if (bytes > 65536) // that should be too much
+                        break;
+
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    while ((count = zis.read(buffer)) != -1) {
+                        baos.write(buffer, 0, count);
+                    }
+
+                    jsConfigurationFile = baos.toString();
                 } else if (fileName.equals(platformDir + "pebble-app.bin")) {
                     zis.read(buffer, 0, 108);
                     byte[] tmp_buf = new byte[32];
@@ -326,5 +339,9 @@ public class PBWReader {
 
     public JSONObject getAppKeysJSON() {
         return mAppKeys;
+    }
+
+    public String getJsConfigurationFile() {
+        return jsConfigurationFile;
     }
 }
