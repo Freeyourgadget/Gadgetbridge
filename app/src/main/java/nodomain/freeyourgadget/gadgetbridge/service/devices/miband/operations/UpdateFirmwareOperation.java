@@ -154,6 +154,8 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
                 (byte) (newFwSize >> 8),
                 (byte) checksum,
                 (byte) (checksum >> 8)
+//                (byte) (checksum >> 8),
+//                (byte) 0 // TEST, only for Mi1S!
         };
         TransactionBuilder builder = performInitialized("send firmware info");
         builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.updating_firmware), getContext()));

@@ -17,15 +17,14 @@ import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 public class MiBandFWHelper {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandFWHelper.class);
+    private static final int MI_FW_BASE_OFFSET = 1056;
+    private static final int MI1S_FW_BASE_OFFSET = 1092;
 
     private final Uri uri;
     private final ContentResolver cr;
     private byte[] fw;
 
-    private final int offsetFirmwareVersionBuild = 1056;
-    private final int offsetFirmwareVersionRevision = 1057;
-    private final int offsetFirmwareVersionMinor = 1058;
-    private final int offsetFirmwareVersionMajor = 1059;
+    private int baseOffset = -1;
 
     /**
      * Provides a different notification API which is also used on Mi1A devices.
@@ -51,6 +50,7 @@ public class MiBandFWHelper {
             throw new IOException("No content resolver");
         }
 
+        baseOffset = determineBaseOffset(uri);
         String pebblePattern = ".*\\.(pbw|pbz|pbl)";
 
         if (uri.getPath().matches(pebblePattern)) {
@@ -59,10 +59,10 @@ public class MiBandFWHelper {
 
         try (InputStream in = new BufferedInputStream(cr.openInputStream(uri))) {
             this.fw = FileUtils.readAll(in, 1024 * 1024); // 1 MB
-            if (fw.length <= offsetFirmwareVersionMajor) {
+            if (fw.length <= getOffsetFirmwareVersionMajor()) {
                 throw new IOException("This doesn't seem to be a Mi Band firmware, file size too small.");
             }
-            byte firmwareVersionMajor = fw[offsetFirmwareVersionMajor];
+            byte firmwareVersionMajor = fw[getOffsetFirmwareVersionMajor()];
             if (!isSupportedFirmwareVersionMajor(firmwareVersionMajor)) {
                 throw new IOException("Firmware major version not supported, either too new or this isn't a Mi Band firmware: " + firmwareVersionMajor);
             }
@@ -73,24 +73,52 @@ public class MiBandFWHelper {
         }
     }
 
+    private int getOffsetFirmwareVersionMajor() {
+        return baseOffset + 3;
+    }
+
+    private int getOffsetFirmwareVersionMinor() {
+        return baseOffset + 2;
+    }
+
+    private int getOffsetFirmwareVersionRevision() {
+        return baseOffset + 1;
+    }
+
+    private int getOffsetFirmwareVersionBuild() {
+        return baseOffset;
+    }
+
+    private int determineBaseOffset(Uri uri) throws IOException {
+        String name = uri.getLastPathSegment().toLowerCase();
+        if (name.startsWith("mili")) {
+            if (name.contains("_hr")) {
+                return MI1S_FW_BASE_OFFSET;
+            }
+            return MI_FW_BASE_OFFSET;
+        } else {
+            throw new IOException("Unknown file name " + name + "; cannot recognize firmware by it.");
+        }
+    }
+
     private byte getFirmwareVersionMajor() {
-        return fw[offsetFirmwareVersionMajor];
+        return fw[getOffsetFirmwareVersionMajor()];
     }
 
     private byte getFirmwareVersionMinor() {
-        return fw[offsetFirmwareVersionMinor];
+        return fw[getOffsetFirmwareVersionMinor()];
     }
 
     private boolean isSupportedFirmwareVersionMajor(byte firmwareVersionMajor) {
-        return firmwareVersionMajor == 1 || firmwareVersionMajor == 5;
+        return firmwareVersionMajor == 1 || firmwareVersionMajor == 4 || firmwareVersionMajor == 5;
     }
 
     public int getFirmwareVersion() {
-        return (fw[offsetFirmwareVersionMajor] << 24) | (fw[offsetFirmwareVersionMinor] << 16) | (fw[offsetFirmwareVersionRevision] << 8) | fw[offsetFirmwareVersionBuild];
+        return (fw[getOffsetFirmwareVersionMajor()] << 24) | (fw[getOffsetFirmwareVersionMinor()] << 16) | (fw[getOffsetFirmwareVersionRevision()] << 8) | fw[getOffsetFirmwareVersionBuild()];
     }
 
     public String getHumanFirmwareVersion() {
-        return String.format(Locale.US, "%d.%d.%d.%d", fw[offsetFirmwareVersionMajor], fw[offsetFirmwareVersionMinor], fw[offsetFirmwareVersionRevision], fw[offsetFirmwareVersionBuild]);
+        return String.format(Locale.US, "%d.%d.%d.%d", fw[getOffsetFirmwareVersionMajor()], fw[getOffsetFirmwareVersionMinor()], fw[getOffsetFirmwareVersionRevision()], fw[getOffsetFirmwareVersionBuild()]);
     }
 
     public byte[] getFw() {
@@ -114,6 +142,9 @@ public class MiBandFWHelper {
         if (MiBandConst.MI_1A.equals(deviceHW)) {
             return getFirmwareVersionMajor() == 5;
         }
+//        if (MiBandConst.MI_1S.equals(deviceHW)) {
+//            return getFirmwareVersionMajor() == 4;
+//        }
         return false;
     }
 }
