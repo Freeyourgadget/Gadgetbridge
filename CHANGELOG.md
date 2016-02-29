@@ -1,7 +1,8 @@
 ###Changelog
 
-####Version (next)
+####Version 0.8.1
 * Pebble: install (and start) freshly-installed apps on the watch instead of showing a Toast that tells the user to do so. (only applies to firmware 3.x)
+* Pebble: fix crash while receiving Health data
 * Mi Band 1S: support for synchronizing activity data (#205)
 * Mi Band 1S: support for reading the heart rate via the "Debug Screen" #178
 
