@@ -102,7 +102,7 @@ public class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
-    public void onHearRateTest() {
+    public void onHeartRateTest() {
 
     }
 

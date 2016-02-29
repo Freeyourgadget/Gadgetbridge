@@ -53,7 +53,7 @@ public class DebugActivity extends Activity {
     private Button setMusicInfoButton;
     private Button setTimeButton;
     private Button rebootButton;
-    private Button HearRateButton;
+    private Button HeartRateButton;
     private Button exportDBButton;
     private Button importDBButton;
     private Button deleteDBButton;
@@ -186,11 +186,12 @@ public class DebugActivity extends Activity {
                 GBApplication.deviceService().onReboot();
             }
         });
-        HearRateButton = (Button) findViewById(R.id.HearRateButton);
-        HearRateButton.setOnClickListener(new View.OnClickListener() {
+        HeartRateButton = (Button) findViewById(R.id.HearRateButton);
+        HeartRateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GBApplication.deviceService().onHearRateTest();
+                GB.toast("Measuring heart rate, please wait...", Toast.LENGTH_SHORT, GB.INFO);
+                GBApplication.deviceService().onHeartRateTest();
             }
         });
 

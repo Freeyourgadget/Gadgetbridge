@@ -40,7 +40,7 @@ public interface EventHandler {
 
     void onReboot();
 
-    void onHearRateTest();
+    void onHeartRateTest();
 
     void onFindDevice(boolean start);
 

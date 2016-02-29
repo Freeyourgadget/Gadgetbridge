@@ -195,11 +195,11 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
-    public void onHearRateTest() {
+    public void onHeartRateTest() {
         if (checkBusy("heartrate")) {
             return;
         }
-        delegate.onHearRateTest();
+        delegate.onHeartRateTest();
     }
 
     @Override

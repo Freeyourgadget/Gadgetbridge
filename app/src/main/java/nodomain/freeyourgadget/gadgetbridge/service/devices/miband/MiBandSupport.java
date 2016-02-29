@@ -534,7 +534,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onHearRateTest() {
+    public void onHeartRateTest() {
         if (supportsHeartRate()) {
             try {
                 TransactionBuilder builder = performInitialized("HeartRateTest");

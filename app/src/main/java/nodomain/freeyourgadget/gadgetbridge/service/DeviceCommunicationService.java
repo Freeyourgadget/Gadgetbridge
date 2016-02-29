@@ -253,7 +253,7 @@ public class DeviceCommunicationService extends Service {
                 break;
             }
             case ACTION_HEARTRATE_TEST: {
-                mDeviceSupport.onHearRateTest();
+                mDeviceSupport.onHeartRateTest();
                 break;
             }
             case ACTION_FETCH_ACTIVITY_DATA: {

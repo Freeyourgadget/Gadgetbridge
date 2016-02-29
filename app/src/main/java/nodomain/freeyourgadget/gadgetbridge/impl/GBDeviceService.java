@@ -172,7 +172,7 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void onHearRateTest() {
+    public void onHeartRateTest() {
         Intent intent = createIntent().setAction(ACTION_HEARTRATE_TEST);
         invokeService(intent);
     }

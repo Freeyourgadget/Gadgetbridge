@@ -38,7 +38,7 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
     }
 
     @Override
-    public void onHearRateTest() {
+    public void onHeartRateTest() {
 
     }
 
