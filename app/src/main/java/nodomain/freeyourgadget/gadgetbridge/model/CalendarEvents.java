@@ -22,7 +22,7 @@ public class CalendarEvents {
     // needed for miband:
     // time
 
-    private static final String[] EVENT_INSTANCE_PROJECTION = new String[] {
+    private static final String[] EVENT_INSTANCE_PROJECTION = new String[]{
             Instances._ID,
             Instances.BEGIN,
             Instances.END,
@@ -67,9 +67,9 @@ public class CalendarEvents {
                         evtCursor.getString(5),
                         evtCursor.getString(6),
                         evtCursor.getString(7)
-                        );
+                );
                 calendarEventList.add(calEvent);
-            } while(evtCursor.moveToNext());
+            } while (evtCursor.moveToNext());
 
             return true;
         }
@@ -100,7 +100,7 @@ public class CalendarEvents {
         }
 
         public int getBeginSeconds() {
-            return (int)(begin/1000);
+            return (int) (begin / 1000);
         }
 
         public long getEnd() {
@@ -112,11 +112,11 @@ public class CalendarEvents {
         }
 
         public int getDurationSeconds() {
-            return (int)((getDuration())/1000);
+            return (int) ((getDuration()) / 1000);
         }
 
         public short getDurationMinutes() {
-            return (short)(getDurationSeconds()/60);
+            return (short) (getDurationSeconds() / 60);
         }
 
 

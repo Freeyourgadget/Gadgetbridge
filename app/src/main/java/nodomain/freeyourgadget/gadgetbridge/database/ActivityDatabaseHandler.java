@@ -22,15 +22,15 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.DATABASE_NAME;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_CUSTOM_SHORT;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_INTENSITY;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_PROVIDER;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_STEPS;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_TIMESTAMP;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_TYPE;
-import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_CUSTOM_SHORT;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.TABLE_GBACTIVITYSAMPLES;
 
-public class    ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandler {
+public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(ActivityDatabaseHandler.class);
 
@@ -102,7 +102,7 @@ public class    ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHa
             values.put(KEY_PROVIDER, sample.getProvider().getID());
             values.put(KEY_INTENSITY, sample.getRawIntensity());
             values.put(KEY_STEPS, sample.getSteps());
-            values.put(KEY_CUSTOM_SHORT, sample.getCustomShortValue());
+            values.put(KEY_CUSTOM_SHORT, sample.getCustomValue());
             values.put(KEY_TYPE, sample.getRawKind());
 
             db.insert(TABLE_GBACTIVITYSAMPLES, null, values);
@@ -112,14 +112,15 @@ public class    ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHa
     /**
      * Adds the a new sample to the database
      *
-     * @param timestamp the timestamp of the same, second-based!
-     * @param provider  the SampleProvider ID
-     * @param intensity the sample's raw intensity value
-     * @param steps     the sample's steps value
-     * @param kind      the raw activity kind of the sample
+     * @param timestamp        the timestamp of the same, second-based!
+     * @param provider         the SampleProvider ID
+     * @param intensity        the sample's raw intensity value
+     * @param steps            the sample's steps value
+     * @param kind             the raw activity kind of the sample
+     * @param customShortValue
      */
     @Override
-    public void addGBActivitySample(int timestamp, byte provider, short intensity, short steps, byte kind, short customShortValue) {
+    public void addGBActivitySample(int timestamp, int provider, int intensity, int steps, int kind, int customShortValue) {
         if (intensity < 0) {
             LOG.error("negative intensity received, ignoring");
             intensity = 0;
@@ -164,7 +165,7 @@ public class    ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHa
                 statement.bindLong(3, activitySample.getRawIntensity());
                 statement.bindLong(4, activitySample.getSteps());
                 statement.bindLong(5, activitySample.getRawKind());
-                statement.bindLong(6, activitySample.getCustomShortValue());
+                statement.bindLong(6, activitySample.getCustomValue());
                 statement.execute();
             }
             db.setTransactionSuccessful();
@@ -242,7 +243,7 @@ public class    ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHa
         }
 
         StringBuilder builder = new StringBuilder(" and (");
-        byte[] dbActivityTypes = ActivityKind.mapToDBActivityTypes(activityTypes, provider);
+        int[] dbActivityTypes = ActivityKind.mapToDBActivityTypes(activityTypes, provider);
         for (int i = 0; i < dbActivityTypes.length; i++) {
             builder.append(" type=").append(dbActivityTypes[i]);
             if (i + 1 < dbActivityTypes.length) {
@@ -254,7 +255,7 @@ public class    ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHa
     }
 
     @Override
-    public void changeStoredSamplesType(int timestampFrom, int timestampTo, byte kind, SampleProvider provider) {
+    public void changeStoredSamplesType(int timestampFrom, int timestampTo, int kind, SampleProvider provider) {
         try (SQLiteDatabase db = this.getReadableDatabase()) {
             String sql = "UPDATE " + TABLE_GBACTIVITYSAMPLES + " SET " + KEY_TYPE + "= ? WHERE "
                     + KEY_PROVIDER + " = ? AND "

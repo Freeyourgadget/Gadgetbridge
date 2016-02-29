@@ -41,8 +41,9 @@ public abstract class AbstractMiBandOperation extends AbstractBTLEOperation<MiBa
      * Enables or disables certain kinds of notifications that could interfere with this
      * operation. Call this method once initially to disable other notifications, and once
      * when this operation has finished.
+     *
      * @param builder
-     * @param enable true to enable, false to disable the other notifications
+     * @param enable  true to enable, false to disable the other notifications
      */
     protected void enableOtherNotifications(TransactionBuilder builder, boolean enable) {
         builder.notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS), enable)

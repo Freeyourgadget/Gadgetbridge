@@ -7,21 +7,21 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 public class GBActivitySample implements ActivitySample {
     private final int timestamp;
     private final SampleProvider provider;
-    private final short intensity;
-    private final short steps;
-    private final byte type;
-    private final short customShortValue;
+    private final int intensity;
+    private final int steps;
+    private final int type;
+    private final int customValue;
 
-    public GBActivitySample(SampleProvider provider, int timestamp, short intensity, short steps, byte type) {
-        this(provider, timestamp, intensity, steps, type, (short) 0);
+    public GBActivitySample(SampleProvider provider, int timestamp, int intensity, int steps, int type) {
+        this(provider, timestamp, intensity, steps, type, 0);
     }
 
-    public GBActivitySample(SampleProvider provider, int timestamp, short intensity, short steps, byte type, short customShortValue) {
+    public GBActivitySample(SampleProvider provider, int timestamp, int intensity, int steps, int type, int customValue) {
         this.timestamp = timestamp;
         this.provider = provider;
         this.intensity = intensity;
         this.steps = steps;
-        this.customShortValue = customShortValue;
+        this.customValue = customValue;
         this.type = type;
         validate();
     }
@@ -36,8 +36,8 @@ public class GBActivitySample implements ActivitySample {
         if (timestamp < 0) {
             throw new IllegalArgumentException("timestamp must be >= 0");
         }
-        if (customShortValue < 0) {
-            throw new IllegalArgumentException("customShortValue must be >= 0");
+        if (customValue < 0) {
+            throw new IllegalArgumentException("customValue must be >= 0");
         }
     }
 
@@ -52,7 +52,7 @@ public class GBActivitySample implements ActivitySample {
     }
 
     @Override
-    public short getRawIntensity() {
+    public int getRawIntensity() {
         return intensity;
     }
 
@@ -62,12 +62,12 @@ public class GBActivitySample implements ActivitySample {
     }
 
     @Override
-    public short getSteps() {
+    public int getSteps() {
         return steps;
     }
 
     @Override
-    public byte getRawKind() {
+    public int getRawKind() {
         return type;
     }
 
@@ -77,8 +77,8 @@ public class GBActivitySample implements ActivitySample {
     }
 
     @Override
-    public short getCustomShortValue() {
-        return customShortValue;
+    public int getCustomValue() {
+        return customValue;
     }
 
     @Override
@@ -87,7 +87,7 @@ public class GBActivitySample implements ActivitySample {
                 "timestamp=" + DateTimeUtils.formatDateTime(DateTimeUtils.parseTimeStamp(timestamp)) +
                 ", intensity=" + getIntensity() +
                 ", steps=" + getSteps() +
-                ", customShortValue=" + getCustomShortValue() +
+                ", customValue=" + getCustomValue() +
                 ", type=" + getKind() +
                 '}';
     }

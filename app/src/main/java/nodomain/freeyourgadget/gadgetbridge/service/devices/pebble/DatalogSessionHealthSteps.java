@@ -1,8 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 
 
-import android.database.sqlite.SQLiteDatabase;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,7 +59,8 @@ public class DatalogSessionHealthSteps extends DatalogSession {
 
             for (int recordIdx = 0; recordIdx < recordNum; recordIdx++) {
                 datalogMessage.position(beginOfRecordPosition + recordIdx * recordLength); //we may not consume all the bytes of a record
-                stepsRecords[recordIdx] = new StepsRecord(timestamp, datalogMessage.get(), datalogMessage.get(), datalogMessage.getShort(), datalogMessage.get(), datalogMessage.get());
+                stepsRecords[recordIdx] = new StepsRecord(timestamp, datalogMessage.get() & 0xff, datalogMessage.get() & 0xff, datalogMessage.getShort() & 0xffff);
+                datalogMessage.getShort(); // skip
                 timestamp += 60;
             }
 
@@ -82,7 +81,7 @@ public class DatalogSessionHealthSteps extends DatalogSession {
                     sampleProvider,
                     stepsRecord.timestamp,
                     stepsRecord.intensity,
-                    (short) (stepsRecord.steps & 0xff),
+                    stepsRecord.steps,
                     sampleProvider.toRawActivityKind(ActivityKind.TYPE_ACTIVITY));
         }
 
@@ -100,11 +99,11 @@ public class DatalogSessionHealthSteps extends DatalogSession {
 
     private class StepsRecord {
         int timestamp;
-        byte steps;
-        byte orientation;
-        short intensity;
+        int steps;
+        int orientation;
+        int intensity;
 
-        public StepsRecord(int timestamp, byte steps, byte orientation, short intensity, byte throwAway1, byte throwAway2) {
+        public StepsRecord(int timestamp, int steps, int orientation, int intensity) {
             this.timestamp = timestamp;
             this.steps = steps;
             this.orientation = orientation;

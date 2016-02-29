@@ -24,13 +24,13 @@ public interface DBHandler {
 
     List<ActivitySample> getSleepSamples(int tsFrom, int tsTo, SampleProvider provider);
 
-    void addGBActivitySample(int timestamp, byte provider, short intensity, short steps, byte kind, short heartrate);
+    void addGBActivitySample(int timestamp, int provider, int intensity, int steps, int kind, int heartrate);
 
     void addGBActivitySamples(ActivitySample[] activitySamples);
 
     SQLiteDatabase getWritableDatabase();
 
-    void changeStoredSamplesType(int timestampFrom, int timestampTo, byte kind, SampleProvider provider);
+    void changeStoredSamplesType(int timestampFrom, int timestampTo, int kind, SampleProvider provider);
 
     int fetchLatestTimestamp(SampleProvider provider);
 

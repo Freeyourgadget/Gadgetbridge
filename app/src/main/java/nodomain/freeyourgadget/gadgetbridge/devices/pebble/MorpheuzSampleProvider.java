@@ -13,7 +13,7 @@ public class MorpheuzSampleProvider implements SampleProvider {
     protected float movementDivisor = 5000f;
 
     @Override
-    public int normalizeType(byte rawType) {
+    public int normalizeType(int rawType) {
         switch (rawType) {
             case TYPE_DEEP_SLEEP:
                 return ActivityKind.TYPE_DEEP_SLEEP;
@@ -28,7 +28,7 @@ public class MorpheuzSampleProvider implements SampleProvider {
     }
 
     @Override
-    public byte toRawActivityKind(int activityKind) {
+    public int toRawActivityKind(int activityKind) {
         switch (activityKind) {
             case ActivityKind.TYPE_ACTIVITY:
                 return TYPE_ACTIVITY;
@@ -43,12 +43,12 @@ public class MorpheuzSampleProvider implements SampleProvider {
     }
 
     @Override
-    public float normalizeIntensity(short rawIntensity) {
+    public float normalizeIntensity(int rawIntensity) {
         return rawIntensity / movementDivisor;
     }
 
     @Override
-    public byte getID() {
+    public int getID() {
         return SampleProvider.PROVIDER_PEBBLE_MORPHEUZ;
     }
 }

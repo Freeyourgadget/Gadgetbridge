@@ -77,7 +77,7 @@ public class AppMessageHandlerTimeStylePebble extends AppMessageHandler {
 
         //byte[] weatherMessage=encodeTimeStylePebbleWeather();
 
-        ByteBuffer buf = ByteBuffer.allocate(ackMessage.length + testMessage.length );
+        ByteBuffer buf = ByteBuffer.allocate(ackMessage.length + testMessage.length);
 
         // encode ack and put in front of push message (hack for acknowledging the last message)
         buf.put(ackMessage);
@@ -98,7 +98,7 @@ public class AppMessageHandlerTimeStylePebble extends AppMessageHandler {
         return weatherMessage;
     }
 
-        @Override
+    @Override
     public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
         GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
         sendBytes.encodedBytes = encodeTimeStylePebbleConfig();

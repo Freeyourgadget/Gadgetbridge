@@ -41,7 +41,7 @@ public class DeviceInfo extends AbstractInfo {
 
     public static int getInt(byte[] data, int from, int len) {
         int ret = 0;
-        for(int i = 0; i < len; ++i) {
+        for (int i = 0; i < len; ++i) {
             ret |= (data[from + i] & 255) << i * 8;
         }
         return ret;

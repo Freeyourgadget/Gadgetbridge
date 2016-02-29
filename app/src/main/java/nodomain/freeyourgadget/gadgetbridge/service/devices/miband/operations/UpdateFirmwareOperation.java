@@ -191,10 +191,10 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
 
                 if ((i > 0) && (i % 50 == 0)) {
                     builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_SYNC});
-                    builder.add(new SetProgressAction("Firmware update in progress", true, (int)(((float) firmwareProgress) / len * 100), getContext()));
+                    builder.add(new SetProgressAction("Firmware update in progress", true, (int) (((float) firmwareProgress) / len * 100), getContext()));
                 }
 
-                LOG.info("Firmware update progress:" + firmwareProgress + " total len:" + len + " progress:" + (int)(((float) firmwareProgress) / len * 100));
+                LOG.info("Firmware update progress:" + firmwareProgress + " total len:" + len + " progress:" + (int) (((float) firmwareProgress) / len * 100));
             }
 
             if (!(len % packetLength == 0)) {

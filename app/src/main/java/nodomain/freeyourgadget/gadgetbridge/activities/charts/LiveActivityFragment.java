@@ -315,9 +315,9 @@ public class LiveActivityFragment extends AbstractChartFragment {
         List<String> xLabels = new ArrayList<>();
         List<Integer> colors = new ArrayList<>();
 
-        entries.add(new BarEntry(0,0));
+        entries.add(new BarEntry(0, 0));
         entries.add(entry);
-        entries.add(new BarEntry(0,2));
+        entries.add(new BarEntry(0, 2));
         colors.add(akActivity.color);
         colors.add(akActivity.color);
         colors.add(akActivity.color);

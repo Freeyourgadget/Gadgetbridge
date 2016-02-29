@@ -161,9 +161,9 @@ public class MiBandService {
     public static final byte COMMAND_SET_REALTIME_STEP = 0x10;
 
     // Test HR
-    public static final byte	COMMAND_SET_HR_SLEEP			=  0x0;
-    public static final byte	COMMAND_SET__HR_CONTINUOUS		=  0x1;
-    public static final byte	COMMAND_SET_HR_MANUAL			=  0x2;
+    public static final byte COMMAND_SET_HR_SLEEP = 0x0;
+    public static final byte COMMAND_SET__HR_CONTINUOUS = 0x1;
+    public static final byte COMMAND_SET_HR_MANUAL = 0x2;
 
 
     /* FURTHER COMMANDS: unchecked therefore left commented

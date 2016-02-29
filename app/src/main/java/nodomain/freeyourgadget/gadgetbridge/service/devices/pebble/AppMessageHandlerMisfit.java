@@ -75,7 +75,7 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
                         short sample = buf.getShort();
                         int steps = 0;
                         int intensity = 0;
-                        byte activityKind = ActivityKind.TYPE_UNKNOWN;
+                        int activityKind = ActivityKind.TYPE_UNKNOWN;
 
                         if (((sample & 0x83ff) == 0x0001) && ((sample & 0xff00) <= 0x4800)) {
                             // sleep seems to be from 0x2401 to 0x4801  (0b0IIIII0000000001) where I = intensity ?
@@ -101,7 +101,7 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
                         totalSteps += steps;
                         LOG.info("got steps for sample " + i + " : " + steps + "(" + Integer.toHexString(sample & 0xffff) + ")");
 
-                        activitySamples[i] = new GBActivitySample(sampleProvider, timestamp + i * 60, (short) intensity, (short) steps, activityKind);
+                        activitySamples[i] = new GBActivitySample(sampleProvider, timestamp + i * 60, intensity, steps, activityKind);
                     }
                     LOG.info("total steps for above period: " + totalSteps);
 

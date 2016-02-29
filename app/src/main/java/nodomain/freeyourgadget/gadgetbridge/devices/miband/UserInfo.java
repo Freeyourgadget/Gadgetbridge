@@ -1,10 +1,10 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
+import java.util.Arrays;
+
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
-
-import java.util.Arrays;
 
 public class UserInfo {
 
@@ -91,7 +91,7 @@ public class UserInfo {
             aliasFrom = 11;
         }
 
-        byte[] aliasBytes = alias.substring(0, Math.min(alias.length(), 19-aliasFrom)).getBytes();
+        byte[] aliasBytes = alias.substring(0, Math.min(alias.length(), 19 - aliasFrom)).getBytes();
         System.arraycopy(aliasBytes, 0, sequence, aliasFrom, aliasBytes.length);
 
         byte[] crcSequence = Arrays.copyOf(sequence, 19);

@@ -49,6 +49,7 @@ public class CustomBarChart extends BarChart {
     /**
      * Call this to set the next value for the Entry to be animated.
      * Call animateY() when ready to do that.
+     *
      * @param nextValue
      */
     public void setSingleEntryYValue(float nextValue) {

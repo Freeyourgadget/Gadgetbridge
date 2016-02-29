@@ -12,7 +12,6 @@ import android.view.View;
 
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
-import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -29,7 +28,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
@@ -86,6 +84,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     public abstract String getTitle();
+
     public boolean supportsHeartrate() {
         return supportsHeartrateChart;
     }
@@ -166,7 +165,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     protected ChartsHost getChartsHost() {
         return (ChartsHost) getActivity();
     }
-    
+
     private void setEndDate(Date date) {
         getChartsHost().setEndDate(date);
     }
@@ -447,7 +446,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                 }
                 activityEntries.add(createBarEntry(value, i));
                 if (hr) {
-                    heartrateEntries.add(createLineEntry(sample.getCustomShortValue(), i));
+                    heartrateEntries.add(createLineEntry(sample.getCustomValue(), i));
                 }
 
                 String xLabel = "";

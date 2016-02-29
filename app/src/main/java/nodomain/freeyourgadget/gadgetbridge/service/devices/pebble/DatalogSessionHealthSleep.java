@@ -1,6 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import org.slf4j.Logger;

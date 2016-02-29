@@ -261,26 +261,26 @@ public class GBApplication extends Application {
 
     private void migratePrefs(int oldVersion) {
         SharedPreferences.Editor editor = sharedPrefs.edit();
-        switch (oldVersion)  {
+        switch (oldVersion) {
             case 0:
                 String legacyGender = sharedPrefs.getString("mi_user_gender", null);
                 String legacyHeight = sharedPrefs.getString("mi_user_height_cm", null);
                 String legacyWeigth = sharedPrefs.getString("mi_user_weight_kg", null);
-                String legacyYOB = sharedPrefs.getString("mi_user_year_of_birth",null);
-                if(legacyGender != null) {
+                String legacyYOB = sharedPrefs.getString("mi_user_year_of_birth", null);
+                if (legacyGender != null) {
                     int gender = "male".equals(legacyGender) ? 1 : "female".equals(legacyGender) ? 0 : 2;
                     editor.putString(ActivityUser.PREF_USER_GENDER, Integer.toString(gender));
                     editor.remove("mi_user_gender");
                 }
-                if(legacyHeight != null) {
+                if (legacyHeight != null) {
                     editor.putString(ActivityUser.PREF_USER_HEIGHT_CM, legacyHeight);
                     editor.remove("mi_user_height_cm");
                 }
-                if(legacyWeigth != null) {
+                if (legacyWeigth != null) {
                     editor.putString(ActivityUser.PREF_USER_WEIGHT_KG, legacyWeigth);
                     editor.remove("mi_user_weight_kg");
                 }
-                if(legacyYOB != null) {
+                if (legacyYOB != null) {
                     editor.putString(ActivityUser.PREF_USER_YEAR_OF_BIRTH, legacyYOB);
                     editor.remove("mi_user_year_of_birth");
                 }

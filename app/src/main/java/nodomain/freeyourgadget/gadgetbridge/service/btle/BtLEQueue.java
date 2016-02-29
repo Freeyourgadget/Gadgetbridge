@@ -422,7 +422,7 @@ public final class BtLEQueue {
                 for (byte b : characteristic.getValue()) {
                     content += String.format(" 0x%1x", b);
                 }
-                LOG.debug("characteristic changed: " + characteristic.getUuid() + " value: " + content );
+                LOG.debug("characteristic changed: " + characteristic.getUuid() + " value: " + content);
             }
             if (!checkCorrectGattInstance(gatt, "characteristic changed")) {
                 return;

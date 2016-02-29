@@ -29,28 +29,28 @@ public class ActivityUser {
     public static final String PREF_USER_WEIGHT_KG = "activity_user_weight_kg";
 
     public int getActivityUserWeightKg() {
-        if(activityUserWeightKg == null) {
+        if (activityUserWeightKg == null) {
             fetchPreferences();
         }
         return activityUserWeightKg;
     }
 
     public int getActivityUserGender() {
-        if(activityUserGender == null) {
+        if (activityUserGender == null) {
             fetchPreferences();
         }
         return activityUserGender;
     }
 
     public int getActivityUserYearOfBirth() {
-        if(activityUserYearOfBirth == null) {
+        if (activityUserYearOfBirth == null) {
             fetchPreferences();
         }
         return activityUserYearOfBirth;
     }
 
     public int getActivityUserHeightCm() {
-        if(activityUserHeightCm == null) {
+        if (activityUserHeightCm == null) {
             fetchPreferences();
         }
         return activityUserHeightCm;

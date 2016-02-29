@@ -314,7 +314,7 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
             try (SQLiteDatabase db = dbHandler.getWritableDatabase()) { // explicitly keep the db open while looping over the samples
                 int timestampInSeconds = (int) (activityStruct.activityDataTimestampProgress.getTimeInMillis() / 1000);
                 if ((activityStruct.activityDataHolderProgress % bpm) != 0) {
-                    throw new IllegalStateException("Unexpected data, progress should be mutiple of " + bpm +": " + activityStruct.activityDataHolderProgress);
+                    throw new IllegalStateException("Unexpected data, progress should be mutiple of " + bpm + ": " + activityStruct.activityDataHolderProgress);
                 }
                 int numSamples = activityStruct.activityDataHolderProgress / bpm;
                 ActivitySample[] samples = new ActivitySample[numSamples];

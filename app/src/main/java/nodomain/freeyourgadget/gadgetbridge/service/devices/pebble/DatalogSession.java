@@ -19,7 +19,7 @@ class DatalogSession {
         this.itemSize = itemSize;
     }
 
-    boolean handleMessage (ByteBuffer buf, int length) {
+    boolean handleMessage(ByteBuffer buf, int length) {
         return true;
     }
 
