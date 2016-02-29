@@ -225,4 +225,9 @@
     <string name="authenticating">authenticating</string>
     <string name="authentication_required">authentication required</string>
 
+    <string name="appwidget_text">Zzz</string>
+    <string name="add_widget">Add widget</string>
+    <string name="activity_prefs_sleep_duration">Preferred sleep duration in hours</string>
+    <string name="appwidget_alarms_set">An alarm was set for %1$d:%2$d</string>
+
 </resources>

@@ -1,10 +1,10 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
+import java.util.Arrays;
+
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
-
-import java.util.Arrays;
 
 public class UserInfo {
 

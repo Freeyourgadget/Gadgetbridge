@@ -22,12 +22,12 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.DATABASE_NAME;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_CUSTOM_SHORT;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_INTENSITY;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_PROVIDER;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_STEPS;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_TIMESTAMP;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_TYPE;
-import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_CUSTOM_SHORT;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.TABLE_GBACTIVITYSAMPLES;
 
 public class    ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandler {
