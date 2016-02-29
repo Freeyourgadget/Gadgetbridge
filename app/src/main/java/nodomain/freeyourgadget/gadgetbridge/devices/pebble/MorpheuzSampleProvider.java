@@ -5,10 +5,10 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public class MorpheuzSampleProvider implements SampleProvider {
     // raw types
-    public static final byte TYPE_DEEP_SLEEP = 5;
-    public static final byte TYPE_LIGHT_SLEEP = 4;
-    public static final byte TYPE_ACTIVITY = -1;
-    public static final byte TYPE_UNKNOWN = -1;
+    public static final int TYPE_DEEP_SLEEP = 5;
+    public static final int TYPE_LIGHT_SLEEP = 4;
+    public static final int TYPE_ACTIVITY = -1;
+    public static final int TYPE_UNKNOWN = -1;
 
     protected float movementDivisor = 5000f;
 
