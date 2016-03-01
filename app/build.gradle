@@ -50,6 +50,7 @@ dependencies {
     compile 'org.slf4j:slf4j-api:1.7.7'
     compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
     compile 'com.github.pfichtner:durationformatter:0.1.1'
+    compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
 }
 
 check.dependsOn 'findbugs', 'pmd', 'lint'

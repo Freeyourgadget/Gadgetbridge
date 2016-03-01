@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+    <release version="0.8.1" versioncode="42" >
+	<change>Pebble: Install and start freshly-installed apps on the watch also in FW 3.x (now same behaviour as 2.x)</change>
+	<change>Pebble: Fix crash while receiving Health data</change>
+	<change>Mi Band 1S: Support for synchronizing activity data</change>
+	<change>Mi Band 1S: Support for reading the heart rate via the "Debug Screen"</change>
+    </release>
+</changelog>
