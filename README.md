@@ -13,6 +13,10 @@ need to create an account and transmit any of your data to the vendor's servers.
 
 [List of changes](CHANGELOG.md)
 
+## Supported Devices
+* Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round
+* Mi Band, Mi Band 1A, Mi Band 1S (experimental)
+
 ## Features (Pebble)
 
 * Incoming calls notification and display
