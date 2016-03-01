@@ -84,7 +84,9 @@ public class SleepAlarmWidget extends AppWidgetProvider {
             GBAlarm alarm = new GBAlarm(0, true, true, Alarm.ALARM_ONCE, hours, minutes);
             alarm.store();
 
-            setAlarmViaAlarmManager(context, calendar.getTimeInMillis());
+            if (GBApplication.isRunningLollipopOrLater()) {
+                setAlarmViaAlarmManager(context, calendar.getTimeInMillis());
+            }
 
             GB.toast(context,
                     String.format(context.getString(R.string.appwidget_alarms_set), hours, minutes),
@@ -96,9 +98,9 @@ public class SleepAlarmWidget extends AppWidgetProvider {
      * Use the Android alarm manager to create the alarm icon in the status bar.
      *
      * @param packageContext {@code Context}: A Context of the application package implementing this
-     *                                      class.
-     * @param triggerTime {@code long}: time at which the underlying alarm is triggered in wall time
-     *                    milliseconds since the epoch
+     *                       class.
+     * @param triggerTime    {@code long}: time at which the underlying alarm is triggered in wall time
+     *                       milliseconds since the epoch
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setAlarmViaAlarmManager(Context packageContext, long triggerTime) {
