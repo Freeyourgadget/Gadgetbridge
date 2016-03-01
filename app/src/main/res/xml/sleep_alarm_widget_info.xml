@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialKeyguardLayout="@layout/sleep_alarm_widget"
+    android:initialLayout="@layout/sleep_alarm_widget"
+    android:minHeight="40dp"
+    android:minWidth="40dp"
+    android:previewImage="@drawable/ic_launcher"
+    android:updatePeriodMillis="86400000"
+    android:widgetCategory="home_screen"></appwidget-provider>

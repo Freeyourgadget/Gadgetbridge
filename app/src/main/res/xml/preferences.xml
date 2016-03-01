@@ -153,6 +153,12 @@
             android:key="activity_user_weight_kg"
             android:maxLength="3"
             android:title="@string/activity_prefs_weight_kg" />
+
+        <EditTextPreference
+            android:inputType="number"
+            android:key="activity_user_sleep_duration"
+            android:maxLength="2"
+            android:title="@string/activity_prefs_sleep_duration" />
     </PreferenceScreen>
 
     <PreferenceCategory
