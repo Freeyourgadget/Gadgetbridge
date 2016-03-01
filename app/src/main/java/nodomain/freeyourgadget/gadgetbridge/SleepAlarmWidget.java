@@ -18,6 +18,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
  * Implementation of SleepAlarmWidget functionality. When pressing the widget, an alarm will be set
@@ -85,9 +86,9 @@ public class SleepAlarmWidget extends AppWidgetProvider {
 
             setAlarmViaAlarmManager(context, calendar.getTimeInMillis());
 
-            Toast.makeText(context,
+            GB.toast(context,
                     String.format(context.getString(R.string.appwidget_alarms_set), hours, minutes),
-                    Toast.LENGTH_SHORT).show();
+                    Toast.LENGTH_SHORT, GB.INFO);
         }
     }
 
