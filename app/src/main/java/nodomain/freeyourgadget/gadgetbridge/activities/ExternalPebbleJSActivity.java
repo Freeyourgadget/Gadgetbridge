@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
-import android.util.Pair;
 import android.view.MenuItem;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
@@ -19,10 +18,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
@@ -100,28 +99,28 @@ public class ExternalPebbleJSActivity extends Activity {
 
         @JavascriptInterface
         public void sendAppMessage(String msg) {
-            Log.d("from WEBVIEW", msg);
+            LOG.debug("from WEBVIEW: ", msg);
             JSONObject knownKeys = getAppConfigurationKeys();
-            ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>();
 
             try {
                 JSONObject in = new JSONObject(msg);
+                JSONObject out = new JSONObject();
                 String cur_key;
                 for (Iterator<String> key = in.keys(); key.hasNext(); ) {
                     cur_key = key.next();
                     int pebbleAppIndex = knownKeys.optInt(cur_key);
                     if (pebbleAppIndex != 0) {
-                        //TODO: cast to integer (int32) / String? Is it needed?
-                        pairs.add(new Pair<>(pebbleAppIndex, in.get(cur_key)));
-                        LOG.info(in.get(cur_key).getClass().toString());
+                        out.put(String.valueOf(pebbleAppIndex), in.get(cur_key));
                     } else {
                         GB.toast("Discarded key " + cur_key + ", not found in the local configuration.", Toast.LENGTH_SHORT, GB.WARN);
                     }
                 }
+                LOG.info(out.toString());
+                GBApplication.deviceService().onAppConfiguration(appUuid, out.toString());
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            //TODO: send pairs to pebble. (encodeApplicationMessagePush(ENDPOINT_APPLICATIONMESSAGE, uuid, pairs);)
         }
 
         @JavascriptInterface

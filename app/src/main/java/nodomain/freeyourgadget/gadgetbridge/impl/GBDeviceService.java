@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.util.Pair;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -156,6 +157,14 @@ public class GBDeviceService implements DeviceService {
     public void onAppDelete(UUID uuid) {
         Intent intent = createIntent().setAction(ACTION_DELETEAPP)
                 .putExtra(EXTRA_APP_UUID, uuid);
+        invokeService(intent);
+    }
+
+    @Override
+    public void onAppConfiguration(UUID uuid, String config) {
+        Intent intent = createIntent().setAction(ACTION_APP_CONFIGURE)
+                .putExtra(EXTRA_APP_UUID, uuid)
+                .putExtra(EXTRA_APP_CONFIG, config);
         invokeService(intent);
     }
 

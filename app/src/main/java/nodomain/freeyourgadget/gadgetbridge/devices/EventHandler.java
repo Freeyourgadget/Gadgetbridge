@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices;
 
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.util.Pair;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -36,6 +37,8 @@ public interface EventHandler {
 
     void onAppDelete(UUID uuid);
 
+    void onAppConfiguration(UUID appUuid, String config);
+
     void onFetchActivityData();
 
     void onReboot();
@@ -45,4 +48,5 @@ public interface EventHandler {
     void onFindDevice(boolean start);
 
     void onScreenshotReq();
+
 }

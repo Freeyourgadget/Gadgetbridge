@@ -40,6 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_APP_CONFIGURE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CALLSTATE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CONNECT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DELETEAPP;
@@ -60,6 +61,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SE
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_STARTAPP;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_ALARMS;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_CONFIG;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_UUID;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_COMMAND;
@@ -305,6 +307,11 @@ public class DeviceCommunicationService extends Service {
                 UUID uuid = (UUID) intent.getSerializableExtra(EXTRA_APP_UUID);
                 mDeviceSupport.onAppDelete(uuid);
                 break;
+            }
+            case ACTION_APP_CONFIGURE: {
+                UUID uuid = (UUID) intent.getSerializableExtra(EXTRA_APP_UUID);
+                String config = intent.getStringExtra(EXTRA_APP_CONFIG);
+                mDeviceSupport.onAppConfiguration(uuid, config);
             }
             case ACTION_INSTALL:
                 Uri uri = intent.getParcelableExtra(EXTRA_URI);

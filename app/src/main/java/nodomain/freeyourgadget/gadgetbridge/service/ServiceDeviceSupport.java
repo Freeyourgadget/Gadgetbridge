@@ -179,6 +179,14 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
+    public void onAppConfiguration(UUID uuid, String config) {
+        if (checkBusy("app configuration")) {
+            return;
+        }
+        delegate.onAppConfiguration(uuid, config);
+    }
+
+    @Override
     public void onFetchActivityData() {
         if (checkBusy("fetch activity data")) {
             return;

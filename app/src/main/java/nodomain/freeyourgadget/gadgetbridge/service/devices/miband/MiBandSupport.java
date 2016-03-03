@@ -658,6 +658,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onAppConfiguration(UUID uuid, String config) {
+        // not supported
+    }
+
+    @Override
     public void onScreenshotReq() {
         // not supported
     }
