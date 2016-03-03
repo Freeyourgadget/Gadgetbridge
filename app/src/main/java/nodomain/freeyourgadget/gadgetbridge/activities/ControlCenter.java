@@ -131,7 +131,7 @@ public class ControlCenter extends Activity {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 GBDevice gbDevice = deviceList.get(position);
-                if (gbDevice.isConnected()) {
+                if (gbDevice.isInitialized()) {
                     DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
                     Class<? extends Activity> primaryActivity = coordinator.getPrimaryActivity();
                     if (primaryActivity != null) {
