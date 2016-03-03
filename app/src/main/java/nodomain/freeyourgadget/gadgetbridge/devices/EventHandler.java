@@ -2,7 +2,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices;
 
 import android.net.Uri;
 import android.support.annotation.Nullable;
-import android.util.Pair;
 
 import java.util.ArrayList;
 import java.util.UUID;

@@ -578,7 +578,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
             return;
         }
 
-        String platformName  = PebbleUtils.getPlatformName(gbDevice.getHardwareVersion());
+        String platformName = PebbleUtils.getPlatformName(gbDevice.getHardwareVersion());
 
         try {
             mPBWReader = new PBWReader(uri, getContext(), platformName);

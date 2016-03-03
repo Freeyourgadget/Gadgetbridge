@@ -200,7 +200,7 @@ public class AppManagerActivity extends Activity {
                 return true;
             case R.id.appmanager_app_configure:
                 GBApplication.deviceService().onAppStart(selectedApp.getUUID(), true);
-                
+
                 Intent startIntent = new Intent(getApplicationContext(), ExternalPebbleJSActivity.class);
                 startIntent.putExtra("app_uuid", selectedApp.getUUID());
                 startIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
