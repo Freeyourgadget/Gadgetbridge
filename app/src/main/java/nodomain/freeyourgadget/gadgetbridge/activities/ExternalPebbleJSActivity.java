@@ -26,18 +26,26 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 
 public class ExternalPebbleJSActivity extends Activity {
 
     private static final Logger LOG = LoggerFactory.getLogger(ExternalPebbleJSActivity.class);
 
-    //TODO: get device
     private Uri uri;
     private UUID appUuid;
+    private GBDevice mGBDevice = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            mGBDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
+        } else {
+            throw new IllegalArgumentException("Must provide a device when invoking this activity");
+        }
 
         String queryString = "";
         uri = getIntent().getData();
@@ -119,10 +127,9 @@ public class ExternalPebbleJSActivity extends Activity {
 
         @JavascriptInterface
         public String getActiveWatchInfo() {
-            //TODO: interact with GBDevice, see also todo at the beginning
             JSONObject wi = new JSONObject();
             try {
-                wi.put("platform", "basalt");
+                wi.put("platform", PebbleUtils.getPlatformName(mGBDevice.getHardwareVersion()));
             }catch (JSONException e) {
                 e.printStackTrace();
             }

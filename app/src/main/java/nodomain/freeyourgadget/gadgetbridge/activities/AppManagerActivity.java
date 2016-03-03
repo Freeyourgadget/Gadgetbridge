@@ -30,6 +30,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAppAdapter;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
@@ -72,6 +73,7 @@ public class AppManagerActivity extends Activity {
     private final List<GBDeviceApp> appList = new ArrayList<>();
     private GBDeviceAppAdapter mGBDeviceAppAdapter;
     private GBDeviceApp selectedApp = null;
+    private GBDevice mGBDevice = null;
 
     private List<GBDeviceApp> getSystemApps() {
         List<GBDeviceApp> systemApps = new ArrayList<>();
@@ -115,6 +117,13 @@ public class AppManagerActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            mGBDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
+        } else {
+            throw new IllegalArgumentException("Must provide a device when invoking this activity");
+        }
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
@@ -192,6 +201,7 @@ public class AppManagerActivity extends Activity {
             case R.id.appmanager_app_configure:
                 Intent startIntent = new Intent(getApplicationContext(), ExternalPebbleJSActivity.class);
                 startIntent.putExtra("app_uuid", selectedApp.getUUID());
+                startIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
                 startActivity(startIntent);
                 return true;
             default:
