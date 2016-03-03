@@ -3,8 +3,10 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.util.Pair;
+import android.view.MenuItem;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -31,7 +33,6 @@ public class ExternalPebbleJSActivity extends Activity {
 
     private static final Logger LOG = LoggerFactory.getLogger(ExternalPebbleJSActivity.class);
 
-    private Uri uri;
     private UUID appUuid;
     private GBDevice mGBDevice = null;
 
@@ -47,7 +48,7 @@ public class ExternalPebbleJSActivity extends Activity {
         }
 
         String queryString = "";
-        uri = getIntent().getData();
+        Uri uri = getIntent().getData();
         if (uri != null) {
             //getting back with configuration data
             appUuid = UUID.fromString(uri.getHost());
@@ -81,9 +82,7 @@ public class ExternalPebbleJSActivity extends Activity {
                 JSONObject json = new JSONObject(jsonstring);
                 return json.getJSONObject("appKeys");
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
         return null;
@@ -113,7 +112,8 @@ public class ExternalPebbleJSActivity extends Activity {
                     int pebbleAppIndex = knownKeys.optInt(cur_key);
                     if (pebbleAppIndex != 0) {
                         //TODO: cast to integer (int32) / String? Is it needed?
-                        pairs.add(new Pair<>(pebbleAppIndex, (Object) in.get(cur_key)));
+                        pairs.add(new Pair<>(pebbleAppIndex, in.get(cur_key)));
+                        LOG.info(in.get(cur_key).getClass().toString());
                     } else {
                         GB.toast("Discarded key " + cur_key + ", not found in the local configuration.", Toast.LENGTH_SHORT, GB.WARN);
                     }
@@ -155,5 +155,16 @@ public class ExternalPebbleJSActivity extends Activity {
             return appUuid.toString();
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
 }

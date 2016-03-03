@@ -53,6 +53,7 @@
             android:label="@string/preferences_miband_settings"
             android:parentActivityName=".activities.SettingsActivity" />
         <activity
+            android:launchMode="singleTop"
             android:name=".activities.AppManagerActivity"
             android:label="@string/title_activity_appmanager"
             android:parentActivityName=".activities.ControlCenter" />
