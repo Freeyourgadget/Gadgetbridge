@@ -110,7 +110,11 @@ public class ExternalPebbleJSActivity extends Activity {
                     cur_key = key.next();
                     int pebbleAppIndex = knownKeys.optInt(cur_key);
                     if (pebbleAppIndex != 0) {
-                        out.put(String.valueOf(pebbleAppIndex), in.get(cur_key));
+                        Object obj = in.get(cur_key);
+                        if (obj instanceof Boolean) {
+                            obj = ((Boolean) obj) ? "true" : "false";
+                        }
+                        out.put(String.valueOf(pebbleAppIndex), obj);
                     } else {
                         GB.toast("Discarded key " + cur_key + ", not found in the local configuration.", Toast.LENGTH_SHORT, GB.WARN);
                     }
