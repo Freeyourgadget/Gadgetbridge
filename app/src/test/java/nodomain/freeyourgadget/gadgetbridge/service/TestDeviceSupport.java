@@ -91,6 +91,11 @@ public class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
+    public void onAppConfiguration(UUID appUuid, String config) {
+
+    }
+
+    @Override
     public void onFetchActivityData() {
 
     }
