@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
@@ -70,14 +69,14 @@ public class ExternalPebbleJSActivity extends Activity {
         JSInterface gbJSInterface = new JSInterface();
         myWebView.addJavascriptInterface(gbJSInterface, "GBjs");
 
-        myWebView.loadUrl("file:///android_asset/app_config/configure.html?"+queryString);
+        myWebView.loadUrl("file:///android_asset/app_config/configure.html?" + queryString);
     }
 
     private JSONObject getAppConfigurationKeys() {
         try {
             File destDir = new File(FileUtils.getExternalFilesDir() + "/pbw-cache");
             File configurationFile = new File(destDir, appUuid.toString() + ".json");
-            if(configurationFile.exists()) {
+            if (configurationFile.exists()) {
                 String jsonstring = FileUtils.getStringFromFile(configurationFile);
                 JSONObject json = new JSONObject(jsonstring);
                 return json.getJSONObject("appKeys");
@@ -92,7 +91,7 @@ public class ExternalPebbleJSActivity extends Activity {
 
     private class JSInterface {
 
-        public JSInterface () {
+        public JSInterface() {
         }
 
         @JavascriptInterface
@@ -106,17 +105,17 @@ public class ExternalPebbleJSActivity extends Activity {
             JSONObject knownKeys = getAppConfigurationKeys();
             ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>();
 
-            try{
+            try {
                 JSONObject in = new JSONObject(msg);
                 String cur_key;
-                for (Iterator<String> key = in.keys(); key.hasNext();) {
+                for (Iterator<String> key = in.keys(); key.hasNext(); ) {
                     cur_key = key.next();
                     int pebbleAppIndex = knownKeys.optInt(cur_key);
                     if (pebbleAppIndex != 0) {
                         //TODO: cast to integer (int32) / String? Is it needed?
                         pairs.add(new Pair<>(pebbleAppIndex, (Object) in.get(cur_key)));
                     } else {
-                        GB.toast("Discarded key "+cur_key+", not found in the local configuration.", Toast.LENGTH_SHORT, GB.WARN);
+                        GB.toast("Discarded key " + cur_key + ", not found in the local configuration.", Toast.LENGTH_SHORT, GB.WARN);
                     }
                 }
             } catch (JSONException e) {
@@ -130,7 +129,7 @@ public class ExternalPebbleJSActivity extends Activity {
             JSONObject wi = new JSONObject();
             try {
                 wi.put("platform", PebbleUtils.getPlatformName(mGBDevice.getHardwareVersion()));
-            }catch (JSONException e) {
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
             //Json not supported apparently, we need to cast back and forth
@@ -142,8 +141,8 @@ public class ExternalPebbleJSActivity extends Activity {
             try {
                 File destDir = new File(FileUtils.getExternalFilesDir() + "/pbw-cache");
                 File configurationFile = new File(destDir, appUuid.toString() + "_config.js");
-                if(configurationFile.exists()) {
-                 return "file:///" + configurationFile.getAbsolutePath();
+                if (configurationFile.exists()) {
+                    return "file:///" + configurationFile.getAbsolutePath();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
