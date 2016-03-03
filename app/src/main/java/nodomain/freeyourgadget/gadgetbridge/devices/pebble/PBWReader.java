@@ -216,8 +216,10 @@ public class PBWReader {
                 } else if (fileName.equals("pebble-js-app.js")) {
                     LOG.info("Found JS file: app supports configuration.");
                     long bytes = ze.getSize();
-                    if (bytes > 65536) // that should be too much
-                        break;
+                    if (bytes > 65536) {
+                        LOG.info("size exceeding 64k, skipping");
+                        continue;
+                    }
 
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     while ((count = zis.read(buffer)) != -1) {
