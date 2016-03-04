@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.database;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -68,6 +69,13 @@ public class DBHelper {
     public static void dropTable(String tableName, SQLiteDatabase db) {
         String statement = "DROP TABLE IF EXISTS '" + tableName + "'";
         db.execSQL(statement);
+    }
+
+    public static boolean existsColumn(String tableName, String columnName, SQLiteDatabase db) {
+        try (Cursor res = db.rawQuery("PRAGMA table_info('" + tableName + "')", null)) {
+            int result = res.getColumnIndex(columnName);
+            return result != -1;
+        }
     }
 
     /**
