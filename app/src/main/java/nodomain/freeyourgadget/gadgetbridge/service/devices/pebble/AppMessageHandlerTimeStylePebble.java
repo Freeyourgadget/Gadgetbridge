@@ -100,8 +100,11 @@ public class AppMessageHandlerTimeStylePebble extends AppMessageHandler {
 
     @Override
     public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
+        return null;
+        /*
         GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
         sendBytes.encodedBytes = encodeTimeStylePebbleConfig();
         return new GBDeviceEvent[]{sendBytes};
+        */
     }
 }
