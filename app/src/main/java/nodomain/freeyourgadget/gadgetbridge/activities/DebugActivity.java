@@ -190,7 +190,7 @@ public class DebugActivity extends Activity {
         HeartRateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GB.toast("Measuring heart rate, please wait...", Toast.LENGTH_SHORT, GB.INFO);
+                GB.toast("Measuring heart rate, please wait...", Toast.LENGTH_LONG, GB.INFO);
                 GBApplication.deviceService().onHeartRateTest();
             }
         });
