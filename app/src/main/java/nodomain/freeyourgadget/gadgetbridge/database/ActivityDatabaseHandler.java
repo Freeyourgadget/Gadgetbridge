@@ -52,6 +52,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        LOG.info("ActivityDatabase: schema upgrade requested from " + oldVersion + " to " + newVersion);
         try {
             for (int i = oldVersion + 1; i <= newVersion; i++) {
                 DBUpdateScript updater = getUpdateScript(db, i);
@@ -69,6 +70,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
 
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        LOG.info("ActivityDatabase: schema downgrade requested from " + oldVersion + " to " + newVersion);
         try {
             for (int i = oldVersion; i >= newVersion; i--) {
                 DBUpdateScript updater = getUpdateScript(db, i);
