@@ -12,4 +12,16 @@ public class PebbleUtils {
         }
         return platformName;
     }
+    public static String getModel(String hwRev) {
+        //TODO: get real data?
+        String model;
+        if (hwRev.startsWith("snowy")) {
+            model = "pebble_time_black";
+        } else if (hwRev.startsWith("spalding")) {
+            model = "pebble_time_round_black_20mm";
+        } else {
+            model = "pebble_black";
+        }
+        return model;
+    }
 }
