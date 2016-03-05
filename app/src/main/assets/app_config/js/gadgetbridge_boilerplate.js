@@ -34,6 +34,9 @@ function gbPebble() {
     this.configurationValues = null;
 
     this.addEventListener = function(e, f) {
+        if(e == 'ready') {
+            this.ready = f;
+        }
         if(e == 'showConfiguration') {
             this.showConfiguration = f;
         }
@@ -45,6 +48,20 @@ function gbPebble() {
         }
     }
 
+    this.removeEventListener = function(e, f) {
+        if(e == 'ready') {
+            this.ready = null;
+        }
+        if(e == 'showConfiguration') {
+            this.showConfiguration = null;
+        }
+        if(e == 'webviewclosed') {
+            this.parseconfig = null;
+        }
+        if(e == 'appmessage') {
+            this.appmessage = null;
+        }
+    }
     this.actuallyOpenURL = function() {
         window.open(this.configurationURL.toString(), "config");
     }
@@ -64,15 +81,31 @@ function gbPebble() {
         return JSON.parse(GBjs.getActiveWatchInfo());
     }
 
-    this.sendAppMessage = function (dict, callback){
-        this.configurationValues = JSON.stringify(dict);
-        document.getElementById("jsondata").innerHTML=this.configurationValues;
-        return callback;
+    this.sendAppMessage = function (dict, callbackAck, callbackNack){
+        try {
+            this.configurationValues = JSON.stringify(dict);
+            document.getElementById("jsondata").innerHTML=this.configurationValues;
+            return callbackAck;
+        }
+        catch (e) {
+            GBjs.gbLog("sendAppMessage failed");
+            return callbackNack;
+        }
     }
 
-    this.ready = function(e) {
-        GBjs.gbLog("ready called");
+    this.getAccountToken = function() {
+        return '';
     }
+
+    this.getWatchToken = function() {
+        return GBjs.getWatchToken();
+    }
+
+    this.showSimpleNotificationOnPebble = function(title, body) {
+        GBjs.gbLog("app wanted to show: " + title + " body: "+ body);
+    }
+
+
 }
 
 var Pebble = new gbPebble();
