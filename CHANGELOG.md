@@ -1,5 +1,10 @@
 ###Changelog
 
+####Version 0.8.2
+* Fix database creation and updates (thanks @feclare)
+* Add experimental widget to set the alarm time to a configurable number of hours in the future (thanks @0nse)
+* Use ckChangeLog to display the Changelog within Gadgetbridge
+
 ####Version 0.8.1
 * Pebble: install (and start) freshly-installed apps on the watch instead of showing a Toast that tells the user to do so. (only applies to firmware 3.x)
 * Pebble: fix crash while receiving Health data

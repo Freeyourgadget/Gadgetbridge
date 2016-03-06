@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="next">
-        <change>Fix database creation script. Thanks @feclare</change>
+    <release version="0.8.2" versioncode="43">
+        <change>Fix database creation and updates</change>
+        <change>Add experimental widget to set the alarm time to a configurable number of hours in the future</change>
+        <change>Use ckChangeLog to display the Changelog within Gadgetbridge</change>
     </release>
-    <release
-        version="0.8.1"
-        versioncode="42">
-        <change>Pebble: Install and start freshly-installed apps on the watch also in FW 3.x (now
-            same behaviour as 2.x)
-        </change>
+    <release version="0.8.1" versioncode="42">
+        <change>Pebble: Install and start freshly-installed apps on the watch also in FW 3.x (now same behaviour as 2.x)</change>
         <change>Pebble: Fix crash while receiving Health data</change>
         <change>Mi Band 1S: Support for synchronizing activity data</change>
         <change>Mi Band 1S: Support for reading the heart rate via the "Debug Screen"</change>
