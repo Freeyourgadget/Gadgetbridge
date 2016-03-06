@@ -73,9 +73,18 @@ public class DBHelper {
 
     public static boolean existsColumn(String tableName, String columnName, SQLiteDatabase db) {
         try (Cursor res = db.rawQuery("PRAGMA table_info('" + tableName + "')", null)) {
-            int result = res.getColumnIndex(columnName);
-            return result != -1;
+            int index = res.getColumnIndex("name");
+            if (index < 1) {
+                return false; // something's really wrong
+            }
+            while (res.moveToNext()) {
+                String cn = res.getString(index);
+                if (columnName.equals(cn)) {
+                    return true;
+                }
+            }
         }
+        return false;
     }
 
     /**

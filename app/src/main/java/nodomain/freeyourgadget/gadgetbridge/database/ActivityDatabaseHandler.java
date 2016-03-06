@@ -34,7 +34,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
 
     private static final Logger LOG = LoggerFactory.getLogger(ActivityDatabaseHandler.class);
 
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
 
     public ActivityDatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
