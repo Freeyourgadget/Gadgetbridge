@@ -15,12 +15,14 @@
         <!-- encoders are  by default assigned the type
              ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${GB_LOGFILES_DIR}/gadgetbridge-%d{yyyy-MM-dd}.log.zip</fileNamePattern>
+            <fileNamePattern>${GB_LOGFILES_DIR}/gadgetbridge-%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
             <maxHistory>10</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches 50MB -->
+                <maxFileSize>2MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <maxFileSize>5MB</maxFileSize>
-        </triggeringPolicy>
         <encoder>
             <!--<pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>-->
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{1} - %msg%n</pattern>
