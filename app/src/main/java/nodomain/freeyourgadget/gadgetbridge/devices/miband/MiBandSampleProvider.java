@@ -4,12 +4,12 @@ import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public class MiBandSampleProvider implements SampleProvider {
-    public static final byte TYPE_DEEP_SLEEP = 5;
-    public static final byte TYPE_LIGHT_SLEEP = 4;
-    public static final byte TYPE_ACTIVITY = -1;
-    public static final byte TYPE_UNKNOWN = -1;
-    public static final byte TYPE_NONWEAR = 3;
-    public static final byte TYPE_CHARGING = 6;
+    public static final int TYPE_DEEP_SLEEP = 5;
+    public static final int  TYPE_LIGHT_SLEEP = 4;
+    public static final int  TYPE_ACTIVITY = -1;
+    public static final int  TYPE_UNKNOWN = -1;
+    public static final int  TYPE_NONWEAR = 3;
+    public static final int  TYPE_CHARGING = 6;
 
 //    public static final byte TYPE_NREM = 5; // DEEP SLEEP
 //    public static final byte TYPE_ONBED = 7;

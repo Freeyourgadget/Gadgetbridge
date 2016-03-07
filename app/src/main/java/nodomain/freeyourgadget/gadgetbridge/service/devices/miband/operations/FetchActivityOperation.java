@@ -333,10 +333,10 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
                     samples[minutes] = new GBActivitySample(
                             sampleProvider,
                             timestampInSeconds,
-                            (short) (intensity & 0xff),
-                            (short) (steps & 0xff),
-                            category,
-                            (short) (heartrate & 0xff));
+                            intensity & 0xff,
+                            steps & 0xff,
+                            category & 0xff,
+                            heartrate & 0xff);
 
                     // next minute
                     minutes++;

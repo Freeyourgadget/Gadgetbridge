@@ -226,10 +226,10 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
                         GBActivitySample sample = new GBActivitySample(
                                 provider,
                                 cursor.getInt(cursor.getColumnIndex(KEY_TIMESTAMP)),
-                                cursor.getShort(cursor.getColumnIndex(KEY_INTENSITY)),
-                                cursor.getShort(cursor.getColumnIndex(KEY_STEPS)),
-                                (byte) cursor.getShort(cursor.getColumnIndex(KEY_TYPE)),
-                                cursor.getShort(cursor.getColumnIndex(KEY_CUSTOM_SHORT)));
+                                cursor.getInt(cursor.getColumnIndex(KEY_INTENSITY)),
+                                cursor.getInt(cursor.getColumnIndex(KEY_STEPS)),
+                                cursor.getInt(cursor.getColumnIndex(KEY_TYPE)),
+                                cursor.getInt(cursor.getColumnIndex(KEY_CUSTOM_SHORT)));
                         samples.add(sample);
                     } while (cursor.moveToNext());
                 }
