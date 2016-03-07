@@ -137,12 +137,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_ACTIVITY_DATA), enable)
                 .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_BATTERY), enable)
                 .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_SENSOR_DATA), enable);
-        // unconditionally try to get notifications for HR -- will silently fail when characteristic
-        // is not available. And at this point, we don't even know whether we support it, because
-        // no device info is available yet. We would have to do the check in a custom NotifyAction.
-//        if (supportsHeartRate()) {
-        builder.notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT), enable);
-//        }
+        // cannot use supportsHeartrate() here because we don't have that information yet
+        BluetoothGattCharacteristic heartrateCharacteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT);
+        if (heartrateCharacteristic != null) {
+            builder.notify(heartrateCharacteristic, enable);
+        }
 
         return this;
     }
