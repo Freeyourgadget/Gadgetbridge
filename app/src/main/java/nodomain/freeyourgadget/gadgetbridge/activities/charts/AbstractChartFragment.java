@@ -16,6 +16,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -29,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
@@ -389,10 +391,8 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
         LOG.info("" + getTitle() + ": number of samples:" + samples.size());
         if (samples.size() > 1) {
-            float movement_divisor;
             boolean annotate = true;
             boolean use_steps_as_movement;
-            SampleProvider provider = getProvider(gbDevice);
 
             int last_type = ActivityKind.TYPE_UNKNOWN;
 
@@ -502,6 +502,9 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             setupLegend(chart);
 
             chart.setData(combinedData);
+        } else {
+            CombinedData data = new CombinedData(Collections.<String>emptyList());
+            chart.setData(data);
         }
     }
 
