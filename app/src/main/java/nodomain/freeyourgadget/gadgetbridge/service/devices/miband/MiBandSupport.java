@@ -778,6 +778,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 GB.toast(getContext(), "Band needs pairing", Toast.LENGTH_LONG, GB.ERROR);
                 break;
             case MiBandService.NOTIFY_AUTHENTICATION_SUCCESS: // fall through -- not sure which one we get
+            case MiBandService.NOTIFY_RESET_AUTHENTICATION_SUCCESS: // for Mi 1A
             case MiBandService.NOTIFY_STATUS_MOTOR_AUTH_SUCCESS:
                 LOG.info("Band successfully authenticated");
                 // maybe we can perform the rest of the initialization from here
