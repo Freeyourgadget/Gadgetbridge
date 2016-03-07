@@ -26,6 +26,8 @@
         <encoder>
             <!--<pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>-->
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{1} - %msg%n</pattern>
+            <!-- to debug crashes, set immediateFlush to true, otherwise keep it false to improve throughput -->
+            <immediateFlush>false</immediateFlush>
             <!--<pattern>%date [%thread] %-5level %logger{25} - %msg%n</pattern>-->
         </encoder>
     </appender>
