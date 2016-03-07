@@ -20,6 +20,7 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -482,7 +483,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             BarDataSet activitySet = createActivitySet(activityEntries, colors, "Activity");
             // create a data object with the datasets
             CombinedData combinedData = new CombinedData(xLabels);
-            List<BarDataSet> list = new ArrayList<>();
+            List<IBarDataSet> list = new ArrayList<>();
             list.add(activitySet);
             BarData barData = new BarData(xLabels, list);
             barData.setGroupSpace(0);
