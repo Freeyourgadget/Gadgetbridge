@@ -4,6 +4,7 @@
 * Fix database creation and updates (thanks @feclare)
 * Add experimental widget to set the alarm time to a configurable number of hours in the future (thanks @0nse)
 * Use ckChangeLog to display the Changelog within Gadgetbridge
+* Workaround to fix logfile rotation (bug in logback-android)
 
 ####Version 0.8.1
 * Pebble: install (and start) freshly-installed apps on the watch instead of showing a Toast that tells the user to do so. (only applies to firmware 3.x)
