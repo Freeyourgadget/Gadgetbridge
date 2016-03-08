@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -61,6 +62,7 @@ public class ExternalPebbleJSActivity extends Activity {
 
         WebView myWebView = (WebView) findViewById(R.id.configureWebview);
         myWebView.clearCache(true);
+        myWebView.setWebViewClient(new GBWebClient());
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         //needed to access the DOM
@@ -85,6 +87,16 @@ public class ExternalPebbleJSActivity extends Activity {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private class GBWebClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            url = url.replaceFirst("^pebblejs://close#", "file:///android_asset/app_config/configure.html?config=true&json=");
+            view.loadUrl(url);
+            return true;
+
+        }
     }
 
     private class JSInterface {
