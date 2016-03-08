@@ -23,6 +23,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 
 public class PBWInstallHandler implements InstallHandler {
     private static final Logger LOG = LoggerFactory.getLogger(PBWInstallHandler.class);
@@ -49,15 +50,7 @@ public class PBWInstallHandler implements InstallHandler {
             return;
         }
 
-        String hwRev = device.getHardwareVersion();
-        String platformName;
-        if (hwRev.startsWith("snowy")) {
-            platformName = "basalt";
-        } else if (hwRev.startsWith("spalding")) {
-            platformName = "chalk";
-        } else {
-            platformName = "aplite";
-        }
+        String platformName = PebbleUtils.getPlatformName(device.getHardwareVersion());
 
         try {
             mPBWReader = new PBWReader(mUri, mContext, platformName);
@@ -172,6 +165,24 @@ public class PBWInstallHandler implements InstallHandler {
             LOG.error("Failed to write to output file: " + e.getMessage(), e);
         } catch (JSONException e) {
             LOG.error(e.getMessage(), e);
+        }
+
+        String jsConfigFile = mPBWReader.getJsConfigurationFile();
+
+        if (jsConfigFile != null) {
+            outputFile = new File(destDir, app.getUUID().toString() + "_config.js");
+            try {
+                writer = new BufferedWriter(new FileWriter(outputFile));
+            } catch (IOException e) {
+                LOG.error("Failed to open output file: " + e.getMessage(), e);
+                return;
+            }
+            try {
+                writer.write(jsConfigFile);
+                writer.close();
+            } catch (IOException e) {
+                LOG.error("Failed to write to output file: " + e.getMessage(), e);
+            }
         }
     }
 

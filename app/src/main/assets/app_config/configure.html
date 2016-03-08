@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<head>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+    <script type="text/javascript" src="js/Uri.js">
+    </script>
+    <script type="text/javascript" src="js/gadgetbridge_boilerplate.js">
+    </script>
+    <script type="text/javascript">
+    </script>
+    <style>
+        <!-- TODO -->
+    </style>
+</head>
+<body style="width: 100%;">
+<div id="step1">
+    <h2>Url of the configuration:</h2>
+    <div id="config_url" style="height: 100px; width: 100%;"></div>
+    <button name="open config" value="open config" onclick="Pebble.actuallyOpenURL()" >Open configuration website</button>
+</div>
+<div id="step2">
+    <h2>Incoming configuration data:</h2>
+    <div id="jsondata" style="height: 100px; width: 100%;"></div>
+    <button name="send config" value="send config" onclick="Pebble.actuallySendData()" >Send data to pebble</button>
+</div>
+</body>

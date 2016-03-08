@@ -43,6 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 
 public class PebbleIoThread extends GBDeviceIoThread {
     private static final Logger LOG = LoggerFactory.getLogger(PebbleIoThread.class);
@@ -577,15 +578,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
             return;
         }
 
-        String hwRev = gbDevice.getHardwareVersion();
-        String platformName;
-        if (hwRev.startsWith("snowy")) {
-            platformName = "basalt";
-        } else if (hwRev.startsWith("spalding")) {
-            platformName = "chalk";
-        } else {
-            platformName = "aplite";
-        }
+        String platformName = PebbleUtils.getPlatformName(gbDevice.getHardwareVersion());
 
         try {
             mPBWReader = new PBWReader(uri, getContext(), platformName);

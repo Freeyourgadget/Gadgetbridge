@@ -15,7 +15,6 @@ public interface DeviceService extends EventHandler {
     String ACTION_START = PREFIX + ".action.start";
     String ACTION_CONNECT = PREFIX + ".action.connect";
     String ACTION_NOTIFICATION = PREFIX + ".action.notification";
-    String ACTION_NOTIFICATION_SMS = PREFIX + ".action.notification_sms";
     String ACTION_CALLSTATE = PREFIX + ".action.callstate";
     String ACTION_SETTIME = PREFIX + ".action.settime";
     String ACTION_SETMUSICINFO = PREFIX + ".action.setmusicinfo";
@@ -24,6 +23,7 @@ public interface DeviceService extends EventHandler {
     String ACTION_REQUEST_SCREENSHOT = PREFIX + ".action.request_screenshot";
     String ACTION_STARTAPP = PREFIX + ".action.startapp";
     String ACTION_DELETEAPP = PREFIX + ".action.deleteapp";
+    String ACTION_APP_CONFIGURE = PREFIX + ".action.app_configure";
     String ACTION_INSTALL = PREFIX + ".action.install";
     String ACTION_REBOOT = PREFIX + ".action.reboot";
     String ACTION_HEARTRATE_TEST = PREFIX + ".action.heartrate_test";
@@ -51,6 +51,7 @@ public interface DeviceService extends EventHandler {
     String EXTRA_MUSIC_TRACK = "music_track";
     String EXTRA_APP_UUID = "app_uuid";
     String EXTRA_APP_START = "app_start";
+    String EXTRA_APP_CONFIG = "app_config";
     String EXTRA_URI = "uri";
     String EXTRA_ALARMS = "alarms";
     String EXTRA_PERFORM_PAIR = "perform_pair";

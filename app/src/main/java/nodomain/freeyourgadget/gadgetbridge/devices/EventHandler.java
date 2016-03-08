@@ -36,6 +36,8 @@ public interface EventHandler {
 
     void onAppDelete(UUID uuid);
 
+    void onAppConfiguration(UUID appUuid, String config);
+
     void onFetchActivityData();
 
     void onReboot();
@@ -45,4 +47,5 @@ public interface EventHandler {
     void onFindDevice(boolean start);
 
     void onScreenshotReq();
+
 }

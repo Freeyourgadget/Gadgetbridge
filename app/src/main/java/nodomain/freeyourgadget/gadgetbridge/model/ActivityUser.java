@@ -64,7 +64,7 @@ public class ActivityUser {
      * value is out of any logical bounds.
      */
     public int getActivityUserSleepDuration() {
-        if(activityUserSleepDuration == null) {
+        if (activityUserSleepDuration == null) {
             fetchPreferences();
         }
         if (activityUserSleepDuration < 1 || activityUserSleepDuration > 24) {
