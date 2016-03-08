@@ -474,21 +474,13 @@ public class DeviceCommunicationService extends Service {
             return name;
         }
 
-        ContentResolver contentResolver = getContentResolver();
-
-        Cursor contactLookup = null;
-        try {
-            contactLookup = contentResolver.query(uri, null, null, null, null);
+        try (Cursor contactLookup = getContentResolver().query(uri, null, null, null, null)) {
             if (contactLookup != null && contactLookup.getCount() > 0) {
                 contactLookup.moveToNext();
                 name = contactLookup.getString(contactLookup.getColumnIndex(ContactsContract.Data.DISPLAY_NAME));
             }
         } catch (SecurityException e) {
             // ignore, just return name below
-        } finally {
-            if (contactLookup != null) {
-                contactLookup.close();
-            }
         }
 
         return name;

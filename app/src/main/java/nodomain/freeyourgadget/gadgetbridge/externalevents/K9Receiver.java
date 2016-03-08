@@ -55,17 +55,7 @@ public class K9Receiver extends BroadcastReceiver {
          * It should be the first one returned by the query in most cases,
          */
 
-        Cursor c = null;
-        try {
-            c = context.getContentResolver().query(k9Uri, messagesProjection, null, null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            notificationSpec.sender = "Gadgetbridge";
-            notificationSpec.subject = "Permission Error?";
-            notificationSpec.body = "Please reinstall Gadgetbridge to enable K-9 Mail notifications";
-        }
-
-        try {
+        try (Cursor c = context.getContentResolver().query(k9Uri, messagesProjection, null, null, null)) {
             if (c != null) {
                 while (c.moveToNext()) {
                     String uri = c.getString(c.getColumnIndex("uri"));
@@ -77,10 +67,11 @@ public class K9Receiver extends BroadcastReceiver {
                     }
                 }
             }
-        } finally {
-            if (c != null) {
-                c.close();
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            notificationSpec.sender = "Gadgetbridge";
+            notificationSpec.subject = "Permission Error?";
+            notificationSpec.body = "Please reinstall Gadgetbridge to enable K-9 Mail notifications";
         }
 
         GBApplication.deviceService().onNotification(notificationSpec);
