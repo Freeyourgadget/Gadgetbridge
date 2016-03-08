@@ -67,8 +67,7 @@ public class K9Receiver extends BroadcastReceiver {
 
         try {
             if (c != null) {
-                c.moveToFirst();
-                do {
+                while (c.moveToFirst()) {
                     String uri = c.getString(c.getColumnIndex("uri"));
                     if (uri.equals(uriWanted)) {
                         notificationSpec.sender = c.getString(c.getColumnIndex("senderAddress"));
@@ -76,7 +75,7 @@ public class K9Receiver extends BroadcastReceiver {
                         notificationSpec.body = c.getString(c.getColumnIndex("preview"));
                         break;
                     }
-                } while (c.moveToNext());
+                }
             }
         } finally {
             if (c != null) {

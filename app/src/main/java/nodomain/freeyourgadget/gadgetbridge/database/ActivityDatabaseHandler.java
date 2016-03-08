@@ -221,17 +221,20 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
         try (SQLiteDatabase db = this.getReadableDatabase()) {
             try (Cursor cursor = db.query(TABLE_GBACTIVITYSAMPLES, null, where, null, null, null, order)) {
                 LOG.info("Activity query result: " + cursor.getCount() + " samples");
-                if (cursor.moveToFirst()) {
-                    do {
-                        GBActivitySample sample = new GBActivitySample(
-                                provider,
-                                cursor.getInt(cursor.getColumnIndex(KEY_TIMESTAMP)),
-                                cursor.getInt(cursor.getColumnIndex(KEY_INTENSITY)),
-                                cursor.getInt(cursor.getColumnIndex(KEY_STEPS)),
-                                cursor.getInt(cursor.getColumnIndex(KEY_TYPE)),
-                                cursor.getInt(cursor.getColumnIndex(KEY_CUSTOM_SHORT)));
-                        samples.add(sample);
-                    } while (cursor.moveToNext());
+                int colTimeStamp = cursor.getColumnIndex(KEY_TIMESTAMP);
+                int colIntensity = cursor.getColumnIndex(KEY_INTENSITY);
+                int colSteps = cursor.getColumnIndex(KEY_STEPS);
+                int colType = cursor.getColumnIndex(KEY_TYPE);
+                int colCustomShort = cursor.getColumnIndex(KEY_CUSTOM_SHORT);
+                while (cursor.moveToFirst()) {
+                    GBActivitySample sample = new GBActivitySample(
+                            provider,
+                            cursor.getInt(colTimeStamp),
+                            cursor.getInt(colIntensity),
+                            cursor.getInt(colSteps),
+                            cursor.getInt(colType),
+                            cursor.getInt(colCustomShort));
+                    samples.add(sample);
                 }
             }
         }
