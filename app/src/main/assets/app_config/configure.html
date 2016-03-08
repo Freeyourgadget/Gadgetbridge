@@ -11,11 +11,12 @@
         <!-- TODO -->
     </style>
 </head>
-<body style="width: 100%;">
+<body onload="" style="width: 100%;">
 <div id="step1">
     <h2>Url of the configuration:</h2>
     <div id="config_url" style="height: 100px; width: 100%;"></div>
-    <button name="open config" value="open config" onclick="Pebble.actuallyOpenURL()" >Open configuration website</button>
+    <button name="show config" value="show config" onclick="Pebble.showConfiguration()" >1) showConfig</button>
+    <button name="open config" value="open config" onclick="Pebble.actuallyOpenURL()" >2) Open configuration website</button>
 </div>
 <div id="step2">
     <h2>Incoming configuration data:</h2>

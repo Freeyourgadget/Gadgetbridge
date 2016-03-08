@@ -72,9 +72,15 @@ function gbPebble() {
 
     //needs to be called like this because of original Pebble function name
     this.openURL = function(url) {
-        document.getElementById("config_url").innerHTML=url;
-        var UUID = GBjs.getAppUUID();
-        this.configurationURL = new Uri(url).addQueryParam("return_to", "gadgetbridge://"+UUID+"?config=true&json=");
+            if (url.lastIndexOf("http", 0) === 0) {
+                    document.getElementById("config_url").innerHTML=url;
+                    var UUID = GBjs.getAppUUID();
+                    this.configurationURL = new Uri(url).addQueryParam("return_to", "gadgetbridge://"+UUID+"?config=true&json=");
+            } else {
+                //TODO: add custom return_to
+                location.href = url;
+            }
+
     }
 
     this.getActiveWatchInfo = function() {
@@ -122,7 +128,7 @@ if (jsConfigFile != null) {
                 Pebble.parseconfig(t);
         } else {
             document.getElementById('step2').style.display="none";
-            Pebble.showConfiguration();
+            Pebble.ready();
         }
     });
 }
