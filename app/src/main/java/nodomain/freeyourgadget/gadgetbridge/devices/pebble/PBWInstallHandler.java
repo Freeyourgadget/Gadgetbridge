@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Writer;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -167,21 +168,14 @@ public class PBWInstallHandler implements InstallHandler {
             LOG.error(e.getMessage(), e);
         }
 
-        String jsConfigFile = mPBWReader.getJsConfigurationFile();
+        InputStream jsConfigFile = mPBWReader.getInputStreamFile("pebble-js-app.js");
 
         if (jsConfigFile != null) {
             outputFile = new File(destDir, app.getUUID().toString() + "_config.js");
             try {
-                writer = new BufferedWriter(new FileWriter(outputFile));
+                FileUtils.copyStreamToFile(jsConfigFile, outputFile);
             } catch (IOException e) {
                 LOG.error("Failed to open output file: " + e.getMessage(), e);
-                return;
-            }
-            try {
-                writer.write(jsConfigFile);
-                writer.close();
-            } catch (IOException e) {
-                LOG.error("Failed to write to output file: " + e.getMessage(), e);
             }
         }
     }
