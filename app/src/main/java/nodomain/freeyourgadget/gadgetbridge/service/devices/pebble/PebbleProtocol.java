@@ -1722,7 +1722,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return null;
     }
 
-    private GBDeviceEvent decodeAppRunState(ByteBuffer buf) {
+    private GBDeviceEvent[] decodeAppRunState(ByteBuffer buf) {
         byte command = buf.get();
         long uuid_high = buf.getLong();
         long uuid_low = buf.getLong();
@@ -1731,9 +1731,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
         switch (command) {
             case APPRUNSTATE_START:
                 LOG.info(ENDPOINT_NAME + ": started " + uuid);
-                if (UUID_PEBSTYLE.equals(uuid)) {
-                    AppMessageHandler handler = mAppMessageHandlers.get(uuid);
-                    return handler.pushMessage()[0];
+
+                AppMessageHandler handler = mAppMessageHandlers.get(uuid);
+                if (handler != null) {
+                    return handler.pushMessage();
                 }
                 break;
             case APPRUNSTATE_STOP:
@@ -2091,7 +2092,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 devEvts = new GBDeviceEvent[]{decodeSystemMessage(buf)};
                 break;
             case ENDPOINT_APPRUNSTATE:
-                devEvts = new GBDeviceEvent[]{decodeAppRunState(buf)};
+                devEvts = decodeAppRunState(buf);
                 break;
             case ENDPOINT_BLOBDB:
                 devEvts = new GBDeviceEvent[]{decodeBlobDb(buf)};
