@@ -226,7 +226,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
                 int colSteps = cursor.getColumnIndex(KEY_STEPS);
                 int colType = cursor.getColumnIndex(KEY_TYPE);
                 int colCustomShort = cursor.getColumnIndex(KEY_CUSTOM_SHORT);
-                while (cursor.moveToFirst()) {
+                while (cursor.moveToNext()) {
                     GBActivitySample sample = new GBActivitySample(
                             provider,
                             cursor.getInt(colTimeStamp),
