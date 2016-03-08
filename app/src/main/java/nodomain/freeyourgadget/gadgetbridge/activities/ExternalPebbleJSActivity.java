@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -35,29 +36,29 @@ public class ExternalPebbleJSActivity extends Activity {
     private UUID appUuid;
     private GBDevice mGBDevice = null;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        Bundle extras = getIntent().getExtras();
+    private void handleIntent(Intent intent) {
+        Bundle extras = intent.getExtras();
         if (extras != null) {
             mGBDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
-        } else {
-            throw new IllegalArgumentException("Must provide a device when invoking this activity");
         }
 
         String queryString = "";
-        Uri uri = getIntent().getData();
+        Uri uri = intent.getData();
+
         if (uri != null) {
             //getting back with configuration data
-            appUuid = UUID.fromString(uri.getHost());
-            queryString = uri.getEncodedQuery();
+            if (uri.getScheme().equals("gadgetbridge")) {
+                appUuid = UUID.fromString(uri.getHost());
+            }
+            if (uri.getScheme().equals("pebblejs")) {
+                queryString = uri.toString().replace("pebblejs://close#", "config=true&json="); // evil
+            } else {
+                queryString = uri.getEncodedQuery();
+            }
+            LOG.info(uri.toString());
         } else {
             appUuid = (UUID) getIntent().getSerializableExtra("app_uuid");
         }
-
-        setContentView(R.layout.activity_external_pebble_js);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         WebView myWebView = (WebView) findViewById(R.id.configureWebview);
         myWebView.clearCache(true);
@@ -68,8 +69,25 @@ public class ExternalPebbleJSActivity extends Activity {
 
         JSInterface gbJSInterface = new JSInterface();
         myWebView.addJavascriptInterface(gbJSInterface, "GBjs");
+        LOG.info(queryString);
 
         myWebView.loadUrl("file:///android_asset/app_config/configure.html?" + queryString);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_external_pebble_js);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        handleIntent(getIntent());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+        super.onNewIntent(intent);
     }
 
     private JSONObject getAppConfigurationKeys() {
@@ -131,11 +149,11 @@ public class ExternalPebbleJSActivity extends Activity {
         public String getActiveWatchInfo() {
             JSONObject wi = new JSONObject();
             try {
-                wi.put("firmware",mGBDevice.getFirmwareVersion());
+                wi.put("firmware", mGBDevice.getFirmwareVersion());
                 wi.put("platform", PebbleUtils.getPlatformName(mGBDevice.getHardwareVersion()));
                 wi.put("model", PebbleUtils.getModel(mGBDevice.getHardwareVersion()));
                 //TODO: use real info
-                wi.put("language","en");
+                wi.put("language", "en");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -161,11 +179,11 @@ public class ExternalPebbleJSActivity extends Activity {
         public String getAppUUID() {
             return appUuid.toString();
         }
-        
+
         @JavascriptInterface
         public String getWatchToken() {
             //specification says: A string that is is guaranteed to be identical for each Pebble device for the same app across different mobile devices. The token is unique to your app and cannot be used to track Pebble devices across applications. see https://developer.pebble.com/docs/js/Pebble/
-            return "gb"+appUuid.toString();
+            return "gb" + appUuid.toString();
         }
     }
 

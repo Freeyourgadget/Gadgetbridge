@@ -260,6 +260,7 @@
         </receiver>
 
         <activity
+            android:launchMode="singleTop"
             android:name=".activities.ExternalPebbleJSActivity"
             android:label="external_js"
             android:parentActivityName=".activities.AppManagerActivity">
@@ -271,6 +272,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="gadgetbridge" />
+                <data android:scheme="pebblejs" />
             </intent-filter>
         </activity>
 
