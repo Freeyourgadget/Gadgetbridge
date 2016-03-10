@@ -11,10 +11,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import org.json.JSONObject;
@@ -41,6 +43,7 @@ public class AppManagerActivity extends Activity {
     public static final String ACTION_REFRESH_APPLIST
             = "nodomain.freeyourgadget.gadgetbridge.appmanager.action.refresh_applist";
     private static final Logger LOG = LoggerFactory.getLogger(AppManagerActivity.class);
+    private static final int READ_REQUEST_CODE = 42;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -160,6 +163,50 @@ public class AppManagerActivity extends Activity {
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
 
         GBApplication.deviceService().onAppInfoReq();
+
+        // Adds a listener to selectFileButton that allows the user to select a file,
+        // the file is received at onActivityResult.
+        Button installNewButton = (Button) findViewById(R.id.selectFileButton);
+        installNewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("*/*");
+                startActivityForResult(intent, READ_REQUEST_CODE);
+            }
+        });
+    }
+
+    // Receives the file selected by the user and launches an intent for FWAppInstallerActivity to
+    // install the file.
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+
+            // Apparently there isn't a MIME type for the pbw watch app, so we use null as the
+            // MIME type.
+            intent.setDataAndType(resultData.getData(), null);
+            startActivity(intent);
+        }
+    }
+
+    // Handle refreshing the apps in case we are returning from installing an app
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        appList.clear();
+
+        appList.addAll(getCachedApps());
+
+        if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
+            appList.addAll(getSystemApps());
+        }
+
+        mGBDeviceAppAdapter.notifyDataSetChanged();
     }
 
     @Override
