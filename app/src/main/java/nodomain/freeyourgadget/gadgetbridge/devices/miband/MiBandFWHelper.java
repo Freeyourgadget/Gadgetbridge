@@ -12,9 +12,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.Mi1SInfo;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
+/**
+ * Also see Mi1SInfo.
+ */
 public class MiBandFWHelper {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandFWHelper.class);
     private static final int MI_FW_BASE_OFFSET = 1056;
@@ -117,8 +123,27 @@ public class MiBandFWHelper {
         return (fw[getOffsetFirmwareVersionMajor()] << 24) | (fw[getOffsetFirmwareVersionMinor()] << 16) | (fw[getOffsetFirmwareVersionRevision()] << 8) | fw[getOffsetFirmwareVersionBuild()];
     }
 
+    public static String formatFirmwareVersion(int version) {
+        if (version == -1)
+            return GBApplication.getContext().getString(R.string._unknown_);
+
+        return String.format("%d.%d.%d.%d",
+                version >> 24 & 255,
+                version >> 16 & 255,
+                version >> 8 & 255,
+                version & 255);
+    }
+
     public String getHumanFirmwareVersion() {
         return String.format(Locale.US, "%d.%d.%d.%d", fw[getOffsetFirmwareVersionMajor()], fw[getOffsetFirmwareVersionMinor()], fw[getOffsetFirmwareVersionRevision()], fw[getOffsetFirmwareVersionBuild()]);
+    }
+
+    public String getHumanFirmwareVersion2() {
+        return format(Mi1SInfo.getFirmware2VersionFrom(getFw()));
+    }
+
+    public String format(int version) {
+        return formatFirmwareVersion(version);
     }
 
     public byte[] getFw() {
@@ -142,9 +167,13 @@ public class MiBandFWHelper {
         if (MiBandConst.MI_1A.equals(deviceHW)) {
             return getFirmwareVersionMajor() == 5;
         }
-//        if (MiBandConst.MI_1S.equals(deviceHW)) {
-//            return getFirmwareVersionMajor() == 4;
-//        }
+        if (true || MiBandConst.MI_1S.equals(deviceHW)) { // FIXME: REMOVE TEMPORARY HACK
+            return getFirmwareVersionMajor() == 4;
+        }
         return false;
+    }
+
+    public boolean isSingleFirmware() {
+        return Mi1SInfo.isSingleMiBandFirmware(getFw());
     }
 }

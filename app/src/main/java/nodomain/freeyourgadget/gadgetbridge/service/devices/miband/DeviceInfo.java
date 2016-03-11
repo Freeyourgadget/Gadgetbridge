@@ -1,17 +1,23 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.miband;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 
 public class DeviceInfo extends AbstractInfo {
     public final String deviceId;
     public final int profileVersion;
+    /**
+     * Mi Band firmware version identifier
+     */
     public final int fwVersion;
     public final int hwVersion;
     public final int feature;
     public final int appearance;
+    /**
+     * Heart rate firmware version identifier
+     */
+    public final int fw2Version;
 
 
     private boolean isChecksumCorrect(byte[] data) {
@@ -29,6 +35,15 @@ public class DeviceInfo extends AbstractInfo {
             hwVersion = data[6] & 255;
             appearance = data[5] & 255;
             feature = data[4] & 255;
+            if (data.length == 20) {
+                int s = 0;
+                for (int i = 0; i < 4; ++i) {
+                    s |= (data[16 + i] & 255) << i * 8;
+                }
+                fw2Version = s;
+            } else {
+                fw2Version = -1;
+            }
         } else {
             deviceId = "crc error";
             profileVersion = -1;
@@ -36,6 +51,7 @@ public class DeviceInfo extends AbstractInfo {
             hwVersion = -1;
             feature = -1;
             appearance = -1;
+            fw2Version = -1;
         }
     }
 
@@ -52,18 +68,19 @@ public class DeviceInfo extends AbstractInfo {
     }
 
     public String getHumanFirmwareVersion() {
-        if (fwVersion == -1)
-            return GBApplication.getContext().getString(R.string._unknown_);
+        return MiBandFWHelper.formatFirmwareVersion(fwVersion);
+    }
 
-        return String.format("%d.%d.%d.%d",
-                fwVersion >> 24 & 255,
-                fwVersion >> 16 & 255,
-                fwVersion >> 8 & 255,
-                fwVersion & 255);
+    public String getHumanFirmware2Version() {
+        return MiBandFWHelper.formatFirmwareVersion(fw2Version);
     }
 
     public int getFirmwareVersion() {
         return fwVersion;
+    }
+
+    public int getHeartrateFirmwareVersion() {
+        return fw2Version;
     }
 
     @Override
@@ -75,6 +92,7 @@ public class DeviceInfo extends AbstractInfo {
                 ", hwVersion=" + hwVersion +
                 ", feature=" + feature +
                 ", appearance=" + appearance +
+                ", fw2Version (hr)=" + fw2Version+
                 '}';
     }
 
@@ -99,7 +117,8 @@ public class DeviceInfo extends AbstractInfo {
             return MiBandConst.MI_1A;
         }
         if (isMilli1S()) {
-            return MiBandConst.MI_1S;
+            return getHumanFirmware2Version();
+//            return MiBandConst.MI_1S;
         }
         return "?";
     }

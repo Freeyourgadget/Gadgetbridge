@@ -319,7 +319,6 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
                 int numSamples = activityStruct.activityDataHolderProgress / bpm;
                 ActivitySample[] samples = new ActivitySample[numSamples];
                 SampleProvider sampleProvider = new MiBandSampleProvider();
-                int s = 0;
 
                 for (int i = 0; i < activityStruct.activityDataHolderProgress; i += bpm) {
                     category = activityStruct.activityDataHolder[i];
