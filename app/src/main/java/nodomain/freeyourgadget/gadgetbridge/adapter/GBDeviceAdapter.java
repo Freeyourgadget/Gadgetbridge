@@ -42,24 +42,28 @@ public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {
         }
         TextView deviceStatusLabel = (TextView) view.findViewById(R.id.device_status);
         TextView deviceNameLabel = (TextView) view.findViewById(R.id.device_name);
-        TextView deviceInfoLabel = (TextView) view.findViewById(R.id.device_info);
+        TextView deviceInfo1Label = (TextView) view.findViewById(R.id.device_info1);
+        TextView deviceInfo2Label = (TextView) view.findViewById(R.id.device_info2);
         TextView batteryStatusLabel = (TextView) view.findViewById(R.id.battery_status);
         ImageView deviceImageView = (ImageView) view.findViewById(R.id.device_image);
         ProgressBar busyIndicator = (ProgressBar) view.findViewById(R.id.device_busy_indicator);
 
         deviceNameLabel.setText(getUniqueDeviceName(device));
-        deviceInfoLabel.setText(device.getInfoString());
+        deviceInfo1Label.setText(device.getHWInfoString());
+        deviceInfo2Label.setText(device.getInfoString());
 
         if (device.isBusy()) {
             deviceStatusLabel.setText(device.getBusyTask());
             busyIndicator.setVisibility(View.VISIBLE);
             batteryStatusLabel.setVisibility(View.GONE);
-            deviceInfoLabel.setVisibility(View.GONE);
+            deviceInfo1Label.setVisibility(View.GONE);
+            deviceInfo2Label.setVisibility(View.GONE);
         } else {
             deviceStatusLabel.setText(device.getStateString());
             busyIndicator.setVisibility(View.GONE);
             batteryStatusLabel.setVisibility(View.VISIBLE);
-            deviceInfoLabel.setVisibility(View.VISIBLE);
+            deviceInfo1Label.setVisibility(View.VISIBLE);
+            deviceInfo2Label.setVisibility(View.VISIBLE);
         }
 
         short batteryLevel = device.getBatteryLevel();
@@ -97,7 +101,10 @@ public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {
     private String getUniqueDeviceName(GBDevice device) {
         String deviceName = device.getName();
         if (!isUniqueDeviceName(device, deviceName)) {
-            deviceName = deviceName + " " + device.getShortAddress();
+            deviceName = deviceName + " " + device.getHardwareVersion();
+            if (!isUniqueDeviceName(device, deviceName)) {
+                deviceName = deviceName + " " + device.getShortAddress();
+            }
         }
         return deviceName;
     }
