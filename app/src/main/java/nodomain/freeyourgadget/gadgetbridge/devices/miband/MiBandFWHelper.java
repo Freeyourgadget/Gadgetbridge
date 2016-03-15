@@ -167,7 +167,7 @@ public class MiBandFWHelper {
         if (MiBandConst.MI_1A.equals(deviceHW)) {
             return getFirmwareVersionMajor() == 5;
         }
-        if (true || MiBandConst.MI_1S.equals(deviceHW)) { // FIXME: REMOVE TEMPORARY HACK
+        if (MiBandConst.MI_1S.equals(deviceHW)) {
             return getFirmwareVersionMajor() == 4;
         }
         return false;

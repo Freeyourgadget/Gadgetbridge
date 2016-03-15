@@ -54,11 +54,13 @@ public class Mi1SInfo {
                 | wholeFirmwareBytes[25] & 255;
     }
 
+    // FIXME: this method is wrong. We don't know a way to check if a firmware file
+    // contains one or more firmwares.
     public static boolean isSingleMiBandFirmware(byte[] wholeFirmwareBytes) {
         if ((wholeFirmwareBytes[7] & 255) != 1) {
             return false;
         }
-        return false;// FIXME: hack -- should be true!
+        return true;
     }
 
 }

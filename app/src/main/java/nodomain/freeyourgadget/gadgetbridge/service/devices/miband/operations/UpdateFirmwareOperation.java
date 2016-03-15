@@ -48,7 +48,7 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
 //        }
 
         updateCoordinator.initNextOperation();
-        updateCoordinator.initNextOperation(); // FIXME: remove, just testing mi band fw update
+//        updateCoordinator.initNextOperation(); // FIXME: remove, just testing mi band 1s fw update
         firmwareInfoSent = updateCoordinator.sendFwInfo();
         if (!firmwareInfoSent) {
             GB.toast(getContext(), "Error sending firmware info, aborting.", Toast.LENGTH_LONG, GB.ERROR);
@@ -392,8 +392,7 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
         }
 
         public boolean needsReboot() {
-            return false; // FIXME: renable rebooting
-//            return reboot;
+            return reboot;
         }
     }
 
