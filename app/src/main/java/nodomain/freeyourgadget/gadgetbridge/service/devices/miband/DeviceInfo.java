@@ -67,20 +67,16 @@ public class DeviceInfo extends AbstractInfo {
         return getInt(data, from, 4);
     }
 
-    public String getHumanFirmwareVersion() {
-        return MiBandFWHelper.formatFirmwareVersion(fwVersion);
-    }
-
-    public String getHumanFirmware2Version() {
-        return MiBandFWHelper.formatFirmwareVersion(fw2Version);
-    }
-
     public int getFirmwareVersion() {
         return fwVersion;
     }
 
     public int getHeartrateFirmwareVersion() {
         return fw2Version;
+    }
+
+    public boolean supportsHeartrate() {
+        return isMilli1S();
     }
 
     @Override
@@ -117,8 +113,7 @@ public class DeviceInfo extends AbstractInfo {
             return MiBandConst.MI_1A;
         }
         if (isMilli1S()) {
-            return getHumanFirmware2Version();
-//            return MiBandConst.MI_1S;
+            return MiBandConst.MI_1S;
         }
         return "?";
     }

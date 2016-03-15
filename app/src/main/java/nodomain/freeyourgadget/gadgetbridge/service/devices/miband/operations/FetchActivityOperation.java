@@ -137,7 +137,7 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
 
     public FetchActivityOperation(MiBandSupport support) {
         super(support);
-        hasExtendedActivityData = support.getDeviceInfo().isMilli1S();
+        hasExtendedActivityData = support.getDeviceInfo().supportsHeartrate();
         activityDataHolderSize = getBytesPerMinuteOfActivityData() * 60 * 4; // 4h
         activityStruct = new ActivityStruct(activityDataHolderSize);
     }

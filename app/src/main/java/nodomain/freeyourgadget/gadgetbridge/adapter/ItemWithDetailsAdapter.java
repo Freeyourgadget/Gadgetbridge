@@ -19,6 +19,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ItemWithDetails;
 public class ItemWithDetailsAdapter extends ArrayAdapter<ItemWithDetails> {
 
     private final Context context;
+    private boolean horizontalAlignment;
 
     public ItemWithDetailsAdapter(Context context, List<ItemWithDetails> items) {
         super(context, 0, items);
@@ -26,6 +27,9 @@ public class ItemWithDetailsAdapter extends ArrayAdapter<ItemWithDetails> {
         this.context = context;
     }
 
+    public void setHorizontalAlignment(boolean horizontalAlignment) {
+        this.horizontalAlignment = horizontalAlignment;
+    }
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         ItemWithDetails item = getItem(position);
@@ -34,7 +38,11 @@ public class ItemWithDetailsAdapter extends ArrayAdapter<ItemWithDetails> {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            view = inflater.inflate(R.layout.item_with_details, parent, false);
+            if (horizontalAlignment) {
+                view = inflater.inflate(R.layout.item_with_details_horizontal, parent, false);
+            } else {
+                view = inflater.inflate(R.layout.item_with_details, parent, false);
+            }
         }
         ImageView iconView = (ImageView) view.findViewById(R.id.item_image);
         TextView nameView = (TextView) view.findViewById(R.id.item_name);
