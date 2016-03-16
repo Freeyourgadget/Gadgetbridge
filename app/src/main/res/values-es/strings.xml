@@ -49,6 +49,7 @@
   <string name="pref_header_development">Opciones de desarrollador</string>
   <string name="pref_title_development_miaddr">Dirección de MiBand</string>
   <string name="pref_title_pebble_settings">Ajustes de Pebble</string>
+  <string name="pref_title_pebble_activitytracker">Rastreador de actividad preferido</string>
   <string name="pref_title_enable_pebblekit">Permitir el acceso a aplicaciones Android de terceros</string>
   <string name="pref_summary_enable_pebblekit">Permitir el soporte experimental para aplicaciones Android que usan PebbleKit</string>
   <string name="pref_title_pebble_forceprotocol">Forzar protocolo de notificación</string>
@@ -103,12 +104,7 @@
   <string name="discovery_connected_devices_hint">Haz visible tu dispositivo. No es probable que se detecten los dispositivos que ya están conectados.</string>
   <string name="discovery_note">Nota:</string>
   <string name="candidate_item_device_image">Imagen del dispositivo</string>
-  <string name="activity_prefs_about_you">Sobre ti</string>
   <string name="miband_prefs_alias">Nombre/Apodo</string>
-  <string name="activity_prefs_year_birth">Año de nacimiento</string>
-  <string name="activity_prefs_gender">Sexo</string>
-  <string name="activity_prefs_height_cm">Altura en cm</string>
-  <string name="activity_prefs_weight_kg">Peso en kg</string>
   <string name="pref_header_vibration_count">Número de vibraciones</string>
   <string name="title_activity_sleepmonitor">Monitor de sueño</string>
   <string name="pref_write_logfiles">Guardar logs (requiere reiniciar)</string>
@@ -202,4 +198,18 @@
   <string name="miband_prefs_reserve_alarm_calendar">Reserva de alarmas para próximos eventos</string>
   <string name="waiting_for_reconnect">esperando reconexión</string>
   <string name="appmananger_app_reinstall">Reinstalar</string>
+  <string name="activity_prefs_about_you">Sobre ti</string>
+  <string name="activity_prefs_year_birth">Año de nacimiento</string>
+  <string name="activity_prefs_gender">Género</string>
+  <string name="activity_prefs_height_cm">Altura (cm)</string>
+  <string name="activity_prefs_weight_kg">Peso (kg)</string>
+  <string name="appmanager_health_activate">Activar</string>
+  <string name="appmanager_health_deactivate">Desactivar</string>
+  <string name="authenticating">autenticando</string>
+  <string name="authentication_required">autenticación requerida</string>
+  <string name="app_configure">Configurar</string>
+  <string name="appwidget_text">Zzz</string>
+  <string name="add_widget">Añadir widget</string>
+  <string name="activity_prefs_sleep_duration">Horas de sueño deseadas</string>
+  <string name="appwidget_alarms_set">Una alarma ha sido fijada para %1$02d:%2$02d</string>
 </resources>
