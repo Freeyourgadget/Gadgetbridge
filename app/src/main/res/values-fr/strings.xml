@@ -19,8 +19,9 @@
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">Installateur d\'applications/micrologiciel</string>
   <string name="fw_upgrade_notice">Vous êtes sur le point d\'installer le micrologiciel %s à la place de celui qui est actuellement sur votre Mi Band.</string>
+  <string name="fw_multi_upgrade_notice">Vous êtes sur le point d\'installer les micrologiciels %1$s et %2$s à la place de ceux qui sont actuellement sur votre Mi Band.</string>
   <string name="miband_firmware_known">Ce micrologiciel a été testé et est connu pour être compatible avec Gadgetbridge.</string>
-  <string name="miband_firmware_unknown_warning">Ce micrologiciel n\'a pas été testé et peut ne pas être compatible avec Gadgetbridge. \n \n Il n\'est pas conseillé de flasher votre Mi Band.</string>
+  <string name="miband_firmware_unknown_warning">Ce micrologiciel n\'a pas été testé et peut ne pas être compatible avec Gadgetbridge.\n\nIl n\'est pas conseillé de flasher votre Mi Band.</string>
   <string name="miband_firmware_suggest_whitelist">Si vous désirez continuer et que tout fonctionne correctement par la suite, SVP informez-en les développeurs de Gadgetbridge pour demander l\'ajout de ce micrologiciel à leur liste: %s</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Paramètres</string>
@@ -38,8 +39,8 @@
   <string name="pref_title_notifications_k9mail">K9-Mail</string>
   <string name="pref_title_notifications_pebblemsg">Messages Pebble</string>
   <string name="pref_summary_notifications_pebblemsg">Support pour les applications qui envoient des notifications au Pebble via Intent. Peut être utilisé pour les conversations.</string>
-  <string name="pref_title_notifications_generic">Support des notififactions génériques</string>
-  <string name="pref_title_whenscreenon">... y compris lorsque l\'écran est allumé</string>
+  <string name="pref_title_notifications_generic">Support des notifications génériques</string>
+  <string name="pref_title_whenscreenon">... y compris quand l\'écran est allumé</string>
   <string name="always">toujours</string>
   <string name="when_screen_off">quand l\'écran est éteint</string>
   <string name="never">jamais</string>
@@ -68,8 +69,8 @@
   <string name="this_is_a_test_notification_from_gadgetbridge">Ceci est un test de notification venant de Gadgetbridge</string>
   <string name="bluetooth_is_not_supported_">Le Bluetooth n\'est pas supporté.</string>
   <string name="bluetooth_is_disabled_">Le Bluetooth est désactivé.</string>
-  <string name="tap_connected_device_for_app_mananger">tappez sur l\'appareil pour le connecter au gestionnaire d\'application</string>
-  <string name="tap_a_device_to_connect">tappez sur l\'appareil pour le connecter</string>
+  <string name="tap_connected_device_for_app_mananger">Cliquez sur l\'appareil pour le connecter au gestionnaire d\'application</string>
+  <string name="tap_a_device_to_connect">Cliquez sur l\'appareil pour le connecter</string>
   <string name="cannot_connect_bt_address_invalid_">Connexion impossible. L’adresse Bluetooth est-elle invalide? </string>
   <string name="gadgetbridge_running">Gadgetbridge est en fonctionnement</string>
   <string name="installing_binary_d_d">Installation du binaire %1$d/%2$d</string>
@@ -97,18 +98,13 @@
   <string name="other">Autre</string>
   <string name="left">Gauche</string>
   <string name="right">Droite</string>
-  <string name="miband_pairing_using_dummy_userdata">Aucune donnée utilisateur valide fournie,  utilisation des données fictives pour le moment</string>
+  <string name="miband_pairing_using_dummy_userdata">Aucune donnée utilisateur valide fournie,  utilisation de données fictives pour le moment</string>
   <string name="miband_pairing_tap_hint">Quand votre Mi Band vibre et clignote, appuyez dessus plusieurs fois d\'affilée.</string>
   <string name="appinstaller_install">Installer</string>
   <string name="discovery_connected_devices_hint">Rendez votre appareil découvrable.  Les appareils déjà connectés ne seront pas découverts.</string>
   <string name="discovery_note">Note:</string>
   <string name="candidate_item_device_image">Image de l\'appareil</string>
-  <string name="activity_prefs_about_you">À propos de vous</string>
   <string name="miband_prefs_alias">Nom/Pseudo</string>
-  <string name="activity_prefs_year_birth">Année de naissance</string>
-  <string name="activity_prefs_gender">Genre</string>
-  <string name="activity_prefs_height_cm">Taille en cm</string>
-  <string name="activity_prefs_weight_kg">Poids en kg</string>
   <string name="pref_header_vibration_count">Nombre de vibrations</string>
   <string name="title_activity_sleepmonitor">Moniteur de sommeil</string>
   <string name="pref_write_logfiles">Écrire les fichiers journaux (redémarrage requis)</string>
@@ -202,4 +198,11 @@
   <string name="miband_prefs_reserve_alarm_calendar">Alarmes à réserver pour événements futurs</string>
   <string name="waiting_for_reconnect">en attente de reconnexion</string>
   <string name="appmananger_app_reinstall">Réinstaller</string>
+  <string name="activity_prefs_about_you">A propos de vous</string>
+  <string name="activity_prefs_year_birth">Année de naissance</string>
+  <string name="activity_prefs_gender">Genre</string>
+  <string name="activity_prefs_height_cm">Taille en cm</string>
+  <string name="activity_prefs_weight_kg">Poids en kg</string>
+  <string name="appmanager_health_activate">Activer</string>
+  <string name="appmanager_health_deactivate">Désactiver</string>
 </resources>
