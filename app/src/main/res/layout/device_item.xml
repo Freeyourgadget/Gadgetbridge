@@ -57,7 +57,7 @@
         android:scaleType="centerInside"
         android:contentDescription="@string/candidate_item_device_image"
         android:clickable="true"
-        android:layout_gravity="center_vertical" />
+        android:layout_gravity="center_vertical|right" />
 
 
     <TextView
