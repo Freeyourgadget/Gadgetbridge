@@ -4,6 +4,8 @@ apply plugin: 'pmd'
 
 def ABORT_ON_CHECK_FAILURE=false
 
+tasks.withType(Test) { systemProperty 'MiFirmwareDir', System.getProperty('MiFirmwareDir', null) }
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
