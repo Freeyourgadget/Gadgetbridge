@@ -102,11 +102,14 @@ public class AppManagerActivity extends Activity {
             for (File file : files) {
                 if (file.getName().endsWith(".pbw")) {
                     String baseName = file.getName().substring(0, file.getName().length() - 4);
+                    //metadata
                     File jsonFile = new File(cachePath, baseName + ".json");
+                    //configuration
+                    File configFile = new File(cachePath, baseName + "_config.js");
                     try {
                         String jsonstring = FileUtils.getStringFromFile(jsonFile);
                         JSONObject json = new JSONObject(jsonstring);
-                        cachedAppList.add(new GBDeviceApp(json));
+                        cachedAppList.add(new GBDeviceApp(json, configFile.exists()));
                     } catch (Exception e) {
                         LOG.warn("could not read json file for " + baseName, e.getMessage(), e);
                         cachedAppList.add(new GBDeviceApp(UUID.fromString(baseName), baseName, "N/A", "", GBDeviceApp.Type.UNKNOWN));
@@ -177,6 +180,9 @@ public class AppManagerActivity extends Activity {
             menu.removeItem(R.id.appmanager_health_deactivate);
         } else if (PebbleProtocol.UUID_PEBBLE_HEALTH.equals(selectedApp.getUUID())) {
             menu.removeItem(R.id.appmanager_app_delete);
+        }
+        if (!selectedApp.isConfigurable()) {
+            menu.removeItem(R.id.appmanager_app_configure);
         }
         menu.setHeaderTitle(selectedApp.getName());
     }
