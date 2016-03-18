@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
+import android.webkit.ConsoleMessage;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -64,6 +66,7 @@ public class ExternalPebbleJSActivity extends Activity {
         WebView myWebView = (WebView) findViewById(R.id.configureWebview);
         myWebView.clearCache(true);
         myWebView.setWebViewClient(new GBWebClient());
+        myWebView.setWebChromeClient(new GBChromeClient());
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         //needed to access the DOM
@@ -90,6 +93,13 @@ public class ExternalPebbleJSActivity extends Activity {
         return null;
     }
 
+    private class GBChromeClient extends WebChromeClient {
+        @Override
+        public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+            GB.toast(consoleMessage.message(), Toast.LENGTH_LONG, GB.ERROR);
+            return super.onConsoleMessage(consoleMessage);
+        }
+    }
     private class GBWebClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {

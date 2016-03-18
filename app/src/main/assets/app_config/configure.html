@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <head>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+    <meta charset="utf-8" />
+    <meta name='viewport' content='initial-scale=1.0, maximum-scale=1.0'>
     <script type="text/javascript" src="js/Uri.js">
     </script>
     <script type="text/javascript" src="js/gadgetbridge_boilerplate.js">
@@ -8,19 +9,48 @@
     <script type="text/javascript">
     </script>
     <style>
+        body {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        -webkit-touch-callout: none;
+        }
+        #config_url,#jsondata {
+        word-wrap: break-word;
+        margin: 20px;
+        }
+        .btn {
+        display: inline-block;
+        position: relative;
+        height: 32px;
+        line-height: 32px;
+        border-radius: 2px;
+        font-size: 0.9em;
+        background-color: #eee;
+        color: #646464;
+        text-align: center;
+        border-style: none;
+        }
+        .btn:active {
+        border-style: none;
+        box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2)inset;
+        transition-delay: 0s;
+        }
         <!-- TODO -->
     </style>
 </head>
 <body onload="" style="width: 100%;">
 <div id="step1">
     <h2>Url of the configuration:</h2>
-    <div id="config_url" style="height: 100px; width: 100%;"></div>
-    <button name="show config" value="show config" onclick="Pebble.showConfiguration()" >1) showConfig</button>
-    <button name="open config" value="open config" onclick="Pebble.actuallyOpenURL()" >2) Open configuration website</button>
+    <div id="config_url"></div>
+    <button class="btn" name="show config" value="show config" onclick="Pebble.showConfiguration()" >Show config / URL</button>
+    <button class="btn" name="open config" value="open config" onclick="Pebble.actuallyOpenURL()" >Open configuration website</button>
 </div>
 <div id="step2">
     <h2>Incoming configuration data:</h2>
-    <div id="jsondata" style="height: 100px; width: 100%;"></div>
-    <button name="send config" value="send config" onclick="Pebble.actuallySendData()" >Send data to pebble</button>
+    <div id="jsondata"></div>
+    <button class="btn" name="send config" value="send config" onclick="Pebble.actuallySendData()" >Send data to pebble</button>
 </div>
 </body>
