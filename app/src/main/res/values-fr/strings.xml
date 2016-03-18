@@ -50,6 +50,7 @@
   <string name="pref_header_development">Options développeur</string>
   <string name="pref_title_development_miaddr">Adresse Mi Band</string>
   <string name="pref_title_pebble_settings">Paramètres Pebble</string>
+  <string name="pref_title_pebble_activitytracker">Traqueur d\'activité préféré</string>
   <string name="pref_title_enable_pebblekit">Permettre l\'accès d\'applications tierces Android</string>
   <string name="pref_summary_enable_pebblekit">Activer le support expérimental pour les applications Android utilisant PebbleKit</string>
   <string name="pref_title_pebble_forceprotocol">Protocole des notifications en vigueur</string>
@@ -205,4 +206,9 @@
   <string name="activity_prefs_weight_kg">Poids en kg</string>
   <string name="appmanager_health_activate">Activer</string>
   <string name="appmanager_health_deactivate">Désactiver</string>
+  <string name="authenticating">authentification</string>
+  <string name="authentication_required">authentification requise</string>
+  <string name="app_configure">Configurer</string>
+  <string name="appwidget_text">ZzZz</string>
+  <string name="add_widget">Ajouter un widget</string>
 </resources>
