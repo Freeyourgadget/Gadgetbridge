@@ -212,6 +212,9 @@ public class ControlCenter extends Activity {
         if (!coordinator.supportsScreenshots()) {
             menu.removeItem(R.id.controlcenter_take_screenshot);
         }
+        if (!coordinator.supportsAlarmConfiguration()) {
+            menu.removeItem(R.id.controlcenter_configure_alarms);
+        }
 
         if (selectedDevice.getState() == GBDevice.State.NOT_CONNECTED) {
             menu.removeItem(R.id.controlcenter_disconnect);
