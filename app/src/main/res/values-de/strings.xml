@@ -19,6 +19,7 @@
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">FW/App Installer</string>
   <string name="fw_upgrade_notice">Es soll die Firmware %s anstelle der aktuell installierten Version aufs Mi Band gespielt werden.</string>
+  <string name="fw_multi_upgrade_notice">Es sollen die Firmwares %1$s und %2$s anstelle der aktuell installierten Versionen aufs Mi Band gespielt werden.</string>
   <string name="miband_firmware_known">Diese Firmware ist getestet worden und ist zu Gadgetbridge kompatibel.</string>
   <string name="miband_firmware_unknown_warning">Diese Firmware ist nicht getestet und könnte inkompatibel mit Gadgetbridge sein.\n\nEs wird nicht empfohlen sie zu installieren!</string>
   <string name="miband_firmware_suggest_whitelist">Falls die Firmware trotzdem installiert werden soll und nachher alles korrekt funktioniert, melde bitte den Gadgetbridge Entwicklern, dass die Firmware %s tauglich ist.</string>
@@ -45,9 +46,11 @@
   <string name="never">niemals</string>
   <string name="pref_blacklist">Sperre für Apps</string>
   <string name="pref_title_canned_replies">Vorgefertigte Antworten</string>
+  <string name="pref_title_canned_reply_suffix">Gemeinsame Endung</string>
   <string name="pref_header_development">Entwickleroptionen</string>
   <string name="pref_title_development_miaddr">Mi Band MAC Adresse</string>
   <string name="pref_title_pebble_settings">Pebble Einstellungen</string>
+  <string name="pref_title_pebble_activitytracker">Bevorzugter Aktivitätstracker</string>
   <string name="pref_title_enable_pebblekit">Erlaube Zugriff von anderen Android Apps</string>
   <string name="pref_summary_enable_pebblekit">Experimentelle Unterstützung für Android Apps, die PebbleKit benutzen</string>
   <string name="pref_title_pebble_forceprotocol">Benachrichtigungsprotokoll erzwingen</string>
@@ -102,12 +105,7 @@
   <string name="discovery_connected_devices_hint">Mach Dein Gerät auffindbar. Derzeit verbundene Geräte sind in der Regel nicht auffindbar.</string>
   <string name="discovery_note">Tipp:</string>
   <string name="candidate_item_device_image">Bild des Geräts</string>
-  <string name="activity_prefs_about_you">Über Dich</string>
   <string name="miband_prefs_alias">Name/Alias</string>
-  <string name="activity_prefs_year_birth">Geburtsjahr</string>
-  <string name="activity_prefs_gender">Geschlecht</string>
-  <string name="activity_prefs_height_cm">Größe in cm</string>
-  <string name="activity_prefs_weight_kg">Gewicht in kg</string>
   <string name="pref_header_vibration_count">Anzahl der Vibrationen</string>
   <string name="title_activity_sleepmonitor">Schlafmonitor</string>
   <string name="pref_write_logfiles">Log-Dateien schreiben (Neustart erforderlich)</string>
@@ -200,6 +198,17 @@
   <string name="fwinstaller_firmware_not_compatible_to_device">Diese Firmware ist nicht mit dem Gerät kompatibel</string>
   <string name="waiting_for_reconnect">warte auf eingehende Verbindung</string>
   <string name="appmananger_app_reinstall">Erneut installieren</string>
+  <string name="activity_prefs_about_you">Über Dich</string>
+  <string name="activity_prefs_year_birth">Geburtsjahr</string>
+  <string name="activity_prefs_gender">Geschlecht</string>
+  <string name="activity_prefs_height_cm">Größe in cm</string>
+  <string name="activity_prefs_weight_kg">Gewicht in kg</string>
+  <string name="appmanager_health_activate">aktivieren</string>
+  <string name="appmanager_health_deactivate">deaktivieren</string>
+  <string name="appwidget_text">Zzz</string>
   <string name="add_widget">Widget hinzufügen</string>
-  <string name="activity_prefs_sleep_duration">Bevorzugte Schlafdauer in Stunden</string>
+  <string name="activity_prefs_sleep_duration">Gewünschte Schlafdauer in Stunden</string>
+  <string name="appwidget_alarms_set">Ein Wecker wurde auf %1$02d:%2$02d gestellt</string>
+  <string name="device_hw">HW: %1$s</string>
+  <string name="device_fw">FW: %1$s</string>
 </resources>
