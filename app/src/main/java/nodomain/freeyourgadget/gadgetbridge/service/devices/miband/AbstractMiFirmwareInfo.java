@@ -60,10 +60,8 @@ public abstract class AbstractMiFirmwareInfo {
 
     public abstract boolean isGenerallyCompatibleWith(GBDevice device);
 
-    public
-    @NonNull
-    byte[] getFirmwareBytes() {
-        return Arrays.copyOfRange(wholeFirmwareBytes, getFirmwareOffset(), getFirmwareLength());
+    public @NonNull byte[] getFirmwareBytes() {
+        return Arrays.copyOfRange(wholeFirmwareBytes, getFirmwareOffset(), getFirmwareOffset() + getFirmwareLength());
     }
 
     public int getFirmwareVersionMajor() {
