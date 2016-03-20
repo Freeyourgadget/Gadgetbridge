@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
@@ -18,19 +19,19 @@ public class FirmwareTest {
     private static final int MI1S_FW1_VERSION = 0;
     private static final int MI1S_FW2_VERSION = 0;
 
+    private static final int SINGLE = 1;
+    private static final int DOUBLE = 2;
+
     @Test
-    public void testFirmwareMi() throws Exception{
+    public void testFirmwareMi1() throws Exception{
         byte[] wholeFw = getFirmwareMi();
         Assert.assertNotNull(wholeFw);
 
-        Assert.assertTrue(Mi1SInfo.isSingleMiBandFirmware(wholeFw));
-        int calculatedLength = Mi1SInfo.getFirmware1LengthIn(wholeFw);
-        Assert.assertTrue("Unexpected firmware length: " + wholeFw.length, calculatedLength < wholeFw.length);
-        int calculatedVersion = Mi1SInfo.getFirmware1VersionFrom(wholeFw);
-//        Assert.assertEquals("Unexpected firmware version: " + calculatedVersion, MI_FW_VERSION, calculatedVersion);
-
+        AbstractMiFirmwareInfo info = getFirmwareInfo(wholeFw, SINGLE);
+        int calculatedVersion = info.getFirmwareVersion();
         String version = MiBandFWHelper.formatFirmwareVersion(calculatedVersion);
         Assert.assertTrue(version.startsWith("1."));
+//        Assert.assertEquals("Unexpected firmware version: " + calculatedVersion, MI_FW_VERSION, calculatedVersion);
     }
 
     @Test
@@ -38,14 +39,11 @@ public class FirmwareTest {
         byte[] wholeFw = getFirmwareMi1A();
         Assert.assertNotNull(wholeFw);
 
-        Assert.assertTrue(Mi1SInfo.isSingleMiBandFirmware(wholeFw));
-        int calculatedLength = Mi1SInfo.getFirmware1LengthIn(wholeFw);
-        Assert.assertTrue("Unexpected firmware length: " + wholeFw.length, calculatedLength < wholeFw.length);
-        int calculatedVersion = Mi1SInfo.getFirmware1VersionFrom(wholeFw);
-//        Assert.assertEquals("Unexpected firmware version: " + calculatedVersion, MI1A_FW_VERSION, calculatedVersion);
-
+        AbstractMiFirmwareInfo info = getFirmwareInfo(wholeFw, SINGLE);
+        int calculatedVersion = info.getFirmwareVersion();
         String version = MiBandFWHelper.formatFirmwareVersion(calculatedVersion);
         Assert.assertTrue(version.startsWith("5."));
+//        Assert.assertEquals("Unexpected firmware version: " + calculatedVersion, MI1A_FW_VERSION, calculatedVersion);
     }
 
     @Test
@@ -53,31 +51,71 @@ public class FirmwareTest {
         byte[] wholeFw = getFirmwareMi1S();
         Assert.assertNotNull(wholeFw);
 
-        Assert.assertFalse(Mi1SInfo.isSingleMiBandFirmware(wholeFw));
+        AbstractMiFirmwareInfo info = getFirmwareInfo(wholeFw, DOUBLE);
 
         // Mi Band version
-        int calculatedLengthFw1 = Mi1SInfo.getFirmware1LengthIn(wholeFw);
-        int calculatedOffsetFw1 = Mi1SInfo.getFirmware1OffsetIn(wholeFw);
+        int calculatedLengthFw1 = info.getFirst().getFirmwareLength();
+        int calculatedOffsetFw1 = info.getFirst().getFirmwareOffset();
         int endIndexFw1 = calculatedOffsetFw1 + calculatedLengthFw1;
 
-        int calculatedLengthFw2 = Mi1SInfo.getFirmware2LengthIn(wholeFw);
-        int calculatedOffsetFw2 = Mi1SInfo.getFirmware2OffsetIn(wholeFw);
+        int calculatedLengthFw2 = info.getSecond().getFirmwareLength();
+        int calculatedOffsetFw2 = info.getSecond().getFirmwareOffset();
         int endIndexFw2 = calculatedOffsetFw2 + calculatedLengthFw2;
 
         Assert.assertTrue(endIndexFw1 <= wholeFw.length - calculatedLengthFw2);
         Assert.assertTrue(endIndexFw2 <= wholeFw.length);
 
         Assert.assertTrue(endIndexFw1 <= calculatedOffsetFw2);
-        int calculatedVersionFw1 = Mi1SInfo.getFirmware1VersionFrom(wholeFw);
+        int calculatedVersionFw1 = info.getFirst().getFirmwareVersion();
 //        Assert.assertEquals("Unexpected firmware 1 version: " + calculatedVersionFw1, MI1S_FW1_VERSION, calculatedVersionFw1);
         String version1 = MiBandFWHelper.formatFirmwareVersion(calculatedVersionFw1);
         Assert.assertTrue(version1.startsWith("4."));
 
         // HR version
-        int calculatedVersionFw2 = Mi1SInfo.getFirmware2VersionFrom(wholeFw);
+        int calculatedVersionFw2 = info.getSecond().getFirmwareVersion();
 //        Assert.assertEquals("Unexpected firmware 2 version: " + calculatedVersionFw2, MI1S_FW2_VERSION, calculatedVersionFw2);
         String version2 = MiBandFWHelper.formatFirmwareVersion(calculatedVersionFw2);
         Assert.assertTrue(version2.startsWith("1."));
+
+        try {
+            info.getFirmwareVersion();
+            Assert.fail("should not get fw version from AbstractMi1SFirmwareInfo");
+        } catch (UnsupportedOperationException expected) {}
+
+        Assert.assertNotEquals(info.getFirst().getFirmwareOffset(), info.getSecond().getFirmwareOffset());
+        Assert.assertFalse(Arrays.equals(info.getFirst().getFirmwareBytes(), info.getSecond().getFirmwareBytes()));
+    }
+
+    private AbstractMiFirmwareInfo getFirmwareInfo(byte[] wholeFw, int numFirmwares) {
+        AbstractMiFirmwareInfo info = AbstractMiFirmwareInfo.determineFirmwareInfoFor(wholeFw);
+        switch (numFirmwares) {
+            case SINGLE: {
+                Assert.assertTrue("should be single miband firmware", info.isSingleMiBandFirmware());
+                Assert.assertSame(info, info.getFirst());
+                try {
+                    info.getSecond();
+                    Assert.fail("should throw UnsuportedOperationException");
+                } catch (UnsupportedOperationException expected) {}
+                int calculatedLength = info.getFirmwareLength();
+                Assert.assertTrue("Unexpected firmware length: " + wholeFw.length, calculatedLength <= wholeFw.length);
+                break;
+            }
+            case DOUBLE: {
+                Assert.assertFalse("should not be single miband firmware", info.isSingleMiBandFirmware());
+                Assert.assertNotSame(info, info.getFirst());
+                Assert.assertNotSame(info, info.getSecond());
+                Assert.assertNotSame(info.getFirst(), info.getSecond());
+                int calculatedLength = info.getFirst().getFirmwareLength();
+                Assert.assertTrue("Unexpected firmware length: " + wholeFw.length, calculatedLength <= wholeFw.length);
+                calculatedLength = info.getSecond().getFirmwareLength();
+                Assert.assertTrue("Unexpected firmware length: " + wholeFw.length, calculatedLength <= wholeFw.length);
+                break;
+            }
+            default:
+                Assert.fail("unexpected numFirmwares: " + numFirmwares);
+        }
+        Assert.assertTrue(info.isGenerallySupportedFirmware());
+        return info;
     }
 
     private File getFirmwareDir() {

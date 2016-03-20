@@ -18,7 +18,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.Mi1SInfo;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.AbstractMiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -28,8 +28,6 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
 
     private final Uri uri;
     private boolean firmwareInfoSent = false;
-//    private byte[] newFirmware;
-//    private boolean rebootWhenBandReady = false;
     private UpdateCoordinator updateCoordinator;
 
     public UpdateFirmwareOperation(Uri uri, MiBandSupport support) {
@@ -41,11 +39,16 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
     protected void doPerform() throws IOException {
         MiBandFWHelper mFwHelper = new MiBandFWHelper(uri, getContext());
 
-//        if (getSupport().supportsHeartRate()) {
-            updateCoordinator = prepareFirmwareInfo1S(mFwHelper.getFw());
-//        } else {
-//            updateCoordinator = sendFirmwareInfo(mFwHelper.getFw(), mFwHelper.getFirmwareVersion());
-//        }
+        AbstractMiFirmwareInfo firmwareInfo = mFwHelper.getFirmwareInfo();
+        if (!firmwareInfo.isGenerallyCompatibleWith(getDevice())) {
+            throw new IOException("Firmware is not compatible with the given device: " + getDevice().getAddress());
+        }
+
+        if (getSupport().supportsHeartRate()) {
+            updateCoordinator = prepareFirmwareInfo1S(firmwareInfo);
+        } else {
+            updateCoordinator = prepareFirmwareInfo(mFwHelper.getFw(), mFwHelper.getFirmwareVersion());
+        }
 
         updateCoordinator.initNextOperation();
 //        updateCoordinator.initNextOperation(); // FIXME: remove, just testing mi band 1s fw update
@@ -75,7 +78,7 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
     }
 
     /**
-     * React to unsolicited messages sent by the Mi Band to the MiBandService.UUID_CHARACTERISTIC_NOTIFICATION
+     * React to messages sent by the Mi Band to the MiBandService.UUID_CHARACTERISTIC_NOTIFICATION
      * characteristic,
      * These messages appear to be always 1 byte long, with values that are listed in MiBandService.
      * It is not excluded that there are further values which are still unknown.
@@ -97,25 +100,19 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
 
         switch (value[0]) {
             case MiBandService.NOTIFY_FW_CHECK_SUCCESS:
-//                if (firmwareInfoSent && newFirmware != null) {
                 if (firmwareInfoSent) {
                     GB.toast(getContext(), "Firmware metadata successfully sent.", Toast.LENGTH_LONG, GB.INFO);
-                    if (updateCoordinator.sendFwData()) {
-//                    if (sendFirmwareData(newFirmware)) {
-//                        rebootWhenBandReady = true; // disabled for testing
-                    } else {
+                    if (!updateCoordinator.sendFwData()) {
                         //TODO: the firmware transfer failed, but the miband should be still functional with the old firmware. What should we do?
                         GB.toast(getContext().getString(R.string.updatefirmwareoperation_updateproblem_do_not_reboot), Toast.LENGTH_LONG, GB.ERROR);
                         done();
                     }
                     firmwareInfoSent = false;
-//                    newFirmware = null;
                 }
                 break;
             case MiBandService.NOTIFY_FW_CHECK_FAILED:
                 GB.toast(getContext().getString(R.string.updatefirmwareoperation_metadata_updateproblem), Toast.LENGTH_LONG, GB.ERROR);
                 firmwareInfoSent = false;
-//                newFirmware = null;
                 done();
                 break;
             case MiBandService.NOTIFY_FIRMWARE_UPDATE_SUCCESS:
@@ -130,7 +127,6 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
                     GB.toast(getContext(), getContext().getString(R.string.updatefirmwareoperation_update_complete_rebooting), Toast.LENGTH_LONG, GB.INFO);
                     GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_update_complete), false, 100, getContext());
                     getSupport().onReboot();
-//                    rebootWhenBandReady = false;
                 } else {
                     LOG.error("BUG: Successful firmware update without reboot???");
                 }
@@ -140,7 +136,6 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
                 //TODO: the firmware transfer failed, but the miband should be still functional with the old firmware. What should we do?
                 GB.toast(getContext().getString(R.string.updatefirmwareoperation_updateproblem_do_not_reboot), Toast.LENGTH_LONG, GB.ERROR);
                 GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_write_failed), false, 0, getContext());
-//                rebootWhenBandReady = false;
                 done();
                 break;
 
@@ -150,63 +145,41 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
         }
     }
 
-//    /**
-//     * Prepare the MiBand to receive the new firmware data.
-//     * Some information about the new firmware version have to be pushed to the MiBand before sending
-//     * the actual firmare.
-//     * <p/>
-//     * The Mi Band will send a notification after receiving these data to confirm if the metadata looks good to it.
-//     *
-//     * @param fwBytes
-//     * @param newFwVersion
-//     * @see MiBandSupport#handleNotificationNotif
-//     */
-//    private byte[] sendFirmwareInfo(int currentFwVersion, int newFwVersion, int newFwSize, int checksum) throws IOException {
-//    private UpdateCoordinator sendFirmwareInfo(byte[] fwBytes, int newFwVersion) throws IOException {
-//        int newFwSize = fwBytes.length;
-//        String mMac = getDevice().getAddress();
-//        String[] mMacOctets = mMac.split(":");
-//        int currentFwVersion = getSupport().getDeviceInfo().getFirmwareVersion();
-//        int checksum = (Integer.decode("0x" + mMacOctets[4]) << 8 | Integer.decode("0x" + mMacOctets[5])) ^ CheckSums.getCRC16(fwBytes);
-//
-//        byte[] fwInfo = new byte[]{
-//                MiBandService.COMMAND_SEND_FIRMWARE_INFO,
-//                (byte) currentFwVersion,
-//                (byte) (currentFwVersion >> 8),
-//                (byte) (currentFwVersion >> 16),
-//                (byte) (currentFwVersion >> 24),
-//                (byte) newFwVersion,
-//                (byte) (newFwVersion >> 8),
-//                (byte) (newFwVersion >> 16),
-//                (byte) (newFwVersion >> 24),
-//                (byte) newFwSize,
-//                (byte) (newFwSize >> 8),
-//                (byte) checksum,
-//                (byte) (checksum >> 8)
-////                (byte) (checksum >> 8),
-////                (byte) 0 // TEST, only for Mi1S!
-//        };
-//        return new SingleUpdateCoordinator(fwInfo, fwBytes);
-//    }
+    /**
+     * Prepare the MiBand to receive the new firmware data.
+     * Some information about the new firmware version have to be pushed to the MiBand before sending
+     * the actual firmare.
+     * <p/>
+     * The Mi Band will send a notification after receiving these data to confirm if the metadata looks good to it.
+     *
+     * @param newFwVersion
+     * @see MiBandSupport#handleNotificationNotif
+     */
+    private UpdateCoordinator prepareFirmwareInfo(byte[] fwBytes, int newFwVersion) throws IOException {
+        int newFwSize = fwBytes.length;
+        String mMac = getDevice().getAddress();
+        String[] mMacOctets = mMac.split(":");
+        int currentFwVersion = getSupport().getDeviceInfo().getFirmwareVersion();
+        int checksum = (Integer.decode("0x" + mMacOctets[4]) << 8 | Integer.decode("0x" + mMacOctets[5])) ^ CheckSums.getCRC16(fwBytes);
 
-    private UpdateCoordinator prepareFirmwareInfo1S(byte[] wholeFirmwareBytes) {
-        int fw2Version = Mi1SInfo.getFirmware2VersionFrom(wholeFirmwareBytes);
-        int fw2Offset = Mi1SInfo.getFirmware2OffsetIn(wholeFirmwareBytes);
-        int fw2Length = Mi1SInfo.getFirmware2LengthIn(wholeFirmwareBytes);
+        byte[] fwInfo = prepareFirmwareUpdateA(currentFwVersion, newFwVersion, newFwSize, checksum);
+        return new SingleUpdateCoordinator(fwInfo, fwBytes, true);
+    }
 
-        int fw1Version = Mi1SInfo.getFirmware1VersionFrom(wholeFirmwareBytes);
-        int fw1Offset = Mi1SInfo.getFirmware1OffsetIn(wholeFirmwareBytes);
-        int fw1Length = Mi1SInfo.getFirmware1LengthIn(wholeFirmwareBytes);
+    private UpdateCoordinator prepareFirmwareInfo1S(AbstractMiFirmwareInfo info) {
+        if (info.isSingleMiBandFirmware()) {
+            throw new IllegalArgumentException("preparing single fw not allowed for 1S");
+        }
+        int fw2Version = info.getSecond().getFirmwareVersion();
+        int fw1Version = info.getFirst().getFirmwareVersion();
 
         String[] mMacOctets = getDevice().getAddress().split(":");
         int encodedMac = (Integer.decode("0x" + mMacOctets[4]) << 8 | Integer.decode("0x" + mMacOctets[5]));
 
-        byte[] fw2Bytes = new byte[fw2Length];
-        System.arraycopy(wholeFirmwareBytes, fw2Offset, fw2Bytes, 0, fw2Length);
+        byte[] fw2Bytes = info.getSecond().getFirmwareBytes();
         int fw2Checksum = CheckSums.getCRC16(fw2Bytes) ^ encodedMac;
 
-        byte[] fw1Bytes = new byte[fw1Length];
-        System.arraycopy(wholeFirmwareBytes, fw1Offset, fw1Bytes, 0, fw1Length);
+        byte[] fw1Bytes = info.getFirst().getFirmwareBytes();
         int fw1Checksum = encodedMac ^ CheckSums.getCRC16(fw1Bytes);
 
         // check firmware validity?
@@ -215,21 +188,17 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
         int fw2OldVersion = getSupport().getDeviceInfo().getHeartrateFirmwareVersion();
 
         boolean rebootWhenFinished = true;
-        if (Mi1SInfo.isSingleMiBandFirmware(wholeFirmwareBytes)) {
+        if (info.isSingleMiBandFirmware()) {
             LOG.info("is single Mi Band firmware");
             byte[] fw1Info = prepareFirmwareInfo(fw1Bytes, fw1OldVersion, fw1Version, fw1Checksum, 0, rebootWhenFinished /*, progress monitor */);
             return new SingleUpdateCoordinator(fw1Info, fw1Bytes, rebootWhenFinished);
         } else {
-            LOG.info("is multi Mi Band firmware, sending fw2 (hr) now");
+            LOG.info("is multi Mi Band firmware, sending fw2 (hr) first");
             byte[] fw2Info = prepareFirmwareInfo(fw2Bytes, fw2OldVersion, fw2Version, fw2Checksum, 1, rebootWhenFinished /*, progress monitor */);
             byte[] fw1Info = prepareFirmwareInfo(fw1Bytes, fw1OldVersion, fw1Version, fw1Checksum, 1, rebootWhenFinished /*, progress monitor */);
             return new DoubleUpdateCoordinator(fw1Info, fw1Bytes, fw2Info, fw2Bytes, rebootWhenFinished);
         }
     }
-
-//    private Transaction createUpdateFirmwareTransaction() {
-//
-//    }
 
     private byte[] prepareFirmwareInfo(byte[] fwBytes, int currentFwVersion, int newFwVersion, int checksum, int something, boolean reboot) {
         byte[] fwInfo;
@@ -262,12 +231,6 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
                 (byte) checksum,
                 (byte) (checksum >> 8)
         };
-//        byte[] fwInfo = new byte[]{
-//                MiBandService.COMMAND_SEND_FIRMWARE_INFO
-//                (byte) currentFwVersion, (byte) (currentFwVersion >> 8), (byte) (currentFwVersion >> 16), (byte) (currentFwVersion >> 24),
-//                (byte) newFwVersion, (byte) (newFwVersion >> 8), (byte) (newFwVersion >> 16), (byte) (newFwVersion >> 24),
-//                (byte) newFwSize, (byte) (newFwSize >> 8),
-//                (byte) checksum, (byte) (checksum >> 8)})) {
         return fwInfo;
     }
 
@@ -286,21 +249,8 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
                 (byte) (newFwSize >> 8),
                 (byte) checksum,
                 (byte) (checksum >> 8),
-                (byte) something // 0 TEST, only for Mi1S!
+                (byte) something
         };
-
-//        // send to CONTROL POINT:
-//        if (!this.b(CONTROL_POINT, new byte[]{7,
-//                (byte) currentFwVersion, (byte) (currentFwVersion >> 8), (byte) (currentFwVersion >> 16), (byte) (currentFwVersion >> 24),
-//                (byte) newFwVersion, (byte) (newFwVersion >> 8), (byte) (newFwVersion >> 16), (byte) (newFwVersion >> 24),
-//                (byte) newFwSize, (byte) (newFwSize >> 8),
-//                (byte) checksum, (byte) (checksum >> 8), (byte) something})) {
-//            return false;
-//        }
-//        // wait for bq != -1
-//        if (bq == 12) {
-//            return true;
-//        }
         return fwInfo;
     }
 
@@ -388,6 +338,9 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
         }
 
         public boolean sendFwData() {
+//            if (true) {
+//            return true; // FIXME: temporarily disabled firmware sending
+//            }
             return sendFirmwareData(getFirmwareBytes());
         }
 

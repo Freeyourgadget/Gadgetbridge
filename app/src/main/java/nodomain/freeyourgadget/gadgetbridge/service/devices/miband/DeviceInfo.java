@@ -1,7 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.miband;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 
 public class DeviceInfo extends AbstractInfo {
@@ -76,7 +75,7 @@ public class DeviceInfo extends AbstractInfo {
     }
 
     public boolean supportsHeartrate() {
-        return isMilli1S();
+        return isMili1S();
     }
 
     @Override
@@ -100,7 +99,7 @@ public class DeviceInfo extends AbstractInfo {
         return feature == 5 && appearance == 0 || feature == 0 && hwVersion == 208;
     }
 
-    public boolean isMilli1S() {
+    public boolean isMili1S() {
         // TODO: this is probably not quite correct, but hopefully sufficient for early 1S support
         return feature == 4 && appearance == 0 || feature == 4 && hwVersion == 4;
     }
@@ -112,7 +111,7 @@ public class DeviceInfo extends AbstractInfo {
         if (isMili1A()) {
             return MiBandConst.MI_1A;
         }
-        if (isMilli1S()) {
+        if (isMili1S()) {
             return MiBandConst.MI_1S;
         }
         return "?";
