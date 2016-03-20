@@ -12,6 +12,7 @@ public class PebbleUtils {
         }
         return platformName;
     }
+
     public static String getModel(String hwRev) {
         //TODO: get real data?
         String model;

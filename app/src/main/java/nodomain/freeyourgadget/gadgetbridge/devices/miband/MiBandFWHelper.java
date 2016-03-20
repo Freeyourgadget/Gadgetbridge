@@ -26,8 +26,12 @@ public class MiBandFWHelper {
 
     private final Uri uri;
     private final ContentResolver cr;
-    private final @NonNull AbstractMiFirmwareInfo firmwareInfo;
-    private final @NonNull byte[] fw;
+    private final
+    @NonNull
+    AbstractMiFirmwareInfo firmwareInfo;
+    private final
+    @NonNull
+    byte[] fw;
 
     /**
      * Provides a different notification API which is also used on Mi1A devices.
@@ -125,12 +129,13 @@ public class MiBandFWHelper {
     }
 
     /**
-     *
      * @param wholeFirmwareBytes
      * @return
      * @throws IllegalArgumentException when the data is not recognized as firmware data
      */
-    public static @NonNull AbstractMiFirmwareInfo determineFirmwareInfoFor(byte[] wholeFirmwareBytes) {
+    public static
+    @NonNull
+    AbstractMiFirmwareInfo determineFirmwareInfoFor(byte[] wholeFirmwareBytes) {
         return AbstractMiFirmwareInfo.determineFirmwareInfoFor(wholeFirmwareBytes);
     }
 

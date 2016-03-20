@@ -87,7 +87,7 @@ public class DeviceInfo extends AbstractInfo {
                 ", hwVersion=" + hwVersion +
                 ", feature=" + feature +
                 ", appearance=" + appearance +
-                ", fw2Version (hr)=" + fw2Version+
+                ", fw2Version (hr)=" + fw2Version +
                 '}';
     }
 

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 
 public class AppMessageHandlerTimeStylePebble extends AppMessageHandler {
     public static final int KEY_SETTING_SIDEBAR_LEFT = 9;

@@ -5,9 +5,6 @@ import android.support.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-
 /**
  * Some helper methods for Mi1 and Mi1A firmware.
  */
@@ -21,18 +18,15 @@ public abstract class AbstractMi1FirmwareInfo extends AbstractMiFirmwareInfo {
     }
 
     @Override
-    public int getFirmwareOffset()
-    {
+    public int getFirmwareOffset() {
         return 0;
     }
 
-    public int getFirmwareLength()
-    {
+    public int getFirmwareLength() {
         return wholeFirmwareBytes.length;
     }
 
-    public int getFirmwareVersion()
-    {
+    public int getFirmwareVersion() {
         return (wholeFirmwareBytes[getOffsetFirmwareVersionMajor()] << 24)
                 | (wholeFirmwareBytes[getOffsetFirmwareVersionMinor()] << 16)
                 | (wholeFirmwareBytes[getOffsetFirmwareVersionRevision()] << 8)

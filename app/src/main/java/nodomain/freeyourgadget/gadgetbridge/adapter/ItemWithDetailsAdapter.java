@@ -30,6 +30,7 @@ public class ItemWithDetailsAdapter extends ArrayAdapter<ItemWithDetails> {
     public void setHorizontalAlignment(boolean horizontalAlignment) {
         this.horizontalAlignment = horizontalAlignment;
     }
+
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         ItemWithDetails item = getItem(position);

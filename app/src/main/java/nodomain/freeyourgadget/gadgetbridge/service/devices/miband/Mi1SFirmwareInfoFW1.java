@@ -15,8 +15,7 @@ public class Mi1SFirmwareInfoFW1 extends AbstractMi1SFirmwareInfo {
     }
 
     @Override
-    public int getFirmwareOffset()
-    {
+    public int getFirmwareOffset() {
         return (wholeFirmwareBytes[12] & 255) << 24
                 | (wholeFirmwareBytes[13] & 255) << 16
                 | (wholeFirmwareBytes[14] & 255) << 8
@@ -24,8 +23,7 @@ public class Mi1SFirmwareInfoFW1 extends AbstractMi1SFirmwareInfo {
     }
 
     @Override
-    public int getFirmwareLength()
-    {
+    public int getFirmwareLength() {
         return (wholeFirmwareBytes[16] & 255) << 24
                 | (wholeFirmwareBytes[17] & 255) << 16
                 | (wholeFirmwareBytes[18] & 255) << 8
@@ -33,15 +31,14 @@ public class Mi1SFirmwareInfoFW1 extends AbstractMi1SFirmwareInfo {
     }
 
     @Override
-    public int getFirmwareVersion()
-    {
+    public int getFirmwareVersion() {
         return (wholeFirmwareBytes[8] & 255) << 24
                 | (wholeFirmwareBytes[9] & 255) << 16
                 | (wholeFirmwareBytes[10] & 255) << 8
                 | wholeFirmwareBytes[11] & 255;
     }
 
-   @Override
+    @Override
     protected boolean isGenerallySupportedFirmware() {
         try {
             int majorVersion = getFirmwareVersionMajor();
@@ -49,5 +46,5 @@ public class Mi1SFirmwareInfoFW1 extends AbstractMi1SFirmwareInfo {
         } catch (IllegalArgumentException e) {
             return false;
         }
-   }
+    }
 }

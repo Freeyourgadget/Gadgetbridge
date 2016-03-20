@@ -19,6 +19,7 @@ public class GBMockApplication extends MockApplication {
     public Context getApplicationContext() {
         return this;
     }
+
     @Override
     public PackageManager getPackageManager() {
         return mPackageManager;

@@ -100,6 +100,7 @@ public class ExternalPebbleJSActivity extends Activity {
             return super.onConsoleMessage(consoleMessage);
         }
     }
+
     private class GBWebClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {

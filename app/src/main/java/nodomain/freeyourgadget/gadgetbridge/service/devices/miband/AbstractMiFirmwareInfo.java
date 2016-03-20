@@ -8,12 +8,13 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public abstract class AbstractMiFirmwareInfo {
     /**
-     *
      * @param wholeFirmwareBytes
      * @return
      * @throws IllegalArgumentException when the data is not recognized as firmware data
      */
-    public static @NonNull AbstractMiFirmwareInfo determineFirmwareInfoFor(byte[] wholeFirmwareBytes) {
+    public static
+    @NonNull
+    AbstractMiFirmwareInfo determineFirmwareInfoFor(byte[] wholeFirmwareBytes) {
         AbstractMiFirmwareInfo[] candidates = getFirmwareInfoCandidatesFor(wholeFirmwareBytes);
         if (candidates.length == 0) {
             throw new IllegalArgumentException("Unsupported data (maybe not even a firmware?).");
@@ -59,7 +60,9 @@ public abstract class AbstractMiFirmwareInfo {
 
     public abstract boolean isGenerallyCompatibleWith(GBDevice device);
 
-    public @NonNull byte[] getFirmwareBytes() {
+    public
+    @NonNull
+    byte[] getFirmwareBytes() {
         return Arrays.copyOfRange(wholeFirmwareBytes, getFirmwareOffset(), getFirmwareLength());
     }
 
@@ -85,6 +88,7 @@ public abstract class AbstractMiFirmwareInfo {
         }
         throw new UnsupportedOperationException(getClass().getName() + " must override getFirst() and getSecond()");
     }
+
     public AbstractMiFirmwareInfo getSecond() {
         if (isSingleMiBandFirmware()) {
             throw new UnsupportedOperationException(getClass().getName() + " only supports on firmware");

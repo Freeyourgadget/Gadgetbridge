@@ -11,6 +11,7 @@ public interface ItemWithDetails extends Parcelable, Comparable<ItemWithDetails>
 
     /**
      * Equality is based on #getName() only.
+     *
      * @param other
      */
     boolean equals(Object other);

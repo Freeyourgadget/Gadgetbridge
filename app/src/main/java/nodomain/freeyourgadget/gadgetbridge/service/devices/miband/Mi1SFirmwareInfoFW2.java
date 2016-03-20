@@ -13,8 +13,7 @@ public class Mi1SFirmwareInfoFW2 extends AbstractMi1SFirmwareInfo {
     }
 
     @Override
-    public int getFirmwareOffset()
-    {
+    public int getFirmwareOffset() {
         return (wholeFirmwareBytes[26] & 255) << 24
                 | (wholeFirmwareBytes[27] & 255) << 16
                 | (wholeFirmwareBytes[28] & 255) << 8
@@ -22,8 +21,7 @@ public class Mi1SFirmwareInfoFW2 extends AbstractMi1SFirmwareInfo {
     }
 
     @Override
-    public int getFirmwareLength()
-    {
+    public int getFirmwareLength() {
         return (wholeFirmwareBytes[30] & 255) << 24
                 | (wholeFirmwareBytes[31] & 255) << 16
                 | (wholeFirmwareBytes[32] & 255) << 8
@@ -41,8 +39,7 @@ public class Mi1SFirmwareInfoFW2 extends AbstractMi1SFirmwareInfo {
     }
 
     @Override
-    public int getFirmwareVersion()
-    {
+    public int getFirmwareVersion() {
         return (wholeFirmwareBytes[22] & 255) << 24
                 | (wholeFirmwareBytes[23] & 255) << 16
                 | (wholeFirmwareBytes[24] & 255) << 8

@@ -12,14 +12,12 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.text.Collator;
 import java.util.Collections;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
-import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.model.ItemWithDetails;
 
 /**
@@ -126,7 +124,7 @@ public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {
         return view;
     }
 
-    public void justifyListViewHeightBasedOnChildren (ListView listView) {
+    public void justifyListViewHeightBasedOnChildren(ListView listView) {
         ArrayAdapter adapter = (ArrayAdapter) listView.getAdapter();
 
         if (adapter == null) {

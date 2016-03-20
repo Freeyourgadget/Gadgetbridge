@@ -31,7 +31,9 @@ public class Mi1SFirmwareInfo extends AbstractMi1SFirmwareInfo {
         return fw2Info;
     }
 
-    public static @Nullable Mi1SFirmwareInfo getInstance(byte[] wholeFirmwareBytes) {
+    public static
+    @Nullable
+    Mi1SFirmwareInfo getInstance(byte[] wholeFirmwareBytes) {
         Mi1SFirmwareInfo info = new Mi1SFirmwareInfo(wholeFirmwareBytes);
         if (info.isGenerallySupportedFirmware()) {
             return info;

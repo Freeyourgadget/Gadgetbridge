@@ -28,7 +28,7 @@ public abstract class AbstractServiceTestCase<T extends Service> {
     private NotificationManager mNotificationManager;
     private MockHelper mMockHelper;
 
-    protected  AbstractServiceTestCase(Class<T> serviceClass) {
+    protected AbstractServiceTestCase(Class<T> serviceClass) {
         mServiceClass = serviceClass;
         Assert.assertNotNull(serviceClass);
     }

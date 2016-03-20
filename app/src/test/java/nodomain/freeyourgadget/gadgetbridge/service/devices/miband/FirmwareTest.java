@@ -25,7 +25,7 @@ public class FirmwareTest {
     private static final int DOUBLE = 2;
 
     @Test
-    public void testFirmwareMi1() throws Exception{
+    public void testFirmwareMi1() throws Exception {
         byte[] wholeFw = getFirmwareMi();
         Assert.assertNotNull(wholeFw);
 
@@ -38,7 +38,7 @@ public class FirmwareTest {
     }
 
     @Test
-    public void testFirmwareMi1A() throws Exception{
+    public void testFirmwareMi1A() throws Exception {
         byte[] wholeFw = getFirmwareMi1A();
         Assert.assertNotNull(wholeFw);
 
@@ -51,7 +51,7 @@ public class FirmwareTest {
     }
 
     @Test
-    public void testFirmwareMi1S() throws Exception{
+    public void testFirmwareMi1S() throws Exception {
         byte[] wholeFw = getFirmwareMi1S();
         Assert.assertNotNull(wholeFw);
 
@@ -84,7 +84,8 @@ public class FirmwareTest {
         try {
             info.getFirmwareVersion();
             Assert.fail("should not get fw version from AbstractMi1SFirmwareInfo");
-        } catch (UnsupportedOperationException expected) {}
+        } catch (UnsupportedOperationException expected) {
+        }
 
         Assert.assertNotEquals(info.getFirst().getFirmwareOffset(), info.getSecond().getFirmwareOffset());
         Assert.assertFalse(Arrays.equals(info.getFirst().getFirmwareBytes(), info.getSecond().getFirmwareBytes()));
@@ -99,7 +100,8 @@ public class FirmwareTest {
                 try {
                     info.getSecond();
                     Assert.fail("should throw UnsuportedOperationException");
-                } catch (UnsupportedOperationException expected) {}
+                } catch (UnsupportedOperationException expected) {
+                }
                 int calculatedLength = info.getFirmwareLength();
                 Assert.assertTrue("Unexpected firmware length: " + wholeFw.length, calculatedLength <= wholeFw.length);
                 break;
