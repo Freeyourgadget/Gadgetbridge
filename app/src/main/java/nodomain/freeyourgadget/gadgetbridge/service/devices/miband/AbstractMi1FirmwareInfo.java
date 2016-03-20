@@ -52,16 +52,22 @@ public abstract class AbstractMi1FirmwareInfo extends AbstractMiFirmwareInfo {
     @Override
     protected boolean isGenerallySupportedFirmware() {
         if (!isSingleMiBandFirmware()) {
+            LOG.warn("not a single firmware");
             return false;
         }
         try {
             int majorVersion = getFirmwareVersionMajor();
-            return majorVersion == getSupportedMajorVersion();
-        } catch (IllegalArgumentException e) {
-            return false;
+            if (majorVersion == getSupportedMajorVersion()) {
+                return true;
+            } else {
+                LOG.info("Only major version " + getSupportedMajorVersion() + " is supported: " + majorVersion);
+            }
+        } catch (IllegalArgumentException ex) {
+            LOG.warn("invalid firmware or bug: " + ex.getLocalizedMessage(), ex);
         } catch (IndexOutOfBoundsException ex) {
-            return false;
+            LOG.warn("not supported firmware: " + ex.getLocalizedMessage(), ex);
         }
+        return false;
     }
 
     protected abstract int getSupportedMajorVersion();

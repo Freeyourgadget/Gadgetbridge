@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
  * FW2 is heartrate firmware
  */
 public class Mi1SFirmwareInfo extends AbstractMi1SFirmwareInfo {
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractMi1FirmwareInfo.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Mi1SFirmwareInfo.class);
 
     private final Mi1SFirmwareInfoFW1 fw1Info;
     private final Mi1SFirmwareInfoFW2 fw2Info;
@@ -53,9 +53,10 @@ public class Mi1SFirmwareInfo extends AbstractMi1SFirmwareInfo {
                     && fw1Info.getFirmwareBytes().length > 0
                     && fw2Info.getFirmwareBytes().length > 0;
         } catch (IndexOutOfBoundsException ex) {
+            LOG.warn("invalid firmware or bug: " + ex.getLocalizedMessage(), ex);
             return false;
         } catch (IllegalArgumentException ex) {
-            LOG.warn("not supported 1S firmware: ", ex);
+            LOG.warn("not supported 1S firmware: " + ex.getLocalizedMessage(), ex);
             return false;
         }
     }

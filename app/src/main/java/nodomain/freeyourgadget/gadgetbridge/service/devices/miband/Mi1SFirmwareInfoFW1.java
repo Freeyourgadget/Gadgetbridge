@@ -2,12 +2,15 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.miband;
 
 import android.support.annotation.NonNull;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * FW1 is Mi Band firmware
  * FW2 is heartrate firmware
  */
 public class Mi1SFirmwareInfoFW1 extends AbstractMi1SFirmwareInfo {
-
+    private static final Logger LOG = LoggerFactory.getLogger(Mi1SFirmwareInfoFW1.class);
     private static final int MI1S_FW_BASE_OFFSET = 1092;
 
     Mi1SFirmwareInfoFW1(@NonNull byte[] wholeFirmwareBytes) {
@@ -42,9 +45,14 @@ public class Mi1SFirmwareInfoFW1 extends AbstractMi1SFirmwareInfo {
     protected boolean isGenerallySupportedFirmware() {
         try {
             int majorVersion = getFirmwareVersionMajor();
-            return majorVersion == 4;
-        } catch (IllegalArgumentException e) {
-            return false;
+            if (majorVersion == 4) {
+                return true;
+            } else {
+                LOG.warn("Only major version 4 is supported for 1S fw1: " + majorVersion);
+            }
+        } catch (IllegalArgumentException ex) {
+            LOG.warn("not supported 1S firmware 1: " + ex.getLocalizedMessage(), ex);
         }
+        return false;
     }
 }
