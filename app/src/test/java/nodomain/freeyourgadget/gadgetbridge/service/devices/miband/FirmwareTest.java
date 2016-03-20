@@ -33,6 +33,7 @@ public class FirmwareTest {
         int calculatedVersion = info.getFirmwareVersion();
         String version = MiBandFWHelper.formatFirmwareVersion(calculatedVersion);
         Assert.assertTrue(version.startsWith("1."));
+        Assert.assertArrayEquals(wholeFw, info.getFirmwareBytes());
 //        Assert.assertEquals("Unexpected firmware version: " + calculatedVersion, MI_FW_VERSION, calculatedVersion);
     }
 
@@ -45,6 +46,7 @@ public class FirmwareTest {
         int calculatedVersion = info.getFirmwareVersion();
         String version = MiBandFWHelper.formatFirmwareVersion(calculatedVersion);
         Assert.assertTrue(version.startsWith("5."));
+        Assert.assertArrayEquals(wholeFw, info.getFirmwareBytes());
 //        Assert.assertEquals("Unexpected firmware version: " + calculatedVersion, MI1A_FW_VERSION, calculatedVersion);
     }
 

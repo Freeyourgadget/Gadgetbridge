@@ -46,8 +46,14 @@ public class Mi1SFirmwareInfo extends AbstractMi1SFirmwareInfo {
             return false;
         }
         try {
-            return fw1Info.isGenerallySupportedFirmware() && fw2Info.isGenerallySupportedFirmware();
+            return fw1Info.isGenerallySupportedFirmware()
+                    && fw2Info.isGenerallySupportedFirmware()
+                    && fw1Info.getFirmwareBytes().length > 0
+                    && fw2Info.getFirmwareBytes().length > 0;
         } catch (IndexOutOfBoundsException ex) {
+            return false;
+        } catch (IllegalArgumentException ex) {
+            LOG.warn("not supported 1S firmware: ", ex);
             return false;
         }
     }
