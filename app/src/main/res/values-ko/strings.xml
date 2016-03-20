@@ -102,12 +102,7 @@
   <string name="discovery_connected_devices_hint">기기를 발견 가능하도록 설정하세요. 현재 연결된 기기들은 발견될 수 없습니다.</string>
   <string name="discovery_note">알림: </string>
   <string name="candidate_item_device_image">기기 이미지</string>
-  <string name="activity_prefs_about_you">당신에 대해</string>
   <string name="miband_prefs_alias">이름/별명</string>
-  <string name="activity_prefs_year_birth">출생년도</string>
-  <string name="activity_prefs_gender">성별</string>
-  <string name="activity_prefs_height_cm">키 (cm)</string>
-  <string name="activity_prefs_weight_kg">몸무게 (kg)</string>
   <string name="pref_header_vibration_count">진동 횟수</string>
   <string name="title_activity_sleepmonitor">수면 측정계</string>
   <string name="pref_write_logfiles">기록 파일 작성 (재시작 필요)</string>
@@ -201,4 +196,9 @@
   <string name="miband_prefs_reserve_alarm_calendar">다가오는 이벤트를 위해 예약할 알람</string>
   <string name="waiting_for_reconnect">재접속을 기다리는 중</string>
   <string name="appmananger_app_reinstall">재설치</string>
+  <string name="activity_prefs_about_you">당신에 대해</string>
+  <string name="activity_prefs_year_birth">출생년도</string>
+  <string name="activity_prefs_gender">성별</string>
+  <string name="activity_prefs_height_cm">키 (cm)</string>
+  <string name="activity_prefs_weight_kg">몸무게 (kg)</string>
 </resources>
