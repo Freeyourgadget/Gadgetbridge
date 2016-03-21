@@ -111,6 +111,8 @@ function gbPebble() {
         GBjs.gbLog("app wanted to show: " + title + " body: "+ body);
     }
 
+    this.ready = function() {
+    }
 
 }
 
@@ -129,6 +131,7 @@ if (jsConfigFile != null) {
         } else {
             document.getElementById('step2').style.display="none";
             Pebble.ready();
+            Pebble.showConfiguration();
         }
     });
 }

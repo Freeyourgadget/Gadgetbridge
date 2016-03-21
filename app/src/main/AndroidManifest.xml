@@ -261,7 +261,7 @@
 
         <activity
             android:name=".activities.ExternalPebbleJSActivity"
-            android:label="external_js"
+            android:label="@string/app_configure"
             android:parentActivityName=".activities.AppManagerActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

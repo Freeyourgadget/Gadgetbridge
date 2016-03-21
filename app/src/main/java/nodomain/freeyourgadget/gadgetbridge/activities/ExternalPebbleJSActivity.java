@@ -96,9 +96,13 @@ public class ExternalPebbleJSActivity extends Activity {
     private class GBChromeClient extends WebChromeClient {
         @Override
         public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
-            GB.toast(consoleMessage.message(), Toast.LENGTH_LONG, GB.ERROR);
+            if (ConsoleMessage.MessageLevel.ERROR.equals(consoleMessage.messageLevel())) {
+                GB.toast(consoleMessage.message(), Toast.LENGTH_LONG, GB.ERROR);
+                //TODO: show error page
+            }
             return super.onConsoleMessage(consoleMessage);
         }
+
     }
 
     private class GBWebClient extends WebViewClient {
