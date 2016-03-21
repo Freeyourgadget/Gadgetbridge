@@ -7,6 +7,7 @@
         <change>Mi Band: Display HR FW for 1S</change>
         <change>FW and HW versions are only displayed after tapping on the "info" button in Control Center</change>
         <change>Do not display activity samples when navigating too far in the past</change>
+        <change>Fix auto connect which was broken under some circumstances</change>
     </release>
     <release version="0.8.2" versioncode="43">
         <change>Add experimental widget to set the alarm time to a configurable number of hours in the future</change>

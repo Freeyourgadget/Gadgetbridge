@@ -1,12 +1,13 @@
 ###Changelog
 
-####Version 0.9.0 (next)
+####Version 0.9.0
 * Pebble: Support for configuring watchfaces/apps locally (clay) or though webbrowser (some do not work)
 * Pebble: hide the alarm management activity as it's unsupported
 * Mi Band: Improve firmware detection and updates, including 1S support
 * Mi Band: Display HR FW for 1S
 * FW and HW versions are only displayed after tapping on the "info" button in Control Center
 * Do not display activity samples when navigating too far in the past
+* Fix auto connect which was broken under some circumstances
 
 ####Version 0.8.2
 * Fix database creation and updates (thanks @feclare)
