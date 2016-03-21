@@ -2,11 +2,14 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.miband;
 
 import android.support.annotation.NonNull;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 
 public abstract class AbstractMiFirmwareInfo {
+
     /**
      * @param wholeFirmwareBytes
      * @return
@@ -20,6 +23,7 @@ public abstract class AbstractMiFirmwareInfo {
             throw new IllegalArgumentException("Unsupported data (maybe not even a firmware?).");
         }
         if (candidates.length == 1) {
+            candidates[0].checkValid();
             return candidates[0];
         }
         throw new IllegalArgumentException("don't know for which device the firmware is, matches multiple devices");
@@ -58,6 +62,8 @@ public abstract class AbstractMiFirmwareInfo {
 
     protected abstract boolean isGenerallySupportedFirmware();
 
+    protected abstract boolean isHeaderValid();
+
     public abstract boolean isGenerallyCompatibleWith(GBDevice device);
 
     public @NonNull byte[] getFirmwareBytes() {
@@ -72,12 +78,9 @@ public abstract class AbstractMiFirmwareInfo {
         throw new IllegalArgumentException("bad firmware version: " + version);
     }
 
-    public boolean isSingleMiBandFirmware() {
-        // TODO: not sure if this is a correct check!
-        if ((wholeFirmwareBytes[7] & 255) != 1) {
-            return true;
-        }
-        return false;
+    public abstract boolean isSingleMiBandFirmware();
+
+    public void checkValid() throws IllegalArgumentException {
     }
 
     public AbstractMiFirmwareInfo getFirst() {

@@ -5,16 +5,35 @@ import android.support.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
+
 /**
  * Some helper methods for Mi1 and Mi1A firmware.
  */
 public abstract class AbstractMi1FirmwareInfo extends AbstractMiFirmwareInfo {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractMi1FirmwareInfo.class);
 
+    private static final byte[] SINGLE_FW_HEADER = new byte[] {
+            0,
+            (byte)0x98,
+            0,
+            (byte)0x20,
+            (byte)0x89,
+            4,
+            0,
+            (byte)0x20
+    };
+    private static final int SINGLE_FW_HEADER_OFFSET = 0;
+
     private static final int MI1_FW_BASE_OFFSET = 1056;
 
     protected AbstractMi1FirmwareInfo(@NonNull byte[] wholeFirmwareBytes) {
         super(wholeFirmwareBytes);
+    }
+
+    @Override
+    public boolean isSingleMiBandFirmware() {
+        return true;
     }
 
     @Override
@@ -51,11 +70,11 @@ public abstract class AbstractMi1FirmwareInfo extends AbstractMiFirmwareInfo {
 
     @Override
     protected boolean isGenerallySupportedFirmware() {
-        if (!isSingleMiBandFirmware()) {
-            LOG.warn("not a single firmware");
-            return false;
-        }
         try {
+            if (!isHeaderValid()) {
+                LOG.info("unrecognized header");
+                return false;
+            }
             int majorVersion = getFirmwareVersionMajor();
             if (majorVersion == getSupportedMajorVersion()) {
                 return true;
@@ -68,6 +87,20 @@ public abstract class AbstractMi1FirmwareInfo extends AbstractMiFirmwareInfo {
             LOG.warn("not supported firmware: " + ex.getLocalizedMessage(), ex);
         }
         return false;
+    }
+
+    protected boolean isHeaderValid() {
+        // TODO: not sure if this is a correct check!
+        return ArrayUtils.equals(SINGLE_FW_HEADER, wholeFirmwareBytes, SINGLE_FW_HEADER_OFFSET, SINGLE_FW_HEADER_OFFSET + SINGLE_FW_HEADER.length);
+    }
+
+    @Override
+    public void checkValid() throws IllegalArgumentException {
+        super.checkValid();
+
+        if (wholeFirmwareBytes.length < SINGLE_FW_HEADER.length) {
+            throw new IllegalArgumentException("firmware too small: " + wholeFirmwareBytes.length);
+        }
     }
 
     protected abstract int getSupportedMajorVersion();

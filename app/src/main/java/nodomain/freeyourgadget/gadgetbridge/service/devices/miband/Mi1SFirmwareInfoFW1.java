@@ -18,6 +18,11 @@ public class Mi1SFirmwareInfoFW1 extends AbstractMi1SFirmwareInfo {
     }
 
     @Override
+    protected boolean isHeaderValid() {
+        return true;
+    }
+
+    @Override
     public int getFirmwareOffset() {
         return (wholeFirmwareBytes[12] & 255) << 24
                 | (wholeFirmwareBytes[13] & 255) << 16

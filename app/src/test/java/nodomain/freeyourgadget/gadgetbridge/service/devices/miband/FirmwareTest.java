@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.miband;
 
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -12,7 +13,7 @@ import java.util.Arrays;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
-@Ignore("Disabled for travis -- needs vm parameter -DMiFirmwareDir=/path/to/firmware/directory/")
+//@Ignore("Disabled for travis -- needs vm parameter -DMiFirmwareDir=/path/to/firmware/directory/")
 public class FirmwareTest {
 
     private static final long MAX_FILE_SIZE_BYTES = 1024 * 1024; // 1MB
@@ -23,6 +24,11 @@ public class FirmwareTest {
 
     private static final int SINGLE = 1;
     private static final int DOUBLE = 2;
+
+    @BeforeClass
+    public static void setupSuite() {
+        getFirmwareDir(); // throws if firmware directory not available
+    }
 
     @Test
     public void testFirmwareMi1() throws Exception {
@@ -124,11 +130,11 @@ public class FirmwareTest {
         return info;
     }
 
-    private File getFirmwareDir() {
+    private static File getFirmwareDir() {
         String path = System.getProperty("MiFirmwareDir");
-        Assert.assertNotNull(path);
+        Assert.assertNotNull("You must run this test with -DMiFirmwareDir=/path/to/directory/with/miband/firmwarefiles/", path);
         File dir = new File(path);
-        Assert.assertTrue(dir.isDirectory());
+        Assert.assertTrue("System property MiFirmwareDir should point to a directory continaing the Mi Band firmware files", dir.isDirectory());
         return dir;
     }
 

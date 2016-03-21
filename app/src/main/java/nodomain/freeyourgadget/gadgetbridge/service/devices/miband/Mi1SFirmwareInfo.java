@@ -5,12 +5,22 @@ import android.support.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
+
 /**
  * FW1 is Mi Band firmware
  * FW2 is heartrate firmware
  */
 public class Mi1SFirmwareInfo extends AbstractMi1SFirmwareInfo {
     private static final Logger LOG = LoggerFactory.getLogger(Mi1SFirmwareInfo.class);
+
+    private static final byte[] DOUBLE_FW_HEADER = new byte[] {
+            (byte)0x78,
+            (byte)0x75,
+            (byte)0x63,
+            (byte)0x6b
+    };
+    private static final int DOUBLE_FW_HEADER_OFFSET = 0;
 
     private final Mi1SFirmwareInfoFW1 fw1Info;
     private final Mi1SFirmwareInfoFW2 fw2Info;
@@ -19,6 +29,33 @@ public class Mi1SFirmwareInfo extends AbstractMi1SFirmwareInfo {
         super(wholeFirmwareBytes);
         fw1Info = new Mi1SFirmwareInfoFW1(wholeFirmwareBytes);
         fw2Info = new Mi1SFirmwareInfoFW2(wholeFirmwareBytes);
+    }
+
+    protected boolean isHeaderValid() {
+        // TODO: not sure if this is a correct check!
+        return ArrayUtils.equals(DOUBLE_FW_HEADER, wholeFirmwareBytes, DOUBLE_FW_HEADER_OFFSET, DOUBLE_FW_HEADER_OFFSET + DOUBLE_FW_HEADER.length);
+    }
+
+    @Override
+    public void checkValid() throws IllegalArgumentException {
+        super.checkValid();
+        int firstEndIndex = getFirst().getFirmwareOffset() + getFirst().getFirmwareLength();
+        if (getSecond().getFirmwareOffset() < firstEndIndex) {
+            throw new IllegalArgumentException("Invalid firmware offsets/lengths: " + getLengthsOffsetsString());
+        }
+        int secondEndIndex = getSecond().getFirmwareOffset();
+        if (wholeFirmwareBytes.length < firstEndIndex || wholeFirmwareBytes.length < secondEndIndex) {
+            throw new IllegalArgumentException("Invalid firmware size, or invalid offsets/lengths: " + getLengthsOffsetsString());
+        }
+        if (getSecond().getFirmwareOffset() < firstEndIndex) {
+            throw new IllegalArgumentException("Invalid firmware, second fw starts before first fw ends: " + firstEndIndex + "," + getSecond().getFirmwareOffset());
+        }
+    }
+
+    protected String getLengthsOffsetsString() {
+        return getFirst().getFirmwareOffset() + "," + getFirst().getFirmwareLength()
+                + "; "
+                + getSecond().getFirmwareOffset() + "," + getSecond().getFirmwareLength();
     }
 
     @Override
@@ -44,10 +81,11 @@ public class Mi1SFirmwareInfo extends AbstractMi1SFirmwareInfo {
 
     @Override
     protected boolean isGenerallySupportedFirmware() {
-        if (isSingleMiBandFirmware()) {
-            return false;
-        }
         try {
+            if (!isHeaderValid()) {
+                LOG.info("unrecognized header");
+                return false;
+            }
             return fw1Info.isGenerallySupportedFirmware()
                     && fw2Info.isGenerallySupportedFirmware()
                     && fw1Info.getFirmwareBytes().length > 0

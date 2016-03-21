@@ -15,4 +15,9 @@ public abstract class AbstractMi1SFirmwareInfo extends AbstractMiFirmwareInfo {
     public boolean isGenerallyCompatibleWith(GBDevice device) {
         return MiBandConst.MI_1S.equals(device.getHardwareVersion());
     }
+
+    @Override
+    public boolean isSingleMiBandFirmware() {
+        return false;
+    }
 }
