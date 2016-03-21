@@ -13,7 +13,7 @@ import java.util.Arrays;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
-//@Ignore("Disabled for travis -- needs vm parameter -DMiFirmwareDir=/path/to/firmware/directory/")
+@Ignore("Disabled for travis -- needs vm parameter -DMiFirmwareDir=/path/to/firmware/directory/")
 public class FirmwareTest {
 
     private static final long MAX_FILE_SIZE_BYTES = 1024 * 1024; // 1MB
