@@ -233,5 +233,6 @@
     <string name="appwidget_alarms_set">An alarm was set for %1$02d:%2$02d</string>
     <string name="device_hw">HW: %1$s</string>
     <string name="device_fw">FW: %1$s</string>
+    <string name="error_creating_directory_for_logfiles">Error creating directory for log files: %1$s</string>
 
 </resources>

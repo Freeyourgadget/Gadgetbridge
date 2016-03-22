@@ -7,11 +7,16 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.support.v4.content.LocalBroadcastManager;
+import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_GENDER;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_HEIGHT_CM;
@@ -75,6 +80,26 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 Intent refreshIntent = new Intent(ControlCenter.ACTION_REFRESH_DEVICELIST);
                 LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(refreshIntent);
                 preference.setSummary(newVal.toString());
+                return true;
+            }
+
+        });
+
+        pref = findPreference("log_to_file");
+        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                if (Boolean.TRUE.equals(newVal)) {
+                    try {
+                        FileUtils.getExternalFilesDir(); // ensures that it is created
+                    } catch (IOException ex) {
+                        GB.toast(getApplicationContext(),
+                                getString(R.string.error_creating_directory_for_logfiles, ex.getLocalizedMessage()),
+                                Toast.LENGTH_LONG,
+                                GB.ERROR,
+                                ex);
+                    }
+                }
                 return true;
             }
 
