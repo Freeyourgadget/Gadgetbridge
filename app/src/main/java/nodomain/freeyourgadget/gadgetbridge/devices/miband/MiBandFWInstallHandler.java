@@ -47,6 +47,14 @@ public class MiBandFWInstallHandler implements InstallHandler {
             return;
         }
 
+        try {
+            helper.getFirmwareInfo().checkValid();
+        } catch (IllegalArgumentException ex) {
+            installActivity.setInfoText(ex.getLocalizedMessage());
+            installActivity.setInstallEnabled(false);
+            return;
+        }
+
         GenericItem fwItem = new GenericItem(mContext.getString(R.string.miband_installhandler_miband_firmware, helper.getHumanFirmwareVersion()));
         fwItem.setIcon(R.drawable.ic_device_miband);
 

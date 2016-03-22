@@ -23,7 +23,6 @@ public abstract class AbstractMiFirmwareInfo {
             throw new IllegalArgumentException("Unsupported data (maybe not even a firmware?).");
         }
         if (candidates.length == 1) {
-            candidates[0].checkValid();
             return candidates[0];
         }
         throw new IllegalArgumentException("don't know for which device the firmware is, matches multiple devices");
@@ -60,10 +59,24 @@ public abstract class AbstractMiFirmwareInfo {
 
     public abstract int getFirmwareVersion();
 
+    /**
+     * Returns true if the firmware data is recognized as such and can be
+     * handled by this instance. No further sanity checks are done at this point.
+     */
     protected abstract boolean isGenerallySupportedFirmware();
 
+    /**
+     * This method checks whether the firmware data is recognized as such and can be handled
+     * by this instance. It will be called by #isGenerallySupportedFirmware() in order to check
+     * whether this instance can be used at all or shall be thrown away.
+     */
     protected abstract boolean isHeaderValid();
 
+    /**
+     * Checks whether this instance, with the provided firmware data is compatible with the
+     * given device. Must be called to avoid installing Mi1 firmware on Mi1A, for example.
+     * @param device
+     */
     public abstract boolean isGenerallyCompatibleWith(GBDevice device);
 
     public @NonNull byte[] getFirmwareBytes() {
@@ -80,6 +93,11 @@ public abstract class AbstractMiFirmwareInfo {
 
     public abstract boolean isSingleMiBandFirmware();
 
+    /**
+     * Performs a thorough sanity check of the firmware data and throws IllegalArgumentException
+     * if there's any problem with it.
+     * @throws IllegalArgumentException
+     */
     public void checkValid() throws IllegalArgumentException {
     }
 

@@ -26,12 +26,13 @@ public class MiBandFWHelper {
 
     private final Uri uri;
     private final ContentResolver cr;
-    private final
-    @NonNull
-    AbstractMiFirmwareInfo firmwareInfo;
-    private final
-    @NonNull
-    byte[] fw;
+    /**
+     * The backing firmware info instance, which in general supports the provided
+     * given firmware. You must call AbstractMiFirmwareInfo#checkValid() before
+     * attempting to flash it.
+     */
+    private final @NonNull AbstractMiFirmwareInfo firmwareInfo;
+    private final @NonNull byte[] fw;
 
     /**
      * Provides a different notification API which is also used on Mi1A devices.
@@ -139,6 +140,11 @@ public class MiBandFWHelper {
         return AbstractMiFirmwareInfo.determineFirmwareInfoFor(wholeFirmwareBytes);
     }
 
+    /**
+     * The backing firmware info instance, which in general supports the provided
+     * given firmware. You MUST call AbstractMiFirmwareInfo#checkValid() AND
+     * isGenerallyCompatibleWithDevice() before attempting to flash it.
+     */
     public AbstractMiFirmwareInfo getFirmwareInfo() {
         return firmwareInfo;
     }
