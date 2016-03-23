@@ -24,8 +24,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 public class MiBandFWHelper {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandFWHelper.class);
 
-    private final Uri uri;
-    private final ContentResolver cr;
     /**
      * The backing firmware info instance, which in general supports the provided
      * given firmware. You must call AbstractMiFirmwareInfo#checkValid() before
@@ -54,19 +52,12 @@ public class MiBandFWHelper {
     };
 
     public MiBandFWHelper(Uri uri, Context context) throws IOException {
-        this.uri = uri;
-        cr = context.getContentResolver();
-        if (cr == null) {
-            throw new IOException("No content resolver");
-        }
-
         String pebblePattern = ".*\\.(pbw|pbz|pbl)";
-
         if (uri.getPath().matches(pebblePattern)) {
             throw new IOException("Firmware has a filename that looks like a Pebble app/firmware.");
         }
 
-        try (InputStream in = new BufferedInputStream(cr.openInputStream(uri))) {
+        try (InputStream in = new BufferedInputStream(context.getContentResolver().openInputStream(uri))) {
             this.fw = FileUtils.readAll(in, 1024 * 1024); // 1 MB
             this.firmwareInfo = determineFirmwareInfoFor(fw);
         } catch (IOException ex) {
