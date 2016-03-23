@@ -84,6 +84,7 @@ public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {
                     adapter.addAll(infos);
                     justifyListViewHeightBasedOnChildren(deviceInfoList);
                     deviceInfoList.setVisibility(View.VISIBLE);
+                    deviceInfoList.setFocusable(false);
                 }
             }
         });
