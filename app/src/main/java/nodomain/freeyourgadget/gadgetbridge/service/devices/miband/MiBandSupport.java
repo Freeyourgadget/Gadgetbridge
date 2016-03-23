@@ -97,6 +97,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         builder.add(new SetDeviceStateAction(getDevice(), State.INITIALIZING, getContext()));
         enableNotifications(builder, true)
+                .setLowLatency(builder)
                 .pair(builder)
                 .requestDeviceInfo(builder)
                 .sendUserInfo(builder)
@@ -106,8 +107,19 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 .enableFurtherNotifications(builder, true)
                 .setCurrentTime(builder)
                 .requestBatteryInfo(builder)
+                .setHighLatency(builder)
                 .setInitialized(builder);
         return builder;
+    }
+
+    private MiBandSupport setLowLatency(TransactionBuilder builder) {
+        builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_LE_PARAMS), getLowLatency());
+        return this;
+    }
+
+    private MiBandSupport setHighLatency(TransactionBuilder builder) {
+        builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_LE_PARAMS), getHighLatency());
+        return this;
     }
 
     private MiBandSupport checkAuthenticationNeeded(TransactionBuilder builder, GBDevice device) {
