@@ -76,4 +76,9 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     public boolean supportsScreenshots() {
         return true;
     }
+
+    @Override
+    public boolean supportsAlarmConfiguration() {
+        return false;
+    }
 }

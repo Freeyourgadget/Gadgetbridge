@@ -24,6 +24,7 @@
     <!-- Strings related to FwAppInstaller -->
     <string name="title_activity_fw_app_insaller">FW/App installer</string>
     <string name="fw_upgrade_notice">You are about to install firmware %s instead of the one currently on your Mi Band.</string>
+    <string name="fw_multi_upgrade_notice">You are about to install firmwares %1$s and %2$s instead of the ones currently on your Mi Band.</string>
     <string name="miband_firmware_known">This firmware has been tested and is known to be compatible with Gadgetbridge.</string>
     <string name="miband_firmware_unknown_warning">"This firmware is untested and may not be compatible with Gadgetbridge.\n\nYou are NOT encouraged to flash it to your Mi Band!"</string>
     <string name="miband_firmware_suggest_whitelist">If you still want to proceed and things continue to work properly afterwards, please tell the Gadgetbridge developers to whitelist firmware version: %s</string>
@@ -230,6 +231,10 @@
     <string name="add_widget">Add widget</string>
     <string name="activity_prefs_sleep_duration">Preferred sleep duration in hours</string>
     <string name="appwidget_alarms_set">An alarm was set for %1$02d:%2$02d</string>
+    <string name="device_hw">HW: %1$s</string>
+    <string name="device_fw">FW: %1$s</string>
+    <string name="error_creating_directory_for_logfiles">Error creating directory for log files: %1$s</string>
+    <string name="DEVINFO_HR_VER">"HR: "</string>
 
     <string name="app_manager_select_file">Select File</string>
 

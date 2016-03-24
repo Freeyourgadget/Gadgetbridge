@@ -10,10 +10,15 @@ import android.support.v4.content.LocalBroadcastManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
+import nodomain.freeyourgadget.gadgetbridge.model.ItemWithDetails;
 
 public class GBDevice implements Parcelable {
     public static final String ACTION_DEVICE_CHANGED
@@ -34,6 +39,8 @@ public class GBDevice implements Parcelable {
     public static final short BATTERY_UNKNOWN = -1;
     private static final short BATTERY_THRESHOLD_PERCENT = 10;
     public static final String EXTRA_DEVICE = "device";
+    private static final String DEVINFO_HW_VER = "HW: ";
+    private static final String DEVINFO_FW_VER = "FW: ";
     private final String mName;
     private final String mAddress;
     private final DeviceType mDeviceType;
@@ -45,6 +52,8 @@ public class GBDevice implements Parcelable {
     private BatteryState mBatteryState;
     private short mRssi = RSSI_UNKNOWN;
     private String mBusyTask;
+    private String infoString;
+    private List<ItemWithDetails> mDeviceInfos;
 
     public GBDevice(String address, String name, DeviceType deviceType) {
         mAddress = address;
@@ -65,6 +74,7 @@ public class GBDevice implements Parcelable {
         mBatteryState = (BatteryState) in.readSerializable();
         mRssi = (short) in.readInt();
         mBusyTask = in.readString();
+        mDeviceInfos = in.readArrayList(getClass().getClassLoader());
 
         validate();
     }
@@ -82,6 +92,7 @@ public class GBDevice implements Parcelable {
         dest.writeSerializable(mBatteryState);
         dest.writeInt(mRssi);
         dest.writeString(mBusyTask);
+        dest.writeList(mDeviceInfos);
     }
 
     private void validate() {
@@ -213,18 +224,6 @@ public class GBDevice implements Parcelable {
         return GBApplication.getContext().getString(R.string.unknown_state);
     }
 
-
-    public String getInfoString() {
-        if (mFirmwareVersion != null) {
-            if (mHardwareVersion != null) {
-                return GBApplication.getContext().getString(R.string.connectionstate_hw_fw, mHardwareVersion, mFirmwareVersion);
-            }
-            return GBApplication.getContext().getString(R.string.connectionstate_fw, mFirmwareVersion);
-        } else {
-            return "";
-        }
-    }
-
     public DeviceType getType() {
         return mDeviceType;
     }
@@ -328,6 +327,48 @@ public class GBDevice implements Parcelable {
             return address;
         }
         return "";
+    }
+
+    public boolean hasDeviceInfos() {
+        return getDeviceInfos().size() > 0;
+    }
+
+    public List<ItemWithDetails> getDeviceInfos() {
+        List<ItemWithDetails> result = new ArrayList<>();
+        if (mDeviceInfos != null) {
+            result.addAll(mDeviceInfos);
+        }
+        if (mHardwareVersion != null) {
+            result.add(new GenericItem(DEVINFO_HW_VER, mHardwareVersion));
+        }
+        if (mFirmwareVersion != null) {
+            result.add(new GenericItem(DEVINFO_FW_VER, mFirmwareVersion));
+        }
+        return result;
+    }
+
+    public void setDeviceInfos(List<ItemWithDetails> deviceInfos) {
+        this.mDeviceInfos = deviceInfos;
+    }
+
+    public void addDeviceInfo(ItemWithDetails info) {
+        if (mDeviceInfos == null) {
+            mDeviceInfos = new ArrayList<>();
+        } else {
+            int index = mDeviceInfos.indexOf(info);
+            if (index >= 0) {
+                mDeviceInfos.set(index, info); // replace item with new one
+                return;
+            }
+        }
+        mDeviceInfos.add(info);
+    }
+
+    public boolean removeDeviceInfo(ItemWithDetails info) {
+        if (mDeviceInfos == null) {
+            return false;
+        }
+        return mDeviceInfos.remove(info);
     }
 
     public enum State {

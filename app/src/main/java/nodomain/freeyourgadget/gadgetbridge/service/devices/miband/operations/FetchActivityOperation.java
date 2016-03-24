@@ -137,7 +137,7 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
 
     public FetchActivityOperation(MiBandSupport support) {
         super(support);
-        hasExtendedActivityData = support.getDeviceInfo().isMilli1S();
+        hasExtendedActivityData = support.getDeviceInfo().supportsHeartrate();
         activityDataHolderSize = getBytesPerMinuteOfActivityData() * 60 * 4; // 4h
         activityStruct = new ActivityStruct(activityDataHolderSize);
     }
@@ -147,7 +147,7 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
 //        scheduleTaskExecutor = Executors.newScheduledThreadPool(1);
 
         TransactionBuilder builder = performInitialized("fetch activity data");
-//            builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_LE_PARAMS), getLowLatency());
+        getSupport().setLowLatency(builder);
         builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.busy_task_fetch_activity_data), getContext()));
         builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), fetch);
         builder.queue(getQueue());
@@ -319,7 +319,6 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
                 int numSamples = activityStruct.activityDataHolderProgress / bpm;
                 ActivitySample[] samples = new ActivitySample[numSamples];
                 SampleProvider sampleProvider = new MiBandSampleProvider();
-                int s = 0;
 
                 for (int i = 0; i < activityStruct.activityDataHolderProgress; i += bpm) {
                     category = activityStruct.activityDataHolder[i];
@@ -404,6 +403,7 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
                 if (prefs.getBoolean(MiBandConst.PREF_MIBAND_DONT_ACK_TRANSFER, false)) {
                     builder = performInitialized("send acknowledge");
                     builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_STOP_SYNC_DATA});
+                    getSupport().setHighLatency(builder);
                     builder.queue(getQueue());
                 }
                 handleActivityFetchFinish();

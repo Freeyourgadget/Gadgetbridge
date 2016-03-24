@@ -12,6 +12,7 @@ public class GBDeviceApp {
     private final UUID uuid;
     private final Type type;
     private final boolean inCache;
+    private final boolean configurable;
 
     public GBDeviceApp(UUID uuid, String name, String creator, String version, Type type) {
         this.uuid = uuid;
@@ -21,9 +22,10 @@ public class GBDeviceApp {
         this.type = type;
         //FIXME: do not assume
         this.inCache = false;
+        this.configurable = false;
     }
 
-    public GBDeviceApp(JSONObject json) {
+    public GBDeviceApp(JSONObject json, boolean configurable) {
         UUID uuid = UUID.fromString("00000000-0000-0000-0000-000000000000");
         String name = "";
         String creator = "";
@@ -47,6 +49,7 @@ public class GBDeviceApp {
         this.type = type;
         //FIXME: do not assume
         this.inCache = true;
+        this.configurable = configurable;
     }
 
     public boolean isInCache() {
@@ -93,5 +96,9 @@ public class GBDeviceApp {
             e.printStackTrace();
         }
         return json;
+    }
+
+    public boolean isConfigurable() {
+        return configurable;
     }
 }

@@ -37,16 +37,19 @@ need to create an account and transmit any of your data to the vendor's servers.
 * Take and share screenshots from the Pebble's screen
 * PebbleKit support for 3rd Party Android Apps (experimental)
 * Fetch activity data from Pebble Health, Misfit and Morpheuz (experimental)
+* Configure watchfaces / apps (limited compatibility, experimental)
 
 ## Notes about Firmware 3.x (Pebble Time, updated OG)
 
 * Listing installed watchfaces will simply display previously installed watchapps, no matter if they are still installed or not.
 
-## How to use (Pebble)
+## Getting Started (Pebble)
 
-1. Pair your Pebble through Gadgetbridge's Discovery Activity or the Android Bluetooth Settings
+1. Pair your Pebble through the Android's Bluetooth Settings
 2. Start Gadgetbridge, tap on the device you want to connect to
 3. To test, choose "Debug" from the menu and play around
+
+For more information read [this wiki article](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Getting-Started-(Pebble)) 
 
 ## Features (Mi Band)
 
@@ -98,8 +101,11 @@ Contributions are welcome, be it feedback, bugreports, documentation, translatio
 on any of the open [issues](https://github.com/Freeyourgadget/Gadgetbridge/issues?q=is%3Aopen+is%3Aissue);
 just leave a comment that you're working on one to avoid duplicated work.
 
+Please do not use the issue tracker as a forum, do not ask for ETAs and read the issue conversation before posting.
+
 Translations can be contributed via https://www.transifex.com/projects/p/gadgetbridge/resource/strings/ or
 manually.
+
 
 ## Having problems?
 

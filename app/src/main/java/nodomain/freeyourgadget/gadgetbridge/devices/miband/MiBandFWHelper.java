@@ -3,6 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,21 +11,28 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Locale;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.AbstractMiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
+/**
+ * Also see Mi1SFirmwareInfo.
+ */
 public class MiBandFWHelper {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandFWHelper.class);
-    private static final int MI_FW_BASE_OFFSET = 1056;
-    private static final int MI1S_FW_BASE_OFFSET = 1092;
 
-    private final Uri uri;
-    private final ContentResolver cr;
-    private byte[] fw;
-
-    private int baseOffset = -1;
+    /**
+     * The backing firmware info instance, which in general supports the provided
+     * given firmware. You must call AbstractMiFirmwareInfo#checkValid() before
+     * attempting to flash it.
+     */
+    @NonNull
+    private final AbstractMiFirmwareInfo firmwareInfo;
+    @NonNull
+    private final byte[] fw;
 
     /**
      * Provides a different notification API which is also used on Mi1A devices.
@@ -44,83 +52,56 @@ public class MiBandFWHelper {
     };
 
     public MiBandFWHelper(Uri uri, Context context) throws IOException {
-        this.uri = uri;
-        cr = context.getContentResolver();
-        if (cr == null) {
-            throw new IOException("No content resolver");
-        }
-
-        baseOffset = determineBaseOffset(uri);
         String pebblePattern = ".*\\.(pbw|pbz|pbl)";
-
         if (uri.getPath().matches(pebblePattern)) {
             throw new IOException("Firmware has a filename that looks like a Pebble app/firmware.");
         }
 
-        try (InputStream in = new BufferedInputStream(cr.openInputStream(uri))) {
+        try (InputStream in = new BufferedInputStream(context.getContentResolver().openInputStream(uri))) {
             this.fw = FileUtils.readAll(in, 1024 * 1024); // 1 MB
-            if (fw.length <= getOffsetFirmwareVersionMajor()) {
-                throw new IOException("This doesn't seem to be a Mi Band firmware, file size too small.");
-            }
-            byte firmwareVersionMajor = fw[getOffsetFirmwareVersionMajor()];
-            if (!isSupportedFirmwareVersionMajor(firmwareVersionMajor)) {
-                throw new IOException("Firmware major version not supported, either too new or this isn't a Mi Band firmware: " + firmwareVersionMajor);
-            }
+            this.firmwareInfo = determineFirmwareInfoFor(fw);
         } catch (IOException ex) {
             throw ex; // pass through
+        } catch (IllegalArgumentException ex) {
+            throw new IOException("This doesn't seem to be a Mi Band firmware: " + ex.getLocalizedMessage(), ex);
         } catch (Exception e) {
             throw new IOException("Error reading firmware file: " + uri.toString(), e);
         }
     }
 
-    private int getOffsetFirmwareVersionMajor() {
-        return baseOffset + 3;
-    }
-
-    private int getOffsetFirmwareVersionMinor() {
-        return baseOffset + 2;
-    }
-
-    private int getOffsetFirmwareVersionRevision() {
-        return baseOffset + 1;
-    }
-
-    private int getOffsetFirmwareVersionBuild() {
-        return baseOffset;
-    }
-
-    private int determineBaseOffset(Uri uri) throws IOException {
-        String name = uri.getLastPathSegment().toLowerCase();
-        if (name.startsWith("mili")) {
-            if (name.contains("_hr")) {
-                return MI1S_FW_BASE_OFFSET;
-            }
-            return MI_FW_BASE_OFFSET;
-        } else {
-            throw new IOException("Unknown file name " + name + "; cannot recognize firmware by it.");
-        }
-    }
-
-    private byte getFirmwareVersionMajor() {
-        return fw[getOffsetFirmwareVersionMajor()];
-    }
-
-    private byte getFirmwareVersionMinor() {
-        return fw[getOffsetFirmwareVersionMinor()];
-    }
-
-    private boolean isSupportedFirmwareVersionMajor(byte firmwareVersionMajor) {
-        return firmwareVersionMajor == 1 || firmwareVersionMajor == 4 || firmwareVersionMajor == 5;
-    }
-
     public int getFirmwareVersion() {
-        return (fw[getOffsetFirmwareVersionMajor()] << 24) | (fw[getOffsetFirmwareVersionMinor()] << 16) | (fw[getOffsetFirmwareVersionRevision()] << 8) | fw[getOffsetFirmwareVersionBuild()];
+        // FIXME: UnsupportedOperationException!
+        return firmwareInfo.getFirst().getFirmwareVersion();
+    }
+
+    public int getFirmware2Version() {
+        return firmwareInfo.getFirst().getFirmwareVersion();
+    }
+
+    public static String formatFirmwareVersion(int version) {
+        if (version == -1)
+            return GBApplication.getContext().getString(R.string._unknown_);
+
+        return String.format("%d.%d.%d.%d",
+                version >> 24 & 255,
+                version >> 16 & 255,
+                version >> 8 & 255,
+                version & 255);
     }
 
     public String getHumanFirmwareVersion() {
-        return String.format(Locale.US, "%d.%d.%d.%d", fw[getOffsetFirmwareVersionMajor()], fw[getOffsetFirmwareVersionMinor()], fw[getOffsetFirmwareVersionRevision()], fw[getOffsetFirmwareVersionBuild()]);
+        return format(getFirmwareVersion());
     }
 
+    public String getHumanFirmwareVersion2() {
+        return format(firmwareInfo.getSecond().getFirmwareVersion());
+    }
+
+    public String format(int version) {
+        return formatFirmwareVersion(version);
+    }
+
+    @NonNull
     public byte[] getFw() {
         return fw;
     }
@@ -135,16 +116,31 @@ public class MiBandFWHelper {
     }
 
     public boolean isFirmwareGenerallyCompatibleWith(GBDevice device) {
-        String deviceHW = device.getHardwareVersion();
-        if (MiBandConst.MI_1.equals(deviceHW)) {
-            return getFirmwareVersionMajor() == 1;
-        }
-        if (MiBandConst.MI_1A.equals(deviceHW)) {
-            return getFirmwareVersionMajor() == 5;
-        }
-//        if (MiBandConst.MI_1S.equals(deviceHW)) {
-//            return getFirmwareVersionMajor() == 4;
-//        }
-        return false;
+        return firmwareInfo.isGenerallyCompatibleWith(device);
+    }
+
+    public boolean isSingleFirmware() {
+        return firmwareInfo.isSingleMiBandFirmware();
+    }
+
+    /**
+     * @param wholeFirmwareBytes
+     * @return
+     * @throws IllegalArgumentException when the data is not recognized as firmware data
+     */
+    public static
+    @NonNull
+    AbstractMiFirmwareInfo determineFirmwareInfoFor(byte[] wholeFirmwareBytes) {
+        return AbstractMiFirmwareInfo.determineFirmwareInfoFor(wholeFirmwareBytes);
+    }
+
+    /**
+     * The backing firmware info instance, which in general supports the provided
+     * given firmware. You MUST call AbstractMiFirmwareInfo#checkValid() AND
+     * isGenerallyCompatibleWithDevice() before attempting to flash it.
+     */
+    @NonNull
+    public AbstractMiFirmwareInfo getFirmwareInfo() {
+        return firmwareInfo;
     }
 }

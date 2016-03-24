@@ -1,5 +1,21 @@
 ###Changelog
 
+####Version 0.9.1
+* Mi Band: Fixed sporadic connection problems (stuck on "Initializing" #249)
+* Mi Band: enable  low latency connection (faster) during initialization and activity sync
+* Mi Band: better feedback for firmware update
+* Device Item is now clickable also when the information entries are visible
+* Fix enabling log file writing #261
+
+####Version 0.9.0
+* Pebble: Support for configuring watchfaces/apps locally (clay) or though webbrowser (some do not work)
+* Pebble: hide the alarm management activity as it's unsupported
+* Mi Band: Improve firmware detection and updates, including 1S support
+* Mi Band: Display HR FW for 1S
+* FW and HW versions are only displayed after tapping on the "info" button in Control Center
+* Do not display activity samples when navigating too far in the past
+* Fix auto connect which was broken under some circumstances
+
 ####Version 0.8.2
 * Fix database creation and updates (thanks @feclare)
 * Add experimental widget to set the alarm time to a configurable number of hours in the future (thanks @0nse)

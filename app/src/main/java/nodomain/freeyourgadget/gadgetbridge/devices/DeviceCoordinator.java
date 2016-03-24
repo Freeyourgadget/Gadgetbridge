@@ -100,4 +100,11 @@ public interface DeviceCoordinator {
      * @return
      */
     boolean supportsScreenshots();
+
+    /**
+     * Returns true if this device/coordinator supports settig alarms.
+     *
+     * @return
+     */
+    boolean supportsAlarmConfiguration();
 }

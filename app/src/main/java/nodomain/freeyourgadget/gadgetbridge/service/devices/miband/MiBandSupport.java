@@ -30,12 +30,12 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandDateConverter;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEvents;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
@@ -97,6 +97,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         builder.add(new SetDeviceStateAction(getDevice(), State.INITIALIZING, getContext()));
         enableNotifications(builder, true)
+                .setLowLatency(builder)
+                .readDate(builder) // without reading the data, we get sporadic connection problems, especially directly after turning on BT
                 .pair(builder)
                 .requestDeviceInfo(builder)
                 .sendUserInfo(builder)
@@ -106,8 +108,24 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 .enableFurtherNotifications(builder, true)
                 .setCurrentTime(builder)
                 .requestBatteryInfo(builder)
+                .setHighLatency(builder)
                 .setInitialized(builder);
         return builder;
+    }
+
+    private MiBandSupport readDate(TransactionBuilder builder) {
+        builder.read(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_DATE_TIME));
+        return this;
+    }
+
+    public MiBandSupport setLowLatency(TransactionBuilder builder) {
+        builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_LE_PARAMS), getLowLatency());
+        return this;
+    }
+
+    public MiBandSupport setHighLatency(TransactionBuilder builder) {
+        builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_LE_PARAMS), getHighLatency());
+        return this;
     }
 
     private MiBandSupport checkAuthenticationNeeded(TransactionBuilder builder, GBDevice device) {
@@ -551,7 +569,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     public boolean supportsHeartRate() {
-        return getDeviceInfo() != null && getDeviceInfo().isMilli1S();
+        return getDeviceInfo() != null && getDeviceInfo().supportsHeartrate();
     }
 
     @Override
@@ -815,9 +833,14 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private void handleDeviceInfo(byte[] value, int status) {
         if (status == BluetoothGatt.GATT_SUCCESS) {
             mDeviceInfo = new DeviceInfo(value);
+            if (getDeviceInfo().supportsHeartrate()) {
+                getDevice().addDeviceInfo(new GenericItem(
+                        getContext().getString(R.string.DEVINFO_HR_VER),
+                        MiBandFWHelper.formatFirmwareVersion(mDeviceInfo.getHeartrateFirmwareVersion())));
+            }
             LOG.warn("Device info: " + mDeviceInfo);
             versionCmd.hwVersion = mDeviceInfo.getHwVersion();
-            versionCmd.fwVersion = mDeviceInfo.getHumanFirmwareVersion();
+            versionCmd.fwVersion = MiBandFWHelper.formatFirmwareVersion(mDeviceInfo.getFirmwareVersion());
             handleGBDeviceEvent(versionCmd);
         }
     }
@@ -936,7 +959,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 List<CalendarEvents.CalendarEvent> mEvents = upcomingEvents.getCalendarEventList(getContext());
 
                 int iteration = 0;
-                ArrayList<GBAlarm> alarmList = new ArrayList<>();
                 for (CalendarEvents.CalendarEvent mEvt : mEvents) {
                     if (iteration >= availableSlots || iteration > 2) {
                         break;

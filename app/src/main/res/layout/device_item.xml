@@ -1,75 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<GridLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/activatedBackgroundIndicator"
+    android:columnCount="2"
     android:padding="8dp">
 
     <ImageView
         android:id="@+id/device_image"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_alignParentStart="true"
         android:contentDescription="@string/candidate_item_device_image" />
 
+    <GridLayout
+        android:background="?android:attr/activatedBackgroundIndicator"
+        android:paddingBottom="2dp"
+        android:columnCount="5"
+        android:layout_gravity="fill_horizontal"
+        android:paddingTop="3dp">
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/device_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/device_image"
-        android:orientation="vertical"
-        android:paddingStart="8dp">
+        android:singleLine="true"
+        android:typeface="sans" />
 
-        <TextView
-            android:id="@+id/device_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/statuswrapper"
-            android:layout_toStartOf="@+id/device_info"
-            android:singleLine="true"
-            android:typeface="sans" />
+    <ProgressBar
+        android:id="@+id/device_busy_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_rowSpan="2"
+        android:indeterminate="true" />
 
-        <ProgressBar
-            android:id="@+id/device_busy_indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:indeterminate="true" />
+    <android.support.v4.widget.Space
+        android:layout_width="wrap_content"
+        android:layout_rowSpan="2" />
 
-        <LinearLayout
-            android:id="@+id/statuswrapper"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/device_name"
-            android:orientation="horizontal"
-            android:paddingTop="3dp">
+    <TextView
+        android:id="@+id/battery_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/secondarytext"
+        android:textStyle="bold"
+        android:paddingLeft="7sp"
+        android:paddingRight="7sp" />
 
-            <TextView
-                android:id="@+id/device_status"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:gravity="start"
-                android:textStyle="bold" />
+    <ImageView
+        android:src="@drawable/ic_information_outline_grey600_24dp"
+        android:id="@+id/device_info_image"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_rowSpan="2"
+        android:scaleType="centerInside"
+        android:contentDescription="@string/candidate_item_device_image"
+        android:clickable="true"
+        android:layout_gravity="center_vertical|right" />
 
-            <TextView
-                android:id="@+id/battery_status"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:gravity="end"
-                android:textColor="@color/secondarytext"
-                android:textStyle="bold" />
-        </LinearLayout>
 
-        <TextView
-            android:id="@+id/device_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/device_name"
-            android:layout_alignParentEnd="true"
-            android:gravity="end"
-            android:textColor="@color/secondarytext"
-            android:textSize="12sp" />
+    <TextView
+        android:id="@+id/device_status"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="start|bottom"
+        android:textStyle="bold"
+        android:layout_gravity="fill_horizontal" />
 
-    </RelativeLayout>
-</RelativeLayout>
+    <TextView
+        android:id="@+id/battery_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start|bottom"
+        android:textColor="@color/secondarytext"
+        android:textStyle="bold"
+        android:layout_gravity="end"
+        android:paddingRight="7sp"
+        android:paddingLeft="7sp" />
+    </GridLayout>
+
+    <ListView
+        android:id="@+id/device_item_infos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/widget_margin"
+        android:gravity="fill_horizontal"
+        android:layout_columnSpan="2"
+        android:visibility="gone"
+        android:layout_gravity="fill"
+        android:paddingLeft="36dp" />
+</GridLayout>

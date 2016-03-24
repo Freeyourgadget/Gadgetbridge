@@ -47,7 +47,7 @@ public class TestDeviceSupport extends AbstractDeviceSupport {
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
-        
+
     }
 
     @Override

@@ -29,3 +29,5 @@ proguard/
 *.iml
 
 MPChartLib
+
+fw.dirs

@@ -186,8 +186,7 @@ public class ControlCenter extends Activity {
         GBApplication.deviceService().start();
 
         enableSwipeRefresh(selectedDevice);
-        if (GB.isBluetoothEnabled() && deviceList.isEmpty()) {
-            // start discovery when no devices are present
+        if (GB.isBluetoothEnabled() && deviceList.isEmpty() && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             startActivity(new Intent(this, DiscoveryActivity.class));
         } else {
             GBApplication.deviceService().requestDeviceInfo();
@@ -211,6 +210,9 @@ public class ControlCenter extends Activity {
         }
         if (!coordinator.supportsScreenshots()) {
             menu.removeItem(R.id.controlcenter_take_screenshot);
+        }
+        if (!coordinator.supportsAlarmConfiguration()) {
+            menu.removeItem(R.id.controlcenter_configure_alarms);
         }
 
         if (selectedDevice.getState() == GBDevice.State.NOT_CONNECTED) {
@@ -331,8 +333,11 @@ public class ControlCenter extends Activity {
                 LocalBroadcastManager.getInstance(this).sendBroadcast(quitIntent);
                 return true;
             case R.id.action_discover:
-                Intent discoverIntent = new Intent(this, DiscoveryActivity.class);
-                startActivity(discoverIntent);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    startActivity(new Intent(android.provider.Settings.ACTION_BLUETOOTH_SETTINGS));
+                } else {
+                    startActivity(new Intent(this, DiscoveryActivity.class));
+                }
                 return true;
         }
 

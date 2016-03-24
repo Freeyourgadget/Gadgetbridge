@@ -1,14 +1,18 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
+import android.webkit.ConsoleMessage;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -61,6 +65,8 @@ public class ExternalPebbleJSActivity extends Activity {
 
         WebView myWebView = (WebView) findViewById(R.id.configureWebview);
         myWebView.clearCache(true);
+        myWebView.setWebViewClient(new GBWebClient());
+        myWebView.setWebChromeClient(new GBChromeClient());
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         //needed to access the DOM
@@ -85,6 +91,35 @@ public class ExternalPebbleJSActivity extends Activity {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private class GBChromeClient extends WebChromeClient {
+        @Override
+        public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+            if (ConsoleMessage.MessageLevel.ERROR.equals(consoleMessage.messageLevel())) {
+                GB.toast(consoleMessage.message(), Toast.LENGTH_LONG, GB.ERROR);
+                //TODO: show error page
+            }
+            return super.onConsoleMessage(consoleMessage);
+        }
+
+    }
+
+    private class GBWebClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            if (url.startsWith("http://") || url.startsWith("https://")) {
+                Intent i = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(url));
+                startActivity(i);
+            } else {
+                url = url.replaceFirst("^pebblejs://close#", "file:///android_asset/app_config/configure.html?config=true&json=");
+                view.loadUrl(url);
+            }
+
+            return true;
+
+        }
     }
 
     private class JSInterface {
@@ -131,11 +166,11 @@ public class ExternalPebbleJSActivity extends Activity {
         public String getActiveWatchInfo() {
             JSONObject wi = new JSONObject();
             try {
-                wi.put("firmware",mGBDevice.getFirmwareVersion());
+                wi.put("firmware", mGBDevice.getFirmwareVersion());
                 wi.put("platform", PebbleUtils.getPlatformName(mGBDevice.getHardwareVersion()));
                 wi.put("model", PebbleUtils.getModel(mGBDevice.getHardwareVersion()));
                 //TODO: use real info
-                wi.put("language","en");
+                wi.put("language", "en");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -161,11 +196,11 @@ public class ExternalPebbleJSActivity extends Activity {
         public String getAppUUID() {
             return appUuid.toString();
         }
-        
+
         @JavascriptInterface
         public String getWatchToken() {
             //specification says: A string that is is guaranteed to be identical for each Pebble device for the same app across different mobile devices. The token is unique to your app and cannot be used to track Pebble devices across applications. see https://developer.pebble.com/docs/js/Pebble/
-            return "gb"+appUuid.toString();
+            return "gb" + appUuid.toString();
         }
     }
 

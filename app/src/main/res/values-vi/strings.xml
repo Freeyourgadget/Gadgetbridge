@@ -81,12 +81,7 @@
   <string name="appinstaller_install">Cài đặt</string>
   <string name="discovery_note">Ghi chú:</string>
   <string name="candidate_item_device_image">Ảnh thiết bị</string>
-  <string name="activity_prefs_about_you">Thông tin về bạn</string>
   <string name="miband_prefs_alias">Tên/Bí danh</string>
-  <string name="activity_prefs_year_birth">Năm sinh</string>
-  <string name="activity_prefs_gender">Giới tính</string>
-  <string name="activity_prefs_height_cm">Chiều cao bằng cm</string>
-  <string name="activity_prefs_weight_kg">Trọng lượng bằng kg</string>
   <string name="title_activity_sleepmonitor">Trình giám sát giấc ngủ</string>
   <string name="pref_write_logfiles">Ghi tập tin nhật ký (cần khởi động lại)</string>
   <string name="initializing">đang khởi chạy</string>
@@ -129,4 +124,9 @@
   <string name="pref_title_keep_data_on_device">Giữ dữ liệu hoạt động trên thiết bị</string>
   <string name="miband_fwinstaller_incompatible_version">Phần cứng không tương thích</string>
   <string name="fwinstaller_firmware_not_compatible_to_device">Phần cứng này không tương thích với thiết bị</string>
+  <string name="activity_prefs_about_you">Thông tin về bạn</string>
+  <string name="activity_prefs_year_birth">Năm sinh</string>
+  <string name="activity_prefs_gender">Giới tính</string>
+  <string name="activity_prefs_height_cm">Chiều cao bằng cm</string>
+  <string name="activity_prefs_weight_kg">Trọng lượng bằng kg</string>
 </resources>

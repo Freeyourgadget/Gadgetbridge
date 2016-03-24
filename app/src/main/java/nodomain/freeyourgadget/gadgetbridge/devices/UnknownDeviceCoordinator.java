@@ -83,4 +83,9 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     public boolean supportsScreenshots() {
         return false;
     }
+
+    @Override
+    public boolean supportsAlarmConfiguration() {
+        return false;
+    }
 }

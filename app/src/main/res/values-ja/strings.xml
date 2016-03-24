@@ -19,6 +19,7 @@
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">ファームウェア・アプリのインストール</string>
   <string name="fw_upgrade_notice">お使いのMi Bandに、現在のファームウェアの代わりに%sをインストールしようとしています。</string>
+  <string name="fw_multi_upgrade_notice">お使いのMi Bandに、現在のファームウェアの代わりに %1$s および %2$s をインストールしようとしています。</string>
   <string name="miband_firmware_known">このファームウェアはテスト済で、ガジェットブリッジと互換性があることがわかっています。</string>
   <string name="miband_firmware_unknown_warning">このファームウェアは未テストで、ガジェットブリッジと互換性がない可能性があります。\n\nお使いのMi Bandにフラッシュすることは奨励されていません!</string>
   <string name="miband_firmware_suggest_whitelist">それでも続行して、その後正しく作業を続ける場合は、ガジェットブリッジ開発者にホワイトリスト ファームウェア バージョンを教えてください: %s</string>
@@ -49,6 +50,7 @@
   <string name="pref_header_development">開発者用設定</string>
   <string name="pref_title_development_miaddr">Mi Bandのアドレス</string>
   <string name="pref_title_pebble_settings">Pebbleの設定</string>
+  <string name="pref_title_pebble_activitytracker">お好みのアクティビティ トラッカー</string>
   <string name="pref_title_enable_pebblekit">第三者のアンドロイドアップにアクセス権利を与える</string>
   <string name="pref_summary_enable_pebblekit">PebbleKitを使用してAndroidアプリ用の実験的なサポートを有効にします</string>
   <string name="pref_title_pebble_forceprotocol">通知プロトコルを強制する</string>
@@ -103,12 +105,7 @@
   <string name="discovery_connected_devices_hint">お使いのデバイスを検出可能にしてください。現在、接続されたデバイスは、おそらく検出されません。</string>
   <string name="discovery_note">注:</string>
   <string name="candidate_item_device_image">デバイスイメージ</string>
-  <string name="activity_prefs_about_you">あなたについて</string>
   <string name="miband_prefs_alias">名前/別名</string>
-  <string name="activity_prefs_year_birth">誕生年</string>
-  <string name="activity_prefs_gender">性別</string>
-  <string name="activity_prefs_height_cm">身長（cm）</string>
-  <string name="activity_prefs_weight_kg">体重（kg）</string>
   <string name="pref_header_vibration_count">バイブレーション回数</string>
   <string name="title_activity_sleepmonitor">睡眠観測</string>
   <string name="pref_write_logfiles">ログファイルを出力 (再起動が必要)</string>
@@ -202,4 +199,20 @@
   <string name="miband_prefs_reserve_alarm_calendar">今後のイベントのために予約するアラーム</string>
   <string name="waiting_for_reconnect">再接続の待機中</string>
   <string name="appmananger_app_reinstall">再インストール</string>
+  <string name="activity_prefs_about_you">あなたについて</string>
+  <string name="activity_prefs_year_birth">誕生年</string>
+  <string name="activity_prefs_gender">性別</string>
+  <string name="activity_prefs_height_cm">身長（cm）</string>
+  <string name="activity_prefs_weight_kg">体重（kg）</string>
+  <string name="appmanager_health_activate">アクティベート</string>
+  <string name="appmanager_health_deactivate">非アクティベート</string>
+  <string name="authenticating">認証中</string>
+  <string name="authentication_required">認証が必要</string>
+  <string name="app_configure">設定</string>
+  <string name="appwidget_text">Zzz</string>
+  <string name="add_widget">ウィジェットを追加</string>
+  <string name="activity_prefs_sleep_duration">好ましい睡眠時間（時間）</string>
+  <string name="appwidget_alarms_set">%1$02d:%2$02d のアラームを設定しました</string>
+  <string name="device_hw">HW: %1$s</string>
+  <string name="device_fw">FW: %1$s</string>
 </resources>

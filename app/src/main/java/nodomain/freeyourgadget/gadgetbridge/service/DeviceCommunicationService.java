@@ -3,7 +3,6 @@ package nodomain.freeyourgadget.gadgetbridge.service;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -165,6 +164,7 @@ public class DeviceCommunicationService extends Service {
 
         // when we get past this, we should have valid mDeviceSupport and mGBDevice instances
 
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         switch (action) {
             case ACTION_START:
                 start();
@@ -172,19 +172,21 @@ public class DeviceCommunicationService extends Service {
             case ACTION_CONNECT:
                 start(); // ensure started
                 GBDevice gbDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
+                String btDeviceAddress = null;
                 if (gbDevice == null) {
-                    String btDeviceAddress = intent.getStringExtra(EXTRA_DEVICE_ADDRESS);
-                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-                    if (sharedPrefs != null) { // may be null in test cases
-                        if (btDeviceAddress == null) {
-                            btDeviceAddress = sharedPrefs.getString("last_device_address", null);
-                        } else {
-                            sharedPrefs.edit().putString("last_device_address", btDeviceAddress).apply();
-                        }
+                    btDeviceAddress = intent.getStringExtra(EXTRA_DEVICE_ADDRESS);
+                    if (btDeviceAddress == null && sharedPrefs != null) { // may be null in test cases
+                        btDeviceAddress = sharedPrefs.getString("last_device_address", null);
                     }
                     if (btDeviceAddress != null) {
                         gbDevice = DeviceHelper.getInstance().findAvailableDevice(btDeviceAddress, this);
                     }
+                } else {
+                    btDeviceAddress = gbDevice.getAddress();
+                }
+
+                if (sharedPrefs != null) {
+                    sharedPrefs.edit().putString("last_device_address", btDeviceAddress).apply();
                 }
 
                 if (gbDevice != null && !isConnecting() && !isConnected()) {
@@ -233,7 +235,6 @@ public class DeviceCommunicationService extends Service {
                 if (((notificationSpec.flags & NotificationSpec.FLAG_WEARABLE_REPLY) > 0)
                         || (notificationSpec.type == NotificationType.SMS && notificationSpec.phoneNumber != null)) {
                     // NOTE: maybe not where it belongs
-                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
                     if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
                         // I would rather like to save that as an array in ShadredPreferences
                         // this would work but I dont know how to do the same in the Settings Activity's xml
