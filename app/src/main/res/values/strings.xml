@@ -236,6 +236,6 @@
     <string name="error_creating_directory_for_logfiles">Error creating directory for log files: %1$s</string>
     <string name="DEVINFO_HR_VER">"HR: "</string>
 
-    <string name="app_manager_select_file">Select File</string>
+    <string name="app_manager_select_file">Select File to Install</string>
 
 </resources>

@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -165,19 +166,6 @@ public class AppManagerActivity extends Activity {
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
 
         GBApplication.deviceService().onAppInfoReq();
-
-        // Adds a listener to selectFileButton that allows the user to select a file,
-        // the file is received at onActivityResult.
-        Button installNewButton = (Button) findViewById(R.id.selectFileButton);
-        installNewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("*/*");
-                startActivityForResult(intent, READ_REQUEST_CODE);
-            }
-        });
     }
 
     // Receives the file selected by the user and launches an intent for FWAppInstallerActivity to
@@ -267,10 +255,23 @@ public class AppManagerActivity extends Activity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_appmanager, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
+                return true;
+            case R.id.action_install:
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("*/*");
+                startActivityForResult(intent, READ_REQUEST_CODE);
                 return true;
         }
         return super.onOptionsItemSelected(item);
