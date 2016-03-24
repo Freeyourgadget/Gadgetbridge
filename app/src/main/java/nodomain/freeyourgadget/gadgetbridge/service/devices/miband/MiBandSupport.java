@@ -98,6 +98,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         builder.add(new SetDeviceStateAction(getDevice(), State.INITIALIZING, getContext()));
         enableNotifications(builder, true)
                 .setLowLatency(builder)
+                .readDate(builder) // without reading the data, we get sporadic connection problems, especially directly after turning on BT
                 .pair(builder)
                 .requestDeviceInfo(builder)
                 .sendUserInfo(builder)
@@ -110,6 +111,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 .setHighLatency(builder)
                 .setInitialized(builder);
         return builder;
+    }
+
+    private MiBandSupport readDate(TransactionBuilder builder) {
+        builder.read(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_DATE_TIME));
+        return this;
     }
 
     public MiBandSupport setLowLatency(TransactionBuilder builder) {
