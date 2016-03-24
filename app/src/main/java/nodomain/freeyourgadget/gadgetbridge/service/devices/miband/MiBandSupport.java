@@ -834,7 +834,9 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         if (status == BluetoothGatt.GATT_SUCCESS) {
             mDeviceInfo = new DeviceInfo(value);
             if (getDeviceInfo().supportsHeartrate()) {
-                getDevice().addDeviceInfo(new GenericItem("HR:", MiBandFWHelper.formatFirmwareVersion(mDeviceInfo.getHeartrateFirmwareVersion())));
+                getDevice().addDeviceInfo(new GenericItem(
+                        getContext().getString(R.string.DEVINFO_HR_VER),
+                        MiBandFWHelper.formatFirmwareVersion(mDeviceInfo.getHeartrateFirmwareVersion())));
             }
             LOG.warn("Device info: " + mDeviceInfo);
             versionCmd.hwVersion = mDeviceInfo.getHwVersion();
