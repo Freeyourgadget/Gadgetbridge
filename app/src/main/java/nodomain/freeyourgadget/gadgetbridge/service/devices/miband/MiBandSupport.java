@@ -112,12 +112,12 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         return builder;
     }
 
-    private MiBandSupport setLowLatency(TransactionBuilder builder) {
+    public MiBandSupport setLowLatency(TransactionBuilder builder) {
         builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_LE_PARAMS), getLowLatency());
         return this;
     }
 
-    private MiBandSupport setHighLatency(TransactionBuilder builder) {
+    public MiBandSupport setHighLatency(TransactionBuilder builder) {
         builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_LE_PARAMS), getHighLatency());
         return this;
     }

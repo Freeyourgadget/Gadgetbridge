@@ -147,7 +147,7 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
 //        scheduleTaskExecutor = Executors.newScheduledThreadPool(1);
 
         TransactionBuilder builder = performInitialized("fetch activity data");
-//            builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_LE_PARAMS), getLowLatency());
+        getSupport().setLowLatency(builder);
         builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.busy_task_fetch_activity_data), getContext()));
         builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), fetch);
         builder.queue(getQueue());
@@ -403,6 +403,7 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
                 if (prefs.getBoolean(MiBandConst.PREF_MIBAND_DONT_ACK_TRANSFER, false)) {
                     builder = performInitialized("send acknowledge");
                     builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_STOP_SYNC_DATA});
+                    getSupport().setHighLatency(builder);
                     builder.queue(getQueue());
                 }
                 handleActivityFetchFinish();
