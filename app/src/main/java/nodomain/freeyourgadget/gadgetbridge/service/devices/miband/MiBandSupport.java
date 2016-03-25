@@ -77,6 +77,11 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ge
 public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(MiBandSupport.class);
+    /**
+     * This is just for temporary testing of Mi1A double firmware update.
+     * DO NOT SET TO TRUE UNLESS YOU KNOW WHAT YOU'RE DOING!
+     */
+    public static final boolean MI_1A_HR_FW_UPDATE_TEST_MODE_ENABLED = false;
     private volatile boolean telephoneRinging;
     private volatile boolean isLocatingDevice;
 
@@ -833,6 +838,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private void handleDeviceInfo(byte[] value, int status) {
         if (status == BluetoothGatt.GATT_SUCCESS) {
             mDeviceInfo = new DeviceInfo(value);
+            mDeviceInfo.setTest1AHRMode(MI_1A_HR_FW_UPDATE_TEST_MODE_ENABLED);
             if (getDeviceInfo().supportsHeartrate()) {
                 getDevice().addDeviceInfo(new GenericItem(
                         getContext().getString(R.string.DEVINFO_HR_VER),

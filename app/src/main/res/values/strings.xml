@@ -235,5 +235,6 @@
     <string name="device_fw">FW: %1$s</string>
     <string name="error_creating_directory_for_logfiles">Error creating directory for log files: %1$s</string>
     <string name="DEVINFO_HR_VER">"HR: "</string>
+    <string name="updatefirmwareoperation_update_in_progress">Firmware update in progress</string>
 
 </resources>

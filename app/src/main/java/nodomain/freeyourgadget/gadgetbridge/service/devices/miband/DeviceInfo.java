@@ -17,6 +17,7 @@ public class DeviceInfo extends AbstractInfo {
      * Heart rate firmware version identifier
      */
     public final int fw2Version;
+    private boolean test1AHRMode;
 
 
     private boolean isChecksumCorrect(byte[] data) {
@@ -71,11 +72,18 @@ public class DeviceInfo extends AbstractInfo {
     }
 
     public int getHeartrateFirmwareVersion() {
+        if (test1AHRMode) {
+            return fwVersion;
+        }
         return fw2Version;
     }
 
+    public void setTest1AHRMode(boolean enableTestMode) {
+        test1AHRMode = enableTestMode;
+    }
+
     public boolean supportsHeartrate() {
-        return isMili1S();
+        return isMili1S() || (test1AHRMode && isMili1A());
     }
 
     @Override

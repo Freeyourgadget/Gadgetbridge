@@ -15,7 +15,9 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.PlainAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.AbstractMiFirmwareInfo;
@@ -52,8 +54,7 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
 
         updateCoordinator.initNextOperation();
 //        updateCoordinator.initNextOperation(); // FIXME: remove, just testing mi band 1s fw update
-        firmwareInfoSent = updateCoordinator.sendFwInfo();
-        if (!firmwareInfoSent) {
+        if (!updateCoordinator.sendFwInfo()) {
             GB.toast(getContext(), "Error sending firmware info, aborting.", Toast.LENGTH_LONG, GB.ERROR);
             done();
         }
@@ -282,7 +283,7 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
 
                 if ((i > 0) && (i % 50 == 0)) {
                     builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_SYNC});
-                    builder.add(new SetProgressAction("Firmware update in progress", true, (int) (((float) firmwareProgress) / len * 100), getContext()));
+                    builder.add(new SetProgressAction(getContext().getString(R.string.updatefirmwareoperation_update_in_progress), true, (int) (((float) firmwareProgress) / len * 100), getContext()));
                 }
 
                 LOG.info("Firmware update progress:" + firmwareProgress + " total len:" + len + " progress:" + (int) (((float) firmwareProgress) / len * 100));
@@ -298,14 +299,14 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
             if (firmwareProgress >= len) {
                 builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_SYNC});
             } else {
-                GB.updateInstallNotification("Firmware write failed", false, 0, getContext());
+                GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_write_failed), false, 0, getContext());
             }
 
             builder.queue(getQueue());
 
         } catch (IOException ex) {
             LOG.error("Unable to send fw to MI", ex);
-            GB.updateInstallNotification("Firmware write failed", false, 0, getContext());
+            GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_write_failed), false, 0, getContext());
             return false;
         }
         return true;
@@ -329,6 +330,7 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
                 TransactionBuilder builder = performInitialized("send firmware info");
                 builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.updating_firmware), getContext()));
                 builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), getFirmwareInfo());
+                builder.add(new FirmwareInfoSucceededAction());
                 builder.queue(getQueue());
                 return true;
             } catch (IOException e) {
@@ -440,6 +442,14 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
                     state = State.UNKNOWN;
             }
             return false;
+        }
+    }
+
+    private class FirmwareInfoSucceededAction extends PlainAction {
+        @Override
+        public boolean run(BluetoothGatt gatt) {
+            firmwareInfoSent = true;
+            return true;
         }
     }
 }

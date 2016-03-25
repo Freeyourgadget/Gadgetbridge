@@ -29,6 +29,13 @@ public abstract class AbstractMiFirmwareInfo {
     }
 
     private static AbstractMiFirmwareInfo[] getFirmwareInfoCandidatesFor(byte[] wholeFirmwareBytes) {
+        if (MiBandSupport.MI_1A_HR_FW_UPDATE_TEST_MODE_ENABLED) {
+            TestMi1AFirmwareInfo info = TestMi1AFirmwareInfo.getInstance(wholeFirmwareBytes);
+            if (info != null) {
+                return new AbstractMiFirmwareInfo[] { info };
+            }
+        }
+
         AbstractMiFirmwareInfo[] candidates = new AbstractMiFirmwareInfo[3];
         int i = 0;
         Mi1FirmwareInfo mi1Info = Mi1FirmwareInfo.getInstance(wholeFirmwareBytes);

@@ -36,6 +36,8 @@ public class FirmwareTest {
         Assert.assertNotNull(wholeFw);
 
         AbstractMiFirmwareInfo info = getFirmwareInfo(wholeFw, SINGLE);
+        info.checkValid();
+
         int calculatedVersion = info.getFirmwareVersion();
         String version = MiBandFWHelper.formatFirmwareVersion(calculatedVersion);
         Assert.assertTrue(version.startsWith("1."));
@@ -49,6 +51,8 @@ public class FirmwareTest {
         Assert.assertNotNull(wholeFw);
 
         AbstractMiFirmwareInfo info = getFirmwareInfo(wholeFw, SINGLE);
+        info.checkValid();
+
         int calculatedVersion = info.getFirmwareVersion();
         String version = MiBandFWHelper.formatFirmwareVersion(calculatedVersion);
         Assert.assertTrue(version.startsWith("5."));
@@ -62,20 +66,9 @@ public class FirmwareTest {
         Assert.assertNotNull(wholeFw);
 
         AbstractMiFirmwareInfo info = getFirmwareInfo(wholeFw, DOUBLE);
+        info.checkValid();
 
         // Mi Band version
-        int calculatedLengthFw1 = info.getFirst().getFirmwareLength();
-        int calculatedOffsetFw1 = info.getFirst().getFirmwareOffset();
-        int endIndexFw1 = calculatedOffsetFw1 + calculatedLengthFw1;
-
-        int calculatedLengthFw2 = info.getSecond().getFirmwareLength();
-        int calculatedOffsetFw2 = info.getSecond().getFirmwareOffset();
-        int endIndexFw2 = calculatedOffsetFw2 + calculatedLengthFw2;
-
-        Assert.assertTrue(endIndexFw1 <= wholeFw.length - calculatedLengthFw2);
-        Assert.assertTrue(endIndexFw2 <= wholeFw.length);
-
-        Assert.assertTrue(endIndexFw1 <= calculatedOffsetFw2);
         int calculatedVersionFw1 = info.getFirst().getFirmwareVersion();
 //        Assert.assertEquals("Unexpected firmware 1 version: " + calculatedVersionFw1, MI1S_FW1_VERSION, calculatedVersionFw1);
         String version1 = MiBandFWHelper.formatFirmwareVersion(calculatedVersionFw1);
@@ -93,12 +86,48 @@ public class FirmwareTest {
         } catch (UnsupportedOperationException expected) {
         }
 
-        Assert.assertNotEquals(info.getFirst().getFirmwareOffset(), info.getSecond().getFirmwareOffset());
         Assert.assertFalse(Arrays.equals(info.getFirst().getFirmwareBytes(), info.getSecond().getFirmwareBytes()));
+    }
+
+    @Test
+    public void testDoubleFirmwareMi1A() throws Exception {
+        byte[] wholeFw = getFirmwareMi1A();
+        Assert.assertNotNull(wholeFw);
+
+        AbstractMiFirmwareInfo info = TestMi1AFirmwareInfo.getInstance(wholeFw);
+        Assert.assertNotNull(info);
+        info.checkValid();
+
+        // Mi Band version
+        int calculatedVersionFw1 = info.getFirst().getFirmwareVersion();
+//        Assert.assertEquals("Unexpected firmware 1 version: " + calculatedVersionFw1, MI1S_FW1_VERSION, calculatedVersionFw1);
+        String version1 = MiBandFWHelper.formatFirmwareVersion(calculatedVersionFw1);
+        Assert.assertTrue(version1.startsWith("5."));
+
+        // Same Mi Band version
+        int calculatedVersionFw2 = info.getSecond().getFirmwareVersion();
+//        Assert.assertEquals("Unexpected firmware 2 version: " + calculatedVersionFw2, MI1S_FW2_VERSION, calculatedVersionFw2);
+        String version2 = MiBandFWHelper.formatFirmwareVersion(calculatedVersionFw2);
+        Assert.assertTrue(version2.startsWith("5."));
+
+        try {
+            info.getFirmwareVersion();
+            Assert.fail("should not get fw version from AbstractMi1SFirmwareInfo");
+        } catch (UnsupportedOperationException expected) {
+        }
+
+        // these are actually the same with this test info!
+        Assert.assertEquals(info.getFirst().getFirmwareOffset(), info.getSecond().getFirmwareOffset());
+        Assert.assertTrue(Arrays.equals(info.getFirst().getFirmwareBytes(), info.getSecond().getFirmwareBytes()));
     }
 
     private AbstractMiFirmwareInfo getFirmwareInfo(byte[] wholeFw, int numFirmwares) {
         AbstractMiFirmwareInfo info = AbstractMiFirmwareInfo.determineFirmwareInfoFor(wholeFw);
+        assertFirmwareInfo(info, wholeFw, numFirmwares);
+        return info;
+    }
+
+    private AbstractMiFirmwareInfo assertFirmwareInfo(AbstractMiFirmwareInfo info, byte[] wholeFw, int numFirmwares) {
         switch (numFirmwares) {
             case SINGLE: {
                 Assert.assertTrue("should be single miband firmware", info.isSingleMiBandFirmware());
