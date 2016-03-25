@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -344,6 +345,7 @@ public class GBDevice implements Parcelable {
         if (mFirmwareVersion != null) {
             result.add(new GenericItem(DEVINFO_FW_VER, mFirmwareVersion));
         }
+        Collections.sort(result);
         return result;
     }
 
