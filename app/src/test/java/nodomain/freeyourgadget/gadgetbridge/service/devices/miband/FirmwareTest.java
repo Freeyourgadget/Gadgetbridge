@@ -13,6 +13,7 @@ import java.util.Arrays;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
+// while read i; do ./gradlew --daemon -a --offline  -DMiFirmwareDir=$i  test; if test $? != 0; then echo "Failure in $i" && break; fi; done < fw.dirs
 @Ignore("Disabled for travis -- needs vm parameter -DMiFirmwareDir=/path/to/firmware/directory/")
 public class FirmwareTest {
 
