@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.9.1" versioncode="45">
+        <change>Mi Band: fix sporadic connection problems (stuck on "Initializing" #249)</change>
+        <change>Mi Band: enable low latency connection (faster) during initialization and activity sync</change>
+        <change>Mi Band: better feedback for firmware update</change>
+        <change>Device Item is now clickable also when the information entries are visible</change>
+        <change>Fix enabling log file writing #261</change>
+    </release>
     <release version="0.9.0" versioncode="44">
         <change>Pebble: Support for configuring watchfaces/apps locally (clay) or though webbrowser (some do not work)</change>
         <change>Pebble: hide the alarm management activity as it's unsupported</change>

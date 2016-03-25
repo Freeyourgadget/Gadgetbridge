@@ -1,8 +1,8 @@
 ###Changelog
 
 ####Version 0.9.1
-* Mi Band: Fixed sporadic connection problems (stuck on "Initializing" #249)
-* Mi Band: enable  low latency connection (faster) during initialization and activity sync
+* Mi Band: fix sporadic connection problems (stuck on "Initializing" #249)
+* Mi Band: enable low latency connection (faster) during initialization and activity sync
 * Mi Band: better feedback for firmware update
 * Device Item is now clickable also when the information entries are visible
 * Fix enabling log file writing #261
