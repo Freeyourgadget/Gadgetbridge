@@ -1,5 +1,9 @@
 ###Changelog
 
+####Version 0.9.2
+* Mi Band: Second firmware of Mi1S could not be updated (#234)
+* Fixed ordering issue of device infos being displayed
+
 ####Version 0.9.1
 * Mi Band: fix sporadic connection problems (stuck on "Initializing" #249)
 * Mi Band: enable low latency connection (faster) during initialization and activity sync
