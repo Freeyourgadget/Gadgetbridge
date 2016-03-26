@@ -249,7 +249,13 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
 
     private void bluetoothStateChanged(int oldState, int newState) {
         discoveryFinished();
-        startButton.setEnabled(newState == BluetoothAdapter.STATE_ON);
+        if (newState == BluetoothAdapter.STATE_ON) {
+            this.adapter = BluetoothAdapter.getDefaultAdapter();
+            startButton.setEnabled(true);
+        } else {
+            this.adapter = null;
+            startButton.setEnabled(false);
+        }
     }
 
     private void discoveryFinished() {
@@ -286,6 +292,8 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
         BluetoothAdapter adapter = bluetoothService.getAdapter();
         if (!adapter.isEnabled()) {
             LOG.warn("Bluetooth not enabled");
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivity(enableBtIntent);
             this.adapter = null;
             return false;
         }
