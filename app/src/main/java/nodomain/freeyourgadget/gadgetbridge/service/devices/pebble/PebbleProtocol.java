@@ -111,7 +111,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final byte PHONECONTROL_START = 8;
     static final byte PHONECONTROL_END = 9;
 
-    static final byte MUSICCONTROL_SETMUSICINFO = 16;
+    static final byte MUSICCONTROL_SETMUSICINFO = 0x10;
+    static final byte MUSICCONTROL_SETPLAYSTATE = 0x11;
+
     static final byte MUSICCONTROL_PLAYPAUSE = 1;
     static final byte MUSICCONTROL_PAUSE = 2;
     static final byte MUSICCONTROL_PLAY = 3;
@@ -119,7 +121,13 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final byte MUSICCONTROL_PREVIOUS = 5;
     static final byte MUSICCONTROL_VOLUMEUP = 6;
     static final byte MUSICCONTROL_VOLUMEDOWN = 7;
-    static final byte MUSICCONTROL_GETNOWPLAYING = 7;
+    static final byte MUSICCONTROL_GETNOWPLAYING = 8;
+
+    static final byte MUSICCONTROL_STATE_PAUSED = 0x00;
+    static final byte MUSICCONTROL_STATE_PLAYING = 0x01;
+    static final byte MUSICCONTROL_STATE_REWINDING = 0x02;
+    static final byte MUSICCONTROL_STATE_FASTWORWARDING = 0x03;
+    static final byte MUSICCONTROL_STATE_UNKNOWN = 0x04;
 
     static final byte NOTIFICATIONACTION_ACK = 0;
     static final byte NOTIFICATIONACTION_NACK = 1;
@@ -407,7 +415,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
         if (parts != null) {
             for (String s : parts) {
                 if (s == null || s.equals("")) {
-                    //buf.put((byte)0x01);
                     buf.put((byte) 0x00);
                     continue;
                 }
@@ -802,33 +809,21 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 icon_id = PebbleIconID.GENERIC_SMS;
                 color_id = PebbleColor.VividViolet;
                 break;
+            case TWITTER:
+                icon_id = PebbleIconID.NOTIFICATION_TWITTER;
+                color_id = PebbleColor.BlueMoon;
+                break;
+            case FACEBOOK:
+                icon_id = PebbleIconID.NOTIFICATION_FACEBOOK;
+                color_id = PebbleColor.VeryLightBlue;
+                break;
+            case CHAT:
+                icon_id = PebbleIconID.NOTIFICATION_HIPCHAT;
+                color_id = PebbleColor.Inchworm;
+                break;
             default:
-                switch (notificationType) {
-                    case TWITTER:
-                        icon_id = PebbleIconID.NOTIFICATION_TWITTER;
-                        color_id = PebbleColor.BlueMoon;
-                        break;
-                    case EMAIL:
-                        icon_id = PebbleIconID.GENERIC_EMAIL;
-                        color_id = PebbleColor.JaegerGreen;
-                        break;
-                    case SMS:
-                        icon_id = PebbleIconID.GENERIC_SMS;
-                        color_id = PebbleColor.VividViolet;
-                        break;
-                    case FACEBOOK:
-                        icon_id = PebbleIconID.NOTIFICATION_FACEBOOK;
-                        color_id = PebbleColor.VeryLightBlue;
-                        break;
-                    case CHAT:
-                        icon_id = PebbleIconID.NOTIFICATION_HIPCHAT;
-                        color_id = PebbleColor.Inchworm;
-                        break;
-                    default:
-                        icon_id = PebbleIconID.NOTIFICATION_GENERIC;
-                        color_id = PebbleColor.Red;
-                        break;
-                }
+                icon_id = PebbleIconID.NOTIFICATION_GENERIC;
+                color_id = PebbleColor.Red;
                 break;
         }
         // Calculate length first
@@ -1082,14 +1077,34 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return encodeMessage(ENDPOINT_PHONECONTROL, pebbleCmd, 0, parts);
     }
 
+    public byte[] encodeSetMusicState(byte state, int position, int playRate, byte shuffle, byte repeat) {
+        int length = LENGTH_PREFIX + 12;
+        // Encode Prefix
+        ByteBuffer buf = ByteBuffer.allocate(length);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort((short) (length - LENGTH_PREFIX));
+        buf.putShort(ENDPOINT_MUSICCONTROL);
+
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        buf.put(MUSICCONTROL_SETPLAYSTATE);
+        buf.put(state);
+        buf.putInt(position);
+        buf.putInt(playRate);
+        buf.put(shuffle);
+        buf.put(repeat);
+
+        return buf.array();
+    }
+
     @Override
     public byte[] encodeSetMusicInfo(String artist, String album, String track, int duration, int trackCount, int trackNr) {
         String[] parts = {artist, album, track};
         if (duration == 0) {
             return encodeMessage(ENDPOINT_MUSICCONTROL, MUSICCONTROL_SETMUSICINFO, 0, parts);
         } else {
+            byte[] stateMessage = encodeSetMusicState(MUSICCONTROL_STATE_PLAYING, 0, 100, (byte) 1, (byte) 1);
             // Calculate length first
-            int length = LENGTH_PREFIX + 13;
+            int length = LENGTH_PREFIX + 9;
             if (parts != null) {
                 for (String s : parts) {
                     if (s == null || s.equals("")) {
@@ -1101,7 +1116,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             }
 
             // Encode Prefix
-            ByteBuffer buf = ByteBuffer.allocate(length);
+            ByteBuffer buf = ByteBuffer.allocate(length + stateMessage.length);
             buf.order(ByteOrder.BIG_ENDIAN);
             buf.putShort((short) (length - LENGTH_PREFIX));
             buf.putShort(ENDPOINT_MUSICCONTROL);
@@ -1121,12 +1136,13 @@ public class PebbleProtocol extends GBDeviceProtocol {
             }
 
             buf.order(ByteOrder.LITTLE_ENDIAN);
-            buf.putInt(duration*1000);
-            buf.putInt(trackCount);
-            buf.putInt(trackNr);
+            buf.putInt(duration * 1000);
+            buf.putShort((short) (trackCount & 0xffff));
+            buf.putShort((short) (trackNr & 0xffff));
+
+            buf.put(stateMessage);
 
             return buf.array();
-
         }
     }
 

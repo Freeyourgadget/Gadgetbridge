@@ -202,7 +202,7 @@ public class DebugActivity extends Activity {
                 GBApplication.deviceService().onSetMusicInfo(
                         editContent.getText().toString() + "(artist)",
                         editContent.getText().toString() + "(album)",
-                        editContent.getText().toString() + "(track)", 90, 10, 2);
+                        editContent.getText().toString() + "(track)", 20, 10, 2);
             }
         });
 
