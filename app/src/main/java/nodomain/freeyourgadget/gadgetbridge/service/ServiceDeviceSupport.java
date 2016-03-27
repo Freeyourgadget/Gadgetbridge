@@ -139,11 +139,11 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
-    public void onSetMusicInfo(String artist, String album, String track) {
+    public void onSetMusicInfo(String artist, String album, String track, int duration, int trackCount, int trackNr) {
         if (checkBusy("set music info")) {
             return;
         }
-        delegate.onSetMusicInfo(artist, album, track);
+        delegate.onSetMusicInfo(artist, album, track, duration, trackCount, trackNr);
     }
 
     @Override

@@ -16,11 +16,11 @@ import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 public class Mi1SFirmwareInfo extends CompositeMiFirmwareInfo {
     private static final Logger LOG = LoggerFactory.getLogger(Mi1SFirmwareInfo.class);
 
-    private static final byte[] DOUBLE_FW_HEADER = new byte[] {
-            (byte)0x78,
-            (byte)0x75,
-            (byte)0x63,
-            (byte)0x6b
+    private static final byte[] DOUBLE_FW_HEADER = new byte[]{
+            (byte) 0x78,
+            (byte) 0x75,
+            (byte) 0x63,
+            (byte) 0x6b
     };
     private static final int DOUBLE_FW_HEADER_OFFSET = 0;
 

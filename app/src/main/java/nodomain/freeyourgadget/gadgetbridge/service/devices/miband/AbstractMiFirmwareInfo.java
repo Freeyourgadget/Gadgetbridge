@@ -2,11 +2,9 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.miband;
 
 import android.support.annotation.NonNull;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 
 public abstract class AbstractMiFirmwareInfo {
 
@@ -32,7 +30,7 @@ public abstract class AbstractMiFirmwareInfo {
         if (MiBandSupport.MI_1A_HR_FW_UPDATE_TEST_MODE_ENABLED) {
             TestMi1AFirmwareInfo info = TestMi1AFirmwareInfo.getInstance(wholeFirmwareBytes);
             if (info != null) {
-                return new AbstractMiFirmwareInfo[] { info };
+                return new AbstractMiFirmwareInfo[]{info};
             }
         }
 
@@ -82,11 +80,13 @@ public abstract class AbstractMiFirmwareInfo {
     /**
      * Checks whether this instance, with the provided firmware data is compatible with the
      * given device. Must be called to avoid installing Mi1 firmware on Mi1A, for example.
+     *
      * @param device
      */
     public abstract boolean isGenerallyCompatibleWith(GBDevice device);
 
-    public @NonNull byte[] getFirmwareBytes() {
+    @NonNull
+    public byte[] getFirmwareBytes() {
         return Arrays.copyOfRange(wholeFirmwareBytes, getFirmwareOffset(), getFirmwareOffset() + getFirmwareLength());
     }
 
@@ -103,6 +103,7 @@ public abstract class AbstractMiFirmwareInfo {
     /**
      * Performs a thorough sanity check of the firmware data and throws IllegalArgumentException
      * if there's any problem with it.
+     *
      * @throws IllegalArgumentException
      */
     public void checkValid() throws IllegalArgumentException {

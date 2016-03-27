@@ -1,6 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;

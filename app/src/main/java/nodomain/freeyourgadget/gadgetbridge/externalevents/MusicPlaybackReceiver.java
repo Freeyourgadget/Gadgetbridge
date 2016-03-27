@@ -19,9 +19,16 @@ public class MusicPlaybackReceiver extends BroadcastReceiver {
         String artist = intent.getStringExtra("artist");
         String album = intent.getStringExtra("album");
         String track = intent.getStringExtra("track");
-
+        /*
+        Bundle bundle = intent.getExtras();
+        for (String key : bundle.keySet()) {
+            Object value = bundle.get(key);
+            LOG.info(String.format("%s %s (%s)", key,
+                    value.toString(), value.getClass().getName()));
+        }
+        */
         LOG.info("Current track: " + artist + ", " + album + ", " + track);
 
-        GBApplication.deviceService().onSetMusicInfo(artist, album, track);
+        GBApplication.deviceService().onSetMusicInfo(artist, album, track, 0, 0, 0);
     }
 }

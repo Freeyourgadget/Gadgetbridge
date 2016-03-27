@@ -1083,9 +1083,51 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     @Override
-    public byte[] encodeSetMusicInfo(String artist, String album, String track) {
+    public byte[] encodeSetMusicInfo(String artist, String album, String track, int duration, int trackCount, int trackNr) {
         String[] parts = {artist, album, track};
-        return encodeMessage(ENDPOINT_MUSICCONTROL, MUSICCONTROL_SETMUSICINFO, 0, parts);
+        if (duration == 0) {
+            return encodeMessage(ENDPOINT_MUSICCONTROL, MUSICCONTROL_SETMUSICINFO, 0, parts);
+        } else {
+            // Calculate length first
+            int length = LENGTH_PREFIX + 13;
+            if (parts != null) {
+                for (String s : parts) {
+                    if (s == null || s.equals("")) {
+                        length++; // encode null or empty strings as 0x00 later
+                        continue;
+                    }
+                    length += (1 + s.getBytes().length);
+                }
+            }
+
+            // Encode Prefix
+            ByteBuffer buf = ByteBuffer.allocate(length);
+            buf.order(ByteOrder.BIG_ENDIAN);
+            buf.putShort((short) (length - LENGTH_PREFIX));
+            buf.putShort(ENDPOINT_MUSICCONTROL);
+            buf.put(MUSICCONTROL_SETMUSICINFO);
+
+            // Encode Pascal-Style Strings
+            for (String s : parts) {
+                if (s == null || s.equals("")) {
+                    buf.put((byte) 0x00);
+                    continue;
+                }
+
+                int partlength = s.getBytes().length;
+                if (partlength > 255) partlength = 255;
+                buf.put((byte) partlength);
+                buf.put(s.getBytes(), 0, partlength);
+            }
+
+            buf.order(ByteOrder.LITTLE_ENDIAN);
+            buf.putInt(duration*1000);
+            buf.putInt(trackCount);
+            buf.putInt(trackNr);
+
+            return buf.array();
+
+        }
     }
 
     @Override

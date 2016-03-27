@@ -70,7 +70,10 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_ENA
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_FIND_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_ALBUM;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_ARTIST;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_TRACK;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_TRACKCOUNT;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_TRACKNR;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_BODY;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_FLAGS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_ID;
@@ -290,7 +293,10 @@ public class DeviceCommunicationService extends Service {
                 String artist = intent.getStringExtra(EXTRA_MUSIC_ARTIST);
                 String album = intent.getStringExtra(EXTRA_MUSIC_ALBUM);
                 String track = intent.getStringExtra(EXTRA_MUSIC_TRACK);
-                mDeviceSupport.onSetMusicInfo(artist, album, track);
+                int duration = intent.getIntExtra(EXTRA_MUSIC_DURATION, 0);
+                int trackCount = intent.getIntExtra(EXTRA_MUSIC_TRACKCOUNT, 0);
+                int trackNr = intent.getIntExtra(EXTRA_MUSIC_TRACKNR, 0);
+                mDeviceSupport.onSetMusicInfo(artist, album, track, duration, trackCount, trackNr);
                 break;
             case ACTION_REQUEST_APPINFO:
                 mDeviceSupport.onAppInfoReq();

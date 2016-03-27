@@ -24,7 +24,7 @@ public interface EventHandler {
 
     void onSetCallState(@Nullable String number, @Nullable String name, ServiceCommand command);
 
-    void onSetMusicInfo(String artist, String album, String track);
+    void onSetMusicInfo(String artist, String album, String track, int duration, int trackCount, int trackNr);
 
     void onEnableRealtimeSteps(boolean enable);
 

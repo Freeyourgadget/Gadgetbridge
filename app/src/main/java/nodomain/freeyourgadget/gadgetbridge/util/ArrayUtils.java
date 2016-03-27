@@ -4,10 +4,11 @@ public class ArrayUtils {
     /**
      * Checks the two given arrays for equality, but comparing only a subset of the second
      * array with the whole first array.
-     * @param first the whole array to compare against
-     * @param second the array, of which a subset shall be compared against the whole first array
+     *
+     * @param first            the whole array to compare against
+     * @param second           the array, of which a subset shall be compared against the whole first array
      * @param secondStartIndex the start index (inclusive) of the second array from which to start the comparison
-     * @param secondEndIndex the end index (exclusive) of the second array until which to compare
+     * @param secondEndIndex   the end index (exclusive) of the second array until which to compare
      * @return whether the first byte array is equal to the specified subset of the second byte array
      * @throws IllegalArgumentException when one of the arrays is null or start and end index are wrong
      */

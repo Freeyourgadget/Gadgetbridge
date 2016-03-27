@@ -66,7 +66,7 @@ public class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
-    public void onSetMusicInfo(String artist, String album, String track) {
+    public void onSetMusicInfo(String artist, String album, String track, int duration, int trackCount, int trackNr) {
 
     }
 

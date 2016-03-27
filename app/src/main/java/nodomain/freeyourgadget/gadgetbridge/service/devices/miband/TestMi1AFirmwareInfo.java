@@ -11,9 +11,9 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
  * This is a class just for testing the dual fw firmware update procedure.
  * It uses two instances of the known-to-be-working Mi1A firmware update instances
  * and combines them in a CompositeMiFirmwareInfo.
- *
+ * <p/>
  * Most methods simply delegate to one of the child instances (FW1).
- *
+ * <p/>
  * FW1 is the default Mi 1A Band firmware
  * FW2 is the same default Mi 1A Band firmware
  */

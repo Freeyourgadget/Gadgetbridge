@@ -540,7 +540,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSetMusicInfo(String artist, String album, String track) {
+    public void onSetMusicInfo(String artist, String album, String track, int duration, int trackCount, int trackNr) {
         // not supported
     }
 

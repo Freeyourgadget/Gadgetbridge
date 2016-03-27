@@ -13,15 +13,15 @@ import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 public abstract class AbstractMi1FirmwareInfo extends AbstractMiFirmwareInfo {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractMi1FirmwareInfo.class);
 
-    private static final byte[] SINGLE_FW_HEADER = new byte[] {
+    private static final byte[] SINGLE_FW_HEADER = new byte[]{
             0,
-            (byte)0x98,
+            (byte) 0x98,
             0,
-            (byte)0x20,
-            (byte)0x89,
+            (byte) 0x20,
+            (byte) 0x89,
             4,
             0,
-            (byte)0x20
+            (byte) 0x20
     };
     private static final int SINGLE_FW_HEADER_OFFSET = 0;
 
