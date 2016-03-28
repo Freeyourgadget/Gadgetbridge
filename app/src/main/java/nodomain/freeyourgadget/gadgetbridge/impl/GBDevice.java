@@ -53,7 +53,6 @@ public class GBDevice implements Parcelable {
     private BatteryState mBatteryState;
     private short mRssi = RSSI_UNKNOWN;
     private String mBusyTask;
-    private String infoString;
     private List<ItemWithDetails> mDeviceInfos;
 
     public GBDevice(String address, String name, DeviceType deviceType) {
@@ -204,23 +203,25 @@ public class GBDevice implements Parcelable {
     }
 
     public String getStateString() {
+         /*
+          * for simplicity the user wont see all internal states, just connecting -> connected
+          * instead of connecting->connected->initializing->initialized
+          */
         switch (mState) {
             case NOT_CONNECTED:
                 return GBApplication.getContext().getString(R.string.not_connected);
             case WAITING_FOR_RECONNECT:
                 return GBApplication.getContext().getString(R.string.waiting_for_reconnect);
             case CONNECTING:
-                return GBApplication.getContext().getString(R.string.connecting);
             case CONNECTED:
-                return GBApplication.getContext().getString(R.string.connected);
             case INITIALIZING:
-                return GBApplication.getContext().getString(R.string.initializing);
+                return GBApplication.getContext().getString(R.string.connecting);
             case AUTHENTICATION_REQUIRED:
                 return GBApplication.getContext().getString(R.string.authentication_required);
             case AUTHENTICATING:
                 return GBApplication.getContext().getString(R.string.authenticating);
             case INITIALIZED:
-                return GBApplication.getContext().getString(R.string.initialized);
+                return GBApplication.getContext().getString(R.string.connected);
         }
         return GBApplication.getContext().getString(R.string.unknown_state);
     }
