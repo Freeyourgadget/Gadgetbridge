@@ -1,5 +1,10 @@
 ###Changelog
 
+####Version 0.9.3 (next)
+* Pebble: Fix Pebble Health activation (was not available in the App Manager)
+* Simplify connection state display (only connecting->connected)
+* Small improvements to the pairing activity
+
 ####Version 0.9.2
 * Mi Band: Fix update of second (HR) firmware on Mi1S (#234)
 * Fix ordering issue of device infos being displayed
