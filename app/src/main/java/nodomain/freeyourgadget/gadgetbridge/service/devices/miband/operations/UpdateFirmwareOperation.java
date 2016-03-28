@@ -52,7 +52,6 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
         }
 
         updateCoordinator.initNextOperation();
-//        updateCoordinator.initNextOperation(); // FIXME: remove, just testing mi band 1s fw update
         if (!updateCoordinator.sendFwInfo()) {
             GB.toast(getContext(), "Error sending firmware info, aborting.", Toast.LENGTH_LONG, GB.ERROR);
             done();
@@ -103,7 +102,6 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
                 if (firmwareInfoSent) {
                     GB.toast(getContext(), "Firmware metadata successfully sent.", Toast.LENGTH_LONG, GB.INFO);
                     if (!updateCoordinator.sendFwData()) {
-                        //TODO: the firmware transfer failed, but the miband should be still functional with the old firmware. What should we do?
                         GB.toast(getContext().getString(R.string.updatefirmwareoperation_updateproblem_do_not_reboot), Toast.LENGTH_LONG, GB.ERROR);
                         done();
                     }
@@ -119,7 +117,7 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
                 if (updateCoordinator.initNextOperation()) {
                     GB.toast(getContext(), "Heart Rate Firmware successfully updated, now updating Mi Band Firmware", Toast.LENGTH_LONG, GB.INFO);
                     if (!updateCoordinator.sendFwInfo()) {
-                        GB.toast(getContext(), "Sending Mi Band Firmware failed, aborting. Do NOT reboot your Mi Band!", Toast.LENGTH_LONG, GB.INFO);
+                        GB.toast(getContext(), "Error sending firmware info, aborting.", Toast.LENGTH_LONG, GB.ERROR);
                         done();
                     }
                     break;
@@ -256,10 +254,10 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
 
 
     /**
-     * Method that uploads a firmware (fwbytes) to the MiBand.
-     * The firmware has to be splitted into chunks of 20 bytes each, and periodically a COMMAND_SYNC comand has to be issued to the MiBand.
+     * Method that uploads a firmware (fwbytes) to the Mi Band.
+     * The firmware has to be split into chunks of 20 bytes each, and periodically a COMMAND_SYNC command has to be issued to the Mi Band.
      * <p/>
-     * The Mi Band will send a notification after receiving these data to confirm if the firmware looks good to it.
+     * The Mi Band will send a notification after receiving this data to confirm if the firmware looks good to it.
      *
      * @param fwbytes
      * @return whether the transfer succeeded or not. Only a BT layer exception will cause the transmission to fail.
@@ -270,6 +268,7 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
         final int packetLength = 20;
         int packets = len / packetLength;
 
+        // going from 0 to len
         int firmwareProgress = 0;
 
         try {
@@ -280,32 +279,25 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
                 builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_FIRMWARE_DATA), fwChunk);
                 firmwareProgress += packetLength;
 
+                int progressPercent = (int) (((float) firmwareProgress) / len) * 100;
                 if ((i > 0) && (i % 50 == 0)) {
                     builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_SYNC});
-                    builder.add(new SetProgressAction(getContext().getString(R.string.updatefirmwareoperation_update_in_progress), true, (int) (((float) firmwareProgress) / len * 100), getContext()));
+                    builder.add(new SetProgressAction(getContext().getString(R.string.updatefirmwareoperation_update_in_progress), true, progressPercent, getContext()));
                 }
-
-                LOG.info("Firmware update progress:" + firmwareProgress + " total len:" + len + " progress:" + (int) (((float) firmwareProgress) / len * 100));
             }
 
-            if (!(len % packetLength == 0)) {
+            if (firmwareProgress < len) {
                 byte[] lastChunk = Arrays.copyOfRange(fwbytes, packets * packetLength, len);
                 builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_FIRMWARE_DATA), lastChunk);
-                firmwareProgress += len % packetLength;
+                firmwareProgress = len;
             }
 
-            LOG.info("Firmware update progress:" + firmwareProgress + " total len:" + len + " progress:" + (firmwareProgress / len));
-            if (firmwareProgress >= len) {
-                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_SYNC});
-            } else {
-                GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_write_failed), false, 0, getContext());
-            }
-
+            builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_SYNC});
             builder.queue(getQueue());
 
         } catch (IOException ex) {
             LOG.error("Unable to send fw to MI", ex);
-            GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_write_failed), false, 0, getContext());
+            GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_firmware_not_sent), false, 0, getContext());
             return false;
         }
         return true;
@@ -381,7 +373,8 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
         INITIAL,
         SEND_FW2,
         SEND_FW1,
-        FINISHED, UNKNOWN
+        FINISHED,
+        UNKNOWN
     }
 
     private class DoubleUpdateCoordinator extends UpdateCoordinator {
@@ -389,7 +382,7 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
         private final byte[] fw1Info;
         private final byte[] fw1Data;
 
-        private final byte[] fw21nfo;
+        private final byte[] fw2Info;
         private final byte[] fw2Data;
 
         private byte[] currentFwInfo;
@@ -401,7 +394,7 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
             super(reboot);
             this.fw1Info = fw1Info;
             this.fw1Data = fw1Data;
-            this.fw21nfo = fw2Info;
+            this.fw2Info = fw2Info;
             this.fw2Data = fw2Data;
 
             // start with fw2 (heart rate)
@@ -423,7 +416,7 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
         public boolean initNextOperation() {
             switch (state) {
                 case INITIAL:
-                    currentFwInfo = fw21nfo;
+                    currentFwInfo = fw2Info;
                     currentFwData = fw2Data;
                     state = State.SEND_FW2;
                     return true;
