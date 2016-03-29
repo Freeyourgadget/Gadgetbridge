@@ -193,7 +193,7 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
         } else {
             LOG.info("is multi Mi Band firmware, sending fw2 (hr) first");
             byte[] fw2Info = prepareFirmwareInfo(fw2Bytes, fw2OldVersion, fw2Version, fw2Checksum, 1, rebootWhenFinished /*, progress monitor */);
-            byte[] fw1Info = prepareFirmwareInfo(fw1Bytes, fw1OldVersion, fw1Version, fw1Checksum, 1, rebootWhenFinished /*, progress monitor */);
+            byte[] fw1Info = prepareFirmwareInfo(fw1Bytes, fw1OldVersion, fw1Version, fw1Checksum, 0, rebootWhenFinished /*, progress monitor */);
             return new DoubleUpdateCoordinator(fw1Info, fw1Bytes, fw2Info, fw2Bytes, rebootWhenFinished);
         }
     }
