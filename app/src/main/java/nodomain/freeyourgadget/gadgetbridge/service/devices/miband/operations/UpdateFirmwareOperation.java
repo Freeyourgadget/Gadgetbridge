@@ -107,6 +107,8 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
                         done();
                     }
                     firmwareInfoSent = false;
+                } else {
+                    LOG.warn("firmwareInfoSent is false -- not sending firmware data even though we got meta data success notification");
                 }
                 break;
             case MiBandService.NOTIFY_FW_CHECK_FAILED:
