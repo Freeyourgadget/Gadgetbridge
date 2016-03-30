@@ -113,6 +113,10 @@ public abstract class AbstractBTLEOperation<T extends AbstractBTLEDeviceSupport>
         return operationStatus == OperationStatus.RUNNING;
     }
 
+    public boolean isOperationFinished() {
+        return operationStatus == OperationStatus.FINISHED;
+    }
+
     public T getSupport() {
         return mSupport;
     }

@@ -60,6 +60,7 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
     }
 
     private void done() {
+        LOG.info("Operation done.");
         updateCoordinator = null;
         operationFinished();
         unsetBusy();
@@ -273,6 +274,7 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
 
         try {
             TransactionBuilder builder = performInitialized("send firmware packet");
+            getSupport().setLowLatency(builder);
             for (int i = 0; i < packets; i++) {
                 byte[] fwChunk = Arrays.copyOfRange(fwbytes, i * packetLength, i * packetLength + packetLength);
 
@@ -319,6 +321,7 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
         public boolean sendFwInfo() {
             try {
                 TransactionBuilder builder = performInitialized("send firmware info");
+                getSupport().setLowLatency(builder);
                 builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.updating_firmware), getContext()));
                 builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), getFirmwareInfo());
                 builder.add(new FirmwareInfoSucceededAction());
@@ -440,7 +443,9 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
     private class FirmwareInfoSucceededAction extends PlainAction {
         @Override
         public boolean run(BluetoothGatt gatt) {
-            firmwareInfoSent = true;
+            if (isOperationRunning()) {
+                firmwareInfoSent = true;
+            }
             return true;
         }
     }
