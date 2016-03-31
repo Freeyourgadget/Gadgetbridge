@@ -94,7 +94,8 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
             return;
         }
         if (updateCoordinator == null) {
-            LOG.error("received notification when updateCoordinator is null, ignoring!");
+            LOG.error("received notification when updateCoordinator is null, ignoring (notification content follows):");
+            getSupport().logMessageContent(value);
             return;
         }
 
