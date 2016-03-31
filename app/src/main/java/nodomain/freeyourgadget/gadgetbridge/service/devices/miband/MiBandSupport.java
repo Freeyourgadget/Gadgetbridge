@@ -725,6 +725,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             handleBatteryInfo(characteristic.getValue(), status);
         } else if (MiBandService.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT.equals(characteristicUUID)) {
             logHeartrate(characteristic.getValue());
+        } else if (MiBandService.UUID_CHARACTERISTIC_DATE_TIME.equals(characteristicUUID)) {
+            logDate(characteristic.getValue());
         } else {
             LOG.info("Unhandled characteristic read: " + characteristicUUID);
             logMessageContent(characteristic.getValue());
@@ -754,6 +756,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         for (byte b : value) {
             LOG.warn("DATA: " + String.format("0x%2x", b));
         }
+    }
+
+    public void logDate(byte[] value) {
+        GregorianCalendar calendar = MiBandDateConverter.rawBytesToCalendar(value);
+        LOG.info("Got Mi Band Date: " + DateTimeUtils.formatDateTime(calendar.getTime()));
     }
 
     public void logHeartrate(byte[] value) {
