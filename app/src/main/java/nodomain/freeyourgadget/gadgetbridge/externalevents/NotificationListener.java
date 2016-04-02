@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
@@ -54,6 +55,9 @@ public class NotificationListener extends NotificationListenerService {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             switch (action) {
+                case GBApplication.ACTION_QUIT:
+                    stopSelf();
+                    break;
                 case ACTION_MUTE:
                 case ACTION_OPEN: {
                     StatusBarNotification[] sbns = NotificationListener.this.getActiveNotifications();
@@ -130,6 +134,7 @@ public class NotificationListener extends NotificationListenerService {
     public void onCreate() {
         super.onCreate();
         IntentFilter filterLocal = new IntentFilter();
+        filterLocal.addAction(GBApplication.ACTION_QUIT);
         filterLocal.addAction(ACTION_OPEN);
         filterLocal.addAction(ACTION_DISMISS);
         filterLocal.addAction(ACTION_DISMISS_ALL);
