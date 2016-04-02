@@ -376,20 +376,24 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      * @return
      */
     private MiBandSupport setHeartrateSleepSupport(TransactionBuilder transaction) {
-        LOG.info("Attempting to set heartrate sleep support...");
-        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT);
-        if (characteristic != null) {
-            if(MiBandCoordinator.getHeartrateSleepSupport(getDevice().getAddress())) {
-                LOG.info("Enabling heartrate sleep support...");
-                transaction.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), startHeartMeasurementSleep);
+        if (supportsHeartRate()) {
+            LOG.info("Attempting to set heartrate sleep support...");
+            BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT);
+            if (characteristic != null) {
+                if(MiBandCoordinator.getHeartrateSleepSupport(getDevice().getAddress())) {
+                    LOG.info("Enabling heartrate sleep support...");
+                    transaction.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), startHeartMeasurementSleep);
+                }
+                else {
+                    LOG.info("Disabling heartrate sleep support...");
+                    transaction.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementSleep);
+                }
+            } else {
+                LOG.info("Unable to set Heartrate sleep support");
             }
-            else {
-                LOG.info("Disabling heartrate sleep support...");
-                transaction.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementSleep);
-            }
-        } else {
-            LOG.info("Unable to set Wear Location");
-        }
+
+        } else
+            GB.toast(getContext(), "Heart rate is not supported on this device", Toast.LENGTH_LONG, GB.ERROR);
         return this;
     }
 
