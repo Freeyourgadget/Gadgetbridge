@@ -896,7 +896,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         if (status != BluetoothGatt.GATT_SUCCESS) {
             LOG.warn("Could not write to the control point.");
         }
-        LOG.info("handleControlPoint write status:" + status);
+        LOG.info("handleControlPoint write status:" + status + "; length: " + (value != null ? value.length : "(null)"));
 
         if (value != null) {
             for (byte b : value) {
