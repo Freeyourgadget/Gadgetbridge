@@ -44,6 +44,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CA
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CONNECT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DELETEAPP;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DISCONNECT;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ENABLE_REALTIME_HEARTRATE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ENABLE_REALTIME_STEPS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_FETCH_ACTIVITY_DATA;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_FIND_DEVICE;
@@ -66,6 +67,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_COMMAND;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_PHONENUMBER;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_DEVICE_ADDRESS;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_ENABLE_REALTIME_HEARTRATE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_ENABLE_REALTIME_STEPS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_FIND_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_ALBUM;
@@ -335,6 +337,12 @@ public class DeviceCommunicationService extends Service {
                 boolean enable = intent.getBooleanExtra(EXTRA_ENABLE_REALTIME_STEPS, false);
                 mDeviceSupport.onEnableRealtimeSteps(enable);
                 break;
+
+            case ACTION_ENABLE_REALTIME_HEARTRATE: {
+                boolean enable_hr = intent.getBooleanExtra(EXTRA_ENABLE_REALTIME_HEARTRATE, false);
+                mDeviceSupport.onEnableRealtimeHeartrate(enable_hr);
+                break;
+            }
         }
 
         return START_STICKY;

@@ -314,6 +314,8 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
                     return new WeekStepsChartFragment();
                 case 3:
                     return new LiveActivityFragment();
+                case 4:
+                    return new HeartRateFragment();
 
             }
             return null;
@@ -322,7 +324,7 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 4;
+            return 5;
         }
 
         @Override
@@ -336,6 +338,8 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
                     return getString(R.string.weekstepschart_steps_a_week);
                 case 3:
                     return getString(R.string.liveactivity_live_activity);
+                case 4:
+                    return getString(R.string.heartrateactivity_heartrate_aktivity);
             }
             return super.getPageTitle(position);
         }

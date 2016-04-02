@@ -67,6 +67,11 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
     }
 
     @Override
+    public void onEnableRealtimeHeartrate(boolean enable) {
+
+    }
+
+    @Override
     public synchronized PebbleIoThread getDeviceIOThread() {
         return (PebbleIoThread) super.getDeviceIOThread();
     }

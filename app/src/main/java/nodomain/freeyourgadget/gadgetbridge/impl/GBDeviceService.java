@@ -190,6 +190,13 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
+    public void onEnableRealtimeHeartrate(boolean enable) {
+        Intent intent = createIntent().setAction(ACTION_ENABLE_REALTIME_HEARTRATE)
+                .putExtra(EXTRA_ENABLE_REALTIME_HEARTRATE, enable);
+        invokeService(intent);
+    }
+
+    @Override
     public void onFindDevice(boolean start) {
         Intent intent = createIntent().setAction(ACTION_FIND_DEVICE)
                 .putExtra(EXTRA_FIND_START, start);

@@ -210,6 +210,15 @@ public class ServiceDeviceSupport implements DeviceSupport {
         delegate.onHeartRateTest();
     }
 
+
+    @Override
+    public void onEnableRealtimeHeartrate(boolean enable) {
+        if (checkBusy("heartrate")) {
+            return;
+        }
+        delegate.onEnableRealtimeHeartrate(enable);
+    }
+
     @Override
     public void onFindDevice(boolean start) {
         if (checkBusy("find device")) {

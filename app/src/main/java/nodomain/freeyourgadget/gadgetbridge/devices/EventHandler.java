@@ -40,6 +40,8 @@ public interface EventHandler {
 
     void onFetchActivityData();
 
+    void onEnableRealtimeHeartrate(boolean enable);
+
     void onReboot();
 
     void onHeartRateTest();

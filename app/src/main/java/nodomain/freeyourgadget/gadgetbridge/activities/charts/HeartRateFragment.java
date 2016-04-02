@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
@@ -43,160 +42,103 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class LiveActivityFragment extends AbstractChartFragment {
-    private static final Logger LOG = LoggerFactory.getLogger(LiveActivityFragment.class);
-    private static final int MAX_STEPS_PER_MINUTE = 300;
-    private static final int MIN_STEPS_PER_MINUTE = 60;
-    private static final int RESET_COUNT = 10; // reset the max steps per minute value every 10s
+
+/*
+//Start Heart Rate measuring
+                GB.toast("Measuring heart rate, please wait...", Toast.LENGTH_LONG, GB.INFO);
+                GBApplication.deviceService().onHeartRateTest();
+
+
+ */
+
+public class HeartRateFragment extends AbstractChartFragment {
+    private static final Logger LOG = LoggerFactory.getLogger(HeartRateFragment.class);
+    private static final int HR_LOW = 40;
+    private static final int HR_HIGH = 95;
+    private static final int HR_EXHAUSTED = 130;
+
+    private static final int MAX_HEARTRATE = 180;
 
     private BarEntry totalStepsEntry;
     private BarEntry stepsPerMinuteEntry;
     private BarDataSet mStepsPerMinuteData;
     private BarDataSet mTotalStepsData;
     private LineDataSet mHistorySet;
-    private BarLineChartBase mStepsPerMinuteHistoryChart;
-    private CustomBarChart mStepsPerMinuteCurrentChart;
-    private CustomBarChart mTotalStepsChart;
+    private BarLineChartBase mHeartRateHistoryChart;
+    private CustomBarChart mHeartrateCurrentChart;
 
-    private final Steps mSteps = new Steps();
+    private final Heartrate mHeartrate = new Heartrate();
     private ScheduledExecutorService pulseScheduler;
     private int maxStepsResetCounter;
 
-    private class Steps {
-        private int initialSteps;
+    private class Heartrate {
 
-        private int steps;
+        private int heartrate = 0;
+        private long timestamp;
         private long lastTimestamp;
-        private int currentStepsPerMinute;
-        private int maxStepsPerMinute;
-        private int lastStepsPerMinute;
+        private int lastHeartrate;
 
-        public int getStepsPerMinute(boolean reset) {
-            lastStepsPerMinute = currentStepsPerMinute;
-            int result = currentStepsPerMinute;
-            if (reset) {
-                currentStepsPerMinute = 0;
-            }
+        public int getHeartrate() {
+            lastHeartrate = heartrate;
+            int result = heartrate;
             return result;
         }
 
-        public int getTotalSteps() {
-            return steps - initialSteps;
+
+        public void updateHeartrate(int newHeartrate, long newTimestamp) {
+
+                heartrate = newHeartrate;
+                timestamp = newTimestamp;
+
         }
 
-        public int getMaxStepsPerMinute() {
-            return maxStepsPerMinute;
-        }
-
-        public void updateCurrentSteps(int newSteps, long timestamp) {
-            try {
-                if (steps == 0) {
-                    steps = newSteps;
-                    lastTimestamp = timestamp;
-
-                    if (newSteps > 0) {
-                        initialSteps = newSteps;
-                    }
-                    return;
-                }
-
-                if (newSteps >= steps) {
-                    int stepsDelta = newSteps - steps;
-                    long timeDelta = timestamp - lastTimestamp;
-                    currentStepsPerMinute = calculateStepsPerMinute(stepsDelta, timeDelta);
-                    if (currentStepsPerMinute > maxStepsPerMinute) {
-                        maxStepsPerMinute = currentStepsPerMinute;
-                        maxStepsResetCounter = 0;
-                    }
-                    steps = newSteps;
-                    lastTimestamp = timestamp;
-                } else {
-                    // TODO: handle new day?
-
-                }
-            } catch (Exception ex) {
-                GB.toast(LiveActivityFragment.this.getContext(), ex.getMessage(), Toast.LENGTH_SHORT, GB.ERROR, ex);
-            }
-        }
-
-        private int calculateStepsPerMinute(int stepsDelta, long millis) {
-            if (stepsDelta == 0) {
-                return 0; // not walking or not enough data per mills?
-            }
-            if (millis <= 0) {
-                throw new IllegalArgumentException("delta in millis is <= 0 -- time change?");
-            }
-
-            long oneMinute = 60 * 1000;
-            float factor = oneMinute / millis;
-            int result = (int) (stepsDelta * factor);
-            if (result > MAX_STEPS_PER_MINUTE) {
-                // ignore, return previous value instead
-                result = lastStepsPerMinute;
-            }
-            return result;
-        }
     }
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            long timestamp;
             switch (action) {
-                case DeviceService.ACTION_REALTIME_STEPS:
-                    int steps = intent.getIntExtra(DeviceService.EXTRA_REALTIME_STEPS, 0);
-                    timestamp = intent.getLongExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
-                    refreshCurrentSteps(steps, timestamp);
+                case DeviceService.ACTION_REALTIME_HEARTRATE:
+                    int heartrate = intent.getIntExtra(DeviceService.EXTRA_REALTIME_HEARTRATE, 0);
+                    long timestamp = intent.getLongExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
+                    refreshHeartrate(heartrate, timestamp);
                     break;
             }
         }
     };
 
-    private void refreshCurrentSteps(int steps, long timestamp) {
-        mSteps.updateCurrentSteps(steps, timestamp);
-        if (++maxStepsResetCounter > RESET_COUNT) {
-            maxStepsResetCounter = 0;
-            mSteps.maxStepsPerMinute = 0;
-        }
-        // Or: count down the steps until goal reached? And then flash GOAL REACHED -> Set stretch goal
-        LOG.info("Steps: " + steps + ", total: " + mSteps.getTotalSteps() + ", current: " + mSteps.getStepsPerMinute(false));
-
-//        refreshCurrentSteps();
+    private void refreshHeartrate(int heartrate, long timestamp) {
+        mHeartrate.updateHeartrate(heartrate, timestamp);
     }
 
-    private void refreshCurrentSteps() {
-        mTotalStepsChart.setSingleEntryYValue(mSteps.getTotalSteps());
-        YAxis stepsPerMinuteCurrentYAxis = mStepsPerMinuteCurrentChart.getAxisLeft();
-        int maxStepsPerMinute = mSteps.getMaxStepsPerMinute();
-//        int extraRoom = maxStepsPerMinute/5;
-//        buggy in MPAndroidChart? Disable.
-//        stepsPerMinuteCurrentYAxis.setAxisMaxValue(Math.max(MIN_STEPS_PER_MINUTE, maxStepsPerMinute + extraRoom));
+    private void refreshHeartrate() {
+        YAxis stepsPerMinuteCurrentYAxis = mHeartrateCurrentChart.getAxisLeft();
+        int maxStepsPerMinute = mHeartrate.getHeartrate();
         LimitLine target = new LimitLine(maxStepsPerMinute);
         stepsPerMinuteCurrentYAxis.removeAllLimitLines();
         stepsPerMinuteCurrentYAxis.addLimitLine(target);
 
-        int stepsPerMinute = mSteps.getStepsPerMinute(true);
-        mStepsPerMinuteCurrentChart.setSingleEntryYValue(stepsPerMinute);
+        int heartrate = mHeartrate.getHeartrate();
+        mHeartrateCurrentChart.setSingleEntryYValue(heartrate);
 
-        if (mStepsPerMinuteHistoryChart.getData() == null) {
-            if (mSteps.getTotalSteps() == 0) {
+        if (mHeartRateHistoryChart.getData() == null) {
+            if (mHeartrate.getHeartrate() == 0) {
                 return; // ignore the first default value to keep the "no-data-description" visible
             }
             LineData data = new LineData();
-            mStepsPerMinuteHistoryChart.setData(data);
+            mHeartRateHistoryChart.setData(data);
             data.addDataSet(mHistorySet);
         }
 
-        LineData historyData = (LineData) mStepsPerMinuteHistoryChart.getData();
+        LineData historyData = (LineData) mHeartRateHistoryChart.getData();
         historyData.addXValue("");
-        historyData.addEntry(new Entry(stepsPerMinute, mHistorySet.getEntryCount()), 0);
+        historyData.addEntry(new Entry(heartrate, mHistorySet.getEntryCount()), 0);
 
         mTotalStepsData.notifyDataSetChanged();
         mStepsPerMinuteData.notifyDataSetChanged();
-        mStepsPerMinuteHistoryChart.notifyDataSetChanged();
+        mHeartRateHistoryChart.notifyDataSetChanged();
 
         renderCharts();
     }
@@ -205,20 +147,18 @@ public class LiveActivityFragment extends AbstractChartFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         IntentFilter filterLocal = new IntentFilter();
-        filterLocal.addAction(DeviceService.ACTION_REALTIME_STEPS);
+        filterLocal.addAction(DeviceService.ACTION_REALTIME_HEARTRATE);
 
         View rootView = inflater.inflate(R.layout.fragment_live_activity, container, false);
 
-        mStepsPerMinuteCurrentChart = (CustomBarChart) rootView.findViewById(R.id.livechart_steps_per_minute_current);
-        mTotalStepsChart = (CustomBarChart) rootView.findViewById(R.id.livechart_steps_total);
-        mStepsPerMinuteHistoryChart = (BarLineChartBase) rootView.findViewById(R.id.livechart_steps_per_minute_history);
+        mHeartrateCurrentChart = (CustomBarChart) rootView.findViewById(R.id.livechart_steps_per_minute_current);
+        mHeartRateHistoryChart = (BarLineChartBase) rootView.findViewById(R.id.livechart_steps_per_minute_history);
 
         totalStepsEntry = new BarEntry(0, 1);
         stepsPerMinuteEntry = new BarEntry(0, 1);
 
-        mStepsPerMinuteData = setupCurrentChart(mStepsPerMinuteCurrentChart, stepsPerMinuteEntry, getString(R.string.live_activity_current_steps_per_minute));
-        mTotalStepsData = setupTotalStepsChart(mTotalStepsChart, totalStepsEntry, getString(R.string.live_activity_total_steps));
-        setupHistoryChart(mStepsPerMinuteHistoryChart);
+        mStepsPerMinuteData = setupCurrentChart(mHeartrateCurrentChart, stepsPerMinuteEntry, getString(R.string.live_activity_current_steps_per_minute));
+        setupHistoryChart(mHeartRateHistoryChart);
 
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver, filterLocal);
 
@@ -245,7 +185,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
         service.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                FragmentActivity activity = LiveActivityFragment.this.getActivity();
+                FragmentActivity activity = HeartRateFragment.this.getActivity();
                 if (activity != null && !activity.isFinishing() && !activity.isDestroyed()) {
                     activity.runOnUiThread(new Runnable() {
                         @Override
@@ -263,7 +203,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
      * Called in the UI thread.
      */
     private void pulse() {
-        refreshCurrentSteps();
+        refreshHeartrate();
     }
 
     private long getPulseIntervalMillis() {
@@ -272,7 +212,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
 
     @Override
     protected void onMadeVisibleInActivity() {
-        GBApplication.deviceService().onEnableRealtimeSteps(true);
+        GBApplication.deviceService().onEnableRealtimeHeartrate(true);
         super.onMadeVisibleInActivity();
         if (getActivity() != null) {
             getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -281,7 +221,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
 
     @Override
     protected void onMadeInvisibleInActivity() {
-        GBApplication.deviceService().onEnableRealtimeSteps(false);
+        GBApplication.deviceService().onEnableRealtimeHeartrate(false);
         if (getActivity() != null) {
             getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
@@ -295,7 +235,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
     }
 
     private BarDataSet setupCurrentChart(CustomBarChart chart, BarEntry entry, String title) {
-        mStepsPerMinuteCurrentChart.getAxisLeft().setAxisMaxValue(MAX_STEPS_PER_MINUTE);
+        mHeartrateCurrentChart.getAxisLeft().setAxisMaxValue(MAX_HEARTRATE);
         return setupCommonChart(chart, entry, title);
     }
 
@@ -340,7 +280,6 @@ public class LiveActivityFragment extends AbstractChartFragment {
     }
 
     private BarDataSet setupTotalStepsChart(CustomBarChart chart, BarEntry entry, String label) {
-        mTotalStepsChart.getAxisLeft().setAxisMaxValue(5000); // TODO: use daily goal - already reached steps
         return setupCommonChart(chart, entry, label); // at the moment, these look the same
     }
 
@@ -408,9 +347,8 @@ public class LiveActivityFragment extends AbstractChartFragment {
 
     @Override
     protected void renderCharts() {
-        mStepsPerMinuteCurrentChart.animateY(150);
-        mTotalStepsChart.animateY(150);
-        mStepsPerMinuteHistoryChart.invalidate();
+        mHeartrateCurrentChart.animateY(150);
+        mHeartRateHistoryChart.invalidate();
     }
 
     @Override
