@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Context;
 import android.net.Uri;
 import android.widget.Toast;
 
@@ -13,6 +14,7 @@ import java.util.Arrays;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -53,7 +55,7 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
 
         updateCoordinator.initNextOperation();
         if (!updateCoordinator.sendFwInfo()) {
-            GB.toast(getContext(), "Error sending firmware info, aborting.", Toast.LENGTH_LONG, GB.ERROR);
+            displayMessage(getContext(), "Error sending firmware info, aborting.", Toast.LENGTH_LONG, GB.ERROR);
             done();
         }
         //the firmware will be sent by the notification listener if the band confirms that the metadata are ok.
@@ -102,9 +104,9 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
         switch (value[0]) {
             case MiBandService.NOTIFY_FW_CHECK_SUCCESS:
                 if (firmwareInfoSent) {
-                    GB.toast(getContext(), "Firmware metadata successfully sent.", Toast.LENGTH_LONG, GB.INFO);
+                    displayMessage(getContext(), "Firmware metadata successfully sent.", Toast.LENGTH_LONG, GB.INFO);
                     if (!updateCoordinator.sendFwData()) {
-                        GB.toast(getContext().getString(R.string.updatefirmwareoperation_updateproblem_do_not_reboot), Toast.LENGTH_LONG, GB.ERROR);
+                        displayMessage(getContext(), getContext().getString(R.string.updatefirmwareoperation_updateproblem_do_not_reboot), Toast.LENGTH_LONG, GB.ERROR);
                         done();
                     }
                     firmwareInfoSent = false;
@@ -113,20 +115,20 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
                 }
                 break;
             case MiBandService.NOTIFY_FW_CHECK_FAILED:
-                GB.toast(getContext().getString(R.string.updatefirmwareoperation_metadata_updateproblem), Toast.LENGTH_LONG, GB.ERROR);
+                displayMessage(getContext(), getContext().getString(R.string.updatefirmwareoperation_metadata_updateproblem), Toast.LENGTH_LONG, GB.ERROR);
                 firmwareInfoSent = false;
                 done();
                 break;
             case MiBandService.NOTIFY_FIRMWARE_UPDATE_SUCCESS:
                 if (updateCoordinator.initNextOperation()) {
-                    GB.toast(getContext(), "Heart Rate Firmware successfully updated, now updating Mi Band Firmware", Toast.LENGTH_LONG, GB.INFO);
+                    displayMessage(getContext(), "Heart Rate Firmware successfully updated, now updating Mi Band Firmware", Toast.LENGTH_LONG, GB.INFO);
                     if (!updateCoordinator.sendFwInfo()) {
-                        GB.toast(getContext(), "Error sending firmware info, aborting.", Toast.LENGTH_LONG, GB.ERROR);
+                        displayMessage(getContext(), "Error sending firmware info, aborting.", Toast.LENGTH_LONG, GB.ERROR);
                         done();
                     }
                     break;
                 } else if (updateCoordinator.needsReboot()) {
-                    GB.toast(getContext(), getContext().getString(R.string.updatefirmwareoperation_update_complete_rebooting), Toast.LENGTH_LONG, GB.INFO);
+                    displayMessage(getContext(), getContext().getString(R.string.updatefirmwareoperation_update_complete_rebooting), Toast.LENGTH_LONG, GB.INFO);
                     GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_update_complete), false, 100, getContext());
                     getSupport().onReboot();
                 } else {
@@ -136,7 +138,7 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
                 break;
             case MiBandService.NOTIFY_FIRMWARE_UPDATE_FAILED:
                 //TODO: the firmware transfer failed, but the miband should be still functional with the old firmware. What should we do?
-                GB.toast(getContext().getString(R.string.updatefirmwareoperation_updateproblem_do_not_reboot), Toast.LENGTH_LONG, GB.ERROR);
+                displayMessage(getContext(), getContext().getString(R.string.updatefirmwareoperation_updateproblem_do_not_reboot), Toast.LENGTH_LONG, GB.ERROR);
                 GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_write_failed), false, 0, getContext());
                 done();
                 break;
@@ -145,6 +147,10 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
                 getSupport().logMessageContent(value);
                 break;
         }
+    }
+
+    private void displayMessage(Context context, String message, int duration, int severity) {
+        getSupport().handleGBDeviceEvent(new GBDeviceEventDisplayMessage(message, duration, severity));
     }
 
     /**
@@ -278,7 +284,7 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
             int firmwareProgress = 0;
 
             TransactionBuilder builder = performInitialized("send firmware packet");
-            getSupport().setLowLatency(builder);
+//            getSupport().setLowLatency(builder);
             for (int i = 0; i < packets; i++) {
                 byte[] fwChunk = Arrays.copyOfRange(fwbytes, i * packetLength, i * packetLength + packetLength);
 
@@ -325,7 +331,7 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
         public boolean sendFwInfo() {
             try {
                 TransactionBuilder builder = performInitialized("send firmware info");
-                getSupport().setLowLatency(builder);
+//                getSupport().setLowLatency(builder);
                 builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.updating_firmware), getContext()));
                 builder.add(new FirmwareInfoSentAction()); // Note: *before* actually sending the info, otherwise it's too late!
                 builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), getFirmwareInfo());

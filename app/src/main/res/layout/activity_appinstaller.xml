@@ -62,6 +62,14 @@
         android:layout_below="@+id/installProgressBar"
         android:layout_marginTop="10dp" />
 
+    <ListView
+        android:id="@+id/detailsListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/installButton"
+        android:layout_alignParentEnd="false">
+    </ListView>
+
     <android.widget.Space
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
