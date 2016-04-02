@@ -18,6 +18,7 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PR
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_DONT_ACK_TRANSFER;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_FITNESS_GOAL;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_WEARSIDE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_USER_ALIAS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_COUNT;
@@ -54,6 +55,7 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
                 PREF_MIBAND_FITNESS_GOAL,
                 PREF_MIBAND_DONT_ACK_TRANSFER,
                 PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR,
+                PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION,
                 getNotificationPrefKey(VIBRATION_PROFILE, ORIGIN_SMS),
                 getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_SMS),
                 getNotificationPrefKey(VIBRATION_PROFILE, ORIGIN_INCOMING_CALL),

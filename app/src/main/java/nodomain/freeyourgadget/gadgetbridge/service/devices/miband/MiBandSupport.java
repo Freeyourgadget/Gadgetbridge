@@ -109,6 +109,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 .sendUserInfo(builder)
                 .checkAuthenticationNeeded(builder, getDevice())
                 .setWearLocation(builder)
+                .setHeartrateSleepSupport(builder)
                 .setFitnessGoal(builder)
                 .enableFurtherNotifications(builder, true)
                 .setCurrentTime(builder)
@@ -362,6 +363,30 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                     MiBandService.COMMAND_SET_WEAR_LOCATION,
                     (byte) location
             });
+        } else {
+            LOG.info("Unable to set Wear Location");
+        }
+        return this;
+    }
+
+    /**
+     * Part of device initialization process. Do not call manually.
+     *
+     * @param transaction
+     * @return
+     */
+    private MiBandSupport setHeartrateSleepSupport(TransactionBuilder transaction) {
+        LOG.info("Attempting to set heartrate sleep support...");
+        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT);
+        if (characteristic != null) {
+            if(MiBandCoordinator.getHeartrateSleepSupport(getDevice().getAddress())) {
+                LOG.info("Enabling heartrate sleep support...");
+                transaction.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), startHeartMeasurementSleep);
+            }
+            else {
+                LOG.info("Disabling heartrate sleep support...");
+                transaction.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementSleep);
+            }
         } else {
             LOG.info("Unable to set Wear Location");
         }
