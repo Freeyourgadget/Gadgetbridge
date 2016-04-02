@@ -272,10 +272,11 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
         final int packetLength = 20;
         int packets = len / packetLength;
 
-        // going from 0 to len
-        int firmwareProgress = 0;
 
         try {
+            // going from 0 to len
+            int firmwareProgress = 0;
+
             TransactionBuilder builder = performInitialized("send firmware packet");
             getSupport().setLowLatency(builder);
             for (int i = 0; i < packets; i++) {
@@ -284,7 +285,7 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
                 builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_FIRMWARE_DATA), fwChunk);
                 firmwareProgress += packetLength;
 
-                int progressPercent = (int) (((float) firmwareProgress) / len) * 100;
+                int progressPercent = (int) ((((float) firmwareProgress) / len) * 100);
                 if ((i > 0) && (i % 50 == 0)) {
                     builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_SYNC});
                     builder.add(new SetProgressAction(getContext().getString(R.string.updatefirmwareoperation_update_in_progress), true, progressPercent, getContext()));
