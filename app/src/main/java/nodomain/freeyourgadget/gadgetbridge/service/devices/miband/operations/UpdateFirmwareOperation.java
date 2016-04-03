@@ -278,7 +278,8 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
         final int packetLength = 20;
         int packets = len / packetLength;
 
-
+        BluetoothGattCharacteristic characteristicControlPoint = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
+        BluetoothGattCharacteristic characteristicFWData = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_FIRMWARE_DATA);
         try {
             // going from 0 to len
             int firmwareProgress = 0;
@@ -288,23 +289,23 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
             for (int i = 0; i < packets; i++) {
                 byte[] fwChunk = Arrays.copyOfRange(fwbytes, i * packetLength, i * packetLength + packetLength);
 
-                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_FIRMWARE_DATA), fwChunk);
+                builder.write(characteristicFWData, fwChunk);
                 firmwareProgress += packetLength;
 
                 int progressPercent = (int) ((((float) firmwareProgress) / len) * 100);
                 if ((i > 0) && (i % 50 == 0)) {
-                    builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_SYNC});
+                    builder.write(characteristicControlPoint, new byte[]{MiBandService.COMMAND_SYNC});
                     builder.add(new SetProgressAction(getContext().getString(R.string.updatefirmwareoperation_update_in_progress), true, progressPercent, getContext()));
                 }
             }
 
             if (firmwareProgress < len) {
                 byte[] lastChunk = Arrays.copyOfRange(fwbytes, packets * packetLength, len);
-                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_FIRMWARE_DATA), lastChunk);
+                builder.write(characteristicFWData, lastChunk);
                 firmwareProgress = len;
             }
 
-            builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_SYNC});
+            builder.write(characteristicControlPoint, new byte[]{MiBandService.COMMAND_SYNC});
             builder.queue(getQueue());
 
         } catch (IOException ex) {
