@@ -30,6 +30,10 @@
             android:maxLength="1"
             android:digits="0123"
             android:title="@string/miband_prefs_reserve_alarm_calendar" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="mi_hr_sleep_detection"
+            android:title="@string/miband_prefs_hr_sleep_detection" />
     </PreferenceCategory>
 
     <PreferenceCategory
