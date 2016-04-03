@@ -83,7 +83,7 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
                     return false;
                 }
                 try {
-                    Thread.sleep(2000); // this is about the time the connect takes, so the notification can come though
+                    Thread.sleep(4000); // this is about the time the connect takes, so the notification can come though
                 } catch (InterruptedException ignored) {
                 }
             }
