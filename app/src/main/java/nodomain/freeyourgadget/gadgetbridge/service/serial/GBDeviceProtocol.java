@@ -60,6 +60,8 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
+    public byte[] encodeEnableHeartRateSleepSupport(boolean enable) { return null; }
+
     public GBDeviceEvent[] decodeResponse(byte[] responseData) {
         return null;
     }

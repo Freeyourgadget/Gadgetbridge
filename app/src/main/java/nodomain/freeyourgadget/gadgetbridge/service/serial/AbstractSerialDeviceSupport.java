@@ -178,4 +178,10 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
         byte[] bytes = gbDeviceProtocol.encodeEnableRealtimeSteps(enable);
         sendToDevice(bytes);
     }
+
+    @Override
+    public void onEnableHeartRateSleepSupport(boolean enable) {
+        byte[] bytes = gbDeviceProtocol.encodeEnableHeartRateSleepSupport(enable);
+        sendToDevice(bytes);
+    }
 }

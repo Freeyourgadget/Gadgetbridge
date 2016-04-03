@@ -44,6 +44,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.AbortTransactionAction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.ConditionalWriteAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WriteAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.FetchActivityOperation;
@@ -369,31 +370,40 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
+    @Override
+    public void onEnableHeartRateSleepSupport(boolean enable) {
+        try {
+            TransactionBuilder builder = performInitialized("enable heart rate sleep support: " + enable);
+            setHeartrateSleepSupport(builder);
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error toggling heart rate sleep support: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
+    }
+
     /**
      * Part of device initialization process. Do not call manually.
-     *
-     * @param transaction
-     * @return
+     * @param builder
      */
-    private MiBandSupport setHeartrateSleepSupport(TransactionBuilder transaction) {
-        if (supportsHeartRate()) {
-            LOG.info("Attempting to set heartrate sleep support...");
-            BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT);
-            if (characteristic != null) {
-                if(MiBandCoordinator.getHeartrateSleepSupport(getDevice().getAddress())) {
-                    LOG.info("Enabling heartrate sleep support...");
-                    transaction.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), startHeartMeasurementSleep);
+    private MiBandSupport setHeartrateSleepSupport(TransactionBuilder builder) {
+        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT);
+        if (characteristic != null) {
+            builder.add(new ConditionalWriteAction(characteristic) {
+                @Override
+                protected byte[] checkCondition() {
+                    if (!supportsHeartRate()) {
+                        return null;
+                    }
+                    if (MiBandCoordinator.getHeartrateSleepSupport(getDevice().getAddress())) {
+                        LOG.info("Enabling heartrate sleep support...");
+                        return startHeartMeasurementSleep;
+                    } else {
+                        LOG.info("Disabling heartrate sleep support...");
+                        return stopHeartMeasurementSleep;
+                    }
                 }
-                else {
-                    LOG.info("Disabling heartrate sleep support...");
-                    transaction.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementSleep);
-                }
-            } else {
-                LOG.info("Unable to set Heartrate sleep support");
-            }
-
-        } else
-            GB.toast(getContext(), "Heart rate is not supported on this device", Toast.LENGTH_LONG, GB.ERROR);
+            });
+        }
         return this;
     }
 

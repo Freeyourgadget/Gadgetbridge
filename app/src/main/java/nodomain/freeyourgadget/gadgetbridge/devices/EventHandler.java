@@ -48,4 +48,5 @@ public interface EventHandler {
 
     void onScreenshotReq();
 
+    void onEnableHeartRateSleepSupport(boolean enable);
 }

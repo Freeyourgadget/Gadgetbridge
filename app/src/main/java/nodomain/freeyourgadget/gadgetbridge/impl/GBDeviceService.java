@@ -205,7 +205,14 @@ public class GBDeviceService implements DeviceService {
     @Override
     public void onEnableRealtimeSteps(boolean enable) {
         Intent intent = createIntent().setAction(ACTION_ENABLE_REALTIME_STEPS)
-                .putExtra(EXTRA_ENABLE_REALTIME_STEPS, enable);
+                .putExtra(EXTRA_BOOLEAN_ENABLE, enable);
+        invokeService(intent);
+    }
+
+    @Override
+    public void onEnableHeartRateSleepSupport(boolean enable) {
+        Intent intent = createIntent().setAction(ACTION_ENABLE_HEARTRATE_SLEEP_SUPPORT)
+                .putExtra(EXTRA_BOOLEAN_ENABLE, enable);
         invokeService(intent);
     }
 }

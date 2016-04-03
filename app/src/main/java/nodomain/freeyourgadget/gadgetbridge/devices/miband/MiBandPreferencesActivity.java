@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.support.v4.content.LocalBroadcastManager;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
@@ -44,6 +45,14 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
 
         });
 
+        final Preference enableHeartrateSleepSupport = findPreference(PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION);
+        enableHeartrateSleepSupport.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                GBApplication.deviceService().onEnableHeartRateSleepSupport(Boolean.TRUE.equals(newVal));
+                return true;
+            }
+        });
     }
 
     @Override
@@ -55,7 +64,6 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
                 PREF_MIBAND_FITNESS_GOAL,
                 PREF_MIBAND_DONT_ACK_TRANSFER,
                 PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR,
-                PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION,
                 getNotificationPrefKey(VIBRATION_PROFILE, ORIGIN_SMS),
                 getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_SMS),
                 getNotificationPrefKey(VIBRATION_PROFILE, ORIGIN_INCOMING_CALL),
