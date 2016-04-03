@@ -33,7 +33,7 @@ public abstract class AbstractSettingsActivity extends PreferenceActivity {
         }
 
         public void updateSummary(Preference preference, Object value) {
-            String stringValue = value.toString();
+            String stringValue = String.valueOf(value);
 
             if (preference instanceof ListPreference) {
                 // For list preferences, look up the correct display value in
