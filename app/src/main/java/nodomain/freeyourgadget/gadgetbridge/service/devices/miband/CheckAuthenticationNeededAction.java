@@ -1,11 +1,9 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.miband;
 
-import android.bluetooth.BluetoothGatt;
-
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.PlainAction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.AbortTransactionAction;
 
-public class CheckAuthenticationNeededAction extends PlainAction {
+public class CheckAuthenticationNeededAction extends AbortTransactionAction {
     private final GBDevice mDevice;
 
     public CheckAuthenticationNeededAction(GBDevice device) {
@@ -14,14 +12,14 @@ public class CheckAuthenticationNeededAction extends PlainAction {
     }
 
     @Override
-    public boolean run(BluetoothGatt gatt) {
+    protected boolean shouldAbort() {
         // the state is set in MiBandSupport.handleNotificationNotif()
         switch (mDevice.getState()) {
             case AUTHENTICATION_REQUIRED: // fall through
             case AUTHENTICATING:
-                return false; // abort the whole thing
+                return true; // abort the whole thing
             default:
-                return true;
+                return false;
         }
     }
 }

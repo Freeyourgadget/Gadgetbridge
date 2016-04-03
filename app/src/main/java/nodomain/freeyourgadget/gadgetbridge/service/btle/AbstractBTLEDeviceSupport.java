@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.CheckInitializedAction;
 
 /**
  * Abstract base class for all devices connected through Bluetooth Low Energy (LE) aka
