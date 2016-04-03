@@ -10,7 +10,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.AbstractSerialDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
@@ -35,7 +38,7 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
 
     @Override
     public boolean useAutoConnect() {
-        return false;
+        return true;
     }
 
     @Override
@@ -70,6 +73,45 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
     public synchronized PebbleIoThread getDeviceIOThread() {
         return (PebbleIoThread) super.getDeviceIOThread();
     }
+
+    private boolean reconnect() {
+        if (!isConnected() && useAutoConnect()) {
+            if (getDevice().getState() == GBDevice.State.WAITING_FOR_RECONNECT) {
+                gbDeviceIOThread.interrupt();
+                gbDeviceIOThread = null;
+                if (!connect()) {
+                    return false;
+                }
+                try {
+                    Thread.sleep(2000); // this is about the time the connect takes, so the notification can come though
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onNotification(NotificationSpec notificationSpec) {
+        if (reconnect()) {
+            super.onNotification(notificationSpec);
+        }
+    }
+
+    @Override
+    public void onSetCallState(String number, String name, ServiceCommand command) {
+        if (reconnect()) {
+            super.onSetCallState(number, name, command);
+        }
+    }
+
+    @Override
+    public void onSetMusicInfo(String artist, String album, String track, int duration, int trackCount, int trackNr) {
+        if (reconnect()) {
+            super.onSetMusicInfo(artist, album, track, duration, trackCount, trackNr);
+        }
+    }
+
 
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {

@@ -29,8 +29,8 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractDeviceSupport.class);
 
-    private GBDeviceProtocol gbDeviceProtocol;
-    private GBDeviceIoThread gbDeviceIOThread;
+    protected GBDeviceProtocol gbDeviceProtocol;
+    protected GBDeviceIoThread gbDeviceIOThread;
 
     /**
      * Factory method to create the device specific GBDeviceProtocol instance to be used.

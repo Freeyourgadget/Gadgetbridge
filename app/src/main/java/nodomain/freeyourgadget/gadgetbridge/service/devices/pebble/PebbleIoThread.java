@@ -200,11 +200,16 @@ public class PebbleIoThread extends GBDeviceIoThread {
         }
 
         mPebbleProtocol.setForceProtocol(sharedPrefs.getBoolean("pebble_force_protocol", false));
-        gbDevice.setState(GBDevice.State.CONNECTED);
-        gbDevice.sendDeviceUpdateIntent(getContext());
 
         mIsConnected = true;
-        write(mPebbleProtocol.encodeFirmwareVersionReq());
+        if (originalState == GBDevice.State.WAITING_FOR_RECONNECT) {
+            gbDevice.setState(GBDevice.State.INITIALIZED);
+        } else {
+            gbDevice.setState(GBDevice.State.CONNECTED);
+            write(mPebbleProtocol.encodeFirmwareVersionReq());
+        }
+        gbDevice.sendDeviceUpdateIntent(getContext());
+
         return true;
     }
 
