@@ -8,11 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 
 public class MusicPlaybackReceiver extends BroadcastReceiver {
     private static final Logger LOG = LoggerFactory.getLogger(MusicPlaybackReceiver.class);
-
-    private static String mLastSource;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -24,11 +23,16 @@ public class MusicPlaybackReceiver extends BroadcastReceiver {
         for (String key : bundle.keySet()) {
             Object value = bundle.get(key);
             LOG.info(String.format("%s %s (%s)", key,
-                    value.toString(), value.getClass().getName()));
+                    value != null ? value.toString() : "null", value != null ? value.getClass().getName() : "no class"));
         }
         */
         LOG.info("Current track: " + artist + ", " + album + ", " + track);
 
-        GBApplication.deviceService().onSetMusicInfo(artist, album, track, 0, 0, 0);
+        MusicSpec musicSpec = new MusicSpec();
+        musicSpec.artist = artist;
+        musicSpec.artist = album;
+        musicSpec.artist = track;
+
+        GBApplication.deviceService().onSetMusicInfo(musicSpec);
     }
 }

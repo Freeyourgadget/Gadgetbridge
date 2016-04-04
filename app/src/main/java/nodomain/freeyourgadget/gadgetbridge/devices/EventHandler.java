@@ -1,14 +1,14 @@
 package nodomain.freeyourgadget.gadgetbridge.devices;
 
 import android.net.Uri;
-import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 
 /**
  * Specifies all events that GadgetBridge intends to send to the gadget device.
@@ -22,9 +22,9 @@ public interface EventHandler {
 
     void onSetAlarms(ArrayList<? extends Alarm> alarms);
 
-    void onSetCallState(@Nullable String number, @Nullable String name, ServiceCommand command);
+    void onSetCallState(CallSpec callSpec);
 
-    void onSetMusicInfo(String artist, String album, String track, int duration, int trackCount, int trackNr);
+    void onSetMusicInfo(MusicSpec musicSpec);
 
     void onEnableRealtimeSteps(boolean enable);
 

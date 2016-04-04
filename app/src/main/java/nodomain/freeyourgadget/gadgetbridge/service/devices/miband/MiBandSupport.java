@@ -34,10 +34,11 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEvents;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
@@ -383,6 +384,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     /**
      * Part of device initialization process. Do not call manually.
+     *
      * @param builder
      */
     private MiBandSupport setHeartrateSleepSupport(TransactionBuilder builder) {
@@ -558,8 +560,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSetCallState(String number, String name, ServiceCommand command) {
-        if (ServiceCommand.CALL_INCOMING.equals(command)) {
+    public void onSetCallState(CallSpec callSpec) {
+        if (callSpec.command == CallSpec.CALL_INCOMING) {
             telephoneRinging = true;
             AbortTransactionAction abortAction = new AbortTransactionAction() {
                 @Override
@@ -568,7 +570,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 }
             };
             performPreferredNotification("incoming call", MiBandConst.ORIGIN_INCOMING_CALL, abortAction);
-        } else if (ServiceCommand.CALL_START.equals(command) || ServiceCommand.CALL_END.equals(command)) {
+        } else if ((callSpec.command == CallSpec.CALL_START) || (callSpec.command == CallSpec.CALL_END)) {
             telephoneRinging = false;
         }
     }
@@ -579,7 +581,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSetMusicInfo(String artist, String album, String track, int duration, int trackCount, int trackNr) {
+    public void onSetMusicInfo(MusicSpec musicSpec) {
         // not supported
     }
 

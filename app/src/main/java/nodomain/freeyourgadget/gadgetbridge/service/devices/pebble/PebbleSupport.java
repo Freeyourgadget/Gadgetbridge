@@ -12,8 +12,9 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.AbstractSerialDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
@@ -99,16 +100,16 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
     }
 
     @Override
-    public void onSetCallState(String number, String name, ServiceCommand command) {
+    public void onSetCallState(CallSpec callSpec) {
         if (reconnect()) {
-            super.onSetCallState(number, name, command);
+            super.onSetCallState(callSpec);
         }
     }
 
     @Override
-    public void onSetMusicInfo(String artist, String album, String track, int duration, int trackCount, int trackNr) {
+    public void onSetMusicInfo(MusicSpec musicSpec) {
         if (reconnect()) {
-            super.onSetMusicInfo(artist, album, track, duration, trackCount, trackNr);
+            super.onSetMusicInfo(musicSpec);
         }
     }
 

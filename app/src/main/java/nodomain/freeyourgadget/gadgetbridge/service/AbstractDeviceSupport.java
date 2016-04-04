@@ -1,6 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.service;
 
-import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;

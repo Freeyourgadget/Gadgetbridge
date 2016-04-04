@@ -33,9 +33,10 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.SMSReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.TimeChangeReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
-import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -64,10 +65,10 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_ALA
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_CONFIG;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_UUID;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_BOOLEAN_ENABLE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_COMMAND;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_PHONENUMBER;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_DEVICE_ADDRESS;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_BOOLEAN_ENABLE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_FIND_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_ALBUM;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_ARTIST;
@@ -278,26 +279,32 @@ public class DeviceCommunicationService extends Service {
                 break;
             }
             case ACTION_CALLSTATE:
-                ServiceCommand command = (ServiceCommand) intent.getSerializableExtra(EXTRA_CALL_COMMAND);
+                int command = intent.getIntExtra(EXTRA_CALL_COMMAND, CallSpec.CALL_UNDEFINED);
 
                 String phoneNumber = intent.getStringExtra(EXTRA_CALL_PHONENUMBER);
                 String callerName = null;
                 if (phoneNumber != null) {
                     callerName = getContactDisplayNameByNumber(phoneNumber);
                 }
-                mDeviceSupport.onSetCallState(phoneNumber, callerName, command);
+
+                CallSpec callSpec = new CallSpec();
+                callSpec.command = command;
+                callSpec.number = phoneNumber;
+                callSpec.name = callerName;
+                mDeviceSupport.onSetCallState(callSpec);
                 break;
             case ACTION_SETTIME:
                 mDeviceSupport.onSetTime();
                 break;
             case ACTION_SETMUSICINFO:
-                String artist = intent.getStringExtra(EXTRA_MUSIC_ARTIST);
-                String album = intent.getStringExtra(EXTRA_MUSIC_ALBUM);
-                String track = intent.getStringExtra(EXTRA_MUSIC_TRACK);
-                int duration = intent.getIntExtra(EXTRA_MUSIC_DURATION, 0);
-                int trackCount = intent.getIntExtra(EXTRA_MUSIC_TRACKCOUNT, 0);
-                int trackNr = intent.getIntExtra(EXTRA_MUSIC_TRACKNR, 0);
-                mDeviceSupport.onSetMusicInfo(artist, album, track, duration, trackCount, trackNr);
+                MusicSpec musicSpec = new MusicSpec();
+                musicSpec.artist = intent.getStringExtra(EXTRA_MUSIC_ARTIST);
+                musicSpec.album = intent.getStringExtra(EXTRA_MUSIC_ALBUM);
+                musicSpec.track = intent.getStringExtra(EXTRA_MUSIC_TRACK);
+                musicSpec.duration = intent.getIntExtra(EXTRA_MUSIC_DURATION, 0);
+                musicSpec.trackCount = intent.getIntExtra(EXTRA_MUSIC_TRACKCOUNT, 0);
+                musicSpec.trackNr = intent.getIntExtra(EXTRA_MUSIC_TRACKNR, 0);
+                mDeviceSupport.onSetMusicInfo(musicSpec);
                 break;
             case ACTION_REQUEST_APPINFO:
                 mDeviceSupport.onAppInfoReq();
@@ -424,7 +431,10 @@ public class DeviceCommunicationService extends Service {
             }
             if (mMusicPlaybackReceiver == null) {
                 mMusicPlaybackReceiver = new MusicPlaybackReceiver();
-                registerReceiver(mMusicPlaybackReceiver, new IntentFilter("com.android.music.metachanged"));
+                IntentFilter filter = new IntentFilter();
+                filter.addAction("com.android.music.metachanged");
+                //filter.addAction("com.android.music.playstatechanged");
+                registerReceiver(mMusicPlaybackReceiver, filter);
             }
             if (mTimeChangeReceiver == null) {
                 mTimeChangeReceiver = new TimeChangeReceiver();

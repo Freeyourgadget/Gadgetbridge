@@ -20,9 +20,10 @@ public abstract class ConditionalWriteAction extends WriteAction {
     /**
      * Checks the condition whether the write shall happen or not.
      * Returns the actual value to be written or null in case nothing shall be written.
-     *
+     * <p/>
      * Note that returning null will not cause run() to return false, in other words,
      * the rest of the queue will still be executed.
+     *
      * @return the value to be written or null to not write anything
      */
     protected abstract byte[] checkCondition();

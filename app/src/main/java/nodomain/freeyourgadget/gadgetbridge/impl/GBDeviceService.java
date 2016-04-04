@@ -10,9 +10,10 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
 public class GBDeviceService implements DeviceService {
@@ -115,23 +116,23 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void onSetCallState(String number, String name, ServiceCommand command) {
+    public void onSetCallState(CallSpec callSpec) {
         // name is actually ignored and provided by the service itself...
         Intent intent = createIntent().setAction(ACTION_CALLSTATE)
-                .putExtra(EXTRA_CALL_PHONENUMBER, number)
-                .putExtra(EXTRA_CALL_COMMAND, command);
+                .putExtra(EXTRA_CALL_PHONENUMBER, callSpec.number)
+                .putExtra(EXTRA_CALL_COMMAND, callSpec.command);
         invokeService(intent);
     }
 
     @Override
-    public void onSetMusicInfo(String artist, String album, String track, int duration, int trackCount, int trackNr) {
+    public void onSetMusicInfo(MusicSpec musicSpec) {
         Intent intent = createIntent().setAction(ACTION_SETMUSICINFO)
-                .putExtra(EXTRA_MUSIC_ARTIST, artist)
-                .putExtra(EXTRA_MUSIC_ALBUM, album)
-                .putExtra(EXTRA_MUSIC_TRACK, track)
-                .putExtra(EXTRA_MUSIC_DURATION, duration)
-                .putExtra(EXTRA_MUSIC_TRACKCOUNT, trackCount)
-                .putExtra(EXTRA_MUSIC_TRACKNR, trackNr);
+                .putExtra(EXTRA_MUSIC_ARTIST, musicSpec.artist)
+                .putExtra(EXTRA_MUSIC_ALBUM, musicSpec.album)
+                .putExtra(EXTRA_MUSIC_TRACK, musicSpec.track)
+                .putExtra(EXTRA_MUSIC_DURATION, musicSpec.duration)
+                .putExtra(EXTRA_MUSIC_TRACKCOUNT, musicSpec.trackCount)
+                .putExtra(EXTRA_MUSIC_TRACKNR, musicSpec.trackNr);
         invokeService(intent);
     }
 

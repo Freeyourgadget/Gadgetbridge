@@ -8,8 +8,9 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.devices.EventHandler;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
 
 /**
@@ -120,14 +121,14 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     }
 
     @Override
-    public void onSetCallState(String number, String name, ServiceCommand command) {
-        byte[] bytes = gbDeviceProtocol.encodeSetCallState(number, name, command);
+    public void onSetCallState(CallSpec callSpec) {
+        byte[] bytes = gbDeviceProtocol.encodeSetCallState(callSpec.number, callSpec.name, callSpec.command);
         sendToDevice(bytes);
     }
 
     @Override
-    public void onSetMusicInfo(String artist, String album, String track, int duration, int trackCount, int trackNr) {
-        byte[] bytes = gbDeviceProtocol.encodeSetMusicInfo(artist, album, track, duration, trackCount, trackNr);
+    public void onSetMusicInfo(MusicSpec musicSpec) {
+        byte[] bytes = gbDeviceProtocol.encodeSetMusicInfo(musicSpec.artist, musicSpec.album, musicSpec.track, musicSpec.duration, musicSpec.trackCount, musicSpec.trackNr);
         sendToDevice(bytes);
     }
 

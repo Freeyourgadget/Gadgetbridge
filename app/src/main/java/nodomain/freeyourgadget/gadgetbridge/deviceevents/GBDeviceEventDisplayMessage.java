@@ -9,6 +9,7 @@ public class GBDeviceEventDisplayMessage {
      * An event for displaying a message to the user. How the message is displayed
      * is a detail of the current activity, which needs to listen to the Intent
      * GB.ACTION_DISPLAY_MESSAGE.
+     *
      * @param message
      * @param duration
      * @param severity
