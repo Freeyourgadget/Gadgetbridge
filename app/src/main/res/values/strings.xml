@@ -239,5 +239,6 @@
     <string name="DEVINFO_HR_VER">"HR: "</string>
     <string name="updatefirmwareoperation_update_in_progress">Firmware update in progress</string>
     <string name="updatefirmwareoperation_firmware_not_sent">Firmware not sent</string>
+    <string name="charts_legend_heartrate">Heart Rate</string>
 
 </resources>

@@ -79,7 +79,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         }
     };
     private boolean mChartDirty = true;
-    private boolean supportsHeartrateChart = false;
+    private boolean supportsHeartrateChart = true;
 
     public boolean isChartDirty() {
         return mChartDirty;
@@ -119,6 +119,8 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     protected int AK_LIGHT_SLEEP_COLOR;
     protected int AK_NOT_WORN_COLOR;
 
+    protected String HEARTRATE_LABEL;
+
     protected AbstractChartFragment(String... intentFilterActions) {
         mIntentFilterActions = new HashSet<>();
         if (intentFilterActions != null) {
@@ -152,6 +154,8 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         AK_DEEP_SLEEP_COLOR = getResources().getColor(R.color.chart_light_sleep_light);
         AK_LIGHT_SLEEP_COLOR = getResources().getColor(R.color.chart_deep_sleep_light);
         AK_NOT_WORN_COLOR = getResources().getColor(R.color.chart_not_worn_light);
+
+        HEARTRATE_LABEL = getContext().getString(R.string.charts_legend_heartrate);
 
         akActivity = new ActivityConfig(ActivityKind.TYPE_ACTIVITY, getString(R.string.abstract_chart_fragment_kind_activity), AK_ACTIVITY_COLOR);
         akLightSleep = new ActivityConfig(ActivityKind.TYPE_LIGHT_SLEEP, getString(R.string.abstract_chart_fragment_kind_light_sleep), AK_LIGHT_SLEEP_COLOR);
@@ -445,7 +449,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                         colors.add(akActivity.color);
                 }
                 activityEntries.add(createBarEntry(value, i));
-                if (hr) {
+                if (hr && isValidHeartRateValue(sample.getCustomValue())) {
                     heartrateEntries.add(createLineEntry(sample.getCustomValue(), i));
                 }
 
@@ -488,7 +492,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             barData.setGroupSpace(0);
             combinedData.setData(barData);
 
-            if (hr) {
+            if (hr && heartrateEntries.size() > 0) {
                 LineDataSet heartrateSet = createHeartrateSet(heartrateEntries, "Heart Rate");
                 LineData lineData = new LineData(xLabels, heartrateSet);
                 combinedData.setData(lineData);
@@ -505,6 +509,10 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             CombinedData data = new CombinedData(Collections.<String>emptyList());
             chart.setData(data);
         }
+    }
+
+    protected boolean isValidHeartRateValue(int value) {
+        return value > 0 && value < 255;
     }
 
     /**
@@ -550,14 +558,19 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         LineDataSet set1 = new LineDataSet(values, label);
         set1.setColor(HEARTRATE_COLOR);
 //        set1.setColors(colors);
-//        set1.setDrawCubic(true);
-//        set1.setCubicIntensity(0.2f);
+        set1.setDrawCubic(true);
+        set1.setCubicIntensity(0.1f);
 //        //set1.setDrawFilled(true);
 //        set1.setDrawCircles(false);
-        set1.setLineWidth(2f);
-//        set1.setCircleSize(5f);
+//        set1.setLineWidth(2f);
+
+        set1.setDrawCircles(false);
+//        set1.setCircleRadius(2f);
+//        set1.setDrawFilled(true);
+
+        set1.setLineWidth(0.8f);
 //        set1.setFillColor(ColorTemplate.getHoloBlue());
-        set1.setDrawValues(false);
+        set1.setDrawValues(true);
 //        set1.setHighLightColor(Color.rgb(128, 0, 255));
 //        set1.setColor(Color.rgb(89, 178, 44));
         set1.setValueTextColor(CHART_TEXT_COLOR);

@@ -70,6 +70,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
 //        y.setDrawLabels(false);
         // TODO: make fixed max value optional
         y.setAxisMaxValue(1f);
+        y.setAxisMinValue(0);
         y.setDrawTopYLabelEntry(false);
         y.setTextColor(CHART_TEXT_COLOR);
 
@@ -82,6 +83,8 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
         yAxisRight.setDrawLabels(true);
         yAxisRight.setDrawTopYLabelEntry(true);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
+        yAxisRight.setAxisMaxValue(250);
+        yAxisRight.setAxisMinValue(0);
 
         // refresh immediately instead of use refreshIfVisible(), for perceived performance
         refresh();
@@ -125,6 +128,10 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
         legendLabels.add(akDeepSleep.label);
         legendColors.add(akNotWorn.color);
         legendLabels.add(akNotWorn.label);
+        if (supportsHeartrate()) {
+            legendColors.add(HEARTRATE_COLOR);
+            legendLabels.add(HEARTRATE_LABEL);
+        }
         chart.getLegend().setCustom(legendColors, legendLabels);
     }
 
