@@ -46,7 +46,7 @@ public class DatalogSessionHealthSteps extends DatalogSession {
 
             recordVersion = datalogMessage.getShort();
 
-            if (recordVersion != 5)
+            if ((recordVersion != 5) && (recordVersion != 6))
                 return false; //we don't know how to deal with the data TODO: this is not ideal because we will get the same message again and again since we NACK it
 
             timestamp = datalogMessage.getInt();
@@ -59,8 +59,7 @@ public class DatalogSessionHealthSteps extends DatalogSession {
 
             for (int recordIdx = 0; recordIdx < recordNum; recordIdx++) {
                 datalogMessage.position(beginOfRecordPosition + recordIdx * recordLength); //we may not consume all the bytes of a record
-                stepsRecords[recordIdx] = new StepsRecord(timestamp, datalogMessage.get() & 0xff, datalogMessage.get() & 0xff, datalogMessage.getShort() & 0xffff);
-                datalogMessage.getShort(); // skip
+                stepsRecords[recordIdx] = new StepsRecord(timestamp, datalogMessage.get() & 0xff, datalogMessage.get() & 0xff, datalogMessage.getShort() & 0xffff, datalogMessage.get() & 0xff);
                 timestamp += 60;
             }
 
@@ -102,12 +101,14 @@ public class DatalogSessionHealthSteps extends DatalogSession {
         int steps;
         int orientation;
         int intensity;
+        int light_intensity;
 
-        public StepsRecord(int timestamp, int steps, int orientation, int intensity) {
+        public StepsRecord(int timestamp, int steps, int orientation, int intensity, int light_intensity) {
             this.timestamp = timestamp;
             this.steps = steps;
             this.orientation = orientation;
             this.intensity = intensity;
+            this.light_intensity = light_intensity;
         }
     }
 
