@@ -48,11 +48,7 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
         // currently only one thread allowed
         if (gbDeviceIOThread != null) {
             gbDeviceIOThread.quit();
-            try {
-                gbDeviceIOThread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            gbDeviceIOThread.interrupt();
             gbDeviceIOThread = null;
         }
     }
