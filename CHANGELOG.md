@@ -1,7 +1,9 @@
 ###Changelog
 
 ####Version (next)
-* Pebble: support pebble health datalog messages of firmware 3.11 (this adds the support for deep sleep!)
+* Pebble: support pebble health datalog messages of firmware 3.11 (this adds support for deep sleep!)
+* Pebble: try to reconnect on new notifications and phone calls when connection was lost unexpectedly
+* Pebble: delay between reconnection attempts (from 1 up to 64 seconds)
 
 ####Version 0.9.3
 * Pebble: Fix Pebble Health activation (was not available in the App Manager)
