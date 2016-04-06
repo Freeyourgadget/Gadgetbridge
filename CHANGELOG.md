@@ -1,5 +1,8 @@
 ###Changelog
 
+####Version (next)
+* Pebble: support pebble health datalog messages of firmware 3.11 (this adds the support for deep sleep!)
+
 ####Version 0.9.3
 * Pebble: Fix Pebble Health activation (was not available in the App Manager)
 * Simplify connection state display (only connecting->connected)

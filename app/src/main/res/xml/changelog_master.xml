@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release>
+        <change>Pebble: support pebble health datalog messages of firmware 3.11 (this adds the
+            support for deep sleep!)
+        </change>
+    </release>
     <release version="0.9.3" versioncode="47">
 	<change>Pebble: Fix Pebble Health activation (was not available in the App Manager)</change>
 	<change>Simplify connection state display (only connecting->connected)</change>
