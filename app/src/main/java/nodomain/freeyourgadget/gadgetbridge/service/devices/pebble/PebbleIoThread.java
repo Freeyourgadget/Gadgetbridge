@@ -365,12 +365,19 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     LOG.info(e.getMessage());
                     mIsConnected = false;
                     int reconnectAttempts = Integer.valueOf(sharedPrefs.getString("pebble_reconnect_attempts", "10"));
+                    int maxReconnectAttempts = reconnectAttempts;
                     if (reconnectAttempts > 0) {
                         gbDevice.setState(GBDevice.State.CONNECTING);
                         gbDevice.sendDeviceUpdateIntent(getContext());
                         while (reconnectAttempts-- > 0 && !mQuit && !mIsConnected) {
                             LOG.info("Trying to reconnect (attempts left " + reconnectAttempts + ")");
                             mIsConnected = connect(gbDevice.getAddress());
+                            if (!mIsConnected) {
+                                try {
+                                    Thread.sleep((maxReconnectAttempts-reconnectAttempts)*1000);
+                                } catch (InterruptedException ignored) {
+                                }
+                            }
                         }
                     }
                     if (!mIsConnected && !mQuit) {
