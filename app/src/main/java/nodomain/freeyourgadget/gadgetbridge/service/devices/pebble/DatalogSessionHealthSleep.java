@@ -74,9 +74,12 @@ class DatalogSessionHealthSleep extends DatalogSession {
             for (SleepRecord84 sleepRecord : sleepRecords) {
                 if (latestTimestamp < (sleepRecord.timestampStart + sleepRecord.durationSeconds))
                     return false;
-                int activityType = sleepRecord.type == 2 ? sampleProvider.toRawActivityKind(ActivityKind.TYPE_DEEP_SLEEP) : sampleProvider.toRawActivityKind(ActivityKind.TYPE_LIGHT_SLEEP);
+                if (sleepRecord.type == 2) {
+                    dbHandler.changeStoredSamplesType(sleepRecord.timestampStart, (sleepRecord.timestampStart + sleepRecord.durationSeconds), sampleProvider.toRawActivityKind(ActivityKind.TYPE_DEEP_SLEEP), sampleProvider);
+                } else {
+                    dbHandler.changeStoredSamplesType(sleepRecord.timestampStart, (sleepRecord.timestampStart + sleepRecord.durationSeconds), sampleProvider.toRawActivityKind(ActivityKind.TYPE_ACTIVITY), sampleProvider.toRawActivityKind(ActivityKind.TYPE_LIGHT_SLEEP), sampleProvider);
+                }
 
-                dbHandler.changeStoredSamplesType(sleepRecord.timestampStart, (sleepRecord.timestampStart + sleepRecord.durationSeconds), activityType, sampleProvider);
             }
         } catch (Exception ex) {
             LOG.debug(ex.getMessage());
@@ -125,7 +128,7 @@ class DatalogSessionHealthSleep extends DatalogSession {
             for (SleepRecord83 sleepRecord : sleepRecords) {
                 if (latestTimestamp < sleepRecord.bedTimeEnd)
                     return false;
-                dbHandler.changeStoredSamplesType(sleepRecord.bedTimeStart, sleepRecord.bedTimeEnd, sampleProvider.toRawActivityKind(ActivityKind.TYPE_LIGHT_SLEEP), sampleProvider);
+                dbHandler.changeStoredSamplesType(sleepRecord.bedTimeStart, sleepRecord.bedTimeEnd, sampleProvider.toRawActivityKind(ActivityKind.TYPE_ACTIVITY), sampleProvider.toRawActivityKind(ActivityKind.TYPE_LIGHT_SLEEP), sampleProvider);
             }
         } catch (Exception ex) {
             LOG.debug(ex.getMessage());
