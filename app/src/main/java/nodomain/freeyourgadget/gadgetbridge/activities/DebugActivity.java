@@ -29,9 +29,10 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
-import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -118,20 +119,20 @@ public class DebugActivity extends Activity {
         incomingCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GBApplication.deviceService().onSetCallState(
-                        editContent.getText().toString(),
-                        null,
-                        ServiceCommand.CALL_INCOMING);
+                CallSpec callSpec = new CallSpec();
+                callSpec.command = CallSpec.CALL_INCOMING;
+                callSpec.number = editContent.getText().toString();
+                GBApplication.deviceService().onSetCallState(callSpec);
             }
         });
         outgoingCallButton = (Button) findViewById(R.id.outgoingCallButton);
         outgoingCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GBApplication.deviceService().onSetCallState(
-                        editContent.getText().toString(),
-                        null,
-                        ServiceCommand.CALL_OUTGOING);
+                CallSpec callSpec = new CallSpec();
+                callSpec.command = CallSpec.CALL_OUTGOING;
+                callSpec.number = editContent.getText().toString();
+                GBApplication.deviceService().onSetCallState(callSpec);
             }
         });
 
@@ -139,20 +140,18 @@ public class DebugActivity extends Activity {
         startCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GBApplication.deviceService().onSetCallState(
-                        null,
-                        null,
-                        ServiceCommand.CALL_START);
+                CallSpec callSpec = new CallSpec();
+                callSpec.command = CallSpec.CALL_START;
+                GBApplication.deviceService().onSetCallState(callSpec);
             }
         });
         endCallButton = (Button) findViewById(R.id.endCallButton);
         endCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GBApplication.deviceService().onSetCallState(
-                        null,
-                        null,
-                        ServiceCommand.CALL_END);
+                CallSpec callSpec = new CallSpec();
+                callSpec.command = CallSpec.CALL_END;
+                GBApplication.deviceService().onSetCallState(callSpec);
             }
         });
 
@@ -199,10 +198,15 @@ public class DebugActivity extends Activity {
         setMusicInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GBApplication.deviceService().onSetMusicInfo(
-                        editContent.getText().toString() + "(artist)",
-                        editContent.getText().toString() + "(album)",
-                        editContent.getText().toString() + "(track)", 20, 10, 2);
+                MusicSpec musicSpec = new MusicSpec();
+                musicSpec.artist = editContent.getText().toString() + "(artist)";
+                musicSpec.album = editContent.getText().toString() + "(album)";
+                musicSpec.track = editContent.getText().toString() + "(track)";
+                musicSpec.duration = 10;
+                musicSpec.trackCount = 5;
+                musicSpec.trackNr = 2;
+
+                GBApplication.deviceService().onSetMusicInfo(musicSpec);
             }
         });
 

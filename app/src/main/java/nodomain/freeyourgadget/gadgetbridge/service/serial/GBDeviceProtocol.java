@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 
 public abstract class GBDeviceProtocol {
 
@@ -16,7 +15,7 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
-    public byte[] encodeSetCallState(String number, String name, ServiceCommand command) {
+    public byte[] encodeSetCallState(String number, String name, int command) {
         return null;
     }
 
@@ -57,6 +56,10 @@ public abstract class GBDeviceProtocol {
     }
 
     public byte[] encodeEnableRealtimeSteps(boolean enable) {
+        return null;
+    }
+
+    public byte[] encodeEnableHeartRateSleepSupport(boolean enable) {
         return null;
     }
 

@@ -33,9 +33,9 @@ import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleColor;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleIconID;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
-import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 
 public class PebbleProtocol extends GBDeviceProtocol {
@@ -495,7 +495,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeFindDevice(boolean start) {
-        return encodeSetCallState("Where are you?", "Gadgetbridge", start ? ServiceCommand.CALL_INCOMING : ServiceCommand.CALL_END);
+        return encodeSetCallState("Where are you?", "Gadgetbridge", start ? CallSpec.CALL_INCOMING : CallSpec.CALL_END);
     }
 
     private static byte[] encodeExtensibleNotification(int id, int timestamp, String title, String subtitle, String body, String sourceName, boolean hasHandle, String[] cannedReplies) {
@@ -1044,20 +1044,20 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     @Override
-    public byte[] encodeSetCallState(String number, String name, ServiceCommand command) {
+    public byte[] encodeSetCallState(String number, String name, int command) {
         String[] parts = {number, name};
         byte pebbleCmd;
         switch (command) {
-            case CALL_START:
+            case CallSpec.CALL_START:
                 pebbleCmd = PHONECONTROL_START;
                 break;
-            case CALL_END:
+            case CallSpec.CALL_END:
                 pebbleCmd = PHONECONTROL_END;
                 break;
-            case CALL_INCOMING:
+            case CallSpec.CALL_INCOMING:
                 pebbleCmd = PHONECONTROL_INCOMINGCALL;
                 break;
-            case CALL_OUTGOING:
+            case CallSpec.CALL_OUTGOING:
                 // pebbleCmd = PHONECONTROL_OUTGOINGCALL;
                 /*
                  *  HACK/WORKAROUND for non-working outgoing call display.
@@ -1876,12 +1876,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 int timestamp = buf.getInt();
                 int log_tag = buf.getInt();
                 byte item_type = buf.get();
-                short item_size = buf.get();
+                short item_size = buf.getShort();
                 LOG.info("DATALOG OPENSESSION. id=" + (id & 0xff) + ", App UUID=" + uuid.toString() + ", log_tag=" + log_tag + ", item_type=" + item_type + ", itemSize=" + item_size);
                 if (!mDatalogSessions.containsKey(id)) {
                     if (uuid.equals(UUID_ZERO) && log_tag == 81) {
                         mDatalogSessions.put(id, new DatalogSessionHealthSteps(id, uuid, log_tag, item_type, item_size));
-                    } else if (uuid.equals(UUID_ZERO) && log_tag == 83) {
+                    } else if (uuid.equals(UUID_ZERO) && (log_tag == 83 || log_tag == 84)) {
                         mDatalogSessions.put(id, new DatalogSessionHealthSleep(id, uuid, log_tag, item_type, item_size));
                     } else {
                         mDatalogSessions.put(id, new DatalogSession(id, uuid, log_tag, item_type, item_size));

@@ -1,5 +1,16 @@
 ###Changelog
 
+####Version (next)
+* Pebble: support pebble health datalog messages of firmware 3.11 (this adds support for deep sleep!)
+* Pebble: try to reconnect on new notifications and phone calls when connection was lost unexpectedly
+* Pebble: delay between reconnection attempts (from 1 up to 64 seconds)
+
+####Version 0.9.3
+* Pebble: Fix Pebble Health activation (was not available in the App Manager)
+* Simplify connection state display (only connecting->connected)
+* Small improvements to the pairing activity
+* Mi Band 1S: Fix for mi band firmware update
+
 ####Version 0.9.2
 * Mi Band: Fix update of second (HR) firmware on Mi1S (#234)
 * Fix ordering issue of device infos being displayed

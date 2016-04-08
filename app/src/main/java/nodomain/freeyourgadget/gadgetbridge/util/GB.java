@@ -39,6 +39,10 @@ public class GB {
     public static final int INFO = 1;
     public static final int WARN = 2;
     public static final int ERROR = 3;
+    public static final String ACTION_DISPLAY_MESSAGE = "GB_Display_Message";
+    public static final String DISPLAY_MESSAGE_MESSAGE = "message";
+    public static final String DISPLAY_MESSAGE_DURATION = "duration";
+    public static final String DISPLAY_MESSAGE_SEVERITY = "severity";
     public static GBEnvironment environment;
 
     public static Notification createNotification(String text, Context context) {
@@ -225,7 +229,7 @@ public class GB {
         }
     }
 
-    private static void log(String message, int severity, Throwable ex) {
+    public static void log(String message, int severity, Throwable ex) {
         switch (severity) {
             case INFO:
                 LOG.info(message, ex);

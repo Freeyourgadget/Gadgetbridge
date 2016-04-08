@@ -32,6 +32,8 @@ public interface DBHandler {
 
     void changeStoredSamplesType(int timestampFrom, int timestampTo, int kind, SampleProvider provider);
 
+    void changeStoredSamplesType(int timestampFrom, int timestampTo, int fromKind, int toKind, SampleProvider provider);
+
     int fetchLatestTimestamp(SampleProvider provider);
 
 }

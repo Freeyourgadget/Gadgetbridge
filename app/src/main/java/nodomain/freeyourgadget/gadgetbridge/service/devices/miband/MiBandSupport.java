@@ -34,16 +34,18 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEvents;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.AbortTransactionAction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.ConditionalWriteAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WriteAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.FetchActivityOperation;
@@ -109,6 +111,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 .sendUserInfo(builder)
                 .checkAuthenticationNeeded(builder, getDevice())
                 .setWearLocation(builder)
+                .setHeartrateSleepSupport(builder)
                 .setFitnessGoal(builder)
                 .enableFurtherNotifications(builder, true)
                 .setCurrentTime(builder)
@@ -368,6 +371,44 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
+    @Override
+    public void onEnableHeartRateSleepSupport(boolean enable) {
+        try {
+            TransactionBuilder builder = performInitialized("enable heart rate sleep support: " + enable);
+            setHeartrateSleepSupport(builder);
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error toggling heart rate sleep support: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
+    }
+
+    /**
+     * Part of device initialization process. Do not call manually.
+     *
+     * @param builder
+     */
+    private MiBandSupport setHeartrateSleepSupport(TransactionBuilder builder) {
+        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT);
+        if (characteristic != null) {
+            builder.add(new ConditionalWriteAction(characteristic) {
+                @Override
+                protected byte[] checkCondition() {
+                    if (!supportsHeartRate()) {
+                        return null;
+                    }
+                    if (MiBandCoordinator.getHeartrateSleepSupport(getDevice().getAddress())) {
+                        LOG.info("Enabling heartrate sleep support...");
+                        return startHeartMeasurementSleep;
+                    } else {
+                        LOG.info("Disabling heartrate sleep support...");
+                        return stopHeartMeasurementSleep;
+                    }
+                }
+            });
+        }
+        return this;
+    }
+
     private void performDefaultNotification(String task, short repeat, BtLEAction extraAction) {
         try {
             TransactionBuilder builder = performInitialized(task);
@@ -519,8 +560,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSetCallState(String number, String name, ServiceCommand command) {
-        if (ServiceCommand.CALL_INCOMING.equals(command)) {
+    public void onSetCallState(CallSpec callSpec) {
+        if (callSpec.command == CallSpec.CALL_INCOMING) {
             telephoneRinging = true;
             AbortTransactionAction abortAction = new AbortTransactionAction() {
                 @Override
@@ -529,7 +570,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 }
             };
             performPreferredNotification("incoming call", MiBandConst.ORIGIN_INCOMING_CALL, abortAction);
-        } else if (ServiceCommand.CALL_START.equals(command) || ServiceCommand.CALL_END.equals(command)) {
+        } else if ((callSpec.command == CallSpec.CALL_START) || (callSpec.command == CallSpec.CALL_END)) {
             telephoneRinging = false;
         }
     }
@@ -540,7 +581,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSetMusicInfo(String artist, String album, String track, int duration, int trackCount, int trackNr) {
+    public void onSetMusicInfo(MusicSpec musicSpec) {
         // not supported
     }
 
@@ -725,6 +766,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             handleBatteryInfo(characteristic.getValue(), status);
         } else if (MiBandService.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT.equals(characteristicUUID)) {
             logHeartrate(characteristic.getValue());
+        } else if (MiBandService.UUID_CHARACTERISTIC_DATE_TIME.equals(characteristicUUID)) {
+            logDate(characteristic.getValue());
         } else {
             LOG.info("Unhandled characteristic read: " + characteristicUUID);
             logMessageContent(characteristic.getValue());
@@ -754,6 +797,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         for (byte b : value) {
             LOG.warn("DATA: " + String.format("0x%2x", b));
         }
+    }
+
+    public void logDate(byte[] value) {
+        GregorianCalendar calendar = MiBandDateConverter.rawBytesToCalendar(value);
+        LOG.info("Got Mi Band Date: " + DateTimeUtils.formatDateTime(calendar.getTime()));
     }
 
     public void logHeartrate(byte[] value) {
@@ -889,7 +937,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         if (status != BluetoothGatt.GATT_SUCCESS) {
             LOG.warn("Could not write to the control point.");
         }
-        LOG.info("handleControlPoint write status:" + status);
+        LOG.info("handleControlPoint write status:" + status + "; length: " + (value != null ? value.length : "(null)"));
 
         if (value != null) {
             for (byte b : value) {

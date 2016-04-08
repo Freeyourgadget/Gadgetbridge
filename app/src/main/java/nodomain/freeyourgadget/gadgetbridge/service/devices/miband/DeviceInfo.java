@@ -109,7 +109,7 @@ public class DeviceInfo extends AbstractInfo {
 
     public boolean isMili1S() {
         // TODO: this is probably not quite correct, but hopefully sufficient for early 1S support
-        return feature == 4 && appearance == 0 || feature == 4 && hwVersion == 4;
+        return (feature == 4 && appearance == 0) || hwVersion == 4;
     }
 
     public String getHwVersion() {

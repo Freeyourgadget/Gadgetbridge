@@ -54,6 +54,9 @@ public class NotificationListener extends NotificationListenerService {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             switch (action) {
+                case GBApplication.ACTION_QUIT:
+                    stopSelf();
+                    break;
                 case ACTION_MUTE:
                 case ACTION_OPEN: {
                     StatusBarNotification[] sbns = NotificationListener.this.getActiveNotifications();
@@ -130,6 +133,7 @@ public class NotificationListener extends NotificationListenerService {
     public void onCreate() {
         super.onCreate();
         IntentFilter filterLocal = new IntentFilter();
+        filterLocal.addAction(GBApplication.ACTION_QUIT);
         filterLocal.addAction(ACTION_OPEN);
         filterLocal.addAction(ACTION_DISMISS);
         filterLocal.addAction(ACTION_DISMISS_ALL);

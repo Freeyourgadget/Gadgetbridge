@@ -3,15 +3,15 @@ package nodomain.freeyourgadget.gadgetbridge.service;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 
 public class TestDeviceSupport extends AbstractDeviceSupport {
 
@@ -61,12 +61,12 @@ public class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
-    public void onSetCallState(@Nullable String number, @Nullable String name, ServiceCommand command) {
+    public void onSetCallState(CallSpec callSpec) {
 
     }
 
     @Override
-    public void onSetMusicInfo(String artist, String album, String track, int duration, int trackCount, int trackNr) {
+    public void onSetMusicInfo(MusicSpec musicSpec) {
 
     }
 
@@ -122,6 +122,11 @@ public class TestDeviceSupport extends AbstractDeviceSupport {
 
     @Override
     public void onEnableRealtimeSteps(boolean enable) {
+
+    }
+
+    @Override
+    public void onEnableHeartRateSleepSupport(boolean enable) {
 
     }
 }

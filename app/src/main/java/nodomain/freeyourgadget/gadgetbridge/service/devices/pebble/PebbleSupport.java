@@ -10,7 +10,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.AbstractSerialDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
@@ -35,7 +39,7 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
 
     @Override
     public boolean useAutoConnect() {
-        return false;
+        return true;
     }
 
     @Override
@@ -70,6 +74,45 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
     public synchronized PebbleIoThread getDeviceIOThread() {
         return (PebbleIoThread) super.getDeviceIOThread();
     }
+
+    private boolean reconnect() {
+        if (!isConnected() && useAutoConnect()) {
+            if (getDevice().getState() == GBDevice.State.WAITING_FOR_RECONNECT) {
+                gbDeviceIOThread.interrupt();
+                gbDeviceIOThread = null;
+                if (!connect()) {
+                    return false;
+                }
+                try {
+                    Thread.sleep(4000); // this is about the time the connect takes, so the notification can come though
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onNotification(NotificationSpec notificationSpec) {
+        if (reconnect()) {
+            super.onNotification(notificationSpec);
+        }
+    }
+
+    @Override
+    public void onSetCallState(CallSpec callSpec) {
+        if (reconnect()) {
+            super.onSetCallState(callSpec);
+        }
+    }
+
+    @Override
+    public void onSetMusicInfo(MusicSpec musicSpec) {
+        if (reconnect()) {
+            super.onSetMusicInfo(musicSpec);
+        }
+    }
+
 
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {

@@ -13,8 +13,9 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 
 /**
  * Wraps another device support instance and supports busy-checking and throttling of events.
@@ -131,19 +132,19 @@ public class ServiceDeviceSupport implements DeviceSupport {
     // No throttling for the other events
 
     @Override
-    public void onSetCallState(String number, String name, ServiceCommand command) {
+    public void onSetCallState(CallSpec callSpec) {
         if (checkBusy("set call state")) {
             return;
         }
-        delegate.onSetCallState(number, name, command);
+        delegate.onSetCallState(callSpec);
     }
 
     @Override
-    public void onSetMusicInfo(String artist, String album, String track, int duration, int trackCount, int trackNr) {
+    public void onSetMusicInfo(MusicSpec musicSpec) {
         if (checkBusy("set music info")) {
             return;
         }
-        delegate.onSetMusicInfo(artist, album, track, duration, trackCount, trackNr);
+        delegate.onSetMusicInfo(musicSpec);
     }
 
     @Override
@@ -240,5 +241,13 @@ public class ServiceDeviceSupport implements DeviceSupport {
             return;
         }
         delegate.onEnableRealtimeSteps(enable);
+    }
+
+    @Override
+    public void onEnableHeartRateSleepSupport(boolean enable) {
+        if (checkBusy("enable heartrate sleep support: " + enable)) {
+            return;
+        }
+        delegate.onEnableHeartRateSleepSupport(enable);
     }
 }

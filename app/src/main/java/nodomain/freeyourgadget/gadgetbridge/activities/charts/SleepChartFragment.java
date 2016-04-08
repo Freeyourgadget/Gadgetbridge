@@ -151,6 +151,7 @@ public class SleepChartFragment extends AbstractChartFragment {
 //        y.setDrawLabels(false);
         // TODO: make fixed max value optional
         y.setAxisMaxValue(1f);
+        y.setAxisMinValue(0);
         y.setDrawTopYLabelEntry(false);
         y.setTextColor(CHART_TEXT_COLOR);
 
@@ -159,10 +160,12 @@ public class SleepChartFragment extends AbstractChartFragment {
 
         YAxis yAxisRight = mActivityChart.getAxisRight();
         yAxisRight.setDrawGridLines(false);
-        yAxisRight.setEnabled(false);
-        yAxisRight.setDrawLabels(false);
-        yAxisRight.setDrawTopYLabelEntry(false);
+        yAxisRight.setEnabled(supportsHeartrate());
+        yAxisRight.setDrawLabels(true);
+        yAxisRight.setDrawTopYLabelEntry(true);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
+        yAxisRight.setAxisMaxValue(250);
+        yAxisRight.setAxisMinValue(0);
     }
 
     protected void setupLegend(Chart chart) {
@@ -172,6 +175,10 @@ public class SleepChartFragment extends AbstractChartFragment {
         legendLabels.add(akLightSleep.label);
         legendColors.add(akDeepSleep.color);
         legendLabels.add(akDeepSleep.label);
+        if (supportsHeartrate()) {
+            legendColors.add(HEARTRATE_COLOR);
+            legendLabels.add(HEARTRATE_LABEL);
+        }
         chart.getLegend().setCustom(legendColors, legendLabels);
         chart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
     }

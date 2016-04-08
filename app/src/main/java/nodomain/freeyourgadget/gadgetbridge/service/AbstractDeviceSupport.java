@@ -32,6 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
@@ -280,4 +281,14 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         gbDevice.sendDeviceUpdateIntent(context);
     }
 
+    public void handleGBDeviceEvent(GBDeviceEventDisplayMessage message) {
+        GB.log(message.message, message.severity, null);
+
+        Intent messageIntent = new Intent(GB.ACTION_DISPLAY_MESSAGE);
+        messageIntent.putExtra(GB.DISPLAY_MESSAGE_MESSAGE, message.message);
+        messageIntent.putExtra(GB.DISPLAY_MESSAGE_DURATION, message.duration);
+        messageIntent.putExtra(GB.DISPLAY_MESSAGE_SEVERITY, message.severity);
+
+        LocalBroadcastManager.getInstance(context).sendBroadcast(messageIntent);
+    }
 }

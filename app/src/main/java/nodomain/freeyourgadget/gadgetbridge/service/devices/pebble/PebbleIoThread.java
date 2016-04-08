@@ -200,11 +200,16 @@ public class PebbleIoThread extends GBDeviceIoThread {
         }
 
         mPebbleProtocol.setForceProtocol(sharedPrefs.getBoolean("pebble_force_protocol", false));
-        gbDevice.setState(GBDevice.State.CONNECTED);
-        gbDevice.sendDeviceUpdateIntent(getContext());
 
         mIsConnected = true;
-        write(mPebbleProtocol.encodeFirmwareVersionReq());
+        if (originalState == GBDevice.State.WAITING_FOR_RECONNECT) {
+            gbDevice.setState(GBDevice.State.INITIALIZED);
+        } else {
+            gbDevice.setState(GBDevice.State.CONNECTED);
+            write(mPebbleProtocol.encodeFirmwareVersionReq());
+        }
+        gbDevice.sendDeviceUpdateIntent(getContext());
+
         return true;
     }
 
@@ -363,9 +368,19 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     if (reconnectAttempts > 0) {
                         gbDevice.setState(GBDevice.State.CONNECTING);
                         gbDevice.sendDeviceUpdateIntent(getContext());
+                        int delaySeconds = 1;
                         while (reconnectAttempts-- > 0 && !mQuit && !mIsConnected) {
                             LOG.info("Trying to reconnect (attempts left " + reconnectAttempts + ")");
                             mIsConnected = connect(gbDevice.getAddress());
+                            if (!mIsConnected) {
+                                try {
+                                    Thread.sleep(delaySeconds * 1000);
+                                } catch (InterruptedException ignored) {
+                                }
+                                if (delaySeconds < 64) {
+                                    delaySeconds *= 2;
+                                }
+                            }
                         }
                     }
                     if (!mIsConnected && !mQuit) {
