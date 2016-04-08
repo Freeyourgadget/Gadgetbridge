@@ -1,7 +1,12 @@
 language: android
+
 jdk:
   - oraclejdk8
   - oraclejdk7
+
+env:
+  - GRADLE_OPTS="-XX:MaxPermSize=256m"
+
 android:
   components:
     # Uncomment the lines below if you want to
