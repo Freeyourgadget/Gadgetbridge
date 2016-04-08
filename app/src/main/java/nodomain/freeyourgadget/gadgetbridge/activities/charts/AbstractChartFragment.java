@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -80,6 +81,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     };
     private boolean mChartDirty = true;
     private boolean supportsHeartrateChart = true;
+    private AsyncTask refreshTask;
 
     public boolean isChartDirty() {
         return mChartDirty;
@@ -367,7 +369,10 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             if (chartsHost.getDevice() != null) {
                 mChartDirty = false;
                 updateDateInfo(getStartDate(), getEndDate());
-                createRefreshTask("Visualizing data", getActivity()).execute();
+                if (refreshTask != null && refreshTask.getStatus() != AsyncTask.Status.FINISHED) {
+                    refreshTask.cancel(true);
+                }
+                refreshTask = createRefreshTask("Visualizing data", getActivity()).execute();
             }
         }
     }
