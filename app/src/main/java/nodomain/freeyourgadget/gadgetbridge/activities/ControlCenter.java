@@ -26,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +57,8 @@ public class ControlCenter extends AppCompatActivity {
 
     private TextView hintTextView;
     private FloatingActionButton fab;
+    private ImageView background;
+
     private SwipeRefreshLayout swipeLayout;
     private GBDeviceAdapter mGBDeviceAdapter;
     private GBDevice selectedDevice = null;
@@ -130,6 +133,7 @@ public class ControlCenter extends AppCompatActivity {
         hintTextView = (TextView) findViewById(R.id.hintTextView);
         ListView deviceListView = (ListView) findViewById(R.id.deviceListView);
         fab = (FloatingActionButton) findViewById(R.id.fab);
+        background = (ImageView) findViewById(R.id.no_items_bg);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -379,6 +383,12 @@ public class ControlCenter extends AppCompatActivity {
                 connected = true;
                 break;
             }
+        }
+
+        if (deviceList.isEmpty()) {
+            background.setVisibility(View.VISIBLE);
+        } else {
+            background.setVisibility(View.INVISIBLE);
         }
 
         if (connected) {
