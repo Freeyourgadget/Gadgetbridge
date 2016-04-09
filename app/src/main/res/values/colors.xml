@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary_light" type="color">#ffff5000</color>
+    <color name="primary_light" type="color">#ff5000</color>
     <color name="primarydark_light" type="color">#f0f03000</color>
 
-    <color name="primary_dark" type="color">#fff03000</color>
+    <color name="primary_dark" type="color">#f03000</color>
     <color name="primarydark_dark" type="color">#f0f03000</color>
 
-    <color name="accent" type="color">#ff0091ea</color>
+    <color name="accent" type="color">#0091ea</color>
     <color name="primarytext" type="color">#ff000000</color>
     <color name="secondarytext" type="color">#ff808080</color>
     <color name="divider" type="color">#1f000000</color>
