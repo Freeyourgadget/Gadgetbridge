@@ -81,7 +81,6 @@ public class DebugActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_debug);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(GBApplication.ACTION_QUIT);

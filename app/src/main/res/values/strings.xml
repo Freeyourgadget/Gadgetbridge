@@ -83,8 +83,8 @@
     <string name="this_is_a_test_notification_from_gadgetbridge">This is a Test Notification from Gadgetbridge</string>
     <string name="bluetooth_is_not_supported_">Bluetooth is not supported.</string>
     <string name="bluetooth_is_disabled_">Bluetooth is disabled.</string>
-    <string name="tap_connected_device_for_app_mananger">tap connected device for App Mananger</string>
-    <string name="tap_a_device_to_connect">tap a device to connect</string>
+    <string name="tap_connected_device_for_app_mananger">Tap connected device for App Manager</string>
+    <string name="tap_a_device_to_connect">Tap a device to connect</string>
     <string name="cannot_connect_bt_address_invalid_">Cannot connect. BT address invalid?</string>
     <string name="gadgetbridge_running">Gadgetbridge running</string>
     <string name="installing_binary_d_d">installing binary %1$d/%2$d</string>

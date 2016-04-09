@@ -96,8 +96,6 @@ public abstract class AbstractSettingsActivity extends PreferenceActivity {
         super.onPostCreate(savedInstanceState);
         getDelegate().onPostCreate(savedInstanceState);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         for (String prefKey : getPreferenceKeysWithSummary()) {
             final Preference pref = findPreference(prefKey);
             if (pref != null) {

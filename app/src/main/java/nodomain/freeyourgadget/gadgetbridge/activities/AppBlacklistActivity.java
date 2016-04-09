@@ -53,7 +53,6 @@ public class AppBlacklistActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appblacklist);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         final PackageManager pm = getPackageManager();
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());

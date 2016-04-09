@@ -61,7 +61,6 @@ public class ExternalPebbleJSActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_external_pebble_js);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         WebView myWebView = (WebView) findViewById(R.id.configureWebview);
         myWebView.clearCache(true);
