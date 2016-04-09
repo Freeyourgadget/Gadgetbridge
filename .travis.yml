@@ -5,7 +5,7 @@ jdk:
   - oraclejdk7
 
 env:
-  - GRADLE_OPTS="-Xmx2048m -XX:MaxPermSize=512m"
+  - GRADLE_OPTS="-XX:MaxPermSize=256m"
 
 android:
   components:
