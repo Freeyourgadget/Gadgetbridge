@@ -13,14 +13,16 @@ sourceSets {
     main {
         java {
             srcDir 'src'
-            srcDir 'src-gen'
         }
     }
 }
 
-task (genSources, type: JavaExec) {
-    main = "nodomain.freeyourgadget.gadgetbridge.daogen.GBDaoGenerator"
+mainClassName = "nodomain.freeyourgadget.gadgetbridge.daogen.GBDaoGenerator"
+
+task genSources(type: JavaExec) {
+    main = mainClassName
     classpath = sourceSets.main.runtimeClasspath
+    workingDir = '../'
 }
 
 artifacts {
