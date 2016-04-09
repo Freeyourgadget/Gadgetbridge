@@ -113,7 +113,7 @@ public class FwAppInstallerActivity extends AppCompatActivity implements Install
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appinstaller);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         GBDevice dev = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
         if (dev != null) {
             device = dev;
