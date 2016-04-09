@@ -290,6 +290,11 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
             return false;
         }
         BluetoothAdapter adapter = bluetoothService.getAdapter();
+        if (adapter == null) {
+            LOG.warn("No bluetooth available");
+            this.adapter = null;
+            return false;
+        }
         if (!adapter.isEnabled()) {
             LOG.warn("Bluetooth not enabled");
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
