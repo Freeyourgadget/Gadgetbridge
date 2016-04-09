@@ -1,8 +1,8 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.widget.CheckBox;
@@ -12,7 +12,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
 
-public class AlarmDetails extends Activity {
+public class AlarmDetails extends AppCompatActivity {
 
     private GBAlarm alarm;
     private TimePicker timePicker;

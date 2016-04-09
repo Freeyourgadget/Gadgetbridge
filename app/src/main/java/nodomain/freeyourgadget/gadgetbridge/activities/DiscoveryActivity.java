@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -32,7 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class DiscoveryActivity extends Activity implements AdapterView.OnItemClickListener {
+public class DiscoveryActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private static final Logger LOG = LoggerFactory.getLogger(DiscoveryActivity.class);
     private static final long SCAN_DURATION = 60000; // 60s
 

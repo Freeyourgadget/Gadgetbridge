@@ -1,9 +1,12 @@
 <resources>
 
-    <style name="GadgetbridgeTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+    <style name="GadgetbridgeTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:actionBarStyle">@style/GadgetbridgeActionBar</item>
         <item name="android:actionBarWidgetTheme">@style/GadgetbridgeActionBarWidget</item>
         <item name="android:textColor">@color/primarytext</item>
+        <item name="colorPrimary">@color/primary_light</item>
+        <item name="colorPrimaryDark">@color/primarydark_light</item>
+        <item name="colorAccent">@color/accent</item>
     </style>
 
     <style name="GadgetbridgeActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
