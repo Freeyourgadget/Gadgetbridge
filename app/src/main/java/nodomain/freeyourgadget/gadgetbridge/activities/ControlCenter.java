@@ -15,6 +15,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -54,6 +55,7 @@ public class ControlCenter extends AppCompatActivity {
             = "nodomain.freeyourgadget.gadgetbridge.controlcenter.action.set_version";
 
     private TextView hintTextView;
+    private FloatingActionButton fab;
     private SwipeRefreshLayout swipeLayout;
     private GBDeviceAdapter mGBDeviceAdapter;
     private GBDevice selectedDevice = null;
@@ -124,8 +126,18 @@ public class ControlCenter extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_controlcenter);
+
         hintTextView = (TextView) findViewById(R.id.hintTextView);
         ListView deviceListView = (ListView) findViewById(R.id.deviceListView);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchDiscoveryActivity();
+            }
+        });
+
         mGBDeviceAdapter = new GBDeviceAdapter(this, deviceList);
         deviceListView.setAdapter(this.mGBDeviceAdapter);
         deviceListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -333,16 +345,17 @@ public class ControlCenter extends AppCompatActivity {
                 Intent quitIntent = new Intent(GBApplication.ACTION_QUIT);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(quitIntent);
                 return true;
-            case R.id.action_discover:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    startActivity(new Intent(android.provider.Settings.ACTION_BLUETOOTH_SETTINGS));
-                } else {
-                    startActivity(new Intent(this, DiscoveryActivity.class));
-                }
-                return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void launchDiscoveryActivity() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            startActivity(new Intent(android.provider.Settings.ACTION_BLUETOOTH_SETTINGS));
+        } else {
+            startActivity(new Intent(this, DiscoveryActivity.class));
+        }
     }
 
     @Override
