@@ -43,7 +43,9 @@
         android:layout_gravity="bottom|end"
         android:src="@drawable/ic_add_black"
         app:elevation="6dp"
-        app:pressedTranslationZ="12dp"/>
+        app:pressedTranslationZ="12dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp" />
 
     <TextView
         android:id="@+id/hintTextView"
@@ -52,6 +54,7 @@
         android:layout_above="@id/fab"
         android:layout_centerHorizontal="true"
         android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/secondarytext"
         android:textStyle="italic"
         android:text="@string/tap_connected_device_for_app_mananger" />
 
