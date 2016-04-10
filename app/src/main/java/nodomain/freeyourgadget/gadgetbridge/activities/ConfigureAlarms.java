@@ -34,9 +34,6 @@ public class ConfigureAlarms extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_configure_alarms);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         preferencesAlarmListSet = sharedPrefs.getStringSet(PREF_MIBAND_ALARMS, new HashSet<String>());

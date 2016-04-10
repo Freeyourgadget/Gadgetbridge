@@ -134,9 +134,6 @@ public class AppManagerActivity extends AppCompatActivity {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         setContentView(R.layout.activity_appmanager);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
 
         ListView appListView = (ListView) findViewById(R.id.appListView);
         mGBDeviceAppAdapter = new GBDeviceAppAdapter(this, appList);
