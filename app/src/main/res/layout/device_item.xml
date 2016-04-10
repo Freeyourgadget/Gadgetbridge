@@ -17,7 +17,7 @@
     <GridLayout
         android:layout_gravity="fill_horizontal"
         android:background="?android:attr/activatedBackgroundIndicator"
-        android:columnCount="5"
+        android:columnCount="3"
         android:paddingBottom="2dp"
         android:paddingTop="3dp">
 
@@ -28,19 +28,6 @@
             android:singleLine="true"
             android:typeface="sans"
             tools:text="My Pebble Watch" />
-
-        <ProgressBar
-            android:id="@+id/device_busy_indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_rowSpan="2"
-            android:indeterminate="true"
-            android:visibility="gone"
-            tools:visibility="visible" />
-
-        <android.support.v4.widget.Space
-            android:layout_width="wrap_content"
-            android:layout_rowSpan="2" />
 
         <TextView
             android:id="@+id/battery_label"
@@ -63,7 +50,6 @@
             android:scaleType="centerInside"
             android:src="@drawable/ic_information_outline_grey600_24dp" />
 
-
         <TextView
             android:id="@+id/device_status"
             android:layout_width="wrap_content"
@@ -84,7 +70,19 @@
             android:textColor="@color/secondarytext"
             android:textStyle="bold"
             tools:text="100% CHG" />
+
+        <ProgressBar
+            android:id="@+id/device_busy_indicator"
+            android:layout_width="140dp"
+            android:layout_height="4dp"
+            android:layout_rowSpan="1"
+            android:indeterminate="true"
+            android:visibility="visible"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            tools:visibility="visible" />
     </GridLayout>
+
+
 
     <ListView
         android:id="@+id/device_item_infos"
