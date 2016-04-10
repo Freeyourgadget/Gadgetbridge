@@ -40,7 +40,7 @@ public class GBDaoGenerator {
 
         addActivitySample(schema, user, device);
 
-        new DaoGenerator().generateAll(schema, "../app/src/main/gen");
+        new DaoGenerator().generateAll(schema, "app/src/main/java");
     }
 
     private static Entity addUserInfo(Schema schema, Entity userAttributes) {
