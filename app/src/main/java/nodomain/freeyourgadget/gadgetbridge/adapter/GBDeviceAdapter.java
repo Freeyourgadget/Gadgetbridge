@@ -60,11 +60,11 @@ public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {
         if (device.isBusy()) {
             deviceStatusLabel.setText(device.getBusyTask());
             busyIndicator.setVisibility(View.VISIBLE);
-            batteryLabel.setVisibility(View.GONE);
-            batteryStatusLabel.setVisibility(View.GONE);
+            batteryLabel.setVisibility(View.INVISIBLE);
+            batteryStatusLabel.setVisibility(View.INVISIBLE);
         } else {
             deviceStatusLabel.setText(device.getStateString());
-            busyIndicator.setVisibility(View.GONE);
+            busyIndicator.setVisibility(View.INVISIBLE);
             batteryLabel.setVisibility(View.VISIBLE);
             batteryStatusLabel.setVisibility(View.VISIBLE);
         }
@@ -113,13 +113,25 @@ public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {
 
         switch (device.getType()) {
             case PEBBLE:
-                deviceImageView.setImageResource(R.drawable.ic_device_pebble);
+                if (device.isConnected()) {
+                    deviceImageView.setImageResource(R.drawable.ic_device_pebble);
+                } else {
+                    deviceImageView.setImageResource(R.drawable.ic_device_pebble_disabled);
+                }
                 break;
             case MIBAND:
-                deviceImageView.setImageResource(R.drawable.ic_device_miband);
+                if (device.isConnected()) {
+                    deviceImageView.setImageResource(R.drawable.ic_device_miband);
+                } else {
+                    deviceImageView.setImageResource(R.drawable.ic_device_miband_disabled);
+                }
                 break;
             default:
-                deviceImageView.setImageResource(R.drawable.ic_launcher);
+                if (device.isConnected()) {
+                    deviceImageView.setImageResource(R.drawable.ic_launcher);
+                } else {
+                    deviceImageView.setImageResource(R.drawable.ic_device_default_disabled);
+                }
         }
 
         return view;

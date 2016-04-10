@@ -15,15 +15,18 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,7 +48,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class ControlCenter extends Activity {
+public class ControlCenter extends AppCompatActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(ControlCenter.class);
 
@@ -53,6 +56,9 @@ public class ControlCenter extends Activity {
             = "nodomain.freeyourgadget.gadgetbridge.controlcenter.action.set_version";
 
     private TextView hintTextView;
+    private FloatingActionButton fab;
+    private ImageView background;
+
     private SwipeRefreshLayout swipeLayout;
     private GBDeviceAdapter mGBDeviceAdapter;
     private GBDevice selectedDevice = null;
@@ -123,8 +129,19 @@ public class ControlCenter extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_controlcenter);
+
         hintTextView = (TextView) findViewById(R.id.hintTextView);
         ListView deviceListView = (ListView) findViewById(R.id.deviceListView);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        background = (ImageView) findViewById(R.id.no_items_bg);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchDiscoveryActivity();
+            }
+        });
+
         mGBDeviceAdapter = new GBDeviceAdapter(this, deviceList);
         deviceListView.setAdapter(this.mGBDeviceAdapter);
         deviceListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -332,16 +349,17 @@ public class ControlCenter extends Activity {
                 Intent quitIntent = new Intent(GBApplication.ACTION_QUIT);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(quitIntent);
                 return true;
-            case R.id.action_discover:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    startActivity(new Intent(android.provider.Settings.ACTION_BLUETOOTH_SETTINGS));
-                } else {
-                    startActivity(new Intent(this, DiscoveryActivity.class));
-                }
-                return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void launchDiscoveryActivity() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            startActivity(new Intent(android.provider.Settings.ACTION_BLUETOOTH_SETTINGS));
+        } else {
+            startActivity(new Intent(this, DiscoveryActivity.class));
+        }
     }
 
     @Override
@@ -365,6 +383,12 @@ public class ControlCenter extends Activity {
                 connected = true;
                 break;
             }
+        }
+
+        if (deviceList.isEmpty()) {
+            background.setVisibility(View.VISIBLE);
+        } else {
+            background.setVisibility(View.INVISIBLE);
         }
 
         if (connected) {

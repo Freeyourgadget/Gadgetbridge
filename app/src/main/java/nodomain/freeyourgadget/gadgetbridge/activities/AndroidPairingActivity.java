@@ -1,11 +1,11 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 
-public class AndroidPairingActivity extends Activity {
+public class AndroidPairingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

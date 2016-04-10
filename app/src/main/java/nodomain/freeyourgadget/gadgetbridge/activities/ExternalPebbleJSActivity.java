@@ -1,10 +1,10 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.webkit.ConsoleMessage;
@@ -32,7 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 
-public class ExternalPebbleJSActivity extends Activity {
+public class ExternalPebbleJSActivity extends AppCompatActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(ExternalPebbleJSActivity.class);
 
@@ -61,7 +61,6 @@ public class ExternalPebbleJSActivity extends Activity {
         }
 
         setContentView(R.layout.activity_external_pebble_js);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         WebView myWebView = (WebView) findViewById(R.id.configureWebview);
         myWebView.clearCache(true);

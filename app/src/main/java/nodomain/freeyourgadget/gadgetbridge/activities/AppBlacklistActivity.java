@@ -1,6 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +11,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,7 +34,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
 
-public class AppBlacklistActivity extends Activity {
+public class AppBlacklistActivity extends AppCompatActivity {
     private static final Logger LOG = LoggerFactory.getLogger(AppBlacklistActivity.class);
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -53,7 +53,6 @@ public class AppBlacklistActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appblacklist);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         final PackageManager pm = getPackageManager();
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
