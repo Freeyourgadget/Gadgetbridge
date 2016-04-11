@@ -42,19 +42,30 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
     private Locale mLocale;
     private int mTargetSteps = 10000;
 
-    private CombinedChart mWeekStepsChart;
     private PieChart mTodayStepsChart;
+    private CombinedChart mWeekStepsChart;
 
     @Override
-    protected void refreshInBackground(DBHandler db, GBDevice device) {
-        ChartsHost chartsHost = getChartsHost();
-        if (chartsHost != null) {
-            Calendar day = Calendar.getInstance();
-            day.setTime(chartsHost.getEndDate());
-            //NB: we could have omitted the day, but this way we can move things to the past easily
-            refreshDaySteps(db, mTodayStepsChart, day, device);
-            refreshWeekBeforeSteps(db, mWeekStepsChart, day, device);
-        }
+    protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
+        Calendar day = Calendar.getInstance();
+        day.setTime(chartsHost.getEndDate());
+        //NB: we could have omitted the day, but this way we can move things to the past easily
+        DaySteps daySteps = refreshDaySteps(db, day, device);
+        DefaultChartsData weekBeforeStepsData = refreshWeekBeforeSteps(db, mWeekStepsChart, day, device);
+
+        return new MyChartsData(daySteps, weekBeforeStepsData);
+    }
+
+    @Override
+    protected void updateChartsnUIThread(ChartsData chartsData) {
+        MyChartsData mcd = (MyChartsData) chartsData;
+
+//        setupLegend(mWeekStepsChart);
+        mTodayStepsChart.setCenterText(NumberFormat.getNumberInstance(mLocale).format(mcd.getDaySteps().totalSteps));
+        mTodayStepsChart.setData(mcd.getDaySteps().data);
+
+        mWeekStepsChart.setData(mcd.getWeekBeforeStepsData().getCombinedData());
+        mWeekStepsChart.getLegend().setEnabled(false);
     }
 
     @Override
@@ -63,7 +74,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         mTodayStepsChart.invalidate();
     }
 
-    private void refreshWeekBeforeSteps(DBHandler db, CombinedChart combinedChart, Calendar day, GBDevice device) {
+    private DefaultChartsData refreshWeekBeforeSteps(DBHandler db, CombinedChart combinedChart, Calendar day, GBDevice device) {
 
         ActivityAnalysis analysis = new ActivityAnalysis();
 
@@ -90,18 +101,16 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
 
         CombinedData combinedData = new CombinedData(labels);
         combinedData.setData(barData);
-
-        setupLegend(combinedChart);
-        combinedChart.setData(combinedData);
-        combinedChart.getLegend().setEnabled(false);
+        return new DefaultChartsData(combinedData);
     }
 
-    private void refreshDaySteps(DBHandler db, PieChart pieChart, Calendar day, GBDevice device) {
+
+
+    private DaySteps refreshDaySteps(DBHandler db, Calendar day, GBDevice device) {
         ActivityAnalysis analysis = new ActivityAnalysis();
 
         int totalSteps = analysis.calculateTotalSteps(getSamplesOfDay(db, day, device));
 
-        pieChart.setCenterText(NumberFormat.getNumberInstance(mLocale).format(totalSteps));
         PieData data = new PieData();
         List<Entry> entries = new ArrayList<>();
         List<Integer> colors = new ArrayList<>();
@@ -123,9 +132,8 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         data.setDataSet(set);
         //this hides the values (numeric) added to the set. These would be shown aside the strings set with addXValue above
         data.setDrawValues(false);
-        pieChart.setData(data);
 
-        pieChart.getLegend().setEnabled(false);
+        return new DaySteps(data, totalSteps);
     }
 
     @Override
@@ -164,6 +172,8 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         mTodayStepsChart.setDescription(getContext().getString(R.string.weeksteps_today_steps_description, mTargetSteps));
         mTodayStepsChart.setNoDataTextDescription("");
         mTodayStepsChart.setNoDataText("");
+        mTodayStepsChart.getLegend().setEnabled(false);
+//        setupLegend(mTodayStepsChart);
     }
 
     private void setupWeekStepsChart() {
@@ -196,12 +206,12 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
     }
 
     protected void setupLegend(Chart chart) {
-        List<Integer> legendColors = new ArrayList<>(1);
-        List<String> legendLabels = new ArrayList<>(1);
-        legendColors.add(akActivity.color);
-        legendLabels.add(getContext().getString(R.string.chart_steps));
-        chart.getLegend().setCustom(legendColors, legendLabels);
-        chart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
+//        List<Integer> legendColors = new ArrayList<>(1);
+//        List<String> legendLabels = new ArrayList<>(1);
+//        legendColors.add(akActivity.color);
+//        legendLabels.add(getContext().getString(R.string.chart_steps));
+//        chart.getLegend().setCustom(legendColors, legendLabels);
+//        chart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
     }
 
     private List<ActivitySample> getSamplesOfDay(DBHandler db, Calendar day, GBDevice device) {
@@ -225,5 +235,33 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
     @Override
     protected List<ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
         return super.getAllSamples(db, device, tsFrom, tsTo);
+    }
+
+    private static class DaySteps {
+        private final PieData data;
+        private final int totalSteps;
+
+        public DaySteps(PieData data, int totalSteps) {
+            this.data = data;
+            this.totalSteps = totalSteps;
+        }
+    }
+
+    private static class MyChartsData extends ChartsData {
+        private final DefaultChartsData weekBeforeStepsData;
+        private final DaySteps daySteps;
+
+        public MyChartsData(DaySteps daySteps, DefaultChartsData weekBeforeStepsData) {
+            this.daySteps = daySteps;
+            this.weekBeforeStepsData = weekBeforeStepsData;
+        }
+
+        public DaySteps getDaySteps() {
+            return daySteps;
+        }
+
+        public DefaultChartsData getWeekBeforeStepsData() {
+            return weekBeforeStepsData;
+        }
     }
 }

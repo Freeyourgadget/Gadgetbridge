@@ -106,11 +106,16 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
     }
 
     @Override
-    protected void refreshInBackground(DBHandler db, GBDevice device) {
+    protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
         List<ActivitySample> samples = getSamples(db, device);
-        refresh(device, mChart, samples);
+        return refresh(device, samples);
+    }
 
+    @Override
+    protected void updateChartsnUIThread(ChartsData chartsData) {
+        DefaultChartsData dcd = (DefaultChartsData) chartsData;
         mChart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
+        mChart.setData(dcd.getCombinedData());
     }
 
     protected void renderCharts() {

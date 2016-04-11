@@ -402,7 +402,13 @@ public class LiveActivityFragment extends AbstractChartFragment {
     }
 
     @Override
-    protected void refreshInBackground(DBHandler db, GBDevice device) {
+    protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    protected void updateChartsnUIThread(ChartsData chartsData) {
+        throw new UnsupportedOperationException();
     }
 
     @Override

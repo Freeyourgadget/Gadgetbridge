@@ -335,6 +335,8 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     protected void configureChartDefaults(Chart<?> chart) {
+        chart.setDescription("");
+
         // if enabled, the chart will always start at zero on the y-axis
         chart.setNoDataText(getString(R.string.chart_no_data_synchronize));
 
@@ -343,6 +345,8 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
         // enable touch gestures
         chart.setTouchEnabled(true);
+
+        setupLegend(chart);
     }
 
     protected void configureBarLineChartDefaults(BarLineChartBase<?> chart) {
@@ -380,9 +384,9 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     /**
      * This method reads the data from the database, analyzes and prepares it for
      * the charts. This will be called from a background task, so there must not be
-     * any UI access. #renderCharts will be automatically called after this method.
+     * any UI access. #updateChartsInUIThread and #renderCharts will be automatically called after this method.
      */
-    protected abstract void refreshInBackground(DBHandler db, GBDevice device);
+    protected abstract ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device);
 
     /**
      * Triggers the actual (re-) rendering of the chart.
@@ -390,7 +394,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
      */
     protected abstract void renderCharts();
 
-    protected void refresh(GBDevice gbDevice, BarLineChartBase chart, List<ActivitySample> samples) {
+    protected DefaultChartsData refresh(GBDevice gbDevice, List<ActivitySample> samples) {
         Calendar cal = GregorianCalendar.getInstance();
         cal.clear();
         Date date;
@@ -398,6 +402,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         String dateStringTo = "";
 
         LOG.info("" + getTitle() + ": number of samples:" + samples.size());
+        CombinedData combinedData;
         if (samples.size() > 1) {
             boolean annotate = true;
             boolean use_steps_as_movement;
@@ -486,11 +491,11 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                 xLabels.add(xLabel);
             }
 
-            chart.getXAxis().setValues(xLabels);
+//            chart.getXAxis().setValues(xLabels);
 
             BarDataSet activitySet = createActivitySet(activityEntries, colors, "Activity");
             // create a data object with the datasets
-            CombinedData combinedData = new CombinedData(xLabels);
+            combinedData = new CombinedData(xLabels);
             List<IBarDataSet> list = new ArrayList<>();
             list.add(activitySet);
             BarData barData = new BarData(xLabels, list);
@@ -503,17 +508,13 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                 combinedData.setData(lineData);
             }
 
-            chart.setDescription("");
 //            chart.setDescription(getString(R.string.sleep_activity_date_range, dateStringFrom, dateStringTo));
 //            chart.setDescriptionPosition(?, ?);
-
-            setupLegend(chart);
-
-            chart.setData(combinedData);
         } else {
-            CombinedData data = new CombinedData(Collections.<String>emptyList());
-            chart.setData(data);
+            combinedData = new CombinedData(Collections.<String>emptyList());
         }
+
+        return new DefaultChartsData(combinedData);
     }
 
     protected boolean isValidHeartRateValue(int value) {
@@ -622,6 +623,8 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     public class RefreshTask extends DBAccess {
+        private ChartsData chartsData;
+
         public RefreshTask(String task, Context context) {
             super(task, context);
         }
@@ -630,7 +633,9 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         protected void doInBackground(DBHandler db) {
             ChartsHost chartsHost = getChartsHost();
             if (chartsHost != null) {
-                refreshInBackground(db, chartsHost.getDevice());
+                chartsData = refreshInBackground(chartsHost, db, chartsHost.getDevice());
+            } else {
+                cancel(true);
             }
         }
 
@@ -639,12 +644,15 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             super.onPostExecute(o);
             FragmentActivity activity = getActivity();
             if (activity != null && !activity.isFinishing() && !activity.isDestroyed()) {
+                updateChartsnUIThread(chartsData);
                 renderCharts();
             } else {
                 LOG.info("Not rendering charts because activity is not available anymore");
             }
         }
     }
+
+    protected abstract void updateChartsnUIThread(ChartsData chartsData);
 
     /**
      * Returns true if the date was successfully shifted, and false if the shift
@@ -688,5 +696,17 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
     private int toTimestamp(Date date) {
         return (int) ((date.getTime() / 1000));
+    }
+
+    public static class DefaultChartsData extends ChartsData{
+        private final CombinedData combinedData;
+
+        public DefaultChartsData(CombinedData combinedData) {
+            this.combinedData = combinedData;
+        }
+
+        public CombinedData getCombinedData() {
+            return combinedData;
+        }
     }
 }
