@@ -216,4 +216,11 @@ public class GBDeviceService implements DeviceService {
                 .putExtra(EXTRA_BOOLEAN_ENABLE, enable);
         invokeService(intent);
     }
+
+    @Override
+    public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
+        Intent intent = createIntent().setAction(ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT)
+                .putExtra(EXTRA_BOOLEAN_ENABLE, enable);
+        invokeService(intent);
+    }
 }

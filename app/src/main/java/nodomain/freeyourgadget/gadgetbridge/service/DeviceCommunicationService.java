@@ -46,6 +46,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CO
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DELETEAPP;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DISCONNECT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ENABLE_HEARTRATE_SLEEP_SUPPORT;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ENABLE_REALTIME_STEPS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_FETCH_ACTIVITY_DATA;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_FIND_DEVICE;
@@ -347,6 +348,11 @@ public class DeviceCommunicationService extends Service {
             case ACTION_ENABLE_HEARTRATE_SLEEP_SUPPORT: {
                 boolean enable = intent.getBooleanExtra(EXTRA_BOOLEAN_ENABLE, false);
                 mDeviceSupport.onEnableHeartRateSleepSupport(enable);
+                break;
+            }
+            case ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT: {
+                boolean enable = intent.getBooleanExtra(EXTRA_BOOLEAN_ENABLE, false);
+                mDeviceSupport.onEnableRealtimeHeartRateMeasurement(enable);
                 break;
             }
         }

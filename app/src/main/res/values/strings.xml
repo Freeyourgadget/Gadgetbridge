@@ -240,5 +240,6 @@
     <string name="updatefirmwareoperation_update_in_progress">Firmware update in progress</string>
     <string name="updatefirmwareoperation_firmware_not_sent">Firmware not sent</string>
     <string name="charts_legend_heartrate">Heart Rate</string>
+    <string name="live_activity_heart_rate">Heart Rate</string>
 
 </resources>

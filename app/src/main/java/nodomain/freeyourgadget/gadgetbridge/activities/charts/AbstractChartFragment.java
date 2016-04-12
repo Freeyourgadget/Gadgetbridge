@@ -39,6 +39,7 @@ import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
@@ -116,6 +117,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     protected int CHART_TEXT_COLOR;
     protected int LEGEND_TEXT_COLOR;
     protected int HEARTRATE_COLOR;
+    protected int HEARTRATE_FILL_COLOR;
     protected int AK_ACTIVITY_COLOR;
     protected int AK_DEEP_SLEEP_COLOR;
     protected int AK_LIGHT_SLEEP_COLOR;
@@ -152,6 +154,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         CHART_TEXT_COLOR = getResources().getColor(R.color.secondarytext);
         LEGEND_TEXT_COLOR = getResources().getColor(R.color.primarytext);
         HEARTRATE_COLOR = getResources().getColor(R.color.chart_heartrate);
+        HEARTRATE_FILL_COLOR = getResources().getColor(R.color.chart_heartrate_fill);
         AK_ACTIVITY_COLOR = getResources().getColor(R.color.chart_activity_light);
         AK_DEEP_SLEEP_COLOR = getResources().getColor(R.color.chart_light_sleep_light);
         AK_LIGHT_SLEEP_COLOR = getResources().getColor(R.color.chart_deep_sleep_light);
@@ -518,7 +521,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     protected boolean isValidHeartRateValue(int value) {
-        return value > 0 && value < 255;
+        return value > HeartRateUtils.MIN_HEART_RATE_VALUE && value < HeartRateUtils.MAX_HEART_RATE_VALUE;
     }
 
     /**

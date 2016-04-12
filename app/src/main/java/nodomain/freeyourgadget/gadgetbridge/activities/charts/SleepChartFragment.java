@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmount;
@@ -174,8 +175,8 @@ public class SleepChartFragment extends AbstractChartFragment {
         yAxisRight.setDrawLabels(true);
         yAxisRight.setDrawTopYLabelEntry(true);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
-        yAxisRight.setAxisMaxValue(250);
-        yAxisRight.setAxisMinValue(0);
+        yAxisRight.setAxisMaxValue(HeartRateUtils.MAX_HEART_RATE_VALUE);
+        yAxisRight.setAxisMinValue(HeartRateUtils.MIN_HEART_RATE_VALUE);
     }
 
     protected void setupLegend(Chart chart) {

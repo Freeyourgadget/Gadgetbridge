@@ -63,6 +63,8 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
+    public byte[] encodeEnableRealtimeHeartRateMeasurement(boolean enable) { return null; }
+
     public GBDeviceEvent[] decodeResponse(byte[] responseData) {
         return null;
     }

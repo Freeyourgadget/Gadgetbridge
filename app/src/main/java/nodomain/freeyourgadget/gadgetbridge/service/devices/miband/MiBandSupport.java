@@ -603,7 +603,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 TransactionBuilder builder = performInitialized("HeartRateTest");
                 builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementContinuous);
                 builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementManual);
-                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementSleep);
                 builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), startHeartMeasurementManual);
                 builder.queue(getQueue());
             } catch (IOException ex) {
@@ -611,6 +610,25 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             }
         } else {
             GB.toast(getContext(), "Heart rate is not supported on this device", Toast.LENGTH_LONG, GB.ERROR);
+        }
+    }
+
+    @Override
+    public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
+        if (supportsHeartRate()) {
+            try {
+                TransactionBuilder builder = performInitialized("EnableRealtimeHeartRateMeasurement");
+                if (enable) {
+                    builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementManual);
+                    builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementSleep);
+                    builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), startHeartMeasurementContinuous);
+                } else {
+                    builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementContinuous);
+                }
+                builder.queue(getQueue());
+            } catch (IOException ex) {
+                LOG.error("Unable to enable realtime heart rate measurement in  MI1S", ex);
+            }
         }
     }
 
@@ -745,7 +763,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         } else if (MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS.equals(characteristicUUID)) {
             handleRealtimeSteps(characteristic.getValue());
         } else if (MiBandService.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT.equals(characteristicUUID)) {
-            logHeartrate(characteristic.getValue());
+            handleHeartrate(characteristic.getValue());
         } else {
             LOG.info("Unhandled characteristic changed: " + characteristicUUID);
             logMessageContent(characteristic.getValue());
@@ -814,6 +832,15 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    private void handleHeartrate(byte[] value) {
+        if (value.length == 2 && value[0] == 6) {
+            int hrValue = (value[1] & 0xff);
+            Intent intent = new Intent(DeviceService.ACTION_HEARTRATE_MEASUREMENT)
+                    .putExtra(DeviceService.EXTRA_HEART_RATE_VALUE, hrValue)
+                    .putExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
+            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+        }
+    }
 
     private void handleRealtimeSteps(byte[] value) {
         int steps = 0xff & value[0] | (0xff & value[1]) << 8;
