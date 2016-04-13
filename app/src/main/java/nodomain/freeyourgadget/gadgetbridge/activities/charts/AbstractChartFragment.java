@@ -421,6 +421,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             boolean hr = supportsHeartrate();
             List<Entry> heartrateEntries = hr ? new ArrayList<Entry>(numEntries) : null;
             List<Integer> colors = new ArrayList<>(numEntries); // this is kinda inefficient...
+            int lastHrSampleIndex = -1;
 
             for (int i = 0; i < numEntries; i++) {
                 ActivitySample sample = samples.get(i);
@@ -463,7 +464,13 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                 }
                 activityEntries.add(createBarEntry(value, i));
                 if (hr && isValidHeartRateValue(sample.getCustomValue())) {
+                    if (lastHrSampleIndex > -1 && i - lastHrSampleIndex > HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
+                        heartrateEntries.add(createLineEntry(0, lastHrSampleIndex + 1));
+                        heartrateEntries.add(createLineEntry(0, i - 1));
+                    }
+
                     heartrateEntries.add(createLineEntry(sample.getCustomValue(), i));
+                    lastHrSampleIndex = i;
                 }
 
                 String xLabel = "";
