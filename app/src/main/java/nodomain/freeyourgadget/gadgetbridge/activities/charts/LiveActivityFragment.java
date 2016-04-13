@@ -445,13 +445,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
         mHistorySet.setDrawFilled(true);
         mHistorySet.setDrawValues(false);
 
-        mHeartRateSet = new LineDataSet(new ArrayList<Entry>(), getString(R.string.live_activity_heart_rate));
-        mHeartRateSet.setAxisDependency(YAxis.AxisDependency.RIGHT);
-        mHeartRateSet.setColor(HEARTRATE_COLOR);
-        mHeartRateSet.setDrawCircles(false);
-        mHeartRateSet.setDrawCubic(true);
-        mHeartRateSet.setDrawFilled(false);
-//        mHeartRateSet.setFillColor(HEARTRATE_FILL_COLOR);
+        mHeartRateSet = createHeartrateSet(new ArrayList<Entry>(), getString(R.string.live_activity_heart_rate));
         mHeartRateSet.setDrawValues(false);
     }
 

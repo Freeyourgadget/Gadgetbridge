@@ -565,23 +565,19 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
     protected LineDataSet createHeartrateSet(List<Entry> values, String label) {
         LineDataSet set1 = new LineDataSet(values, label);
+        set1.setLineWidth(0.8f);
         set1.setColor(HEARTRATE_COLOR);
-//        set1.setColors(colors);
         set1.setDrawCubic(true);
         set1.setCubicIntensity(0.1f);
-//        //set1.setDrawFilled(true);
-//        set1.setDrawCircles(false);
-//        set1.setLineWidth(2f);
-
         set1.setDrawCircles(false);
 //        set1.setCircleRadius(2f);
 //        set1.setDrawFilled(true);
-
-        set1.setLineWidth(0.8f);
+//        set1.setColor(getResources().getColor(android.R.color.background_light));
+//        set1.setCircleColor(HEARTRATE_COLOR);
 //        set1.setFillColor(ColorTemplate.getHoloBlue());
-        set1.setDrawValues(true);
 //        set1.setHighLightColor(Color.rgb(128, 0, 255));
 //        set1.setColor(Color.rgb(89, 178, 44));
+        set1.setDrawValues(true);
         set1.setValueTextColor(CHART_TEXT_COLOR);
         set1.setAxisDependency(YAxis.AxisDependency.RIGHT);
         return set1;
