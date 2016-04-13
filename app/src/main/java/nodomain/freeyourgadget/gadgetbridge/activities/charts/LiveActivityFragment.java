@@ -267,16 +267,12 @@ public class LiveActivityFragment extends AbstractChartFragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (pulseScheduler != null) {
-            pulseScheduler.shutdownNow();
-            pulseScheduler = null;
-        }
+        stopActivityPulse();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        pulseScheduler = startActivityPulse();
     }
 
     private ScheduledExecutorService startActivityPulse() {
@@ -296,6 +292,13 @@ public class LiveActivityFragment extends AbstractChartFragment {
             }
         }, 0, getPulseIntervalMillis(), TimeUnit.MILLISECONDS);
         return service;
+    }
+
+    private void stopActivityPulse() {
+        if (pulseScheduler != null) {
+            pulseScheduler.shutdownNow();
+            pulseScheduler = null;
+        }
     }
 
     /**
@@ -332,10 +335,12 @@ public class LiveActivityFragment extends AbstractChartFragment {
         if (getActivity() != null) {
             getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
+        pulseScheduler = startActivityPulse();
     }
 
     @Override
     protected void onMadeInvisibleInActivity() {
+        stopActivityPulse();
         GBApplication.deviceService().onEnableRealtimeSteps(false);
         GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(false);
         if (getActivity() != null) {
