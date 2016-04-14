@@ -23,6 +23,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -39,10 +40,12 @@ import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.model.Measurement;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class LiveActivityFragment extends AbstractChartFragment {
@@ -63,6 +66,9 @@ public class LiveActivityFragment extends AbstractChartFragment {
     private final Steps mSteps = new Steps();
     private ScheduledExecutorService pulseScheduler;
     private int maxStepsResetCounter;
+    private List<Measurement> heartRateValues;
+    private LineDataSet mHeartRateSet;
+    private int mHeartRate;
 
     private class Steps {
         private int initialSteps;
@@ -145,16 +151,36 @@ public class LiveActivityFragment extends AbstractChartFragment {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             switch (action) {
-                case DeviceService.ACTION_REALTIME_STEPS:
+                case DeviceService.ACTION_REALTIME_STEPS: {
                     int steps = intent.getIntExtra(DeviceService.EXTRA_REALTIME_STEPS, 0);
                     long timestamp = intent.getLongExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
-                    refreshCurrentSteps(steps, timestamp);
+                    addEntries(steps, timestamp);
                     break;
+                }
+                case DeviceService.ACTION_HEARTRATE_MEASUREMENT: {
+                    int heartRate = intent.getIntExtra(DeviceService.EXTRA_HEART_RATE_VALUE, 0);
+                    long timestamp = intent.getLongExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
+                    if (isValidHeartRateValue(heartRate)) {
+                        setCurrentHeartRate(heartRate, timestamp);
+                    }
+                    break;
+                }
             }
         }
     };
 
-    private void refreshCurrentSteps(int steps, long timestamp) {
+    private void setCurrentHeartRate(int heartRate, long timestamp) {
+        addHistoryDataSet(true);
+        mHeartRate = heartRate;
+    }
+
+    private int getCurrentHeartRate() {
+        int result = mHeartRate;
+        mHeartRate = -1;
+        return result;
+    }
+
+    private void addEntries(int steps, long timestamp) {
         mSteps.updateCurrentSteps(steps, timestamp);
         if (++maxStepsResetCounter > RESET_COUNT) {
             maxStepsResetCounter = 0;
@@ -163,10 +189,10 @@ public class LiveActivityFragment extends AbstractChartFragment {
         // Or: count down the steps until goal reached? And then flash GOAL REACHED -> Set stretch goal
         LOG.info("Steps: " + steps + ", total: " + mSteps.getTotalSteps() + ", current: " + mSteps.getStepsPerMinute(false));
 
-//        refreshCurrentSteps();
+//        addEntries();
     }
 
-    private void refreshCurrentSteps() {
+    private void addEntries() {
         mTotalStepsChart.setSingleEntryYValue(mSteps.getTotalSteps());
         YAxis stepsPerMinuteCurrentYAxis = mStepsPerMinuteCurrentChart.getAxisLeft();
         int maxStepsPerMinute = mSteps.getMaxStepsPerMinute();
@@ -180,24 +206,36 @@ public class LiveActivityFragment extends AbstractChartFragment {
         int stepsPerMinute = mSteps.getStepsPerMinute(true);
         mStepsPerMinuteCurrentChart.setSingleEntryYValue(stepsPerMinute);
 
-        if (mStepsPerMinuteHistoryChart.getData() == null) {
-            if (mSteps.getTotalSteps() == 0) {
-                return; // ignore the first default value to keep the "no-data-description" visible
-            }
-            LineData data = new LineData();
-            mStepsPerMinuteHistoryChart.setData(data);
-            data.addDataSet(mHistorySet);
+        if (!addHistoryDataSet(false)) {
+            return;
         }
 
-        LineData historyData = (LineData) mStepsPerMinuteHistoryChart.getData();
-        historyData.addXValue("");
-        historyData.addEntry(new Entry(stepsPerMinute, mHistorySet.getEntryCount()), 0);
+        ChartData data = mStepsPerMinuteHistoryChart.getData();
+        data.addXValue("");
+        if (stepsPerMinute < 0) {
+            stepsPerMinute = 0;
+        }
+        mHistorySet.addEntry(new Entry(stepsPerMinute, data.getXValCount() - 1));
+        int hr = getCurrentHeartRate();
+        if (hr < 0) {
+            hr = 0;
+        }
+        mHeartRateSet.addEntry(new Entry(hr, data.getXValCount() - 1));
+    }
 
-        mTotalStepsData.notifyDataSetChanged();
-        mStepsPerMinuteData.notifyDataSetChanged();
-        mStepsPerMinuteHistoryChart.notifyDataSetChanged();
-
-        renderCharts();
+    private boolean addHistoryDataSet(boolean force) {
+        if (mStepsPerMinuteHistoryChart.getData() == null) {
+            // ignore the first default value to keep the "no-data-description" visible
+            if (force || mSteps.getTotalSteps() > 0) {
+                LineData data = new LineData();
+                data.addDataSet(mHistorySet);
+                data.addDataSet(mHeartRateSet);
+                mStepsPerMinuteHistoryChart.setData(data);
+                return true;
+            }
+            return false;
+        }
+        return true;
     }
 
     @Nullable
@@ -205,6 +243,8 @@ public class LiveActivityFragment extends AbstractChartFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         IntentFilter filterLocal = new IntentFilter();
         filterLocal.addAction(DeviceService.ACTION_REALTIME_STEPS);
+        filterLocal.addAction(DeviceService.ACTION_HEARTRATE_MEASUREMENT);
+        heartRateValues = new ArrayList<>();
 
         View rootView = inflater.inflate(R.layout.fragment_live_activity, container, false);
 
@@ -227,16 +267,12 @@ public class LiveActivityFragment extends AbstractChartFragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (pulseScheduler != null) {
-            pulseScheduler.shutdownNow();
-            pulseScheduler = null;
-        }
+        stopActivityPulse();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        pulseScheduler = startActivityPulse();
     }
 
     private ScheduledExecutorService startActivityPulse() {
@@ -258,11 +294,33 @@ public class LiveActivityFragment extends AbstractChartFragment {
         return service;
     }
 
+    private void stopActivityPulse() {
+        if (pulseScheduler != null) {
+            pulseScheduler.shutdownNow();
+            pulseScheduler = null;
+        }
+    }
+
     /**
      * Called in the UI thread.
      */
     private void pulse() {
-        refreshCurrentSteps();
+        addEntries();
+
+        LineData historyData = (LineData) mStepsPerMinuteHistoryChart.getData();
+        if (historyData == null) {
+            return;
+        }
+
+        historyData.notifyDataChanged();
+        mTotalStepsData.notifyDataSetChanged();
+        mStepsPerMinuteData.notifyDataSetChanged();
+        mStepsPerMinuteHistoryChart.notifyDataSetChanged();
+
+        renderCharts();
+
+        // have to enable it again and again to keep it measureing
+        GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(true);
     }
 
     private long getPulseIntervalMillis() {
@@ -272,15 +330,19 @@ public class LiveActivityFragment extends AbstractChartFragment {
     @Override
     protected void onMadeVisibleInActivity() {
         GBApplication.deviceService().onEnableRealtimeSteps(true);
+        GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(true);
         super.onMadeVisibleInActivity();
         if (getActivity() != null) {
             getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
+        pulseScheduler = startActivityPulse();
     }
 
     @Override
     protected void onMadeInvisibleInActivity() {
+        stopActivityPulse();
         GBApplication.deviceService().onEnableRealtimeSteps(false);
+        GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(false);
         if (getActivity() != null) {
             getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
@@ -346,6 +408,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
     private void setupHistoryChart(BarLineChartBase chart) {
         configureBarLineChartDefaults(chart);
 
+        chart.setTouchEnabled(false); // no zooming or anything, because it's updated all the time
         chart.setBackgroundColor(BACKGROUND_COLOR);
         chart.setDescriptionColor(DESCRIPTION_COLOR);
         chart.setDescription(getString(R.string.live_activity_steps_per_minute_history));
@@ -367,22 +430,28 @@ public class LiveActivityFragment extends AbstractChartFragment {
         y.setDrawGridLines(false);
         y.setDrawTopYLabelEntry(false);
         y.setTextColor(CHART_TEXT_COLOR);
-
         y.setEnabled(true);
+        y.setAxisMinValue(0);
 
         YAxis yAxisRight = chart.getAxisRight();
         yAxisRight.setDrawGridLines(false);
-        yAxisRight.setEnabled(false);
-        yAxisRight.setDrawLabels(false);
+        yAxisRight.setEnabled(true);
+        yAxisRight.setDrawLabels(true);
         yAxisRight.setDrawTopYLabelEntry(false);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
+        yAxisRight.setAxisMaxValue(HeartRateUtils.MAX_HEART_RATE_VALUE);
+        yAxisRight.setAxisMinValue(HeartRateUtils.MIN_HEART_RATE_VALUE);
 
         mHistorySet = new LineDataSet(new ArrayList<Entry>(), getString(R.string.live_activity_steps_history));
+        mHistorySet.setAxisDependency(YAxis.AxisDependency.LEFT);
         mHistorySet.setColor(akActivity.color);
         mHistorySet.setDrawCircles(false);
         mHistorySet.setDrawCubic(true);
         mHistorySet.setDrawFilled(true);
         mHistorySet.setDrawValues(false);
+
+        mHeartRateSet = createHeartrateSet(new ArrayList<Entry>(), getString(R.string.live_activity_heart_rate));
+        mHeartRateSet.setDrawValues(false);
     }
 
     @Override
@@ -402,7 +471,13 @@ public class LiveActivityFragment extends AbstractChartFragment {
     }
 
     @Override
-    protected void refreshInBackground(DBHandler db, GBDevice device) {
+    protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    protected void updateChartsnUIThread(ChartsData chartsData) {
+        throw new UnsupportedOperationException();
     }
 
     @Override

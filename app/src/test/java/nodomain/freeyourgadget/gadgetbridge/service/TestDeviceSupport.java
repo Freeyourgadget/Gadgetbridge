@@ -129,4 +129,9 @@ public class TestDeviceSupport extends AbstractDeviceSupport {
     public void onEnableHeartRateSleepSupport(boolean enable) {
 
     }
+
+    @Override
+    public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
+
+    }
 }

@@ -59,20 +59,14 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
     protected String[] getPreferenceKeysWithSummary() {
         return new String[]{
                 PREF_USER_ALIAS,
-                PREF_MIBAND_WEARSIDE,
                 PREF_MIBAND_ADDRESS,
                 PREF_MIBAND_FITNESS_GOAL,
                 PREF_MIBAND_DONT_ACK_TRANSFER,
                 PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR,
-                getNotificationPrefKey(VIBRATION_PROFILE, ORIGIN_SMS),
                 getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_SMS),
-                getNotificationPrefKey(VIBRATION_PROFILE, ORIGIN_INCOMING_CALL),
                 getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_INCOMING_CALL),
-                getNotificationPrefKey(VIBRATION_PROFILE, ORIGIN_K9MAIL),
                 getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_K9MAIL),
-                getNotificationPrefKey(VIBRATION_PROFILE, ORIGIN_PEBBLEMSG),
                 getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_PEBBLEMSG),
-                getNotificationPrefKey(VIBRATION_PROFILE, ORIGIN_GENERIC),
                 getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_GENERIC),
         };
     }

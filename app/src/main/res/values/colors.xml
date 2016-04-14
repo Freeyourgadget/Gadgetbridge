@@ -7,11 +7,13 @@
     <color name="primarydark_dark" type="color">#f0f03000</color>
 
     <color name="accent" type="color">#0091ea</color>
-    <color name="primarytext" type="color">#ff000000</color>
+    <color name="primarytext_light" type="color">#000000</color>
+    <color name="primarytext_dark" type="color">#ffffff</color>
     <color name="secondarytext" type="color">#ff808080</color>
     <color name="divider" type="color">#1f000000</color>
 
     <color name="chart_heartrate" type="color">#ffab40</color>
+    <color name="chart_heartrate_fill" type="color">#fadab1</color>
     <color name="chart_deep_sleep_light" type="color">#0071b7</color>
     <color name="chart_deep_sleep_dark" type="color">#4c5aff</color>
 

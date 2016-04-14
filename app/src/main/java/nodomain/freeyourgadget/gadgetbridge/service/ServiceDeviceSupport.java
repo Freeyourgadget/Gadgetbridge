@@ -250,4 +250,12 @@ public class ServiceDeviceSupport implements DeviceSupport {
         }
         delegate.onEnableHeartRateSleepSupport(enable);
     }
+
+    @Override
+    public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
+        if (checkBusy("enable realtime heart rate measurement: " + enable)) {
+            return;
+        }
+        delegate.onEnableRealtimeHeartRateMeasurement(enable);
+    }
 }

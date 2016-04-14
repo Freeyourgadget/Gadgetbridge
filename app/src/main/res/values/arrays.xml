@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="pref_theme_options">
+        <item>@string/pref_theme_light</item>
+        <item>@string/pref_theme_dark</item>
+    </string-array>
+    <string-array name="pref_theme_values">
+        <item>@string/pref_theme_value_light</item>
+        <item>@string/pref_theme_value_dark</item>
+    </string-array>
+    <string name="pref_theme_value_light" translatable="false">light</string>
+    <string name="pref_theme_value_dark" translatable="false">dark</string>
+
     <string-array name="notification_mode">
         <item>@string/always</item>
         <item>@string/when_screen_off</item>

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.webkit.ConsoleMessage;
@@ -32,7 +31,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 
-public class ExternalPebbleJSActivity extends AppCompatActivity {
+public class ExternalPebbleJSActivity extends GBActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(ExternalPebbleJSActivity.class);
 

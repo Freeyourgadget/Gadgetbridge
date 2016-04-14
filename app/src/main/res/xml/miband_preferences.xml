@@ -14,7 +14,8 @@
             android:entries="@array/wearside"
             android:entryValues="@array/wearside_values"
             android:key="mi_wearside"
-            android:title="@string/miband_prefs_wearside" />
+            android:title="@string/miband_prefs_wearside"
+            android:summary="%s" />
 
         <EditTextPreference
             android:defaultValue="10000"
@@ -50,7 +51,8 @@
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="mi_vibration_profile_sms"
-                android:title="@string/miband_prefs_vibration" />
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
 
             <EditTextPreference
                 android:defaultValue="3"
@@ -70,7 +72,8 @@
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="mi_vibration_profile_incoming_call"
-                android:title="@string/miband_prefs_vibration" />
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
 
             <EditTextPreference
                 android:defaultValue="60"
@@ -90,7 +93,8 @@
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="mi_vibration_profile_k9mail"
-                android:title="@string/miband_prefs_vibration" />
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
 
             <EditTextPreference
                 android:defaultValue="2"
@@ -110,7 +114,8 @@
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="mi_vibration_profile_pebblemsg"
-                android:title="@string/miband_prefs_vibration" />
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
 
             <EditTextPreference
                 android:defaultValue="1"
@@ -130,7 +135,8 @@
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="mi_vibration_profile_generic"
-                android:title="@string/miband_prefs_vibration" />
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
 
             <EditTextPreference
                 android:defaultValue="3"

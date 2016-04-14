@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -83,8 +84,8 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
         yAxisRight.setDrawLabels(true);
         yAxisRight.setDrawTopYLabelEntry(true);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
-        yAxisRight.setAxisMaxValue(250);
-        yAxisRight.setAxisMinValue(0);
+        yAxisRight.setAxisMaxValue(HeartRateUtils.MAX_HEART_RATE_VALUE);
+        yAxisRight.setAxisMinValue(HeartRateUtils.MIN_HEART_RATE_VALUE);
 
         // refresh immediately instead of use refreshIfVisible(), for perceived performance
         refresh();
@@ -106,11 +107,16 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
     }
 
     @Override
-    protected void refreshInBackground(DBHandler db, GBDevice device) {
+    protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
         List<ActivitySample> samples = getSamples(db, device);
-        refresh(device, mChart, samples);
+        return refresh(device, samples);
+    }
 
+    @Override
+    protected void updateChartsnUIThread(ChartsData chartsData) {
+        DefaultChartsData dcd = (DefaultChartsData) chartsData;
         mChart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
+        mChart.setData(dcd.getCombinedData());
     }
 
     protected void renderCharts() {

@@ -4,11 +4,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.TypedValue;
 import android.view.View;
 
 import com.github.mikephil.charting.charts.BarLineChartBase;
@@ -39,6 +41,7 @@ import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
@@ -116,6 +119,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     protected int CHART_TEXT_COLOR;
     protected int LEGEND_TEXT_COLOR;
     protected int HEARTRATE_COLOR;
+    protected int HEARTRATE_FILL_COLOR;
     protected int AK_ACTIVITY_COLOR;
     protected int AK_DEEP_SLEEP_COLOR;
     protected int AK_LIGHT_SLEEP_COLOR;
@@ -147,11 +151,16 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     protected void init() {
-        BACKGROUND_COLOR = getResources().getColor(R.color.background_material_light);
-        DESCRIPTION_COLOR = getResources().getColor(R.color.primarytext);
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = getContext().getTheme();
+        theme.resolveAttribute(android.R.attr.background, typedValue, true);
+        BACKGROUND_COLOR = typedValue.data;
+        theme.resolveAttribute(android.R.attr.textColor, typedValue, true);
+        LEGEND_TEXT_COLOR = DESCRIPTION_COLOR = typedValue.data;
+
         CHART_TEXT_COLOR = getResources().getColor(R.color.secondarytext);
-        LEGEND_TEXT_COLOR = getResources().getColor(R.color.primarytext);
         HEARTRATE_COLOR = getResources().getColor(R.color.chart_heartrate);
+        HEARTRATE_FILL_COLOR = getResources().getColor(R.color.chart_heartrate_fill);
         AK_ACTIVITY_COLOR = getResources().getColor(R.color.chart_activity_light);
         AK_DEEP_SLEEP_COLOR = getResources().getColor(R.color.chart_light_sleep_light);
         AK_LIGHT_SLEEP_COLOR = getResources().getColor(R.color.chart_deep_sleep_light);
@@ -335,6 +344,8 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     protected void configureChartDefaults(Chart<?> chart) {
+        chart.setDescription("");
+
         // if enabled, the chart will always start at zero on the y-axis
         chart.setNoDataText(getString(R.string.chart_no_data_synchronize));
 
@@ -343,6 +354,8 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
         // enable touch gestures
         chart.setTouchEnabled(true);
+
+        setupLegend(chart);
     }
 
     protected void configureBarLineChartDefaults(BarLineChartBase<?> chart) {
@@ -380,9 +393,9 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     /**
      * This method reads the data from the database, analyzes and prepares it for
      * the charts. This will be called from a background task, so there must not be
-     * any UI access. #renderCharts will be automatically called after this method.
+     * any UI access. #updateChartsInUIThread and #renderCharts will be automatically called after this method.
      */
-    protected abstract void refreshInBackground(DBHandler db, GBDevice device);
+    protected abstract ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device);
 
     /**
      * Triggers the actual (re-) rendering of the chart.
@@ -390,7 +403,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
      */
     protected abstract void renderCharts();
 
-    protected void refresh(GBDevice gbDevice, BarLineChartBase chart, List<ActivitySample> samples) {
+    protected DefaultChartsData refresh(GBDevice gbDevice, List<ActivitySample> samples) {
         Calendar cal = GregorianCalendar.getInstance();
         cal.clear();
         Date date;
@@ -398,6 +411,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         String dateStringTo = "";
 
         LOG.info("" + getTitle() + ": number of samples:" + samples.size());
+        CombinedData combinedData;
         if (samples.size() > 1) {
             boolean annotate = true;
             boolean use_steps_as_movement;
@@ -413,6 +427,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             boolean hr = supportsHeartrate();
             List<Entry> heartrateEntries = hr ? new ArrayList<Entry>(numEntries) : null;
             List<Integer> colors = new ArrayList<>(numEntries); // this is kinda inefficient...
+            int lastHrSampleIndex = -1;
 
             for (int i = 0; i < numEntries; i++) {
                 ActivitySample sample = samples.get(i);
@@ -455,7 +470,13 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                 }
                 activityEntries.add(createBarEntry(value, i));
                 if (hr && isValidHeartRateValue(sample.getCustomValue())) {
+                    if (lastHrSampleIndex > -1 && i - lastHrSampleIndex > HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
+                        heartrateEntries.add(createLineEntry(0, lastHrSampleIndex + 1));
+                        heartrateEntries.add(createLineEntry(0, i - 1));
+                    }
+
                     heartrateEntries.add(createLineEntry(sample.getCustomValue(), i));
+                    lastHrSampleIndex = i;
                 }
 
                 String xLabel = "";
@@ -486,11 +507,11 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                 xLabels.add(xLabel);
             }
 
-            chart.getXAxis().setValues(xLabels);
+//            chart.getXAxis().setValues(xLabels);
 
             BarDataSet activitySet = createActivitySet(activityEntries, colors, "Activity");
             // create a data object with the datasets
-            CombinedData combinedData = new CombinedData(xLabels);
+            combinedData = new CombinedData(xLabels);
             List<IBarDataSet> list = new ArrayList<>();
             list.add(activitySet);
             BarData barData = new BarData(xLabels, list);
@@ -503,21 +524,17 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                 combinedData.setData(lineData);
             }
 
-            chart.setDescription("");
 //            chart.setDescription(getString(R.string.sleep_activity_date_range, dateStringFrom, dateStringTo));
 //            chart.setDescriptionPosition(?, ?);
-
-            setupLegend(chart);
-
-            chart.setData(combinedData);
         } else {
-            CombinedData data = new CombinedData(Collections.<String>emptyList());
-            chart.setData(data);
+            combinedData = new CombinedData(Collections.<String>emptyList());
         }
+
+        return new DefaultChartsData(combinedData);
     }
 
     protected boolean isValidHeartRateValue(int value) {
-        return value > 0 && value < 255;
+        return value > HeartRateUtils.MIN_HEART_RATE_VALUE && value < HeartRateUtils.MAX_HEART_RATE_VALUE;
     }
 
     /**
@@ -561,23 +578,19 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
     protected LineDataSet createHeartrateSet(List<Entry> values, String label) {
         LineDataSet set1 = new LineDataSet(values, label);
+        set1.setLineWidth(0.8f);
         set1.setColor(HEARTRATE_COLOR);
-//        set1.setColors(colors);
         set1.setDrawCubic(true);
         set1.setCubicIntensity(0.1f);
-//        //set1.setDrawFilled(true);
-//        set1.setDrawCircles(false);
-//        set1.setLineWidth(2f);
-
         set1.setDrawCircles(false);
 //        set1.setCircleRadius(2f);
 //        set1.setDrawFilled(true);
-
-        set1.setLineWidth(0.8f);
+//        set1.setColor(getResources().getColor(android.R.color.background_light));
+//        set1.setCircleColor(HEARTRATE_COLOR);
 //        set1.setFillColor(ColorTemplate.getHoloBlue());
-        set1.setDrawValues(true);
 //        set1.setHighLightColor(Color.rgb(128, 0, 255));
 //        set1.setColor(Color.rgb(89, 178, 44));
+        set1.setDrawValues(true);
         set1.setValueTextColor(CHART_TEXT_COLOR);
         set1.setAxisDependency(YAxis.AxisDependency.RIGHT);
         return set1;
@@ -622,6 +635,8 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     public class RefreshTask extends DBAccess {
+        private ChartsData chartsData;
+
         public RefreshTask(String task, Context context) {
             super(task, context);
         }
@@ -630,7 +645,9 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         protected void doInBackground(DBHandler db) {
             ChartsHost chartsHost = getChartsHost();
             if (chartsHost != null) {
-                refreshInBackground(db, chartsHost.getDevice());
+                chartsData = refreshInBackground(chartsHost, db, chartsHost.getDevice());
+            } else {
+                cancel(true);
             }
         }
 
@@ -639,12 +656,15 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             super.onPostExecute(o);
             FragmentActivity activity = getActivity();
             if (activity != null && !activity.isFinishing() && !activity.isDestroyed()) {
+                updateChartsnUIThread(chartsData);
                 renderCharts();
             } else {
                 LOG.info("Not rendering charts because activity is not available anymore");
             }
         }
     }
+
+    protected abstract void updateChartsnUIThread(ChartsData chartsData);
 
     /**
      * Returns true if the date was successfully shifted, and false if the shift
@@ -688,5 +708,17 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
     private int toTimestamp(Date date) {
         return (int) ((date.getTime() / 1000));
+    }
+
+    public static class DefaultChartsData extends ChartsData {
+        private final CombinedData combinedData;
+
+        public DefaultChartsData(CombinedData combinedData) {
+            this.combinedData = combinedData;
+        }
+
+        public CombinedData getCombinedData() {
+            return combinedData;
+        }
     }
 }

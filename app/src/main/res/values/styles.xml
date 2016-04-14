@@ -1,25 +1,29 @@
 <resources>
 
     <style name="GadgetbridgeTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:actionBarStyle">@style/GadgetbridgeActionBar</item>
-        <item name="android:actionBarWidgetTheme">@style/GadgetbridgeActionBarWidget</item>
-        <item name="android:textColor">@color/primarytext</item>
+        <item name="android:textColor">@color/primarytext_light</item>
         <item name="colorPrimary">@color/primary_light</item>
         <item name="colorPrimaryDark">@color/primarydark_light</item>
         <item name="colorAccent">@color/accent</item>
+
+        <!-- unfortunately it doesn't work this way :( -->
+        <!--
+        <item name="chart_deep_sleep">@color/chart_deep_sleep_light</item>
+        <item name="chart_light_sleep">@color/chart_light_sleep_light</item>
+        <item name="chart_activity">@color/chart_activity_light</item>
+        -->
     </style>
+    <style name="GadgetbridgeThemeDark" parent="Theme.AppCompat">
+        <item name="android:textColor">@color/primarytext_dark</item>
+        <item name="colorPrimary">@color/primary_dark</item>
+        <item name="colorPrimaryDark">@color/primarydark_dark</item>
+        <item name="colorAccent">@color/accent</item>
 
-    <style name="GadgetbridgeActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/primary_light</item>
-        <item name="android:backgroundStacked">@color/primarydark_light</item>
-        <item name="android:displayOptions">showHome|showTitle</item>
-        <item name="android:icon">@android:color/transparent</item>
+        <!-- unfortunately it doesn't work this way :( -->
+        <!--
+        <item name="chart_deep_sleep">@color/chart_deep_sleep_dark</item>
+        <item name="chart_light_sleep">@color/chart_light_sleep_dark</item>
+        <item name="chart_activity">@color/chart_activity_dark</item>
+        -->
     </style>
-
-    <style name="GadgetbridgeActionBarWidget" parent="android:Theme.Holo.Light">
-        <item name="android:popupMenuStyle">@android:style/Widget.Holo.Light.PopupMenu</item>
-        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView</item>
-    </style>
-
-
 </resources>

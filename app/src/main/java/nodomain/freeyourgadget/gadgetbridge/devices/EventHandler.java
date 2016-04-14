@@ -44,6 +44,8 @@ public interface EventHandler {
 
     void onHeartRateTest();
 
+    void onEnableRealtimeHeartRateMeasurement(boolean enable);
+
     void onFindDevice(boolean start);
 
     void onScreenshotReq();
