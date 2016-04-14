@@ -11,6 +11,13 @@
             android:defaultValue="default"
             android:key="audio_player"
             android:title="@string/pref_title_audo_player" />
+        <ListPreference
+            android:key="pref_key_theme"
+            android:title="@string/pref_title_theme"
+            android:entries="@array/pref_theme_options"
+            android:entryValues="@array/pref_theme_values"
+            android:defaultValue="@string/pref_theme_value_light"
+            android:summary="%s" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="pref_key_datetime"

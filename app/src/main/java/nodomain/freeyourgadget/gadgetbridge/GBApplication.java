@@ -195,11 +195,7 @@ public class GBApplication extends Application {
     public static void releaseDB() {
         dbLock.unlock();
     }
-
-    public static boolean isRunningOnKitkatOrLater() {
-        return VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-    }
-
+    
     public static boolean isRunningLollipopOrLater() {
         return VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
@@ -299,7 +295,7 @@ public class GBApplication extends Application {
                 editor.putString(PREFS_VERSION, Integer.toString(CURRENT_PREFS_VERSION));
                 break;
         }
-        editor.commit();
+        editor.apply();
     }
 
     public static LimitedQueue getIDSenderLookup() {
@@ -307,6 +303,6 @@ public class GBApplication extends Application {
     }
 
     public static boolean isDarkThemeEnabled() {
-        return false;
+        return sharedPrefs.getString("pref_key_theme", context.getString(R.string.pref_theme_value_light)).equals(context.getString(R.string.pref_theme_value_dark));
     }
 }
