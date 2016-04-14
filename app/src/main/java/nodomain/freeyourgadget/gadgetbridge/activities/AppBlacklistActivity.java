@@ -48,6 +48,7 @@ public class AppBlacklistActivity extends GBActivity {
     };
 
     private SharedPreferences sharedPrefs;
+    private IdentityHashMap<ApplicationInfo, String> nameMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,7 @@ public class AppBlacklistActivity extends GBActivity {
         ListView appListView = (ListView) findViewById(R.id.appListView);
 
         // sort the package list by label and blacklist status
-        final IdentityHashMap<ApplicationInfo, String> nameMap = new IdentityHashMap<>(packageList.size());
+        nameMap = new IdentityHashMap<>(packageList.size());
         for (ApplicationInfo ai : packageList) {
             CharSequence name = pm.getApplicationLabel(ai);
             if (name == null) {
@@ -98,7 +99,7 @@ public class AppBlacklistActivity extends GBActivity {
                 CheckBox checkbox = (CheckBox) view.findViewById(R.id.item_checkbox);
 
                 deviceAppVersionAuthorLabel.setText(appInfo.packageName);
-                deviceAppNameLabel.setText(appInfo.loadLabel(pm));
+                deviceAppNameLabel.setText(nameMap.get(appInfo));
                 deviceImageView.setImageDrawable(appInfo.loadIcon(pm));
 
                 checkbox.setChecked(GBApplication.blacklist.contains(appInfo.packageName));
