@@ -5,6 +5,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
+
 /**
  * A base activity that supports paging through fragments by swiping.
  * Subclasses will have to add a ViewPager to their layout and add something
@@ -31,6 +34,12 @@ public abstract class AbstractGBFragmentActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (GBApplication.isDarkThemeEnabled()) {
+            setTheme(R.style.GadgetbridgeThemeDark);
+        } else {
+            setTheme(R.style.GadgetbridgeTheme);
+        }
+
         super.onCreate(savedInstanceState);
 
         // Create the adapter that will return a fragment for each of the three
