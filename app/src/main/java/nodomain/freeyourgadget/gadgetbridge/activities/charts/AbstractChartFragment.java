@@ -4,11 +4,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.TypedValue;
 import android.view.View;
 
 import com.github.mikephil.charting.charts.BarLineChartBase;
@@ -149,10 +151,14 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     protected void init() {
-        BACKGROUND_COLOR = getResources().getColor(R.color.background_material_light);
-        DESCRIPTION_COLOR = getResources().getColor(R.color.primarytext_light);
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = getContext().getTheme();
+        theme.resolveAttribute(android.R.attr.background, typedValue, true);
+        BACKGROUND_COLOR = typedValue.data;
+        theme.resolveAttribute(android.R.attr.textColor, typedValue, true);
+        LEGEND_TEXT_COLOR = DESCRIPTION_COLOR = typedValue.data;
+
         CHART_TEXT_COLOR = getResources().getColor(R.color.secondarytext);
-        LEGEND_TEXT_COLOR = getResources().getColor(R.color.primarytext_light);
         HEARTRATE_COLOR = getResources().getColor(R.color.chart_heartrate);
         HEARTRATE_FILL_COLOR = getResources().getColor(R.color.chart_heartrate_fill);
         AK_ACTIVITY_COLOR = getResources().getColor(R.color.chart_activity_light);
@@ -704,7 +710,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         return (int) ((date.getTime() / 1000));
     }
 
-    public static class DefaultChartsData extends ChartsData{
+    public static class DefaultChartsData extends ChartsData {
         private final CombinedData combinedData;
 
         public DefaultChartsData(CombinedData combinedData) {
