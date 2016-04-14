@@ -1,12 +1,8 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.R;
 
 /**
  * A base activity that supports paging through fragments by swiping.
@@ -21,7 +17,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
  *
  * @see AbstractGBFragment
  */
-public abstract class AbstractGBFragmentActivity extends FragmentActivity {
+public abstract class AbstractGBFragmentActivity extends GBActivity {
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -34,12 +30,6 @@ public abstract class AbstractGBFragmentActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (GBApplication.isDarkThemeEnabled()) {
-            setTheme(R.style.GadgetbridgeThemeDark);
-        } else {
-            setTheme(R.style.GadgetbridgeTheme);
-        }
-
         super.onCreate(savedInstanceState);
 
         // Create the adapter that will return a fragment for each of the three
