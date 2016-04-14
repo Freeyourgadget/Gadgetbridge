@@ -10,7 +10,8 @@
         <ListPreference
             android:defaultValue="default"
             android:key="audio_player"
-            android:title="@string/pref_title_audo_player" />
+            android:title="@string/pref_title_audo_player"
+            android:summary="%s" />
         <ListPreference
             android:key="pref_key_theme"
             android:title="@string/pref_title_theme"
@@ -37,21 +38,24 @@
             android:entries="@array/notification_mode_toggle"
             android:entryValues="@array/notification_mode_values_toggle"
             android:key="notification_mode_calls"
-            android:title="@string/pref_title_notifications_call" />
+            android:title="@string/pref_title_notifications_call"
+            android:summary="%s" />
 
         <ListPreference
             android:defaultValue="when_screen_off"
             android:entries="@array/notification_mode"
             android:entryValues="@array/notification_mode_values"
             android:key="notification_mode_sms"
-            android:title="@string/pref_title_notifications_sms" />
+            android:title="@string/pref_title_notifications_sms"
+            android:summary="%s" />
 
         <ListPreference
             android:defaultValue="when_screen_off"
             android:entries="@array/notification_mode"
             android:entryValues="@array/notification_mode_values"
             android:key="notification_mode_k9mail"
-            android:title="@string/pref_title_notifications_k9mail" />
+            android:title="@string/pref_title_notifications_k9mail"
+            android:summary="%s" />
 
         <ListPreference
             android:defaultValue="when_screen_off"
@@ -146,7 +150,8 @@
             android:entries="@array/gender"
             android:entryValues="@array/gender_values"
             android:key="activity_user_gender"
-            android:title="@string/activity_prefs_gender" />
+            android:title="@string/activity_prefs_gender"
+            android:summary="%s" />
 
         <!--TODO: support localized heights and weights -->
         <EditTextPreference
@@ -198,7 +203,8 @@
                     android:entries="@array/pebble_activitytracker"
                     android:entryValues="@array/pebble_activitytracker_values"
                     android:key="pebble_activitytracker"
-                    android:title="@string/pref_title_pebble_activitytracker" />
+                    android:title="@string/pref_title_pebble_activitytracker"
+                    android:summary="%s" />
             </PreferenceCategory>
             <PreferenceCategory
                 android:key="pref_key_development"

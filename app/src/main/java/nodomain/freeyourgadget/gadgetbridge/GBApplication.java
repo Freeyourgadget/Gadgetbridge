@@ -195,7 +195,7 @@ public class GBApplication extends Application {
     public static void releaseDB() {
         dbLock.unlock();
     }
-    
+
     public static boolean isRunningLollipopOrLater() {
         return VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }

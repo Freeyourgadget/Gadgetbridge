@@ -133,11 +133,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
     @Override
     protected String[] getPreferenceKeysWithSummary() {
         return new String[]{
-                "audio_player",
-                "notification_mode_calls",
-                "notification_mode_sms",
-                "notification_mode_k9mail",
-                "pebble_activitytracker",
                 "pebble_emu_addr",
                 "pebble_emu_port",
                 "pebble_reconnect_attempts",
@@ -159,7 +154,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 "canned_reply_15",
                 "canned_reply_16",
                 PREF_USER_YEAR_OF_BIRTH,
-                PREF_USER_GENDER,
                 PREF_USER_HEIGHT_CM,
                 PREF_USER_WEIGHT_KG,
                 PREF_USER_SLEEP_DURATION,
