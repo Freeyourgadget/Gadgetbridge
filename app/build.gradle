@@ -8,7 +8,7 @@ tasks.withType(Test) { systemProperty 'MiFirmwareDir', System.getProperty('MiFir
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "nodomain.freeyourgadget.gadgetbridge"
