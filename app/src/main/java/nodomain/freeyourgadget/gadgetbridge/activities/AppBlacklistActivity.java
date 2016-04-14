@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.IdentityHashMap;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -59,6 +60,29 @@ public class AppBlacklistActivity extends GBActivity {
         final List<ApplicationInfo> packageList = pm.getInstalledApplications(PackageManager.GET_META_DATA);
         ListView appListView = (ListView) findViewById(R.id.appListView);
 
+        // sort the package list by label and blacklist status
+        final IdentityHashMap<ApplicationInfo, String> nameMap = new IdentityHashMap<>(packageList.size());
+        for (ApplicationInfo ai : packageList) {
+            CharSequence name = pm.getApplicationLabel(ai);
+            if (name == null) {
+                name = ai.packageName;
+            }
+            if (GBApplication.blacklist.contains(ai.packageName)) {
+                // sort blacklisted first by prefixing with a '!'
+                name = "!" + name;
+            }
+            nameMap.put(ai, name.toString());
+        }
+
+        Collections.sort(packageList, new Comparator<ApplicationInfo>() {
+            @Override
+            public int compare(ApplicationInfo ai1, ApplicationInfo ai2) {
+                final String s1 = nameMap.get(ai1);
+                final String s2 = nameMap.get(ai2);
+                return s1.compareTo(s2);
+            }
+        });
+
         final ArrayAdapter<ApplicationInfo> adapter = new ArrayAdapter<ApplicationInfo>(this, R.layout.item_with_checkbox, packageList) {
             @Override
             public View getView(int position, View view, ViewGroup parent) {
@@ -79,22 +103,6 @@ public class AppBlacklistActivity extends GBActivity {
 
                 checkbox.setChecked(GBApplication.blacklist.contains(appInfo.packageName));
 
-                Collections.sort(packageList, new Comparator<ApplicationInfo>() {
-                    @Override
-                    public int compare(ApplicationInfo ai1, ApplicationInfo ai2) {
-                        boolean blacklisted1 = GBApplication.blacklist.contains(ai1.packageName);
-                        boolean blacklisted2 = GBApplication.blacklist.contains(ai2.packageName);
-
-                        if ((blacklisted1 && blacklisted2) || (!blacklisted1 && !blacklisted2)) {
-                            // both blacklisted or both not blacklisted = sort by alphabet
-                            return ai1.packageName.compareTo(ai2.packageName);
-                        } else if (blacklisted1) {
-                            return -1;
-                        } else {
-                            return 1;
-                        }
-                    }
-                });
                 return view;
             }
         };
