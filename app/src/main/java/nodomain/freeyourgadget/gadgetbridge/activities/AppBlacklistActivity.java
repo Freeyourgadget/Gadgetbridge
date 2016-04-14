@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,7 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
 
-public class AppBlacklistActivity extends AppCompatActivity {
+public class AppBlacklistActivity extends GBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(AppBlacklistActivity.class);
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {

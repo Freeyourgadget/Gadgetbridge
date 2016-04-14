@@ -305,4 +305,8 @@ public class GBApplication extends Application {
     public static LimitedQueue getIDSenderLookup() {
         return mIDSenderLookup;
     }
+
+    public static boolean isDarkThemeEnabled() {
+        return false;
+    }
 }

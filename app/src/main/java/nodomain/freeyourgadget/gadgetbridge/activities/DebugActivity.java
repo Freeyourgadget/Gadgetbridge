@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.RemoteInput;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -37,7 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 
-public class DebugActivity extends AppCompatActivity {
+public class DebugActivity extends GBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(DebugActivity.class);
 
     private static final String EXTRA_REPLY = "reply";

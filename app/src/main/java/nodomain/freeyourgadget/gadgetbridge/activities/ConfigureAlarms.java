@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.ListView;
 
@@ -21,7 +20,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_ALARMS;
 
 
-public class ConfigureAlarms extends AppCompatActivity {
+public class ConfigureAlarms extends GBActivity {
 
     private static final int REQ_CONFIGURE_ALARM = 1;
 

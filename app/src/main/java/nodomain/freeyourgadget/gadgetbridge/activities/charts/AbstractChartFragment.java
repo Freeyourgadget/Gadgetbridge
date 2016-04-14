@@ -150,9 +150,9 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
     protected void init() {
         BACKGROUND_COLOR = getResources().getColor(R.color.background_material_light);
-        DESCRIPTION_COLOR = getResources().getColor(R.color.primarytext);
+        DESCRIPTION_COLOR = getResources().getColor(R.color.primarytext_light);
         CHART_TEXT_COLOR = getResources().getColor(R.color.secondarytext);
-        LEGEND_TEXT_COLOR = getResources().getColor(R.color.primarytext);
+        LEGEND_TEXT_COLOR = getResources().getColor(R.color.primarytext_light);
         HEARTRATE_COLOR = getResources().getColor(R.color.chart_heartrate);
         HEARTRATE_FILL_COLOR = getResources().getColor(R.color.chart_heartrate_fill);
         AK_ACTIVITY_COLOR = getResources().getColor(R.color.chart_activity_light);
