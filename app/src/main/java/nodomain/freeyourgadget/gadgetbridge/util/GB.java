@@ -45,7 +45,7 @@ public class GB {
     public static final String DISPLAY_MESSAGE_SEVERITY = "severity";
     public static GBEnvironment environment;
 
-    public static Notification createNotification(String text, Context context) {
+    public static Notification createNotification(String text, boolean connected, Context context) {
         if (env().isLocalTest()) {
             return null;
         }
@@ -59,7 +59,7 @@ public class GB {
         builder.setContentTitle(context.getString(R.string.app_name))
                 .setTicker(text)
                 .setContentText(text)
-                .setSmallIcon(R.drawable.ic_notification)
+                .setSmallIcon(connected ? R.drawable.ic_notification : R.drawable.ic_notification_disconnected)
                 .setContentIntent(pendingIntent)
                 .setOngoing(true);
         if (GBApplication.isRunningLollipopOrLater()) {
@@ -68,8 +68,8 @@ public class GB {
         return builder.build();
     }
 
-    public static void updateNotification(String text, Context context) {
-        Notification notification = createNotification(text, context);
+    public static void updateNotification(String text, boolean connected, Context context) {
+        Notification notification = createNotification(text, connected, context);
         updateNotification(notification, NOTIFICATION_ID, context);
     }
 
