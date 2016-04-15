@@ -117,7 +117,7 @@ public class DeviceCommunicationService extends Service {
                     mGBDevice = device;
                     boolean enableReceivers = mDeviceSupport != null && (mDeviceSupport.useAutoConnect() || mGBDevice.isInitialized());
                     setReceiversEnableState(enableReceivers);
-                    GB.updateNotification(mGBDevice.getName() + " " + mGBDevice.getStateString(), context);
+                    GB.updateNotification(mGBDevice.getName() + " " + mGBDevice.getStateString(), mGBDevice.isInitialized(), context);
                 } else {
                     LOG.error("Got ACTION_DEVICE_CHANGED from unexpected device: " + mGBDevice);
                 }
@@ -387,7 +387,7 @@ public class DeviceCommunicationService extends Service {
 
     private void start() {
         if (!mStarted) {
-            startForeground(GB.NOTIFICATION_ID, GB.createNotification(getString(R.string.gadgetbridge_running), this));
+            startForeground(GB.NOTIFICATION_ID, GB.createNotification(getString(R.string.gadgetbridge_running), false, this));
             mStarted = true;
         }
     }
