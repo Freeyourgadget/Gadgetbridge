@@ -22,6 +22,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.Appender;
 import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBConstants;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
@@ -50,6 +52,7 @@ public class GBApplication extends Application {
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
     private static final int CURRENT_PREFS_VERSION = 2;
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
+    private static Appender<ILoggingEvent> fileLogger;
 
     public static final String ACTION_QUIT
             = "nodomain.freeyourgadget.gadgetbridge.gbapplication.action.quit";
@@ -86,7 +89,7 @@ public class GBApplication extends Application {
 
         // don't do anything here before we set up logging, otherwise
         // slf4j may be implicitly initialized before we properly configured it.
-        setupLogging();
+        setupLogging(isFileLoggingEnabled());
 
         if (getPrefsFileVersion() != CURRENT_PREFS_VERSION) {
             migratePrefs(getPrefsFileVersion());
@@ -122,32 +125,68 @@ public class GBApplication extends Application {
         return sharedPrefs.getBoolean("log_to_file", false);
     }
 
-    private void setupLogging() {
-        if (isFileLoggingEnabled()) {
-            try {
+    public static void setupLogging(boolean enable) {
+        try {
+            if (fileLogger == null) {
                 File dir = FileUtils.getExternalFilesDir();
                 // used by assets/logback.xml since the location cannot be statically determined
                 System.setProperty("GB_LOGFILES_DIR", dir.getAbsolutePath());
-                getLogger().info("Gadgetbridge version: " + BuildConfig.VERSION_NAME);
-            } catch (IOException ex) {
-                Log.e("GBApplication", "External files dir not available, cannot log to file", ex);
-                removeFileLogger();
+                rememberFileLogger();
             }
-        } else {
-            removeFileLogger();
+            if (enable) {
+                startFileLogger();
+            } else {
+                stopFileLogger();
+            }
+            getLogger().info("Gadgetbridge version: " + BuildConfig.VERSION_NAME);
+        } catch (IOException ex) {
+            Log.e("GBApplication", "External files dir not available, cannot log to file", ex);
+            stopFileLogger();
         }
     }
 
-    private void removeFileLogger() {
+    private static void startFileLogger() {
+        if (fileLogger != null && !fileLogger.isStarted()) {
+            addFileLogger(fileLogger);
+            fileLogger.start();
+        }
+    }
+
+    private static void stopFileLogger() {
+        if (fileLogger != null && fileLogger.isStarted()) {
+            fileLogger.stop();
+            removeFileLogger(fileLogger);
+        }
+    }
+
+    private static void rememberFileLogger() {
+        ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+        fileLogger = root.getAppender("FILE");
+    }
+
+    private static void addFileLogger(Appender<ILoggingEvent> fileLogger) {
         try {
             ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-            root.detachAppender("FILE");
+            if (!root.isAttached(fileLogger)) {
+                root.addAppender(fileLogger);
+            }
         } catch (Throwable ex) {
             Log.e("GBApplication", "Error removing logger FILE appender", ex);
         }
     }
 
-    private Logger getLogger() {
+    private static void removeFileLogger(Appender<ILoggingEvent> fileLogger) {
+        try {
+            ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+            if (root.isAttached(fileLogger)) {
+                root.detachAppender(fileLogger);
+            }
+        } catch (Throwable ex) {
+            Log.e("GBApplication", "Error removing logger FILE appender", ex);
+        }
+    }
+
+    private static Logger getLogger() {
         return LoggerFactory.getLogger(GBApplication.class);
     }
 

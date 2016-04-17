@@ -108,7 +108,7 @@
   <string name="miband_prefs_alias">Nom/Pseudo</string>
   <string name="pref_header_vibration_count">Nombre de vibrations</string>
   <string name="title_activity_sleepmonitor">Moniteur de sommeil</string>
-  <string name="pref_write_logfiles">Écrire les fichiers journaux (redémarrage requis)</string>
+  <string name="pref_write_logfiles">Écrire les fichiers journaux</string>
   <string name="initializing">Initialisation</string>
   <string name="busy_task_fetch_activity_data">Récupération des données d\'activité</string>
   <string name="sleep_activity_date_range">De %1$s à %2$s</string>

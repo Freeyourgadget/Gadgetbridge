@@ -83,7 +83,7 @@
   <string name="candidate_item_device_image">Ảnh thiết bị</string>
   <string name="miband_prefs_alias">Tên/Bí danh</string>
   <string name="title_activity_sleepmonitor">Trình giám sát giấc ngủ</string>
-  <string name="pref_write_logfiles">Ghi tập tin nhật ký (cần khởi động lại)</string>
+  <string name="pref_write_logfiles">Ghi tập tin nhật ký</string>
   <string name="initializing">đang khởi chạy</string>
   <string name="sleep_activity_date_range">Từ %1$s đến %2$s</string>
   <string name="miband_prefs_wearside">Đeo bên trái hay phải?</string>

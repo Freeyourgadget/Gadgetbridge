@@ -108,7 +108,7 @@
   <string name="miband_prefs_alias">名前/別名</string>
   <string name="pref_header_vibration_count">バイブレーション回数</string>
   <string name="title_activity_sleepmonitor">睡眠観測</string>
-  <string name="pref_write_logfiles">ログファイルを出力 (再起動が必要)</string>
+  <string name="pref_write_logfiles">ログファイルを出力</string>
   <string name="initializing">初期化中</string>
   <string name="busy_task_fetch_activity_data">活動データを取得中</string>
   <string name="sleep_activity_date_range">%1$sから%2$sまで</string>

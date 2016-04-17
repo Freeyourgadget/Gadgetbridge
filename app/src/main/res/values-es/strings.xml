@@ -107,7 +107,7 @@
   <string name="miband_prefs_alias">Nombre/Apodo</string>
   <string name="pref_header_vibration_count">Número de vibraciones</string>
   <string name="title_activity_sleepmonitor">Monitor de sueño</string>
-  <string name="pref_write_logfiles">Guardar logs (requiere reiniciar)</string>
+  <string name="pref_write_logfiles">Guardar logs</string>
   <string name="initializing">iniciando</string>
   <string name="busy_task_fetch_activity_data">Recuperando datos de actividad</string>
   <string name="sleep_activity_date_range">Desde %1$s a %2$s</string>

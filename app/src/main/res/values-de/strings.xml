@@ -108,7 +108,7 @@
   <string name="miband_prefs_alias">Name/Alias</string>
   <string name="pref_header_vibration_count">Anzahl der Vibrationen</string>
   <string name="title_activity_sleepmonitor">Schlafmonitor</string>
-  <string name="pref_write_logfiles">Log-Dateien schreiben (Neustart erforderlich)</string>
+  <string name="pref_write_logfiles">Log-Dateien schreiben</string>
   <string name="initializing">initialisiere</string>
   <string name="busy_task_fetch_activity_data">Hole Aktivitätsdaten</string>
   <string name="sleep_activity_date_range">Von %1$s bis %2$s</string>

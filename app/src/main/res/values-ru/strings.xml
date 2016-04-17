@@ -106,7 +106,7 @@
   <string name="miband_prefs_alias">Имя/псевдоним</string>
   <string name="pref_header_vibration_count">Количество вибраций</string>
   <string name="title_activity_sleepmonitor">Анализ сна</string>
-  <string name="pref_write_logfiles">Записывать  файлы журнала (нужен перезапуск)</string>
+  <string name="pref_write_logfiles">Записывать  файлы журнала</string>
   <string name="initializing">Инициализация</string>
   <string name="busy_task_fetch_activity_data">Получение данных активности</string>
   <string name="sleep_activity_date_range">От %1$s до %2$s</string>

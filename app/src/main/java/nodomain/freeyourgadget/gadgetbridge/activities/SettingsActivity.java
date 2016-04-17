@@ -12,6 +12,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
@@ -88,16 +89,18 @@ public class SettingsActivity extends AbstractSettingsActivity {
         pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newVal) {
-                if (Boolean.TRUE.equals(newVal)) {
-                    try {
+                boolean doEnable = Boolean.TRUE.equals(newVal);
+                try {
+                    if (doEnable) {
                         FileUtils.getExternalFilesDir(); // ensures that it is created
-                    } catch (IOException ex) {
-                        GB.toast(getApplicationContext(),
-                                getString(R.string.error_creating_directory_for_logfiles, ex.getLocalizedMessage()),
-                                Toast.LENGTH_LONG,
-                                GB.ERROR,
-                                ex);
                     }
+                    GBApplication.setupLogging(doEnable);
+                } catch (IOException ex) {
+                    GB.toast(getApplicationContext(),
+                            getString(R.string.error_creating_directory_for_logfiles, ex.getLocalizedMessage()),
+                            Toast.LENGTH_LONG,
+                            GB.ERROR,
+                            ex);
                 }
                 return true;
             }
