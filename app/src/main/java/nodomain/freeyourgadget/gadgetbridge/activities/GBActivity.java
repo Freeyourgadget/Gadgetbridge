@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 
 
 public class GBActivity extends AppCompatActivity {
@@ -18,5 +19,9 @@ public class GBActivity extends AppCompatActivity {
         }
 
         super.onCreate(savedInstanceState);
+    }
+
+    protected DaoSession getDAOSession() {
+        return GBApplication.getDaoSession();
     }
 }

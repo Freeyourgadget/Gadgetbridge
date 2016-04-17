@@ -38,7 +38,8 @@ public class GBDaoGenerator {
         Entity deviceAttributes = addDeviceAttributes(schema);
         Entity device = addDevice(schema, deviceAttributes);
 
-        addActivitySample(schema, user, device);
+        addMiBandActivitySample(schema, user, device);
+        addPebbleActivitySample(schema, user, device);
 
         new DaoGenerator().generateAll(schema, "app/src/main/java");
     }
@@ -93,20 +94,31 @@ public class GBDaoGenerator {
         return deviceAttributes;
     }
 
-    private static Entity addActivitySample(Schema schema, Entity user, Entity device) {
+    private static Entity addMiBandActivitySample(Schema schema, Entity user, Entity device) {
 //        public GBActivitySample(SampleProvider provider, int timestamp, int intensity, int steps, int type, int customValue) {
-        Entity activitySample = schema.addEntity("ActivitySample");
+        Entity activitySample = schema.addEntity("MiBandActivitySample");
+        addCommonAcivitySampleProperties(schema, activitySample, user, device);
+        activitySample.addIntProperty("heartrate");
+        return activitySample;
+    }
+
+    private static Entity addPebbleActivitySample(Schema schema, Entity user, Entity device) {
+//        public GBActivitySample(SampleProvider provider, int timestamp, int intensity, int steps, int type, int customValue) {
+        Entity activitySample = schema.addEntity("PebbleActivitySample");
+        addCommonAcivitySampleProperties(schema, activitySample, user, device);
+//        activitySample.addIntProperty("heartrate").notNull();
+        return activitySample;
+    }
+
+    private static void addCommonAcivitySampleProperties(Schema schema, Entity activitySample, Entity user, Entity device) {
         activitySample.addIdProperty();
         activitySample.addIntProperty("timestamp").notNull();
         activitySample.addIntProperty("intensity").notNull();
         activitySample.addIntProperty("steps").notNull();
         activitySample.addIntProperty("type").notNull();
-        activitySample.addIntProperty("customValue").notNull();
         Property userId = activitySample.addLongProperty("userId").getProperty();
         activitySample.addToOne(user, userId);
         Property deviceId = activitySample.addLongProperty("deviceId").getProperty();
         activitySample.addToOne(device, deviceId);
-
-        return activitySample;
     }
 }
