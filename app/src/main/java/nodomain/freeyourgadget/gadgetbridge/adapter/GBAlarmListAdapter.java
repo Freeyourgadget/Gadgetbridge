@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Set;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
@@ -152,7 +153,7 @@ public class GBAlarmListAdapter extends ArrayAdapter<GBAlarm> {
         if (isOn) {
             view.setTextColor(Color.BLUE);
         } else {
-            view.setTextColor(Color.BLACK);
+            view.setTextColor(GBApplication.getTextColor(mContext));
         }
     }
 }

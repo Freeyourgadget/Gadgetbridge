@@ -4,13 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.TypedValue;
 import android.view.View;
 
 import com.github.mikephil.charting.charts.BarLineChartBase;
@@ -39,6 +37,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBFragment;
 import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
@@ -151,13 +150,8 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     protected void init() {
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = getContext().getTheme();
-        theme.resolveAttribute(android.R.attr.background, typedValue, true);
-        BACKGROUND_COLOR = typedValue.data;
-        theme.resolveAttribute(android.R.attr.textColor, typedValue, true);
-        LEGEND_TEXT_COLOR = DESCRIPTION_COLOR = typedValue.data;
-
+        BACKGROUND_COLOR = GBApplication.getBackgroundColor(getContext());
+        LEGEND_TEXT_COLOR = DESCRIPTION_COLOR = GBApplication.getTextColor(getContext());
         CHART_TEXT_COLOR = getResources().getColor(R.color.secondarytext);
         HEARTRATE_COLOR = getResources().getColor(R.color.chart_heartrate);
         HEARTRATE_FILL_COLOR = getResources().getColor(R.color.chart_heartrate_fill);

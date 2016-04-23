@@ -6,11 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Build.VERSION;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.util.TypedValue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -344,4 +347,18 @@ public class GBApplication extends Application {
     public static boolean isDarkThemeEnabled() {
         return sharedPrefs.getString("pref_key_theme", context.getString(R.string.pref_theme_value_light)).equals(context.getString(R.string.pref_theme_value_dark));
     }
+
+    public static int getTextColor(Context context) {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(android.R.attr.textColor, typedValue, true);
+        return typedValue.data;
+    }
+    public static int getBackgroundColor(Context context) {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(android.R.attr.background, typedValue, true);
+        return typedValue.data;
+    }
+
 }
