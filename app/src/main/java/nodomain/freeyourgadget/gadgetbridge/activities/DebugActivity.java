@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.RemoteInput;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +30,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
@@ -63,15 +65,22 @@ public class DebugActivity extends GBActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (intent.getAction()) {
-                case GBApplication.ACTION_QUIT:
+                case GBApplication.ACTION_QUIT: {
                     finish();
                     break;
-                case ACTION_REPLY:
+                }
+                case ACTION_REPLY: {
                     Bundle remoteInput = RemoteInput.getResultsFromIntent(intent);
                     CharSequence reply = remoteInput.getCharSequence(EXTRA_REPLY);
                     LOG.info("got wearable reply: " + reply);
                     GB.toast(context, "got wearable reply: " + reply, Toast.LENGTH_SHORT, GB.INFO);
                     break;
+                }
+                case DeviceService.ACTION_HEARTRATE_MEASUREMENT: {
+                    int hrValue = intent.getIntExtra(DeviceService.EXTRA_HEART_RATE_VALUE, -1);
+                    GB.toast(DebugActivity.this, "Heart Rate measured: " + hrValue, Toast.LENGTH_LONG, GB.INFO);
+                    break;
+                }
             }
         }
     };
@@ -84,7 +93,9 @@ public class DebugActivity extends GBActivity {
         IntentFilter filter = new IntentFilter();
         filter.addAction(GBApplication.ACTION_QUIT);
         filter.addAction(ACTION_REPLY);
-        registerReceiver(mReceiver, filter);
+        filter.addAction(DeviceService.ACTION_HEARTRATE_MEASUREMENT);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
+        registerReceiver(mReceiver, filter); // for ACTION_REPLY
 
         editContent = (EditText) findViewById(R.id.editContent);
         sendSMSButton = (Button) findViewById(R.id.sendSMSButton);
@@ -348,6 +359,7 @@ public class DebugActivity extends GBActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
         unregisterReceiver(mReceiver);
     }
 
