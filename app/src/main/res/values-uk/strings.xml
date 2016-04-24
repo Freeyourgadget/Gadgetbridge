@@ -67,7 +67,7 @@
   <string name="this_is_a_test_notification_from_gadgetbridge">Це тестове сповіщення від Gadgetbridge</string>
   <string name="bluetooth_is_not_supported_">Bluetooth не підтримується.</string>
   <string name="bluetooth_is_disabled_">Bluetooth вимкнуто.</string>
-  <string name="tap_connected_device_for_app_mananger">натисніть на під\'єднаний пристрій для App Mananger</string>
+  <string name="tap_connected_device_for_app_mananger">натисніть на під\'єднаний пристрій для App Manager</string>
   <string name="tap_a_device_to_connect">натисніть на пристрій для з\'єднання</string>
   <string name="cannot_connect_bt_address_invalid_">Не вдалося з\'єднатися. Можливо помилкова адреса BT?</string>
   <string name="gadgetbridge_running">Gadgetbridge запущено</string>
