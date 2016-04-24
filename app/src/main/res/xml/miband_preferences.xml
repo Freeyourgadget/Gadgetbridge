@@ -79,7 +79,7 @@
                 android:defaultValue="60"
                 android:inputType="number"
                 android:key="mi_vibration_count_incoming_call"
-                android:maxLength="1"
+                android:maxLength="2"
                 android:title="@string/pref_title_notifications_repetitions" />
         </PreferenceScreen>
 
