@@ -70,7 +70,7 @@
   <string name="this_is_a_test_notification_from_gadgetbridge">Dies ist eine Test Benachrichtigung von Gadgetbridge</string>
   <string name="bluetooth_is_not_supported_">Bluetooth wird nicht unterstützt.</string>
   <string name="bluetooth_is_disabled_">Bluetooth ist abgeschaltet.</string>
-  <string name="tap_connected_device_for_app_mananger">berühre das verbundene Gerät, um den App Mananger zu starten</string>
+  <string name="tap_connected_device_for_app_mananger">berühre das verbundene Gerät, um den App Manager zu starten</string>
   <string name="tap_a_device_to_connect">berühre ein Gerät zum Verbinden</string>
   <string name="cannot_connect_bt_address_invalid_">Verbindung kann nicht aufgebaut werden. BT Adresse ungültig?</string>
   <string name="gadgetbridge_running">Gadgetbridge läuft</string>
@@ -102,7 +102,7 @@
   <string name="miband_pairing_using_dummy_userdata">Keine gültigen Benutzerinformationen angegeben, verwende Dummy-Daten für\'s Erste.</string>
   <string name="miband_pairing_tap_hint">Wenn Dein Mi Band vibriert und blinkt, tippe ein paar Mal schnell hintereinander darauf.</string>
   <string name="appinstaller_install">Installieren</string>
-  <string name="discovery_connected_devices_hint">Mach Dein Gerät auffindbar. Derzeit verbundene Geräte sind in der Regel nicht auffindbar.</string>
+  <string name="discovery_connected_devices_hint">Mach Dein Gerät auffindbar. Derzeit verbundene Geräte sind in der Regel nicht auffindbar. Wenn Dein Gerät nach zwei Minuten nicht angezeigt wird, versuche es nach einem Neustart Deines Telefons noch einmal. </string>
   <string name="discovery_note">Tipp:</string>
   <string name="candidate_item_device_image">Bild des Geräts</string>
   <string name="miband_prefs_alias">Name/Alias</string>
