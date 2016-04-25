@@ -6,11 +6,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.IBinder;
-import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
@@ -39,6 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_APP_CONFIGURE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CALLSTATE;
@@ -170,7 +169,7 @@ public class DeviceCommunicationService extends Service {
 
         // when we get past this, we should have valid mDeviceSupport and mGBDevice instances
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Prefs prefs = GBApplication.getPrefs();
         switch (action) {
             case ACTION_START:
                 start();
@@ -181,8 +180,8 @@ public class DeviceCommunicationService extends Service {
                 String btDeviceAddress = null;
                 if (gbDevice == null) {
                     btDeviceAddress = intent.getStringExtra(EXTRA_DEVICE_ADDRESS);
-                    if (btDeviceAddress == null && sharedPrefs != null) { // may be null in test cases
-                        btDeviceAddress = sharedPrefs.getString("last_device_address", null);
+                    if (btDeviceAddress == null && prefs != null) { // may be null in test cases
+                        btDeviceAddress = prefs.getString("last_device_address", null);
                     }
                     if (btDeviceAddress != null) {
                         gbDevice = DeviceHelper.getInstance().findAvailableDevice(btDeviceAddress, this);
@@ -191,8 +190,8 @@ public class DeviceCommunicationService extends Service {
                     btDeviceAddress = gbDevice.getAddress();
                 }
 
-                if (sharedPrefs != null) {
-                    sharedPrefs.edit().putString("last_device_address", btDeviceAddress).apply();
+                if (prefs != null) {
+                    prefs.getPreferences().edit().putString("last_device_address", btDeviceAddress).apply();
                 }
 
                 if (gbDevice != null && !isConnecting() && !isConnected()) {
@@ -241,12 +240,12 @@ public class DeviceCommunicationService extends Service {
                 if (((notificationSpec.flags & NotificationSpec.FLAG_WEARABLE_REPLY) > 0)
                         || (notificationSpec.type == NotificationType.SMS && notificationSpec.phoneNumber != null)) {
                     // NOTE: maybe not where it belongs
-                    if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
+                    if (prefs.getBoolean("pebble_force_untested", false)) {
                         // I would rather like to save that as an array in ShadredPreferences
                         // this would work but I dont know how to do the same in the Settings Activity's xml
                         ArrayList<String> replies = new ArrayList<>();
                         for (int i = 1; i <= 16; i++) {
-                            String reply = sharedPrefs.getString("canned_reply_" + i, null);
+                            String reply = prefs.getString("canned_reply_" + i, null);
                             if (reply != null && !reply.equals("")) {
                                 replies.add(reply);
                             }

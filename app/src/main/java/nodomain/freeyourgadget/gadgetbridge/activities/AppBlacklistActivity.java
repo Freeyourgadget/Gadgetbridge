@@ -4,11 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
@@ -47,7 +45,6 @@ public class AppBlacklistActivity extends GBActivity {
         }
     };
 
-    private SharedPreferences sharedPrefs;
     private IdentityHashMap<ApplicationInfo, String> nameMap;
 
     @Override
@@ -56,7 +53,6 @@ public class AppBlacklistActivity extends GBActivity {
         setContentView(R.layout.activity_appblacklist);
 
         final PackageManager pm = getPackageManager();
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         final List<ApplicationInfo> packageList = pm.getInstalledApplications(PackageManager.GET_META_DATA);
         ListView appListView = (ListView) findViewById(R.id.appListView);

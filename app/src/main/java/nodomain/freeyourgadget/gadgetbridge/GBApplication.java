@@ -36,6 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 //import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
 
@@ -56,6 +57,7 @@ public class GBApplication extends Application {
     private static final int CURRENT_PREFS_VERSION = 2;
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
     private static Appender<ILoggingEvent> fileLogger;
+    private static Prefs prefs;
 
     public static final String ACTION_QUIT
             = "nodomain.freeyourgadget.gadgetbridge.gbapplication.action.quit";
@@ -89,6 +91,7 @@ public class GBApplication extends Application {
         super.onCreate();
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefs = new Prefs(sharedPrefs);
 
         // don't do anything here before we set up logging, otherwise
         // slf4j may be implicitly initialized before we properly configured it.
@@ -125,7 +128,7 @@ public class GBApplication extends Application {
     }
 
     public static boolean isFileLoggingEnabled() {
-        return sharedPrefs.getBoolean("log_to_file", false);
+        return prefs.getBoolean("log_to_file", false);
     }
 
     public static void setupLogging(boolean enable) {
@@ -345,7 +348,7 @@ public class GBApplication extends Application {
     }
 
     public static boolean isDarkThemeEnabled() {
-        return sharedPrefs.getString("pref_key_theme", context.getString(R.string.pref_theme_value_light)).equals(context.getString(R.string.pref_theme_value_dark));
+        return prefs.getString("pref_key_theme", context.getString(R.string.pref_theme_value_light)).equals(context.getString(R.string.pref_theme_value_dark));
     }
 
     public static int getTextColor(Context context) {
@@ -361,4 +364,7 @@ public class GBApplication extends Application {
         return typedValue.data;
     }
 
+    public static Prefs getPrefs() {
+        return prefs;
+    }
 }

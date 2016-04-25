@@ -12,17 +12,17 @@ import android.telephony.SmsMessage;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class SMSReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        if ("never".equals(sharedPrefs.getString("notification_mode_sms", "when_screen_off"))) {
+        Prefs prefs = GBApplication.getPrefs();
+        if ("never".equals(prefs.getString("notification_mode_sms", "when_screen_off"))) {
             return;
         }
-        if ("when_screen_off".equals(sharedPrefs.getString("notification_mode_sms", "when_screen_off"))) {
+        if ("when_screen_off".equals(prefs.getString("notification_mode_sms", "when_screen_off"))) {
             PowerManager powermanager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             if (powermanager.isScreenOn()) {
                 return;

@@ -16,6 +16,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBAlarmListAdapter;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_ALARMS;
 
@@ -34,12 +35,12 @@ public class ConfigureAlarms extends GBActivity {
 
         setContentView(R.layout.activity_configure_alarms);
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        preferencesAlarmListSet = sharedPrefs.getStringSet(PREF_MIBAND_ALARMS, new HashSet<String>());
+        Prefs prefs = GBApplication.getPrefs();
+        preferencesAlarmListSet = prefs.getStringSet(PREF_MIBAND_ALARMS, new HashSet<String>());
         if (preferencesAlarmListSet.isEmpty()) {
             //initialize the preferences
             preferencesAlarmListSet = new HashSet<>(Arrays.asList(GBAlarm.DEFAULT_ALARMS));
-            sharedPrefs.edit().putStringSet(PREF_MIBAND_ALARMS, preferencesAlarmListSet).apply();
+            prefs.getPreferences().edit().putStringSet(PREF_MIBAND_ALARMS, preferencesAlarmListSet).apply();
         }
 
         mGBAlarmListAdapter = new GBAlarmListAdapter(this, preferencesAlarmListSet);
@@ -66,9 +67,9 @@ public class ConfigureAlarms extends GBActivity {
     }
 
     private void updateAlarmsFromPrefs() {
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        preferencesAlarmListSet = sharedPrefs.getStringSet(PREF_MIBAND_ALARMS, new HashSet<String>());
-        int reservedSlots = Integer.parseInt(sharedPrefs.getString(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, "0"));
+        Prefs prefs = GBApplication.getPrefs();
+        preferencesAlarmListSet = prefs.getStringSet(PREF_MIBAND_ALARMS, new HashSet<String>());
+        int reservedSlots = Integer.parseInt(prefs.getString(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, "0"));
 
         mGBAlarmListAdapter.setAlarmList(preferencesAlarmListSet, reservedSlots);
         mGBAlarmListAdapter.notifyDataSetChanged();

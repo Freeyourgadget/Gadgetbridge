@@ -9,6 +9,7 @@ import android.telephony.TelephonyManager;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 
 public class PhoneCallReceiver extends BroadcastReceiver {
@@ -64,8 +65,8 @@ public class PhoneCallReceiver extends BroadcastReceiver {
                 break;
         }
         if (callCommand != CallSpec.CALL_UNDEFINED) {
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-            if ("never".equals(sharedPrefs.getString("notification_mode_calls", "always"))) {
+            Prefs prefs = GBApplication.getPrefs();
+            if ("never".equals(prefs.getString("notification_mode_calls", "always"))) {
                 return;
             }
             CallSpec callSpec = new CallSpec();

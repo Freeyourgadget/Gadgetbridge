@@ -14,8 +14,10 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class PebbleContentProvider extends ContentProvider {
 
@@ -59,8 +61,8 @@ public class PebbleContentProvider extends ContentProvider {
             MatrixCursor mc = new MatrixCursor(columnNames);
             int connected = 0;
             int appMessage = 0;
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-            if (sharedPrefs.getBoolean("pebble_enable_pebblekit", false)) {
+            Prefs prefs = GBApplication.getPrefs();
+            if (prefs.getBoolean("pebble_enable_pebblekit", false)) {
                 appMessage = 1;
             }
             if (mGBDevice != null && mGBDevice.getType() == DeviceType.PEBBLE && mGBDevice.isInitialized()) {

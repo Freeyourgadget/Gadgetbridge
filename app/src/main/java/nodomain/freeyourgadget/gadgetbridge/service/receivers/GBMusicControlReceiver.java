@@ -12,7 +12,9 @@ import android.view.KeyEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class GBMusicControlReceiver extends BroadcastReceiver {
     private static final Logger LOG = LoggerFactory.getLogger(GBMusicControlReceiver.class);
@@ -53,8 +55,8 @@ public class GBMusicControlReceiver extends BroadcastReceiver {
         }
 
         if (keyCode != -1) {
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-            String audioPlayer = sharedPrefs.getString("audio_player", "default");
+            Prefs prefs = GBApplication.getPrefs();
+            String audioPlayer = prefs.getString("audio_player", "default");
 
             long eventtime = SystemClock.uptimeMillis();
 

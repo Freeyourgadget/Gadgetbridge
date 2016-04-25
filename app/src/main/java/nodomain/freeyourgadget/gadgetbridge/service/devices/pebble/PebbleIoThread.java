@@ -8,10 +8,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.ParcelUuid;
-import android.preference.PreferenceManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +27,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
@@ -44,6 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class PebbleIoThread extends GBDeviceIoThread {
     private static final Logger LOG = LoggerFactory.getLogger(PebbleIoThread.class);
@@ -62,7 +62,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
     public static final String PEBBLEKIT_ACTION_APP_START = "com.getpebble.action.app.START";
     public static final String PEBBLEKIT_ACTION_APP_STOP = "com.getpebble.action.app.STOP";
 
-    final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+    final Prefs prefs = GBApplication.getPrefs();
 
     private final PebbleProtocol mPebbleProtocol;
     private final PebbleSupport mPebbleSupport;
@@ -160,7 +160,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
         mPebbleProtocol = (PebbleProtocol) gbDeviceProtocol;
         mBtAdapter = btAdapter;
         mPebbleSupport = pebbleSupport;
-        mEnablePebblekit = sharedPrefs.getBoolean("pebble_enable_pebblekit", false);
+        mEnablePebblekit = prefs.getBoolean("pebble_enable_pebblekit", false);
     }
 
     @Override
@@ -199,7 +199,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
             return false;
         }
 
-        mPebbleProtocol.setForceProtocol(sharedPrefs.getBoolean("pebble_force_protocol", false));
+        mPebbleProtocol.setForceProtocol(prefs.getBoolean("pebble_force_protocol", false));
 
         mIsConnected = true;
         if (originalState == GBDevice.State.WAITING_FOR_RECONNECT) {
@@ -364,7 +364,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 if (e.getMessage().contains("socket closed")) { //FIXME: this does not feel right
                     LOG.info(e.getMessage());
                     mIsConnected = false;
-                    int reconnectAttempts = Integer.valueOf(sharedPrefs.getString("pebble_reconnect_attempts", "10"));
+                    int reconnectAttempts = Integer.valueOf(prefs.getString("pebble_reconnect_attempts", "10"));
                     if (reconnectAttempts > 0) {
                         gbDevice.setState(GBDevice.State.CONNECTING);
                         gbDevice.sendDeviceUpdateIntent(getContext());
@@ -480,7 +480,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
     private boolean evaluateGBDeviceEventPebble(GBDeviceEvent deviceEvent) {
 
         if (deviceEvent instanceof GBDeviceEventVersionInfo) {
-            if (sharedPrefs.getBoolean("datetime_synconconnect", true)) {
+            if (prefs.getBoolean("datetime_synconconnect", true)) {
                 LOG.info("syncing time");
                 write(mPebbleProtocol.encodeSetTime());
             }

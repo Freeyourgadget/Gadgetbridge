@@ -26,6 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.DiscoveryActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class MiBandPairingActivity extends Activity {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandPairingActivity.class);
@@ -170,8 +171,8 @@ public class MiBandPairingActivity extends Activity {
         unregisterReceiver(mBondingReceiver);
 
         if (pairedSuccessfully) {
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-            sharedPrefs.edit().putString(MiBandConst.PREF_MIBAND_ADDRESS, macAddress).apply();
+            Prefs prefs = GBApplication.getPrefs();
+            prefs.getPreferences().edit().putString(MiBandConst.PREF_MIBAND_ADDRESS, macAddress).apply();
         }
 
         Intent intent = new Intent(this, ControlCenter.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

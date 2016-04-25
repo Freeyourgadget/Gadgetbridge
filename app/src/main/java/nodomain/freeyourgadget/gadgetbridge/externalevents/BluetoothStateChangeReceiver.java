@@ -10,6 +10,7 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class BluetoothStateChangeReceiver extends BroadcastReceiver {
     @Override
@@ -22,8 +23,8 @@ public class BluetoothStateChangeReceiver extends BroadcastReceiver {
                 Intent refreshIntent = new Intent(ControlCenter.ACTION_REFRESH_DEVICELIST);
                 LocalBroadcastManager.getInstance(context).sendBroadcast(refreshIntent);
 
-                SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-                if (!sharedPrefs.getBoolean("general_autoconnectonbluetooth", false)) {
+                Prefs prefs = GBApplication.getPrefs();
+                if (!prefs.getBoolean("general_autoconnectonbluetooth", false)) {
                     return;
                 }
 

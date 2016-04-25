@@ -46,6 +46,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class ControlCenter extends GBActivity {
 
@@ -184,9 +185,9 @@ public class ControlCenter extends GBActivity {
         /*
          * Ask for permission to intercept notifications on first run.
          */
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (sharedPrefs.getBoolean("firstrun", true)) {
-            sharedPrefs.edit().putBoolean("firstrun", false).apply();
+        Prefs prefs = GBApplication.getPrefs();
+        if (prefs.getBoolean("firstrun", true)) {
+            prefs.getPreferences().edit().putBoolean("firstrun", false).apply();
             Intent enableIntent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
             startActivity(enableIntent);
         }
