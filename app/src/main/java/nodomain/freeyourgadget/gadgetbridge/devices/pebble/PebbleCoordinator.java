@@ -2,9 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.AppManagerActivity;
@@ -47,7 +45,7 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     @Override
     public SampleProvider getSampleProvider() {
         Prefs prefs = GBApplication.getPrefs();
-        int activityTracker = Integer.parseInt(prefs.getString("pebble_activitytracker", Integer.toString(SampleProvider.PROVIDER_PEBBLE_HEALTH)));
+        int activityTracker = prefs.getInt("pebble_activitytracker", SampleProvider.PROVIDER_PEBBLE_HEALTH);
         switch (activityTracker) {
             case SampleProvider.PROVIDER_PEBBLE_HEALTH:
                 return new HealthSampleProvider();

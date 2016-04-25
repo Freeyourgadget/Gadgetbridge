@@ -364,7 +364,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 if (e.getMessage().contains("socket closed")) { //FIXME: this does not feel right
                     LOG.info(e.getMessage());
                     mIsConnected = false;
-                    int reconnectAttempts = Integer.valueOf(prefs.getString("pebble_reconnect_attempts", "10"));
+                    int reconnectAttempts = prefs.getInt("pebble_reconnect_attempts", 10);
                     if (reconnectAttempts > 0) {
                         gbDevice.setState(GBDevice.State.CONNECTING);
                         gbDevice.sendDeviceUpdateIntent(getContext());

@@ -69,7 +69,7 @@ public class ConfigureAlarms extends GBActivity {
     private void updateAlarmsFromPrefs() {
         Prefs prefs = GBApplication.getPrefs();
         preferencesAlarmListSet = prefs.getStringSet(PREF_MIBAND_ALARMS, new HashSet<String>());
-        int reservedSlots = Integer.parseInt(prefs.getString(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, "0"));
+        int reservedSlots = prefs.getInt(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, 0);
 
         mGBAlarmListAdapter.setAlarmList(preferencesAlarmListSet, reservedSlots);
         mGBAlarmListAdapter.notifyDataSetChanged();

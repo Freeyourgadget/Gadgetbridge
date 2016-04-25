@@ -6,11 +6,9 @@ import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.SmsManager;
 
@@ -44,6 +42,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBCallControlReceiver;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBMusicControlReceiver;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 // TODO: support option for a single reminder notification when notifications could not be delivered?
 // conditions: app was running and received notifications, but device was not connected.
@@ -247,8 +246,8 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             Intent notificationListenerIntent = new Intent(action);
             notificationListenerIntent.putExtra("handle", deviceEvent.handle);
             if (deviceEvent.reply != null) {
-                SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
-                String suffix = sharedPrefs.getString("canned_reply_suffix", null);
+                Prefs prefs = GBApplication.getPrefs();
+                String suffix = prefs.getString("canned_reply_suffix", null);
                 if (suffix != null && !Objects.equals(suffix, "")) {
                     deviceEvent.reply += suffix;
                 }

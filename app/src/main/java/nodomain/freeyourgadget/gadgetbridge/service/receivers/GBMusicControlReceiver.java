@@ -3,10 +3,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.SystemClock;
-import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 
 import org.slf4j.Logger;
