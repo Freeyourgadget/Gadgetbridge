@@ -35,6 +35,14 @@ public class Prefs {
         return value;
     }
 
+    /**
+     * Returns the preference saved under the given key as an integer value.
+     * Note that it is irrelevant whether the preference value was actually
+     * saved as an integer value or a string value.
+     * @param key the preference key
+     * @param defaultValue the default value to return if the preference value is unset
+     * @return the saved preference value or the given defaultValue
+     */
     public int getInt(String key, int defaultValue) {
         try {
             return preferences.getInt(key, defaultValue);
@@ -52,6 +60,14 @@ public class Prefs {
         }
     }
 
+    /**
+     * Returns the preference saved under the given key as a long value.
+     * Note that it is irrelevant whether the preference value was actually
+     * saved as a long value or a string value.
+     * @param key the preference key
+     * @param defaultValue the default value to return if the preference value is unset
+     * @return the saved preference value or the given defaultValue
+     */
     public long getLong(String key, long defaultValue) {
         try {
             return preferences.getLong(key, defaultValue);
@@ -69,6 +85,14 @@ public class Prefs {
         }
     }
 
+    /**
+     * Returns the preference saved under the given key as a float value.
+     * Note that it is irrelevant whether the preference value was actually
+     * saved as a float value or a string value.
+     * @param key the preference key
+     * @param defaultValue the default value to return if the preference value is unset
+     * @return the saved preference value or the given defaultValue
+     */
     public float getFloat(String key, float defaultValue) {
         try {
             return preferences.getFloat(key, defaultValue);
@@ -86,6 +110,14 @@ public class Prefs {
         }
     }
 
+    /**
+     * Returns the preference saved under the given key as a boolean value.
+     * Note that it is irrelevant whether the preference value was actually
+     * saved as a boolean value or a string value.
+     * @param key the preference key
+     * @param defaultValue the default value to return if the preference value is unset
+     * @return the saved preference value or the given defaultValue
+     */
     public boolean getBoolean(String key, boolean defaultValue) {
         try {
             return preferences.getBoolean(key, defaultValue);
