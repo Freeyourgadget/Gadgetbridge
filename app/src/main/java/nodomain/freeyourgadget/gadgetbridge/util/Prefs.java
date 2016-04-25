@@ -19,10 +19,6 @@ public class Prefs {
         this.preferences = preferences;
     }
 
-    public SharedPreferences getPreferences() {
-        return preferences;
-    }
-
     public String getString(String key, String defaultValue) {
         String value = preferences.getString(key, defaultValue);
         if (value == null || "".equals(value)) {
@@ -109,5 +105,13 @@ public class Prefs {
 
     private void logReadError(String key, Exception ex) {
         LOG.error("Error reading preference value: " + key + "; returning default value", ex); // log the first exception
+    }
+
+    /**
+     * Access to the underlying SharedPreferences, typically only used for editing values.
+     * @return the underlying SharedPreferences object.
+     */
+    public SharedPreferences getPreferences() {
+        return preferences;
     }
 }
