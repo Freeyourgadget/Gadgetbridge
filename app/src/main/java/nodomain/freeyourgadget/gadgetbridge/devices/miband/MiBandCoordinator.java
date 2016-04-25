@@ -2,9 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

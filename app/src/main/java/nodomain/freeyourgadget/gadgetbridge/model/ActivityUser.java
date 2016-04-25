@@ -1,8 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.model;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
 import java.util.Calendar;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
