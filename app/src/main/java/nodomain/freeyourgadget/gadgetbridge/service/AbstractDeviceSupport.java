@@ -59,6 +59,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     protected GBDevice gbDevice;
     private BluetoothAdapter btAdapter;
     private Context context;
+    private boolean autoReconnect;
 
     public void setContext(GBDevice gbDevice, BluetoothAdapter btAdapter, Context context) {
         this.gbDevice = gbDevice;
@@ -79,6 +80,16 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
      */
     protected boolean isInitialized() {
         return gbDevice.isInitialized();
+    }
+
+    @Override
+    public void setAutoReconnect(boolean enable) {
+        autoReconnect = enable;
+    }
+
+    @Override
+    public boolean getAutoReconnect() {
+        return autoReconnect;
     }
 
     @Override

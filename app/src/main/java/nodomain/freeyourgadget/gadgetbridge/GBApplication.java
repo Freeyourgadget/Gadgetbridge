@@ -34,6 +34,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -57,6 +58,7 @@ public class GBApplication extends Application {
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
     private static Appender<ILoggingEvent> fileLogger;
     private static Prefs prefs;
+    private static GBPrefs gbPrefs;
 
     public static final String ACTION_QUIT
             = "nodomain.freeyourgadget.gadgetbridge.gbapplication.action.quit";
@@ -91,6 +93,7 @@ public class GBApplication extends Application {
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefs = new Prefs(sharedPrefs);
+        gbPrefs = new GBPrefs(prefs);
 
         // don't do anything here before we set up logging, otherwise
         // slf4j may be implicitly initialized before we properly configured it.
@@ -365,5 +368,9 @@ public class GBApplication extends Application {
 
     public static Prefs getPrefs() {
         return prefs;
+    }
+
+    public static GBPrefs getGBPrefs() {
+        return gbPrefs;
     }
 }

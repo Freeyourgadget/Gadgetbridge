@@ -7,6 +7,10 @@
             android:defaultValue="false"
             android:key="general_autoconnectonbluetooth"
             android:title="@string/pref_title_general_autoconnectonbluetooth" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="general_autocreconnect"
+            android:title="@string/pref_title_general_autocreonnect" />
         <ListPreference
             android:defaultValue="default"
             android:key="audio_player"

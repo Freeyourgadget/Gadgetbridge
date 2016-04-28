@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.IBinder;
@@ -37,6 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_APP_CONFIGURE;
@@ -88,7 +90,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOT
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_PERFORM_PAIR;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_URI;
 
-public class DeviceCommunicationService extends Service {
+public class DeviceCommunicationService extends Service implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final Logger LOG = LoggerFactory.getLogger(DeviceCommunicationService.class);
 
     private boolean mStarted = false;
@@ -130,6 +132,9 @@ public class DeviceCommunicationService extends Service {
         super.onCreate();
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED));
         mFactory = new DeviceSupportFactory(this);
+
+        Prefs prefs = GBApplication.getPrefs();
+        prefs.getPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -190,8 +195,10 @@ public class DeviceCommunicationService extends Service {
                     btDeviceAddress = gbDevice.getAddress();
                 }
 
+                boolean autoReconnect = GBPrefs.AUTO_RECONNECT_DEFAULT;
                 if (prefs != null) {
                     prefs.getPreferences().edit().putString("last_device_address", btDeviceAddress).apply();
+                    autoReconnect = prefs.getPreferences().getBoolean(GBPrefs.AUTO_RECONNECT, GBPrefs.AUTO_RECONNECT_DEFAULT);
                 }
 
                 if (gbDevice != null && !isConnecting() && !isConnected()) {
@@ -203,6 +210,7 @@ public class DeviceCommunicationService extends Service {
                             if (pair) {
                                 deviceSupport.pair();
                             } else {
+                                deviceSupport.setAutoReconnect(autoReconnect);
                                 deviceSupport.connect();
                             }
                         } else {
@@ -478,6 +486,8 @@ public class DeviceCommunicationService extends Service {
 
     @Override
     public void onDestroy() {
+        GBApplication.getPrefs().getPreferences().unregisterOnSharedPreferenceChangeListener(this);
+
         LOG.debug("DeviceCommunicationService is being destroyed");
         super.onDestroy();
 
@@ -513,5 +523,15 @@ public class DeviceCommunicationService extends Service {
         }
 
         return name;
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (GBPrefs.AUTO_RECONNECT.equals(key)) {
+            boolean autoReconnect = GBApplication.getGBPrefs().getAutoReconnect();
+            if (mDeviceSupport != null) {
+                mDeviceSupport.setAutoReconnect(autoReconnect);
+            }
+        }
     }
 }

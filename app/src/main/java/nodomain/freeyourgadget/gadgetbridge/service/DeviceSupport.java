@@ -63,6 +63,20 @@ public interface DeviceSupport extends EventHandler {
     boolean useAutoConnect();
 
     /**
+     * Configures this instance to automatically attempt to reconnect after a connection loss.
+     * How, how long, or how often is up to the implementation.
+     * Note that tome implementations may not support automatic reconnection at all.
+     * @param enable
+     */
+    void setAutoReconnect(boolean enable);
+
+    /**
+     * Returns whether this instance to configured to automatically attempt to reconnect after a
+     * connection loss.
+     */
+    boolean getAutoReconnect();
+
+    /**
      * Attempts to pair and connect this device with the gadget device. Success
      * will be reported via a device change Intent.
      *

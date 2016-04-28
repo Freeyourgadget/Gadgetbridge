@@ -34,12 +34,6 @@ public final class BtLEQueue {
     private final GBDevice mGbDevice;
     private final BluetoothAdapter mBluetoothAdapter;
     private BluetoothGatt mBluetoothGatt;
-    /**
-     * When an automatic reconnect was attempted after a connection breakdown (error)
-     */
-    private long lastReconnectTime = System.currentTimeMillis();
-
-    private static final long MIN_MILLIS_BEFORE_RECONNECT = 1000 * 60 * 5; // 5 minutes
 
     private final BlockingQueue<Transaction> mTransactions = new LinkedBlockingQueue<>();
     private volatile boolean mDisposed;
@@ -51,6 +45,7 @@ public final class BtLEQueue {
     private CountDownLatch mConnectionLatch;
     private BluetoothGattCharacteristic mWaitCharacteristic;
     private final InternalGattCallback internalGattCallback;
+    private boolean mAutoReconnect;
 
     private Thread dispatchThread = new Thread("GadgetBridge GATT Dispatcher") {
 
@@ -128,6 +123,10 @@ public final class BtLEQueue {
         mContext = context;
 
         dispatchThread.start();
+    }
+
+    public void setAutoReconnect(boolean enable) {
+        mAutoReconnect = enable;
     }
 
     protected boolean isConnected() {
@@ -222,11 +221,9 @@ public final class BtLEQueue {
      * @return true if a reconnection attempt was made, or false otherwise
      */
     private boolean maybeReconnect() {
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - lastReconnectTime >= MIN_MILLIS_BEFORE_RECONNECT) {
-            LOG.info("Automatic reconnection attempt...");
-            lastReconnectTime = currentTime;
-            return connect();
+        if (mAutoReconnect && mBluetoothGatt != null) {
+            LOG.info("Enabling automatic ble reconnect...");
+            return mBluetoothGatt.connect();
         }
         return false;
     }

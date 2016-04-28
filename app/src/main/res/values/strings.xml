@@ -244,5 +244,6 @@
     <string name="updatefirmwareoperation_firmware_not_sent">Firmware not sent</string>
     <string name="charts_legend_heartrate">Heart Rate</string>
     <string name="live_activity_heart_rate">Heart Rate</string>
+    <string name="pref_title_general_autocreonnect">Reconnect automatically</string>
 
 </resources>
