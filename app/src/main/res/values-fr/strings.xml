@@ -71,7 +71,7 @@
   <string name="bluetooth_is_not_supported_">Le Bluetooth n\'est pas supporté.</string>
   <string name="bluetooth_is_disabled_">Le Bluetooth est désactivé.</string>
   <string name="tap_connected_device_for_app_mananger">Cliquez sur l\'appareil pour le connecter au gestionnaire d\'application</string>
-  <string name="tap_a_device_to_connect">Cliquez sur l\'appareil pour le connecter</string>
+  <string name="tap_a_device_to_connect">Tapotter sur le périphérique pour le connecter.</string>
   <string name="cannot_connect_bt_address_invalid_">Connexion impossible. L’adresse Bluetooth est-elle invalide? </string>
   <string name="gadgetbridge_running">Gadgetbridge est en fonctionnement</string>
   <string name="installing_binary_d_d">Installation du binaire %1$d/%2$d</string>
@@ -102,13 +102,12 @@
   <string name="miband_pairing_using_dummy_userdata">Aucune donnée utilisateur valide fournie,  utilisation de données fictives pour le moment</string>
   <string name="miband_pairing_tap_hint">Quand votre Mi Band vibre et clignote, appuyez dessus plusieurs fois d\'affilée.</string>
   <string name="appinstaller_install">Installer</string>
-  <string name="discovery_connected_devices_hint">Rendez votre appareil découvrable.  Les appareils déjà connectés ne seront pas découverts.</string>
+  <string name="discovery_connected_devices_hint">Rendre votre montre découvrable. Pour l\'instant les appareils connectés ne seront probablement pas découvert. Si votre montre n’apparaît pas après 2 minutes, essayer à nouveau après avoir redémarré.</string>
   <string name="discovery_note">Note:</string>
   <string name="candidate_item_device_image">Image de l\'appareil</string>
   <string name="miband_prefs_alias">Nom/Pseudo</string>
   <string name="pref_header_vibration_count">Nombre de vibrations</string>
   <string name="title_activity_sleepmonitor">Moniteur de sommeil</string>
-  <string name="pref_write_logfiles">Écrire les fichiers journaux (redémarrage requis)</string>
   <string name="initializing">Initialisation</string>
   <string name="busy_task_fetch_activity_data">Récupération des données d\'activité</string>
   <string name="sleep_activity_date_range">De %1$s à %2$s</string>
@@ -197,6 +196,7 @@
   <string name="miband_fwinstaller_incompatible_version">Micrologiciel non compatible</string>
   <string name="fwinstaller_firmware_not_compatible_to_device">Ce micrologiciel n\'est pas compatible avec l\'appareil</string>
   <string name="miband_prefs_reserve_alarm_calendar">Alarmes à réserver pour événements futurs</string>
+  <string name="miband_prefs_hr_sleep_detection">Utiliser le capteur cardiaque pour améliorer la précision du sommeil</string>
   <string name="waiting_for_reconnect">en attente de reconnexion</string>
   <string name="appmananger_app_reinstall">Réinstaller</string>
   <string name="activity_prefs_about_you">A propos de vous</string>
@@ -211,4 +211,14 @@
   <string name="app_configure">Configurer</string>
   <string name="appwidget_text">ZzZz</string>
   <string name="add_widget">Ajouter un widget</string>
+  <string name="activity_prefs_sleep_duration">Préférer le mode heure pendant le sommeil</string>
+  <string name="appwidget_alarms_set">Une alarme a été enregistré pour %1$02d:%2$02d</string>
+  <string name="device_hw">Modèle: %1$s</string>
+  <string name="device_fw">Micrologiciel: %1$s</string>
+  <string name="error_creating_directory_for_logfiles">Erreur à la création de votre fichier log : %1$s</string>
+  <string name="DEVINFO_HR_VER">HR:</string>
+  <string name="updatefirmwareoperation_update_in_progress">Le firmware se met à jour</string>
+  <string name="updatefirmwareoperation_firmware_not_sent">Échec lors de l\'écriture du micrologiciel</string>
+  <string name="charts_legend_heartrate">Rythme cardiaque</string>
+  <string name="live_activity_heart_rate">Rythme cardiaque</string>
 </resources>

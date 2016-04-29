@@ -1,9 +1,9 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
-import android.content.SharedPreferences;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public final class MiBandConst {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandConst.class);
@@ -27,19 +27,12 @@ public final class MiBandConst {
     public static final String MI_1A = "1A";
     public static final String MI_1S = "1S";
 
-    public static int getNotificationPrefIntValue(String pref, String origin, SharedPreferences prefs, int defaultValue) {
+    public static int getNotificationPrefIntValue(String pref, String origin, Prefs prefs, int defaultValue) {
         String key = getNotificationPrefKey(pref, origin);
-        String value = null;
-        try {
-            value = prefs.getString(key, String.valueOf(defaultValue));
-            return Integer.valueOf(value);
-        } catch (NumberFormatException ex) {
-            LOG.error("Error converting preference value to int: " + key + ": " + value);
-            return defaultValue;
-        }
+        return prefs.getInt(key, defaultValue);
     }
 
-    public static String getNotificationPrefStringValue(String pref, String origin, SharedPreferences prefs, String defaultValue) {
+    public static String getNotificationPrefStringValue(String pref, String origin, Prefs prefs, String defaultValue) {
         String key = getNotificationPrefKey(pref, origin);
         return prefs.getString(key, defaultValue);
     }

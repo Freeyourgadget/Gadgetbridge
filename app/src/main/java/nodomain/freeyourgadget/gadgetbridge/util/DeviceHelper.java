@@ -3,8 +3,6 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -12,6 +10,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.UnknownDeviceCoordinator;
@@ -75,8 +74,8 @@ public class DeviceHelper {
                 }
             }
 
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-            String miAddr = sharedPrefs.getString(MiBandConst.PREF_MIBAND_ADDRESS, "");
+            Prefs prefs = GBApplication.getPrefs();
+            String miAddr = prefs.getString(MiBandConst.PREF_MIBAND_ADDRESS, "");
             if (miAddr.length() > 0) {
                 GBDevice miDevice = new GBDevice(miAddr, "MI", DeviceType.MIBAND);
                 if (!availableDevices.contains(miDevice)) {
@@ -84,8 +83,8 @@ public class DeviceHelper {
                 }
             }
 
-            String pebbleEmuAddr = sharedPrefs.getString("pebble_emu_addr", "");
-            String pebbleEmuPort = sharedPrefs.getString("pebble_emu_port", "");
+            String pebbleEmuAddr = prefs.getString("pebble_emu_addr", "");
+            String pebbleEmuPort = prefs.getString("pebble_emu_port", "");
             if (pebbleEmuAddr.length() >= 7 && pebbleEmuPort.length() > 0) {
                 GBDevice pebbleEmuDevice = new GBDevice(pebbleEmuAddr + ":" + pebbleEmuPort, "Pebble qemu", DeviceType.PEBBLE);
                 availableDevices.add(pebbleEmuDevice);

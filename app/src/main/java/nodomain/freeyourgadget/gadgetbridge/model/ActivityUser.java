@@ -1,11 +1,9 @@
 package nodomain.freeyourgadget.gadgetbridge.model;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
 import java.util.Calendar;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 /**
  * Class holding the common user information needed by most activity trackers
@@ -86,11 +84,11 @@ public class ActivityUser {
     }
 
     private void fetchPreferences() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
-        activityUserGender = Integer.parseInt(prefs.getString(PREF_USER_GENDER, Integer.toString(defaultUserGender)));
-        activityUserHeightCm = Integer.parseInt(prefs.getString(PREF_USER_HEIGHT_CM, Integer.toString(defaultUserHeightCm)));
-        activityUserWeightKg = Integer.parseInt(prefs.getString(PREF_USER_WEIGHT_KG, Integer.toString(defaultUserWeightKg)));
-        activityUserYearOfBirth = Integer.parseInt(prefs.getString(PREF_USER_YEAR_OF_BIRTH, Integer.toString(defaultUserYearOfBirth)));
-        activityUserSleepDuration = Integer.parseInt(prefs.getString(PREF_USER_SLEEP_DURATION, Integer.toString(defaultUserSleepDuration)));
+        Prefs prefs = GBApplication.getPrefs();
+        activityUserGender = prefs.getInt(PREF_USER_GENDER, defaultUserGender);
+        activityUserHeightCm = prefs.getInt(PREF_USER_HEIGHT_CM, defaultUserHeightCm);
+        activityUserWeightKg = prefs.getInt(PREF_USER_WEIGHT_KG, defaultUserWeightKg);
+        activityUserYearOfBirth = prefs.getInt(PREF_USER_YEAR_OF_BIRTH, defaultUserYearOfBirth);
+        activityUserSleepDuration = prefs.getInt(PREF_USER_SLEEP_DURATION, defaultUserSleepDuration);
     }
 }

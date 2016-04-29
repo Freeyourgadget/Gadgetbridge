@@ -1,4 +1,20 @@
 ###Changelog
+####Version (0.9.6)
+* Again some UI/theme improvements
+* New preference to reconnect after connection loss (defaults to true)
+* Fix crash when dealing with certain old preference values
+* Mi Band: automatically reconnect when back in range after connection loss
+* Mi Band 1S: display heart rate value again when invoked via the Debug view
+
+####Version (0.9.5)
+* Several UI Improvements
+* Easier First-time setup by using a FAB
+* Optional Dark Theme
+* Notification App Blacklist is now sorted
+* Gadgetbridge Icon in the notification bar displays connection state
+* Logging is now configurable without restart
+* Mi Band 1S: Initial live heartrate tracking
+* Fix certain crash in charts activity on slower devices (#277)
 
 ####Version (0.9.4)
 * Pebble: support pebble health datalog messages of firmware 3.11 (this adds support for deep sleep!)

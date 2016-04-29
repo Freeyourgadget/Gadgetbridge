@@ -19,6 +19,7 @@
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">펌웨어/앱 설치</string>
   <string name="fw_upgrade_notice">지금 기존의 Mi Band 펌웨어 대신 %s 펌웨어를 설치하려고 합니다.</string>
+  <string name="fw_multi_upgrade_notice">지금 Mi Band의 기존 펌웨어 대신 %1$s와 %2$s 펌웨어를 설치하려고 합니다.</string>
   <string name="miband_firmware_known">이 펌웨어는 테스트를 거쳤고 가젯브릿지와 호환됩니다.</string>
   <string name="miband_firmware_unknown_warning">이 펌웨어는 테스트를 거치지 않았고 가젯브릿지와 호환되지 않을 수 있습니다.\n\n Mi Band에 설치하지 않는 것이 좋습니다.</string>
   <string name="miband_firmware_suggest_whitelist">여전히 계속 진행하기를 원하고 이후에도 정상적으로 작동하기를 원한다면, %s 화이트리스트 펌웨어 버전을 가젯브릿지 개발자들에게 알려주세요.</string>
@@ -31,6 +32,9 @@
   <string name="pref_header_datetime">날짜와 시간</string>
   <string name="pref_title_datetime_syctimeonconnect">시간 동기화</string>
   <string name="pref_summary_datetime_syctimeonconnect">시간이 바뀌거나, 시간대가 바뀌거나, 접속을 할 때 기기와 시간을 동기화</string>
+  <string name="pref_title_theme">테마</string>
+  <string name="pref_theme_light">밝음</string>
+  <string name="pref_theme_dark">어두움</string>
   <string name="pref_header_notifications">알림</string>
   <string name="pref_title_notifications_repetitions">반복</string>
   <string name="pref_title_notifications_call">전화</string>
@@ -48,6 +52,7 @@
   <string name="pref_header_development">개발자 옵션</string>
   <string name="pref_title_development_miaddr">Mi Band 주소</string>
   <string name="pref_title_pebble_settings">Pebble 설정</string>
+  <string name="pref_title_pebble_activitytracker">선호하는 액티비티 트래커</string>
   <string name="pref_title_enable_pebblekit">제3자 안드로이드 앱 접근을 허용</string>
   <string name="pref_summary_enable_pebblekit">PebbleKit을 사용하는 안드로이드 앱을 실험적으로 지원</string>
   <string name="pref_title_pebble_forceprotocol">강제 알림 프로토콜</string>
@@ -99,13 +104,13 @@
   <string name="miband_pairing_using_dummy_userdata">올바르지 않은 사용자 정보입니다. 일단 임시 사용자 정보를 사용합니다.</string>
   <string name="miband_pairing_tap_hint">Mi Band가 진동하고 깜빡일 때, 연달아 몇 번 두드리세요.</string>
   <string name="appinstaller_install">설치</string>
-  <string name="discovery_connected_devices_hint">기기를 발견 가능하도록 설정하세요. 현재 연결된 기기들은 발견될 수 없습니다.</string>
+  <string name="discovery_connected_devices_hint">기기를 발견 가능하도록 설정하세요. 현재 연결된 기기들은 발견될 수 없습니다. 2분이 지나도 기기가 나타나지 않는다면 재부팅 후 다시 시도해보세요.</string>
   <string name="discovery_note">알림: </string>
   <string name="candidate_item_device_image">기기 이미지</string>
   <string name="miband_prefs_alias">이름/별명</string>
   <string name="pref_header_vibration_count">진동 횟수</string>
   <string name="title_activity_sleepmonitor">수면 측정계</string>
-  <string name="pref_write_logfiles">기록 파일 작성 (재시작 필요)</string>
+  <string name="pref_write_logfiles">기록 파일 작성</string>
   <string name="initializing">초기화 중</string>
   <string name="busy_task_fetch_activity_data">활동 데이터 가져오는 중</string>
   <string name="sleep_activity_date_range">%1$s에서 %2$s(으)로</string>
@@ -194,6 +199,7 @@
   <string name="miband_fwinstaller_incompatible_version">호환되지 않는 펌웨어</string>
   <string name="fwinstaller_firmware_not_compatible_to_device">이 펌웨어는 기기와 호환되지 않습니다</string>
   <string name="miband_prefs_reserve_alarm_calendar">다가오는 이벤트를 위해 예약할 알람</string>
+  <string name="miband_prefs_hr_sleep_detection">수면 측정을 향상시키기 위해 심박 센서 사용</string>
   <string name="waiting_for_reconnect">재접속을 기다리는 중</string>
   <string name="appmananger_app_reinstall">재설치</string>
   <string name="activity_prefs_about_you">당신에 대해</string>
@@ -201,4 +207,21 @@
   <string name="activity_prefs_gender">성별</string>
   <string name="activity_prefs_height_cm">키 (cm)</string>
   <string name="activity_prefs_weight_kg">몸무게 (kg)</string>
+  <string name="appmanager_health_activate">활성화</string>
+  <string name="appmanager_health_deactivate">비활성화</string>
+  <string name="authenticating">인증 중</string>
+  <string name="authentication_required">인증 필요</string>
+  <string name="app_configure">설정</string>
+  <string name="appwidget_text">Zzz</string>
+  <string name="add_widget">위젯 추가</string>
+  <string name="activity_prefs_sleep_duration">선호하는 수면 시간</string>
+  <string name="appwidget_alarms_set">%1$02d:%2$02d 알람이 설정되었습니다</string>
+  <string name="device_hw">하드웨어: %1$s</string>
+  <string name="device_fw">펌웨어: %1$s</string>
+  <string name="error_creating_directory_for_logfiles">기록 파일을 저장할 디렉토리 생성 오류: %1$s</string>
+  <string name="DEVINFO_HR_VER">심박수:</string>
+  <string name="updatefirmwareoperation_update_in_progress">펌웨어 업데이트 진행 중</string>
+  <string name="updatefirmwareoperation_firmware_not_sent">펌웨어가 전송되지 않음</string>
+  <string name="charts_legend_heartrate">심박수</string>
+  <string name="live_activity_heart_rate">심박수</string>
 </resources>

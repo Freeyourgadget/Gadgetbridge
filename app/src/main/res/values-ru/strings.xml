@@ -12,7 +12,7 @@
   <string name="controlcenter_disconnect">Отключиться</string>
   <string name="title_activity_debug">Отладка</string>
   <!--Strings related to AppManager-->
-  <string name="title_activity_appmanager">App Mananger</string>
+  <string name="title_activity_appmanager">App Manager</string>
   <string name="appmananger_app_delete">Удалить</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Заблокированные уведомления</string>
@@ -68,7 +68,7 @@
   <string name="this_is_a_test_notification_from_gadgetbridge">Это тестовое уведомление от Gadgetbridge</string>
   <string name="bluetooth_is_not_supported_">Bluetooth не поддерживается.</string>
   <string name="bluetooth_is_disabled_">Bluetooth отключён.</string>
-  <string name="tap_connected_device_for_app_mananger">нажмите на подключённое устройство для App Mananger</string>
+  <string name="tap_connected_device_for_app_mananger">нажмите на подключённое устройство для App Manager</string>
   <string name="tap_a_device_to_connect">нажмите на устройство для соединения</string>
   <string name="cannot_connect_bt_address_invalid_">Не удалось соединиться. Неверен адрес BT?</string>
   <string name="gadgetbridge_running">Gadgetbridge запущен</string>
@@ -106,7 +106,7 @@
   <string name="miband_prefs_alias">Имя/псевдоним</string>
   <string name="pref_header_vibration_count">Количество вибраций</string>
   <string name="title_activity_sleepmonitor">Анализ сна</string>
-  <string name="pref_write_logfiles">Записывать  файлы журнала (нужен перезапуск)</string>
+  <string name="pref_write_logfiles">Записывать  файлы журнала</string>
   <string name="initializing">Инициализация</string>
   <string name="busy_task_fetch_activity_data">Получение данных активности</string>
   <string name="sleep_activity_date_range">От %1$s до %2$s</string>

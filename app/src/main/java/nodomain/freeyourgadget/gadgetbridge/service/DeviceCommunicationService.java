@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.IBinder;
-import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
@@ -39,6 +38,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_APP_CONFIGURE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CALLSTATE;
@@ -89,7 +90,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOT
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_PERFORM_PAIR;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_URI;
 
-public class DeviceCommunicationService extends Service {
+public class DeviceCommunicationService extends Service implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final Logger LOG = LoggerFactory.getLogger(DeviceCommunicationService.class);
 
     private boolean mStarted = false;
@@ -131,6 +132,10 @@ public class DeviceCommunicationService extends Service {
         super.onCreate();
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED));
         mFactory = new DeviceSupportFactory(this);
+
+        if (hasPrefs()) {
+            getPrefs().getPreferences().registerOnSharedPreferenceChangeListener(this);
+        }
     }
 
     @Override
@@ -170,7 +175,7 @@ public class DeviceCommunicationService extends Service {
 
         // when we get past this, we should have valid mDeviceSupport and mGBDevice instances
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Prefs prefs = getPrefs();
         switch (action) {
             case ACTION_START:
                 start();
@@ -181,8 +186,8 @@ public class DeviceCommunicationService extends Service {
                 String btDeviceAddress = null;
                 if (gbDevice == null) {
                     btDeviceAddress = intent.getStringExtra(EXTRA_DEVICE_ADDRESS);
-                    if (btDeviceAddress == null && sharedPrefs != null) { // may be null in test cases
-                        btDeviceAddress = sharedPrefs.getString("last_device_address", null);
+                    if (btDeviceAddress == null && prefs != null) { // may be null in test cases
+                        btDeviceAddress = prefs.getString("last_device_address", null);
                     }
                     if (btDeviceAddress != null) {
                         gbDevice = DeviceHelper.getInstance().findAvailableDevice(btDeviceAddress, this);
@@ -191,8 +196,10 @@ public class DeviceCommunicationService extends Service {
                     btDeviceAddress = gbDevice.getAddress();
                 }
 
-                if (sharedPrefs != null) {
-                    sharedPrefs.edit().putString("last_device_address", btDeviceAddress).apply();
+                boolean autoReconnect = GBPrefs.AUTO_RECONNECT_DEFAULT;
+                if (prefs != null && prefs.getPreferences() != null) {
+                    prefs.getPreferences().edit().putString("last_device_address", btDeviceAddress).apply();
+                    autoReconnect = getGBPrefs().getAutoReconnect();
                 }
 
                 if (gbDevice != null && !isConnecting() && !isConnected()) {
@@ -204,6 +211,7 @@ public class DeviceCommunicationService extends Service {
                             if (pair) {
                                 deviceSupport.pair();
                             } else {
+                                deviceSupport.setAutoReconnect(autoReconnect);
                                 deviceSupport.connect();
                             }
                         } else {
@@ -241,12 +249,12 @@ public class DeviceCommunicationService extends Service {
                 if (((notificationSpec.flags & NotificationSpec.FLAG_WEARABLE_REPLY) > 0)
                         || (notificationSpec.type == NotificationType.SMS && notificationSpec.phoneNumber != null)) {
                     // NOTE: maybe not where it belongs
-                    if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
+                    if (prefs.getBoolean("pebble_force_untested", false)) {
                         // I would rather like to save that as an array in ShadredPreferences
                         // this would work but I dont know how to do the same in the Settings Activity's xml
                         ArrayList<String> replies = new ArrayList<>();
                         for (int i = 1; i <= 16; i++) {
-                            String reply = sharedPrefs.getString("canned_reply_" + i, null);
+                            String reply = prefs.getString("canned_reply_" + i, null);
                             if (reply != null && !reply.equals("")) {
                                 replies.add(reply);
                             }
@@ -479,6 +487,10 @@ public class DeviceCommunicationService extends Service {
 
     @Override
     public void onDestroy() {
+        if (hasPrefs()) {
+            getPrefs().getPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        }
+
         LOG.debug("DeviceCommunicationService is being destroyed");
         super.onDestroy();
 
@@ -514,5 +526,27 @@ public class DeviceCommunicationService extends Service {
         }
 
         return name;
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (GBPrefs.AUTO_RECONNECT.equals(key)) {
+            boolean autoReconnect = getGBPrefs().getAutoReconnect();
+            if (mDeviceSupport != null) {
+                mDeviceSupport.setAutoReconnect(autoReconnect);
+            }
+        }
+    }
+
+    protected boolean hasPrefs() {
+        return getPrefs().getPreferences() != null;
+    }
+
+    public Prefs getPrefs() {
+        return GBApplication.getPrefs();
+    }
+
+    public GBPrefs getGBPrefs() {
+        return GBApplication.getGBPrefs();
     }
 }

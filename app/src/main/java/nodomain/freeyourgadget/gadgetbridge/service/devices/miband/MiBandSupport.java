@@ -3,9 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.miband;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
@@ -21,6 +19,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
@@ -52,6 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.Fe
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.UpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_FLASH_COLOUR;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_FLASH_COUNT;
@@ -422,7 +422,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private void performPreferredNotification(String task, String notificationOrigin, BtLEAction extraAction) {
         try {
             TransactionBuilder builder = performInitialized(task);
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+            Prefs prefs = GBApplication.getPrefs();
             int vibrateDuration = getPreferredVibrateDuration(notificationOrigin, prefs);
             int vibratePause = getPreferredVibratePause(notificationOrigin, prefs);
             short vibrateTimes = getPreferredVibrateCount(notificationOrigin, prefs);
@@ -441,35 +441,35 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private int getPreferredFlashDuration(String notificationOrigin, SharedPreferences prefs) {
+    private int getPreferredFlashDuration(String notificationOrigin, Prefs prefs) {
         return getNotificationPrefIntValue(FLASH_DURATION, notificationOrigin, prefs, DEFAULT_VALUE_FLASH_DURATION);
     }
 
-    private int getPreferredOriginalColour(String notificationOrigin, SharedPreferences prefs) {
+    private int getPreferredOriginalColour(String notificationOrigin, Prefs prefs) {
         return getNotificationPrefIntValue(FLASH_ORIGINAL_COLOUR, notificationOrigin, prefs, DEFAULT_VALUE_FLASH_ORIGINAL_COLOUR);
     }
 
-    private int getPreferredFlashColour(String notificationOrigin, SharedPreferences prefs) {
+    private int getPreferredFlashColour(String notificationOrigin, Prefs prefs) {
         return getNotificationPrefIntValue(FLASH_COLOUR, notificationOrigin, prefs, DEFAULT_VALUE_FLASH_COLOUR);
     }
 
-    private int getPreferredFlashCount(String notificationOrigin, SharedPreferences prefs) {
+    private int getPreferredFlashCount(String notificationOrigin, Prefs prefs) {
         return getNotificationPrefIntValue(FLASH_COUNT, notificationOrigin, prefs, DEFAULT_VALUE_FLASH_COUNT);
     }
 
-    private int getPreferredVibratePause(String notificationOrigin, SharedPreferences prefs) {
+    private int getPreferredVibratePause(String notificationOrigin, Prefs prefs) {
         return getNotificationPrefIntValue(VIBRATION_PAUSE, notificationOrigin, prefs, DEFAULT_VALUE_VIBRATION_PAUSE);
     }
 
-    private short getPreferredVibrateCount(String notificationOrigin, SharedPreferences prefs) {
+    private short getPreferredVibrateCount(String notificationOrigin, Prefs prefs) {
         return (short) Math.min(Short.MAX_VALUE, getNotificationPrefIntValue(VIBRATION_COUNT, notificationOrigin, prefs, DEFAULT_VALUE_VIBRATION_COUNT));
     }
 
-    private int getPreferredVibrateDuration(String notificationOrigin, SharedPreferences prefs) {
+    private int getPreferredVibrateDuration(String notificationOrigin, Prefs prefs) {
         return getNotificationPrefIntValue(VIBRATION_DURATION, notificationOrigin, prefs, DEFAULT_VALUE_VIBRATION_DURATION);
     }
 
-    private VibrationProfile getPreferredVibrateProfile(String notificationOrigin, SharedPreferences prefs, short repeat) {
+    private VibrationProfile getPreferredVibrateProfile(String notificationOrigin, Prefs prefs, short repeat) {
         String profileId = getNotificationPrefStringValue(VIBRATION_PROFILE, notificationOrigin, prefs, DEFAULT_VALUE_VIBRATION_PROFILE);
         return VibrationProfile.getProfile(profileId, repeat);
     }
@@ -1031,8 +1031,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             TransactionBuilder builder = performInitialized("Send upcoming events");
             BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
 
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-            int availableSlots = Integer.parseInt(prefs.getString(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, "0"));
+            Prefs prefs = GBApplication.getPrefs();
+            int availableSlots = prefs.getInt(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, 0);
 
             if (availableSlots > 0) {
                 CalendarEvents upcomingEvents = new CalendarEvents();

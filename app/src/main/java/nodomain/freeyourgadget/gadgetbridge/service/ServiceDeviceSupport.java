@@ -57,6 +57,16 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
+    public void setAutoReconnect(boolean enable) {
+        delegate.setAutoReconnect(enable);
+    }
+
+    @Override
+    public boolean getAutoReconnect() {
+        return delegate.getAutoReconnect();
+    }
+
+    @Override
     public void dispose() {
         delegate.dispose();
     }

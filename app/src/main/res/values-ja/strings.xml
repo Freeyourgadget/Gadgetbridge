@@ -32,6 +32,9 @@
   <string name="pref_header_datetime">日付と時刻</string>
   <string name="pref_title_datetime_syctimeonconnect">時間を合わせる</string>
   <string name="pref_summary_datetime_syctimeonconnect">接続したとき、Androidで時間またはタイムゾーンを変更したときに、デバイスに時間を同期</string>
+  <string name="pref_title_theme">テーマ</string>
+  <string name="pref_theme_light">ライト</string>
+  <string name="pref_theme_dark">ダーク</string>
   <string name="pref_header_notifications">通知</string>
   <string name="pref_title_notifications_repetitions">繰り返し</string>
   <string name="pref_title_notifications_call">電話通知</string>
@@ -108,7 +111,7 @@
   <string name="miband_prefs_alias">名前/別名</string>
   <string name="pref_header_vibration_count">バイブレーション回数</string>
   <string name="title_activity_sleepmonitor">睡眠観測</string>
-  <string name="pref_write_logfiles">ログファイルを出力 (再起動が必要)</string>
+  <string name="pref_write_logfiles">ログファイルを出力</string>
   <string name="initializing">初期化中</string>
   <string name="busy_task_fetch_activity_data">活動データを取得中</string>
   <string name="sleep_activity_date_range">%1$sから%2$sまで</string>
@@ -220,4 +223,6 @@
   <string name="DEVINFO_HR_VER">HR: </string>
   <string name="updatefirmwareoperation_update_in_progress">ファームウェアを更新しています</string>
   <string name="updatefirmwareoperation_firmware_not_sent">ファームウェアを送信しませんでした</string>
+  <string name="charts_legend_heartrate">心拍数</string>
+  <string name="live_activity_heart_rate">心拍数</string>
 </resources>

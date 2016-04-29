@@ -67,7 +67,7 @@
   <string name="this_is_a_test_notification_from_gadgetbridge">Це тестове сповіщення від Gadgetbridge</string>
   <string name="bluetooth_is_not_supported_">Bluetooth не підтримується.</string>
   <string name="bluetooth_is_disabled_">Bluetooth вимкнуто.</string>
-  <string name="tap_connected_device_for_app_mananger">натисніть на під\'єднаний пристрій для App Mananger</string>
+  <string name="tap_connected_device_for_app_mananger">натисніть на під\'єднаний пристрій для App Manager</string>
   <string name="tap_a_device_to_connect">натисніть на пристрій для з\'єднання</string>
   <string name="cannot_connect_bt_address_invalid_">Не вдалося з\'єднатися. Можливо помилкова адреса BT?</string>
   <string name="gadgetbridge_running">Gadgetbridge запущено</string>
@@ -105,7 +105,7 @@
   <string name="miband_prefs_alias">Ім\'я/нік</string>
   <string name="pref_header_vibration_count">Кількість вібрацій</string>
   <string name="title_activity_sleepmonitor">Аналіз сну</string>
-  <string name="pref_write_logfiles">Записувати файли звіту (потрібен перезапуск)</string>
+  <string name="pref_write_logfiles">Записувати файли звіту</string>
   <string name="initializing">Ініціалізація…</string>
   <string name="busy_task_fetch_activity_data">Отримання даних активності</string>
   <string name="sleep_activity_date_range">Від %1$s до %2$s</string>

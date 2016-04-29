@@ -4,10 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.ContextMenu;
@@ -34,6 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 
 public class AppManagerActivity extends GBActivity {
@@ -59,7 +58,7 @@ public class AppManagerActivity extends GBActivity {
                     appList.add(new GBDeviceApp(uuid, appName, appCreator, "", appType));
                 }
 
-                if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
+                if (prefs.getBoolean("pebble_force_untested", false)) {
                     appList.addAll(getSystemApps());
                 }
 
@@ -68,7 +67,7 @@ public class AppManagerActivity extends GBActivity {
         }
     };
 
-    private SharedPreferences sharedPrefs;
+    private Prefs prefs;
 
     private final List<GBDeviceApp> appList = new ArrayList<>();
     private GBDeviceAppAdapter mGBDeviceAppAdapter;
@@ -130,7 +129,7 @@ public class AppManagerActivity extends GBActivity {
             throw new IllegalArgumentException("Must provide a device when invoking this activity");
         }
 
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        prefs = GBApplication.getPrefs();
 
         setContentView(R.layout.activity_appmanager);
 
@@ -150,7 +149,7 @@ public class AppManagerActivity extends GBActivity {
 
         appList.addAll(getCachedApps());
 
-        if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
+        if (prefs.getBoolean("pebble_force_untested", false)) {
             appList.addAll(getSystemApps());
         }
 

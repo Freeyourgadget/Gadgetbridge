@@ -126,7 +126,7 @@
     <string name="pref_header_vibration_count">Vibration Count</string>
 
     <string name="title_activity_sleepmonitor">Sleep Monitor</string>
-    <string name="pref_write_logfiles">Write Log Files (needs restart)</string>
+    <string name="pref_write_logfiles">Write Log Files</string>
     <string name="initializing">initializing</string>
     <string name="busy_task_fetch_activity_data">Fetching Activity Data</string>
     <string name="sleep_activity_date_range">From %1$s to %2$s</string>
@@ -244,5 +244,6 @@
     <string name="updatefirmwareoperation_firmware_not_sent">Firmware not sent</string>
     <string name="charts_legend_heartrate">Heart Rate</string>
     <string name="live_activity_heart_rate">Heart Rate</string>
+    <string name="pref_title_general_autocreonnect">Reconnect automatically</string>
 
 </resources>

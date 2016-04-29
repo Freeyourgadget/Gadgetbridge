@@ -2,9 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -32,6 +30,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAc
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 //import java.util.concurrent.Executors;
 //import java.util.concurrent.ScheduledExecutorService;
@@ -365,7 +364,7 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
      */
     private void sendAckDataTransfer(Calendar time, int bytesTransferred) {
         byte[] ackTime = MiBandDateConverter.calendarToRawBytes(time);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
+        Prefs prefs = GBApplication.getPrefs();
 
         byte[] ackChecksum = new byte[]{
                 (byte) (bytesTransferred & 0xff),

@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Build.VERSION;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.util.TypedValue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +25,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.Appender;
 import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBConstants;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
@@ -33,7 +37,9 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 //import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
 
@@ -54,6 +60,9 @@ public class GBApplication extends Application {
     private static final int CURRENT_PREFS_VERSION = 2;
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
     private static DaoSession daoSession;
+    private static Appender<ILoggingEvent> fileLogger;
+    private static Prefs prefs;
+    private static GBPrefs gbPrefs;
 
     public static final String ACTION_QUIT
             = "nodomain.freeyourgadget.gadgetbridge.gbapplication.action.quit";
@@ -87,10 +96,12 @@ public class GBApplication extends Application {
         super.onCreate();
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefs = new Prefs(sharedPrefs);
+        gbPrefs = new GBPrefs(prefs);
 
         // don't do anything here before we set up logging, otherwise
         // slf4j may be implicitly initialized before we properly configured it.
-        setupLogging();
+        setupLogging(isFileLoggingEnabled());
 
         if (getPrefsFileVersion() != CURRENT_PREFS_VERSION) {
             migratePrefs(getPrefsFileVersion());
@@ -125,35 +136,71 @@ public class GBApplication extends Application {
     }
 
     public static boolean isFileLoggingEnabled() {
-        return sharedPrefs.getBoolean("log_to_file", false);
+        return prefs.getBoolean("log_to_file", false);
     }
 
-    private void setupLogging() {
-        if (isFileLoggingEnabled()) {
-            try {
+    public static void setupLogging(boolean enable) {
+        try {
+            if (fileLogger == null) {
                 File dir = FileUtils.getExternalFilesDir();
                 // used by assets/logback.xml since the location cannot be statically determined
                 System.setProperty("GB_LOGFILES_DIR", dir.getAbsolutePath());
-                getLogger().info("Gadgetbridge version: " + BuildConfig.VERSION_NAME);
-            } catch (IOException ex) {
-                Log.e("GBApplication", "External files dir not available, cannot log to file", ex);
-                removeFileLogger();
+                rememberFileLogger();
             }
-        } else {
-            removeFileLogger();
+            if (enable) {
+                startFileLogger();
+            } else {
+                stopFileLogger();
+            }
+            getLogger().info("Gadgetbridge version: " + BuildConfig.VERSION_NAME);
+        } catch (IOException ex) {
+            Log.e("GBApplication", "External files dir not available, cannot log to file", ex);
+            stopFileLogger();
         }
     }
 
-    private void removeFileLogger() {
+    private static void startFileLogger() {
+        if (fileLogger != null && !fileLogger.isStarted()) {
+            addFileLogger(fileLogger);
+            fileLogger.start();
+        }
+    }
+
+    private static void stopFileLogger() {
+        if (fileLogger != null && fileLogger.isStarted()) {
+            fileLogger.stop();
+            removeFileLogger(fileLogger);
+        }
+    }
+
+    private static void rememberFileLogger() {
+        ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+        fileLogger = root.getAppender("FILE");
+    }
+
+    private static void addFileLogger(Appender<ILoggingEvent> fileLogger) {
         try {
             ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-            root.detachAppender("FILE");
+            if (!root.isAttached(fileLogger)) {
+                root.addAppender(fileLogger);
+            }
         } catch (Throwable ex) {
             Log.e("GBApplication", "Error removing logger FILE appender", ex);
         }
     }
 
-    private Logger getLogger() {
+    private static void removeFileLogger(Appender<ILoggingEvent> fileLogger) {
+        try {
+            ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+            if (root.isAttached(fileLogger)) {
+                root.detachAppender(fileLogger);
+            }
+        } catch (Throwable ex) {
+            Log.e("GBApplication", "Error removing logger FILE appender", ex);
+        }
+    }
+
+    private static Logger getLogger() {
         return LoggerFactory.getLogger(GBApplication.class);
     }
 
@@ -320,6 +367,27 @@ public class GBApplication extends Application {
     }
 
     public static boolean isDarkThemeEnabled() {
-        return sharedPrefs.getString("pref_key_theme", context.getString(R.string.pref_theme_value_light)).equals(context.getString(R.string.pref_theme_value_dark));
+        return prefs.getString("pref_key_theme", context.getString(R.string.pref_theme_value_light)).equals(context.getString(R.string.pref_theme_value_dark));
+    }
+
+    public static int getTextColor(Context context) {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(android.R.attr.textColor, typedValue, true);
+        return typedValue.data;
+    }
+    public static int getBackgroundColor(Context context) {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(android.R.attr.background, typedValue, true);
+        return typedValue.data;
+    }
+
+    public static Prefs getPrefs() {
+        return prefs;
+    }
+
+    public static GBPrefs getGBPrefs() {
+        return gbPrefs;
     }
 }

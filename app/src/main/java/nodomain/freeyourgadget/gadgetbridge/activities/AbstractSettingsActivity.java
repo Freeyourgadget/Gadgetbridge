@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -12,6 +13,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,6 +43,14 @@ public abstract class AbstractSettingsActivity extends PreferenceActivity {
     private static class SimpleSetSummaryOnChangeListener implements Preference.OnPreferenceChangeListener {
         @Override
         public boolean onPreferenceChange(Preference preference, Object value) {
+            if (preference instanceof EditTextPreference) {
+                if (((EditTextPreference) preference).getEditText().getKeyListener().getInputType() == InputType.TYPE_CLASS_NUMBER) {
+                    if ("".equals(String.valueOf(value))) {
+                        // reject empty numeric input
+                        return false;
+                    }
+                }
+            }
             updateSummary(preference, value);
             return true;
         }

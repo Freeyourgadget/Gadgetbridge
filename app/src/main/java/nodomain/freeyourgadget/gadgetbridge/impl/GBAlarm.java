@@ -1,8 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.impl;
 
-import android.content.SharedPreferences;
 import android.os.Parcel;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
 import java.util.Calendar;
@@ -12,6 +10,7 @@ import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_ALARMS;
 
@@ -187,8 +186,8 @@ public class GBAlarm implements Alarm {
     }
 
     public void store() {
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
-        Set<String> preferencesAlarmListSet = sharedPrefs.getStringSet(PREF_MIBAND_ALARMS, new HashSet<String>());
+        Prefs prefs = GBApplication.getPrefs();
+        Set<String> preferencesAlarmListSet = prefs.getStringSet(PREF_MIBAND_ALARMS, new HashSet<String>());
         //the old Set cannot be updated in place see http://developer.android.com/reference/android/content/SharedPreferences.html#getStringSet%28java.lang.String,%20java.util.Set%3Cjava.lang.String%3E%29
         Set<String> newPrefs = new HashSet<>(preferencesAlarmListSet);
 
@@ -202,7 +201,7 @@ public class GBAlarm implements Alarm {
             }
         }
         newPrefs.add(this.toPreferences());
-        sharedPrefs.edit().putStringSet(PREF_MIBAND_ALARMS, newPrefs).apply();
+        prefs.getPreferences().edit().putStringSet(PREF_MIBAND_ALARMS, newPrefs).apply();
     }
 
     public static final Creator CREATOR = new Creator() {

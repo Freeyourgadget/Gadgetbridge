@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service;
 
+import android.app.Application;
+import android.app.NotificationManager;
 import android.content.Context;
 
 import org.junit.Before;
@@ -11,6 +13,7 @@ import org.mockito.Mockito;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.test.GBMockApplication;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -40,6 +43,14 @@ public class DeviceCommunicationServiceTestCase extends AbstractServiceTestCase<
     public DeviceCommunicationServiceTestCase() {
         super(DeviceCommunicationService.class);
     }
+
+    @Override
+    protected DeviceCommunicationService createService(Class<DeviceCommunicationService> serviceClass, GBMockApplication application, NotificationManager notificationManager) throws Exception {
+        DeviceCommunicationService service = getmMockHelper().createDeviceCommunicationService(serviceClass, application);
+        getmMockHelper().addSystemServiceTo(service, Context.NOTIFICATION_SERVICE, notificationManager);
+        return service;
+    }
+
 
     @Before
     public void setUp() throws Exception {

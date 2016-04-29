@@ -41,7 +41,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_gravity="bottom|end"
-        android:src="@drawable/ic_add_black"
+        android:src="@drawable/ic_add_white"
         app:elevation="6dp"
         app:pressedTranslationZ="12dp"
         android:layout_marginBottom="10dp"
