@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.schema.ActivityDBCreationScript;
+import nodomain.freeyourgadget.gadgetbridge.database.schema.SchemaMigration;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
@@ -52,49 +53,12 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        LOG.info("ActivityDatabase: schema upgrade requested from " + oldVersion + " to " + newVersion);
-        try {
-            for (int i = oldVersion + 1; i <= newVersion; i++) {
-                DBUpdateScript updater = getUpdateScript(db, i);
-                if (updater != null) {
-                    LOG.info("upgrading activity database to version " + i);
-                    updater.upgradeSchema(db);
-                }
-            }
-            LOG.info("activity database is now at version " + newVersion);
-        } catch (RuntimeException ex) {
-            GB.toast("Error upgrading database.", Toast.LENGTH_SHORT, GB.ERROR, ex);
-            throw ex; // reject upgrade
-        }
+        new SchemaMigration().onUpgrade(db, oldVersion, newVersion);
     }
 
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        LOG.info("ActivityDatabase: schema downgrade requested from " + oldVersion + " to " + newVersion);
-        try {
-            for (int i = oldVersion; i >= newVersion; i--) {
-                DBUpdateScript updater = getUpdateScript(db, i);
-                if (updater != null) {
-                    LOG.info("downgrading activity database to version " + (i - 1));
-                    updater.downgradeSchema(db);
-                }
-            }
-            LOG.info("activity database is now at version " + newVersion);
-        } catch (RuntimeException ex) {
-            GB.toast("Error downgrading database.", Toast.LENGTH_SHORT, GB.ERROR, ex);
-            throw ex; // reject downgrade
-        }
-    }
-
-    private DBUpdateScript getUpdateScript(SQLiteDatabase db, int version) {
-        try {
-            Class<?> updateClass = getClass().getClassLoader().loadClass(getClass().getPackage().getName() + ".schema.ActivityDBUpdate_" + version);
-            return (DBUpdateScript) updateClass.newInstance();
-        } catch (ClassNotFoundException e) {
-            return null;
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException("Error instantiating DBUpdate class for version " + version, e);
-        }
+        new SchemaMigration().onDowngrade(db, oldVersion, newVersion);
     }
 
     public void addGBActivitySample(ActivitySample sample) {

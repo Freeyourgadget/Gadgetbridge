@@ -30,6 +30,7 @@ import ch.qos.logback.core.Appender;
 import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBConstants;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DaoHandler;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
@@ -51,7 +52,7 @@ public class GBApplication extends Application {
     // Since this class must not log to slf4j, we use plain android.util.Log
     private static final String TAG = "GBApplication";
     private static GBApplication context;
-    private static ActivityDatabaseHandler mActivityDatabaseHandler;
+    private static DBHandler mActivityDatabaseHandler;
     private static final Lock dbLock = new ReentrantLock();
     private static DeviceService deviceService;
     private static SharedPreferences sharedPrefs;
@@ -118,7 +119,7 @@ public class GBApplication extends Application {
 
         deviceService = createDeviceService();
         GB.environment = GBEnvironment.createDeviceEnvironment();
-        mActivityDatabaseHandler = new ActivityDatabaseHandler(context);
+//        mActivityDatabaseHandler = new ActivityDatabaseHandler(context);
         loadBlackList();
 
         IntentFilter filterLocal = new IntentFilter();
@@ -209,6 +210,7 @@ public class GBApplication extends Application {
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
+        mActivityDatabaseHandler = new DaoHandler(daoMaster, helper);
     }
 
     public static DaoSession getDaoSession() {

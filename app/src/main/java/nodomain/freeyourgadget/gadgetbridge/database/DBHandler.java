@@ -10,6 +10,11 @@ import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 public interface DBHandler {
+    /**
+     * Closes the database.
+     */
+    void close();
+
     SQLiteOpenHelper getHelper();
 
     /**
