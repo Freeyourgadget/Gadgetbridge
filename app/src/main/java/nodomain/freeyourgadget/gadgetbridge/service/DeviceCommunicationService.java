@@ -133,8 +133,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED));
         mFactory = new DeviceSupportFactory(this);
 
-        Prefs prefs = GBApplication.getPrefs();
-        prefs.getPreferences().registerOnSharedPreferenceChangeListener(this);
+        if (hasPrefs()) {
+            getPrefs().getPreferences().registerOnSharedPreferenceChangeListener(this);
+        }
     }
 
     @Override
@@ -174,7 +175,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
         // when we get past this, we should have valid mDeviceSupport and mGBDevice instances
 
-        Prefs prefs = GBApplication.getPrefs();
+        Prefs prefs = getPrefs();
         switch (action) {
             case ACTION_START:
                 start();
@@ -196,9 +197,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 }
 
                 boolean autoReconnect = GBPrefs.AUTO_RECONNECT_DEFAULT;
-                if (prefs != null) {
+                if (prefs != null && prefs.getPreferences() != null) {
                     prefs.getPreferences().edit().putString("last_device_address", btDeviceAddress).apply();
-                    autoReconnect = prefs.getPreferences().getBoolean(GBPrefs.AUTO_RECONNECT, GBPrefs.AUTO_RECONNECT_DEFAULT);
+                    autoReconnect = getGBPrefs().getAutoReconnect();
                 }
 
                 if (gbDevice != null && !isConnecting() && !isConnected()) {
@@ -486,7 +487,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
     @Override
     public void onDestroy() {
-        GBApplication.getPrefs().getPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        if (hasPrefs()) {
+            getPrefs().getPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        }
 
         LOG.debug("DeviceCommunicationService is being destroyed");
         super.onDestroy();
@@ -528,10 +531,22 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (GBPrefs.AUTO_RECONNECT.equals(key)) {
-            boolean autoReconnect = GBApplication.getGBPrefs().getAutoReconnect();
+            boolean autoReconnect = getGBPrefs().getAutoReconnect();
             if (mDeviceSupport != null) {
                 mDeviceSupport.setAutoReconnect(autoReconnect);
             }
         }
+    }
+
+    protected boolean hasPrefs() {
+        return getPrefs().getPreferences() != null;
+    }
+
+    public Prefs getPrefs() {
+        return GBApplication.getPrefs();
+    }
+
+    public GBPrefs getGBPrefs() {
+        return GBApplication.getGBPrefs();
     }
 }
