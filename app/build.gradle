@@ -11,7 +11,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "nodomain.freeyourgadget.gadgetbridge"
+        applicationId "nodomain.freeyourgadget.gadgetbridge.greendao"
         minSdkVersion 19
         targetSdkVersion 23
 
