@@ -1,4 +1,10 @@
 ###Changelog
+####Version (0.9.6)
+* Again some UI/theme improvements
+* New preference to reconnect after connection loss (defaults to true)
+* Fix crash when dealing with certain old preference values
+* Mi Band: automatically reconnect when back in range after connection loss
+* Mi Band 1S: display heart rate value again when invoked via the Debug view
 
 ####Version (0.9.5)
 * Several UI Improvements

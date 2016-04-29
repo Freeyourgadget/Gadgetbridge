@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.9.6" versioncode="50">
+        <change>Again some UI/theme improvements</change>
+        <change>New preference to reconnect after connection loss (defaults to true)</change>
+        <change>Fix crash when dealing with certain old preference values</change>
+        <change>Mi Band: automatically reconnect when back in range after connection loss</change>
+        <change>Mi Band 1S: display heart rate value again when invoked via the Debug view</change>
+    </release>
     <release version="0.9.5" versioncode="49">
-	<change>Several UI Improvements</change>
-	<change>Easier First-time setup by using a FAB</change>
-	<change>Optional Dark Theme</change>
-	<change>Notification App Blacklist is now sorted</change>
-	<change>Gadgetbridge Icon in the notification bar displays connection state</change>
-	<change>Logging is now configurable without restart</change>
-	<change>Mi Band 1S: Initial live heartrate tracking</change>
-	<change>Fix certain crash in charts activity on slower devices (#277)</change>
+        <change>Several UI Improvements</change>
+        <change>Easier First-time setup by using a FAB</change>
+        <change>Optional Dark Theme</change>
+        <change>Notification App Blacklist is now sorted</change>
+        <change>Gadgetbridge Icon in the notification bar displays connection state</change>
+        <change>Logging is now configurable without restart</change>
+        <change>Mi Band 1S: Initial live heartrate tracking</change>
+        <change>Fix certain crash in charts activity on slower devices (#277)</change>
     </release>
     <release version="0.9.4" versioncode="48">
         <change>Fix crash in charts activities when changing the date, quickly (#277)</change>
