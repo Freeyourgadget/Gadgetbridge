@@ -54,7 +54,7 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
     compile 'com.github.pfichtner:durationformatter:0.1.1'
     compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
-    compile 'org.greenrobot:greendao:2.2.0'
+    compile 'com.github.freeyourgadget:greendao:c3830951e5dd3d1e63d7bac600d5f773b81df363'
 }
 
 preBuild.dependsOn(":GBDaoGenerator:genSources")

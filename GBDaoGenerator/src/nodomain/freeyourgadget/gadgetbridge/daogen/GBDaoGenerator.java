@@ -115,6 +115,7 @@ public class GBDaoGenerator {
     }
 
     private static void addCommonAcivitySampleProperties(Schema schema, Entity activitySample, Entity user, Entity device) {
+        activitySample.setSuperclass("AbstractActivitySample");
         activitySample.addImport(MODEL_PACKAGE + ".ActivitySample");
         activitySample.addImport(MAIN_PACKAGE + ".devices.SampleProvider");
         activitySample.implementsInterface("ActivitySample");
