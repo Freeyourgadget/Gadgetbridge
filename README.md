@@ -61,6 +61,8 @@ For more information read [this wiki article](https://github.com/Freeyourgadget/
     * Generic Android notifications
 * Synchronize the time to the Mi Band
 * Display firmware version and battery state
+* Firmware Update
+* Heartrate Measurement (alpha)
 * Synchronize activity data
 * Display sleep data (alpha)
 * Display sports data (step count) (alpha)
