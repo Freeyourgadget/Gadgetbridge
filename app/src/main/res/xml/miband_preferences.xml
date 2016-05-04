@@ -161,5 +161,10 @@
             android:title="@string/pref_title_keep_data_on_device"
             android:summary="@string/pref_summary_keep_data_on_device"
             android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="mi_low_latency_fw_update"
+            android:title="@string/pref_title_low_latency_fw_update"
+            android:summary="@string/pref_summary_low_latency_fw_update"
+            android:defaultValue="false" />
     </PreferenceCategory>
 </PreferenceScreen>
