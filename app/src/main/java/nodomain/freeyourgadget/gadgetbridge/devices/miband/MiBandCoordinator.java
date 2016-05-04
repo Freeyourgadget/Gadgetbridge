@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -76,6 +77,11 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supportsAlarmConfiguration() {
         return true;
+    }
+
+    @Override
+    public int getTapString() {
+        return R.string.tap_connected_device_for_activity;
     }
 
     public static boolean hasValidUserInfo() {

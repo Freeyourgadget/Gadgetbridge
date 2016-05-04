@@ -88,4 +88,9 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     public boolean supportsAlarmConfiguration() {
         return false;
     }
+
+    @Override
+    public int getTapString() {
+        return 0;
+    }
 }

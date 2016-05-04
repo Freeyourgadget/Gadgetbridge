@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.Uri;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -79,5 +80,10 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supportsAlarmConfiguration() {
         return false;
+    }
+
+    @Override
+    public int getTapString() {
+        return R.string.tap_connected_device_for_app_mananger;
     }
 }
