@@ -87,6 +87,7 @@
     <string name="bluetooth_is_not_supported_">Bluetooth is not supported.</string>
     <string name="bluetooth_is_disabled_">Bluetooth is disabled.</string>
     <string name="tap_connected_device_for_app_mananger">Tap connected device for App Manager</string>
+    <string name="tap_connected_device_for_activity">Tap connected device for Activiy</string>
     <string name="tap_a_device_to_connect">Tap a device to connect</string>
     <string name="cannot_connect_bt_address_invalid_">Cannot connect. BT address invalid?</string>
     <string name="gadgetbridge_running">Gadgetbridge running</string>
@@ -198,9 +199,12 @@
     <string name="chart_steps">Steps</string>
     <string name="liveactivity_live_activity">Live Activity</string>
     <string name="weeksteps_today_steps_description">Steps today, target: %1$s</string>
+    <string name="pref_title_dont_ack_transfer">Do not ack activity data transfer</string>
     <string name="pref_summary_dont_ack_transfers">If the activity data are not acked to the band, they will not be cleared. Useful if GB is used together with other apps.</string>
     <string name="pref_summary_keep_data_on_device">Will keep activity data on the Mi Band even after synchronization. Useful if GB is used together with other apps.</string>
-    <string name="pref_title_dont_ack_transfer">Do not ack activity data transfer</string>
+    <string name="pref_title_low_latency_fw_update">Use low-latency mode for FW updates</string>
+    <string name="pref_summary_low_latency_fw_update">This might help on devices where firmware updates fail</string>
+
     <string name="live_activity_steps_history">Steps History</string>
     <string name="live_activity_current_steps_per_minute">Current steps/min</string>
     <string name="live_activity_total_steps">Total Steps</string>

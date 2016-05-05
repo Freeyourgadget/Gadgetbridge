@@ -61,7 +61,6 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
                 PREF_USER_ALIAS,
                 PREF_MIBAND_ADDRESS,
                 PREF_MIBAND_FITNESS_GOAL,
-                PREF_MIBAND_DONT_ACK_TRANSFER,
                 PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR,
                 getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_SMS),
                 getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_INCOMING_CALL),

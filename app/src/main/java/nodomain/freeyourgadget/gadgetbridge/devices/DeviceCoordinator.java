@@ -107,4 +107,6 @@ public interface DeviceCoordinator {
      * @return
      */
     boolean supportsAlarmConfiguration();
+
+    int getTapString();
 }

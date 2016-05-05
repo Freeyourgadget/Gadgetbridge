@@ -390,7 +390,8 @@ public class ControlCenter extends GBActivity {
         }
 
         if (connected) {
-            hintTextView.setText(R.string.tap_connected_device_for_app_mananger);
+            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(selectedDevice);
+            hintTextView.setText(coordinator.getTapString());
         } else if (!deviceList.isEmpty()) {
             hintTextView.setText(R.string.tap_a_device_to_connect);
         }
