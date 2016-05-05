@@ -77,17 +77,11 @@ public class GBActivitySample implements ActivitySample {
     }
 
     @Override
-    public int getCustomValue() {
-        return customValue;
-    }
-
-    @Override
     public String toString() {
         return "GBActivitySample{" +
                 "timestamp=" + DateTimeUtils.formatDateTime(DateTimeUtils.parseTimeStamp(timestamp)) +
                 ", intensity=" + getIntensity() +
                 ", steps=" + getSteps() +
-                ", customValue=" + getCustomValue() +
                 ", type=" + getKind() +
                 '}';
     }
