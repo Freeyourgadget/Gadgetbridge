@@ -5,6 +5,11 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.widget.Toast;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -22,6 +27,9 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class DeviceHelper {
+
+    private static final Logger LOG = LoggerFactory.getLogger(DeviceHelper.class);
+
     private static final DeviceHelper instance = new DeviceHelper();
 
     public static DeviceHelper getInstance() {
@@ -95,12 +103,23 @@ public class DeviceHelper {
 
     public GBDevice toSupportedDevice(BluetoothDevice device) {
         GBDeviceCandidate candidate = new GBDeviceCandidate(device, GBDevice.RSSI_UNKNOWN);
+
+        String deviceName = device.getName();
+        try {
+            Method method = device.getClass().getMethod("getAliasName");
+            if (method != null) {
+                deviceName = (String) method.invoke(device);
+            }
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ignore) {
+            LOG.info("Could not get device alias for " + deviceName);
+        }
+
         if (coordinator != null && coordinator.supports(candidate)) {
-            return new GBDevice(device.getAddress(), device.getName(), coordinator.getDeviceType());
+            return new GBDevice(device.getAddress(), deviceName, coordinator.getDeviceType());
         }
         for (DeviceCoordinator coordinator : getAllCoordinators()) {
             if (coordinator.supports(candidate)) {
-                return new GBDevice(device.getAddress(), device.getName(), coordinator.getDeviceType());
+                return new GBDevice(device.getAddress(), deviceName, coordinator.getDeviceType());
             }
         }
         return null;
