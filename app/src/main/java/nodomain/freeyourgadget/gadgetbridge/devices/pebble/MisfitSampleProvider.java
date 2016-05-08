@@ -10,7 +10,7 @@ public class MisfitSampleProvider extends AbstractSampleProvider<PebbleActivityS
 
     protected final float movementDivisor = 300f;
 
-    protected MisfitSampleProvider(DaoSession session) {
+    public MisfitSampleProvider(DaoSession session) {
         super(session);
     }
 
@@ -38,6 +38,6 @@ public class MisfitSampleProvider extends AbstractSampleProvider<PebbleActivityS
 
     @Override
     protected AbstractDao<PebbleActivitySample, ?> getSampleDao() {
-        return getmSession().getPebbleActivitySampleDao();
+        return getSession().getPebbleActivitySampleDao();
     }
 }

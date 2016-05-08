@@ -67,7 +67,7 @@ class DatalogSessionHealthSleep extends DatalogSession {
 
     private boolean store84(SleepRecord84[] sleepRecords) {
         DBHandler dbHandler = null;
-        SampleProvider sampleProvider = new HealthSampleProvider();
+        SampleProvider sampleProvider = new HealthSampleProvider(GBApplication.getDaoSession());
         try {
             dbHandler = GBApplication.acquireDB();
             int latestTimestamp = dbHandler.fetchLatestTimestamp(sampleProvider);
@@ -120,7 +120,7 @@ class DatalogSessionHealthSleep extends DatalogSession {
 
     private boolean store83(SleepRecord83[] sleepRecords) {
         DBHandler dbHandler = null;
-        SampleProvider sampleProvider = new HealthSampleProvider();
+        SampleProvider sampleProvider = new HealthSampleProvider(GBApplication.getDaoSession());
         GB.toast("Deep sleep is supported only from firmware 3.11 onwards.", Toast.LENGTH_LONG, GB.INFO);
         try {
             dbHandler = GBApplication.acquireDB();

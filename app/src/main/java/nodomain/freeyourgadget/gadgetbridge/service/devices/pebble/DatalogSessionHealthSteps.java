@@ -71,7 +71,7 @@ public class DatalogSessionHealthSteps extends DatalogSession {
     private void store(StepsRecord[] stepsRecords) {
 
         DBHandler dbHandler = null;
-        SampleProvider sampleProvider = new HealthSampleProvider();
+        SampleProvider sampleProvider = new HealthSampleProvider(GBApplication.getDaoSession());
 
         ActivitySample[] samples = new ActivitySample[stepsRecords.length];
         for (int j = 0; j < stepsRecords.length; j++) {

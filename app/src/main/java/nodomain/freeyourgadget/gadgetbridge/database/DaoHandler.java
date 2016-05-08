@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.List;
 
+import de.greenrobot.dao.AbstractDao;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
@@ -56,8 +57,10 @@ public class DaoHandler implements DBHandler {
     }
 
     @Override
-    public void addGBActivitySamples(ActivitySample[] activitySamples) {
-
+    public void addGBActivitySamples(ActivitySample[] activitySamples, AbstractDao<ActivitySample,?> dao) {
+        for (ActivitySample sample : activitySamples) {
+            dao.insert(sample);
+        }
     }
 
     @Override

@@ -23,6 +23,10 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandDateConverter;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
+import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -316,8 +320,10 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
                     throw new IllegalStateException("Unexpected data, progress should be mutiple of " + bpm + ": " + activityStruct.activityDataHolderProgress);
                 }
                 int numSamples = activityStruct.activityDataHolderProgress / bpm;
-                ActivitySample[] samples = new ActivitySample[numSamples];
-                SampleProvider sampleProvider = new MiBandSampleProvider();
+                AbstractActivitySample[] samples = new AbstractActivitySample[numSamples];
+                DaoSession daoSession = GBApplication.getDaoSession();
+                SampleProvider sampleProvider = new MiBandSampleProvider(daoSession);
+                MiBandActivitySampleDao dao = daoSession.getMiBandActivitySampleDao();
 
                 for (int i = 0; i < activityStruct.activityDataHolderProgress; i += bpm) {
                     category = activityStruct.activityDataHolder[i];
@@ -328,19 +334,25 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
                         LOG.debug("heartrate received: " + (heartrate & 0xff));
                     }
 
-                    samples[minutes] = new GBActivitySample(
-                            sampleProvider,
+                    Long userId = null;
+                    Long deviceId = null;
+
+                    samples[minutes] = new MiBandActivitySample(
+                            null,
                             timestampInSeconds,
                             intensity & 0xff,
                             steps & 0xff,
                             category & 0xff,
+                            userId,
+                            deviceId,
                             heartrate & 0xff);
+                    samples[minutes].setProvider(sampleProvider);
 
                     // next minute
                     minutes++;
                     timestampInSeconds += 60;
                 }
-                dbHandler.addGBActivitySamples(samples);
+                dbHandler.addGBActivitySamples(samples, dao);
             } finally {
                 activityStruct.bufferFlushed(minutes);
             }

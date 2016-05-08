@@ -14,7 +14,7 @@ public class HealthSampleProvider extends AbstractSampleProvider<PebbleActivityS
 
     protected final float movementDivisor = 8000f;
 
-    protected HealthSampleProvider(DaoSession session) {
+    public HealthSampleProvider(DaoSession session) {
         super(session);
     }
 
@@ -60,6 +60,6 @@ public class HealthSampleProvider extends AbstractSampleProvider<PebbleActivityS
 
     @Override
     protected AbstractDao<PebbleActivitySample, ?> getSampleDao() {
-        return getmSession().getPebbleActivitySampleDao();
+        return getSession().getPebbleActivitySampleDao();
     }
 }

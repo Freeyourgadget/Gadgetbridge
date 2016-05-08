@@ -5,7 +5,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public class MiBandSampleProvider extends AbstractSampleProvider<MiBandActivitySample> {
@@ -27,7 +26,7 @@ public class MiBandSampleProvider extends AbstractSampleProvider<MiBandActivityS
     // maybe this should be configurable 256 seems way off, though.
     private final float movementDivisor = 180.0f; //256.0f;
 
-    protected MiBandSampleProvider(DaoSession session) {
+    public MiBandSampleProvider(DaoSession session) {
         super(session);
     }
 
@@ -79,6 +78,6 @@ public class MiBandSampleProvider extends AbstractSampleProvider<MiBandActivityS
 
     @Override
     protected AbstractDao<MiBandActivitySample, ?> getSampleDao() {
-        return getmSession().getMiBandActivitySampleDao();
+        return getSession().getMiBandActivitySampleDao();
     }
 }

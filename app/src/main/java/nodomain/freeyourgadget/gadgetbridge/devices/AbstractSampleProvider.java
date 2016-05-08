@@ -18,7 +18,7 @@ public abstract class AbstractSampleProvider<T extends ActivitySample> implement
         mSession = session;
     }
 
-    public DaoSession getmSession() {
+    public DaoSession getSession() {
         return mSession;
     }
 

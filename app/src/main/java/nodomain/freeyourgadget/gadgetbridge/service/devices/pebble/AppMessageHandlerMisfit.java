@@ -39,7 +39,7 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
         super(uuid, pebbleProtocol);
     }
 
-    private final MisfitSampleProvider sampleProvider = new MisfitSampleProvider();
+    private final MisfitSampleProvider sampleProvider = new MisfitSampleProvider(GBApplication.getDaoSession());
 
     @Override
     public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {

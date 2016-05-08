@@ -62,6 +62,6 @@ public class MorpheuzSampleProvider extends AbstractSampleProvider<PebbleActivit
 
     @Override
     protected AbstractDao<PebbleActivitySample, ?> getSampleDao() {
-        return getmSession().getPebbleActivitySampleDao();
+        return getSession().getPebbleActivitySampleDao();
     }
 }
