@@ -5,12 +5,22 @@ import java.util.List;
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.query.QueryBuilder;
 import de.greenrobot.dao.query.WhereCondition;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 public abstract class AbstractSampleProvider<T extends ActivitySample> implements SampleProvider {
     private static final WhereCondition[] NO_CONDITIONS = new WhereCondition[0];
+    private final DaoSession mSession;
+
+    protected AbstractSampleProvider(DaoSession session) {
+        mSession = session;
+    }
+
+    public DaoSession getmSession() {
+        return mSession;
+    }
 
     public List<T> getAllActivitySamples(int timestamp_from, int timestamp_to) {
         return getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_ALL);

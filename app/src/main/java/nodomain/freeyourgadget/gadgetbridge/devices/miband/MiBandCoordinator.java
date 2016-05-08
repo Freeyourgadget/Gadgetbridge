@@ -24,7 +24,7 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
     private final MiBandSampleProvider sampleProvider;
 
     public MiBandCoordinator() {
-        sampleProvider = new MiBandSampleProvider();
+        sampleProvider = new MiBandSampleProvider(GBApplication.getDaoSession());
     }
 
     @Override

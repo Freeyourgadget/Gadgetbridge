@@ -10,6 +10,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
@@ -46,18 +47,19 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     @Override
     public SampleProvider getSampleProvider() {
         Prefs prefs = GBApplication.getPrefs();
+        DaoSession session = GBApplication.getDaoSession();
         int activityTracker = prefs.getInt("pebble_activitytracker", SampleProvider.PROVIDER_PEBBLE_HEALTH);
         switch (activityTracker) {
             case SampleProvider.PROVIDER_PEBBLE_HEALTH:
-                return new HealthSampleProvider();
+                return new HealthSampleProvider(session);
             case SampleProvider.PROVIDER_PEBBLE_MISFIT:
-                return new MisfitSampleProvider();
+                return new MisfitSampleProvider(session);
             case SampleProvider.PROVIDER_PEBBLE_MORPHEUZ:
-                return new MorpheuzSampleProvider();
+                return new MorpheuzSampleProvider(session);
             case SampleProvider.PROVIDER_PEBBLE_GADGETBRIDGE:
-                return new PebbleGadgetBridgeSampleProvider();
+                return new PebbleGadgetBridgeSampleProvider(session);
             default:
-                return new HealthSampleProvider();
+                return new HealthSampleProvider(session);
         }
     }
 
