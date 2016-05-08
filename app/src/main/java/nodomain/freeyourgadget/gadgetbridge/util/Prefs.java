@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +12,9 @@ import java.util.Set;
  * Wraps SharedPreferences to avoid ClassCastExceptions and others.
  */
 public class Prefs {
-    private static final Logger LOG = LoggerFactory.getLogger(Prefs.class);
+    private static final String TAG = "Prefs";
+    // DO NOT use slf4j logger here, this would break its configuration via GBApplication
+//    private static final Logger LOG = LoggerFactory.getLogger(Prefs.class);
 
     private final SharedPreferences preferences;
 
@@ -136,7 +139,7 @@ public class Prefs {
     }
 
     private void logReadError(String key, Exception ex) {
-        LOG.error("Error reading preference value: " + key + "; returning default value", ex); // log the first exception
+        Log.e(TAG, "Error reading preference value: " + key + "; returning default value", ex); // log the first exception
     }
 
     /**
