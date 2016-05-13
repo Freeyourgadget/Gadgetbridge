@@ -1,16 +1,22 @@
 package nodomain.freeyourgadget.gadgetbridge.devices;
 
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.Arrays;
 import java.util.List;
 
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.query.QueryBuilder;
 import de.greenrobot.dao.query.WhereCondition;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
-public abstract class AbstractSampleProvider<T extends ActivitySample> implements SampleProvider {
+public abstract class AbstractSampleProvider<T extends ActivitySample> implements SampleProvider, DBHandler {
     private static final WhereCondition[] NO_CONDITIONS = new WhereCondition[0];
     private final DaoSession mSession;
 
@@ -34,22 +40,76 @@ public abstract class AbstractSampleProvider<T extends ActivitySample> implement
         return getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_SLEEP);
     }
 
-    public void addGBActivitySample(int timestamp, int provider, int intensity, int steps, int kind, int heartrate) {
+    @Override
+    public void close() {
+        // TESTING: NOOP
+    }
+
+    @Override
+    public SQLiteOpenHelper getHelper() {
+        // TESTING: NOOP
+        return null;
+    }
+
+    @Override
+    public void release() {
+        // TESTING: NOOP
+    }
+
+    @Override
+    public List<ActivitySample> getAllActivitySamples(int tsFrom, int tsTo, SampleProvider provider) {
+        return (List<ActivitySample>) getGBActivitySamples(tsFrom, tsTo, ActivityKind.TYPE_ALL);
+    }
+
+    @Override
+    public List<ActivitySample> getActivitySamples(int tsFrom, int tsTo, SampleProvider provider) {
+        return (List<ActivitySample>) getGBActivitySamples(tsFrom, tsTo, ActivityKind.TYPE_ACTIVITY);
+    }
+
+    @Override
+    public List<ActivitySample> getSleepSamples(int tsFrom, int tsTo, SampleProvider provider) {
+        return (List<ActivitySample>) getGBActivitySamples(tsFrom, tsTo, ActivityKind.TYPE_SLEEP);
+    }
+
+    @Override
+    public void addGBActivitySample(AbstractActivitySample activitySample) {
+        getSampleDao().insert((T) activitySample);
+    }
+
+    @Override
+    public void addGBActivitySamples(AbstractActivitySample[] activitySamples) {
+        getSampleDao().insertInTx((T[]) activitySamples);
+    }
+
+    @Override
+    public SQLiteDatabase getWritableDatabase() {
+        // TESTING: NOOP
+        return null;
+    }
+
+    @Override
+    public void changeStoredSamplesType(int timestampFrom, int timestampTo, int kind, SampleProvider provider) {
 
     }
 
-    public void addGBActivitySamples(ActivitySample[] activitySamples) {
+    @Override
+    public void changeStoredSamplesType(int timestampFrom, int timestampTo, int fromKind, int toKind, SampleProvider provider) {
 
+    }
+
+    @Override
+    public int fetchLatestTimestamp(SampleProvider provider) {
+        return 0;
     }
 
 //    SQLiteDatabase getWritableDatabase();
 
     public void changeStoredSamplesType(int timestampFrom, int timestampTo, int kind) {
-
+        // TODO: implement
     }
 
     public void changeStoredSamplesType(int timestampFrom, int timestampTo, int fromKind, int toKind) {
-
+        // TODO: implement
     }
 
     protected List<T> getGBActivitySamples(int timestamp_from, int timestamp_to, int activityType) {

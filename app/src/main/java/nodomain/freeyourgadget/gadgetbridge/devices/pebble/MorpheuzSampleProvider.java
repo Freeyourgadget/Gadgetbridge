@@ -16,7 +16,7 @@ public class MorpheuzSampleProvider extends AbstractSampleProvider<PebbleActivit
 
     protected float movementDivisor = 5000f;
 
-    protected MorpheuzSampleProvider(DaoSession session) {
+    public MorpheuzSampleProvider(DaoSession session) {
         super(session);
     }
 

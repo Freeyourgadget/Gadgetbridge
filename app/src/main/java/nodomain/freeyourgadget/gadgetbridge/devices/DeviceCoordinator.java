@@ -109,4 +109,9 @@ public interface DeviceCoordinator {
     boolean supportsAlarmConfiguration();
 
     int getTapString();
+
+    /**
+     * Returns the readable name of the manufacturer.
+     */
+    String getManufacturer();
 }

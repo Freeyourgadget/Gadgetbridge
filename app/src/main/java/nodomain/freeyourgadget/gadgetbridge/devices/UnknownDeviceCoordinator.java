@@ -93,4 +93,9 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     public int getTapString() {
         return 0;
     }
+
+    @Override
+    public String getManufacturer() {
+        return "unknown";
+    }
 }

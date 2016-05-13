@@ -7,6 +7,7 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 public interface DBHandler {
@@ -29,9 +30,9 @@ public interface DBHandler {
 
     List<ActivitySample> getSleepSamples(int tsFrom, int tsTo, SampleProvider provider);
 
-    void addGBActivitySample(int timestamp, int provider, int intensity, int steps, int kind, int heartrate);
+    void addGBActivitySample(AbstractActivitySample sample);
 
-    void addGBActivitySamples(ActivitySample[] activitySamples);
+    void addGBActivitySamples(AbstractActivitySample[] activitySamples);
 
     SQLiteDatabase getWritableDatabase();
 

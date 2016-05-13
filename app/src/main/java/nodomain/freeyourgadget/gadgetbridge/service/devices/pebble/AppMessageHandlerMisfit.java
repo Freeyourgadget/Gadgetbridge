@@ -18,6 +18,8 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.MisfitSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
@@ -70,7 +72,10 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
                     LOG.info("got data from " + startDate + " to " + endDate);
 
                     int totalSteps = 0;
-                    GBActivitySample[] activitySamples = new GBActivitySample[samples];
+                    AbstractActivitySample[] activitySamples = new AbstractActivitySample[samples];
+                    // TODO: user and device id
+                    Long userId =  null;
+                    Long deviceId = null;
                     for (int i = 0; i < samples; i++) {
                         short sample = buf.getShort();
                         int steps = 0;
@@ -101,17 +106,18 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
                         totalSteps += steps;
                         LOG.info("got steps for sample " + i + " : " + steps + "(" + Integer.toHexString(sample & 0xffff) + ")");
 
-                        activitySamples[i] = new GBActivitySample(sampleProvider, timestamp + i * 60, intensity, steps, activityKind);
+                        activitySamples[i] = new PebbleActivitySample(null, timestamp + i * 60, intensity, steps, activityKind, userId, deviceId);
                     }
                     LOG.info("total steps for above period: " + totalSteps);
 
                     DBHandler db = null;
                     try {
-                        db = GBApplication.acquireDB();
+//                        db = GBApplication.acquireDB();
+                        db = sampleProvider;
                         db.addGBActivitySamples(activitySamples);
-                    } catch (GBException e) {
-                        LOG.error("Error acquiring database", e);
-                        return null;
+//                    } catch (GBException e) {
+//                        LOG.error("Error acquiring database", e);
+//                        return null;
                     } finally {
                         if (db != null) {
                             db.release();

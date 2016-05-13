@@ -88,4 +88,9 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     public int getTapString() {
         return R.string.tap_connected_device_for_app_mananger;
     }
+
+    @Override
+    public String getManufacturer() {
+        return "Pebble";
+    }
 }

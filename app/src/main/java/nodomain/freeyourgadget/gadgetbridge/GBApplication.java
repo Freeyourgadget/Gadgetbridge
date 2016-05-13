@@ -6,8 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.content.res.Resources;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Build.VERSION;
 import android.preference.PreferenceManager;
@@ -27,10 +27,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
-import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBConstants;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
-import nodomain.freeyourgadget.gadgetbridge.database.DaoHandler;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
@@ -52,7 +50,6 @@ public class GBApplication extends Application {
     // Since this class must not log to slf4j, we use plain android.util.Log
     private static final String TAG = "GBApplication";
     private static GBApplication context;
-    private static DBHandler mActivityDatabaseHandler;
     private static final Lock dbLock = new ReentrantLock();
     private static DeviceService deviceService;
     private static SharedPreferences sharedPrefs;
@@ -210,7 +207,6 @@ public class GBApplication extends Application {
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
-        mActivityDatabaseHandler = new DaoHandler(daoMaster, helper);
     }
 
     public static DaoSession getDaoSession() {
@@ -242,6 +238,7 @@ public class GBApplication extends Application {
      * @see #releaseDB()
      */
     public static DBHandler acquireDB() throws GBException {
+        // TODO: implement locking with greendao?
         try {
             if (dbLock.tryLock(30, TimeUnit.SECONDS)) {
                 return mActivityDatabaseHandler;
@@ -303,12 +300,13 @@ public class GBApplication extends Application {
      * @return true on successful deletion
      */
     public static synchronized boolean deleteActivityDatabase() {
-        if (mActivityDatabaseHandler != null) {
-            mActivityDatabaseHandler.close();
-            mActivityDatabaseHandler = null;
-        }
+        // TODO: flush, close, reopen db
+//        if (mActivityDatabaseHandler != null) {
+//            mActivityDatabaseHandler.close();
+//            mActivityDatabaseHandler = null;
+//        }
         boolean result = getContext().deleteDatabase(DBConstants.DATABASE_NAME);
-        mActivityDatabaseHandler = new ActivityDatabaseHandler(getContext());
+//        mActivityDatabaseHandler = new Activity7DatabaseHandler(getContext());
         return result;
     }
 

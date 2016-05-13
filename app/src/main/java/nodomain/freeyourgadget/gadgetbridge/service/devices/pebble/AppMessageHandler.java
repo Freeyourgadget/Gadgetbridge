@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleActivitySample;
 
 public class AppMessageHandler {
     protected final PebbleProtocol mPebbleProtocol;
@@ -27,5 +28,12 @@ public class AppMessageHandler {
 
     public GBDeviceEvent[] pushMessage() {
         return null;
+    }
+
+    protected PebbleActivitySample createSample(int timestamp, int intensity, int steps, int type) {
+        // TODO: user and device id
+        Long userId = null;
+        Long deviceId = null;
+        return new PebbleActivitySample(null, timestamp, intensity, steps, type, userId, deviceId);
     }
 }

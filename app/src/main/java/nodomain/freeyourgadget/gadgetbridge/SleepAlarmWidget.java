@@ -23,7 +23,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 /**
  * Implementation of SleepAlarmWidget functionality. When pressing the widget, an alarm will be set
  * to trigger after a predefined number of hours. A toast will confirm the user about this. The
- * value is retrieved using ActivityUser.().getActivityUserSleepDuration().
+ * value is retrieved using ActivityUser.().getSleepDuration().
  */
 public class SleepAlarmWidget extends AppWidgetProvider {
 
@@ -71,7 +71,7 @@ public class SleepAlarmWidget extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         if (ACTION.equals(intent.getAction())) {
-            int userSleepDuration = new ActivityUser().getActivityUserSleepDuration();
+            int userSleepDuration = new ActivityUser().getSleepDuration();
             // current timestamp
             GregorianCalendar calendar = new GregorianCalendar();
             // add preferred sleep duration

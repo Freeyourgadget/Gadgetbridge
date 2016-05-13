@@ -696,15 +696,15 @@ public class PebbleProtocol extends GBDeviceProtocol {
             buf.order(ByteOrder.LITTLE_ENDIAN);
 
             ActivityUser activityUser = new ActivityUser();
-            Integer heightMm = activityUser.getActivityUserHeightCm() * 10;
+            Integer heightMm = activityUser.getHeightCm() * 10;
             buf.putShort(heightMm.shortValue());
-            Integer weigthDag = activityUser.getActivityUserWeightKg() * 100;
+            Integer weigthDag = activityUser.getWeightKg() * 100;
             buf.putShort(weigthDag.shortValue());
             buf.put((byte) 0x01); //activate tracking
             buf.put((byte) 0x00); //activity Insights
             buf.put((byte) 0x00); //sleep Insights
-            buf.put((byte) activityUser.getActivityUserAge());
-            buf.put((byte) activityUser.getActivityUserGender());
+            buf.put((byte) activityUser.getAge());
+            buf.put((byte) activityUser.getGender());
             blob = buf.array();
         } else {
             blob = new byte[]{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};

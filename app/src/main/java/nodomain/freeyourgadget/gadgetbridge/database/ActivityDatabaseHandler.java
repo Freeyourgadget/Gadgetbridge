@@ -17,6 +17,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.schema.ActivityDBCreationScript;
 import nodomain.freeyourgadget.gadgetbridge.database.schema.SchemaMigration;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -68,7 +69,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
             values.put(KEY_PROVIDER, sample.getProvider().getID());
             values.put(KEY_INTENSITY, sample.getRawIntensity());
             values.put(KEY_STEPS, sample.getSteps());
-            values.put(KEY_CUSTOM_SHORT, sample.getCustomValue());
+//            values.put(KEY_CUSTOM_SHORT, sample.getCustomValue());
             values.put(KEY_TYPE, sample.getRawKind());
 
             db.insert(TABLE_GBACTIVITYSAMPLES, null, values);
@@ -86,7 +87,13 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
      * @param customShortValue
      */
     @Override
-    public void addGBActivitySample(int timestamp, int provider, int intensity, int steps, int kind, int customShortValue) {
+    public void addGBActivitySample(AbstractActivitySample sample) {
+        float intensity = sample.getIntensity();
+        int steps = sample.getSteps();
+        int kind = sample.getRawKind();
+        int timestamp = sample.getTimestamp();
+        int customShortValue = 0;
+
         if (intensity < 0) {
             LOG.error("negative intensity received, ignoring");
             intensity = 0;
@@ -104,7 +111,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
         try (SQLiteDatabase db = this.getWritableDatabase()) {
             ContentValues values = new ContentValues();
             values.put(KEY_TIMESTAMP, timestamp);
-            values.put(KEY_PROVIDER, provider);
+//            values.put(KEY_PROVIDER, provider);
             values.put(KEY_INTENSITY, intensity);
             values.put(KEY_STEPS, steps);
             values.put(KEY_TYPE, kind);
@@ -115,7 +122,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
     }
 
     @Override
-    public void addGBActivitySamples(ActivitySample[] activitySamples) {
+    public void addGBActivitySamples(AbstractActivitySample[] activitySamples) {
         try (SQLiteDatabase db = this.getWritableDatabase()) {
 
             String sql = "INSERT INTO " + TABLE_GBACTIVITYSAMPLES + " (" + KEY_TIMESTAMP + "," +
@@ -131,7 +138,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
                 statement.bindLong(3, activitySample.getRawIntensity());
                 statement.bindLong(4, activitySample.getSteps());
                 statement.bindLong(5, activitySample.getRawKind());
-                statement.bindLong(6, activitySample.getCustomValue());
+//                statement.bindLong(6, activitySample.getCustomValue());
                 statement.execute();
             }
             db.setTransactionSuccessful();

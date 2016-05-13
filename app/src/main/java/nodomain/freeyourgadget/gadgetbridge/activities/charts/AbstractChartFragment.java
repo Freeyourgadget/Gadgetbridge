@@ -48,6 +48,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.HeartRateSample;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
@@ -463,13 +464,13 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                         colors.add(akActivity.color);
                 }
                 activityEntries.add(createBarEntry(value, i));
-                if (hr && isValidHeartRateValue(sample.getCustomValue())) {
+                if (hr && isValidHeartRateValue(((HeartRateSample)sample).getHeartRate())) {
                     if (lastHrSampleIndex > -1 && i - lastHrSampleIndex > HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
                         heartrateEntries.add(createLineEntry(0, lastHrSampleIndex + 1));
                         heartrateEntries.add(createLineEntry(0, i - 1));
                     }
 
-                    heartrateEntries.add(createLineEntry(sample.getCustomValue(), i));
+                    heartrateEntries.add(createLineEntry(((HeartRateSample)sample).getHeartRate(), i));
                     lastHrSampleIndex = i;
                 }
 

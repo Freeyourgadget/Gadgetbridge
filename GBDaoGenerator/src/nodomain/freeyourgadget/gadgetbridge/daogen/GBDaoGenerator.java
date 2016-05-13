@@ -51,7 +51,7 @@ public class GBDaoGenerator {
         user.addIdProperty();
         user.addStringProperty("name").notNull();
         user.addDateProperty("birthday").notNull();
-        user.addIntProperty("sex").notNull();
+        user.addIntProperty("gender").notNull();
         Property userId = userAttributes.addLongProperty("userId").notNull().getProperty();
         user.addToMany(userAttributes, userId);
 
@@ -78,7 +78,7 @@ public class GBDaoGenerator {
         device.addIdProperty();
         device.addStringProperty("name").notNull();
         device.addStringProperty("manufacturer").notNull();
-        device.addStringProperty("identifier").notNull().javaDocGetterAndSetter("The fixed identifier, i.e. MAC address of the device.");
+        device.addStringProperty("identifier").notNull().unique().javaDocGetterAndSetter("The fixed identifier, i.e. MAC address of the device.");
         Property deviceId = deviceAttributes.addLongProperty("deviceId").notNull().getProperty();
         device.addToMany(deviceAttributes, deviceId);
 
@@ -99,22 +99,25 @@ public class GBDaoGenerator {
     private static Entity addMiBandActivitySample(Schema schema, Entity user, Entity device) {
 //        public GBActivitySample(SampleProvider provider, int timestamp, int intensity, int steps, int type, int customValue) {
         Entity activitySample = addEntity(schema, "MiBandActivitySample");
+        addCommonActivitySampleProperties(schema, activitySample, user, device);
+        addHeartRateProperties(activitySample);
+        return activitySample;
+    }
+
+    private static void addHeartRateProperties(Entity activitySample) {
         activitySample.addImport(MODEL_PACKAGE + ".HeartRateSample");
         activitySample.implementsInterface("HeartRateSample");
-        addCommonAcivitySampleProperties(schema, activitySample, user, device);
         activitySample.addIntProperty("heartRate");
-        return activitySample;
     }
 
     private static Entity addPebbleActivitySample(Schema schema, Entity user, Entity device) {
 //        public GBActivitySample(SampleProvider provider, int timestamp, int intensity, int steps, int type, int customValue) {
         Entity activitySample = addEntity(schema, "PebbleActivitySample");
-        addCommonAcivitySampleProperties(schema, activitySample, user, device);
-//        activitySample.addIntProperty("heartrate").notNull();
+        addCommonActivitySampleProperties(schema, activitySample, user, device);
         return activitySample;
     }
 
-    private static void addCommonAcivitySampleProperties(Schema schema, Entity activitySample, Entity user, Entity device) {
+    private static void addCommonActivitySampleProperties(Schema schema, Entity activitySample, Entity user, Entity device) {
         activitySample.setSuperclass("AbstractActivitySample");
         activitySample.addImport(MODEL_PACKAGE + ".ActivitySample");
         activitySample.addImport(MAIN_PACKAGE + ".devices.SampleProvider");

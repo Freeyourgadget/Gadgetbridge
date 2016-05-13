@@ -84,6 +84,11 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
         return R.string.tap_connected_device_for_activity;
     }
 
+    @Override
+    public String getManufacturer() {
+        return "Xiaomi";
+    }
+
     public static boolean hasValidUserInfo() {
         String dummyMacAddress = MiBandService.MAC_ADDRESS_FILTER_1_1A + ":00:00:00";
         try {
@@ -122,10 +127,10 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
         UserInfo info = UserInfo.create(
                 miBandAddress,
                 prefs.getString(MiBandConst.PREF_USER_ALIAS, null),
-                activityUser.getActivityUserGender(),
-                activityUser.getActivityUserAge(),
-                activityUser.getActivityUserHeightCm(),
-                activityUser.getActivityUserWeightKg(),
+                activityUser.getGender(),
+                activityUser.getAge(),
+                activityUser.getHeightCm(),
+                activityUser.getWeightKg(),
                 0
         );
         return info;

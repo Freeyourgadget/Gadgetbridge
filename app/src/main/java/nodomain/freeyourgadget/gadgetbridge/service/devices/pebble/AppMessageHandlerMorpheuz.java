@@ -92,10 +92,11 @@ public class AppMessageHandlerMorpheuz extends AppMessageHandler {
                         if (index >= 0) {
                             DBHandler db = null;
                             try {
-                                db = GBApplication.acquireDB();
-                                db.addGBActivitySample(recording_base_timestamp + index * 600, SampleProvider.PROVIDER_PEBBLE_MORPHEUZ, intensity, 0, type, 0);
-                            } catch (GBException e) {
-                                LOG.error("Error acquiring database", e);
+//                                db = GBApplication.acquireDB();
+                                db = new MorpheuzSampleProvider(GBApplication.getDaoSession());
+                                db.addGBActivitySample(createSample(recording_base_timestamp + index * 600, intensity, 0, type));
+//                            } catch (GBException e) {
+//                                LOG.error("Error acquiring database", e);
                             } finally {
                                 if (db != null) {
                                     db.release();

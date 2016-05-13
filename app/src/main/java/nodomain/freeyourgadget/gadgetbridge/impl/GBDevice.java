@@ -335,6 +335,15 @@ public class GBDevice implements Parcelable {
         return getDeviceInfos().size() > 0;
     }
 
+    public ItemWithDetails getDeviceInfo(String name) {
+        for (ItemWithDetails item : getDeviceInfos()) {
+            if (name.equals(item.getName())) {
+                return item;
+            }
+        }
+        return null;
+    }
+
     public List<ItemWithDetails> getDeviceInfos() {
         List<ItemWithDetails> result = new ArrayList<>();
         if (mDeviceInfos != null) {

@@ -11,6 +11,8 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.HealthSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -70,22 +72,27 @@ public class DatalogSessionHealthSteps extends DatalogSession {
 
     private void store(StepsRecord[] stepsRecords) {
 
-        DBHandler dbHandler = null;
-        SampleProvider sampleProvider = new HealthSampleProvider(GBApplication.getDaoSession());
+        HealthSampleProvider sampleProvider = new HealthSampleProvider(GBApplication.getDaoSession());
+        DBHandler dbHandler = sampleProvider;
 
-        ActivitySample[] samples = new ActivitySample[stepsRecords.length];
+        AbstractActivitySample[] samples = new AbstractActivitySample[stepsRecords.length];
+        // TODO: user and device
+        Long userId = null;
+        Long deviceId = null;
         for (int j = 0; j < stepsRecords.length; j++) {
             StepsRecord stepsRecord = stepsRecords[j];
-            samples[j] = new GBActivitySample(
-                    sampleProvider,
+            samples[j] = new PebbleActivitySample(
+                    null,
                     stepsRecord.timestamp,
                     stepsRecord.intensity,
                     stepsRecord.steps,
-                    sampleProvider.toRawActivityKind(ActivityKind.TYPE_ACTIVITY));
+                    sampleProvider.toRawActivityKind(ActivityKind.TYPE_ACTIVITY),
+                    userId, deviceId);
         }
 
         try {
-            dbHandler = GBApplication.acquireDB();
+//            dbHandler = GBApplication.acquireDB();
+            dbHandler = sampleProvider;
             dbHandler.addGBActivitySamples(samples);
         } catch (Exception ex) {
             LOG.debug(ex.getMessage());
