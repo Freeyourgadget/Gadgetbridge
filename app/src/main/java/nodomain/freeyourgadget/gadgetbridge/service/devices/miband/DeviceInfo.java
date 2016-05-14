@@ -112,6 +112,10 @@ public class DeviceInfo extends AbstractInfo {
         return (feature == 4 && appearance == 0) || hwVersion == 4;
     }
 
+    public boolean isAmazFit() {
+        return hwVersion == 6;
+    }
+
     public String getHwVersion() {
         if (isMili1()) {
             return MiBandConst.MI_1;
@@ -121,6 +125,9 @@ public class DeviceInfo extends AbstractInfo {
         }
         if (isMili1S()) {
             return MiBandConst.MI_1S;
+        }
+        if (isAmazFit()) {
+            return MiBandConst.MI_AMAZFIT;
         }
         return "?";
     }

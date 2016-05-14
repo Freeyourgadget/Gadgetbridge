@@ -85,7 +85,7 @@ public class UserInfo {
         sequence[8] = (byte) (type & 0xff);
 
         int aliasFrom = 9;
-        if (mDeviceInfo.isMili1A() || mDeviceInfo.isMili1S()) {
+        if (!mDeviceInfo.isMili1()) {
             sequence[9] = (byte) (mDeviceInfo.feature & 255);
             sequence[10] = (byte) (mDeviceInfo.appearance & 255);
             aliasFrom = 11;

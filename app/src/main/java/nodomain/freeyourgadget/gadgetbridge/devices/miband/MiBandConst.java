@@ -26,6 +26,7 @@ public final class MiBandConst {
     public static final String MI_1 = "1";
     public static final String MI_1A = "1A";
     public static final String MI_1S = "1S";
+    public static final String MI_AMAZFIT = "Amazfit";
 
     public static int getNotificationPrefIntValue(String pref, String origin, Prefs prefs, int defaultValue) {
         String key = getNotificationPrefKey(pref, origin);
