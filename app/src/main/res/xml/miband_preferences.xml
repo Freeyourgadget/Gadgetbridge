@@ -165,6 +165,6 @@
             android:key="mi_low_latency_fw_update"
             android:title="@string/pref_title_low_latency_fw_update"
             android:summary="@string/pref_summary_low_latency_fw_update"
-            android:defaultValue="false" />
+            android:defaultValue="true" />
     </PreferenceCategory>
 </PreferenceScreen>
