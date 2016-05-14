@@ -74,6 +74,7 @@
   <string name="bluetooth_is_not_supported_">Bluetoothはサポートされていません。</string>
   <string name="bluetooth_is_disabled_">Bluetoothは無効です。</string>
   <string name="tap_connected_device_for_app_mananger">アプリマネージャーの接続されたデバイスをタップ</string>
+  <string name="tap_connected_device_for_activity">アクティビティの接続されたデバイスをタップ</string>
   <string name="tap_a_device_to_connect">接続するデバイスをタップ</string>
   <string name="cannot_connect_bt_address_invalid_">接続できません。 BTアドレスが無効?</string>
   <string name="gadgetbridge_running">ガジェットブリッジは実行中</string>
@@ -182,9 +183,11 @@
   <string name="chart_steps">歩数</string>
   <string name="liveactivity_live_activity">生活活動</string>
   <string name="weeksteps_today_steps_description">今日の歩数、目標: %1$s</string>
+  <string name="pref_title_dont_ack_transfer">活動データ転送に応答しない</string>
   <string name="pref_summary_dont_ack_transfers">活動データは、バンドが応答しない場合は、クリアされません。 GBを他のアプリと一緒に使用する場合に便利です。</string>
   <string name="pref_summary_keep_data_on_device">同期後もMi Bandに活動データを保持します。 GBを他のアプリと一緒に使用する場合に便利です。</string>
-  <string name="pref_title_dont_ack_transfer">活動データ転送に応答しない</string>
+  <string name="pref_title_low_latency_fw_update">FW の更新に低遅延モードを使用する</string>
+  <string name="pref_summary_low_latency_fw_update">これはファームウェアの更新が失敗するデバイスで役立つことがあります</string>
   <string name="live_activity_steps_history">歩数履歴</string>
   <string name="live_activity_current_steps_per_minute">現在の歩数/分</string>
   <string name="live_activity_total_steps">合計歩数</string>
@@ -225,4 +228,5 @@
   <string name="updatefirmwareoperation_firmware_not_sent">ファームウェアを送信しませんでした</string>
   <string name="charts_legend_heartrate">心拍数</string>
   <string name="live_activity_heart_rate">心拍数</string>
+  <string name="pref_title_general_autocreonnect">自動的に再接続</string>
 </resources>
