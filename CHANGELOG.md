@@ -1,6 +1,9 @@
 ###Changelog
 ####Version 0.9.7
 * Pebble: hopefully fix some reconnect issues
+* Mi Band: fix live activity monitoring running forever if back button pressed
+* Mi Band: allow low latency firmware updates, fixes update with some phones
+* Mi Band: inital experimental and probably broken support for Amazfit
 * Show aliases for BT Devices if they had been renamed in BT Settings
 * Do not show a hint about App Manager when a Mi Band is connected
 
