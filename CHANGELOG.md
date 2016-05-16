@@ -1,12 +1,20 @@
 ###Changelog
-####Version (0.9.6)
+####Version 0.9.7
+* Pebble: hopefully fix some reconnect issues
+* Mi Band: fix live activity monitoring running forever if back button pressed
+* Mi Band: allow low latency firmware updates, fixes update with some phones
+* Mi Band: inital experimental and probably broken support for Amazfit
+* Show aliases for BT Devices if they had been renamed in BT Settings
+* Do not show a hint about App Manager when a Mi Band is connected
+
+####Version 0.9.6
 * Again some UI/theme improvements
 * New preference to reconnect after connection loss (defaults to true)
 * Fix crash when dealing with certain old preference values
 * Mi Band: automatically reconnect when back in range after connection loss
 * Mi Band 1S: display heart rate value again when invoked via the Debug view
 
-####Version (0.9.5)
+####Version 0.9.5
 * Several UI Improvements
 * Easier First-time setup by using a FAB
 * Optional Dark Theme
@@ -16,7 +24,7 @@
 * Mi Band 1S: Initial live heartrate tracking
 * Fix certain crash in charts activity on slower devices (#277)
 
-####Version (0.9.4)
+####Version 0.9.4
 * Pebble: support pebble health datalog messages of firmware 3.11 (this adds support for deep sleep!)
 * Pebble: try to reconnect on new notifications and phone calls when connection was lost unexpectedly
 * Pebble: delay between reconnection attempts (from 1 up to 64 seconds)

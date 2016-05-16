@@ -396,6 +396,14 @@ public class PebbleIoThread extends GBDeviceIoThread {
                         } catch (IOException ex) {
                             ex.printStackTrace();
                             LOG.info("error while reconnecting");
+                        } finally {
+                            try {
+                                if (mBtServerSocket != null) {
+                                    mBtServerSocket.close();
+                                    mBtServerSocket = null;
+                                }
+                            } catch (IOException ignore) {
+                            }
                         }
                     }
                     if (!mIsConnected) {

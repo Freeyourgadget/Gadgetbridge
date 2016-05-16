@@ -288,7 +288,7 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
             int firmwareProgress = 0;
 
             TransactionBuilder builder = performInitialized("send firmware packet");
-            if (prefs.getBoolean("mi_low_latency_fw_update", false)) {
+            if (prefs.getBoolean("mi_low_latency_fw_update", true)) {
                 getSupport().setLowLatency(builder);
             }
             for (int i = 0; i < packets; i++) {

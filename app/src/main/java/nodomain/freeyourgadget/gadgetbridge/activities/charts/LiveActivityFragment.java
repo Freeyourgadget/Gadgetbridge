@@ -351,6 +351,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
 
     @Override
     public void onDestroyView() {
+        onMadeInvisibleInActivity();
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
         super.onDestroyView();
     }

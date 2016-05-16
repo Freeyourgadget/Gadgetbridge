@@ -183,7 +183,7 @@ public class GBApplication extends Application {
                 root.addAppender(fileLogger);
             }
         } catch (Throwable ex) {
-            Log.e("GBApplication", "Error removing logger FILE appender", ex);
+            Log.e("GBApplication", "Error adding logger FILE appender", ex);
         }
     }
 

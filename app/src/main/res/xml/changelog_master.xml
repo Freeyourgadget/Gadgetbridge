@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.9.7" versioncode="51">
+	<change>Pebble: hopefully fix some reconnect issues</change>
+	<change>Mi Band: fix live activity monitoring running forever if back button pressed</change>
+	<change>Mi Band: allow low latency firmware updates, fixes update with some phones</change>
+	<change>Mi Band: inital experimental and probably broken support for Amazfit</change>
+	<change>Show aliases for BT Devices if they had been renamed in BT Settings</change>
+	<change>Do not show a hint about App Manager when a Mi Band is connected</change>
+    </release>
     <release version="0.9.6" versioncode="50">
         <change>Again some UI/theme improvements</change>
         <change>New preference to reconnect after connection loss (defaults to true)</change>

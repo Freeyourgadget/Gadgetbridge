@@ -32,6 +32,9 @@
   <string name="pref_header_datetime">Datum und Zeit</string>
   <string name="pref_title_datetime_syctimeonconnect">Uhrzeit synchronisieren</string>
   <string name="pref_summary_datetime_syctimeonconnect">Synchronisiere die Urzeit mit dem Gerät (bei Verbindingsaufbau und wenn die Zeit oder Zeitzone auf dem Android Gerät eingestellt wird)</string>
+  <string name="pref_title_theme">Thema</string>
+  <string name="pref_theme_light">Hell</string>
+  <string name="pref_theme_dark">Dunkel</string>
   <string name="pref_header_notifications">Benachrichtigungen</string>
   <string name="pref_title_notifications_repetitions">Wiederholungen</string>
   <string name="pref_title_notifications_call">Anrufe</string>
@@ -71,6 +74,7 @@
   <string name="bluetooth_is_not_supported_">Bluetooth wird nicht unterstützt.</string>
   <string name="bluetooth_is_disabled_">Bluetooth ist abgeschaltet.</string>
   <string name="tap_connected_device_for_app_mananger">berühre das verbundene Gerät, um den App Manager zu starten</string>
+  <string name="tap_connected_device_for_activity">Tippe auf ein verbundenes Gerät, um die Aktivitäten anzuzeigen</string>
   <string name="tap_a_device_to_connect">berühre ein Gerät zum Verbinden</string>
   <string name="cannot_connect_bt_address_invalid_">Verbindung kann nicht aufgebaut werden. BT Adresse ungültig?</string>
   <string name="gadgetbridge_running">Gadgetbridge läuft</string>
@@ -179,9 +183,11 @@
   <string name="chart_steps">Schritte</string>
   <string name="liveactivity_live_activity">Live Aktivität</string>
   <string name="weeksteps_today_steps_description">Schritte heute, Ziel: %1$s</string>
+  <string name="pref_title_dont_ack_transfer">Transfer von Aktivitätsdaten nicht bestätigen</string>
   <string name="pref_summary_dont_ack_transfers">Wenn der Transfer der Aktivitätsdaten nicht bestätigt wird, werden die Daten nicht auf dem Mi Band gelöscht. Das ist Sinnvoll, wenn neben Gadgetbridge noch andere Apps auf das Mi Band zugreifen.</string>
   <string name="pref_summary_keep_data_on_device">Aktivitätsdaten verbleiben auf dem Mi Band, auch nach der Synchronisierung. Hilfreich wenn das Mi Band mit weiteren Apps verwendet wird.</string>
-  <string name="pref_title_dont_ack_transfer">Transfer von Aktivitätsdaten nicht bestätigen</string>
+  <string name="pref_title_low_latency_fw_update">Benutze Modus mit niedriger Latenz für FW-Updates</string>
+  <string name="pref_summary_low_latency_fw_update">Dies kann bei Geräten helfen, bei denen Firmwareupdates fehlschlagen</string>
   <string name="live_activity_steps_history">Verlauf Schritte</string>
   <string name="live_activity_current_steps_per_minute">Akt. Schritte pro Minute</string>
   <string name="live_activity_total_steps">Schritte insgesamt</string>
@@ -196,6 +202,7 @@
   <string name="pref_title_keep_data_on_device">Aktivitätsdaten auf dem Gerät lassen</string>
   <string name="miband_fwinstaller_incompatible_version">Inkompatible Firmware</string>
   <string name="fwinstaller_firmware_not_compatible_to_device">Diese Firmware ist nicht mit dem Gerät kompatibel</string>
+  <string name="miband_prefs_hr_sleep_detection">Verwende den Herzfrequenzsensor um die Schlaferkennung zu verbessern</string>
   <string name="waiting_for_reconnect">warte auf eingehende Verbindung</string>
   <string name="appmananger_app_reinstall">Erneut installieren</string>
   <string name="activity_prefs_about_you">Über Dich</string>
@@ -205,10 +212,19 @@
   <string name="activity_prefs_weight_kg">Gewicht in kg</string>
   <string name="appmanager_health_activate">aktivieren</string>
   <string name="appmanager_health_deactivate">deaktivieren</string>
+  <string name="authenticating">Authentifiziere</string>
+  <string name="authentication_required">Authentifizierung erforderlich</string>
   <string name="appwidget_text">Zzz</string>
   <string name="add_widget">Widget hinzufügen</string>
   <string name="activity_prefs_sleep_duration">Gewünschte Schlafdauer in Stunden</string>
   <string name="appwidget_alarms_set">Ein Wecker wurde auf %1$02d:%2$02d gestellt</string>
   <string name="device_hw">HW: %1$s</string>
   <string name="device_fw">FW: %1$s</string>
+  <string name="error_creating_directory_for_logfiles">Fehler beim Erstellen des Verzeichnisses für Logdateien: %1$s</string>
+  <string name="DEVINFO_HR_VER">HF:</string>
+  <string name="updatefirmwareoperation_update_in_progress">Firmwareupdate wird durchgeführt</string>
+  <string name="updatefirmwareoperation_firmware_not_sent">Firmware wurde nicht gesendet</string>
+  <string name="charts_legend_heartrate">Herzfrequenz</string>
+  <string name="live_activity_heart_rate">Herzfrequenz</string>
+  <string name="pref_title_general_autocreonnect">Verbindungen automatisch wiederherstellen</string>
 </resources>
