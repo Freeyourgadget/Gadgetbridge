@@ -15,11 +15,15 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleGadgetBridgeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.User;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 public class AppMessageHandlerGBPebble extends AppMessageHandler {
@@ -50,10 +54,10 @@ public class AppMessageHandlerGBPebble extends AppMessageHandler {
                     int samples_remaining = samples.length / 2;
                     LOG.info("got " + samples_remaining + " samples");
                     int offset_seconds = 0;
-                    DBHandler db = null;
-                    try {
-//                        db = GBApplication.acquireDB();
-                        db = new PebbleGadgetBridgeSampleProvider(GBApplication.getDaoSession());
+                    try (DBHandler db = GBApplication.acquireDB()) {
+                        User user = DBHelper.getUser(db.getDaoSession());
+                        Device device = DBHelper.getDevice(getDevice(), db.getDaoSession());
+                        PebbleGadgetBridgeSampleProvider sampleProvider = new PebbleGadgetBridgeSampleProvider(db.getDaoSession());
                         AbstractActivitySample[] activitySamples = new AbstractActivitySample[samples_remaining];
                         int i = 0;
                         while (samples_remaining-- > 0) {
@@ -61,16 +65,12 @@ public class AppMessageHandlerGBPebble extends AppMessageHandler {
                             int type = ((sample & 0xe000) >>> 13);
                             int intensity = ((sample & 0x1f80) >>> 7);
                             int steps = (sample & 0x007f);
-                            activitySamples[i++] = createSample(timestamp + offset_seconds, intensity, steps, type);
+                            activitySamples[i++] = createSample(timestamp + offset_seconds, intensity, steps, type, user, device);
                             offset_seconds += 60;
                         }
-                        db.addGBActivitySamples(activitySamples);
-//                    } catch (GBException e) {
-//                        LOG.error("Error acquiring database", e);
-                    } finally {
-                        if (db != null) {
-                            db.release();
-                        }
+                        sampleProvider.addGBActivitySamples(activitySamples);
+                    } catch (Exception e) {
+                        LOG.error("Error acquiring database", e);
                     }
                     break;
                 default:

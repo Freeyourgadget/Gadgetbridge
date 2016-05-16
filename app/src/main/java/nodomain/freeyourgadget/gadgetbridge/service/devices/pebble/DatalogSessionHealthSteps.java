@@ -9,11 +9,13 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.HealthSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -21,10 +23,12 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 public class DatalogSessionHealthSteps extends DatalogSession {
 
     private static final Logger LOG = LoggerFactory.getLogger(DatalogSessionHealthSteps.class);
+    private final GBDevice device;
 
-    public DatalogSessionHealthSteps(byte id, UUID uuid, int tag, byte item_type, short item_size) {
+    public DatalogSessionHealthSteps(byte id, UUID uuid, int tag, byte item_type, short item_size, GBDevice device) {
         super(id, uuid, tag, item_type, item_size);
         taginfo = "(health - steps)";
+        this.device = device;
     }
 
     @Override
@@ -72,34 +76,26 @@ public class DatalogSessionHealthSteps extends DatalogSession {
 
     private void store(StepsRecord[] stepsRecords) {
 
-        HealthSampleProvider sampleProvider = new HealthSampleProvider(GBApplication.getDaoSession());
-        DBHandler dbHandler = sampleProvider;
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            HealthSampleProvider sampleProvider = new HealthSampleProvider(dbHandler.getDaoSession());
+            AbstractActivitySample[] samples = new AbstractActivitySample[stepsRecords.length];
+            // TODO: user and device
+            Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
+            Long deviceId = DBHelper.getDevice(device, dbHandler.getDaoSession()).getId();
+            for (int j = 0; j < stepsRecords.length; j++) {
+                StepsRecord stepsRecord = stepsRecords[j];
+                samples[j] = new PebbleActivitySample(
+                        null,
+                        stepsRecord.timestamp,
+                        stepsRecord.intensity,
+                        stepsRecord.steps,
+                        sampleProvider.toRawActivityKind(ActivityKind.TYPE_ACTIVITY),
+                        userId, deviceId);
+            }
 
-        AbstractActivitySample[] samples = new AbstractActivitySample[stepsRecords.length];
-        // TODO: user and device
-        Long userId = null;
-        Long deviceId = null;
-        for (int j = 0; j < stepsRecords.length; j++) {
-            StepsRecord stepsRecord = stepsRecords[j];
-            samples[j] = new PebbleActivitySample(
-                    null,
-                    stepsRecord.timestamp,
-                    stepsRecord.intensity,
-                    stepsRecord.steps,
-                    sampleProvider.toRawActivityKind(ActivityKind.TYPE_ACTIVITY),
-                    userId, deviceId);
-        }
-
-        try {
-//            dbHandler = GBApplication.acquireDB();
-            dbHandler = sampleProvider;
-            dbHandler.addGBActivitySamples(samples);
+            sampleProvider.addGBActivitySamples(samples);
         } catch (Exception ex) {
             LOG.debug(ex.getMessage());
-        } finally {
-            if (dbHandler != null) {
-                dbHandler.release();
-            }
         }
     }
 

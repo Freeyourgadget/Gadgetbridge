@@ -116,8 +116,7 @@ public class DBHelper {
         return "";
     }
 
-    public static User getUser() {
-        DaoSession session = GBApplication.getDaoSession();
+    public static User getUser(DaoSession session) {
         UserDao userDao = session.getUserDao();
         List<User> users = userDao.loadAll();
         if (users.isEmpty()) {
@@ -148,8 +147,7 @@ public class DBHelper {
         return user;
     }
 
-    public static Device getDevice(GBDevice gbDevice) {
-        DaoSession session = GBApplication.getDaoSession();
+    public static Device getDevice(GBDevice gbDevice, DaoSession session) {
         DeviceDao deviceDao = session.getDeviceDao();
         Query<Device> query = deviceDao.queryBuilder().where(DeviceDao.Properties.Identifier.eq(gbDevice.getAddress())).build();
         List<Device> devices = query.list();

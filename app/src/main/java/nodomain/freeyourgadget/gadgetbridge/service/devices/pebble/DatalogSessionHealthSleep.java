@@ -66,10 +66,8 @@ class DatalogSessionHealthSleep extends DatalogSession {
     }
 
     private boolean store84(SleepRecord84[] sleepRecords) {
-        DBHandler dbHandler = null;
-        SampleProvider sampleProvider = new HealthSampleProvider(GBApplication.getDaoSession());
-        try {
-            dbHandler = GBApplication.acquireDB();
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            SampleProvider sampleProvider = new HealthSampleProvider(dbHandler.getDaoSession());
             int latestTimestamp = dbHandler.fetchLatestTimestamp(sampleProvider);
             for (SleepRecord84 sleepRecord : sleepRecords) {
                 if (latestTimestamp < (sleepRecord.timestampStart + sleepRecord.durationSeconds))
@@ -83,10 +81,6 @@ class DatalogSessionHealthSleep extends DatalogSession {
             }
         } catch (Exception ex) {
             LOG.debug(ex.getMessage());
-        } finally {
-            if (dbHandler != null) {
-                dbHandler.release();
-            }
         }
         return true;
     }
@@ -119,11 +113,9 @@ class DatalogSessionHealthSleep extends DatalogSession {
     }
 
     private boolean store83(SleepRecord83[] sleepRecords) {
-        DBHandler dbHandler = null;
-        SampleProvider sampleProvider = new HealthSampleProvider(GBApplication.getDaoSession());
-        GB.toast("Deep sleep is supported only from firmware 3.11 onwards.", Toast.LENGTH_LONG, GB.INFO);
-        try {
-            dbHandler = GBApplication.acquireDB();
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            SampleProvider sampleProvider = new HealthSampleProvider(dbHandler.getDaoSession());
+            GB.toast("Deep sleep is supported only from firmware 3.11 onwards.", Toast.LENGTH_LONG, GB.INFO);
             int latestTimestamp = dbHandler.fetchLatestTimestamp(sampleProvider);
             for (SleepRecord83 sleepRecord : sleepRecords) {
                 if (latestTimestamp < sleepRecord.bedTimeEnd)
@@ -132,10 +124,6 @@ class DatalogSessionHealthSleep extends DatalogSession {
             }
         } catch (Exception ex) {
             LOG.debug(ex.getMessage());
-        } finally {
-            if (dbHandler != null) {
-                dbHandler.release();
-            }
         }
         return true;
     }

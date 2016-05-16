@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
@@ -26,8 +27,10 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -311,10 +314,10 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
         LOG.debug("flushing activity data samples: " + activityStruct.activityDataHolderProgress / bpm);
         byte category, intensity, steps, heartrate = 0;
 
-        DBHandler dbHandler = null;
-        try {
-//            dbHandler = GBApplication.acquireDB();
-            dbHandler = new MiBandSampleProvider(GBApplication.getDaoSession());
+        try (DBHandler dbHandler = GBApplication.acquireDB()){
+            MiBandSampleProvider provider = new MiBandSampleProvider(dbHandler.getDaoSession());
+            Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
+            Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
             int minutes = 0;
             try (SQLiteDatabase db = dbHandler.getWritableDatabase()) { // explicitly keep the db open while looping over the samples
                 int timestampInSeconds = (int) (activityStruct.activityDataTimestampProgress.getTimeInMillis() / 1000);
@@ -333,10 +336,6 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
                         LOG.debug("heartrate received: " + (heartrate & 0xff));
                     }
 
-                    // TODO: user and device id
-                    Long userId = null;
-                    Long deviceId = null;
-
                     samples[minutes] = new MiBandActivitySample(
                             null,
                             timestampInSeconds,
@@ -352,16 +351,12 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
                     minutes++;
                     timestampInSeconds += 60;
                 }
-                dbHandler.addGBActivitySamples(samples);
+                provider.addGBActivitySamples(samples);
             } finally {
                 activityStruct.bufferFlushed(minutes);
             }
         } catch (Exception ex) {
             GB.toast(getContext(), ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
-        } finally {
-            if (dbHandler != null) {
-                dbHandler.release();
-            }
         }
     }
 

@@ -18,6 +18,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.schema.ActivityDBCreationSc
 import nodomain.freeyourgadget.gadgetbridge.database.schema.SchemaMigration;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -155,13 +156,13 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
     }
 
     @Override
-    public SQLiteOpenHelper getHelper() {
-        return this;
+    public void closeDb() {
+        GBApplication.releaseDB();
     }
 
     @Override
-    public void release() {
-        GBApplication.releaseDB();
+    public SQLiteOpenHelper getHelper() {
+        return this;
     }
 
     public ArrayList<ActivitySample> getAllActivitySamples(int timestamp_from, int timestamp_to, SampleProvider provider) {
@@ -274,5 +275,10 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
             }
         }
         return -1;
+    }
+
+    @Override
+    public DaoSession getDaoSession() {
+        return null;
     }
 }

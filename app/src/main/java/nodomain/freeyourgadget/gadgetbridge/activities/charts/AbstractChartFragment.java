@@ -293,9 +293,9 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         return akActivity.color;
     }
 
-    protected SampleProvider getProvider(GBDevice device) {
+    protected SampleProvider getProvider(DBHandler db, GBDevice device) {
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
-        return coordinator.getSampleProvider();
+        return coordinator.getSampleProvider(db);
     }
 
     /**
@@ -307,7 +307,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
      * @param tsTo
      */
     protected List<ActivitySample> getAllSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-        SampleProvider provider = getProvider(device);
+        SampleProvider provider = getProvider(db, device);
         return db.getAllActivitySamples(tsFrom, tsTo, provider);
     }
 
@@ -316,13 +316,13 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     protected List<ActivitySample> getActivitySamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-        SampleProvider provider = getProvider(device);
+        SampleProvider provider = getProvider(db, device);
         return db.getActivitySamples(tsFrom, tsTo, provider);
     }
 
 
     protected List<ActivitySample> getSleepSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-        SampleProvider provider = getProvider(device);
+        SampleProvider provider = getProvider(db, device);
         return db.getSleepSamples(tsFrom, tsTo, provider);
     }
 
@@ -334,7 +334,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         tsTo = (int) ((cal.getTimeInMillis() / 1000));
         tsFrom = tsTo - (24 * 60 * 60);
 
-        SampleProvider provider = getProvider(device);
+        SampleProvider provider = getProvider(db, device);
         return db.getAllActivitySamples(tsFrom, tsTo, provider);
     }
 

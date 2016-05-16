@@ -57,10 +57,10 @@ public class GBApplication extends Application {
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
     private static final int CURRENT_PREFS_VERSION = 2;
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
-    private static DaoSession daoSession;
     private static Appender<ILoggingEvent> fileLogger;
     private static Prefs prefs;
     private static GBPrefs gbPrefs;
+    private static DBHandler lockHandler;
 
     public static final String ACTION_QUIT
             = "nodomain.freeyourgadget.gadgetbridge.gbapplication.action.quit";
@@ -206,11 +206,7 @@ public class GBApplication extends Application {
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "test-db", null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
-        daoSession = daoMaster.newSession();
-    }
-
-    public static DaoSession getDaoSession() {
-        return daoSession;
+        lockHandler = new LockHandler(daoMaster.newSession());
     }
 
     public static Context getContext() {
@@ -238,10 +234,10 @@ public class GBApplication extends Application {
      * @see #releaseDB()
      */
     public static DBHandler acquireDB() throws GBException {
-        // TODO: implement locking with greendao?
         try {
             if (dbLock.tryLock(30, TimeUnit.SECONDS)) {
-                return mActivityDatabaseHandler;
+                return lockHandler;
+//                return mActivityDatabaseHandler;
             }
         } catch (InterruptedException ex) {
             Log.i(TAG, "Interrupted while waiting for DB lock");

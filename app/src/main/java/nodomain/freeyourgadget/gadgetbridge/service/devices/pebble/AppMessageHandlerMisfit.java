@@ -15,6 +15,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.MisfitSampleProvider;
@@ -40,8 +41,6 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
     public AppMessageHandlerMisfit(UUID uuid, PebbleProtocol pebbleProtocol) {
         super(uuid, pebbleProtocol);
     }
-
-    private final MisfitSampleProvider sampleProvider = new MisfitSampleProvider(GBApplication.getDaoSession());
 
     @Override
     public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
@@ -73,55 +72,48 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
 
                     int totalSteps = 0;
                     AbstractActivitySample[] activitySamples = new AbstractActivitySample[samples];
-                    // TODO: user and device id
-                    Long userId =  null;
-                    Long deviceId = null;
-                    for (int i = 0; i < samples; i++) {
-                        short sample = buf.getShort();
-                        int steps = 0;
-                        int intensity = 0;
-                        int activityKind = ActivityKind.TYPE_UNKNOWN;
+                    try (DBHandler db = GBApplication.acquireDB()) {
+                        Long userId = DBHelper.getUser(db.getDaoSession()).getId();
+                        Long deviceId = DBHelper.getDevice(getDevice(), db.getDaoSession()).getId();
+                        for (int i = 0; i < samples; i++) {
+                            short sample = buf.getShort();
+                            int steps = 0;
+                            int intensity = 0;
+                            int activityKind = ActivityKind.TYPE_UNKNOWN;
 
-                        if (((sample & 0x83ff) == 0x0001) && ((sample & 0xff00) <= 0x4800)) {
-                            // sleep seems to be from 0x2401 to 0x4801  (0b0IIIII0000000001) where I = intensity ?
-                            intensity = (sample & 0x7c00) >>> 10;
-                            // 9-18 decimal after shift
-                            if (intensity <= 13) {
-                                activityKind = ActivityKind.TYPE_DEEP_SLEEP;
+                            if (((sample & 0x83ff) == 0x0001) && ((sample & 0xff00) <= 0x4800)) {
+                                // sleep seems to be from 0x2401 to 0x4801  (0b0IIIII0000000001) where I = intensity ?
+                                intensity = (sample & 0x7c00) >>> 10;
+                                // 9-18 decimal after shift
+                                if (intensity <= 13) {
+                                    activityKind = ActivityKind.TYPE_DEEP_SLEEP;
+                                } else {
+                                    // FIXME: this leads to too much false positives, ignore for now
+                                    //activityKind = ActivityKind.TYPE_LIGHT_SLEEP;
+                                    //intensity *= 2; // better visual distinction
+                                }
                             } else {
-                                // FIXME: this leads to too much false positives, ignore for now
-                                //activityKind = ActivityKind.TYPE_LIGHT_SLEEP;
-                                //intensity *= 2; // better visual distinction
+                                if ((sample & 0x0001) == 0) { // 16-??? steps encoded in bits 1-7
+                                    steps = (sample & 0x00fe);
+                                } else { // 0-14 steps encoded in bits 1-3, most of the time fc71 bits are set in that case
+                                    steps = (sample & 0x000e);
+                                }
+                                intensity = steps;
+                                activityKind = ActivityKind.TYPE_ACTIVITY;
                             }
-                        } else {
-                            if ((sample & 0x0001) == 0) { // 16-??? steps encoded in bits 1-7
-                                steps = (sample & 0x00fe);
-                            } else { // 0-14 steps encoded in bits 1-3, most of the time fc71 bits are set in that case
-                                steps = (sample & 0x000e);
-                            }
-                            intensity = steps;
-                            activityKind = ActivityKind.TYPE_ACTIVITY;
+
+                            totalSteps += steps;
+                            LOG.info("got steps for sample " + i + " : " + steps + "(" + Integer.toHexString(sample & 0xffff) + ")");
+
+                            activitySamples[i] = new PebbleActivitySample(null, timestamp + i * 60, intensity, steps, activityKind, userId, deviceId);
                         }
+                        LOG.info("total steps for above period: " + totalSteps);
 
-                        totalSteps += steps;
-                        LOG.info("got steps for sample " + i + " : " + steps + "(" + Integer.toHexString(sample & 0xffff) + ")");
-
-                        activitySamples[i] = new PebbleActivitySample(null, timestamp + i * 60, intensity, steps, activityKind, userId, deviceId);
-                    }
-                    LOG.info("total steps for above period: " + totalSteps);
-
-                    DBHandler db = null;
-                    try {
-//                        db = GBApplication.acquireDB();
-                        db = sampleProvider;
-                        db.addGBActivitySamples(activitySamples);
-//                    } catch (GBException e) {
-//                        LOG.error("Error acquiring database", e);
-//                        return null;
-                    } finally {
-                        if (db != null) {
-                            db.release();
-                        }
+                        MisfitSampleProvider sampleProvider = new MisfitSampleProvider(db.getDaoSession());
+                        sampleProvider.addGBActivitySamples(activitySamples);
+                    } catch (Exception e) {
+                        LOG.error("Error acquiring database", e);
+                        return null;
                     }
                     break;
                 default:

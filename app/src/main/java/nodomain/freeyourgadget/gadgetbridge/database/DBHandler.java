@@ -8,13 +8,14 @@ import java.util.List;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
-public interface DBHandler {
+public interface DBHandler extends AutoCloseable {
     /**
      * Closes the database.
      */
-    void close();
+    void closeDb();
 
     SQLiteOpenHelper getHelper();
 
@@ -22,7 +23,7 @@ public interface DBHandler {
      * Releases the DB handler. No access may be performed after calling this method.
      * Same as calling {@link GBApplication#releaseDB()}
      */
-    void release();
+    void close() throws Exception;
 
     List<ActivitySample> getAllActivitySamples(int tsFrom, int tsTo, SampleProvider provider);
 
@@ -42,4 +43,5 @@ public interface DBHandler {
 
     int fetchLatestTimestamp(SampleProvider provider);
 
+    DaoSession getDaoSession();
 }

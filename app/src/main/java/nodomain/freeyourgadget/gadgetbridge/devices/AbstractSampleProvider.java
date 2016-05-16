@@ -16,7 +16,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
-public abstract class AbstractSampleProvider<T extends ActivitySample> implements SampleProvider, DBHandler {
+public abstract class AbstractSampleProvider<T extends ActivitySample> implements SampleProvider {
     private static final WhereCondition[] NO_CONDITIONS = new WhereCondition[0];
     private final DaoSession mSession;
 
@@ -28,47 +28,31 @@ public abstract class AbstractSampleProvider<T extends ActivitySample> implement
         return mSession;
     }
 
+    @Override
     public List<T> getAllActivitySamples(int timestamp_from, int timestamp_to) {
         return getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_ALL);
     }
 
+    @Override
     public List<T> getActivitySamples(int timestamp_from, int timestamp_to) {
         return getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_ACTIVITY);
     }
 
+    @Override
     public List<T> getSleepSamples(int timestamp_from, int timestamp_to) {
         return getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_SLEEP);
     }
 
     @Override
-    public void close() {
-        // TESTING: NOOP
-    }
-
-    @Override
-    public SQLiteOpenHelper getHelper() {
-        // TESTING: NOOP
-        return null;
-    }
-
-    @Override
-    public void release() {
-        // TESTING: NOOP
-    }
-
-    @Override
-    public List<ActivitySample> getAllActivitySamples(int tsFrom, int tsTo, SampleProvider provider) {
-        return (List<ActivitySample>) getGBActivitySamples(tsFrom, tsTo, ActivityKind.TYPE_ALL);
-    }
-
-    @Override
-    public List<ActivitySample> getActivitySamples(int tsFrom, int tsTo, SampleProvider provider) {
-        return (List<ActivitySample>) getGBActivitySamples(tsFrom, tsTo, ActivityKind.TYPE_ACTIVITY);
-    }
-
-    @Override
-    public List<ActivitySample> getSleepSamples(int tsFrom, int tsTo, SampleProvider provider) {
-        return (List<ActivitySample>) getGBActivitySamples(tsFrom, tsTo, ActivityKind.TYPE_SLEEP);
+    public int fetchLatestTimestamp() {
+        QueryBuilder<T> qb = getSampleDao().queryBuilder();
+        qb.orderDesc(MiBandActivitySampleDao.Properties.Timestamp);
+        qb.limit(1);
+        List<T> list = qb.build().list();
+        if (list.size() >= 1) {
+            return list.get(0).getTimestamp();
+        }
+        return -1;
     }
 
     @Override
@@ -81,42 +65,77 @@ public abstract class AbstractSampleProvider<T extends ActivitySample> implement
         getSampleDao().insertInTx((T[]) activitySamples);
     }
 
-    @Override
-    public SQLiteDatabase getWritableDatabase() {
-        // TESTING: NOOP
-        return null;
-    }
-
-    @Override
-    public void changeStoredSamplesType(int timestampFrom, int timestampTo, int kind, SampleProvider provider) {
-
-    }
-
-    @Override
-    public void changeStoredSamplesType(int timestampFrom, int timestampTo, int fromKind, int toKind, SampleProvider provider) {
-
-    }
-
-    @Override
-    public int fetchLatestTimestamp(SampleProvider provider) {
-        return 0;
-    }
-
-//    SQLiteDatabase getWritableDatabase();
-
-    public void changeStoredSamplesType(int timestampFrom, int timestampTo, int kind) {
-        // TODO: implement
-    }
-
-    public void changeStoredSamplesType(int timestampFrom, int timestampTo, int fromKind, int toKind) {
-        // TODO: implement
-    }
+//    @Override
+//    public void close() {
+//        // TESTING: NOOP
+//    }
+//
+//    @Override
+//    public SQLiteOpenHelper getHelper() {
+//        // TESTING: NOOP
+//        return null;
+//    }
+//
+//    @Override
+//    public void release() {
+//        // TESTING: NOOP
+//    }
+//
+//    @Override
+//    public List<ActivitySample> getAllActivitySamples(int tsFrom, int tsTo, SampleProvider provider) {
+//        return (List<ActivitySample>) getGBActivitySamples(tsFrom, tsTo, ActivityKind.TYPE_ALL);
+//    }
+//
+//    @Override
+//    public List<ActivitySample> getActivitySamples(int tsFrom, int tsTo, SampleProvider provider) {
+//        return (List<ActivitySample>) getGBActivitySamples(tsFrom, tsTo, ActivityKind.TYPE_ACTIVITY);
+//    }
+//
+//    @Override
+//    public List<ActivitySample> getSleepSamples(int tsFrom, int tsTo, SampleProvider provider) {
+//        return (List<ActivitySample>) getGBActivitySamples(tsFrom, tsTo, ActivityKind.TYPE_SLEEP);
+//    }
+//
+//    @Override
+//    public SQLiteDatabase getWritableDatabase() {
+//        // TESTING: NOOP
+//        return null;
+//    }
+//
+//    @Override
+//    public void changeStoredSamplesType(int timestampFrom, int timestampTo, int kind, SampleProvider provider) {
+//
+//    }
+//
+//    @Override
+//    public void changeStoredSamplesType(int timestampFrom, int timestampTo, int fromKind, int toKind, SampleProvider provider) {
+//
+//    }
+//
+//    @Override
+//    public int fetchLatestTimestamp(SampleProvider provider) {
+//        return 0;
+//    }
+//
+////    SQLiteDatabase getWritableDatabase();
+//
+//    public void changeStoredSamplesType(int timestampFrom, int timestampTo, int kind) {
+//        // TODO: implement
+//    }
+//
+//    public void changeStoredSamplesType(int timestampFrom, int timestampTo, int fromKind, int toKind) {
+//        // TODO: implement
+//    }
 
     protected List<T> getGBActivitySamples(int timestamp_from, int timestamp_to, int activityType) {
         QueryBuilder<T> qb = getSampleDao().queryBuilder();
         qb.where(MiBandActivitySampleDao.Properties.Timestamp.ge(timestamp_from))
             .where(MiBandActivitySampleDao.Properties.Timestamp.le(timestamp_to), getClauseForActivityType(qb, activityType));
-        return qb.build().list();
+        List<T> samples = qb.build().list();
+        for (T sample : samples) {
+            ((AbstractActivitySample) sample).setProvider(this);
+        }
+        return samples;
     }
 
     private WhereCondition[] getClauseForActivityType(QueryBuilder qb, int activityTypes) {
@@ -151,17 +170,6 @@ public abstract class AbstractSampleProvider<T extends ActivitySample> implement
         return qb.or(MiBandActivitySampleDao.Properties.RawKind.eq(dbActivityTypes[0]),
                 MiBandActivitySampleDao.Properties.RawKind.eq(dbActivityTypes[1]),
                 trailingConditions);
-    }
-
-    public int fetchLatestTimestamp() {
-        QueryBuilder<T> qb = getSampleDao().queryBuilder();
-        qb.orderDesc(MiBandActivitySampleDao.Properties.Timestamp);
-        qb.limit(1);
-        List<T> list = qb.build().list();
-        if (list.size() >= 1) {
-            return list.get(0).getTimestamp();
-        }
-        return -1;
     }
 
     protected abstract AbstractDao<T,?> getSampleDao();

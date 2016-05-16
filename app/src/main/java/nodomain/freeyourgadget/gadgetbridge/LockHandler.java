@@ -1,12 +1,15 @@
-package nodomain.freeyourgadget.gadgetbridge.database;
+package nodomain.freeyourgadget.gadgetbridge;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 /**
@@ -15,13 +18,19 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
  */
 public class LockHandler implements DBHandler {
 
-    @Override
-    public void release() {
+    private final DaoSession session;
 
+    public LockHandler(DaoSession daoSession) {
+        session = daoSession;
     }
 
     @Override
     public void close() {
+        GBApplication.releaseDB();
+    }
+
+    @Override
+    public void closeDb() {
 
     }
 
@@ -32,22 +41,31 @@ public class LockHandler implements DBHandler {
 
     @Override
     public List<ActivitySample> getAllActivitySamples(int tsFrom, int tsTo, SampleProvider provider) {
-        return null;
+        return provider.getAllActivitySamples(tsFrom, tsTo);
     }
 
     @Override
     public List<ActivitySample> getActivitySamples(int tsFrom, int tsTo, SampleProvider provider) {
-        return null;
+        return provider.getActivitySamples(tsFrom, tsTo);
     }
 
     @Override
     public List<ActivitySample> getSleepSamples(int tsFrom, int tsTo, SampleProvider provider) {
-        return null;
+        return provider.getSleepSamples(tsFrom, tsTo);
+    }
+
+    @Override
+    public int fetchLatestTimestamp(SampleProvider provider) {
+        return provider.fetchLatestTimestamp();
+    }
+
+    @Override
+    public DaoSession getDaoSession() {
+        return session;
     }
 
     @Override
     public void addGBActivitySample(AbstractActivitySample sample) {
-
     }
 
     @Override
@@ -68,10 +86,5 @@ public class LockHandler implements DBHandler {
     @Override
     public void changeStoredSamplesType(int timestampFrom, int timestampTo, int fromKind, int toKind, SampleProvider provider) {
 
-    }
-
-    @Override
-    public int fetchLatestTimestamp(SampleProvider provider) {
-        return 0;
     }
 }

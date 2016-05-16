@@ -4,14 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 
+import java.util.List;
+
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
-    private final UnknownSampleProvider sampleProvider;
 
     private static final class UnknownSampleProvider implements SampleProvider {
         @Override
@@ -30,13 +33,40 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
         }
 
         @Override
+        public List getAllActivitySamples(int timestamp_from, int timestamp_to) {
+            return null;
+        }
+
+        @Override
+        public List getActivitySamples(int timestamp_from, int timestamp_to) {
+            return null;
+        }
+
+        @Override
+        public List getSleepSamples(int timestamp_from, int timestamp_to) {
+            return null;
+        }
+
+        @Override
+        public int fetchLatestTimestamp() {
+            return 0;
+        }
+
+        @Override
+        public void addGBActivitySample(AbstractActivitySample activitySample) {
+        }
+
+        @Override
+        public void addGBActivitySamples(AbstractActivitySample[] activitySamples) {
+        }
+
+        @Override
         public int getID() {
             return PROVIDER_UNKNOWN;
         }
     }
 
     public UnknownDeviceCoordinator() {
-        sampleProvider = new UnknownSampleProvider();
     }
 
     @Override
@@ -65,8 +95,8 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public SampleProvider getSampleProvider() {
-        return sampleProvider;
+    public SampleProvider getSampleProvider(DBHandler db) {
+        return new UnknownSampleProvider();
     }
 
     @Override

@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -21,10 +22,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class MiBandCoordinator extends AbstractDeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandCoordinator.class);
-    private final MiBandSampleProvider sampleProvider;
 
     public MiBandCoordinator() {
-        sampleProvider = new MiBandSampleProvider(GBApplication.getDaoSession());
     }
 
     @Override
@@ -54,8 +53,8 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public SampleProvider getSampleProvider() {
-        return sampleProvider;
+    public SampleProvider getSampleProvider(DBHandler db) {
+        return new MiBandSampleProvider(db.getDaoSession());
     }
 
     @Override

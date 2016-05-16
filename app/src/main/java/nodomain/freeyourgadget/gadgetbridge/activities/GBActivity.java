@@ -20,8 +20,4 @@ public class GBActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
     }
-
-    protected DaoSession getDAOSession() {
-        return GBApplication.getDaoSession();
-    }
 }
