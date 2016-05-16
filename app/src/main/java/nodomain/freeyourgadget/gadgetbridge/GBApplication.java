@@ -112,7 +112,7 @@ public class GBApplication extends Application {
 //        StatusPrinter.print(lc);
 //        Logger logger = LoggerFactory.getLogger(GBApplication.class);
 
-        setupDatabase();
+        setupDatabase(this);
 
         deviceService = createDeviceService();
         GB.environment = GBEnvironment.createDeviceEnvironment();
@@ -202,12 +202,12 @@ public class GBApplication extends Application {
         return LoggerFactory.getLogger(GBApplication.class);
     }
 
-    private void setupDatabase() {
+    static void setupDatabase(Context context) {
 //        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "test-db", null);
-        DBOpenHelper helper = new DBOpenHelper(this, "test-db", null);
+        DBOpenHelper helper = new DBOpenHelper(context, "test-db", null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
-        lockHandler = new LockHandler(daoMaster.newSession());
+        lockHandler = new LockHandler(daoMaster, helper);
     }
 
     public static Context getContext() {
@@ -298,6 +298,9 @@ public class GBApplication extends Application {
      */
     public static synchronized boolean deleteActivityDatabase() {
         // TODO: flush, close, reopen db
+        if (lockHandler != null) {
+            lockHandler.closeDb();
+        }
 //        if (mActivityDatabaseHandler != null) {
 //            mActivityDatabaseHandler.close();
 //            mActivityDatabaseHandler = null;

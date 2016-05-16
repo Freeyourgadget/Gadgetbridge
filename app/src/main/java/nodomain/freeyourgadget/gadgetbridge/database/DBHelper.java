@@ -37,41 +37,57 @@ public class DBHelper {
         this.context = context;
     }
 
-    private String getClosedDBPath(SQLiteOpenHelper dbHandler) throws IllegalStateException {
-        SQLiteDatabase db = dbHandler.getReadableDatabase();
+    /**
+     * Closes the database and returns its name.
+     * Important: after calling this, you have to DBHandler#openDb() it again
+     * to get it back to work.
+     * @param dbHandler
+     * @return
+     * @throws IllegalStateException
+     */
+    private String getClosedDBPath(DBHandler dbHandler) throws IllegalStateException {
+        SQLiteDatabase db = dbHandler.getDatabase();
         String path = db.getPath();
-        db.close();
+        dbHandler.closeDb();
         if (db.isOpen()) { // reference counted, so may still be open
             throw new IllegalStateException("Database must be closed");
         }
         return path;
     }
 
-    public File exportDB(SQLiteOpenHelper dbHandler, File toDir) throws IllegalStateException, IOException {
+    public File exportDB(DBHandler dbHandler, File toDir) throws IllegalStateException, IOException {
         String dbPath = getClosedDBPath(dbHandler);
-        File sourceFile = new File(dbPath);
-        File destFile = new File(toDir, sourceFile.getName());
-        if (destFile.exists()) {
-            File backup = new File(toDir, destFile.getName() + "_" + getDate());
-            destFile.renameTo(backup);
-        } else if (!toDir.exists()) {
-            if (!toDir.mkdirs()) {
-                throw new IOException("Unable to create directory: " + toDir.getAbsolutePath());
+        try {
+            File sourceFile = new File(dbPath);
+            File destFile = new File(toDir, sourceFile.getName());
+            if (destFile.exists()) {
+                File backup = new File(toDir, destFile.getName() + "_" + getDate());
+                destFile.renameTo(backup);
+            } else if (!toDir.exists()) {
+                if (!toDir.mkdirs()) {
+                    throw new IOException("Unable to create directory: " + toDir.getAbsolutePath());
+                }
             }
-        }
 
-        FileUtils.copyFile(sourceFile, destFile);
-        return destFile;
+            FileUtils.copyFile(sourceFile, destFile);
+            return destFile;
+        } finally {
+            dbHandler.openDb();
+        }
     }
 
     private String getDate() {
         return new SimpleDateFormat("yyyyMMdd-HHmmss", Locale.US).format(new Date());
     }
 
-    public void importDB(SQLiteOpenHelper dbHandler, File fromFile) throws IllegalStateException, IOException {
+    public void importDB(DBHandler dbHandler, File fromFile) throws IllegalStateException, IOException {
         String dbPath = getClosedDBPath(dbHandler);
-        File toFile = new File(dbPath);
-        FileUtils.copyFile(fromFile, toFile);
+        try {
+            File toFile = new File(dbPath);
+            FileUtils.copyFile(fromFile, toFile);
+        } finally {
+            dbHandler.openDb();
+        }
     }
 
     public void validateDB(SQLiteOpenHelper dbHandler) throws IOException {

@@ -64,6 +64,11 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
         new SchemaMigration().onDowngrade(db, oldVersion, newVersion);
     }
 
+    @Override
+    public SQLiteDatabase getDatabase() {
+        return super.getWritableDatabase();
+    }
+
     public void addGBActivitySample(ActivitySample sample) {
         try (SQLiteDatabase db = this.getWritableDatabase()) {
             ContentValues values = new ContentValues();
@@ -156,7 +161,10 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
 
     @Override
     public void closeDb() {
-        GBApplication.releaseDB();
+    }
+
+    @Override
+    public void openDb() {
     }
 
     @Override

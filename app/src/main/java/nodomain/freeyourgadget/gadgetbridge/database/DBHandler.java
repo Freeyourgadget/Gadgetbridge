@@ -11,6 +11,7 @@ public interface DBHandler extends AutoCloseable {
      * Closes the database.
      */
     void closeDb();
+    void openDb();
 
     SQLiteOpenHelper getHelper();
 
@@ -20,7 +21,7 @@ public interface DBHandler extends AutoCloseable {
      */
     void close() throws Exception;
 
-    SQLiteDatabase getWritableDatabase();
+    SQLiteDatabase getDatabase();
 
     DaoSession getDaoSession();
 }

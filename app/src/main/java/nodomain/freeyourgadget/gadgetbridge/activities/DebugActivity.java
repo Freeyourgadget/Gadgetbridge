@@ -240,7 +240,7 @@ public class DebugActivity extends GBActivity {
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             DBHelper helper = new DBHelper(this);
             File dir = FileUtils.getExternalFilesDir();
-            File destFile = helper.exportDB(dbHandler.getHelper(), dir);
+            File destFile = helper.exportDB(dbHandler, dir);
             GB.toast(this, "Exported to: " + destFile.getAbsolutePath(), Toast.LENGTH_LONG, GB.INFO);
         } catch (Exception ex) {
             GB.toast(this, "Error exporting DB: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
@@ -260,7 +260,7 @@ public class DebugActivity extends GBActivity {
                             File dir = FileUtils.getExternalFilesDir();
                             SQLiteOpenHelper sqLiteOpenHelper = dbHandler.getHelper();
                             File sourceFile = new File(dir, sqLiteOpenHelper.getDatabaseName());
-                            helper.importDB(sqLiteOpenHelper, sourceFile);
+                            helper.importDB(dbHandler, sourceFile);
                             helper.validateDB(sqLiteOpenHelper);
                             GB.toast(DebugActivity.this, "Import successful.", Toast.LENGTH_LONG, GB.INFO);
                         } catch (Exception ex) {

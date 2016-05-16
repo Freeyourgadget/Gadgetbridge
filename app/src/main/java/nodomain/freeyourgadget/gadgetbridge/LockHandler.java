@@ -7,8 +7,10 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
@@ -18,10 +20,14 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
  */
 public class LockHandler implements DBHandler {
 
-    private final DaoSession session;
+    private final DaoMaster daoMaster;
+    private DaoSession session;
+    private final SQLiteOpenHelper helper;
 
-    public LockHandler(DaoSession daoSession) {
-        session = daoSession;
+    public LockHandler(DaoMaster daoMaster, DBOpenHelper helper) {
+        this.daoMaster = daoMaster;
+        this.helper = helper;
+        session = daoMaster.newSession();
     }
 
     @Override
@@ -30,13 +36,27 @@ public class LockHandler implements DBHandler {
     }
 
     @Override
-    public void closeDb() {
+    public synchronized void openDb() {
+        if (session != null) {
+            throw new IllegalStateException("session must be null");
+        }
+        // this will create completely new db instances. This handler will be dead
+        GBApplication.setupDatabase(GBApplication.getContext());
+    }
 
+    @Override
+    public synchronized void closeDb() {
+        if (session == null) {
+            throw new IllegalStateException("session must not be null");
+        }
+        session.clear();
+        session.getDatabase().close();
+        session = null;
     }
 
     @Override
     public SQLiteOpenHelper getHelper() {
-        return null;
+        return helper;
     }
 
     @Override
@@ -45,7 +65,7 @@ public class LockHandler implements DBHandler {
     }
 
     @Override
-    public SQLiteDatabase getWritableDatabase() {
-        return null;
+    public SQLiteDatabase getDatabase() {
+        return daoMaster.getDatabase();
     }
 }
