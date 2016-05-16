@@ -26,6 +26,10 @@ public abstract class AbstractActivitySample implements ActivitySample {
         return getProvider().normalizeIntensity(getRawIntensity());
     }
 
+    public abstract void setRawKind(int kind);
+
+    public abstract void setRawIntensity(int intensity);
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "{" +

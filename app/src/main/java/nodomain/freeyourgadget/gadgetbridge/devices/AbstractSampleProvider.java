@@ -98,14 +98,20 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
 //
 
     public void changeStoredSamplesType(int timestampFrom, int timestampTo, int kind) {
-        // TODO: implement
+        List<T> samples = getAllActivitySamples(timestampFrom, timestampTo);
+        for (T sample : samples) {
+            sample.setRawKind(kind);
+        }
+        getSampleDao().updateInTx(samples);
     }
 
     public void changeStoredSamplesType(int timestampFrom, int timestampTo, int fromKind, int toKind) {
-        // TODO: implement
+        List<T> samples = getGBActivitySamples(timestampFrom, timestampTo, fromKind);
+        for (T sample : samples) {
+            sample.setRawKind(toKind);
+        }
+        getSampleDao().updateInTx(samples);
     }
-
-////    SQLiteDatabase getWritableDatabase();
 
     protected List<T> getGBActivitySamples(int timestamp_from, int timestamp_to, int activityType) {
         QueryBuilder<T> qb = getSampleDao().queryBuilder();
