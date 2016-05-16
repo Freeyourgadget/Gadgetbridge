@@ -36,6 +36,7 @@ public interface DeviceService extends EventHandler {
     String ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT = PREFIX + ".action.realtime_hr_measurement";
     String ACTION_ENABLE_HEARTRATE_SLEEP_SUPPORT = PREFIX + ".action.enable_heartrate_sleep_support";
     String ACTION_HEARTRATE_MEASUREMENT = PREFIX + ".action.hr_measurement";
+    String ACTION_ADD_CALENDAREVENT = PREFIX + ".action.add_calendarevent";
     String EXTRA_DEVICE_ADDRESS = "device_address";
     String EXTRA_NOTIFICATION_BODY = "notification_body";
     String EXTRA_NOTIFICATION_FLAGS = "notification_flags";
@@ -65,6 +66,12 @@ public interface DeviceService extends EventHandler {
     String EXTRA_REALTIME_STEPS = "realtime_steps";
     String EXTRA_TIMESTAMP = "timestamp";
     String EXTRA_HEART_RATE_VALUE = "hr_value";
+    String EXTRA_CALENDAREVENT_ID = "calendarevent_id";
+    String EXTRA_CALENDAREVENT_TYPE = "calendarevent_type";
+    String EXTRA_CALENDAREVENT_TIMESTAMP = "calendarevent_timestamp";
+    String EXTRA_CALENDAREVENT_DURATION = "calendarevent_duration";
+    String EXTRA_CALENDAREVENT_TITLE = "calendarevent_title";
+    String EXTRA_CALENDAREVENT_DESCRIPTION = "calendarevent_description";
 
     void start();
 

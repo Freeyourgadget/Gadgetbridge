@@ -34,11 +34,16 @@
 
     <string name="pref_header_general">General Settings</string>
     <string name="pref_title_general_autoconnectonbluetooth">Connect to device when Bluetooth turned on</string>
+    <string name="pref_title_general_autocreonnect">Reconnect automatically</string>
     <string name="pref_title_audo_player">Preferred Audioplayer</string>
     <string name="pref_default">Default</string>
+
     <string name="pref_header_datetime">Date and Time</string>
     <string name="pref_title_datetime_syctimeonconnect">Sync time</string>
     <string name="pref_summary_datetime_syctimeonconnect">Sync time to device when connecting and when time or timezone changes on Android</string>
+    <string name="pref_title_location_latitude">Latitude</string>
+    <string name="pref_title_location_longitude">Longitude</string>
+
     <string name="pref_title_theme">Theme</string>
     <string name="pref_theme_light">Light</string>
     <string name="pref_theme_dark">Dark</string>
@@ -248,6 +253,5 @@
     <string name="updatefirmwareoperation_firmware_not_sent">Firmware not sent</string>
     <string name="charts_legend_heartrate">Heart Rate</string>
     <string name="live_activity_heart_rate">Heart Rate</string>
-    <string name="pref_title_general_autocreonnect">Reconnect automatically</string>
 
 </resources>

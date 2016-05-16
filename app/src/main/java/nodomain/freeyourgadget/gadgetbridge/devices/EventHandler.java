@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -51,4 +52,6 @@ public interface EventHandler {
     void onScreenshotReq();
 
     void onEnableHeartRateSleepSupport(boolean enable);
+
+    void onAddCalendarEvent(CalendarEventSpec calendarEventSpec);
 }

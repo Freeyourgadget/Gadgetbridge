@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
@@ -221,6 +222,18 @@ public class GBDeviceService implements DeviceService {
     public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
         Intent intent = createIntent().setAction(ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT)
                 .putExtra(EXTRA_BOOLEAN_ENABLE, enable);
+        invokeService(intent);
+    }
+
+    @Override
+    public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
+        Intent intent = createIntent().setAction(ACTION_ADD_CALENDAREVENT)
+                .putExtra(EXTRA_CALENDAREVENT_ID, calendarEventSpec.id)
+                .putExtra(EXTRA_CALENDAREVENT_TYPE, calendarEventSpec.type)
+                .putExtra(EXTRA_CALENDAREVENT_TIMESTAMP, calendarEventSpec.timestamp)
+                .putExtra(EXTRA_CALENDAREVENT_DURATION, calendarEventSpec.durationInSeconds)
+                .putExtra(EXTRA_CALENDAREVENT_TITLE, calendarEventSpec.title)
+                .putExtra(EXTRA_CALENDAREVENT_DESCRIPTION, calendarEventSpec.description);
         invokeService(intent);
     }
 }

@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -267,5 +268,13 @@ public class ServiceDeviceSupport implements DeviceSupport {
             return;
         }
         delegate.onEnableRealtimeHeartRateMeasurement(enable);
+    }
+
+    @Override
+    public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
+        if (checkBusy("add calendar event")) {
+            return;
+        }
+        delegate.onAddCalendarEvent(calendarEventSpec);
     }
 }

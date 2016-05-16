@@ -20,15 +20,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import net.e175.klaus.solarpositioning.DeltaT;
+import net.e175.klaus.solarpositioning.SPA;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.GregorianCalendar;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
@@ -36,6 +41,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 
 public class DebugActivity extends GBActivity {
@@ -224,6 +230,36 @@ public class DebugActivity extends GBActivity {
             @Override
             public void onClick(View v) {
                 GBApplication.deviceService().onSetTime();
+
+                //FIXME: dont do it here, make another button
+
+                Prefs prefs = GBApplication.getPrefs();
+
+                float latitude = prefs.getFloat("location_latitude", 0);
+                float longitude = prefs.getFloat("location_longitude", 0);
+                final GregorianCalendar dateTime = new GregorianCalendar();
+                GregorianCalendar[] sunriseTransitSet = SPA.calculateSunriseTransitSet(dateTime, latitude, longitude, DeltaT.estimate(dateTime));
+
+                if (sunriseTransitSet[0] != null) {
+                    CalendarEventSpec calendarEventSpec = new CalendarEventSpec();
+                    calendarEventSpec.id = -1;
+                    calendarEventSpec.type = CalendarEventSpec.TYPE_SUNRISE;
+                    calendarEventSpec.timestamp = (int) (sunriseTransitSet[0].getTimeInMillis() / 1000);
+                    calendarEventSpec.durationInSeconds = 0;
+                    calendarEventSpec.title = "Sunrise";
+                    calendarEventSpec.description = null;
+                    GBApplication.deviceService().onAddCalendarEvent(calendarEventSpec);
+                }
+                if (sunriseTransitSet[2] != null) {
+                    CalendarEventSpec calendarEventSpec = new CalendarEventSpec();
+                    calendarEventSpec.id = -1;
+                    calendarEventSpec.type = CalendarEventSpec.TYPE_SUNSET;
+                    calendarEventSpec.timestamp = (int) (sunriseTransitSet[2].getTimeInMillis() / 1000);
+                    calendarEventSpec.durationInSeconds = 0;
+                    calendarEventSpec.title = "Sunset";
+                    calendarEventSpec.description = null;
+                    GBApplication.deviceService().onAddCalendarEvent(calendarEventSpec);
+                }
             }
         });
 

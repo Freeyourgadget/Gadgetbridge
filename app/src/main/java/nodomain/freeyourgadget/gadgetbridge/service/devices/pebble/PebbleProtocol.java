@@ -33,6 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleColor;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleIconID;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
+import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
@@ -465,6 +466,24 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     @Override
+    public byte[] encodeAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
+        long id = calendarEventSpec.id != -1 ? calendarEventSpec.id : mRandom.nextLong();
+        int iconId;
+        switch (calendarEventSpec.type) {
+            case CalendarEventSpec.TYPE_SUNRISE:
+                iconId = PebbleIconID.SUNRISE;
+                break;
+            case CalendarEventSpec.TYPE_SUNSET:
+                iconId = PebbleIconID.SUNSET;
+                break;
+            default:
+                iconId = PebbleIconID.TIMELINE_CALENDAR;
+        }
+
+        return encodeTimelinePin(id, calendarEventSpec.timestamp, (short)calendarEventSpec.durationInSeconds, iconId, calendarEventSpec.title, calendarEventSpec.description);
+    }
+
+    @Override
     public byte[] encodeSetTime() {
         long ts = System.currentTimeMillis();
         long ts_offset = (SimpleTimeZone.getDefault().getOffset(ts));
@@ -742,11 +761,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    private byte[] encodeTimelinePin(int id, int timestamp, short duration, int icon_id, String title, String subtitle) {
+    private byte[] encodeTimelinePin(long id, int timestamp, short duration, int icon_id, String title, String subtitle) {
         final short TIMELINE_PIN_LENGTH = 46;
 
         icon_id |= 0x80000000;
-        UUID uuid = new UUID(mRandom.nextLong(), ((long) mRandom.nextInt() << 32) | id);
+        UUID uuid = new UUID(mRandom.nextLong(), id);
         byte attributes_count = 2;
         byte actions_count = 0;
 

@@ -8,6 +8,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.devices.EventHandler;
+import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -185,6 +186,11 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     @Override
     public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
         byte[] bytes = gbDeviceProtocol.encodeEnableRealtimeHeartRateMeasurement(enable);
+        sendToDevice(bytes);
+    }
+    @Override
+    public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
+        byte[] bytes = gbDeviceProtocol.encodeAddCalendarEvent(calendarEventSpec);
         sendToDevice(bytes);
     }
 }
