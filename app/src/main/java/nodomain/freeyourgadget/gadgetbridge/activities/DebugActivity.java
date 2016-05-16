@@ -233,9 +233,9 @@ public class DebugActivity extends GBActivity {
 
                 //FIXME: dont do it here, and make another button
                 GBApplication.deviceService().onDeleteCalendarEvent(CalendarEventSpec.TYPE_SUNRISE, 1);
-                GBApplication.deviceService().onDeleteCalendarEvent(CalendarEventSpec.TYPE_SUNRISE, 3);
+                GBApplication.deviceService().onDeleteCalendarEvent(CalendarEventSpec.TYPE_SUNRISE, 2);
+                GBApplication.deviceService().onDeleteCalendarEvent(CalendarEventSpec.TYPE_SUNSET, 1);
                 GBApplication.deviceService().onDeleteCalendarEvent(CalendarEventSpec.TYPE_SUNSET, 2);
-                GBApplication.deviceService().onDeleteCalendarEvent(CalendarEventSpec.TYPE_SUNSET, 4);
 
                 Prefs prefs = GBApplication.getPrefs();
 
