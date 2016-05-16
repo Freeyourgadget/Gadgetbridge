@@ -34,7 +34,6 @@ import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_TYPE
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.TABLE_GBACTIVITYSAMPLES;
 
 // TODO: can be removed entirely
-// TODO: port schema migration to greendao first
 public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(ActivityDatabaseHandler.class);
