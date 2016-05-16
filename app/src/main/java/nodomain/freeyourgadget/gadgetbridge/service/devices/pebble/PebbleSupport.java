@@ -126,4 +126,11 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
             super.onAddCalendarEvent(calendarEventSpec);
         }
     }
+
+    @Override
+    public void onDeleteCalendarEvent(int type, long id) {
+        if (reconnect()) {
+            super.onDeleteCalendarEvent(type, id);
+        }
+    }
 }

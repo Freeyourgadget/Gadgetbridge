@@ -388,6 +388,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         // not supported
     }
 
+    @Override
+    public void onDeleteCalendarEvent(int type, long id) {
+        // not supported
+    }
+
     /**
      * Part of device initialization process. Do not call manually.
      *

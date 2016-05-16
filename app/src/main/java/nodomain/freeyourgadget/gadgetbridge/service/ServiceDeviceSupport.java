@@ -277,4 +277,12 @@ public class ServiceDeviceSupport implements DeviceSupport {
         }
         delegate.onAddCalendarEvent(calendarEventSpec);
     }
+
+    @Override
+    public void onDeleteCalendarEvent(int type, long id) {
+        if (checkBusy("delete calendar event")) {
+            return;
+        }
+        delegate.onDeleteCalendarEvent(type, id);
+    }
 }

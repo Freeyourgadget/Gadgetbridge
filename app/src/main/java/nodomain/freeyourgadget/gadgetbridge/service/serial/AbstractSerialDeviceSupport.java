@@ -188,9 +188,16 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
         byte[] bytes = gbDeviceProtocol.encodeEnableRealtimeHeartRateMeasurement(enable);
         sendToDevice(bytes);
     }
+
     @Override
     public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
         byte[] bytes = gbDeviceProtocol.encodeAddCalendarEvent(calendarEventSpec);
+        sendToDevice(bytes);
+    }
+
+    @Override
+    public void onDeleteCalendarEvent(int type, long id) {
+        byte[] bytes = gbDeviceProtocol.encodeDeleteCalendarEvent(type, id);
         sendToDevice(bytes);
     }
 }

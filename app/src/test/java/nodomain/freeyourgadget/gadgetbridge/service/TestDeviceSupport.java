@@ -137,6 +137,11 @@ public class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
+    public void onDeleteCalendarEvent(int type, long id) {
+
+    }
+
+    @Override
     public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
 
     }

@@ -47,6 +47,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_AP
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CALLSTATE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CONNECT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DELETEAPP;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DELETE_CALENDAREVENT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DISCONNECT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ENABLE_HEARTRATE_SLEEP_SUPPORT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT;
@@ -282,6 +283,12 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 calendarEventSpec.title = intent.getStringExtra(EXTRA_CALENDAREVENT_TITLE);
                 calendarEventSpec.description = intent.getStringExtra(EXTRA_CALENDAREVENT_DESCRIPTION);
                 mDeviceSupport.onAddCalendarEvent(calendarEventSpec);
+                break;
+            }
+            case ACTION_DELETE_CALENDAREVENT: {
+                long id = intent.getLongExtra(EXTRA_CALENDAREVENT_ID, -1);
+                int type = intent.getIntExtra(EXTRA_CALENDAREVENT_TYPE, -1);
+                mDeviceSupport.onDeleteCalendarEvent(type, id);
                 break;
             }
             case ACTION_REBOOT: {

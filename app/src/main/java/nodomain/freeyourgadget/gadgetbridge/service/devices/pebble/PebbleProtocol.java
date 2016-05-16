@@ -452,7 +452,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         if (isFw3x) {
             // 3.x notification
-            //return encodeTimelinePin(id, (int) ((ts + 600) & 0xffffffffL), (short) 90, PebbleIconID.TIMELINE_CALENDAR, title); // really, this is just for testing
             return encodeBlobdbNotification(id, (int) (ts & 0xffffffffL), title, subtitle, notificationSpec.body, notificationSpec.sourceName, hasHandle, notificationSpec.type, notificationSpec.cannedReplies);
         } else if (mForceProtocol || notificationSpec.type != NotificationType.EMAIL) {
             // 2.x notification
@@ -480,7 +479,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 iconId = PebbleIconID.TIMELINE_CALENDAR;
         }
 
-        return encodeTimelinePin(id, calendarEventSpec.timestamp, (short)calendarEventSpec.durationInSeconds, iconId, calendarEventSpec.title, calendarEventSpec.description);
+        return encodeTimelinePin(new UUID(calendarEventSpec.type, id), calendarEventSpec.timestamp, (short) calendarEventSpec.durationInSeconds, iconId, calendarEventSpec.title, calendarEventSpec.description);
+    }
+
+    @Override
+    public byte[] encodeDeleteCalendarEvent(int type, long id) {
+        return encodeBlobdb(new UUID(type, id), BLOBDB_DELETE, BLOBDB_PIN, null);
     }
 
     @Override
@@ -761,11 +765,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    private byte[] encodeTimelinePin(long id, int timestamp, short duration, int icon_id, String title, String subtitle) {
+    private byte[] encodeTimelinePin(UUID uuid, int timestamp, short duration, int icon_id, String title, String subtitle) {
         final short TIMELINE_PIN_LENGTH = 46;
 
         icon_id |= 0x80000000;
-        UUID uuid = new UUID(mRandom.nextLong(), id);
         byte attributes_count = 2;
         byte actions_count = 0;
 

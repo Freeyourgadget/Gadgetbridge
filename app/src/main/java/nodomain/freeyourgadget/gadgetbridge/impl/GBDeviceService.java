@@ -236,4 +236,12 @@ public class GBDeviceService implements DeviceService {
                 .putExtra(EXTRA_CALENDAREVENT_DESCRIPTION, calendarEventSpec.description);
         invokeService(intent);
     }
+
+    @Override
+    public void onDeleteCalendarEvent(int type, long id) {
+        Intent intent = createIntent().setAction(ACTION_DELETE_CALENDAREVENT)
+                .putExtra(EXTRA_CALENDAREVENT_TYPE, type)
+                .putExtra(EXTRA_CALENDAREVENT_ID, id);
+        invokeService(intent);
+    }
 }

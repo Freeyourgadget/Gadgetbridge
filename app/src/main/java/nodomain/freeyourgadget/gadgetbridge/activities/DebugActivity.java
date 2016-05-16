@@ -231,33 +231,50 @@ public class DebugActivity extends GBActivity {
             public void onClick(View v) {
                 GBApplication.deviceService().onSetTime();
 
-                //FIXME: dont do it here, make another button
+                //FIXME: dont do it here, and make another button
+                GBApplication.deviceService().onDeleteCalendarEvent(CalendarEventSpec.TYPE_SUNRISE, 1);
+                GBApplication.deviceService().onDeleteCalendarEvent(CalendarEventSpec.TYPE_SUNRISE, 3);
+                GBApplication.deviceService().onDeleteCalendarEvent(CalendarEventSpec.TYPE_SUNSET, 2);
+                GBApplication.deviceService().onDeleteCalendarEvent(CalendarEventSpec.TYPE_SUNSET, 4);
 
                 Prefs prefs = GBApplication.getPrefs();
 
                 float latitude = prefs.getFloat("location_latitude", 0);
                 float longitude = prefs.getFloat("location_longitude", 0);
-                final GregorianCalendar dateTime = new GregorianCalendar();
-                GregorianCalendar[] sunriseTransitSet = SPA.calculateSunriseTransitSet(dateTime, latitude, longitude, DeltaT.estimate(dateTime));
+                final GregorianCalendar dateTimeToday = new GregorianCalendar();
+                final GregorianCalendar dateTimeTomorrow = new GregorianCalendar();
+                dateTimeTomorrow.add(GregorianCalendar.DAY_OF_MONTH, 1);
 
-                if (sunriseTransitSet[0] != null) {
-                    CalendarEventSpec calendarEventSpec = new CalendarEventSpec();
-                    calendarEventSpec.id = -1;
-                    calendarEventSpec.type = CalendarEventSpec.TYPE_SUNRISE;
-                    calendarEventSpec.timestamp = (int) (sunriseTransitSet[0].getTimeInMillis() / 1000);
-                    calendarEventSpec.durationInSeconds = 0;
-                    calendarEventSpec.title = "Sunrise";
-                    calendarEventSpec.description = null;
+                GregorianCalendar[] sunriseTransitSetToday = SPA.calculateSunriseTransitSet(dateTimeToday, latitude, longitude, DeltaT.estimate(dateTimeToday));
+                GregorianCalendar[] sunriseTransitSetTomorrow = SPA.calculateSunriseTransitSet(dateTimeTomorrow, latitude, longitude, DeltaT.estimate(dateTimeToday));
+
+                CalendarEventSpec calendarEventSpec = new CalendarEventSpec();
+                calendarEventSpec.durationInSeconds = 0;
+                calendarEventSpec.description = null;
+
+                calendarEventSpec.type = CalendarEventSpec.TYPE_SUNRISE;
+                calendarEventSpec.title = "Sunrise";
+                if (sunriseTransitSetToday[0] != null) {
+                    calendarEventSpec.id = 1;
+                    calendarEventSpec.timestamp = (int) (sunriseTransitSetToday[0].getTimeInMillis() / 1000);
                     GBApplication.deviceService().onAddCalendarEvent(calendarEventSpec);
                 }
-                if (sunriseTransitSet[2] != null) {
-                    CalendarEventSpec calendarEventSpec = new CalendarEventSpec();
-                    calendarEventSpec.id = -1;
-                    calendarEventSpec.type = CalendarEventSpec.TYPE_SUNSET;
-                    calendarEventSpec.timestamp = (int) (sunriseTransitSet[2].getTimeInMillis() / 1000);
-                    calendarEventSpec.durationInSeconds = 0;
-                    calendarEventSpec.title = "Sunset";
-                    calendarEventSpec.description = null;
+                if (sunriseTransitSetTomorrow[0] != null) {
+                    calendarEventSpec.id = 2;
+                    calendarEventSpec.timestamp = (int) (sunriseTransitSetTomorrow[0].getTimeInMillis() / 1000);
+                    GBApplication.deviceService().onAddCalendarEvent(calendarEventSpec);
+                }
+
+                calendarEventSpec.type = CalendarEventSpec.TYPE_SUNSET;
+                calendarEventSpec.title = "Sunset";
+                if (sunriseTransitSetToday[2] != null) {
+                    calendarEventSpec.id = 1;
+                    calendarEventSpec.timestamp = (int) (sunriseTransitSetToday[2].getTimeInMillis() / 1000);
+                    GBApplication.deviceService().onAddCalendarEvent(calendarEventSpec);
+                }
+                if (sunriseTransitSetTomorrow[2] != null) {
+                    calendarEventSpec.id = 2;
+                    calendarEventSpec.timestamp = (int) (sunriseTransitSetTomorrow[2].getTimeInMillis() / 1000);
                     GBApplication.deviceService().onAddCalendarEvent(calendarEventSpec);
                 }
             }
