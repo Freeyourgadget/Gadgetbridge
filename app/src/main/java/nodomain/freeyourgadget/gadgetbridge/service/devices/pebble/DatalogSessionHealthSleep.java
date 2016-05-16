@@ -68,14 +68,14 @@ class DatalogSessionHealthSleep extends DatalogSession {
     private boolean store84(SleepRecord84[] sleepRecords) {
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             SampleProvider sampleProvider = new HealthSampleProvider(dbHandler.getDaoSession());
-            int latestTimestamp = dbHandler.fetchLatestTimestamp(sampleProvider);
+            int latestTimestamp = sampleProvider.fetchLatestTimestamp();
             for (SleepRecord84 sleepRecord : sleepRecords) {
                 if (latestTimestamp < (sleepRecord.timestampStart + sleepRecord.durationSeconds))
                     return false;
                 if (sleepRecord.type == 2) {
-                    dbHandler.changeStoredSamplesType(sleepRecord.timestampStart, (sleepRecord.timestampStart + sleepRecord.durationSeconds), sampleProvider.toRawActivityKind(ActivityKind.TYPE_DEEP_SLEEP), sampleProvider);
+                    sampleProvider.changeStoredSamplesType(sleepRecord.timestampStart, (sleepRecord.timestampStart + sleepRecord.durationSeconds), sampleProvider.toRawActivityKind(ActivityKind.TYPE_DEEP_SLEEP));
                 } else {
-                    dbHandler.changeStoredSamplesType(sleepRecord.timestampStart, (sleepRecord.timestampStart + sleepRecord.durationSeconds), sampleProvider.toRawActivityKind(ActivityKind.TYPE_ACTIVITY), sampleProvider.toRawActivityKind(ActivityKind.TYPE_LIGHT_SLEEP), sampleProvider);
+                    sampleProvider.changeStoredSamplesType(sleepRecord.timestampStart, (sleepRecord.timestampStart + sleepRecord.durationSeconds), sampleProvider.toRawActivityKind(ActivityKind.TYPE_ACTIVITY), sampleProvider.toRawActivityKind(ActivityKind.TYPE_LIGHT_SLEEP));
                 }
 
             }
@@ -116,11 +116,11 @@ class DatalogSessionHealthSleep extends DatalogSession {
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             SampleProvider sampleProvider = new HealthSampleProvider(dbHandler.getDaoSession());
             GB.toast("Deep sleep is supported only from firmware 3.11 onwards.", Toast.LENGTH_LONG, GB.INFO);
-            int latestTimestamp = dbHandler.fetchLatestTimestamp(sampleProvider);
+            int latestTimestamp = sampleProvider.fetchLatestTimestamp();
             for (SleepRecord83 sleepRecord : sleepRecords) {
                 if (latestTimestamp < sleepRecord.bedTimeEnd)
                     return false;
-                dbHandler.changeStoredSamplesType(sleepRecord.bedTimeStart, sleepRecord.bedTimeEnd, sampleProvider.toRawActivityKind(ActivityKind.TYPE_ACTIVITY), sampleProvider.toRawActivityKind(ActivityKind.TYPE_LIGHT_SLEEP), sampleProvider);
+                sampleProvider.changeStoredSamplesType(sleepRecord.bedTimeStart, sleepRecord.bedTimeEnd, sampleProvider.toRawActivityKind(ActivityKind.TYPE_ACTIVITY), sampleProvider.toRawActivityKind(ActivityKind.TYPE_LIGHT_SLEEP));
             }
         } catch (Exception ex) {
             LOG.debug(ex.getMessage());

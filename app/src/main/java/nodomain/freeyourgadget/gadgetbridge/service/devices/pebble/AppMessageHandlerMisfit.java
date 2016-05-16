@@ -71,7 +71,7 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
                     LOG.info("got data from " + startDate + " to " + endDate);
 
                     int totalSteps = 0;
-                    AbstractActivitySample[] activitySamples = new AbstractActivitySample[samples];
+                    PebbleActivitySample[] activitySamples = new PebbleActivitySample[samples];
                     try (DBHandler db = GBApplication.acquireDB()) {
                         Long userId = DBHelper.getUser(db.getDaoSession()).getId();
                         Long deviceId = DBHelper.getDevice(getDevice(), db.getDaoSession()).getId();

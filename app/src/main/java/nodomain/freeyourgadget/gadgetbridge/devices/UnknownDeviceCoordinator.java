@@ -15,6 +15,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
+    private final UnknownSampleProvider sampleProvider;
 
     private static final class UnknownSampleProvider implements SampleProvider {
         @Override
@@ -48,6 +49,14 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
         }
 
         @Override
+        public void changeStoredSamplesType(int timestampFrom, int timestampTo, int kind) {
+        }
+
+        @Override
+        public void changeStoredSamplesType(int timestampFrom, int timestampTo, int fromKind, int toKind) {
+        }
+
+        @Override
         public int fetchLatestTimestamp() {
             return 0;
         }
@@ -67,6 +76,7 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     public UnknownDeviceCoordinator() {
+        sampleProvider = new UnknownSampleProvider();
     }
 
     @Override

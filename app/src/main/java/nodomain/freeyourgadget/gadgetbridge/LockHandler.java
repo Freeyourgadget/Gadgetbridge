@@ -40,51 +40,12 @@ public class LockHandler implements DBHandler {
     }
 
     @Override
-    public List<ActivitySample> getAllActivitySamples(int tsFrom, int tsTo, SampleProvider provider) {
-        return provider.getAllActivitySamples(tsFrom, tsTo);
-    }
-
-    @Override
-    public List<ActivitySample> getActivitySamples(int tsFrom, int tsTo, SampleProvider provider) {
-        return provider.getActivitySamples(tsFrom, tsTo);
-    }
-
-    @Override
-    public List<ActivitySample> getSleepSamples(int tsFrom, int tsTo, SampleProvider provider) {
-        return provider.getSleepSamples(tsFrom, tsTo);
-    }
-
-    @Override
-    public int fetchLatestTimestamp(SampleProvider provider) {
-        return provider.fetchLatestTimestamp();
-    }
-
-    @Override
     public DaoSession getDaoSession() {
         return session;
     }
 
     @Override
-    public void addGBActivitySample(AbstractActivitySample sample) {
-    }
-
-    @Override
-    public void addGBActivitySamples(AbstractActivitySample[] activitySamples) {
-
-    }
-
-    @Override
     public SQLiteDatabase getWritableDatabase() {
         return null;
-    }
-
-    @Override
-    public void changeStoredSamplesType(int timestampFrom, int timestampTo, int kind, SampleProvider provider) {
-
-    }
-
-    @Override
-    public void changeStoredSamplesType(int timestampFrom, int timestampTo, int fromKind, int toKind, SampleProvider provider) {
-
     }
 }

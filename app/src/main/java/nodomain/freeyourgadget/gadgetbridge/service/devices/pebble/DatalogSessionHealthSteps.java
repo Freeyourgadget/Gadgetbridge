@@ -78,7 +78,7 @@ public class DatalogSessionHealthSteps extends DatalogSession {
 
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             HealthSampleProvider sampleProvider = new HealthSampleProvider(dbHandler.getDaoSession());
-            AbstractActivitySample[] samples = new AbstractActivitySample[stepsRecords.length];
+            PebbleActivitySample[] samples = new PebbleActivitySample[stepsRecords.length];
             // TODO: user and device
             Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
             Long deviceId = DBHelper.getDevice(device, dbHandler.getDaoSession()).getId();

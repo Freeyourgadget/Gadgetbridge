@@ -33,6 +33,8 @@ import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_TIME
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_TYPE;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.TABLE_GBACTIVITYSAMPLES;
 
+// TODO: can be removed entirely
+// TODO: port schema migration to greendao first
 public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(ActivityDatabaseHandler.class);
@@ -87,7 +89,6 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
      * @param kind             the raw activity kind of the sample
      * @param customShortValue
      */
-    @Override
     public void addGBActivitySample(AbstractActivitySample sample) {
         float intensity = sample.getIntensity();
         int steps = sample.getSteps();
@@ -122,7 +123,6 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
         }
     }
 
-    @Override
     public void addGBActivitySamples(AbstractActivitySample[] activitySamples) {
         try (SQLiteDatabase db = this.getWritableDatabase()) {
 
@@ -231,7 +231,6 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
         return builder.toString();
     }
 
-    @Override
     public void changeStoredSamplesType(int timestampFrom, int timestampTo, int kind, SampleProvider provider) {
         try (SQLiteDatabase db = this.getReadableDatabase()) {
             String sql = "UPDATE " + TABLE_GBACTIVITYSAMPLES + " SET " + KEY_TYPE + "= ? WHERE "
@@ -247,7 +246,6 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
         }
     }
 
-    @Override
     public void changeStoredSamplesType(int timestampFrom, int timestampTo, int fromKind, int toKind, SampleProvider provider) {
         try (SQLiteDatabase db = this.getReadableDatabase()) {
             String sql = "UPDATE " + TABLE_GBACTIVITYSAMPLES + " SET " + KEY_TYPE + "= ? WHERE "
@@ -265,7 +263,6 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
         }
     }
 
-    @Override
     public int fetchLatestTimestamp(SampleProvider provider) {
         try (SQLiteDatabase db = this.getReadableDatabase()) {
             try (Cursor cursor = db.query(TABLE_GBACTIVITYSAMPLES, new String[]{KEY_TIMESTAMP}, KEY_PROVIDER + "=" + String.valueOf(provider.getID()), null, null, null, KEY_TIMESTAMP + " DESC", "1")) {

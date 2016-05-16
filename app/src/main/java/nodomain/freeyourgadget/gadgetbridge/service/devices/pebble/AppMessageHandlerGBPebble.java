@@ -22,6 +22,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleGadgetBridgeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -58,7 +59,7 @@ public class AppMessageHandlerGBPebble extends AppMessageHandler {
                         User user = DBHelper.getUser(db.getDaoSession());
                         Device device = DBHelper.getDevice(getDevice(), db.getDaoSession());
                         PebbleGadgetBridgeSampleProvider sampleProvider = new PebbleGadgetBridgeSampleProvider(db.getDaoSession());
-                        AbstractActivitySample[] activitySamples = new AbstractActivitySample[samples_remaining];
+                        PebbleActivitySample[] activitySamples = new PebbleActivitySample[samples_remaining];
                         int i = 0;
                         while (samples_remaining-- > 0) {
                             short sample = samplesBuffer.getShort();
