@@ -1,18 +1,19 @@
 package nodomain.freeyourgadget.gadgetbridge.devices;
 
 public interface SampleProvider {
-    byte PROVIDER_MIBAND = 0;
-    byte PROVIDER_PEBBLE_MORPHEUZ = 1;
-    byte PROVIDER_PEBBLE_GADGETBRIDGE = 2;
-    byte PROVIDER_PEBBLE_MISFIT = 3;
+    int PROVIDER_MIBAND = 0;
+    int PROVIDER_PEBBLE_MORPHEUZ = 1;
+    int PROVIDER_PEBBLE_GADGETBRIDGE = 2;
+    int PROVIDER_PEBBLE_MISFIT = 3;
+    int PROVIDER_PEBBLE_HEALTH = 4;
 
-    byte PROVIDER_UNKNOWN = 100;
+    int PROVIDER_UNKNOWN = 100;
 
-    int normalizeType(byte rawType);
+    int normalizeType(int rawType);
 
-    byte toRawActivityKind(int activityKind);
+    int toRawActivityKind(int activityKind);
 
-    float normalizeIntensity(short rawIntensity);
+    float normalizeIntensity(int rawIntensity);
 
-    byte getID();
+    int getID();
 }

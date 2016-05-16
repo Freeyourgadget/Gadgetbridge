@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+    <release version="0.9.7" versioncode="51">
+	<change>Pebble: hopefully fix some reconnect issues</change>
+	<change>Mi Band: fix live activity monitoring running forever if back button pressed</change>
+	<change>Mi Band: allow low latency firmware updates, fixes update with some phones</change>
+	<change>Mi Band: inital experimental and probably broken support for Amazfit</change>
+	<change>Show aliases for BT Devices if they had been renamed in BT Settings</change>
+	<change>Do not show a hint about App Manager when a Mi Band is connected</change>
+    </release>
+    <release version="0.9.6" versioncode="50">
+        <change>Again some UI/theme improvements</change>
+        <change>New preference to reconnect after connection loss (defaults to true)</change>
+        <change>Fix crash when dealing with certain old preference values</change>
+        <change>Mi Band: automatically reconnect when back in range after connection loss</change>
+        <change>Mi Band 1S: display heart rate value again when invoked via the Debug view</change>
+    </release>
+    <release version="0.9.5" versioncode="49">
+        <change>Several UI Improvements</change>
+        <change>Easier First-time setup by using a FAB</change>
+        <change>Optional Dark Theme</change>
+        <change>Notification App Blacklist is now sorted</change>
+        <change>Gadgetbridge Icon in the notification bar displays connection state</change>
+        <change>Logging is now configurable without restart</change>
+        <change>Mi Band 1S: Initial live heartrate tracking</change>
+        <change>Fix certain crash in charts activity on slower devices (#277)</change>
+    </release>
+    <release version="0.9.4" versioncode="48">
+        <change>Fix crash in charts activities when changing the date, quickly (#277)</change>
+        <change>Pebble: support pebble health datalog messages of firmware 3.11 (this adds support for deep sleep!)</change>
+        <change>Pebble: try to reconnect on new notifications and phone calls when connection was lost unexpectedly</change>
+        <change>Pebble: delay between reconnection attempts (from 1 up to 64 seconds)</change>
+        <change>Mi Band: preference to enable heart rate measurement during sleep (#232, thanks computerlyrik!)</change>
+        <change>Mi Band: display measured heart rate in charts (#232)</change>
+        <change>Mi Band 1S: full support for firmware upgrade/downgrade (both for Mi Band and heart rate sensor) (#234)</change>
+        <change>Mi Band 1S: fix device detection for certain versions</change>
+    </release>
+    <release version="0.9.3" versioncode="47">
+        <change>Pebble: Fix Pebble Health activation (was not available in the App Manager)</change>
+        <change>Simplify connection state display (only connecting->connected)</change>
+        <change>Small improvements to the pairing activity</change>
+        <change>Mi Band 1S: Fix for mi band firmware update</change>
+    </release>
+    <release version="0.9.2" versioncode="46">
+        <change>Mi Band: Fix update of second (HR) firmware on Mi1S (#234)</change>
+        <change>Fix ordering issue of device infos being displayed</change>
+    </release>
+    <release version="0.9.1" versioncode="45">
+        <change>Mi Band: fix sporadic connection problems (stuck on "Initializing" #249)</change>
+        <change>Mi Band: enable low latency connection (faster) during initialization and activity sync</change>
+        <change>Mi Band: better feedback for firmware update</change>
+        <change>Device Item is now clickable also when the information entries are visible</change>
+        <change>Fix enabling log file writing #261</change>
+    </release>
+    <release version="0.9.0" versioncode="44">
+        <change>Pebble: Support for configuring watchfaces/apps locally (clay) or though webbrowser (some do not work)</change>
+        <change>Pebble: hide the alarm management activity as it's unsupported</change>
+        <change>Mi Band: Improve firmware detection and updates, including 1S support</change>
+        <change>Mi Band: Display HR FW for 1S</change>
+        <change>FW and HW versions are only displayed after tapping on the "info" button in Control Center</change>
+        <change>Do not display activity samples when navigating too far in the past</change>
+        <change>Fix auto connect which was broken under some circumstances</change>
+    </release>
+    <release version="0.8.2" versioncode="43">
+        <change>Add experimental widget to set the alarm time to a configurable number of hours in the future</change>
+        <change>Use ckChangeLog to display the Changelog within Gadgetbridge</change>
+        <change>Fix database creation and updates</change>
+        <change>Workaround to fix logfile rotation</change>
+    </release>
+    <release version="0.8.1" versioncode="42">
+        <change>Pebble: Install and start freshly-installed apps on the watch also in FW 3.x (now same behaviour as 2.x)</change>
+        <change>Pebble: Fix crash while receiving Health data</change>
+        <change>Mi Band 1S: Support for synchronizing activity data</change>
+        <change>Mi Band 1S: Support for reading the heart rate via the "Debug Screen"</change>
+    </release>
+</changelog>

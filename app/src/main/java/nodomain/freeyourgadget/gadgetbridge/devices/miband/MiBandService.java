@@ -14,6 +14,8 @@ public class MiBandService {
 
     public static final UUID UUID_SERVICE_MIBAND_SERVICE = UUID.fromString(String.format(BASE_UUID, "FEE0"));
 
+    public static final UUID UUID_SERVICE_HEART_RATE = UUID.fromString(String.format(BASE_UUID, "180D"));
+
     public static final UUID UUID_CHARACTERISTIC_DEVICE_INFO = UUID.fromString(String.format(BASE_UUID, "FF01"));
 
     public static final UUID UUID_CHARACTERISTIC_DEVICE_NAME = UUID.fromString(String.format(BASE_UUID, "FF02"));
@@ -43,6 +45,11 @@ public class MiBandService {
     public static final UUID UUID_CHARACTERISTIC_SENSOR_DATA = UUID.fromString(String.format(BASE_UUID, "FF0E"));
 
     public static final UUID UUID_CHARACTERISTIC_PAIR = UUID.fromString(String.format(BASE_UUID, "FF0F"));
+
+    public static final UUID UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT = UUID.fromString(String.format(BASE_UUID, "2A39"));
+    public static final UUID UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT = UUID.fromString(String.format(BASE_UUID, "2A37"));
+
+
 
     /* FURTHER UUIDS that were mixed with the other params below. The base UUID for these is unknown */
 
@@ -153,6 +160,12 @@ public class MiBandService {
 
     public static final byte COMMAND_SET_REALTIME_STEP = 0x10;
 
+    // Test HR
+    public static final byte COMMAND_SET_HR_SLEEP = 0x0;
+    public static final byte COMMAND_SET__HR_CONTINUOUS = 0x1;
+    public static final byte COMMAND_SET_HR_MANUAL = 0x2;
+
+
     /* FURTHER COMMANDS: unchecked therefore left commented
 
 
@@ -213,6 +226,7 @@ public class MiBandService {
     static {
         MIBAND_DEBUG = new HashMap<>();
         MIBAND_DEBUG.put(UUID_SERVICE_MIBAND_SERVICE, "MiBand Service");
+        MIBAND_DEBUG.put(UUID_SERVICE_HEART_RATE, "MiBand HR Service");
 
         MIBAND_DEBUG.put(UUID_CHARACTERISTIC_DEVICE_INFO, "Device Info");
         MIBAND_DEBUG.put(UUID_CHARACTERISTIC_DEVICE_NAME, "Device Name");
@@ -229,6 +243,8 @@ public class MiBandService {
         MIBAND_DEBUG.put(UUID_CHARACTERISTIC_TEST, "Test");
         MIBAND_DEBUG.put(UUID_CHARACTERISTIC_SENSOR_DATA, "Sensor Data");
         MIBAND_DEBUG.put(UUID_CHARACTERISTIC_PAIR, "Pair");
+        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT, "Heart Rate Control Point");
+        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT, "Heart Rate Measure");
     }
 
     public static String lookup(UUID uuid, String fallback) {

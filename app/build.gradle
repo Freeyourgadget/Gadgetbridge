@@ -4,9 +4,11 @@ apply plugin: 'pmd'
 
 def ABORT_ON_CHECK_FAILURE=false
 
+tasks.withType(Test) { systemProperty 'MiFirmwareDir', System.getProperty('MiFirmwareDir', null) }
+
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "nodomain.freeyourgadget.gadgetbridge"
@@ -14,8 +16,8 @@ android {
         targetSdkVersion 23
 
         // note: always bump BOTH versionCode and versionName!
-        versionName "0.7.3"
-        versionCode 39
+        versionName "0.9.7"
+        versionCode 51
     }
     buildTypes {
         release {
@@ -44,12 +46,14 @@ dependencies {
     testCompile "org.mockito:mockito-core:1.9.5"
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:support-v4:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:support-v4:23.3.0'
+    compile 'com.android.support:design:23.3.0'
     compile 'com.github.tony19:logback-android-classic:1.1.1-4'
     compile 'org.slf4j:slf4j-api:1.7.7'
-    compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
+    compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
     compile 'com.github.pfichtner:durationformatter:0.1.1'
+    compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
 }
 
 check.dependsOn 'findbugs', 'pmd', 'lint'

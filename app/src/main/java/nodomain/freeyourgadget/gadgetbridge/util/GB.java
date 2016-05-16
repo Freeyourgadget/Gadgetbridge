@@ -39,9 +39,13 @@ public class GB {
     public static final int INFO = 1;
     public static final int WARN = 2;
     public static final int ERROR = 3;
+    public static final String ACTION_DISPLAY_MESSAGE = "GB_Display_Message";
+    public static final String DISPLAY_MESSAGE_MESSAGE = "message";
+    public static final String DISPLAY_MESSAGE_DURATION = "duration";
+    public static final String DISPLAY_MESSAGE_SEVERITY = "severity";
     public static GBEnvironment environment;
 
-    public static Notification createNotification(String text, Context context) {
+    public static Notification createNotification(String text, boolean connected, Context context) {
         if (env().isLocalTest()) {
             return null;
         }
@@ -55,7 +59,7 @@ public class GB {
         builder.setContentTitle(context.getString(R.string.app_name))
                 .setTicker(text)
                 .setContentText(text)
-                .setSmallIcon(R.drawable.ic_notification)
+                .setSmallIcon(connected ? R.drawable.ic_notification : R.drawable.ic_notification_disconnected)
                 .setContentIntent(pendingIntent)
                 .setOngoing(true);
         if (GBApplication.isRunningLollipopOrLater()) {
@@ -64,8 +68,8 @@ public class GB {
         return builder.build();
     }
 
-    public static void updateNotification(String text, Context context) {
-        Notification notification = createNotification(text, context);
+    public static void updateNotification(String text, boolean connected, Context context) {
+        Notification notification = createNotification(text, connected, context);
         updateNotification(notification, NOTIFICATION_ID, context);
     }
 
@@ -202,18 +206,17 @@ public class GB {
      * @param ex          optional exception to be logged
      */
     public static void toast(final Context context, final String message, final int displayTime, final int severity, final Throwable ex) {
+        log(message, severity, ex); // log immediately, not delayed
         if (env().isLocalTest()) {
             return;
         }
         Looper mainLooper = Looper.getMainLooper();
         if (Thread.currentThread() == mainLooper.getThread()) {
-            log(message, severity, ex);
             Toast.makeText(context, message, displayTime).show();
         } else {
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
-                    log(message, severity, ex);
                     Toast.makeText(context, message, displayTime).show();
                 }
             };
@@ -226,7 +229,7 @@ public class GB {
         }
     }
 
-    private static void log(String message, int severity, Throwable ex) {
+    public static void log(String message, int severity, Throwable ex) {
         switch (severity) {
             case INFO:
                 LOG.info(message, ex);

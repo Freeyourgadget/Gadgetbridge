@@ -3,9 +3,13 @@ package nodomain.freeyourgadget.gadgetbridge.service.btle.actions;
 import android.bluetooth.BluetoothGatt;
 import android.content.Context;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class SetProgressAction extends PlainAction {
+    private static final Logger LOG = LoggerFactory.getLogger(SetProgressAction.class);
 
     private final String text;
     private final boolean ongoing;
@@ -30,6 +34,7 @@ public class SetProgressAction extends PlainAction {
 
     @Override
     public boolean run(BluetoothGatt gatt) {
+        LOG.info(toString());
         GB.updateInstallNotification(this.text, this.ongoing, this.percentage, this.context);
         return true;
     }

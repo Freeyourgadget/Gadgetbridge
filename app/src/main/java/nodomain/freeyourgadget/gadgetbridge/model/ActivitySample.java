@@ -18,7 +18,7 @@ public interface ActivitySample {
     /**
      * Returns the raw activity kind value as recorded by the SampleProvider
      */
-    byte getRawKind();
+    int getRawKind();
 
     /**
      * Returns the activity kind value as recorded by the SampleProvider
@@ -30,7 +30,7 @@ public interface ActivitySample {
     /**
      * Returns the raw intensity value as recorded by the SampleProvider
      */
-    short getRawIntensity();
+    int getRawIntensity();
 
     /**
      * Returns the normalized intensity value between 0 and 1
@@ -40,5 +40,7 @@ public interface ActivitySample {
     /**
      * Returns the number of steps performed during the period of this sample
      */
-    short getSteps();
+    int getSteps();
+
+    int getCustomValue();
 }

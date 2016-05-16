@@ -1,17 +1,23 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.miband;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 
 public class DeviceInfo extends AbstractInfo {
     public final String deviceId;
     public final int profileVersion;
+    /**
+     * Mi Band firmware version identifier
+     */
     public final int fwVersion;
     public final int hwVersion;
     public final int feature;
     public final int appearance;
+    /**
+     * Heart rate firmware version identifier
+     */
+    public final int fw2Version;
+    private boolean test1AHRMode;
 
 
     private boolean isChecksumCorrect(byte[] data) {
@@ -29,6 +35,15 @@ public class DeviceInfo extends AbstractInfo {
             hwVersion = data[6] & 255;
             appearance = data[5] & 255;
             feature = data[4] & 255;
+            if (data.length == 20) {
+                int s = 0;
+                for (int i = 0; i < 4; ++i) {
+                    s |= (data[16 + i] & 255) << i * 8;
+                }
+                fw2Version = s;
+            } else {
+                fw2Version = -1;
+            }
         } else {
             deviceId = "crc error";
             profileVersion = -1;
@@ -36,12 +51,13 @@ public class DeviceInfo extends AbstractInfo {
             hwVersion = -1;
             feature = -1;
             appearance = -1;
+            fw2Version = -1;
         }
     }
 
     public static int getInt(byte[] data, int from, int len) {
         int ret = 0;
-        for(int i = 0; i < len; ++i) {
+        for (int i = 0; i < len; ++i) {
             ret |= (data[from + i] & 255) << i * 8;
         }
         return ret;
@@ -51,19 +67,23 @@ public class DeviceInfo extends AbstractInfo {
         return getInt(data, from, 4);
     }
 
-    public String getHumanFirmwareVersion() {
-        if (fwVersion == -1)
-            return GBApplication.getContext().getString(R.string._unknown_);
-
-        return String.format("%d.%d.%d.%d",
-                fwVersion >> 24 & 255,
-                fwVersion >> 16 & 255,
-                fwVersion >> 8 & 255,
-                fwVersion & 255);
-    }
-
     public int getFirmwareVersion() {
         return fwVersion;
+    }
+
+    public int getHeartrateFirmwareVersion() {
+        if (test1AHRMode) {
+            return fwVersion;
+        }
+        return fw2Version;
+    }
+
+    public void setTest1AHRMode(boolean enableTestMode) {
+        test1AHRMode = enableTestMode;
+    }
+
+    public boolean supportsHeartrate() {
+        return isMili1S() || (test1AHRMode && isMili1A());
     }
 
     @Override
@@ -75,6 +95,7 @@ public class DeviceInfo extends AbstractInfo {
                 ", hwVersion=" + hwVersion +
                 ", feature=" + feature +
                 ", appearance=" + appearance +
+                ", fw2Version (hr)=" + fw2Version +
                 '}';
     }
 
@@ -86,9 +107,13 @@ public class DeviceInfo extends AbstractInfo {
         return feature == 5 && appearance == 0 || feature == 0 && hwVersion == 208;
     }
 
-    public boolean isMilli1S() {
+    public boolean isMili1S() {
         // TODO: this is probably not quite correct, but hopefully sufficient for early 1S support
-        return feature == 4 && appearance == 0 || feature == 4 && hwVersion == 4;
+        return (feature == 4 && appearance == 0) || hwVersion == 4;
+    }
+
+    public boolean isAmazFit() {
+        return hwVersion == 6;
     }
 
     public String getHwVersion() {
@@ -98,8 +123,11 @@ public class DeviceInfo extends AbstractInfo {
         if (isMili1A()) {
             return MiBandConst.MI_1A;
         }
-        if (isMilli1S()) {
+        if (isMili1S()) {
             return MiBandConst.MI_1S;
+        }
+        if (isAmazFit()) {
+            return MiBandConst.MI_AMAZFIT;
         }
         return "?";
     }

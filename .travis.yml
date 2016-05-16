@@ -1,4 +1,12 @@
 language: android
+
+jdk:
+  - oraclejdk8
+  - oraclejdk7
+
+env:
+  - GRADLE_OPTS="-XX:MaxPermSize=256m"
+
 android:
   components:
     # Uncomment the lines below if you want to
@@ -7,7 +15,7 @@ android:
     - tools
 
     # The BuildTools version used by your project
-    - build-tools-23.0.2
+    - build-tools-23.0.3
 
     # The SDK version used to compile your project
     - android-23

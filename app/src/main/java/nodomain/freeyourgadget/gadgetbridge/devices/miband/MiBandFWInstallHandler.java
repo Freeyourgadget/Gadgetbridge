@@ -47,6 +47,14 @@ public class MiBandFWInstallHandler implements InstallHandler {
             return;
         }
 
+        try {
+            helper.getFirmwareInfo().checkValid();
+        } catch (IllegalArgumentException ex) {
+            installActivity.setInfoText(ex.getLocalizedMessage());
+            installActivity.setInstallEnabled(false);
+            return;
+        }
+
         GenericItem fwItem = new GenericItem(mContext.getString(R.string.miband_installhandler_miband_firmware, helper.getHumanFirmwareVersion()));
         fwItem.setIcon(R.drawable.ic_device_miband);
 
@@ -56,7 +64,13 @@ public class MiBandFWInstallHandler implements InstallHandler {
             installActivity.setInstallEnabled(false);
             return;
         }
-        StringBuilder builder = new StringBuilder(mContext.getString(R.string.fw_upgrade_notice, helper.getHumanFirmwareVersion()));
+        StringBuilder builder = new StringBuilder();
+        if (helper.isSingleFirmware()) {
+            builder.append(mContext.getString(R.string.fw_upgrade_notice, helper.getHumanFirmwareVersion()));
+        } else {
+            builder.append(mContext.getString(R.string.fw_multi_upgrade_notice, helper.getHumanFirmwareVersion(), helper.getHumanFirmwareVersion2()));
+        }
+
 
         if (helper.isFirmwareWhitelisted()) {
             builder.append(" ").append(mContext.getString(R.string.miband_firmware_known));

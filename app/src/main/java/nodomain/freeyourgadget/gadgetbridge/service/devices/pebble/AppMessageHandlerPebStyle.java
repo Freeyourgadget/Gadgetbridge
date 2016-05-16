@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleColor;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import ru.gelin.android.weather.notification.ParcelableWeather2;
@@ -99,18 +98,24 @@ public class AppMessageHandlerPebStyle extends AppMessageHandler {
 
     @Override
     public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
+        return null;
+        /*
         GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
         ByteBuffer buf = ByteBuffer.allocate(encodeAck().length + encodePebStyleConfig().length);
         buf.put(encodeAck());
         buf.put(encodePebStyleConfig());
         sendBytes.encodedBytes = buf.array();
         return new GBDeviceEvent[]{sendBytes};
+        */
     }
 
     @Override
     public GBDeviceEvent[] pushMessage() {
+        return null;
+        /*
         GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
         sendBytes.encodedBytes = encodePebStyleConfig();
         return new GBDeviceEvent[]{sendBytes};
+        */
     }
 }

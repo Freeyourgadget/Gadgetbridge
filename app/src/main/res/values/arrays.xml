@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="pref_theme_options">
+        <item>@string/pref_theme_light</item>
+        <item>@string/pref_theme_dark</item>
+    </string-array>
+    <string-array name="pref_theme_values">
+        <item>@string/pref_theme_value_light</item>
+        <item>@string/pref_theme_value_dark</item>
+    </string-array>
+    <string name="pref_theme_value_light" translatable="false">light</string>
+    <string name="pref_theme_value_dark" translatable="false">dark</string>
+
     <string-array name="notification_mode">
         <item>@string/always</item>
         <item>@string/when_screen_off</item>
@@ -21,14 +32,14 @@
     </string-array>
 
     <string-array name="gender">
-        <item>@string/male</item>
-        <item>@string/female</item>
-        <item>@string/other</item>
+        <item name="1">@string/male</item>
+        <item name="0">@string/female</item>
+        <item name="2">@string/other</item>
     </string-array>
     <string-array name="gender_values">
-        <item>male</item>
-        <item>female</item>
-        <item>other</item>
+        <item>1</item>
+        <item>0</item>
+        <item>2</item>
     </string-array>
     <string-array name="wearside">
         <item>@string/left</item>
@@ -57,6 +68,18 @@
         <item>@string/p_waterdrop</item>
         <item>@string/p_ring</item>
         <item>@string/p_alarm_clock</item>
+    </string-array>
+
+    <string-array name="pebble_activitytracker">
+        <item name="4">Pebble Health</item>
+        <item name="3">Misfit</item>
+        <item name="1">Morpheuz</item>
+    </string-array>
+
+    <string-array name="pebble_activitytracker_values">
+        <item>4</item>
+        <item>3</item>
+        <item>1</item>
     </string-array>
 
 </resources>

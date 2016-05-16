@@ -1,6 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -14,6 +13,7 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.RemoteInput;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -29,14 +29,16 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
-import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 
-public class DebugActivity extends Activity {
+public class DebugActivity extends GBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(DebugActivity.class);
 
     private static final String EXTRA_REPLY = "reply";
@@ -53,6 +55,7 @@ public class DebugActivity extends Activity {
     private Button setMusicInfoButton;
     private Button setTimeButton;
     private Button rebootButton;
+    private Button HeartRateButton;
     private Button exportDBButton;
     private Button importDBButton;
     private Button deleteDBButton;
@@ -62,15 +65,22 @@ public class DebugActivity extends Activity {
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (intent.getAction()) {
-                case GBApplication.ACTION_QUIT:
+                case GBApplication.ACTION_QUIT: {
                     finish();
                     break;
-                case ACTION_REPLY:
+                }
+                case ACTION_REPLY: {
                     Bundle remoteInput = RemoteInput.getResultsFromIntent(intent);
                     CharSequence reply = remoteInput.getCharSequence(EXTRA_REPLY);
                     LOG.info("got wearable reply: " + reply);
                     GB.toast(context, "got wearable reply: " + reply, Toast.LENGTH_SHORT, GB.INFO);
                     break;
+                }
+                case DeviceService.ACTION_HEARTRATE_MEASUREMENT: {
+                    int hrValue = intent.getIntExtra(DeviceService.EXTRA_HEART_RATE_VALUE, -1);
+                    GB.toast(DebugActivity.this, "Heart Rate measured: " + hrValue, Toast.LENGTH_LONG, GB.INFO);
+                    break;
+                }
             }
         }
     };
@@ -79,12 +89,13 @@ public class DebugActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_debug);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(GBApplication.ACTION_QUIT);
         filter.addAction(ACTION_REPLY);
-        registerReceiver(mReceiver, filter);
+        filter.addAction(DeviceService.ACTION_HEARTRATE_MEASUREMENT);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
+        registerReceiver(mReceiver, filter); // for ACTION_REPLY
 
         editContent = (EditText) findViewById(R.id.editContent);
         sendSMSButton = (Button) findViewById(R.id.sendSMSButton);
@@ -117,20 +128,20 @@ public class DebugActivity extends Activity {
         incomingCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GBApplication.deviceService().onSetCallState(
-                        editContent.getText().toString(),
-                        null,
-                        ServiceCommand.CALL_INCOMING);
+                CallSpec callSpec = new CallSpec();
+                callSpec.command = CallSpec.CALL_INCOMING;
+                callSpec.number = editContent.getText().toString();
+                GBApplication.deviceService().onSetCallState(callSpec);
             }
         });
         outgoingCallButton = (Button) findViewById(R.id.outgoingCallButton);
         outgoingCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GBApplication.deviceService().onSetCallState(
-                        editContent.getText().toString(),
-                        null,
-                        ServiceCommand.CALL_OUTGOING);
+                CallSpec callSpec = new CallSpec();
+                callSpec.command = CallSpec.CALL_OUTGOING;
+                callSpec.number = editContent.getText().toString();
+                GBApplication.deviceService().onSetCallState(callSpec);
             }
         });
 
@@ -138,20 +149,18 @@ public class DebugActivity extends Activity {
         startCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GBApplication.deviceService().onSetCallState(
-                        null,
-                        null,
-                        ServiceCommand.CALL_START);
+                CallSpec callSpec = new CallSpec();
+                callSpec.command = CallSpec.CALL_START;
+                GBApplication.deviceService().onSetCallState(callSpec);
             }
         });
         endCallButton = (Button) findViewById(R.id.endCallButton);
         endCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GBApplication.deviceService().onSetCallState(
-                        null,
-                        null,
-                        ServiceCommand.CALL_END);
+                CallSpec callSpec = new CallSpec();
+                callSpec.command = CallSpec.CALL_END;
+                GBApplication.deviceService().onSetCallState(callSpec);
             }
         });
 
@@ -185,15 +194,28 @@ public class DebugActivity extends Activity {
                 GBApplication.deviceService().onReboot();
             }
         });
+        HeartRateButton = (Button) findViewById(R.id.HearRateButton);
+        HeartRateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GB.toast("Measuring heart rate, please wait...", Toast.LENGTH_LONG, GB.INFO);
+                GBApplication.deviceService().onHeartRateTest();
+            }
+        });
 
         setMusicInfoButton = (Button) findViewById(R.id.setMusicInfoButton);
         setMusicInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GBApplication.deviceService().onSetMusicInfo(
-                        editContent.getText().toString() + "(artist)",
-                        editContent.getText().toString() + "(album)",
-                        editContent.getText().toString() + "(tracl)");
+                MusicSpec musicSpec = new MusicSpec();
+                musicSpec.artist = editContent.getText().toString() + "(artist)";
+                musicSpec.album = editContent.getText().toString() + "(album)";
+                musicSpec.track = editContent.getText().toString() + "(track)";
+                musicSpec.duration = 10;
+                musicSpec.trackCount = 5;
+                musicSpec.trackNr = 2;
+
+                GBApplication.deviceService().onSetMusicInfo(musicSpec);
             }
         });
 
@@ -337,6 +359,7 @@ public class DebugActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
         unregisterReceiver(mReceiver);
     }
 

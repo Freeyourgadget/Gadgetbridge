@@ -13,6 +13,10 @@ need to create an account and transmit any of your data to the vendor's servers.
 
 [List of changes](CHANGELOG.md)
 
+## Supported Devices
+* Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round
+* Mi Band, Mi Band 1A, Mi Band 1S (experimental)
+
 ## Features (Pebble)
 
 * Incoming calls notification and display
@@ -31,19 +35,21 @@ need to create an account and transmit any of your data to the vendor's servers.
 * Install firwmare files (.pbz) [READ THE WIKI](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble-Firmware-updates)
 * Install language files (.pbl)
 * Take and share screenshots from the Pebble's screen
-* PebbleKit support for 3rd Party Android Apps support (experimental) 
-* Morpheuz sleep data syncronization (experimental)
-* Misfit steps data synchronization (experimental)
+* PebbleKit support for 3rd Party Android Apps (experimental)
+* Fetch activity data from Pebble Health, Misfit and Morpheuz (experimental)
+* Configure watchfaces / apps (limited compatibility, experimental)
 
 ## Notes about Firmware 3.x (Pebble Time, updated OG)
 
 * Listing installed watchfaces will simply display previously installed watchapps, no matter if they are still installed or not.
 
-## How to use (Pebble)
+## Getting Started (Pebble)
 
-1. Pair your Pebble through Gadgetbridge's Discovery Activity or the Android Bluetooth Settings
+1. Pair your Pebble through the Android's Bluetooth Settings
 2. Start Gadgetbridge, tap on the device you want to connect to
 3. To test, choose "Debug" from the menu and play around
+
+For more information read [this wiki article](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Getting-Started-(Pebble)) 
 
 ## Features (Mi Band)
 
@@ -55,6 +61,8 @@ need to create an account and transmit any of your data to the vendor's servers.
     * Generic Android notifications
 * Synchronize the time to the Mi Band
 * Display firmware version and battery state
+* Firmware Update
+* Heartrate Measurement (alpha)
 * Synchronize activity data
 * Display sleep data (alpha)
 * Display sports data (step count) (alpha)
@@ -95,8 +103,11 @@ Contributions are welcome, be it feedback, bugreports, documentation, translatio
 on any of the open [issues](https://github.com/Freeyourgadget/Gadgetbridge/issues?q=is%3Aopen+is%3Aissue);
 just leave a comment that you're working on one to avoid duplicated work.
 
+Please do not use the issue tracker as a forum, do not ask for ETAs and read the issue conversation before posting.
+
 Translations can be contributed via https://www.transifex.com/projects/p/gadgetbridge/resource/strings/ or
 manually.
+
 
 ## Having problems?
 

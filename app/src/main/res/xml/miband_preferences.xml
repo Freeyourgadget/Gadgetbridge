@@ -1,45 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--TODO: this is actually "about your miband" and possibly refers to a single device (if the owner has multiple mibands, it may be that they are worn on different arms -->
     <PreferenceCategory
         android:key="pref_category_miband_personal"
-        android:title="@string/miband_prefs_about_you">
+        android:title="@string/activity_prefs_about_you">
         <EditTextPreference
             android:key="mi_user_alias"
             android:maxLength="17"
             android:title="@string/miband_prefs_alias" />
-
-        <EditTextPreference
-            android:inputType="number"
-            android:key="mi_user_year_of_birth"
-            android:maxLength="4"
-            android:title="@string/miband_prefs_year_birth" />
-
-        <ListPreference
-            android:defaultValue="male"
-            android:entries="@array/gender"
-            android:entryValues="@array/gender_values"
-            android:key="mi_user_gender"
-            android:title="@string/miband_prefs_gender" />
-
-        <!--TODO: support localized heights and weights -->
-        <EditTextPreference
-            android:inputType="number"
-            android:key="mi_user_height_cm"
-            android:maxLength="3"
-            android:title="@string/miband_prefs_height_cm" />
-
-        <EditTextPreference
-            android:inputType="number"
-            android:key="mi_user_weight_kg"
-            android:maxLength="3"
-            android:title="@string/miband_prefs_weight_kg" />
 
         <ListPreference
             android:defaultValue="left"
             android:entries="@array/wearside"
             android:entryValues="@array/wearside_values"
             android:key="mi_wearside"
-            android:title="@string/miband_prefs_wearside" />
+            android:title="@string/miband_prefs_wearside"
+            android:summary="%s" />
 
         <EditTextPreference
             android:defaultValue="10000"
@@ -55,6 +31,10 @@
             android:maxLength="1"
             android:digits="0123"
             android:title="@string/miband_prefs_reserve_alarm_calendar" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="mi_hr_sleep_detection"
+            android:title="@string/miband_prefs_hr_sleep_detection" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -71,7 +51,8 @@
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="mi_vibration_profile_sms"
-                android:title="@string/miband_prefs_vibration" />
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
 
             <EditTextPreference
                 android:defaultValue="3"
@@ -91,13 +72,14 @@
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="mi_vibration_profile_incoming_call"
-                android:title="@string/miband_prefs_vibration" />
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
 
             <EditTextPreference
                 android:defaultValue="60"
                 android:inputType="number"
                 android:key="mi_vibration_count_incoming_call"
-                android:maxLength="1"
+                android:maxLength="2"
                 android:title="@string/pref_title_notifications_repetitions" />
         </PreferenceScreen>
 
@@ -111,7 +93,8 @@
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="mi_vibration_profile_k9mail"
-                android:title="@string/miband_prefs_vibration" />
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
 
             <EditTextPreference
                 android:defaultValue="2"
@@ -131,7 +114,8 @@
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="mi_vibration_profile_pebblemsg"
-                android:title="@string/miband_prefs_vibration" />
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
 
             <EditTextPreference
                 android:defaultValue="1"
@@ -151,7 +135,8 @@
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="mi_vibration_profile_generic"
-                android:title="@string/miband_prefs_vibration" />
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
 
             <EditTextPreference
                 android:defaultValue="3"
@@ -176,5 +161,10 @@
             android:title="@string/pref_title_keep_data_on_device"
             android:summary="@string/pref_summary_keep_data_on_device"
             android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="mi_low_latency_fw_update"
+            android:title="@string/pref_title_low_latency_fw_update"
+            android:summary="@string/pref_summary_low_latency_fw_update"
+            android:defaultValue="true" />
     </PreferenceCategory>
 </PreferenceScreen>

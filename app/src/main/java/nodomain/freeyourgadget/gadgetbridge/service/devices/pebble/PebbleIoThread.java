@@ -8,10 +8,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.ParcelUuid;
-import android.preference.PreferenceManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +27,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
@@ -43,6 +42,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class PebbleIoThread extends GBDeviceIoThread {
     private static final Logger LOG = LoggerFactory.getLogger(PebbleIoThread.class);
@@ -61,7 +62,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
     public static final String PEBBLEKIT_ACTION_APP_START = "com.getpebble.action.app.START";
     public static final String PEBBLEKIT_ACTION_APP_STOP = "com.getpebble.action.app.STOP";
 
-    final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+    final Prefs prefs = GBApplication.getPrefs();
 
     private final PebbleProtocol mPebbleProtocol;
     private final PebbleSupport mPebbleSupport;
@@ -159,7 +160,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
         mPebbleProtocol = (PebbleProtocol) gbDeviceProtocol;
         mBtAdapter = btAdapter;
         mPebbleSupport = pebbleSupport;
-        mEnablePebblekit = sharedPrefs.getBoolean("pebble_enable_pebblekit", false);
+        mEnablePebblekit = prefs.getBoolean("pebble_enable_pebblekit", false);
     }
 
     @Override
@@ -198,12 +199,17 @@ public class PebbleIoThread extends GBDeviceIoThread {
             return false;
         }
 
-        mPebbleProtocol.setForceProtocol(sharedPrefs.getBoolean("pebble_force_protocol", false));
-        gbDevice.setState(GBDevice.State.CONNECTED);
-        gbDevice.sendDeviceUpdateIntent(getContext());
+        mPebbleProtocol.setForceProtocol(prefs.getBoolean("pebble_force_protocol", false));
 
         mIsConnected = true;
-        write(mPebbleProtocol.encodeFirmwareVersionReq());
+        if (originalState == GBDevice.State.WAITING_FOR_RECONNECT) {
+            gbDevice.setState(GBDevice.State.INITIALIZED);
+        } else {
+            gbDevice.setState(GBDevice.State.CONNECTED);
+            write(mPebbleProtocol.encodeFirmwareVersionReq());
+        }
+        gbDevice.sendDeviceUpdateIntent(getContext());
+
         return true;
     }
 
@@ -358,13 +364,23 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 if (e.getMessage().contains("socket closed")) { //FIXME: this does not feel right
                     LOG.info(e.getMessage());
                     mIsConnected = false;
-                    int reconnectAttempts = Integer.valueOf(sharedPrefs.getString("pebble_reconnect_attempts", "10"));
-                    if (reconnectAttempts > 0) {
+                    int reconnectAttempts = prefs.getInt("pebble_reconnect_attempts", 10);
+                    if (GBApplication.getGBPrefs().getAutoReconnect() && reconnectAttempts > 0) {
                         gbDevice.setState(GBDevice.State.CONNECTING);
                         gbDevice.sendDeviceUpdateIntent(getContext());
-                        while (reconnectAttempts-- > 0 && !mQuit) {
+                        int delaySeconds = 1;
+                        while (reconnectAttempts-- > 0 && !mQuit && !mIsConnected) {
                             LOG.info("Trying to reconnect (attempts left " + reconnectAttempts + ")");
                             mIsConnected = connect(gbDevice.getAddress());
+                            if (!mIsConnected) {
+                                try {
+                                    Thread.sleep(delaySeconds * 1000);
+                                } catch (InterruptedException ignored) {
+                                }
+                                if (delaySeconds < 64) {
+                                    delaySeconds *= 2;
+                                }
+                            }
                         }
                     }
                     if (!mIsConnected && !mQuit) {
@@ -380,6 +396,14 @@ public class PebbleIoThread extends GBDeviceIoThread {
                         } catch (IOException ex) {
                             ex.printStackTrace();
                             LOG.info("error while reconnecting");
+                        } finally {
+                            try {
+                                if (mBtServerSocket != null) {
+                                    mBtServerSocket.close();
+                                    mBtServerSocket = null;
+                                }
+                            } catch (IOException ignore) {
+                            }
                         }
                     }
                     if (!mIsConnected) {
@@ -464,10 +488,11 @@ public class PebbleIoThread extends GBDeviceIoThread {
     private boolean evaluateGBDeviceEventPebble(GBDeviceEvent deviceEvent) {
 
         if (deviceEvent instanceof GBDeviceEventVersionInfo) {
-            if (sharedPrefs.getBoolean("datetime_synconconnect", true)) {
+            if (prefs.getBoolean("datetime_synconconnect", true)) {
                 LOG.info("syncing time");
                 write(mPebbleProtocol.encodeSetTime());
             }
+            write(mPebbleProtocol.encodeReportDataLogSessions());
             gbDevice.setState(GBDevice.State.INITIALIZED);
             return false;
         } else if (deviceEvent instanceof GBDeviceEventAppManagement) {
@@ -572,18 +597,11 @@ public class PebbleIoThread extends GBDeviceIoThread {
 
         if (uri.equals(Uri.parse("fake://health"))) {
             write(mPebbleProtocol.encodeActivateHealth(true));
+            write(mPebbleProtocol.encodeSetSaneDistanceUnit(true));
             return;
         }
 
-        String hwRev = gbDevice.getHardwareVersion();
-        String platformName;
-        if (hwRev.startsWith("snowy")) {
-            platformName = "basalt";
-        } else if (hwRev.startsWith("spalding")) {
-            platformName = "chalk";
-        } else {
-            platformName = "aplite";
-        }
+        String platformName = PebbleUtils.getPlatformName(gbDevice.getHardwareVersion());
 
         try {
             mPBWReader = new PBWReader(uri, getContext(), platformName);
@@ -618,7 +636,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                 if (appId == 0) {
                     // only install metadata - not the binaries
                     write(mPebbleProtocol.encodeInstallMetadata(app.getUUID(), app.getName(), mPBWReader.getAppVersion(), mPBWReader.getSdkVersion(), mPBWReader.getFlags(), mPBWReader.getIconId()));
-                    GB.toast("To finish installation please start the watchapp on your Pebble", 5, GB.INFO);
+                    write(mPebbleProtocol.encodeAppStart(app.getUUID(), true));
                 } else {
                     // this came from an app fetch request, so do the real stuff
                     mIsInstalling = true;

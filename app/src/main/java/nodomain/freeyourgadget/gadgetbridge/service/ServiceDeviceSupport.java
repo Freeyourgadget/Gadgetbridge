@@ -13,8 +13,9 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 
 /**
  * Wraps another device support instance and supports busy-checking and throttling of events.
@@ -53,6 +54,16 @@ public class ServiceDeviceSupport implements DeviceSupport {
     @Override
     public boolean connect() {
         return delegate.connect();
+    }
+
+    @Override
+    public void setAutoReconnect(boolean enable) {
+        delegate.setAutoReconnect(enable);
+    }
+
+    @Override
+    public boolean getAutoReconnect() {
+        return delegate.getAutoReconnect();
     }
 
     @Override
@@ -131,19 +142,19 @@ public class ServiceDeviceSupport implements DeviceSupport {
     // No throttling for the other events
 
     @Override
-    public void onSetCallState(String number, String name, ServiceCommand command) {
+    public void onSetCallState(CallSpec callSpec) {
         if (checkBusy("set call state")) {
             return;
         }
-        delegate.onSetCallState(number, name, command);
+        delegate.onSetCallState(callSpec);
     }
 
     @Override
-    public void onSetMusicInfo(String artist, String album, String track) {
+    public void onSetMusicInfo(MusicSpec musicSpec) {
         if (checkBusy("set music info")) {
             return;
         }
-        delegate.onSetMusicInfo(artist, album, track);
+        delegate.onSetMusicInfo(musicSpec);
     }
 
     @Override
@@ -179,6 +190,14 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
+    public void onAppConfiguration(UUID uuid, String config) {
+        if (checkBusy("app configuration")) {
+            return;
+        }
+        delegate.onAppConfiguration(uuid, config);
+    }
+
+    @Override
     public void onFetchActivityData() {
         if (checkBusy("fetch activity data")) {
             return;
@@ -192,6 +211,14 @@ public class ServiceDeviceSupport implements DeviceSupport {
             return;
         }
         delegate.onReboot();
+    }
+
+    @Override
+    public void onHeartRateTest() {
+        if (checkBusy("heartrate")) {
+            return;
+        }
+        delegate.onHeartRateTest();
     }
 
     @Override
@@ -224,5 +251,21 @@ public class ServiceDeviceSupport implements DeviceSupport {
             return;
         }
         delegate.onEnableRealtimeSteps(enable);
+    }
+
+    @Override
+    public void onEnableHeartRateSleepSupport(boolean enable) {
+        if (checkBusy("enable heartrate sleep support: " + enable)) {
+            return;
+        }
+        delegate.onEnableHeartRateSleepSupport(enable);
+    }
+
+    @Override
+    public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
+        if (checkBusy("enable realtime heart rate measurement: " + enable)) {
+            return;
+        }
+        delegate.onEnableRealtimeHeartRateMeasurement(enable);
     }
 }

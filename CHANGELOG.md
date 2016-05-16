@@ -1,4 +1,92 @@
 ###Changelog
+####Version 0.9.7
+* Pebble: hopefully fix some reconnect issues
+* Mi Band: fix live activity monitoring running forever if back button pressed
+* Mi Band: allow low latency firmware updates, fixes update with some phones
+* Mi Band: inital experimental and probably broken support for Amazfit
+* Show aliases for BT Devices if they had been renamed in BT Settings
+* Do not show a hint about App Manager when a Mi Band is connected
+
+####Version 0.9.6
+* Again some UI/theme improvements
+* New preference to reconnect after connection loss (defaults to true)
+* Fix crash when dealing with certain old preference values
+* Mi Band: automatically reconnect when back in range after connection loss
+* Mi Band 1S: display heart rate value again when invoked via the Debug view
+
+####Version 0.9.5
+* Several UI Improvements
+* Easier First-time setup by using a FAB
+* Optional Dark Theme
+* Notification App Blacklist is now sorted
+* Gadgetbridge Icon in the notification bar displays connection state
+* Logging is now configurable without restart
+* Mi Band 1S: Initial live heartrate tracking
+* Fix certain crash in charts activity on slower devices (#277)
+
+####Version 0.9.4
+* Pebble: support pebble health datalog messages of firmware 3.11 (this adds support for deep sleep!)
+* Pebble: try to reconnect on new notifications and phone calls when connection was lost unexpectedly
+* Pebble: delay between reconnection attempts (from 1 up to 64 seconds)
+* Fix crash in charts activities when changing the date, quickly (#277)
+* Mi Band: preference to enable heart rate measurement during sleep (#232, thanks computerlyrik!)
+* Mi Band: display measured heart rate in charts (#232)
+* Mi Band 1S: full support for firmware upgrade/downgrade (both for Mi Band and heart rate sensor) (#234)
+* Mi Band 1S: fix device detection for certain versions
+
+####Version 0.9.3
+* Pebble: Fix Pebble Health activation (was not available in the App Manager)
+* Simplify connection state display (only connecting->connected)
+* Small improvements to the pairing activity
+* Mi Band 1S: Fix for mi band firmware update
+
+####Version 0.9.2
+* Mi Band: Fix update of second (HR) firmware on Mi1S (#234)
+* Fix ordering issue of device infos being displayed
+
+####Version 0.9.1
+* Mi Band: fix sporadic connection problems (stuck on "Initializing" #249)
+* Mi Band: enable low latency connection (faster) during initialization and activity sync
+* Mi Band: better feedback for firmware update
+* Device Item is now clickable also when the information entries are visible
+* Fix enabling log file writing #261
+
+####Version 0.9.0
+* Pebble: Support for configuring watchfaces/apps locally (clay) or though webbrowser (some do not work)
+* Pebble: hide the alarm management activity as it's unsupported
+* Mi Band: Improve firmware detection and updates, including 1S support
+* Mi Band: Display HR FW for 1S
+* FW and HW versions are only displayed after tapping on the "info" button in Control Center
+* Do not display activity samples when navigating too far in the past
+* Fix auto connect which was broken under some circumstances
+
+####Version 0.8.2
+* Fix database creation and updates (thanks @feclare)
+* Add experimental widget to set the alarm time to a configurable number of hours in the future (thanks @0nse)
+* Use ckChangeLog to display the Changelog within Gadgetbridge
+* Workaround to fix logfile rotation (bug in logback-android)
+
+####Version 0.8.1
+* Pebble: install (and start) freshly-installed apps on the watch instead of showing a Toast that tells the user to do so. (only applies to firmware 3.x)
+* Pebble: fix crash while receiving Health data
+* Mi Band 1S: support for synchronizing activity data (#205)
+* Mi Band 1S: support for reading the heart rate via the "Debug Screen" #178
+
+####Version 0.8.0
+* Pebble: Support Pebble Health: steps/activity data are stored correctly. Sleep time is considered as light sleep. Deep sleep is discarded. The pebble will send data where it seems appropriate, there is no action to perform on the watch for this to happen.
+* Pebble: Fix support for newer version of morpheuz (>=3.3?)
+* Pebble: Allow to select the preferred activity tracker via settings activity (Health, Misfit, Morpheuz)
+* Pebble: Fix wrong(previous) contact being displayed on the pebble 
+* Mi Band: improvements to pairing and connecting
+* Fix a problem related to shared preferences storage of activity settings
+* Very basic support Android 6 runtime permission
+* Fix layout of the alarms activity
+
+####Version 0.7.4
+* Refactored the settings activity: User details are now generic instead of miband specific. Old settings are preserved.
+* Pebble: Fix regression with broken active reconnect since 0.7.0
+* Pebble: Support activation and deactivation of Pebble Health. Activation uses the User details as seen above. Insigths are NOT activated.
+  Please be aware that deactivation does NOT delete the data stored on the watch (but it seems to stop the tracking), and we do not know how to switch to metric length units.
 
 ####Version 0.7.3
 * Pebble: Report connection state to PebbleKit companion apps via content provider. NOTE: Makes Gadgetbridge mutual exclusive with the original Pebble app.

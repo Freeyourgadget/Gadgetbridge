@@ -3,12 +3,11 @@ package nodomain.freeyourgadget.gadgetbridge.externalevents;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 
 public class PhoneCallReceiver extends BroadcastReceiver {
@@ -31,7 +30,6 @@ public class PhoneCallReceiver extends BroadcastReceiver {
             } else if (TelephonyManager.EXTRA_STATE_RINGING.equals(stateStr)) {
                 state = TelephonyManager.CALL_STATE_RINGING;
             }
-
             onCallStateChanged(context, state, number);
         }
     }
@@ -41,34 +39,38 @@ public class PhoneCallReceiver extends BroadcastReceiver {
             return;
         }
 
-        ServiceCommand callCommand = null;
+        int callCommand = CallSpec.CALL_UNDEFINED;
         switch (state) {
             case TelephonyManager.CALL_STATE_RINGING:
                 mSavedNumber = number;
-                callCommand = ServiceCommand.CALL_INCOMING;
+                callCommand = CallSpec.CALL_INCOMING;
                 break;
             case TelephonyManager.CALL_STATE_OFFHOOK:
                 if (mLastState == TelephonyManager.CALL_STATE_RINGING) {
-                    callCommand = ServiceCommand.CALL_START;
+                    callCommand = CallSpec.CALL_START;
                 } else {
-                    callCommand = ServiceCommand.CALL_OUTGOING;
+                    callCommand = CallSpec.CALL_OUTGOING;
+                    mSavedNumber = number;
                 }
                 break;
             case TelephonyManager.CALL_STATE_IDLE:
                 if (mLastState == TelephonyManager.CALL_STATE_RINGING) {
                     //missed call would be correct here
-                    callCommand = ServiceCommand.CALL_END;
+                    callCommand = CallSpec.CALL_END;
                 } else {
-                    callCommand = ServiceCommand.CALL_END;
+                    callCommand = CallSpec.CALL_END;
                 }
                 break;
         }
-        if (callCommand != null) {
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-            if ("never".equals(sharedPrefs.getString("notification_mode_calls", "always"))) {
+        if (callCommand != CallSpec.CALL_UNDEFINED) {
+            Prefs prefs = GBApplication.getPrefs();
+            if ("never".equals(prefs.getString("notification_mode_calls", "always"))) {
                 return;
             }
-            GBApplication.deviceService().onSetCallState(mSavedNumber, null, callCommand);
+            CallSpec callSpec = new CallSpec();
+            callSpec.number = mSavedNumber;
+            callSpec.command = callCommand;
+            GBApplication.deviceService().onSetCallState(callSpec);
         }
         mLastState = state;
     }

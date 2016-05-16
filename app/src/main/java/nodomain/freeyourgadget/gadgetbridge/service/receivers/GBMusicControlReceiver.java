@@ -3,16 +3,16 @@ package nodomain.freeyourgadget.gadgetbridge.service.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.SystemClock;
-import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class GBMusicControlReceiver extends BroadcastReceiver {
     private static final Logger LOG = LoggerFactory.getLogger(GBMusicControlReceiver.class);
@@ -53,8 +53,8 @@ public class GBMusicControlReceiver extends BroadcastReceiver {
         }
 
         if (keyCode != -1) {
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-            String audioPlayer = sharedPrefs.getString("audio_player", "default");
+            Prefs prefs = GBApplication.getPrefs();
+            String audioPlayer = prefs.getString("audio_player", "default");
 
             long eventtime = SystemClock.uptimeMillis();
 

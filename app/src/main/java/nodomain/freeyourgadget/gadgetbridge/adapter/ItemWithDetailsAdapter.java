@@ -18,12 +18,21 @@ import nodomain.freeyourgadget.gadgetbridge.model.ItemWithDetails;
  */
 public class ItemWithDetailsAdapter extends ArrayAdapter<ItemWithDetails> {
 
+    public static final int SIZE_SMALL = 1;
+    public static final int SIZE_MEDIUM = 2;
+    public static final int SIZE_LARGE = 3;
     private final Context context;
+    private boolean horizontalAlignment;
+    private int size = SIZE_MEDIUM;
 
     public ItemWithDetailsAdapter(Context context, List<ItemWithDetails> items) {
         super(context, 0, items);
 
         this.context = context;
+    }
+
+    public void setHorizontalAlignment(boolean horizontalAlignment) {
+        this.horizontalAlignment = horizontalAlignment;
     }
 
     @Override
@@ -34,7 +43,18 @@ public class ItemWithDetailsAdapter extends ArrayAdapter<ItemWithDetails> {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            view = inflater.inflate(R.layout.item_with_details, parent, false);
+            if (horizontalAlignment) {
+                view = inflater.inflate(R.layout.item_with_details_horizontal, parent, false);
+            } else {
+                switch (size) {
+                    case SIZE_SMALL:
+                        view = inflater.inflate(R.layout.item_with_details_small, parent, false);
+                        break;
+                    default:
+                        view = inflater.inflate(R.layout.item_with_details, parent, false);
+                        break;
+                }
+            }
         }
         ImageView iconView = (ImageView) view.findViewById(R.id.item_image);
         TextView nameView = (TextView) view.findViewById(R.id.item_name);
@@ -45,5 +65,13 @@ public class ItemWithDetailsAdapter extends ArrayAdapter<ItemWithDetails> {
         iconView.setImageResource(item.getIcon());
 
         return view;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public int getSize() {
+        return size;
     }
 }

@@ -102,15 +102,10 @@
   <string name="discovery_connected_devices_hint">Uwidocznij swoje urządzenie. Aktualnie połączone urządzenia prawdopodobnie nie będą znalezione.</string>
   <string name="discovery_note">Uwaga</string>
   <string name="candidate_item_device_image">Obraz urządzenia</string>
-  <string name="miband_prefs_about_you">O tobie</string>
   <string name="miband_prefs_alias">Nazwisko/Pseudonim</string>
-  <string name="miband_prefs_year_birth">Data urodzenia</string>
-  <string name="miband_prefs_gender">Płeć</string>
-  <string name="miband_prefs_height_cm">Wzrost w cm</string>
-  <string name="miband_prefs_weight_kg">Waga w kg</string>
   <string name="pref_header_vibration_count">Liczba wibracji</string>
   <string name="title_activity_sleepmonitor">Monitor snu</string>
-  <string name="pref_write_logfiles">Zapisuj logi (wymaga restartu)</string>
+  <string name="pref_write_logfiles">Zapisuj logi</string>
   <string name="initializing">Uruchamianie</string>
   <string name="busy_task_fetch_activity_data">Pobieranie danych aktywności</string>
   <string name="sleep_activity_date_range">Od %1$s do %2$s</string>
@@ -200,4 +195,9 @@
   <string name="fwinstaller_firmware_not_compatible_to_device">Ten firmware nie jest kompatybilny z urządzeniem</string>
   <string name="miband_prefs_reserve_alarm_calendar">Alarmy zarezerwowane dla nadchodzących zdarzeń</string>
   <string name="waiting_for_reconnect">oczekiwanie na ponowne połaczenie</string>
+  <string name="activity_prefs_about_you">O tobie</string>
+  <string name="activity_prefs_year_birth">Data urodzenia</string>
+  <string name="activity_prefs_gender">Płeć</string>
+  <string name="activity_prefs_height_cm">Wzrost w cm</string>
+  <string name="activity_prefs_weight_kg">Waga w kg</string>
 </resources>

@@ -28,7 +28,7 @@ public interface InstallHandler {
     void validateInstallation(InstallActivity installActivity, GBDevice device);
 
     /**
-     * Allows device specivic code to be execute just before the installation starts
+     * Allows device specific code to be executed just before the installation starts
      */
     void onStartInstall(GBDevice device);
 }

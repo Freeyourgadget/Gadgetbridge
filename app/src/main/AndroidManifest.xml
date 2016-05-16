@@ -24,7 +24,6 @@
     <uses-feature
         android:name="android.hardware.bluetooth_le"
         android:required="false" />
-
     <uses-feature
         android:name="android.hardware.telephony"
         android:required="false" />
@@ -48,25 +47,27 @@
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".activities.ControlCenter"/>
+            android:parentActivityName=".activities.ControlCenter" />
         <activity
             android:name=".devices.miband.MiBandPreferencesActivity"
             android:label="@string/preferences_miband_settings"
-            android:parentActivityName=".activities.SettingsActivity"/>
+            android:parentActivityName=".activities.SettingsActivity" />
         <activity
+            android:launchMode="singleTop"
             android:name=".activities.AppManagerActivity"
             android:label="@string/title_activity_appmanager"
-            android:parentActivityName=".activities.ControlCenter"/>
+            android:parentActivityName=".activities.ControlCenter" />
         <activity
             android:name=".activities.AppBlacklistActivity"
             android:label="@string/title_activity_appblacklist"
-            android:parentActivityName=".activities.SettingsActivity"/>
+            android:parentActivityName=".activities.SettingsActivity" />
         <activity
             android:name=".activities.FwAppInstallerActivity"
             android:label="@string/title_activity_fw_app_insaller"
             android:parentActivityName=".activities.ControlCenter">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="*/*" />
@@ -87,7 +88,6 @@
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
-
                 <data android:pathPattern="/.*\\.pbw" />
                 <data android:pathPattern="/.*\\..*\\.pbw" />
                 <data android:pathPattern="/.*\\..*\\..*\\.pbw" />
@@ -98,7 +98,6 @@
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
-
                 <data android:pathPattern="/.*\\.pbz" />
                 <data android:pathPattern="/.*\\..*\\.pbz" />
                 <data android:pathPattern="/.*\\..*\\..*\\.pbz" />
@@ -109,7 +108,6 @@
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
-
                 <data android:pathPattern="/.*\\.pbl" />
                 <data android:pathPattern="/.*\\..*\\.pbl" />
                 <data android:pathPattern="/.*\\..*\\..*\\.pbl" />
@@ -123,6 +121,7 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <!-- no mimeType filter, needed for CM-derived ROMs? -->
@@ -142,7 +141,6 @@
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.fw" />
-
                 <data android:pathPattern="/.*\\.pbw" />
                 <data android:pathPattern="/.*\\..*\\.pbw" />
                 <data android:pathPattern="/.*\\..*\\..*\\.pbw" />
@@ -153,7 +151,6 @@
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbw" />
-
                 <data android:pathPattern="/.*\\.pbz" />
                 <data android:pathPattern="/.*\\..*\\.pbz" />
                 <data android:pathPattern="/.*\\..*\\..*\\.pbz" />
@@ -164,7 +161,6 @@
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbz" />
-
                 <data android:pathPattern="/.*\\.pbl" />
                 <data android:pathPattern="/.*\\..*\\.pbl" />
                 <data android:pathPattern="/.*\\..*\\..*\\.pbl" />
@@ -180,10 +176,11 @@
             <!-- to receive the firmwares from the donwload content provider -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="application/octet-stream" />
             </intent-filter>
-
         </activity>
 
         <service
@@ -237,11 +234,11 @@
             android:name=".activities.DebugActivity"
             android:label="@string/title_activity_debug"
             android:parentActivityName=".activities.ControlCenter"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.DiscoveryActivity"
             android:label="@string/title_activity_discovery"
-            android:parentActivityName=".activities.ControlCenter"></activity>
+            android:parentActivityName=".activities.ControlCenter" />
         <activity
             android:name=".activities.AndroidPairingActivity"
             android:label="@string/title_activity_android_pairing" />
@@ -251,16 +248,47 @@
         <activity
             android:name=".activities.charts.ChartsActivity"
             android:label="@string/title_activity_charts"
-            android:parentActivityName=".activities.ControlCenter"/>
+            android:parentActivityName=".activities.ControlCenter" />
         <activity
             android:name=".activities.ConfigureAlarms"
             android:label="@string/title_activity_set_alarm"
-            android:parentActivityName=".activities.SettingsActivity"/>
+            android:parentActivityName=".activities.SettingsActivity" />
         <activity
             android:name=".activities.AlarmDetails"
             android:label="@string/title_activity_alarm_details"
-            android:parentActivityName=".activities.ConfigureAlarms"/>
-        <provider android:authorities="com.getpebble.android.provider" android:exported="true" android:name=".contentprovider.PebbleContentProvider" />
+            android:parentActivityName=".activities.ConfigureAlarms" />
+
+        <provider
+            android:name=".contentprovider.PebbleContentProvider"
+            android:authorities="com.getpebble.android.provider"
+            android:exported="true" />
+
+        <receiver android:name=".SleepAlarmWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="nodomain.freeyourgadget.gadgetbridge.SLEEP_ALARM_WIDGET_CLICK" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/sleep_alarm_widget_info" />
+        </receiver>
+
+        <activity
+            android:name=".activities.ExternalPebbleJSActivity"
+            android:label="@string/app_configure"
+            android:parentActivityName=".activities.AppManagerActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter" />
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="gadgetbridge" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

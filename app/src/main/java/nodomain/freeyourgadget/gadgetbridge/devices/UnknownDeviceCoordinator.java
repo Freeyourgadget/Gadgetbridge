@@ -15,22 +15,22 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
 
     private static final class UnknownSampleProvider implements SampleProvider {
         @Override
-        public int normalizeType(byte rawType) {
+        public int normalizeType(int rawType) {
             return ActivityKind.TYPE_UNKNOWN;
         }
 
         @Override
-        public byte toRawActivityKind(int activityKind) {
+        public int toRawActivityKind(int activityKind) {
             return 0;
         }
 
         @Override
-        public float normalizeIntensity(short rawIntensity) {
+        public float normalizeIntensity(int rawIntensity) {
             return 0;
         }
 
         @Override
-        public byte getID() {
+        public int getID() {
             return PROVIDER_UNKNOWN;
         }
     }
@@ -82,5 +82,15 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supportsScreenshots() {
         return false;
+    }
+
+    @Override
+    public boolean supportsAlarmConfiguration() {
+        return false;
+    }
+
+    @Override
+    public int getTapString() {
+        return 0;
     }
 }

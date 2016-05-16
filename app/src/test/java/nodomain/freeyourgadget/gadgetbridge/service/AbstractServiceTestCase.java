@@ -5,7 +5,9 @@ import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.preference.PreferenceManager;
 
 import junit.framework.Assert;
 
@@ -22,13 +24,13 @@ public abstract class AbstractServiceTestCase<T extends Service> {
     private final Class<T> mServiceClass;
     private T mServiceInstance;
     private Context mContext;
-    private Application mApplication;
+    private GBMockApplication mApplication;
     private boolean wasStarted;
     private PackageManager mPackageManager;
     private NotificationManager mNotificationManager;
     private MockHelper mMockHelper;
 
-    protected  AbstractServiceTestCase(Class<T> serviceClass) {
+    protected AbstractServiceTestCase(Class<T> serviceClass) {
         mServiceClass = serviceClass;
         Assert.assertNotNull(serviceClass);
     }
@@ -39,6 +41,10 @@ public abstract class AbstractServiceTestCase<T extends Service> {
 
     public T getServiceInstance() {
         return mServiceInstance;
+    }
+
+    protected MockHelper getmMockHelper() {
+        return mMockHelper;
     }
 
     @Before
@@ -69,7 +75,7 @@ public abstract class AbstractServiceTestCase<T extends Service> {
         mServiceInstance = null;
     }
 
-    protected Application createApplication(PackageManager packageManager) {
+    protected GBMockApplication createApplication(PackageManager packageManager) {
         return new GBMockApplication(packageManager);
     }
 
@@ -85,9 +91,9 @@ public abstract class AbstractServiceTestCase<T extends Service> {
         return new GBMockContext(application);
     }
 
-    private T createService(Class<T> serviceClass, Application application, NotificationManager notificationManager) throws Exception {
+    protected T createService(Class<T> serviceClass, GBMockApplication application, NotificationManager notificationManager) throws Exception {
         T service = mMockHelper.createService(serviceClass, application);
-        mMockHelper.addSystemServiceTo(service, Context.NOTIFICATION_SERVICE, getNotificationService());
+        mMockHelper.addSystemServiceTo(service, Context.NOTIFICATION_SERVICE, notificationManager);
         return service;
     }
 

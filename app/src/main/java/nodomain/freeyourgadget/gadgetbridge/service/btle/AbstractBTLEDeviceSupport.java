@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.CheckInitializedAction;
 
 /**
  * Abstract base class for all devices connected through Bluetooth Low Energy (LE) aka
@@ -41,8 +42,17 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     public boolean connect() {
         if (mQueue == null) {
             mQueue = new BtLEQueue(getBluetoothAdapter(), getDevice(), this, getContext());
+            mQueue.setAutoReconnect(getAutoReconnect());
         }
         return mQueue.connect();
+    }
+
+    @Override
+    public void setAutoReconnect(boolean enable) {
+        super.setAutoReconnect(enable);
+        if (mQueue != null) {
+            mQueue.setAutoReconnect(enable);
+        }
     }
 
     /**

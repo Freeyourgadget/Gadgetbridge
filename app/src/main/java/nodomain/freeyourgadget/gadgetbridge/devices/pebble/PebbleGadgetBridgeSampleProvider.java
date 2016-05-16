@@ -8,7 +8,7 @@ public class PebbleGadgetBridgeSampleProvider extends MorpheuzSampleProvider {
     }
 
     @Override
-    public byte getID() {
+    public int getID() {
         return SampleProvider.PROVIDER_PEBBLE_GADGETBRIDGE;
     }
 }

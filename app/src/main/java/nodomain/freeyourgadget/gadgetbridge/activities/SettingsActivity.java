@@ -7,11 +7,22 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.support.v4.content.LocalBroadcastManager;
+import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
+
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_GENDER;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_HEIGHT_CM;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_SLEEP_DURATION;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_WEIGHT_KG;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_YEAR_OF_BIRTH;
 
 public class SettingsActivity extends AbstractSettingsActivity {
     @Override
@@ -74,6 +85,28 @@ public class SettingsActivity extends AbstractSettingsActivity {
 
         });
 
+        pref = findPreference("log_to_file");
+        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                boolean doEnable = Boolean.TRUE.equals(newVal);
+                try {
+                    if (doEnable) {
+                        FileUtils.getExternalFilesDir(); // ensures that it is created
+                    }
+                    GBApplication.setupLogging(doEnable);
+                } catch (IOException ex) {
+                    GB.toast(getApplicationContext(),
+                            getString(R.string.error_creating_directory_for_logfiles, ex.getLocalizedMessage()),
+                            Toast.LENGTH_LONG,
+                            GB.ERROR,
+                            ex);
+                }
+                return true;
+            }
+
+        });
+
         // Get all receivers of Media Buttons
         Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
 
@@ -103,10 +136,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
     @Override
     protected String[] getPreferenceKeysWithSummary() {
         return new String[]{
-                "audio_player",
-                "notification_mode_calls",
-                "notification_mode_sms",
-                "notification_mode_k9mail",
                 "pebble_emu_addr",
                 "pebble_emu_port",
                 "pebble_reconnect_attempts",
@@ -127,6 +156,10 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 "canned_reply_14",
                 "canned_reply_15",
                 "canned_reply_16",
+                PREF_USER_YEAR_OF_BIRTH,
+                PREF_USER_HEIGHT_CM,
+                PREF_USER_WEIGHT_KG,
+                PREF_USER_SLEEP_DURATION,
         };
     }
 

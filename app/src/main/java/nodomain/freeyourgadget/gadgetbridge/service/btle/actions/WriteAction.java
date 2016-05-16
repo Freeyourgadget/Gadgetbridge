@@ -22,14 +22,24 @@ public class WriteAction extends BtLEAction {
 
     @Override
     public boolean run(BluetoothGatt gatt) {
-        int properties = getCharacteristic().getProperties();
+        BluetoothGattCharacteristic characteristic = getCharacteristic();
+        int properties = characteristic.getProperties();
         //TODO: expectsResult should return false if PROPERTY_WRITE_NO_RESPONSE is true, but this yelds to timing issues
         if ((properties & BluetoothGattCharacteristic.PROPERTY_WRITE) > 0 || ((properties & BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE) > 0)) {
-            if (getCharacteristic().setValue(value)) {
-                return gatt.writeCharacteristic(getCharacteristic());
-            }
+            return writeValue(gatt, characteristic, value);
         }
         return false;
+    }
+
+    protected boolean writeValue(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, byte[] value) {
+        if (characteristic.setValue(value)) {
+            return gatt.writeCharacteristic(characteristic);
+        }
+        return false;
+    }
+
+    protected final byte[] getValue() {
+        return value;
     }
 
     @Override

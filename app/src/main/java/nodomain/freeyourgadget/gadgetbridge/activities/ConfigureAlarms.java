@@ -1,11 +1,9 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.app.ListActivity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -16,11 +14,12 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBAlarmListAdapter;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_ALARMS;
 
 
-public class ConfigureAlarms extends ListActivity {
+public class ConfigureAlarms extends GBActivity {
 
     private static final int REQ_CONFIGURE_ALARM = 1;
 
@@ -33,19 +32,19 @@ public class ConfigureAlarms extends ListActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_configure_alarms);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        preferencesAlarmListSet = sharedPrefs.getStringSet(PREF_MIBAND_ALARMS, new HashSet<String>());
+        Prefs prefs = GBApplication.getPrefs();
+        preferencesAlarmListSet = prefs.getStringSet(PREF_MIBAND_ALARMS, new HashSet<String>());
         if (preferencesAlarmListSet.isEmpty()) {
             //initialize the preferences
             preferencesAlarmListSet = new HashSet<>(Arrays.asList(GBAlarm.DEFAULT_ALARMS));
-            sharedPrefs.edit().putStringSet(PREF_MIBAND_ALARMS, preferencesAlarmListSet).apply();
+            prefs.getPreferences().edit().putStringSet(PREF_MIBAND_ALARMS, preferencesAlarmListSet).apply();
         }
 
         mGBAlarmListAdapter = new GBAlarmListAdapter(this, preferencesAlarmListSet);
 
-        setListAdapter(mGBAlarmListAdapter);
+        ListView listView = (ListView) findViewById(R.id.alarm_list);
+        listView.setAdapter(mGBAlarmListAdapter);
         updateAlarmsFromPrefs();
     }
 
@@ -66,9 +65,9 @@ public class ConfigureAlarms extends ListActivity {
     }
 
     private void updateAlarmsFromPrefs() {
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        preferencesAlarmListSet = sharedPrefs.getStringSet(PREF_MIBAND_ALARMS, new HashSet<String>());
-        int reservedSlots = Integer.parseInt(sharedPrefs.getString(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, "0"));
+        Prefs prefs = GBApplication.getPrefs();
+        preferencesAlarmListSet = prefs.getStringSet(PREF_MIBAND_ALARMS, new HashSet<String>());
+        int reservedSlots = prefs.getInt(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, 0);
 
         mGBAlarmListAdapter.setAlarmList(preferencesAlarmListSet, reservedSlots);
         mGBAlarmListAdapter.notifyDataSetChanged();

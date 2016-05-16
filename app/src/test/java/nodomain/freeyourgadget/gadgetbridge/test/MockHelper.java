@@ -11,6 +11,8 @@ import org.mockito.Mockito;
 
 import java.lang.reflect.Constructor;
 
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+
 public class MockHelper {
     public <T extends Service> NotificationManager createNotificationManager(Context mContext) throws Exception {
         Constructor<?>[] constructors = NotificationManager.class.getDeclaredConstructors();
@@ -26,6 +28,13 @@ public class MockHelper {
         T mockedService = Mockito.spy(realService);
         Mockito.when(mockedService.getApplicationContext()).thenReturn(application);
         Mockito.when(mockedService.getPackageManager()).thenReturn(application.getPackageManager());
+        return mockedService;
+    }
+
+    public <T extends DeviceCommunicationService> T createDeviceCommunicationService(Class<T> serviceClass, GBMockApplication application) throws Exception {
+        T mockedService = createService(serviceClass, application);
+        Mockito.when(mockedService.getPrefs()).thenReturn(application.getPrefs());
+        Mockito.when(mockedService.getGBPrefs()).thenReturn(application.getGBPrefs());
         return mockedService;
     }
 

@@ -2,11 +2,10 @@ package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -14,6 +13,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class PebbleCoordinator extends AbstractDeviceCoordinator {
     public PebbleCoordinator() {
@@ -45,13 +45,19 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public SampleProvider getSampleProvider() {
-        // FIXME: make this configurable somewhere else.
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
-        if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
-            //return new PebbleGadgetBridgeSampleProvider();
-            return new MisfitSampleProvider();
-        } else {
-            return new MorpheuzSampleProvider();
+        Prefs prefs = GBApplication.getPrefs();
+        int activityTracker = prefs.getInt("pebble_activitytracker", SampleProvider.PROVIDER_PEBBLE_HEALTH);
+        switch (activityTracker) {
+            case SampleProvider.PROVIDER_PEBBLE_HEALTH:
+                return new HealthSampleProvider();
+            case SampleProvider.PROVIDER_PEBBLE_MISFIT:
+                return new MisfitSampleProvider();
+            case SampleProvider.PROVIDER_PEBBLE_MORPHEUZ:
+                return new MorpheuzSampleProvider();
+            case SampleProvider.PROVIDER_PEBBLE_GADGETBRIDGE:
+                return new PebbleGadgetBridgeSampleProvider();
+            default:
+                return new HealthSampleProvider();
         }
     }
 
@@ -69,5 +75,15 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supportsScreenshots() {
         return true;
+    }
+
+    @Override
+    public boolean supportsAlarmConfiguration() {
+        return false;
+    }
+
+    @Override
+    public int getTapString() {
+        return R.string.tap_connected_device_for_app_mananger;
     }
 }

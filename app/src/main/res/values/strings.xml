@@ -24,6 +24,7 @@
     <!-- Strings related to FwAppInstaller -->
     <string name="title_activity_fw_app_insaller">FW/App installer</string>
     <string name="fw_upgrade_notice">You are about to install firmware %s instead of the one currently on your Mi Band.</string>
+    <string name="fw_multi_upgrade_notice">You are about to install firmwares %1$s and %2$s instead of the ones currently on your Mi Band.</string>
     <string name="miband_firmware_known">This firmware has been tested and is known to be compatible with Gadgetbridge.</string>
     <string name="miband_firmware_unknown_warning">"This firmware is untested and may not be compatible with Gadgetbridge.\n\nYou are NOT encouraged to flash it to your Mi Band!"</string>
     <string name="miband_firmware_suggest_whitelist">If you still want to proceed and things continue to work properly afterwards, please tell the Gadgetbridge developers to whitelist firmware version: %s</string>
@@ -38,6 +39,9 @@
     <string name="pref_header_datetime">Date and Time</string>
     <string name="pref_title_datetime_syctimeonconnect">Sync time</string>
     <string name="pref_summary_datetime_syctimeonconnect">Sync time to device when connecting and when time or timezone changes on Android</string>
+    <string name="pref_title_theme">Theme</string>
+    <string name="pref_theme_light">Light</string>
+    <string name="pref_theme_dark">Dark</string>
 
     <string name="pref_header_notifications">Notifications</string>
     <string name="pref_title_notifications_repetitions">Repetitions</string>
@@ -62,6 +66,7 @@
     <string name="pref_title_development_miaddr">Mi Band address</string>
 
     <string name="pref_title_pebble_settings">Pebble Settings</string>
+    <string name="pref_title_pebble_activitytracker">Preferred Activitytracker</string>
     <string name="pref_title_enable_pebblekit">Allow 3rd Party Android App Access</string>
     <string name="pref_summary_enable_pebblekit">Enable experimental support for Android Apps using PebbleKit</string>
     <string name="pref_title_pebble_forceprotocol">Force Notification Protocol</string>
@@ -81,8 +86,9 @@
     <string name="this_is_a_test_notification_from_gadgetbridge">This is a Test Notification from Gadgetbridge</string>
     <string name="bluetooth_is_not_supported_">Bluetooth is not supported.</string>
     <string name="bluetooth_is_disabled_">Bluetooth is disabled.</string>
-    <string name="tap_connected_device_for_app_mananger">tap connected device for App Mananger</string>
-    <string name="tap_a_device_to_connect">tap a device to connect</string>
+    <string name="tap_connected_device_for_app_mananger">Tap connected device for App Manager</string>
+    <string name="tap_connected_device_for_activity">Tap connected device for Activiy</string>
+    <string name="tap_a_device_to_connect">Tap a device to connect</string>
     <string name="cannot_connect_bt_address_invalid_">Cannot connect. BT address invalid?</string>
     <string name="gadgetbridge_running">Gadgetbridge running</string>
     <string name="installing_binary_d_d">installing binary %1$d/%2$d</string>
@@ -114,19 +120,14 @@
     <string name="miband_pairing_using_dummy_userdata">No valid user data given, using dummy user data for now.</string>
     <string name="miband_pairing_tap_hint">When your Mi Band vibrates and blinks, tap it a few times in a row.</string>
     <string name="appinstaller_install">Install</string>
-    <string name="discovery_connected_devices_hint">Make your device discoverable. Currently connected devices will likely not be discovered.</string>
+    <string name="discovery_connected_devices_hint">Make your device discoverable. Currently connected devices will likely not be discovered. If your device does not show up after two minutes, try again after rebooting your mobile device.</string>
     <string name="discovery_note">Note:</string>
     <string name="candidate_item_device_image">Device Image</string>
-    <string name="miband_prefs_about_you">About You</string>
     <string name="miband_prefs_alias">Name/Alias</string>
-    <string name="miband_prefs_year_birth">Year of Birth</string>
-    <string name="miband_prefs_gender">Gender</string>
-    <string name="miband_prefs_height_cm">Height in cm</string>
-    <string name="miband_prefs_weight_kg">Weight in kg</string>
     <string name="pref_header_vibration_count">Vibration Count</string>
 
     <string name="title_activity_sleepmonitor">Sleep Monitor</string>
-    <string name="pref_write_logfiles">Write Log Files (needs restart)</string>
+    <string name="pref_write_logfiles">Write Log Files</string>
     <string name="initializing">initializing</string>
     <string name="busy_task_fetch_activity_data">Fetching Activity Data</string>
     <string name="sleep_activity_date_range">From %1$s to %2$s</string>
@@ -198,9 +199,12 @@
     <string name="chart_steps">Steps</string>
     <string name="liveactivity_live_activity">Live Activity</string>
     <string name="weeksteps_today_steps_description">Steps today, target: %1$s</string>
+    <string name="pref_title_dont_ack_transfer">Do not ack activity data transfer</string>
     <string name="pref_summary_dont_ack_transfers">If the activity data are not acked to the band, they will not be cleared. Useful if GB is used together with other apps.</string>
     <string name="pref_summary_keep_data_on_device">Will keep activity data on the Mi Band even after synchronization. Useful if GB is used together with other apps.</string>
-    <string name="pref_title_dont_ack_transfer">Do not ack activity data transfer</string>
+    <string name="pref_title_low_latency_fw_update">Use low-latency mode for FW updates</string>
+    <string name="pref_summary_low_latency_fw_update">This might help on devices where firmware updates fail</string>
+
     <string name="live_activity_steps_history">Steps History</string>
     <string name="live_activity_current_steps_per_minute">Current steps/min</string>
     <string name="live_activity_total_steps">Total Steps</string>
@@ -216,6 +220,34 @@
     <string name="miband_fwinstaller_incompatible_version">Incompatible firmware</string>
     <string name="fwinstaller_firmware_not_compatible_to_device">This firmware is not compatible with the device</string>
     <string name="miband_prefs_reserve_alarm_calendar">Alarms to reserve for upcoming events</string>
+    <string name="miband_prefs_hr_sleep_detection">Use Heartrate Sensor to improve sleep detection</string>
+
     <string name="waiting_for_reconnect">waiting for reconnect</string>
     <string name="appmananger_app_reinstall">Reinstall</string>
+
+    <string name="activity_prefs_about_you">About You</string>
+    <string name="activity_prefs_year_birth">Year of Birth</string>
+    <string name="activity_prefs_gender">Gender</string>
+    <string name="activity_prefs_height_cm">Height in cm</string>
+    <string name="activity_prefs_weight_kg">Weight in kg</string>
+    <string name="appmanager_health_activate">Activate</string>
+    <string name="appmanager_health_deactivate">Deactivate</string>
+    <string name="authenticating">authenticating</string>
+    <string name="authentication_required">authentication required</string>
+    <string name="app_configure">Configure</string>
+
+    <string name="appwidget_text">Zzz</string>
+    <string name="add_widget">Add widget</string>
+    <string name="activity_prefs_sleep_duration">Preferred sleep duration in hours</string>
+    <string name="appwidget_alarms_set">An alarm was set for %1$02d:%2$02d</string>
+    <string name="device_hw">HW: %1$s</string>
+    <string name="device_fw">FW: %1$s</string>
+    <string name="error_creating_directory_for_logfiles">Error creating directory for log files: %1$s</string>
+    <string name="DEVINFO_HR_VER">"HR: "</string>
+    <string name="updatefirmwareoperation_update_in_progress">Firmware update in progress</string>
+    <string name="updatefirmwareoperation_firmware_not_sent">Firmware not sent</string>
+    <string name="charts_legend_heartrate">Heart Rate</string>
+    <string name="live_activity_heart_rate">Heart Rate</string>
+    <string name="pref_title_general_autocreonnect">Reconnect automatically</string>
+
 </resources>

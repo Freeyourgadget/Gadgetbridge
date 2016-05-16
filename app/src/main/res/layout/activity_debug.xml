@@ -73,7 +73,7 @@
                 android:layout_column="0"
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill_horizontal"
-                android:layout_row="9"
+                android:layout_row="10"
                 android:text="create test notification" />
 
             <Button
@@ -83,7 +83,7 @@
                 android:layout_column="0"
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill_horizontal"
-                android:layout_row="8"
+                android:layout_row="9"
                 android:text="set time" />
 
             <Button
@@ -133,7 +133,15 @@
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="5"
                 android:text="set music info" />
-
+            <Button
+                android:id="@+id/HearRateButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill_horizontal"
+                android:layout_row="8"
+                android:text="Heart Rate Test" />
             <Button
                 android:id="@+id/rebootButton"
                 android:layout_width="wrap_content"
@@ -141,8 +149,9 @@
                 android:layout_column="0"
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill_horizontal"
-                android:layout_row="7"
+                android:layout_row="11"
                 android:text="reboot" />
+
 
             <Button
                 android:id="@+id/exportDBButton"

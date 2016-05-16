@@ -49,4 +49,10 @@ public class DateTimeUtils {
         Date newDate = cal.getTime();
         return newDate;
     }
+
+    public static Date parseTimeStamp(int timestamp) {
+        GregorianCalendar cal = (GregorianCalendar) GregorianCalendar.getInstance();
+        cal.setTimeInMillis(timestamp * 1000L); // make sure it's converted to long
+        return cal.getTime();
+    }
 }

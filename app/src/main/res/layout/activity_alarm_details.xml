@@ -11,14 +11,35 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
 
-        <TimePicker
+        <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/alarm_time_picker"
-            android:timePickerMode="clock"
-            android:layout_weight="1" />
+            android:id="@+id/alarm_cb_smart_wakeup"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/alarm_smart_wakeup"
+            android:id="@+id/alarm_label_smart_wakeup"
+            android:labelFor="@id/alarm_cb_smart_wakeup" />
+    </LinearLayout>
+
+    <TimePicker
+        android:id="@+id/alarm_time_picker"
+        android:timePickerMode="clock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:id="@+id/dowSelector">
 
         <LinearLayout
             android:orientation="vertical"
@@ -28,55 +49,18 @@
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/alarm_cb_smart_wakeup"
-                android:layout_gravity="center_horizontal|bottom"
-                android:gravity="center_horizontal|bottom"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/alarm_smart_wakeup"
-                android:id="@+id/alarm_label_smart_wakeup"
-                android:layout_gravity="center_horizontal|top"
-                android:labelFor="@id/alarm_cb_smart_wakeup"
-                android:gravity="center_horizontal|top"
-                android:layout_weight="1" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/dowSelector">
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/alarm_cb_mon"
-                android:layout_gravity="center_horizontal|bottom"
-                android:gravity="center_horizontal|bottom"
-                android:layout_weight="1" />
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal|bottom"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/alarm_mon_short"
                 android:id="@+id/alarm_label_cb_mon"
-                android:layout_gravity="center_horizontal|top"
+                android:layout_gravity="center_horizontal"
                 android:labelFor="@id/alarm_cb_mon"
-                android:gravity="center_horizontal|top"
-                android:layout_weight="1" />
+                android:gravity="center_horizontal|top"/>
 
         </LinearLayout>
 
@@ -90,20 +74,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/alarm_cb_tue"
-                android:layout_gravity="center_horizontal|bottom"
-                android:gravity="center_horizontal|bottom"
-                android:layout_weight="1" />
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal|bottom" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/alarm_tue_short"
                 android:id="@+id/alarm_label_cb_tue"
-                android:layout_gravity="center_horizontal|top"
+                android:layout_gravity="center_horizontal"
                 android:labelFor="@id/alarm_cb_tue"
-                android:gravity="center_horizontal|top"
-                android:layout_weight="1" />
+                android:gravity="center_horizontal|top" />
 
         </LinearLayout>
 
@@ -117,20 +98,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/alarm_cb_wed"
-                android:layout_gravity="center_horizontal|bottom"
-                android:gravity="center_horizontal|bottom"
-                android:layout_weight="1" />
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal|bottom"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/alarm_wed_short"
                 android:id="@+id/alarm_label_cb_wed"
-                android:layout_gravity="center_horizontal|top"
+                android:layout_gravity="center_horizontal"
                 android:labelFor="@id/alarm_cb_wed"
-                android:gravity="center_horizontal|top"
-                android:layout_weight="1" />
+                android:gravity="center_horizontal|top" />
 
         </LinearLayout>
 
@@ -144,20 +122,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/alarm_cb_thu"
-                android:layout_gravity="center_horizontal|bottom"
-                android:gravity="center_horizontal|bottom"
-                android:layout_weight="1" />
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal|bottom" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/alarm_thu_short"
                 android:id="@+id/alarm_label_cb_thu"
-                android:layout_gravity="center_horizontal|top"
+                android:layout_gravity="center_horizontal"
                 android:labelFor="@id/alarm_cb_thu"
-                android:gravity="center_horizontal|top"
-                android:layout_weight="1" />
+                android:gravity="center_horizontal|top" />
 
         </LinearLayout>
 
@@ -171,20 +146,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/alarm_cb_fri"
-                android:layout_gravity="center_horizontal|bottom"
-                android:gravity="center_horizontal|bottom"
-                android:layout_weight="1" />
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal|bottom"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/alarm_fri_short"
                 android:id="@+id/alarm_label_cb_fri"
-                android:layout_gravity="center_horizontal|top"
+                android:layout_gravity="center_horizontal"
                 android:labelFor="@id/alarm_cb_fri"
-                android:gravity="center_horizontal|top"
-                android:layout_weight="1" />
+                android:gravity="center_horizontal|top" />
 
         </LinearLayout>
 
@@ -198,20 +170,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/alarm_cb_sat"
-                android:layout_gravity="center_horizontal|bottom"
-                android:gravity="center_horizontal|bottom"
-                android:layout_weight="1" />
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal|bottom"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/alarm_sat_short"
                 android:id="@+id/alarm_label_cb_sat"
-                android:layout_gravity="center_horizontal|top"
+                android:layout_gravity="center_horizontal"
                 android:labelFor="@id/alarm_cb_sat"
-                android:gravity="center_horizontal|top"
-                android:layout_weight="1" />
+                android:gravity="center_horizontal|top" />
 
         </LinearLayout>
 
@@ -225,20 +194,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/alarm_cb_sun"
-                android:layout_gravity="center_horizontal|bottom"
-                android:gravity="center_horizontal|bottom"
-                android:layout_weight="1" />
+                android:layout_gravity="center_horizontal"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/alarm_sun_short"
                 android:id="@+id/alarm_label_cb_sun"
-                android:layout_gravity="center_horizontal|top"
+                android:layout_gravity="center_horizontal"
                 android:labelFor="@id/alarm_cb_sun"
-                android:gravity="center_horizontal|top"
-                android:layout_weight="1" />
+                android:gravity="center_horizontal|top" />
 
         </LinearLayout>
 

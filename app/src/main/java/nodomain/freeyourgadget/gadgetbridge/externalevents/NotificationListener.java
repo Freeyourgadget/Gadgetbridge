@@ -8,12 +8,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.PowerManager;
-import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.support.v4.app.NotificationCompat;
@@ -30,6 +28,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class NotificationListener extends NotificationListenerService {
 
@@ -54,6 +53,9 @@ public class NotificationListener extends NotificationListenerService {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             switch (action) {
+                case GBApplication.ACTION_QUIT:
+                    stopSelf();
+                    break;
                 case ACTION_MUTE:
                 case ACTION_OPEN: {
                     StatusBarNotification[] sbns = NotificationListener.this.getActiveNotifications();
@@ -130,6 +132,7 @@ public class NotificationListener extends NotificationListenerService {
     public void onCreate() {
         super.onCreate();
         IntentFilter filterLocal = new IntentFilter();
+        filterLocal.addAction(GBApplication.ACTION_QUIT);
         filterLocal.addAction(ACTION_OPEN);
         filterLocal.addAction(ACTION_DISMISS);
         filterLocal.addAction(ACTION_DISMISS_ALL);
@@ -157,8 +160,8 @@ public class NotificationListener extends NotificationListenerService {
             return;
         }
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!sharedPrefs.getBoolean("notifications_generic_whenscreenon", false)) {
+        Prefs prefs = GBApplication.getPrefs();
+        if (!prefs.getBoolean("notifications_generic_whenscreenon", false)) {
             PowerManager powermanager = (PowerManager) getSystemService(POWER_SERVICE);
             if (powermanager.isScreenOn()) {
                 return;
@@ -185,13 +188,13 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         if (source.equals("eu.siacs.conversations")) {
-            if (!"never".equals(sharedPrefs.getString("notification_mode_pebblemsg", "when_screen_off"))) {
+            if (!"never".equals(prefs.getString("notification_mode_pebblemsg", "when_screen_off"))) {
                 return;
             }
         }
 
         if (source.equals("com.fsck.k9")) {
-            if (!"never".equals(sharedPrefs.getString("notification_mode_k9mail", "when_screen_off"))) {
+            if (!"never".equals(prefs.getString("notification_mode_k9mail", "when_screen_off"))) {
                 return;
             }
         }
@@ -201,7 +204,7 @@ public class NotificationListener extends NotificationListenerService {
                 source.equals("com.sonyericsson.conversations") ||
                 source.equals("com.android.messaging") ||
                 source.equals("org.smssecure.smssecure")) {
-            if (!"never".equals(sharedPrefs.getString("notification_mode_sms", "when_screen_off"))) {
+            if (!"never".equals(prefs.getString("notification_mode_sms", "when_screen_off"))) {
                 return;
             }
         }

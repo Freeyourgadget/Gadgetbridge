@@ -80,10 +80,10 @@ public class AppMessageHandlerMorpheuz extends AppMessageHandler {
                         // we have no base timestamp but received points, stop this
                         ctrl_message = AppMessageHandlerMorpheuz.CTRL_VERSION_DONE | AppMessageHandlerMorpheuz.CTRL_GONEOFF_DONE | AppMessageHandlerMorpheuz.CTRL_TRANSMIT_DONE | AppMessageHandlerMorpheuz.CTRL_SET_LAST_SENT;
                     } else {
-                        short index = (short) ((int) pair.second >> 16);
-                        short intensity = (short) ((int) pair.second & 0xffff);
+                        int index = ((int) pair.second >> 16);
+                        int intensity = ((int) pair.second & 0xffff);
                         LOG.info("got point:" + index + " " + intensity);
-                        byte type = MorpheuzSampleProvider.TYPE_UNKNOWN;
+                        int type = MorpheuzSampleProvider.TYPE_UNKNOWN;
                         if (intensity <= 120) {
                             type = MorpheuzSampleProvider.TYPE_DEEP_SLEEP;
                         } else if (intensity <= 1000) {
@@ -93,7 +93,7 @@ public class AppMessageHandlerMorpheuz extends AppMessageHandler {
                             DBHandler db = null;
                             try {
                                 db = GBApplication.acquireDB();
-                                db.addGBActivitySample(recording_base_timestamp + index * 600, SampleProvider.PROVIDER_PEBBLE_MORPHEUZ, intensity, (byte) 0, type);
+                                db.addGBActivitySample(recording_base_timestamp + index * 600, SampleProvider.PROVIDER_PEBBLE_MORPHEUZ, intensity, 0, type, 0);
                             } catch (GBException e) {
                                 LOG.error("Error acquiring database", e);
                             } finally {
@@ -113,12 +113,12 @@ public class AppMessageHandlerMorpheuz extends AppMessageHandler {
                     break;
                 case KEY_TO:
                     smartalarm_to = (int) pair.second;
-                    LOG.info("got from: " + smartalarm_to / 60 + ":" + smartalarm_to % 60);
+                    LOG.info("got to: " + smartalarm_to / 60 + ":" + smartalarm_to % 60);
                     ctrl_message = AppMessageHandlerMorpheuz.CTRL_VERSION_DONE | AppMessageHandlerMorpheuz.CTRL_SET_LAST_SENT | AppMessageHandlerMorpheuz.CTRL_DO_NEXT;
                     break;
                 case KEY_VERSION:
                     LOG.info("got version: " + ((float) ((int) pair.second) / 10.0f));
-                    ctrl_message = AppMessageHandlerMorpheuz.CTRL_VERSION_DONE | AppMessageHandlerMorpheuz.CTRL_SET_LAST_SENT;
+                    ctrl_message = AppMessageHandlerMorpheuz.CTRL_VERSION_DONE;
                     break;
                 case KEY_BASE:
                     // fix timestamp

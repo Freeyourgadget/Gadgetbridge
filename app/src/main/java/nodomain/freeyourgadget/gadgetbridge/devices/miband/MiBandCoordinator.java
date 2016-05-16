@@ -2,23 +2,22 @@ package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Calendar;
-
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class MiBandCoordinator extends AbstractDeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandCoordinator.class);
@@ -75,6 +74,16 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
         return false;
     }
 
+    @Override
+    public boolean supportsAlarmConfiguration() {
+        return true;
+    }
+
+    @Override
+    public int getTapString() {
+        return R.string.tap_connected_device_for_activity;
+    }
+
     public static boolean hasValidUserInfo() {
         String dummyMacAddress = MiBandService.MAC_ADDRESS_FILTER_1_1A + ":00:00:00";
         try {
@@ -107,22 +116,16 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
      * @throws IllegalArgumentException when the user info can not be created
      */
     public static UserInfo getConfiguredUserInfo(String miBandAddress) throws IllegalArgumentException {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
-        int userYear = Integer.parseInt(prefs.getString(MiBandConst.PREF_USER_YEAR_OF_BIRTH, "0"));
-        int age = 25;
-        if (userYear > 1900) {
-            age = Calendar.getInstance().get(Calendar.YEAR) - userYear;
-            if (age <= 0) {
-                age = 25;
-            }
-        }
+        ActivityUser activityUser = new ActivityUser();
+        Prefs prefs = GBApplication.getPrefs();
+
         UserInfo info = UserInfo.create(
                 miBandAddress,
                 prefs.getString(MiBandConst.PREF_USER_ALIAS, null),
-                ("male".equals(prefs.getString(MiBandConst.PREF_USER_GENDER, null)) ? 1 : 0),
-                age,
-                Integer.parseInt(prefs.getString(MiBandConst.PREF_USER_HEIGHT_CM, "175")),
-                Integer.parseInt(prefs.getString(MiBandConst.PREF_USER_WEIGHT_KG, "70")),
+                activityUser.getActivityUserGender(),
+                activityUser.getActivityUserAge(),
+                activityUser.getActivityUserHeightCm(),
+                activityUser.getActivityUserWeightKg(),
                 0
         );
         return info;
@@ -130,20 +133,25 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
 
     public static int getWearLocation(String miBandAddress) throws IllegalArgumentException {
         int location = 0; //left hand
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
+        Prefs prefs = GBApplication.getPrefs();
         if ("right".equals(prefs.getString(MiBandConst.PREF_MIBAND_WEARSIDE, "left"))) {
             location = 1; // right hand
         }
         return location;
     }
 
+    public static boolean getHeartrateSleepSupport(String miBandAddress) throws IllegalArgumentException {
+        Prefs prefs = GBApplication.getPrefs();
+        return prefs.getBoolean(MiBandConst.PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION, false);
+    }
+
     public static int getFitnessGoal(String miBandAddress) throws IllegalArgumentException {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
-        return Integer.parseInt(prefs.getString(MiBandConst.PREF_MIBAND_FITNESS_GOAL, "10000"));
+        Prefs prefs = GBApplication.getPrefs();
+        return prefs.getInt(MiBandConst.PREF_MIBAND_FITNESS_GOAL, 10000);
     }
 
     public static int getReservedAlarmSlots(String miBandAddress) throws IllegalArgumentException {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(GBApplication.getContext());
-        return Integer.parseInt(prefs.getString(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, "0"));
+        Prefs prefs = GBApplication.getPrefs();
+        return prefs.getInt(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, 0);
     }
 }

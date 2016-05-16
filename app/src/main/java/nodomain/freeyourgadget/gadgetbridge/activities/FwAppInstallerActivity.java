@@ -1,6 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -29,14 +28,16 @@ import nodomain.freeyourgadget.gadgetbridge.adapter.ItemWithDetailsAdapter;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.model.ItemWithDetails;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 
-public class FwAppInstallerActivity extends Activity implements InstallActivity {
+public class FwAppInstallerActivity extends GBActivity implements InstallActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(FwAppInstallerActivity.class);
+    private static final String ITEM_DETAILS = "details";
 
     private TextView fwAppInstallTextView;
     private Button installButton;
@@ -45,13 +46,22 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
     private InstallHandler installHandler;
     private boolean mayConnect;
 
+    private ProgressBar mProgressBar;
+    private ListView itemListView;
+    private final List<ItemWithDetails> mItems = new ArrayList<>();
+    private ItemWithDetailsAdapter mItemAdapter;
+
+    private ListView detailsListView;
+    private ItemWithDetailsAdapter mDetailsItemAdapter;
+    private ArrayList<ItemWithDetails> mDetails = new ArrayList<>();
+
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (action.equals(GBApplication.ACTION_QUIT)) {
+            if (GBApplication.ACTION_QUIT.equals(action)) {
                 finish();
-            } else if (action.equals(GBDevice.ACTION_DEVICE_CHANGED)) {
+            } else if (GBDevice.ACTION_DEVICE_CHANGED.equals(action)) {
                 device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                 if (device != null) {
                     refreshBusyState(device);
@@ -67,13 +77,13 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
                         validateInstallation();
                     }
                 }
+            } else if (GB.ACTION_DISPLAY_MESSAGE.equals(action)) {
+                String message = intent.getStringExtra(GB.DISPLAY_MESSAGE_MESSAGE);
+                int severity = intent.getIntExtra(GB.DISPLAY_MESSAGE_SEVERITY, GB.INFO);
+                addMessage(message, severity);
             }
         }
     };
-    private ProgressBar mProgressBar;
-    private ListView itemListView;
-    private final List<ItemWithDetails> mItems = new ArrayList<>();
-    private ItemWithDetailsAdapter mItemAdapter;
 
     private void refreshBusyState(GBDevice dev) {
         if (dev.isConnecting() || dev.isBusy()) {
@@ -102,11 +112,18 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appinstaller);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+
         GBDevice dev = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
         if (dev != null) {
             device = dev;
         }
+        if (savedInstanceState != null) {
+            mDetails = savedInstanceState.getParcelableArrayList(ITEM_DETAILS);
+            if (mDetails == null) {
+                mDetails = new ArrayList<>();
+            }
+        }
+
         mayConnect = true;
         itemListView = (ListView) findViewById(R.id.itemListView);
         mItemAdapter = new ItemWithDetailsAdapter(this, mItems);
@@ -114,10 +131,15 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
         fwAppInstallTextView = (TextView) findViewById(R.id.infoTextView);
         installButton = (Button) findViewById(R.id.installButton);
         mProgressBar = (ProgressBar) findViewById(R.id.installProgressBar);
+        detailsListView = (ListView) findViewById(R.id.detailsListView);
+        mDetailsItemAdapter = new ItemWithDetailsAdapter(this, mDetails);
+        mDetailsItemAdapter.setSize(ItemWithDetailsAdapter.SIZE_SMALL);
+        detailsListView.setAdapter(mDetailsItemAdapter);
         setInstallEnabled(false);
         IntentFilter filter = new IntentFilter();
         filter.addAction(GBApplication.ACTION_QUIT);
         filter.addAction(GBDevice.ACTION_DEVICE_CHANGED);
+        filter.addAction(GB.ACTION_DISPLAY_MESSAGE);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
 
         installButton.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +165,12 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
                 GBApplication.deviceService().requestDeviceInfo();
             }
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(ITEM_DETAILS, mDetails);
     }
 
     private InstallHandler findInstallHandlerFor(Uri uri) {
@@ -194,5 +222,10 @@ public class FwAppInstallerActivity extends Activity implements InstallActivity 
         mItems.clear();
         mItems.add(item);
         mItemAdapter.notifyDataSetChanged();
+    }
+
+    private void addMessage(String message, int severity) {
+        mDetails.add(new GenericItem(message));
+        mDetailsItemAdapter.notifyDataSetChanged();
     }
 }

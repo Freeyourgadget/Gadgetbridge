@@ -7,10 +7,22 @@
             android:defaultValue="false"
             android:key="general_autoconnectonbluetooth"
             android:title="@string/pref_title_general_autoconnectonbluetooth" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="general_autocreconnect"
+            android:title="@string/pref_title_general_autocreonnect" />
         <ListPreference
             android:defaultValue="default"
             android:key="audio_player"
-            android:title="@string/pref_title_audo_player" />
+            android:title="@string/pref_title_audo_player"
+            android:summary="%s" />
+        <ListPreference
+            android:key="pref_key_theme"
+            android:title="@string/pref_title_theme"
+            android:entries="@array/pref_theme_options"
+            android:entryValues="@array/pref_theme_values"
+            android:defaultValue="@string/pref_theme_value_light"
+            android:summary="%s" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="pref_key_datetime"
@@ -30,21 +42,24 @@
             android:entries="@array/notification_mode_toggle"
             android:entryValues="@array/notification_mode_values_toggle"
             android:key="notification_mode_calls"
-            android:title="@string/pref_title_notifications_call" />
+            android:title="@string/pref_title_notifications_call"
+            android:summary="%s" />
 
         <ListPreference
             android:defaultValue="when_screen_off"
             android:entries="@array/notification_mode"
             android:entryValues="@array/notification_mode_values"
             android:key="notification_mode_sms"
-            android:title="@string/pref_title_notifications_sms" />
+            android:title="@string/pref_title_notifications_sms"
+            android:summary="%s" />
 
         <ListPreference
             android:defaultValue="when_screen_off"
             android:entries="@array/notification_mode"
             android:entryValues="@array/notification_mode_values"
             android:key="notification_mode_k9mail"
-            android:title="@string/pref_title_notifications_k9mail" />
+            android:title="@string/pref_title_notifications_k9mail"
+            android:summary="%s" />
 
         <ListPreference
             android:defaultValue="when_screen_off"
@@ -124,6 +139,44 @@
         </PreferenceScreen>
     </PreferenceCategory>
 
+    <PreferenceScreen
+        android:key="pref_category_activity_personal"
+        android:title="@string/activity_prefs_about_you">
+
+        <EditTextPreference
+            android:inputType="number"
+            android:key="activity_user_year_of_birth"
+            android:maxLength="4"
+            android:title="@string/activity_prefs_year_birth" />
+
+        <ListPreference
+            android:defaultValue="2"
+            android:entries="@array/gender"
+            android:entryValues="@array/gender_values"
+            android:key="activity_user_gender"
+            android:title="@string/activity_prefs_gender"
+            android:summary="%s" />
+
+        <!--TODO: support localized heights and weights -->
+        <EditTextPreference
+            android:inputType="number"
+            android:key="activity_user_height_cm"
+            android:maxLength="3"
+            android:title="@string/activity_prefs_height_cm" />
+
+        <EditTextPreference
+            android:inputType="number"
+            android:key="activity_user_weight_kg"
+            android:maxLength="3"
+            android:title="@string/activity_prefs_weight_kg" />
+
+        <EditTextPreference
+            android:inputType="number"
+            android:key="activity_user_sleep_duration"
+            android:maxLength="2"
+            android:title="@string/activity_prefs_sleep_duration" />
+    </PreferenceScreen>
+
     <PreferenceCategory
         android:key="pref_key_device_specific_category"
         android:title="@string/preferences_category_device_specific_settings">
@@ -149,6 +202,13 @@
                     android:key="pebble_reconnect_attempts"
                     android:maxLength="4"
                     android:title="@string/pref_title_pebble_reconnect_attempts" />
+                <ListPreference
+                    android:defaultValue="4"
+                    android:entries="@array/pebble_activitytracker"
+                    android:entryValues="@array/pebble_activitytracker_values"
+                    android:key="pebble_activitytracker"
+                    android:title="@string/pref_title_pebble_activitytracker"
+                    android:summary="%s" />
             </PreferenceCategory>
             <PreferenceCategory
                 android:key="pref_key_development"

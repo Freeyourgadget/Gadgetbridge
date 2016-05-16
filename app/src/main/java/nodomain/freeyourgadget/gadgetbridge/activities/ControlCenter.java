@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothDevice;
@@ -8,9 +10,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.ContextMenu;
@@ -18,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import de.cketti.library.changelog.ChangeLog;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
@@ -37,8 +44,9 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-public class ControlCenter extends Activity {
+public class ControlCenter extends GBActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(ControlCenter.class);
 
@@ -46,6 +54,9 @@ public class ControlCenter extends Activity {
             = "nodomain.freeyourgadget.gadgetbridge.controlcenter.action.set_version";
 
     private TextView hintTextView;
+    private FloatingActionButton fab;
+    private ImageView background;
+
     private SwipeRefreshLayout swipeLayout;
     private GBDeviceAdapter mGBDeviceAdapter;
     private GBDevice selectedDevice = null;
@@ -116,15 +127,26 @@ public class ControlCenter extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_controlcenter);
+
         hintTextView = (TextView) findViewById(R.id.hintTextView);
         ListView deviceListView = (ListView) findViewById(R.id.deviceListView);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        background = (ImageView) findViewById(R.id.no_items_bg);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchDiscoveryActivity();
+            }
+        });
+
         mGBDeviceAdapter = new GBDeviceAdapter(this, deviceList);
         deviceListView.setAdapter(this.mGBDeviceAdapter);
         deviceListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 GBDevice gbDevice = deviceList.get(position);
-                if (gbDevice.isConnected()) {
+                if (gbDevice.isInitialized()) {
                     DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
                     Class<? extends Activity> primaryActivity = coordinator.getPrimaryActivity();
                     if (primaryActivity != null) {
@@ -161,17 +183,25 @@ public class ControlCenter extends Activity {
         /*
          * Ask for permission to intercept notifications on first run.
          */
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (sharedPrefs.getBoolean("firstrun", true)) {
-            sharedPrefs.edit().putBoolean("firstrun", false).apply();
+        Prefs prefs = GBApplication.getPrefs();
+        if (prefs.getBoolean("firstrun", true)) {
+            prefs.getPreferences().edit().putBoolean("firstrun", false).apply();
             Intent enableIntent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
             startActivity(enableIntent);
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            checkAndRequestPermissions();
+        }
+
+        ChangeLog cl = new ChangeLog(this);
+        if (cl.isFirstRun()) {
+            cl.getLogDialog().show();
+        }
+
         GBApplication.deviceService().start();
 
         enableSwipeRefresh(selectedDevice);
-        if (GB.isBluetoothEnabled() && deviceList.isEmpty()) {
-            // start discovery when no devices are present
+        if (GB.isBluetoothEnabled() && deviceList.isEmpty() && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             startActivity(new Intent(this, DiscoveryActivity.class));
         } else {
             GBApplication.deviceService().requestDeviceInfo();
@@ -195,6 +225,9 @@ public class ControlCenter extends Activity {
         }
         if (!coordinator.supportsScreenshots()) {
             menu.removeItem(R.id.controlcenter_take_screenshot);
+        }
+        if (!coordinator.supportsAlarmConfiguration()) {
+            menu.removeItem(R.id.controlcenter_configure_alarms);
         }
 
         if (selectedDevice.getState() == GBDevice.State.NOT_CONNECTED) {
@@ -314,13 +347,17 @@ public class ControlCenter extends Activity {
                 Intent quitIntent = new Intent(GBApplication.ACTION_QUIT);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(quitIntent);
                 return true;
-            case R.id.action_discover:
-                Intent discoverIntent = new Intent(this, DiscoveryActivity.class);
-                startActivity(discoverIntent);
-                return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void launchDiscoveryActivity() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            startActivity(new Intent(android.provider.Settings.ACTION_BLUETOOTH_SETTINGS));
+        } else {
+            startActivity(new Intent(this, DiscoveryActivity.class));
+        }
     }
 
     @Override
@@ -346,12 +383,52 @@ public class ControlCenter extends Activity {
             }
         }
 
+        if (deviceList.isEmpty()) {
+            background.setVisibility(View.VISIBLE);
+        } else {
+            background.setVisibility(View.INVISIBLE);
+        }
+
         if (connected) {
-            hintTextView.setText(R.string.tap_connected_device_for_app_mananger);
+            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(selectedDevice);
+            hintTextView.setText(coordinator.getTapString());
         } else if (!deviceList.isEmpty()) {
             hintTextView.setText(R.string.tap_a_device_to_connect);
         }
 
         mGBDeviceAdapter.notifyDataSetChanged();
     }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private void checkAndRequestPermissions() {
+        List<String> wantedPermissions = new ArrayList<>();
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) == PackageManager.PERMISSION_DENIED)
+            wantedPermissions.add(Manifest.permission.BLUETOOTH);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADMIN) == PackageManager.PERMISSION_DENIED)
+            wantedPermissions.add(Manifest.permission.BLUETOOTH_ADMIN);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_DENIED)
+            wantedPermissions.add(Manifest.permission.READ_CONTACTS);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_DENIED)
+            wantedPermissions.add(Manifest.permission.CALL_PHONE);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_DENIED)
+            wantedPermissions.add(Manifest.permission.READ_PHONE_STATE);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.PROCESS_OUTGOING_CALLS) == PackageManager.PERMISSION_DENIED)
+            wantedPermissions.add(Manifest.permission.PROCESS_OUTGOING_CALLS);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_DENIED)
+            wantedPermissions.add(Manifest.permission.READ_SMS);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_DENIED)
+            wantedPermissions.add(Manifest.permission.SEND_SMS);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
+            wantedPermissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED)
+            wantedPermissions.add(Manifest.permission.READ_CALENDAR);
+        if (ContextCompat.checkSelfPermission(this, "com.fsck.k9.permission.READ_MESSAGES") == PackageManager.PERMISSION_DENIED)
+            wantedPermissions.add("com.fsck.k9.permission.READ_MESSAGES");
+
+        if (!wantedPermissions.isEmpty())
+            ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[wantedPermissions.size()]), 0);
+    }
+
+
 }

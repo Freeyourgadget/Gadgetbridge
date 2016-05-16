@@ -2,32 +2,42 @@ package nodomain.freeyourgadget.gadgetbridge.impl;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 public class GBActivitySample implements ActivitySample {
     private final int timestamp;
     private final SampleProvider provider;
-    private final short intensity;
-    private final short steps;
-    private final byte type;
+    private final int intensity;
+    private final int steps;
+    private final int type;
+    private final int customValue;
 
-    public GBActivitySample(SampleProvider provider, int timestamp, short intensity, short steps, byte type) {
+    public GBActivitySample(SampleProvider provider, int timestamp, int intensity, int steps, int type) {
+        this(provider, timestamp, intensity, steps, type, 0);
+    }
+
+    public GBActivitySample(SampleProvider provider, int timestamp, int intensity, int steps, int type, int customValue) {
         this.timestamp = timestamp;
         this.provider = provider;
         this.intensity = intensity;
         this.steps = steps;
+        this.customValue = customValue;
         this.type = type;
         validate();
     }
 
     private void validate() {
         if (steps < 0) {
-            throw new IllegalArgumentException("steps must be > 0");
+            throw new IllegalArgumentException("steps must be >= 0");
         }
         if (intensity < 0) {
-            throw new IllegalArgumentException("intensity must be > 0");
+            throw new IllegalArgumentException("intensity must be >= 0");
         }
         if (timestamp < 0) {
-            throw new IllegalArgumentException("timestamp must be > 0");
+            throw new IllegalArgumentException("timestamp must be >= 0");
+        }
+        if (customValue < 0) {
+            throw new IllegalArgumentException("customValue must be >= 0");
         }
     }
 
@@ -42,7 +52,7 @@ public class GBActivitySample implements ActivitySample {
     }
 
     @Override
-    public short getRawIntensity() {
+    public int getRawIntensity() {
         return intensity;
     }
 
@@ -52,17 +62,33 @@ public class GBActivitySample implements ActivitySample {
     }
 
     @Override
-    public short getSteps() {
+    public int getSteps() {
         return steps;
     }
 
     @Override
-    public byte getRawKind() {
+    public int getRawKind() {
         return type;
     }
 
     @Override
     public int getKind() {
         return getProvider().normalizeType(getRawKind());
+    }
+
+    @Override
+    public int getCustomValue() {
+        return customValue;
+    }
+
+    @Override
+    public String toString() {
+        return "GBActivitySample{" +
+                "timestamp=" + DateTimeUtils.formatDateTime(DateTimeUtils.parseTimeStamp(timestamp)) +
+                ", intensity=" + getIntensity() +
+                ", steps=" + getSteps() +
+                ", customValue=" + getCustomValue() +
+                ", type=" + getKind() +
+                '}';
     }
 }

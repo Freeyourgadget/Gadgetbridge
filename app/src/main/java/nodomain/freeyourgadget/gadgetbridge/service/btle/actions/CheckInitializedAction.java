@@ -1,10 +1,9 @@
-package nodomain.freeyourgadget.gadgetbridge.service.btle;
+package nodomain.freeyourgadget.gadgetbridge.service.btle.actions;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.AbortTransactionAction;
 
 /**
  * A special action that is executed at the very front of the initialization

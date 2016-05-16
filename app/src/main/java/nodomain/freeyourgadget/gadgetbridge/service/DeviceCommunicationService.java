@@ -3,7 +3,6 @@ package nodomain.freeyourgadget.gadgetbridge.service;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -11,7 +10,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.IBinder;
-import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
@@ -34,19 +32,26 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.SMSReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.TimeChangeReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
-import nodomain.freeyourgadget.gadgetbridge.model.ServiceCommand;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_APP_CONFIGURE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CALLSTATE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CONNECT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DELETEAPP;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DISCONNECT;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ENABLE_HEARTRATE_SLEEP_SUPPORT;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ENABLE_REALTIME_STEPS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_FETCH_ACTIVITY_DATA;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_FIND_DEVICE;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_HEARTRATE_TEST;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_INSTALL;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_NOTIFICATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REBOOT;
@@ -59,16 +64,20 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SE
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_STARTAPP;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_ALARMS;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_CONFIG;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_UUID;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_BOOLEAN_ENABLE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_COMMAND;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_PHONENUMBER;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_DEVICE_ADDRESS;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_ENABLE_REALTIME_STEPS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_FIND_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_ALBUM;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_ARTIST;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_TRACK;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_TRACKCOUNT;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_TRACKNR;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_BODY;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_FLAGS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_ID;
@@ -81,7 +90,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOT
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_PERFORM_PAIR;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_URI;
 
-public class DeviceCommunicationService extends Service {
+public class DeviceCommunicationService extends Service implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final Logger LOG = LoggerFactory.getLogger(DeviceCommunicationService.class);
 
     private boolean mStarted = false;
@@ -109,7 +118,7 @@ public class DeviceCommunicationService extends Service {
                     mGBDevice = device;
                     boolean enableReceivers = mDeviceSupport != null && (mDeviceSupport.useAutoConnect() || mGBDevice.isInitialized());
                     setReceiversEnableState(enableReceivers);
-                    GB.updateNotification(mGBDevice.getName() + " " + mGBDevice.getStateString(), context);
+                    GB.updateNotification(mGBDevice.getName() + " " + mGBDevice.getStateString(), mGBDevice.isInitialized(), context);
                 } else {
                     LOG.error("Got ACTION_DEVICE_CHANGED from unexpected device: " + mGBDevice);
                 }
@@ -123,6 +132,10 @@ public class DeviceCommunicationService extends Service {
         super.onCreate();
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED));
         mFactory = new DeviceSupportFactory(this);
+
+        if (hasPrefs()) {
+            getPrefs().getPreferences().registerOnSharedPreferenceChangeListener(this);
+        }
     }
 
     @Override
@@ -162,6 +175,7 @@ public class DeviceCommunicationService extends Service {
 
         // when we get past this, we should have valid mDeviceSupport and mGBDevice instances
 
+        Prefs prefs = getPrefs();
         switch (action) {
             case ACTION_START:
                 start();
@@ -169,19 +183,23 @@ public class DeviceCommunicationService extends Service {
             case ACTION_CONNECT:
                 start(); // ensure started
                 GBDevice gbDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
+                String btDeviceAddress = null;
                 if (gbDevice == null) {
-                    String btDeviceAddress = intent.getStringExtra(EXTRA_DEVICE_ADDRESS);
-                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-                    if (sharedPrefs != null) { // may be null in test cases
-                        if (btDeviceAddress == null) {
-                            btDeviceAddress = sharedPrefs.getString("last_device_address", null);
-                        } else {
-                            sharedPrefs.edit().putString("last_device_address", btDeviceAddress).apply();
-                        }
+                    btDeviceAddress = intent.getStringExtra(EXTRA_DEVICE_ADDRESS);
+                    if (btDeviceAddress == null && prefs != null) { // may be null in test cases
+                        btDeviceAddress = prefs.getString("last_device_address", null);
                     }
                     if (btDeviceAddress != null) {
                         gbDevice = DeviceHelper.getInstance().findAvailableDevice(btDeviceAddress, this);
                     }
+                } else {
+                    btDeviceAddress = gbDevice.getAddress();
+                }
+
+                boolean autoReconnect = GBPrefs.AUTO_RECONNECT_DEFAULT;
+                if (prefs != null && prefs.getPreferences() != null) {
+                    prefs.getPreferences().edit().putString("last_device_address", btDeviceAddress).apply();
+                    autoReconnect = getGBPrefs().getAutoReconnect();
                 }
 
                 if (gbDevice != null && !isConnecting() && !isConnected()) {
@@ -193,6 +211,7 @@ public class DeviceCommunicationService extends Service {
                             if (pair) {
                                 deviceSupport.pair();
                             } else {
+                                deviceSupport.setAutoReconnect(autoReconnect);
                                 deviceSupport.connect();
                             }
                         } else {
@@ -230,13 +249,12 @@ public class DeviceCommunicationService extends Service {
                 if (((notificationSpec.flags & NotificationSpec.FLAG_WEARABLE_REPLY) > 0)
                         || (notificationSpec.type == NotificationType.SMS && notificationSpec.phoneNumber != null)) {
                     // NOTE: maybe not where it belongs
-                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-                    if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
+                    if (prefs.getBoolean("pebble_force_untested", false)) {
                         // I would rather like to save that as an array in ShadredPreferences
                         // this would work but I dont know how to do the same in the Settings Activity's xml
                         ArrayList<String> replies = new ArrayList<>();
                         for (int i = 1; i <= 16; i++) {
-                            String reply = sharedPrefs.getString("canned_reply_" + i, null);
+                            String reply = prefs.getString("canned_reply_" + i, null);
                             if (reply != null && !reply.equals("")) {
                                 replies.add(reply);
                             }
@@ -249,6 +267,10 @@ public class DeviceCommunicationService extends Service {
             }
             case ACTION_REBOOT: {
                 mDeviceSupport.onReboot();
+                break;
+            }
+            case ACTION_HEARTRATE_TEST: {
+                mDeviceSupport.onHeartRateTest();
                 break;
             }
             case ACTION_FETCH_ACTIVITY_DATA: {
@@ -266,23 +288,32 @@ public class DeviceCommunicationService extends Service {
                 break;
             }
             case ACTION_CALLSTATE:
-                ServiceCommand command = (ServiceCommand) intent.getSerializableExtra(EXTRA_CALL_COMMAND);
+                int command = intent.getIntExtra(EXTRA_CALL_COMMAND, CallSpec.CALL_UNDEFINED);
 
                 String phoneNumber = intent.getStringExtra(EXTRA_CALL_PHONENUMBER);
                 String callerName = null;
                 if (phoneNumber != null) {
                     callerName = getContactDisplayNameByNumber(phoneNumber);
                 }
-                mDeviceSupport.onSetCallState(phoneNumber, callerName, command);
+
+                CallSpec callSpec = new CallSpec();
+                callSpec.command = command;
+                callSpec.number = phoneNumber;
+                callSpec.name = callerName;
+                mDeviceSupport.onSetCallState(callSpec);
                 break;
             case ACTION_SETTIME:
                 mDeviceSupport.onSetTime();
                 break;
             case ACTION_SETMUSICINFO:
-                String artist = intent.getStringExtra(EXTRA_MUSIC_ARTIST);
-                String album = intent.getStringExtra(EXTRA_MUSIC_ALBUM);
-                String track = intent.getStringExtra(EXTRA_MUSIC_TRACK);
-                mDeviceSupport.onSetMusicInfo(artist, album, track);
+                MusicSpec musicSpec = new MusicSpec();
+                musicSpec.artist = intent.getStringExtra(EXTRA_MUSIC_ARTIST);
+                musicSpec.album = intent.getStringExtra(EXTRA_MUSIC_ALBUM);
+                musicSpec.track = intent.getStringExtra(EXTRA_MUSIC_TRACK);
+                musicSpec.duration = intent.getIntExtra(EXTRA_MUSIC_DURATION, 0);
+                musicSpec.trackCount = intent.getIntExtra(EXTRA_MUSIC_TRACKCOUNT, 0);
+                musicSpec.trackNr = intent.getIntExtra(EXTRA_MUSIC_TRACKNR, 0);
+                mDeviceSupport.onSetMusicInfo(musicSpec);
                 break;
             case ACTION_REQUEST_APPINFO:
                 mDeviceSupport.onAppInfoReq();
@@ -301,6 +332,11 @@ public class DeviceCommunicationService extends Service {
                 mDeviceSupport.onAppDelete(uuid);
                 break;
             }
+            case ACTION_APP_CONFIGURE: {
+                UUID uuid = (UUID) intent.getSerializableExtra(EXTRA_APP_UUID);
+                String config = intent.getStringExtra(EXTRA_APP_CONFIG);
+                mDeviceSupport.onAppConfiguration(uuid, config);
+            }
             case ACTION_INSTALL:
                 Uri uri = intent.getParcelableExtra(EXTRA_URI);
                 if (uri != null) {
@@ -312,10 +348,21 @@ public class DeviceCommunicationService extends Service {
                 ArrayList<Alarm> alarms = intent.getParcelableArrayListExtra(EXTRA_ALARMS);
                 mDeviceSupport.onSetAlarms(alarms);
                 break;
-            case ACTION_ENABLE_REALTIME_STEPS:
-                boolean enable = intent.getBooleanExtra(EXTRA_ENABLE_REALTIME_STEPS, false);
+            case ACTION_ENABLE_REALTIME_STEPS: {
+                boolean enable = intent.getBooleanExtra(EXTRA_BOOLEAN_ENABLE, false);
                 mDeviceSupport.onEnableRealtimeSteps(enable);
                 break;
+            }
+            case ACTION_ENABLE_HEARTRATE_SLEEP_SUPPORT: {
+                boolean enable = intent.getBooleanExtra(EXTRA_BOOLEAN_ENABLE, false);
+                mDeviceSupport.onEnableHeartRateSleepSupport(enable);
+                break;
+            }
+            case ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT: {
+                boolean enable = intent.getBooleanExtra(EXTRA_BOOLEAN_ENABLE, false);
+                mDeviceSupport.onEnableRealtimeHeartRateMeasurement(enable);
+                break;
+            }
         }
 
         return START_STICKY;
@@ -348,7 +395,7 @@ public class DeviceCommunicationService extends Service {
 
     private void start() {
         if (!mStarted) {
-            startForeground(GB.NOTIFICATION_ID, GB.createNotification(getString(R.string.gadgetbridge_running), this));
+            startForeground(GB.NOTIFICATION_ID, GB.createNotification(getString(R.string.gadgetbridge_running), false, this));
             mStarted = true;
         }
     }
@@ -398,7 +445,10 @@ public class DeviceCommunicationService extends Service {
             }
             if (mMusicPlaybackReceiver == null) {
                 mMusicPlaybackReceiver = new MusicPlaybackReceiver();
-                registerReceiver(mMusicPlaybackReceiver, new IntentFilter("com.android.music.metachanged"));
+                IntentFilter filter = new IntentFilter();
+                filter.addAction("com.android.music.metachanged");
+                //filter.addAction("com.android.music.playstatechanged");
+                registerReceiver(mMusicPlaybackReceiver, filter);
             }
             if (mTimeChangeReceiver == null) {
                 mTimeChangeReceiver = new TimeChangeReceiver();
@@ -437,6 +487,10 @@ public class DeviceCommunicationService extends Service {
 
     @Override
     public void onDestroy() {
+        if (hasPrefs()) {
+            getPrefs().getPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        }
+
         LOG.debug("DeviceCommunicationService is being destroyed");
         super.onDestroy();
 
@@ -462,26 +516,37 @@ public class DeviceCommunicationService extends Service {
             return name;
         }
 
-        ContentResolver contentResolver = getContentResolver();
-
-        Cursor contactLookup = null;
-        try {
-            contactLookup = contentResolver.query(uri, null, null, null, null);
-        } catch (SecurityException e) {
-            return name;
-        }
-
-        try {
+        try (Cursor contactLookup = getContentResolver().query(uri, null, null, null, null)) {
             if (contactLookup != null && contactLookup.getCount() > 0) {
                 contactLookup.moveToNext();
                 name = contactLookup.getString(contactLookup.getColumnIndex(ContactsContract.Data.DISPLAY_NAME));
             }
-        } finally {
-            if (contactLookup != null) {
-                contactLookup.close();
-            }
+        } catch (SecurityException e) {
+            // ignore, just return name below
         }
 
         return name;
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (GBPrefs.AUTO_RECONNECT.equals(key)) {
+            boolean autoReconnect = getGBPrefs().getAutoReconnect();
+            if (mDeviceSupport != null) {
+                mDeviceSupport.setAutoReconnect(autoReconnect);
+            }
+        }
+    }
+
+    protected boolean hasPrefs() {
+        return getPrefs().getPreferences() != null;
+    }
+
+    public Prefs getPrefs() {
+        return GBApplication.getPrefs();
+    }
+
+    public GBPrefs getGBPrefs() {
+        return GBApplication.getGBPrefs();
     }
 }

@@ -26,4 +26,9 @@ public class SetDeviceStateAction extends PlainAction {
     public Context getContext() {
         return context;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + " to " + deviceState;
+    }
 }

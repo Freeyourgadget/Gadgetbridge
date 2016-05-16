@@ -47,6 +47,16 @@ public class FileUtils {
         }
     }
 
+    public static void copyStreamToFile(InputStream inputStream, File destFile) throws IOException {
+        FileOutputStream fout = new FileOutputStream(destFile);
+        byte[] buf = new byte[4096];
+        while (inputStream.available() > 0) {
+            int bytes = inputStream.read(buf);
+            fout.write(buf, 0, bytes);
+        }
+        fout.close();
+    }
+
     public static void copyURItoFile(Context ctx, Uri uri, File destFile) throws IOException {
         if (uri.getPath().equals(destFile.getPath())) {
             return;
@@ -60,14 +70,8 @@ public class FileUtils {
             e.printStackTrace();
             return;
         }
-        FileOutputStream fout = new FileOutputStream(destFile);
-        byte[] buf = new byte[4096];
-        while (fin.available() > 0) {
-            int bytes = fin.read(buf);
-            fout.write(buf, 0, bytes);
-        }
+        copyStreamToFile(fin, destFile);
         fin.close();
-        fout.close();
     }
 
     public static String getStringFromFile(File file) throws IOException {

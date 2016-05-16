@@ -1,9 +1,10 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
+import java.util.Arrays;
+
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
-
-import java.util.Arrays;
 
 public class UserInfo {
 
@@ -23,7 +24,7 @@ public class UserInfo {
      * @param btAddress the address of the MI Band to connect to.
      */
     public static UserInfo getDefault(String btAddress) {
-        return new UserInfo(btAddress, "1550050550", 0, 25, 175, 70, 0);
+        return new UserInfo(btAddress, "1550050550", ActivityUser.defaultUserGender, ActivityUser.defaultUserAge, ActivityUser.defaultUserHeightCm, ActivityUser.defaultUserWeightKg, 0);
     }
 
     /**
@@ -84,13 +85,13 @@ public class UserInfo {
         sequence[8] = (byte) (type & 0xff);
 
         int aliasFrom = 9;
-        if (mDeviceInfo.isMili1A() || mDeviceInfo.isMilli1S()) {
+        if (!mDeviceInfo.isMili1()) {
             sequence[9] = (byte) (mDeviceInfo.feature & 255);
             sequence[10] = (byte) (mDeviceInfo.appearance & 255);
             aliasFrom = 11;
         }
 
-        byte[] aliasBytes = alias.substring(0, Math.min(alias.length(), 19-aliasFrom)).getBytes();
+        byte[] aliasBytes = alias.substring(0, Math.min(alias.length(), 19 - aliasFrom)).getBytes();
         System.arraycopy(aliasBytes, 0, sequence, aliasFrom, aliasBytes.length);
 
         byte[] crcSequence = Arrays.copyOf(sequence, 19);

@@ -13,6 +13,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
+
 import ru.gelin.android.weather.notification.ParcelableWeather2;
 
 public class AppMessageHandlerTimeStylePebble extends AppMessageHandler {
@@ -99,10 +100,13 @@ public class AppMessageHandlerTimeStylePebble extends AppMessageHandler {
 
     }
 
-        @Override
+    @Override
     public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
+        return null;
+        /*
         GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
         sendBytes.encodedBytes = encodeTimeStylePebbleConfig();
         return new GBDeviceEvent[]{sendBytes};
+        */
     }
 }

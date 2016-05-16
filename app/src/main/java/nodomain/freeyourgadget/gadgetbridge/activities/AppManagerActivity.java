@@ -1,14 +1,11 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.ContextMenu;
@@ -30,12 +27,15 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAppAdapter;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 
-public class AppManagerActivity extends Activity {
+public class AppManagerActivity extends GBActivity {
     public static final String ACTION_REFRESH_APPLIST
             = "nodomain.freeyourgadget.gadgetbridge.appmanager.action.refresh_applist";
     private static final Logger LOG = LoggerFactory.getLogger(AppManagerActivity.class);
@@ -58,7 +58,7 @@ public class AppManagerActivity extends Activity {
                     appList.add(new GBDeviceApp(uuid, appName, appCreator, "", appType));
                 }
 
-                if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
+                if (prefs.getBoolean("pebble_force_untested", false)) {
                     appList.addAll(getSystemApps());
                 }
 
@@ -67,17 +67,20 @@ public class AppManagerActivity extends Activity {
         }
     };
 
-    private SharedPreferences sharedPrefs;
+    private Prefs prefs;
 
     private final List<GBDeviceApp> appList = new ArrayList<>();
     private GBDeviceAppAdapter mGBDeviceAppAdapter;
     private GBDeviceApp selectedApp = null;
+    private GBDevice mGBDevice = null;
 
     private List<GBDeviceApp> getSystemApps() {
         List<GBDeviceApp> systemApps = new ArrayList<>();
         systemApps.add(new GBDeviceApp(UUID.fromString("4dab81a6-d2fc-458a-992c-7a1f3b96a970"), "Sports (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
         systemApps.add(new GBDeviceApp(UUID.fromString("cf1e816a-9db0-4511-bbb8-f60c48ca8fac"), "Golf (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
-        systemApps.add(new GBDeviceApp(PebbleProtocol.UUID_PEBBLE_HEALTH, "Health (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
+        if (mGBDevice != null && !"aplite".equals(PebbleUtils.getPlatformName(mGBDevice.getHardwareVersion()))) {
+            systemApps.add(new GBDeviceApp(PebbleProtocol.UUID_PEBBLE_HEALTH, "Health (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
+        }
 
         return systemApps;
     }
@@ -97,11 +100,14 @@ public class AppManagerActivity extends Activity {
             for (File file : files) {
                 if (file.getName().endsWith(".pbw")) {
                     String baseName = file.getName().substring(0, file.getName().length() - 4);
+                    //metadata
                     File jsonFile = new File(cachePath, baseName + ".json");
+                    //configuration
+                    File configFile = new File(cachePath, baseName + "_config.js");
                     try {
                         String jsonstring = FileUtils.getStringFromFile(jsonFile);
                         JSONObject json = new JSONObject(jsonstring);
-                        cachedAppList.add(new GBDeviceApp(json));
+                        cachedAppList.add(new GBDeviceApp(json, configFile.exists()));
                     } catch (Exception e) {
                         LOG.warn("could not read json file for " + baseName, e.getMessage(), e);
                         cachedAppList.add(new GBDeviceApp(UUID.fromString(baseName), baseName, "N/A", "", GBDeviceApp.Type.UNKNOWN));
@@ -116,10 +122,16 @@ public class AppManagerActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            mGBDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
+        } else {
+            throw new IllegalArgumentException("Must provide a device when invoking this activity");
+        }
+
+        prefs = GBApplication.getPrefs();
 
         setContentView(R.layout.activity_appmanager);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         ListView appListView = (ListView) findViewById(R.id.appListView);
         mGBDeviceAppAdapter = new GBDeviceAppAdapter(this, appList);
@@ -137,7 +149,7 @@ public class AppManagerActivity extends Activity {
 
         appList.addAll(getCachedApps());
 
-        if (sharedPrefs.getBoolean("pebble_force_untested", false)) {
+        if (prefs.getBoolean("pebble_force_untested", false)) {
             appList.addAll(getSystemApps());
         }
 
@@ -157,8 +169,17 @@ public class AppManagerActivity extends Activity {
         AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
         selectedApp = appList.get(acmi.position);
 
-        if (!selectedApp.isInCache() && !PebbleProtocol.UUID_PEBBLE_HEALTH.equals(selectedApp.getUUID())) {
+        if (!selectedApp.isInCache()) {
             menu.removeItem(R.id.appmanager_app_reinstall);
+        }
+        if (!PebbleProtocol.UUID_PEBBLE_HEALTH.equals(selectedApp.getUUID())) {
+            menu.removeItem(R.id.appmanager_health_activate);
+            menu.removeItem(R.id.appmanager_health_deactivate);
+        } else if (PebbleProtocol.UUID_PEBBLE_HEALTH.equals(selectedApp.getUUID())) {
+            menu.removeItem(R.id.appmanager_app_delete);
+        }
+        if (!selectedApp.isConfigurable()) {
+            menu.removeItem(R.id.appmanager_app_configure);
         }
         menu.setHeaderTitle(selectedApp.getName());
     }
@@ -166,15 +187,11 @@ public class AppManagerActivity extends Activity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.appmanager_health_deactivate:
             case R.id.appmanager_app_delete:
                 GBApplication.deviceService().onAppDelete(selectedApp.getUUID());
                 return true;
             case R.id.appmanager_app_reinstall:
-                if (PebbleProtocol.UUID_PEBBLE_HEALTH.equals(selectedApp.getUUID())) {
-                    GBApplication.deviceService().onInstallApp(Uri.parse("fake://health"));
-                    return true;
-                }
-
                 File cachePath;
                 try {
                     cachePath = new File(FileUtils.getExternalFilesDir().getPath() + "/pbw-cache/" + selectedApp.getUUID() + ".pbw");
@@ -183,6 +200,17 @@ public class AppManagerActivity extends Activity {
                     return true;
                 }
                 GBApplication.deviceService().onInstallApp(Uri.fromFile(cachePath));
+                return true;
+            case R.id.appmanager_health_activate:
+                GBApplication.deviceService().onInstallApp(Uri.parse("fake://health"));
+                return true;
+            case R.id.appmanager_app_configure:
+                GBApplication.deviceService().onAppStart(selectedApp.getUUID(), true);
+
+                Intent startIntent = new Intent(getApplicationContext(), ExternalPebbleJSActivity.class);
+                startIntent.putExtra("app_uuid", selectedApp.getUUID());
+                startIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
+                startActivity(startIntent);
                 return true;
             default:
                 return super.onContextItemSelected(item);

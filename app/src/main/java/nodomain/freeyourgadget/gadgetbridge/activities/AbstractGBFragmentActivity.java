@@ -1,7 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
@@ -18,7 +17,7 @@ import android.support.v4.app.FragmentPagerAdapter;
  *
  * @see AbstractGBFragment
  */
-public abstract class AbstractGBFragmentActivity extends FragmentActivity {
+public abstract class AbstractGBFragmentActivity extends GBActivity {
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a

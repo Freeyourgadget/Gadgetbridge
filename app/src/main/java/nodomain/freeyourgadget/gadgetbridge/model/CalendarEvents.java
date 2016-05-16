@@ -22,7 +22,7 @@ public class CalendarEvents {
     // needed for miband:
     // time
 
-    private static final String[] EVENT_INSTANCE_PROJECTION = new String[] {
+    private static final String[] EVENT_INSTANCE_PROJECTION = new String[]{
             Instances._ID,
             Instances.BEGIN,
             Instances.END,
@@ -54,11 +54,11 @@ public class CalendarEvents {
         ContentUris.appendId(eventsUriBuilder, dtEnd);
         Uri eventsUri = eventsUriBuilder.build();
 
-        Cursor evtCursor = null;
-        evtCursor = mContext.getContentResolver().query(eventsUri, EVENT_INSTANCE_PROJECTION, null, null, CalendarContract.Instances.BEGIN + " ASC");
-
-        if (evtCursor.moveToFirst()) {
-            do {
+        try (Cursor evtCursor = mContext.getContentResolver().query(eventsUri, EVENT_INSTANCE_PROJECTION, null, null, CalendarContract.Instances.BEGIN + " ASC")) {
+            if (evtCursor == null || evtCursor.getCount() == 0) {
+                return false;
+            }
+            while (evtCursor.moveToNext()) {
                 CalendarEvent calEvent = new CalendarEvent(
                         evtCursor.getLong(1),
                         evtCursor.getLong(2),
@@ -67,13 +67,11 @@ public class CalendarEvents {
                         evtCursor.getString(5),
                         evtCursor.getString(6),
                         evtCursor.getString(7)
-                        );
+                );
                 calendarEventList.add(calEvent);
-            } while(evtCursor.moveToNext());
-
+            }
             return true;
         }
-        return false;
     }
 
     public class CalendarEvent {
@@ -100,7 +98,7 @@ public class CalendarEvents {
         }
 
         public int getBeginSeconds() {
-            return (int)(begin/1000);
+            return (int) (begin / 1000);
         }
 
         public long getEnd() {
@@ -112,11 +110,11 @@ public class CalendarEvents {
         }
 
         public int getDurationSeconds() {
-            return (int)((getDuration())/1000);
+            return (int) ((getDuration()) / 1000);
         }
 
         public short getDurationMinutes() {
-            return (short)(getDurationSeconds()/60);
+            return (short) (getDurationSeconds() / 60);
         }
 
 

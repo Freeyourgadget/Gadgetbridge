@@ -7,11 +7,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +24,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.DiscoveryActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class MiBandPairingActivity extends Activity {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandPairingActivity.class);
@@ -159,13 +158,19 @@ public class MiBandPairingActivity extends Activity {
     }
 
     private void pairingFinished(boolean pairedSuccessfully) {
+        LOG.debug("pairingFinished: " + pairedSuccessfully);
+        if (!isPairing) {
+            // already gone?
+            return;
+        }
+
         isPairing = false;
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mPairingReceiver);
         unregisterReceiver(mBondingReceiver);
 
         if (pairedSuccessfully) {
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-            sharedPrefs.edit().putString(MiBandConst.PREF_MIBAND_ADDRESS, macAddress).apply();
+            Prefs prefs = GBApplication.getPrefs();
+            prefs.getPreferences().edit().putString(MiBandConst.PREF_MIBAND_ADDRESS, macAddress).apply();
         }
 
         Intent intent = new Intent(this, ControlCenter.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -188,12 +193,13 @@ public class MiBandPairingActivity extends Activity {
 
         bondingMacAddress = device.getAddress();
         if (bondState == BluetoothDevice.BOND_BONDING) {
-            LOG.info("Bonding in progress: " + device.getAddress());
+            GB.toast(this, "Bonding in progress: " + bondingMacAddress, Toast.LENGTH_LONG, GB.INFO);
             return;
         }
 
+        GB.toast(this, "Creating bond with" + bondingMacAddress, Toast.LENGTH_LONG, GB.INFO);
         if (!device.createBond()) {
-            GB.toast(this, "Unable to pair with " + device.getAddress(), Toast.LENGTH_LONG, GB.ERROR);
+            GB.toast(this, "Unable to pair with " + bondingMacAddress, Toast.LENGTH_LONG, GB.ERROR);
         }
     }
 

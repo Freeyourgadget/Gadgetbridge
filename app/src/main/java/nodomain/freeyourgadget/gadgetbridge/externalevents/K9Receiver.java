@@ -3,11 +3,9 @@ package nodomain.freeyourgadget.gadgetbridge.externalevents;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.PowerManager;
-import android.preference.PreferenceManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class K9Receiver extends BroadcastReceiver {
 
@@ -24,11 +23,11 @@ public class K9Receiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        if ("never".equals(sharedPrefs.getString("notification_mode_k9mail", "when_screen_off"))) {
+        Prefs prefs = GBApplication.getPrefs();
+        if ("never".equals(prefs.getString("notification_mode_k9mail", "when_screen_off"))) {
             return;
         }
-        if ("when_screen_off".equals(sharedPrefs.getString("notification_mode_k9mail", "when_screen_off"))) {
+        if ("when_screen_off".equals(prefs.getString("notification_mode_k9mail", "when_screen_off"))) {
             PowerManager powermanager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             if (powermanager.isScreenOn()) {
                 return;
@@ -55,20 +54,9 @@ public class K9Receiver extends BroadcastReceiver {
          * It should be the first one returned by the query in most cases,
          */
 
-        Cursor c = null;
-        try {
-            c = context.getContentResolver().query(k9Uri, messagesProjection, null, null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            notificationSpec.sender = "Gadgetbridge";
-            notificationSpec.subject = "Permission Error?";
-            notificationSpec.body = "Please reinstall Gadgerbridge to enable K-9 Mail notifications";
-        }
-
-        try {
+        try (Cursor c = context.getContentResolver().query(k9Uri, messagesProjection, null, null, null)) {
             if (c != null) {
-                c.moveToFirst();
-                do {
+                while (c.moveToNext()) {
                     String uri = c.getString(c.getColumnIndex("uri"));
                     if (uri.equals(uriWanted)) {
                         notificationSpec.sender = c.getString(c.getColumnIndex("senderAddress"));
@@ -76,12 +64,13 @@ public class K9Receiver extends BroadcastReceiver {
                         notificationSpec.body = c.getString(c.getColumnIndex("preview"));
                         break;
                     }
-                } while (c.moveToNext());
+                }
             }
-        } finally {
-            if (c != null) {
-                c.close();
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            notificationSpec.sender = "Gadgetbridge";
+            notificationSpec.subject = "Permission Error?";
+            notificationSpec.body = "Please reinstall Gadgetbridge to enable K-9 Mail notifications";
         }
 
         GBApplication.deviceService().onNotification(notificationSpec);

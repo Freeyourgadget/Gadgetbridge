@@ -32,7 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class DiscoveryActivity extends Activity implements AdapterView.OnItemClickListener {
+public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemClickListener {
     private static final Logger LOG = LoggerFactory.getLogger(DiscoveryActivity.class);
     private static final long SCAN_DURATION = 60000; // 60s
 
@@ -249,7 +249,13 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
 
     private void bluetoothStateChanged(int oldState, int newState) {
         discoveryFinished();
-        startButton.setEnabled(newState == BluetoothAdapter.STATE_ON);
+        if (newState == BluetoothAdapter.STATE_ON) {
+            this.adapter = BluetoothAdapter.getDefaultAdapter();
+            startButton.setEnabled(true);
+        } else {
+            this.adapter = null;
+            startButton.setEnabled(false);
+        }
     }
 
     private void discoveryFinished() {
@@ -284,8 +290,15 @@ public class DiscoveryActivity extends Activity implements AdapterView.OnItemCli
             return false;
         }
         BluetoothAdapter adapter = bluetoothService.getAdapter();
+        if (adapter == null) {
+            LOG.warn("No bluetooth available");
+            this.adapter = null;
+            return false;
+        }
         if (!adapter.isEnabled()) {
             LOG.warn("Bluetooth not enabled");
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivity(enableBtIntent);
             this.adapter = null;
             return false;
         }

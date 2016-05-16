@@ -1,24 +1,21 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
-import android.content.SharedPreferences;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public final class MiBandConst {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandConst.class);
 
     public static final String PREF_USER_ALIAS = "mi_user_alias";
-    public static final String PREF_USER_YEAR_OF_BIRTH = "mi_user_year_of_birth";
-    public static final String PREF_USER_GENDER = "mi_user_gender";
-    public static final String PREF_USER_HEIGHT_CM = "mi_user_height_cm";
-    public static final String PREF_USER_WEIGHT_KG = "mi_user_weight_kg";
     public static final String PREF_MIBAND_WEARSIDE = "mi_wearside";
     public static final String PREF_MIBAND_ADDRESS = "development_miaddr";  // FIXME: should be prefixed mi_
     public static final String PREF_MIBAND_ALARMS = "mi_alarms";
     public static final String PREF_MIBAND_FITNESS_GOAL = "mi_fitness_goal";
     public static final String PREF_MIBAND_DONT_ACK_TRANSFER = "mi_dont_ack_transfer";
     public static final String PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR = "mi_reserve_alarm_calendar";
+    public static final String PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION = "mi_hr_sleep_detection";
 
 
     public static final String ORIGIN_SMS = "sms";
@@ -29,20 +26,14 @@ public final class MiBandConst {
     public static final String MI_1 = "1";
     public static final String MI_1A = "1A";
     public static final String MI_1S = "1S";
+    public static final String MI_AMAZFIT = "Amazfit";
 
-    public static int getNotificationPrefIntValue(String pref, String origin, SharedPreferences prefs, int defaultValue) {
+    public static int getNotificationPrefIntValue(String pref, String origin, Prefs prefs, int defaultValue) {
         String key = getNotificationPrefKey(pref, origin);
-        String value = null;
-        try {
-            value = prefs.getString(key, String.valueOf(defaultValue));
-            return Integer.valueOf(value);
-        } catch (NumberFormatException ex) {
-            LOG.error("Error converting preference value to int: " + key + ": " + value);
-            return defaultValue;
-        }
+        return prefs.getInt(key, defaultValue);
     }
 
-    public static String getNotificationPrefStringValue(String pref, String origin, SharedPreferences prefs, String defaultValue) {
+    public static String getNotificationPrefStringValue(String pref, String origin, Prefs prefs, String defaultValue) {
         String key = getNotificationPrefKey(pref, origin);
         return prefs.getString(key, defaultValue);
     }

@@ -7,24 +7,24 @@ public class MisfitSampleProvider implements SampleProvider {
     protected final float movementDivisor = 300f;
 
     @Override
-    public int normalizeType(byte rawType) {
+    public int normalizeType(int rawType) {
         return (int) rawType;
     }
 
     @Override
-    public byte toRawActivityKind(int activityKind) {
+    public int toRawActivityKind(int activityKind) {
         return (byte) activityKind;
     }
 
 
     @Override
-    public float normalizeIntensity(short rawIntensity) {
+    public float normalizeIntensity(int rawIntensity) {
         return rawIntensity / movementDivisor;
     }
 
 
     @Override
-    public byte getID() {
+    public int getID() {
         return SampleProvider.PROVIDER_PEBBLE_MISFIT;
     }
 }
