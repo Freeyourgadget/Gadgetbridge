@@ -1,15 +1,20 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
 import android.app.Application;
+import android.app.NotificationManager.Policy;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Build.VERSION;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
+import android.provider.ContactsContract.PhoneLookup;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.util.TypedValue;
@@ -245,6 +250,41 @@ public class GBApplication extends Application {
 
     public static boolean isRunningLollipopOrLater() {
         return VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
+
+    public static boolean isRunningMarshmallowOrLater() {
+        return VERSION.SDK_INT >= Build.VERSION_CODES.M;
+    }
+
+    public static boolean isPriorityNumber(int prioritySenders, String number) {
+        Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
+        String[] projection = new String[]{PhoneLookup._ID, PhoneLookup.STARRED};
+        Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
+        boolean exists = false;
+        int starred = 0;
+        try {
+            if (cursor.moveToFirst()) {
+                exists = true;
+                starred = cursor.getInt(cursor.getColumnIndexOrThrow(PhoneLookup.STARRED));
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        switch (prioritySenders) {
+            case Policy.PRIORITY_SENDERS_ANY:
+                return true;
+            case Policy.PRIORITY_SENDERS_CONTACTS:
+                if (exists) {
+                    return true;
+                }
+            case Policy.PRIORITY_SENDERS_STARRED:
+                if (PhoneLookup.STARRED.equals(starred)) {
+                    return true;
+                }
+        }
+        return false;
     }
 
     public static HashSet<String> blacklist = null;

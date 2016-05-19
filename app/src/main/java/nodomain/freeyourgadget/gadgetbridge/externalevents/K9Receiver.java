@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -31,6 +32,17 @@ public class K9Receiver extends BroadcastReceiver {
             PowerManager powermanager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             if (powermanager.isScreenOn()) {
                 return;
+            }
+        }
+        if (prefs.getBoolean("notification_filter", false) && GBApplication.isRunningMarshmallowOrLater()) {
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+            if (notificationManager.isNotificationPolicyAccessGranted()) {
+                switch (notificationManager.getCurrentInterruptionFilter()) {
+                    case NotificationManager.INTERRUPTION_FILTER_ALARMS:
+                    case NotificationManager.INTERRUPTION_FILTER_NONE:
+                    case NotificationManager.INTERRUPTION_FILTER_PRIORITY:
+                        return;
+                }
             }
         }
 

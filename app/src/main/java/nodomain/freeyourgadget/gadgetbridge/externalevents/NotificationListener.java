@@ -3,6 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.externalevents;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -165,6 +166,19 @@ public class NotificationListener extends NotificationListenerService {
             PowerManager powermanager = (PowerManager) getSystemService(POWER_SERVICE);
             if (powermanager.isScreenOn()) {
                 return;
+            }
+        }
+        if (prefs.getBoolean("notification_filter", false) && GBApplication.isRunningMarshmallowOrLater()) {
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            if (notificationManager.isNotificationPolicyAccessGranted()) {
+                switch (notificationManager.getCurrentInterruptionFilter()) {
+                    case NotificationManager.INTERRUPTION_FILTER_ALARMS:
+                    case NotificationManager.INTERRUPTION_FILTER_NONE:
+                        return;
+                    case NotificationManager.INTERRUPTION_FILTER_PRIORITY:
+                        // FIXME: Handle Reminders and Events if they are enabled in Do Not Disturb
+                        return;
+                }
             }
         }
 
