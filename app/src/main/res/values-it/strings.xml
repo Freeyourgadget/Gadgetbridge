@@ -70,8 +70,6 @@
   <string name="this_is_a_test_notification_from_gadgetbridge">Notifica di prova creata da Gadgetbridge</string>
   <string name="bluetooth_is_not_supported_">Bluetooth non supportato.</string>
   <string name="bluetooth_is_disabled_">Bluetooth disabilitato.</string>
-  <string name="tap_connected_device_for_app_mananger">tocca il dispositivo connesso per gestire le App</string>
-  <string name="tap_a_device_to_connect">tocca il dispositivo da connettere</string>
   <string name="cannot_connect_bt_address_invalid_">Impossibile connettersi. Indirizzo BT non valido?</string>
   <string name="gadgetbridge_running">Gadgetbridge in esecuzione</string>
   <string name="installing_binary_d_d">installazione del binario %1$d/%2$d</string>
@@ -102,13 +100,11 @@
   <string name="miband_pairing_using_dummy_userdata">Dati dell\'utente non inseriti, vengono usati dati d\'esempio.</string>
   <string name="miband_pairing_tap_hint">Quando la Mi Band vibra e lampeggia, dalle qualche leggero colpetto.</string>
   <string name="appinstaller_install">Installa</string>
-  <string name="discovery_connected_devices_hint">Imposta il tuo dispositivo perchè sia rilevabile. I dispositivi attualmente connessi non saranno probabilmente rilevati.</string>
   <string name="discovery_note">Nota:</string>
   <string name="candidate_item_device_image">Immagine dispositivo</string>
   <string name="miband_prefs_alias">Nome / Soprannome</string>
   <string name="pref_header_vibration_count">Numero vibrazioni</string>
   <string name="title_activity_sleepmonitor">Monitoraggio del sonno</string>
-  <string name="pref_write_logfiles">Salva il log su file</string>
   <string name="initializing">inizializzazione in corso</string>
   <string name="busy_task_fetch_activity_data">Recupero dati attività</string>
   <string name="sleep_activity_date_range">Da %1$s a %2$s</string>
@@ -179,9 +175,9 @@
   <string name="chart_steps">Passi</string>
   <string name="liveactivity_live_activity">Attività in tempo reale</string>
   <string name="weeksteps_today_steps_description">Passi di oggi, traguardo: %1$s</string>
+  <string name="pref_title_dont_ack_transfer">Non confermare il trasferimento dati</string>
   <string name="pref_summary_dont_ack_transfers">Se il trasferimento non viene confermato, i dati rimangono memorizzati sulla Mi Band. Utile se GB è usato insieme ad altre app.</string>
   <string name="pref_summary_keep_data_on_device">Conserva i dati delle attività sulla Mi Band anche dopo averli sincronizzati. Utile se GB è usato insieme ad altre app.</string>
-  <string name="pref_title_dont_ack_transfer">Non confermare il trasferimento dati</string>
   <string name="live_activity_steps_history">Storico dei passi</string>
   <string name="live_activity_current_steps_per_minute">Passi/minuto</string>
   <string name="live_activity_total_steps">Passi totali</string>

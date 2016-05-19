@@ -181,9 +181,9 @@
   <string name="chart_steps">걸음 수</string>
   <string name="liveactivity_live_activity">실시간 활동</string>
   <string name="weeksteps_today_steps_description">오늘 걸음 수, 목표: %1$s</string>
+  <string name="pref_title_dont_ack_transfer">활동 데이터 전송을 확인하지 않음</string>
   <string name="pref_summary_dont_ack_transfers">만약 활동 데이터가 밴드에 확인되지 않았다면, 지워지지 않을 것입니다. 가젯브릿지가 다른 앱들과 같이 사용될 때 유용합니다.</string>
   <string name="pref_summary_keep_data_on_device">동기화 이후에도 Mi Band의 활동 데이터가 유지될 것입니다. 가젯브릿지가 다른 앱들과 같이 사용될 때 유용합니다.</string>
-  <string name="pref_title_dont_ack_transfer">활동 데이터 전송을 확인하지 않음</string>
   <string name="live_activity_steps_history">걸음 수 기록</string>
   <string name="live_activity_current_steps_per_minute">현재의 분당 걸음 수</string>
   <string name="live_activity_total_steps">전체 걸음 수</string>
@@ -224,4 +224,5 @@
   <string name="updatefirmwareoperation_firmware_not_sent">펌웨어가 전송되지 않음</string>
   <string name="charts_legend_heartrate">심박수</string>
   <string name="live_activity_heart_rate">심박수</string>
+  <string name="pref_title_general_autocreonnect">자동으로 재연결</string>
 </resources>
