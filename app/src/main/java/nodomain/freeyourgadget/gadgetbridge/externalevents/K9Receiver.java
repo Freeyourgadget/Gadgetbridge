@@ -34,16 +34,13 @@ public class K9Receiver extends BroadcastReceiver {
                 return;
             }
         }
-        if (prefs.getBoolean("notification_filter", false) && GBApplication.isRunningMarshmallowOrLater()) {
-            NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-            if (notificationManager.isNotificationPolicyAccessGranted()) {
-                switch (notificationManager.getCurrentInterruptionFilter()) {
-                    case NotificationManager.INTERRUPTION_FILTER_ALARMS:
-                    case NotificationManager.INTERRUPTION_FILTER_NONE:
-                    case NotificationManager.INTERRUPTION_FILTER_PRIORITY:
-                        return;
-                }
-            }
+        switch (GBApplication.getGrantedInterruptionFilter()) {
+            case NotificationManager.INTERRUPTION_FILTER_ALL:
+                break;
+            case NotificationManager.INTERRUPTION_FILTER_ALARMS:
+            case NotificationManager.INTERRUPTION_FILTER_NONE:
+            case NotificationManager.INTERRUPTION_FILTER_PRIORITY:
+                return;
         }
 
         String uriWanted = intent.getData().toString();

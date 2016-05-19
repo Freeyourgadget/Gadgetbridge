@@ -1,6 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -10,7 +9,6 @@ import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
-import android.service.notification.NotificationListenerService;
 
 import java.io.IOException;
 import java.util.List;

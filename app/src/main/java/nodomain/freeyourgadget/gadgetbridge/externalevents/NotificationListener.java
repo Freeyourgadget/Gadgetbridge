@@ -168,18 +168,15 @@ public class NotificationListener extends NotificationListenerService {
                 return;
             }
         }
-        if (prefs.getBoolean("notification_filter", false) && GBApplication.isRunningMarshmallowOrLater()) {
-            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            if (notificationManager.isNotificationPolicyAccessGranted()) {
-                switch (notificationManager.getCurrentInterruptionFilter()) {
-                    case NotificationManager.INTERRUPTION_FILTER_ALARMS:
-                    case NotificationManager.INTERRUPTION_FILTER_NONE:
-                        return;
-                    case NotificationManager.INTERRUPTION_FILTER_PRIORITY:
-                        // FIXME: Handle Reminders and Events if they are enabled in Do Not Disturb
-                        return;
-                }
-            }
+        switch (GBApplication.getGrantedInterruptionFilter()) {
+            case NotificationManager.INTERRUPTION_FILTER_ALL:
+                break;
+            case NotificationManager.INTERRUPTION_FILTER_ALARMS:
+            case NotificationManager.INTERRUPTION_FILTER_NONE:
+                return;
+            case NotificationManager.INTERRUPTION_FILTER_PRIORITY:
+                // FIXME: Handle Reminders and Events if they are enabled in Do Not Disturb
+                return;
         }
 
         String source = sbn.getPackageName();

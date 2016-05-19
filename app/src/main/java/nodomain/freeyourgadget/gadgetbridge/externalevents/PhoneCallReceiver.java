@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
 import android.app.NotificationManager;
+import android.app.NotificationManager.Policy;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -68,22 +69,18 @@ public class PhoneCallReceiver extends BroadcastReceiver {
             if ("never".equals(prefs.getString("notification_mode_calls", "always"))) {
                 return;
             }
-            if (prefs.getBoolean("notification_filter", false) && GBApplication.isRunningMarshmallowOrLater()) {
-                NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-                if (notificationManager.isNotificationPolicyAccessGranted()) {
-                    switch (notificationManager.getCurrentInterruptionFilter()) {
-                        case NotificationManager.INTERRUPTION_FILTER_ALARMS:
-                        case NotificationManager.INTERRUPTION_FILTER_NONE:
-                            return;
-                        case NotificationManager.INTERRUPTION_FILTER_PRIORITY:
-                            NotificationManager.Policy notificationPolicy = notificationManager.getNotificationPolicy();
-                            if (!GBApplication.isPriorityNumber(notificationPolicy.priorityCallSenders, mSavedNumber)) {
-                                return;
-                            }
-                            // FIXME: Handle Repeat callers if it is enabled in Do Not Disturb
-                            break;
+            switch (GBApplication.getGrantedInterruptionFilter()) {
+                case NotificationManager.INTERRUPTION_FILTER_ALL:
+                    break;
+                case NotificationManager.INTERRUPTION_FILTER_ALARMS:
+                case NotificationManager.INTERRUPTION_FILTER_NONE:
+                    return;
+                case NotificationManager.INTERRUPTION_FILTER_PRIORITY:
+                    if (GBApplication.isPriorityNumber(Policy.PRIORITY_CATEGORY_CALLS, mSavedNumber)) {
+                        break;
                     }
-                }
+                    // FIXME: Handle Repeat callers if it is enabled in Do Not Disturb
+                    return;
             }
             CallSpec callSpec = new CallSpec();
             callSpec.number = mSavedNumber;

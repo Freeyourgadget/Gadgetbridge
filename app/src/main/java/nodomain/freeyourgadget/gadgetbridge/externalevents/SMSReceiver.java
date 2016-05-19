@@ -1,13 +1,13 @@
 package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
 import android.app.NotificationManager;
+import android.app.NotificationManager.Policy;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.telephony.SmsMessage;
-import android.util.Log;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -43,21 +43,17 @@ public class SMSReceiver extends BroadcastReceiver {
                     notificationSpec.body = message.getDisplayMessageBody();
                     notificationSpec.phoneNumber = message.getOriginatingAddress();
                     if (notificationSpec.phoneNumber != null) {
-                        if (prefs.getBoolean("notification_filter", false) && GBApplication.isRunningMarshmallowOrLater()) {
-                            NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-                            if (notificationManager.isNotificationPolicyAccessGranted()) {
-                                switch (notificationManager.getCurrentInterruptionFilter()) {
-                                    case NotificationManager.INTERRUPTION_FILTER_ALARMS:
-                                    case NotificationManager.INTERRUPTION_FILTER_NONE:
-                                        return;
-                                    case NotificationManager.INTERRUPTION_FILTER_PRIORITY:
-                                        NotificationManager.Policy notificationPolicy = notificationManager.getNotificationPolicy();
-                                        if (!GBApplication.isPriorityNumber(notificationPolicy.priorityMessageSenders, notificationSpec.phoneNumber)) {
-                                            return;
-                                        }
-                                        break;
+                        switch (GBApplication.getGrantedInterruptionFilter()) {
+                            case NotificationManager.INTERRUPTION_FILTER_ALL:
+                                break;
+                            case NotificationManager.INTERRUPTION_FILTER_ALARMS:
+                            case NotificationManager.INTERRUPTION_FILTER_NONE:
+                                return;
+                            case NotificationManager.INTERRUPTION_FILTER_PRIORITY:
+                                if (GBApplication.isPriorityNumber(Policy.PRIORITY_CATEGORY_MESSAGES, notificationSpec.phoneNumber)) {
+                                    break;
                                 }
-                            }
+                                return;
                         }
                         GBApplication.deviceService().onNotification(notificationSpec);
                     }
