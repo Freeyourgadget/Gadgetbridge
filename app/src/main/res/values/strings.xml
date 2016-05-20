@@ -252,4 +252,6 @@
     <string name="live_activity_heart_rate">Heart Rate</string>
     <string name="pref_title_general_autocreonnect">Reconnect automatically</string>
 
+    <string name="app_manager_select_file">Select File to Install</string>
+
 </resources>

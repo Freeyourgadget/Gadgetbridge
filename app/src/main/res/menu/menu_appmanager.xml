@@ -1,0 +1,7 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="nodomain.freeyourgadget.gadgetbridge.activities.AppManagerActivity">
+    <item android:id="@+id/action_install" android:title="@string/app_manager_select_file"
+        android:orderInCategory="100" app:showAsAction="never" />
+</menu>
