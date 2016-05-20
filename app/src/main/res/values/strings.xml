@@ -52,6 +52,8 @@
     <string name="pref_summary_notifications_pebblemsg">Support for applications which send Notifications to the Pebble via Intent. Can be used for Conversations.</string>
     <string name="pref_title_notifications_generic">Generic notification support</string>
     <string name="pref_title_whenscreenon">… also when screen is on</string>
+    <string name="pref_title_notification_filter">Do Not Disturb</string>
+    <string name="pref_summary_notification_filter">Stop unwanted Notifications from being sent based on the Do Not Disturb mode.</string>
 
     <string name="always">always</string>
     <string name="when_screen_off">when screen is off</string>

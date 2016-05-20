@@ -1,16 +1,21 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
 import android.app.Application;
+import android.app.NotificationManager;
+import android.app.NotificationManager.Policy;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Build.VERSION;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract.PhoneLookup;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.util.TypedValue;
@@ -61,6 +66,7 @@ public class GBApplication extends Application {
     private static Prefs prefs;
     private static GBPrefs gbPrefs;
     private static DBHandler lockHandler;
+    private static NotificationManager notificationManager;
 
     public static final String ACTION_QUIT
             = "nodomain.freeyourgadget.gadgetbridge.gbapplication.action.quit";
@@ -122,6 +128,10 @@ public class GBApplication extends Application {
         IntentFilter filterLocal = new IntentFilter();
         filterLocal.addAction(ACTION_QUIT);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
+
+        if (isRunningMarshmallowOrLater()) {
+            notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+        }
 
 // for testing DB stuff
 //        SQLiteDatabase db = mActivityDatabaseHandler.getWritableDatabase();
@@ -258,6 +268,61 @@ public class GBApplication extends Application {
 
     public static boolean isRunningLollipopOrLater() {
         return VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
+
+    public static boolean isRunningMarshmallowOrLater() {
+        return VERSION.SDK_INT >= Build.VERSION_CODES.M;
+    }
+
+    private static boolean isPrioritySender(int prioritySenders, String number) {
+        if (prioritySenders == Policy.PRIORITY_SENDERS_ANY) {
+            return true;
+        } else {
+            Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
+            String[] projection = new String[]{PhoneLookup._ID, PhoneLookup.STARRED};
+            Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
+            boolean exists = false;
+            int starred = 0;
+            try {
+                if (cursor.moveToFirst()) {
+                    exists = true;
+                    starred = cursor.getInt(cursor.getColumnIndexOrThrow(PhoneLookup.STARRED));
+                }
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+            if (prioritySenders == Policy.PRIORITY_SENDERS_CONTACTS && exists) {
+                return true;
+            } else if (prioritySenders == Policy.PRIORITY_SENDERS_STARRED && starred == 1) {
+                return true;
+            }
+            return false;
+        }
+    }
+
+    public static boolean isPriorityNumber(int priorityType, String number) {
+        NotificationManager.Policy notificationPolicy = notificationManager.getNotificationPolicy();
+        if(priorityType == Policy.PRIORITY_CATEGORY_MESSAGES) {
+            if ((notificationPolicy.priorityCategories & Policy.PRIORITY_CATEGORY_MESSAGES) == Policy.PRIORITY_CATEGORY_MESSAGES) {
+                return isPrioritySender(notificationPolicy.priorityMessageSenders, number);
+            }
+        } else if (priorityType == Policy.PRIORITY_CATEGORY_CALLS) {
+            if ((notificationPolicy.priorityCategories & Policy.PRIORITY_CATEGORY_CALLS) == Policy.PRIORITY_CATEGORY_CALLS) {
+                return isPrioritySender(notificationPolicy.priorityCallSenders, number);
+            }
+        }
+        return false;
+    }
+
+    public static int getGrantedInterruptionFilter() {
+        if (prefs.getBoolean("notification_filter", false) && GBApplication.isRunningMarshmallowOrLater()) {
+            if (notificationManager.isNotificationPolicyAccessGranted()) {
+                return notificationManager.getCurrentInterruptionFilter();
+            }
+        }
+        return NotificationManager.INTERRUPTION_FILTER_ALL;
     }
 
     public static HashSet<String> blacklist = null;

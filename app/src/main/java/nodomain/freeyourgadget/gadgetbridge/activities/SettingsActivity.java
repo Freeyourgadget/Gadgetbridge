@@ -6,6 +6,7 @@ import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
@@ -106,6 +107,12 @@ public class SettingsActivity extends AbstractSettingsActivity {
             }
 
         });
+
+        if (!GBApplication.isRunningMarshmallowOrLater()) {
+            pref = findPreference("notification_filter");
+            PreferenceCategory category = (PreferenceCategory) findPreference("pref_key_notifications");
+            category.removePreference(pref);
+        }
 
         // Get all receivers of Media Buttons
         Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
