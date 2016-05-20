@@ -65,6 +65,9 @@ public class GBApplication extends Application {
     private static Appender<ILoggingEvent> fileLogger;
     private static Prefs prefs;
     private static GBPrefs gbPrefs;
+    /**
+     * Note: is null on Lollipop and Kitkat
+     */
     private static NotificationManager notificationManager;
 
     public static final String ACTION_QUIT
@@ -127,7 +130,7 @@ public class GBApplication extends Application {
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
 
         if (isRunningMarshmallowOrLater()) {
-            notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+            notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         }
 
 // for testing DB stuff
@@ -272,7 +275,7 @@ public class GBApplication extends Application {
             boolean exists = false;
             int starred = 0;
             try {
-                if (cursor.moveToFirst()) {
+                if (cursor != null && cursor.moveToFirst()) {
                     exists = true;
                     starred = cursor.getInt(cursor.getColumnIndexOrThrow(PhoneLookup.STARRED));
                 }
