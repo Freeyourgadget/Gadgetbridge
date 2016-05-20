@@ -11,6 +11,7 @@
  cpfeiffer <cpfeiffer@users.github.com>
  0nse <0nse@users.noreply.github.com>
  Christian Fischer <sw-dev@computerlyrik.de>
+ Normano64 <per.bergqwist@gmail.com>
  Ⲇⲁⲛⲓ Φi <daniphii@outlook.com>
  xphnx <xphnx@users.noreply.github.com>
  Tarik Sekmen <tarik@ilixi.org>
