@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
+import android.annotation.TargetApi;
 import android.app.Application;
 import android.app.NotificationManager;
 import android.app.NotificationManager.Policy;
@@ -289,6 +290,7 @@ public class GBApplication extends Application {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     public static boolean isPriorityNumber(int priorityType, String number) {
         NotificationManager.Policy notificationPolicy = notificationManager.getNotificationPolicy();
         if(priorityType == Policy.PRIORITY_CATEGORY_MESSAGES) {
@@ -303,6 +305,7 @@ public class GBApplication extends Application {
         return false;
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     public static int getGrantedInterruptionFilter() {
         if (prefs.getBoolean("notification_filter", false) && GBApplication.isRunningMarshmallowOrLater()) {
             if (notificationManager.isNotificationPolicyAccessGranted()) {
