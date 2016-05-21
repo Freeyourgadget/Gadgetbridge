@@ -78,6 +78,7 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
     private boolean reconnect() {
         if (!isConnected() && useAutoConnect()) {
             if (getDevice().getState() == GBDevice.State.WAITING_FOR_RECONNECT) {
+                gbDeviceIOThread.quit();
                 gbDeviceIOThread.interrupt();
                 gbDeviceIOThread = null;
                 if (!connect()) {
