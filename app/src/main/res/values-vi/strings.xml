@@ -52,8 +52,6 @@
   <string name="this_is_a_test_notification_from_gadgetbridge">Đây là một kiểm tra thông báo từ Gadgetbridge</string>
   <string name="bluetooth_is_not_supported_">Không hỗ trợ Bluetooth.</string>
   <string name="bluetooth_is_disabled_">Đã tắt Bluetooth.</string>
-  <string name="tap_connected_device_for_app_mananger">chạm vào thiết bị đã kết nối để chạy Trình quản lý ứng dụng</string>
-  <string name="tap_a_device_to_connect">chạm vào một thiết bị để kết nối</string>
   <string name="cannot_connect_bt_address_invalid_">Không thể kết nối. Địa chỉ BT không hợp lệ?</string>
   <string name="gadgetbridge_running">Gadgetbridge đang chạy</string>
   <string name="installing_binary_d_d">đang cài phần mềm chạy %1$d/%2$d</string>
@@ -83,7 +81,6 @@
   <string name="candidate_item_device_image">Ảnh thiết bị</string>
   <string name="miband_prefs_alias">Tên/Bí danh</string>
   <string name="title_activity_sleepmonitor">Trình giám sát giấc ngủ</string>
-  <string name="pref_write_logfiles">Ghi tập tin nhật ký</string>
   <string name="initializing">đang khởi chạy</string>
   <string name="sleep_activity_date_range">Từ %1$s đến %2$s</string>
   <string name="miband_prefs_wearside">Đeo bên trái hay phải?</string>

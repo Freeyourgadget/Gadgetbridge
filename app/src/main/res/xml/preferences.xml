@@ -85,6 +85,13 @@
             android:defaultValue="false"
             android:key="notifications_generic_whenscreenon"
             android:title="@string/pref_title_whenscreenon" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="notification_filter"
+            android:summary="@string/pref_summary_notification_filter"
+            android:title="@string/pref_title_notification_filter" />
+
         <Preference
             android:key="pref_key_blacklist"
             android:title="@string/pref_blacklist" />

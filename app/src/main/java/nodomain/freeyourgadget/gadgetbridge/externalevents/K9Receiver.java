@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +33,14 @@ public class K9Receiver extends BroadcastReceiver {
             if (powermanager.isScreenOn()) {
                 return;
             }
+        }
+        switch (GBApplication.getGrantedInterruptionFilter()) {
+            case NotificationManager.INTERRUPTION_FILTER_ALL:
+                break;
+            case NotificationManager.INTERRUPTION_FILTER_ALARMS:
+            case NotificationManager.INTERRUPTION_FILTER_NONE:
+            case NotificationManager.INTERRUPTION_FILTER_PRIORITY:
+                return;
         }
 
         String uriWanted = intent.getData().toString();

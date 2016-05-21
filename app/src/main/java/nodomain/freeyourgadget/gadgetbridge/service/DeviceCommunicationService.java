@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.service;
 
 import android.app.NotificationManager;
 import android.app.Service;
+import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.K9Receiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.MusicPlaybackReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PebbleReceiver;
@@ -114,6 +116,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private PebbleReceiver mPebbleReceiver = null;
     private MusicPlaybackReceiver mMusicPlaybackReceiver = null;
     private TimeChangeReceiver mTimeChangeReceiver = null;
+    private BluetoothConnectReceiver mBlueToothConnectReceiver = null;
 
     private Random mRandom = new Random();
 
@@ -305,6 +308,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             }
             case ACTION_DISCONNECT: {
                 mDeviceSupport.dispose();
+                if (mGBDevice != null && mGBDevice.getState() == GBDevice.State.WAITING_FOR_RECONNECT) {
+                    setReceiversEnableState(false);
+                    mGBDevice.setState(GBDevice.State.NOT_CONNECTED);
+                    mGBDevice.sendDeviceUpdateIntent(this);
+                }
                 mDeviceSupport = null;
                 break;
             }
@@ -483,6 +491,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 filter.addAction("android.intent.action.TIMEZONE_CHANGED");
                 registerReceiver(mTimeChangeReceiver, filter);
             }
+            if (mBlueToothConnectReceiver == null) {
+                mBlueToothConnectReceiver = new BluetoothConnectReceiver(this);
+                registerReceiver(mBlueToothConnectReceiver, new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED));
+            }
         } else {
             if (mPhoneCallReceiver != null) {
                 unregisterReceiver(mPhoneCallReceiver);
@@ -507,6 +519,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             if (mTimeChangeReceiver != null) {
                 unregisterReceiver(mTimeChangeReceiver);
                 mTimeChangeReceiver = null;
+            }
+            if (mBlueToothConnectReceiver != null) {
+                unregisterReceiver(mBlueToothConnectReceiver);
+                mBlueToothConnectReceiver = null;
             }
         }
     }
@@ -574,5 +590,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
     public GBPrefs getGBPrefs() {
         return GBApplication.getGBPrefs();
+    }
+
+    public GBDevice getGBDevice() {
+        return mGBDevice;
     }
 }
