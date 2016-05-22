@@ -129,10 +129,6 @@ public class PBWInstallHandler implements InstallHandler {
             return;
         }
 
-        if (!device.getFirmwareVersion().startsWith("v3")) {
-            return;
-        }
-
         File destDir;
         GBDeviceApp app = mPBWReader.getGBDeviceApp();
         try {
