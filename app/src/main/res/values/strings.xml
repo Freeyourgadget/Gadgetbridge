@@ -17,6 +17,7 @@
     <!-- Strings related to AppManager -->
     <string name="title_activity_appmanager">App Manager</string>
     <string name="appmananger_app_delete">Delete</string>
+    <string name="appmananger_app_delete_cache">Delete and remove from cache</string>
 
     <!-- Strings related to AppBlacklist -->
     <string name="title_activity_appblacklist">Notification Blacklist</string>
@@ -251,5 +252,4 @@
     <string name="charts_legend_heartrate">Heart Rate</string>
     <string name="live_activity_heart_rate">Heart Rate</string>
     <string name="pref_title_general_autocreonnect">Reconnect automatically</string>
-
 </resources>

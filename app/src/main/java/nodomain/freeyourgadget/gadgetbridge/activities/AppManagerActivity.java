@@ -58,7 +58,7 @@ public class AppManagerActivity extends GBActivity {
                     boolean found = false;
                     for (final ListIterator<GBDeviceApp> iter = appList.listIterator(); iter.hasNext(); ) {
                         final GBDeviceApp app = iter.next();
-                        if (app.getName().equals(appName) && app.getCreator().equals(appCreator)) {
+                        if (app.getUUID().equals(uuid)) {
                             app.setOnDevice(true);
                             iter.set(app);
                             found = true;
@@ -181,11 +181,13 @@ public class AppManagerActivity extends GBActivity {
 
         if (!selectedApp.isInCache()) {
             menu.removeItem(R.id.appmanager_app_reinstall);
+            menu.removeItem(R.id.appmanager_app_delete_cache);
         }
         if (!PebbleProtocol.UUID_PEBBLE_HEALTH.equals(selectedApp.getUUID())) {
             menu.removeItem(R.id.appmanager_health_activate);
             menu.removeItem(R.id.appmanager_health_deactivate);
-        } else if (PebbleProtocol.UUID_PEBBLE_HEALTH.equals(selectedApp.getUUID())) {
+        }
+        if (selectedApp.getType() == GBDeviceApp.Type.APP_SYSTEM) {
             menu.removeItem(R.id.appmanager_app_delete);
         }
         if (!selectedApp.isConfigurable()) {
@@ -194,19 +196,45 @@ public class AppManagerActivity extends GBActivity {
         menu.setHeaderTitle(selectedApp.getName());
     }
 
+    private void removeAppFromList(UUID uuid) {
+        for (final ListIterator<GBDeviceApp> iter = appList.listIterator(); iter.hasNext(); ) {
+            final GBDeviceApp app = iter.next();
+            if (app.getUUID().equals(uuid)) {
+                iter.remove();
+                mGBDeviceAppAdapter.notifyDataSetChanged();
+                break;
+            }
+        }
+    }
+
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.appmanager_health_deactivate:
+            case R.id.appmanager_app_delete_cache:
+                File cachedFile = null;
+                boolean deleteSuccess = true;
+                try {
+                    cachedFile = new File(FileUtils.getExternalFilesDir().getPath() + "/pbw-cache/" + selectedApp.getUUID() + ".pbw");
+                    deleteSuccess = cachedFile.delete();
+                } catch (IOException e) {
+                    LOG.warn("could not get external dir while trying to access pbw cache.");
+                }
+                if (!deleteSuccess) {
+                    LOG.warn("could not delete file from pbw cache: " + cachedFile.toString());
+                }
+                // fall through
             case R.id.appmanager_app_delete:
-                GBApplication.deviceService().onAppDelete(selectedApp.getUUID());
+                UUID uuid = selectedApp.getUUID();
+                GBApplication.deviceService().onAppDelete(uuid);
+                removeAppFromList(uuid);
                 return true;
             case R.id.appmanager_app_reinstall:
                 File cachePath;
                 try {
                     cachePath = new File(FileUtils.getExternalFilesDir().getPath() + "/pbw-cache/" + selectedApp.getUUID() + ".pbw");
                 } catch (IOException e) {
-                    LOG.warn("could not get external dir while reading pbw cache.");
+                    LOG.warn("could not get external dir while trying to access pbw cache.");
                     return true;
                 }
                 GBApplication.deviceService().onInstallApp(Uri.fromFile(cachePath));
