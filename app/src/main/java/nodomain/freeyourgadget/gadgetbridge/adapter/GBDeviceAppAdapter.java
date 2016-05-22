@@ -41,7 +41,15 @@ public class GBDeviceAppAdapter extends ArrayAdapter<GBDeviceApp> {
         ImageView deviceImageView = (ImageView) view.findViewById(R.id.item_image);
 
         deviceAppVersionAuthorLabel.setText(getContext().getString(R.string.appversion_by_creator, deviceApp.getVersion(), deviceApp.getCreator()));
-        deviceAppNameLabel.setText(deviceApp.getName());
+
+        // FIXME: replace with small icons
+        String appNameLabelText = deviceApp.getName();
+        if (deviceApp.isInCache() || deviceApp.isOnDevice()) {
+            appNameLabelText += " (" + (deviceApp.isInCache() ? "C" : "")
+                    + (deviceApp.isOnDevice() ? "D" : "") + ")";
+        }
+        deviceAppNameLabel.setText(appNameLabelText);
+
         switch (deviceApp.getType()) {
             case APP_GENERIC:
                 deviceImageView.setImageResource(R.drawable.ic_watchapp);

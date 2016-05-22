@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -47,7 +48,6 @@ public class AppManagerActivity extends GBActivity {
             if (action.equals(GBApplication.ACTION_QUIT)) {
                 finish();
             } else if (action.equals(ACTION_REFRESH_APPLIST)) {
-                //appList.clear();
                 int appCount = intent.getIntExtra("app_count", 0);
                 for (Integer i = 0; i < appCount; i++) {
                     String appName = intent.getStringExtra("app_name" + i.toString());
@@ -55,11 +55,21 @@ public class AppManagerActivity extends GBActivity {
                     UUID uuid = UUID.fromString(intent.getStringExtra("app_uuid" + i.toString()));
                     GBDeviceApp.Type appType = GBDeviceApp.Type.values()[intent.getIntExtra("app_type" + i.toString(), 0)];
 
-                    appList.add(new GBDeviceApp(uuid, appName, appCreator, "", appType));
-                }
-
-                if (prefs.getBoolean("pebble_force_untested", false)) {
-                    appList.addAll(getSystemApps());
+                    boolean found = false;
+                    for (final ListIterator<GBDeviceApp> iter = appList.listIterator(); iter.hasNext(); ) {
+                        final GBDeviceApp app = iter.next();
+                        if (app.getName().equals(appName) && app.getCreator().equals(appCreator)) {
+                            app.setOnDevice(true);
+                            iter.set(app);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        GBDeviceApp app = new GBDeviceApp(uuid, appName, appCreator, "", appType);
+                        app.setOnDevice(true);
+                        appList.add(app);
+                    }
                 }
 
                 mGBDeviceAppAdapter.notifyDataSetChanged();
@@ -76,8 +86,10 @@ public class AppManagerActivity extends GBActivity {
 
     private List<GBDeviceApp> getSystemApps() {
         List<GBDeviceApp> systemApps = new ArrayList<>();
-        systemApps.add(new GBDeviceApp(UUID.fromString("4dab81a6-d2fc-458a-992c-7a1f3b96a970"), "Sports (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
-        systemApps.add(new GBDeviceApp(UUID.fromString("cf1e816a-9db0-4511-bbb8-f60c48ca8fac"), "Golf (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
+        if (prefs.getBoolean("pebble_force_untested", false)) {
+            systemApps.add(new GBDeviceApp(UUID.fromString("4dab81a6-d2fc-458a-992c-7a1f3b96a970"), "Sports (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
+            systemApps.add(new GBDeviceApp(UUID.fromString("cf1e816a-9db0-4511-bbb8-f60c48ca8fac"), "Golf (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
+        }
         if (mGBDevice != null && !"aplite".equals(PebbleUtils.getPlatformName(mGBDevice.getHardwareVersion()))) {
             systemApps.add(new GBDeviceApp(PebbleProtocol.UUID_PEBBLE_HEALTH, "Health (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
         }
@@ -149,9 +161,7 @@ public class AppManagerActivity extends GBActivity {
 
         appList.addAll(getCachedApps());
 
-        if (prefs.getBoolean("pebble_force_untested", false)) {
-            appList.addAll(getSystemApps());
-        }
+        appList.addAll(getSystemApps());
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(GBApplication.ACTION_QUIT);
