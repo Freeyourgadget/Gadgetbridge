@@ -47,7 +47,7 @@ public class AppManagerActivity extends GBActivity {
             if (action.equals(GBApplication.ACTION_QUIT)) {
                 finish();
             } else if (action.equals(ACTION_REFRESH_APPLIST)) {
-                appList.clear();
+                //appList.clear();
                 int appCount = intent.getIntExtra("app_count", 0);
                 for (Integer i = 0; i < appCount; i++) {
                     String appName = intent.getStringExtra("app_name" + i.toString());
