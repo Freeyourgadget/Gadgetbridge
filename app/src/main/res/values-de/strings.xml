@@ -207,7 +207,7 @@
   <string name="fwinstaller_firmware_not_compatible_to_device">Diese Firmware ist nicht mit dem Gerät kompatibel</string>
   <string name="miband_prefs_reserve_alarm_calendar">Wecker für zukünftige Ereignisse vormerken</string>
   <string name="miband_prefs_hr_sleep_detection">Verwende den Herzfrequenzsensor um die Schlaferkennung zu verbessern</string>
-  <string name="waiting_for_reconnect">warte auf eingehende Verbindung</string>
+  <string name="waiting_for_reconnect">warte auf Verbindung</string>
   <string name="appmananger_app_reinstall">Erneut installieren</string>
   <string name="activity_prefs_about_you">Über Dich</string>
   <string name="activity_prefs_year_birth">Geburtsjahr</string>

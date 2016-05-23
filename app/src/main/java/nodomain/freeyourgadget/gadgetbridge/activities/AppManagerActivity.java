@@ -212,8 +212,6 @@ public class AppManagerActivity extends GBActivity {
         switch (item.getItemId()) {
             case R.id.appmanager_health_deactivate:
             case R.id.appmanager_app_delete_cache:
-
-
                 String baseName;
                 try {
                     baseName = FileUtils.getExternalFilesDir().getPath() + "/pbw-cache/" + selectedApp.getUUID();
