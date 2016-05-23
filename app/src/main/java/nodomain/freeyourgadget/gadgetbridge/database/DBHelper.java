@@ -134,22 +134,35 @@ public class DBHelper {
     public static User getUser(DaoSession session) {
         UserDao userDao = session.getUserDao();
         List<User> users = userDao.loadAll();
+        ActivityUser prefsUser = new ActivityUser();
+        User user;
         if (users.isEmpty()) {
-            User user = createUser(session);
-            return user;
+            user = createUser(prefsUser, session);
+        } else {
+            user = users.get(0); // TODO: multiple users support?
         }
-        return users.get(0); // TODO: multiple users support?
+        ensureUserAttributes(user, prefsUser, session);
+
+        return user;
     }
 
-    private static User createUser(DaoSession session) {
-        ActivityUser prefsUser = new ActivityUser();
+    private static User createUser(ActivityUser prefsUser, DaoSession session) {
         User user = new User();
         user.setName(prefsUser.getName());
         user.setBirthday(prefsUser.getUserBirthday());
         user.setGender(prefsUser.getGender());
         session.getUserDao().insert(user);
-        List<UserAttributes> userAttributes = user.getUserAttributesList();
 
+        ensureUserAttributes(user, prefsUser, session);
+
+        return user;
+    }
+
+    private static void ensureUserAttributes(User user, ActivityUser prefsUser, DaoSession session) {
+        List<UserAttributes> userAttributes = user.getUserAttributesList();
+        if (hasUpToDateUserAttributes(userAttributes, prefsUser)) {
+            return;
+        }
         UserAttributes attributes = new UserAttributes();
         attributes.setValidFromUTC(DateTimeUtils.todayUTC());
         attributes.setHeightCM(prefsUser.getHeightCm());
@@ -158,8 +171,21 @@ public class DBHelper {
         session.getUserAttributesDao().insert(attributes);
 
         userAttributes.add(attributes);
+    }
 
-        return user;
+    private static boolean hasUpToDateUserAttributes(List<UserAttributes> userAttributes, ActivityUser prefsUser) {
+        for (UserAttributes attr : userAttributes) {
+            if (!isActive(attr)) {
+                return false;
+            }
+            if (isEqual(attr, prefsUser)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean isEqual(UserAttributes attr, ActivityUser prefsUser) {
     }
 
     public static Device getDevice(GBDevice gbDevice, DaoSession session) {

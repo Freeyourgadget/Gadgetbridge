@@ -34,6 +34,8 @@ public class GBDaoGenerator {
     public static void main(String[] args) throws Exception {
         Schema schema = new Schema(7, MAIN_PACKAGE + ".entities");
 
+        addActivityDescription(schema);
+
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
 
@@ -46,6 +48,14 @@ public class GBDaoGenerator {
         new DaoGenerator().generateAll(schema, "app/src/main/java");
     }
 
+    private static Entity addActivityDescription(Schema schema) {
+        Entity activityDescription = addEntity(schema, "ActivityDescription");
+        activityDescription.addIdProperty();
+        activityDescription.addIntProperty("fromTimestamp").notNull();
+        activityDescription.addIntProperty("toTimestamp");
+        return activityDescription;
+    }
+
     private static Entity addUserInfo(Schema schema, Entity userAttributes) {
         Entity user = addEntity(schema, "User");
         user.addIdProperty();
@@ -53,9 +63,21 @@ public class GBDaoGenerator {
         user.addDateProperty("birthday").notNull();
         user.addIntProperty("gender").notNull();
         Property userId = userAttributes.addLongProperty("userId").notNull().getProperty();
-        user.addToMany(userAttributes, userId);
+
+        // sorted by the from-date, newest first
+        Property userAttributesSortProperty = getPropertyByName(userAttributes, VALID_FROM_UTC);
+        user.addToMany(userAttributes, userId).orderDesc(userAttributesSortProperty);
 
         return user;
+    }
+
+    private static Property getPropertyByName(Entity entity, String propertyName) {
+        for (Property prop : entity.getProperties()) {
+            if (propertyName.equals(prop.getPropertyName())) {
+                return prop;
+            }
+        }
+        throw new IllegalStateException("Could not find property " + propertyName + " in entity " + entity.getClassName());
     }
 
     private static Entity addUserAttributes(Schema schema) {
@@ -80,7 +102,9 @@ public class GBDaoGenerator {
         device.addStringProperty("manufacturer").notNull();
         device.addStringProperty("identifier").notNull().unique().javaDocGetterAndSetter("The fixed identifier, i.e. MAC address of the device.");
         Property deviceId = deviceAttributes.addLongProperty("deviceId").notNull().getProperty();
-        device.addToMany(deviceAttributes, deviceId);
+        // sorted by the from-date, newest first
+        Property deviceAttributesSortProperty = getPropertyByName(deviceAttributes, VALID_FROM_UTC);
+        device.addToMany(deviceAttributes, deviceId).orderDesc(deviceAttributesSortProperty);
 
         return device;
     }
