@@ -14,6 +14,7 @@
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">App Manager</string>
   <string name="appmananger_app_delete">Löschen</string>
+  <string name="appmananger_app_delete_cache">Löschen und aus dem Zwischenspeicher entfernen</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Sperre für Benachrichtigungen</string>
   <!--Strings related to FwAppInstaller-->
@@ -44,6 +45,8 @@
   <string name="pref_summary_notifications_pebblemsg">Unterstützung für Anwendungen, die Benachrichtigungen per Intent an die Pebble schicken. Kann für Conversations verwendet werden.</string>
   <string name="pref_title_notifications_generic">Andere Benachrichtigungen</string>
   <string name="pref_title_whenscreenon">… auch wenn der Bildschirm an ist</string>
+  <string name="pref_title_notification_filter">Bitte nicht stören</string>
+  <string name="pref_summary_notification_filter">Stoppe unerwünschte Nachrichten, wenn im \"Nicht Stören\"-Modus</string>
   <string name="always">immer</string>
   <string name="when_screen_off">wenn der Bildschirm aus ist</string>
   <string name="never">niemals</string>
@@ -202,6 +205,7 @@
   <string name="pref_title_keep_data_on_device">Aktivitätsdaten auf dem Gerät lassen</string>
   <string name="miband_fwinstaller_incompatible_version">Inkompatible Firmware</string>
   <string name="fwinstaller_firmware_not_compatible_to_device">Diese Firmware ist nicht mit dem Gerät kompatibel</string>
+  <string name="miband_prefs_reserve_alarm_calendar">Wecker für zukünftige Ereignisse vormerken</string>
   <string name="miband_prefs_hr_sleep_detection">Verwende den Herzfrequenzsensor um die Schlaferkennung zu verbessern</string>
   <string name="waiting_for_reconnect">warte auf eingehende Verbindung</string>
   <string name="appmananger_app_reinstall">Erneut installieren</string>
@@ -214,6 +218,7 @@
   <string name="appmanager_health_deactivate">deaktivieren</string>
   <string name="authenticating">Authentifiziere</string>
   <string name="authentication_required">Authentifizierung erforderlich</string>
+  <string name="app_configure">Konfigurieren</string>
   <string name="appwidget_text">Zzz</string>
   <string name="add_widget">Widget hinzufügen</string>
   <string name="activity_prefs_sleep_duration">Gewünschte Schlafdauer in Stunden</string>
