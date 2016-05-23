@@ -230,11 +230,10 @@ public class AppManagerActivity extends GBActivity {
                         LOG.info("deleted file: " + fileToDelete.toString());
                     }
                 }
+                removeAppFromList(selectedApp.getUUID());
                 // fall through
             case R.id.appmanager_app_delete:
-                UUID uuid = selectedApp.getUUID();
-                GBApplication.deviceService().onAppDelete(uuid);
-                removeAppFromList(uuid);
+                GBApplication.deviceService().onAppDelete(selectedApp.getUUID());
                 return true;
             case R.id.appmanager_app_reinstall:
                 File cachePath;
