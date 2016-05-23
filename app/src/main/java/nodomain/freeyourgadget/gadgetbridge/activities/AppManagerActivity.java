@@ -212,16 +212,25 @@ public class AppManagerActivity extends GBActivity {
         switch (item.getItemId()) {
             case R.id.appmanager_health_deactivate:
             case R.id.appmanager_app_delete_cache:
-                File cachedFile = null;
-                boolean deleteSuccess = true;
+
+
+                String baseName;
                 try {
-                    cachedFile = new File(FileUtils.getExternalFilesDir().getPath() + "/pbw-cache/" + selectedApp.getUUID() + ".pbw");
-                    deleteSuccess = cachedFile.delete();
+                    baseName = FileUtils.getExternalFilesDir().getPath() + "/pbw-cache/" + selectedApp.getUUID();
                 } catch (IOException e) {
                     LOG.warn("could not get external dir while trying to access pbw cache.");
+                    return true;
                 }
-                if (!deleteSuccess) {
-                    LOG.warn("could not delete file from pbw cache: " + cachedFile.toString());
+
+                String[] suffixToDelete = new String[]{".pbw", ".json", "_config.js"};
+
+                for (String suffix : suffixToDelete) {
+                    File fileToDelete = new File(baseName + suffix);
+                    if (!fileToDelete.delete()) {
+                        LOG.warn("could not delete file from pbw cache: " + fileToDelete.toString());
+                    } else {
+                        LOG.info("deleted file: " + fileToDelete.toString());
+                    }
                 }
                 // fall through
             case R.id.appmanager_app_delete:
