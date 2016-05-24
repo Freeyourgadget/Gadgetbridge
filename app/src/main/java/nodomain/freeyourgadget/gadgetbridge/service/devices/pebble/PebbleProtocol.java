@@ -241,7 +241,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     static final byte LENGTH_UUID = 16;
 
-    static final long GB_UUID_MASK = 0x4742474200L;
+    static final long GB_UUID_MASK = 0x4767744272646700L;
 
     // base is -5
     private static final String[] hwRevisions = {
