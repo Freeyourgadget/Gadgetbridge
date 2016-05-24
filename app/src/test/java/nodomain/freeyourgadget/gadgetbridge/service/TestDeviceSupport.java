@@ -137,7 +137,7 @@ public class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
-    public void onDeleteCalendarEvent(int type, long id) {
+    public void onDeleteCalendarEvent(byte type, long id) {
 
     }
 

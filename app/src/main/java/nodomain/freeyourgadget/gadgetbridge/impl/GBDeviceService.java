@@ -238,7 +238,7 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void onDeleteCalendarEvent(int type, long id) {
+    public void onDeleteCalendarEvent(byte type, long id) {
         Intent intent = createIntent().setAction(ACTION_DELETE_CALENDAREVENT)
                 .putExtra(EXTRA_CALENDAREVENT_TYPE, type)
                 .putExtra(EXTRA_CALENDAREVENT_ID, id);

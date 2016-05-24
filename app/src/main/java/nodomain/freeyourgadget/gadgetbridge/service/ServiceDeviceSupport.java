@@ -279,7 +279,7 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
-    public void onDeleteCalendarEvent(int type, long id) {
+    public void onDeleteCalendarEvent(byte type, long id) {
         if (checkBusy("delete calendar event")) {
             return;
         }

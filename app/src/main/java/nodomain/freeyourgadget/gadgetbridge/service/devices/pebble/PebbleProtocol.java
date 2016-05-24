@@ -241,6 +241,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     static final byte LENGTH_UUID = 16;
 
+    static final long GB_UUID_MASK = 0x4742474200L;
+
     // base is -5
     private static final String[] hwRevisions = {
             // Emulator
@@ -479,12 +481,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 iconId = PebbleIconID.TIMELINE_CALENDAR;
         }
 
-        return encodeTimelinePin(new UUID(calendarEventSpec.type, id), calendarEventSpec.timestamp, (short) calendarEventSpec.durationInSeconds, iconId, calendarEventSpec.title, calendarEventSpec.description);
+        return encodeTimelinePin(new UUID(GB_UUID_MASK | calendarEventSpec.type, id), calendarEventSpec.timestamp, (short) calendarEventSpec.durationInSeconds, iconId, calendarEventSpec.title, calendarEventSpec.description);
     }
 
     @Override
-    public byte[] encodeDeleteCalendarEvent(int type, long id) {
-        return encodeBlobdb(new UUID(type, id), BLOBDB_DELETE, BLOBDB_PIN, null);
+    public byte[] encodeDeleteCalendarEvent(byte type, long id) {
+        return encodeBlobdb(new UUID(GB_UUID_MASK | type, id), BLOBDB_DELETE, BLOBDB_PIN, null);
     }
 
     @Override

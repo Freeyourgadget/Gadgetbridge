@@ -282,7 +282,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             case ACTION_ADD_CALENDAREVENT: {
                 CalendarEventSpec calendarEventSpec = new CalendarEventSpec();
                 calendarEventSpec.id = intent.getLongExtra(EXTRA_CALENDAREVENT_ID, -1);
-                calendarEventSpec.type = intent.getIntExtra(EXTRA_CALENDAREVENT_TYPE, -1);
+                calendarEventSpec.type = intent.getByteExtra(EXTRA_CALENDAREVENT_TYPE, (byte) -1);
                 calendarEventSpec.timestamp = intent.getIntExtra(EXTRA_CALENDAREVENT_TIMESTAMP, -1);
                 calendarEventSpec.durationInSeconds = intent.getIntExtra(EXTRA_CALENDAREVENT_DURATION, -1);
                 calendarEventSpec.title = intent.getStringExtra(EXTRA_CALENDAREVENT_TITLE);
@@ -292,7 +292,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             }
             case ACTION_DELETE_CALENDAREVENT: {
                 long id = intent.getLongExtra(EXTRA_CALENDAREVENT_ID, -1);
-                int type = intent.getIntExtra(EXTRA_CALENDAREVENT_TYPE, -1);
+                byte type = intent.getByteExtra(EXTRA_CALENDAREVENT_TYPE, (byte) -1);
                 mDeviceSupport.onDeleteCalendarEvent(type, id);
                 break;
             }

@@ -70,7 +70,7 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
-    public byte[] encodeDeleteCalendarEvent(int type, long id) {
+    public byte[] encodeDeleteCalendarEvent(byte type, long id) {
         return null;
     }
 

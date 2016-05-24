@@ -196,7 +196,7 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     }
 
     @Override
-    public void onDeleteCalendarEvent(int type, long id) {
+    public void onDeleteCalendarEvent(byte type, long id) {
         byte[] bytes = gbDeviceProtocol.encodeDeleteCalendarEvent(type, id);
         sendToDevice(bytes);
     }

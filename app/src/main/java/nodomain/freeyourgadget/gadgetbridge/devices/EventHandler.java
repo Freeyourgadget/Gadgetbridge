@@ -55,5 +55,5 @@ public interface EventHandler {
 
     void onAddCalendarEvent(CalendarEventSpec calendarEventSpec);
 
-    void onDeleteCalendarEvent(int type, long id);
+    void onDeleteCalendarEvent(byte type, long id);
 }
