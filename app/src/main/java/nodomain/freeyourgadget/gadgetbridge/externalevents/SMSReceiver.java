@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
+import android.app.NotificationManager;
+import android.app.NotificationManager.Policy;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -41,6 +43,18 @@ public class SMSReceiver extends BroadcastReceiver {
                     notificationSpec.body = message.getDisplayMessageBody();
                     notificationSpec.phoneNumber = message.getOriginatingAddress();
                     if (notificationSpec.phoneNumber != null) {
+                        switch (GBApplication.getGrantedInterruptionFilter()) {
+                            case NotificationManager.INTERRUPTION_FILTER_ALL:
+                                break;
+                            case NotificationManager.INTERRUPTION_FILTER_ALARMS:
+                            case NotificationManager.INTERRUPTION_FILTER_NONE:
+                                return;
+                            case NotificationManager.INTERRUPTION_FILTER_PRIORITY:
+                                if (GBApplication.isPriorityNumber(Policy.PRIORITY_CATEGORY_MESSAGES, notificationSpec.phoneNumber)) {
+                                    break;
+                                }
+                                return;
+                        }
                         GBApplication.deviceService().onNotification(notificationSpec);
                     }
                 }

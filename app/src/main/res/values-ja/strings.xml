@@ -14,6 +14,7 @@
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">アプリ管理画面</string>
   <string name="appmananger_app_delete">削除</string>
+  <string name="appmananger_app_delete_cache">キャッシュから削除</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">ステータス通知ブラックリスト</string>
   <!--Strings related to FwAppInstaller-->
@@ -44,6 +45,8 @@
   <string name="pref_summary_notifications_pebblemsg">インテント経由でPebbleに通知を送信するアプリケーションをサポートします。Conversationsに使用することができます。</string>
   <string name="pref_title_notifications_generic">一般ステータス通知対応</string>
   <string name="pref_title_whenscreenon">… スクリーンがオンのときにも</string>
+  <string name="pref_title_notification_filter">サイレント</string>
+  <string name="pref_summary_notification_filter">サイレントモードに基づいて、送信される不要な通知を停止します。</string>
   <string name="always">いつも</string>
   <string name="when_screen_off">スクリーンがオフのとき</string>
   <string name="never">なし</string>

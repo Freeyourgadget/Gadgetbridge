@@ -12,6 +12,7 @@ public class GBDeviceApp {
     private final UUID uuid;
     private final Type type;
     private final boolean inCache;
+    private boolean isOnDevice;
     private final boolean configurable;
 
     public GBDeviceApp(UUID uuid, String name, String creator, String version, Type type) {
@@ -23,6 +24,7 @@ public class GBDeviceApp {
         //FIXME: do not assume
         this.inCache = false;
         this.configurable = false;
+        this.isOnDevice = false;
     }
 
     public GBDeviceApp(JSONObject json, boolean configurable) {
@@ -52,8 +54,16 @@ public class GBDeviceApp {
         this.configurable = configurable;
     }
 
+    public void setOnDevice(boolean isOnDevice) {
+        this.isOnDevice = isOnDevice;
+    }
+
     public boolean isInCache() {
         return inCache;
+    }
+
+    public boolean isOnDevice() {
+        return isOnDevice;
     }
 
     public String getName() {

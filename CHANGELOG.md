@@ -1,4 +1,12 @@
 ###Changelog
+####Version 0.9.8
+* Pebble: fix more reconnnect issues
+* Pebble: fix deep sleep not being detected with Firmware 3.12 when using Pebble Health
+* Pebble: option in AppManager to delete files from cache
+* Pebble: enable pbw cache and watchface configuration for Firmware 2.x
+* Pebble: allow enabling of Pebble Health without "untested features" being enabled
+* Honour "Do Not Disturb" for phone calls and SMS
+
 ####Version 0.9.7
 * Pebble: hopefully fix some reconnect issues
 * Mi Band: fix live activity monitoring running forever if back button pressed

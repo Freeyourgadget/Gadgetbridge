@@ -69,8 +69,6 @@
   <string name="this_is_a_test_notification_from_gadgetbridge">Notificación de prueba desde Gadgetbridge</string>
   <string name="bluetooth_is_not_supported_">Bluetooth no está soportado.</string>
   <string name="bluetooth_is_disabled_">Bluetooth está desactivado.</string>
-  <string name="tap_connected_device_for_app_mananger">pulsa el dispositivo conectado para el Gestor de App</string>
-  <string name="tap_a_device_to_connect">pulsa un dispositivo para conectar</string>
   <string name="cannot_connect_bt_address_invalid_">No se puede conectar. ¿Dirección BT incorrecta?</string>
   <string name="gadgetbridge_running">Gadgetbridge funcionando</string>
   <string name="installing_binary_d_d">instalando binario %1$d/%2$d</string>
@@ -101,13 +99,11 @@
   <string name="miband_pairing_using_dummy_userdata">No se han proporcionado datos de usuario válidos, se usarán datos de usuario por defecto.</string>
   <string name="miband_pairing_tap_hint">Cuando tu MiBand vibre y parpadee, púlsala repetidas veces.</string>
   <string name="appinstaller_install">Instalar</string>
-  <string name="discovery_connected_devices_hint">Haz visible tu dispositivo. No es probable que se detecten los dispositivos que ya están conectados.</string>
   <string name="discovery_note">Nota:</string>
   <string name="candidate_item_device_image">Imagen del dispositivo</string>
   <string name="miband_prefs_alias">Nombre/Apodo</string>
   <string name="pref_header_vibration_count">Número de vibraciones</string>
   <string name="title_activity_sleepmonitor">Monitor de sueño</string>
-  <string name="pref_write_logfiles">Guardar logs</string>
   <string name="initializing">iniciando</string>
   <string name="busy_task_fetch_activity_data">Recuperando datos de actividad</string>
   <string name="sleep_activity_date_range">Desde %1$s a %2$s</string>
@@ -178,9 +174,9 @@
   <string name="chart_steps">Pasos</string>
   <string name="liveactivity_live_activity">Actividad</string>
   <string name="weeksteps_today_steps_description">Pasos hoy, objetivo: %1$s</string>
+  <string name="pref_title_dont_ack_transfer">No confirmar transferencia</string>
   <string name="pref_summary_dont_ack_transfers">Si los datos no son marcados como descargados, no serán borrados de tu MiBand. Útil si Gadgetbridge se usa conjuntamente con otras apps.</string>
   <string name="pref_summary_keep_data_on_device">Mantendrá los datos de actividad en la MiBand incluso después de la sincronización. Útil si GB se usa junto con otras apps.</string>
-  <string name="pref_title_dont_ack_transfer">No confirmar transferencia</string>
   <string name="live_activity_steps_history">Historial de pasos</string>
   <string name="live_activity_current_steps_per_minute">Pasos/min actuales</string>
   <string name="live_activity_total_steps">Pasos totales</string>
