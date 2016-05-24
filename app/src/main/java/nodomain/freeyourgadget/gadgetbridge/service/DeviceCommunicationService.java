@@ -25,6 +25,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.K9Receiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.MusicPlaybackReceiver;
@@ -117,6 +118,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private MusicPlaybackReceiver mMusicPlaybackReceiver = null;
     private TimeChangeReceiver mTimeChangeReceiver = null;
     private BluetoothConnectReceiver mBlueToothConnectReceiver = null;
+    private AlarmReceiver mAlarmReceiver = null;
 
     private Random mRandom = new Random();
 
@@ -495,6 +497,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 mBlueToothConnectReceiver = new BluetoothConnectReceiver(this);
                 registerReceiver(mBlueToothConnectReceiver, new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED));
             }
+            if (mAlarmReceiver == null) {
+                mAlarmReceiver = new AlarmReceiver();
+                registerReceiver(mAlarmReceiver, new IntentFilter("DAILY_ALARM"));
+            }
         } else {
             if (mPhoneCallReceiver != null) {
                 unregisterReceiver(mPhoneCallReceiver);
@@ -523,6 +529,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             if (mBlueToothConnectReceiver != null) {
                 unregisterReceiver(mBlueToothConnectReceiver);
                 mBlueToothConnectReceiver = null;
+            }
+            if (mAlarmReceiver != null) {
+                unregisterReceiver(mAlarmReceiver);
+                mAlarmReceiver = null;
             }
         }
     }
