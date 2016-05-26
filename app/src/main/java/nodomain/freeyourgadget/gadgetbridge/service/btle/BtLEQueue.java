@@ -308,6 +308,12 @@ public final class BtLEQueue {
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             LOG.debug("connection state change, newState: " + newState + getStatusString(status));
 
+            synchronized (mGattMonitor) {
+                if (mBluetoothGatt == null) {
+                    mBluetoothGatt = gatt;
+                }
+            }
+
             if (!checkCorrectGattInstance(gatt, "connection state event")) {
                 return;
             }
