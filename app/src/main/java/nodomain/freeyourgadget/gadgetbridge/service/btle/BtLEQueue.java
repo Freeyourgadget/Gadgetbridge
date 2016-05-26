@@ -221,7 +221,11 @@ public final class BtLEQueue {
     private boolean maybeReconnect() {
         if (mAutoReconnect && mBluetoothGatt != null) {
             LOG.info("Enabling automatic ble reconnect...");
-            return mBluetoothGatt.connect();
+            boolean result = mBluetoothGatt.connect();
+            if (result) {
+                setDeviceConnectionState(State.WAITING_FOR_RECONNECT);
+            }
+            return result;
         }
         return false;
     }
