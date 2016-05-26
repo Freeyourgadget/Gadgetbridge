@@ -32,14 +32,6 @@
             android:key="datetime_synconconnect"
             android:summary="@string/pref_summary_datetime_syctimeonconnect"
             android:title="@string/pref_title_datetime_syctimeonconnect" />
-        <EditTextPreference
-            android:defaultValue="0"
-            android:key="location_latitude"
-            android:title="@string/pref_title_location_latitude" />
-        <EditTextPreference
-            android:defaultValue="0"
-            android:key="location_longitude"
-            android:title="@string/pref_title_location_longitude" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="pref_key_notifications"
@@ -204,7 +196,6 @@
             android:key="pref_key_pebble"
             android:title="@string/pref_title_pebble_settings">
             <PreferenceCategory
-                android:key="pref_key_general"
                 android:title="@string/pref_header_general">
                 <CheckBoxPreference
                     android:defaultValue="false"
@@ -226,7 +217,20 @@
                     android:summary="%s" />
             </PreferenceCategory>
             <PreferenceCategory
-                android:key="pref_key_development"
+                android:title="@string/pref_header_location">
+            <Preference
+                android:key="location_aquire"
+                android:title="@string/pref_title_location_aquire"/>
+            <EditTextPreference
+                android:defaultValue="0"
+                android:key="location_latitude"
+                android:title="@string/pref_title_location_latitude" />
+            <EditTextPreference
+                android:defaultValue="0"
+                android:key="location_longitude"
+                android:title="@string/pref_title_location_longitude" />
+            </PreferenceCategory>
+            <PreferenceCategory
                 android:title="@string/pref_header_development">
                 <CheckBoxPreference
                     android:defaultValue="false"

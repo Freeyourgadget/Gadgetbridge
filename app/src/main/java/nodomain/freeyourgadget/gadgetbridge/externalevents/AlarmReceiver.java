@@ -19,11 +19,10 @@ import java.util.GregorianCalendar;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class AlarmReceiver extends BroadcastReceiver {
-    private static final Logger LOG = LoggerFactory.getLogger(DeviceCommunicationService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AlarmReceiver.class);
 
     public AlarmReceiver() {
         Context context = GBApplication.getContext();
@@ -55,7 +54,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         float latitude = prefs.getFloat("location_latitude", 0);
         float longitude = prefs.getFloat("location_longitude", 0);
-
+        LOG.info("got longitude/latitude from preferences: " + latitude + "/" + longitude);
         GregorianCalendar[] sunriseTransitSetTomorrow = SPA.calculateSunriseTransitSet(dateTimeTomorrow, latitude, longitude, DeltaT.estimate(dateTimeTomorrow));
 
         CalendarEventSpec calendarEventSpec = new CalendarEventSpec();

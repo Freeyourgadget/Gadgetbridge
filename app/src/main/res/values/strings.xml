@@ -42,8 +42,6 @@
     <string name="pref_header_datetime">Date and Time</string>
     <string name="pref_title_datetime_syctimeonconnect">Sync time</string>
     <string name="pref_summary_datetime_syctimeonconnect">Sync time to device when connecting and when time or timezone changes on Android</string>
-    <string name="pref_title_location_latitude">Latitude</string>
-    <string name="pref_title_location_longitude">Longitude</string>
 
     <string name="pref_title_theme">Theme</string>
     <string name="pref_theme_light">Light</string>
@@ -77,11 +75,18 @@
     <string name="pref_title_pebble_activitytracker">Preferred Activitytracker</string>
     <string name="pref_title_enable_pebblekit">Allow 3rd Party Android App Access</string>
     <string name="pref_summary_enable_pebblekit">Enable experimental support for Android Apps using PebbleKit</string>
+
+    <string name="pref_header_location">Location</string>
+    <string name="pref_title_location_aquire">Aquire Location</string>
+    <string name="pref_title_location_latitude">Latitude</string>
+    <string name="pref_title_location_longitude">Longitude</string>
+
     <string name="pref_title_pebble_forceprotocol">Force Notification Protocol</string>
     <string name="pref_summary_pebble_forceprotocol">This option forces using the latest notification protocol depending on the firmware version. ENABLE ONLY IF YOU KNOW WHAT YOU ARE DOING!</string>
     <string name="pref_title_pebble_forceuntested">Enable untested features</string>
     <string name="pref_summary_pebble_forceuntested">Enable features that are untested. ENABLE ONLY IF YOU KNOW WHAT YOU ARE DOING!</string>
     <string name="pref_title_pebble_reconnect_attempts">Reconnection Attempts</string>
+
     <string name="not_connected">not connected</string>
     <string name="connecting">connecting</string>
     <string name="connected">connected</string>
