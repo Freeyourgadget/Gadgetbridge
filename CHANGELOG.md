@@ -5,6 +5,7 @@
 * Pebble: option in AppManager to delete files from cache
 * Pebble: enable pbw cache and watchface configuration for Firmware 2.x
 * Pebble: allow enabling of Pebble Health without "untested features" being enabled
+* Pebble: fix music information being messed up
 * Honour "Do Not Disturb" for phone calls and SMS
 
 ####Version 0.9.7

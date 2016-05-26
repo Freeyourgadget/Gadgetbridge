@@ -7,6 +7,7 @@
         <change>Pebble: enable pbw cache and watchface configuration for Firmware 2.x</change>
         <change>Pebble: allow enabling of Pebble Health without "untested features" being enabled</change>
         <change>Honour "Do Not Disturb" for phone calls and SMS</change>
+        <change>Pebble: fix music information being messed up</change>
     </release>
     <release version="0.9.7" versioncode="51">
 	<change>Pebble: hopefully fix some reconnect issues</change>
