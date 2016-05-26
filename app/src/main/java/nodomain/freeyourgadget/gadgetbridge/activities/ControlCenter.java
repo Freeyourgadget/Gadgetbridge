@@ -353,11 +353,7 @@ public class ControlCenter extends GBActivity {
     }
 
     private void launchDiscoveryActivity() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            startActivity(new Intent(android.provider.Settings.ACTION_BLUETOOTH_SETTINGS));
-        } else {
-            startActivity(new Intent(this, DiscoveryActivity.class));
-        }
+        startActivity(new Intent(this, DiscoveryActivity.class));
     }
 
     @Override

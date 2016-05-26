@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -8,10 +9,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -48,6 +51,7 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
                 case BluetoothAdapter.ACTION_DISCOVERY_FINISHED:
                     // continue with LE scan, if available
                     if (isScanning == Scanning.SCANNING_BT) {
+                        checkAndRequestLocationPermission();
                         startDiscovery(Scanning.SCANNING_BTLE);
                     } else {
                         discoveryFinished();
@@ -318,6 +322,12 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
         handler.removeMessages(0, stopRunnable);
         handler.sendMessageDelayed(getPostMessage(stopRunnable), SCAN_DURATION);
         adapter.startDiscovery();
+    }
+
+    private void checkAndRequestLocationPermission() {
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+        }
     }
 
     private Message getPostMessage(Runnable runnable) {
