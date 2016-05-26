@@ -14,7 +14,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
 public class BluetoothConnectReceiver extends BroadcastReceiver {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DeviceCommunicationService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BluetoothConnectReceiver.class);
 
     final DeviceCommunicationService service;
 
