@@ -1,4 +1,10 @@
 ###Changelog
+####Version 0.10.0
+* Pebble: option to send sunrise and sunset events to timeline
+* Mi Band: BLE connection fixes
+* Fixes for enabling logging at whithout restarting Gadgetbridge
+* Re-enable device paring activity on Android 6 (BLE scanning needs the location preference)
+
 ####Version 0.9.8
 * Pebble: fix more reconnnect issues
 * Pebble: fix deep sleep not being detected with Firmware 3.12 when using Pebble Health
