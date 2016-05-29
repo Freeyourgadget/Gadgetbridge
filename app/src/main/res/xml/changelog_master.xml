@@ -2,6 +2,7 @@
 <changelog>
     <release version="0.10.0" versioncode="53">
         <change>Pebble: option to send sunrise and sunset events to timeline</change>
+	<change>Pebble: fix datalog session not being registered after a reconnect</change>
         <change>Mi Band: BLE connection fixes</change>
         <change>Fixes for enabling logging at whithout restarting Gadgetbridge</change>
         <change>Re-enable device paring activity on Android 6 (BLE scanning needs the location preference)</change>

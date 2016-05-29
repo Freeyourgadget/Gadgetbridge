@@ -1,6 +1,7 @@
 ###Changelog
 ####Version 0.10.0
 * Pebble: option to send sunrise and sunset events to timeline
+* Pebble: fix datalog session not being registered after a reconnect
 * Mi Band: BLE connection fixes
 * Fixes for enabling logging at whithout restarting Gadgetbridge
 * Re-enable device paring activity on Android 6 (BLE scanning needs the location preference)
