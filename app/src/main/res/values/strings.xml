@@ -76,8 +76,11 @@
     <string name="pref_title_enable_pebblekit">Allow 3rd Party Android App Access</string>
     <string name="pref_summary_enable_pebblekit">Enable experimental support for Android Apps using PebbleKit</string>
 
+    <string name="pref_title_sunrise_sunset">Sunrise and Sunset</string>
+    <string name="pref_summary_sunrise_sunset">Send sunrise and sunset times based on the location to the pebble timeline</string>
+
     <string name="pref_header_location">Location</string>
-    <string name="pref_title_location_aquire">Aquire Location</string>
+    <string name="pref_title_location_aquire">Acquire Location</string>
     <string name="pref_title_location_latitude">Latitude</string>
     <string name="pref_title_location_longitude">Longitude</string>
 

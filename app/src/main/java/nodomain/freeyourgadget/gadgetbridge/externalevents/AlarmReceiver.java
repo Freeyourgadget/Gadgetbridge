@@ -36,6 +36,10 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (!GBApplication.getPrefs().getBoolean("send_sunrise_sunset", false)) {
+            LOG.info("won't send sunrise and sunset events (disabled in preferences)");
+            return;
+        }
         LOG.info("will resend sunrise and sunset events");
 
         final GregorianCalendar dateTimeTomorrow = new GregorianCalendar();

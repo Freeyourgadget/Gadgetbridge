@@ -215,6 +215,10 @@
                     android:key="pebble_activitytracker"
                     android:title="@string/pref_title_pebble_activitytracker"
                     android:summary="%s" />
+                <CheckBoxPreference
+                    android:title="@string/pref_title_sunrise_sunset"
+                    android:summary="@string/pref_summary_sunrise_sunset"
+                    android:key="send_sunrise_sunset" />
             </PreferenceCategory>
             <PreferenceCategory
                 android:title="@string/pref_header_location">
@@ -222,10 +226,12 @@
                 android:key="location_aquire"
                 android:title="@string/pref_title_location_aquire"/>
             <EditTextPreference
+                android:digits="0123456789."
                 android:defaultValue="0"
                 android:key="location_latitude"
                 android:title="@string/pref_title_location_latitude" />
             <EditTextPreference
+                android:digits="0123456789."
                 android:defaultValue="0"
                 android:key="location_longitude"
                 android:title="@string/pref_title_location_longitude" />
