@@ -4,6 +4,7 @@
 * Mi Band: BLE connection fixes
 * Fixes for enabling logging at whithout restarting Gadgetbridge
 * Re-enable device paring activity on Android 6 (BLE scanning needs the location preference)
+* Display device address in device info
 
 ####Version 0.9.8
 * Pebble: fix more reconnnect issues
