@@ -27,6 +27,7 @@
   <string name="title_activity_settings">설정</string>
   <string name="pref_header_general">일반 설정</string>
   <string name="pref_title_general_autoconnectonbluetooth">블루투스가 켜지면 기기에 접속하기</string>
+  <string name="pref_title_general_autocreonnect">자동으로 재연결</string>
   <string name="pref_title_audo_player">선호하는 오디오 플레이어</string>
   <string name="pref_default">기본값</string>
   <string name="pref_header_datetime">날짜와 시간</string>
@@ -224,5 +225,4 @@
   <string name="updatefirmwareoperation_firmware_not_sent">펌웨어가 전송되지 않음</string>
   <string name="charts_legend_heartrate">심박수</string>
   <string name="live_activity_heart_rate">심박수</string>
-  <string name="pref_title_general_autocreonnect">자동으로 재연결</string>
 </resources>

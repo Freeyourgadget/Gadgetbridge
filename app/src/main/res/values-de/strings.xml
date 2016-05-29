@@ -28,6 +28,7 @@
   <string name="title_activity_settings">Einstellungen</string>
   <string name="pref_header_general">Allgemeine Einstellungen</string>
   <string name="pref_title_general_autoconnectonbluetooth">Verbinde, wenn Bluetooth eingeschaltet wird</string>
+  <string name="pref_title_general_autocreonnect">Verbindungen automatisch wiederherstellen</string>
   <string name="pref_title_audo_player">Bevorzugter Audioplayer</string>
   <string name="pref_default">Standard</string>
   <string name="pref_header_datetime">Datum und Zeit</string>
@@ -231,5 +232,4 @@
   <string name="updatefirmwareoperation_firmware_not_sent">Firmware wurde nicht gesendet</string>
   <string name="charts_legend_heartrate">Herzfrequenz</string>
   <string name="live_activity_heart_rate">Herzfrequenz</string>
-  <string name="pref_title_general_autocreonnect">Verbindungen automatisch wiederherstellen</string>
 </resources>
