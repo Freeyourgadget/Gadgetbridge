@@ -43,6 +43,10 @@ public class AlarmReceiver extends BroadcastReceiver {
         LOG.info("will resend sunrise and sunset events");
 
         final GregorianCalendar dateTimeTomorrow = new GregorianCalendar();
+        dateTimeTomorrow.set(Calendar.HOUR, 0);
+        dateTimeTomorrow.set(Calendar.MINUTE, 0);
+        dateTimeTomorrow.set(Calendar.SECOND, 0);
+        dateTimeTomorrow.set(Calendar.MILLISECOND, 0);
         dateTimeTomorrow.add(GregorianCalendar.DAY_OF_MONTH, 1);
 
         /*
