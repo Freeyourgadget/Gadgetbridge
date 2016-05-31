@@ -361,7 +361,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         LOG.info("Attempting to set wear location...");
         BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
         if (characteristic != null) {
-            transaction.add(new ConditionalWriteAction() {
+            transaction.add(new ConditionalWriteAction(characteristic) {
                 @Override
                 protected byte[] checkCondition() {
                     if (getDeviceInfo() != null && getDeviceInfo().isAmazFit()) {
