@@ -1826,7 +1826,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 LOG.info(ENDPOINT_NAME + ": (cmd:" + command + ")" + uuid);
                 break;
         }
-        return null;
+        return new GBDeviceEvent[]{null};
     }
 
     private GBDeviceEvent decodeBlobDb(ByteBuffer buf) {
