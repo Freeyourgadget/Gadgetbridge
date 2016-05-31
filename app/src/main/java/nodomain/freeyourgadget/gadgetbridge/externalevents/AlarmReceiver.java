@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -42,7 +43,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
         LOG.info("will resend sunrise and sunset events");
 
-        final GregorianCalendar dateTimeTomorrow = new GregorianCalendar();
+        final GregorianCalendar dateTimeTomorrow = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
         dateTimeTomorrow.set(Calendar.HOUR, 0);
         dateTimeTomorrow.set(Calendar.MINUTE, 0);
         dateTimeTomorrow.set(Calendar.SECOND, 0);
