@@ -49,7 +49,7 @@ need to create an account and transmit any of your data to the vendor's servers.
 2. Start Gadgetbridge, tap on the device you want to connect to
 3. To test, choose "Debug" from the menu and play around
 
-For more information read [this wiki article](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Getting-Started-(Pebble)) 
+For more information read [this wiki article](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble-Getting-Started) 
 
 ## Features (Mi Band)
 
