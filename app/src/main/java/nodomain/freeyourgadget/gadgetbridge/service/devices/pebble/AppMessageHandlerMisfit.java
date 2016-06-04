@@ -17,9 +17,11 @@ import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
+import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.MisfitSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class AppMessageHandlerMisfit extends AppMessageHandler {
 
@@ -41,8 +43,19 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
 
     private final MisfitSampleProvider sampleProvider = new MisfitSampleProvider();
 
+    private boolean isMisfitEnabled() {
+        Prefs prefs = GBApplication.getPrefs();
+        int activityTracker = prefs.getInt("pebble_activitytracker", SampleProvider.PROVIDER_PEBBLE_HEALTH);
+        return (activityTracker == SampleProvider.PROVIDER_PEBBLE_MISFIT);
+    }
+
     @Override
     public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
+
+        if (!isMisfitEnabled()) {
+            return new GBDeviceEvent[] {null};
+        }
+
         for (Pair<Integer, Object> pair : pairs) {
             switch (pair.first) {
                 case KEY_INCOMING_DATA_BEGIN:
