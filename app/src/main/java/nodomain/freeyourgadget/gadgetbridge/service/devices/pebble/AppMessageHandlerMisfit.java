@@ -43,7 +43,8 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
 
     private final MisfitSampleProvider sampleProvider = new MisfitSampleProvider();
 
-    private boolean isMisfitEnabled() {
+    @Override
+    public boolean isEnabled() {
         Prefs prefs = GBApplication.getPrefs();
         int activityTracker = prefs.getInt("pebble_activitytracker", SampleProvider.PROVIDER_PEBBLE_HEALTH);
         return (activityTracker == SampleProvider.PROVIDER_PEBBLE_MISFIT);
@@ -51,11 +52,6 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
 
     @Override
     public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
-
-        if (!isMisfitEnabled()) {
-            return new GBDeviceEvent[] {null};
-        }
-
         for (Pair<Integer, Object> pair : pairs) {
             switch (pair.first) {
                 case KEY_INCOMING_DATA_BEGIN:

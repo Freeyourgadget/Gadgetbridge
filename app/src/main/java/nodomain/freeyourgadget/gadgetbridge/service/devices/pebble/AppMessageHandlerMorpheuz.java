@@ -18,6 +18,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSleepMonitorResult;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.MorpheuzSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class AppMessageHandlerMorpheuz extends AppMessageHandler {
 
@@ -54,6 +55,13 @@ public class AppMessageHandlerMorpheuz extends AppMessageHandler {
         pairs.add(new Pair<Integer, Object>(key, value));
 
         return mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        Prefs prefs = GBApplication.getPrefs();
+        int activityTracker = prefs.getInt("pebble_activitytracker", SampleProvider.PROVIDER_PEBBLE_HEALTH);
+        return (activityTracker == SampleProvider.PROVIDER_PEBBLE_MORPHEUZ);
     }
 
     @Override

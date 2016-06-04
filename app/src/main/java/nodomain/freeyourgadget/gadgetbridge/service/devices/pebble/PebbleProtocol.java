@@ -1258,10 +1258,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         buf.put(PHONEVERSION_APPVERSION_MAGIC);
         buf.put((byte) 3); // major
-        buf.put((byte) 8); // minor
-        buf.put((byte) 1); // patch
+        buf.put((byte) 12); // minor
+        buf.put((byte) 0); // patch
         buf.order(ByteOrder.LITTLE_ENDIAN);
-        buf.putLong(0x00000000000000af); //flags
+        buf.putLong(0x00000000000001af); //flags
 
         return buf.array();
     }
@@ -2116,8 +2116,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
                         AppMessageHandler handler = mAppMessageHandlers.get(uuid);
                         if (handler != null) {
-                            ArrayList<Pair<Integer, Object>> dict = decodeDict(buf);
-                            devEvts = handler.handleMessage(dict);
+                            if (handler.isEnabled()) {
+                                ArrayList<Pair<Integer, Object>> dict = decodeDict(buf);
+                                devEvts = handler.handleMessage(dict);
+                            } else {
+                                devEvts = new GBDeviceEvent[]{null};
+                            }
                         } else {
                             try {
                                 devEvts = decodeDictToJSONAppMessage(uuid, buf);
