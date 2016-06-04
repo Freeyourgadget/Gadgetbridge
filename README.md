@@ -103,10 +103,14 @@ Contributions are welcome, be it feedback, bugreports, documentation, translatio
 on any of the open [issues](https://github.com/Freeyourgadget/Gadgetbridge/issues?q=is%3Aopen+is%3Aissue);
 just leave a comment that you're working on one to avoid duplicated work.
 
-Please do not use the issue tracker as a forum, do not ask for ETAs and read the issue conversation before posting.
+Translations can be contributed via https://www.transifex.com/projects/p/gadgetbridge/resource/strings/ or manually.
 
-Translations can be contributed via https://www.transifex.com/projects/p/gadgetbridge/resource/strings/ or
-manually.
+## Do you have further questions or feedback?
+
+Feel free to open an issue on our issue tracker, but please:
+- do not use the issue tracker as a forum, do not ask for ETAs and read the issue conversation before posting
+- use the search functionality to ensure that your questions wasn't already answered. Don't forget to check the **closed** issues as well!
+- remember that this is a community project, people are contributing in their free time because they like doing so: don't take the fun away! Be kind and constructive.
 
 
 ## Having problems?
