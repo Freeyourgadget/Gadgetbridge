@@ -6,6 +6,7 @@ import junit.framework.AssertionFailedError;
 
 import org.junit.After;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -20,6 +21,12 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
+/**
+ * Tests dynamic enablement and disablement of file appenders.
+ * Test is currently disabled because logback-android does not work
+ * inside a plain junit test.
+ */
+@Ignore
 public class LoggingTest {
 
     @BeforeClass
