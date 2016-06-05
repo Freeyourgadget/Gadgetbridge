@@ -238,4 +238,5 @@
   <string name="updatefirmwareoperation_firmware_not_sent">Firmware non inviato</string>
   <string name="charts_legend_heartrate">Battito cardiaco</string>
   <string name="live_activity_heart_rate">Battito cardiaco</string>
+	<string name="miband_prefs_device_time_offset_hours">Offset orologio del dispositivo in ore (per l\'identificazione del sonno dei lavoratori a turni)</string>
 </resources>

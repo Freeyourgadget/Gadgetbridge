@@ -35,6 +35,14 @@
             android:defaultValue="false"
             android:key="mi_hr_sleep_detection"
             android:title="@string/miband_prefs_hr_sleep_detection" />
+
+		<EditTextPreference
+			android:defaultValue="0"
+			android:inputType="numberSigned"
+			android:key="mi_device_time_offset_hours"
+			android:maxLength="2"
+			android:title="@string/miband_prefs_device_time_offset_hours" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
