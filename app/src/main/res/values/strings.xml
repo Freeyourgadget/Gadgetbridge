@@ -47,6 +47,8 @@
     <string name="pref_theme_light">Light</string>
     <string name="pref_theme_dark">Dark</string>
 
+    <string name="pref_title_language">Language</string>
+
     <string name="pref_header_notifications">Notifications</string>
     <string name="pref_title_notifications_repetitions">Repetitions</string>
     <string name="pref_title_notifications_call">Phone Calls</string>

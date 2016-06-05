@@ -23,6 +23,13 @@
             android:entryValues="@array/pref_theme_values"
             android:defaultValue="@string/pref_theme_value_light"
             android:summary="%s" />
+        <ListPreference
+            android:key="language"
+            android:title="@string/pref_title_language"
+            android:entries="@array/pref_language_options"
+            android:entryValues="@array/pref_language_values"
+            android:defaultValue="default"
+            android:summary="%s" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="pref_key_datetime"
