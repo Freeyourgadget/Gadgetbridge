@@ -853,6 +853,9 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private void handleHeartrate(byte[] value) {
         if (value.length == 2 && value[0] == 6) {
             int hrValue = (value[1] & 0xff);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("heart rate: " + hrValue);
+            }
             Intent intent = new Intent(DeviceService.ACTION_HEARTRATE_MEASUREMENT)
                     .putExtra(DeviceService.EXTRA_HEART_RATE_VALUE, hrValue)
                     .putExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
