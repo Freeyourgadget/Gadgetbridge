@@ -23,6 +23,10 @@ public class AppMessageHandler {
         mPebbleProtocol = pebbleProtocol;
     }
 
+    public boolean isEnabled() {
+        return true;
+    }
+
     public UUID getUUID() {
         return mUUID;
     }

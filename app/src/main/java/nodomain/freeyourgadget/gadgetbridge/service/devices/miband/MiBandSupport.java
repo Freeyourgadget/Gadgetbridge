@@ -32,6 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEvents;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
@@ -360,10 +361,18 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         LOG.info("Attempting to set wear location...");
         BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
         if (characteristic != null) {
-            int location = MiBandCoordinator.getWearLocation(getDevice().getAddress());
-            transaction.write(characteristic, new byte[]{
-                    MiBandService.COMMAND_SET_WEAR_LOCATION,
-                    (byte) location
+            transaction.add(new ConditionalWriteAction(characteristic) {
+                @Override
+                protected byte[] checkCondition() {
+                    if (getDeviceInfo() != null && getDeviceInfo().isAmazFit()) {
+                        return null;
+                    }
+                    int location = MiBandCoordinator.getWearLocation(getDevice().getAddress());
+                    return new byte[]{
+                            MiBandService.COMMAND_SET_WEAR_LOCATION,
+                            (byte) location
+                    };
+                }
             });
         } else {
             LOG.info("Unable to set Wear Location");
@@ -380,6 +389,16 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         } catch (IOException e) {
             GB.toast(getContext(), "Error toggling heart rate sleep support: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
+    }
+
+    @Override
+    public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
+        // not supported
+    }
+
+    @Override
+    public void onDeleteCalendarEvent(byte type, long id) {
+        // not supported
     }
 
     /**
@@ -834,6 +853,9 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private void handleHeartrate(byte[] value) {
         if (value.length == 2 && value[0] == 6) {
             int hrValue = (value[1] & 0xff);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("heart rate: " + hrValue);
+            }
             Intent intent = new Intent(DeviceService.ACTION_HEARTRATE_MEASUREMENT)
                     .putExtra(DeviceService.EXTRA_HEART_RATE_VALUE, hrValue)
                     .putExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());

@@ -144,6 +144,11 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
         return location;
     }
 
+	public static int getDeviceTimeOffsetHours() throws IllegalArgumentException {
+		Prefs prefs = GBApplication.getPrefs();
+		return prefs.getInt(MiBandConst.PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS, 0);
+	}
+
     public static boolean getHeartrateSleepSupport(String miBandAddress) throws IllegalArgumentException {
         Prefs prefs = GBApplication.getPrefs();
         return prefs.getBoolean(MiBandConst.PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION, false);

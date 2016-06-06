@@ -14,6 +14,7 @@
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">Gestione app</string>
   <string name="appmananger_app_delete">Cancella</string>
+  <string name="appmananger_app_delete_cache">Cancella e rimuovi dalla cache</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Blocco notifiche</string>
   <!--Strings related to FwAppInstaller-->
@@ -27,11 +28,15 @@
   <string name="title_activity_settings">Impostazioni</string>
   <string name="pref_header_general">Impostazioni globali</string>
   <string name="pref_title_general_autoconnectonbluetooth">Collegati al dispositivo quando il bluetooth viene acceso</string>
+  <string name="pref_title_general_autocreonnect">Riconessione automatica</string>
   <string name="pref_title_audo_player">Applicazione musicale preferita</string>
   <string name="pref_default">Default</string>
   <string name="pref_header_datetime">Data e ora</string>
   <string name="pref_title_datetime_syctimeonconnect">Sincronizza l\'ora</string>
   <string name="pref_summary_datetime_syctimeonconnect">Sincronizza l\'orario al collegamento oppure quando viene cambiata l\'ora / il fuso orario in android.</string>
+  <string name="pref_title_theme">Tema</string>
+  <string name="pref_theme_light">Chiaro</string>
+  <string name="pref_theme_dark">Scuro</string>
   <string name="pref_header_notifications">Notifiche</string>
   <string name="pref_title_notifications_repetitions">Ripetizioni</string>
   <string name="pref_title_notifications_call">Chiamate telefoniche</string>
@@ -41,6 +46,8 @@
   <string name="pref_summary_notifications_pebblemsg">Supporto per applicazioni che inviano le notifiche a Pebble usando Intents. Può essere usato per Conversations.</string>
   <string name="pref_title_notifications_generic">Notifiche generiche</string>
   <string name="pref_title_whenscreenon">… anche se lo schermo è acceso</string>
+  <string name="pref_title_notification_filter">Non disturbare</string>
+  <string name="pref_summary_notification_filter">Non inviare notifiche nei periodi configurati come \"non disturbare\"</string>
   <string name="always">sempre</string>
   <string name="when_screen_off">se lo schermo è spento</string>
   <string name="never">mai</string>
@@ -53,6 +60,12 @@
   <string name="pref_title_pebble_activitytracker">Tracker delle attività preferito</string>
   <string name="pref_title_enable_pebblekit">Consenti accesso ad altre applicazioni</string>
   <string name="pref_summary_enable_pebblekit">Attiva l\'accesso sperimentale ad applicazioni Android che usano PebbleKit</string>
+  <string name="pref_title_sunrise_sunset">Alba e tramonto</string>
+  <string name="pref_summary_sunrise_sunset">Mostra gli orari calcolati per l\'alba e il tramonto sulla timeline</string>
+  <string name="pref_header_location">Posizione</string>
+  <string name="pref_title_location_aquire">Acquisisci posizione</string>
+  <string name="pref_title_location_latitude">Latitudin</string>
+  <string name="pref_title_location_longitude">Longitudin</string>
   <string name="pref_title_pebble_forceprotocol">Forza protocollo delle notifiche</string>
   <string name="pref_summary_pebble_forceprotocol">Questa opzione forza l\'utilizzo della versione più recente delle notifiche in dipendenza del firmware del tuo dispositivo. ABILITALO SOLO SE SAI COSA STAI FACENDO!</string>
   <string name="pref_title_pebble_forceuntested">Abilita funzionalità non testate</string>
@@ -70,6 +83,9 @@
   <string name="this_is_a_test_notification_from_gadgetbridge">Notifica di prova creata da Gadgetbridge</string>
   <string name="bluetooth_is_not_supported_">Bluetooth non supportato.</string>
   <string name="bluetooth_is_disabled_">Bluetooth disabilitato.</string>
+  <string name="tap_connected_device_for_app_mananger">tocca il dispositivo connesso per gestire le App</string>
+  <string name="tap_connected_device_for_activity">tocca il dispositivo connesso per visualizzare l\'attività</string>
+  <string name="tap_a_device_to_connect">tocca il dispositivo a cui connettersi</string>
   <string name="cannot_connect_bt_address_invalid_">Impossibile connettersi. Indirizzo BT non valido?</string>
   <string name="gadgetbridge_running">Gadgetbridge in esecuzione</string>
   <string name="installing_binary_d_d">installazione del binario %1$d/%2$d</string>
@@ -100,11 +116,13 @@
   <string name="miband_pairing_using_dummy_userdata">Dati dell\'utente non inseriti, vengono usati dati d\'esempio.</string>
   <string name="miband_pairing_tap_hint">Quando la Mi Band vibra e lampeggia, dalle qualche leggero colpetto.</string>
   <string name="appinstaller_install">Installa</string>
+  <string name="discovery_connected_devices_hint">Imposta il tuo dispositivo perchè sia rilevabile. I dispositivi attualmente connessi non saranno probabilmente rilevati. Se non vedi il tuo dispositivo entro un paio di minuti, riprova dopo avere riavviato il dispositivo Android.</string>
   <string name="discovery_note">Nota:</string>
   <string name="candidate_item_device_image">Immagine dispositivo</string>
   <string name="miband_prefs_alias">Nome / Soprannome</string>
   <string name="pref_header_vibration_count">Numero vibrazioni</string>
   <string name="title_activity_sleepmonitor">Monitoraggio del sonno</string>
+  <string name="pref_write_logfiles">Salva il log su file</string>
   <string name="initializing">inizializzazione in corso</string>
   <string name="busy_task_fetch_activity_data">Recupero dati attività</string>
   <string name="sleep_activity_date_range">Da %1$s a %2$s</string>
@@ -178,6 +196,8 @@
   <string name="pref_title_dont_ack_transfer">Non confermare il trasferimento dati</string>
   <string name="pref_summary_dont_ack_transfers">Se il trasferimento non viene confermato, i dati rimangono memorizzati sulla Mi Band. Utile se GB è usato insieme ad altre app.</string>
   <string name="pref_summary_keep_data_on_device">Conserva i dati delle attività sulla Mi Band anche dopo averli sincronizzati. Utile se GB è usato insieme ad altre app.</string>
+  <string name="pref_title_low_latency_fw_update">Utilizza la modalità a bassa latenza per gli aggiornamenti del firmware</string>
+  <string name="pref_summary_low_latency_fw_update">Può essere utile quando l\'aggiornamento del firmware fallisce</string>
   <string name="live_activity_steps_history">Storico dei passi</string>
   <string name="live_activity_current_steps_per_minute">Passi/minuto</string>
   <string name="live_activity_total_steps">Passi totali</string>
@@ -193,6 +213,7 @@
   <string name="miband_fwinstaller_incompatible_version">Firmware non compatibile</string>
   <string name="fwinstaller_firmware_not_compatible_to_device">Questo firmware non è compatibile con il dispositivo</string>
   <string name="miband_prefs_reserve_alarm_calendar">Sveglie da riservare per i prossimi eventi del calendario</string>
+  <string name="miband_prefs_hr_sleep_detection">Utilizza il sensore del battito cardiaco per migliorare il riconoscimento del sonno</string>
   <string name="waiting_for_reconnect">in attesa di riconessione</string>
   <string name="appmananger_app_reinstall">Re-installazion</string>
   <string name="activity_prefs_about_you">Informazioni sull\'utilizzatore</string>
@@ -211,4 +232,11 @@
   <string name="appwidget_alarms_set">Impostata sveglia per %1$02d:%2$02d</string>
   <string name="device_hw">HW: %1$s</string>
   <string name="device_fw">FW: %1$s</string>
+  <string name="error_creating_directory_for_logfiles">Errore durante la creazione della directory per i file di log: %1$s</string>
+  <string name="DEVINFO_HR_VER">HR:</string>
+  <string name="updatefirmwareoperation_update_in_progress">Aggiornamento firmware in corso</string>
+  <string name="updatefirmwareoperation_firmware_not_sent">Firmware non inviato</string>
+  <string name="charts_legend_heartrate">Battito cardiaco</string>
+  <string name="live_activity_heart_rate">Battito cardiaco</string>
+	<string name="miband_prefs_device_time_offset_hours">Offset orologio del dispositivo in ore (per l\'identificazione del sonno dei lavoratori a turni)</string>
 </resources>

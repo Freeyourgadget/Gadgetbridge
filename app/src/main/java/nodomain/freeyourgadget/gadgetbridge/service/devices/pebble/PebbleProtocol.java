@@ -34,6 +34,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleIconID;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
+import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
@@ -240,6 +241,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final short LENGTH_UPLOADCANCEL = 5;
 
     static final byte LENGTH_UUID = 16;
+
+    static final long GB_UUID_MASK = 0x4767744272646700L;
 
     // base is -5
     private static final String[] hwRevisions = {
@@ -452,7 +455,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         if (isFw3x) {
             // 3.x notification
-            //return encodeTimelinePin(id, (int) ((ts + 600) & 0xffffffffL), (short) 90, PebbleIconID.TIMELINE_CALENDAR, title); // really, this is just for testing
             return encodeBlobdbNotification(id, (int) (ts & 0xffffffffL), title, subtitle, notificationSpec.body, notificationSpec.sourceName, hasHandle, notificationSpec.type, notificationSpec.cannedReplies);
         } else if (mForceProtocol || notificationSpec.type != NotificationType.EMAIL) {
             // 2.x notification
@@ -463,6 +465,29 @@ public class PebbleProtocol extends GBDeviceProtocol {
             // be aware that type is at this point always NOTIFICATION_EMAIL
             return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_EMAIL, 0, parts);
         }
+    }
+
+    @Override
+    public byte[] encodeAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
+        long id = calendarEventSpec.id != -1 ? calendarEventSpec.id : mRandom.nextLong();
+        int iconId;
+        switch (calendarEventSpec.type) {
+            case CalendarEventSpec.TYPE_SUNRISE:
+                iconId = PebbleIconID.SUNRISE;
+                break;
+            case CalendarEventSpec.TYPE_SUNSET:
+                iconId = PebbleIconID.SUNSET;
+                break;
+            default:
+                iconId = PebbleIconID.TIMELINE_CALENDAR;
+        }
+
+        return encodeTimelinePin(new UUID(GB_UUID_MASK | calendarEventSpec.type, id), calendarEventSpec.timestamp, (short) calendarEventSpec.durationInSeconds, iconId, calendarEventSpec.title, calendarEventSpec.description);
+    }
+
+    @Override
+    public byte[] encodeDeleteCalendarEvent(byte type, long id) {
+        return encodeBlobdb(new UUID(GB_UUID_MASK | type, id), BLOBDB_DELETE, BLOBDB_PIN, null);
     }
 
     @Override
@@ -743,11 +768,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    private byte[] encodeTimelinePin(int id, int timestamp, short duration, int icon_id, String title, String subtitle) {
+    private byte[] encodeTimelinePin(UUID uuid, int timestamp, short duration, int icon_id, String title, String subtitle) {
         final short TIMELINE_PIN_LENGTH = 46;
 
         icon_id |= 0x80000000;
-        UUID uuid = new UUID(mRandom.nextLong(), ((long) mRandom.nextInt() << 32) | id);
         byte attributes_count = 2;
         byte actions_count = 0;
 
@@ -1235,10 +1259,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         buf.put(PHONEVERSION_APPVERSION_MAGIC);
         buf.put((byte) 3); // major
-        buf.put((byte) 8); // minor
-        buf.put((byte) 1); // patch
+        buf.put((byte) 12); // minor
+        buf.put((byte) 0); // patch
         buf.order(ByteOrder.LITTLE_ENDIAN);
-        buf.putLong(0x00000000000000af); //flags
+        buf.putLong(0x00000000000001af); //flags
 
         return buf.array();
     }
@@ -1803,7 +1827,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 LOG.info(ENDPOINT_NAME + ": (cmd:" + command + ")" + uuid);
                 break;
         }
-        return null;
+        return new GBDeviceEvent[]{null};
     }
 
     private GBDeviceEvent decodeBlobDb(ByteBuffer buf) {
@@ -1881,9 +1905,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 LOG.info("DATALOG OPENSESSION. id=" + (id & 0xff) + ", App UUID=" + uuid.toString() + ", log_tag=" + log_tag + ", item_type=" + item_type + ", itemSize=" + item_size);
                 if (!mDatalogSessions.containsKey(id)) {
                     if (uuid.equals(UUID_ZERO) && log_tag == 81) {
-                        mDatalogSessions.put(id, new DatalogSessionHealthSteps(id, uuid, log_tag, item_type, item_size, getDevice()));
-                    } else if (uuid.equals(UUID_ZERO) && (log_tag == 83 || log_tag == 84)) {
+                        mDatalogSessions.put(id, new DatalogSessionHealthSteps(id, uuid, log_tag, item_type, item_size, getDevice())));
+                    } else if (uuid.equals(UUID_ZERO) && log_tag == 83) {
                         mDatalogSessions.put(id, new DatalogSessionHealthSleep(id, uuid, log_tag, item_type, item_size));
+                    } else if (uuid.equals(UUID_ZERO) && log_tag == 84) {
+                        mDatalogSessions.put(id, new DatalogSessionHealthOverlayData(id, uuid, log_tag, item_type, item_size));
                     } else {
                         mDatalogSessions.put(id, new DatalogSession(id, uuid, log_tag, item_type, item_size));
                     }
@@ -2091,8 +2117,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
                         AppMessageHandler handler = mAppMessageHandlers.get(uuid);
                         if (handler != null) {
-                            ArrayList<Pair<Integer, Object>> dict = decodeDict(buf);
-                            devEvts = handler.handleMessage(dict);
+                            if (handler.isEnabled()) {
+                                ArrayList<Pair<Integer, Object>> dict = decodeDict(buf);
+                                devEvts = handler.handleMessage(dict);
+                            } else {
+                                devEvts = new GBDeviceEvent[]{null};
+                            }
                         } else {
                             try {
                                 devEvts = decodeDictToJSONAppMessage(uuid, buf);

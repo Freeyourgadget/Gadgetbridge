@@ -7,6 +7,9 @@
         android:id="@+id/appmanager_app_delete"
         android:title="@string/appmananger_app_delete"/>
     <item
+        android:id="@+id/appmanager_app_delete_cache"
+        android:title="@string/appmananger_app_delete_cache"/>
+    <item
         android:id="@+id/appmanager_health_activate"
         android:title="@string/appmanager_health_activate"/>
     <item

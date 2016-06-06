@@ -21,9 +21,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.util.TypedValue;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
@@ -31,8 +28,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.Appender;
 import nodomain.freeyourgadget.gadgetbridge.database.DBConstants;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
@@ -63,14 +58,23 @@ public class GBApplication extends Application {
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
     private static final int CURRENT_PREFS_VERSION = 2;
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
-    private static Appender<ILoggingEvent> fileLogger;
     private static Prefs prefs;
     private static GBPrefs gbPrefs;
     private static DBHandler lockHandler;
+    /**
+     * Note: is null on Lollipop and Kitkat
+     */
     private static NotificationManager notificationManager;
 
     public static final String ACTION_QUIT
             = "nodomain.freeyourgadget.gadgetbridge.gbapplication.action.quit";
+    private static Logging logging = new Logging() {
+        @Override
+        protected String createLogDirectory() throws IOException {
+            File dir = FileUtils.getExternalFilesDir();
+            return dir.getAbsolutePath();
+        }
+    };
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -113,11 +117,6 @@ public class GBApplication extends Application {
         }
 
         setupExceptionHandler();
-//        For debugging problems with the logback configuration
-//        LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-//         print logback's internal status
-//        StatusPrinter.print(lc);
-//        Logger logger = LoggerFactory.getLogger(GBApplication.class);
 
         setupDatabase(this);
 
@@ -131,12 +130,16 @@ public class GBApplication extends Application {
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
 
         if (isRunningMarshmallowOrLater()) {
-            notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+            notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         }
 
 // for testing DB stuff
 //        SQLiteDatabase db = mActivityDatabaseHandler.getWritableDatabase();
 //        db.close();
+    }
+
+    public static void setupLogging(boolean enabled) {
+        logging.setupLogging(enabled);
     }
 
     private void setupExceptionHandler() {
@@ -146,71 +149,6 @@ public class GBApplication extends Application {
 
     public static boolean isFileLoggingEnabled() {
         return prefs.getBoolean("log_to_file", false);
-    }
-
-    public static void setupLogging(boolean enable) {
-        try {
-            if (fileLogger == null) {
-                File dir = FileUtils.getExternalFilesDir();
-                // used by assets/logback.xml since the location cannot be statically determined
-                System.setProperty("GB_LOGFILES_DIR", dir.getAbsolutePath());
-                rememberFileLogger();
-            }
-            if (enable) {
-                startFileLogger();
-            } else {
-                stopFileLogger();
-            }
-            getLogger().info("Gadgetbridge version: " + BuildConfig.VERSION_NAME);
-        } catch (IOException ex) {
-            Log.e("GBApplication", "External files dir not available, cannot log to file", ex);
-            stopFileLogger();
-        }
-    }
-
-    private static void startFileLogger() {
-        if (fileLogger != null && !fileLogger.isStarted()) {
-            addFileLogger(fileLogger);
-            fileLogger.start();
-        }
-    }
-
-    private static void stopFileLogger() {
-        if (fileLogger != null && fileLogger.isStarted()) {
-            fileLogger.stop();
-            removeFileLogger(fileLogger);
-        }
-    }
-
-    private static void rememberFileLogger() {
-        ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-        fileLogger = root.getAppender("FILE");
-    }
-
-    private static void addFileLogger(Appender<ILoggingEvent> fileLogger) {
-        try {
-            ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-            if (!root.isAttached(fileLogger)) {
-                root.addAppender(fileLogger);
-            }
-        } catch (Throwable ex) {
-            Log.e("GBApplication", "Error adding logger FILE appender", ex);
-        }
-    }
-
-    private static void removeFileLogger(Appender<ILoggingEvent> fileLogger) {
-        try {
-            ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-            if (root.isAttached(fileLogger)) {
-                root.detachAppender(fileLogger);
-            }
-        } catch (Throwable ex) {
-            Log.e("GBApplication", "Error removing logger FILE appender", ex);
-        }
-    }
-
-    private static Logger getLogger() {
-        return LoggerFactory.getLogger(GBApplication.class);
     }
 
     static void setupDatabase(Context context) {
@@ -285,7 +223,7 @@ public class GBApplication extends Application {
             boolean exists = false;
             int starred = 0;
             try {
-                if (cursor.moveToFirst()) {
+                if (cursor != null && cursor.moveToFirst()) {
                     exists = true;
                     starred = cursor.getInt(cursor.getColumnIndexOrThrow(PhoneLookup.STARRED));
                 }

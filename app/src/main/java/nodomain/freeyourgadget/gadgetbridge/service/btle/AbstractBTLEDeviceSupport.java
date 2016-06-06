@@ -147,7 +147,6 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     }
 
     private void gattServicesDiscovered(List<BluetoothGattService> discoveredGattServices) {
-
         if (discoveredGattServices == null) {
             return;
         }
@@ -180,7 +179,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
 
     @Override
     public void onServicesDiscovered(BluetoothGatt gatt) {
-        gattServicesDiscovered(getQueue().getSupportedGattServices());
+        gattServicesDiscovered(gatt.getServices());
         initializeDevice(createTransactionBuilder("Initializing device")).queue(getQueue());
     }
 

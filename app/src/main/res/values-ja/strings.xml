@@ -14,6 +14,7 @@
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">アプリ管理画面</string>
   <string name="appmananger_app_delete">削除</string>
+  <string name="appmananger_app_delete_cache">キャッシュから削除</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">ステータス通知ブラックリスト</string>
   <!--Strings related to FwAppInstaller-->
@@ -27,6 +28,7 @@
   <string name="title_activity_settings">設定</string>
   <string name="pref_header_general">一般設定</string>
   <string name="pref_title_general_autoconnectonbluetooth">Bluetoothがオンになったときにデバイスに接続</string>
+  <string name="pref_title_general_autocreonnect">自動的に再接続</string>
   <string name="pref_title_audo_player">お好みのオーディオプレイヤー</string>
   <string name="pref_default">デフォルト</string>
   <string name="pref_header_datetime">日付と時刻</string>
@@ -44,6 +46,8 @@
   <string name="pref_summary_notifications_pebblemsg">インテント経由でPebbleに通知を送信するアプリケーションをサポートします。Conversationsに使用することができます。</string>
   <string name="pref_title_notifications_generic">一般ステータス通知対応</string>
   <string name="pref_title_whenscreenon">… スクリーンがオンのときにも</string>
+  <string name="pref_title_notification_filter">サイレント</string>
+  <string name="pref_summary_notification_filter">サイレントモードに基づいて、送信される不要な通知を停止します。</string>
   <string name="always">いつも</string>
   <string name="when_screen_off">スクリーンがオフのとき</string>
   <string name="never">なし</string>
@@ -56,6 +60,12 @@
   <string name="pref_title_pebble_activitytracker">お好みのアクティビティ トラッカー</string>
   <string name="pref_title_enable_pebblekit">第三者のアンドロイドアップにアクセス権利を与える</string>
   <string name="pref_summary_enable_pebblekit">PebbleKitを使用してAndroidアプリ用の実験的なサポートを有効にします</string>
+  <string name="pref_title_sunrise_sunset">日の出と日の入り</string>
+  <string name="pref_summary_sunrise_sunset">場所に基づいて、Pebble のタイムラインに日の出・日の入りの時間を送ります</string>
+  <string name="pref_header_location">場所</string>
+  <string name="pref_title_location_aquire">場所の取得</string>
+  <string name="pref_title_location_latitude">緯度</string>
+  <string name="pref_title_location_longitude">経度</string>
   <string name="pref_title_pebble_forceprotocol">通知プロトコルを強制する</string>
   <string name="pref_summary_pebble_forceprotocol">このオプションを指定すると、ファームウェアのバージョンに応じて強制的に最新の通知プロトコルを使用します。何をしているかわかっている場合のみ有効にしてください!</string>
   <string name="pref_title_pebble_forceuntested">未テストの機能を有効にする</string>
@@ -228,5 +238,4 @@
   <string name="updatefirmwareoperation_firmware_not_sent">ファームウェアを送信しませんでした</string>
   <string name="charts_legend_heartrate">心拍数</string>
   <string name="live_activity_heart_rate">心拍数</string>
-  <string name="pref_title_general_autocreonnect">自動的に再接続</string>
 </resources>

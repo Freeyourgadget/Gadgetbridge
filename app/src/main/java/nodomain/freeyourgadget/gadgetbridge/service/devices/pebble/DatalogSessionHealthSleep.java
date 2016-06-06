@@ -1,7 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 
-import android.widget.Toast;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +13,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.pebble.HealthSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-class DatalogSessionHealthSleep extends DatalogSession {
+class DatalogSessionHealthSleep extends DatalogSessionPebbleHealth {
 
     private static final Logger LOG = LoggerFactory.getLogger(DatalogSessionHealthSleep.class);
 
@@ -27,65 +25,11 @@ class DatalogSessionHealthSleep extends DatalogSession {
     @Override
     public boolean handleMessage(ByteBuffer datalogMessage, int length) {
         LOG.info("DATALOG " + taginfo + GB.hexdump(datalogMessage.array(), datalogMessage.position(), length));
-        switch (this.tag) {
-            case 83:
-                return handleMessage83(datalogMessage, length);
-            case 84:
-                return handleMessage84(datalogMessage, length);
-            default:
-                return false;
-        }
-    }
 
-    private boolean handleMessage84(ByteBuffer datalogMessage, int length) {
-        int initialPosition = datalogMessage.position();
-        int beginOfRecordPosition;
-        short recordVersion; //probably
-        short recordType; //probably: 1=sleep, 2=deep sleep
-
-        if (0 != (length % itemSize))
-            return false;//malformed message?
-
-        int recordCount = length / itemSize;
-        SleepRecord84[] sleepRecords = new SleepRecord84[recordCount];
-
-        for (int recordIdx = 0; recordIdx < recordCount; recordIdx++) {
-            beginOfRecordPosition = initialPosition + recordIdx * itemSize;
-            datalogMessage.position(beginOfRecordPosition);//we may not consume all the bytes of a record
-            recordVersion = datalogMessage.getShort();
-            if (recordVersion != 1)
-                return false;//we don't know how to deal with the data TODO: this is not ideal because we will get the same message again and again since we NACK it
-
-            datalogMessage.getShort();//throwaway, unknown
-            recordType = datalogMessage.getShort();
-
-            sleepRecords[recordIdx] = new SleepRecord84(recordType, datalogMessage.getInt(), datalogMessage.getInt(), datalogMessage.getInt());
+        if (!isPebbleHealthEnabled()) {
+            return false;
         }
 
-        return store84(sleepRecords);//NACK if we cannot store the data yet, the watch will send the sleep records again.
-    }
-
-    private boolean store84(SleepRecord84[] sleepRecords) {
-        try (DBHandler dbHandler = GBApplication.acquireDB()) {
-            SampleProvider sampleProvider = new HealthSampleProvider(dbHandler.getDaoSession());
-            int latestTimestamp = sampleProvider.fetchLatestTimestamp();
-            for (SleepRecord84 sleepRecord : sleepRecords) {
-                if (latestTimestamp < (sleepRecord.timestampStart + sleepRecord.durationSeconds))
-                    return false;
-                if (sleepRecord.type == 2) {
-                    sampleProvider.changeStoredSamplesType(sleepRecord.timestampStart, (sleepRecord.timestampStart + sleepRecord.durationSeconds), sampleProvider.toRawActivityKind(ActivityKind.TYPE_DEEP_SLEEP));
-                } else {
-                    sampleProvider.changeStoredSamplesType(sleepRecord.timestampStart, (sleepRecord.timestampStart + sleepRecord.durationSeconds), sampleProvider.toRawActivityKind(ActivityKind.TYPE_ACTIVITY), sampleProvider.toRawActivityKind(ActivityKind.TYPE_LIGHT_SLEEP));
-                }
-
-            }
-        } catch (Exception ex) {
-            LOG.debug(ex.getMessage());
-        }
-        return true;
-    }
-
-    private boolean handleMessage83(ByteBuffer datalogMessage, int length) {
         int initialPosition = datalogMessage.position();
         int beginOfRecordPosition;
         short recordVersion; //probably
@@ -94,7 +38,7 @@ class DatalogSessionHealthSleep extends DatalogSession {
             return false;//malformed message?
 
         int recordCount = length / itemSize;
-        SleepRecord83[] sleepRecords = new SleepRecord83[recordCount];
+        SleepRecord[] sleepRecords = new SleepRecord[recordCount];
 
         for (int recordIdx = 0; recordIdx < recordCount; recordIdx++) {
             beginOfRecordPosition = initialPosition + recordIdx * itemSize;
@@ -103,21 +47,20 @@ class DatalogSessionHealthSleep extends DatalogSession {
             if (recordVersion != 1)
                 return false;//we don't know how to deal with the data TODO: this is not ideal because we will get the same message again and again since we NACK it
 
-            sleepRecords[recordIdx] = new SleepRecord83(datalogMessage.getInt(),
+            sleepRecords[recordIdx] = new SleepRecord(datalogMessage.getInt(),
                     datalogMessage.getInt(),
                     datalogMessage.getInt(),
                     datalogMessage.getInt());
         }
 
-        return store83(sleepRecords);//NACK if we cannot store the data yet, the watch will send the sleep records again.
+        return store(sleepRecords);//NACK if we cannot store the data yet, the watch will send the sleep records again.
     }
 
-    private boolean store83(SleepRecord83[] sleepRecords) {
+    private boolean store(SleepRecord[] sleepRecords) {
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             SampleProvider sampleProvider = new HealthSampleProvider(dbHandler.getDaoSession());
-            GB.toast("Deep sleep is supported only from firmware 3.11 onwards.", Toast.LENGTH_LONG, GB.INFO);
             int latestTimestamp = sampleProvider.fetchLatestTimestamp();
-            for (SleepRecord83 sleepRecord : sleepRecords) {
+            for (SleepRecord sleepRecord : sleepRecords) {
                 if (latestTimestamp < sleepRecord.bedTimeEnd)
                     return false;
                 sampleProvider.changeStoredSamplesType(sleepRecord.bedTimeStart, sleepRecord.bedTimeEnd, sampleProvider.toRawActivityKind(ActivityKind.TYPE_ACTIVITY), sampleProvider.toRawActivityKind(ActivityKind.TYPE_LIGHT_SLEEP));
@@ -128,13 +71,13 @@ class DatalogSessionHealthSleep extends DatalogSession {
         return true;
     }
 
-    private class SleepRecord83 {
+    private class SleepRecord {
         int offsetUTC; //probably
         int bedTimeStart;
         int bedTimeEnd;
         int deepSleepSeconds;
 
-        public SleepRecord83(int offsetUTC, int bedTimeStart, int bedTimeEnd, int deepSleepSeconds) {
+        public SleepRecord(int offsetUTC, int bedTimeStart, int bedTimeEnd, int deepSleepSeconds) {
             this.offsetUTC = offsetUTC;
             this.bedTimeStart = bedTimeStart;
             this.bedTimeEnd = bedTimeEnd;
@@ -142,17 +85,4 @@ class DatalogSessionHealthSleep extends DatalogSession {
         }
     }
 
-    private class SleepRecord84 {
-        int type; //1=sleep, 2=deep sleep
-        int offsetUTC; //probably
-        int timestampStart;
-        int durationSeconds;
-
-        public SleepRecord84(int type, int offsetUTC, int timestampStart, int durationSeconds) {
-            this.type = type;
-            this.offsetUTC = offsetUTC;
-            this.timestampStart = timestampStart;
-            this.durationSeconds = durationSeconds;
-        }
-    }
 }

@@ -23,6 +23,13 @@
             android:entryValues="@array/pref_theme_values"
             android:defaultValue="@string/pref_theme_value_light"
             android:summary="%s" />
+        <ListPreference
+            android:key="language"
+            android:title="@string/pref_title_language"
+            android:entries="@array/pref_language_options"
+            android:entryValues="@array/pref_language_values"
+            android:defaultValue="default"
+            android:summary="%s" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="pref_key_datetime"
@@ -196,7 +203,6 @@
             android:key="pref_key_pebble"
             android:title="@string/pref_title_pebble_settings">
             <PreferenceCategory
-                android:key="pref_key_general"
                 android:title="@string/pref_header_general">
                 <CheckBoxPreference
                     android:defaultValue="false"
@@ -216,9 +222,30 @@
                     android:key="pebble_activitytracker"
                     android:title="@string/pref_title_pebble_activitytracker"
                     android:summary="%s" />
+                <CheckBoxPreference
+                    android:title="@string/pref_title_sunrise_sunset"
+                    android:summary="@string/pref_summary_sunrise_sunset"
+                    android:key="send_sunrise_sunset" />
             </PreferenceCategory>
             <PreferenceCategory
-                android:key="pref_key_development"
+                android:title="@string/pref_header_location">
+            <Preference
+                android:key="location_aquire"
+                android:title="@string/pref_title_location_aquire"/>
+            <EditTextPreference
+                android:maxLength="7"
+                android:digits="0123456789."
+                android:defaultValue="0"
+                android:key="location_latitude"
+                android:title="@string/pref_title_location_latitude" />
+            <EditTextPreference
+                android:maxLength="7"
+                android:digits="0123456789."
+                android:defaultValue="0"
+                android:key="location_longitude"
+                android:title="@string/pref_title_location_longitude" />
+            </PreferenceCategory>
+            <PreferenceCategory
                 android:title="@string/pref_header_development">
                 <CheckBoxPreference
                     android:defaultValue="false"

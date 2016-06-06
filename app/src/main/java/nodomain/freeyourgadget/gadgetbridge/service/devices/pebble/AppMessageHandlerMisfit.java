@@ -18,11 +18,13 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
+import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.MisfitSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class AppMessageHandlerMisfit extends AppMessageHandler {
 
@@ -40,6 +42,13 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
 
     public AppMessageHandlerMisfit(UUID uuid, PebbleProtocol pebbleProtocol) {
         super(uuid, pebbleProtocol);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        Prefs prefs = GBApplication.getPrefs();
+        int activityTracker = prefs.getInt("pebble_activitytracker", SampleProvider.PROVIDER_PEBBLE_HEALTH);
+        return (activityTracker == SampleProvider.PROVIDER_PEBBLE_MISFIT);
     }
 
     @Override

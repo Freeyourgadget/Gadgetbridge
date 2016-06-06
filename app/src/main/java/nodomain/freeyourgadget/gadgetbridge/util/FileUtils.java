@@ -182,4 +182,31 @@ public class FileUtils {
         }
         return out.toByteArray();
     }
+
+    public static boolean deleteRecursively(File dir) {
+        if (!dir.exists()) {
+            return true;
+        }
+        if (dir.isFile()) {
+            return dir.delete();
+        }
+        for (File sub : dir.listFiles()) {
+            if (!deleteRecursively(sub)) {
+                return false;
+            }
+        }
+        return dir.delete();
+    }
+
+    public static File createTempDir(String prefix) throws IOException {
+        File parent = new File(System.getProperty("java.io.tmpdir", "/tmp"));
+        for (int i = 1; i < 100; i++) {
+            String name = prefix + (int) (Math.random() * 100000);
+            File dir = new File(parent, name);
+            if (dir.mkdirs()) {
+                return dir;
+            }
+        }
+        throw new IOException("Cannot create temporary directory in " + parent);
+    }
 }

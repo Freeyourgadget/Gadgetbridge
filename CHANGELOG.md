@@ -1,4 +1,21 @@
 ###Changelog
+####Version 0.10.0
+* Pebble: option to send sunrise and sunset events to timeline
+* Pebble: fix problems with unknown app keys while configuring watchfaces
+* Mi Band: BLE connection fixes
+* Fixes for enabling logging at whithout restarting Gadgetbridge
+* Re-enable device paring activity on Android 6 (BLE scanning needs the location preference)
+* Display device address in device info
+
+####Version 0.9.8
+* Pebble: fix more reconnnect issues
+* Pebble: fix deep sleep not being detected with Firmware 3.12 when using Pebble Health
+* Pebble: option in AppManager to delete files from cache
+* Pebble: enable pbw cache and watchface configuration for Firmware 2.x
+* Pebble: allow enabling of Pebble Health without "untested features" being enabled
+* Pebble: fix music information being messed up
+* Honour "Do Not Disturb" for phone calls and SMS
+
 ####Version 0.9.7
 * Pebble: hopefully fix some reconnect issues
 * Mi Band: fix live activity monitoring running forever if back button pressed
