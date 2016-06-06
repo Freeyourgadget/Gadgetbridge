@@ -58,20 +58,18 @@ class DatalogSessionHealthOverlayData extends DatalogSessionPebbleHealth {
     }
 
     private boolean store(OverlayRecord[] overlayRecords) {
-        DBHandler dbHandler = null;
-        SampleProvider sampleProvider = new HealthSampleProvider();
-        try {
-            dbHandler = GBApplication.acquireDB();
-            int latestTimestamp = dbHandler.fetchLatestTimestamp(sampleProvider);
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            SampleProvider sampleProvider = new HealthSampleProvider(dbHandler.getDaoSession());
+            int latestTimestamp = sampleProvider.fetchLatestTimestamp();
             for (OverlayRecord overlayRecord : overlayRecords) {
                 if (latestTimestamp < (overlayRecord.timestampStart + overlayRecord.durationSeconds))
                     return false;
                 switch (overlayRecord.type) {
                     case 1:
-                        dbHandler.changeStoredSamplesType(overlayRecord.timestampStart, (overlayRecord.timestampStart + overlayRecord.durationSeconds), sampleProvider.toRawActivityKind(ActivityKind.TYPE_ACTIVITY), sampleProvider.toRawActivityKind(ActivityKind.TYPE_LIGHT_SLEEP), sampleProvider);
+                        sampleProvider.changeStoredSamplesType(overlayRecord.timestampStart, (overlayRecord.timestampStart + overlayRecord.durationSeconds), sampleProvider.toRawActivityKind(ActivityKind.TYPE_ACTIVITY), sampleProvider.toRawActivityKind(ActivityKind.TYPE_LIGHT_SLEEP));
                         break;
                     case 2:
-                        dbHandler.changeStoredSamplesType(overlayRecord.timestampStart, (overlayRecord.timestampStart + overlayRecord.durationSeconds), sampleProvider.toRawActivityKind(ActivityKind.TYPE_DEEP_SLEEP), sampleProvider);
+                        sampleProvider.changeStoredSamplesType(overlayRecord.timestampStart, (overlayRecord.timestampStart + overlayRecord.durationSeconds), sampleProvider.toRawActivityKind(ActivityKind.TYPE_DEEP_SLEEP));
                         break;
                     default:
                         //TODO: other values refer to unknown activity types.
@@ -79,10 +77,6 @@ class DatalogSessionHealthOverlayData extends DatalogSessionPebbleHealth {
             }
         } catch (Exception ex) {
             LOG.debug(ex.getMessage());
-        } finally {
-            if (dbHandler != null) {
-                dbHandler.release();
-            }
         }
         return true;
     }

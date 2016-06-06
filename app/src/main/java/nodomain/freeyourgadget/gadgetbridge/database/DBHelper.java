@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -25,6 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.UserAttributes;
 import nodomain.freeyourgadget.gadgetbridge.entities.UserDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
+import nodomain.freeyourgadget.gadgetbridge.model.ValidByDate;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
@@ -175,7 +177,7 @@ public class DBHelper {
 
     private static boolean hasUpToDateUserAttributes(List<UserAttributes> userAttributes, ActivityUser prefsUser) {
         for (UserAttributes attr : userAttributes) {
-            if (!isActive(attr)) {
+            if (!isValidNow(attr)) {
                 return false;
             }
             if (isEqual(attr, prefsUser)) {
@@ -185,7 +187,38 @@ public class DBHelper {
         return false;
     }
 
+    private static boolean isValidNow(ValidByDate element) {
+        Calendar cal = DateTimeUtils.getCalendarUTC();
+        Date nowUTC = cal.getTime();
+        return isValid(element, nowUTC);
+    }
+
+    private static boolean isValid(ValidByDate element, Date nowUTC) {
+        Date validFromUTC = element.getValidFromUTC();
+        Date validToUTC = element.getValidToUTC();
+        if (nowUTC.before(validFromUTC)) {
+            return false;
+        }
+        if (validToUTC != null && nowUTC.after(validToUTC)) {
+            return false;
+        }
+        return true;
+    }
+
     private static boolean isEqual(UserAttributes attr, ActivityUser prefsUser) {
+        if (prefsUser.getHeightCm() != attr.getHeightCM()) {
+            return false;
+        }
+        if (prefsUser.getWeightKg() != attr.getWeightKG()) {
+            return false;
+        }
+        if (prefsUser.getSleepDuration() != attr.getSleepGoalHPD()) {
+            return false;
+        }
+        if (prefsUser.getStepsGoal() != attr.getStepsGoalSPD()) {
+            return false;
+        }
+        return true;
     }
 
     public static Device getDevice(GBDevice gbDevice, DaoSession session) {

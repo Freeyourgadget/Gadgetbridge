@@ -30,6 +30,7 @@ public class GBDaoGenerator {
     public static final String VALID_TO_UTC = "validToUTC";
     private static final String MAIN_PACKAGE = "nodomain.freeyourgadget.gadgetbridge";
     private static final String MODEL_PACKAGE = MAIN_PACKAGE + ".model";
+    private static final String VALID_BY_DATE = MODEL_PACKAGE + ".ValidByDate";
 
     public static void main(String[] args) throws Exception {
         Schema schema = new Schema(7, MAIN_PACKAGE + ".entities");
@@ -89,10 +90,16 @@ public class GBDaoGenerator {
         userAttributes.addIntProperty("weightKG").notNull();
         userAttributes.addIntProperty("sleepGoalHPD");
         userAttributes.addIntProperty("stepsGoalSPD");
-        userAttributes.addDateProperty(VALID_FROM_UTC);
-        userAttributes.addDateProperty(VALID_TO_UTC);
+        addDateValidityTo(userAttributes);
 
         return userAttributes;
+    }
+
+    private static void addDateValidityTo(Entity entity) {
+        entity.addDateProperty(VALID_FROM_UTC);
+        entity.addDateProperty(VALID_TO_UTC);
+
+        entity.implementsInterface(VALID_BY_DATE);
     }
 
     private static Entity addDevice(Schema schema, Entity deviceAttributes) {
@@ -114,8 +121,7 @@ public class GBDaoGenerator {
         deviceAttributes.addIdProperty();
         deviceAttributes.addStringProperty("firmwareVersion1").notNull();
         deviceAttributes.addStringProperty("firmwareVersion2");
-        deviceAttributes.addDateProperty(VALID_FROM_UTC);
-        deviceAttributes.addDateProperty(VALID_TO_UTC);
+        addDateValidityTo(deviceAttributes);
 
         return deviceAttributes;
     }
