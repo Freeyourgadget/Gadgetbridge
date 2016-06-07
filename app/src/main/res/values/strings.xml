@@ -74,7 +74,13 @@
     <string name="pref_title_development_miaddr">Mi Band address</string>
 
     <string name="pref_title_pebble_settings">Pebble Settings</string>
+
+    <string name="pref_header_activitytrackers">Activity Trackers</string>
     <string name="pref_title_pebble_activitytracker">Preferred Activitytracker</string>
+    <string name="pref_title_pebble_sync_health">Sync Pebble Health</string>
+    <string name="pref_title_pebble_sync_misfit">Sync Misfit</string>
+    <string name="pref_title_pebble_sync_morpheuz">Sync Morpheuz</string>
+
     <string name="pref_title_enable_pebblekit">Allow 3rd Party Android App Access</string>
     <string name="pref_summary_enable_pebblekit">Enable experimental support for Android Apps using PebbleKit</string>
 

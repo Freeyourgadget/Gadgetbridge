@@ -3,7 +3,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 abstract class DatalogSessionPebbleHealth extends DatalogSession {
@@ -14,7 +13,6 @@ abstract class DatalogSessionPebbleHealth extends DatalogSession {
 
     protected boolean isPebbleHealthEnabled() {
         Prefs prefs = GBApplication.getPrefs();
-        int activityTracker = prefs.getInt("pebble_activitytracker", SampleProvider.PROVIDER_PEBBLE_HEALTH);
-        return (activityTracker == SampleProvider.PROVIDER_PEBBLE_HEALTH);
+        return prefs.getBoolean("pebble_sync_health", true);
     }
 }
