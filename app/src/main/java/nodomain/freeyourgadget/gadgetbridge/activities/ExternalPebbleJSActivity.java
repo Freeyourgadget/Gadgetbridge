@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Scanner;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -138,19 +139,36 @@ public class ExternalPebbleJSActivity extends GBActivity {
             try {
                 JSONObject in = new JSONObject(msg);
                 JSONObject out = new JSONObject();
-                String cur_key;
+                String inKey, outKey;
+                boolean passKey = false;
                 for (Iterator<String> key = in.keys(); key.hasNext(); ) {
-                    cur_key = key.next();
-                    int pebbleAppIndex = knownKeys.optInt(cur_key);
+                    passKey = false;
+                    inKey = key.next();
+                    outKey = null;
+                    int pebbleAppIndex = knownKeys.optInt(inKey);
                     if (pebbleAppIndex != 0) {
-                        Object obj = in.get(cur_key);
+                        passKey = true;
+                        outKey = String.valueOf(pebbleAppIndex);
+
+                    } else {
+                        //do not discard integer keys (see https://developer.pebble.com/guides/communication/using-pebblekit-js/ )
+                        Scanner scanner = new Scanner(inKey);
+                        if (scanner.hasNextInt() && inKey.equals("" + scanner.nextInt())) {
+                            passKey = true;
+                            outKey = inKey;
+                        }
+                    }
+
+                    if (passKey && outKey != null) {
+                        Object obj = in.get(inKey);
                         if (obj instanceof Boolean) {
                             obj = ((Boolean) obj) ? "true" : "false";
                         }
-                        out.put(String.valueOf(pebbleAppIndex), obj);
+                        out.put(outKey, obj);
                     } else {
-                        GB.toast("Discarded key " + cur_key + ", not found in the local configuration.", Toast.LENGTH_SHORT, GB.WARN);
+                        GB.toast("Discarded key " + inKey + ", not found in the local configuration and is not an integer key.", Toast.LENGTH_SHORT, GB.WARN);
                     }
+
                 }
                 LOG.info(out.toString());
                 GBApplication.deviceService().onAppConfiguration(appUuid, out.toString());

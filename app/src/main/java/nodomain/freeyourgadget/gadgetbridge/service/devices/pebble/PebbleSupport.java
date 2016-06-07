@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -118,5 +119,19 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
         //nothing to do ATM
+    }
+
+    @Override
+    public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
+        if (reconnect()) {
+            super.onAddCalendarEvent(calendarEventSpec);
+        }
+    }
+
+    @Override
+    public void onDeleteCalendarEvent(byte type, long id) {
+        if (reconnect()) {
+            super.onDeleteCalendarEvent(type, id);
+        }
     }
 }

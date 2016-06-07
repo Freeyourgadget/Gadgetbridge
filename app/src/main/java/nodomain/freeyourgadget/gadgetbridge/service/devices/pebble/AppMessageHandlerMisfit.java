@@ -20,6 +20,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.MisfitSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class AppMessageHandlerMisfit extends AppMessageHandler {
 
@@ -40,6 +41,12 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
     }
 
     private final MisfitSampleProvider sampleProvider = new MisfitSampleProvider();
+
+    @Override
+    public boolean isEnabled() {
+        Prefs prefs = GBApplication.getPrefs();
+        return prefs.getBoolean("pebble_sync_misfit", true);
+    }
 
     @Override
     public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {

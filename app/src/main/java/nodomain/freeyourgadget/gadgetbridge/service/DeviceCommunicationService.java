@@ -25,6 +25,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.K9Receiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.MusicPlaybackReceiver;
@@ -34,6 +35,7 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.SMSReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.TimeChangeReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -43,10 +45,12 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ADD_CALENDAREVENT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_APP_CONFIGURE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CALLSTATE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CONNECT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DELETEAPP;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DELETE_CALENDAREVENT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DISCONNECT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ENABLE_HEARTRATE_SLEEP_SUPPORT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT;
@@ -70,6 +74,12 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_UUID;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_BOOLEAN_ENABLE;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_DESCRIPTION;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_DURATION;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_ID;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_TIMESTAMP;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_TITLE;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_TYPE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_COMMAND;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_PHONENUMBER;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_DEVICE_ADDRESS;
@@ -108,6 +118,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private MusicPlaybackReceiver mMusicPlaybackReceiver = null;
     private TimeChangeReceiver mTimeChangeReceiver = null;
     private BluetoothConnectReceiver mBlueToothConnectReceiver = null;
+    private AlarmReceiver mAlarmReceiver = null;
 
     private Random mRandom = new Random();
 
@@ -266,6 +277,23 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     }
                 }
                 mDeviceSupport.onNotification(notificationSpec);
+                break;
+            }
+            case ACTION_ADD_CALENDAREVENT: {
+                CalendarEventSpec calendarEventSpec = new CalendarEventSpec();
+                calendarEventSpec.id = intent.getLongExtra(EXTRA_CALENDAREVENT_ID, -1);
+                calendarEventSpec.type = intent.getByteExtra(EXTRA_CALENDAREVENT_TYPE, (byte) -1);
+                calendarEventSpec.timestamp = intent.getIntExtra(EXTRA_CALENDAREVENT_TIMESTAMP, -1);
+                calendarEventSpec.durationInSeconds = intent.getIntExtra(EXTRA_CALENDAREVENT_DURATION, -1);
+                calendarEventSpec.title = intent.getStringExtra(EXTRA_CALENDAREVENT_TITLE);
+                calendarEventSpec.description = intent.getStringExtra(EXTRA_CALENDAREVENT_DESCRIPTION);
+                mDeviceSupport.onAddCalendarEvent(calendarEventSpec);
+                break;
+            }
+            case ACTION_DELETE_CALENDAREVENT: {
+                long id = intent.getLongExtra(EXTRA_CALENDAREVENT_ID, -1);
+                byte type = intent.getByteExtra(EXTRA_CALENDAREVENT_TYPE, (byte) -1);
+                mDeviceSupport.onDeleteCalendarEvent(type, id);
                 break;
             }
             case ACTION_REBOOT: {
@@ -469,6 +497,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 mBlueToothConnectReceiver = new BluetoothConnectReceiver(this);
                 registerReceiver(mBlueToothConnectReceiver, new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED));
             }
+            if (mAlarmReceiver == null) {
+                mAlarmReceiver = new AlarmReceiver();
+                registerReceiver(mAlarmReceiver, new IntentFilter("DAILY_ALARM"));
+            }
         } else {
             if (mPhoneCallReceiver != null) {
                 unregisterReceiver(mPhoneCallReceiver);
@@ -497,6 +529,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             if (mBlueToothConnectReceiver != null) {
                 unregisterReceiver(mBlueToothConnectReceiver);
                 mBlueToothConnectReceiver = null;
+            }
+            if (mAlarmReceiver != null) {
+                unregisterReceiver(mAlarmReceiver);
+                mAlarmReceiver = null;
             }
         }
     }

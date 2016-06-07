@@ -16,6 +16,7 @@ public final class MiBandConst {
     public static final String PREF_MIBAND_DONT_ACK_TRANSFER = "mi_dont_ack_transfer";
     public static final String PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR = "mi_reserve_alarm_calendar";
     public static final String PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION = "mi_hr_sleep_detection";
+	public static final String PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS = "mi_device_time_offset_hours";
 
 
     public static final String ORIGIN_SMS = "sms";
@@ -27,6 +28,7 @@ public final class MiBandConst {
     public static final String MI_1A = "1A";
     public static final String MI_1S = "1S";
     public static final String MI_AMAZFIT = "Amazfit";
+    public static final String MI_PRO = "2";
 
     public static int getNotificationPrefIntValue(String pref, String origin, Prefs prefs, int defaultValue) {
         String key = getNotificationPrefKey(pref, origin);

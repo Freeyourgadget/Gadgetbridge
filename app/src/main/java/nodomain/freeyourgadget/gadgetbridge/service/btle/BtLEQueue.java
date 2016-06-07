@@ -156,11 +156,9 @@ public final class BtLEQueue {
         LOG.info("Attempting to connect to " + mGbDevice.getName());
         mBluetoothAdapter.cancelDiscovery();
         BluetoothDevice remoteDevice = mBluetoothAdapter.getRemoteDevice(mGbDevice.getAddress());
-//        boolean result;
         synchronized (mGattMonitor) {
             // connectGatt with true doesn't really work ;( too often connection problems
             mBluetoothGatt = remoteDevice.connectGatt(mContext, false, internalGattCallback);
-//            result = mBluetoothGatt.connect();
         }
         boolean result = mBluetoothGatt != null;
         if (result) {
@@ -223,7 +221,11 @@ public final class BtLEQueue {
     private boolean maybeReconnect() {
         if (mAutoReconnect && mBluetoothGatt != null) {
             LOG.info("Enabling automatic ble reconnect...");
-            return mBluetoothGatt.connect();
+            boolean result = mBluetoothGatt.connect();
+            if (result) {
+                setDeviceConnectionState(State.WAITING_FOR_RECONNECT);
+            }
+            return result;
         }
         return false;
     }
@@ -307,6 +309,12 @@ public final class BtLEQueue {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             LOG.debug("connection state change, newState: " + newState + getStatusString(status));
+
+            synchronized (mGattMonitor) {
+                if (mBluetoothGatt == null) {
+                    mBluetoothGatt = gatt;
+                }
+            }
 
             if (!checkCorrectGattInstance(gatt, "connection state event")) {
                 return;

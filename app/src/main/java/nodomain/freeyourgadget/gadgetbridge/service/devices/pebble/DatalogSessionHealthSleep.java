@@ -13,7 +13,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.pebble.HealthSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-class DatalogSessionHealthSleep extends DatalogSession {
+class DatalogSessionHealthSleep extends DatalogSessionPebbleHealth {
 
     private static final Logger LOG = LoggerFactory.getLogger(DatalogSessionHealthSleep.class);
 
@@ -25,6 +25,11 @@ class DatalogSessionHealthSleep extends DatalogSession {
     @Override
     public boolean handleMessage(ByteBuffer datalogMessage, int length) {
         LOG.info("DATALOG " + taginfo + GB.hexdump(datalogMessage.array(), datalogMessage.position(), length));
+
+        if (!isPebbleHealthEnabled()) {
+            return false;
+        }
+
         int initialPosition = datalogMessage.position();
         int beginOfRecordPosition;
         short recordVersion; //probably

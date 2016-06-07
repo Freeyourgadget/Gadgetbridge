@@ -40,6 +40,10 @@ public class MiBandDateConverter {
                     value[offset + 4],
                     value[offset + 5]);
 
+	        int offsetInHours = MiBandCoordinator.getDeviceTimeOffsetHours();
+	        if(offsetInHours != 0)
+		        timestamp.add(Calendar.HOUR_OF_DAY,-offsetInHours);
+
             return timestamp;
         }
 
@@ -53,6 +57,18 @@ public class MiBandDateConverter {
      * @return
      */
     public static byte[] calendarToRawBytes(Calendar timestamp) {
+
+	    // The mi-band device currently records sleep
+	    // only if it happens after 10pm and before 7am.
+	    // The offset is used to trick the device to record sleep
+	    // in non-standard hours.
+	    // If you usually sleep, say, from 6am to 2pm, set the
+	    // shift to -8, so at 6am the device thinks it's still 10pm
+	    // of the day before.
+	    int offsetInHours = MiBandCoordinator.getDeviceTimeOffsetHours();
+	    if(offsetInHours != 0)
+			timestamp.add(Calendar.HOUR_OF_DAY,offsetInHours);
+
         return new byte[]{
                 (byte) (timestamp.get(Calendar.YEAR) - 2000),
                 (byte) timestamp.get(Calendar.MONTH),

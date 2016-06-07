@@ -14,7 +14,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
 public class BluetoothConnectReceiver extends BroadcastReceiver {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DeviceCommunicationService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BluetoothConnectReceiver.class);
 
     final DeviceCommunicationService service;
 
@@ -32,7 +32,7 @@ public class BluetoothConnectReceiver extends BroadcastReceiver {
         GBDevice gbDevice = service.getGBDevice();
         if (gbDevice != null) {
             BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-            if (device.getAddress().equals(gbDevice.getAddress())) {
+            if (device.getAddress().equals(gbDevice.getAddress()) && gbDevice.getState() == GBDevice.State.WAITING_FOR_RECONNECT) {
                 LOG.info("will connect to " + gbDevice.getName());
                 GBApplication.deviceService().connect();
             } else {

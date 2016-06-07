@@ -42,6 +42,7 @@ public class GBDevice implements Parcelable {
     public static final String EXTRA_DEVICE = "device";
     private static final String DEVINFO_HW_VER = "HW: ";
     private static final String DEVINFO_FW_VER = "FW: ";
+    private static final String DEVINFO_ADDR = "ADDR: ";
     private final String mName;
     private final String mAddress;
     private final DeviceType mDeviceType;
@@ -345,6 +346,9 @@ public class GBDevice implements Parcelable {
         }
         if (mFirmwareVersion != null) {
             result.add(new GenericItem(DEVINFO_FW_VER, mFirmwareVersion));
+        }
+        if (mAddress != null) {
+            result.add(new GenericItem(DEVINFO_ADDR, mAddress));
         }
         Collections.sort(result);
         return result;

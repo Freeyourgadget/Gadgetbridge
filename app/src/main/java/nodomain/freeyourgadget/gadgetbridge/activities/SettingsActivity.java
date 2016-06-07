@@ -1,17 +1,28 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -19,13 +30,14 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActi
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_GENDER;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_HEIGHT_CM;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_SLEEP_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_WEIGHT_KG;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_YEAR_OF_BIRTH;
 
 public class SettingsActivity extends AbstractSettingsActivity {
+    private static final Logger LOG = LoggerFactory.getLogger(SettingsActivity.class);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +126,34 @@ public class SettingsActivity extends AbstractSettingsActivity {
             category.removePreference(pref);
         }
 
+        pref = findPreference("location_aquire");
+        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(SettingsActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+                }
+
+                LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                Criteria criteria = new Criteria();
+                String provider = locationManager.getBestProvider(criteria, false);
+                if (provider != null) {
+                    Location location = locationManager.getLastKnownLocation(provider);
+                    String latitude = String.format(Locale.US, "%.6g", location.getLatitude());
+                    String longitude = String.format(Locale.US, "%.6g", location.getLongitude());
+                    LOG.info("got location. Lat: " + latitude + " Lng: " + longitude);
+                    EditTextPreference pref_latitude = (EditTextPreference) findPreference("location_latitude");
+                    EditTextPreference pref_longitude = (EditTextPreference) findPreference("location_longitude");
+                    pref_latitude.setText(latitude);
+                    pref_longitude.setText(longitude);
+                    pref_latitude.setSummary(latitude);
+                    pref_longitude.setSummary(longitude);
+                } else {
+                    LOG.warn("No location provider found, did you deny location permission?");
+                }
+                return true;
+            }
+        });
+
         // Get all receivers of Media Buttons
         Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
 
@@ -146,6 +186,8 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 "pebble_emu_addr",
                 "pebble_emu_port",
                 "pebble_reconnect_attempts",
+                "location_latitude",
+                "location_longitude",
                 "canned_reply_suffix",
                 "canned_reply_1",
                 "canned_reply_2",

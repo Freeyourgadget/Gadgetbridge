@@ -161,6 +161,8 @@ public class PebbleIoThread extends GBDeviceIoThread {
     @Override
     protected boolean connect(String btDeviceAddress) {
         GBDevice.State originalState = gbDevice.getState();
+        gbDevice.setState(GBDevice.State.CONNECTING);
+        gbDevice.sendDeviceUpdateIntent(getContext());
         try {
             // contains only one ":"? then it is addr:port
             int firstColon = btDeviceAddress.indexOf(":");
@@ -188,6 +190,8 @@ public class PebbleIoThread extends GBDeviceIoThread {
         } catch (IOException e) {
             e.printStackTrace();
             gbDevice.setState(originalState);
+            gbDevice.sendDeviceUpdateIntent(getContext());
+
             mInStream = null;
             mOutStream = null;
             mBtSocket = null;
@@ -197,12 +201,8 @@ public class PebbleIoThread extends GBDeviceIoThread {
         mPebbleProtocol.setForceProtocol(prefs.getBoolean("pebble_force_protocol", false));
 
         mIsConnected = true;
-        if (originalState == GBDevice.State.WAITING_FOR_RECONNECT) {
-            gbDevice.setState(GBDevice.State.INITIALIZED);
-        } else {
-            gbDevice.setState(GBDevice.State.CONNECTED);
-            write(mPebbleProtocol.encodeFirmwareVersionReq());
-        }
+        write(mPebbleProtocol.encodeFirmwareVersionReq());
+        gbDevice.setState(GBDevice.State.CONNECTED);
         gbDevice.sendDeviceUpdateIntent(getContext());
 
         return true;
@@ -210,15 +210,18 @@ public class PebbleIoThread extends GBDeviceIoThread {
 
     @Override
     public void run() {
-        gbDevice.setState(GBDevice.State.CONNECTING);
-        gbDevice.sendDeviceUpdateIntent(getContext());
-
         mIsConnected = connect(gbDevice.getAddress());
-        enablePebbleKitReceiver(mIsConnected);
-        mQuit = !mIsConnected; // quit if not connected
+        if (!mIsConnected) {
+            if (GBApplication.getGBPrefs().getAutoReconnect()) {
+                gbDevice.setState(GBDevice.State.WAITING_FOR_RECONNECT);
+                gbDevice.sendDeviceUpdateIntent(getContext());
+            }
+            return;
+        }
 
         byte[] buffer = new byte[8192];
-
+        enablePebbleKitReceiver(true);
+        mQuit = false;
         while (!mQuit) {
             try {
                 if (mIsInstalling) {
@@ -361,8 +364,9 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     mIsConnected = false;
                     int reconnectAttempts = prefs.getInt("pebble_reconnect_attempts", 10);
                     if (!mQuit && GBApplication.getGBPrefs().getAutoReconnect() && reconnectAttempts > 0) {
-                        gbDevice.setState(GBDevice.State.CONNECTING);
+                        gbDevice.setState(GBDevice.State.WAITING_FOR_RECONNECT);
                         gbDevice.sendDeviceUpdateIntent(getContext());
+
                         int delaySeconds = 1;
                         while (reconnectAttempts-- > 0 && !mQuit && !mIsConnected) {
                             LOG.info("Trying to reconnect (attempts left " + reconnectAttempts + ")");
