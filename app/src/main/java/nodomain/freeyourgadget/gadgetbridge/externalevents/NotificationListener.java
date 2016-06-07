@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
@@ -182,6 +183,11 @@ public class NotificationListener extends NotificationListenerService {
         String source = sbn.getPackageName();
         Notification notification = sbn.getNotification();
 
+        if (source.equals("au.com.shiftyjelly.pocketcasts")) {
+            if (handlePocketCastNotification(notification))
+                return;
+        }
+
         if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
             return;
         }
@@ -309,6 +315,36 @@ public class NotificationListener extends NotificationListenerService {
             }
         }
         return false;
+    }
+
+    /**
+     * Try to handle pocket cast notifications that tell info about the current play state.
+     * @param notification The notification to handle.
+     * @return true if notification was handled, false otherwise
+     */
+    public boolean handlePocketCastNotification(Notification notification) {
+        MusicSpec musicSpec = new MusicSpec();
+
+        Bundle extras = notification.extras;
+        if (extras == null)
+            return false;
+
+        CharSequence title = extras.getCharSequence(Notification.EXTRA_TITLE);
+        if (title != null)
+            musicSpec.artist = title.toString();
+        if (extras.containsKey(Notification.EXTRA_TEXT)) {
+            CharSequence contentCS = extras.getCharSequence(Notification.EXTRA_TEXT);
+            if (contentCS != null)
+                musicSpec.track = contentCS.toString();
+        }
+
+        musicSpec.album = "unknown";
+
+        LOG.info("handlePocketCastsNotification: artist " + musicSpec.artist + ", track " + musicSpec.track);
+
+        // finally, tell the device about it
+        GBApplication.deviceService().onSetMusicInfo(musicSpec);
+        return true;
     }
 
     @Override
