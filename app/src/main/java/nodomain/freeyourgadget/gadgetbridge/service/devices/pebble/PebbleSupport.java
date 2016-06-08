@@ -15,6 +15,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.AbstractSerialDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
@@ -105,6 +106,13 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
     public void onSetCallState(CallSpec callSpec) {
         if (reconnect()) {
             super.onSetCallState(callSpec);
+        }
+    }
+
+    @Override
+    public void onSetMusicState(MusicStateSpec musicStateSpec) {
+        if (reconnect()) {
+            super.onSetMusicState(musicStateSpec);
         }
     }
 
