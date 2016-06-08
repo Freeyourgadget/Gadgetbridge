@@ -218,7 +218,7 @@ public class DebugActivity extends GBActivity {
                 musicSpec.artist = editContent.getText().toString() + "(artist)";
                 musicSpec.album = editContent.getText().toString() + "(album)";
                 musicSpec.track = editContent.getText().toString() + "(track)";
-                musicSpec.duration = 10;
+                musicSpec.duration = 10 * 1000;
                 musicSpec.trackCount = 5;
                 musicSpec.trackNr = 2;
 

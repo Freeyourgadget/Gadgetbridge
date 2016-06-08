@@ -1159,7 +1159,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             }
 
             buf.order(ByteOrder.LITTLE_ENDIAN);
-            buf.putInt(duration * 1000);
+            buf.putInt(duration);
             buf.putShort((short) (trackCount & 0xffff));
             buf.putShort((short) (trackNr & 0xffff));
 

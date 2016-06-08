@@ -380,7 +380,7 @@ public class NotificationListener extends NotificationListenerService {
         if (d.containsKey(MediaMetadata.METADATA_KEY_TITLE))
             musicSpec.track = d.getString(MediaMetadata.METADATA_KEY_TITLE);
         if (d.containsKey(MediaMetadata.METADATA_KEY_DURATION))
-            musicSpec.duration = (int)d.getLong(MediaMetadata.METADATA_KEY_DURATION) / 1000;
+            musicSpec.duration = (int)d.getLong(MediaMetadata.METADATA_KEY_DURATION);
 
         // finally, tell the device about it
         GBApplication.deviceService().onSetMusicInfo(musicSpec);
