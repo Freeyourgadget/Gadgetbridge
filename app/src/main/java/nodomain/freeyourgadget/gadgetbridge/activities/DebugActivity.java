@@ -37,6 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
@@ -222,6 +223,15 @@ public class DebugActivity extends GBActivity {
                 musicSpec.trackNr = 2;
 
                 GBApplication.deviceService().onSetMusicInfo(musicSpec);
+
+                MusicStateSpec stateSpec = new MusicStateSpec();
+                stateSpec.position = 0;
+                stateSpec.state = 0x01; // playing
+                stateSpec.playRate = 100;
+                stateSpec.repeat = 1;
+                stateSpec.shuffle = 1;
+
+                GBApplication.deviceService().onSetMusicState(stateSpec);
             }
         });
 
