@@ -169,13 +169,6 @@ public class NotificationListener extends NotificationListenerService {
             return;
         }
 
-        Prefs prefs = GBApplication.getPrefs();
-        if (!prefs.getBoolean("notifications_generic_whenscreenon", false)) {
-            PowerManager powermanager = (PowerManager) getSystemService(POWER_SERVICE);
-            if (powermanager.isScreenOn()) {
-                return;
-            }
-        }
         switch (GBApplication.getGrantedInterruptionFilter()) {
             case NotificationManager.INTERRUPTION_FILTER_ALL:
                 break;
@@ -192,6 +185,14 @@ public class NotificationListener extends NotificationListenerService {
 
         if (handleMediaSessionNotification(notification))
             return;
+
+        Prefs prefs = GBApplication.getPrefs();
+        if (!prefs.getBoolean("notifications_generic_whenscreenon", false)) {
+            PowerManager powermanager = (PowerManager) getSystemService(POWER_SERVICE);
+            if (powermanager.isScreenOn()) {
+                return;
+            }
+        }
 
         if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
             return;
