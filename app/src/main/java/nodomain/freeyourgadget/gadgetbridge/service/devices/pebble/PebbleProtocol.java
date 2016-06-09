@@ -69,6 +69,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final short ENDPOINT_RUNKEEPER = 7000;
     static final short ENDPOINT_SCREENSHOT = 8000;
     static final short ENDPOINT_NOTIFICATIONACTION = 11440; // 3.x only, TODO: find a better name
+    static final short ENDPOINT_APPREORDER = (short) 0xabcd; // 3.x only
     static final short ENDPOINT_BLOBDB = (short) 45531;  // 3.x only
     static final short ENDPOINT_PUTBYTES = (short) 48879;
 
@@ -1282,6 +1283,22 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return encodeSimpleMessage(ENDPOINT_SCREENSHOT, SCREENSHOT_TAKE);
     }
 
+    public byte[] encodeAppReoder(UUID[] uuids) {
+        int length = 2 + uuids.length * LENGTH_UUID;
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + length);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort((short) length);
+        buf.putShort(ENDPOINT_APPREORDER);
+        buf.put((byte) 0x01);
+        buf.put((byte) uuids.length);
+        for (UUID uuid : uuids) {
+            buf.putLong(uuid.getMostSignificantBits());
+            buf.putLong(uuid.getLeastSignificantBits());
+        }
+
+        return buf.array();
+    }
+
     /* pebble specific install methods */
     public byte[] encodeUploadStart(byte type, int app_id, int size, String filename) {
         short length;
@@ -1937,6 +1954,16 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return sendBytes;
     }
 
+    private GBDeviceEvent decodeAppReorder(ByteBuffer buf) {
+        byte status = buf.get();
+        if (status == 1) {
+            LOG.info("app reordering successful");
+        } else {
+            LOG.info("app reordering returned status " + status);
+        }
+        return null;
+    }
+
     @Override
     public GBDeviceEvent[] decodeResponse(byte[] responseData) {
         ByteBuffer buf = ByteBuffer.wrap(responseData);
@@ -2187,6 +2214,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
             case ENDPOINT_BLOBDB:
                 devEvts = new GBDeviceEvent[]{decodeBlobDb(buf)};
                 break;
+            case ENDPOINT_APPREORDER:
+                devEvts = new GBDeviceEvent[]{decodeAppReorder(buf)};
             default:
                 break;
         }
