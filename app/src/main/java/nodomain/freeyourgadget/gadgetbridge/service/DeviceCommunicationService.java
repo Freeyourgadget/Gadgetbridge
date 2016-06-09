@@ -38,6 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
@@ -65,6 +66,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_RE
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_DEVICEINFO;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_SCREENSHOT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETMUSICINFO;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETMUSICSTATE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETTIME;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_ALARMS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_START;
@@ -87,6 +89,11 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_FIN
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_ALBUM;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_ARTIST;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_DURATION;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_POSITION;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_RATE;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_REPEAT;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_SHUFFLE;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_STATE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_TRACK;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_TRACKCOUNT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_TRACKNR;
@@ -350,6 +357,15 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 musicSpec.trackCount = intent.getIntExtra(EXTRA_MUSIC_TRACKCOUNT, 0);
                 musicSpec.trackNr = intent.getIntExtra(EXTRA_MUSIC_TRACKNR, 0);
                 mDeviceSupport.onSetMusicInfo(musicSpec);
+                break;
+            case ACTION_SETMUSICSTATE:
+                MusicStateSpec stateSpec = new MusicStateSpec();
+                stateSpec.shuffle = intent.getByteExtra(EXTRA_MUSIC_SHUFFLE, (byte)0);
+                stateSpec.repeat = intent.getByteExtra(EXTRA_MUSIC_REPEAT, (byte)0);
+                stateSpec.position = intent.getIntExtra(EXTRA_MUSIC_POSITION, 0);
+                stateSpec.playRate = intent.getIntExtra(EXTRA_MUSIC_RATE, 0);
+                stateSpec.state = intent.getByteExtra(EXTRA_MUSIC_STATE, (byte)0);
+                mDeviceSupport.onSetMusicState(stateSpec);
                 break;
             case ACTION_REQUEST_APPINFO:
                 mDeviceSupport.onAppInfoReq();

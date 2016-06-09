@@ -35,6 +35,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
@@ -1105,6 +1106,20 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     public byte[] encodeSetMusicState(byte state, int position, int playRate, byte shuffle, byte repeat) {
+        byte playState;
+
+        switch (state) {
+            case MusicStateSpec.STATE_PLAYING:
+                playState = MUSICCONTROL_STATE_PLAYING;
+                break;
+            case MusicStateSpec.STATE_PAUSED:
+                playState = MUSICCONTROL_STATE_PAUSED;
+                break;
+            default:
+                playState = MUSICCONTROL_STATE_UNKNOWN;
+                break;
+        }
+
         int length = LENGTH_PREFIX + 12;
         // Encode Prefix
         ByteBuffer buf = ByteBuffer.allocate(length);
@@ -1114,7 +1129,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         buf.order(ByteOrder.LITTLE_ENDIAN);
         buf.put(MUSICCONTROL_SETPLAYSTATE);
-        buf.put(state);
+        buf.put(playState);
         buf.putInt(position);
         buf.putInt(playRate);
         buf.put(shuffle);
@@ -1129,7 +1144,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
         if (duration == 0) {
             return encodeMessage(ENDPOINT_MUSICCONTROL, MUSICCONTROL_SETMUSICINFO, 0, parts);
         } else {
-            byte[] stateMessage = encodeSetMusicState(MUSICCONTROL_STATE_PLAYING, 0, 100, (byte) 1, (byte) 1);
             // Calculate length first
             int length = LENGTH_PREFIX + 9;
             if (parts != null) {
@@ -1143,7 +1157,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             }
 
             // Encode Prefix
-            ByteBuffer buf = ByteBuffer.allocate(length + stateMessage.length);
+            ByteBuffer buf = ByteBuffer.allocate(length);
             buf.order(ByteOrder.BIG_ENDIAN);
             buf.putShort((short) (length - LENGTH_PREFIX));
             buf.putShort(ENDPOINT_MUSICCONTROL);
@@ -1166,8 +1180,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
             buf.putInt(duration * 1000);
             buf.putShort((short) (trackCount & 0xffff));
             buf.putShort((short) (trackNr & 0xffff));
-
-            buf.put(stateMessage);
 
             return buf.array();
         }
