@@ -14,6 +14,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
@@ -122,6 +123,17 @@ public class GBDeviceService implements DeviceService {
         Intent intent = createIntent().setAction(ACTION_CALLSTATE)
                 .putExtra(EXTRA_CALL_PHONENUMBER, callSpec.number)
                 .putExtra(EXTRA_CALL_COMMAND, callSpec.command);
+        invokeService(intent);
+    }
+
+    @Override
+    public void onSetMusicState(MusicStateSpec stateSpec) {
+        Intent intent = createIntent().setAction(ACTION_SETMUSICSTATE)
+                .putExtra(EXTRA_MUSIC_REPEAT, stateSpec.repeat)
+                .putExtra(EXTRA_MUSIC_RATE, stateSpec.playRate)
+                .putExtra(EXTRA_MUSIC_STATE, stateSpec.state)
+                .putExtra(EXTRA_MUSIC_SHUFFLE, stateSpec.shuffle)
+                .putExtra(EXTRA_MUSIC_POSITION, stateSpec.position);
         invokeService(intent);
     }
 
