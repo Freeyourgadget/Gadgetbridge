@@ -359,14 +359,16 @@ public class NotificationListener extends NotificationListenerService {
         stateSpec.shuffle = 1;
         switch (s.getState()) {
             case PlaybackState.STATE_PLAYING:
-                stateSpec.state = 0x01;
+                stateSpec.state = MusicStateSpec.STATE_PLAYING;
                 break;
             case PlaybackState.STATE_STOPPED:
+                stateSpec.state = MusicStateSpec.STATE_STOPPED;
+                break;
             case PlaybackState.STATE_PAUSED:
-                stateSpec.state = 0x00;
+                stateSpec.state = MusicStateSpec.STATE_PAUSED;
                 break;
             default:
-                stateSpec.state = 0x04;
+                stateSpec.state = MusicStateSpec.STATE_UNKNOWN;
                 break;
         }
 
