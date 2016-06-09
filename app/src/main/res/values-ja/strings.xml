@@ -37,6 +37,7 @@
   <string name="pref_title_theme">テーマ</string>
   <string name="pref_theme_light">ライト</string>
   <string name="pref_theme_dark">ダーク</string>
+  <string name="pref_title_language">言語</string>
   <string name="pref_header_notifications">通知</string>
   <string name="pref_title_notifications_repetitions">繰り返し</string>
   <string name="pref_title_notifications_call">電話通知</string>
@@ -57,7 +58,11 @@
   <string name="pref_header_development">開発者用設定</string>
   <string name="pref_title_development_miaddr">Mi Bandのアドレス</string>
   <string name="pref_title_pebble_settings">Pebbleの設定</string>
+  <string name="pref_header_activitytrackers">アクティビティ トラッカー</string>
   <string name="pref_title_pebble_activitytracker">お好みのアクティビティ トラッカー</string>
+  <string name="pref_title_pebble_sync_health">Pebble Health 同期</string>
+  <string name="pref_title_pebble_sync_misfit">Misfit 同期</string>
+  <string name="pref_title_pebble_sync_morpheuz">Morpheuz 同期</string>
   <string name="pref_title_enable_pebblekit">第三者のアンドロイドアップにアクセス権利を与える</string>
   <string name="pref_summary_enable_pebblekit">PebbleKitを使用してAndroidアプリ用の実験的なサポートを有効にします</string>
   <string name="pref_title_sunrise_sunset">日の出と日の入り</string>
@@ -214,6 +219,7 @@
   <string name="fwinstaller_firmware_not_compatible_to_device">このファームウェアは、デバイスと互換性がありません</string>
   <string name="miband_prefs_reserve_alarm_calendar">今後のイベントのために予約するアラーム</string>
   <string name="miband_prefs_hr_sleep_detection">睡眠の検出を改善するために心拍センサーを使用する</string>
+  <string name="miband_prefs_device_time_offset_hours">デバイスの時刻オフセット時間 (交代勤務の睡眠検知用)</string>
   <string name="waiting_for_reconnect">再接続の待機中</string>
   <string name="appmananger_app_reinstall">再インストール</string>
   <string name="activity_prefs_about_you">あなたについて</string>
