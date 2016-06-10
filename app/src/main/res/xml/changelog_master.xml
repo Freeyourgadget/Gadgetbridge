@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.10.1" versioncode="54">
+        <change>Pebble: set extended music info by dissecting notifications on Android 5.0+</change>
+        <change>Pebble: allow ignoring activity trackers indiviually (to keep the data on the pebble)</change>
+        <change>Mi Band: support for shifting the device time by N hours (for people who sleep at daytime)</change>
+        <change>Mi Band: initial and untested support for Mi Band 2</change>
+        <change>Allow setting the application language   
+    </release>
     <release version="0.10.0" versioncode="53">
         <change>Pebble: option to send sunrise and sunset events to timeline</change>
 	<change>Pebble: fix problems with unknown app keys while configuring watchfaces</change>
