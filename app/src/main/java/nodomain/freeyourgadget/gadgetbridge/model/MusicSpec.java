@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.model;
 
+import java.util.Objects;
+
 public class MusicSpec {
     public static final int MUSIC_UNDEFINED = 0;
     public static final int MUSIC_PLAY = 1;
@@ -8,9 +10,9 @@ public class MusicSpec {
     public static final int MUSIC_NEXT = 4;
     public static final int MUSIC_PREVIOUS = 5;
 
-    public String artist = "";
-    public String album = "";
-    public String track = "";
+    public String artist;
+    public String album;
+    public String track;
     public int duration;
     public int trackCount;
     public int trackNr;
@@ -25,9 +27,9 @@ public class MusicSpec {
         }
         MusicSpec musicSpec = (MusicSpec) obj;
 
-        return this.artist.equals(musicSpec.artist) &&
-                this.album.equals(musicSpec.album) &&
-                this.track.equals(musicSpec.track) &&
+        return Objects.equals(this.artist, musicSpec.artist) &&
+                Objects.equals(this.album, musicSpec.album) &&
+                Objects.equals(this.track, musicSpec.track) &&
                 this.duration == musicSpec.duration &&
                 this.trackCount == musicSpec.trackCount &&
                 this.trackNr == musicSpec.trackNr;
