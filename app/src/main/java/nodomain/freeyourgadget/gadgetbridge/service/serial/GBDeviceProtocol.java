@@ -48,6 +48,10 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
+    public byte[] encodeAppReorder(UUID[] uuids) {
+        return null;
+    }
+
     public byte[] encodeSynchronizeActivityData() {
         return null;
     }

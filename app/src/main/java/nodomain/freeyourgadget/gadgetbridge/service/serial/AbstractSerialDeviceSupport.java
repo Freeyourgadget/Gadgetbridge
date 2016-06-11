@@ -155,6 +155,12 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     }
 
     @Override
+    public void onAppReorder(UUID[] uuids) {
+        byte[] bytes = gbDeviceProtocol.encodeAppReorder(uuids);
+        sendToDevice(bytes);
+    }
+
+    @Override
     public void onFetchActivityData() {
         byte[] bytes = gbDeviceProtocol.encodeSynchronizeActivityData();
         sendToDevice(bytes);

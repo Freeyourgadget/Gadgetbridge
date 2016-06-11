@@ -257,9 +257,11 @@
     <string name="activity_prefs_weight_kg">Weight in kg</string>
     <string name="appmanager_health_activate">Activate</string>
     <string name="appmanager_health_deactivate">Deactivate</string>
+    <string name="app_configure">Configure</string>
+    <string name="app_move_to_top">Move to top</string>
+
     <string name="authenticating">authenticating</string>
     <string name="authentication_required">authentication required</string>
-    <string name="app_configure">Configure</string>
 
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">Add widget</string>

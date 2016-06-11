@@ -42,6 +42,8 @@ public interface EventHandler {
 
     void onAppConfiguration(UUID appUuid, String config);
 
+    void onAppReorder(UUID uuids[]);
+
     void onFetchActivityData();
 
     void onReboot();

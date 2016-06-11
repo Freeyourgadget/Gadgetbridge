@@ -48,6 +48,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ADD_CALENDAREVENT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_APP_CONFIGURE;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_APP_REORDER;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CALLSTATE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CONNECT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DELETEAPP;
@@ -388,6 +389,12 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 UUID uuid = (UUID) intent.getSerializableExtra(EXTRA_APP_UUID);
                 String config = intent.getStringExtra(EXTRA_APP_CONFIG);
                 mDeviceSupport.onAppConfiguration(uuid, config);
+                break;
+            }
+            case ACTION_APP_REORDER: {
+                UUID[] uuids = (UUID[]) intent.getSerializableExtra(EXTRA_APP_UUID);
+                mDeviceSupport.onAppReorder(uuids);
+                break;
             }
             case ACTION_INSTALL:
                 Uri uri = intent.getParcelableExtra(EXTRA_URI);

@@ -103,6 +103,11 @@ public class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
+    public void onAppReorder(UUID[] uuids) {
+
+    }
+
+    @Override
     public void onFetchActivityData() {
 
     }

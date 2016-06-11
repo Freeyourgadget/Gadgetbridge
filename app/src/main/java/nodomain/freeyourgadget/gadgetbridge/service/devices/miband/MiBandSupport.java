@@ -768,6 +768,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onAppReorder(UUID[] uuids) {
+        // not supported
+    }
+
+    @Override
     public void onScreenshotReq() {
         // not supported
     }

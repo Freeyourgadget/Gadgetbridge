@@ -18,6 +18,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
+//import java.util.UUID;
+
 public class GBDeviceService implements DeviceService {
     protected final Context mContext;
     protected final Class<? extends Service> mServiceClass;
@@ -182,6 +184,13 @@ public class GBDeviceService implements DeviceService {
         Intent intent = createIntent().setAction(ACTION_APP_CONFIGURE)
                 .putExtra(EXTRA_APP_UUID, uuid)
                 .putExtra(EXTRA_APP_CONFIG, config);
+        invokeService(intent);
+    }
+
+    @Override
+    public void onAppReorder(UUID[] uuids) {
+        Intent intent = createIntent().setAction(ACTION_APP_REORDER)
+                .putExtra(EXTRA_APP_UUID, uuids);
         invokeService(intent);
     }
 

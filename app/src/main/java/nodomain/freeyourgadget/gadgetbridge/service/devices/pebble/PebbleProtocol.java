@@ -1293,7 +1293,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return encodeSimpleMessage(ENDPOINT_SCREENSHOT, SCREENSHOT_TAKE);
     }
 
-    public byte[] encodeAppReoder(UUID[] uuids) {
+    @Override
+    public byte[] encodeAppReorder(UUID[] uuids) {
         int length = 2 + uuids.length * LENGTH_UUID;
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + length);
         buf.order(ByteOrder.BIG_ENDIAN);

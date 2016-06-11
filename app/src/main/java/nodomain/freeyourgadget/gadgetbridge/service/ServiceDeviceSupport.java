@@ -208,6 +208,14 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
+    public void onAppReorder(UUID[] uuids) {
+        if (checkBusy("app reorder")) {
+            return;
+        }
+        delegate.onAppReorder(uuids);
+    }
+
+    @Override
     public void onFetchActivityData() {
         if (checkBusy("fetch activity data")) {
             return;

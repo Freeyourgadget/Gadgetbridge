@@ -25,6 +25,7 @@ public interface DeviceService extends EventHandler {
     String ACTION_STARTAPP = PREFIX + ".action.startapp";
     String ACTION_DELETEAPP = PREFIX + ".action.deleteapp";
     String ACTION_APP_CONFIGURE = PREFIX + ".action.app_configure";
+    String ACTION_APP_REORDER = PREFIX + ".action.app_reorder";
     String ACTION_INSTALL = PREFIX + ".action.install";
     String ACTION_REBOOT = PREFIX + ".action.reboot";
     String ACTION_HEARTRATE_TEST = PREFIX + ".action.heartrate_test";
