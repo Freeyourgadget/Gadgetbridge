@@ -18,7 +18,6 @@ import android.media.session.PlaybackState;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
-import android.provider.MediaStore;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.support.v4.app.NotificationCompat;
@@ -354,7 +353,7 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         PlaybackState s = c.getPlaybackState();
-        stateSpec.position = (int)s.getPosition();
+        stateSpec.position = (int) (s.getPosition() / 1000);
         stateSpec.playRate = Math.round(100 * s.getPlaybackSpeed());
         stateSpec.repeat = 1;
         stateSpec.shuffle = 1;

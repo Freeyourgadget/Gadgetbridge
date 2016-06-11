@@ -1128,7 +1128,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.order(ByteOrder.LITTLE_ENDIAN);
         buf.put(MUSICCONTROL_SETPLAYSTATE);
         buf.put(playState);
-        buf.putInt(position);
+        buf.putInt(position * 1000);
         buf.putInt(playRate);
         buf.put(shuffle);
         buf.put(repeat);
