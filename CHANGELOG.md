@@ -1,6 +1,7 @@
 ###Changelog
 ####Version 0.10.1
 * Pebble: set extended music info by dissecting notifications on Android 5.0+
+* Pebble: various other improvemnts to music playback
 * Pebble: allow ignoring activity trackers indiviually (to keep the data on the pebble)
 * Mi Band: support for shifting the device time by N hours (for people who sleep at daytime)
 * Mi Band: initial and untested support for Mi Band 2
