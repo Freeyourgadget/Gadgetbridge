@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.activities;
+package nodomain.freeyourgadget.gadgetbridge.activities.appmanager;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -27,6 +30,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.ExternalPebbleJSActivity;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAppAdapter;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
@@ -36,17 +40,17 @@ import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 
-public class AppManagerActivity extends GBActivity {
+public class AbstractAppManagerFragment extends Fragment {
     public static final String ACTION_REFRESH_APPLIST
             = "nodomain.freeyourgadget.gadgetbridge.appmanager.action.refresh_applist";
-    private static final Logger LOG = LoggerFactory.getLogger(AppManagerActivity.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractAppManagerFragment.class);
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (action.equals(GBApplication.ACTION_QUIT)) {
-                finish();
+                //   finish();
             } else if (action.equals(ACTION_REFRESH_APPLIST)) {
                 int appCount = intent.getIntExtra("app_count", 0);
                 for (Integer i = 0; i < appCount; i++) {
@@ -131,22 +135,30 @@ public class AppManagerActivity extends GBActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            mGBDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
-        } else {
-            throw new IllegalArgumentException("Must provide a device when invoking this activity");
-        }
-
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         prefs = GBApplication.getPrefs();
+        appList.addAll(getCachedApps());
 
-        setContentView(R.layout.activity_appmanager);
+        appList.addAll(getSystemApps());
 
-        ListView appListView = (ListView) findViewById(R.id.appListView);
-        mGBDeviceAppAdapter = new GBDeviceAppAdapter(this, appList);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(GBApplication.ACTION_QUIT);
+        filter.addAction(ACTION_REFRESH_APPLIST);
+
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(mReceiver, filter);
+
+        GBApplication.deviceService().onAppInfoReq();
+
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View rootView = inflater.inflate(R.layout.activity_appmanager, container, false);
+
+        ListView appListView = (ListView) (rootView.findViewById(R.id.appListView));
+        mGBDeviceAppAdapter = new GBDeviceAppAdapter(getContext(), appList);
         appListView.setAdapter(this.mGBDeviceAppAdapter);
 
         appListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -159,23 +171,13 @@ public class AppManagerActivity extends GBActivity {
 
         registerForContextMenu(appListView);
 
-        appList.addAll(getCachedApps());
-
-        appList.addAll(getSystemApps());
-
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(GBApplication.ACTION_QUIT);
-        filter.addAction(ACTION_REFRESH_APPLIST);
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
-
-        GBApplication.deviceService().onAppInfoReq();
+        return rootView;
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater().inflate(R.menu.appmanager_context, menu);
+        getActivity().getMenuInflater().inflate(R.menu.appmanager_context, menu);
         AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
         selectedApp = appList.get(acmi.position);
 
@@ -254,7 +256,7 @@ public class AppManagerActivity extends GBActivity {
             case R.id.appmanager_app_configure:
                 GBApplication.deviceService().onAppStart(selectedApp.getUUID(), true);
 
-                Intent startIntent = new Intent(getApplicationContext(), ExternalPebbleJSActivity.class);
+                Intent startIntent = new Intent(getContext().getApplicationContext(), ExternalPebbleJSActivity.class);
                 startIntent.putExtra("app_uuid", selectedApp.getUUID());
                 startIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
                 startActivity(startIntent);
@@ -271,15 +273,15 @@ public class AppManagerActivity extends GBActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
+//                NavUtils.navigateUpFromSameTask(this);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    protected void onDestroy() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+    public void onDestroy() {
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mReceiver);
         super.onDestroy();
     }
 }

@@ -55,7 +55,7 @@
             android:parentActivityName=".activities.SettingsActivity" />
         <activity
             android:launchMode="singleTop"
-            android:name=".activities.AppManagerActivity"
+            android:name=".activities.appmanager.AppManagerActivity"
             android:label="@string/title_activity_appmanager"
             android:parentActivityName=".activities.ControlCenter" />
         <activity
@@ -263,7 +263,7 @@
         <activity
             android:name=".activities.ExternalPebbleJSActivity"
             android:label="@string/app_configure"
-            android:parentActivityName=".activities.AppManagerActivity">
+            android:parentActivityName=".activities.appmanager.AppManagerActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter" />
