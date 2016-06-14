@@ -40,7 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 
-public class AbstractAppManagerFragment extends Fragment {
+public abstract class AbstractAppManagerFragment extends Fragment {
     public static final String ACTION_REFRESH_APPLIST
             = "nodomain.freeyourgadget.gadgetbridge.appmanager.action.refresh_applist";
     private static final Logger LOG = LoggerFactory.getLogger(AbstractAppManagerFragment.class);
@@ -83,12 +83,12 @@ public class AbstractAppManagerFragment extends Fragment {
 
     private Prefs prefs;
 
-    private final List<GBDeviceApp> appList = new ArrayList<>();
+    protected final List<GBDeviceApp> appList = new ArrayList<>();
     private GBDeviceAppAdapter mGBDeviceAppAdapter;
     private GBDeviceApp selectedApp = null;
     private GBDevice mGBDevice = null;
 
-    private List<GBDeviceApp> getSystemApps() {
+    protected List<GBDeviceApp> getSystemApps() {
         List<GBDeviceApp> systemApps = new ArrayList<>();
         if (prefs.getBoolean("pebble_force_untested", false)) {
             systemApps.add(new GBDeviceApp(UUID.fromString("4dab81a6-d2fc-458a-992c-7a1f3b96a970"), "Sports (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
@@ -101,7 +101,13 @@ public class AbstractAppManagerFragment extends Fragment {
         return systemApps;
     }
 
-    private List<GBDeviceApp> getCachedApps() {
+    protected List<GBDeviceApp> getSystemWatchfaces() {
+        List<GBDeviceApp> systemWatchfaces = new ArrayList<>();
+        systemWatchfaces.add(new GBDeviceApp(UUID.fromString("8f3c8686-31a1-4f5f-91f5-01600c9bdc59"), "Tic Toc (System)", "Pebble Inc.", "", GBDeviceApp.Type.WATCHFACE_SYSTEM));
+        return systemWatchfaces;
+    }
+
+    protected List<GBDeviceApp> getCachedApps() {
         List<GBDeviceApp> cachedAppList = new ArrayList<>();
         File cachePath;
         try {
@@ -134,13 +140,16 @@ public class AbstractAppManagerFragment extends Fragment {
         return cachedAppList;
     }
 
+    public void refreshList() {
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        mGBDevice = ((AppManagerActivity) getActivity()).getGBDevice();
+
         prefs = GBApplication.getPrefs();
-        appList.addAll(getCachedApps());
 
-        appList.addAll(getSystemApps());
-
+        refreshList();
         IntentFilter filter = new IntentFilter();
         filter.addAction(GBApplication.ACTION_QUIT);
         filter.addAction(ACTION_REFRESH_APPLIST);

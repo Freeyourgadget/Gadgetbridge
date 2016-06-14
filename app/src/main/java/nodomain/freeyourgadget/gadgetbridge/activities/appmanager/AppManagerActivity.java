@@ -14,6 +14,10 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 public class AppManagerActivity extends AbstractGBFragmentActivity {
     private GBDevice mGBDevice = null;
 
+    public GBDevice getGBDevice() {
+        return mGBDevice;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -50,12 +54,11 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
             // getItem is called to instantiate the fragment for the given page.
             switch (position) {
                 case 0:
+                    return new AppManagerFragmentCache();
                 case 1:
+                    return new AppManagerFragmentInstalledApps();
                 case 2:
-                    AbstractAppManagerFragment fragment = new AbstractAppManagerFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("GBDevice", mGBDevice);
-                    return fragment;
+                    return new AppManagerFragmentInstalledWatchfaces();
             }
             return null;
         }
@@ -69,11 +72,11 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "test";
+                    return "Apps in cache";
                 case 1:
-                    return "for";
+                    return "Installed apps";
                 case 2:
-                    return "me";
+                    return "Installed watchfaces";
                 case 3:
             }
             return super.getPageTitle(position);

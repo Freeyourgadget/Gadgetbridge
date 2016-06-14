@@ -58,6 +58,7 @@ public class GBDeviceAppAdapter extends ArrayAdapter<GBDeviceApp> {
                 deviceImageView.setImageResource(R.drawable.ic_activitytracker);
                 break;
             case APP_SYSTEM:
+            case WATCHFACE_SYSTEM:
                 deviceImageView.setImageResource(R.drawable.ic_systemapp);
                 break;
             case WATCHFACE:
