@@ -1,13 +1,10 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 
-import de.greenrobot.dao.AbstractDao;
-import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
-import nodomain.freeyourgadget.gadgetbridge.entities.PebbleActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
-public class MorpheuzSampleProvider extends AbstractSampleProvider<PebbleActivitySample> {
+public class MorpheuzSampleProvider extends AbstractPebbleSampleProvider {
     // raw types
     public static final int TYPE_DEEP_SLEEP = 5;
     public static final int TYPE_LIGHT_SLEEP = 4;
@@ -58,10 +55,5 @@ public class MorpheuzSampleProvider extends AbstractSampleProvider<PebbleActivit
     @Override
     public int getID() {
         return SampleProvider.PROVIDER_PEBBLE_MORPHEUZ;
-    }
-
-    @Override
-    protected AbstractDao<PebbleActivitySample, ?> getSampleDao() {
-        return getSession().getPebbleActivitySampleDao();
     }
 }

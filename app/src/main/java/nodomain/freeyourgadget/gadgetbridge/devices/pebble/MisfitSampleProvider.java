@@ -1,12 +1,9 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 
-import de.greenrobot.dao.AbstractDao;
-import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
-import nodomain.freeyourgadget.gadgetbridge.entities.PebbleActivitySample;
 
-public class MisfitSampleProvider extends AbstractSampleProvider<PebbleActivitySample> {
+public class MisfitSampleProvider extends AbstractPebbleSampleProvider {
 
     protected final float movementDivisor = 300f;
 
@@ -16,7 +13,7 @@ public class MisfitSampleProvider extends AbstractSampleProvider<PebbleActivityS
 
     @Override
     public int normalizeType(int rawType) {
-        return (int) rawType;
+        return rawType;
     }
 
     @Override
@@ -34,10 +31,5 @@ public class MisfitSampleProvider extends AbstractSampleProvider<PebbleActivityS
     @Override
     public int getID() {
         return SampleProvider.PROVIDER_PEBBLE_MISFIT;
-    }
-
-    @Override
-    protected AbstractDao<PebbleActivitySample, ?> getSampleDao() {
-        return getSession().getPebbleActivitySampleDao();
     }
 }

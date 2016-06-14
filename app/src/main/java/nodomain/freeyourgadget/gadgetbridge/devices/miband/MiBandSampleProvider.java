@@ -1,10 +1,12 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
 import de.greenrobot.dao.AbstractDao;
+import de.greenrobot.dao.Property;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public class MiBandSampleProvider extends AbstractSampleProvider<MiBandActivitySample> {
@@ -79,5 +81,15 @@ public class MiBandSampleProvider extends AbstractSampleProvider<MiBandActivityS
     @Override
     protected AbstractDao<MiBandActivitySample, ?> getSampleDao() {
         return getSession().getMiBandActivitySampleDao();
+    }
+
+    @Override
+    protected Property getTimestampSampleProperty() {
+        return MiBandActivitySampleDao.Properties.Timestamp;
+    }
+
+    @Override
+    protected Property getRawKindSampleProperty() {
+        return MiBandActivitySampleDao.Properties.RawKind;
     }
 }

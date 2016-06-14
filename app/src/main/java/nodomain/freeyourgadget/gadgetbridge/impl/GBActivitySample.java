@@ -4,6 +4,9 @@ import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
+/**
+ * Can be removed entirely together with ActivityDatabaseHandler
+ */
 public class GBActivitySample implements ActivitySample {
     private final int timestamp;
     private final SampleProvider provider;
