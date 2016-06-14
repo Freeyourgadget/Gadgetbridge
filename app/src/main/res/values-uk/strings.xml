@@ -34,6 +34,7 @@
   <string name="pref_title_theme">Тема</string>
   <string name="pref_theme_light">Світла</string>
   <string name="pref_theme_dark">Темна</string>
+  <string name="pref_title_language">Мова</string>
   <string name="pref_header_notifications">Сповіщення</string>
   <string name="pref_title_notifications_repetitions">Повтори</string>
   <string name="pref_title_notifications_call">Виклики</string>
@@ -203,4 +204,6 @@
   <string name="appmanager_health_deactivate">Вимкнути</string>
   <string name="app_configure">Конфігурація</string>
   <string name="add_widget">Додати віджет</string>
+  <string name="device_hw">Пристрій: %1$s</string>
+  <string name="device_fw">ПЗ: %1$s</string>
 </resources>

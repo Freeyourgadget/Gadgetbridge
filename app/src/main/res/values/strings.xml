@@ -74,7 +74,13 @@
     <string name="pref_title_development_miaddr">Mi Band address</string>
 
     <string name="pref_title_pebble_settings">Pebble Settings</string>
+
+    <string name="pref_header_activitytrackers">Activity Trackers</string>
     <string name="pref_title_pebble_activitytracker">Preferred Activitytracker</string>
+    <string name="pref_title_pebble_sync_health">Sync Pebble Health</string>
+    <string name="pref_title_pebble_sync_misfit">Sync Misfit</string>
+    <string name="pref_title_pebble_sync_morpheuz">Sync Morpheuz</string>
+
     <string name="pref_title_enable_pebblekit">Allow 3rd Party Android App Access</string>
     <string name="pref_summary_enable_pebblekit">Enable experimental support for Android Apps using PebbleKit</string>
 
@@ -251,9 +257,11 @@
     <string name="activity_prefs_weight_kg">Weight in kg</string>
     <string name="appmanager_health_activate">Activate</string>
     <string name="appmanager_health_deactivate">Deactivate</string>
+    <string name="app_configure">Configure</string>
+    <string name="app_move_to_top">Move to top</string>
+
     <string name="authenticating">authenticating</string>
     <string name="authentication_required">authentication required</string>
-    <string name="app_configure">Configure</string>
 
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">Add widget</string>

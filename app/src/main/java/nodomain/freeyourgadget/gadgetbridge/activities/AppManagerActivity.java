@@ -193,6 +193,9 @@ public class AppManagerActivity extends GBActivity {
         if (!selectedApp.isConfigurable()) {
             menu.removeItem(R.id.appmanager_app_configure);
         }
+        if (mGBDevice != null && !mGBDevice.getFirmwareVersion().startsWith("v3")) {
+            menu.removeItem(R.id.appmanager_app_move_to_top);
+        }
         menu.setHeaderTitle(selectedApp.getName());
     }
 
@@ -255,6 +258,9 @@ public class AppManagerActivity extends GBActivity {
                 startIntent.putExtra("app_uuid", selectedApp.getUUID());
                 startIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
                 startActivity(startIntent);
+                return true;
+            case R.id.appmanager_app_move_to_top:
+                GBApplication.deviceService().onAppReorder(new UUID[]{selectedApp.getUUID()});
                 return true;
             default:
                 return super.onContextItemSelected(item);

@@ -31,6 +31,10 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
+    public byte[] encodeSetMusicState(byte state, int position, int playRate, byte shuffle, byte repeat) {
+        return null;
+    }
+
     public byte[] encodeFirmwareVersionReq() {
         return null;
     }
@@ -48,6 +52,10 @@ public abstract class GBDeviceProtocol {
     }
 
     public byte[] encodeAppStart(UUID uuid, boolean start) {
+        return null;
+    }
+
+    public byte[] encodeAppReorder(UUID[] uuids) {
         return null;
     }
 

@@ -12,6 +12,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 
 public class TestDeviceSupport extends AbstractDeviceSupport {
@@ -67,6 +68,11 @@ public class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
+    public void onSetMusicState(MusicStateSpec stateSpec) {
+
+    }
+
+    @Override
     public void onSetMusicInfo(MusicSpec musicSpec) {
 
     }
@@ -93,6 +99,11 @@ public class TestDeviceSupport extends AbstractDeviceSupport {
 
     @Override
     public void onAppConfiguration(UUID appUuid, String config) {
+
+    }
+
+    @Override
+    public void onAppReorder(UUID[] uuids) {
 
     }
 

@@ -11,6 +11,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.EventHandler;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
 
@@ -124,6 +125,12 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     }
 
     @Override
+    public void onSetMusicState(MusicStateSpec stateSpec) {
+        byte[] bytes = gbDeviceProtocol.encodeSetMusicState(stateSpec.state, stateSpec.position, stateSpec.playRate, stateSpec.shuffle, stateSpec.repeat);
+        sendToDevice(bytes);
+    }
+
+    @Override
     public void onSetMusicInfo(MusicSpec musicSpec) {
         byte[] bytes = gbDeviceProtocol.encodeSetMusicInfo(musicSpec.artist, musicSpec.album, musicSpec.track, musicSpec.duration, musicSpec.trackCount, musicSpec.trackNr);
         sendToDevice(bytes);
@@ -144,6 +151,12 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     @Override
     public void onAppDelete(UUID uuid) {
         byte[] bytes = gbDeviceProtocol.encodeAppDelete(uuid);
+        sendToDevice(bytes);
+    }
+
+    @Override
+    public void onAppReorder(UUID[] uuids) {
+        byte[] bytes = gbDeviceProtocol.encodeAppReorder(uuids);
         sendToDevice(bytes);
     }
 

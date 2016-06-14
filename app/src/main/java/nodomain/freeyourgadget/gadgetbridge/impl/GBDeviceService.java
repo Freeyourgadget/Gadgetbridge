@@ -14,8 +14,11 @@ import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+
+//import java.util.UUID;
 
 public class GBDeviceService implements DeviceService {
     protected final Context mContext;
@@ -126,6 +129,17 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
+    public void onSetMusicState(MusicStateSpec stateSpec) {
+        Intent intent = createIntent().setAction(ACTION_SETMUSICSTATE)
+                .putExtra(EXTRA_MUSIC_REPEAT, stateSpec.repeat)
+                .putExtra(EXTRA_MUSIC_RATE, stateSpec.playRate)
+                .putExtra(EXTRA_MUSIC_STATE, stateSpec.state)
+                .putExtra(EXTRA_MUSIC_SHUFFLE, stateSpec.shuffle)
+                .putExtra(EXTRA_MUSIC_POSITION, stateSpec.position);
+        invokeService(intent);
+    }
+
+    @Override
     public void onSetMusicInfo(MusicSpec musicSpec) {
         Intent intent = createIntent().setAction(ACTION_SETMUSICINFO)
                 .putExtra(EXTRA_MUSIC_ARTIST, musicSpec.artist)
@@ -170,6 +184,13 @@ public class GBDeviceService implements DeviceService {
         Intent intent = createIntent().setAction(ACTION_APP_CONFIGURE)
                 .putExtra(EXTRA_APP_UUID, uuid)
                 .putExtra(EXTRA_APP_CONFIG, config);
+        invokeService(intent);
+    }
+
+    @Override
+    public void onAppReorder(UUID[] uuids) {
+        Intent intent = createIntent().setAction(ACTION_APP_REORDER)
+                .putExtra(EXTRA_APP_UUID, uuids);
         invokeService(intent);
     }
 

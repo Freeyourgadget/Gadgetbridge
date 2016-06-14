@@ -215,17 +215,31 @@
                     android:key="pebble_reconnect_attempts"
                     android:maxLength="4"
                     android:title="@string/pref_title_pebble_reconnect_attempts" />
+                <CheckBoxPreference
+                    android:title="@string/pref_title_sunrise_sunset"
+                    android:summary="@string/pref_summary_sunrise_sunset"
+                    android:key="send_sunrise_sunset" />
+            </PreferenceCategory>
+            <PreferenceCategory android:title="@string/pref_header_activitytrackers">
                 <ListPreference
                     android:defaultValue="4"
                     android:entries="@array/pebble_activitytracker"
                     android:entryValues="@array/pebble_activitytracker_values"
                     android:key="pebble_activitytracker"
-                    android:title="@string/pref_title_pebble_activitytracker"
-                    android:summary="%s" />
+                    android:summary="%s"
+                    android:title="@string/pref_title_pebble_activitytracker" />
                 <CheckBoxPreference
-                    android:title="@string/pref_title_sunrise_sunset"
-                    android:summary="@string/pref_summary_sunrise_sunset"
-                    android:key="send_sunrise_sunset" />
+                    android:defaultValue="true"
+                    android:key="pebble_sync_health"
+                    android:title="@string/pref_title_pebble_sync_health" />
+                <CheckBoxPreference
+                    android:defaultValue="true"
+                    android:key="pebble_sync_misfit"
+                    android:title="@string/pref_title_pebble_sync_misfit" />>
+                <CheckBoxPreference
+                    android:defaultValue="true"
+                    android:key="pebble_sync_morpheuz"
+                    android:title="@string/pref_title_pebble_sync_morpheuz" />
             </PreferenceCategory>
             <PreferenceCategory
                 android:title="@string/pref_header_location">

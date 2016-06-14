@@ -9,6 +9,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 
 /**
@@ -25,6 +26,8 @@ public interface EventHandler {
 
     void onSetCallState(CallSpec callSpec);
 
+    void onSetMusicState(MusicStateSpec stateSpec);
+
     void onSetMusicInfo(MusicSpec musicSpec);
 
     void onEnableRealtimeSteps(boolean enable);
@@ -38,6 +41,8 @@ public interface EventHandler {
     void onAppDelete(UUID uuid);
 
     void onAppConfiguration(UUID appUuid, String config);
+
+    void onAppReorder(UUID uuids[]);
 
     void onFetchActivityData();
 

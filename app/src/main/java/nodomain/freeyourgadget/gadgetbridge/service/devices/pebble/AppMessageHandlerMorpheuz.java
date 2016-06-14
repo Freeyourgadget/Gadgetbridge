@@ -62,8 +62,7 @@ public class AppMessageHandlerMorpheuz extends AppMessageHandler {
     @Override
     public boolean isEnabled() {
         Prefs prefs = GBApplication.getPrefs();
-        int activityTracker = prefs.getInt("pebble_activitytracker", SampleProvider.PROVIDER_PEBBLE_HEALTH);
-        return (activityTracker == SampleProvider.PROVIDER_PEBBLE_MORPHEUZ);
+        return prefs.getBoolean("pebble_sync_morpheuz", true);
     }
 
     @Override

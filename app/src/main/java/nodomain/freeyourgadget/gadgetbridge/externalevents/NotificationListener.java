@@ -11,6 +11,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.media.MediaMetadata;
+import android.media.session.MediaController;
+import android.media.session.MediaSession;
+import android.media.session.PlaybackState;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.service.notification.NotificationListenerService;
@@ -25,6 +30,8 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
@@ -161,13 +168,6 @@ public class NotificationListener extends NotificationListenerService {
             return;
         }
 
-        Prefs prefs = GBApplication.getPrefs();
-        if (!prefs.getBoolean("notifications_generic_whenscreenon", false)) {
-            PowerManager powermanager = (PowerManager) getSystemService(POWER_SERVICE);
-            if (powermanager.isScreenOn()) {
-                return;
-            }
-        }
         switch (GBApplication.getGrantedInterruptionFilter()) {
             case NotificationManager.INTERRUPTION_FILTER_ALL:
                 break;
@@ -181,6 +181,17 @@ public class NotificationListener extends NotificationListenerService {
 
         String source = sbn.getPackageName();
         Notification notification = sbn.getNotification();
+
+        if (handleMediaSessionNotification(notification))
+            return;
+
+        Prefs prefs = GBApplication.getPrefs();
+        if (!prefs.getBoolean("notifications_generic_whenscreenon", false)) {
+            PowerManager powermanager = (PowerManager) getSystemService(POWER_SERVICE);
+            if (powermanager.isScreenOn()) {
+                return;
+            }
+        }
 
         if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
             return;
@@ -309,6 +320,79 @@ public class NotificationListener extends NotificationListenerService {
             }
         }
         return false;
+    }
+
+    /**
+     * Try to handle media session notifications that tell info about the current play state.
+     *
+     * @param notification The notification to handle.
+     * @return true if notification was handled, false otherwise
+     */
+    public boolean handleMediaSessionNotification(Notification notification) {
+
+        // this code requires Android 5.0 or newer
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            return false;
+        }
+
+        MusicSpec musicSpec = new MusicSpec();
+        MusicStateSpec stateSpec = new MusicStateSpec();
+
+        Bundle extras = notification.extras;
+        if (extras == null)
+            return false;
+
+        if (extras.get(Notification.EXTRA_MEDIA_SESSION) == null)
+            return false;
+
+        MediaController c;
+        try {
+            c = new MediaController(getApplicationContext(), (MediaSession.Token) extras.get(Notification.EXTRA_MEDIA_SESSION));
+        } catch (NullPointerException e) {
+            return false;
+        }
+
+        PlaybackState s = c.getPlaybackState();
+        stateSpec.position = (int) (s.getPosition() / 1000);
+        stateSpec.playRate = Math.round(100 * s.getPlaybackSpeed());
+        stateSpec.repeat = 1;
+        stateSpec.shuffle = 1;
+        switch (s.getState()) {
+            case PlaybackState.STATE_PLAYING:
+                stateSpec.state = MusicStateSpec.STATE_PLAYING;
+                break;
+            case PlaybackState.STATE_STOPPED:
+                stateSpec.state = MusicStateSpec.STATE_STOPPED;
+                break;
+            case PlaybackState.STATE_PAUSED:
+                stateSpec.state = MusicStateSpec.STATE_PAUSED;
+                break;
+            default:
+                stateSpec.state = MusicStateSpec.STATE_UNKNOWN;
+                break;
+        }
+
+        MediaMetadata d = c.getMetadata();
+        if (d == null)
+            return false;
+        if (d.containsKey(MediaMetadata.METADATA_KEY_ARTIST))
+            musicSpec.artist = d.getString(MediaMetadata.METADATA_KEY_ARTIST);
+        if (d.containsKey(MediaMetadata.METADATA_KEY_ALBUM))
+            musicSpec.album = d.getString(MediaMetadata.METADATA_KEY_ALBUM);
+        if (d.containsKey(MediaMetadata.METADATA_KEY_TITLE))
+            musicSpec.track = d.getString(MediaMetadata.METADATA_KEY_TITLE);
+        if (d.containsKey(MediaMetadata.METADATA_KEY_DURATION))
+            musicSpec.duration = (int)d.getLong(MediaMetadata.METADATA_KEY_DURATION) / 1000;
+        if (d.containsKey(MediaMetadata.METADATA_KEY_NUM_TRACKS))
+            musicSpec.trackCount = (int)d.getLong(MediaMetadata.METADATA_KEY_NUM_TRACKS);
+        if (d.containsKey(MediaMetadata.METADATA_KEY_TRACK_NUMBER))
+            musicSpec.trackNr = (int)d.getLong(MediaMetadata.METADATA_KEY_TRACK_NUMBER);
+
+        // finally, tell the device about it
+        GBApplication.deviceService().onSetMusicInfo(musicSpec);
+        GBApplication.deviceService().onSetMusicState(stateSpec);
+
+        return true;
     }
 
     @Override

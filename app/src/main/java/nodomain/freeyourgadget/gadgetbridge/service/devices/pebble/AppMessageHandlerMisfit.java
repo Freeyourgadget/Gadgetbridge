@@ -18,7 +18,6 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.MisfitSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleActivitySample;
@@ -47,8 +46,7 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
     @Override
     public boolean isEnabled() {
         Prefs prefs = GBApplication.getPrefs();
-        int activityTracker = prefs.getInt("pebble_activitytracker", SampleProvider.PROVIDER_PEBBLE_HEALTH);
-        return (activityTracker == SampleProvider.PROVIDER_PEBBLE_MISFIT);
+        return prefs.getBoolean("pebble_sync_misfit", true);
     }
 
     @Override

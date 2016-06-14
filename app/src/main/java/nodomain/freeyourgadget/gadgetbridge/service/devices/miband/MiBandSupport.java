@@ -38,6 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
@@ -600,6 +601,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onSetMusicState(MusicStateSpec stateSpec) {
+        // not supported
+    }
+
+    @Override
     public void onSetMusicInfo(MusicSpec musicSpec) {
         // not supported
     }
@@ -758,6 +764,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onAppConfiguration(UUID uuid, String config) {
+        // not supported
+    }
+
+    @Override
+    public void onAppReorder(UUID[] uuids) {
         // not supported
     }
 
