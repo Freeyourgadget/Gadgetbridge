@@ -60,7 +60,7 @@ public class GBApplication extends Application {
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
     private static Prefs prefs;
     private static GBPrefs gbPrefs;
-    private static DBHandler lockHandler;
+    private static LockHandler lockHandler;
     /**
      * Note: is null on Lollipop and Kitkat
      */
@@ -156,7 +156,10 @@ public class GBApplication extends Application {
         DBOpenHelper helper = new DBOpenHelper(context, "test-db", null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
-        lockHandler = new LockHandler(daoMaster, helper);
+        if (lockHandler == null) {
+            lockHandler = new LockHandler();
+        }
+        lockHandler.init(daoMaster, helper);
     }
 
     public static Context getContext() {
@@ -178,6 +181,9 @@ public class GBApplication extends Application {
      * when that was not successful
      * If acquiring was successful, callers must call #releaseDB when they
      * are done (from the same thread that acquired the lock!
+     *
+     * Callers must not hold a reference to the returned instance because it
+     * will be invalidated at some point.
      *
      * @return the DBHandler
      * @throws GBException

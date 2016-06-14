@@ -31,6 +31,13 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
+/**
+ * Provides utiliy access to some common entities, so you won't need to use
+ * their DAO classes.
+ *
+ * Maybe this code should actually be in the DAO classes themselves, but then
+ * these should be under revision control instead of 100% generated at build time.
+ */
 public class DBHelper {
     private final Context context;
 
@@ -134,9 +141,10 @@ public class DBHelper {
     }
 
     public static User getUser(DaoSession session) {
-        UserDao userDao = session.getUserDao();
-        List<User> users = userDao.loadAll();
         ActivityUser prefsUser = new ActivityUser();
+        UserDao userDao = session.getUserDao();
+        Query<User> query = userDao.queryBuilder().where(UserDao.Properties.Name.eq(prefsUser.getName())).build();
+        List<User> users = query.list();
         User user;
         if (users.isEmpty()) {
             user = createUser(prefsUser, session);
@@ -154,8 +162,6 @@ public class DBHelper {
         user.setBirthday(prefsUser.getUserBirthday());
         user.setGender(prefsUser.getGender());
         session.getUserDao().insert(user);
-
-        ensureUserAttributes(user, prefsUser, session);
 
         return user;
     }
@@ -187,6 +193,7 @@ public class DBHelper {
         return false;
     }
 
+    // TODO: move this into db queries?
     private static boolean isValidNow(ValidByDate element) {
         Calendar cal = DateTimeUtils.getCalendarUTC();
         Date nowUTC = cal.getTime();
@@ -221,15 +228,39 @@ public class DBHelper {
         return true;
     }
 
+    private static boolean isEqual(DeviceAttributes attr, GBDevice gbDevice) {
+        if (!isEqual(attr.getFirmwareVersion1(), gbDevice.getFirmwareVersion())) {
+            return false;
+        }
+        if (!isEqual(attr.getFirmwareVersion2(), gbDevice.getFirmwareVersion2())) {
+            return false;
+        }
+        return true;
+    }
+
+    private static boolean isEqual(String s1, String s2) {
+        if (s1 == s2) {
+            return true;
+        }
+        if (s1 != null) {
+            return s1.equals(s2);
+        }
+        return false;
+    }
+
     public static Device getDevice(GBDevice gbDevice, DaoSession session) {
         DeviceDao deviceDao = session.getDeviceDao();
         Query<Device> query = deviceDao.queryBuilder().where(DeviceDao.Properties.Identifier.eq(gbDevice.getAddress())).build();
         List<Device> devices = query.list();
+        Device device;
         if (devices.isEmpty()) {
-            Device device = createDevice(session, gbDevice);
-            return device;
+            device = createDevice(session, gbDevice);
+        } else {
+            device = devices.get(0);
         }
-        return devices.get(0);
+        ensureDeviceAttributes(device, gbDevice, session);
+
+        return device;
     }
 
     private static Device createDevice(DaoSession session, GBDevice gbDevice) {
@@ -239,18 +270,36 @@ public class DBHelper {
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
         device.setManufacturer(coordinator.getManufacturer());
         session.getDeviceDao().insert(device);
-        List<DeviceAttributes> deviceAttributes = device.getDeviceAttributesList();
 
+        return device;
+    }
+
+    private static void ensureDeviceAttributes(Device device, GBDevice gbDevice, DaoSession session) {
+        List<DeviceAttributes> deviceAttributes = device.getDeviceAttributesList();
+        if (hasUpToDateDeviceAttributes(deviceAttributes, gbDevice)) {
+            return;
+        }
         DeviceAttributes attributes = new DeviceAttributes();
+
         attributes.setDeviceId(device.getId());
         attributes.setValidFromUTC(DateTimeUtils.todayUTC());
         attributes.setFirmwareVersion1(gbDevice.getFirmwareVersion());
-        // TODO: firmware version2? generically or through DeviceCoordinator?
+        attributes.setFirmwareVersion2(gbDevice.getFirmwareVersion2());
         DeviceAttributesDao attributesDao = session.getDeviceAttributesDao();
         attributesDao.insert(attributes);
 
         deviceAttributes.add(attributes);
+    }
 
-        return device;
+    private static boolean hasUpToDateDeviceAttributes(List<DeviceAttributes> deviceAttributes, GBDevice gbDevice) {
+        for (DeviceAttributes attr : deviceAttributes) {
+            if (!isValidNow(attr)) {
+                return false;
+            }
+            if (isEqual(attr, gbDevice)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

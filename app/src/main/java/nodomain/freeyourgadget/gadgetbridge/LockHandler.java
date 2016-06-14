@@ -9,23 +9,48 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 
 /**
- * A dummy DBHandler that does nothing more than implementing the release() method.
- * It is solely used for locking concurrent access to the database session.
+ * Provides lowlevel access to the database.
  */
 public class LockHandler implements DBHandler {
 
-    private final DaoMaster daoMaster;
-    private DaoSession session;
-    private final SQLiteOpenHelper helper;
+    private DaoMaster daoMaster = null;
+    private DaoSession session = null;
+    private SQLiteOpenHelper helper = null;
 
-    public LockHandler(DaoMaster daoMaster, DBOpenHelper helper) {
+    public LockHandler() {
+    }
+
+    public void init(DaoMaster daoMaster, DBOpenHelper helper) {
+        if (isValid()) {
+            throw new IllegalStateException("DB must be closed before initializing it again");
+        }
+        if (daoMaster == null) {
+            throw new IllegalArgumentException("daoMaster must not be null");
+        }
+        if (helper == null) {
+            throw new IllegalArgumentException("helper must not be null");
+        }
         this.daoMaster = daoMaster;
         this.helper = helper;
         session = daoMaster.newSession();
+        if (session == null) {
+            throw new RuntimeException("Unable to create database session");
+        }
+    }
+
+    private boolean isValid() {
+        return daoMaster != null;
+    }
+
+    private void ensureValid() {
+        if (!isValid()) {
+            throw new IllegalStateException("LockHandler is not in a valid state");
+        }
     }
 
     @Override
     public void close() {
+        ensureValid();
         GBApplication.releaseDB();
     }
 
@@ -34,7 +59,7 @@ public class LockHandler implements DBHandler {
         if (session != null) {
             throw new IllegalStateException("session must be null");
         }
-        // this will create completely new db instances. This handler will be dead
+        // this will create completely new db instances and in turn update this handler through #init()
         GBApplication.setupDatabase(GBApplication.getContext());
     }
 
@@ -46,20 +71,25 @@ public class LockHandler implements DBHandler {
         session.clear();
         session.getDatabase().close();
         session = null;
+        helper = null;
+        daoMaster = null;
     }
 
     @Override
     public SQLiteOpenHelper getHelper() {
+        ensureValid();
         return helper;
     }
 
     @Override
     public DaoSession getDaoSession() {
+        ensureValid();
         return session;
     }
 
     @Override
     public SQLiteDatabase getDatabase() {
+        ensureValid();
         return daoMaster.getDatabase();
     }
 }

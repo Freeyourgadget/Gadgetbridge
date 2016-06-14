@@ -10,6 +10,11 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
+/**
+ * Base class for all sample providers. A Sample provider is device specific and provides
+ * access to the device specific samples. There are both read and write operations.
+ * @param <T>
+ */
 public abstract class AbstractSampleProvider<T extends AbstractActivitySample> implements SampleProvider<T> {
     private static final WhereCondition[] NO_CONDITIONS = new WhereCondition[0];
     private final DaoSession mSession;
@@ -51,12 +56,12 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
 
     @Override
     public void addGBActivitySample(T activitySample) {
-        getSampleDao().insert(activitySample);
+        getSampleDao().insertOrReplace(activitySample);
     }
 
     @Override
     public void addGBActivitySamples(T[] activitySamples) {
-        getSampleDao().insertInTx(activitySamples);
+        getSampleDao().insertOrReplaceInTx(activitySamples);
     }
 
 //    @Override

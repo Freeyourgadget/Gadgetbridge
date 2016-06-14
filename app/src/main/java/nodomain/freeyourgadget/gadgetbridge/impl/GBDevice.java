@@ -46,8 +46,9 @@ public class GBDevice implements Parcelable {
     private final String mName;
     private final String mAddress;
     private final DeviceType mDeviceType;
-    private String mFirmwareVersion = null;
-    private String mHardwareVersion = null;
+    private String mFirmwareVersion;
+    private String mFirmwareVersion2;
+    private String mHardwareVersion;
     private State mState = State.NOT_CONNECTED;
     private short mBatteryLevel = BATTERY_UNKNOWN;
     private short mBatteryThresholdPercent = BATTERY_THRESHOLD_PERCENT;
@@ -68,6 +69,7 @@ public class GBDevice implements Parcelable {
         mAddress = in.readString();
         mDeviceType = DeviceType.values()[in.readInt()];
         mFirmwareVersion = in.readString();
+        mFirmwareVersion2 = in.readString();
         mHardwareVersion = in.readString();
         mState = State.values()[in.readInt()];
         mBatteryLevel = (short) in.readInt();
@@ -86,6 +88,7 @@ public class GBDevice implements Parcelable {
         dest.writeString(mAddress);
         dest.writeInt(mDeviceType.ordinal());
         dest.writeString(mFirmwareVersion);
+        dest.writeString(mFirmwareVersion2);
         dest.writeString(mHardwareVersion);
         dest.writeInt(mState.ordinal());
         dest.writeInt(mBatteryLevel);
@@ -113,9 +116,16 @@ public class GBDevice implements Parcelable {
     public String getFirmwareVersion() {
         return mFirmwareVersion;
     }
+    public String getFirmwareVersion2() {
+        return mFirmwareVersion2;
+    }
 
     public void setFirmwareVersion(String firmwareVersion) {
         mFirmwareVersion = firmwareVersion;
+    }
+
+    public void setFirmwareVersion2(String firmwareVersion2) {
+        mFirmwareVersion2 = firmwareVersion2;
     }
 
     public String getHardwareVersion() {
