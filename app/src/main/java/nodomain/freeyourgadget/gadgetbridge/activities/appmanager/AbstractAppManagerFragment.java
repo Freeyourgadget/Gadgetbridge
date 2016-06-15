@@ -10,12 +10,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.PopupMenu;
 
 import com.woxthebox.draglistview.DragListView;
 
@@ -95,7 +95,6 @@ public abstract class AbstractAppManagerFragment extends Fragment {
 
     protected final List<GBDeviceApp> appList = new ArrayList<>();
     private GBDeviceAppAdapter mGBDeviceAppAdapter;
-    private GBDeviceApp selectedApp = null;
     protected GBDevice mGBDevice = null;
 
     protected List<GBDeviceApp> getSystemApps() {
@@ -175,18 +174,28 @@ public abstract class AbstractAppManagerFragment extends Fragment {
 
         DragListView appListView = (DragListView) (rootView.findViewById(R.id.appListView));
         appListView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mGBDeviceAppAdapter = new GBDeviceAppAdapter(appList, R.layout.item_with_details, R.id.item_image, true, this);
+        mGBDeviceAppAdapter = new GBDeviceAppAdapter(appList, R.layout.item_with_details, R.id.item_image, this.getContext(), this);
         appListView.setAdapter(mGBDeviceAppAdapter, false);
-        //registerForContextMenu(appListView);
+        appListView.setCanDragHorizontally(false);
         return rootView;
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        getActivity().getMenuInflater().inflate(R.menu.appmanager_context, menu);
-        AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
-        selectedApp = appList.get(acmi.position);
+    private void removeAppFromList(UUID uuid) {
+        for (final ListIterator<GBDeviceApp> iter = appList.listIterator(); iter.hasNext(); ) {
+            final GBDeviceApp app = iter.next();
+            if (app.getUUID().equals(uuid)) {
+                iter.remove();
+                mGBDeviceAppAdapter.notifyDataSetChanged();
+                break;
+            }
+        }
+    }
+
+    public boolean openPopupMenu(View view, int position) {
+        PopupMenu popupMenu = new PopupMenu(getContext(), view);
+        popupMenu.getMenuInflater().inflate(R.menu.appmanager_context, popupMenu.getMenu());
+        Menu menu = popupMenu.getMenu();
+        final GBDeviceApp selectedApp = appList.get(position);
 
         if (!selectedApp.isInCache()) {
             menu.removeItem(R.id.appmanager_app_reinstall);
@@ -202,25 +211,21 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         if (!selectedApp.isConfigurable()) {
             menu.removeItem(R.id.appmanager_app_configure);
         }
-        if (mGBDevice != null && !mGBDevice.getFirmwareVersion().startsWith("v3")) {
+        if (!mGBDevice.getFirmwareVersion().startsWith("v3")) {
             menu.removeItem(R.id.appmanager_app_move_to_top);
         }
-        menu.setHeaderTitle(selectedApp.getName());
+        //menu.setHeaderTitle(selectedApp.getName());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                                 public boolean onMenuItemClick(MenuItem item) {
+                                                     return onContextItemSelected(item, selectedApp);
+                                                 }
+                                             }
+        );
+        popupMenu.show();
+        return false; // FIXME: whats that for?
     }
 
-    private void removeAppFromList(UUID uuid) {
-        for (final ListIterator<GBDeviceApp> iter = appList.listIterator(); iter.hasNext(); ) {
-            final GBDeviceApp app = iter.next();
-            if (app.getUUID().equals(uuid)) {
-                iter.remove();
-                mGBDeviceAppAdapter.notifyDataSetChanged();
-                break;
-            }
-        }
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    public boolean onContextItemSelected(MenuItem item, GBDeviceApp selectedApp) {
         switch (item.getItemId()) {
             case R.id.appmanager_health_deactivate:
             case R.id.appmanager_app_delete_cache:

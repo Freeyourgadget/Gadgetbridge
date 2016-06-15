@@ -1,6 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.adapter;
 
-import android.support.v4.app.Fragment;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,16 +25,17 @@ public class GBDeviceAppAdapter extends DragItemAdapter<GBDeviceApp, GBDeviceApp
 
     private final int mLayoutId;
     private final int mGrabHandleId;
-    private final Fragment mParentFragment;
+    private final Context mContext;
+    private final AbstractAppManagerFragment mParentFragment;
 
-    public GBDeviceAppAdapter(List<GBDeviceApp> list, int layoutId, int grabHandleId, boolean dragOnLongPress, Fragment parentFragment) {
-        super(dragOnLongPress);
+    public GBDeviceAppAdapter(List<GBDeviceApp> list, int layoutId, int grabHandleId, Context context, AbstractAppManagerFragment parentFragment) {
+        super(true); // longpress
         mLayoutId = layoutId;
         mGrabHandleId = grabHandleId;
+        mContext = context;
         mParentFragment = parentFragment;
         setHasStableIds(true);
         setItemList(list);
-
     }
 
     @Override
@@ -93,10 +94,16 @@ public class GBDeviceAppAdapter extends DragItemAdapter<GBDeviceApp, GBDeviceApp
             mDeviceAppNameLabel = (TextView) itemView.findViewById(R.id.item_name);
             mDeviceImageView = (ImageView) itemView.findViewById(R.id.item_image);
         }
+
         @Override
         public void onItemClicked(View view) {
             UUID uuid = mItemList.get(getAdapterPosition()).getUUID();
             GBApplication.deviceService().onAppStart(uuid, true);
+        }
+
+        @Override
+        public boolean onItemLongClicked(View view) {
+            return mParentFragment.openPopupMenu(view, getAdapterPosition());
         }
     }
 }
