@@ -245,15 +245,19 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     static final long GB_UUID_MASK = 0x4767744272646700L;
 
-    // base is -5
+    // base is -8
     private static final String[] hwRevisions = {
             // Emulator
-            "spalding_bb2", "snowy_bb2", "snowy_bb", "bb2", "bb",
+            "silk_bb2", "unknown", "silk_bb",
+            "spalding_bb2", "snowy_bb2", "snowy_bb",
+            "bb2", "bb",
             "unknown",
             // Pebble
             "ev1", "ev2", "ev2_3", "ev2_4", "v1_5", "v2_0",
             // Pebble Time
-            "snowy_evt2", "snowy_dvt", "spalding_dvt", "snowy_s3", "spalding"
+            "snowy_evt2", "snowy_dvt", "spalding_dvt", "snowy_s3", "spalding",
+            // Pebble 2
+            "silk_evt", "unknown", "silk"
     };
 
     private static final Random mRandom = new Random();
@@ -2041,7 +2045,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 }
 
                 buf.get(tmp, 0, 9);
-                int hwRev = buf.get() + 5;
+                int hwRev = buf.get() + 8;
                 if (hwRev >= 0 && hwRev < hwRevisions.length) {
                     versionCmd.hwVersion = hwRevisions[hwRev];
                 }
