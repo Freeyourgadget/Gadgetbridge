@@ -59,6 +59,7 @@ dependencies {
     compile 'com.github.pfichtner:durationformatter:0.1.1'
     compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
     compile 'net.e175.klaus:solarpositioning:0.0.9'
+    compile 'com.github.woxthebox:draglistview:1.2.6'
 }
 
 check.dependsOn 'findbugs', 'pmd', 'lint'

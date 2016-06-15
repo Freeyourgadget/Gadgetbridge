@@ -5,4 +5,8 @@ public class AppManagerFragmentInstalledWatchfaces extends AbstractAppManagerFra
     public void refreshList() {
         appList.addAll(getSystemWatchfaces());
     }
+
+    public String getSortFilename() {
+        return mGBDevice.getAddress() + ".watchfaces";
+    }
 }

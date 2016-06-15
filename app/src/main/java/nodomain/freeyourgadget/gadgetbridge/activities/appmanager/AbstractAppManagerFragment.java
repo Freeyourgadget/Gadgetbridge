@@ -9,13 +9,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
+
+import com.woxthebox.draglistview.DragListView;
 
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -44,6 +46,14 @@ public abstract class AbstractAppManagerFragment extends Fragment {
     public static final String ACTION_REFRESH_APPLIST
             = "nodomain.freeyourgadget.gadgetbridge.appmanager.action.refresh_applist";
     private static final Logger LOG = LoggerFactory.getLogger(AbstractAppManagerFragment.class);
+
+
+    public void refreshList() {
+    }
+
+    public String getSortFilename() {
+        return null;
+    }
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -86,7 +96,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
     protected final List<GBDeviceApp> appList = new ArrayList<>();
     private GBDeviceAppAdapter mGBDeviceAppAdapter;
     private GBDeviceApp selectedApp = null;
-    private GBDevice mGBDevice = null;
+    protected GBDevice mGBDevice = null;
 
     protected List<GBDeviceApp> getSystemApps() {
         List<GBDeviceApp> systemApps = new ArrayList<>();
@@ -140,9 +150,6 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         return cachedAppList;
     }
 
-    public void refreshList() {
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         mGBDevice = ((AppManagerActivity) getActivity()).getGBDevice();
@@ -166,20 +173,11 @@ public abstract class AbstractAppManagerFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.activity_appmanager, container, false);
 
-        ListView appListView = (ListView) (rootView.findViewById(R.id.appListView));
-        mGBDeviceAppAdapter = new GBDeviceAppAdapter(getContext(), appList);
-        appListView.setAdapter(this.mGBDeviceAppAdapter);
-
-        appListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView parent, View v, int position, long id) {
-                UUID uuid = appList.get(position).getUUID();
-                GBApplication.deviceService().onAppStart(uuid, true);
-            }
-        });
-
-        registerForContextMenu(appListView);
-
+        DragListView appListView = (DragListView) (rootView.findViewById(R.id.appListView));
+        appListView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mGBDeviceAppAdapter = new GBDeviceAppAdapter(appList, R.layout.item_with_details, R.id.item_image, true, this);
+        appListView.setAdapter(mGBDeviceAppAdapter, false);
+        //registerForContextMenu(appListView);
         return rootView;
     }
 
@@ -278,15 +276,6 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-//                NavUtils.navigateUpFromSameTask(this);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onDestroy() {

@@ -5,4 +5,9 @@ public class AppManagerFragmentInstalledApps extends AbstractAppManagerFragment 
     public void refreshList() {
         appList.addAll(getSystemApps());
     }
+    @Override
+
+    public String getSortFilename() {
+        return mGBDevice.getAddress() + ".watchapps";
+    }
 }

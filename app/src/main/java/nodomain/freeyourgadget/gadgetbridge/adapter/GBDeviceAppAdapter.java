@@ -1,73 +1,102 @@
 package nodomain.freeyourgadget.gadgetbridge.adapter;
 
-import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
+import com.woxthebox.draglistview.DragItemAdapter;
 
+import java.util.List;
+import java.util.UUID;
+
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AbstractAppManagerFragment;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 
 /**
  * Adapter for displaying GBDeviceApp instances.
  */
-public class GBDeviceAppAdapter extends ArrayAdapter<GBDeviceApp> {
 
-    private final Context context;
+public class GBDeviceAppAdapter extends DragItemAdapter<GBDeviceApp, GBDeviceAppAdapter.ViewHolder> {
 
-    public GBDeviceAppAdapter(Context context, List<GBDeviceApp> appList) {
-        super(context, 0, appList);
+    private final int mLayoutId;
+    private final int mGrabHandleId;
+    private final Fragment mParentFragment;
 
-        this.context = context;
+    public GBDeviceAppAdapter(List<GBDeviceApp> list, int layoutId, int grabHandleId, boolean dragOnLongPress, Fragment parentFragment) {
+        super(dragOnLongPress);
+        mLayoutId = layoutId;
+        mGrabHandleId = grabHandleId;
+        mParentFragment = parentFragment;
+        setHasStableIds(true);
+        setItemList(list);
+
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
-        GBDeviceApp deviceApp = getItem(position);
+    public long getItemId(int position) {
+        return mItemList.get(position).getUUID().getLeastSignificantBits();
+    }
 
-        if (view == null) {
-            LayoutInflater inflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-            view = inflater.inflate(R.layout.item_with_details, parent, false);
-        }
-        TextView deviceAppVersionAuthorLabel = (TextView) view.findViewById(R.id.item_details);
-        TextView deviceAppNameLabel = (TextView) view.findViewById(R.id.item_name);
-        ImageView deviceImageView = (ImageView) view.findViewById(R.id.item_image);
+        View view = LayoutInflater.from(parent.getContext()).inflate(mLayoutId, parent, false);
+        return new ViewHolder(view);
+    }
 
-        deviceAppVersionAuthorLabel.setText(getContext().getString(R.string.appversion_by_creator, deviceApp.getVersion(), deviceApp.getCreator()));
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+        GBDeviceApp deviceApp = mItemList.get(position);
 
+
+        holder.mDeviceAppVersionAuthorLabel.setText(GBApplication.getContext().getString(R.string.appversion_by_creator, deviceApp.getVersion(), deviceApp.getCreator()));
         // FIXME: replace with small icons
         String appNameLabelText = deviceApp.getName();
         if (deviceApp.isInCache() || deviceApp.isOnDevice()) {
             appNameLabelText += " (" + (deviceApp.isInCache() ? "C" : "")
                     + (deviceApp.isOnDevice() ? "D" : "") + ")";
         }
-        deviceAppNameLabel.setText(appNameLabelText);
+        holder.mDeviceAppNameLabel.setText(appNameLabelText);
 
         switch (deviceApp.getType()) {
             case APP_GENERIC:
-                deviceImageView.setImageResource(R.drawable.ic_watchapp);
+                holder.mDeviceImageView.setImageResource(R.drawable.ic_watchapp);
                 break;
             case APP_ACTIVITYTRACKER:
-                deviceImageView.setImageResource(R.drawable.ic_activitytracker);
+                holder.mDeviceImageView.setImageResource(R.drawable.ic_activitytracker);
                 break;
             case APP_SYSTEM:
-            case WATCHFACE_SYSTEM:
-                deviceImageView.setImageResource(R.drawable.ic_systemapp);
+                holder.mDeviceImageView.setImageResource(R.drawable.ic_systemapp);
                 break;
             case WATCHFACE:
-                deviceImageView.setImageResource(R.drawable.ic_watchface);
+                holder.mDeviceImageView.setImageResource(R.drawable.ic_watchface);
                 break;
             default:
-                deviceImageView.setImageResource(R.drawable.ic_watchapp);
+                holder.mDeviceImageView.setImageResource(R.drawable.ic_watchapp);
         }
+    }
 
-        return view;
+    public class ViewHolder extends DragItemAdapter<GBDeviceApp, GBDeviceAppAdapter.ViewHolder>.ViewHolder {
+        TextView mDeviceAppVersionAuthorLabel;
+        TextView mDeviceAppNameLabel;
+        ImageView mDeviceImageView;
+
+        public ViewHolder(final View itemView) {
+            super(itemView, mGrabHandleId);
+            mDeviceAppVersionAuthorLabel = (TextView) itemView.findViewById(R.id.item_details);
+            mDeviceAppNameLabel = (TextView) itemView.findViewById(R.id.item_name);
+            mDeviceImageView = (ImageView) itemView.findViewById(R.id.item_image);
+        }
+        @Override
+        public void onItemClicked(View view) {
+            UUID uuid = mItemList.get(getAdapterPosition()).getUUID();
+            GBApplication.deviceService().onAppStart(uuid, true);
+        }
     }
 }

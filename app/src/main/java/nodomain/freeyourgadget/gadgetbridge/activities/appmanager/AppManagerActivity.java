@@ -3,7 +3,9 @@ package nodomain.freeyourgadget.gadgetbridge.activities.appmanager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
+import android.view.MenuItem;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractFragmentPagerAdapter;
@@ -81,6 +83,16 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
             }
             return super.getPageTitle(position);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
