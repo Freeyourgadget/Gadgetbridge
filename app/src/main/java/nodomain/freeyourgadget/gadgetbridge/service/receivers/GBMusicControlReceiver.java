@@ -69,7 +69,9 @@ public class GBMusicControlReceiver extends BroadcastReceiver {
             Intent upIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
             KeyEvent upEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_UP, keyCode, 0);
             upIntent.putExtra(Intent.EXTRA_KEY_EVENT, upEvent);
-            upIntent.setPackage(audioPlayer);
+            if (!"default".equals(audioPlayer)) {
+                upIntent.setPackage(audioPlayer);
+            }
             context.sendOrderedBroadcast(upIntent, null);
         }
     }
