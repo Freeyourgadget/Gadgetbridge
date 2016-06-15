@@ -103,7 +103,7 @@ public class PBWReader {
              * we still prefer the subfolders if present.
              * chalk needs to be its subfolder
              */
-            if (platform.equals("aplite") || platform.equals("basalt")) {
+            if (platform.equals("aplite") || platform.equals("basalt") || platform.equals("diorite")) {
                 boolean hasPlatformDir = false;
                 InputStream afin = new BufferedInputStream(cr.openInputStream(uri));
 

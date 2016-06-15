@@ -7,6 +7,8 @@ public class PebbleUtils {
             platformName = "basalt";
         } else if (hwRev.startsWith("spalding")) {
             platformName = "chalk";
+        } else if (hwRev.startsWith("silk")) {
+            platformName = "diorite";
         } else {
             platformName = "aplite";
         }
@@ -20,6 +22,8 @@ public class PebbleUtils {
             model = "pebble_time_black";
         } else if (hwRev.startsWith("spalding")) {
             model = "pebble_time_round_black_20mm";
+        } else if (hwRev.startsWith("silk")) {
+            model = "pebble2_black";
         } else {
             model = "pebble_black";
         }
