@@ -296,7 +296,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                             if (mPBWReader.isFirmware()) {
                                 writeInstallApp(mPebbleProtocol.encodeInstallFirmwareComplete());
                                 finishInstall(false);
-                            } else if (mPBWReader.isLanguage() || mPebbleProtocol.isFw3x) {
+                            } else if (mPBWReader.isLanguage() || mPebbleProtocol.mFwMajor >= 3) {
                                 finishInstall(false); // FIXME: dont know yet how to detect success
                             } else {
                                 writeInstallApp(mPebbleProtocol.encodeAppRefresh(mInstallSlot));
@@ -614,7 +614,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
             writeInstallApp(mPebbleProtocol.encodeGetTime());
         } else {
             GBDeviceApp app = mPBWReader.getGBDeviceApp();
-            if (mPebbleProtocol.isFw3x && !mPBWReader.isLanguage()) {
+            if (mPebbleProtocol.mFwMajor >= 3 && !mPBWReader.isLanguage()) {
                 if (appId == 0) {
                     // only install metadata - not the binaries
                     write(mPebbleProtocol.encodeInstallMetadata(app.getUUID(), app.getName(), mPBWReader.getAppVersion(), mPBWReader.getSdkVersion(), mPBWReader.getFlags(), mPBWReader.getIconId()));
