@@ -1,5 +1,8 @@
 package nodomain.freeyourgadget.gadgetbridge.database;
 
+/**
+ * TODO: Legacy, can be removed once migration support for old ActivityDatabase is removed
+ */
 public class DBConstants {
     public static final String DATABASE_NAME = "ActivityDatabase";
 

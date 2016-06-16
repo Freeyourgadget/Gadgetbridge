@@ -14,8 +14,10 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -53,7 +55,7 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public SampleProvider getSampleProvider(DBHandler db) {
+    public SampleProvider<? extends AbstractActivitySample> getSampleProvider(DBHandler db) {
         return new MiBandSampleProvider(db.getDaoSession());
     }
 

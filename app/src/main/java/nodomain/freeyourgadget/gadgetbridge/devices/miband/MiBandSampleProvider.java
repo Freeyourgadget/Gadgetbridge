@@ -79,7 +79,7 @@ public class MiBandSampleProvider extends AbstractSampleProvider<MiBandActivityS
     }
 
     @Override
-    protected AbstractDao<MiBandActivitySample, ?> getSampleDao() {
+    public AbstractDao<MiBandActivitySample, ?> getSampleDao() {
         return getSession().getMiBandActivitySampleDao();
     }
 
@@ -91,5 +91,10 @@ public class MiBandSampleProvider extends AbstractSampleProvider<MiBandActivityS
     @Override
     protected Property getRawKindSampleProperty() {
         return MiBandActivitySampleDao.Properties.RawKind;
+    }
+
+    @Override
+    public MiBandActivitySample createActivitySample() {
+        return new MiBandActivitySample();
     }
 }

@@ -70,6 +70,11 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
         }
 
         @Override
+        public AbstractActivitySample createActivitySample() {
+            return null;
+        }
+
+        @Override
         public int getID() {
             return PROVIDER_UNKNOWN;
         }
@@ -105,7 +110,7 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public SampleProvider getSampleProvider(DBHandler db) {
+    public SampleProvider<?> getSampleProvider(DBHandler db) {
         return new UnknownSampleProvider();
     }
 

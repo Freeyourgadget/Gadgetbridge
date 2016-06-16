@@ -30,6 +30,18 @@ public abstract class AbstractActivitySample implements ActivitySample {
 
     public abstract void setRawIntensity(int intensity);
 
+    public abstract void setSteps(int steps);
+
+    public abstract void setTimestamp(int timestamp);
+
+    public abstract void setUserId(Long userId);
+
+    public abstract Long getUserId();
+
+    public abstract void setDeviceId(Long userId);
+
+    public abstract Long getDeviceId();
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "{" +
@@ -37,6 +49,8 @@ public abstract class AbstractActivitySample implements ActivitySample {
                 ", intensity=" + getIntensity() +
                 ", steps=" + getSteps() +
                 ", type=" + getKind() +
+                ", userId=" + getUserId() +
+                ", deviceId=" + getDeviceId() +
                 '}';
     }
 }

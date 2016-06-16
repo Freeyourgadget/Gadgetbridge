@@ -11,6 +11,11 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class SchemaMigration {
     private static final Logger LOG = LoggerFactory.getLogger(SchemaMigration.class);
+    private final String classNamePrefix;
+
+    public SchemaMigration(String updaterClassNamePrefix) {
+        classNamePrefix = updaterClassNamePrefix;
+    }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         LOG.info("ActivityDatabase: schema upgrade requested from " + oldVersion + " to " + newVersion);
@@ -48,7 +53,7 @@ public class SchemaMigration {
 
     private DBUpdateScript getUpdateScript(SQLiteDatabase db, int version) {
         try {
-            Class<?> updateClass = getClass().getClassLoader().loadClass(getClass().getPackage().getName() + ".schema.ActivityDBUpdate_" + version);
+            Class<?> updateClass = getClass().getClassLoader().loadClass(getClass().getPackage().getName() + ".schema." + classNamePrefix + version);
             return (DBUpdateScript) updateClass.newInstance();
         } catch (ClassNotFoundException e) {
             return null;

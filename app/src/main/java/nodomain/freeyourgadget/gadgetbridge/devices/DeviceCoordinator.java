@@ -8,6 +8,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 /**
@@ -84,7 +85,7 @@ public interface DeviceCoordinator {
      *
      * @return
      */
-    SampleProvider<AbstractActivitySample> getSampleProvider(DBHandler db);
+    SampleProvider<? extends ActivitySample> getSampleProvider(DBHandler db);
 
     /**
      * Finds an install handler for the given uri that can install the given

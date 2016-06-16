@@ -32,10 +32,16 @@ public class LockHandler implements DBHandler {
         }
         this.daoMaster = daoMaster;
         this.helper = helper;
+
         session = daoMaster.newSession();
         if (session == null) {
             throw new RuntimeException("Unable to create database session");
         }
+        if (helper.importOldDbIfNecessary(daoMaster, this)) {
+            session.clear();
+            session = daoMaster.newSession();
+        }
+
     }
 
     private boolean isValid() {

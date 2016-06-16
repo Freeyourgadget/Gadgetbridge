@@ -39,6 +39,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
     private static final Logger LOG = LoggerFactory.getLogger(ActivityDatabaseHandler.class);
 
     private static final int DATABASE_VERSION = 7;
+    private static final String UPDATER_CLASS_NAME_PREFIX = "ActivityDBUpdate_";
 
     public ActivityDatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -56,12 +57,12 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        new SchemaMigration().onUpgrade(db, oldVersion, newVersion);
+        new SchemaMigration(UPDATER_CLASS_NAME_PREFIX).onUpgrade(db, oldVersion, newVersion);
     }
 
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        new SchemaMigration().onDowngrade(db, oldVersion, newVersion);
+        new SchemaMigration(UPDATER_CLASS_NAME_PREFIX).onDowngrade(db, oldVersion, newVersion);
     }
 
     @Override
@@ -176,6 +177,10 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
         return getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_ALL, provider);
     }
 
+    public ArrayList<ActivitySample> getAllActivitySamples() {
+        return getActivitySamples(null, "timestamp", null);
+    }
+
     /**
      * Returns all available activity samples from between the two timestamps (inclusive), of the given
      * provided and type(s).
@@ -193,10 +198,17 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
         if (timestamp_from < 0) {
             throw new IllegalArgumentException("negative timestamp_from");
         }
-        ArrayList<ActivitySample> samples = new ArrayList<>();
         final String where = "(provider=" + provider.getID() + " and timestamp>=" + timestamp_from + " and timestamp<=" + timestamp_to + getWhereClauseFor(activityTypes, provider) + ")";
         LOG.info("Activity query where: " + where);
         final String order = "timestamp";
+
+        ArrayList<ActivitySample> samples = getActivitySamples(where, order, null);
+
+        return samples;
+    }
+
+    private ArrayList<ActivitySample> getActivitySamples(String where, String order, SampleProvider provider) {
+        ArrayList<ActivitySample> samples = new ArrayList<>();
         try (SQLiteDatabase db = this.getReadableDatabase()) {
             try (Cursor cursor = db.query(TABLE_GBACTIVITYSAMPLES, null, where, null, null, null, order)) {
                 LOG.info("Activity query result: " + cursor.getCount() + " samples");
@@ -217,7 +229,6 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
                 }
             }
         }
-
         return samples;
     }
 
@@ -283,6 +294,6 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
 
     @Override
     public DaoSession getDaoSession() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 }

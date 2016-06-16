@@ -8,4 +8,11 @@ public interface HeartRateSample extends TimeStamped {
      * @return the heart rate value in beats per minute, or null if none
      */
     Integer getHeartRate();
+
+    /**
+     * Sets the heart rate value of this sample. Typically only used in
+     * generic db migration.
+     * @param value the value in bpm
+     */
+    void setHeartRate(Integer value);
 }

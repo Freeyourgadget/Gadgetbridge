@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public class HealthSampleProvider extends AbstractPebbleSampleProvider {
@@ -43,12 +44,10 @@ public class HealthSampleProvider extends AbstractPebbleSampleProvider {
         }
     }
 
-
     @Override
     public float normalizeIntensity(int rawIntensity) {
         return rawIntensity / movementDivisor;
     }
-
 
     @Override
     public int getID() {

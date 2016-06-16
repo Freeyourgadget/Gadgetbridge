@@ -294,7 +294,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         return akActivity.color;
     }
 
-    protected SampleProvider<AbstractActivitySample> getProvider(DBHandler db, GBDevice device) {
+    protected SampleProvider<? extends AbstractActivitySample> getProvider(DBHandler db, GBDevice device) {
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
         return coordinator.getSampleProvider(db);
     }
@@ -316,8 +316,8 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         return (tsTo) - (24 * 60 * 60); // -24 hours
     }
 
-    protected List<? extends ActivitySample> getActivitySamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-        SampleProvider<AbstractActivitySample> provider = getProvider(db, device);
+    protected List<? extends AbstractActivitySample> getActivitySamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+        SampleProvider<? extends AbstractActivitySample> provider = getProvider(db, device);
         return provider.getActivitySamples(tsFrom, tsTo);
     }
 

@@ -37,4 +37,6 @@ public interface SampleProvider<T extends AbstractActivitySample> {
     void addGBActivitySample(T activitySample);
 
     void addGBActivitySamples(T[] activitySamples);
+
+    T createActivitySample();
 }

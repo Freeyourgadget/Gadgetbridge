@@ -13,7 +13,7 @@ public abstract class AbstractPebbleSampleProvider extends AbstractSampleProvide
     }
 
     @Override
-    protected AbstractDao<PebbleActivitySample, ?> getSampleDao() {
+    public AbstractDao<PebbleActivitySample, ?> getSampleDao() {
         return getSession().getPebbleActivitySampleDao();
     }
 
@@ -25,5 +25,10 @@ public abstract class AbstractPebbleSampleProvider extends AbstractSampleProvide
     @Override
     protected Property getRawKindSampleProperty() {
         return PebbleActivitySampleDao.Properties.RawKind;
+    }
+
+    @Override
+    public PebbleActivitySample createActivitySample() {
+        return new PebbleActivitySample();
     }
 }

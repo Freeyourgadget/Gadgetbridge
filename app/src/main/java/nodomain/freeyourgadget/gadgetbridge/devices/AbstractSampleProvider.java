@@ -127,7 +127,7 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
                 trailingConditions);
     }
 
-    protected abstract AbstractDao<T,?> getSampleDao();
+    public abstract AbstractDao<T,?> getSampleDao();
 
     protected abstract Property getRawKindSampleProperty();
     protected abstract Property getTimestampSampleProperty();
