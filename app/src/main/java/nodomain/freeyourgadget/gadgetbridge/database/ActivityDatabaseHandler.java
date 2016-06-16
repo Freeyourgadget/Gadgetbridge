@@ -292,6 +292,19 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
         return -1;
     }
 
+    public boolean hasContent() {
+        try {
+            try (SQLiteDatabase db = this.getReadableDatabase()) {
+                try (Cursor cursor = db.query(TABLE_GBACTIVITYSAMPLES, new String[]{KEY_TIMESTAMP}, null, null, null, KEY_TIMESTAMP + " DESC", "1")) {
+                    return cursor.moveToFirst();
+                }
+            }
+        } catch (Exception ex) {
+            // can't expect anything
+            return false;
+        }
+    }
+
     @Override
     public DaoSession getDaoSession() {
         throw new UnsupportedOperationException();

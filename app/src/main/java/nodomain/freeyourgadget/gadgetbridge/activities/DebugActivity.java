@@ -27,12 +27,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapter;
+import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
@@ -40,6 +47,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -290,6 +298,55 @@ public class DebugActivity extends GBActivity {
                     }
                 })
                 .show();
+    }
+
+    private void insertActivityDbContents() {
+        DBHelper helper = new DBHelper(getBaseContext());
+        ActivityDatabaseHandler oldHandler = helper.getOldActivityDatabaseHandler();
+        if (oldHandler == null) {
+            return;
+        }
+        GBDevice device = getDeviceForMergingActivityDatabaseInto();
+        if (device == null) {
+            return;
+        }
+        try (DBHandler targetHandler = GBApplication.acquireDB()) {
+            helper.importOldDb(oldHandler, device, targetHandler.getDaoMaster(), targetHandler);
+        } catch (GBException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private GBDevice getDeviceForMergingActivityDatabaseInto() {
+        final List<GBDevice> availableDevices = new ArrayList<>(DeviceHelper.getInstance().getAvailableDevices(getBaseContext()));
+        if (availableDevices.isEmpty()) {
+            return null;
+        } else if (availableDevices.size() == 1) {
+            return availableDevices.get(0);
+        }
+        GBDeviceAdapter adapter = new GBDeviceAdapter(getBaseContext(), availableDevices);
+
+        final GBDevice[] result = new GBDevice[1];
+        new AlertDialog.Builder(this)
+                .setCancelable(true)
+                .setTitle("Delete Activity Data?")
+                .setSingleChoiceItems(adapter, -1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        GBDevice device = availableDevices.get(which);
+                        result[0] = device;
+                    }
+                })
+                .setMessage("Select the device to merge the previous activity database data into.")
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .show();
+        return result[0];
     }
 
     private void deleteActivityDatabase() {

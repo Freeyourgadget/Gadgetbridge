@@ -38,7 +38,7 @@ public abstract class AbstractActivitySample implements ActivitySample {
 
     public abstract Long getUserId();
 
-    public abstract void setDeviceId(Long userId);
+    public abstract void setDeviceId(Long deviceId);
 
     public abstract Long getDeviceId();
 

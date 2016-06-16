@@ -44,6 +44,11 @@ public class LockHandler implements DBHandler {
 
     }
 
+    @Override
+    public DaoMaster getDaoMaster() {
+        return daoMaster;
+    }
+
     private boolean isValid() {
         return daoMaster != null;
     }

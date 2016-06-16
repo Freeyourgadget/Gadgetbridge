@@ -4,10 +4,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.Nullable;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +17,10 @@ import java.util.Locale;
 
 import de.greenrobot.dao.query.Query;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributes;
@@ -26,10 +31,18 @@ import nodomain.freeyourgadget.gadgetbridge.entities.UserAttributes;
 import nodomain.freeyourgadget.gadgetbridge.entities.UserDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
+import nodomain.freeyourgadget.gadgetbridge.model.HeartRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.ValidByDate;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
+
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_CUSTOM_SHORT;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_INTENSITY;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_STEPS;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_TIMESTAMP;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_TYPE;
+import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.TABLE_GBACTIVITYSAMPLES;
 
 /**
  * Provides utiliy access to some common entities, so you won't need to use
@@ -301,5 +314,77 @@ public class DBHelper {
             }
         }
         return false;
+    }
+
+    /**
+     * Returns the old activity database handler if there is any content in that
+     * db, or null otherwise.
+     * @return the old activity db handler or null
+     */
+    @Nullable
+    public ActivityDatabaseHandler getOldActivityDatabaseHandler() {
+        ActivityDatabaseHandler handler = new ActivityDatabaseHandler(context);
+        if (handler.hasContent()) {
+            return handler;
+        }
+        return null;
+    }
+
+    public void importOldDb(ActivityDatabaseHandler oldDb, GBDevice targetDevice, DaoMaster daoMaster, DBHandler targetDBHandler) {
+        DaoSession tempSession = daoMaster.newSession();
+        try {
+            importActivityDatabase(oldDb, targetDevice, tempSession, targetDBHandler);
+        } finally {
+            tempSession.clear();
+        }
+    }
+
+    private boolean isEmpty(DaoSession session) {
+        long totalSamplesCount = session.getMiBandActivitySampleDao().count();
+        totalSamplesCount += session.getPebbleActivitySampleDao().count();
+        return totalSamplesCount == 0;
+    }
+
+    private void importActivityDatabase(ActivityDatabaseHandler oldDbHandler, GBDevice targetDevice, DaoSession session, DBHandler targetDBHandler) {
+        try (SQLiteDatabase oldDB = oldDbHandler.getReadableDatabase()) {
+            User user = DBHelper.getUser(session);
+            for (DeviceCoordinator coordinator : DeviceHelper.getInstance().getAllCoordinators()) {
+                AbstractSampleProvider<? extends AbstractActivitySample> sampleProvider = (AbstractSampleProvider<? extends AbstractActivitySample>) coordinator.getSampleProvider(targetDBHandler);
+                importActivitySamples(oldDB, targetDevice, session, sampleProvider, user);
+            }
+        }
+    }
+
+    private <T extends AbstractActivitySample> void importActivitySamples(SQLiteDatabase fromDb, GBDevice targetDevice, DaoSession targetSession, AbstractSampleProvider<T> sampleProvider, User user) {
+        String order = "timestamp";
+        final String where = "provider=" + sampleProvider.getID();
+
+        try (Cursor cursor = fromDb.query(TABLE_GBACTIVITYSAMPLES, null, where, null, null, null, order)) {
+            int colTimeStamp = cursor.getColumnIndex(KEY_TIMESTAMP);
+            int colIntensity = cursor.getColumnIndex(KEY_INTENSITY);
+            int colSteps = cursor.getColumnIndex(KEY_STEPS);
+            int colType = cursor.getColumnIndex(KEY_TYPE);
+            int colCustomShort = cursor.getColumnIndex(KEY_CUSTOM_SHORT);
+            Long deviceId = DBHelper.getDevice(targetDevice, targetSession).getId();
+            Long userId = user.getId();
+            List<T> newSamples = new ArrayList<>(cursor.getCount());
+            while (cursor.moveToNext()) {
+                T newSample = sampleProvider.createActivitySample();
+                newSample.setUserId(userId);
+                newSample.setDeviceId(deviceId);
+                newSample.setTimestamp(cursor.getInt(colTimeStamp));
+                newSample.setRawKind(cursor.getInt(colType));
+                newSample.setProvider(sampleProvider);
+                newSample.setRawIntensity(cursor.getInt(colIntensity));
+                newSample.setSteps(cursor.getInt(colSteps));
+
+                int hrValue = cursor.getInt(colCustomShort);
+                if (newSample instanceof HeartRateSample) {
+                    ((HeartRateSample)newSample).setHeartRate(hrValue);
+                }
+                newSamples.add(newSample);
+            }
+            sampleProvider.getSampleDao().insertInTx(newSamples, true);
+        }
     }
 }

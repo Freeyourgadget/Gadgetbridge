@@ -32,5 +32,6 @@ public interface DBHandler extends AutoCloseable {
 
     SQLiteDatabase getDatabase();
 
+    DaoMaster getDaoMaster();
     DaoSession getDaoSession();
 }
