@@ -96,23 +96,35 @@ public class PBWReader {
         String platformDir = "";
 
         if (!uri.toString().endsWith(".pbz")) {
-            platformDir = platform + "/";
-
             /*
              * for aplite and basalt it is possible to install 2.x apps which have no subfolder
              * we still prefer the subfolders if present.
              * chalk needs to be its subfolder
              */
-            if (platform.equals("aplite") || platform.equals("basalt")) {
-                boolean hasPlatformDir = false;
+            String[] platformDirs;
+            switch (platform) {
+                case "basalt":
+                    platformDirs = new String[]{"basalt/"};
+                    break;
+                case "chalk":
+                    platformDirs = new String[]{"chalk/"};
+                    break;
+                case "diorite":
+                    platformDirs = new String[]{"diorite/", "aplite/"};
+                    break;
+                default:
+                    platformDirs = new String[]{"aplite/"};
+            }
+
+            for (String dir : platformDirs) {
                 InputStream afin = new BufferedInputStream(cr.openInputStream(uri));
 
                 ZipInputStream zis = new ZipInputStream(afin);
                 ZipEntry ze;
                 try {
                     while ((ze = zis.getNextEntry()) != null) {
-                        if (ze.getName().startsWith(platformDir)) {
-                            hasPlatformDir = true;
+                        if (ze.getName().startsWith(dir)) {
+                            platformDir = dir;
                             break;
                         }
                     }
@@ -120,13 +132,13 @@ public class PBWReader {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
 
-                if (!hasPlatformDir) {
-                    platformDir = "";
-                }
+            if (platform.equals("chalk") && platformDir.equals("")) {
+                return;
             }
         }
-
+        LOG.info("using platformdir: '" + platformDir + "'");
         String appName = null;
         String appCreator = null;
         String appVersion = null;

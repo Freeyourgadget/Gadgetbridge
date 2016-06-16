@@ -246,20 +246,24 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     static final long GB_UUID_MASK = 0x4767744272646700L;
 
-    // base is -5
+    // base is -8
     private static final String[] hwRevisions = {
             // Emulator
-            "spalding_bb2", "snowy_bb2", "snowy_bb", "bb2", "bb",
+            "silk_bb2", "unknown", "silk_bb",
+            "spalding_bb2", "snowy_bb2", "snowy_bb",
+            "bb2", "bb",
             "unknown",
             // Pebble
             "ev1", "ev2", "ev2_3", "ev2_4", "v1_5", "v2_0",
             // Pebble Time
-            "snowy_evt2", "snowy_dvt", "spalding_dvt", "snowy_s3", "spalding"
+            "snowy_evt2", "snowy_dvt", "spalding_dvt", "snowy_s3", "spalding",
+            // Pebble 2
+            "silk_evt", "unknown", "silk"
     };
 
     private static final Random mRandom = new Random();
 
-    boolean isFw3x = false;
+    int mFwMajor = 3;
     boolean mForceProtocol = false;
     GBDeviceEventScreenshot mDevEventScreenshot = null;
     int mScreenshotRemaining = -1;
@@ -450,12 +454,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
         }
 
         Long ts = System.currentTimeMillis();
-        if (!isFw3x) {
+        if (mFwMajor < 3) {
             ts += (SimpleTimeZone.getDefault().getOffset(ts));
         }
         ts /= 1000;
 
-        if (isFw3x) {
+        if (mFwMajor >= 3) {
             // 3.x notification
             return encodeBlobdbNotification(id, (int) (ts & 0xffffffffL), title, subtitle, notificationSpec.body, notificationSpec.sourceName, hasHandle, notificationSpec.type, notificationSpec.cannedReplies);
         } else if (mForceProtocol || notificationSpec.type != NotificationType.EMAIL) {
@@ -497,7 +501,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         long ts = System.currentTimeMillis();
         long ts_offset = (SimpleTimeZone.getDefault().getOffset(ts));
         ByteBuffer buf;
-        if (isFw3x) {
+        if (mFwMajor >= 3) {
             String timezone = SimpleTimeZone.getDefault().getID();
             short length = (short) (LENGTH_SETTIME + timezone.getBytes().length + 3);
             buf = ByteBuffer.allocate(LENGTH_PREFIX + length);
@@ -1191,7 +1195,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeAppInfoReq() {
-        if (isFw3x) {
+        if (mFwMajor >= 3) {
             return null; // can't do this on 3.x :(
         }
         return encodeSimpleMessage(ENDPOINT_APPMANAGER, APPMANAGER_GETUUIDS);
@@ -1199,7 +1203,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeAppStart(UUID uuid, boolean start) {
-        if (isFw3x) {
+        if (mFwMajor >= 3) {
             ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_APPRUNSTATE);
             buf.order(ByteOrder.BIG_ENDIAN);
             buf.putShort(LENGTH_APPRUNSTATE);
@@ -1218,7 +1222,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeAppDelete(UUID uuid) {
-        if (isFw3x) {
+        if (mFwMajor >= 3) {
             if (UUID_PEBBLE_HEALTH.equals(uuid)) {
                 return encodeActivateHealth(false);
             }
@@ -1314,7 +1318,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     /* pebble specific install methods */
     public byte[] encodeUploadStart(byte type, int app_id, int size, String filename) {
         short length;
-        if (isFw3x && (type != PUTBYTES_TYPE_FILE)) {
+        if (mFwMajor >= 3 && (type != PUTBYTES_TYPE_FILE)) {
             length = LENGTH_UPLOADSTART_3X;
             type |= 0b10000000;
         } else {
@@ -1333,7 +1337,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putInt(size);
         buf.put(type);
 
-        if (isFw3x && (type != PUTBYTES_TYPE_FILE)) {
+        if (mFwMajor >= 3 && (type != PUTBYTES_TYPE_FILE)) {
             buf.putInt(app_id);
         } else {
             // slot
@@ -1721,7 +1725,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             int id;
             long uuid_high = 0;
             long uuid_low = 0;
-            if (isFw3x) {
+            if (mFwMajor >= 3) {
                 buf.order(ByteOrder.BIG_ENDIAN);
                 uuid_high = buf.getLong();
                 uuid_low = buf.getLong();
@@ -1789,9 +1793,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         break;
                 }
                 GBDeviceEventSendBytes sendBytesAck = null;
-                if (isFw3x || needsAck2x) {
+                if (mFwMajor >= 3 || needsAck2x) {
                     sendBytesAck = new GBDeviceEventSendBytes();
-                    if (isFw3x) {
+                    if (mFwMajor >= 3) {
                         sendBytesAck.encodedBytes = encodeActionResponse(new UUID(uuid_high, uuid_low), icon_id, caption);
                     } else {
                         sendBytesAck.encodedBytes = encodeActionResponse2x(id, action, 6, caption);
@@ -2037,12 +2041,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 buf.get(tmp, 0, 32);
 
                 versionCmd.fwVersion = new String(tmp).trim();
-                if (versionCmd.fwVersion.startsWith("v3")) {
-                    isFw3x = true;
-                }
+
+                mFwMajor = versionCmd.fwVersion.charAt(1);
 
                 buf.get(tmp, 0, 9);
-                int hwRev = buf.get() + 5;
+                int hwRev = buf.get() + 8;
                 if (hwRev >= 0 && hwRev < hwRevisions.length) {
                     versionCmd.hwVersion = hwRevisions[hwRev];
                 }
