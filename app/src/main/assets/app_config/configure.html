@@ -19,7 +19,8 @@
         }
         #config_url,#jsondata {
         word-wrap: break-word;
-        margin: 20px;
+        margin: 20px 0;
+        width: 90%;
         }
         .btn {
         display: inline-block;
@@ -38,6 +39,16 @@
         box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2)inset;
         transition-delay: 0s;
         }
+        p {
+        width: 90%;
+        }
+        #pastereturn {
+        width: 90%;
+        min-height: 3em;
+        }
+        #step1compat, #step2 {
+        display: none;
+        }
         <!-- TODO -->
     </style>
 </head>
@@ -47,6 +58,14 @@
     <div id="config_url"></div>
     <!--<button class="btn" name="show config" value="show config" onclick="Pebble.showConfiguration()" >Show config / URL</button>-->
     <button class="btn" name="open config" value="open config" onclick="Pebble.actuallyOpenURL()" >Open configuration website</button>
+</div>
+<div id="step1compat">
+    <p>In case of "network error" after saving settings in the wathchapp, copy the "network error"
+        URL and paste it here:</p>
+    <textarea id="pastereturn"></textarea><br/>
+    <button class="btn" name="parse" onclick="Pebble.parseReturnedPebbleJS()">Parse legacy app
+        configuration
+    </button>
 </div>
 <div id="step2">
     <h2>Incoming configuration data:</h2>

@@ -63,6 +63,7 @@ function gbPebble() {
         }
     }
     this.actuallyOpenURL = function() {
+        document.getElementById('step1compat').style.display="block";
         window.open(this.configurationURL.toString(), "config");
     }
 
@@ -114,6 +115,22 @@ function gbPebble() {
     this.ready = function() {
     }
 
+    this.parseReturnedPebbleJS = function() {
+
+        var str = document.getElementById('pastereturn').value;
+        var needle = "pebblejs://close#";
+
+        if (str.split(needle)[1] !== undefined) {
+            var t = new Object();
+            t.response = unescape(str.split(needle)[1]);
+            this.parseconfig(t);
+            document.getElementById('step1').style.display="none";
+            document.getElementById('step1compat').style.display="none";
+            document.getElementById('step2').style.display="block";
+        } else {
+            console.error("No valid configuration found in the entered string.");
+        }
+    }
 }
 
 var Pebble = new gbPebble();
@@ -123,13 +140,15 @@ if (jsConfigFile != null) {
     loadScript(jsConfigFile, function() {
         if (getURLVariable('config') == 'true') {
             document.getElementById('step1').style.display="none";
+            document.getElementById('step1compat').style.display="none";
+            document.getElementById('step2').style.display="block";
+
             var json_string = unescape(getURLVariable('json'));
             var t = new Object();
             t.response = json_string;
             if (json_string != '')
                 Pebble.parseconfig(t);
         } else {
-            document.getElementById('step2').style.display="none";
             Pebble.ready();
             Pebble.showConfiguration();
         }
