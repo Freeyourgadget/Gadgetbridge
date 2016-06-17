@@ -6,6 +6,7 @@ import android.net.Uri;
 
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -85,7 +86,7 @@ public interface DeviceCoordinator {
      *
      * @return
      */
-    SampleProvider<? extends ActivitySample> getSampleProvider(DBHandler db);
+    SampleProvider<? extends ActivitySample> getSampleProvider(DaoSession session);
 
     /**
      * Finds an install handler for the given uri that can install the given

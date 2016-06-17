@@ -232,10 +232,10 @@ public class DBHelper {
         if (prefsUser.getWeightKg() != attr.getWeightKG()) {
             return false;
         }
-        if (prefsUser.getSleepDuration() != attr.getSleepGoalHPD()) {
+        if (!Integer.valueOf(prefsUser.getSleepDuration()).equals(attr.getSleepGoalHPD())) {
             return false;
         }
-        if (prefsUser.getStepsGoal() != attr.getStepsGoalSPD()) {
+        if (!Integer.valueOf(prefsUser.getStepsGoal()).equals(attr.getStepsGoalSPD())) {
             return false;
         }
         return true;
@@ -330,10 +330,10 @@ public class DBHelper {
         return null;
     }
 
-    public void importOldDb(ActivityDatabaseHandler oldDb, GBDevice targetDevice, DaoMaster daoMaster, DBHandler targetDBHandler) {
-        DaoSession tempSession = daoMaster.newSession();
+    public void importOldDb(ActivityDatabaseHandler oldDb, GBDevice targetDevice, DBHandler targetDBHandler) {
+        DaoSession tempSession = targetDBHandler.getDaoMaster().newSession();
         try {
-            importActivityDatabase(oldDb, targetDevice, tempSession, targetDBHandler);
+            importActivityDatabase(oldDb, targetDevice, tempSession);
         } finally {
             tempSession.clear();
         }
@@ -345,11 +345,11 @@ public class DBHelper {
         return totalSamplesCount == 0;
     }
 
-    private void importActivityDatabase(ActivityDatabaseHandler oldDbHandler, GBDevice targetDevice, DaoSession session, DBHandler targetDBHandler) {
+    private void importActivityDatabase(ActivityDatabaseHandler oldDbHandler, GBDevice targetDevice, DaoSession session) {
         try (SQLiteDatabase oldDB = oldDbHandler.getReadableDatabase()) {
             User user = DBHelper.getUser(session);
             for (DeviceCoordinator coordinator : DeviceHelper.getInstance().getAllCoordinators()) {
-                AbstractSampleProvider<? extends AbstractActivitySample> sampleProvider = (AbstractSampleProvider<? extends AbstractActivitySample>) coordinator.getSampleProvider(targetDBHandler);
+                AbstractSampleProvider<? extends AbstractActivitySample> sampleProvider = (AbstractSampleProvider<? extends AbstractActivitySample>) coordinator.getSampleProvider(session);
                 importActivitySamples(oldDB, targetDevice, session, sampleProvider, user);
             }
         }

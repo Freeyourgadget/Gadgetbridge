@@ -18,6 +18,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.schema.ActivityDBCreationSc
 import nodomain.freeyourgadget.gadgetbridge.database.schema.SchemaMigration;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
@@ -295,18 +296,24 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
     public boolean hasContent() {
         try {
             try (SQLiteDatabase db = this.getReadableDatabase()) {
-                try (Cursor cursor = db.query(TABLE_GBACTIVITYSAMPLES, new String[]{KEY_TIMESTAMP}, null, null, null, KEY_TIMESTAMP + " DESC", "1")) {
+                try (Cursor cursor = db.query(TABLE_GBACTIVITYSAMPLES, new String[]{KEY_TIMESTAMP}, null, null, null, null, null, "1")) {
                     return cursor.moveToFirst();
                 }
             }
         } catch (Exception ex) {
             // can't expect anything
+            GB.log("Error looking for old activity data: " + ex.getMessage(), GB.ERROR, ex);
             return false;
         }
     }
 
     @Override
     public DaoSession getDaoSession() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public DaoMaster getDaoMaster() {
         throw new UnsupportedOperationException();
     }
 }

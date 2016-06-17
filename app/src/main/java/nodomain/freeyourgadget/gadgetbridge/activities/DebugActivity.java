@@ -73,6 +73,7 @@ public class DebugActivity extends GBActivity {
     private Button HeartRateButton;
     private Button exportDBButton;
     private Button importDBButton;
+    private Button importOldActivityDataButton;
     private Button deleteDBButton;
 
     private EditText editContent;
@@ -194,6 +195,14 @@ public class DebugActivity extends GBActivity {
             }
         });
 
+        importOldActivityDataButton = (Button) findViewById(R.id.mergeOldActivityData);
+        importOldActivityDataButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mergeOldActivityDbContents();
+            }
+        });
+
         deleteDBButton = (Button) findViewById(R.id.emptyDBButton);
         deleteDBButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -300,53 +309,57 @@ public class DebugActivity extends GBActivity {
                 .show();
     }
 
-    private void insertActivityDbContents() {
-        DBHelper helper = new DBHelper(getBaseContext());
-        ActivityDatabaseHandler oldHandler = helper.getOldActivityDatabaseHandler();
+    private void mergeOldActivityDbContents() {
+        final DBHelper helper = new DBHelper(getBaseContext());
+        final ActivityDatabaseHandler oldHandler = helper.getOldActivityDatabaseHandler();
         if (oldHandler == null) {
+            GB.toast(this, "No old activity database found, nothing to import.", Toast.LENGTH_LONG, GB.ERROR);
             return;
         }
-        GBDevice device = getDeviceForMergingActivityDatabaseInto();
-        if (device == null) {
-            return;
-        }
-        try (DBHandler targetHandler = GBApplication.acquireDB()) {
-            helper.importOldDb(oldHandler, device, targetHandler.getDaoMaster(), targetHandler);
-        } catch (GBException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        selectDeviceForMergingActivityDatabaseInto(new DeviceSelectionCallback() {
+            @Override
+            public void invoke(GBDevice device) {
+                if (device == null) {
+                    GB.toast(DebugActivity.this, "No device to associate old activity data with.", Toast.LENGTH_LONG, GB.ERROR);
+                    return;
+                }
+                try (DBHandler targetHandler = GBApplication.acquireDB()) {
+                    helper.importOldDb(oldHandler, device, targetHandler);
+                } catch (Exception ex) {
+                    GB.toast(DebugActivity.this, "Error importing old activity data into new database.", Toast.LENGTH_LONG, GB.ERROR, ex);
+                }
+            }
+        });
     }
 
-    private GBDevice getDeviceForMergingActivityDatabaseInto() {
+    private void selectDeviceForMergingActivityDatabaseInto(final DeviceSelectionCallback callback) {
         final List<GBDevice> availableDevices = new ArrayList<>(DeviceHelper.getInstance().getAvailableDevices(getBaseContext()));
         if (availableDevices.isEmpty()) {
-            return null;
+            callback.invoke(null);
+            return;
         } else if (availableDevices.size() == 1) {
-            return availableDevices.get(0);
+            callback.invoke(null);
+            return;
         }
         GBDeviceAdapter adapter = new GBDeviceAdapter(getBaseContext(), availableDevices);
 
-        final GBDevice[] result = new GBDevice[1];
         new AlertDialog.Builder(this)
                 .setCancelable(true)
-                .setTitle("Delete Activity Data?")
-                .setSingleChoiceItems(adapter, -1, new DialogInterface.OnClickListener() {
+                .setTitle("Associate old Data with Device")
+                .setAdapter(adapter, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         GBDevice device = availableDevices.get(which);
-                        result[0] = device;
+                        callback.invoke(device);
                     }
                 })
-                .setMessage("Select the device to merge the previous activity database data into.")
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        callback.invoke(null);
                     }
                 })
                 .show();
-        return result[0];
     }
 
     private void deleteActivityDatabase() {
@@ -424,4 +437,7 @@ public class DebugActivity extends GBActivity {
         unregisterReceiver(mReceiver);
     }
 
+    public static interface DeviceSelectionCallback {
+        void invoke(GBDevice device);
+    }
 }

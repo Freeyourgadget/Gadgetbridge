@@ -37,11 +37,6 @@ public class LockHandler implements DBHandler {
         if (session == null) {
             throw new RuntimeException("Unable to create database session");
         }
-        if (helper.importOldDbIfNecessary(daoMaster, this)) {
-            session.clear();
-            session = daoMaster.newSession();
-        }
-
     }
 
     @Override

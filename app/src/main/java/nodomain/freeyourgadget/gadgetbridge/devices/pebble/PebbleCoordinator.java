@@ -49,9 +49,8 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public SampleProvider<? extends AbstractActivitySample> getSampleProvider(DBHandler db) {
+    public SampleProvider<? extends AbstractActivitySample> getSampleProvider(DaoSession session) {
         Prefs prefs = GBApplication.getPrefs();
-        DaoSession session = db.getDaoSession();
         int activityTracker = prefs.getInt("pebble_activitytracker", SampleProvider.PROVIDER_PEBBLE_HEALTH);
         switch (activityTracker) {
             case SampleProvider.PROVIDER_PEBBLE_HEALTH:
