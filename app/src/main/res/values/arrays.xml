@@ -24,6 +24,7 @@
         <item name="uk">Українська</item>
         <item name="ko">한국어</item>
         <item name="ja">日本語</item>
+        <item name="hu">Magyar</item>
     </string-array>
 
     <string-array name="pref_language_values">
@@ -39,6 +40,7 @@
         <item>uk</item>
         <item>ko</item>
         <item>ja</item>
+        <item>hu</item>
     </string-array>
 
     <string-array name="notification_mode">
