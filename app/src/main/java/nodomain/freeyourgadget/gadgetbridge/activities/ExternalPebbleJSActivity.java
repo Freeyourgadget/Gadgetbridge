@@ -54,8 +54,12 @@ public class ExternalPebbleJSActivity extends GBActivity {
         Uri uri = getIntent().getData();
         if (uri != null) {
             //getting back with configuration data
-            appUuid = UUID.fromString(uri.getHost());
-            queryString = uri.getEncodedQuery();
+            try {
+                appUuid = UUID.fromString(uri.getHost());
+                queryString = uri.getEncodedQuery();
+            } catch (IllegalArgumentException e) {
+                Log.d("returned uri: ", uri.toString());
+            }
         } else {
             appUuid = (UUID) getIntent().getSerializableExtra("app_uuid");
         }
