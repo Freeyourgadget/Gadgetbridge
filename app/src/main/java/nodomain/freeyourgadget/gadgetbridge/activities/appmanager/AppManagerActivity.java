@@ -7,13 +7,29 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractFragmentPagerAdapter;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBFragmentActivity;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 
 public class AppManagerActivity extends AbstractGBFragmentActivity {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractAppManagerFragment.class);
+
     private GBDevice mGBDevice = null;
 
     public GBDevice getGBDevice() {
@@ -43,6 +59,12 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
     @Override
     protected AbstractFragmentPagerAdapter createFragmentPagerAdapter(FragmentManager fragmentManager) {
         return new SectionsPagerAdapter(fragmentManager);
+    }
+
+    public static synchronized void deleteFromAppOrderFile(String filename, UUID uuid) {
+        ArrayList<UUID> uuids = getUuidsFromFile(filename);
+        uuids.remove(uuid);
+        rewriteAppOrderFile(filename, uuids);
     }
 
     public class SectionsPagerAdapter extends AbstractFragmentPagerAdapter {
@@ -95,4 +117,40 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    static synchronized void rewriteAppOrderFile(String filename, List<UUID> uuids) {
+        try {
+            FileWriter fileWriter = new FileWriter(FileUtils.getExternalFilesDir() + "/" + filename);
+            BufferedWriter out = new BufferedWriter(fileWriter);
+            for (UUID uuid : uuids) {
+                out.write(uuid.toString());
+                out.newLine();
+            }
+            out.close();
+        } catch (IOException e) {
+            LOG.warn("can't write app order to file!");
+        }
+    }
+
+    synchronized public static void addToAppOrderFile(String filename, UUID uuid) {
+        ArrayList<UUID> uuids = getUuidsFromFile(filename);
+        uuids.remove(uuid); // if alread there
+        uuids.add(uuid);
+        rewriteAppOrderFile(filename, uuids);
+    }
+
+    static synchronized ArrayList<UUID> getUuidsFromFile(String filename) {
+        ArrayList<UUID> uuids = new ArrayList<>();
+        try {
+            FileReader fileReader = new FileReader(FileUtils.getExternalFilesDir() + "/" + filename);
+            BufferedReader in = new BufferedReader(fileReader);
+            String line;
+            while ((line = in.readLine()) != null) {
+                uuids.add(UUID.fromString(line));
+            }
+        } catch (IOException e) {
+            LOG.warn("could not read sort file");
+        }
+        return uuids;
+    }
 }

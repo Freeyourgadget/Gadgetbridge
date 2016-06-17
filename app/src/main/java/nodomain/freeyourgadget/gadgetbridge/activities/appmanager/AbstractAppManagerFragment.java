@@ -48,11 +48,19 @@ public abstract class AbstractAppManagerFragment extends Fragment {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractAppManagerFragment.class);
 
 
-    public void refreshList() {
+    protected void refreshList() {
     }
 
-    public String getSortFilename() {
+    protected String getSortFilename() {
         return null;
+    }
+
+    protected void onChangedAppOrder() {
+        List<UUID> uuidList = new ArrayList<>();
+        for (GBDeviceApp gbDeviceApp : mGBDeviceAppAdapter.getItemList()) {
+            uuidList.add(gbDeviceApp.getUUID());
+        }
+        AppManagerActivity.rewriteAppOrderFile(getSortFilename(), uuidList);
     }
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -62,30 +70,33 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             if (action.equals(GBApplication.ACTION_QUIT)) {
                 //   finish();
             } else if (action.equals(ACTION_REFRESH_APPLIST)) {
-                int appCount = intent.getIntExtra("app_count", 0);
-                for (Integer i = 0; i < appCount; i++) {
-                    String appName = intent.getStringExtra("app_name" + i.toString());
-                    String appCreator = intent.getStringExtra("app_creator" + i.toString());
-                    UUID uuid = UUID.fromString(intent.getStringExtra("app_uuid" + i.toString()));
-                    GBDeviceApp.Type appType = GBDeviceApp.Type.values()[intent.getIntExtra("app_type" + i.toString(), 0)];
+                if (intent.hasExtra("app_count")) {
+                    int appCount = intent.getIntExtra("app_count", 0);
+                    for (Integer i = 0; i < appCount; i++) {
+                        String appName = intent.getStringExtra("app_name" + i.toString());
+                        String appCreator = intent.getStringExtra("app_creator" + i.toString());
+                        UUID uuid = UUID.fromString(intent.getStringExtra("app_uuid" + i.toString()));
+                        GBDeviceApp.Type appType = GBDeviceApp.Type.values()[intent.getIntExtra("app_type" + i.toString(), 0)];
 
-                    boolean found = false;
-                    for (final ListIterator<GBDeviceApp> iter = appList.listIterator(); iter.hasNext(); ) {
-                        final GBDeviceApp app = iter.next();
-                        if (app.getUUID().equals(uuid)) {
+                        boolean found = false;
+                        for (final ListIterator<GBDeviceApp> iter = appList.listIterator(); iter.hasNext(); ) {
+                            final GBDeviceApp app = iter.next();
+                            if (app.getUUID().equals(uuid)) {
+                                app.setOnDevice(true);
+                                iter.set(app);
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            GBDeviceApp app = new GBDeviceApp(uuid, appName, appCreator, "", appType);
                             app.setOnDevice(true);
-                            iter.set(app);
-                            found = true;
-                            break;
+                            appList.add(app);
                         }
                     }
-                    if (!found) {
-                        GBDeviceApp app = new GBDeviceApp(uuid, appName, appCreator, "", appType);
-                        app.setOnDevice(true);
-                        appList.add(app);
-                    }
+                } else {
+                    refreshList();
                 }
-
                 mGBDeviceAppAdapter.notifyDataSetChanged();
             }
         }
@@ -116,7 +127,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         return systemWatchfaces;
     }
 
-    protected List<GBDeviceApp> getCachedApps() {
+    protected List<GBDeviceApp> getCachedApps(List<UUID> uuids) {
         List<GBDeviceApp> cachedAppList = new ArrayList<>();
         File cachePath;
         try {
@@ -126,7 +137,16 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             return cachedAppList;
         }
 
-        File files[] = cachePath.listFiles();
+        File[] files;
+        if (uuids == null) {
+            files = cachePath.listFiles();
+        } else {
+            files = new File[uuids.size()];
+            int index = 0;
+            for (UUID uuid : uuids) {
+                files[index++] = new File(uuid.toString() + ".pbw");
+            }
+        }
         if (files != null) {
             for (File file : files) {
                 if (file.getName().endsWith(".pbw")) {
@@ -140,8 +160,27 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                         JSONObject json = new JSONObject(jsonstring);
                         cachedAppList.add(new GBDeviceApp(json, configFile.exists()));
                     } catch (Exception e) {
-                        LOG.warn("could not read json file for " + baseName, e.getMessage(), e);
-                        cachedAppList.add(new GBDeviceApp(UUID.fromString(baseName), baseName, "N/A", "", GBDeviceApp.Type.UNKNOWN));
+                        LOG.info("could not read json file for " + baseName);
+                        //FIXME: this is really ugly, if we do not find system uuids in pbw cache add them manually
+                        if (prefs.getBoolean("pebble_force_untested", false)) {
+                            if (baseName.equals("4dab81a6-d2fc-458a-992c-7a1f3b96a970")) {
+                                cachedAppList.add(new GBDeviceApp(UUID.fromString("4dab81a6-d2fc-458a-992c-7a1f3b96a970"), "Sports (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
+                            } else if (baseName.equals("cf1e816a-9db0-4511-bbb8-f60c48ca8fac")) {
+                                cachedAppList.add(new GBDeviceApp(UUID.fromString("cf1e816a-9db0-4511-bbb8-f60c48ca8fac"), "Golf (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
+                            }
+                        }
+                        if (baseName.equals("8f3c8686-31a1-4f5f-91f5-01600c9bdc59")) {
+                            cachedAppList.add(new GBDeviceApp(UUID.fromString("8f3c8686-31a1-4f5f-91f5-01600c9bdc59"), "Tic Toc (System)", "Pebble Inc.", "", GBDeviceApp.Type.WATCHFACE_SYSTEM));
+                        }
+                        if (mGBDevice != null && !"aplite".equals(PebbleUtils.getPlatformName(mGBDevice.getHardwareVersion()))) {
+                            if (baseName.equals(PebbleProtocol.UUID_PEBBLE_HEALTH.toString())) {
+                                cachedAppList.add(new GBDeviceApp(PebbleProtocol.UUID_PEBBLE_HEALTH, "Health (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
+                                continue;
+                            }
+                        }
+                        if (uuids == null) {
+                            cachedAppList.add(new GBDeviceApp(UUID.fromString(baseName), baseName, "N/A", "", GBDeviceApp.Type.UNKNOWN));
+                        }
                     }
                 }
             }
@@ -177,7 +216,33 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         mGBDeviceAppAdapter = new GBDeviceAppAdapter(appList, R.layout.item_with_details, R.id.item_image, this.getContext(), this);
         appListView.setAdapter(mGBDeviceAppAdapter, false);
         appListView.setCanDragHorizontally(false);
+        appListView.setDragListListener(new DragListView.DragListListener() {
+            @Override
+            public void onItemDragStarted(int position) {
+            }
+
+            @Override
+            public void onItemDragging(int itemPosition, float x, float y) {
+            }
+
+            @Override
+            public void onItemDragEnded(int fromPosition, int toPosition) {
+                onChangedAppOrder();
+            }
+        });
         return rootView;
+    }
+
+    protected void sendOrderToDevice(String concatFilename) {
+        ArrayList<UUID> uuids = new ArrayList<UUID>();
+        for (GBDeviceApp gbDeviceApp : mGBDeviceAppAdapter.getItemList()) {
+            uuids.add(gbDeviceApp.getUUID());
+        }
+        if (concatFilename != null) {
+            ArrayList<UUID> concatUuids = AppManagerActivity.getUuidsFromFile(concatFilename);
+            uuids.addAll(concatUuids);
+        }
+        GBApplication.deviceService().onAppReorder(uuids.toArray(new UUID[uuids.size()]));
     }
 
     private void removeAppFromList(UUID uuid) {
@@ -247,9 +312,13 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                         LOG.info("deleted file: " + fileToDelete.toString());
                     }
                 }
-                removeAppFromList(selectedApp.getUUID());
+                AppManagerActivity.deleteFromAppOrderFile("pbwcacheorder.txt", selectedApp.getUUID()); // FIXME: only if successful
                 // fall through
             case R.id.appmanager_app_delete:
+                AppManagerActivity.deleteFromAppOrderFile(mGBDevice.getAddress() + ".watchapps", selectedApp.getUUID()); // FIXME: only if successful
+                AppManagerActivity.deleteFromAppOrderFile(mGBDevice.getAddress() + ".watchfaces", selectedApp.getUUID()); // FIXME: only if successful
+                Intent refreshIntent = new Intent(AbstractAppManagerFragment.ACTION_REFRESH_APPLIST);
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(refreshIntent);
                 GBApplication.deviceService().onAppDelete(selectedApp.getUUID());
                 return true;
             case R.id.appmanager_app_reinstall:
@@ -274,7 +343,6 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                 startActivity(startIntent);
                 return true;
             case R.id.appmanager_app_move_to_top:
-                GBApplication.deviceService().onAppReorder(new UUID[]{selectedApp.getUUID()});
                 return true;
             default:
                 return super.onContextItemSelected(item);

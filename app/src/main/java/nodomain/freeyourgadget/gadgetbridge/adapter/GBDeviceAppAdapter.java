@@ -59,10 +59,6 @@ public class GBDeviceAppAdapter extends DragItemAdapter<GBDeviceApp, GBDeviceApp
         holder.mDeviceAppVersionAuthorLabel.setText(GBApplication.getContext().getString(R.string.appversion_by_creator, deviceApp.getVersion(), deviceApp.getCreator()));
         // FIXME: replace with small icons
         String appNameLabelText = deviceApp.getName();
-        if (deviceApp.isInCache() || deviceApp.isOnDevice()) {
-            appNameLabelText += " (" + (deviceApp.isInCache() ? "C" : "")
-                    + (deviceApp.isOnDevice() ? "D" : "") + ")";
-        }
         holder.mDeviceAppNameLabel.setText(appNameLabelText);
 
         switch (deviceApp.getType()) {
