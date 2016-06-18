@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release
+        version="0.10.2"
+        versioncode="55">
+        <change>Pebble: allow to manually paste configuration data for legacy configuration pages
+        </change>
+        <change>Pebble: various improvements to the configuration page</change>
+    </release>
     <release version="0.10.1" versioncode="54">
         <change>Pebble: set extended music info by dissecting notifications on Android 5.0+</change>
         <change>Pebble: various other improvemnts to music playback</change>
