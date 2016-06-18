@@ -26,6 +26,7 @@ import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -78,7 +79,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
         pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newVal) {
-                Intent refreshIntent = new Intent(ControlCenter.ACTION_REFRESH_DEVICELIST);
+                Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
                 LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(refreshIntent);
                 preference.setSummary(newVal.toString());
                 return true;
@@ -90,7 +91,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
         pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newVal) {
-                Intent refreshIntent = new Intent(ControlCenter.ACTION_REFRESH_DEVICELIST);
+                Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
                 LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(refreshIntent);
                 preference.setSummary(newVal.toString());
                 return true;

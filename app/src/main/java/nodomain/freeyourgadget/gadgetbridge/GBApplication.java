@@ -31,6 +31,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import nodomain.freeyourgadget.gadgetbridge.database.DBConstants;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
@@ -75,6 +76,7 @@ public class GBApplication extends Application {
             return dir.getAbsolutePath();
         }
     };
+    private static DeviceManager deviceManager;
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -120,6 +122,8 @@ public class GBApplication extends Application {
 
         setupDatabase(this);
 
+        deviceManager = new DeviceManager(this);
+
         deviceService = createDeviceService();
         GB.environment = GBEnvironment.createDeviceEnvironment();
 //        mActivityDatabaseHandler = new ActivityDatabaseHandler(context);
@@ -153,7 +157,7 @@ public class GBApplication extends Application {
 
     static void setupDatabase(Context context) {
 //        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "test-db", null);
-        DBOpenHelper helper = new DBOpenHelper(context, "test-db", null);
+        DBOpenHelper helper = new DBOpenHelper(context, "test-db2", null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
         if (lockHandler == null) {
@@ -401,5 +405,9 @@ public class GBApplication extends Application {
 
     public static GBPrefs getGBPrefs() {
         return gbPrefs;
+    }
+
+    public static DeviceManager getDeviceManager() {
+        return deviceManager;
     }
 }
