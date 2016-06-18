@@ -216,10 +216,15 @@
             </intent-filter>
         </receiver>
 
+        <!--
+            forcing the DebugActivity to portrait mode avoids crashes with the progress
+            dialog when changing orientation
+         -->
         <activity
             android:name=".activities.DebugActivity"
             android:label="@string/title_activity_debug"
             android:parentActivityName=".activities.ControlCenter"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.DiscoveryActivity"

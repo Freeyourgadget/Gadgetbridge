@@ -317,7 +317,7 @@ public class DebugActivity extends GBActivity {
                     return;
                 }
                 try (DBHandler targetHandler = GBApplication.acquireDB()) {
-                    final ProgressDialog progress = ProgressDialog.show(DebugActivity.this, "Importing Activity Data", "Please wait while merging your activity data...", true, false);
+                    final ProgressDialog progress = ProgressDialog.show(DebugActivity.this, "Merging Activity Data", "Please wait while merging your activity data...", true, false);
                     new AsyncTask<Object,ProgressDialog,Object>() {
                         @Override
                         protected Object doInBackground(Object[] params) {
