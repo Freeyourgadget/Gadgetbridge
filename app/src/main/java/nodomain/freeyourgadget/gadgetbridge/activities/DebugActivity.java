@@ -3,12 +3,14 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.NotificationCompat;
@@ -20,37 +22,28 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import net.e175.klaus.solarpositioning.DeltaT;
-import net.e175.klaus.solarpositioning.SPA;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapter;
 import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 
 public class DebugActivity extends GBActivity {
@@ -318,13 +311,21 @@ public class DebugActivity extends GBActivity {
         }
         selectDeviceForMergingActivityDatabaseInto(new DeviceSelectionCallback() {
             @Override
-            public void invoke(GBDevice device) {
+            public void invoke(final GBDevice device) {
                 if (device == null) {
-                    GB.toast(DebugActivity.this, "No device to associate old activity data with.", Toast.LENGTH_LONG, GB.ERROR);
+                    GB.toast(DebugActivity.this, "No connected device to associate old activity data with.", Toast.LENGTH_LONG, GB.ERROR);
                     return;
                 }
                 try (DBHandler targetHandler = GBApplication.acquireDB()) {
-                    helper.importOldDb(oldHandler, device, targetHandler);
+                    final ProgressDialog progress = ProgressDialog.show(DebugActivity.this, "Importing Activity Data", "Please wait while merging your activity data...", true, false);
+                    new AsyncTask<Object,ProgressDialog,Object>() {
+                        @Override
+                        protected Object doInBackground(Object[] params) {
+                            helper.importOldDb(oldHandler, device, targetHandler);
+                            progress.dismiss();
+                            return null;
+                        }
+                    }.execute((Object[]) null);
                 } catch (Exception ex) {
                     GB.toast(DebugActivity.this, "Error importing old activity data into new database.", Toast.LENGTH_LONG, GB.ERROR, ex);
                 }
@@ -333,14 +334,12 @@ public class DebugActivity extends GBActivity {
     }
 
     private void selectDeviceForMergingActivityDatabaseInto(final DeviceSelectionCallback callback) {
-        final List<GBDevice> availableDevices = new ArrayList<>(DeviceHelper.getInstance().getAvailableDevices(getBaseContext()));
-        if (availableDevices.isEmpty()) {
-            callback.invoke(null);
-            return;
-        } else if (availableDevices.size() == 1) {
+        GBDevice connectedDevice = GBApplication.getDeviceManager().getSelectedDevice();
+        if (connectedDevice == null) {
             callback.invoke(null);
             return;
         }
+        final List<GBDevice> availableDevices = Collections.singletonList(connectedDevice);
         GBDeviceAdapter adapter = new GBDeviceAdapter(getBaseContext(), availableDevices);
 
         new AlertDialog.Builder(this)
@@ -356,7 +355,7 @@ public class DebugActivity extends GBActivity {
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        callback.invoke(null);
+                        // ignore, just return
                     }
                 })
                 .show();
@@ -437,7 +436,7 @@ public class DebugActivity extends GBActivity {
         unregisterReceiver(mReceiver);
     }
 
-    public static interface DeviceSelectionCallback {
+    public interface DeviceSelectionCallback {
         void invoke(GBDevice device);
     }
 }
