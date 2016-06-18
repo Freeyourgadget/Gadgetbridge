@@ -1,3 +1,6 @@
+//clay stores the values in the localStorage
+localStorage.clear();
+
 function loadScript(url, callback) {
     // Adding the script tag to the head as suggested before
     var head = document.getElementsByTagName('head')[0];
@@ -29,46 +32,63 @@ function getURLVariable(variable, defaultValue) {
   return defaultValue || false;
 }
 
+function showStep(desiredStep) {
+    var steps = document.getElementsByClassName("step");
+    var testStep = null;
+    for (var i = 0; i < steps.length; i ++) {
+        if (steps[i].id == desiredStep)
+            testStep = steps[i].id;
+    }
+    if (testStep !== null) {
+        for (var i = 0; i < steps.length; i ++) {
+            steps[i].style.display = 'none';
+        }
+        document.getElementById(desiredStep).style.display="block";
+    }
+}
+
 function gbPebble() {
     this.configurationURL = null;
     this.configurationValues = null;
+    var self = this;
 
     this.addEventListener = function(e, f) {
         if(e == 'ready') {
-            this.ready = f;
+            self.ready = f;
         }
         if(e == 'showConfiguration') {
-            this.showConfiguration = f;
+            self.showConfiguration = f;
         }
         if(e == 'webviewclosed') {
-            this.parseconfig = f;
+            self.parseconfig = f;
         }
         if(e == 'appmessage') {
-            this.appmessage = f;
+            self.appmessage = f;
         }
     }
 
     this.removeEventListener = function(e, f) {
         if(e == 'ready') {
-            this.ready = null;
+            self.ready = null;
         }
         if(e == 'showConfiguration') {
-            this.showConfiguration = null;
+            self.showConfiguration = null;
         }
         if(e == 'webviewclosed') {
-            this.parseconfig = null;
+            self.parseconfig = null;
         }
         if(e == 'appmessage') {
-            this.appmessage = null;
+            self.appmessage = null;
         }
     }
     this.actuallyOpenURL = function() {
-        document.getElementById('step1compat').style.display="block";
-        window.open(this.configurationURL.toString(), "config");
+        showStep("step1compat");
+        window.open(self.configurationURL.toString(), "config");
     }
 
     this.actuallySendData = function() {
-        GBjs.sendAppMessage(this.configurationValues);
+        GBjs.sendAppMessage(self.configurationValues);
+        GBjs.closeActivity();
     }
 
     //needs to be called like this because of original Pebble function name
@@ -76,7 +96,7 @@ function gbPebble() {
             if (url.lastIndexOf("http", 0) === 0) {
                     document.getElementById("config_url").innerHTML=url;
                     var UUID = GBjs.getAppUUID();
-                    this.configurationURL = new Uri(url).addQueryParam("return_to", "gadgetbridge://"+UUID+"?config=true&json=");
+                    self.configurationURL = new Uri(url).addQueryParam("return_to", "gadgetbridge://"+UUID+"?config=true&json=");
             } else {
                 //TODO: add custom return_to
                 location.href = url;
@@ -90,7 +110,7 @@ function gbPebble() {
 
     this.sendAppMessage = function (dict, callbackAck, callbackNack){
         try {
-            this.configurationValues = JSON.stringify(dict);
+            self.configurationValues = JSON.stringify(dict);
             document.getElementById("jsondata").innerHTML=this.configurationValues;
             return callbackAck;
         }
@@ -108,6 +128,10 @@ function gbPebble() {
         return GBjs.getWatchToken();
     }
 
+    this.getTimelineToken = function() {
+        return '';
+    }
+
     this.showSimpleNotificationOnPebble = function(title, body) {
         GBjs.gbLog("app wanted to show: " + title + " body: "+ body);
     }
@@ -115,18 +139,20 @@ function gbPebble() {
     this.ready = function() {
     }
 
-    this.parseReturnedPebbleJS = function() {
+    this.showConfiguration = function() {
+        console.error("This watchapp doesn't support configuration");
+        GBjs.closeActivity();
+    }
 
+    this.parseReturnedPebbleJS = function() {
         var str = document.getElementById('pastereturn').value;
         var needle = "pebblejs://close#";
 
         if (str.split(needle)[1] !== undefined) {
             var t = new Object();
             t.response = unescape(str.split(needle)[1]);
-            this.parseconfig(t);
-            document.getElementById('step1').style.display="none";
-            document.getElementById('step1compat').style.display="none";
-            document.getElementById('step2').style.display="block";
+            self.parseconfig(t);
+            showStep("step2");
         } else {
             console.error("No valid configuration found in the entered string.");
         }
@@ -136,13 +162,11 @@ function gbPebble() {
 var Pebble = new gbPebble();
 
 var jsConfigFile = GBjs.getAppConfigurationFile();
+document.addEventListener('DOMContentLoaded', function(){
 if (jsConfigFile != null) {
     loadScript(jsConfigFile, function() {
         if (getURLVariable('config') == 'true') {
-            document.getElementById('step1').style.display="none";
-            document.getElementById('step1compat').style.display="none";
-            document.getElementById('step2').style.display="block";
-
+            showStep("step2");
             var json_string = unescape(getURLVariable('json'));
             var t = new Object();
             t.response = json_string;
@@ -154,3 +178,4 @@ if (jsConfigFile != null) {
         }
     });
 }
+}, false);

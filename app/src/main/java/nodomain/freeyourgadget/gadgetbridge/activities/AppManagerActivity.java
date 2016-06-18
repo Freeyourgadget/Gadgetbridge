@@ -30,6 +30,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAppAdapter;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
@@ -255,7 +256,7 @@ public class AppManagerActivity extends GBActivity {
                 GBApplication.deviceService().onAppStart(selectedApp.getUUID(), true);
 
                 Intent startIntent = new Intent(getApplicationContext(), ExternalPebbleJSActivity.class);
-                startIntent.putExtra("app_uuid", selectedApp.getUUID());
+                startIntent.putExtra(DeviceService.EXTRA_APP_UUID, selectedApp.getUUID());
                 startIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
                 startActivity(startIntent);
                 return true;
