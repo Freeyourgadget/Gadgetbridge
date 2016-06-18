@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -66,7 +67,7 @@ public class ExternalPebbleJSActivity extends GBActivity {
         //needed to access the DOM
         webSettings.setDomStorageEnabled(true);
 
-        JSInterface gbJSInterface = new JSInterface();
+        JSInterface gbJSInterface = new JSInterface(this);
         myWebView.addJavascriptInterface(gbJSInterface, "GBjs");
 
         myWebView.loadUrl("file:///android_asset/app_config/configure.html");
@@ -75,6 +76,7 @@ public class ExternalPebbleJSActivity extends GBActivity {
 
     @Override
     protected void onNewIntent(Intent incoming) {
+        incoming.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         super.onNewIntent(incoming);
         confUri = incoming.getData();
     }
@@ -129,6 +131,7 @@ public class ExternalPebbleJSActivity extends GBActivity {
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             if (url.startsWith("http://") || url.startsWith("https://")) {
                 Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
             } else {
                 url = url.replaceFirst("^pebblejs://close#", "file:///android_asset/app_config/configure.html?config=true&json=");
@@ -142,7 +145,10 @@ public class ExternalPebbleJSActivity extends GBActivity {
 
     private class JSInterface {
 
-        public JSInterface() {
+        Context mContext;
+
+        public JSInterface(Context c) {
+            mContext = c;
         }
 
         @JavascriptInterface
@@ -240,7 +246,7 @@ public class ExternalPebbleJSActivity extends GBActivity {
 
         @JavascriptInterface
         public void closeActivity() {
-            finish();
+            NavUtils.navigateUpFromSameTask((ExternalPebbleJSActivity) mContext);
         }
     }
 
