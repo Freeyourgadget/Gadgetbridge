@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta name='viewport' content='initial-scale=1.0, maximum-scale=1.0'>
     <script type="text/javascript" src="js/Uri.js">
     </script>
@@ -52,14 +52,16 @@
         <!-- TODO -->
     </style>
 </head>
-<body onload="" style="width: 100%;">
-<div id="step1">
+<body>
+<div id="step1" class="step">
     <h2>Url of the configuration:</h2>
     <div id="config_url"></div>
     <!--<button class="btn" name="show config" value="show config" onclick="Pebble.showConfiguration()" >Show config / URL</button>-->
-    <button class="btn" name="open config" value="open config" onclick="Pebble.actuallyOpenURL()" >Open configuration website</button>
+    <button class="btn" name="open config" value="open config" onclick="Pebble.actuallyOpenURL()">
+        Open configuration website
+    </button>
 </div>
-<div id="step1compat">
+<div id="step1compat" class="step">
     <p>In case of "network error" after saving settings in the wathchapp, copy the "network error"
         URL and paste it here:</p>
     <textarea id="pastereturn"></textarea><br/>
@@ -67,9 +69,11 @@
         configuration
     </button>
 </div>
-<div id="step2">
+<div id="step2" class="step">
     <h2>Incoming configuration data:</h2>
     <div id="jsondata"></div>
-    <button class="btn" name="send config" value="send config" onclick="Pebble.actuallySendData()" >Send data to pebble</button>
+    <button class="btn" name="send config" value="send config" onclick="Pebble.actuallySendData()">
+        Send data to pebble
+    </button>
 </div>
 </body>

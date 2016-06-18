@@ -261,6 +261,7 @@
         </receiver>
 
         <activity
+            android:launchMode="singleInstance"
             android:name=".activities.ExternalPebbleJSActivity"
             android:label="@string/app_configure"
             android:parentActivityName=".activities.appmanager.AppManagerActivity">
