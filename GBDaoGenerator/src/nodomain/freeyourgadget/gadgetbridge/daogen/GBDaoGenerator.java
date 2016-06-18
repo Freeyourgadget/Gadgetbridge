@@ -17,6 +17,7 @@ package nodomain.freeyourgadget.gadgetbridge.daogen;
 
 import de.greenrobot.daogenerator.DaoGenerator;
 import de.greenrobot.daogenerator.Entity;
+import de.greenrobot.daogenerator.Index;
 import de.greenrobot.daogenerator.Property;
 import de.greenrobot.daogenerator.Schema;
 
@@ -33,7 +34,7 @@ public class GBDaoGenerator {
     private static final String VALID_BY_DATE = MODEL_PACKAGE + ".ValidByDate";
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(10, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(7, MAIN_PACKAGE + ".entities");
 
         addActivityDescription(schema);
 
@@ -157,7 +158,7 @@ public class GBDaoGenerator {
                         "intensity, are device specific. Normalized values can be retrieved through the\n" +
                         "corresponding {@link SampleProvider}.");
         activitySample.addIdProperty();
-        activitySample.addIntProperty("timestamp").notNull();
+        Property timestamp = activitySample.addIntProperty("timestamp").notNull().getProperty();
         activitySample.addIntProperty("rawIntensity").notNull();
         activitySample.addIntProperty("steps").notNull();
         activitySample.addIntProperty("rawKind").notNull();
@@ -165,6 +166,12 @@ public class GBDaoGenerator {
         activitySample.addToOne(user, userId);
         Property deviceId = activitySample.addLongProperty("deviceId").getProperty();
         activitySample.addToOne(device, deviceId);
+
+        Index indexUnique = new Index();
+        indexUnique.addProperty(timestamp);
+        indexUnique.addProperty(deviceId);
+        indexUnique.makeUnique();
+        activitySample.addIndex(indexUnique);
     }
     
     private static Entity addEntity(Schema schema, String className) {

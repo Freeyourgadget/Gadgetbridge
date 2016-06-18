@@ -383,7 +383,7 @@ public class DBHelper {
                 }
                 newSamples.add(newSample);
             }
-            sampleProvider.getSampleDao().insertInTx(newSamples, true);
+            sampleProvider.getSampleDao().insertOrReplaceInTx(newSamples, true);
         }
     }
 }
