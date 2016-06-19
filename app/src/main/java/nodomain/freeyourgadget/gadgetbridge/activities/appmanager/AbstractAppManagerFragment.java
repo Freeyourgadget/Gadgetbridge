@@ -277,9 +277,6 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         if (!selectedApp.isConfigurable()) {
             menu.removeItem(R.id.appmanager_app_configure);
         }
-        if (!mGBDevice.getFirmwareVersion().startsWith("v3")) {
-            menu.removeItem(R.id.appmanager_app_move_to_top);
-        }
         //menu.setHeaderTitle(selectedApp.getName());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                                                  public boolean onMenuItemClick(MenuItem item) {
@@ -342,8 +339,6 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                 startIntent.putExtra(DeviceService.EXTRA_APP_UUID, selectedApp.getUUID());
                 startIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
                 startActivity(startIntent);
-                return true;
-            case R.id.appmanager_app_move_to_top:
                 return true;
             default:
                 return super.onContextItemSelected(item);
