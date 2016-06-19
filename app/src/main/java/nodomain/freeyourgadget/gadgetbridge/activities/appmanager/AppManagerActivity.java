@@ -134,9 +134,10 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
 
     synchronized public static void addToAppOrderFile(String filename, UUID uuid) {
         ArrayList<UUID> uuids = getUuidsFromFile(filename);
-        uuids.remove(uuid); // if alread there
-        uuids.add(uuid);
-        rewriteAppOrderFile(filename, uuids);
+        if (!uuids.contains(uuid)) {
+            uuids.add(uuid);
+            rewriteAppOrderFile(filename, uuids);
+        }
     }
 
     static synchronized ArrayList<UUID> getUuidsFromFile(String filename) {
