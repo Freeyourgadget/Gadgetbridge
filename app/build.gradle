@@ -18,8 +18,8 @@ android {
         targetSdkVersion 23
 
         // note: always bump BOTH versionCode and versionName!
-        versionName "0.10.1"
-        versionCode 54
+        versionName "0.10.2"
+        versionCode 55
     }
     buildTypes {
         release {
@@ -60,6 +60,7 @@ dependencies {
     compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
     compile 'net.e175.klaus:solarpositioning:0.0.9'
     compile 'com.github.freeyourgadget:greendao:c3830951e5dd3d1e63d7bac600d5f773b81df363'
+    compile 'com.github.woxthebox:draglistview:1.2.6'
 }
 
 preBuild.dependsOn(":GBDaoGenerator:genSources")

@@ -24,7 +24,7 @@ import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.AppManagerActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AbstractAppManagerFragment;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsHost;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
@@ -160,7 +160,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         Context context = getContext();
         LOG.info("Got event for APP_INFO");
 
-        Intent appInfoIntent = new Intent(AppManagerActivity.ACTION_REFRESH_APPLIST);
+        Intent appInfoIntent = new Intent(AbstractAppManagerFragment.ACTION_REFRESH_APPLIST);
         int appCount = appInfoEvent.apps.length;
         appInfoIntent.putExtra("app_count", appCount);
         for (Integer i = 0; i < appCount; i++) {

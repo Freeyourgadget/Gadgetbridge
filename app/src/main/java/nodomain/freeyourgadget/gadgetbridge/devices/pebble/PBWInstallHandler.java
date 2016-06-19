@@ -18,6 +18,7 @@ import java.io.Writer;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.InstallActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
@@ -135,6 +136,8 @@ public class PBWInstallHandler implements InstallHandler {
             destDir = new File(FileUtils.getExternalFilesDir() + "/pbw-cache");
             destDir.mkdirs();
             FileUtils.copyURItoFile(mContext, mUri, new File(destDir, app.getUUID().toString() + ".pbw"));
+
+            AppManagerActivity.addToAppOrderFile("pbwcacheorder.txt", app.getUUID());
         } catch (IOException e) {
             LOG.error("Installation failed: " + e.getMessage(), e);
             return;
@@ -174,6 +177,7 @@ public class PBWInstallHandler implements InstallHandler {
                 LOG.error("Failed to open output file: " + e.getMessage(), e);
             }
         }
+
     }
 
     public boolean isValid() {

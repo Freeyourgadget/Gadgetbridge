@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.ParcelUuid;
+import android.support.v4.content.LocalBroadcastManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +29,8 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AbstractAppManagerFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppManagement;
@@ -75,6 +78,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
     private boolean mIsInstalling = false;
 
     private PBWReader mPBWReader = null;
+    private GBDeviceApp mCurrentlyInstallingApp = null;
     private int mAppInstallToken = -1;
     private InputStream mFis = null;
     private PebbleAppInstallState mInstallState = PebbleAppInstallState.UNKNOWN;
@@ -613,12 +617,12 @@ public class PebbleIoThread extends GBDeviceIoThread {
              */
             writeInstallApp(mPebbleProtocol.encodeGetTime());
         } else {
-            GBDeviceApp app = mPBWReader.getGBDeviceApp();
+            mCurrentlyInstallingApp = mPBWReader.getGBDeviceApp();
             if (mPebbleProtocol.mFwMajor >= 3 && !mPBWReader.isLanguage()) {
                 if (appId == 0) {
                     // only install metadata - not the binaries
-                    write(mPebbleProtocol.encodeInstallMetadata(app.getUUID(), app.getName(), mPBWReader.getAppVersion(), mPBWReader.getSdkVersion(), mPBWReader.getFlags(), mPBWReader.getIconId()));
-                    write(mPebbleProtocol.encodeAppStart(app.getUUID(), true));
+                    write(mPebbleProtocol.encodeInstallMetadata(mCurrentlyInstallingApp.getUUID(), mCurrentlyInstallingApp.getName(), mPBWReader.getAppVersion(), mPBWReader.getSdkVersion(), mPBWReader.getFlags(), mPBWReader.getIconId()));
+                    write(mPebbleProtocol.encodeAppStart(mCurrentlyInstallingApp.getUUID(), true));
                 } else {
                     // this came from an app fetch request, so do the real stuff
                     mIsInstalling = true;
@@ -637,7 +641,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
                     writeInstallApp(mPebbleProtocol.encodeGetTime());
                 } else {
                     mInstallState = PebbleAppInstallState.WAIT_SLOT;
-                    writeInstallApp(mPebbleProtocol.encodeAppDelete(app.getUUID()));
+                    writeInstallApp(mPebbleProtocol.encodeAppDelete(mCurrentlyInstallingApp.getUUID()));
                 }
             }
         }
@@ -651,6 +655,17 @@ public class PebbleIoThread extends GBDeviceIoThread {
             GB.updateInstallNotification(getContext().getString(R.string.installation_failed_), false, 0, getContext());
         } else {
             GB.updateInstallNotification(getContext().getString(R.string.installation_successful), false, 0, getContext());
+            String filenameSuffix;
+            if (mCurrentlyInstallingApp != null) {
+                if (mCurrentlyInstallingApp.getType() == GBDeviceApp.Type.WATCHFACE) {
+                    filenameSuffix = ".watchfaces";
+                } else {
+                    filenameSuffix = ".watchapps";
+                }
+                AppManagerActivity.addToAppOrderFile(gbDevice.getAddress() + filenameSuffix, mCurrentlyInstallingApp.getUUID());
+                Intent refreshIntent = new Intent(AbstractAppManagerFragment.ACTION_REFRESH_APPLIST);
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(refreshIntent);
+            }
         }
         mInstallState = PebbleAppInstallState.UNKNOWN;
 
@@ -660,6 +675,8 @@ public class PebbleIoThread extends GBDeviceIoThread {
 
         mPBWReader = null;
         mIsInstalling = false;
+        mCurrentlyInstallingApp = null;
+
         if (mFis != null) {
             try {
                 mFis.close();
