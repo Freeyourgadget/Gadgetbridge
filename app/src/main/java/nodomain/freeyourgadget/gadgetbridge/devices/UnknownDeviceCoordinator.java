@@ -136,6 +136,11 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsHeartRateMeasurement(GBDevice device) {
+        return false;
+    }
+
+    @Override
     public int getTapString() {
         return 0;
     }

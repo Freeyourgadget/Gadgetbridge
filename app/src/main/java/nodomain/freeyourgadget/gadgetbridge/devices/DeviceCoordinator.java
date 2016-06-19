@@ -112,6 +112,12 @@ public interface DeviceCoordinator {
      */
     boolean supportsAlarmConfiguration();
 
+    /**
+     * Returns true if the given device supports heart rate measurements.
+     * @return
+     */
+    boolean supportsHeartRateMeasurement(GBDevice device);
+
     int getTapString();
 
     /**

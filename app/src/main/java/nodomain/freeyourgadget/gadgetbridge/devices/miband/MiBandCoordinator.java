@@ -166,4 +166,18 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
         Prefs prefs = GBApplication.getPrefs();
         return prefs.getInt(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, 0);
     }
+
+    @Override
+    public boolean supportsHeartRateMeasurement(GBDevice device) {
+        String hwVersion = device.getHardwareVersion();
+        return isMi1S(hwVersion) || isMiPro(hwVersion);
+    }
+
+    private boolean isMi1S(String hardwareVersion) {
+        return MiBandConst.MI_1S.equals(hardwareVersion);
+    }
+
+    private boolean isMiPro(String hardwareVersion) {
+        return MiBandConst.MI_PRO.equals(hardwareVersion);
+    }
 }

@@ -85,6 +85,11 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsHeartRateMeasurement(GBDevice device) {
+        return false;
+    }
+
+    @Override
     public int getTapString() {
         return R.string.tap_connected_device_for_app_mananger;
     }
