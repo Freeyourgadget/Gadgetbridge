@@ -26,16 +26,10 @@ public abstract class DBAccess extends AsyncTask {
 
     @Override
     protected Object doInBackground(Object[] params) {
-        DBHandler handler = null;
-        try {
-            handler = GBApplication.acquireDB();
-            doInBackground(handler);
+        try (DBHandler db = GBApplication.acquireDB()) {
+            doInBackground(db);
         } catch (Exception e) {
             mError = e;
-        } finally {
-            if (handler != null) {
-                handler.release();
-            }
         }
         return null;
     }

@@ -1,0 +1,31 @@
+apply plugin: 'java'
+//apply plugin: 'maven'
+apply plugin:'application'
+
+archivesBaseName = 'gadgetbridge-daogenerator'
+//version = '0.9.2-SNAPSHOT'
+
+dependencies {
+//    compile 'org.greenrobot:greendao-generator:2.2.0'
+    compile 'com.github.freeyourgadget:greendao:c3830951e5dd3d1e63d7bac600d5f773b81df363'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+    }
+}
+
+mainClassName = "nodomain.freeyourgadget.gadgetbridge.daogen.GBDaoGenerator"
+
+task genSources(type: JavaExec) {
+    main = mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    workingDir = '../'
+}
+
+artifacts {
+    archives jar
+}

@@ -15,7 +15,11 @@ import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.schema.ActivityDBCreationScript;
+import nodomain.freeyourgadget.gadgetbridge.database.schema.SchemaMigration;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -30,11 +34,13 @@ import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_TIME
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_TYPE;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.TABLE_GBACTIVITYSAMPLES;
 
+// TODO: can be removed entirely
 public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(ActivityDatabaseHandler.class);
 
     private static final int DATABASE_VERSION = 7;
+    private static final String UPDATER_CLASS_NAME_PREFIX = "ActivityDBUpdate_";
 
     public ActivityDatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -52,49 +58,17 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        LOG.info("ActivityDatabase: schema upgrade requested from " + oldVersion + " to " + newVersion);
-        try {
-            for (int i = oldVersion + 1; i <= newVersion; i++) {
-                DBUpdateScript updater = getUpdateScript(db, i);
-                if (updater != null) {
-                    LOG.info("upgrading activity database to version " + i);
-                    updater.upgradeSchema(db);
-                }
-            }
-            LOG.info("activity database is now at version " + newVersion);
-        } catch (RuntimeException ex) {
-            GB.toast("Error upgrading database.", Toast.LENGTH_SHORT, GB.ERROR, ex);
-            throw ex; // reject upgrade
-        }
+        new SchemaMigration(UPDATER_CLASS_NAME_PREFIX).onUpgrade(db, oldVersion, newVersion);
     }
 
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        LOG.info("ActivityDatabase: schema downgrade requested from " + oldVersion + " to " + newVersion);
-        try {
-            for (int i = oldVersion; i >= newVersion; i--) {
-                DBUpdateScript updater = getUpdateScript(db, i);
-                if (updater != null) {
-                    LOG.info("downgrading activity database to version " + (i - 1));
-                    updater.downgradeSchema(db);
-                }
-            }
-            LOG.info("activity database is now at version " + newVersion);
-        } catch (RuntimeException ex) {
-            GB.toast("Error downgrading database.", Toast.LENGTH_SHORT, GB.ERROR, ex);
-            throw ex; // reject downgrade
-        }
+        new SchemaMigration(UPDATER_CLASS_NAME_PREFIX).onDowngrade(db, oldVersion, newVersion);
     }
 
-    private DBUpdateScript getUpdateScript(SQLiteDatabase db, int version) {
-        try {
-            Class<?> updateClass = getClass().getClassLoader().loadClass(getClass().getPackage().getName() + ".schema.ActivityDBUpdate_" + version);
-            return (DBUpdateScript) updateClass.newInstance();
-        } catch (ClassNotFoundException e) {
-            return null;
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException("Error instantiating DBUpdate class for version " + version, e);
-        }
+    @Override
+    public SQLiteDatabase getDatabase() {
+        return super.getWritableDatabase();
     }
 
     public void addGBActivitySample(ActivitySample sample) {
@@ -104,7 +78,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
             values.put(KEY_PROVIDER, sample.getProvider().getID());
             values.put(KEY_INTENSITY, sample.getRawIntensity());
             values.put(KEY_STEPS, sample.getSteps());
-            values.put(KEY_CUSTOM_SHORT, sample.getCustomValue());
+//            values.put(KEY_CUSTOM_SHORT, sample.getCustomValue());
             values.put(KEY_TYPE, sample.getRawKind());
 
             db.insert(TABLE_GBACTIVITYSAMPLES, null, values);
@@ -121,8 +95,13 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
      * @param kind             the raw activity kind of the sample
      * @param customShortValue
      */
-    @Override
-    public void addGBActivitySample(int timestamp, int provider, int intensity, int steps, int kind, int customShortValue) {
+    public void addGBActivitySample(AbstractActivitySample sample) {
+        float intensity = sample.getIntensity();
+        int steps = sample.getSteps();
+        int kind = sample.getRawKind();
+        int timestamp = sample.getTimestamp();
+        int customShortValue = 0;
+
         if (intensity < 0) {
             LOG.error("negative intensity received, ignoring");
             intensity = 0;
@@ -140,7 +119,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
         try (SQLiteDatabase db = this.getWritableDatabase()) {
             ContentValues values = new ContentValues();
             values.put(KEY_TIMESTAMP, timestamp);
-            values.put(KEY_PROVIDER, provider);
+//            values.put(KEY_PROVIDER, provider);
             values.put(KEY_INTENSITY, intensity);
             values.put(KEY_STEPS, steps);
             values.put(KEY_TYPE, kind);
@@ -150,8 +129,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
         }
     }
 
-    @Override
-    public void addGBActivitySamples(ActivitySample[] activitySamples) {
+    public void addGBActivitySamples(AbstractActivitySample[] activitySamples) {
         try (SQLiteDatabase db = this.getWritableDatabase()) {
 
             String sql = "INSERT INTO " + TABLE_GBACTIVITYSAMPLES + " (" + KEY_TIMESTAMP + "," +
@@ -167,7 +145,7 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
                 statement.bindLong(3, activitySample.getRawIntensity());
                 statement.bindLong(4, activitySample.getSteps());
                 statement.bindLong(5, activitySample.getRawKind());
-                statement.bindLong(6, activitySample.getCustomValue());
+//                statement.bindLong(6, activitySample.getCustomValue());
                 statement.execute();
             }
             db.setTransactionSuccessful();
@@ -184,17 +162,24 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
     }
 
     @Override
+    public void closeDb() {
+    }
+
+    @Override
+    public void openDb() {
+    }
+
+    @Override
     public SQLiteOpenHelper getHelper() {
         return this;
     }
 
-    @Override
-    public void release() {
-        GBApplication.releaseDB();
-    }
-
     public ArrayList<ActivitySample> getAllActivitySamples(int timestamp_from, int timestamp_to, SampleProvider provider) {
         return getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_ALL, provider);
+    }
+
+    public ArrayList<ActivitySample> getAllActivitySamples() {
+        return getActivitySamples(null, "timestamp", null);
     }
 
     /**
@@ -214,10 +199,17 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
         if (timestamp_from < 0) {
             throw new IllegalArgumentException("negative timestamp_from");
         }
-        ArrayList<ActivitySample> samples = new ArrayList<>();
         final String where = "(provider=" + provider.getID() + " and timestamp>=" + timestamp_from + " and timestamp<=" + timestamp_to + getWhereClauseFor(activityTypes, provider) + ")";
         LOG.info("Activity query where: " + where);
         final String order = "timestamp";
+
+        ArrayList<ActivitySample> samples = getActivitySamples(where, order, null);
+
+        return samples;
+    }
+
+    private ArrayList<ActivitySample> getActivitySamples(String where, String order, SampleProvider provider) {
+        ArrayList<ActivitySample> samples = new ArrayList<>();
         try (SQLiteDatabase db = this.getReadableDatabase()) {
             try (Cursor cursor = db.query(TABLE_GBACTIVITYSAMPLES, null, where, null, null, null, order)) {
                 LOG.info("Activity query result: " + cursor.getCount() + " samples");
@@ -238,7 +230,6 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
                 }
             }
         }
-
         return samples;
     }
 
@@ -259,7 +250,6 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
         return builder.toString();
     }
 
-    @Override
     public void changeStoredSamplesType(int timestampFrom, int timestampTo, int kind, SampleProvider provider) {
         try (SQLiteDatabase db = this.getReadableDatabase()) {
             String sql = "UPDATE " + TABLE_GBACTIVITYSAMPLES + " SET " + KEY_TYPE + "= ? WHERE "
@@ -275,7 +265,6 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
         }
     }
 
-    @Override
     public void changeStoredSamplesType(int timestampFrom, int timestampTo, int fromKind, int toKind, SampleProvider provider) {
         try (SQLiteDatabase db = this.getReadableDatabase()) {
             String sql = "UPDATE " + TABLE_GBACTIVITYSAMPLES + " SET " + KEY_TYPE + "= ? WHERE "
@@ -293,7 +282,6 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
         }
     }
 
-    @Override
     public int fetchLatestTimestamp(SampleProvider provider) {
         try (SQLiteDatabase db = this.getReadableDatabase()) {
             try (Cursor cursor = db.query(TABLE_GBACTIVITYSAMPLES, new String[]{KEY_TIMESTAMP}, KEY_PROVIDER + "=" + String.valueOf(provider.getID()), null, null, null, KEY_TIMESTAMP + " DESC", "1")) {
@@ -303,5 +291,29 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
             }
         }
         return -1;
+    }
+
+    public boolean hasContent() {
+        try {
+            try (SQLiteDatabase db = this.getReadableDatabase()) {
+                try (Cursor cursor = db.query(TABLE_GBACTIVITYSAMPLES, new String[]{KEY_TIMESTAMP}, null, null, null, null, null, "1")) {
+                    return cursor.moveToFirst();
+                }
+            }
+        } catch (Exception ex) {
+            // can't expect anything
+            GB.log("Error looking for old activity data: " + ex.getMessage(), GB.ERROR, ex);
+            return false;
+        }
+    }
+
+    @Override
+    public DaoSession getDaoSession() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public DaoMaster getDaoMaster() {
+        throw new UnsupportedOperationException();
     }
 }

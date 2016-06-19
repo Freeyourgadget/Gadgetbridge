@@ -50,7 +50,7 @@ public class SleepChartFragment extends AbstractChartFragment {
 
     @Override
     protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
-        List<ActivitySample> samples = getSamples(db, device);
+        List<? extends ActivitySample> samples = getSamples(db, device);
 
         MySleepChartsData mySleepChartsData = refreshSleepAmounts(device, samples);
         DefaultChartsData chartsData = refresh(device, samples);
@@ -58,7 +58,7 @@ public class SleepChartFragment extends AbstractChartFragment {
         return new MyChartsData(mySleepChartsData, chartsData);
     }
 
-    private MySleepChartsData refreshSleepAmounts(GBDevice mGBDevice, List<ActivitySample> samples) {
+    private MySleepChartsData refreshSleepAmounts(GBDevice mGBDevice, List<? extends ActivitySample> samples) {
         ActivityAnalysis analysis = new ActivityAnalysis();
         ActivityAmounts amounts = analysis.calculateActivityAmounts(samples);
         PieData data = new PieData();
@@ -195,7 +195,7 @@ public class SleepChartFragment extends AbstractChartFragment {
     }
 
     @Override
-    protected List<ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+    protected List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
 // temporary fix for totally wrong sleep amounts
 //        return super.getSleepSamples(db, device, tsFrom, tsTo);
         return super.getAllSamples(db, device, tsFrom, tsTo);

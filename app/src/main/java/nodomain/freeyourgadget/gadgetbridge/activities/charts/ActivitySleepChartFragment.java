@@ -108,7 +108,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
 
     @Override
     protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
-        List<ActivitySample> samples = getSamples(db, device);
+        List<? extends ActivitySample> samples = getSamples(db, device);
         return refresh(device, samples);
     }
 
@@ -142,7 +142,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
     }
 
     @Override
-    protected List<ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+    protected List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
         return getAllSamples(db, device, tsFrom, tsTo);
     }
 }

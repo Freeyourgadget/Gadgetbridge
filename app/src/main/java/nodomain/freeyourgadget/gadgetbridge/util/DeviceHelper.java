@@ -18,6 +18,7 @@ import java.util.Set;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.UnknownDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
@@ -63,6 +64,16 @@ public class DeviceHelper {
         return null;
     }
 
+    /**
+     * Returns the list of all available devices that are supported by Gadgetbridge.
+     * Note that no state is known about the returned devices. Even if one of those
+     * devices is connected, it will report the default not-connected state.
+     *
+     * Clients interested in the "live" devices being managed should use the class
+     * DeviceManager.
+     * @param context
+     * @return
+     */
     public Set<GBDevice> getAvailableDevices(Context context) {
         BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
 

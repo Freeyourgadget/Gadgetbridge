@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Build.VERSION;
@@ -27,9 +28,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBConstants;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
@@ -49,7 +52,6 @@ public class GBApplication extends Application {
     // Since this class must not log to slf4j, we use plain android.util.Log
     private static final String TAG = "GBApplication";
     private static GBApplication context;
-    private static ActivityDatabaseHandler mActivityDatabaseHandler;
     private static final Lock dbLock = new ReentrantLock();
     private static DeviceService deviceService;
     private static SharedPreferences sharedPrefs;
@@ -59,6 +61,7 @@ public class GBApplication extends Application {
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
     private static Prefs prefs;
     private static GBPrefs gbPrefs;
+    private static LockHandler lockHandler;
     /**
      * Note: is null on Lollipop and Kitkat
      */
@@ -73,6 +76,7 @@ public class GBApplication extends Application {
             return dir.getAbsolutePath();
         }
     };
+    private static DeviceManager deviceManager;
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -116,9 +120,13 @@ public class GBApplication extends Application {
 
         setupExceptionHandler();
 
+        setupDatabase(this);
+
+        deviceManager = new DeviceManager(this);
+
         deviceService = createDeviceService();
         GB.environment = GBEnvironment.createDeviceEnvironment();
-        mActivityDatabaseHandler = new ActivityDatabaseHandler(context);
+//        mActivityDatabaseHandler = new ActivityDatabaseHandler(context);
         loadBlackList();
 
         IntentFilter filterLocal = new IntentFilter();
@@ -147,6 +155,17 @@ public class GBApplication extends Application {
         return prefs.getBoolean("log_to_file", false);
     }
 
+    static void setupDatabase(Context context) {
+//        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "test-db", null);
+        DBOpenHelper helper = new DBOpenHelper(context, "test-db4", null);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        DaoMaster daoMaster = new DaoMaster(db);
+        if (lockHandler == null) {
+            lockHandler = new LockHandler();
+        }
+        lockHandler.init(daoMaster, helper);
+    }
+
     public static Context getContext() {
         return context;
     }
@@ -167,6 +186,9 @@ public class GBApplication extends Application {
      * If acquiring was successful, callers must call #releaseDB when they
      * are done (from the same thread that acquired the lock!
      *
+     * Callers must not hold a reference to the returned instance because it
+     * will be invalidated at some point.
+     *
      * @return the DBHandler
      * @throws GBException
      * @see #releaseDB()
@@ -174,7 +196,8 @@ public class GBApplication extends Application {
     public static DBHandler acquireDB() throws GBException {
         try {
             if (dbLock.tryLock(30, TimeUnit.SECONDS)) {
-                return mActivityDatabaseHandler;
+                return lockHandler;
+//                return mActivityDatabaseHandler;
             }
         } catch (InterruptedException ex) {
             Log.i(TAG, "Interrupted while waiting for DB lock");
@@ -290,12 +313,16 @@ public class GBApplication extends Application {
      * @return true on successful deletion
      */
     public static synchronized boolean deleteActivityDatabase() {
-        if (mActivityDatabaseHandler != null) {
-            mActivityDatabaseHandler.close();
-            mActivityDatabaseHandler = null;
+        // TODO: flush, close, reopen db
+        if (lockHandler != null) {
+            lockHandler.closeDb();
         }
+//        if (mActivityDatabaseHandler != null) {
+//            mActivityDatabaseHandler.close();
+//            mActivityDatabaseHandler = null;
+//        }
         boolean result = getContext().deleteDatabase(DBConstants.DATABASE_NAME);
-        mActivityDatabaseHandler = new ActivityDatabaseHandler(getContext());
+//        mActivityDatabaseHandler = new Activity7DatabaseHandler(getContext());
         return result;
     }
 
@@ -378,5 +405,9 @@ public class GBApplication extends Application {
 
     public static GBPrefs getGBPrefs() {
         return gbPrefs;
+    }
+
+    public static DeviceManager getDeviceManager() {
+        return deviceManager;
     }
 }

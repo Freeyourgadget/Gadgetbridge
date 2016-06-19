@@ -11,13 +11,15 @@ import java.util.TimeZone;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSleepMonitorResult;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.MorpheuzSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class AppMessageHandlerMorpheuz extends AppMessageHandler {
@@ -97,16 +99,13 @@ public class AppMessageHandlerMorpheuz extends AppMessageHandler {
                             type = MorpheuzSampleProvider.TYPE_LIGHT_SLEEP;
                         }
                         if (index >= 0) {
-                            DBHandler db = null;
-                            try {
-                                db = GBApplication.acquireDB();
-                                db.addGBActivitySample(recording_base_timestamp + index * 600, SampleProvider.PROVIDER_PEBBLE_MORPHEUZ, intensity, 0, type, 0);
-                            } catch (GBException e) {
+                            try (DBHandler db = GBApplication.acquireDB()) {
+                                User user = DBHelper.getUser(db.getDaoSession());
+                                Device device = DBHelper.getDevice(getDevice(), db.getDaoSession());
+                                MorpheuzSampleProvider sampleProvider = new MorpheuzSampleProvider(db.getDaoSession());
+                                sampleProvider.addGBActivitySample(createSample(recording_base_timestamp + index * 600, intensity, 0, type, user, device));
+                            } catch (Exception e) {
                                 LOG.error("Error acquiring database", e);
-                            } finally {
-                                if (db != null) {
-                                    db.release();
-                                }
                             }
                         }
 

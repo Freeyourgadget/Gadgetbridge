@@ -45,9 +45,11 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.HeartRateSample;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
@@ -292,9 +294,9 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         return akActivity.color;
     }
 
-    protected SampleProvider getProvider(GBDevice device) {
+    protected SampleProvider<? extends AbstractActivitySample> getProvider(DBHandler db, GBDevice device) {
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
-        return coordinator.getSampleProvider();
+        return coordinator.getSampleProvider(db.getDaoSession());
     }
 
     /**
@@ -305,27 +307,27 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
      * @param tsFrom
      * @param tsTo
      */
-    protected List<ActivitySample> getAllSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-        SampleProvider provider = getProvider(device);
-        return db.getAllActivitySamples(tsFrom, tsTo, provider);
+    protected List<? extends ActivitySample> getAllSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+        SampleProvider<? extends ActivitySample> provider = getProvider(db, device);
+        return provider.getAllActivitySamples(tsFrom, tsTo);
     }
 
     private int getTSLast24Hours(int tsTo) {
         return (tsTo) - (24 * 60 * 60); // -24 hours
     }
 
-    protected List<ActivitySample> getActivitySamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-        SampleProvider provider = getProvider(device);
-        return db.getActivitySamples(tsFrom, tsTo, provider);
+    protected List<? extends AbstractActivitySample> getActivitySamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+        SampleProvider<? extends AbstractActivitySample> provider = getProvider(db, device);
+        return provider.getActivitySamples(tsFrom, tsTo);
     }
 
 
-    protected List<ActivitySample> getSleepSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-        SampleProvider provider = getProvider(device);
-        return db.getSleepSamples(tsFrom, tsTo, provider);
+    protected List<? extends ActivitySample> getSleepSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+        SampleProvider<? extends ActivitySample> provider = getProvider(db, device);
+        return provider.getSleepSamples(tsFrom, tsTo);
     }
 
-    protected List<ActivitySample> getTestSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+    protected List<? extends ActivitySample> getTestSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.set(2015, Calendar.JUNE, 10, 6, 40);
@@ -333,8 +335,8 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         tsTo = (int) ((cal.getTimeInMillis() / 1000));
         tsFrom = tsTo - (24 * 60 * 60);
 
-        SampleProvider provider = getProvider(device);
-        return db.getAllActivitySamples(tsFrom, tsTo, provider);
+        SampleProvider<? extends ActivitySample> provider = getProvider(db, device);
+        return provider.getAllActivitySamples(tsFrom, tsTo);
     }
 
     protected void configureChartDefaults(Chart<?> chart) {
@@ -397,7 +399,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
      */
     protected abstract void renderCharts();
 
-    protected DefaultChartsData refresh(GBDevice gbDevice, List<ActivitySample> samples) {
+    protected DefaultChartsData refresh(GBDevice gbDevice, List<? extends ActivitySample> samples) {
         Calendar cal = GregorianCalendar.getInstance();
         cal.clear();
         Date date;
@@ -463,13 +465,13 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                         colors.add(akActivity.color);
                 }
                 activityEntries.add(createBarEntry(value, i));
-                if (hr && isValidHeartRateValue(sample.getCustomValue())) {
+                if (hr && isValidHeartRateValue(((HeartRateSample)sample).getHeartRate())) {
                     if (lastHrSampleIndex > -1 && i - lastHrSampleIndex > HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
                         heartrateEntries.add(createLineEntry(0, lastHrSampleIndex + 1));
                         heartrateEntries.add(createLineEntry(0, i - 1));
                     }
 
-                    heartrateEntries.add(createLineEntry(sample.getCustomValue(), i));
+                    heartrateEntries.add(createLineEntry(((HeartRateSample)sample).getHeartRate(), i));
                     lastHrSampleIndex = i;
                 }
 
@@ -540,7 +542,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
      * @param tsTo
      * @return
      */
-    protected abstract List<ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo);
+    protected abstract List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo);
 
     protected abstract void setupLegend(Chart chart);
 
@@ -688,7 +690,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         }
     }
 
-    protected List<ActivitySample> getSamples(DBHandler db, GBDevice device) {
+    protected List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device) {
         return getSamples(db, device, getTSStart(), getTSEnd());
     }
 

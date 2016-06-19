@@ -10,6 +10,8 @@ import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActi
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
@@ -44,20 +46,20 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public SampleProvider getSampleProvider() {
+    public SampleProvider<? extends AbstractActivitySample> getSampleProvider(DaoSession session) {
         Prefs prefs = GBApplication.getPrefs();
         int activityTracker = prefs.getInt("pebble_activitytracker", SampleProvider.PROVIDER_PEBBLE_HEALTH);
         switch (activityTracker) {
             case SampleProvider.PROVIDER_PEBBLE_HEALTH:
-                return new HealthSampleProvider();
+                return new HealthSampleProvider(session);
             case SampleProvider.PROVIDER_PEBBLE_MISFIT:
-                return new MisfitSampleProvider();
+                return new MisfitSampleProvider(session);
             case SampleProvider.PROVIDER_PEBBLE_MORPHEUZ:
-                return new MorpheuzSampleProvider();
+                return new MorpheuzSampleProvider(session);
             case SampleProvider.PROVIDER_PEBBLE_GADGETBRIDGE:
-                return new PebbleGadgetBridgeSampleProvider();
+                return new PebbleGadgetBridgeSampleProvider(session);
             default:
-                return new HealthSampleProvider();
+                return new HealthSampleProvider(session);
         }
     }
 
@@ -85,5 +87,10 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     @Override
     public int getTapString() {
         return R.string.tap_connected_device_for_app_mananger;
+    }
+
+    @Override
+    public String getManufacturer() {
+        return "Pebble";
     }
 }

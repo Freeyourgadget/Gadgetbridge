@@ -57,22 +57,16 @@ class DatalogSessionHealthSleep extends DatalogSessionPebbleHealth {
     }
 
     private boolean store(SleepRecord[] sleepRecords) {
-        DBHandler dbHandler = null;
-        SampleProvider sampleProvider = new HealthSampleProvider();
-        try {
-            dbHandler = GBApplication.acquireDB();
-            int latestTimestamp = dbHandler.fetchLatestTimestamp(sampleProvider);
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            SampleProvider sampleProvider = new HealthSampleProvider(dbHandler.getDaoSession());
+            int latestTimestamp = sampleProvider.fetchLatestTimestamp();
             for (SleepRecord sleepRecord : sleepRecords) {
                 if (latestTimestamp < sleepRecord.bedTimeEnd)
                     return false;
-                dbHandler.changeStoredSamplesType(sleepRecord.bedTimeStart, sleepRecord.bedTimeEnd, sampleProvider.toRawActivityKind(ActivityKind.TYPE_ACTIVITY), sampleProvider.toRawActivityKind(ActivityKind.TYPE_LIGHT_SLEEP), sampleProvider);
+                sampleProvider.changeStoredSamplesType(sleepRecord.bedTimeStart, sleepRecord.bedTimeEnd, sampleProvider.toRawActivityKind(ActivityKind.TYPE_ACTIVITY), sampleProvider.toRawActivityKind(ActivityKind.TYPE_LIGHT_SLEEP));
             }
         } catch (Exception ex) {
             LOG.debug(ex.getMessage());
-        } finally {
-            if (dbHandler != null) {
-                dbHandler.release();
-            }
         }
         return true;
     }

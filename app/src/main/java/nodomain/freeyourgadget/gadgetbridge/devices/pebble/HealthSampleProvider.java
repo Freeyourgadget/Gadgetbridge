@@ -1,14 +1,20 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
-public class HealthSampleProvider implements SampleProvider {
+public class HealthSampleProvider extends AbstractPebbleSampleProvider {
     public static final int TYPE_DEEP_SLEEP = 5;
     public static final int TYPE_LIGHT_SLEEP = 4;
     public static final int TYPE_ACTIVITY = -1;
 
     protected final float movementDivisor = 8000f;
+
+    public HealthSampleProvider(DaoSession session) {
+        super(session);
+    }
 
     @Override
     public int normalizeType(int rawType) {
@@ -38,12 +44,10 @@ public class HealthSampleProvider implements SampleProvider {
         }
     }
 
-
     @Override
     public float normalizeIntensity(int rawIntensity) {
         return rawIntensity / movementDivisor;
     }
-
 
     @Override
     public int getID() {

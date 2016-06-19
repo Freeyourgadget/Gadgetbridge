@@ -31,7 +31,7 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
 
     @Override
     protected GBDeviceProtocol createDeviceProtocol() {
-        return new PebbleProtocol();
+        return new PebbleProtocol(getDevice());
     }
 
     @Override

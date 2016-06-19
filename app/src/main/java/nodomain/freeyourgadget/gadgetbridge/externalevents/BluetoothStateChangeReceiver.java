@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class BluetoothStateChangeReceiver extends BroadcastReceiver {
@@ -18,7 +18,7 @@ public class BluetoothStateChangeReceiver extends BroadcastReceiver {
         if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
             if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_ON) {
 
-                Intent refreshIntent = new Intent(ControlCenter.ACTION_REFRESH_DEVICELIST);
+                Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
                 LocalBroadcastManager.getInstance(context).sendBroadcast(refreshIntent);
 
                 Prefs prefs = GBApplication.getPrefs();

@@ -2,18 +2,13 @@ package nodomain.freeyourgadget.gadgetbridge.model;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 
-public interface ActivitySample {
+public interface ActivitySample extends TimeStamped {
     /**
      * Returns the provider of the data.
      *
      * @return who created the sample data
      */
     SampleProvider getProvider();
-
-    /**
-     * Timestamp of the sample, resolution is seconds!
-     */
-    int getTimestamp();
 
     /**
      * Returns the raw activity kind value as recorded by the SampleProvider
@@ -41,6 +36,4 @@ public interface ActivitySample {
      * Returns the number of steps performed during the period of this sample
      */
     int getSteps();
-
-    int getCustomValue();
 }

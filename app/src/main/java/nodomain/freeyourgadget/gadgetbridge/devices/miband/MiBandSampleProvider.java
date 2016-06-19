@@ -1,9 +1,15 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
+import de.greenrobot.dao.AbstractDao;
+import de.greenrobot.dao.Property;
+import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
-public class MiBandSampleProvider implements SampleProvider {
+public class MiBandSampleProvider extends AbstractSampleProvider<MiBandActivitySample> {
     public static final int TYPE_DEEP_SLEEP = 5;
     public static final int TYPE_LIGHT_SLEEP = 4;
     public static final int TYPE_ACTIVITY = -1;
@@ -21,6 +27,10 @@ public class MiBandSampleProvider implements SampleProvider {
 
     // maybe this should be configurable 256 seems way off, though.
     private final float movementDivisor = 180.0f; //256.0f;
+
+    public MiBandSampleProvider(DaoSession session) {
+        super(session);
+    }
 
     @Override
     public int normalizeType(int rawType) {
@@ -66,5 +76,25 @@ public class MiBandSampleProvider implements SampleProvider {
     @Override
     public int getID() {
         return SampleProvider.PROVIDER_MIBAND;
+    }
+
+    @Override
+    public AbstractDao<MiBandActivitySample, ?> getSampleDao() {
+        return getSession().getMiBandActivitySampleDao();
+    }
+
+    @Override
+    protected Property getTimestampSampleProperty() {
+        return MiBandActivitySampleDao.Properties.Timestamp;
+    }
+
+    @Override
+    protected Property getRawKindSampleProperty() {
+        return MiBandActivitySampleDao.Properties.RawKind;
+    }
+
+    @Override
+    public MiBandActivitySample createActivitySample() {
+        return new MiBandActivitySample();
     }
 }

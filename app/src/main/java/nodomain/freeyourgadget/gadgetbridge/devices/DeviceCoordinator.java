@@ -4,8 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 /**
@@ -82,7 +86,7 @@ public interface DeviceCoordinator {
      *
      * @return
      */
-    SampleProvider getSampleProvider();
+    SampleProvider<? extends ActivitySample> getSampleProvider(DaoSession session);
 
     /**
      * Finds an install handler for the given uri that can install the given
@@ -109,4 +113,9 @@ public interface DeviceCoordinator {
     boolean supportsAlarmConfiguration();
 
     int getTapString();
+
+    /**
+     * Returns the readable name of the manufacturer.
+     */
+    String getManufacturer();
 }

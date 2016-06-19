@@ -4,14 +4,20 @@ import android.text.format.DateUtils;
 
 import com.github.pfichtner.durationformatter.DurationFormatter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 public class DateTimeUtils {
+    private static SimpleDateFormat DAY_STORAGE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
     public static String formatDateTime(Date date) {
         return DateUtils.formatDateTime(GBApplication.getContext(), date.getTime(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_TIME);
     }
@@ -54,5 +60,22 @@ public class DateTimeUtils {
         GregorianCalendar cal = (GregorianCalendar) GregorianCalendar.getInstance();
         cal.setTimeInMillis(timestamp * 1000L); // make sure it's converted to long
         return cal.getTime();
+    }
+
+    public static String dayToString(Date date) {
+        return DAY_STORAGE_FORMAT.format(date);
+    }
+
+    public static Date dayFromString(String day) throws ParseException {
+        return DAY_STORAGE_FORMAT.parse(day);
+    }
+
+    public static Date todayUTC() {
+        Calendar cal = getCalendarUTC();
+        return cal.getTime();
+    }
+
+    public static Calendar getCalendarUTC() {
+        return GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
     }
 }

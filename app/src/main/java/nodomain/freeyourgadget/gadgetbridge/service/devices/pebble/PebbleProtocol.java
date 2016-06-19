@@ -31,6 +31,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleColor;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleIconID;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -370,16 +371,16 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private static final UUID UUID_PEBSTYLE = UUID.fromString("da05e84d-e2a2-4020-a2dc-9cdcf265fcdd");
     private static final UUID UUID_ZERO = new UUID(0, 0);
 
-    private static final Map<UUID, AppMessageHandler> mAppMessageHandlers = new HashMap<>();
+    private final Map<UUID, AppMessageHandler> mAppMessageHandlers = new HashMap<>();
 
-    {
+    public PebbleProtocol(GBDevice device) {
+        super(device);
         mAppMessageHandlers.put(UUID_GBPEBBLE, new AppMessageHandlerGBPebble(UUID_GBPEBBLE, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_MORPHEUZ, new AppMessageHandlerMorpheuz(UUID_MORPHEUZ, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_WHETHERNEAT, new AppMessageHandlerWeatherNeat(UUID_WHETHERNEAT, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_MISFIT, new AppMessageHandlerMisfit(UUID_MISFIT, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_PEBBLE_TIMESTYLE, new AppMessageHandlerTimeStylePebble(UUID_PEBBLE_TIMESTYLE, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_PEBSTYLE, new AppMessageHandlerPebStyle(UUID_PEBSTYLE, PebbleProtocol.this));
-
     }
 
     private final HashMap<Byte, DatalogSession> mDatalogSessions = new HashMap<>();
@@ -727,15 +728,15 @@ public class PebbleProtocol extends GBDeviceProtocol {
             buf.order(ByteOrder.LITTLE_ENDIAN);
 
             ActivityUser activityUser = new ActivityUser();
-            Integer heightMm = activityUser.getActivityUserHeightCm() * 10;
+            Integer heightMm = activityUser.getHeightCm() * 10;
             buf.putShort(heightMm.shortValue());
-            Integer weigthDag = activityUser.getActivityUserWeightKg() * 100;
+            Integer weigthDag = activityUser.getWeightKg() * 100;
             buf.putShort(weigthDag.shortValue());
             buf.put((byte) 0x01); //activate tracking
             buf.put((byte) 0x00); //activity Insights
             buf.put((byte) 0x00); //sleep Insights
-            buf.put((byte) activityUser.getActivityUserAge());
-            buf.put((byte) activityUser.getActivityUserGender());
+            buf.put((byte) activityUser.getAge());
+            buf.put((byte) activityUser.getGender());
             blob = buf.array();
         } else {
             blob = new byte[]{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
@@ -1942,7 +1943,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 LOG.info("DATALOG OPENSESSION. id=" + (id & 0xff) + ", App UUID=" + uuid.toString() + ", log_tag=" + log_tag + ", item_type=" + item_type + ", itemSize=" + item_size);
                 if (!mDatalogSessions.containsKey(id)) {
                     if (uuid.equals(UUID_ZERO) && log_tag == 81) {
-                        mDatalogSessions.put(id, new DatalogSessionHealthSteps(id, uuid, log_tag, item_type, item_size));
+                        mDatalogSessions.put(id, new DatalogSessionHealthSteps(id, uuid, log_tag, item_type, item_size, getDevice()));
                     } else if (uuid.equals(UUID_ZERO) && log_tag == 83) {
                         mDatalogSessions.put(id, new DatalogSessionHealthSleep(id, uuid, log_tag, item_type, item_size));
                     } else if (uuid.equals(UUID_ZERO) && log_tag == 84) {

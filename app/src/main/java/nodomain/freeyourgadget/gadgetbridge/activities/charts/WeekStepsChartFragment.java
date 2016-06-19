@@ -214,7 +214,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
 //        chart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
     }
 
-    private List<ActivitySample> getSamplesOfDay(DBHandler db, Calendar day, GBDevice device) {
+    private List<? extends ActivitySample> getSamplesOfDay(DBHandler db, Calendar day, GBDevice device) {
         int startTs;
         int endTs;
 
@@ -233,7 +233,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
     }
 
     @Override
-    protected List<ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+    protected List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
         return super.getAllSamples(db, device, tsFrom, tsTo);
     }
 
