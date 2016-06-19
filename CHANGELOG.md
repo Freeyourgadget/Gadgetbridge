@@ -1,4 +1,12 @@
 ###Changelog
+
+
+####Version 0.10.2
+* Pebble: allow to manually paste configuration data for legacy configuration pages
+* Pebble: various improvements to the configuration page
+* Pebble: Suppport FW 4.0-dp1 and Pebble2 emulator (needs recompilation of Gadgetbridge)
+* Pebble: Fix a problem with key events when using the Pebble music player
+
 ####Version 0.10.1
 * Pebble: set extended music info by dissecting notifications on Android 5.0+
 * Pebble: various other improvemnts to music playback

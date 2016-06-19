@@ -1108,6 +1108,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     public byte[] encodeSetMusicState(byte state, int position, int playRate, byte shuffle, byte repeat) {
+        if (mFwMajor < 3) {
+            return null;
+        }
+
         byte playState;
 
         switch (state) {
@@ -1143,7 +1147,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     @Override
     public byte[] encodeSetMusicInfo(String artist, String album, String track, int duration, int trackCount, int trackNr) {
         String[] parts = {artist, album, track};
-        if (duration == 0) {
+        if (duration == 0 || mFwMajor < 3) {
             return encodeMessage(ENDPOINT_MUSICCONTROL, MUSICCONTROL_SETMUSICINFO, 0, parts);
         } else {
             // Calculate length first

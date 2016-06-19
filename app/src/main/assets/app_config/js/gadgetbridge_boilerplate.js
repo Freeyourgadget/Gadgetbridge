@@ -139,6 +139,11 @@ function gbPebble() {
     this.ready = function() {
     }
 
+    this.showConfiguration = function() {
+        console.error("This watchapp doesn't support configuration");
+        GBjs.closeActivity();
+    }
+
     this.parseReturnedPebbleJS = function() {
         var str = document.getElementById('pastereturn').value;
         var needle = "pebblejs://close#";

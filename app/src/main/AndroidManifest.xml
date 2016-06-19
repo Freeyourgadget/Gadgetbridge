@@ -261,7 +261,9 @@
         </receiver>
 
         <activity
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
+            android:allowTaskReparenting="true"
+            android:clearTaskOnLaunch="true"
             android:name=".activities.ExternalPebbleJSActivity"
             android:label="@string/app_configure"
             android:parentActivityName=".activities.appmanager.AppManagerActivity">
