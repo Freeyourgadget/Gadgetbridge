@@ -80,7 +80,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
 
         YAxis yAxisRight = mChart.getAxisRight();
         yAxisRight.setDrawGridLines(false);
-        yAxisRight.setEnabled(supportsHeartrate());
+        yAxisRight.setEnabled(supportsHeartrate(getChartsHost().getDevice()));
         yAxisRight.setDrawLabels(true);
         yAxisRight.setDrawTopYLabelEntry(true);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
@@ -134,7 +134,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
         legendLabels.add(akDeepSleep.label);
         legendColors.add(akNotWorn.color);
         legendLabels.add(akNotWorn.label);
-        if (supportsHeartrate()) {
+        if (supportsHeartrate(getChartsHost().getDevice())) {
             legendColors.add(HEARTRATE_COLOR);
             legendLabels.add(HEARTRATE_LABEL);
         }

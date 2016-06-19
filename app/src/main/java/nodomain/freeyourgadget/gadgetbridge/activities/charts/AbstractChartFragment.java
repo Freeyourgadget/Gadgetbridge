@@ -82,7 +82,6 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         }
     };
     private boolean mChartDirty = true;
-    private boolean supportsHeartrateChart = true;
     private AsyncTask refreshTask;
 
     public boolean isChartDirty() {
@@ -91,8 +90,9 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
     public abstract String getTitle();
 
-    public boolean supportsHeartrate() {
-        return supportsHeartrateChart;
+    public boolean supportsHeartrate(GBDevice device) {
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        return coordinator != null && coordinator.supportsHeartRateMeasurement(device);
     }
 
     protected static final class ActivityConfig {
@@ -418,7 +418,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             int numEntries = samples.size();
             List<String> xLabels = new ArrayList<>(numEntries);
             List<BarEntry> activityEntries = new ArrayList<>(numEntries);
-            boolean hr = supportsHeartrate();
+            boolean hr = supportsHeartrate(gbDevice);
             List<Entry> heartrateEntries = hr ? new ArrayList<Entry>(numEntries) : null;
             List<Integer> colors = new ArrayList<>(numEntries); // this is kinda inefficient...
             int lastHrSampleIndex = -1;
