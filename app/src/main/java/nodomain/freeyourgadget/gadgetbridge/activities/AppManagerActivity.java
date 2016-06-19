@@ -194,9 +194,9 @@ public class AppManagerActivity extends GBActivity {
         if (!selectedApp.isConfigurable()) {
             menu.removeItem(R.id.appmanager_app_configure);
         }
-        if (mGBDevice != null && !mGBDevice.getFirmwareVersion().startsWith("v3")) {
-            menu.removeItem(R.id.appmanager_app_move_to_top);
-        }
+        //  if (mGBDevice != null && !mGBDevice.getFirmwareVersion().startsWith("v3")) {
+        menu.removeItem(R.id.appmanager_app_move_to_top);
+        //}
         menu.setHeaderTitle(selectedApp.getName());
     }
 
