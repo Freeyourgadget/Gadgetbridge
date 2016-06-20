@@ -18,7 +18,6 @@ import java.util.Random;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppManagement;
@@ -1739,7 +1738,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 id = buf.getInt();
             }
             byte action = buf.get();
-            if (action >= 0x01 && action <= 0x05) {
+            if (action >= 0x00 && action <= 0x05) {
                 GBDeviceEventNotificationControl devEvtNotificationControl = new GBDeviceEventNotificationControl();
                 devEvtNotificationControl.handle = id;
                 String caption = "undefined";
@@ -1769,6 +1768,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         icon_id = PebbleIconID.RESULT_MUTE;
                         break;
                     case 0x05:
+                    case 0x00:
                         boolean failed = true;
                         byte attribute_count = buf.get();
                         if (attribute_count > 0) {
@@ -1778,15 +1778,18 @@ public class PebbleProtocol extends GBDeviceProtocol {
                                 if (length > 64) length = 64;
                                 byte[] reply = new byte[length];
                                 buf.get(reply);
-                                // FIXME: this does not belong here, but we want at least check if there is no chance at all to send out the SMS later before we report success
-                                String phoneNumber = (String) GBApplication.getIDSenderLookup().lookup(id);
-                                //if (phoneNumber != null) {
+                                devEvtNotificationControl.phoneNumber = null;
+                                if (buf.remaining() > 1 && buf.get() == 0x0c) {
+                                    short phoneNumberLength = buf.getShort();
+                                    byte[] phoneNumberBytes = new byte[phoneNumberLength];
+                                    buf.get(phoneNumberBytes);
+                                    devEvtNotificationControl.phoneNumber = new String(phoneNumberBytes);
+                                }
                                 devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
                                 devEvtNotificationControl.reply = new String(reply);
                                 caption = "SENT";
                                 icon_id = PebbleIconID.RESULT_SENT;
                                 failed = false;
-                                //}
                             }
                         }
                         if (failed) {

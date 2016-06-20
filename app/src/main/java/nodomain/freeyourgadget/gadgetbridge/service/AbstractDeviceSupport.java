@@ -243,10 +243,12 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                 action = NotificationListener.ACTION_MUTE;
                 break;
             case REPLY:
-                String phoneNumber = (String) GBApplication.getIDSenderLookup().lookup(deviceEvent.handle);
-                if (phoneNumber != null) {
-                    LOG.info("got notfication reply for SMS from " + phoneNumber + " : " + deviceEvent.reply);
-                    SmsManager.getDefault().sendTextMessage(phoneNumber, null, deviceEvent.reply, null, null);
+                if (deviceEvent.phoneNumber == null) {
+                    deviceEvent.phoneNumber = (String) GBApplication.getIDSenderLookup().lookup(deviceEvent.handle);
+                }
+                if (deviceEvent.phoneNumber != null) {
+                    LOG.info("got notfication reply for SMS from " + deviceEvent.phoneNumber + " : " + deviceEvent.reply);
+                    SmsManager.getDefault().sendTextMessage(deviceEvent.phoneNumber, null, deviceEvent.reply, null, null);
                 } else {
                     LOG.info("got notfication reply for notification id " + deviceEvent.handle + " : " + deviceEvent.reply);
                     action = NotificationListener.ACTION_REPLY;
