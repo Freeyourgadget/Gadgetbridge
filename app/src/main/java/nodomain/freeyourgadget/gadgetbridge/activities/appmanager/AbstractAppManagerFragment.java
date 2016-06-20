@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,7 +39,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 
 public abstract class AbstractAppManagerFragment extends Fragment {
@@ -68,9 +66,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (action.equals(GBApplication.ACTION_QUIT)) {
-                //   finish();
-            } else if (action.equals(ACTION_REFRESH_APPLIST)) {
+            if (action.equals(ACTION_REFRESH_APPLIST)) {
                 if (intent.hasExtra("app_count")) {
                     int appCount = intent.getIntExtra("app_count", 0);
                     for (Integer i = 0; i < appCount; i++) {
@@ -102,8 +98,6 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             }
         }
     };
-
-    private Prefs prefs;
 
     protected final List<GBDeviceApp> appList = new ArrayList<>();
     private GBDeviceAppAdapter mGBDeviceAppAdapter;
@@ -207,21 +201,16 @@ public abstract class AbstractAppManagerFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         mGBDevice = ((AppManagerActivity) getActivity()).getGBDevice();
-
-        prefs = GBApplication.getPrefs();
-
-        refreshList();
         IntentFilter filter = new IntentFilter();
-        filter.addAction(GBApplication.ACTION_QUIT);
         filter.addAction(ACTION_REFRESH_APPLIST);
 
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(mReceiver, filter);
 
         GBApplication.deviceService().onAppInfoReq();
-
-        super.onCreate(savedInstanceState);
+        refreshList();
     }
 
     @Override
@@ -252,7 +241,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
     }
 
     protected void sendOrderToDevice(String concatFilename) {
-        ArrayList<UUID> uuids = new ArrayList<UUID>();
+        ArrayList<UUID> uuids = new ArrayList<>();
         for (GBDeviceApp gbDeviceApp : mGBDeviceAppAdapter.getItemList()) {
             uuids.add(gbDeviceApp.getUUID());
         }
@@ -261,17 +250,6 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             uuids.addAll(concatUuids);
         }
         GBApplication.deviceService().onAppReorder(uuids.toArray(new UUID[uuids.size()]));
-    }
-
-    private void removeAppFromList(UUID uuid) {
-        for (final ListIterator<GBDeviceApp> iter = appList.listIterator(); iter.hasNext(); ) {
-            final GBDeviceApp app = iter.next();
-            if (app.getUUID().equals(uuid)) {
-                iter.remove();
-                mGBDeviceAppAdapter.notifyDataSetChanged();
-                break;
-            }
-        }
     }
 
     public boolean openPopupMenu(View view, int position) {
@@ -288,7 +266,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             menu.removeItem(R.id.appmanager_health_activate);
             menu.removeItem(R.id.appmanager_health_deactivate);
         }
-        if (selectedApp.getType() == GBDeviceApp.Type.APP_SYSTEM) {
+        if (selectedApp.getType() == GBDeviceApp.Type.APP_SYSTEM || selectedApp.getType() == GBDeviceApp.Type.WATCHFACE_SYSTEM) {
             menu.removeItem(R.id.appmanager_app_delete);
         }
         if (!selectedApp.isConfigurable()) {
@@ -361,7 +339,6 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                 return super.onContextItemSelected(item);
         }
     }
-
 
     @Override
     public void onDestroy() {
