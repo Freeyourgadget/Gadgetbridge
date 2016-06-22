@@ -114,7 +114,7 @@
     <string name="miband_prefs_fitness_goal">Napi céllépésszám</string>
 
     <string name="miband_prefs_hr_sleep_detection">Pulzus szenzor használata az alvás érzékelés javításához</string>
-    <string name="miband_prefs_reserve_alarm_calendar"></string>
+    <string name="miband_prefs_reserve_alarm_calendar">Naptári események számára fentartott riasztások száma</string>
     <string name="miband_prefs_vibration">Rezgés</string>
     <string name="miband_prefs_wearside">Melyik kezeden hordod?</string>
     <string name="n_a">N/A</string>
@@ -148,7 +148,6 @@
     <string name="pref_screen_notification_profile_sms">SMS értesítés</string>
     <string name="pref_screen_vibration_profile">Rezgés profil</string>
     <string name="pref_summary_datetime_syctimeonconnect">Idő szinkronizálása csatlakozásnál és Android idő- vagy időzónaváltoztatásnál.</string>
-    <string name="pref_summary_enable_pebblekit"></string>
     <string name="pref_summary_keep_data_on_device">Az adatokat a Mi Band-en fogja tárolni szinkronizálás után is. Hasznos, ha a GadgetBridge-et együtt használod más alkalmazásokkal.</string>
     <string name="pref_summary_low_latency_fw_update">Ez segíthet, ha a firmware frissítés sikertelen.</string>
     <string name="pref_summary_notification_filter">Értesítések tiltása a Ne zavarj üzemmód használatakor.</string>
@@ -167,7 +166,6 @@
     <string name="pref_title_general_autoconnectonbluetooth">Kapcsolódjon az eszközhöz a Bluetooth bekapcsolásakor</string>
     <string name="pref_title_general_autocreonnect">Újracsatlakozás automatikusan</string>
     <string name="pref_title_keep_data_on_device">Aktivitásadatok eszközön hagyása</string>
-    <string name="pref_title_dont_ack_transfer"></string>
     <string name="pref_title_location_aquire">Földrajzi hely</string>
     <string name="pref_title_location_latitude">Szélesség</string>
     <string name="pref_title_location_longitude">Hosszúság</string>
@@ -239,4 +237,8 @@
     <string name="weeksteps_today_steps_description">Lépések ma, cél: %1$s</string>
     <string name="weekstepschart_steps_a_week">Lépések a héten</string>
     <string name="when_screen_off">amikor a kijelző ki van kapcsolva</string>
+    <string name="app_move_to_top">A tetejére mozgatás</string>
+    <string name="pref_summary_enable_pebblekit">Kísérleti támogatás engedélyezése az Android alkalmazások számára a PebbleKit használatára</string>
+    <string name="pref_summary_dont_ack_transfers">Az aktivitás adatok a band-en maradnak. Hasznos, ha a GB-t más alkalamzásokkal együtt használod.</string>
+    <string name="pref_title_dont_ack_transfer">Hagyja az aktivitási adatokat a készüléken</string>
 </resources>
