@@ -655,16 +655,18 @@ public class PebbleIoThread extends GBDeviceIoThread {
             GB.updateInstallNotification(getContext().getString(R.string.installation_failed_), false, 0, getContext());
         } else {
             GB.updateInstallNotification(getContext().getString(R.string.installation_successful), false, 0, getContext());
-            String filenameSuffix;
-            if (mCurrentlyInstallingApp != null) {
-                if (mCurrentlyInstallingApp.getType() == GBDeviceApp.Type.WATCHFACE) {
-                    filenameSuffix = ".watchfaces";
-                } else {
-                    filenameSuffix = ".watchapps";
+            if (mPebbleProtocol.mFwMajor >= 3) {
+                String filenameSuffix;
+                if (mCurrentlyInstallingApp != null) {
+                    if (mCurrentlyInstallingApp.getType() == GBDeviceApp.Type.WATCHFACE) {
+                        filenameSuffix = ".watchfaces";
+                    } else {
+                        filenameSuffix = ".watchapps";
+                    }
+                    AppManagerActivity.addToAppOrderFile(gbDevice.getAddress() + filenameSuffix, mCurrentlyInstallingApp.getUUID());
+                    Intent refreshIntent = new Intent(AbstractAppManagerFragment.ACTION_REFRESH_APPLIST);
+                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(refreshIntent);
                 }
-                AppManagerActivity.addToAppOrderFile(gbDevice.getAddress() + filenameSuffix, mCurrentlyInstallingApp.getUUID());
-                Intent refreshIntent = new Intent(AbstractAppManagerFragment.ACTION_REFRESH_APPLIST);
-                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(refreshIntent);
             }
         }
         mInstallState = PebbleAppInstallState.UNKNOWN;

@@ -27,7 +27,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -47,13 +46,13 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             = "nodomain.freeyourgadget.gadgetbridge.appmanager.action.refresh_applist";
     private static final Logger LOG = LoggerFactory.getLogger(AbstractAppManagerFragment.class);
 
+    protected abstract void refreshList();
 
-    protected void refreshList() {
-    }
+    protected abstract String getSortFilename();
 
-    protected String getSortFilename() {
-        return null;
-    }
+    protected abstract boolean isCacheManager();
+
+    protected abstract boolean filterApp(GBDeviceApp gbDeviceApp);
 
     protected void onChangedAppOrder() {
         List<UUID> uuidList = new ArrayList<>();
@@ -63,36 +62,35 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         AppManagerActivity.rewriteAppOrderFile(getSortFilename(), uuidList);
     }
 
+    private void refreshListFromPebble(Intent intent) {
+        appList.clear();
+        int appCount = intent.getIntExtra("app_count", 0);
+        for (Integer i = 0; i < appCount; i++) {
+            String appName = intent.getStringExtra("app_name" + i.toString());
+            String appCreator = intent.getStringExtra("app_creator" + i.toString());
+            UUID uuid = UUID.fromString(intent.getStringExtra("app_uuid" + i.toString()));
+            GBDeviceApp.Type appType = GBDeviceApp.Type.values()[intent.getIntExtra("app_type" + i.toString(), 0)];
+
+            GBDeviceApp app = new GBDeviceApp(uuid, appName, appCreator, "", appType);
+            app.setOnDevice(true);
+            if (filterApp(app)) {
+                appList.add(app);
+            }
+        }
+    }
+
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (action.equals(ACTION_REFRESH_APPLIST)) {
                 if (intent.hasExtra("app_count")) {
-                    int appCount = intent.getIntExtra("app_count", 0);
-                    for (Integer i = 0; i < appCount; i++) {
-                        String appName = intent.getStringExtra("app_name" + i.toString());
-                        String appCreator = intent.getStringExtra("app_creator" + i.toString());
-                        UUID uuid = UUID.fromString(intent.getStringExtra("app_uuid" + i.toString()));
-                        GBDeviceApp.Type appType = GBDeviceApp.Type.values()[intent.getIntExtra("app_type" + i.toString(), 0)];
-
-                        boolean found = false;
-                        for (final ListIterator<GBDeviceApp> iter = appList.listIterator(); iter.hasNext(); ) {
-                            final GBDeviceApp app = iter.next();
-                            if (app.getUUID().equals(uuid)) {
-                                app.setOnDevice(true);
-                                iter.set(app);
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            GBDeviceApp app = new GBDeviceApp(uuid, appName, appCreator, "", appType);
-                            app.setOnDevice(true);
-                            appList.add(app);
-                        }
+                    LOG.info("got app info from pebble");
+                    if (!isCacheManager()) {
+                        LOG.info("will refresh list based on data from pebble");
+                        refreshListFromPebble(intent);
                     }
-                } else {
+                } else if (PebbleUtils.getFwMajor(mGBDevice.getFirmwareVersion()) >= 3 || isCacheManager()) {
                     refreshList();
                 }
                 mGBDeviceAppAdapter.notifyDataSetChanged();
@@ -100,6 +98,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         }
     };
 
+    private DragListView appListView;
     protected final List<GBDeviceApp> appList = new ArrayList<>();
     private GBDeviceAppAdapter mGBDeviceAppAdapter;
     protected GBDevice mGBDevice = null;
@@ -205,13 +204,24 @@ public abstract class AbstractAppManagerFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mGBDevice = ((AppManagerActivity) getActivity()).getGBDevice();
+
+        if (PebbleUtils.getFwMajor(mGBDevice.getFirmwareVersion()) < 3 && !isCacheManager()) {
+            appListView.setDragEnabled(false);
+        }
+
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_REFRESH_APPLIST);
 
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(mReceiver, filter);
 
-        GBApplication.deviceService().onAppInfoReq();
-        refreshList();
+        if (PebbleUtils.getFwMajor(mGBDevice.getFirmwareVersion()) < 3) {
+            GBApplication.deviceService().onAppInfoReq();
+            if (isCacheManager()) {
+                refreshList();
+            }
+        } else {
+            refreshList();
+        }
     }
 
     @Override
@@ -219,7 +229,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.activity_appmanager, container, false);
 
-        DragListView appListView = (DragListView) (rootView.findViewById(R.id.appListView));
+        appListView = (DragListView) (rootView.findViewById(R.id.appListView));
         appListView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mGBDeviceAppAdapter = new GBDeviceAppAdapter(appList, R.layout.item_with_details, R.id.item_image, this.getContext(), this);
         appListView.setAdapter(mGBDeviceAppAdapter, false);
@@ -311,10 +321,12 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                 AppManagerActivity.deleteFromAppOrderFile("pbwcacheorder.txt", selectedApp.getUUID()); // FIXME: only if successful
                 // fall through
             case R.id.appmanager_app_delete:
-                AppManagerActivity.deleteFromAppOrderFile(mGBDevice.getAddress() + ".watchapps", selectedApp.getUUID()); // FIXME: only if successful
-                AppManagerActivity.deleteFromAppOrderFile(mGBDevice.getAddress() + ".watchfaces", selectedApp.getUUID()); // FIXME: only if successful
-                Intent refreshIntent = new Intent(AbstractAppManagerFragment.ACTION_REFRESH_APPLIST);
-                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(refreshIntent);
+                if (PebbleUtils.getFwMajor(mGBDevice.getFirmwareVersion()) >= 3) {
+                    AppManagerActivity.deleteFromAppOrderFile(mGBDevice.getAddress() + ".watchapps", selectedApp.getUUID()); // FIXME: only if successful
+                    AppManagerActivity.deleteFromAppOrderFile(mGBDevice.getAddress() + ".watchfaces", selectedApp.getUUID()); // FIXME: only if successful
+                    Intent refreshIntent = new Intent(AbstractAppManagerFragment.ACTION_REFRESH_APPLIST);
+                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(refreshIntent);
+                }
                 GBApplication.deviceService().onAppDelete(selectedApp.getUUID());
                 return true;
             case R.id.appmanager_app_reinstall:
