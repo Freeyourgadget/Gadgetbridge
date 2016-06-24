@@ -2099,7 +2099,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
                 versionCmd.fwVersion = new String(tmp).trim();
 
-                mFwMajor = versionCmd.fwVersion.charAt(1);
+                mFwMajor = versionCmd.fwVersion.charAt(1) - 48;
+                LOG.info("Pebble firmware major detected as " + mFwMajor);
 
                 buf.get(tmp, 0, 9);
                 int hwRev = buf.get() + 8;
