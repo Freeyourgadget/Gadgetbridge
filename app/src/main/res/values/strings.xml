@@ -67,8 +67,11 @@
 
     <string name="pref_blacklist">Blacklist Apps</string>
 
-    <string name="pref_title_canned_replies">Canned Replies</string>
+    <string name="pref_header_cannned_messages">Canned Messages</string>
+    <string name="pref_title_canned_replies">Replies</string>
     <string name="pref_title_canned_reply_suffix">Common suffix</string>
+    <string name="pref_title_canned_messages_dismisscall">Call Dismissal</string>
+    <string name="pref_title_canned_messages_set">Update on Pebble</string>
 
     <string name="pref_header_development">Developer Options</string>
     <string name="pref_title_development_miaddr">Mi Band address</string>

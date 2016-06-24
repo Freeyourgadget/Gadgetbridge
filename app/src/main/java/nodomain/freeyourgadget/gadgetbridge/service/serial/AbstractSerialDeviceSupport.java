@@ -1,8 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.service.serial;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
@@ -10,6 +7,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.devices.EventHandler;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -29,9 +27,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
  * to create the device specific message for the respective events and sends them to the device via {@link #sendToDevice(byte[])}.
  */
 public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport {
-
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractDeviceSupport.class);
-
     protected GBDeviceProtocol gbDeviceProtocol;
     protected GBDeviceIoThread gbDeviceIOThread;
 
@@ -121,6 +116,12 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     @Override
     public void onSetCallState(CallSpec callSpec) {
         byte[] bytes = gbDeviceProtocol.encodeSetCallState(callSpec.number, callSpec.name, callSpec.command);
+        sendToDevice(bytes);
+    }
+
+    @Override
+    public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
+        byte[] bytes = gbDeviceProtocol.encodeSetCannedMessages(cannedMessagesSpec);
         sendToDevice(bytes);
     }
 

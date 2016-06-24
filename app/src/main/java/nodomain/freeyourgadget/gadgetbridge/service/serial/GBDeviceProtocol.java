@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 
 public abstract class GBDeviceProtocol {
@@ -17,6 +18,10 @@ public abstract class GBDeviceProtocol {
     }
 
     public byte[] encodeSetCallState(String number, String name, int command) {
+        return null;
+    }
+
+    public byte[] encodeSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
         return null;
     }
 
