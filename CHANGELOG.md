@@ -1,6 +1,11 @@
 ###Changelog
 
 
+####Version 0.11.0
+* Pebble: new App Manager (keeps track of installed apps and allows app sorting on FW 3.x)
+* Pebble: call dismissal with canned SMS (FW 3.x)
+* Pebble: fix regression with FW 2.x (almost everything was broken in 0.10.2)
+
 ####Version 0.10.2
 * Pebble: allow to manually paste configuration data for legacy configuration pages
 * Pebble: various improvements to the configuration page
