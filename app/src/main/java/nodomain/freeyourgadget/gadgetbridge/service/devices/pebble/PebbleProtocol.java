@@ -35,6 +35,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
@@ -85,7 +86,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final byte BLOBDB_APP = 2;
     static final byte BLOBDB_REMINDER = 3;
     static final byte BLOBDB_NOTIFICATION = 4;
+    static final byte BLOBDB_CANNED_MESSAGES = 6;
     static final byte BLOBDB_PREFERENCES = 7;
+    static final byte BLOBDB_APPGLANCE = 11;
+
     static final byte BLOBDB_SUCCESS = 1;
     static final byte BLOBDB_GENERALFAILURE = 2;
     static final byte BLOBDB_INVALIDOPERATION = 3;
@@ -1316,6 +1320,53 @@ public class PebbleProtocol extends GBDeviceProtocol {
         }
 
         return buf.array();
+    }
+
+    @Override
+    public byte[] encodeSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
+
+        if (cannedMessagesSpec.cannedMessages == null || cannedMessagesSpec.cannedMessages.length == 0) {
+            return null;
+        }
+
+        String blobDBKey;
+        switch (cannedMessagesSpec.type) {
+            case CannedMessagesSpec.TYPE_MISSEDCALLS:
+                blobDBKey = "com.pebble.android.phone";
+                break;
+            case CannedMessagesSpec.TYPE_NEWSMS:
+                blobDBKey = "com.pebble.sendText";
+                break;
+            default:
+                return null;
+        }
+
+        int replies_length = -1;
+
+        for (String reply : cannedMessagesSpec.cannedMessages) {
+            replies_length += reply.getBytes().length + 1;
+        }
+
+        ByteBuffer buf = ByteBuffer.allocate(12 + replies_length);
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        buf.putInt(0x00000000); // unknown
+        buf.put((byte) 0x00); // atributes count?
+        buf.put((byte) 0x01); // actions count?
+
+        // action
+        buf.put((byte) 0x00); // action id
+        buf.put((byte) 0x03); // action type = reply
+        buf.put((byte) 0x01); // attributes count
+        buf.put((byte) 0x08); // canned messages
+        buf.putShort((short) replies_length);
+        for (int i = 0; i < cannedMessagesSpec.cannedMessages.length - 1; i++) {
+            buf.put(cannedMessagesSpec.cannedMessages[i].getBytes());
+            buf.put((byte) 0x00);
+        }
+        // last one must not be zero terminated, else we get an additional empty reply
+        buf.put(cannedMessagesSpec.cannedMessages[cannedMessagesSpec.cannedMessages.length - 1].getBytes());
+
+        return encodeBlobdb(blobDBKey, BLOBDB_INSERT, BLOBDB_CANNED_MESSAGES, buf.array());
     }
 
     /* pebble specific install methods */

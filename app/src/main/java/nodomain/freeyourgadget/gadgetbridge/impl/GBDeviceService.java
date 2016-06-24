@@ -12,6 +12,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
@@ -30,8 +31,7 @@ public class GBDeviceService implements DeviceService {
     }
 
     protected Intent createIntent() {
-        Intent startIntent = new Intent(mContext, mServiceClass);
-        return startIntent;
+        return new Intent(mContext, mServiceClass);
     }
 
     protected void invokeService(Intent intent) {
@@ -125,6 +125,14 @@ public class GBDeviceService implements DeviceService {
         Intent intent = createIntent().setAction(ACTION_CALLSTATE)
                 .putExtra(EXTRA_CALL_PHONENUMBER, callSpec.number)
                 .putExtra(EXTRA_CALL_COMMAND, callSpec.command);
+        invokeService(intent);
+    }
+
+    @Override
+    public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
+        Intent intent = createIntent().setAction(ACTION_SETCANNEDMESSAGES)
+                .putExtra(EXTRA_CANNEDMESSAGES_TYPE, cannedMessagesSpec.type)
+                .putExtra(EXTRA_CANNEDMESSAGES, cannedMessagesSpec.cannedMessages);
         invokeService(intent);
     }
 

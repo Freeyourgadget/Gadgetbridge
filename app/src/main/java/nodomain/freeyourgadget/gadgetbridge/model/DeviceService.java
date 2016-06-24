@@ -16,6 +16,7 @@ public interface DeviceService extends EventHandler {
     String ACTION_CONNECT = PREFIX + ".action.connect";
     String ACTION_NOTIFICATION = PREFIX + ".action.notification";
     String ACTION_CALLSTATE = PREFIX + ".action.callstate";
+    String ACTION_SETCANNEDMESSAGES = PREFIX + ".action.setcannedmessages";
     String ACTION_SETTIME = PREFIX + ".action.settime";
     String ACTION_SETMUSICINFO = PREFIX + ".action.setmusicinfo";
     String ACTION_SETMUSICSTATE = PREFIX + ".action.setmusicstate";
@@ -53,6 +54,8 @@ public interface DeviceService extends EventHandler {
     String EXTRA_FIND_START = "find_start";
     String EXTRA_CALL_COMMAND = "call_command";
     String EXTRA_CALL_PHONENUMBER = "call_phonenumber";
+    String EXTRA_CANNEDMESSAGES = "cannedmessages";
+    String EXTRA_CANNEDMESSAGES_TYPE = "cannedmessages_type";
     String EXTRA_MUSIC_ARTIST = "music_artist";
     String EXTRA_MUSIC_ALBUM = "music_album";
     String EXTRA_MUSIC_TRACK = "music_track";

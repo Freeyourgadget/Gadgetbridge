@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,8 +29,10 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
+import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_HEIGHT_CM;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_SLEEP_DURATION;
@@ -155,6 +158,25 @@ public class SettingsActivity extends AbstractSettingsActivity {
             }
         });
 
+        pref = findPreference("canned_messages_dismisscall_send");
+        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                Prefs prefs = GBApplication.getPrefs();
+                ArrayList<String> messages = new ArrayList<>();
+                for (int i = 1; i <= 16; i++) {
+                    String message = prefs.getString("canned_message_dismisscall_" + i, null);
+                    if (message != null && !message.equals("")) {
+                        messages.add(message);
+                    }
+                }
+                CannedMessagesSpec cannedMessagesSpec = new CannedMessagesSpec();
+                cannedMessagesSpec.type = CannedMessagesSpec.TYPE_MISSEDCALLS;
+                cannedMessagesSpec.cannedMessages = messages.toArray(new String[messages.size()]);
+                GBApplication.deviceService().onSetCannedMessages(cannedMessagesSpec);
+                return true;
+            }
+        });
+
         // Get all receivers of Media Buttons
         Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
 
@@ -206,6 +228,22 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 "canned_reply_14",
                 "canned_reply_15",
                 "canned_reply_16",
+                "canned_message_dismisscall_1",
+                "canned_message_dismisscall_2",
+                "canned_message_dismisscall_3",
+                "canned_message_dismisscall_4",
+                "canned_message_dismisscall_5",
+                "canned_message_dismisscall_6",
+                "canned_message_dismisscall_7",
+                "canned_message_dismisscall_8",
+                "canned_message_dismisscall_9",
+                "canned_message_dismisscall_10",
+                "canned_message_dismisscall_11",
+                "canned_message_dismisscall_12",
+                "canned_message_dismisscall_13",
+                "canned_message_dismisscall_14",
+                "canned_message_dismisscall_15",
+                "canned_message_dismisscall_16",
                 PREF_USER_YEAR_OF_BIRTH,
                 PREF_USER_HEIGHT_CM,
                 PREF_USER_WEIGHT_KG,
