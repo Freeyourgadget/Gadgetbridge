@@ -21,6 +21,11 @@ public class AppManagerFragmentInstalledWatchfaces extends AbstractAppManagerFra
     }
 
     @Override
+    protected boolean isCacheManager() {
+        return false;
+    }
+
+    @Override
     protected String getSortFilename() {
         return mGBDevice.getAddress() + ".watchfaces";
     }
@@ -29,5 +34,13 @@ public class AppManagerFragmentInstalledWatchfaces extends AbstractAppManagerFra
     protected void onChangedAppOrder() {
         super.onChangedAppOrder();
         sendOrderToDevice(mGBDevice.getAddress() + ".watchapps");
+    }
+
+    @Override
+    protected boolean filterApp(GBDeviceApp gbDeviceApp) {
+        if (gbDeviceApp.getType() == GBDeviceApp.Type.WATCHFACE) {
+            return true;
+        }
+        return false;
     }
 }

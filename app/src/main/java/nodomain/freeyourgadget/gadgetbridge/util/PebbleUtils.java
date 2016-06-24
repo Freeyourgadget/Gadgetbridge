@@ -29,4 +29,8 @@ public class PebbleUtils {
         }
         return model;
     }
+
+    public static int getFwMajor(String fwString) {
+        return fwString.charAt(1) - 48;
+    }
 }
