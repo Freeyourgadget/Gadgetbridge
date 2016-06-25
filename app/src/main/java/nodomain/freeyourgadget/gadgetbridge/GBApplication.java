@@ -120,12 +120,13 @@ public class GBApplication extends Application {
 
         setupExceptionHandler();
 
+        GB.environment = GBEnvironment.createDeviceEnvironment();
+
         setupDatabase(this);
 
         deviceManager = new DeviceManager(this);
 
         deviceService = createDeviceService();
-        GB.environment = GBEnvironment.createDeviceEnvironment();
 //        mActivityDatabaseHandler = new ActivityDatabaseHandler(context);
         loadBlackList();
 
