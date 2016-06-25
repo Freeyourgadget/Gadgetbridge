@@ -278,4 +278,7 @@
     <string name="updatefirmwareoperation_firmware_not_sent">Firmware not sent</string>
     <string name="charts_legend_heartrate">Heart Rate</string>
     <string name="live_activity_heart_rate">Heart Rate</string>
+    <string name="appmanager_cached_watchapps_watchfaces">Apps in cache</string>
+    <string name="appmanager_installed_watchapps">Installed apps</string>
+    <string name="appmanager_installed_watchfaces">Installed watchfaces</string>
 </resources>
