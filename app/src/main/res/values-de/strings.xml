@@ -37,6 +37,7 @@
   <string name="pref_title_theme">Thema</string>
   <string name="pref_theme_light">Hell</string>
   <string name="pref_theme_dark">Dunkel</string>
+  <string name="pref_title_language">Sprache</string>
   <string name="pref_header_notifications">Benachrichtigungen</string>
   <string name="pref_title_notifications_repetitions">Wiederholungen</string>
   <string name="pref_title_notifications_call">Anrufe</string>
@@ -52,12 +53,15 @@
   <string name="when_screen_off">wenn der Bildschirm aus ist</string>
   <string name="never">niemals</string>
   <string name="pref_blacklist">Sperre für Apps</string>
-  <string name="pref_title_canned_replies">Vorgefertigte Antworten</string>
   <string name="pref_title_canned_reply_suffix">Gemeinsame Endung</string>
   <string name="pref_header_development">Entwickleroptionen</string>
   <string name="pref_title_development_miaddr">Mi Band MAC Adresse</string>
   <string name="pref_title_pebble_settings">Pebble Einstellungen</string>
+  <string name="pref_header_activitytrackers">Aktivitätstracker</string>
   <string name="pref_title_pebble_activitytracker">Bevorzugter Aktivitätstracker</string>
+  <string name="pref_title_pebble_sync_health">Pebble Health synchronisieren</string>
+  <string name="pref_title_pebble_sync_misfit">Misfit synchronisieren</string>
+  <string name="pref_title_pebble_sync_morpheuz">Morpheuz synchronisieren</string>
   <string name="pref_title_enable_pebblekit">Erlaube Zugriff von anderen Android Apps</string>
   <string name="pref_summary_enable_pebblekit">Experimentelle Unterstützung für Android Apps, die PebbleKit benutzen</string>
   <string name="pref_title_sunrise_sunset">Sonnenauf- und -untergang </string>
@@ -214,6 +218,7 @@
   <string name="fwinstaller_firmware_not_compatible_to_device">Diese Firmware ist nicht mit dem Gerät kompatibel</string>
   <string name="miband_prefs_reserve_alarm_calendar">Wecker für zukünftige Ereignisse vormerken</string>
   <string name="miband_prefs_hr_sleep_detection">Verwende den Herzfrequenzsensor um die Schlaferkennung zu verbessern</string>
+  <string name="miband_prefs_device_time_offset_hours">Zeitausgleich in Stunden (um den Schlaf von Schichtarbeitern zu erkennen)</string>
   <string name="waiting_for_reconnect">warte auf Verbindung</string>
   <string name="appmananger_app_reinstall">Erneut installieren</string>
   <string name="activity_prefs_about_you">Über Dich</string>
@@ -223,9 +228,10 @@
   <string name="activity_prefs_weight_kg">Gewicht in kg</string>
   <string name="appmanager_health_activate">aktivieren</string>
   <string name="appmanager_health_deactivate">deaktivieren</string>
+  <string name="app_configure">Konfigurieren</string>
+  <string name="app_move_to_top">Nach oben</string>
   <string name="authenticating">Authentifiziere</string>
   <string name="authentication_required">Authentifizierung erforderlich</string>
-  <string name="app_configure">Konfigurieren</string>
   <string name="appwidget_text">Zzz</string>
   <string name="add_widget">Widget hinzufügen</string>
   <string name="activity_prefs_sleep_duration">Gewünschte Schlafdauer in Stunden</string>

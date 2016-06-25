@@ -45,7 +45,6 @@
   <string name="when_screen_off">quand l\'écran est éteint</string>
   <string name="never">jamais</string>
   <string name="pref_blacklist">Apps bloquées</string>
-  <string name="pref_title_canned_replies">Modèles de réponses</string>
   <string name="pref_title_canned_reply_suffix">Suffixe commun</string>
   <string name="pref_header_development">Options développeur</string>
   <string name="pref_title_development_miaddr">Adresse Mi Band</string>
@@ -206,9 +205,9 @@
   <string name="activity_prefs_weight_kg">Poids en kg</string>
   <string name="appmanager_health_activate">Activer</string>
   <string name="appmanager_health_deactivate">Désactiver</string>
+  <string name="app_configure">Configurer</string>
   <string name="authenticating">authentification</string>
   <string name="authentication_required">authentification requise</string>
-  <string name="app_configure">Configurer</string>
   <string name="appwidget_text">ZzZz</string>
   <string name="add_widget">Ajouter un widget</string>
   <string name="activity_prefs_sleep_duration">Préférer le mode heure pendant le sommeil</string>

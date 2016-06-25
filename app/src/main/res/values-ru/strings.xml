@@ -44,7 +44,6 @@
   <string name="when_screen_off">когда экран выключен</string>
   <string name="never">никогда</string>
   <string name="pref_blacklist">Нежелательные приложения</string>
-  <string name="pref_title_canned_replies">Типовые ответы</string>
   <string name="pref_title_canned_reply_suffix">Общий суффикс</string>
   <string name="pref_header_development">Настройки для разработчиков</string>
   <string name="pref_title_development_miaddr">Адрес Mi Band</string>

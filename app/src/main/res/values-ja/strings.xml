@@ -53,8 +53,11 @@
   <string name="when_screen_off">スクリーンがオフのとき</string>
   <string name="never">なし</string>
   <string name="pref_blacklist">アップのブラックリスト</string>
-  <string name="pref_title_canned_replies">定型の返信</string>
+  <string name="pref_header_cannned_messages">定型のメッセージ</string>
+  <string name="pref_title_canned_replies">返信</string>
   <string name="pref_title_canned_reply_suffix">共通の接尾語</string>
+  <string name="pref_title_canned_messages_dismisscall">着信拒否</string>
+  <string name="pref_title_canned_messages_set">Pebble で更新</string>
   <string name="pref_header_development">開発者用設定</string>
   <string name="pref_title_development_miaddr">Mi Bandのアドレス</string>
   <string name="pref_title_pebble_settings">Pebbleの設定</string>
@@ -229,9 +232,10 @@
   <string name="activity_prefs_weight_kg">体重（kg）</string>
   <string name="appmanager_health_activate">アクティベート</string>
   <string name="appmanager_health_deactivate">非アクティベート</string>
+  <string name="app_configure">設定</string>
+  <string name="app_move_to_top">先頭に移動</string>
   <string name="authenticating">認証中</string>
   <string name="authentication_required">認証が必要</string>
-  <string name="app_configure">設定</string>
   <string name="appwidget_text">Zzz</string>
   <string name="add_widget">ウィジェットを追加</string>
   <string name="activity_prefs_sleep_duration">好ましい睡眠時間（時間）</string>
