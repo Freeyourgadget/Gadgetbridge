@@ -210,9 +210,9 @@
   <string name="activity_prefs_weight_kg">몸무게 (kg)</string>
   <string name="appmanager_health_activate">활성화</string>
   <string name="appmanager_health_deactivate">비활성화</string>
+  <string name="app_configure">설정</string>
   <string name="authenticating">인증 중</string>
   <string name="authentication_required">인증 필요</string>
-  <string name="app_configure">설정</string>
   <string name="appwidget_text">Zzz</string>
   <string name="add_widget">위젯 추가</string>
   <string name="activity_prefs_sleep_duration">선호하는 수면 시간</string>

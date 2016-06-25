@@ -14,11 +14,13 @@
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">Gestor de app</string>
   <string name="appmananger_app_delete">Borrar</string>
+  <string name="appmananger_app_delete_cache">Borrar y quitar de la caché</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Lista negra de notificaciones</string>
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">Instalador de FW/App</string>
   <string name="fw_upgrade_notice">Estás a punto de instalar el firmware %s en lugar del que está en tu MiBand.</string>
+  <string name="fw_multi_upgrade_notice">Estás a punto de instalar los firmwares %1$s y %2$s en lugar de los que están en tu MiBand.</string>
   <string name="miband_firmware_known">Este firmware ha sido probado y se sabe que es compatible con Gadgetbridge.</string>
   <string name="miband_firmware_unknown_warning">Este firmware no ha sido probado y puede no sea compatible con Gadgetbridge.\n\nNO se recomienda la instalación en tu MiBand!.</string>
   <string name="miband_firmware_suggest_whitelist">Si aún así quieres seguir y las cosas continúan funcionando correctamente después de esto, por favor indícales a los desarrolladores de Gadgetbridge que la versión del firmware: %s funciona bien.</string>
@@ -26,11 +28,16 @@
   <string name="title_activity_settings">Ajustes</string>
   <string name="pref_header_general">Ajustes generales</string>
   <string name="pref_title_general_autoconnectonbluetooth">Conectarse al dispositivo cuando el Bluetooth esté activado</string>
+  <string name="pref_title_general_autocreonnect">Reconectar automáticamente</string>
   <string name="pref_title_audo_player">Reproductor de audio preferido</string>
   <string name="pref_default">Predeterminado</string>
   <string name="pref_header_datetime">Fecha y hora</string>
   <string name="pref_title_datetime_syctimeonconnect">Sincronizar hora</string>
   <string name="pref_summary_datetime_syctimeonconnect">Sincroniza la hora en el dispositivo cuando se conecte o se cambie la hora o zona horaria en Android</string>
+  <string name="pref_title_theme">Tema</string>
+  <string name="pref_theme_light">Ligero</string>
+  <string name="pref_theme_dark">Oscuro</string>
+  <string name="pref_title_language">Lenguaje</string>
   <string name="pref_header_notifications">Notificaciones</string>
   <string name="pref_title_notifications_repetitions">Repeticiones</string>
   <string name="pref_title_notifications_call">Llamadas telefónicas</string>
@@ -40,18 +47,29 @@
   <string name="pref_summary_notifications_pebblemsg">Soporte para aplicaciones que envían notificaciones a Pebble a través de Intent. Puede ser usado por Conversations.</string>
   <string name="pref_title_notifications_generic">Soporte para notificaciones genéricas</string>
   <string name="pref_title_whenscreenon">… también con pantalla encendida</string>
+  <string name="pref_title_notification_filter">No Molestar</string>
+  <string name="pref_summary_notification_filter">Dejar de enviar Notificaciones no deseadas basándose en el modo No Molestar</string>
   <string name="always">siempre</string>
   <string name="when_screen_off">cuando la pantalla está apagada</string>
   <string name="never">nunca</string>
   <string name="pref_blacklist">Excluir aplicaciones</string>
-  <string name="pref_title_canned_replies">Respuestas enlatadas</string>
   <string name="pref_title_canned_reply_suffix">Sufijo habitual</string>
   <string name="pref_header_development">Opciones de desarrollador</string>
   <string name="pref_title_development_miaddr">Dirección de MiBand</string>
   <string name="pref_title_pebble_settings">Ajustes de Pebble</string>
+  <string name="pref_header_activitytrackers">Rastreadores de Actividad</string>
   <string name="pref_title_pebble_activitytracker">Rastreador de actividad preferido</string>
+  <string name="pref_title_pebble_sync_health">Sincronizar con Pebble Health</string>
+  <string name="pref_title_pebble_sync_misfit">Sincronizar con Misfit</string>
+  <string name="pref_title_pebble_sync_morpheuz">Sincronizar con Morpheuz</string>
   <string name="pref_title_enable_pebblekit">Permitir el acceso a aplicaciones Android de terceros</string>
   <string name="pref_summary_enable_pebblekit">Permitir el soporte experimental para aplicaciones Android que usan PebbleKit</string>
+  <string name="pref_title_sunrise_sunset">Salida y Puesta de Sol</string>
+  <string name="pref_summary_sunrise_sunset">Enviar los tiempos de Salida y Puesta del sol basándose en la localización a la línea cronológica del Pebble</string>
+  <string name="pref_header_location">Localización</string>
+  <string name="pref_title_location_aquire">Buscar localización</string>
+  <string name="pref_title_location_latitude">Latitud</string>
+  <string name="pref_title_location_longitude">Longitud</string>
   <string name="pref_title_pebble_forceprotocol">Forzar protocolo de notificación</string>
   <string name="pref_summary_pebble_forceprotocol">Esta opción fuerza el uso del último protocolo de notificación dependiendo de la versión de firmware. ¡HABILÍTALO SOLO SI SABES LO QUE ESTÁS HACIENDO!</string>
   <string name="pref_title_pebble_forceuntested">Habilitar características no probadas</string>
@@ -69,6 +87,9 @@
   <string name="this_is_a_test_notification_from_gadgetbridge">Notificación de prueba desde Gadgetbridge</string>
   <string name="bluetooth_is_not_supported_">Bluetooth no está soportado.</string>
   <string name="bluetooth_is_disabled_">Bluetooth está desactivado.</string>
+  <string name="tap_connected_device_for_app_mananger">Pulsa el dispositivo conectado para Gestión de App</string>
+  <string name="tap_connected_device_for_activity">Pulsa el dispositivo conectado para Actividad</string>
+  <string name="tap_a_device_to_connect">Pulsar un dispositivo para conectarlo</string>
   <string name="cannot_connect_bt_address_invalid_">No se puede conectar. ¿Dirección BT incorrecta?</string>
   <string name="gadgetbridge_running">Gadgetbridge funcionando</string>
   <string name="installing_binary_d_d">instalando binario %1$d/%2$d</string>
@@ -99,11 +120,13 @@
   <string name="miband_pairing_using_dummy_userdata">No se han proporcionado datos de usuario válidos, se usarán datos de usuario por defecto.</string>
   <string name="miband_pairing_tap_hint">Cuando tu MiBand vibre y parpadee, púlsala repetidas veces.</string>
   <string name="appinstaller_install">Instalar</string>
+  <string name="discovery_connected_devices_hint">Haz tu dispositivo detectable. Los dipositivos ya conectados es probable que no se encuentren. Si tu dispositivo no aparece en dos minutos, prueba de nuevo reiniciando tu móvil.</string>
   <string name="discovery_note">Nota:</string>
   <string name="candidate_item_device_image">Imagen del dispositivo</string>
   <string name="miband_prefs_alias">Nombre/Apodo</string>
   <string name="pref_header_vibration_count">Número de vibraciones</string>
   <string name="title_activity_sleepmonitor">Monitor de sueño</string>
+  <string name="pref_write_logfiles">Escribir archivos de registro</string>
   <string name="initializing">iniciando</string>
   <string name="busy_task_fetch_activity_data">Recuperando datos de actividad</string>
   <string name="sleep_activity_date_range">Desde %1$s a %2$s</string>
@@ -177,6 +200,8 @@
   <string name="pref_title_dont_ack_transfer">No confirmar transferencia</string>
   <string name="pref_summary_dont_ack_transfers">Si los datos no son marcados como descargados, no serán borrados de tu MiBand. Útil si Gadgetbridge se usa conjuntamente con otras apps.</string>
   <string name="pref_summary_keep_data_on_device">Mantendrá los datos de actividad en la MiBand incluso después de la sincronización. Útil si GB se usa junto con otras apps.</string>
+  <string name="pref_title_low_latency_fw_update">Usa el modo de baja latencia para las actualizaciones de FW</string>
+  <string name="pref_summary_low_latency_fw_update">Esto podría ayudar en dispositivos donde las actualizaciones de firmware fallan</string>
   <string name="live_activity_steps_history">Historial de pasos</string>
   <string name="live_activity_current_steps_per_minute">Pasos/min actuales</string>
   <string name="live_activity_total_steps">Pasos totales</string>
@@ -192,6 +217,8 @@
   <string name="miband_fwinstaller_incompatible_version">Firmware incompatible</string>
   <string name="fwinstaller_firmware_not_compatible_to_device">Este firmware no es compatible con tu dispositivo</string>
   <string name="miband_prefs_reserve_alarm_calendar">Reserva de alarmas para próximos eventos</string>
+  <string name="miband_prefs_hr_sleep_detection">Usar sensor de pulsaciones para mejorar la detección del sueño</string>
+  <string name="miband_prefs_device_time_offset_hours">Compensación de la hora del dispositivo en horas (para detectar el sueño de trabajadores a turnos)</string>
   <string name="waiting_for_reconnect">esperando reconexión</string>
   <string name="appmananger_app_reinstall">Reinstalar</string>
   <string name="activity_prefs_about_you">Sobre ti</string>
@@ -201,11 +228,20 @@
   <string name="activity_prefs_weight_kg">Peso (kg)</string>
   <string name="appmanager_health_activate">Activar</string>
   <string name="appmanager_health_deactivate">Desactivar</string>
+  <string name="app_configure">Configurar</string>
+  <string name="app_move_to_top">Mover a la parte de arriba</string>
   <string name="authenticating">autenticando</string>
   <string name="authentication_required">autenticación requerida</string>
-  <string name="app_configure">Configurar</string>
   <string name="appwidget_text">Zzz</string>
   <string name="add_widget">Añadir widget</string>
   <string name="activity_prefs_sleep_duration">Horas de sueño deseadas</string>
   <string name="appwidget_alarms_set">Una alarma ha sido fijada para %1$02d:%2$02d</string>
+  <string name="device_hw">HW: %1$s</string>
+  <string name="device_fw">FW: %1$s</string>
+  <string name="error_creating_directory_for_logfiles">Error creando un directorio para los archivos de registro: %1$s</string>
+  <string name="DEVINFO_HR_VER">HR: </string>
+  <string name="updatefirmwareoperation_update_in_progress">Actualización del Firmware en progreso</string>
+  <string name="updatefirmwareoperation_firmware_not_sent">Firmware no enviado</string>
+  <string name="charts_legend_heartrate">Pulsaciones</string>
+  <string name="live_activity_heart_rate">Pulsaciones</string>
 </resources>

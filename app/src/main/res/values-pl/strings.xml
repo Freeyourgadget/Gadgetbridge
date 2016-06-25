@@ -44,7 +44,6 @@
   <string name="when_screen_off">gdy ekran jest wyłączony</string>
   <string name="never">nigdy</string>
   <string name="pref_blacklist">Czarna lista aplikacji</string>
-  <string name="pref_title_canned_replies">Odrzucone odpowiedzi</string>
   <string name="pref_header_development">Ustawienia programisty</string>
   <string name="pref_title_development_miaddr">Adres Mi Band</string>
   <string name="pref_title_pebble_settings">Ustawienia Pebble</string>
