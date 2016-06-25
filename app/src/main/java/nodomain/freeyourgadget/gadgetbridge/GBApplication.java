@@ -116,8 +116,8 @@ public class GBApplication extends Application {
 
         setupExceptionHandler();
 
-        deviceService = createDeviceService();
         GB.environment = GBEnvironment.createDeviceEnvironment();
+        deviceService = createDeviceService();
         mActivityDatabaseHandler = new ActivityDatabaseHandler(context);
         loadBlackList();
 
