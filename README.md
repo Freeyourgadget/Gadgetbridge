@@ -17,6 +17,9 @@ need to create an account and transmit any of your data to the vendor's servers.
 * Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round
 * Mi Band, Mi Band 1A, Mi Band 1S (experimental)
 
+***THE PEBBLE 2 AND PEBBLE TIME 2 ARE CURRENTLY NOT SUPPORTED. ADDING SUPPORT IS HIGH-PRIORITY BUT WE CANNOT GIVE YOU AN ETA!***
+
+
 ## Features (Pebble)
 
 * Incoming calls notification and display
