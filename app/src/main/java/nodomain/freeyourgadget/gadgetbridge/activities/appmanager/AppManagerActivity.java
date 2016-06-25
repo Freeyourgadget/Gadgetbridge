@@ -120,11 +120,11 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Apps in cache";
+                    return getString(R.string.appmanager_cached_watchapps_watchfaces);
                 case 1:
-                    return "Installed apps";
+                    return getString(R.string.appmanager_installed_watchapps);
                 case 2:
-                    return "Installed watchfaces";
+                    return getString(R.string.appmanager_installed_watchfaces);
                 case 3:
             }
             return super.getPageTitle(position);
