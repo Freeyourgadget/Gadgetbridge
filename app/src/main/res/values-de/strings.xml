@@ -53,7 +53,11 @@
   <string name="when_screen_off">wenn der Bildschirm aus ist</string>
   <string name="never">niemals</string>
   <string name="pref_blacklist">Sperre für Apps</string>
+  <string name="pref_header_cannned_messages">Vorgefertigte Nachrichten</string>
+  <string name="pref_title_canned_replies">Antworten</string>
   <string name="pref_title_canned_reply_suffix">Gemeinsame Endung</string>
+  <string name="pref_title_canned_messages_dismisscall">Ablehnen von Anrufen</string>
+  <string name="pref_title_canned_messages_set">Auf der Pebble aktualisieren</string>
   <string name="pref_header_development">Entwickleroptionen</string>
   <string name="pref_title_development_miaddr">Mi Band MAC Adresse</string>
   <string name="pref_title_pebble_settings">Pebble Einstellungen</string>
