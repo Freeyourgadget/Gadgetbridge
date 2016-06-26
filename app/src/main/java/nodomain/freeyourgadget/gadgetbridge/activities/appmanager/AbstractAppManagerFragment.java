@@ -312,7 +312,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                     return true;
                 }
 
-                String[] suffixToDelete = new String[]{".pbw", ".json", "_config.js"};
+                String[] suffixToDelete = new String[]{".pbw", ".json", "_config.js", "_preset.json"};
 
                 for (String suffix : suffixToDelete) {
                     File fileToDelete = new File(baseName + suffix);

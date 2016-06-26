@@ -91,6 +91,23 @@ function gbPebble() {
         GBjs.closeActivity();
     }
 
+    this.savePreset = function() {
+        GBjs.saveAppStoredPreset(self.configurationValues);
+    }
+
+    this.loadPreset = function() {
+        showStep("step2");
+        var presetElements = document.getElementsByClassName("store_presets");
+        for (var i = 0; i < presetElements.length; i ++) {
+            presetElements[i].style.display = 'none';
+        }
+        var json_string = GBjs.getAppStoredPreset();
+        var t = new Object();
+        t.response = json_string;
+        if (json_string != '')
+            Pebble.parseconfig(t);
+    }
+
     //needs to be called like this because of original Pebble function name
     this.openURL = function(url) {
             if (url.lastIndexOf("http", 0) === 0) {
@@ -111,7 +128,7 @@ function gbPebble() {
     this.sendAppMessage = function (dict, callbackAck, callbackNack){
         try {
             self.configurationValues = JSON.stringify(dict);
-            document.getElementById("jsondata").innerHTML=this.configurationValues;
+            document.getElementById("jsondata").innerHTML=self.configurationValues;
             return callbackAck;
         }
         catch (e) {
@@ -162,6 +179,8 @@ function gbPebble() {
 var Pebble = new gbPebble();
 
 var jsConfigFile = GBjs.getAppConfigurationFile();
+var storedPreset = GBjs.getAppStoredPreset();
+
 document.addEventListener('DOMContentLoaded', function(){
 if (jsConfigFile != null) {
     loadScript(jsConfigFile, function() {
@@ -173,6 +192,12 @@ if (jsConfigFile != null) {
             if (json_string != '')
                 Pebble.parseconfig(t);
         } else {
+            if (storedPreset === undefined) {
+                var presetElements = document.getElementsByClassName("load_presets");
+                    for (var i = 0; i < presetElements.length; i ++) {
+                        presetElements[i].style.display = 'none';
+                    }
+            }
             Pebble.ready();
             Pebble.showConfiguration();
         }

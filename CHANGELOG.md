@@ -4,6 +4,7 @@
 ####Version 0.11.0
 * Pebble: new App Manager (keeps track of installed apps and allows app sorting on FW 3.x)
 * Pebble: call dismissal with canned SMS (FW 3.x)
+* Pebble: watchapp configuration presets
 * Pebble: fix regression with FW 2.x (almost everything was broken in 0.10.2)
 
 ####Version 0.10.2

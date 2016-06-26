@@ -20,8 +20,11 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.UUID;
@@ -231,6 +234,38 @@ public class ExternalPebbleJSActivity extends GBActivity {
                 e.printStackTrace();
             }
             return null;
+        }
+
+        @JavascriptInterface
+        public String getAppStoredPreset() {
+            try {
+                File destDir = new File(FileUtils.getExternalFilesDir() + "/pbw-cache");
+                File configurationFile = new File(destDir, appUuid.toString() + "_preset.json");
+                if (configurationFile.exists()) {
+                    return FileUtils.getStringFromFile(configurationFile);
+                }
+            } catch (IOException e) {
+                GB.toast("Error reading presets", Toast.LENGTH_LONG, GB.ERROR);
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @JavascriptInterface
+        public void saveAppStoredPreset(String msg) {
+            Writer writer;
+
+            try {
+                File destDir = new File(FileUtils.getExternalFilesDir() + "/pbw-cache");
+                File presetsFile = new File(destDir, appUuid.toString() + "_preset.json");
+                writer = new BufferedWriter(new FileWriter(presetsFile));
+                writer.write(msg);
+                writer.close();
+                GB.toast("Presets stored", Toast.LENGTH_SHORT, GB.INFO);
+            } catch (IOException e) {
+                GB.toast("Error storing presets", Toast.LENGTH_LONG, GB.ERROR);
+                e.printStackTrace();
+            }
         }
 
         @JavascriptInterface
