@@ -101,11 +101,8 @@ function gbPebble() {
         for (var i = 0; i < presetElements.length; i ++) {
             presetElements[i].style.display = 'none';
         }
-        var json_string = GBjs.getAppStoredPreset();
-        var t = new Object();
-        t.response = json_string;
-        if (json_string != '')
-            Pebble.parseconfig(t);
+        self.configurationValues = GBjs.getAppStoredPreset();
+        document.getElementById("jsondata").innerHTML=self.configurationValues;
     }
 
     //needs to be called like this because of original Pebble function name
