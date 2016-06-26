@@ -248,4 +248,7 @@
   <string name="updatefirmwareoperation_firmware_not_sent">ファームウェアを送信しませんでした</string>
   <string name="charts_legend_heartrate">心拍数</string>
   <string name="live_activity_heart_rate">心拍数</string>
+  <string name="appmanager_cached_watchapps_watchfaces">キャッシュ中のアプリ</string>
+  <string name="appmanager_installed_watchapps">インストール済アプリ</string>
+  <string name="appmanager_installed_watchfaces">インストール済ウォッチフェイス</string>
 </resources>
