@@ -248,4 +248,7 @@
   <string name="updatefirmwareoperation_firmware_not_sent">Firmware wurde nicht gesendet</string>
   <string name="charts_legend_heartrate">Herzfrequenz</string>
   <string name="live_activity_heart_rate">Herzfrequenz</string>
+  <string name="appmanager_cached_watchapps_watchfaces">Apps im Zwischenspeicher</string>
+  <string name="appmanager_installed_watchapps">Installierte Apps</string>
+  <string name="appmanager_installed_watchfaces">Installierte Zifferblätter</string>
 </resources>
