@@ -60,6 +60,11 @@
     <button class="btn" name="open config" value="open config" onclick="Pebble.actuallyOpenURL()">
         Open configuration website
     </button>
+    <h2 class="load_presets">App presets:</h2>
+    <button class="btn load_presets" name="read config" value="read config"
+            onclick="Pebble.loadPreset()">
+        Load saved configuration
+    </button>
 </div>
 <div id="step1compat" class="step">
     <p>In case of "network error" after saving settings in the watchhapp, copy the "network error"
@@ -75,5 +80,11 @@
     <button class="btn" name="send config" value="send config" onclick="Pebble.actuallySendData()">
         Send data to pebble
     </button>
+    <h2 class="store_presets">App Presets:</h2>
+    <button class="btn store_presets" name="store config" value="store config"
+            onclick="Pebble.savePreset()">
+        Store incoming configuration
+    </button>
+    <p class="store_presets">Existing presets will be deleted.</p>
 </div>
 </body>
