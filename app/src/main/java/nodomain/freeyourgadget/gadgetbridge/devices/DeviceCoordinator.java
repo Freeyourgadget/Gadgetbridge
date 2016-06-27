@@ -86,7 +86,7 @@ public interface DeviceCoordinator {
      *
      * @return
      */
-    SampleProvider<? extends ActivitySample> getSampleProvider(DaoSession session);
+    SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session);
 
     /**
      * Finds an install handler for the given uri that can install the given

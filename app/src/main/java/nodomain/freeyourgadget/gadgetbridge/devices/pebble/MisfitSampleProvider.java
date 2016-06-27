@@ -2,13 +2,14 @@ package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public class MisfitSampleProvider extends AbstractPebbleSampleProvider {
 
     protected final float movementDivisor = 300f;
 
-    public MisfitSampleProvider(DaoSession session) {
-        super(session);
+    public MisfitSampleProvider(GBDevice device, DaoSession session) {
+        super(device, session);
     }
 
     @Override

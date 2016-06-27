@@ -296,7 +296,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
     protected SampleProvider<? extends AbstractActivitySample> getProvider(DBHandler db, GBDevice device) {
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
-        return coordinator.getSampleProvider(db.getDaoSession());
+        return coordinator.getSampleProvider(device, db.getDaoSession());
     }
 
     /**

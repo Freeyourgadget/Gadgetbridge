@@ -1999,9 +1999,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
                     if (uuid.equals(UUID_ZERO) && log_tag == 81) {
                         mDatalogSessions.put(id, new DatalogSessionHealthSteps(id, uuid, log_tag, item_type, item_size, getDevice()));
                     } else if (uuid.equals(UUID_ZERO) && log_tag == 83) {
-                        mDatalogSessions.put(id, new DatalogSessionHealthSleep(id, uuid, log_tag, item_type, item_size));
+                        mDatalogSessions.put(id, new DatalogSessionHealthSleep(id, uuid, log_tag, item_type, item_size, getDevice()));
                     } else if (uuid.equals(UUID_ZERO) && log_tag == 84) {
-                        mDatalogSessions.put(id, new DatalogSessionHealthOverlayData(id, uuid, log_tag, item_type, item_size));
+                        mDatalogSessions.put(id, new DatalogSessionHealthOverlayData(id, uuid, log_tag, item_type, item_size, getDevice()));
                     } else {
                         mDatalogSessions.put(id, new DatalogSession(id, uuid, log_tag, item_type, item_size));
                     }

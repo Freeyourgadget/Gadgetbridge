@@ -10,6 +10,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.HealthSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -17,8 +18,8 @@ class DatalogSessionHealthOverlayData extends DatalogSessionPebbleHealth {
 
     private static final Logger LOG = LoggerFactory.getLogger(DatalogSessionHealthOverlayData.class);
 
-    public DatalogSessionHealthOverlayData(byte id, UUID uuid, int tag, byte item_type, short item_size) {
-        super(id, uuid, tag, item_type, item_size);
+    public DatalogSessionHealthOverlayData(byte id, UUID uuid, int tag, byte item_type, short item_size, GBDevice device) {
+        super(id, uuid, tag, item_type, item_size, device);
         taginfo = "(health - overlay data " + tag + " )";
     }
 
@@ -59,7 +60,7 @@ class DatalogSessionHealthOverlayData extends DatalogSessionPebbleHealth {
 
     private boolean store(OverlayRecord[] overlayRecords) {
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
-            SampleProvider sampleProvider = new HealthSampleProvider(dbHandler.getDaoSession());
+            SampleProvider sampleProvider = new HealthSampleProvider(getDevice(), dbHandler.getDaoSession());
             int latestTimestamp = sampleProvider.fetchLatestTimestamp();
             for (OverlayRecord overlayRecord : overlayRecords) {
                 if (latestTimestamp < (overlayRecord.timestampStart + overlayRecord.durationSeconds))

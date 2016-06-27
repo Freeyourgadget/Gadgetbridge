@@ -10,6 +10,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.HealthSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -17,8 +18,8 @@ class DatalogSessionHealthSleep extends DatalogSessionPebbleHealth {
 
     private static final Logger LOG = LoggerFactory.getLogger(DatalogSessionHealthSleep.class);
 
-    public DatalogSessionHealthSleep(byte id, UUID uuid, int tag, byte item_type, short item_size) {
-        super(id, uuid, tag, item_type, item_size);
+    public DatalogSessionHealthSleep(byte id, UUID uuid, int tag, byte item_type, short item_size, GBDevice device) {
+        super(id, uuid, tag, item_type, item_size, device);
         taginfo = "(health - sleep " + tag + " )";
     }
 
@@ -58,7 +59,7 @@ class DatalogSessionHealthSleep extends DatalogSessionPebbleHealth {
 
     private boolean store(SleepRecord[] sleepRecords) {
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
-            SampleProvider sampleProvider = new HealthSampleProvider(dbHandler.getDaoSession());
+            SampleProvider sampleProvider = new HealthSampleProvider(getDevice(), dbHandler.getDaoSession());
             int latestTimestamp = sampleProvider.fetchLatestTimestamp();
             for (SleepRecord sleepRecord : sleepRecords) {
                 if (latestTimestamp < sleepRecord.bedTimeEnd)

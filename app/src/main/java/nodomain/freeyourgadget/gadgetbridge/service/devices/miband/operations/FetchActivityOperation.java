@@ -305,7 +305,7 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
         byte category, intensity, steps, heartrate = 0;
 
         try (DBHandler dbHandler = GBApplication.acquireDB()){
-            MiBandSampleProvider provider = new MiBandSampleProvider(dbHandler.getDaoSession());
+            MiBandSampleProvider provider = new MiBandSampleProvider(getDevice(), dbHandler.getDaoSession());
             Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
             Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
             int minutes = 0;

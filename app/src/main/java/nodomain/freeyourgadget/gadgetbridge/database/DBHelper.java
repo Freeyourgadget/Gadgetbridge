@@ -260,15 +260,20 @@ public class DBHelper {
         return false;
     }
 
-    public static Device getDevice(GBDevice gbDevice, DaoSession session) {
+    public static Device findDevice(GBDevice gbDevice, DaoSession session) {
         DeviceDao deviceDao = session.getDeviceDao();
         Query<Device> query = deviceDao.queryBuilder().where(DeviceDao.Properties.Identifier.eq(gbDevice.getAddress())).build();
         List<Device> devices = query.list();
-        Device device;
-        if (devices.isEmpty()) {
+        if (devices.size() > 0) {
+            return devices.get(0);
+        }
+        return null;
+    }
+
+    public static Device getDevice(GBDevice gbDevice, DaoSession session) {
+        Device device = findDevice(gbDevice,  session);
+        if (device == null) {
             device = createDevice(session, gbDevice);
-        } else {
-            device = devices.get(0);
         }
         ensureDeviceAttributes(device, gbDevice, session);
 
@@ -348,7 +353,7 @@ public class DBHelper {
         try (SQLiteDatabase oldDB = oldDbHandler.getReadableDatabase()) {
             User user = DBHelper.getUser(session);
             for (DeviceCoordinator coordinator : DeviceHelper.getInstance().getAllCoordinators()) {
-                AbstractSampleProvider<? extends AbstractActivitySample> sampleProvider = (AbstractSampleProvider<? extends AbstractActivitySample>) coordinator.getSampleProvider(session);
+                AbstractSampleProvider<? extends AbstractActivitySample> sampleProvider = (AbstractSampleProvider<? extends AbstractActivitySample>) coordinator.getSampleProvider(targetDevice, session);
                 importActivitySamples(oldDB, targetDevice, session, sampleProvider, user);
             }
         }

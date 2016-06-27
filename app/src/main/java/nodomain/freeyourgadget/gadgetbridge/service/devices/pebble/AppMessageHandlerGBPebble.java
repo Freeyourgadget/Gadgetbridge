@@ -58,7 +58,7 @@ public class AppMessageHandlerGBPebble extends AppMessageHandler {
                     try (DBHandler db = GBApplication.acquireDB()) {
                         User user = DBHelper.getUser(db.getDaoSession());
                         Device device = DBHelper.getDevice(getDevice(), db.getDaoSession());
-                        PebbleGadgetBridgeSampleProvider sampleProvider = new PebbleGadgetBridgeSampleProvider(db.getDaoSession());
+                        PebbleGadgetBridgeSampleProvider sampleProvider = new PebbleGadgetBridgeSampleProvider(getDevice(), db.getDaoSession());
                         PebbleActivitySample[] activitySamples = new PebbleActivitySample[samples_remaining];
                         int i = 0;
                         while (samples_remaining-- > 0) {

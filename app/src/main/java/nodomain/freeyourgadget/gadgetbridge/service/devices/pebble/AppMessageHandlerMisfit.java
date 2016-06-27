@@ -22,6 +22,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.pebble.MisfitSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -51,6 +52,7 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
 
     @Override
     public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
+        GBDevice device = getDevice();
         for (Pair<Integer, Object> pair : pairs) {
             switch (pair.first) {
                 case KEY_INCOMING_DATA_BEGIN:
@@ -116,7 +118,7 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
                         }
                         LOG.info("total steps for above period: " + totalSteps);
 
-                        MisfitSampleProvider sampleProvider = new MisfitSampleProvider(db.getDaoSession());
+                        MisfitSampleProvider sampleProvider = new MisfitSampleProvider(device, db.getDaoSession());
                         sampleProvider.addGBActivitySamples(activitySamples);
                     } catch (Exception e) {
                         LOG.error("Error acquiring database", e);

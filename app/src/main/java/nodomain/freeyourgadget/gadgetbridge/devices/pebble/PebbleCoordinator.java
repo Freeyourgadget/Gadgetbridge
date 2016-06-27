@@ -46,20 +46,20 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public SampleProvider<? extends AbstractActivitySample> getSampleProvider(DaoSession session) {
+    public SampleProvider<? extends AbstractActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
         Prefs prefs = GBApplication.getPrefs();
         int activityTracker = prefs.getInt("pebble_activitytracker", SampleProvider.PROVIDER_PEBBLE_HEALTH);
         switch (activityTracker) {
             case SampleProvider.PROVIDER_PEBBLE_HEALTH:
-                return new HealthSampleProvider(session);
+                return new HealthSampleProvider(device, session);
             case SampleProvider.PROVIDER_PEBBLE_MISFIT:
-                return new MisfitSampleProvider(session);
+                return new MisfitSampleProvider(device, session);
             case SampleProvider.PROVIDER_PEBBLE_MORPHEUZ:
-                return new MorpheuzSampleProvider(session);
+                return new MorpheuzSampleProvider(device, session);
             case SampleProvider.PROVIDER_PEBBLE_GADGETBRIDGE:
-                return new PebbleGadgetBridgeSampleProvider(session);
+                return new PebbleGadgetBridgeSampleProvider(device, session);
             default:
-                return new HealthSampleProvider(session);
+                return new HealthSampleProvider(device, session);
         }
     }
 

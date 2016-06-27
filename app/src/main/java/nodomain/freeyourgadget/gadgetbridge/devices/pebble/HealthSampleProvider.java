@@ -3,6 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public class HealthSampleProvider extends AbstractPebbleSampleProvider {
@@ -12,8 +13,8 @@ public class HealthSampleProvider extends AbstractPebbleSampleProvider {
 
     protected final float movementDivisor = 8000f;
 
-    public HealthSampleProvider(DaoSession session) {
-        super(session);
+    public HealthSampleProvider(GBDevice device, DaoSession session) {
+        super(device, session);
     }
 
     @Override

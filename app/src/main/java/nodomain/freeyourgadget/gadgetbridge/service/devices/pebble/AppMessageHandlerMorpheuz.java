@@ -102,7 +102,7 @@ public class AppMessageHandlerMorpheuz extends AppMessageHandler {
                             try (DBHandler db = GBApplication.acquireDB()) {
                                 User user = DBHelper.getUser(db.getDaoSession());
                                 Device device = DBHelper.getDevice(getDevice(), db.getDaoSession());
-                                MorpheuzSampleProvider sampleProvider = new MorpheuzSampleProvider(db.getDaoSession());
+                                MorpheuzSampleProvider sampleProvider = new MorpheuzSampleProvider(getDevice(), db.getDaoSession());
                                 sampleProvider.addGBActivitySample(createSample(recording_base_timestamp + index * 600, intensity, 0, type, user, device));
                             } catch (Exception e) {
                                 LOG.error("Error acquiring database", e);

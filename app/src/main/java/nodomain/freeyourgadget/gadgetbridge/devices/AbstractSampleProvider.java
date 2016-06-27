@@ -1,13 +1,17 @@
 package nodomain.freeyourgadget.gadgetbridge.devices;
 
+import java.util.Collections;
 import java.util.List;
 
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import de.greenrobot.dao.query.QueryBuilder;
 import de.greenrobot.dao.query.WhereCondition;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 /**
@@ -18,9 +22,15 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 public abstract class AbstractSampleProvider<T extends AbstractActivitySample> implements SampleProvider<T> {
     private static final WhereCondition[] NO_CONDITIONS = new WhereCondition[0];
     private final DaoSession mSession;
+    private final GBDevice mDevice;
 
-    protected AbstractSampleProvider(DaoSession session) {
+    protected AbstractSampleProvider(GBDevice device, DaoSession session) {
+        mDevice = device;
         mSession = session;
+    }
+
+    public GBDevice getmDevice() {
+        return mDevice;
     }
 
     public DaoSession getSession() {
@@ -83,7 +93,13 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
     protected List<T> getGBActivitySamples(int timestamp_from, int timestamp_to, int activityType) {
         QueryBuilder<T> qb = getSampleDao().queryBuilder();
         Property timestampProperty = getTimestampSampleProperty();
-        qb.where(timestampProperty.ge(timestamp_from))
+        Device dbDevice = DBHelper.findDevice(getmDevice(), getSession());
+        if (dbDevice == null) {
+            // no device, no samples
+            return Collections.emptyList();
+        }
+        Property deviceProperty = getDeviceIdentifierSampleProperty();
+        qb.where(deviceProperty.eq(dbDevice.getId()), timestampProperty.ge(timestamp_from))
             .where(timestampProperty.le(timestamp_to), getClauseForActivityType(qb, activityType));
         List<T> samples = qb.build().list();
         for (T sample : samples) {
@@ -131,4 +147,5 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
 
     protected abstract Property getRawKindSampleProperty();
     protected abstract Property getTimestampSampleProperty();
+    protected abstract Property getDeviceIdentifierSampleProperty();
 }

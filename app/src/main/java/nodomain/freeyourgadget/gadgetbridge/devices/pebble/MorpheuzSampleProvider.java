@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public class MorpheuzSampleProvider extends AbstractPebbleSampleProvider {
@@ -13,8 +14,8 @@ public class MorpheuzSampleProvider extends AbstractPebbleSampleProvider {
 
     protected float movementDivisor = 5000f;
 
-    public MorpheuzSampleProvider(DaoSession session) {
-        super(session);
+    public MorpheuzSampleProvider(GBDevice device, DaoSession session) {
+        super(device, session);
     }
 
     @Override
