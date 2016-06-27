@@ -145,13 +145,18 @@ public class FileUtils {
         }
         for (int i = 0; i < dirs.length; i++) {
             File dir = dirs[i];
-            if (dir == null || (!dir.exists() && !dir.mkdirs())) {
+            if (dir == null) {
                 continue;
             }
+            if (!dir.exists() && !dir.mkdirs()) {
+                GB.log("Unable to create directories: " + dir.getAbsolutePath(), GB.INFO, null);
+                continue;
+            }
+
             // the first directory is also the primary external storage, i.e. the same as Environment.getExternalFilesDir()
             // TODO: check the mount state of *all* dirs when switching to later API level
             if (!dir.canWrite() || (i == 0 && !Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()))) {
-                Log.i(TAG, "ignoring non-writable external storage dir: " + dir);
+                GB.log("ignoring non-writable external storage dir: " + dir, GB.INFO, null);
                 continue;
             }
             result.add(dir); // add last
