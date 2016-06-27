@@ -32,8 +32,22 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supports(GBDeviceCandidate candidate) {
         String macAddress = candidate.getMacAddress().toUpperCase();
-        return macAddress.startsWith(MiBandService.MAC_ADDRESS_FILTER_1_1A)
-                || macAddress.startsWith(MiBandService.MAC_ADDRESS_FILTER_1S);
+        if (macAddress.startsWith(MiBandService.MAC_ADDRESS_FILTER_1_1A)
+                || macAddress.startsWith(MiBandService.MAC_ADDRESS_FILTER_1S)) {
+            return true;
+        }
+        if (candidate.supportsService(MiBandService.UUID_SERVICE_MIBAND_SERVICE)) {
+            return true;
+        }
+        // and a heuristic
+        try {
+            if (isHealthWearable(candidate.getDevice())) {
+                return candidate.getName().toUpperCase().startsWith(MiBandConst.MI_GENERAL_NAME_PREFIX.toUpperCase());
+            }
+        } catch (Exception ex) {
+            LOG.error("unable to check device support", ex);
+        }
+        return false;
     }
 
     @Override
