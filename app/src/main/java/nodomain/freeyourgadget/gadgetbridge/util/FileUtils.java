@@ -116,6 +116,7 @@ public class FileUtils {
             file.delete();
             return true;
         } catch (FileNotFoundException e) {
+            GB.log("Cannot write to directory: " + dir.getAbsolutePath(), GB.INFO, e);
             return false;
         }
     }
