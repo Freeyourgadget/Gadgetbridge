@@ -312,7 +312,7 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
             try {
                 int timestampInSeconds = (int) (activityStruct.activityDataTimestampProgress.getTimeInMillis() / 1000);
                 if ((activityStruct.activityDataHolderProgress % bpm) != 0) {
-                    throw new IllegalStateException("Unexpected data, progress should be mutiple of " + bpm + ": " + activityStruct.activityDataHolderProgress);
+                    throw new IllegalStateException("Unexpected data, progress should be multiple of " + bpm + ": " + activityStruct.activityDataHolderProgress);
                 }
                 int numSamples = activityStruct.activityDataHolderProgress / bpm;
                 MiBandActivitySample[] samples = new MiBandActivitySample[numSamples];
@@ -336,6 +336,10 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
                             deviceId,
                             heartrate & 0xff);
 //                    samples[minutes].setProvider(dbHandler);
+
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("sample: " + samples[minutes]);
+                    }
 
                     // next minute
                     minutes++;
