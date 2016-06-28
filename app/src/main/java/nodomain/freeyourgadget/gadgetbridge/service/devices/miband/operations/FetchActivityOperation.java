@@ -336,6 +336,10 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
                             category & 0xff,
                             heartrate & 0xff);
 
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("sample: " + samples[minutes]);
+                    }
+
                     // next minute
                     minutes++;
                     timestampInSeconds += 60;
