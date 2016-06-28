@@ -94,11 +94,10 @@ Known Issues:
   and try connecting again. This only happens until you have "bonded" with the Mi Band, i.e. until it 
   knows your MAC address. This behavior may also only occur with older firmware versions.
 
-## Authors (in order of first code contribution)
+## Authors
 
-* Andreas Shimokawa
-* Carsten Pfeiffer
-* Daniele Gobbetti
+See [the list of contributors](https://raw.githubusercontent.com/Freeyourgadget/Gadgetbridge/master/CONTRIBUTORS.md)
+in order of first code contribution.
 
 ## Contribute
 
