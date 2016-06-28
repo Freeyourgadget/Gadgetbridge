@@ -18,6 +18,7 @@ public abstract class AbstractMiBandOperation extends AbstractBTLEOperation<MiBa
     @Override
     protected void prePerform() throws IOException {
         super.prePerform();
+        getDevice().setBusyTask("fetch activity data"); // mark as busy quickly to avoid interruptions from the outside
         TransactionBuilder builder = performInitialized("disabling some notifications");
         enableOtherNotifications(builder, false);
         builder.queue(getQueue());
@@ -27,6 +28,7 @@ public abstract class AbstractMiBandOperation extends AbstractBTLEOperation<MiBa
     protected void operationFinished() {
         operationStatus = OperationStatus.FINISHED;
         if (getDevice() != null && getDevice().isConnected()) {
+            unsetBusy();
             try {
                 TransactionBuilder builder = performInitialized("reenabling disabled notifications");
                 enableOtherNotifications(builder, true);

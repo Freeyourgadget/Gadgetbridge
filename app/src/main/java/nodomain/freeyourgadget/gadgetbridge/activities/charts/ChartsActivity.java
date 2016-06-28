@@ -102,8 +102,8 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
             swipeLayout.setRefreshing(true);
         } else {
             boolean wasBusy = swipeLayout.isRefreshing();
+            swipeLayout.setRefreshing(false);
             if (wasBusy) {
-                swipeLayout.setRefreshing(false);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(REFRESH));
             }
         }
