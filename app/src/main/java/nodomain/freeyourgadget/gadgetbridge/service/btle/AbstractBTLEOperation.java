@@ -105,8 +105,10 @@ public abstract class AbstractBTLEOperation<T extends AbstractBTLEDeviceSupport>
     }
 
     protected void unsetBusy() {
-        getDevice().unsetBusyTask();
-        getDevice().sendDeviceUpdateIntent(getContext());
+        if (getDevice().isBusy()) {
+            getDevice().unsetBusyTask();
+            getDevice().sendDeviceUpdateIntent(getContext());
+        }
     }
 
     public boolean isOperationRunning() {
