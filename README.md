@@ -44,7 +44,7 @@ need to create an account and transmit any of your data to the vendor's servers.
 
 ## Notes about Firmware 3.x (Pebble Time, updated OG)
 
-* Listing installed watchfaces will simply display previously installed watchapps, no matter if they are still installed or not.
+* Gadgetbridge will keep track of installed watchfaces, but if the Pebble is used with another phone or another app, the information displayed in the app manager can get out of sync since it is impossible to query Firmware >= 3.x for installed apps/watchfaces.
 
 ## Getting Started (Pebble)
 
