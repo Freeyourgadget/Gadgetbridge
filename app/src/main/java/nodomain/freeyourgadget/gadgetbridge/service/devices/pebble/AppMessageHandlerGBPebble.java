@@ -67,6 +67,7 @@ public class AppMessageHandlerGBPebble extends AppMessageHandler {
                             int intensity = ((sample & 0x1f80) >>> 7);
                             int steps = (sample & 0x007f);
                             activitySamples[i++] = createSample(timestamp + offset_seconds, intensity, steps, type, user, device);
+                            activitySamples[i].setProvider(sampleProvider);
                             offset_seconds += 60;
                         }
                         sampleProvider.addGBActivitySamples(activitySamples);

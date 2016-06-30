@@ -82,6 +82,7 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
                     int totalSteps = 0;
                     PebbleActivitySample[] activitySamples = new PebbleActivitySample[samples];
                     try (DBHandler db = GBApplication.acquireDB()) {
+                        MisfitSampleProvider sampleProvider = new MisfitSampleProvider(device, db.getDaoSession());
                         Long userId = DBHelper.getUser(db.getDaoSession()).getId();
                         Long deviceId = DBHelper.getDevice(getDevice(), db.getDaoSession()).getId();
                         for (int i = 0; i < samples; i++) {
@@ -115,10 +116,10 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
                             LOG.info("got steps for sample " + i + " : " + steps + "(" + Integer.toHexString(sample & 0xffff) + ")");
 
                             activitySamples[i] = new PebbleActivitySample(null, timestamp + i * 60, intensity, steps, activityKind, userId, deviceId);
+                            activitySamples[i].setProvider(sampleProvider);
                         }
                         LOG.info("total steps for above period: " + totalSteps);
 
-                        MisfitSampleProvider sampleProvider = new MisfitSampleProvider(device, db.getDaoSession());
                         sampleProvider.addGBActivitySamples(activitySamples);
                     } catch (Exception e) {
                         LOG.error("Error acquiring database", e);

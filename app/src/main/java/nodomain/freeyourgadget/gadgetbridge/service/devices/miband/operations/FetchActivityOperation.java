@@ -335,7 +335,7 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
                             userId,
                             deviceId,
                             heartrate & 0xff);
-//                    samples[minutes].setProvider(dbHandler);
+                    samples[minutes].setProvider(provider);
 
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("sample: " + samples[minutes]);

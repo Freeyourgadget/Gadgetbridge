@@ -89,6 +89,7 @@ public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
                         stepsRecord.steps,
                         sampleProvider.toRawActivityKind(ActivityKind.TYPE_ACTIVITY),
                         userId, deviceId);
+                samples[j].setProvider(sampleProvider);
             }
 
             sampleProvider.addGBActivitySamples(samples);

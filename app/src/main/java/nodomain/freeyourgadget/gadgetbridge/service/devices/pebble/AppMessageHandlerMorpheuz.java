@@ -19,6 +19,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSleepMonit
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.MorpheuzSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -103,7 +104,9 @@ public class AppMessageHandlerMorpheuz extends AppMessageHandler {
                                 User user = DBHelper.getUser(db.getDaoSession());
                                 Device device = DBHelper.getDevice(getDevice(), db.getDaoSession());
                                 MorpheuzSampleProvider sampleProvider = new MorpheuzSampleProvider(getDevice(), db.getDaoSession());
-                                sampleProvider.addGBActivitySample(createSample(recording_base_timestamp + index * 600, intensity, 0, type, user, device));
+                                PebbleActivitySample sample = createSample(recording_base_timestamp + index * 600, intensity, 0, type, user, device);
+                                sample.setProvider(sampleProvider);
+                                sampleProvider.addGBActivitySample(sample);
                             } catch (Exception e) {
                                 LOG.error("Error acquiring database", e);
                             }
