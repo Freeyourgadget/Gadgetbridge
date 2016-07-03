@@ -142,15 +142,19 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 String provider = locationManager.getBestProvider(criteria, false);
                 if (provider != null) {
                     Location location = locationManager.getLastKnownLocation(provider);
-                    String latitude = String.format(Locale.US, "%.6g", location.getLatitude());
-                    String longitude = String.format(Locale.US, "%.6g", location.getLongitude());
-                    LOG.info("got location. Lat: " + latitude + " Lng: " + longitude);
-                    EditTextPreference pref_latitude = (EditTextPreference) findPreference("location_latitude");
-                    EditTextPreference pref_longitude = (EditTextPreference) findPreference("location_longitude");
-                    pref_latitude.setText(latitude);
-                    pref_longitude.setText(longitude);
-                    pref_latitude.setSummary(latitude);
-                    pref_longitude.setSummary(longitude);
+                    if (location != null) {
+                        String latitude = String.format(Locale.US, "%.6g", location.getLatitude());
+                        String longitude = String.format(Locale.US, "%.6g", location.getLongitude());
+                        LOG.info("got location. Lat: " + latitude + " Lng: " + longitude);
+                        EditTextPreference pref_latitude = (EditTextPreference) findPreference("location_latitude");
+                        EditTextPreference pref_longitude = (EditTextPreference) findPreference("location_longitude");
+                        pref_latitude.setText(latitude);
+                        pref_longitude.setText(longitude);
+                        pref_latitude.setSummary(latitude);
+                        pref_longitude.setSummary(longitude);
+                    } else {
+                        GB.toast(SettingsActivity.this, "no last known position", 3000, 0);
+                    }
                 } else {
                     LOG.warn("No location provider found, did you deny location permission?");
                 }
