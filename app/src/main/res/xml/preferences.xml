@@ -190,13 +190,13 @@
                 android:title="@string/pref_title_location_aquire"/>
             <EditTextPreference
                 android:maxLength="7"
-                android:digits="0123456789."
+                android:inputType="numberDecimal|numberSigned"
                 android:defaultValue="0"
                 android:key="location_latitude"
                 android:title="@string/pref_title_location_latitude" />
             <EditTextPreference
                 android:maxLength="7"
-                android:digits="0123456789."
+                android:inputType="numberDecimal|numberSigned"
                 android:defaultValue="0"
                 android:key="location_longitude"
                 android:title="@string/pref_title_location_longitude" />
