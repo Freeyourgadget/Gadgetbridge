@@ -198,6 +198,7 @@ public final class BtLEQueue {
         if (mWaitForActionResultLatch != null) {
             mWaitForActionResultLatch.countDown();
         }
+        boolean wasInitialized = mGbDevice.isInitialized();
         setDeviceConnectionState(State.NOT_CONNECTED);
 
         // either we've been disconnected because the device is out of range
@@ -207,7 +208,7 @@ public final class BtLEQueue {
         // reconnecting automatically, so we try to fix this by re-creating mBluetoothGatt.
         // Not sure if this actually works without re-initializing the device...
         if (status != 0) {
-            if (!maybeReconnect()) {
+            if (!wasInitialized || !maybeReconnect()) {
                 disconnect(); // ensure that we start over cleanly next time
             }
         }
