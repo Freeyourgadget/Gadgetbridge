@@ -817,9 +817,9 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         } else if (MiBandService.UUID_CHARACTERISTIC_BATTERY.equals(characteristicUUID)) {
             handleBatteryInfo(characteristic.getValue(), status);
         } else if (MiBandService.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT.equals(characteristicUUID)) {
-            logHeartrate(characteristic.getValue());
+            logHeartrate(characteristic.getValue(), status);
         } else if (MiBandService.UUID_CHARACTERISTIC_DATE_TIME.equals(characteristicUUID)) {
-            logDate(characteristic.getValue());
+            logDate(characteristic.getValue(), status);
         } else {
             LOG.info("Unhandled characteristic read: " + characteristicUUID);
             logMessageContent(characteristic.getValue());
@@ -845,25 +845,33 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      * @param value
      */
     public void logMessageContent(byte[] value) {
-        LOG.info("RECEIVED DATA WITH LENGTH: " + value.length);
-        for (byte b : value) {
-            LOG.warn("DATA: " + String.format("0x%2x", b));
+        LOG.info("RECEIVED DATA WITH LENGTH: " + ((value != null) ? value.length : "(null)"));
+        if (value != null) {
+            for (byte b : value) {
+                LOG.warn("DATA: " + String.format("0x%2x", b));
+            }
         }
     }
 
-    public void logDate(byte[] value) {
-        GregorianCalendar calendar = MiBandDateConverter.rawBytesToCalendar(value);
-        LOG.info("Got Mi Band Date: " + DateTimeUtils.formatDateTime(calendar.getTime()));
-    }
-
-    public void logHeartrate(byte[] value) {
-        LOG.info("Got heartrate:");
-        if (value.length == 2 && value[0] == 6) {
-            int hrValue = (value[1] & 0xff);
-            GB.toast(getContext(), "Heart Rate measured: " + hrValue, Toast.LENGTH_LONG, GB.INFO);
+    public void logDate(byte[] value, int status) {
+        if (status == BluetoothGatt.GATT_SUCCESS) {
+            GregorianCalendar calendar = MiBandDateConverter.rawBytesToCalendar(value);
+            LOG.info("Got Mi Band Date: " + DateTimeUtils.formatDateTime(calendar.getTime()));
         } else {
             logMessageContent(value);
         }
+    }
+
+    public void logHeartrate(byte[] value, int status) {
+        if (status == BluetoothGatt.GATT_SUCCESS && value != null) {
+            LOG.info("Got heartrate:");
+            if (value.length == 2 && value[0] == 6) {
+                int hrValue = (value[1] & 0xff);
+                GB.toast(getContext(), "Heart Rate measured: " + hrValue, Toast.LENGTH_LONG, GB.INFO);
+            }
+            return;
+        }
+        logMessageContent(value);
     }
 
     private void handleHeartrate(byte[] value) {
