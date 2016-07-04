@@ -112,6 +112,9 @@ public class PBWReader {
                 case "diorite":
                     platformDirs = new String[]{"diorite/", "aplite/"};
                     break;
+                case "emery":
+                    platformDirs = new String[]{"emery/", "basalt/"};
+                    break;
                 default:
                     platformDirs = new String[]{"aplite/"};
             }

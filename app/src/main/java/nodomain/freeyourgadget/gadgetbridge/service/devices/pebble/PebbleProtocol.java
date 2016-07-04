@@ -252,16 +252,16 @@ public class PebbleProtocol extends GBDeviceProtocol {
     // base is -8
     private static final String[] hwRevisions = {
             // Emulator
-            "silk_bb2", "unknown", "silk_bb",
+            "silk_bb2", "robert_bb", "silk_bb",
             "spalding_bb2", "snowy_bb2", "snowy_bb",
             "bb2", "bb",
             "unknown",
-            // Pebble
+            // Pebble Classic Series
             "ev1", "ev2", "ev2_3", "ev2_4", "v1_5", "v2_0",
-            // Pebble Time
+            // Pebble Time Series
             "snowy_evt2", "snowy_dvt", "spalding_dvt", "snowy_s3", "spalding",
-            // Pebble 2
-            "silk_evt", "unknown", "silk"
+            // Pebble 2 Series
+            "silk_evt", "robert_evt", "silk"
     };
 
     private static final Random mRandom = new Random();
