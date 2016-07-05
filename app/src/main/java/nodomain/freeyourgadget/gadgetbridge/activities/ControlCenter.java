@@ -72,8 +72,10 @@ public class ControlCenter extends GBActivity {
                 case DeviceManager.ACTION_DEVICES_CHANGED:
                     refreshPairedDevices();
                     GBDevice selectedDevice = deviceManager.getSelectedDevice();
-                    refreshBusyState(selectedDevice);
-                    enableSwipeRefresh(selectedDevice);
+                    if (selectedDevice != null) {
+                        refreshBusyState(selectedDevice);
+                        enableSwipeRefresh(selectedDevice);
+                    }
                     break;
             }
         }
