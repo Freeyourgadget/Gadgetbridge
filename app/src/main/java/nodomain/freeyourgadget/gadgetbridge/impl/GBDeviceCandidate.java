@@ -8,6 +8,8 @@ import android.os.Parcelable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -76,14 +78,22 @@ public class GBDeviceCandidate implements Parcelable {
     }
 
     public String getName() {
-        String name = null;
-        if (device != null) {
-            name = device.getName();
+        String deviceName = null;
+        try {
+            Method method = device.getClass().getMethod("getAliasName");
+            if (method != null) {
+                deviceName = (String) method.invoke(device);
+            }
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ignore) {
+            LOG.info("Could not get device alias for " + deviceName);
         }
-        if (name == null || name.length() == 0) {
-            name = GBApplication.getContext().getString(R.string._unknown_);
+        if (deviceName == null || deviceName.length() == 0) {
+            deviceName = device.getName();
         }
-        return name;
+        if (deviceName == null || deviceName.length() == 0) {
+            deviceName = "(unknown)";
+        }
+        return deviceName;
     }
 
     public short getRssi() {
