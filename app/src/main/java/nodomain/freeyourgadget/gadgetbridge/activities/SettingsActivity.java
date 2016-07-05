@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
@@ -143,17 +144,30 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 if (provider != null) {
                     Location location = locationManager.getLastKnownLocation(provider);
                     if (location != null) {
-                        String latitude = String.format(Locale.US, "%.6g", location.getLatitude());
-                        String longitude = String.format(Locale.US, "%.6g", location.getLongitude());
-                        LOG.info("got location. Lat: " + latitude + " Lng: " + longitude);
-                        EditTextPreference pref_latitude = (EditTextPreference) findPreference("location_latitude");
-                        EditTextPreference pref_longitude = (EditTextPreference) findPreference("location_longitude");
-                        pref_latitude.setText(latitude);
-                        pref_longitude.setText(longitude);
-                        pref_latitude.setSummary(latitude);
-                        pref_longitude.setSummary(longitude);
+                        setLocationPreferences(location);
                     } else {
-                        GB.toast(SettingsActivity.this, "no last known position", 3000, 0);
+                        locationManager.requestSingleUpdate(provider, new LocationListener() {
+                            @Override
+                            public void onLocationChanged(Location location) {
+                                setLocationPreferences(location);
+                            }
+
+                            @Override
+                            public void onStatusChanged(String provider, int status, Bundle extras) {
+                                LOG.info("provider status changed to " + status + " (" + provider + ")");
+                            }
+
+                            @Override
+                            public void onProviderEnabled(String provider) {
+                                LOG.info("provider enabled (" + provider + ")");
+                            }
+
+                            @Override
+                            public void onProviderDisabled(String provider) {
+                                LOG.info("provider disabled (" + provider + ")");
+                                GB.toast(SettingsActivity.this, getString(R.string.toast_enable_networklocationprovider), 3000, 0);
+                            }
+                        }, null);
                     }
                 } else {
                     LOG.warn("No location provider found, did you deny location permission?");
@@ -255,4 +269,16 @@ public class SettingsActivity extends AbstractSettingsActivity {
         };
     }
 
+    private void setLocationPreferences(Location location) {
+        String latitude = String.format(Locale.US, "%.6g", location.getLatitude());
+        String longitude = String.format(Locale.US, "%.6g", location.getLongitude());
+        LOG.info("got location. Lat: " + latitude + " Lng: " + longitude);
+        GB.toast(SettingsActivity.this, getString(R.string.toast_aqurired_networklocation), 2000, 0);
+        EditTextPreference pref_latitude = (EditTextPreference) findPreference("location_latitude");
+        EditTextPreference pref_longitude = (EditTextPreference) findPreference("location_longitude");
+        pref_latitude.setText(latitude);
+        pref_longitude.setText(longitude);
+        pref_latitude.setSummary(latitude);
+        pref_longitude.setSummary(longitude);
+    }
 }
