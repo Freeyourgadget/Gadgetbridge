@@ -168,11 +168,6 @@ public class MiBandPairingActivity extends Activity {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mPairingReceiver);
         unregisterReceiver(mBondingReceiver);
 
-        if (pairedSuccessfully) {
-            Prefs prefs = GBApplication.getPrefs();
-            prefs.getPreferences().edit().putString(MiBandConst.PREF_MIBAND_ADDRESS, macAddress).apply();
-        }
-
         Intent intent = new Intent(this, ControlCenter.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
