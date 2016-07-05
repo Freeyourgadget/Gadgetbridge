@@ -82,7 +82,7 @@ public class ControlCenter extends GBActivity {
     };
 
     private void refreshBusyState(GBDevice dev) {
-        if (dev.isBusy()) {
+        if (dev != null && dev.isBusy()) {
             swipeLayout.setRefreshing(true);
         } else {
             boolean wasBusy = swipeLayout.isRefreshing();

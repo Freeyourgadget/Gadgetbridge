@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
@@ -86,12 +87,13 @@ public class DeviceManager {
         if (selectedDevice == null) {
             selectedDevice = dev;
         } else {
-            if (!selectedDevice.equals(dev)) {
+            if (selectedDevice.equals(dev)) {
+                selectedDevice = dev; // equality vs identity!
+            } else {
                 if (selectedDevice.isConnected() && dev.isConnected()) {
                     LOG.warn("multiple connected devices -- this is currently not really supported");
                     selectedDevice = dev; // use the last one that changed
-                }
-                if (!selectedDevice.isConnected()) {
+                } else if (!selectedDevice.isConnected()) {
                     selectedDevice = dev; // use the last one that changed
                 }
             }
@@ -118,6 +120,7 @@ public class DeviceManager {
         return Collections.unmodifiableList(deviceList);
     }
 
+    @Nullable
     public GBDevice getSelectedDevice() {
         return selectedDevice;
     }
