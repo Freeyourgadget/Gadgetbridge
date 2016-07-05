@@ -58,7 +58,7 @@ public class GBDevice implements Parcelable {
 
     public GBDevice(String address, String name, DeviceType deviceType) {
         mAddress = address;
-        mName = name;
+        mName = (name != null) ? name : mAddress;
         mDeviceType = deviceType;
         validate();
     }
