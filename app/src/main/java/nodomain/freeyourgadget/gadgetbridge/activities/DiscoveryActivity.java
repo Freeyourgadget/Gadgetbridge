@@ -179,6 +179,10 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
     }
 
     private void handleDeviceFound(BluetoothDevice device, short rssi) {
+        if (device.getBondState() == BluetoothDevice.BOND_BONDED) {
+            return; // ignore already bonded devices
+        }
+
         GBDeviceCandidate candidate = new GBDeviceCandidate(device, rssi);
         if (DeviceHelper.getInstance().isSupported(candidate)) {
             int index = deviceCandidates.indexOf(candidate);
