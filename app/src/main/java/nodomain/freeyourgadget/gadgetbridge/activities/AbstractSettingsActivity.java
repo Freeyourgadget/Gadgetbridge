@@ -44,7 +44,7 @@ public abstract class AbstractSettingsActivity extends PreferenceActivity {
         @Override
         public boolean onPreferenceChange(Preference preference, Object value) {
             if (preference instanceof EditTextPreference) {
-                if (((EditTextPreference) preference).getEditText().getKeyListener().getInputType() == InputType.TYPE_CLASS_NUMBER) {
+                if ((((EditTextPreference) preference).getEditText().getKeyListener().getInputType() & InputType.TYPE_CLASS_NUMBER) != 0) {
                     if ("".equals(String.valueOf(value))) {
                         // reject empty numeric input
                         return false;
