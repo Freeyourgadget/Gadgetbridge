@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.11.1" versioncode="57">
+        <change>Various fixes (including crashes) for location settings</change>
+        <change>Pebble: Support Pebble Time 2 emulator (needs recompilation of Gadgetbridge)</change>
+    </release>
     <release version="0.11.0" versioncode="56">
         <change>Pebble: new App Manager (keeps track of installed apps and allows app sorting on FW 3.x)</change>
         <change>Pebble: call dismissal with canned SMS (FW 3.x)</change>
