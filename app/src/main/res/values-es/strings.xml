@@ -53,7 +53,11 @@
   <string name="when_screen_off">cuando la pantalla está apagada</string>
   <string name="never">nunca</string>
   <string name="pref_blacklist">Excluir aplicaciones</string>
+  <string name="pref_header_cannned_messages">Mensajes preservados</string>
+  <string name="pref_title_canned_replies">Respuestas</string>
   <string name="pref_title_canned_reply_suffix">Sufijo habitual</string>
+  <string name="pref_title_canned_messages_dismisscall">Rechazar llamada</string>
+  <string name="pref_title_canned_messages_set">Actualizar en Pebble</string>
   <string name="pref_header_development">Opciones de desarrollador</string>
   <string name="pref_title_development_miaddr">Dirección de MiBand</string>
   <string name="pref_title_pebble_settings">Ajustes de Pebble</string>
@@ -244,4 +248,7 @@
   <string name="updatefirmwareoperation_firmware_not_sent">Firmware no enviado</string>
   <string name="charts_legend_heartrate">Pulsaciones</string>
   <string name="live_activity_heart_rate">Pulsaciones</string>
+  <string name="appmanager_cached_watchapps_watchfaces">Apps en caché</string>
+  <string name="appmanager_installed_watchapps">Apps instaladas</string>
+  <string name="appmanager_installed_watchfaces">Esferas instaladas</string>
 </resources>
