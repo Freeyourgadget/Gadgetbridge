@@ -1,6 +1,10 @@
 ###Changelog
 
 
+####Version 0.11.1
+* Various fixes (including crashes) for location settings
+* Pebble: Support Pebble Time 2 emulator (needs recompilation of Gadgetbridge)
+
 ####Version 0.11.0
 * Pebble: new App Manager (keeps track of installed apps and allows app sorting on FW 3.x)
 * Pebble: call dismissal with canned SMS (FW 3.x)
