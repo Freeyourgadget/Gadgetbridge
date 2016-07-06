@@ -4,6 +4,15 @@
 ####Version 0.11.1
 * Various fixes (including crashes) for location settings
 * Pebble: Support Pebble Time 2 emulator (needs recompilation of Gadgetbridge)
+* Fix a rare crash when, due to bluetooth problems, a device has no name
+* Fix activity fetching getting stuck when double tapping (#333)
+* Mi Band: in the Device Discovery activity, do not display devices that are already paired
+* Mi Band: only allow automatic reconnection on disconnect when the device was previously fully connected
+* Mi Band: fix a rare crash when reading data fails due to bluetooth problems
+* Mi Band: log full activity sample to help deciphering activity kinds (#341)
+* Mi Band 2: improved discovery mechanism to not rely on mac addresses (#323)
+* Charts: only display heart rate samples on devices that support that
+* Add more logging to detect problems with external directories (#343)
 
 ####Version 0.11.0
 * Pebble: new App Manager (keeps track of installed apps and allows app sorting on FW 3.x)
