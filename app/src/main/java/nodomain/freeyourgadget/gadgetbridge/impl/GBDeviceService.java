@@ -18,6 +18,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 //import java.util.UUID;
 
@@ -81,6 +82,7 @@ public class GBDeviceService implements DeviceService {
 
     @Override
     public void quit() {
+        GB.log("Voluntarily shutting down service through DeviceService.quit()", GB.INFO, null);
         Intent intent = createIntent();
         stopService(intent);
     }
