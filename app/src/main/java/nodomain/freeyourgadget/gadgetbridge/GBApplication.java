@@ -77,20 +77,13 @@ public class GBApplication extends Application {
         }
     };
     private static DeviceManager deviceManager;
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            switch (action) {
-                case ACTION_QUIT:
-                    quit();
-                    break;
-            }
-        }
-    };
 
-    private void quit() {
-        GB.removeAllNotifications(this);
+    public static void quit() {
+        GB.log("Quitting Gadgetbridge...", GB.INFO, null);
+        Intent quitIntent = new Intent(GBApplication.ACTION_QUIT);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(quitIntent);
+        GBApplication.deviceService().quit();
+        GB.removeAllNotifications(context);
     }
 
     public GBApplication() {
@@ -129,10 +122,6 @@ public class GBApplication extends Application {
         deviceService = createDeviceService();
 //        mActivityDatabaseHandler = new ActivityDatabaseHandler(context);
         loadBlackList();
-
-        IntentFilter filterLocal = new IntentFilter();
-        filterLocal.addAction(ACTION_QUIT);
-        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
 
         if (isRunningMarshmallowOrLater()) {
             notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

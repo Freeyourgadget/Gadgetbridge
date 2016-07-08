@@ -311,10 +311,7 @@ public class ControlCenter extends GBActivity {
                 startActivity(debugIntent);
                 return true;
             case R.id.action_quit:
-                GBApplication.deviceService().quit();
-
-                Intent quitIntent = new Intent(GBApplication.ACTION_QUIT);
-                LocalBroadcastManager.getInstance(this).sendBroadcast(quitIntent);
+                GBApplication.quit();
                 return true;
         }
 
