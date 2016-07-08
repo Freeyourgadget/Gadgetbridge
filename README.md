@@ -119,10 +119,9 @@ Feel free to open an issue on our issue tracker, but please:
 ## Having problems?
 
 1. Open Gadgetbridge's settings and check the option to write log files
-2. Quit Gadgetbridge and restart it
-3. Reproduce the problem you encountered
-4. Check the logfile at /sdcard/Android/data/nodomain.freeyourgadget.gadgetbridge/files/gadgetbridge.log
-5. File an issue at https://github.com/Freeyourgadget/Gadgetbridge/issues/new and possibly provide the logfile
+2. Reproduce the problem you encountered
+3. Check the logfile at /sdcard/Android/data/nodomain.freeyourgadget.gadgetbridge/files/gadgetbridge.log
+4. File an issue at https://github.com/Freeyourgadget/Gadgetbridge/issues/new and possibly provide the logfile
 
 Alternatively you may use the standard logcat functionality to access the log.
 
