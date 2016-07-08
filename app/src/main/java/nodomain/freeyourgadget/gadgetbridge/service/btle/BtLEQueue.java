@@ -330,8 +330,14 @@ public final class BtLEQueue {
                     LOG.info("Connected to GATT server.");
                     setDeviceConnectionState(State.CONNECTED);
                     // Attempts to discover services after successful connection.
-                    LOG.info("Attempting to start service discovery:" +
-                            gatt.discoverServices());
+                    List<BluetoothGattService> cachedServices = gatt.getServices();
+                    if (cachedServices != null && cachedServices.size() > 0) {
+                        LOG.info("Using cached services, skipping discovery");
+                        onServicesDiscovered(gatt, BluetoothGatt.GATT_SUCCESS);
+                    } else {
+                        LOG.info("Attempting to start service discovery:" +
+                                gatt.discoverServices());
+                    }
                     break;
                 case BluetoothProfile.STATE_DISCONNECTED:
                     LOG.info("Disconnected from GATT server.");
