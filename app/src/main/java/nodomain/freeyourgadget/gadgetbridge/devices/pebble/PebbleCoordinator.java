@@ -23,7 +23,7 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supports(GBDeviceCandidate candidate) {
-        return candidate.getName().startsWith("Pebble");
+        return candidate.getDevice().getName().startsWith("Pebble");
     }
 
     @Override
