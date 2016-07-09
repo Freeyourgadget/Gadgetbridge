@@ -56,6 +56,7 @@ public class MiBandPairingActivity extends GBActivity {
         public void onReceive(Context context, Intent intent) {
             if (BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(intent.getAction())) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                LOG.info("Bond state changed: " + device + ", state: " + device.getBondState() + ", expected address: " + bondingMacAddress);
                 if (bondingMacAddress != null && bondingMacAddress.equals(device.getAddress())) {
                     int bondState = intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE, BluetoothDevice.BOND_NONE);
                     if (bondState == BluetoothDevice.BOND_BONDED) {
@@ -68,6 +69,13 @@ public class MiBandPairingActivity extends GBActivity {
                                 performPair();
                             }
                         }, DELAY_AFTER_BONDING);
+                    } else if (bondState == BluetoothDevice.BOND_BONDING) {
+                        LOG.info("Bonding in progress with " + device.getAddress());
+                    } else if (bondState == BluetoothDevice.BOND_NONE) {
+                        LOG.info("Not bonded with " + device.getAddress() + ", aborting bonding.");
+                        pairingFinished(false);
+                    } else {
+                        LOG.warn("Unknown bond state for device " + device.getAddress() + ": " + bondState);
                     }
                 }
             }
@@ -169,8 +177,10 @@ public class MiBandPairingActivity extends GBActivity {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mPairingReceiver);
         unregisterReceiver(mBondingReceiver);
 
-        Intent intent = new Intent(this, ControlCenter.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+        if (pairedSuccessfully) {
+            Intent intent = new Intent(this, ControlCenter.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
         finish();
     }
 
@@ -182,7 +192,7 @@ public class MiBandPairingActivity extends GBActivity {
     protected void performBluetoothPair(BluetoothDevice device) {
         int bondState = device.getBondState();
         if (bondState == BluetoothDevice.BOND_BONDED) {
-            LOG.info("Already bonded: " + device.getAddress());
+            GB.toast("Already bonded with " + device.getName() + " (" + device.getAddress() + "), connecting...", Toast.LENGTH_SHORT, GB.INFO);
             performPair();
             return;
         }
