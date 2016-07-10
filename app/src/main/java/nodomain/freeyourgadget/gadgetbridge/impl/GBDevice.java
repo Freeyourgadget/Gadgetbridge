@@ -43,7 +43,7 @@ public class GBDevice implements Parcelable {
     private static final String DEVINFO_HW_VER = "HW: ";
     private static final String DEVINFO_FW_VER = "FW: ";
     private static final String DEVINFO_ADDR = "ADDR: ";
-    private final String mName;
+    private String mName;
     private final String mAddress;
     private final DeviceType mDeviceType;
     private String mFirmwareVersion;
@@ -107,6 +107,14 @@ public class GBDevice implements Parcelable {
 
     public String getName() {
         return mName;
+    }
+
+    public void setName(String name) {
+        if (name == null) {
+            LOG.warn("Ignoring setting of GBDevice name to null for " + this);
+            return;
+        }
+        mName = name;
     }
 
     public String getAddress() {

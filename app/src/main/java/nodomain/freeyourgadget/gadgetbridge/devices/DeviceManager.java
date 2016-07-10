@@ -27,6 +27,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 public class DeviceManager {
     private static final Logger LOG = LoggerFactory.getLogger(DeviceManager.class);
 
+    public static final String BLUETOOTH_DEVICE_ACTION_ALIAS_CHANGED = "android.bluetooth.device.action.ALIAS_CHANGED";
     /**
      * Intent action to notify that the list of devices has changed.
      */
@@ -50,9 +51,15 @@ public class DeviceManager {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             switch (action) {
-                case ACTION_REFRESH_DEVICELIST:
+                case ACTION_REFRESH_DEVICELIST: // fall through
                 case BluetoothDevice.ACTION_BOND_STATE_CHANGED:
                     refreshPairedDevices();
+                    break;
+                case BluetoothDevice.ACTION_NAME_CHANGED:
+                case BLUETOOTH_DEVICE_ACTION_ALIAS_CHANGED:
+                    BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                    String newName = intent.getStringExtra(BluetoothDevice.EXTRA_NAME);
+                    updateDeviceName(device, newName);
                     break;
                 case GBDevice.ACTION_DEVICE_CHANGED:
                     GBDevice dev = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
@@ -78,9 +85,26 @@ public class DeviceManager {
         filterLocal.addAction(GBDevice.ACTION_DEVICE_CHANGED);
         filterLocal.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         LocalBroadcastManager.getInstance(context).registerReceiver(mReceiver, filterLocal);
-        context.registerReceiver(mReceiver, new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED));
+
+        IntentFilter filterGlobal = new IntentFilter();
+        filterGlobal.addAction(BluetoothDevice.ACTION_NAME_CHANGED);
+        filterGlobal.addAction(BLUETOOTH_DEVICE_ACTION_ALIAS_CHANGED);
+        filterGlobal.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
+        context.registerReceiver(mReceiver, filterGlobal);
 
         refreshPairedDevices();
+    }
+
+    private void updateDeviceName(BluetoothDevice device, String newName) {
+        for (GBDevice dev : deviceList) {
+            if (device.getAddress().equals(dev.getAddress())) {
+                if (!dev.getName().equals(newName)) {
+                    dev.setName(newName);
+                    notifyDevicesChanged();
+                    return;
+                }
+            }
+        }
     }
 
     private void updateSelectedDevice(GBDevice dev) {
