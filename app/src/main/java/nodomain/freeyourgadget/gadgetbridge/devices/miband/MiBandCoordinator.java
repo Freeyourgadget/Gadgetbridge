@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
 
@@ -39,8 +40,10 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
         }
         // and a heuristic
         try {
-            if (isHealthWearable(candidate.getDevice())) {
-                return candidate.getDevice().getName().toUpperCase().startsWith(MiBandConst.MI_GENERAL_NAME_PREFIX.toUpperCase());
+            BluetoothDevice device = candidate.getDevice();
+            if (isHealthWearable(device)) {
+                String name = device.getName();
+                return name != null && name.toUpperCase().startsWith(MiBandConst.MI_GENERAL_NAME_PREFIX.toUpperCase());
             }
         } catch (Exception ex) {
             LOG.error("unable to check device support", ex);
