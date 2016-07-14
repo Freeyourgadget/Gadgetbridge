@@ -1,6 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -44,8 +43,12 @@ public class MiBandPairingActivity extends GBActivity {
             if (GBDevice.ACTION_DEVICE_CHANGED.equals(intent.getAction())) {
                 GBDevice device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                 LOG.debug("pairing activity: device changed: " + device);
-                if (macAddress.equals(device.getAddress()) && device.isInitialized()) {
-                    pairingFinished(true);
+                if (macAddress.equals(device.getAddress())) {
+                    if (device.isInitialized()) {
+                        pairingFinished(true, macAddress);
+                    } else if (device.isConnecting() || device.isInitializing()) {
+                        LOG.info("still connecting/initializing device...");
+                    }
                 }
             }
         }
@@ -62,25 +65,31 @@ public class MiBandPairingActivity extends GBActivity {
                     if (bondState == BluetoothDevice.BOND_BONDED) {
                         LOG.info("Bonded with " + device.getAddress());
                         bondingMacAddress = null;
-                        Looper mainLooper = Looper.getMainLooper();
-                        new Handler(mainLooper).postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                performPair();
-                            }
-                        }, DELAY_AFTER_BONDING);
+                        attemptToConnect();
                     } else if (bondState == BluetoothDevice.BOND_BONDING) {
                         LOG.info("Bonding in progress with " + device.getAddress());
                     } else if (bondState == BluetoothDevice.BOND_NONE) {
-                        LOG.info("Not bonded with " + device.getAddress() + ", aborting bonding.");
-                        pairingFinished(false);
+                        LOG.info("Not bonded with " + device.getAddress() + ", attempting to connect anyway.");
+                        bondingMacAddress = null;
+                        attemptToConnect();
                     } else {
                         LOG.warn("Unknown bond state for device " + device.getAddress() + ": " + bondState);
+                        pairingFinished(false, bondingMacAddress);
                     }
                 }
             }
         }
     };
+
+    private void attemptToConnect() {
+        Looper mainLooper = Looper.getMainLooper();
+        new Handler(mainLooper).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                performPair();
+            }
+        }, DELAY_AFTER_BONDING);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,7 +175,7 @@ public class MiBandPairingActivity extends GBActivity {
         }
     }
 
-    private void pairingFinished(boolean pairedSuccessfully) {
+    private void pairingFinished(boolean pairedSuccessfully, String macAddress) {
         LOG.debug("pairingFinished: " + pairedSuccessfully);
         if (!isPairing) {
             // already gone?
@@ -178,6 +187,14 @@ public class MiBandPairingActivity extends GBActivity {
         unregisterReceiver(mBondingReceiver);
 
         if (pairedSuccessfully) {
+            // remember the device since we do not necessarily pair... temporary -- we probably need
+            // to query the db for available devices in ControlCenter. But only remember un-bonded
+            // devices, as bonded devices are displayed anyway.
+            BluetoothDevice device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(macAddress);
+            if (device != null && device.getBondState() == BluetoothDevice.BOND_NONE) {
+                Prefs prefs = GBApplication.getPrefs();
+                prefs.getPreferences().edit().putString(MiBandConst.PREF_MIBAND_ADDRESS, macAddress).apply();
+            }
             Intent intent = new Intent(this, ControlCenter.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
@@ -210,6 +227,7 @@ public class MiBandPairingActivity extends GBActivity {
     }
 
     private void performPair() {
+        GBApplication.deviceService().disconnect(); // just to make sure...
         GBApplication.deviceService().connect(macAddress, true);
     }
 }
