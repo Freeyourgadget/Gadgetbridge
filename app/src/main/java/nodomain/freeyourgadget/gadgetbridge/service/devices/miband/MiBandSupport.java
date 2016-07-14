@@ -109,7 +109,9 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         enableNotifications(builder, true)
                 .setLowLatency(builder)
                 .readDate(builder) // without reading the data, we get sporadic connection problems, especially directly after turning on BT
-                .pair(builder)
+// this is apparently not needed anymore, and actually causes problems when bonding is not used/does not work
+// so we simply not use the UUID_PAIR characteristic.
+//                .pair(builder)
                 .requestDeviceInfo(builder)
                 .sendUserInfo(builder)
                 .checkAuthenticationNeeded(builder, getDevice())
