@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.11.2" versioncode="58">
+	<change>Mi Band: support for devices that cannot pair with the band (#349)</change>
+    </release>
     <release version="0.11.1" versioncode="57">
         <change>Various fixes (including crashes) for location settings</change>
         <change>Pebble: Support Pebble Time 2 emulator (needs recompilation of Gadgetbridge)</change>

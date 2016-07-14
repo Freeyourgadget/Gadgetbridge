@@ -1,6 +1,9 @@
 ###Changelog
 
 
+####Version 0.11.2
+Mi Band: support for devices that cannot pair with the band (#349)
+
 ####Version 0.11.1
 * Various fixes (including crashes) for location settings
 * Pebble: Support Pebble Time 2 emulator (needs recompilation of Gadgetbridge)
