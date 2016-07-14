@@ -939,6 +939,9 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 getDevice().sendDeviceUpdateIntent(getContext());
                 break;
 
+            case MiBandService.NOTIFY_SET_LATENCY_SUCCESS:
+                LOG.info("Setting latency succeeded.");
+                break;
             default:
                 for (byte b : value) {
                     LOG.warn("DATA: " + String.format("0x%2x", b));
