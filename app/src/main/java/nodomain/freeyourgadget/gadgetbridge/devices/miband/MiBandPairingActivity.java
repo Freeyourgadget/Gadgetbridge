@@ -20,12 +20,13 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
 import nodomain.freeyourgadget.gadgetbridge.activities.DiscoveryActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.GBActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-public class MiBandPairingActivity extends Activity {
+public class MiBandPairingActivity extends GBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandPairingActivity.class);
 
     private static final int REQ_CODE_USER_SETTINGS = 52;
