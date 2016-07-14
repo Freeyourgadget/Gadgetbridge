@@ -209,17 +209,15 @@ public class MiBandService {
 
 	*/
 
-    /* TEST: unkown (maybe sent to UUID_CHARACTERISTIC_TEST characteristic?
+    // TEST_*: sent to UUID_CHARACTERISTIC_TEST characteristic
 
-	public static final TEST_DISCONNECTED_REMINDER = 0x5t
+	public static final byte TEST_DISCONNECTED_REMINDER = 0x5;
 
-	public static final TEST_NOTIFICATION = 0x3t
+	public static final byte TEST_NOTIFICATION = 0x3;
 
-	public static final TEST_REMOTE_DISCONNECT = 0x1t
+	public static final byte TEST_REMOTE_DISCONNECT = 0x1;
 
-	public static final TEST_SELFTEST = 0x2t
-
-	*/
+	public static final byte TEST_SELFTEST = 0x2;
 
     private static final Map<UUID, String> MIBAND_DEBUG;
 
