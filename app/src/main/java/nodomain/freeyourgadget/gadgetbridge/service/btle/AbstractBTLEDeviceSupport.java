@@ -148,12 +148,14 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
 
     private void gattServicesDiscovered(List<BluetoothGattService> discoveredGattServices) {
         if (discoveredGattServices == null) {
+            LOG.warn("No gatt services discovered: null!");
             return;
         }
         Set<UUID> supportedServices = getSupportedServices();
         mAvailableCharacteristics = new HashMap<>();
         for (BluetoothGattService service : discoveredGattServices) {
             if (supportedServices.contains(service.getUuid())) {
+                LOG.debug("discovered supported service: " + service.getUuid());
                 List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
                 if (characteristics == null || characteristics.isEmpty()) {
                     LOG.warn("Supported LE service " + service.getUuid() + "did not return any characteristics");
@@ -164,6 +166,8 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
                     intmAvailableCharacteristics.put(characteristic.getUuid(), characteristic);
                 }
                 mAvailableCharacteristics.putAll(intmAvailableCharacteristics);
+            } else {
+                LOG.debug("discovered unsupported service: " + service.getUuid());
             }
         }
     }
