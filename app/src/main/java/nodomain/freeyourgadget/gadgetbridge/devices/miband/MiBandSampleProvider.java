@@ -11,8 +11,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public class MiBandSampleProvider extends AbstractSampleProvider<MiBandActivitySample> {
-    public static final int TYPE_DEEP_SLEEP = 5;
-    public static final int TYPE_LIGHT_SLEEP = 4;
+    public static final int TYPE_DEEP_SLEEP = 4;
+    public static final int TYPE_LIGHT_SLEEP = 5;
     public static final int TYPE_ACTIVITY = -1;
     public static final int TYPE_UNKNOWN = -1;
     public static final int TYPE_NONWEAR = 3;
