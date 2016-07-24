@@ -13,8 +13,9 @@ public class MiBandService {
     public static final String MAC_ADDRESS_FILTER_1S = "C8:0F:10";
 
     public static final UUID UUID_SERVICE_MIBAND_SERVICE = UUID.fromString(String.format(BASE_UUID, "FEE0"));
-
+    public static final UUID UUID_SERVICE_MIBAND2_SERVICE = UUID.fromString(String.format(BASE_UUID, "FEE1"));
     public static final UUID UUID_SERVICE_HEART_RATE = UUID.fromString(String.format(BASE_UUID, "180D"));
+    public static final String UUID_SERVICE_WEIGHT_SERVICE = "00001530-0000-3512-2118-0009af100700";
 
     public static final UUID UUID_CHARACTERISTIC_DEVICE_INFO = UUID.fromString(String.format(BASE_UUID, "FF01"));
 
@@ -52,8 +53,6 @@ public class MiBandService {
 
 
     /* FURTHER UUIDS that were mixed with the other params below. The base UUID for these is unknown */
-
-    public static final String UUID_SERVICE_WEIGHT_SERVICE = "00001530-0000-3512-2118-0009af100700";
 
     public static final byte ALIAS_LEN = 0xa;
 

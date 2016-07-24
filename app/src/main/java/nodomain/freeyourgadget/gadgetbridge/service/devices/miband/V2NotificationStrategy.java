@@ -3,14 +3,15 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.miband;
 import android.bluetooth.BluetoothGattCharacteristic;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 
 public class V2NotificationStrategy implements NotificationStrategy {
-    private final MiBandSupport support;
+    private final AbstractBTLEDeviceSupport support;
 
-    public V2NotificationStrategy(MiBandSupport support) {
+    public V2NotificationStrategy(AbstractBTLEDeviceSupport support) {
         this.support = support;
     }
 

@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.AbstractCollection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.CheckInitializedAction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.AbstractBleProfile;
 
 /**
  * Abstract base class for all devices connected through Bluetooth Low Energy (LE) aka
@@ -35,6 +38,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     private BtLEQueue mQueue;
     private HashMap<UUID, BluetoothGattCharacteristic> mAvailableCharacteristics;
     private final Set<UUID> mSupportedServices = new HashSet<>(4);
+    private final List<AbstractBleProfile<?>> mSupportedProfiles = new ArrayList<>();
 
     public static final String BASE_UUID = "0000%s-0000-1000-8000-00805f9b34fb"; //this is common for all BTLE devices. see http://stackoverflow.com/questions/18699251/finding-out-android-bluetooth-le-gatt-profiles
 
@@ -131,6 +135,10 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
         mSupportedServices.add(aSupportedService);
     }
 
+    protected void addSupportedProfile(AbstractBleProfile<?> profile) {
+        mSupportedProfiles.add(profile);
+    }
+
     /**
      * Returns the characteristic matching the given UUID. Only characteristics
      * are returned whose service is marked as supported.
@@ -155,7 +163,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
         mAvailableCharacteristics = new HashMap<>();
         for (BluetoothGattService service : discoveredGattServices) {
             if (supportedServices.contains(service.getUuid())) {
-                LOG.debug("discovered supported service: " + service.getUuid());
+                LOG.debug("discovered supported service: " + BleNamesResolver.resolveServiceName(service.getUuid().toString()) + ": " + service.getUuid());
                 List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
                 if (characteristics == null || characteristics.isEmpty()) {
                     LOG.warn("Supported LE service " + service.getUuid() + "did not return any characteristics");
@@ -164,10 +172,11 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
                 HashMap<UUID, BluetoothGattCharacteristic> intmAvailableCharacteristics = new HashMap<>(characteristics.size());
                 for (BluetoothGattCharacteristic characteristic : characteristics) {
                     intmAvailableCharacteristics.put(characteristic.getUuid(), characteristic);
+                    LOG.info("    characteristic: " + BleNamesResolver.resolveCharacteristicName(characteristic.getUuid().toString()) + ": " + characteristic.getUuid());
                 }
                 mAvailableCharacteristics.putAll(intmAvailableCharacteristics);
             } else {
-                LOG.debug("discovered unsupported service: " + service.getUuid());
+                LOG.debug("discovered unsupported service: " + BleNamesResolver.resolveServiceName(service.getUuid().toString()) + ": " + service.getUuid());
             }
         }
     }
@@ -179,6 +188,9 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     // default implementations of event handler methods (gatt callbacks)
     @Override
     public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+        for (AbstractBleProfile profile : mSupportedProfiles) {
+            profile.onConnectionStateChange(gatt, status, newState);
+        }
     }
 
     @Override
@@ -190,27 +202,45 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     @Override
     public void onCharacteristicRead(BluetoothGatt gatt,
                                      BluetoothGattCharacteristic characteristic, int status) {
+        for (AbstractBleProfile profile : mSupportedProfiles) {
+            profile.onCharacteristicRead(gatt, characteristic, status);
+        }
     }
 
     @Override
     public void onCharacteristicWrite(BluetoothGatt gatt,
                                       BluetoothGattCharacteristic characteristic, int status) {
+        for (AbstractBleProfile profile : mSupportedProfiles) {
+            profile.onCharacteristicWrite(gatt, characteristic, status);
+        }
     }
 
     @Override
     public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+        for (AbstractBleProfile profile : mSupportedProfiles) {
+            profile.onDescriptorRead(gatt, descriptor, status);
+        }
     }
 
     @Override
     public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+        for (AbstractBleProfile profile : mSupportedProfiles) {
+            profile.onDescriptorWrite(gatt, descriptor, status);
+        }
     }
 
     @Override
     public void onCharacteristicChanged(BluetoothGatt gatt,
                                         BluetoothGattCharacteristic characteristic) {
+        for (AbstractBleProfile profile : mSupportedProfiles) {
+            profile.onCharacteristicChanged(gatt, characteristic);
+        }
     }
 
     @Override
     public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
+        for (AbstractBleProfile profile : mSupportedProfiles) {
+            profile.onReadRemoteRssi(gatt, rssi, status);
+        }
     }
 }

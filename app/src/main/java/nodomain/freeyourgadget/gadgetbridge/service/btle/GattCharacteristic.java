@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
+import android.bluetooth.BluetoothGattCharacteristic;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -241,4 +243,7 @@ public class GattCharacteristic {
         return name;
     }
 
+    public static String toString(BluetoothGattCharacteristic characteristic) {
+        return characteristic.getUuid() + " (" + lookup(characteristic.getUuid(), "unknown") + ")";
+    }
 }

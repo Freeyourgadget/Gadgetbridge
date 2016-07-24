@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 
@@ -16,9 +17,9 @@ public class V1NotificationStrategy implements NotificationStrategy {
     static final byte[] startVibrate = new byte[]{MiBandService.COMMAND_SEND_NOTIFICATION, 1};
     static final byte[] stopVibrate = new byte[]{MiBandService.COMMAND_STOP_MOTOR_VIBRATE};
 
-    private final MiBandSupport support;
+    private final AbstractBTLEDeviceSupport support;
 
-    public V1NotificationStrategy(MiBandSupport support) {
+    public V1NotificationStrategy(AbstractBTLEDeviceSupport support) {
         this.support = support;
     }
 
