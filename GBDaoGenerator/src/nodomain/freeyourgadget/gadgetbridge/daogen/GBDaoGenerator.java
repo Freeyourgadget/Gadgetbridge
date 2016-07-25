@@ -34,7 +34,7 @@ public class GBDaoGenerator {
     private static final String VALID_BY_DATE = MODEL_PACKAGE + ".ValidByDate";
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(7, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(8, MAIN_PACKAGE + ".entities");
 
         addActivityDescription(schema);
 
@@ -46,6 +46,7 @@ public class GBDaoGenerator {
 
         addMiBandActivitySample(schema, user, device);
         addPebbleActivitySample(schema, user, device);
+        addPebbleMisfitActivitySample(schema, user, device);
 
         new DaoGenerator().generateAll(schema, "app/src/main/java");
     }
@@ -130,7 +131,9 @@ public class GBDaoGenerator {
     private static Entity addMiBandActivitySample(Schema schema, Entity user, Entity device) {
 //        public GBActivitySample(SampleProvider provider, int timestamp, int intensity, int steps, int type, int customValue) {
         Entity activitySample = addEntity(schema, "MiBandActivitySample");
-        addCommonActivitySampleProperties(schema, activitySample, user, device);
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        addDefaultActivitySampleAttributes(activitySample);
+        addCommonActivitySampleProperties2(activitySample, user, device);
         addHeartRateProperties(activitySample);
         return activitySample;
     }
@@ -144,12 +147,22 @@ public class GBDaoGenerator {
     private static Entity addPebbleActivitySample(Schema schema, Entity user, Entity device) {
 //        public GBActivitySample(SampleProvider provider, int timestamp, int intensity, int steps, int type, int customValue) {
         Entity activitySample = addEntity(schema, "PebbleActivitySample");
-        addCommonActivitySampleProperties(schema, activitySample, user, device);
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        addDefaultActivitySampleAttributes(activitySample);
+        addCommonActivitySampleProperties2(activitySample, user, device);
         return activitySample;
     }
 
-    private static void addCommonActivitySampleProperties(Schema schema, Entity activitySample, Entity user, Entity device) {
-        activitySample.setSuperclass("AbstractActivitySample");
+    private static Entity addPebbleMisfitActivitySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "PebbleMisfitSample");
+        addCommonActivitySampleProperties("AbstractPebbleMisfitActivitySample", activitySample, user, device);
+        activitySample.addIntProperty("rawPebbleMisfitSample").notNull();
+        addCommonActivitySampleProperties2(activitySample, user, device);
+        return activitySample;
+    }
+
+    private static void addCommonActivitySampleProperties(String superClass, Entity activitySample, Entity user, Entity device) {
+        activitySample.setSuperclass(superClass);
         activitySample.addImport(MODEL_PACKAGE + ".ActivitySample");
         activitySample.addImport(MAIN_PACKAGE + ".devices.SampleProvider");
         activitySample.implementsInterface("ActivitySample");
@@ -158,10 +171,10 @@ public class GBDaoGenerator {
                         "intensity, are device specific. Normalized values can be retrieved through the\n" +
                         "corresponding {@link SampleProvider}.");
         activitySample.addIdProperty();
+    }
+
+    private static void addCommonActivitySampleProperties2(Entity activitySample, Entity user, Entity device) {
         Property timestamp = activitySample.addIntProperty("timestamp").notNull().getProperty();
-        activitySample.addIntProperty("rawIntensity").notNull();
-        activitySample.addIntProperty("steps").notNull();
-        activitySample.addIntProperty("rawKind").notNull();
         Property userId = activitySample.addLongProperty("userId").getProperty();
         activitySample.addToOne(user, userId);
         Property deviceId = activitySample.addLongProperty("deviceId").getProperty();
@@ -173,7 +186,13 @@ public class GBDaoGenerator {
         indexUnique.makeUnique();
         activitySample.addIndex(indexUnique);
     }
-    
+
+    private static void addDefaultActivitySampleAttributes(Entity activitySample) {
+        activitySample.addIntProperty("rawIntensity").notNull();
+        activitySample.addIntProperty("steps").notNull();
+        activitySample.addIntProperty("rawKind").notNull();
+    }
+
     private static Entity addEntity(Schema schema, String className) {
         Entity entity = schema.addEntity(className);
         entity.addImport("de.greenrobot.dao.AbstractDao");

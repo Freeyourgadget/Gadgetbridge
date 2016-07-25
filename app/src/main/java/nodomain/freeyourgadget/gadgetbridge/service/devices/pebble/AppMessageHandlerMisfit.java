@@ -13,15 +13,13 @@ import java.util.SimpleTimeZone;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.MisfitSampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMisfitSample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -81,6 +79,7 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
 
                     int totalSteps = 0;
                     PebbleActivitySample[] activitySamples = new PebbleActivitySample[samples];
+                    PebbleMisfitSample[] misfitSamples = new PebbleMisfitSample[samples];
                     try (DBHandler db = GBApplication.acquireDB()) {
                         MisfitSampleProvider sampleProvider = new MisfitSampleProvider(device, db.getDaoSession());
                         Long userId = DBHelper.getUser(db.getDaoSession()).getId();
@@ -115,8 +114,10 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
                             totalSteps += steps;
                             LOG.info("got steps for sample " + i + " : " + steps + "(" + Integer.toHexString(sample & 0xffff) + ")");
 
-                            activitySamples[i] = new PebbleActivitySample(null, timestamp + i * 60, intensity, steps, activityKind, userId, deviceId);
-                            activitySamples[i].setProvider(sampleProvider);
+                            //activitySamples[i] = new PebbleActivitySample(null, timestamp + i * 60, intensity, steps, activityKind, userId, deviceId);
+                            //activitySamples[i].setProvider(sampleProvider);
+                            misfitSamples[i] = new PebbleMisfitSample(null, sample & 0xffff, timestamp + i * 60, userId, deviceId);
+                            misfitSamples[i].setProvider(sampleProvider);
                         }
                         LOG.info("total steps for above period: " + totalSteps);
 

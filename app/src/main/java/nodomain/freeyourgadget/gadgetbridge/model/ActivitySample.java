@@ -1,15 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.model;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-
-public interface ActivitySample extends TimeStamped {
-    /**
-     * Returns the provider of the data.
-     *
-     * @return who created the sample data
-     */
-    SampleProvider getProvider();
-
+public interface ActivitySample extends Sample {
     /**
      * Returns the raw activity kind value as recorded by the SampleProvider
      */

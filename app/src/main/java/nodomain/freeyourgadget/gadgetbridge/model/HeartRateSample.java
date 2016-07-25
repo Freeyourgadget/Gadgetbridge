@@ -1,6 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.model;
 
-public interface HeartRateSample extends TimeStamped {
+public interface HeartRateSample extends Sample {
     /**
      * Returns the heart rate measured at the corresponding timestamp.
      * The value is returned in heart beats per minute, in the range from
