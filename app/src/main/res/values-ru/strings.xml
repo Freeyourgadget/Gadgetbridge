@@ -181,9 +181,9 @@
   <string name="live_activity_steps_per_minute_history">История шагов за минуту</string>
   <string name="live_activity_start_your_activity">Начните вашу активность</string>
   <string name="abstract_chart_fragment_kind_activity">Активность</string>
-  <string name="abstract_chart_fragment_kind_light_sleep">Неглубокий сон</string>
+  <string name="abstract_chart_fragment_kind_light_sleep">Легкий сон</string>
   <string name="abstract_chart_fragment_kind_deep_sleep">Глубокий сон</string>
-  <string name="abstract_chart_fragment_kind_not_worn">Не носилось</string>
+  <string name="abstract_chart_fragment_kind_not_worn">Не носился</string>
   <string name="device_not_connected">Не подключен.</string>
   <string name="user_feedback_all_alarms_disabled">Все будильники отключены</string>
   <string name="pref_title_keep_data_on_device">Храните данные о деятельности на устройстве</string>
