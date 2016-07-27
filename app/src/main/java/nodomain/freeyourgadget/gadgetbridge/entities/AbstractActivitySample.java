@@ -22,25 +22,52 @@ public abstract class AbstractActivitySample implements ActivitySample {
     }
 
     @Override
+    public int getRawKind() {
+        return NOT_MEASURED;
+    }
+
+    @Override
     public float getIntensity() {
         return getProvider().normalizeIntensity(getRawIntensity());
     }
 
-    public abstract void setRawKind(int kind);
+    public void setRawKind(int kind) {
+    }
 
-    public abstract void setRawIntensity(int intensity);
+    public void setRawIntensity(int intensity) {
+    }
 
-    public abstract void setSteps(int steps);
+    public void setSteps(int steps) {
+    }
 
     public abstract void setTimestamp(int timestamp);
 
     public abstract void setUserId(Long userId);
 
-    public abstract Long getUserId();
+    @Override
+    public void setHeartRate(int heartRate) {
+    }
+
+    @Override
+    public int getHeartRate() {
+        return NOT_MEASURED;
+    }
 
     public abstract void setDeviceId(Long deviceId);
 
     public abstract Long getDeviceId();
+
+    public abstract Long getUserId();
+
+    @Override
+    public int getRawIntensity() {
+        return NOT_MEASURED;
+    }
+
+    @Override
+    public int getSteps() {
+        return NOT_MEASURED;
+    }
 
     @Override
     public String toString() {
@@ -48,6 +75,7 @@ public abstract class AbstractActivitySample implements ActivitySample {
                 "timestamp=" + DateTimeUtils.formatDateTime(DateTimeUtils.parseTimeStamp(getTimestamp())) +
                 ", intensity=" + getIntensity() +
                 ", steps=" + getSteps() +
+                ", heartrate=" + getHeartRate() +
                 ", type=" + getKind() +
                 ", userId=" + getUserId() +
                 ", deviceId=" + getDeviceId() +

@@ -34,7 +34,7 @@ public class GBDaoGenerator {
     private static final String VALID_BY_DATE = MODEL_PACKAGE + ".ValidByDate";
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(8, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(9, MAIN_PACKAGE + ".entities");
 
         addActivityDescription(schema);
 
@@ -139,9 +139,7 @@ public class GBDaoGenerator {
     }
 
     private static void addHeartRateProperties(Entity activitySample) {
-        activitySample.addImport(MODEL_PACKAGE + ".HeartRateSample");
-        activitySample.implementsInterface("HeartRateSample");
-        activitySample.addIntProperty("heartRate");
+        activitySample.addIntProperty("heartRate").notNull();
     }
 
     private static Entity addPebbleActivitySample(Schema schema, Entity user, Entity device) {
@@ -163,9 +161,7 @@ public class GBDaoGenerator {
 
     private static void addCommonActivitySampleProperties(String superClass, Entity activitySample, Entity user, Entity device) {
         activitySample.setSuperclass(superClass);
-        activitySample.addImport(MODEL_PACKAGE + ".ActivitySample");
         activitySample.addImport(MAIN_PACKAGE + ".devices.SampleProvider");
-        activitySample.implementsInterface("ActivitySample");
         activitySample.setJavaDoc(
                 "This class represents a sample specific to the device. Values like activity kind or\n" +
                         "intensity, are device specific. Normalized values can be retrieved through the\n" +

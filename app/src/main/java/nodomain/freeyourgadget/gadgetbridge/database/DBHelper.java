@@ -30,7 +30,6 @@ import nodomain.freeyourgadget.gadgetbridge.entities.UserAttributes;
 import nodomain.freeyourgadget.gadgetbridge.entities.UserDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
-import nodomain.freeyourgadget.gadgetbridge.model.HeartRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.ValidByDate;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
@@ -383,9 +382,7 @@ public class DBHelper {
                 newSample.setSteps(cursor.getInt(colSteps));
 
                 int hrValue = cursor.getInt(colCustomShort);
-                if (newSample instanceof HeartRateSample) {
-                    ((HeartRateSample)newSample).setHeartRate(hrValue);
-                }
+                newSample.setHeartRate(hrValue);
                 newSamples.add(newSample);
             }
             sampleProvider.getSampleDao().insertOrReplaceInTx(newSamples, true);

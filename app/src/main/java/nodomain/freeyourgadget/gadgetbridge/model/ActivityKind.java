@@ -5,6 +5,7 @@ import java.util.Arrays;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 
 public class ActivityKind {
+    public static final int TYPE_NOT_MEASURED = -1;
     public static final int TYPE_UNKNOWN = 0;
     public static final int TYPE_ACTIVITY = 1;
     public static final int TYPE_LIGHT_SLEEP = 2;

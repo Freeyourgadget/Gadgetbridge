@@ -13,7 +13,7 @@ public class GBActivitySample implements ActivitySample {
     private final int intensity;
     private final int steps;
     private final int type;
-    private final int customValue;
+    private int customValue;
 
     public GBActivitySample(SampleProvider provider, int timestamp, int intensity, int steps, int type) {
         this(provider, timestamp, intensity, steps, type, 0);
@@ -67,6 +67,16 @@ public class GBActivitySample implements ActivitySample {
     @Override
     public int getSteps() {
         return steps;
+    }
+
+    @Override
+    public int getHeartRate() {
+        return customValue;
+    }
+
+    @Override
+    public void setHeartRate(int value) {
+        customValue = value;
     }
 
     @Override

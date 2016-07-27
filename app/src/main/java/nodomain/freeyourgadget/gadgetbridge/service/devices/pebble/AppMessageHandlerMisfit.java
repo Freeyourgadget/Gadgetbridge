@@ -18,10 +18,8 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.MisfitSampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.entities.PebbleActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMisfitSample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class AppMessageHandlerMisfit extends AppMessageHandler {
@@ -78,7 +76,6 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
                     LOG.info("got data from " + startDate + " to " + endDate);
 
                     int totalSteps = 0;
-                    PebbleActivitySample[] activitySamples = new PebbleActivitySample[samples];
                     PebbleMisfitSample[] misfitSamples = new PebbleMisfitSample[samples];
                     try (DBHandler db = GBApplication.acquireDB()) {
                         MisfitSampleProvider sampleProvider = new MisfitSampleProvider(device, db.getDaoSession());
@@ -86,42 +83,16 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
                         Long deviceId = DBHelper.getDevice(getDevice(), db.getDaoSession()).getId();
                         for (int i = 0; i < samples; i++) {
                             short sample = buf.getShort();
-                            int steps = 0;
-                            int intensity = 0;
-                            int activityKind = ActivityKind.TYPE_UNKNOWN;
-
-                            if (((sample & 0x83ff) == 0x0001) && ((sample & 0xff00) <= 0x4800)) {
-                                // sleep seems to be from 0x2401 to 0x4801  (0b0IIIII0000000001) where I = intensity ?
-                                intensity = (sample & 0x7c00) >>> 10;
-                                // 9-18 decimal after shift
-                                if (intensity <= 13) {
-                                    activityKind = ActivityKind.TYPE_DEEP_SLEEP;
-                                } else {
-                                    // FIXME: this leads to too much false positives, ignore for now
-                                    //activityKind = ActivityKind.TYPE_LIGHT_SLEEP;
-                                    //intensity *= 2; // better visual distinction
-                                }
-                            } else {
-                                if ((sample & 0x0001) == 0) { // 16-??? steps encoded in bits 1-7
-                                    steps = (sample & 0x00fe);
-                                } else { // 0-14 steps encoded in bits 1-3, most of the time fc71 bits are set in that case
-                                    steps = (sample & 0x000e);
-                                }
-                                intensity = steps;
-                                activityKind = ActivityKind.TYPE_ACTIVITY;
-                            }
-
+                            misfitSamples[i] = new PebbleMisfitSample(null, sample & 0xffff, timestamp + i * 60, userId, deviceId);
+                            misfitSamples[i].setProvider(sampleProvider);
+                            int steps = misfitSamples[i].getSteps();
                             totalSteps += steps;
                             LOG.info("got steps for sample " + i + " : " + steps + "(" + Integer.toHexString(sample & 0xffff) + ")");
 
-                            //activitySamples[i] = new PebbleActivitySample(null, timestamp + i * 60, intensity, steps, activityKind, userId, deviceId);
-                            //activitySamples[i].setProvider(sampleProvider);
-                            misfitSamples[i] = new PebbleMisfitSample(null, sample & 0xffff, timestamp + i * 60, userId, deviceId);
-                            misfitSamples[i].setProvider(sampleProvider);
                         }
                         LOG.info("total steps for above period: " + totalSteps);
 
-                        sampleProvider.addGBActivitySamples(activitySamples);
+                        sampleProvider.addGBActivitySamples(misfitSamples);
                     } catch (Exception e) {
                         LOG.error("Error acquiring database", e);
                         return null;
