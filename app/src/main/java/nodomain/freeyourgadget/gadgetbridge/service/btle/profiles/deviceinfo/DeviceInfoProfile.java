@@ -7,7 +7,6 @@ import android.content.Intent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
@@ -15,7 +14,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.AbstractBleProfile;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfo;
 
 public class DeviceInfoProfile<T extends AbstractBTLEDeviceSupport> extends AbstractBleProfile {
     private static final Logger LOG = LoggerFactory.getLogger(DeviceInfoProfile.class);
@@ -55,33 +53,43 @@ public class DeviceInfoProfile<T extends AbstractBTLEDeviceSupport> extends Abst
     }
 
     @Override
-    public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+    public boolean onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
         if (status == BluetoothGatt.GATT_SUCCESS) {
             UUID charUuid = characteristic.getUuid();
             if (charUuid.equals(UUID_CHARACTERISTIC_MANUFACTURER_NAME_STRING)) {
                 handleManufacturerName(gatt, characteristic);
+                return true;
             } else if (charUuid.equals(UUID_CHARACTERISTIC_MODEL_NUMBER_STRING)) {
                 handleModelNumber(gatt, characteristic);
+                return true;
             } else if (charUuid.equals(UUID_CHARACTERISTIC_SERIAL_NUMBER_STRING)) {
                 handleSerialNumber(gatt, characteristic);
+                return true;
             } else if (charUuid.equals(UUID_CHARACTERISTIC_HARDWARE_REVISION_STRING)) {
                 handleHardwareRevision(gatt, characteristic);
+                return true;
             } else if (charUuid.equals(UUID_CHARACTERISTIC_FIRMWARE_REVISION_STRING)) {
                 handleFirmwareRevision(gatt, characteristic);
+                return true;
             } else if (charUuid.equals(UUID_CHARACTERISTIC_SOFTWARE_REVISION_STRING)) {
                 handleSoftwareRevision(gatt, characteristic);
+                return true;
             } else if (charUuid.equals(UUID_CHARACTERISTIC_SYSTEM_ID)) {
                 handleSystemId(gatt, characteristic);
+                return true;
             } else if (charUuid.equals(UUID_CHARACTERISTIC_IEEE_11073_20601_REGULATORY_CERTIFICATION_DATA_LIST)) {
                 handleRegulatoryCertificationData(gatt, characteristic);
+                return true;
             } else if (charUuid.equals(UUID_CHARACTERISTIC_PNP_ID)) {
                 handlePnpId(gatt, characteristic);
+                return true;
             } else {
                 LOG.info("Unexpected onCharacteristicRead: " + GattCharacteristic.toString(characteristic));
             }
         } else {
             LOG.warn("error reading from characteristic:" + GattCharacteristic.toString(characteristic));
         }
+        return false;
     }
 
 

@@ -7,7 +7,6 @@ import android.content.Intent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
@@ -43,17 +42,19 @@ public class BatteryInfoProfile<T extends AbstractBTLEDeviceSupport> extends Abs
     }
 
     @Override
-    public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+    public boolean onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
         if (status == BluetoothGatt.GATT_SUCCESS) {
             UUID charUuid = characteristic.getUuid();
             if (charUuid.equals(UUID_CHARACTERISTIC_BATTERY_LEVEL)) {
                 handleBatteryLevel(gatt, characteristic);
+                return true;
             } else {
                 LOG.info("Unexpected onCharacteristicRead: " + GattCharacteristic.toString(characteristic));
             }
         } else {
             LOG.warn("error reading from characteristic:" + GattCharacteristic.toString(characteristic));
         }
+        return false;
     }
 
     private void handleBatteryLevel(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {

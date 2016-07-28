@@ -200,41 +200,56 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     }
 
     @Override
-    public void onCharacteristicRead(BluetoothGatt gatt,
-                                     BluetoothGattCharacteristic characteristic, int status) {
+    public boolean onCharacteristicRead(BluetoothGatt gatt,
+                                        BluetoothGattCharacteristic characteristic, int status) {
         for (AbstractBleProfile profile : mSupportedProfiles) {
-            profile.onCharacteristicRead(gatt, characteristic, status);
+            if (profile.onCharacteristicRead(gatt, characteristic, status)) {
+                return true;
+            }
         }
+        return false;
     }
 
     @Override
-    public void onCharacteristicWrite(BluetoothGatt gatt,
-                                      BluetoothGattCharacteristic characteristic, int status) {
+    public boolean onCharacteristicWrite(BluetoothGatt gatt,
+                                         BluetoothGattCharacteristic characteristic, int status) {
         for (AbstractBleProfile profile : mSupportedProfiles) {
-            profile.onCharacteristicWrite(gatt, characteristic, status);
+            if (profile.onCharacteristicWrite(gatt, characteristic, status)) {
+                return true;
+            }
         }
+        return false;
     }
 
     @Override
-    public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+    public boolean onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
         for (AbstractBleProfile profile : mSupportedProfiles) {
-            profile.onDescriptorRead(gatt, descriptor, status);
+            if (profile.onDescriptorRead(gatt, descriptor, status)) {
+                return true;
+            }
         }
+        return false;
     }
 
     @Override
-    public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+    public boolean onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
         for (AbstractBleProfile profile : mSupportedProfiles) {
-            profile.onDescriptorWrite(gatt, descriptor, status);
+            if (profile.onDescriptorWrite(gatt, descriptor, status)) {
+                return true;
+            }
         }
+        return false;
     }
 
     @Override
-    public void onCharacteristicChanged(BluetoothGatt gatt,
-                                        BluetoothGattCharacteristic characteristic) {
+    public boolean onCharacteristicChanged(BluetoothGatt gatt,
+                                           BluetoothGattCharacteristic characteristic) {
         for (AbstractBleProfile profile : mSupportedProfiles) {
-            profile.onCharacteristicChanged(gatt, characteristic);
+            if (profile.onCharacteristicChanged(gatt, characteristic)) {
+                return true;
+            }
         }
+        return false;
     }
 
     @Override

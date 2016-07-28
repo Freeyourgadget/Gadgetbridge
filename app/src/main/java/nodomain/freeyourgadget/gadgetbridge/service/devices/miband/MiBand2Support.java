@@ -824,60 +824,76 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onCharacteristicChanged(BluetoothGatt gatt,
-                                        BluetoothGattCharacteristic characteristic) {
+    public boolean onCharacteristicChanged(BluetoothGatt gatt,
+                                           BluetoothGattCharacteristic characteristic) {
         super.onCharacteristicChanged(gatt, characteristic);
 
         UUID characteristicUUID = characteristic.getUuid();
         if (MiBandService.UUID_CHARACTERISTIC_BATTERY.equals(characteristicUUID)) {
             handleBatteryInfo(characteristic.getValue(), BluetoothGatt.GATT_SUCCESS);
+            return true;
         } else if (MiBandService.UUID_CHARACTERISTIC_NOTIFICATION.equals(characteristicUUID)) {
             handleNotificationNotif(characteristic.getValue());
+            return true;
         } else if (MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS.equals(characteristicUUID)) {
             handleRealtimeSteps(characteristic.getValue());
+            return true;
         } else if (MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS.equals(characteristicUUID)) {
             handleRealtimeSteps(characteristic.getValue());
+            return true;
         } else if (MiBandService.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT.equals(characteristicUUID)) {
             handleHeartrate(characteristic.getValue());
+            return true;
         } else {
             LOG.info("Unhandled characteristic changed: " + characteristicUUID);
             logMessageContent(characteristic.getValue());
         }
+        return false;
     }
 
     @Override
-    public void onCharacteristicRead(BluetoothGatt gatt,
-                                     BluetoothGattCharacteristic characteristic, int status) {
+    public boolean onCharacteristicRead(BluetoothGatt gatt,
+                                        BluetoothGattCharacteristic characteristic, int status) {
         super.onCharacteristicRead(gatt, characteristic, status);
 
         UUID characteristicUUID = characteristic.getUuid();
         if (MiBandService.UUID_CHARACTERISTIC_DEVICE_INFO.equals(characteristicUUID)) {
             handleDeviceInfo(characteristic.getValue(), status);
+            return true;
         } else if (GattCharacteristic.UUID_CHARACTERISTIC_GAP_DEVICE_NAME.equals(characteristicUUID)) {
             handleDeviceName(characteristic.getValue(), status);
+            return true;
         } else if (MiBandService.UUID_CHARACTERISTIC_BATTERY.equals(characteristicUUID)) {
             handleBatteryInfo(characteristic.getValue(), status);
+            return true;
         } else if (MiBandService.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT.equals(characteristicUUID)) {
             logHeartrate(characteristic.getValue(), status);
+            return true;
         } else if (MiBandService.UUID_CHARACTERISTIC_DATE_TIME.equals(characteristicUUID)) {
             logDate(characteristic.getValue(), status);
+            return true;
         } else {
             LOG.info("Unhandled characteristic read: " + characteristicUUID);
             logMessageContent(characteristic.getValue());
         }
+        return false;
     }
 
     @Override
-    public void onCharacteristicWrite(BluetoothGatt gatt,
-                                      BluetoothGattCharacteristic characteristic, int status) {
+    public boolean onCharacteristicWrite(BluetoothGatt gatt,
+                                         BluetoothGattCharacteristic characteristic, int status) {
         UUID characteristicUUID = characteristic.getUuid();
         if (MiBandService.UUID_CHARACTERISTIC_PAIR.equals(characteristicUUID)) {
             handlePairResult(characteristic.getValue(), status);
+            return true;
         } else if (MiBandService.UUID_CHARACTERISTIC_USER_INFO.equals(characteristicUUID)) {
             handleUserInfoResult(characteristic.getValue(), status);
+            return true;
         } else if (MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT.equals(characteristicUUID)) {
             handleControlPointResult(characteristic.getValue(), status);
+            return true;
         }
+        return false;
     }
 
     /**

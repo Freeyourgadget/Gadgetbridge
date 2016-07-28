@@ -72,14 +72,15 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
     }
 
     @Override
-    public void onCharacteristicChanged(BluetoothGatt gatt,
-                                        BluetoothGattCharacteristic characteristic) {
+    public boolean onCharacteristicChanged(BluetoothGatt gatt,
+                                           BluetoothGattCharacteristic characteristic) {
         UUID characteristicUUID = characteristic.getUuid();
         if (MiBandService.UUID_CHARACTERISTIC_NOTIFICATION.equals(characteristicUUID)) {
             handleNotificationNotif(characteristic.getValue());
         } else {
             super.onCharacteristicChanged(gatt, characteristic);
         }
+        return false;
     }
 
     /**
