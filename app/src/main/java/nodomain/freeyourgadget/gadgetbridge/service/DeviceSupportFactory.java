@@ -90,7 +90,7 @@ public class DeviceSupportFactory {
                     return deviceSupport;
                 }
             } catch (Exception e) {
-                throw new GBException(mContext.getString(R.string.cannot_connect_bt_address_invalid_, e));
+                throw new GBException(mContext.getString(R.string.cannot_connect_bt_address_invalid_), e);
             }
         }
         return null;
