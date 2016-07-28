@@ -167,20 +167,29 @@ public class GBDaoGenerator {
                         "intensity, are device specific. Normalized values can be retrieved through the\n" +
                         "corresponding {@link SampleProvider}.");
         activitySample.addIdProperty();
+        activitySample.addIntProperty("timestamp").notNull();
     }
 
     private static void addCommonActivitySampleProperties2(Entity activitySample, Entity user, Entity device) {
-        Property timestamp = activitySample.addIntProperty("timestamp").notNull().getProperty();
         Property userId = activitySample.addLongProperty("userId").getProperty();
         activitySample.addToOne(user, userId);
         Property deviceId = activitySample.addLongProperty("deviceId").getProperty();
         activitySample.addToOne(device, deviceId);
 
         Index indexUnique = new Index();
-        indexUnique.addProperty(timestamp);
+        indexUnique.addProperty(findProperty(activitySample, "timestamp"));
         indexUnique.addProperty(deviceId);
         indexUnique.makeUnique();
         activitySample.addIndex(indexUnique);
+    }
+
+    private static Property findProperty(Entity entity, String propertyName) {
+        for (Property prop : entity.getProperties()) {
+            if (propertyName.equals(prop.getPropertyName())) {
+                return prop;
+            }
+        }
+        throw new IllegalArgumentException("Property " + propertyName + " not found in Entity " + entity.getClassName());
     }
 
     private static void addDefaultActivitySampleAttributes(Entity activitySample) {

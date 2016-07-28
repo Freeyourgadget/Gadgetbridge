@@ -29,6 +29,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.entities.UserAttributes;
 import nodomain.freeyourgadget.gadgetbridge.entities.UserDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.ValidByDate;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
@@ -373,19 +374,28 @@ public class DBHelper {
             List<T> newSamples = new ArrayList<>(cursor.getCount());
             while (cursor.moveToNext()) {
                 T newSample = sampleProvider.createActivitySample();
+                newSample.setProvider(sampleProvider);
                 newSample.setUserId(userId);
                 newSample.setDeviceId(deviceId);
                 newSample.setTimestamp(cursor.getInt(colTimeStamp));
-                newSample.setRawKind(cursor.getInt(colType));
-                newSample.setProvider(sampleProvider);
-                newSample.setRawIntensity(cursor.getInt(colIntensity));
-                newSample.setSteps(cursor.getInt(colSteps));
-
-                int hrValue = cursor.getInt(colCustomShort);
-                newSample.setHeartRate(hrValue);
+                newSample.setRawKind(getNullableInt(cursor, colType, ActivitySample.NOT_MEASURED));
+                newSample.setRawIntensity(getNullableInt(cursor, colIntensity, ActivitySample.NOT_MEASURED));
+                newSample.setSteps(getNullableInt(cursor, colSteps, ActivitySample.NOT_MEASURED));
+                if (colCustomShort > -1) {
+                    newSample.setHeartRate(getNullableInt(cursor, colCustomShort, ActivitySample.NOT_MEASURED));
+                } else {
+                    newSample.setHeartRate(ActivitySample.NOT_MEASURED);
+                }
                 newSamples.add(newSample);
             }
             sampleProvider.getSampleDao().insertOrReplaceInTx(newSamples, true);
         }
+    }
+
+    private int getNullableInt(Cursor cursor, int columnIndex, int defaultValue) {
+        if (cursor.isNull(columnIndex)) {
+            return defaultValue;
+        }
+        return cursor.getInt(columnIndex);
     }
 }
