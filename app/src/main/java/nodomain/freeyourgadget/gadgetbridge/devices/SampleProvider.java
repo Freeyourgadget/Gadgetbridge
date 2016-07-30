@@ -8,7 +8,7 @@ public interface SampleProvider<T extends AbstractActivitySample> {
     // TODO: these constants can all be removed
     int PROVIDER_MIBAND = 0;
     int PROVIDER_PEBBLE_MORPHEUZ = 1;
-    int PROVIDER_PEBBLE_GADGETBRIDGE = 2;
+    int PROVIDER_PEBBLE_GADGETBRIDGE = 2; // removed
     int PROVIDER_PEBBLE_MISFIT = 3;
     int PROVIDER_PEBBLE_HEALTH = 4;
 

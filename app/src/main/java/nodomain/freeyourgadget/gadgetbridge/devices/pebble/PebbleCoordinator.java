@@ -52,15 +52,13 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
         int activityTracker = prefs.getInt("pebble_activitytracker", SampleProvider.PROVIDER_PEBBLE_HEALTH);
         switch (activityTracker) {
             case SampleProvider.PROVIDER_PEBBLE_HEALTH:
-                return new HealthSampleProvider(device, session);
+                return new PebbleHealthSampleProvider(device, session);
             case SampleProvider.PROVIDER_PEBBLE_MISFIT:
-                return new MisfitSampleProvider(device, session);
+                return new PebbleMisfitSampleProvider(device, session);
             case SampleProvider.PROVIDER_PEBBLE_MORPHEUZ:
-                return new MorpheuzSampleProvider(device, session);
-            case SampleProvider.PROVIDER_PEBBLE_GADGETBRIDGE:
-                return new PebbleGadgetBridgeSampleProvider(device, session);
+                return new PebbleMorpheuzSampleProvider(device, session);
             default:
-                return new HealthSampleProvider(device, session);
+                return new PebbleHealthSampleProvider(device, session);
         }
     }
 

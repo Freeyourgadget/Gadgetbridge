@@ -16,13 +16,13 @@ import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMisfitSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
-public class MisfitSampleProvider implements SampleProvider<PebbleMisfitSample> {
+public class PebbleMisfitSampleProvider implements SampleProvider<PebbleMisfitSample> {
     private final DaoSession mSession;
     private final GBDevice mDevice;
 
     protected final float movementDivisor = 300f;
 
-    public MisfitSampleProvider(GBDevice device, DaoSession session) {
+    public PebbleMisfitSampleProvider(GBDevice device, DaoSession session) {
         mSession = session;
         mDevice = device;
     }

@@ -5,7 +5,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
-public class MorpheuzSampleProvider extends AbstractPebbleSampleProvider {
+public class PebbleMorpheuzSampleProvider extends AbstractPebbleSampleProvider {
     // raw types
     public static final int TYPE_DEEP_SLEEP = 5;
     public static final int TYPE_LIGHT_SLEEP = 4;
@@ -14,7 +14,7 @@ public class MorpheuzSampleProvider extends AbstractPebbleSampleProvider {
 
     protected float movementDivisor = 5000f;
 
-    public MorpheuzSampleProvider(GBDevice device, DaoSession session) {
+    public PebbleMorpheuzSampleProvider(GBDevice device, DaoSession session) {
         super(device, session);
     }
 

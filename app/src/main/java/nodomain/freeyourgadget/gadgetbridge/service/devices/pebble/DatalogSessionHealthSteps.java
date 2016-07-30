@@ -10,8 +10,8 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.pebble.HealthSampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.entities.PebbleActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleHealthSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -75,14 +75,14 @@ public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
     private void store(StepsRecord[] stepsRecords) {
 
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
-            HealthSampleProvider sampleProvider = new HealthSampleProvider(getDevice(), dbHandler.getDaoSession());
-            PebbleActivitySample[] samples = new PebbleActivitySample[stepsRecords.length];
+            PebbleHealthSampleProvider sampleProvider = new PebbleHealthSampleProvider(getDevice(), dbHandler.getDaoSession());
+            PebbleHealthActivitySample[] samples = new PebbleHealthActivitySample[stepsRecords.length];
             // TODO: user and device
             Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
             Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
             for (int j = 0; j < stepsRecords.length; j++) {
                 StepsRecord stepsRecord = stepsRecords[j];
-                samples[j] = new PebbleActivitySample(
+                samples[j] = new PebbleHealthActivitySample(
                         null,
                         stepsRecord.timestamp,
                         stepsRecord.intensity,

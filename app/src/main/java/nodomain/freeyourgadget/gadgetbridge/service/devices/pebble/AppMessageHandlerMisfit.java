@@ -17,7 +17,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
-import nodomain.freeyourgadget.gadgetbridge.devices.pebble.MisfitSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleMisfitSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMisfitSample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -78,7 +78,7 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
                     int totalSteps = 0;
                     PebbleMisfitSample[] misfitSamples = new PebbleMisfitSample[samples];
                     try (DBHandler db = GBApplication.acquireDB()) {
-                        MisfitSampleProvider sampleProvider = new MisfitSampleProvider(device, db.getDaoSession());
+                        PebbleMisfitSampleProvider sampleProvider = new PebbleMisfitSampleProvider(device, db.getDaoSession());
                         Long userId = DBHelper.getUser(db.getDaoSession()).getId();
                         Long deviceId = DBHelper.getDevice(getDevice(), db.getDaoSession()).getId();
                         for (int i = 0; i < samples; i++) {

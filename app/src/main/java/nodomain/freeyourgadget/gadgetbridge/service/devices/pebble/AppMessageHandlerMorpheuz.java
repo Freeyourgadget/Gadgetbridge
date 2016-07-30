@@ -16,10 +16,9 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSleepMonitorResult;
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.pebble.MorpheuzSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleMorpheuzSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
-import nodomain.freeyourgadget.gadgetbridge.entities.PebbleActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -93,18 +92,18 @@ public class AppMessageHandlerMorpheuz extends AppMessageHandler {
                         int index = ((int) pair.second >> 16);
                         int intensity = ((int) pair.second & 0xffff);
                         LOG.info("got point:" + index + " " + intensity);
-                        int type = MorpheuzSampleProvider.TYPE_UNKNOWN;
+                        int type = PebbleMorpheuzSampleProvider.TYPE_UNKNOWN;
                         if (intensity <= 120) {
-                            type = MorpheuzSampleProvider.TYPE_DEEP_SLEEP;
+                            type = PebbleMorpheuzSampleProvider.TYPE_DEEP_SLEEP;
                         } else if (intensity <= 1000) {
-                            type = MorpheuzSampleProvider.TYPE_LIGHT_SLEEP;
+                            type = PebbleMorpheuzSampleProvider.TYPE_LIGHT_SLEEP;
                         }
                         if (index >= 0) {
                             try (DBHandler db = GBApplication.acquireDB()) {
                                 User user = DBHelper.getUser(db.getDaoSession());
                                 Device device = DBHelper.getDevice(getDevice(), db.getDaoSession());
-                                MorpheuzSampleProvider sampleProvider = new MorpheuzSampleProvider(getDevice(), db.getDaoSession());
-                                PebbleActivitySample sample = createSample(recording_base_timestamp + index * 600, intensity, 0, type, user, device);
+                                PebbleMorpheuzSampleProvider sampleProvider = new PebbleMorpheuzSampleProvider(getDevice(), db.getDaoSession());
+                                PebbleHealthActivitySample sample = createSample(recording_base_timestamp + index * 600, intensity, 0, type, user, device);
                                 sample.setProvider(sampleProvider);
                                 sampleProvider.addGBActivitySample(sample);
                             } catch (Exception e) {

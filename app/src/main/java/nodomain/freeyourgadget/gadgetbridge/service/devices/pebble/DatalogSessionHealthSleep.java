@@ -9,7 +9,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.pebble.HealthSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleHealthSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -59,7 +59,7 @@ class DatalogSessionHealthSleep extends DatalogSessionPebbleHealth {
 
     private boolean store(SleepRecord[] sleepRecords) {
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
-            SampleProvider sampleProvider = new HealthSampleProvider(getDevice(), dbHandler.getDaoSession());
+            SampleProvider sampleProvider = new PebbleHealthSampleProvider(getDevice(), dbHandler.getDaoSession());
             int latestTimestamp = sampleProvider.fetchLatestTimestamp();
             for (SleepRecord sleepRecord : sleepRecords) {
                 if (latestTimestamp < sleepRecord.bedTimeEnd)

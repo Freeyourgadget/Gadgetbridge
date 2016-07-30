@@ -345,7 +345,7 @@ public class DBHelper {
 
     private boolean isEmpty(DaoSession session) {
         long totalSamplesCount = session.getMiBandActivitySampleDao().count();
-        totalSamplesCount += session.getPebbleActivitySampleDao().count();
+        totalSamplesCount += session.getPebbleHealthActivitySampleDao().count();
         return totalSamplesCount == 0;
     }
 

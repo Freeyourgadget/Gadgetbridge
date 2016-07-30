@@ -45,7 +45,7 @@ public class GBDaoGenerator {
         Entity device = addDevice(schema, deviceAttributes);
 
         addMiBandActivitySample(schema, user, device);
-        addPebbleActivitySample(schema, user, device);
+        addPebbleHealthActivitySample(schema, user, device);
         addPebbleMisfitActivitySample(schema, user, device);
 
         new DaoGenerator().generateAll(schema, "app/src/main/java");
@@ -142,9 +142,9 @@ public class GBDaoGenerator {
         activitySample.addIntProperty("heartRate").notNull();
     }
 
-    private static Entity addPebbleActivitySample(Schema schema, Entity user, Entity device) {
+    private static Entity addPebbleHealthActivitySample(Schema schema, Entity user, Entity device) {
 //        public GBActivitySample(SampleProvider provider, int timestamp, int intensity, int steps, int type, int customValue) {
-        Entity activitySample = addEntity(schema, "PebbleActivitySample");
+        Entity activitySample = addEntity(schema, "PebbleHealthActivitySample");
         addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
         addDefaultActivitySampleAttributes(activitySample);
         addCommonActivitySampleProperties2(activitySample, user, device);

@@ -2,18 +2,17 @@ package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
-import nodomain.freeyourgadget.gadgetbridge.entities.PebbleActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
-public class HealthSampleProvider extends AbstractPebbleSampleProvider {
+public class PebbleHealthSampleProvider extends AbstractPebbleSampleProvider {
     public static final int TYPE_DEEP_SLEEP = 5;
     public static final int TYPE_LIGHT_SLEEP = 4;
     public static final int TYPE_ACTIVITY = -1;
 
     protected final float movementDivisor = 8000f;
 
-    public HealthSampleProvider(GBDevice device, DaoSession session) {
+    public PebbleHealthSampleProvider(GBDevice device, DaoSession session) {
         super(device, session);
     }
 

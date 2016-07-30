@@ -4,38 +4,37 @@ import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
-import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySampleDao;
-import nodomain.freeyourgadget.gadgetbridge.entities.PebbleActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.entities.PebbleActivitySampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
-public abstract class AbstractPebbleSampleProvider extends AbstractSampleProvider<PebbleActivitySample> {
+public abstract class AbstractPebbleSampleProvider extends AbstractSampleProvider<PebbleHealthActivitySample> {
     protected AbstractPebbleSampleProvider(GBDevice device, DaoSession session) {
         super(device, session);
     }
 
     @Override
-    public AbstractDao<PebbleActivitySample, ?> getSampleDao() {
-        return getSession().getPebbleActivitySampleDao();
+    public AbstractDao<PebbleHealthActivitySample, ?> getSampleDao() {
+        return getSession().getPebbleHealthActivitySampleDao();
     }
 
     @Override
     protected Property getTimestampSampleProperty() {
-        return PebbleActivitySampleDao.Properties.Timestamp;
+        return PebbleHealthActivitySampleDao.Properties.Timestamp;
     }
 
     @Override
     protected Property getRawKindSampleProperty() {
-        return PebbleActivitySampleDao.Properties.RawKind;
+        return PebbleHealthActivitySampleDao.Properties.RawKind;
     }
 
     @Override
     protected Property getDeviceIdentifierSampleProperty() {
-        return PebbleActivitySampleDao.Properties.DeviceId;
+        return PebbleHealthActivitySampleDao.Properties.DeviceId;
     }
 
     @Override
-    public PebbleActivitySample createActivitySample() {
-        return new PebbleActivitySample();
+    public PebbleHealthActivitySample createActivitySample() {
+        return new PebbleHealthActivitySample();
     }
 }
