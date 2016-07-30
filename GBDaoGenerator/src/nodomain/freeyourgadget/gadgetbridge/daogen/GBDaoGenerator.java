@@ -34,7 +34,7 @@ public class GBDaoGenerator {
     private static final String VALID_BY_DATE = MODEL_PACKAGE + ".ValidByDate";
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(9, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(10, MAIN_PACKAGE + ".entities");
 
         addActivityDescription(schema);
 
@@ -47,6 +47,7 @@ public class GBDaoGenerator {
         addMiBandActivitySample(schema, user, device);
         addPebbleHealthActivitySample(schema, user, device);
         addPebbleMisfitActivitySample(schema, user, device);
+        addPebbleMorpheuzActivitySample(schema, user, device);
 
         new DaoGenerator().generateAll(schema, "app/src/main/java");
     }
@@ -155,6 +156,15 @@ public class GBDaoGenerator {
         Entity activitySample = addEntity(schema, "PebbleMisfitSample");
         addCommonActivitySampleProperties("AbstractPebbleMisfitActivitySample", activitySample, user, device);
         activitySample.addIntProperty("rawPebbleMisfitSample").notNull();
+        addCommonActivitySampleProperties2(activitySample, user, device);
+        return activitySample;
+    }
+
+    private static Entity addPebbleMorpheuzActivitySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "PebbleMorpheuzSample");
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        activitySample.addIntProperty("rawIntensity").notNull();
+        activitySample.addIntProperty("rawKind").notNull();
         addCommonActivitySampleProperties2(activitySample, user, device);
         return activitySample;
     }
