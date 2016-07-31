@@ -457,6 +457,10 @@ public class PebbleIoThread extends GBDeviceIoThread {
         } catch (IOException e) {
             LOG.error("Error writing.", e);
         }
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ignored) {
+        }
     }
 
     @Override
