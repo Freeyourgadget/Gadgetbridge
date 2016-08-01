@@ -130,4 +130,19 @@ public class DeviceInfo implements Parcelable{
     public void setPnpId(String pnpId) {
         this.pnpId = pnpId;
     }
+
+    @Override
+    public String toString() {
+        return "DeviceInfo{" +
+                "manufacturerName='" + manufacturerName + '\'' +
+                ", modelNumber='" + modelNumber + '\'' +
+                ", serialNumber='" + serialNumber + '\'' +
+                ", hardwareRevision='" + hardwareRevision + '\'' +
+                ", firmwareRevision='" + firmwareRevision + '\'' +
+                ", softwareRevision='" + softwareRevision + '\'' +
+                ", systemId='" + systemId + '\'' +
+                ", regulatoryCertificationDataList='" + regulatoryCertificationDataList + '\'' +
+                ", pnpId='" + pnpId + '\'' +
+                '}';
+    }
 }
