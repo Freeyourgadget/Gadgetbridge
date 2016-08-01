@@ -2,7 +2,7 @@
 <resources>
   <string name="app_name">Gadgetbridge</string>
   <string name="title_activity_controlcenter">Gadgetbridge</string>
-  <string name="action_settings">Параметри</string>
+  <string name="action_settings">Налаштування</string>
   <string name="action_debug">Зневадження</string>
   <string name="action_quit">Вихід</string>
   <string name="controlcenter_fetch_activity_data">Синхронізувати</string>
@@ -26,6 +26,7 @@
   <string name="title_activity_settings">Параметри</string>
   <string name="pref_header_general">Загальні параметри</string>
   <string name="pref_title_general_autoconnectonbluetooth">З\'єднання із пристроєм при активації Bluetooth</string>
+  <string name="pref_title_general_autocreonnect">Перепід\'єднуватись автоматично</string>
   <string name="pref_title_audo_player">Переважний музичний програвач</string>
   <string name="pref_default">Типовий</string>
   <string name="pref_header_datetime">Дата і час</string>
@@ -44,16 +45,28 @@
   <string name="pref_summary_notifications_pebblemsg">Підтримка додатків, які надсилають сповіщення на Pebble за допомогою Intent. Може використовуватись для Conversations.</string>
   <string name="pref_title_notifications_generic">Підтримка звичайних сповіщень</string>
   <string name="pref_title_whenscreenon">… навіть коли екран увімкнено</string>
+  <string name="pref_title_notification_filter">Не тубрувати</string>
   <string name="always">завжди</string>
   <string name="when_screen_off">коли екран вимкнуто</string>
   <string name="never">ніколи</string>
   <string name="pref_blacklist">Перелік заблокованих додатків</string>
+  <string name="pref_title_canned_replies">Відповіді</string>
+  <string name="pref_title_canned_reply_suffix">Загальний суфікс</string>
   <string name="pref_header_development">Параметри для розробників</string>
   <string name="pref_title_development_miaddr">Адреса Mi—Band</string>
   <string name="pref_title_pebble_settings">Параметри Pebble</string>
+  <string name="pref_header_activitytrackers">Трекер активності</string>
   <string name="pref_title_pebble_activitytracker">Переважний трекер активності</string>
+  <string name="pref_title_pebble_sync_health">Синхронізувати Pebble Health</string>
+  <string name="pref_title_pebble_sync_misfit">Синхронізувати Misfit</string>
+  <string name="pref_title_pebble_sync_morpheuz">Синхронізувати Morpheuz</string>
   <string name="pref_title_enable_pebblekit">Дозволити доступ іншим особам</string>
   <string name="pref_summary_enable_pebblekit">Додати експериментальну підтримку додатків Android, які використовують PebbleKit</string>
+  <string name="pref_title_sunrise_sunset">Схід і захід сонця</string>
+  <string name="pref_summary_sunrise_sunset">Надіслати час сходу і заходу сонця оснований на місцезнаходженні до розкладу Pebble</string>
+  <string name="pref_header_location">Місцезнаходження</string>
+  <string name="pref_title_location_latitude">Широта</string>
+  <string name="pref_title_location_longitude">Довгота</string>
   <string name="pref_title_pebble_forceprotocol">Примусовий протокол сповіщень</string>
   <string name="pref_summary_pebble_forceprotocol">Цей параметр примусово вмикає новий протокол сповіщень, який залежить від версії мікропрограми. ВМИКАЙТЕ, ЯКЩО ВИ ЗНАЄТЕ НА ЩО ЙДЕТЕ.</string>
   <string name="pref_title_pebble_forceuntested">Увімкнути не перевірені можливості</string>
@@ -118,7 +131,7 @@
   <string name="vibration_profile_waterdrop">Крапля води</string>
   <string name="vibration_profile_ring">Дзвінок</string>
   <string name="vibration_profile_alarm_clock">Будильник</string>
-  <string name="miband_prefs_vibration">Вібро</string>
+  <string name="miband_prefs_vibration">Вібрація</string>
   <string name="pref_screen_notification_profile_sms">SMS-сповіщення</string>
   <string name="pref_header_vibration_settings">Параметри вібро</string>
   <string name="pref_screen_notification_profile_generic">Загальні сповіщення</string>

@@ -74,6 +74,8 @@
   <string name="pref_title_location_aquire">場所の取得</string>
   <string name="pref_title_location_latitude">緯度</string>
   <string name="pref_title_location_longitude">経度</string>
+  <string name="toast_enable_networklocationprovider">ネットワークの場所を有効にしてください</string>
+  <string name="toast_aqurired_networklocation">場所を取得しました</string>
   <string name="pref_title_pebble_forceprotocol">通知プロトコルを強制する</string>
   <string name="pref_summary_pebble_forceprotocol">このオプションを指定すると、ファームウェアのバージョンに応じて強制的に最新の通知プロトコルを使用します。何をしているかわかっている場合のみ有効にしてください!</string>
   <string name="pref_title_pebble_forceuntested">未テストの機能を有効にする</string>

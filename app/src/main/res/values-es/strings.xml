@@ -74,6 +74,8 @@
   <string name="pref_title_location_aquire">Buscar localización</string>
   <string name="pref_title_location_latitude">Latitud</string>
   <string name="pref_title_location_longitude">Longitud</string>
+  <string name="toast_enable_networklocationprovider">Por favor, activa la localización por red</string>
+  <string name="toast_aqurired_networklocation">localización encontrada</string>
   <string name="pref_title_pebble_forceprotocol">Forzar protocolo de notificación</string>
   <string name="pref_summary_pebble_forceprotocol">Esta opción fuerza el uso del último protocolo de notificación dependiendo de la versión de firmware. ¡HABILÍTALO SOLO SI SABES LO QUE ESTÁS HACIENDO!</string>
   <string name="pref_title_pebble_forceuntested">Habilitar características no probadas</string>
