@@ -1,5 +1,8 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
@@ -15,7 +18,7 @@ public class PebbleMorpheuzSampleProvider extends AbstractSampleProvider<PebbleM
     public static final int TYPE_DEEP_SLEEP = 5;
     public static final int TYPE_LIGHT_SLEEP = 4;
     public static final int TYPE_ACTIVITY = 1;
-    public static final int TYPE_UNKNOWN = -1;
+    public static final int TYPE_UNKNOWN = 0;
 
     protected float movementDivisor = 5000f;
 
@@ -35,7 +38,7 @@ public class PebbleMorpheuzSampleProvider extends AbstractSampleProvider<PebbleM
 
     @Override
     protected Property getRawKindSampleProperty() {
-        return PebbleMorpheuzSampleDao.Properties.RawKind;
+        return null; // not supported
     }
 
     @Override
@@ -71,7 +74,6 @@ public class PebbleMorpheuzSampleProvider extends AbstractSampleProvider<PebbleM
                 return TYPE_DEEP_SLEEP;
             case ActivityKind.TYPE_LIGHT_SLEEP:
                 return TYPE_LIGHT_SLEEP;
-            case ActivityKind.TYPE_UNKNOWN: // fall through
             default:
                 return TYPE_UNKNOWN;
         }
@@ -80,6 +82,38 @@ public class PebbleMorpheuzSampleProvider extends AbstractSampleProvider<PebbleM
     @Override
     public float normalizeIntensity(int rawIntensity) {
         return rawIntensity / movementDivisor;
+    }
+
+    @Override
+    public List<PebbleMorpheuzSample> getActivitySamples(int timestamp_from, int timestamp_to) {
+        List<PebbleMorpheuzSample> samples = getAllActivitySamples(timestamp_from, timestamp_to);
+        List<PebbleMorpheuzSample> filteredSamples = new ArrayList<>();
+        for (PebbleMorpheuzSample sample : samples) {
+            if (sample.getRawIntensity() > 1000) {
+                sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
+                filteredSamples.add(sample);
+            }
+        }
+
+        return filteredSamples;
+    }
+
+    @Override
+    public List<PebbleMorpheuzSample> getSleepSamples(int timestamp_from, int timestamp_to) {
+        List<PebbleMorpheuzSample> samples = getAllActivitySamples(timestamp_from, timestamp_to);
+        List<PebbleMorpheuzSample> filteredSamples = new ArrayList<>();
+        for (PebbleMorpheuzSample sample : samples) {
+            if (sample.getRawIntensity() < 1000) {
+                if (sample.getRawIntensity() <= 120) {
+                    sample.setRawKind(ActivityKind.TYPE_DEEP_SLEEP);
+                } else {
+                    sample.setRawKind(ActivityKind.TYPE_LIGHT_SLEEP);
+                }
+                filteredSamples.add(sample);
+            }
+        }
+
+        return filteredSamples;
     }
 
     @Override

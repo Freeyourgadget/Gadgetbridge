@@ -109,18 +109,12 @@ public class AppMessageHandlerMorpheuz extends AppMessageHandler {
                         int index = ((int) pair.second >> 16);
                         int intensity = ((int) pair.second & 0xffff);
                         LOG.info("got point:" + index + " " + intensity);
-                        int type = PebbleMorpheuzSampleProvider.TYPE_ACTIVITY;
-                        if (intensity <= 120) {
-                            type = PebbleMorpheuzSampleProvider.TYPE_DEEP_SLEEP;
-                        } else if (intensity <= 1000) {
-                            type = PebbleMorpheuzSampleProvider.TYPE_LIGHT_SLEEP;
-                        }
                         if (index >= 0) {
                             try (DBHandler db = GBApplication.acquireDB()) {
                                 Long userId = DBHelper.getUser(db.getDaoSession()).getId();
                                 Long deviceId = DBHelper.getDevice(getDevice(), db.getDaoSession()).getId();
                                 PebbleMorpheuzSampleProvider sampleProvider = new PebbleMorpheuzSampleProvider(getDevice(), db.getDaoSession());
-                                PebbleMorpheuzSample sample = new PebbleMorpheuzSample(null, recording_base_timestamp + index * 600, intensity, type, userId, deviceId);
+                                PebbleMorpheuzSample sample = new PebbleMorpheuzSample(null, recording_base_timestamp + index * 600, intensity, userId, deviceId);
                                 sample.setProvider(sampleProvider);
                                 sampleProvider.addGBActivitySample(sample);
                             } catch (Exception e) {

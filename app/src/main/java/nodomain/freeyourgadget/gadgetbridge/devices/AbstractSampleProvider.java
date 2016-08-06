@@ -91,6 +91,10 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
     }
 
     protected List<T> getGBActivitySamples(int timestamp_from, int timestamp_to, int activityType) {
+        if (getRawKindSampleProperty() == null && activityType != ActivityKind.TYPE_ALL) {
+            // if we do not have a raw kind property we cannot query anything else then TYPE_ALL
+            return Collections.emptyList();
+        }
         QueryBuilder<T> qb = getSampleDao().queryBuilder();
         Property timestampProperty = getTimestampSampleProperty();
         Device dbDevice = DBHelper.findDevice(getmDevice(), getSession());

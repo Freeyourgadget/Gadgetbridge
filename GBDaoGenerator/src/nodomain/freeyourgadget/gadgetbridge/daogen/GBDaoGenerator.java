@@ -34,7 +34,7 @@ public class GBDaoGenerator {
     private static final String VALID_BY_DATE = MODEL_PACKAGE + ".ValidByDate";
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(10, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(11, MAIN_PACKAGE + ".entities");
 
         addActivityDescription(schema);
 
@@ -164,7 +164,6 @@ public class GBDaoGenerator {
         Entity activitySample = addEntity(schema, "PebbleMorpheuzSample");
         addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
         activitySample.addIntProperty("rawIntensity").notNull();
-        activitySample.addIntProperty("rawKind").notNull();
         addCommonActivitySampleProperties2(activitySample, user, device);
         return activitySample;
     }
