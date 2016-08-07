@@ -162,7 +162,7 @@ public class GBDaoGenerator {
 
     private static Entity addPebbleMorpheuzActivitySample(Schema schema, Entity user, Entity device) {
         Entity activitySample = addEntity(schema, "PebbleMorpheuzSample");
-        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        addCommonActivitySampleProperties("AbstractPebbleMorpheuzActivitySample", activitySample, user, device);
         activitySample.addIntProperty("rawIntensity").notNull();
         addCommonActivitySampleProperties2(activitySample, user, device);
         return activitySample;

@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.devices;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,12 +45,20 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
 
     @Override
     public List<T> getActivitySamples(int timestamp_from, int timestamp_to) {
-        return getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_ACTIVITY);
+        if (getRawKindSampleProperty() != null) {
+            return getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_ACTIVITY);
+        } else {
+            return getActivitySamplesByActivityFilter(timestamp_from, timestamp_to, ActivityKind.TYPE_ACTIVITY);
+        }
     }
 
     @Override
     public List<T> getSleepSamples(int timestamp_from, int timestamp_to) {
-        return getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_SLEEP);
+        if (getRawKindSampleProperty() != null) {
+            return getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_SLEEP);
+        } else {
+            return getActivitySamplesByActivityFilter(timestamp_from, timestamp_to, ActivityKind.TYPE_SLEEP);
+        }
     }
 
     @Override
@@ -145,6 +154,18 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
         return qb.or(rawKindProperty.eq(dbActivityTypes[0]),
                 rawKindProperty.eq(dbActivityTypes[1]),
                 trailingConditions);
+    }
+
+    private List<T> getActivitySamplesByActivityFilter(int timestamp_from, int timestamp_to, int activityFilter) {
+        List<T> samples = getAllActivitySamples(timestamp_from, timestamp_to);
+        List<T> filteredSamples = new ArrayList<>();
+
+        for (T sample : samples) {
+            if ((sample.getKind() & activityFilter) != 0) {
+                filteredSamples.add(sample);
+            }
+        }
+        return filteredSamples;
     }
 
     public abstract AbstractDao<T,?> getSampleDao();

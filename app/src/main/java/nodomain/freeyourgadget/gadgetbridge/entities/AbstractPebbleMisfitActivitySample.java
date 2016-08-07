@@ -41,7 +41,7 @@ public abstract class AbstractPebbleMisfitActivitySample extends AbstractActivit
     }
 
     @Override
-    public int getRawKind() {
+    public int getKind() {
         calculate();
         return activityKind;
     }
@@ -51,20 +51,4 @@ public abstract class AbstractPebbleMisfitActivitySample extends AbstractActivit
         calculate();
         return intensity;
     }
-
-    @Override
-    public void setRawKind(int kind) {
-
-    }
-
-    @Override
-    public void setRawIntensity(int intensity) {
-
-    }
-
-    @Override
-    public void setSteps(int steps) {
-
-    }
-
 }
