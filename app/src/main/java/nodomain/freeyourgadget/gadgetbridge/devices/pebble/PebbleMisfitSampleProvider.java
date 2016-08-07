@@ -34,7 +34,7 @@ public class PebbleMisfitSampleProvider extends AbstractSampleProvider<PebbleMis
 
     @Override
     public PebbleMisfitSample createActivitySample() {
-        return null;
+        return new PebbleMisfitSample();
     }
 
     @Override
