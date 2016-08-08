@@ -46,6 +46,7 @@ public class GBDaoGenerator {
 
         addMiBandActivitySample(schema, user, device);
         addPebbleHealthActivitySample(schema, user, device);
+        addPebbleHealthActivityKindOverlay(schema, user, device);
         addPebbleMisfitActivitySample(schema, user, device);
         addPebbleMorpheuzActivitySample(schema, user, device);
 
@@ -150,6 +151,28 @@ public class GBDaoGenerator {
         addDefaultActivitySampleAttributes(activitySample);
         addCommonActivitySampleProperties2(activitySample, user, device);
         return activitySample;
+    }
+
+    private static Entity addPebbleHealthActivityKindOverlay(Schema schema, Entity user, Entity device) {
+        Entity activityOverlay = addEntity(schema, "PebbleHealthActivityOverlay");
+        activityOverlay.addIdProperty();
+        Property timestampFrom = activityOverlay.addIntProperty("timestampFrom").notNull().getProperty();
+        Property timestampTo = activityOverlay.addIntProperty("timestampTo").notNull().getProperty();
+        activityOverlay.addIntProperty("rawKind").notNull();
+
+        Property userId = activityOverlay.addLongProperty("userId").getProperty();
+        activityOverlay.addToOne(user, userId);
+        Property deviceId = activityOverlay.addLongProperty("deviceId").getProperty();
+        activityOverlay.addToOne(device, deviceId);
+
+        Index indexUnique = new Index();
+        indexUnique.addProperty(deviceId);
+        indexUnique.addProperty(timestampFrom);
+        indexUnique.addProperty(timestampTo);
+        indexUnique.makeUnique();
+        activityOverlay.addIndex(indexUnique);
+
+        return activityOverlay;
     }
 
     private static Entity addPebbleMisfitActivitySample(Schema schema, Entity user, Entity device) {
