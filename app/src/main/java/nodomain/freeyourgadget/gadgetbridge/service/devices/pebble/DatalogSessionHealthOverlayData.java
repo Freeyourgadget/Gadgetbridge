@@ -4,12 +4,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleHealthSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivityOverlay;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivityOverlayDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -60,7 +66,14 @@ class DatalogSessionHealthOverlayData extends DatalogSessionPebbleHealth {
 
     private boolean store(OverlayRecord[] overlayRecords) {
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
-            SampleProvider sampleProvider = new PebbleHealthSampleProvider(getDevice(), dbHandler.getDaoSession());
+            DaoSession session = dbHandler.getDaoSession();
+            Long userId = DBHelper.getUser(session).getId();
+            Long deviceId = DBHelper.getDevice(getDevice(), session).getId();
+
+            PebbleHealthActivityOverlayDao overlayDao = session.getPebbleHealthActivityOverlayDao();
+
+            SampleProvider sampleProvider = new PebbleHealthSampleProvider(getDevice(), session);
+            List<PebbleHealthActivityOverlay> overlayList = new ArrayList<>();
             int latestTimestamp = sampleProvider.fetchLatestTimestamp();
             for (OverlayRecord overlayRecord : overlayRecords) {
                 if (latestTimestamp < (overlayRecord.timestampStart + overlayRecord.durationSeconds))
@@ -75,7 +88,9 @@ class DatalogSessionHealthOverlayData extends DatalogSessionPebbleHealth {
                     default:
                         //TODO: other values refer to unknown activity types.
                 }
+                overlayList.add(new PebbleHealthActivityOverlay(null, overlayRecord.timestampStart, overlayRecord.timestampStart + overlayRecord.durationSeconds - 1, overlayRecord.type, userId, deviceId));
             }
+            overlayDao.insertOrReplaceInTx(overlayList);
         } catch (Exception ex) {
             LOG.debug(ex.getMessage());
         }
