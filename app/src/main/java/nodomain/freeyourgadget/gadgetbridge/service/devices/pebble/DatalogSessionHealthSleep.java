@@ -4,14 +4,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleHealthSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivityOverlay;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivityOverlayDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 class DatalogSessionHealthSleep extends DatalogSessionPebbleHealth {
@@ -54,25 +57,30 @@ class DatalogSessionHealthSleep extends DatalogSessionPebbleHealth {
                     datalogMessage.getInt());
         }
 
-        return store(sleepRecords);//NACK if we cannot store the data yet, the watch will send the sleep records again.
-    }
-
-    private boolean store(SleepRecord[] sleepRecords) {
-        try (DBHandler dbHandler = GBApplication.acquireDB()) {
-            SampleProvider sampleProvider = new PebbleHealthSampleProvider(getDevice(), dbHandler.getDaoSession());
-            int latestTimestamp = sampleProvider.fetchLatestTimestamp();
-            for (SleepRecord sleepRecord : sleepRecords) {
-                if (latestTimestamp < sleepRecord.bedTimeEnd)
-                    return false;
-                sampleProvider.changeStoredSamplesType(sleepRecord.bedTimeStart, sleepRecord.bedTimeEnd, sampleProvider.toRawActivityKind(ActivityKind.TYPE_ACTIVITY), sampleProvider.toRawActivityKind(ActivityKind.TYPE_LIGHT_SLEEP));
-            }
-        } catch (Exception ex) {
-            LOG.debug(ex.getMessage());
-        }
+        store(sleepRecords);
         return true;
     }
 
+    private void store(SleepRecord[] sleepRecords) {
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            DaoSession session = dbHandler.getDaoSession();
+            Long userId = DBHelper.getUser(session).getId();
+            Long deviceId = DBHelper.getDevice(getDevice(), session).getId();
+
+            PebbleHealthActivityOverlayDao overlayDao = session.getPebbleHealthActivityOverlayDao();
+
+            List<PebbleHealthActivityOverlay> overlayList = new ArrayList<>();
+            for (SleepRecord sleepRecord : sleepRecords) {
+                overlayList.add(new PebbleHealthActivityOverlay(null, sleepRecord.bedTimeStart, sleepRecord.bedTimeEnd - 1, sleepRecord.type, userId, deviceId)); //TODO: consider if "-1" is what we really want
+            }
+            overlayDao.insertOrReplaceInTx(overlayList);
+        } catch (Exception ex) {
+            LOG.debug(ex.getMessage());
+        }
+    }
+
     private class SleepRecord {
+        int type = 1; //sleep, hardcoded as we don't get other info
         int offsetUTC; //probably
         int bedTimeStart;
         int bedTimeEnd;

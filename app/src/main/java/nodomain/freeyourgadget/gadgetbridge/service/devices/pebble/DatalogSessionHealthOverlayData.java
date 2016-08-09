@@ -11,13 +11,10 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleHealthSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivityOverlay;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivityOverlayDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 class DatalogSessionHealthOverlayData extends DatalogSessionPebbleHealth {
@@ -61,10 +58,11 @@ class DatalogSessionHealthOverlayData extends DatalogSessionPebbleHealth {
             overlayRecords[recordIdx] = new OverlayRecord(recordType, datalogMessage.getInt(), datalogMessage.getInt(), datalogMessage.getInt());
         }
 
-        return store(overlayRecords);//NACK if we cannot store the data yet, the watch will send the overlay records again.
+        store(overlayRecords);
+        return true;
     }
 
-    private boolean store(OverlayRecord[] overlayRecords) {
+    private void store(OverlayRecord[] overlayRecords) {
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             DaoSession session = dbHandler.getDaoSession();
             Long userId = DBHelper.getUser(session).getId();
@@ -72,29 +70,14 @@ class DatalogSessionHealthOverlayData extends DatalogSessionPebbleHealth {
 
             PebbleHealthActivityOverlayDao overlayDao = session.getPebbleHealthActivityOverlayDao();
 
-            SampleProvider sampleProvider = new PebbleHealthSampleProvider(getDevice(), session);
             List<PebbleHealthActivityOverlay> overlayList = new ArrayList<>();
-            int latestTimestamp = sampleProvider.fetchLatestTimestamp();
             for (OverlayRecord overlayRecord : overlayRecords) {
-                if (latestTimestamp < (overlayRecord.timestampStart + overlayRecord.durationSeconds))
-                    return false;
-                switch (overlayRecord.type) {
-                    case 1:
-                        sampleProvider.changeStoredSamplesType(overlayRecord.timestampStart, (overlayRecord.timestampStart + overlayRecord.durationSeconds), sampleProvider.toRawActivityKind(ActivityKind.TYPE_ACTIVITY), sampleProvider.toRawActivityKind(ActivityKind.TYPE_LIGHT_SLEEP));
-                        break;
-                    case 2:
-                        sampleProvider.changeStoredSamplesType(overlayRecord.timestampStart, (overlayRecord.timestampStart + overlayRecord.durationSeconds), sampleProvider.toRawActivityKind(ActivityKind.TYPE_DEEP_SLEEP));
-                        break;
-                    default:
-                        //TODO: other values refer to unknown activity types.
-                }
-                overlayList.add(new PebbleHealthActivityOverlay(null, overlayRecord.timestampStart, overlayRecord.timestampStart + overlayRecord.durationSeconds - 1, overlayRecord.type, userId, deviceId));
+                overlayList.add(new PebbleHealthActivityOverlay(null, overlayRecord.timestampStart, overlayRecord.timestampStart + overlayRecord.durationSeconds - 1, overlayRecord.type, userId, deviceId)); //TODO: consider if "-1" is what we really want
             }
             overlayDao.insertOrReplaceInTx(overlayList);
         } catch (Exception ex) {
             LOG.debug(ex.getMessage());
         }
-        return true;
     }
 
     private class OverlayRecord {
