@@ -48,7 +48,7 @@ public class PebbleHealthSampleProvider extends AbstractSampleProvider<PebbleHea
 
         for (PebbleHealthActivityOverlay overlay : overlayRecords) {
             for (PebbleHealthActivitySample sample : samples) {
-                if (overlay.getTimestampFrom() >= sample.getTimestamp() && overlay.getTimestampTo() <= sample.getTimestamp()) {
+                if (overlay.getTimestampFrom() <= sample.getTimestamp() && sample.getTimestamp() <= overlay.getTimestampTo()) {
                     // patch in the raw kind
                     sample.setRawKind(overlay.getRawKind());
                 }
