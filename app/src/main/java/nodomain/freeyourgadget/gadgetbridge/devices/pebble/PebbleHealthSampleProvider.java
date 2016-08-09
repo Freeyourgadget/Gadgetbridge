@@ -12,6 +12,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivityOverlay;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivityOverlayDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -37,25 +38,22 @@ public class PebbleHealthSampleProvider extends AbstractSampleProvider<PebbleHea
             // no device, no samples
             return Collections.emptyList();
         }
-        Property timestampProperty = getTimestampSampleProperty();
-        Property deviceProperty = getDeviceIdentifierSampleProperty();
 
         QueryBuilder<PebbleHealthActivityOverlay> qb = getSession().getPebbleHealthActivityOverlayDao().queryBuilder();
 
         // I assume it returns the records by id ascending ... (last overlay is dominant)
-        qb.where(deviceProperty.eq(dbDevice.getId()), timestampProperty.ge(timestamp_from))
-                .where(timestampProperty.le(timestamp_to));
+        qb.where(PebbleHealthActivityOverlayDao.Properties.DeviceId.eq(dbDevice.getId()), PebbleHealthActivityOverlayDao.Properties.TimestampFrom.ge(timestamp_from))
+                .where(PebbleHealthActivityOverlayDao.Properties.TimestampTo.le(timestamp_to));
         List<PebbleHealthActivityOverlay> overlayRecords = qb.build().list();
 
-        for (PebbleHealthActivitySample sample : samples) {
-            for (PebbleHealthActivityOverlay overlay : overlayRecords) {
-                if (overlay.getTimestampFrom() <= sample.getTimestamp() && overlay.getTimestampTo() >= sample.getTimestamp()) {
+        for (PebbleHealthActivityOverlay overlay : overlayRecords) {
+            for (PebbleHealthActivitySample sample : samples) {
+                if (overlay.getTimestampFrom() >= sample.getTimestamp() && overlay.getTimestampTo() <= sample.getTimestamp()) {
                     // patch in the raw kind
                     sample.setRawKind(overlay.getRawKind());
                 }
             }
         }
-
         return samples;
     }
 
