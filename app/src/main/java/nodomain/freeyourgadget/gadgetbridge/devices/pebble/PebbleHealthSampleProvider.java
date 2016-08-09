@@ -19,8 +19,11 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public class PebbleHealthSampleProvider extends AbstractSampleProvider<PebbleHealthActivitySample> {
-    public static final int TYPE_DEEP_SLEEP = 5;
-    public static final int TYPE_LIGHT_SLEEP = 4;
+    public static final int TYPE_LIGHT_SLEEP = 1;
+    public static final int TYPE_DEEP_SLEEP = 2;
+    public static final int TYPE_LIGHT_NAP = 3; //probably
+    public static final int TYPE_DEEP_NAP = 4; //probably
+    public static final int TYPE_WALK = 5; //probably
     public static final int TYPE_ACTIVITY = -1;
 
     protected final float movementDivisor = 8000f;
@@ -87,8 +90,10 @@ public class PebbleHealthSampleProvider extends AbstractSampleProvider<PebbleHea
     @Override
     public int normalizeType(int rawType) {
         switch (rawType) {
+            case TYPE_DEEP_NAP:
             case TYPE_DEEP_SLEEP:
                 return ActivityKind.TYPE_DEEP_SLEEP;
+            case TYPE_LIGHT_NAP:
             case TYPE_LIGHT_SLEEP:
                 return ActivityKind.TYPE_LIGHT_SLEEP;
             case TYPE_ACTIVITY:
