@@ -158,14 +158,15 @@ public class GBDaoGenerator {
     private static Entity addPebbleHealthActivityKindOverlay(Schema schema, Entity user, Entity device) {
         Entity activityOverlay = addEntity(schema, "PebbleHealthActivityOverlay");
         activityOverlay.addIdProperty();
-        Property timestampFrom = activityOverlay.addIntProperty("timestampFrom").notNull().getProperty();
-        Property timestampTo = activityOverlay.addIntProperty("timestampTo").notNull().getProperty();
-        activityOverlay.addIntProperty("rawKind").notNull();
 
         Property userId = activityOverlay.addLongProperty("userId").getProperty();
         activityOverlay.addToOne(user, userId);
         Property deviceId = activityOverlay.addLongProperty("deviceId").getProperty();
         activityOverlay.addToOne(device, deviceId);
+
+        Property timestampFrom = activityOverlay.addIntProperty("timestampFrom").notNull().getProperty();
+        Property timestampTo = activityOverlay.addIntProperty("timestampTo").notNull().getProperty();
+        activityOverlay.addIntProperty("rawKind").notNull();
 
         Index indexUnique = new Index();
         indexUnique.addProperty(deviceId);
