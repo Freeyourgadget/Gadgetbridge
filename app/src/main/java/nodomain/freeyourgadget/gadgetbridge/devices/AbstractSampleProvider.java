@@ -62,18 +62,6 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
     }
 
     @Override
-    public int fetchLatestTimestamp() {
-        QueryBuilder<T> qb = getSampleDao().queryBuilder();
-        qb.orderDesc(getTimestampSampleProperty());
-        qb.limit(1);
-        List<T> list = qb.build().list();
-        if (list.size() >= 1) {
-            return list.get(0).getTimestamp();
-        }
-        return -1;
-    }
-
-    @Override
     public void addGBActivitySample(T activitySample) {
         getSampleDao().insertOrReplace(activitySample);
     }
@@ -81,22 +69,6 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
     @Override
     public void addGBActivitySamples(T[] activitySamples) {
         getSampleDao().insertOrReplaceInTx(activitySamples);
-    }
-
-    public void changeStoredSamplesType(int timestampFrom, int timestampTo, int kind) {
-        List<T> samples = getAllActivitySamples(timestampFrom, timestampTo);
-        for (T sample : samples) {
-            sample.setRawKind(kind);
-        }
-        getSampleDao().updateInTx(samples);
-    }
-
-    public void changeStoredSamplesType(int timestampFrom, int timestampTo, int fromKind, int toKind) {
-        List<T> samples = getGBActivitySamples(timestampFrom, timestampTo, fromKind);
-        for (T sample : samples) {
-            sample.setRawKind(toKind);
-        }
-        getSampleDao().updateInTx(samples);
     }
 
     protected List<T> getGBActivitySamples(int timestamp_from, int timestamp_to, int activityType) {

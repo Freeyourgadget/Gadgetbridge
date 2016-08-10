@@ -7,7 +7,6 @@ import android.net.Uri;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
-import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -47,19 +46,6 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
         @Override
         public List getSleepSamples(int timestamp_from, int timestamp_to) {
             return null;
-        }
-
-        @Override
-        public void changeStoredSamplesType(int timestampFrom, int timestampTo, int kind) {
-        }
-
-        @Override
-        public void changeStoredSamplesType(int timestampFrom, int timestampTo, int fromKind, int toKind) {
-        }
-
-        @Override
-        public int fetchLatestTimestamp() {
-            return 0;
         }
 
         @Override

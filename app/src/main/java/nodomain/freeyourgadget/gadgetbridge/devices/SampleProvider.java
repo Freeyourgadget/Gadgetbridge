@@ -28,12 +28,6 @@ public interface SampleProvider<T extends AbstractActivitySample> {
 
     List<T> getSleepSamples(int timestamp_from, int timestamp_to);
 
-    void changeStoredSamplesType(int timestampFrom, int timestampTo, int kind);
-
-    void changeStoredSamplesType(int timestampFrom, int timestampTo, int fromKind, int toKind);
-
-    int fetchLatestTimestamp();
-
     void addGBActivitySample(T activitySample);
 
     void addGBActivitySamples(T[] activitySamples);

@@ -13,7 +13,6 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleHealthSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
@@ -85,10 +84,11 @@ public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
                 samples[j] = new PebbleHealthActivitySample(
                         null,
                         stepsRecord.timestamp,
+                        userId, deviceId,
+                        null, // raw data here
                         stepsRecord.intensity,
-                        stepsRecord.steps,
-                        sampleProvider.toRawActivityKind(ActivityKind.TYPE_ACTIVITY),
-                        userId, deviceId);
+                        stepsRecord.steps
+                );
                 samples[j].setProvider(sampleProvider);
             }
 
