@@ -1,3 +1,5 @@
+***THE ISSUE TRACKER AND WIKI HAVE BEEN DISABLED TILL THE NEXT RELEASE***
+
 Gadgetbridge
 ============
 
