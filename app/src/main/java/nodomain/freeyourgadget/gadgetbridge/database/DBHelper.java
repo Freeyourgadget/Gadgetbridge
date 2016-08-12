@@ -180,11 +180,16 @@ public class DBHelper {
 
     private static void ensureUserAttributes(User user, ActivityUser prefsUser, DaoSession session) {
         List<UserAttributes> userAttributes = user.getUserAttributesList();
-        if (hasUpToDateUserAttributes(userAttributes, prefsUser)) {
+        UserAttributes[] previousUserAttributes = new UserAttributes[1];
+        if (hasUpToDateUserAttributes(userAttributes, prefsUser, previousUserAttributes)) {
             return;
         }
+
+        Calendar now = DateTimeUtils.getCalendarUTC();
+        invalidateUserAttributes(previousUserAttributes[0], now, session);
+
         UserAttributes attributes = new UserAttributes();
-        attributes.setValidFromUTC(DateTimeUtils.todayUTC());
+        attributes.setValidFromUTC(now.getTime());
         attributes.setHeightCM(prefsUser.getHeightCm());
         attributes.setWeightKG(prefsUser.getWeightKg());
         attributes.setUserId(user.getId());
@@ -193,13 +198,24 @@ public class DBHelper {
         userAttributes.add(attributes);
     }
 
-    private static boolean hasUpToDateUserAttributes(List<UserAttributes> userAttributes, ActivityUser prefsUser) {
+    private static void invalidateUserAttributes(UserAttributes userAttributes, Calendar now, DaoSession session) {
+        if (userAttributes != null) {
+            Calendar invalid = (Calendar) now.clone();
+            invalid.add(Calendar.MINUTE, -1);
+            userAttributes.setValidToUTC(invalid.getTime());
+            session.update(userAttributes);
+        }
+    }
+
+    private static boolean hasUpToDateUserAttributes(List<UserAttributes> userAttributes, ActivityUser prefsUser, UserAttributes[] outPreviousUserAttributes) {
         for (UserAttributes attr : userAttributes) {
             if (!isValidNow(attr)) {
                 continue;
             }
             if (isEqual(attr, prefsUser)) {
                 return true;
+            } else {
+                outPreviousUserAttributes[0] = attr;
             }
         }
         return false;
@@ -293,13 +309,17 @@ public class DBHelper {
 
     private static void ensureDeviceAttributes(Device device, GBDevice gbDevice, DaoSession session) {
         List<DeviceAttributes> deviceAttributes = device.getDeviceAttributesList();
-        if (hasUpToDateDeviceAttributes(deviceAttributes, gbDevice)) {
+        DeviceAttributes[] previousDeviceAttributes = new DeviceAttributes[1];
+        if (hasUpToDateDeviceAttributes(deviceAttributes, gbDevice, previousDeviceAttributes)) {
             return;
         }
-        DeviceAttributes attributes = new DeviceAttributes();
 
+        Calendar now = DateTimeUtils.getCalendarUTC();
+        invalidateDeviceAttributes(previousDeviceAttributes[0], now, session);
+
+        DeviceAttributes attributes = new DeviceAttributes();
         attributes.setDeviceId(device.getId());
-        attributes.setValidFromUTC(DateTimeUtils.todayUTC());
+        attributes.setValidFromUTC(now.getTime());
         attributes.setFirmwareVersion1(gbDevice.getFirmwareVersion());
         attributes.setFirmwareVersion2(gbDevice.getFirmwareVersion2());
         DeviceAttributesDao attributesDao = session.getDeviceAttributesDao();
@@ -308,13 +328,24 @@ public class DBHelper {
         deviceAttributes.add(attributes);
     }
 
-    private static boolean hasUpToDateDeviceAttributes(List<DeviceAttributes> deviceAttributes, GBDevice gbDevice) {
+    private static void invalidateDeviceAttributes(DeviceAttributes deviceAttributes, Calendar now, DaoSession session) {
+        if (deviceAttributes != null) {
+            Calendar invalid = (Calendar) now.clone();
+            invalid.add(Calendar.MINUTE, -1);
+            deviceAttributes.setValidToUTC(invalid.getTime());
+            session.update(deviceAttributes);
+        }
+    }
+
+    private static boolean hasUpToDateDeviceAttributes(List<DeviceAttributes> deviceAttributes, GBDevice gbDevice, DeviceAttributes[] outPreviousAttributes) {
         for (DeviceAttributes attr : deviceAttributes) {
             if (!isValidNow(attr)) {
                 continue;
             }
             if (isEqual(attr, gbDevice)) {
                 return true;
+            } else {
+                outPreviousAttributes[0] = attr;
             }
         }
         return false;
