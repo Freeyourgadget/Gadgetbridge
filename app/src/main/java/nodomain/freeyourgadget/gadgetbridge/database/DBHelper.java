@@ -196,7 +196,7 @@ public class DBHelper {
     private static boolean hasUpToDateUserAttributes(List<UserAttributes> userAttributes, ActivityUser prefsUser) {
         for (UserAttributes attr : userAttributes) {
             if (!isValidNow(attr)) {
-                return false;
+                continue;
             }
             if (isEqual(attr, prefsUser)) {
                 return true;
@@ -311,7 +311,7 @@ public class DBHelper {
     private static boolean hasUpToDateDeviceAttributes(List<DeviceAttributes> deviceAttributes, GBDevice gbDevice) {
         for (DeviceAttributes attr : deviceAttributes) {
             if (!isValidNow(attr)) {
-                return false;
+                continue;
             }
             if (isEqual(attr, gbDevice)) {
                 return true;
