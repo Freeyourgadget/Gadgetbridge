@@ -157,7 +157,6 @@ public class GBDaoGenerator {
 
     private static Entity addPebbleHealthActivityKindOverlay(Schema schema, Entity user, Entity device) {
         Entity activityOverlay = addEntity(schema, "PebbleHealthActivityOverlay");
-        activityOverlay.addIdProperty();
 
         Property userId = activityOverlay.addLongProperty("userId").getProperty();
         activityOverlay.addToOne(user, userId);
@@ -201,21 +200,14 @@ public class GBDaoGenerator {
                 "This class represents a sample specific to the device. Values like activity kind or\n" +
                         "intensity, are device specific. Normalized values can be retrieved through the\n" +
                         "corresponding {@link SampleProvider}.");
-        activitySample.addIdProperty();
-        activitySample.addIntProperty("timestamp").notNull();
+        activitySample.addIntProperty("timestamp").notNull().primaryKey();
     }
 
     private static void addCommonActivitySampleProperties2(Entity activitySample, Entity user, Entity device) {
         Property userId = activitySample.addLongProperty("userId").getProperty();
         activitySample.addToOne(user, userId);
-        Property deviceId = activitySample.addLongProperty("deviceId").getProperty();
+        Property deviceId = activitySample.addLongProperty("deviceId").primaryKey().getProperty();
         activitySample.addToOne(device, deviceId);
-
-        Index indexUnique = new Index();
-        indexUnique.addProperty(findProperty(activitySample, "timestamp"));
-        indexUnique.addProperty(deviceId);
-        indexUnique.makeUnique();
-        activitySample.addIndex(indexUnique);
     }
 
     private static Property findProperty(Entity entity, String propertyName) {

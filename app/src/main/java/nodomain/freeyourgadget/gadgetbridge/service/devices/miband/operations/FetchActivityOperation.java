@@ -328,7 +328,6 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
                     }
 
                     samples[minutes] = new MiBandActivitySample(
-                            null,
                             timestampInSeconds,
                             intensity & 0xff,
                             steps & 0xff,
