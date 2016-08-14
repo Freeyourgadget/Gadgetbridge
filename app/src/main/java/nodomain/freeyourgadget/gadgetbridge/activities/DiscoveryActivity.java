@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.ParcelUuid;
 import android.os.Parcelable;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
@@ -85,9 +86,19 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
     private final BluetoothAdapter.LeScanCallback leScanCallback = new BluetoothAdapter.LeScanCallback() {
         @Override
         public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
+            LOG.warn(device.getName() + ": " + ((scanRecord != null) ? scanRecord.length : -1));
+            logMessageContent(scanRecord);
             handleDeviceFound(device, (short) rssi);
         }
     };
+
+    public void logMessageContent(byte[] value) {
+        if (value != null) {
+            for (byte b : value) {
+                LOG.warn("DATA: " + String.format("0x%2x", b) + " - " + (char) (b & 0xff));
+            }
+        }
+    }
 
     private final Runnable stopRunnable = new Runnable() {
         @Override
@@ -180,6 +191,14 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
 
     private void handleDeviceFound(BluetoothDevice device, short rssi) {
         LOG.debug("found device: " + device.getName() + ", " + device.getAddress());
+        if (LOG.isDebugEnabled()) {
+            ParcelUuid[] uuids = device.getUuids();
+            if (uuids != null && uuids.length > 0) {
+                for (ParcelUuid uuid : uuids) {
+                    LOG.debug("  supports uuid: " + uuid.toString());
+                }
+            }
+        }
         if (device.getBondState() == BluetoothDevice.BOND_BONDED) {
             return; // ignore already bonded devices
         }
