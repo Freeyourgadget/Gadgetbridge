@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 
@@ -32,6 +33,9 @@ public class BLETypeConversions {
             }
         }
 
+        // MiBand2:
+        // year,year,month,dayofmonth,hour,minute,second,dayofweek,0,0,tz
+
         byte[] year = fromUint16(timestamp.get(Calendar.YEAR));
         return new byte[] {
                 year[0],
@@ -40,8 +44,20 @@ public class BLETypeConversions {
                 fromUint8(timestamp.get(Calendar.DATE)),
                 fromUint8(timestamp.get(Calendar.HOUR_OF_DAY)),
                 fromUint8(timestamp.get(Calendar.MINUTE)),
-                fromUint8(timestamp.get(Calendar.SECOND))
+                fromUint8(timestamp.get(Calendar.SECOND)),
+                dayOfWeekToRawBytes(timestamp),
+                0 // fractions256 (not set)
         };
+    }
+
+    private static byte dayOfWeekToRawBytes(Calendar cal) {
+        int calValue = cal.get(Calendar.DAY_OF_WEEK);
+        switch (calValue) {
+            case Calendar.SUNDAY:
+                return 7;
+            default:
+                return (byte) (calValue - 1);
+        }
     }
 
     /**
@@ -108,5 +124,48 @@ public class BLETypeConversions {
         System.arraycopy(start, 0, result, 0, start.length);
         System.arraycopy(end, 0, result, start.length, end.length);
         return result;
+    }
+
+    public static byte[] calendarToLocalTimeBytes(GregorianCalendar now) {
+        byte[] result = new byte[2];
+        result[0] = mapTimeZone(now.getTimeZone());
+        result[1] = mapDstOffset(now);
+        return result;
+    }
+
+    /**
+     * https://www.bluetooth.com/specifications/gatt/viewer?attributeXmlFile=org.bluetooth.characteristic.time_zone.xml
+     * @param timeZone
+     * @return sint8 value from -48..+56
+     */
+    public static byte mapTimeZone(TimeZone timeZone) {
+        int utcOffsetInMinutes =  (timeZone.getRawOffset() / (1000 * 60 * 60));
+        return (byte) (utcOffsetInMinutes * 4);
+    }
+
+    /**
+     * https://www.bluetooth.com/specifications/gatt/viewer?attributeXmlFile=org.bluetooth.characteristic.dst_offset.xml
+     * @param Calendar
+     * @return the DST offset for the given time; 0 if none; 255 if unknown
+     */
+    public static byte mapDstOffset(Calendar now) {
+        TimeZone timeZone = now.getTimeZone();
+        int dstSavings = timeZone.getDSTSavings();
+        if (dstSavings == 0) {
+            return 0;
+        }
+        if (timeZone.inDaylightTime(now.getTime())) {
+            int dstInMinutes = dstSavings / (1000 * 60);
+            switch (dstInMinutes) {
+                case 30:
+                    return 2;
+                case 60:
+                    return 4;
+                case 120:
+                    return 8;
+            }
+            return fromUint8(255); // unknown
+        }
+        return 0;
     }
 }
