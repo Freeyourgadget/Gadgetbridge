@@ -51,6 +51,7 @@ public class DeviceCandidateAdapter extends ArrayAdapter<GBDeviceCandidate> {
                 deviceImageView.setImageResource(R.drawable.ic_device_pebble);
                 break;
             case MIBAND:
+            case MIBAND2:
                 deviceImageView.setImageResource(R.drawable.ic_device_miband);
                 break;
             default:

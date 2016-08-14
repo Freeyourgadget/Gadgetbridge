@@ -120,6 +120,7 @@ public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {
                 }
                 break;
             case MIBAND:
+            case MIBAND2:
                 if (device.isConnected()) {
                     deviceImageView.setImageResource(R.drawable.ic_device_miband);
                 } else {
