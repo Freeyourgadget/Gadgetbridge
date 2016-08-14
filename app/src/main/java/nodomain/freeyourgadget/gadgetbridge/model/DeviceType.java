@@ -7,5 +7,6 @@ public enum DeviceType {
     UNKNOWN,
     PEBBLE,
     TEST,
-    MIBAND
+    MIBAND,
+    MIBAND2
 }
