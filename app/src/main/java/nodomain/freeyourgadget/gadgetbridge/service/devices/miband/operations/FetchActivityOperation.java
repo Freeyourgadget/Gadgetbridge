@@ -329,11 +329,11 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
 
                     samples[minutes] = new MiBandActivitySample(
                             timestampInSeconds,
+                            deviceId,
+                            userId,
                             intensity & 0xff,
                             steps & 0xff,
                             category & 0xff,
-                            userId,
-                            deviceId,
                             heartrate & 0xff);
                     samples[minutes].setProvider(provider);
 
