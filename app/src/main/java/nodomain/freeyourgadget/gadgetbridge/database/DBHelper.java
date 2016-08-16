@@ -302,6 +302,7 @@ public class DBHelper {
         device.setName(gbDevice.getName());
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
         device.setManufacturer(coordinator.getManufacturer());
+        device.setType(gbDevice.getType().getKey());
         session.getDeviceDao().insert(device);
 
         return device;
