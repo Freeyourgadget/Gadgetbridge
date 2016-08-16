@@ -46,8 +46,19 @@ public class BLETypeConversions {
                 fromUint8(timestamp.get(Calendar.MINUTE)),
                 fromUint8(timestamp.get(Calendar.SECOND)),
                 dayOfWeekToRawBytes(timestamp),
-                0 // fractions256 (not set)
+                0, // fractions256 (not set)
+                // 0 (DST offset?) Mi2
+                // k (tz) Mi2
         };
+    }
+
+    private static int getMiBand2TimeZone(int rawOffset) {
+        int offsetMinutes = rawOffset / 1000 / 60;
+        rawOffset = offsetMinutes < 0 ? -1 : 1;
+        offsetMinutes = Math.abs(offsetMinutes);
+        int offsetHours = offsetMinutes / 60;
+        rawOffset *= offsetMinutes % 60 / 15 + offsetHours * 4;
+        return rawOffset;
     }
 
     private static byte dayOfWeekToRawBytes(Calendar cal) {
@@ -139,8 +150,8 @@ public class BLETypeConversions {
      * @return sint8 value from -48..+56
      */
     public static byte mapTimeZone(TimeZone timeZone) {
-        int utcOffsetInMinutes =  (timeZone.getRawOffset() / (1000 * 60 * 60));
-        return (byte) (utcOffsetInMinutes * 4);
+        int utcOffsetInHours =  (timeZone.getRawOffset() / (1000 * 60 * 60));
+        return (byte) (utcOffsetInHours * 4);
     }
 
     /**

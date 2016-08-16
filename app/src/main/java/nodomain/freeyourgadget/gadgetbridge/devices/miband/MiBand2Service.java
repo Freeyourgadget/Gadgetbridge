@@ -13,8 +13,19 @@ public class MiBand2Service {
     public static final UUID UUID_SERVICE_MIBAND2_SERVICE = UUID.fromString(String.format(BASE_UUID, "FEE1"));
     public static final UUID UUID_SERVICE_HEART_RATE = UUID.fromString(String.format(BASE_UUID, "180D"));
     public static final UUID UUID_SERVICE_WEIGHT_SERVICE = UUID.fromString("00001530-0000-3512-2118-0009af100700");
-    public static final UUID UUID_UNKNOQN_CHARACTERISTIC0 = UUID.fromString("00000000-0000-3512-2118-0009af100700");
+    public static final UUID UUID_UNKNOWN_CHARACTERISTIC0 = UUID.fromString("00000000-0000-3512-2118-0009af100700");
+    public static final UUID UUID_UNKNOWN_CHARACTERISTIC1 = UUID.fromString("00000001-0000-3512-2118-0009af100700");
+    public static final UUID UUID_UNKNOWN_CHARACTERISTIC2 = UUID.fromString("00000002-0000-3512-2118-0009af100700");
+    public static final UUID UUID_UNKNOWN_CHARACTERISTIC3 = UUID.fromString("00000003-0000-3512-2118-0009af100700");
+    public static final UUID UUID_UNKNOWN_CHARACTERISTIC4 = UUID.fromString("00000004-0000-3512-2118-0009af100700");
+    public static final UUID UUID_UNKNOWN_CHARACTERISTIC5 = UUID.fromString("00000005-0000-3512-2118-0009af100700");
+    public static final UUID UUID_UNKNOWN_CHARACTERISTIC6 = UUID.fromString("00000006-0000-3512-2118-0009af100700");
+    public static final UUID UUID_UNKNOWN_CHARACTERISTIC7 = UUID.fromString("00000007-0000-3512-2118-0009af100700");
+    public static final UUID UUID_UNKNOWN_CHARACTERISTIC8 = UUID.fromString("00000008-0000-3512-2118-0009af100700");
+    public static final UUID UUID_UNKNOWN_CHARACTERISTIC10 = UUID.fromString("00000010-0000-3512-2118-0009af100700");
 
+    // set metric distance
+    // set 12 hour time mode
 
 
 //    public static final UUID UUID_CHARACTERISTIC_DEVICE_INFO = UUID.fromString(String.format(BASE_UUID, "FF01"));

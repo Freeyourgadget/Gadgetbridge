@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.devices;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
 
@@ -39,6 +40,8 @@ public interface DeviceCoordinator {
      * @return true if this coordinator handles the given device.
      */
     boolean supports(GBDevice device);
+
+    GBDevice createDevice(GBDeviceCandidate candidate);
 
     /**
      * Returns the kind of device type this coordinator supports.

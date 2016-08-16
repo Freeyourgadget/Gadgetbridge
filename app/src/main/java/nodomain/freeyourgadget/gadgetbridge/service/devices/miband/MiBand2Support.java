@@ -26,6 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandDateConverter;
@@ -45,6 +46,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
@@ -147,6 +149,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 // this is apparently not needed anymore, and actually causes problems when bonding is not used/does not work
 // so we simply not use the UUID_PAIR characteristic.
 //                .pair(builder)
+                .testInit(builder)
                 .requestDeviceInfo(builder)
                 .requestBatteryInfo(builder);
 //                .sendUserInfo(builder)
@@ -160,6 +163,38 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 //                .setHighLatency(builder)
 //                .setInitialized(builder);
         return builder;
+    }
+
+    private MiBand2Support testInit(TransactionBuilder builder) {
+        builder.read(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC6)); // example read value: 0f6200e0070804072b2c20e00708040625372064
+        builder.read(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC7)); // example read value: 0019000000
+        setCurrentTimeWithService(builder);
+        builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC4), new byte[] { 0x01, 0x01, (byte) 0xe0, 0x07, 0x07, 0x17, 0x15, 0x04, 0x00, 0x04 });
+        builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC4), new byte[] { 0x02 });
+        builder.read(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC6)); // probably superfluous
+        builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC8), new byte[] { 0x20, 0x00, 0x00, 0x02 });
+
+        return this;
+    }
+
+//    private MiBand2Support maybeAuth(TransactionBuilder builder) {
+//        builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOQN_CHARACTERISTIC0), new byte[] {0x20, 0x00});
+//        builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOQN_CHARACTERISTIC0), new byte[] {0x03,0x00,(byte)0x8e,(byte)0xce,0x5a,0x09,(byte)0xb3,(byte)0xd8,0x55,0x57,0x10,0x2a,(byte)0xed,0x7d,0x6b,0x78,(byte)0xc5,(byte)0xd2});
+//        return this;
+//    }
+
+    private MiBand2Support setCurrentTimeWithService(TransactionBuilder builder) {
+        GregorianCalendar now = BLETypeConversions.createCalendar();
+        byte[] bytes = BLETypeConversions.calendarToRawBytes(now, true);
+        byte[] tail = new byte[] { 0, BLETypeConversions.mapTimeZone(now.getTimeZone()) }; // 0 = adjust reason bitflags? or DST offset?? , timezone
+//        byte[] tail = new byte[] { 0x2 }; // reason
+        byte[] all = BLETypeConversions.join(bytes, tail);
+        builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_CURRENT_TIME), all);
+//        byte[] localtime = BLETypeConversions.calendarToLocalTimeBytes(now);
+//        builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_LOCAL_TIME_INFORMATION), localtime);
+//        builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_CURRENT_TIME), new byte[] {0x2, 0x00});
+//        builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOQN_CHARACTERISTIC0), new byte[] {0x03,0x00,(byte)0x8e,(byte)0xce,0x5a,0x09,(byte)0xb3,(byte)0xd8,0x55,0x57,0x10,0x2a,(byte)0xed,0x7d,0x6b,0x78,(byte)0xc5,(byte)0xd2});
+        return this;
     }
 
     private MiBand2Support readDate(TransactionBuilder builder) {
@@ -201,6 +236,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     // TODO: tear down the notifications on quit
     private MiBand2Support enableNotifications(TransactionBuilder builder, boolean enable) {
         builder.notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_NOTIFICATION), enable);
+        builder.notify(getCharacteristic(GattService.UUID_SERVICE_CURRENT_TIME), enable);
         return this;
     }
 
@@ -844,11 +880,18 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         } else if (MiBandService.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT.equals(characteristicUUID)) {
             handleHeartrate(characteristic.getValue());
             return true;
+//        } else if (MiBand2Service.UUID_UNKNOQN_CHARACTERISTIC0.equals(characteristicUUID)) {
+//            handleUnknownCharacteristic(characteristic.getValue());
+//            return true;
         } else {
             LOG.info("Unhandled characteristic changed: " + characteristicUUID);
             logMessageContent(characteristic.getValue());
         }
         return false;
+    }
+
+    private void handleUnknownCharacteristic(byte[] value) {
+
     }
 
     @Override

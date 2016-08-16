@@ -17,6 +17,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.UnknownDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleCoordinator;
@@ -113,11 +114,11 @@ public class DeviceHelper {
         GBDeviceCandidate candidate = new GBDeviceCandidate(device, GBDevice.RSSI_UNKNOWN);
 
         if (coordinator != null && coordinator.supports(candidate)) {
-            return new GBDevice(device.getAddress(), candidate.getName(), coordinator.getDeviceType());
+            return coordinator.createDevice(candidate);
         }
         for (DeviceCoordinator coordinator : getAllCoordinators()) {
             if (coordinator.supports(candidate)) {
-                return new GBDevice(device.getAddress(), candidate.getName(), coordinator.getDeviceType());
+                coordinator.createDevice(candidate);
             }
         }
         return null;
@@ -162,6 +163,7 @@ public class DeviceHelper {
 
     private List<DeviceCoordinator> createCoordinators() {
         List<DeviceCoordinator> result = new ArrayList<>(2);
+        result.add(new MiBand2Coordinator()); // Note: MiBand2 must come before MiBand because detection is hacky, atm
         result.add(new MiBandCoordinator());
         result.add(new PebbleCoordinator());
         return result;

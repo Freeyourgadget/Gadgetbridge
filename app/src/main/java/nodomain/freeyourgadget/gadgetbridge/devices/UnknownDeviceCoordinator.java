@@ -77,11 +77,6 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supports(GBDevice device) {
-        return getDeviceType().equals(device.getType());
-    }
-
-    @Override
     public DeviceType getDeviceType() {
         return DeviceType.UNKNOWN;
     }

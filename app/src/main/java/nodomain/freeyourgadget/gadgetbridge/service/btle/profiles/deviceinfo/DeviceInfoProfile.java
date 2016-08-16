@@ -142,9 +142,15 @@ public class DeviceInfoProfile<T extends AbstractBTLEDeviceSupport> extends Abst
     }
 
     private void handlePnpId(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-        String pnpId = characteristic.getStringValue(0);
-        deviceInfo.setPnpId(pnpId);
-        notify(createIntent(deviceInfo));
+        byte[] value = characteristic.getValue();
+        if (value.length == 7) {
+//            int vendorSource
+//
+//            deviceInfo.setPnpId(pnpId);
+            notify(createIntent(deviceInfo));
+        } else {
+            // TODO: LOG warning
+        }
     }
 
     private Intent createIntent(DeviceInfo deviceInfo) {

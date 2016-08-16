@@ -7,9 +7,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 
 public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractDeviceCoordinator.class);
+
+
+    @Override
+    public boolean supports(GBDevice device) {
+        return getDeviceType().equals(device.getType());
+    }
+
+    @Override
+    public GBDevice createDevice(GBDeviceCandidate candidate) {
+        return new GBDevice(candidate.getDevice().getAddress(), candidate.getName(), getDeviceType());
+    }
 
     public boolean allowFetchActivityData(GBDevice device) {
         return device.isInitialized() && !device.isBusy() && supportsActivityDataFetching();

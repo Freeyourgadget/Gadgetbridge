@@ -35,7 +35,8 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
                 || macAddress.startsWith(MiBandService.MAC_ADDRESS_FILTER_1S)) {
             return true;
         }
-        if (candidate.supportsService(MiBandService.UUID_SERVICE_MIBAND_SERVICE)) {
+        if (candidate.supportsService(MiBandService.UUID_SERVICE_MIBAND_SERVICE)
+                && !candidate.supportsService(MiBandService.UUID_SERVICE_MIBAND2_SERVICE)) {
             return true;
         }
         // and a heuristic
@@ -49,11 +50,6 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
             LOG.error("unable to check device support", ex);
         }
         return false;
-    }
-
-    @Override
-    public boolean supports(GBDevice device) {
-        return getDeviceType().equals(device.getType());
     }
 
     @Override
