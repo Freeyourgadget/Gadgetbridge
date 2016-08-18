@@ -17,7 +17,6 @@ package nodomain.freeyourgadget.gadgetbridge.daogen;
 
 import de.greenrobot.daogenerator.DaoGenerator;
 import de.greenrobot.daogenerator.Entity;
-import de.greenrobot.daogenerator.Index;
 import de.greenrobot.daogenerator.Property;
 import de.greenrobot.daogenerator.Schema;
 
@@ -159,12 +158,13 @@ public class GBDaoGenerator {
 
         activityOverlay.addIntProperty("timestampFrom").notNull().primaryKey();
         activityOverlay.addIntProperty("timestampTo").notNull().primaryKey();
+        activityOverlay.addIntProperty("rawKind").notNull().primaryKey();
         Property deviceId = activityOverlay.addLongProperty("deviceId").primaryKey().getProperty();
         activityOverlay.addToOne(device, deviceId);
 
         Property userId = activityOverlay.addLongProperty("userId").getProperty();
         activityOverlay.addToOne(user, userId);
-        activityOverlay.addIntProperty("rawKind").notNull();
+        activityOverlay.addByteArrayProperty("rawPebbleHealthData");
 
         return activityOverlay;
     }

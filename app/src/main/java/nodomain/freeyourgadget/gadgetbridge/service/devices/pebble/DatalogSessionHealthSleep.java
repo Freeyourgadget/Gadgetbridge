@@ -71,7 +71,7 @@ class DatalogSessionHealthSleep extends DatalogSessionPebbleHealth {
 
             List<PebbleHealthActivityOverlay> overlayList = new ArrayList<>();
             for (SleepRecord sleepRecord : sleepRecords) {
-                overlayList.add(new PebbleHealthActivityOverlay(sleepRecord.bedTimeStart, sleepRecord.bedTimeEnd, deviceId, userId, sleepRecord.type)); //TODO: consider if "-1" is what we really want
+                overlayList.add(new PebbleHealthActivityOverlay(sleepRecord.bedTimeStart, sleepRecord.bedTimeEnd, sleepRecord.type, deviceId, userId, null));
             }
             overlayDao.insertOrReplaceInTx(overlayList);
         } catch (Exception ex) {

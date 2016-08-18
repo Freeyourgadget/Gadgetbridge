@@ -72,7 +72,7 @@ class DatalogSessionHealthOverlayData extends DatalogSessionPebbleHealth {
 
             List<PebbleHealthActivityOverlay> overlayList = new ArrayList<>();
             for (OverlayRecord overlayRecord : overlayRecords) {
-                overlayList.add(new PebbleHealthActivityOverlay(overlayRecord.timestampStart, overlayRecord.timestampStart + overlayRecord.durationSeconds, deviceId, userId, overlayRecord.type)); //TODO: consider if "-1" is what we really want
+                overlayList.add(new PebbleHealthActivityOverlay(overlayRecord.timestampStart, overlayRecord.timestampStart + overlayRecord.durationSeconds, overlayRecord.type, deviceId, userId, null));
             }
             overlayDao.insertOrReplaceInTx(overlayList);
         } catch (Exception ex) {
