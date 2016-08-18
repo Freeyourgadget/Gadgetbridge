@@ -118,7 +118,7 @@ public class DeviceHelper {
         }
         for (DeviceCoordinator coordinator : getAllCoordinators()) {
             if (coordinator.supports(candidate)) {
-                coordinator.createDevice(candidate);
+                return coordinator.createDevice(candidate);
             }
         }
         return null;
