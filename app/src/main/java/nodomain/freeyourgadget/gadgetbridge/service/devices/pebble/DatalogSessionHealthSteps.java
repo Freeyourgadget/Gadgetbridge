@@ -82,7 +82,6 @@ public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
             for (int j = 0; j < stepsRecords.length; j++) {
                 StepsRecord stepsRecord = stepsRecords[j];
                 samples[j] = new PebbleHealthActivitySample(
-                        null,
                         stepsRecord.timestamp,
                         userId, deviceId,
                         null, // raw data here

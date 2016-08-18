@@ -83,7 +83,7 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
                         Long deviceId = DBHelper.getDevice(getDevice(), db.getDaoSession()).getId();
                         for (int i = 0; i < samples; i++) {
                             short sample = buf.getShort();
-                            misfitSamples[i] = new PebbleMisfitSample(null, timestamp + i * 60, userId, deviceId, sample & 0xffff);
+                            misfitSamples[i] = new PebbleMisfitSample(timestamp + i * 60, userId, deviceId, sample & 0xffff);
                             misfitSamples[i].setProvider(sampleProvider);
                             int steps = misfitSamples[i].getSteps();
                             totalSteps += steps;

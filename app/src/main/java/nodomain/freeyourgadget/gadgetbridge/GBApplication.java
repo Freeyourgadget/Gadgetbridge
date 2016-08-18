@@ -146,8 +146,7 @@ public class GBApplication extends Application {
     }
 
     static void setupDatabase(Context context) {
-//        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "test-db", null);
-        DBOpenHelper helper = new DBOpenHelper(context, "test-db4", null);
+        DBOpenHelper helper = new DBOpenHelper(context, "test-db5", null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
         if (lockHandler == null) {
