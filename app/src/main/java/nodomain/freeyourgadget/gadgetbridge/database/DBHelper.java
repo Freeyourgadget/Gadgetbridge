@@ -385,8 +385,11 @@ public class DBHelper {
         try (SQLiteDatabase oldDB = oldDbHandler.getReadableDatabase()) {
             User user = DBHelper.getUser(session);
             for (DeviceCoordinator coordinator : DeviceHelper.getInstance().getAllCoordinators()) {
-                AbstractSampleProvider<? extends AbstractActivitySample> sampleProvider = (AbstractSampleProvider<? extends AbstractActivitySample>) coordinator.getSampleProvider(targetDevice, session);
-                importActivitySamples(oldDB, targetDevice, session, sampleProvider, user);
+                if (coordinator.supports(targetDevice)) {
+                    AbstractSampleProvider<? extends AbstractActivitySample> sampleProvider = (AbstractSampleProvider<? extends AbstractActivitySample>) coordinator.getSampleProvider(targetDevice, session);
+                    importActivitySamples(oldDB, targetDevice, session, sampleProvider, user);
+                    break;
+                }
             }
         }
     }
