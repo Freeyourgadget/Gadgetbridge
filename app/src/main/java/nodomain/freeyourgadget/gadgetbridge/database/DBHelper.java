@@ -398,6 +398,8 @@ public class DBHelper {
         String order = "timestamp";
         final String where = "provider=" + sampleProvider.getID();
 
+        final int BATCH_SIZE = 100000; // 100.000 samples = rougly 20 MB per batch
+        List<T> newSamples;
         try (Cursor cursor = fromDb.query(TABLE_GBACTIVITYSAMPLES, null, where, null, null, null, order)) {
             int colTimeStamp = cursor.getColumnIndex(KEY_TIMESTAMP);
             int colIntensity = cursor.getColumnIndex(KEY_INTENSITY);
@@ -406,7 +408,7 @@ public class DBHelper {
             int colCustomShort = cursor.getColumnIndex(KEY_CUSTOM_SHORT);
             Long deviceId = DBHelper.getDevice(targetDevice, targetSession).getId();
             Long userId = user.getId();
-            List<T> newSamples = new ArrayList<>(cursor.getCount());
+            newSamples = new ArrayList<>(Math.min(BATCH_SIZE, cursor.getCount()));
             while (cursor.moveToNext()) {
                 T newSample = sampleProvider.createActivitySample();
                 newSample.setProvider(sampleProvider);
@@ -422,8 +424,17 @@ public class DBHelper {
                     newSample.setHeartRate(ActivitySample.NOT_MEASURED);
                 }
                 newSamples.add(newSample);
+
+                if ((newSamples.size() % BATCH_SIZE) == 0) {
+                    sampleProvider.getSampleDao().insertOrReplaceInTx(newSamples, true);
+                    targetSession.clear();
+                    newSamples.clear();
+                }
             }
-            sampleProvider.getSampleDao().insertOrReplaceInTx(newSamples, true);
+            // and insert the remaining samples
+            if (!newSamples.isEmpty()) {
+                sampleProvider.getSampleDao().insertOrReplaceInTx(newSamples, true);
+            }
         }
     }
 
