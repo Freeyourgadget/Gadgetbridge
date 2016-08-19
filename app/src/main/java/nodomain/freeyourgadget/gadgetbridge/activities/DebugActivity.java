@@ -322,7 +322,9 @@ public class DebugActivity extends GBActivity {
                         @Override
                         protected Object doInBackground(Object[] params) {
                             helper.importOldDb(oldHandler, device, targetHandler);
-                            progress.dismiss();
+                            if (!isFinishing() && !isDestroyed()) {
+                                progress.dismiss();
+                            }
                             return null;
                         }
                     }.execute((Object[]) null);
