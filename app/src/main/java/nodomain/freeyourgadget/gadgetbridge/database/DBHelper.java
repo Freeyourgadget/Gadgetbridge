@@ -19,16 +19,20 @@ import de.greenrobot.dao.query.Query;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleHealthSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributes;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributesDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivityOverlay;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivityOverlayDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.entities.UserAttributes;
 import nodomain.freeyourgadget.gadgetbridge.entities.UserDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.ValidByDate;
@@ -46,7 +50,7 @@ import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.TABLE_GB
 /**
  * Provides utiliy access to some common entities, so you won't need to use
  * their DAO classes.
- *
+ * <p/>
  * Maybe this code should actually be in the DAO classes themselves, but then
  * these should be under revision control instead of 100% generated at build time.
  */
@@ -61,6 +65,7 @@ public class DBHelper {
      * Closes the database and returns its name.
      * Important: after calling this, you have to DBHandler#openDb() it again
      * to get it back to work.
+     *
      * @param dbHandler
      * @return
      * @throws IllegalStateException
@@ -287,7 +292,7 @@ public class DBHelper {
     }
 
     public static Device getDevice(GBDevice gbDevice, DaoSession session) {
-        Device device = findDevice(gbDevice,  session);
+        Device device = findDevice(gbDevice, session);
         if (device == null) {
             device = createDevice(session, gbDevice);
         }
@@ -355,6 +360,7 @@ public class DBHelper {
     /**
      * Returns the old activity database handler if there is any content in that
      * db, or null otherwise.
+     *
      * @return the old activity db handler or null
      */
     @Nullable
@@ -398,8 +404,21 @@ public class DBHelper {
         String order = "timestamp";
         final String where = "provider=" + sampleProvider.getID();
 
+        boolean convertActivityTypeToRange = false;
+        int currentTypeRun, previousTypeRun, currentTimeStamp, currentTypeStartTimeStamp, currentTypeEndTimeStamp;
+        List<PebbleHealthActivityOverlay> overlayList = new ArrayList<>();
+
         final int BATCH_SIZE = 100000; // 100.000 samples = rougly 20 MB per batch
         List<T> newSamples;
+        if (sampleProvider instanceof PebbleHealthSampleProvider) {
+            convertActivityTypeToRange = true;
+            previousTypeRun = ActivitySample.NOT_MEASURED;
+            currentTypeStartTimeStamp = -1;
+            currentTypeEndTimeStamp = -1;
+
+        } else {
+            previousTypeRun = currentTypeStartTimeStamp = currentTypeEndTimeStamp = 0;
+        }
         try (Cursor cursor = fromDb.query(TABLE_GBACTIVITYSAMPLES, null, where, null, null, null, order)) {
             int colTimeStamp = cursor.getColumnIndex(KEY_TIMESTAMP);
             int colIntensity = cursor.getColumnIndex(KEY_INTENSITY);
@@ -414,9 +433,33 @@ public class DBHelper {
                 newSample.setProvider(sampleProvider);
                 newSample.setUserId(userId);
                 newSample.setDeviceId(deviceId);
-                newSample.setTimestamp(cursor.getInt(colTimeStamp));
-                newSample.setRawKind(getNullableInt(cursor, colType, ActivitySample.NOT_MEASURED));
+                currentTimeStamp = cursor.getInt(colTimeStamp);
+                newSample.setTimestamp(currentTimeStamp);
                 newSample.setRawIntensity(getNullableInt(cursor, colIntensity, ActivitySample.NOT_MEASURED));
+                currentTypeRun = getNullableInt(cursor, colType, ActivitySample.NOT_MEASURED);
+                newSample.setRawKind(currentTypeRun);
+                if (convertActivityTypeToRange) {
+                    //at the beginning there is no start timestamp
+                    if (currentTypeStartTimeStamp == -1) {
+                        currentTypeStartTimeStamp = currentTypeEndTimeStamp = currentTimeStamp;
+                        previousTypeRun = currentTypeRun;
+                    }
+
+                    if (currentTypeRun != previousTypeRun) {
+                        //if the Type has changed, the run has ended. Only store light and deep sleep data
+                        if (previousTypeRun == 4) {
+                            overlayList.add(new PebbleHealthActivityOverlay(currentTypeStartTimeStamp, currentTypeEndTimeStamp, sampleProvider.toRawActivityKind(ActivityKind.TYPE_LIGHT_SLEEP), deviceId, userId, null));
+                        } else if (previousTypeRun == 5) {
+                            overlayList.add(new PebbleHealthActivityOverlay(currentTypeStartTimeStamp, currentTypeEndTimeStamp, sampleProvider.toRawActivityKind(ActivityKind.TYPE_DEEP_SLEEP), deviceId, userId, null));
+                        }
+                        currentTypeStartTimeStamp = currentTypeEndTimeStamp = currentTimeStamp;
+                        previousTypeRun = currentTypeRun;
+                    } else {
+                        //just expand the run
+                        currentTypeEndTimeStamp = currentTimeStamp;
+                    }
+
+                }
                 newSample.setSteps(getNullableInt(cursor, colSteps, ActivitySample.NOT_MEASURED));
                 if (colCustomShort > -1) {
                     newSample.setHeartRate(getNullableInt(cursor, colCustomShort, ActivitySample.NOT_MEASURED));
@@ -434,6 +477,17 @@ public class DBHelper {
             // and insert the remaining samples
             if (!newSamples.isEmpty()) {
                 sampleProvider.getSampleDao().insertOrReplaceInTx(newSamples, true);
+            }
+            // store the overlay records
+            if (!overlayList.isEmpty()) {
+                try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                    DaoSession session = dbHandler.getDaoSession();
+                    PebbleHealthActivityOverlayDao overlayDao = session.getPebbleHealthActivityOverlayDao();
+                    overlayDao.insertOrReplaceInTx(overlayList);
+
+                } catch (Exception ex) {
+                    //FIXME: this whole try catch is probably in the wrong place.
+                }
             }
         }
     }
