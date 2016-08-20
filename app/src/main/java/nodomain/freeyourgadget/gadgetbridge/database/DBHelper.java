@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +21,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleHealthSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleMisfitSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -39,6 +41,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ValidByDate;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_CUSTOM_SHORT;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_INTENSITY;
@@ -401,6 +404,11 @@ public class DBHelper {
     }
 
     private <T extends AbstractActivitySample> void importActivitySamples(SQLiteDatabase fromDb, GBDevice targetDevice, DaoSession targetSession, AbstractSampleProvider<T> sampleProvider, User user) {
+        if (sampleProvider instanceof PebbleMisfitSampleProvider) {
+            GB.toast(context, "Migration of old Misfit data is not supported!", Toast.LENGTH_LONG, GB.WARN);
+            return;
+        }
+
         String order = "timestamp";
         final String where = "provider=" + sampleProvider.getID();
 
