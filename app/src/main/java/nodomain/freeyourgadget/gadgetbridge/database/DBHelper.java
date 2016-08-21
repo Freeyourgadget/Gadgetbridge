@@ -454,13 +454,15 @@ public class DBHelper {
                     }
 
                     if (currentTypeRun != previousTypeRun) {
+                        //we used not to store the last sample, now we do the opposite and we need to round up
+                        currentTypeEndTimeStamp = currentTimeStamp;
                         //if the Type has changed, the run has ended. Only store light and deep sleep data
                         if (previousTypeRun == 4) {
                             overlayList.add(new PebbleHealthActivityOverlay(currentTypeStartTimeStamp, currentTypeEndTimeStamp, sampleProvider.toRawActivityKind(ActivityKind.TYPE_LIGHT_SLEEP), deviceId, userId, null));
                         } else if (previousTypeRun == 5) {
                             overlayList.add(new PebbleHealthActivityOverlay(currentTypeStartTimeStamp, currentTypeEndTimeStamp, sampleProvider.toRawActivityKind(ActivityKind.TYPE_DEEP_SLEEP), deviceId, userId, null));
                         }
-                        currentTypeStartTimeStamp = currentTypeEndTimeStamp = currentTimeStamp;
+                        currentTypeStartTimeStamp = currentTimeStamp;
                         previousTypeRun = currentTypeRun;
                     } else {
                         //just expand the run
@@ -488,14 +490,8 @@ public class DBHelper {
             }
             // store the overlay records
             if (!overlayList.isEmpty()) {
-                try (DBHandler dbHandler = GBApplication.acquireDB()) {
-                    DaoSession session = dbHandler.getDaoSession();
-                    PebbleHealthActivityOverlayDao overlayDao = session.getPebbleHealthActivityOverlayDao();
-                    overlayDao.insertOrReplaceInTx(overlayList);
-
-                } catch (Exception ex) {
-                    //FIXME: this whole try catch is probably in the wrong place.
-                }
+                PebbleHealthActivityOverlayDao overlayDao = targetSession.getPebbleHealthActivityOverlayDao();
+                overlayDao.insertOrReplaceInTx(overlayList);
             }
         }
     }
