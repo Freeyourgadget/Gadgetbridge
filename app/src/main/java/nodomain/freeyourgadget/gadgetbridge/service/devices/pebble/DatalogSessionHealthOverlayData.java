@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -44,18 +45,13 @@ class DatalogSessionHealthOverlayData extends DatalogSessionPebbleHealth {
 
         int recordCount = length / itemSize;
         OverlayRecord[] overlayRecords = new OverlayRecord[recordCount];
+        byte[] tempRecord = new byte[itemSize];
 
         for (int recordIdx = 0; recordIdx < recordCount; recordIdx++) {
             beginOfRecordPosition = initialPosition + recordIdx * itemSize;
             datalogMessage.position(beginOfRecordPosition);//we may not consume all the bytes of a record
-            recordVersion = datalogMessage.getShort();
-            if ((recordVersion != 1) && (recordVersion != 3))
-                return false;//we don't know how to deal with the data TODO: this is not ideal because we will get the same message again and again since we NACK it
-
-            datalogMessage.getShort();//throwaway, unknown
-            recordType = datalogMessage.getShort();
-
-            overlayRecords[recordIdx] = new OverlayRecord(recordType, datalogMessage.getInt(), datalogMessage.getInt(), datalogMessage.getInt());
+            datalogMessage.get(tempRecord);
+            overlayRecords[recordIdx] = new OverlayRecord(tempRecord);
         }
 
         store(overlayRecords);
@@ -72,7 +68,7 @@ class DatalogSessionHealthOverlayData extends DatalogSessionPebbleHealth {
 
             List<PebbleHealthActivityOverlay> overlayList = new ArrayList<>();
             for (OverlayRecord overlayRecord : overlayRecords) {
-                overlayList.add(new PebbleHealthActivityOverlay(overlayRecord.timestampStart, overlayRecord.timestampStart + overlayRecord.durationSeconds, overlayRecord.type, deviceId, userId, null));
+                overlayList.add(new PebbleHealthActivityOverlay(overlayRecord.timestampStart, overlayRecord.timestampStart + overlayRecord.durationSeconds, overlayRecord.type, deviceId, userId, overlayRecord.rawData));
             }
             overlayDao.insertOrReplaceInTx(overlayList);
         } catch (Exception ex) {
@@ -81,16 +77,26 @@ class DatalogSessionHealthOverlayData extends DatalogSessionPebbleHealth {
     }
 
     private class OverlayRecord {
+        byte[] knownVersions = {1, 3};
+        short version;
         int type; //1=sleep, 2=deep sleep
         int offsetUTC; //probably
         int timestampStart;
         int durationSeconds;
+        byte[] rawData;
 
-        public OverlayRecord(int type, int offsetUTC, int timestampStart, int durationSeconds) {
-            this.type = type;
-            this.offsetUTC = offsetUTC;
-            this.timestampStart = timestampStart;
-            this.durationSeconds = durationSeconds;
+        public OverlayRecord(byte[] rawData) {
+            this.rawData = rawData;
+            ByteBuffer record = ByteBuffer.wrap(rawData);
+            record.order(ByteOrder.LITTLE_ENDIAN);
+
+            this.version = record.getShort();
+            //TODO: check supported versions?
+            record.getShort();//throwaway, unknown
+            this.type = record.getShort();
+            this.offsetUTC = record.getInt();
+            this.timestampStart = record.getInt();
+            this.durationSeconds = record.getInt();
         }
     }
 }

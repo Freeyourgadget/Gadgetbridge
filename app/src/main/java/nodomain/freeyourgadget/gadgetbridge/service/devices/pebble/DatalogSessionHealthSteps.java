@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -59,10 +60,12 @@ public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
 
             beginOfRecordPosition = datalogMessage.position();
             StepsRecord[] stepsRecords = new StepsRecord[recordNum];
+            byte[] tempRecord = new byte[recordLength];
 
             for (int recordIdx = 0; recordIdx < recordNum; recordIdx++) {
                 datalogMessage.position(beginOfRecordPosition + recordIdx * recordLength); //we may not consume all the bytes of a record
-                stepsRecords[recordIdx] = new StepsRecord(timestamp, datalogMessage.get() & 0xff, datalogMessage.get() & 0xff, datalogMessage.getShort() & 0xffff, datalogMessage.get() & 0xff);
+                datalogMessage.get(tempRecord);
+                stepsRecords[recordIdx] = new StepsRecord(timestamp, recordVersion, tempRecord);
                 timestamp += 60;
             }
 
@@ -84,7 +87,7 @@ public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
                 samples[j] = new PebbleHealthActivitySample(
                         stepsRecord.timestamp,
                         userId, deviceId,
-                        null, // raw data here
+                        stepsRecord.rawData,
                         stepsRecord.intensity,
                         stepsRecord.steps
                 );
@@ -98,18 +101,28 @@ public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
     }
 
     private class StepsRecord {
+        byte[] knownVersions = {5, 6};
+        short version;
         int timestamp;
         int steps;
         int orientation;
         int intensity;
         int light_intensity;
+        byte[] rawData;
 
-        public StepsRecord(int timestamp, int steps, int orientation, int intensity, int light_intensity) {
+        public StepsRecord(int timestamp, short version, byte[] rawData) {
             this.timestamp = timestamp;
-            this.steps = steps;
-            this.orientation = orientation;
-            this.intensity = intensity;
-            this.light_intensity = light_intensity;
+            this.rawData = rawData;
+            ByteBuffer record = ByteBuffer.wrap(rawData);
+            record.order(ByteOrder.LITTLE_ENDIAN);
+
+            this.version = version;
+            //TODO: check supported versions?
+
+            this.steps = record.get() & 0xff;
+            this.orientation = record.get() & 0xff;
+            this.intensity = record.getShort() & 0xffff;
+            this.light_intensity = record.get() & 0xff;
         }
     }
 
