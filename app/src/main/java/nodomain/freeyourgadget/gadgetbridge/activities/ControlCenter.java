@@ -131,16 +131,6 @@ public class ControlCenter extends GBActivity {
                     }
                 } else {
                     GBApplication.deviceService().connect(gbDevice);
-                    try (DBHandler dbHandler = GBApplication.acquireDB()) {
-                        DaoSession session = dbHandler.getDaoSession();
-
-                        if (DBHelper.findDevice(gbDevice, session) == null) {
-                            Intent startIntent = new Intent(ControlCenter.this, OnboardingActivity.class);
-                            startIntent.putExtra(GBDevice.EXTRA_DEVICE, gbDevice);
-                            startActivity(startIntent);
-                        }
-                    } catch (Exception _ignore) {
-                    }
                 }
             }
         });
@@ -348,6 +338,20 @@ public class ControlCenter extends GBActivity {
         for (GBDevice device : deviceList) {
             if (device.isConnected() || device.isConnecting()) {
                 connectedDevice = device;
+                if (device.isInitialized()) {
+                    LOG.info("will try");
+                    try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                        DaoSession session = dbHandler.getDaoSession();
+
+                        if (DBHelper.findDevice(device, session) == null) {
+                            DBHelper.getDevice(device, session); // implicitly creates it :P
+                            Intent startIntent = new Intent(ControlCenter.this, OnboardingActivity.class);
+                            startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                            startActivity(startIntent);
+                        }
+                    } catch (Exception _ignore) {
+                    }
+                }
                 break;
             }
         }
