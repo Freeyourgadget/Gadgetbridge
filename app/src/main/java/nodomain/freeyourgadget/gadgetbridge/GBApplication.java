@@ -99,6 +99,11 @@ public class GBApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        if (lockHandler != null) {
+            // guard against multiple invocations (robolectric)
+            return;
+        }
+
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefs = new Prefs(sharedPrefs);
         gbPrefs = new GBPrefs(prefs);
