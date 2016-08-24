@@ -227,6 +227,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:name=".activities.OnboardingActivity"
+            android:label="@string/title_activity_debug"
+            android:parentActivityName=".activities.ControlCenter"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activities.DiscoveryActivity"
             android:label="@string/title_activity_discovery"
             android:parentActivityName=".activities.ControlCenter" />
