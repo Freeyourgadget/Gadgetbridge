@@ -91,8 +91,8 @@ public class GBDaoGenerator {
         userAttributes.addIdProperty();
         userAttributes.addIntProperty("heightCM").notNull();
         userAttributes.addIntProperty("weightKG").notNull();
-        userAttributes.addIntProperty("sleepGoalHPD");
-        userAttributes.addIntProperty("stepsGoalSPD");
+        userAttributes.addIntProperty("sleepGoalHPD").javaDocGetterAndSetter("Desired number of hours of sleep per day.");
+        userAttributes.addIntProperty("stepsGoalSPD").javaDocGetterAndSetter("Desired number of steps per day.");
         addDateValidityTo(userAttributes);
 
         return userAttributes;

@@ -14,6 +14,10 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
  */
 public class ActivityUser {
 
+    public static final int GENDER_FEMALE = 0;
+    public static final int GENDER_MALE = 1;
+    public static final int GENDER_OTHER = 2;
+
     private String activityUserName;
     private int activityUserGender;
     private int activityUserYearOfBirth;
@@ -23,7 +27,7 @@ public class ActivityUser {
     private int activityUserStepsGoal;
 
     private static final String defaultUserName = "gadgetbridge-user";
-    public static final int defaultUserGender = 0;
+    public static final int defaultUserGender = GENDER_FEMALE;
     public static final int defaultUserYearOfBirth = 0;
     public static final int defaultUserAge = 0;
     public static final int defaultUserHeightCm = 175;
@@ -51,6 +55,11 @@ public class ActivityUser {
         return activityUserWeightKg;
     }
 
+    /**
+     * @see #GENDER_FEMALE
+     * @see #GENDER_MALE
+     * @see #GENDER_OTHER
+     */
     public int getGender() {
         return activityUserGender;
     }

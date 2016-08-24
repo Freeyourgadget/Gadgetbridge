@@ -135,7 +135,19 @@ public class FileUtils {
     @NonNull
     private static List<File> getWritableExternalFilesDirs() throws IOException {
         Context context = GBApplication.getContext();
-        File[] dirs = context.getExternalFilesDirs(null);
+        File[] dirs;
+        try {
+            dirs = context.getExternalFilesDirs(null);
+        } catch (NullPointerException ex) {
+            // workaround for robolectric 3.1.2 not implementinc getExternalFilesDirs()
+            // https://github.com/robolectric/robolectric/issues/2531
+            File dir = context.getExternalFilesDir(null);
+            if (dir != null) {
+                dirs = new File[] { dir };
+            } else {
+                throw ex;
+            }
+        }
         if (dirs == null) {
             throw new IOException("Unable to access external files dirs: null");
         }
