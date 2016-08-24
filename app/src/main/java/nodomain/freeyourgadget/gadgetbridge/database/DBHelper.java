@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import de.greenrobot.dao.query.Query;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -265,23 +266,13 @@ public class DBHelper {
     }
 
     private static boolean isEqual(DeviceAttributes attr, GBDevice gbDevice) {
-        if (!isEqual(attr.getFirmwareVersion1(), gbDevice.getFirmwareVersion())) {
+        if (!Objects.equals(attr.getFirmwareVersion1(), gbDevice.getFirmwareVersion())) {
             return false;
         }
-        if (!isEqual(attr.getFirmwareVersion2(), gbDevice.getFirmwareVersion2())) {
+        if (!Objects.equals(attr.getFirmwareVersion2(), gbDevice.getFirmwareVersion2())) {
             return false;
         }
         return true;
-    }
-
-    private static boolean isEqual(String s1, String s2) {
-        if (s1 == s2) {
-            return true;
-        }
-        if (s1 != null) {
-            return s1.equals(s2);
-        }
-        return false;
     }
 
     public static Device findDevice(GBDevice gbDevice, DaoSession session) {
