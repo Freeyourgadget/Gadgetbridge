@@ -62,6 +62,7 @@ public class OnboardingActivity extends GBActivity {
                 protected Object doInBackground(Object[] params) {
                     helper.importOldDb(oldHandler, device, targetHandler);
                     progress.dismiss();
+                    finish();
                     return null;
                 }
             }.execute((Object[]) null);
