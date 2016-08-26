@@ -9,6 +9,12 @@ tasks.withType(Test) { systemProperty 'MiFirmwareDir', System.getProperty('MiFir
 // sourceSets.test.runtimeClasspath += File('src/main/assets')
 
 android {
+
+    compileOptions {
+        // for KitKat
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
 

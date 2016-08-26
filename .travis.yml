@@ -2,7 +2,8 @@ language: android
 
 jdk:
   - oraclejdk8
-  - oraclejdk7
+# disabled -- we now set sourceCompatibility and targetCompatibility appropriately
+#  - oraclejdk7
 
 env:
   - GRADLE_OPTS="-XX:MaxPermSize=256m"
