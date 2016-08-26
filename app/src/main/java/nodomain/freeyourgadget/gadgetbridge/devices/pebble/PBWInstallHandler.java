@@ -52,7 +52,7 @@ public class PBWInstallHandler implements InstallHandler {
             return;
         }
 
-        String platformName = PebbleUtils.getPlatformName(device.getHardwareVersion());
+        String platformName = PebbleUtils.getPlatformName(device.getModel());
 
         try {
             mPBWReader = new PBWReader(mUri, mContext, platformName);
@@ -75,7 +75,7 @@ public class PBWInstallHandler implements InstallHandler {
             installItem.setIcon(R.drawable.ic_firmware);
 
             String hwRevision = mPBWReader.getHWRevision();
-            if (hwRevision != null && hwRevision.equals(device.getHardwareVersion())) {
+            if (hwRevision != null && hwRevision.equals(device.getModel())) {
                 installItem.setName(mContext.getString(R.string.pbw_installhandler_pebble_firmware, ""));
                 installItem.setDetails(mContext.getString(R.string.pbwinstallhandler_correct_hw_revision));
 

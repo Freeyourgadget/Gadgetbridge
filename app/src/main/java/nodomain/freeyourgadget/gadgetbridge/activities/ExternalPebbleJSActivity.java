@@ -211,8 +211,8 @@ public class ExternalPebbleJSActivity extends GBActivity {
             JSONObject wi = new JSONObject();
             try {
                 wi.put("firmware", mGBDevice.getFirmwareVersion());
-                wi.put("platform", PebbleUtils.getPlatformName(mGBDevice.getHardwareVersion()));
-                wi.put("model", PebbleUtils.getModel(mGBDevice.getHardwareVersion()));
+                wi.put("platform", PebbleUtils.getPlatformName(mGBDevice.getModel()));
+                wi.put("model", PebbleUtils.getModel(mGBDevice.getModel()));
                 //TODO: use real info
                 wi.put("language", "en");
             } catch (JSONException e) {

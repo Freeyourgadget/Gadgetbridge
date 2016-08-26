@@ -161,8 +161,8 @@ public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {
     private String getUniqueDeviceName(GBDevice device) {
         String deviceName = device.getName();
         if (!isUniqueDeviceName(device, deviceName)) {
-            if (device.getHardwareVersion() != null) {
-                deviceName = deviceName + " " + device.getHardwareVersion();
+            if (device.getModel() != null) {
+                deviceName = deviceName + " " + device.getModel();
                 if (!isUniqueDeviceName(device, deviceName)) {
                     deviceName = deviceName + " " + device.getShortAddress();
                 }

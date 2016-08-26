@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
@@ -48,7 +49,7 @@ public class GBDevice implements Parcelable {
     private final DeviceType mDeviceType;
     private String mFirmwareVersion;
     private String mFirmwareVersion2;
-    private String mHardwareVersion;
+    private String mModel;
     private State mState = State.NOT_CONNECTED;
     private short mBatteryLevel = BATTERY_UNKNOWN;
     private short mBatteryThresholdPercent = BATTERY_THRESHOLD_PERCENT;
@@ -70,7 +71,7 @@ public class GBDevice implements Parcelable {
         mDeviceType = DeviceType.values()[in.readInt()];
         mFirmwareVersion = in.readString();
         mFirmwareVersion2 = in.readString();
-        mHardwareVersion = in.readString();
+        mModel = in.readString();
         mState = State.values()[in.readInt()];
         mBatteryLevel = (short) in.readInt();
         mBatteryThresholdPercent = (short) in.readInt();
@@ -89,7 +90,7 @@ public class GBDevice implements Parcelable {
         dest.writeInt(mDeviceType.ordinal());
         dest.writeString(mFirmwareVersion);
         dest.writeString(mFirmwareVersion2);
-        dest.writeString(mHardwareVersion);
+        dest.writeString(mModel);
         dest.writeInt(mState.ordinal());
         dest.writeInt(mBatteryLevel);
         dest.writeInt(mBatteryThresholdPercent);
@@ -136,12 +137,19 @@ public class GBDevice implements Parcelable {
         mFirmwareVersion2 = firmwareVersion2;
     }
 
-    public String getHardwareVersion() {
-        return mHardwareVersion;
+    /**
+     * Returns the specific model/hardware revision of this device.
+     * This information is not always available, typically only when the device is initialized
+     * @return the model/hardware revision of this device
+     * @see #getType()
+     */
+    @Nullable
+    public String getModel() {
+        return mModel;
     }
 
-    public void setHardwareVersion(String hardwareVersion) {
-        mHardwareVersion = hardwareVersion;
+    public void setModel(String model) {
+        mModel = model;
     }
 
     public boolean isConnected() {
@@ -261,6 +269,12 @@ public class GBDevice implements Parcelable {
         return GBApplication.getContext().getString(R.string.unknown_state);
     }
 
+    /**
+     * Returns the general type of this device. For more detailed information,
+     * soo #getModel()
+     * @return the general type of this device
+     */
+    @NonNull
     public DeviceType getType() {
         return mDeviceType;
     }
@@ -384,8 +398,8 @@ public class GBDevice implements Parcelable {
         if (mDeviceInfos != null) {
             result.addAll(mDeviceInfos);
         }
-        if (mHardwareVersion != null) {
-            result.add(new GenericItem(DEVINFO_HW_VER, mHardwareVersion));
+        if (mModel != null) {
+            result.add(new GenericItem(DEVINFO_HW_VER, mModel));
         }
         if (mFirmwareVersion != null) {
             result.add(new GenericItem(DEVINFO_FW_VER, mFirmwareVersion));

@@ -100,7 +100,7 @@ public class EntitiesTest {
 //        DBHelper dbHelper = new DBHelper(RuntimeEnvironment.application);
         GBDevice dummyGBDevice = new GBDevice("00:00:00:00:00", "Testie", DeviceType.TEST);
         dummyGBDevice.setFirmwareVersion("1.2.3");
-        dummyGBDevice.setHardwareVersion("4.0");
+        dummyGBDevice.setModel("4.0");
         Device device = DBHelper.getDevice(dummyGBDevice, daoSession);
         assertNotNull(device);
         assertEquals("00:00:00:00:00", device.getIdentifier());

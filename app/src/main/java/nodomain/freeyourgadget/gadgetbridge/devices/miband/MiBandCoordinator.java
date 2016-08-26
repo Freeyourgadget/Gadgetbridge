@@ -180,7 +180,7 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
-        String hwVersion = device.getHardwareVersion();
+        String hwVersion = device.getModel();
         return isMi1S(hwVersion) || isMiPro(hwVersion);
     }
 
