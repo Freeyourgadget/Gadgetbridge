@@ -35,13 +35,13 @@ public class GBDaoGenerator {
     public static void main(String[] args) throws Exception {
         Schema schema = new Schema(13, MAIN_PACKAGE + ".entities");
 
-        addActivityDescription(schema);
-
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
 
         Entity deviceAttributes = addDeviceAttributes(schema);
         Entity device = addDevice(schema, deviceAttributes);
+        Entity tag = addTag(schema);
+        Entity userDefinedActivityOverlay = addActivityDescription(schema, tag, user);
 
         addMiBandActivitySample(schema, user, device);
         addPebbleHealthActivitySample(schema, user, device);
@@ -52,12 +52,35 @@ public class GBDaoGenerator {
         new DaoGenerator().generateAll(schema, "app/src/main/java");
     }
 
-    private static Entity addActivityDescription(Schema schema) {
-        Entity activityDescription = addEntity(schema, "ActivityDescription");
-        activityDescription.addIdProperty();
-        activityDescription.addIntProperty("fromTimestamp").notNull();
-        activityDescription.addIntProperty("toTimestamp");
-        return activityDescription;
+    private static Entity addTag(Schema schema) {
+        Entity tag = addEntity(schema, "Tag");
+        tag.addIdProperty();
+        tag.addStringProperty("name").notNull();
+        tag.addStringProperty("description").javaDocGetterAndSetter("An optional description of this tag.");
+        tag.addLongProperty("userId");
+
+        return tag;
+    }
+
+    private static Entity addActivityDescription(Schema schema, Entity tag, Entity user) {
+        Entity activityDesc = addEntity(schema, "ActivityDescription");
+        activityDesc.setJavaDoc("A user may further specify his activity with a detailed description and the help of tags.\nOne or more tags can be added to a given activity range.");
+        activityDesc.addIdProperty();
+        activityDesc.addIntProperty("timestampFrom").notNull();
+        activityDesc.addIntProperty("timestampTo").notNull();
+        activityDesc.addStringProperty("details").javaDocGetterAndSetter("An optional detailed description, specific to this very activity occurrence.");
+
+        Property userId = activityDesc.addLongProperty("userId").notNull().getProperty();
+        activityDesc.addToOne(user, userId);
+
+        Entity activityDescTagLink = addEntity(schema, "ActivityDescTagLink");
+        activityDescTagLink.addIdProperty();
+        Property sourceId = activityDescTagLink.addLongProperty("activityDescriptionId").notNull().getProperty();
+        Property targetId = activityDescTagLink.addLongProperty("tagId").notNull().getProperty();
+
+        activityDesc.addToMany(tag, activityDescTagLink, sourceId, targetId);
+
+        return activityDesc;
     }
 
     private static Entity addUserInfo(Schema schema, Entity userAttributes) {

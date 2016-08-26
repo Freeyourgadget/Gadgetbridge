@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
@@ -12,18 +13,23 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+import de.greenrobot.dao.Property;
 import de.greenrobot.dao.query.Query;
+import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleHealthSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleMisfitSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.ActivityDescription;
+import nodomain.freeyourgadget.gadgetbridge.entities.ActivityDescriptionDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributes;
@@ -31,6 +37,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributesDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivityOverlay;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivityOverlayDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.Tag;
+import nodomain.freeyourgadget.gadgetbridge.entities.TagDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.entities.UserAttributes;
 import nodomain.freeyourgadget.gadgetbridge.entities.UserDao;
@@ -350,6 +358,50 @@ public class DBHelper {
             }
         }
         return false;
+    }
+
+    @NonNull
+    public static List<ActivityDescription> findActivityDecriptions(@NonNull User user, int tsFrom, int tsTo, @NonNull DaoSession session) {
+        Property tsFromProperty = ActivityDescriptionDao.Properties.TimestampFrom;
+        Property tsToProperty = ActivityDescriptionDao.Properties.TimestampTo;
+        Property userIdProperty = ActivityDescriptionDao.Properties.UserId;
+        QueryBuilder<ActivityDescription> qb = session.getActivityDescriptionDao().queryBuilder();
+        qb.where(userIdProperty.eq(user.getId()), tsFromProperty.ge(tsFrom))
+                .where(tsToProperty.le(tsTo));
+        List<ActivityDescription> descriptions = qb.build().list();
+        return descriptions;
+    }
+
+    @NonNull
+    public static ActivityDescription createActivityDescription(@NonNull User user, int tsFrom, int tsTo, @NonNull DaoSession session) {
+        ActivityDescription desc = new ActivityDescription();
+        desc.setUser(user);
+        desc.setTimestampFrom(tsFrom);
+        desc.setTimestampTo(tsTo);
+        session.insertOrReplace(desc);
+
+        return desc;
+    }
+
+    @NonNull
+    public static Tag getTag(@NonNull User user, @NonNull String name, @NonNull DaoSession session) {
+        TagDao tagDao = session.getTagDao();
+        QueryBuilder<Tag> qb = tagDao.queryBuilder();
+        Query<Tag> query = qb.where(TagDao.Properties.UserId.eq(user.getId()), TagDao.Properties.Name.eq(name)).build();
+        List<Tag> tags = query.list();
+        if (tags.size() > 0) {
+            return tags.get(0);
+        }
+        return createTag(user, name, null, session);
+    }
+
+    static Tag createTag(@NonNull User user, @NonNull String name, @NonNull String description, @NonNull DaoSession session) {
+        Tag tag = new Tag();
+        tag.setUserId(user.getId());
+        tag.setName(name);
+        tag.setDescription(description);
+        session.insertOrReplace(tag);
+        return tag;
     }
 
     /**
