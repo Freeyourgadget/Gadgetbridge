@@ -112,6 +112,7 @@ public class GBDaoGenerator {
         device.addStringProperty("manufacturer").notNull();
         device.addStringProperty("identifier").notNull().unique().javaDocGetterAndSetter("The fixed identifier, i.e. MAC address of the device.");
         device.addIntProperty("type").notNull().javaDocGetterAndSetter("The DeviceType key, i.e. the GBDevice's type.");
+        device.addStringProperty("model").javaDocGetterAndSetter("An optional model, further specifying the kind of device-");
         Property deviceId = deviceAttributes.addLongProperty("deviceId").notNull().getProperty();
         // sorted by the from-date, newest first
         Property deviceAttributesSortProperty = getPropertyByName(deviceAttributes, VALID_FROM_UTC);
