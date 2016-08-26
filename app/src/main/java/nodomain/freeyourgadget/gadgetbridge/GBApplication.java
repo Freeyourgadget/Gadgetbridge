@@ -151,7 +151,7 @@ public class GBApplication extends Application {
     }
 
     static void setupDatabase(Context context) {
-        DBOpenHelper helper = new DBOpenHelper(context, "test-db5", null);
+        DBOpenHelper helper = new DBOpenHelper(context, "Gadgetbridge", null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
         if (lockHandler == null) {
