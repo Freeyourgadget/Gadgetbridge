@@ -1,7 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.test;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 import android.test.mock.MockApplication;
@@ -37,6 +36,7 @@ public class GBMockApplication extends MockApplication {
     public Prefs getPrefs() {
         return prefs;
     }
+
     public GBPrefs getGBPrefs() {
         return gbPrefs;
     }

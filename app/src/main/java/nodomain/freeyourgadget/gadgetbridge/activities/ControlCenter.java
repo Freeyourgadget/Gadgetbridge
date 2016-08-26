@@ -339,7 +339,6 @@ public class ControlCenter extends GBActivity {
             if (device.isConnected() || device.isConnecting()) {
                 connectedDevice = device;
                 if (device.isInitialized()) {
-                    LOG.info("will try");
                     try (DBHandler dbHandler = GBApplication.acquireDB()) {
                         DaoSession session = dbHandler.getDaoSession();
 

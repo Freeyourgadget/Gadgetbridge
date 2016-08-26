@@ -33,7 +33,8 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 19) // need sdk 19 because "WITHOUT ROWID" is not supported in robolectric/sqlite4java
+@Config(constants = BuildConfig.class, sdk = 19)
+// need sdk 19 because "WITHOUT ROWID" is not supported in robolectric/sqlite4java
 public class EntitiesTest {
 
     private DaoSession daoSession;
