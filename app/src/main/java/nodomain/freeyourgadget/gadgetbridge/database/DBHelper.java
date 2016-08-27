@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -169,16 +168,25 @@ public class DBHelper {
         return "";
     }
 
+    /**
+     * Looks up the user entity in the database. If a user exists already, it will
+     * be updated with the current preferences values. If no user exists yet, it will
+     * be created in the database.
+     *
+     * Note: so far there is only ever a single user; there is no multi-user support yet
+     * @param session
+     * @return the User entity
+     */
     public static User getUser(DaoSession session) {
         ActivityUser prefsUser = new ActivityUser();
         UserDao userDao = session.getUserDao();
-        Query<User> query = userDao.queryBuilder().where(UserDao.Properties.Name.eq(prefsUser.getName())).build();
-        List<User> users = query.list();
         User user;
+        List<User> users = userDao.loadAll();
         if (users.isEmpty()) {
             user = createUser(prefsUser, session);
         } else {
             user = users.get(0); // TODO: multiple users support?
+            ensureUserUpToDate(user, prefsUser, session);
         }
         ensureUserAttributes(user, prefsUser, session);
 
@@ -187,12 +195,37 @@ public class DBHelper {
 
     private static User createUser(ActivityUser prefsUser, DaoSession session) {
         User user = new User();
-        user.setName(prefsUser.getName());
-        user.setBirthday(prefsUser.getUserBirthday());
-        user.setGender(prefsUser.getGender());
-        session.getUserDao().insert(user);
+        ensureUserUpToDate(user, prefsUser, session);
 
         return user;
+    }
+
+    private static void ensureUserUpToDate(User user, ActivityUser prefsUser, DaoSession session) {
+        if (!isUserUpToDate(user, prefsUser)) {
+            user.setName(prefsUser.getName());
+            user.setBirthday(prefsUser.getUserBirthday());
+            user.setGender(prefsUser.getGender());
+
+            if (user.getId() == null) {
+                session.getUserDao().insert(user);
+            } else {
+                session.getUserDao().update(user);
+            }
+        }
+    }
+
+    public static boolean isUserUpToDate(User user, ActivityUser prefsUser) {
+        if (!Objects.equals(user.getName(), prefsUser.getName())) {
+            return false;
+        }
+        if (!Objects.equals(user.getBirthday(), prefsUser.getUserBirthday())) {
+            return false;
+        }
+        if (user.getGender() != prefsUser.getGender()) {
+            return false;
+        }
+
+        return true;
     }
 
     private static void ensureUserAttributes(User user, ActivityUser prefsUser, DaoSession session) {
