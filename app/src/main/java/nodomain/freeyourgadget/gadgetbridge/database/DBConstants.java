@@ -2,12 +2,12 @@ package nodomain.freeyourgadget.gadgetbridge.database;
 
 /**
  * TODO: Legacy, can be removed once migration support for old ActivityDatabase is removed
+ * @deprecated only for backwards compatibility
  */
 public class DBConstants {
     public static final String DATABASE_NAME = "ActivityDatabase";
 
     public static final String TABLE_GBACTIVITYSAMPLES = "GBActivitySamples";
-    public static final String TABLE_STEPS_PER_DAY = "StepsPerDay";
 
     public static final String KEY_TIMESTAMP = "timestamp";
     public static final String KEY_PROVIDER = "provider";

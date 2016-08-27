@@ -1,40 +1,24 @@
 package nodomain.freeyourgadget.gadgetbridge.database;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteStatement;
 import android.widget.Toast;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.schema.ActivityDBCreationScript;
 import nodomain.freeyourgadget.gadgetbridge.database.schema.SchemaMigration;
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.DATABASE_NAME;
-import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_CUSTOM_SHORT;
-import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_INTENSITY;
-import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_PROVIDER;
-import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_STEPS;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_TIMESTAMP;
-import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.KEY_TYPE;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.TABLE_GBACTIVITYSAMPLES;
 
-// TODO: can be removed entirely
+/**
+ * @deprecated can be removed entirely, only used for backwards compatibility
+ */
 public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandler {
 
     private static final int DATABASE_VERSION = 7;
