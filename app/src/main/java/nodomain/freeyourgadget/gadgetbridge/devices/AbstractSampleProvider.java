@@ -1,5 +1,8 @@
 package nodomain.freeyourgadget.gadgetbridge.devices;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -110,6 +113,10 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
             return null;
         }
         Property rawKindProperty = getRawKindSampleProperty();
+        if (rawKindProperty == null) {
+            return null;
+        }
+
         if (dbActivityTypes.length == 1) {
             return rawKindProperty.eq(dbActivityTypes[0]);
         }
@@ -142,7 +149,12 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
 
     public abstract AbstractDao<T,?> getSampleDao();
 
+    @Nullable
     protected abstract Property getRawKindSampleProperty();
+
+    @NonNull
     protected abstract Property getTimestampSampleProperty();
+
+    @NonNull
     protected abstract Property getDeviceIdentifierSampleProperty();
 }
