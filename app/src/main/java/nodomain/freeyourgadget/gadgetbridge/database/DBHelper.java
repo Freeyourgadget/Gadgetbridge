@@ -258,7 +258,7 @@ public class DBHelper {
             Calendar invalid = (Calendar) now.clone();
             invalid.add(Calendar.MINUTE, -1);
             userAttributes.setValidToUTC(invalid.getTime());
-            session.update(userAttributes);
+            session.getUserAttributesDao().update(userAttributes);
         }
     }
 
@@ -380,7 +380,7 @@ public class DBHelper {
             Calendar invalid = (Calendar) now.clone();
             invalid.add(Calendar.MINUTE, -1);
             deviceAttributes.setValidToUTC(invalid.getTime());
-            session.update(deviceAttributes);
+            session.getDeviceAttributesDao().update(deviceAttributes);
         }
     }
 
@@ -416,7 +416,7 @@ public class DBHelper {
         desc.setUser(user);
         desc.setTimestampFrom(tsFrom);
         desc.setTimestampTo(tsTo);
-        session.insertOrReplace(desc);
+        session.getActivityDescriptionDao().insertOrReplace(desc);
 
         return desc;
     }
@@ -433,12 +433,12 @@ public class DBHelper {
         return createTag(user, name, null, session);
     }
 
-    static Tag createTag(@NonNull User user, @NonNull String name, @NonNull String description, @NonNull DaoSession session) {
+    static Tag createTag(@NonNull User user, @NonNull String name, @Nullable String description, @NonNull DaoSession session) {
         Tag tag = new Tag();
         tag.setUserId(user.getId());
         tag.setName(name);
         tag.setDescription(description);
-        session.insertOrReplace(tag);
+        session.getTagDao().insertOrReplace(tag);
         return tag;
     }
 

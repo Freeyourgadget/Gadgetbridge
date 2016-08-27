@@ -80,11 +80,11 @@ public class EntitiesTest {
         attributes.setSleepGoalHPD(8);
         attributes.setStepsGoalSPD(10000);
 
-        daoSession.insert(user);
+        daoSession.getUserDao().insert(user);
         assertNotNull(user.getId());
 
         attributes.setUserId(user.getId());
-        daoSession.insert(attributes);
+        daoSession.getUserAttributesDao().insert(attributes);
         user.getUserAttributesList().add(attributes);
 
         assertNotNull(userDao.load(user.getId()));
@@ -95,7 +95,7 @@ public class EntitiesTest {
         assertEquals(1, userAttributesDao.count());
         assertEquals(1, daoSession.loadAll(UserAttributes.class).size());
 
-        daoSession.update(user);
+        daoSession.getUserDao().update(user);
         daoSession.delete(user);
         daoSession.delete(attributes);
         daoSession.delete(attributes);
