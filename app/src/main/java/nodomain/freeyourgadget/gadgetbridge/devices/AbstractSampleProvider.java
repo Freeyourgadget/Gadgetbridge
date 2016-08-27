@@ -93,7 +93,18 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
         for (T sample : samples) {
             sample.setProvider(this);
         }
+        detachFromSession();
         return samples;
+    }
+
+    /**
+     * Detaches all samples of this type from the session. Changes to them may not be
+     * written back to the database.
+     *
+     * Subclasses should call this method after performing custom queries.
+     */
+    protected void detachFromSession() {
+        getSampleDao().detachAll();
     }
 
     private WhereCondition[] getClauseForActivityType(QueryBuilder qb, int activityTypes) {

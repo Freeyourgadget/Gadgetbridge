@@ -57,6 +57,7 @@ public class PebbleHealthSampleProvider extends AbstractSampleProvider<PebbleHea
                 }
             }
         }
+        detachFromSession();
         return samples;
     }
 

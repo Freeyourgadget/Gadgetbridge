@@ -9,6 +9,10 @@ import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 /**
  * Interface to retrieve samples from the database, and also create and add samples to the database.
  * There are multiple device specific implementations, this interface defines the generic access.
+ *
+ * Note that the provided samples must typically be considered read-only, because they are immediately
+ * removed from the session before they are returned.
+ *
  * @param <T> the device/provider specific sample type (must extend AbstractActivitySample)
  */
 public interface SampleProvider<T extends AbstractActivitySample> {

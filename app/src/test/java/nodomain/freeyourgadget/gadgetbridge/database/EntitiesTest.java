@@ -50,6 +50,7 @@ public class EntitiesTest {
 
     @Before
     public void setUp() throws GBException {
+// doesn't work with Robolectric yet
 //        dbHandler = GBApplication.acquireDB();
 //        daoSession = dbHandler.getDaoSession();
         DaoMaster.DevOpenHelper openHelper = new DaoMaster.DevOpenHelper(app, null, null);
