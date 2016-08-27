@@ -371,7 +371,7 @@ public class DebugActivity extends GBActivity {
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (GBApplication.deleteActivityDatabase()) {
+                        if (GBApplication.deleteActivityDatabase(DebugActivity.this)) {
                             GB.toast(DebugActivity.this, "Activity database successfully deleted.", Toast.LENGTH_SHORT, GB.INFO);
                         } else {
                             GB.toast(DebugActivity.this, "Activity database deletion failed.", Toast.LENGTH_SHORT, GB.INFO);

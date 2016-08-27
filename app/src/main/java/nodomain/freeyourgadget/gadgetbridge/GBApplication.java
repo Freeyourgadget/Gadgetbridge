@@ -4,10 +4,8 @@ import android.annotation.TargetApi;
 import android.app.Application;
 import android.app.NotificationManager;
 import android.app.NotificationManager.Policy;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -42,8 +40,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
-
-//import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
 
 /**
  * Main Application class that initializes and provides access to certain things like
@@ -309,12 +305,12 @@ public class GBApplication extends Application {
      *
      * @return true on successful deletion
      */
-    public static synchronized boolean deleteActivityDatabase() {
+    public static synchronized boolean deleteActivityDatabase(Context context) {
         // TODO: flush, close, reopen db
         if (lockHandler != null) {
             lockHandler.closeDb();
         }
-        DBHelper dbHelper = new DBHelper(this);
+        DBHelper dbHelper = new DBHelper(context);
         boolean result = true;
         if (dbHelper.existsDB(DBConstants.DATABASE_NAME)) {
             result = getContext().deleteDatabase(DBConstants.DATABASE_NAME);
