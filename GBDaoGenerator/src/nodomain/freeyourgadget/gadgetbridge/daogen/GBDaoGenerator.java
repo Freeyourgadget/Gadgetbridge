@@ -31,6 +31,12 @@ public class GBDaoGenerator {
     private static final String MAIN_PACKAGE = "nodomain.freeyourgadget.gadgetbridge";
     private static final String MODEL_PACKAGE = MAIN_PACKAGE + ".model";
     private static final String VALID_BY_DATE = MODEL_PACKAGE + ".ValidByDate";
+    private static final String OVERRIDE = "@Override";
+    public static final String SAMPLE_RAW_INTENSITY = "rawIntensity";
+    public static final String SAMPLE_STEPS = "steps";
+    public static final String SAMPLE_RAW_KIND = "rawKind";
+    public static final String TIMESTAMP_FROM = "timestampFrom";
+    public static final String TIMESTAMP_TO = "timestampTo";
 
     public static void main(String[] args) throws Exception {
         Schema schema = new Schema(13, MAIN_PACKAGE + ".entities");
@@ -66,8 +72,8 @@ public class GBDaoGenerator {
         Entity activityDesc = addEntity(schema, "ActivityDescription");
         activityDesc.setJavaDoc("A user may further specify his activity with a detailed description and the help of tags.\nOne or more tags can be added to a given activity range.");
         activityDesc.addIdProperty();
-        activityDesc.addIntProperty("timestampFrom").notNull();
-        activityDesc.addIntProperty("timestampTo").notNull();
+        activityDesc.addIntProperty(TIMESTAMP_FROM).notNull();
+        activityDesc.addIntProperty(TIMESTAMP_TO).notNull();
         activityDesc.addStringProperty("details").javaDocGetterAndSetter("An optional detailed description, specific to this very activity occurrence.");
 
         Property userId = activityDesc.addLongProperty("userId").notNull().getProperty();
@@ -157,32 +163,32 @@ public class GBDaoGenerator {
     private static Entity addMiBandActivitySample(Schema schema, Entity user, Entity device) {
         Entity activitySample = addEntity(schema, "MiBandActivitySample");
         addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
-        activitySample.addIntProperty("rawIntensity").notNull();
-        activitySample.addIntProperty("steps").notNull();
-        activitySample.addIntProperty("rawKind").notNull();
+        activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         addHeartRateProperties(activitySample);
         return activitySample;
     }
 
     private static void addHeartRateProperties(Entity activitySample) {
-        activitySample.addIntProperty("heartRate").notNull();
+        activitySample.addIntProperty("heartRate").notNull().codeBeforeGetterAndSetter(OVERRIDE);
     }
 
     private static Entity addPebbleHealthActivitySample(Schema schema, Entity user, Entity device) {
         Entity activitySample = addEntity(schema, "PebbleHealthActivitySample");
         addCommonActivitySampleProperties("AbstractPebbleHealthActivitySample", activitySample, user, device);
-        activitySample.addByteArrayProperty("rawPebbleHealthData");
-        activitySample.addIntProperty("rawIntensity").notNull();
-        activitySample.addIntProperty("steps").notNull();
+        activitySample.addByteArrayProperty("rawPebbleHealthData").codeBeforeGetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         return activitySample;
     }
 
     private static Entity addPebbleHealthActivityKindOverlay(Schema schema, Entity user, Entity device) {
         Entity activityOverlay = addEntity(schema, "PebbleHealthActivityOverlay");
 
-        activityOverlay.addIntProperty("timestampFrom").notNull().primaryKey();
-        activityOverlay.addIntProperty("timestampTo").notNull().primaryKey();
-        activityOverlay.addIntProperty("rawKind").notNull().primaryKey();
+        activityOverlay.addIntProperty(TIMESTAMP_FROM).notNull().primaryKey();
+        activityOverlay.addIntProperty(TIMESTAMP_TO).notNull().primaryKey();
+        activityOverlay.addIntProperty(SAMPLE_RAW_KIND).notNull().primaryKey();
         Property deviceId = activityOverlay.addLongProperty("deviceId").primaryKey().getProperty();
         activityOverlay.addToOne(device, deviceId);
 
@@ -196,14 +202,14 @@ public class GBDaoGenerator {
     private static Entity addPebbleMisfitActivitySample(Schema schema, Entity user, Entity device) {
         Entity activitySample = addEntity(schema, "PebbleMisfitSample");
         addCommonActivitySampleProperties("AbstractPebbleMisfitActivitySample", activitySample, user, device);
-        activitySample.addIntProperty("rawPebbleMisfitSample").notNull();
+        activitySample.addIntProperty("rawPebbleMisfitSample").notNull().codeBeforeGetter(OVERRIDE);
         return activitySample;
     }
 
     private static Entity addPebbleMorpheuzActivitySample(Schema schema, Entity user, Entity device) {
         Entity activitySample = addEntity(schema, "PebbleMorpheuzSample");
         addCommonActivitySampleProperties("AbstractPebbleMorpheuzActivitySample", activitySample, user, device);
-        activitySample.addIntProperty("rawIntensity").notNull();
+        activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         return activitySample;
     }
 
@@ -214,10 +220,10 @@ public class GBDaoGenerator {
                 "This class represents a sample specific to the device. Values like activity kind or\n" +
                         "intensity, are device specific. Normalized values can be retrieved through the\n" +
                         "corresponding {@link SampleProvider}.");
-        activitySample.addIntProperty("timestamp").notNull().primaryKey();
-        Property deviceId = activitySample.addLongProperty("deviceId").primaryKey().getProperty();
+        activitySample.addIntProperty("timestamp").notNull().codeBeforeGetterAndSetter(OVERRIDE).primaryKey();
+        Property deviceId = activitySample.addLongProperty("deviceId").primaryKey().codeBeforeGetterAndSetter(OVERRIDE).getProperty();
         activitySample.addToOne(device, deviceId);
-        Property userId = activitySample.addLongProperty("userId").getProperty();
+        Property userId = activitySample.addLongProperty("userId").codeBeforeGetterAndSetter(OVERRIDE).getProperty();
         activitySample.addToOne(user, userId);
     }
 
