@@ -30,6 +30,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import nodomain.freeyourgadget.gadgetbridge.database.DBConstants;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
@@ -51,6 +52,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 public class GBApplication extends Application {
     // Since this class must not log to slf4j, we use plain android.util.Log
     private static final String TAG = "GBApplication";
+    public static final String DATABASE_NAME = "Gadgetbridge";
+
     private static GBApplication context;
     private static final Lock dbLock = new ReentrantLock();
     private static DeviceService deviceService;
@@ -151,7 +154,7 @@ public class GBApplication extends Application {
     }
 
     static void setupDatabase(Context context) {
-        DBOpenHelper helper = new DBOpenHelper(context, "Gadgetbridge", null);
+        DBOpenHelper helper = new DBOpenHelper(context, DATABASE_NAME, null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
         if (lockHandler == null) {
@@ -311,12 +314,12 @@ public class GBApplication extends Application {
         if (lockHandler != null) {
             lockHandler.closeDb();
         }
-//        if (mActivityDatabaseHandler != null) {
-//            mActivityDatabaseHandler.close();
-//            mActivityDatabaseHandler = null;
-//        }
-        boolean result = getContext().deleteDatabase(DBConstants.DATABASE_NAME);
-//        mActivityDatabaseHandler = new Activity7DatabaseHandler(getContext());
+        DBHelper dbHelper = new DBHelper(this);
+        boolean result = true;
+        if (dbHelper.existsDB(DBConstants.DATABASE_NAME)) {
+            result = getContext().deleteDatabase(DBConstants.DATABASE_NAME);
+        }
+        result &= getContext().deleteDatabase(DATABASE_NAME);
         return result;
     }
 

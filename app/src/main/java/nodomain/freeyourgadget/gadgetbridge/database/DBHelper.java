@@ -139,6 +139,11 @@ public class DBHelper {
         db.execSQL(statement);
     }
 
+    public boolean existsDB(String dbName) {
+        File path = context.getDatabasePath(dbName);
+        return path != null && path.exists();
+    }
+
     public static boolean existsColumn(String tableName, String columnName, SQLiteDatabase db) {
         try (Cursor res = db.rawQuery("PRAGMA table_info('" + tableName + "')", null)) {
             int index = res.getColumnIndex("name");
