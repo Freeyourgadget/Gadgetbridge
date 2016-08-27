@@ -331,25 +331,66 @@ public class DBHelper {
         return null;
     }
 
+    /**
+     * Looks up in the database the Device entity corresponding to the GBDevice. If a device
+     * exists already, it will be updated with the current preferences values. If no device exists
+     * yet, it will be created in the database.
+     *
+     * @param session
+     * @return the device entity corresponding to the given GBDevice
+     */
     public static Device getDevice(GBDevice gbDevice, DaoSession session) {
         Device device = findDevice(gbDevice, session);
         if (device == null) {
-            device = createDevice(session, gbDevice);
+            device = createDevice(gbDevice, session);
+        } else {
+            ensureDeviceUpToDate(device, gbDevice, session);
         }
         ensureDeviceAttributes(device, gbDevice, session);
 
         return device;
     }
 
-    private static Device createDevice(DaoSession session, GBDevice gbDevice) {
-        Device device = new Device();
-        device.setIdentifier(gbDevice.getAddress());
-        device.setName(gbDevice.getName());
+    private static void ensureDeviceUpToDate(Device device, GBDevice gbDevice, DaoSession session) {
+        if (!isDeviceUpToDate(device, gbDevice)) {
+            device.setIdentifier(gbDevice.getAddress());
+            device.setName(gbDevice.getName());
+            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+            device.setManufacturer(coordinator.getManufacturer());
+            device.setType(gbDevice.getType().getKey());
+            device.setModel(gbDevice.getModel());
+
+            if (device.getId() == null) {
+                session.getDeviceDao().insert(device);
+            } else {
+                session.getDeviceDao().update(device);
+            }
+        }
+    }
+
+    private static boolean isDeviceUpToDate(Device device, GBDevice gbDevice) {
+        if (!Objects.equals(device.getIdentifier(), gbDevice.getAddress())) {
+            return false;
+        }
+        if (!Objects.equals(device.getName(), gbDevice.getName())) {
+            return false;
+        }
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
-        device.setManufacturer(coordinator.getManufacturer());
-        device.setType(gbDevice.getType().getKey());
-        device.setModel(gbDevice.getModel());
-        session.getDeviceDao().insert(device);
+        if (!Objects.equals(device.getManufacturer(), coordinator.getManufacturer())) {
+            return false;
+        }
+        if (device.getType() != gbDevice.getType().getKey()) {
+            return false;
+        }
+        if (!Objects.equals(device.getModel(), gbDevice.getModel())) {
+            return false;
+        }
+        return true;
+    }
+
+    private static Device createDevice(GBDevice gbDevice, DaoSession session) {
+        Device device = new Device();
+        ensureDeviceUpToDate(device, gbDevice, session);
 
         return device;
     }
