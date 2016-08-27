@@ -21,6 +21,7 @@ import java.util.Objects;
 import de.greenrobot.dao.Property;
 import de.greenrobot.dao.query.Query;
 import de.greenrobot.dao.query.QueryBuilder;
+import de.greenrobot.dao.query.WhereCondition;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
@@ -445,10 +446,24 @@ public class DBHelper {
         Property tsToProperty = ActivityDescriptionDao.Properties.TimestampTo;
         Property userIdProperty = ActivityDescriptionDao.Properties.UserId;
         QueryBuilder<ActivityDescription> qb = session.getActivityDescriptionDao().queryBuilder();
-        qb.where(userIdProperty.eq(user.getId()), tsFromProperty.ge(tsFrom))
-                .where(tsToProperty.le(tsTo));
+        qb.where(userIdProperty.eq(user.getId()), isAtLeastPartiallyInRange(qb, tsFromProperty, tsToProperty, tsFrom, tsTo));
         List<ActivityDescription> descriptions = qb.build().list();
         return descriptions;
+    }
+
+    /**
+     * Returns a condition that matches when the range of the entity (tsFromProperty..tsToProperty)
+     * is completely or partially inside the range tsFrom..tsTo.
+     * @param qb the query builder to use
+     * @param tsFromProperty the property indicating the start of the entity's range
+     * @param tsToProperty the property indicating the end of the entity's range
+     * @param tsFrom the timestamp indicating the start of the range to match
+     * @param tsTo the timestamp indicating the end of the range to match
+     * @param <T> the query builder's type parameter
+     * @return the range WhereCondition
+     */
+    private static <T> WhereCondition isAtLeastPartiallyInRange(QueryBuilder<T> qb, Property tsFromProperty, Property tsToProperty, int tsFrom, int tsTo) {
+        return qb.and(tsFromProperty.lt(tsTo), tsToProperty.gt(tsFrom));
     }
 
     @NonNull
