@@ -3,6 +3,7 @@ TODO before 0.12.0 release:
 * ~~Support importing Pebble Health data from old database~~ DONE, needs check.
 * ~~Add onboarding activity on first startup (to merge old data)~~ DONE, needs check.
 * Rename ActivitySample to Sample or something similar, and also related methods.
+* Reconsider DBHelper.getUser() (multi user in GB does not make much sense)
 
 Non blocking issues:
 
