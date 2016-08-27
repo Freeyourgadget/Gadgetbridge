@@ -2,6 +2,22 @@ package nodomain.freeyourgadget.gadgetbridge.model;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 
+/**
+ * The all-in-one interface for a sample measured by a device with
+ * one or more sensors.
+ *
+ * Each sample is the result of one or more measurements. The values are set for
+ * a specific point in time (see @{link #getTimestamp()}).
+ *
+ * If the sample relates to a user activity (e.g. sleeping, walking, running, ...)
+ * then the activity is provided through @{link #getKind()}.
+ *
+ * Methods will return @{link #NOT_MEASURED} in case no value is available for this
+ * sample.
+ *
+ * The frequency of samples, i.e. the how many samples are recorded per minute, is not specified
+ * and may vary.
+ */
 public interface ActivitySample extends TimeStamped {
 
     int NOT_MEASURED = -1;
