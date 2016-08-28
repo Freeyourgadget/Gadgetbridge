@@ -33,7 +33,8 @@ public class OnboardingActivity extends GBActivity {
             throw new IllegalArgumentException("Must provide a device when invoking this activity");
         }
 
-        importOldActivityDataButton = (Button) findViewById(R.id.mergeOldActivityData);
+        importOldActivityDataButton = (Button) findViewById(R.id.button_import_old_activitydata);
+        importOldActivityDataButton.setText(String.format(getString(R.string.import_old_db_information), device.getName()));
         final GBDevice finalDevice = device;
         importOldActivityDataButton.setOnClickListener(new View.OnClickListener() {
             @Override

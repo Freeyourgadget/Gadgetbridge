@@ -10,10 +10,22 @@
 
 
     <Button
-        android:id="@+id/mergeOldActivityData"
+        android:id="@+id/button_import_old_activitydata"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="fill_horizontal"
-        android:text="Merge old activity data" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/import_old_db_buttonlabel" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button_import_old_activitydata"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/import_old_db_information" />
 
 </RelativeLayout>

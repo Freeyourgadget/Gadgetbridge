@@ -284,4 +284,10 @@
     <string name="appmanager_cached_watchapps_watchfaces">Apps in cache</string>
     <string name="appmanager_installed_watchapps">Installed apps</string>
     <string name="appmanager_installed_watchfaces">Installed watchfaces</string>
+
+    <string name="import_old_db_buttonlabel">Import old activity data</string>
+    <string name="import_old_db_information">Since Gadgetbridge 0.12.0 we use a new database format.
+        You are able to import old activity data and associate it with the device you are connecting to (%1$s).
+        Please note that you can import data from Mi Band, Pebble Health and Morpheuz but NOT from Pebble Misfit.
+    </string>
 </resources>
