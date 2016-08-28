@@ -16,8 +16,16 @@
 
     <!-- Strings related to AppManager -->
     <string name="title_activity_appmanager">App Manager</string>
+    <string name="appmanager_cached_watchapps_watchfaces">Apps in cache</string>
+    <string name="appmanager_installed_watchapps">Installed apps</string>
+    <string name="appmanager_installed_watchfaces">Installed watchfaces</string>
     <string name="appmananger_app_delete">Delete</string>
     <string name="appmananger_app_delete_cache">Delete and remove from cache</string>
+    <string name="appmananger_app_reinstall">Reinstall</string>
+    <string name="appmanager_health_activate">Activate</string>
+    <string name="appmanager_health_deactivate">Deactivate</string>
+    <string name="app_configure">Configure</string>
+    <string name="app_move_to_top">Move to top</string>
 
     <!-- Strings related to AppBlacklist -->
     <string name="title_activity_appblacklist">Notification Blacklist</string>
@@ -254,17 +262,12 @@
 	<string name="miband_prefs_device_time_offset_hours">Device time offset in hours (for detecting sleep of shift workers)</string>
 
     <string name="waiting_for_reconnect">waiting for reconnect</string>
-    <string name="appmananger_app_reinstall">Reinstall</string>
 
     <string name="activity_prefs_about_you">About You</string>
     <string name="activity_prefs_year_birth">Year of Birth</string>
     <string name="activity_prefs_gender">Gender</string>
     <string name="activity_prefs_height_cm">Height in cm</string>
     <string name="activity_prefs_weight_kg">Weight in kg</string>
-    <string name="appmanager_health_activate">Activate</string>
-    <string name="appmanager_health_deactivate">Deactivate</string>
-    <string name="app_configure">Configure</string>
-    <string name="app_move_to_top">Move to top</string>
 
     <string name="authenticating">authenticating</string>
     <string name="authentication_required">authentication required</string>
@@ -281,10 +284,9 @@
     <string name="updatefirmwareoperation_firmware_not_sent">Firmware not sent</string>
     <string name="charts_legend_heartrate">Heart Rate</string>
     <string name="live_activity_heart_rate">Heart Rate</string>
-    <string name="appmanager_cached_watchapps_watchfaces">Apps in cache</string>
-    <string name="appmanager_installed_watchapps">Installed apps</string>
-    <string name="appmanager_installed_watchfaces">Installed watchfaces</string>
 
+    <!-- Strings related to Onboading Activity -->
+    <string name="title_activity_onboarding">Database Import</string>
     <string name="import_old_db_buttonlabel">Import old activity data</string>
     <string name="import_old_db_information">Since Gadgetbridge 0.12.0 we use a new database format.
         You are able to import old activity data and associate it with the device you are connecting to (%1$s).
