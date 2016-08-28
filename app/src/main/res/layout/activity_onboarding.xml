@@ -19,7 +19,7 @@
         android:text="@string/import_old_db_buttonlabel" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textview_import_old_activitydata"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/button_import_old_activitydata"

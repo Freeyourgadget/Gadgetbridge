@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -18,6 +19,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 public class OnboardingActivity extends GBActivity {
 
     private Button importOldActivityDataButton;
+    private TextView importOldActivityDataText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,15 +28,16 @@ public class OnboardingActivity extends GBActivity {
 
         Bundle extras = getIntent().getExtras();
 
-        GBDevice device = null;
+        GBDevice device;
         if (extras != null) {
             device = extras.getParcelable(GBDevice.EXTRA_DEVICE);
         } else {
             throw new IllegalArgumentException("Must provide a device when invoking this activity");
         }
 
+        importOldActivityDataText = (TextView) findViewById(R.id.textview_import_old_activitydata);
+        importOldActivityDataText.setText(String.format(getString(R.string.import_old_db_information), device.getName()));
         importOldActivityDataButton = (Button) findViewById(R.id.button_import_old_activitydata);
-        importOldActivityDataButton.setText(String.format(getString(R.string.import_old_db_information), device.getName()));
         final GBDevice finalDevice = device;
         importOldActivityDataButton.setOnClickListener(new View.OnClickListener() {
             @Override
