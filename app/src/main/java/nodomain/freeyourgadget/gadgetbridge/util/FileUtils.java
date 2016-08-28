@@ -138,7 +138,7 @@ public class FileUtils {
         File[] dirs;
         try {
             dirs = context.getExternalFilesDirs(null);
-        } catch (NullPointerException ex) {
+        } catch (NullPointerException | UnsupportedOperationException ex) {
             // workaround for robolectric 3.1.2 not implementinc getExternalFilesDirs()
             // https://github.com/robolectric/robolectric/issues/2531
             File dir = context.getExternalFilesDir(null);

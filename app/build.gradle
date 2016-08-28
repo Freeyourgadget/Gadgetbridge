@@ -6,10 +6,7 @@ def ABORT_ON_CHECK_FAILURE=false
 
 tasks.withType(Test) { systemProperty 'MiFirmwareDir', System.getProperty('MiFirmwareDir', null) }
 
-// sourceSets.test.runtimeClasspath += File('src/main/assets')
-
 android {
-
     compileOptions {
         // for KitKat
         sourceCompatibility JavaVersion.VERSION_1_7
