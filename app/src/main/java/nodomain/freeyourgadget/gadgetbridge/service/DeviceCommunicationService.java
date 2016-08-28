@@ -25,6 +25,10 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.OnboardingActivity;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.K9Receiver;
@@ -145,6 +149,23 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     boolean enableReceivers = mDeviceSupport != null && (mDeviceSupport.useAutoConnect() || mGBDevice.isInitialized());
                     setReceiversEnableState(enableReceivers);
                     GB.updateNotification(mGBDevice.getName() + " " + mGBDevice.getStateString(), mGBDevice.isInitialized(), context);
+
+                    if (device.isInitialized()) {
+                        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                            DaoSession session = dbHandler.getDaoSession();
+                            if (DBHelper.findDevice(device, session) == null) {
+                                DBHelper dbHelper = new DBHelper(context);
+                                if (dbHelper.getOldActivityDatabaseHandler() != null) {
+                                    DBHelper.getDevice(device, session); // implicitly creates it :P
+                                    Intent startIntent = new Intent(context, OnboardingActivity.class);
+                                    startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                                    startActivity(startIntent);
+                                }
+                            }
+                        } catch (Exception _ignore) {
+                        }
+                    }
                 } else {
                     LOG.error("Got ACTION_DEVICE_CHANGED from unexpected device: " + mGBDevice);
                 }

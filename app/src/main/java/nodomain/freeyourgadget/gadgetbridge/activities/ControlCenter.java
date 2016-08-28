@@ -38,11 +38,8 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapter;
-import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
-import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
-import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -338,19 +335,6 @@ public class ControlCenter extends GBActivity {
         for (GBDevice device : deviceList) {
             if (device.isConnected() || device.isConnecting()) {
                 connectedDevice = device;
-                if (device.isInitialized()) {
-                    try (DBHandler dbHandler = GBApplication.acquireDB()) {
-                        DaoSession session = dbHandler.getDaoSession();
-
-                        if (DBHelper.findDevice(device, session) == null) {
-                            DBHelper.getDevice(device, session); // implicitly creates it :P
-                            Intent startIntent = new Intent(ControlCenter.this, OnboardingActivity.class);
-                            startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
-                            startActivity(startIntent);
-                        }
-                    } catch (Exception _ignore) {
-                    }
-                }
                 break;
             }
         }
