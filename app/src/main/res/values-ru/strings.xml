@@ -14,6 +14,12 @@
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">App Manager</string>
   <string name="appmananger_app_delete">Удалить</string>
+  <string name="appmananger_app_delete_cache">Удалить и очистить кеш</string>
+  <string name="appmananger_app_reinstall">Переустановка</string>
+  <string name="appmanager_health_activate">Активировать</string>
+  <string name="appmanager_health_deactivate">Деактивировать</string>
+  <string name="app_configure">Настроить</string>
+  <string name="app_move_to_top">Переместить наверх</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Заблокированные уведомления</string>
   <!--Strings related to FwAppInstaller-->
@@ -26,11 +32,16 @@
   <string name="title_activity_settings">Настройки</string>
   <string name="pref_header_general">Общие настройки</string>
   <string name="pref_title_general_autoconnectonbluetooth">Подключение к устройству при активации Bluetooth</string>
+  <string name="pref_title_general_autocreonnect">Переподключаться автоматически</string>
   <string name="pref_title_audo_player">Предпочтительный музыкальный плеер</string>
   <string name="pref_default">По-умолчанию</string>
   <string name="pref_header_datetime">Дата и время</string>
   <string name="pref_title_datetime_syctimeonconnect">Синхронизировать время при подключении</string>
   <string name="pref_summary_datetime_syctimeonconnect">Синхронизировать время при подключении к устройству, а также при изменении времени или временной зоны в системе</string>
+  <string name="pref_title_theme">Тема</string>
+  <string name="pref_theme_light">Светлая</string>
+  <string name="pref_theme_dark">Темная</string>
+  <string name="pref_title_language">Язык</string>
   <string name="pref_header_notifications">Уведомления</string>
   <string name="pref_title_notifications_repetitions">Повторы</string>
   <string name="pref_title_notifications_call">Вызовы</string>
@@ -40,6 +51,8 @@
   <string name="pref_summary_notifications_pebblemsg">Поддержка приложений, посылающих уведомления на Pebble с помощью Intent. Может использоваться для Conversations.</string>
   <string name="pref_title_notifications_generic">Поддержка обычных уведомлений</string>
   <string name="pref_title_whenscreenon">… даже когда экран включён</string>
+  <string name="pref_title_notification_filter">Не беспокоить</string>
+  <string name="pref_summary_notification_filter">Предотвращать отправку нежелательных уведомлений в режиме \"Не беспокоить\"</string>
   <string name="always">всегда</string>
   <string name="when_screen_off">когда экран выключен</string>
   <string name="never">никогда</string>
@@ -50,6 +63,8 @@
   <string name="pref_title_pebble_settings">Настройки Pebble</string>
   <string name="pref_title_enable_pebblekit">Разрешить доступ приложениям третьих лиц</string>
   <string name="pref_summary_enable_pebblekit">Добавить экспериментальную поддержку приложений Android, использующих PebbleKit</string>
+  <string name="pref_title_location_latitude">Широта</string>
+  <string name="pref_title_location_longitude">Долгота</string>
   <string name="pref_title_pebble_forceprotocol">Принудительный протокол уведомлений</string>
   <string name="pref_summary_pebble_forceprotocol">Эта настройка заставляет принудительно использовать самый новый протокол уведомлений, зависящий от версии прошивки. ВКЛЮЧАЙТЕ, ТОЛЬКО ЕСЛИ ЗНАЕТЕ НА ЧТО ВЫ ИДЁТЕ.</string>
   <string name="pref_title_pebble_forceuntested">Включить непроверенные функции</string>
@@ -102,6 +117,7 @@
   <string name="miband_prefs_alias">Имя/псевдоним</string>
   <string name="pref_header_vibration_count">Количество вибраций</string>
   <string name="title_activity_sleepmonitor">Анализ сна</string>
+  <string name="pref_write_logfiles">Сохранять файл журнала</string>
   <string name="initializing">Инициализация</string>
   <string name="busy_task_fetch_activity_data">Получение данных активности</string>
   <string name="sleep_activity_date_range">От %1$s до %2$s</string>
@@ -175,26 +191,36 @@
   <string name="pref_title_dont_ack_transfer">Не передавать данные об активности</string>
   <string name="pref_summary_dont_ack_transfers">Если данные об активности не будут переданы на устройство, оно не будет очищено. Полезно, если GB используется с другими приложениями.</string>
   <string name="pref_summary_keep_data_on_device">Хранить данные о деятельности на Mi Band, даже после синхронизации. Полезно, если Mi Band используется совместно с другими приложениями.</string>
+  <string name="pref_summary_low_latency_fw_update">Это может помочь в случае неудачного обновления прошивки</string>
   <string name="live_activity_steps_history">История шагов</string>
   <string name="live_activity_current_steps_per_minute">Текущие шаги в минуту</string>
   <string name="live_activity_total_steps">Всего шагов</string>
   <string name="live_activity_steps_per_minute_history">История шагов за минуту</string>
   <string name="live_activity_start_your_activity">Начните вашу активность</string>
   <string name="abstract_chart_fragment_kind_activity">Активность</string>
-  <string name="abstract_chart_fragment_kind_light_sleep">Легкий сон</string>
+  <string name="abstract_chart_fragment_kind_light_sleep">Неглубокий сон</string>
   <string name="abstract_chart_fragment_kind_deep_sleep">Глубокий сон</string>
-  <string name="abstract_chart_fragment_kind_not_worn">Не носился</string>
+  <string name="abstract_chart_fragment_kind_not_worn">Не носилось</string>
   <string name="device_not_connected">Не подключен.</string>
   <string name="user_feedback_all_alarms_disabled">Все будильники отключены</string>
   <string name="pref_title_keep_data_on_device">Храните данные о деятельности на устройстве</string>
   <string name="miband_fwinstaller_incompatible_version">Несовместимая прошивка</string>
   <string name="fwinstaller_firmware_not_compatible_to_device">Эта прошивка не совместима с устройством</string>
   <string name="miband_prefs_reserve_alarm_calendar">Резервные сигналы для предстоящих событий</string>
+  <string name="miband_prefs_hr_sleep_detection">Использовать датчик сердцебиения для улучшения мониторинга сна</string>
+  <string name="miband_prefs_device_time_offset_hours">Смещение времени в часах (для тех, кто работает по ночам)</string>
   <string name="waiting_for_reconnect">Ожидание переподключения</string>
-  <string name="appmananger_app_reinstall">Переустановка</string>
   <string name="activity_prefs_about_you">Ваши данные</string>
   <string name="activity_prefs_year_birth">Год рождения</string>
   <string name="activity_prefs_gender">Пол</string>
   <string name="activity_prefs_height_cm">Рост в см</string>
   <string name="activity_prefs_weight_kg">Вес в кг</string>
+  <string name="add_widget">Добавить виджет</string>
+  <string name="activity_prefs_sleep_duration">Желаемая продолжительность сна</string>
+  <string name="appwidget_alarms_set">Будильник был установлен на %1$02d:%2$02d</string>
+  <string name="device_hw">Версия устройства: %1$s</string>
+  <string name="device_fw"> Версия ПО: %1$s</string>
+  <string name="error_creating_directory_for_logfiles">Ошибка создания каталога для лог-файлов: %1$s</string>
+  <string name="updatefirmwareoperation_update_in_progress">Обновление прошивки в процессе</string>
+  <!--Strings related to Onboading Activity-->
 </resources>
