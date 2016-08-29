@@ -39,12 +39,21 @@ public class LoggingTest {
 
     @BeforeClass
     public static void setupSuite() throws Exception {
-        logFilesDir = FileUtils.createTempDir("logfiles");
-        System.setProperty(Logging.PROP_LOGFILES_DIR, logFilesDir.getAbsolutePath());
-        File workingDir = new File(System.getProperty("user.dir"));
-        File configFile = new File(workingDir, "src/main/assets/logback.xml");
-        System.out.println(configFile.getAbsolutePath());
-        System.setProperty("logback.configurationFile", configFile.getAbsolutePath());
+        // properties might be preconfigured in build.gradle because of test ordering problems
+        String logDir = System.getProperty(Logging.PROP_LOGFILES_DIR);
+        if (logDir != null) {
+            logFilesDir = new File(logDir);
+        } else {
+            logFilesDir = FileUtils.createTempDir("logfiles");
+            System.setProperty(Logging.PROP_LOGFILES_DIR, logFilesDir.getAbsolutePath());
+        }
+
+        if (System.getProperty("logback.configurationFile") == null) {
+            File workingDir = new File(System.getProperty("user.dir"));
+            File configFile = new File(workingDir, "src/main/assets/logback.xml");
+            System.out.println(configFile.getAbsolutePath());
+            System.setProperty("logback.configurationFile", configFile.getAbsolutePath());
+        }
     }
 
     private Logging logging = new Logging() {

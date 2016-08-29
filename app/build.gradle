@@ -1,10 +1,15 @@
+
 apply plugin: 'com.android.application'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
 
 def ABORT_ON_CHECK_FAILURE=false
 
-tasks.withType(Test) { systemProperty 'MiFirmwareDir', System.getProperty('MiFirmwareDir', null) }
+tasks.withType(Test) {
+    systemProperty 'MiFirmwareDir', System.getProperty('MiFirmwareDir', null)
+    systemProperty 'logback.configurationFile', System.getProperty('user.dir', null) + '/app/src/main/assets/logback.xml'
+    systemProperty 'GB_LOGFILES_DIR', java.nio.file.Files.createTempDirectory('gblog').toString();
+}
 
 android {
     compileOptions {
