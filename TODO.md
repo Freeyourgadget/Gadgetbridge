@@ -3,7 +3,7 @@ TODO before 0.12.0 release:
 * ~~Support importing Pebble Health data from old database~~ DONE, needs check.
 * ~~Add onboarding activity on first startup (to merge old data)~~ DONE, needs check.
 * export db/delete db improvements
-* onboarding hint about import-db in Debug activity
+* ~~onboarding hint about import-db in Debug activity~~ DONE, needs check.
 * TESTING!
 * tx pull
 
