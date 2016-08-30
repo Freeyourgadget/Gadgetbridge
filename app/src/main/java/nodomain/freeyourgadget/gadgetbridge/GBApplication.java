@@ -124,16 +124,11 @@ public class GBApplication extends Application {
         deviceManager = new DeviceManager(this);
 
         deviceService = createDeviceService();
-//        mActivityDatabaseHandler = new ActivityDatabaseHandler(context);
         loadBlackList();
 
         if (isRunningMarshmallowOrLater()) {
             notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         }
-
-// for testing DB stuff
-//        SQLiteDatabase db = mActivityDatabaseHandler.getWritableDatabase();
-//        db.close();
     }
 
     public static void setupLogging(boolean enabled) {
@@ -190,7 +185,6 @@ public class GBApplication extends Application {
         try {
             if (dbLock.tryLock(30, TimeUnit.SECONDS)) {
                 return lockHandler;
-//                return mActivityDatabaseHandler;
             }
         } catch (InterruptedException ex) {
             Log.i(TAG, "Interrupted while waiting for DB lock");
