@@ -62,6 +62,7 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
         return MiBandPairingActivity.class;
     }
 
+    @Override
     public Class<? extends Activity> getPrimaryActivity() {
         return ChartsActivity.class;
     }

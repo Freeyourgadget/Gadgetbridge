@@ -333,6 +333,15 @@ public class DBHelper {
     }
 
     /**
+     * Returns all active (that is, not old, archived ones) from the database.
+     * (currently the active handling is not available)
+     * @param daoSession
+     */
+    public static List<Device> getActiveDevices(DaoSession daoSession) {
+        return daoSession.getDeviceDao().loadAll();
+    }
+
+    /**
      * Looks up in the database the Device entity corresponding to the GBDevice. If a device
      * exists already, it will be updated with the current preferences values. If no device exists
      * yet, it will be created in the database.
