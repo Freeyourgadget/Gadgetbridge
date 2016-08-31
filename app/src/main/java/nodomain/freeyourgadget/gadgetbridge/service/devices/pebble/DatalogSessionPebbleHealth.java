@@ -23,4 +23,9 @@ abstract class DatalogSessionPebbleHealth extends DatalogSession {
         Prefs prefs = GBApplication.getPrefs();
         return prefs.getBoolean("pebble_sync_health", true);
     }
+
+    protected boolean storePebbleHealthRawRecord() {
+        Prefs prefs = GBApplication.getPrefs();
+        return prefs.getBoolean("pebble_health_store_raw", true);
+    }
 }

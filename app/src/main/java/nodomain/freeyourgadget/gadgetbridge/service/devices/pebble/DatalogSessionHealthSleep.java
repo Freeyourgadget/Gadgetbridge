@@ -69,7 +69,7 @@ class DatalogSessionHealthSleep extends DatalogSessionPebbleHealth {
             List<PebbleHealthActivityOverlay> overlayList = new ArrayList<>();
             for (SleepRecord sleepRecord : sleepRecords) {
                 //TODO: check the firmware version and don't use the sleep record if overlay is available?
-                overlayList.add(new PebbleHealthActivityOverlay(sleepRecord.bedTimeStart, sleepRecord.bedTimeEnd, sleepRecord.type, deviceId, userId, sleepRecord.rawData));
+                overlayList.add(new PebbleHealthActivityOverlay(sleepRecord.bedTimeStart, sleepRecord.bedTimeEnd, sleepRecord.type, deviceId, userId, sleepRecord.getRawData()));
             }
             overlayDao.insertOrReplaceInTx(overlayList);
         } catch (Exception ex) {
@@ -99,6 +99,13 @@ class DatalogSessionHealthSleep extends DatalogSessionPebbleHealth {
             this.bedTimeStart = record.getInt();
             this.bedTimeEnd = record.getInt();
             this.deepSleepSeconds = record.getInt();
+        }
+
+        public byte[] getRawData() {
+            if (storePebbleHealthRawRecord()) {
+                return rawData;
+            }
+            return null;
         }
     }
 

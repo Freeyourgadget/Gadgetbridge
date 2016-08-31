@@ -68,7 +68,7 @@ class DatalogSessionHealthOverlayData extends DatalogSessionPebbleHealth {
 
             List<PebbleHealthActivityOverlay> overlayList = new ArrayList<>();
             for (OverlayRecord overlayRecord : overlayRecords) {
-                overlayList.add(new PebbleHealthActivityOverlay(overlayRecord.timestampStart, overlayRecord.timestampStart + overlayRecord.durationSeconds, overlayRecord.type, deviceId, userId, overlayRecord.rawData));
+                overlayList.add(new PebbleHealthActivityOverlay(overlayRecord.timestampStart, overlayRecord.timestampStart + overlayRecord.durationSeconds, overlayRecord.type, deviceId, userId, overlayRecord.getRawData()));
             }
             overlayDao.insertOrReplaceInTx(overlayList);
         } catch (Exception ex) {
@@ -97,6 +97,13 @@ class DatalogSessionHealthOverlayData extends DatalogSessionPebbleHealth {
             this.offsetUTC = record.getInt();
             this.timestampStart = record.getInt();
             this.durationSeconds = record.getInt();
+        }
+
+        public byte[] getRawData() {
+            if (storePebbleHealthRawRecord()) {
+                return rawData;
+            }
+            return null;
         }
     }
 }

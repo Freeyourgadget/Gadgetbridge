@@ -87,7 +87,7 @@ public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
                 samples[j] = new PebbleHealthActivitySample(
                         stepsRecord.timestamp,
                         userId, deviceId,
-                        stepsRecord.rawData,
+                        stepsRecord.getRawData(),
                         stepsRecord.intensity,
                         stepsRecord.steps
                 );
@@ -123,6 +123,13 @@ public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
             this.orientation = record.get() & 0xff;
             this.intensity = record.getShort() & 0xffff;
             this.light_intensity = record.get() & 0xff;
+        }
+
+        public byte[] getRawData() {
+            if (storePebbleHealthRawRecord()) {
+                return rawData;
+            }
+            return null;
         }
     }
 

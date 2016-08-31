@@ -176,6 +176,12 @@
                     android:title="@string/pref_title_pebble_sync_health" />
                 <CheckBoxPreference
                     android:defaultValue="true"
+                    android:key="pebble_health_store_raw"
+                    android:dependency="pebble_sync_health"
+                    android:title="@string/pref_title_pebble_health_store_raw"
+                    android:summary="@string/pref_summary_pebble_health_store_raw" />
+                <CheckBoxPreference
+                    android:defaultValue="true"
                     android:key="pebble_sync_misfit"
                     android:title="@string/pref_title_pebble_sync_misfit" />>
                 <CheckBoxPreference

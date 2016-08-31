@@ -295,4 +295,6 @@
         \n
         Please note that you can import data from Mi Band, Pebble Health and Morpheuz but NOT from Pebble Misfit.
     </string>
+    <string name="pref_title_pebble_health_store_raw">Store raw record in the database</string>
+    <string name="pref_summary_pebble_health_store_raw">If checked the data is stored \"as is\" and is available for later interpretation. NB: the database will be bigger in this case!</string>
 </resources>
