@@ -152,45 +152,6 @@
                 android:layout_row="11"
                 android:text="reboot" />
 
-
-            <Button
-                android:id="@+id/exportDBButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_gravity="fill_horizontal"
-                android:layout_row="6"
-                android:singleLine="false"
-                android:text="Export DB" />
-
-            <Button
-                android:id="@+id/importDBButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:layout_gravity="fill_horizontal"
-                android:layout_row="6"
-                android:text="Import DB" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Empty DB"
-                android:id="@+id/emptyDBButton"
-                android:layout_row="6"
-                android:layout_column="2" />
-
-            <Button
-                android:id="@+id/mergeOldActivityData"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_columnSpan="3"
-                android:layout_gravity="fill_horizontal"
-                android:layout_row="7"
-                android:text="Merge old activity data" />
-
-
         </GridLayout>
     </ScrollView>
 

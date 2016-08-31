@@ -6,6 +6,11 @@
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_debug" android:title="@string/action_debug"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item
+        android:id="@+id/action_db_management"
+        android:title="@string/action_db_management"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
     <item android:id="@+id/action_quit" android:title="@string/action_quit"
         android:orderInCategory="100" app:showAsAction="never" />
 </menu>

@@ -227,6 +227,12 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:name=".activities.DbManagementActivity"
+            android:label="@string/title_activity_db_management"
+            android:parentActivityName=".activities.ControlCenter"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".activities.OnboardingActivity"
             android:label="@string/title_activity_onboarding"
             android:parentActivityName=".activities.ControlCenter"

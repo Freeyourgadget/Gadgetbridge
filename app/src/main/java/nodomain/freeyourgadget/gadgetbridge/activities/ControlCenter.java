@@ -310,6 +310,10 @@ public class ControlCenter extends GBActivity {
                 Intent debugIntent = new Intent(this, DebugActivity.class);
                 startActivity(debugIntent);
                 return true;
+            case R.id.action_db_management:
+                Intent dbIntent = new Intent(this, DbManagementActivity.class);
+                startActivity(dbIntent);
+                return true;
             case R.id.action_quit:
                 GBApplication.quit();
                 return true;
