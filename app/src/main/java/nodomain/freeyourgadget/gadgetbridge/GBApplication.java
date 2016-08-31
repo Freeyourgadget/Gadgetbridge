@@ -295,7 +295,7 @@ public class GBApplication extends Application {
     }
 
     /**
-     * Deletes the entire Activity database and recreates it with empty tables.
+     * Deletes both the old Activity database and the new one recreates it with empty tables.
      *
      * @return true on successful deletion
      */
@@ -310,6 +310,20 @@ public class GBApplication extends Application {
             result = getContext().deleteDatabase(DBConstants.DATABASE_NAME);
         }
         result &= getContext().deleteDatabase(DATABASE_NAME);
+        return result;
+    }
+
+    /**
+     * Deletes the legacy (pre 0.12) Activity database
+     *
+     * @return true on successful deletion
+     */
+    public static synchronized boolean deleteOldActivityDatabase(Context context) {
+        DBHelper dbHelper = new DBHelper(context);
+        boolean result = true;
+        if (dbHelper.existsDB(DBConstants.DATABASE_NAME)) {
+            result = getContext().deleteDatabase(DBConstants.DATABASE_NAME);
+        }
         return result;
     }
 

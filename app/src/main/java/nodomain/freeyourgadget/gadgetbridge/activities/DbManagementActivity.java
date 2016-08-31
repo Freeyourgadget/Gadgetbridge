@@ -11,6 +11,7 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -37,7 +38,9 @@ public class DbManagementActivity extends GBActivity {
     private Button exportDBButton;
     private Button importDBButton;
     private Button importOldActivityDataButton;
+    private Button deleteOldActivityDBButton;
     private Button deleteDBButton;
+    private TextView dbPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,9 @@ public class DbManagementActivity extends GBActivity {
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(GBApplication.ACTION_QUIT);
+
+        dbPath = (TextView) findViewById(R.id.activity_db_management_path);
+        dbPath.setText(getExternalPath());
 
         exportDBButton = (Button) findViewById(R.id.exportDBButton);
         exportDBButton.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +76,14 @@ public class DbManagementActivity extends GBActivity {
             }
         });
 
+        deleteOldActivityDBButton = (Button) findViewById(R.id.deleteOldActivityDB);
+        deleteOldActivityDBButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteOldActivityDbFile();
+            }
+        });
+
         deleteDBButton = (Button) findViewById(R.id.emptyDBButton);
         deleteDBButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +91,14 @@ public class DbManagementActivity extends GBActivity {
                 deleteActivityDatabase();
             }
         });
+    }
+
+    private String getExternalPath() {
+        try {
+            return FileUtils.getExternalFilesDir().getAbsolutePath();
+        } catch (Exception ex) {
+        }
+        return "Cannot access export path. Please contact the developers.";
     }
 
     private void exportDB() {
@@ -192,6 +214,29 @@ public class DbManagementActivity extends GBActivity {
                             GB.toast(DbManagementActivity.this, "Activity database successfully deleted.", Toast.LENGTH_SHORT, GB.INFO);
                         } else {
                             GB.toast(DbManagementActivity.this, "Activity database deletion failed.", Toast.LENGTH_SHORT, GB.INFO);
+                        }
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .show();
+    }
+
+    private void deleteOldActivityDbFile() {
+        new AlertDialog.Builder(this)
+                .setCancelable(true)
+                .setTitle("Delete old Activity Database?")
+                .setMessage("Really delete the old activity database? Activity data that were not imported will be lost.")
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (GBApplication.deleteOldActivityDatabase(DbManagementActivity.this)) {
+                            GB.toast(DbManagementActivity.this, "Old Activity database successfully deleted.", Toast.LENGTH_SHORT, GB.INFO);
+                        } else {
+                            GB.toast(DbManagementActivity.this, "Old Activity database deletion failed.", Toast.LENGTH_SHORT, GB.INFO);
                         }
                     }
                 })
