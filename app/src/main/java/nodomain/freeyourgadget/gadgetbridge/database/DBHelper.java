@@ -251,7 +251,9 @@ public class DBHelper {
         attributes.setUserId(user.getId());
         session.getUserAttributesDao().insert(attributes);
 
-        userAttributes.add(attributes);
+// sort order is important, so we re-fetch from the db
+//        userAttributes.add(attributes);
+        user.resetUserAttributesList();
     }
 
     private static void invalidateUserAttributes(UserAttributes userAttributes, Calendar now, DaoSession session) {
@@ -423,7 +425,9 @@ public class DBHelper {
         DeviceAttributesDao attributesDao = session.getDeviceAttributesDao();
         attributesDao.insert(attributes);
 
-        deviceAttributes.add(attributes);
+// sort order is important, so we re-fetch from the db
+//        deviceAttributes.add(attributes);
+        device.resetDeviceAttributesList();
     }
 
     private static void invalidateDeviceAttributes(DeviceAttributes deviceAttributes, Calendar now, DaoSession session) {

@@ -104,10 +104,10 @@ public class EntitiesTest {
 
     @Test
     public void testDBHelper() {
-        GBDevice dummyGBDevice = createDummyGDevice();
+        GBDevice dummyGBDevice = createDummyGDevice("00:00:00:00:01");
         Device device = DBHelper.getDevice(dummyGBDevice, daoSession);
         assertNotNull(device);
-        assertEquals("00:00:00:00:00", device.getIdentifier());
+        assertEquals("00:00:00:00:01", device.getIdentifier());
         assertEquals("Testie", device.getName());
         assertEquals("4.0", device.getModel());
         assertEquals(DeviceType.TEST.getKey(), device.getType());
@@ -116,8 +116,8 @@ public class EntitiesTest {
         assertEquals("1.2.3", attributes.getFirmwareVersion1());
     }
 
-    private GBDevice createDummyGDevice() {
-        GBDevice dummyGBDevice = new GBDevice("00:00:00:00:00", "Testie", DeviceType.TEST);
+    private GBDevice createDummyGDevice(String macAddress) {
+        GBDevice dummyGBDevice = new GBDevice(macAddress, "Testie", DeviceType.TEST);
         dummyGBDevice.setFirmwareVersion("1.2.3");
         dummyGBDevice.setModel("4.0");
         return dummyGBDevice;
@@ -204,4 +204,26 @@ public class EntitiesTest {
         assertEquals(2, list.size());
     }
 
+    @Test
+    public void testDeviceAttributes() throws Exception {
+        GBDevice dummyGBDevice = createDummyGDevice("00:00:00:00:02");
+        dummyGBDevice.setFirmwareVersion("1.0");
+        Device deviceOld = DBHelper.getDevice(dummyGBDevice, daoSession);
+        assertNotNull(deviceOld);
+
+        List<DeviceAttributes> attrListOld = deviceOld.getDeviceAttributesList();
+        assertEquals(1, attrListOld.size());
+        assertEquals("1.0", attrListOld.get(0).getFirmwareVersion1());
+
+        // some time passes, firmware update occurs
+        Thread.sleep(2 * 1000);
+        dummyGBDevice.setFirmwareVersion("2.0");
+
+        Device deviceNew = DBHelper.getDevice(dummyGBDevice, daoSession);
+        assertNotNull(deviceNew);
+        List<DeviceAttributes> attrListNew = deviceNew.getDeviceAttributesList();
+        assertEquals(2, attrListNew.size());
+        assertEquals("2.0", attrListNew.get(0).getFirmwareVersion1());
+        assertEquals("1.0", attrListNew.get(1).getFirmwareVersion1());
+    }
 }
