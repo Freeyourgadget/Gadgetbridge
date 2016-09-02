@@ -3,7 +3,6 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -16,7 +15,6 @@ import java.util.List;
 import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -100,27 +98,28 @@ public class DeviceHelper {
             GB.toast(context, context.getString(R.string.bluetooth_is_not_supported_), Toast.LENGTH_SHORT, GB.WARN);
         } else if (!btAdapter.isEnabled()) {
             GB.toast(context, context.getString(R.string.bluetooth_is_disabled_), Toast.LENGTH_SHORT, GB.WARN);
-        } else {
-            List<GBDevice> dbDevices = getDatabaseDevices();
+        }
+        List<GBDevice> dbDevices = getDatabaseDevices();
+        if (btAdapter != null) {
             List<GBDevice> bondedDevices = getBondedDevices(btAdapter);
             availableDevices.addAll(bondedDevices);
-            availableDevices.addAll(dbDevices);
+        }
+        availableDevices.addAll(dbDevices);
 
-            Prefs prefs = GBApplication.getPrefs();
-            String miAddr = prefs.getString(MiBandConst.PREF_MIBAND_ADDRESS, "");
-            if (miAddr.length() > 0) {
-                GBDevice miDevice = new GBDevice(miAddr, "MI", DeviceType.MIBAND);
-                if (!availableDevices.contains(miDevice)) {
-                    availableDevices.add(miDevice);
-                }
+        Prefs prefs = GBApplication.getPrefs();
+        String miAddr = prefs.getString(MiBandConst.PREF_MIBAND_ADDRESS, "");
+        if (miAddr.length() > 0) {
+            GBDevice miDevice = new GBDevice(miAddr, "MI", DeviceType.MIBAND);
+            if (!availableDevices.contains(miDevice)) {
+                availableDevices.add(miDevice);
             }
+        }
 
-            String pebbleEmuAddr = prefs.getString("pebble_emu_addr", "");
-            String pebbleEmuPort = prefs.getString("pebble_emu_port", "");
-            if (pebbleEmuAddr.length() >= 7 && pebbleEmuPort.length() > 0) {
-                GBDevice pebbleEmuDevice = new GBDevice(pebbleEmuAddr + ":" + pebbleEmuPort, "Pebble qemu", DeviceType.PEBBLE);
-                availableDevices.add(pebbleEmuDevice);
-            }
+        String pebbleEmuAddr = prefs.getString("pebble_emu_addr", "");
+        String pebbleEmuPort = prefs.getString("pebble_emu_port", "");
+        if (pebbleEmuAddr.length() >= 7 && pebbleEmuPort.length() > 0) {
+            GBDevice pebbleEmuDevice = new GBDevice(pebbleEmuAddr + ":" + pebbleEmuPort, "Pebble qemu", DeviceType.PEBBLE);
+            availableDevices.add(pebbleEmuDevice);
         }
         return availableDevices;
     }
