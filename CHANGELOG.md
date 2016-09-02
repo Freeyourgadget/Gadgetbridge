@@ -1,8 +1,10 @@
 ###Changelog
 
 ####Version 0.12.0 (next)
-* Store activity data per device and providerm which allows having two identical devices with separated data (migration is available, except for Misfit data)
+* NB: User action needed to migrate existing data! 
+* Store activity data per device and provider which allows having two identical devices with separated data (migration is available, except for Misfit data. Data from multiple identical devices (eg. multiple mibands) will get merged while importing.)
 * In Control Center, display known devices even when bluetooth is off
+* In Control center, new menu point to launch the new "Database management" activity
 * Pebble: Misfit data is now stored as raw original data and interpreted on demand
 * Pebble: Support for Pebble Health on Firmware 4.0
 * Pebble: Optionally allow raw Pebble Health data to be stored in database completely (for later interpretation, when we are able to decode it)
