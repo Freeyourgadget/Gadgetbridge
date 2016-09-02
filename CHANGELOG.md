@@ -1,8 +1,14 @@
 ###Changelog
 
+####Version 0.12.0 (next)
+* Store activity data per device and providerm which allows having two identical devices with separated data (migration is available, except for Misfit data)
+* In Control Center, display known devices even when bluetooth is off
+* Pebble: Misfit data is now stored as raw original data and interpreted on demand
+* Pebble: Support for Pebble Health on Firmware 4.0
+* Pebble: Optionally allow raw Pebble Health data to be stored in database completely (for later interpretation, when we are able to decode it)
 
 ####Version 0.11.2
-Mi Band: support for devices that cannot pair with the band (#349)
+* Mi Band: support for devices that cannot pair with the band (#349)
 
 ####Version 0.11.1
 * Various fixes (including crashes) for location settings
