@@ -37,6 +37,11 @@ public interface DeviceService extends EventHandler {
     String ACTION_SET_CONSTANT_VIBRATION = PREFIX + ".action.set_constant_vibration";
     String ACTION_SET_ALARMS = PREFIX + ".action.set_alarms";
     String ACTION_ENABLE_REALTIME_STEPS = PREFIX + ".action.enable_realtime_steps";
+    String ACTION_REALTIME_SAMPLES = PREFIX + ".action.realtime_samples";
+    /**
+     * Use EXTRA_REALTIME_SAMPLE instead
+     */
+    @Deprecated
     String ACTION_REALTIME_STEPS = PREFIX + ".action.realtime_steps";
     String ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT = PREFIX + ".action.realtime_hr_measurement";
     String ACTION_ENABLE_HEARTRATE_SLEEP_SUPPORT = PREFIX + ".action.enable_heartrate_sleep_support";
@@ -77,8 +82,17 @@ public interface DeviceService extends EventHandler {
     String EXTRA_ALARMS = "alarms";
     String EXTRA_PERFORM_PAIR = "perform_pair";
     String EXTRA_BOOLEAN_ENABLE = "enable_realtime_steps";
+    /**
+     * Use EXTRA_REALTIME_SAMPLE instead
+     */
+    @Deprecated
     String EXTRA_REALTIME_STEPS = "realtime_steps";
+    String EXTRA_REALTIME_SAMPLE = "realtime_sample";
     String EXTRA_TIMESTAMP = "timestamp";
+    /**
+     * Use EXTRA_REALTIME_SAMPLE instead
+     */
+    @Deprecated
     String EXTRA_HEART_RATE_VALUE = "hr_value";
     String EXTRA_CALENDAREVENT_ID = "calendarevent_id";
     String EXTRA_CALENDAREVENT_TYPE = "calendarevent_type";

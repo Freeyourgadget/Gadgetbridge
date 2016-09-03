@@ -40,6 +40,9 @@ public abstract class AbstractActivitySample implements ActivitySample {
     public void setSteps(int steps) {
     }
 
+    /**
+     * Unix timestamp of the sample, i.e. the number of seconds since 1970-01-01 00:00:00 UTC.
+     */
     public abstract void setTimestamp(int timestamp);
 
     public abstract void setUserId(long userId);

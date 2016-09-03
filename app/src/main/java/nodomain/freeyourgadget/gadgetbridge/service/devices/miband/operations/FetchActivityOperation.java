@@ -22,7 +22,9 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandDateConverter;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport;
@@ -307,8 +309,8 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
 
         try (DBHandler dbHandler = GBApplication.acquireDB()){
             MiBandSampleProvider provider = new MiBandSampleProvider(getDevice(), dbHandler.getDaoSession());
-            Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
-            Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
+            User user = DBHelper.getUser(dbHandler.getDaoSession());
+            Device device = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession());
             int minutes = 0;
             try {
                 int timestampInSeconds = (int) (activityStruct.activityDataTimestampProgress.getTimeInMillis() / 1000);
@@ -327,15 +329,12 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
                         LOG.debug("heartrate received: " + (heartrate & 0xff));
                     }
 
-                    samples[minutes] = new MiBandActivitySample(
-                            timestampInSeconds,
-                            deviceId,
-                            userId,
-                            intensity & 0xff,
-                            steps & 0xff,
-                            category & 0xff,
-                            heartrate & 0xff);
-                    samples[minutes].setProvider(provider);
+                    MiBandActivitySample sample = getSupport().createActivitySample(device, user, timestampInSeconds, provider);
+                    sample.setRawIntensity(intensity & 0xff);
+                    sample.setSteps(steps & 0xff);
+                    sample.setRawKind(category & 0xff);
+                    sample.setHeartRate(heartrate & 0xff);
+                    samples[minutes] = sample;
 
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("sample: " + samples[minutes]);

@@ -162,6 +162,7 @@ public class GBDaoGenerator {
 
     private static Entity addMiBandActivitySample(Schema schema, Entity user, Entity device) {
         Entity activitySample = addEntity(schema, "MiBandActivitySample");
+        activitySample.implementsSerializable();
         addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
         activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);

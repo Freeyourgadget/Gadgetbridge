@@ -21,16 +21,26 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandDateConverter;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEvents;
@@ -93,6 +103,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
+    private RealtimeSamplesSupport realtimeSamplesSupport;
 
     public MiBandSupport() {
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ACCESS);
@@ -663,6 +674,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                     builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementContinuous);
                 }
                 builder.queue(getQueue());
+                enableRealtimeSamplesTimer(enable);
             } catch (IOException ex) {
                 LOG.error("Unable to enable realtime heart rate measurement in  MI1S", ex);
             }
@@ -713,6 +725,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             performInitialized(enable ? "Enabling realtime steps notifications" : "Disabling realtime steps notifications")
                     .write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_LE_PARAMS), enable ? getLowLatency() : getHighLatency())
                     .write(controlPoint, enable ? startRealTimeStepsNotifications : stopRealTimeStepsNotifications).queue(getQueue());
+            enableRealtimeSamplesTimer(enable);
         } catch (IOException e) {
             LOG.error("Unable to change realtime steps notification to: " + enable, e);
         }
@@ -909,10 +922,12 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("heart rate: " + hrValue);
             }
-            Intent intent = new Intent(DeviceService.ACTION_HEARTRATE_MEASUREMENT)
-                    .putExtra(DeviceService.EXTRA_HEART_RATE_VALUE, hrValue)
-                    .putExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
-            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+            RealtimeSamplesSupport realtimeSamplesSupport = getRealtimeSamplesSupport();
+            realtimeSamplesSupport.setHeartrateBpm(hrValue);
+            if (!realtimeSamplesSupport.isRunning()) {
+                // single shot measurement, manually invoke storage and result publishing
+                realtimeSamplesSupport.triggerCurrentSample();
+            }
         }
     }
 
@@ -921,10 +936,75 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         if (LOG.isDebugEnabled()) {
             LOG.debug("realtime steps: " + steps);
         }
-        Intent intent = new Intent(DeviceService.ACTION_REALTIME_STEPS)
-                .putExtra(DeviceService.EXTRA_REALTIME_STEPS, steps)
-                .putExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
-        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+        getRealtimeSamplesSupport().setSteps(steps);
+    }
+
+    private void enableRealtimeSamplesTimer(boolean enable) {
+        if (enable) {
+            getRealtimeSamplesSupport().start();
+        } else {
+            if (realtimeSamplesSupport != null) {
+                realtimeSamplesSupport.stop();
+            }
+        }
+    }
+
+    public MiBandActivitySample createActivitySample(Device device, User user, int timestampInSeconds, SampleProvider provider) {
+        MiBandActivitySample sample = new MiBandActivitySample();
+        sample.setDevice(device);
+        sample.setUser(user);
+        sample.setTimestamp(timestampInSeconds);
+        sample.setProvider(provider);
+
+        return sample;
+    }
+
+    private RealtimeSamplesSupport getRealtimeSamplesSupport() {
+        if (realtimeSamplesSupport == null) {
+            realtimeSamplesSupport = new RealtimeSamplesSupport(1000, 1000) {
+                @Override
+                public void doCurrentSample() {
+
+                    try (DBHandler handler = GBApplication.acquireDB()) {
+                        DaoSession session = handler.getDaoSession();
+
+                        Device device = DBHelper.getDevice(getDevice(), session);
+                        User user = DBHelper.getUser(session);
+                        int ts = (int) (System.currentTimeMillis() / 1000);
+                        MiBandSampleProvider provider = new MiBandSampleProvider(gbDevice, session);
+                        MiBandActivitySample sample = createActivitySample(device, user, ts, provider);
+                        sample.setHeartRate(getHeartrateBpm());
+                        sample.setSteps(getSteps());
+                        sample.setRawIntensity(ActivitySample.NOT_MEASURED);
+                        sample.setRawKind(MiBandSampleProvider.TYPE_ACTIVITY); // to make it visible in the charts TODO: add a MANUAL kind for that?
+
+                        // TODO: remove this once fully ported to REALTIME_SAMPLES
+                        if (sample.getSteps() != ActivitySample.NOT_MEASURED) {
+                            Intent intent = new Intent(DeviceService.ACTION_REALTIME_STEPS)
+                                    .putExtra(DeviceService.EXTRA_REALTIME_STEPS, sample.getSteps())
+                                    .putExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
+                            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+                        }
+                        if (sample.getHeartRate() != ActivitySample.NOT_MEASURED) {
+                            Intent intent = new Intent(DeviceService.ACTION_HEARTRATE_MEASUREMENT)
+                                    .putExtra(DeviceService.EXTRA_HEART_RATE_VALUE, sample.getHeartRate())
+                                    .putExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
+                            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+                        }
+
+//                    Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+//                            .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
+//                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+
+                        LOG.debug("Storing realtime sample: " + sample);
+                        provider.addGBActivitySample(sample);
+                    } catch (Exception e) {
+                        LOG.warn("Unable to acquire db for saving realtime samples", e);
+                    }
+                }
+            };
+        }
+        return realtimeSamplesSupport;
     }
 
     /**
