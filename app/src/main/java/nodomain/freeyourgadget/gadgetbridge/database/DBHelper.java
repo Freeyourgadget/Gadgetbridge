@@ -167,6 +167,7 @@ public class DBHelper {
      *
      * @return the "WITHOUT ROWID" string or an empty string for pre-Lollipop devices
      */
+    @NonNull
     public static String getWithoutRowId() {
         if (GBApplication.isRunningLollipopOrLater()) {
             return " WITHOUT ROWID;";
@@ -183,6 +184,7 @@ public class DBHelper {
      * @param session
      * @return the User entity
      */
+    @NonNull
     public static User getUser(DaoSession session) {
         ActivityUser prefsUser = new ActivityUser();
         UserDao userDao = session.getUserDao();
@@ -199,6 +201,16 @@ public class DBHelper {
         return user;
     }
 
+    @NonNull
+    public static UserAttributes getUserAttributes(User user) {
+        List<UserAttributes> list = user.getUserAttributesList();
+        if (list.isEmpty()) {
+            throw new IllegalStateException("user has no attributes");
+        }
+        return list.get(0);
+    }
+
+    @NonNull
     private static User createUser(ActivityUser prefsUser, DaoSession session) {
         User user = new User();
         ensureUserUpToDate(user, prefsUser, session);
@@ -361,6 +373,15 @@ public class DBHelper {
         ensureDeviceAttributes(device, gbDevice, session);
 
         return device;
+    }
+
+    @NonNull
+    public static DeviceAttributes getDeviceAttributes(Device device) {
+        List<DeviceAttributes> list = device.getDeviceAttributesList();
+        if (list.isEmpty()) {
+            throw new IllegalStateException("device has no attributes");
+        }
+        return list.get(0);
     }
 
     private static void ensureDeviceUpToDate(Device device, GBDevice gbDevice, DaoSession session) {

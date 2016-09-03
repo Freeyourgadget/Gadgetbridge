@@ -214,6 +214,7 @@ public class EntitiesTest {
         List<DeviceAttributes> attrListOld = deviceOld.getDeviceAttributesList();
         assertEquals(1, attrListOld.size());
         assertEquals("1.0", attrListOld.get(0).getFirmwareVersion1());
+        assertEquals("1.0", DBHelper.getDeviceAttributes(deviceOld).getFirmwareVersion1());
 
         // some time passes, firmware update occurs
         Thread.sleep(2 * 1000);
@@ -225,5 +226,7 @@ public class EntitiesTest {
         assertEquals(2, attrListNew.size());
         assertEquals("2.0", attrListNew.get(0).getFirmwareVersion1());
         assertEquals("1.0", attrListNew.get(1).getFirmwareVersion1());
+
+        assertEquals("2.0", DBHelper.getDeviceAttributes(deviceNew).getFirmwareVersion1());
     }
 }
