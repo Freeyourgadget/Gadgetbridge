@@ -33,7 +33,7 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
         mSession = session;
     }
 
-    public GBDevice getmDevice() {
+    public GBDevice getDevice() {
         return mDevice;
     }
 
@@ -81,7 +81,7 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
         }
         QueryBuilder<T> qb = getSampleDao().queryBuilder();
         Property timestampProperty = getTimestampSampleProperty();
-        Device dbDevice = DBHelper.findDevice(getmDevice(), getSession());
+        Device dbDevice = DBHelper.findDevice(getDevice(), getSession());
         if (dbDevice == null) {
             // no device, no samples
             return Collections.emptyList();

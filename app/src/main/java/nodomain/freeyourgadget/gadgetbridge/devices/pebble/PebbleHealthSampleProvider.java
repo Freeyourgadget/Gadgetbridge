@@ -36,7 +36,7 @@ public class PebbleHealthSampleProvider extends AbstractSampleProvider<PebbleHea
     public List<PebbleHealthActivitySample> getAllActivitySamples(int timestamp_from, int timestamp_to) {
         List<PebbleHealthActivitySample> samples = super.getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_ALL);
 
-        Device dbDevice = DBHelper.findDevice(getmDevice(), getSession());
+        Device dbDevice = DBHelper.findDevice(getDevice(), getSession());
         if (dbDevice == null) {
             // no device, no samples
             return Collections.emptyList();
