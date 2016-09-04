@@ -13,8 +13,16 @@
   <string name="title_activity_debug">Debug</string>
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">Gestione app</string>
+  <string name="appmanager_cached_watchapps_watchfaces">App nella cache</string>
+  <string name="appmanager_installed_watchapps">App installate</string>
+  <string name="appmanager_installed_watchfaces">Watchface installate</string>
   <string name="appmananger_app_delete">Cancella</string>
   <string name="appmananger_app_delete_cache">Cancella e rimuovi dalla cache</string>
+  <string name="appmananger_app_reinstall">Re-installazion</string>
+  <string name="appmanager_health_activate">Attiva</string>
+  <string name="appmanager_health_deactivate">Disattiva</string>
+  <string name="app_configure">Configura</string>
+  <string name="app_move_to_top">Sposta in cima</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Blocco notifiche</string>
   <!--Strings related to FwAppInstaller-->
@@ -61,6 +69,7 @@
   <string name="pref_header_development">Opzioni di sviluppo</string>
   <string name="pref_title_development_miaddr">Indirizzo Miband</string>
   <string name="pref_title_pebble_settings">Impostazioni Pebble</string>
+  <string name="pref_header_activitytrackers">Activity Trackers</string>
   <string name="pref_title_pebble_activitytracker">Tracker delle attività preferito</string>
   <string name="pref_title_pebble_sync_health">Sincronizza Pebble Health</string>
   <string name="pref_title_pebble_sync_misfit">Sincronizza misfi</string>
@@ -73,6 +82,8 @@
   <string name="pref_title_location_aquire">Acquisisci posizione</string>
   <string name="pref_title_location_latitude">Latitudine</string>
   <string name="pref_title_location_longitude">Longitudine</string>
+  <string name="toast_enable_networklocationprovider">Per cortesia abilita la localizzazione utilizzando la rete</string>
+  <string name="toast_aqurired_networklocation">posizione acquisita</string>
   <string name="pref_title_pebble_forceprotocol">Forza protocollo delle notifiche</string>
   <string name="pref_summary_pebble_forceprotocol">Questa opzione forza l\'utilizzo della versione più recente delle notifiche in dipendenza del firmware del tuo dispositivo. ABILITALO SOLO SE SAI COSA STAI FACENDO!</string>
   <string name="pref_title_pebble_forceuntested">Abilita funzionalità non testate</string>
@@ -91,7 +102,7 @@
   <string name="bluetooth_is_not_supported_">Bluetooth non supportato.</string>
   <string name="bluetooth_is_disabled_">Bluetooth disabilitato.</string>
   <string name="tap_connected_device_for_app_mananger">tocca il dispositivo connesso per gestire le App</string>
-  <string name="tap_connected_device_for_activity">tocca il dispositivo connesso per visualizzare l\'attività</string>
+  <string name="tap_connected_device_for_activity">Tocca il dispositivo connesso per vedere le tue attività</string>
   <string name="tap_a_device_to_connect">tocca il dispositivo a cui connettersi</string>
   <string name="cannot_connect_bt_address_invalid_">Impossibile connettersi. Indirizzo BT non valido?</string>
   <string name="gadgetbridge_running">Gadgetbridge in esecuzione</string>
@@ -223,16 +234,11 @@
   <string name="miband_prefs_hr_sleep_detection">Utilizza il sensore del battito cardiaco per migliorare il riconoscimento del sonno</string>
   <string name="miband_prefs_device_time_offset_hours">Sfasamento dell\'orario per il device (per consentire il rilevamento del sonno per chi lavora a turni)</string>
   <string name="waiting_for_reconnect">in attesa di riconessione</string>
-  <string name="appmananger_app_reinstall">Re-installazion</string>
   <string name="activity_prefs_about_you">Informazioni sull\'utilizzatore</string>
   <string name="activity_prefs_year_birth">Anno di nascita</string>
   <string name="activity_prefs_gender">Genere</string>
   <string name="activity_prefs_height_cm">Altezza in cm</string>
   <string name="activity_prefs_weight_kg">Peso in kg</string>
-  <string name="appmanager_health_activate">Attiva</string>
-  <string name="appmanager_health_deactivate">Disattiva</string>
-  <string name="app_configure">Configura</string>
-  <string name="app_move_to_top">Sposta in cima</string>
   <string name="authenticating">in autenticazione</string>
   <string name="authentication_required">autenticazione necessaria</string>
   <string name="appwidget_text">Zzz</string>
@@ -247,4 +253,19 @@
   <string name="updatefirmwareoperation_firmware_not_sent">Firmware non inviato</string>
   <string name="charts_legend_heartrate">Battito cardiaco</string>
   <string name="live_activity_heart_rate">Battito cardiaco</string>
+  <!--Strings related to Onboading Activity-->
+  <string name="title_activity_onboarding">Import del database</string>
+  <string name="import_old_db_buttonlabel">Import dei dati nel formato vecchio</string>
+  <string name="import_old_db_information">A partire dalla versione 0.12.0 viene usato un nuovo formato per i dati.
+Puoi importare i tuoi vecchi dati e associarli con il dispositivo attualmente connesso (%1$s).\n
+\n
+Se non desideri farlo adesso, lo potrai fare in seguito utilizzando il tasto \"Importa i dati delle attività\" nella finestra di gestione del database\n
+\n
+Si possono importare i dati da Mi Band, Pebble Health e Morpheuz, NON quelli di Pebble Misfit.</string>
+  <string name="pref_title_pebble_health_store_raw">Memorizza i record grezzi nel database</string>
+  <string name="pref_summary_pebble_health_store_raw">Se selezionato, i dati vengono memorizzati come trasmessi dal Pebble, in modo da avere più dati in futuro. NB: Il database sarà più grande</string>
+  <string name="action_db_management">Gestione del database</string>
+  <string name="title_activity_db_management">Gestione database</string>
+  <string name="activity_db_management_import_export_explanation">Le operazioni sul database utilizzano il percorso qui sotto. \nQuesto percorso è accessibile ad altre applicazioni ed al tuo computer. \nDopo l\'esportazione il database si troverà qui (oppure copia qui il database che desideri importare):</string>
+  <string name="activity_db_management_merge_old_explanation">I dati delle attività memorizzati  con Gadgetbridge prima della versione 0.12 devono essere convertiti ad un nuovo formato. \nPuoi farlo utilizzando il bottone qui sotto. Attenzione: devi essere collegato al dispositivo per cui desideri importare i dati! \nSe hai già importato i dati e sei soddisfatto del risultato, puoi cancellare il vecchio database.</string>
 </resources>
