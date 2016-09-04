@@ -18,19 +18,6 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin">
 
-            <TextView
-                android:id="@+id/db_management_intro"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/activity_db_management_import_export_explanation"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-            <TextView
-                android:id="@+id/activity_db_management_path"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,12 +42,33 @@
                     android:text="Import DB" />
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/db_management_intro"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_db_management_import_export_explanation"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/activity_db_management_path"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+            <TextView
+                android:id="@+id/mergeOldActivityDataTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="@string/activity_db_management_merge_old_title"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/accent" />
 
             <TextView
                 android:id="@+id/mergeOldActivityDataText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
                 android:text="@string/activity_db_management_merge_old_explanation"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 

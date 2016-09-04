@@ -301,4 +301,5 @@
     <string name="title_activity_db_management">Database management</string>
     <string name="activity_db_management_import_export_explanation">The database operations use the following path on your device. \nThis path is accessible to other android applications and your computer. \nExpect to find your exported database (or place the database you want to import) there:</string>
     <string name="activity_db_management_merge_old_explanation">The activity data recorded with Gadgetbridge versions prior to 0.12 must be converted to a new format. \nYou can do this using the button below. Be aware that you must be connected to the device you want to associate the old activity data with! \nIf you already imported your data and are happy with the result, you may delete the old database.</string>
+    <string name="activity_db_management_merge_old_title">Legacy database import / delete</string>
 </resources>
