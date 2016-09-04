@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
+import org.junit.Test;
+
 import nodomain.freeyourgadget.gadgetbridge.test.TestBase;
 
 public class BtLEQueueTest extends TestBase {
@@ -14,7 +16,8 @@ public class BtLEQueueTest extends TestBase {
 
     }
 
+    @Test
     public void testIsConnected() throws Exception {
-
+        // TODO
     }
 }
