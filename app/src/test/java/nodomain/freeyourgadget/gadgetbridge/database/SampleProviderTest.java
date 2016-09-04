@@ -1,13 +1,26 @@
 package nodomain.freeyourgadget.gadgetbridge.database;
 
+import android.database.sqlite.SQLiteDatabase;
+
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.entities.ActivityDescription;
 import nodomain.freeyourgadget.gadgetbridge.entities.ActivityDescriptionDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributes;
 import nodomain.freeyourgadget.gadgetbridge.entities.Tag;
@@ -25,60 +38,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-public class EntitiesTest extends TestBase {
-
-    private UserDao userDao;
-    private UserAttributesDao userAttributesDao;
-
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-        userDao = daoSession.getUserDao();
-        userAttributesDao = daoSession.getUserAttributesDao();
-    }
-
-    @Override
-    public void tearDown() throws Exception {
-        super.tearDown();
-//        GBApplication.releaseDB();
-    }
-
-
-    @Test
-    public void testUser() {
-        User user = new User();
-        user.setName("Peter");
-        user.setGender(ActivityUser.GENDER_FEMALE);
-        Calendar cal = GregorianCalendar.getInstance();
-        cal.add(Calendar.YEAR, -20);
-        user.setBirthday(cal.getTime());
-        UserAttributes attributes = new UserAttributes();
-        attributes.setWeightKG(55);
-        attributes.setHeightCM(170);
-        attributes.setSleepGoalHPD(8);
-        attributes.setStepsGoalSPD(10000);
-
-        daoSession.getUserDao().insert(user);
-        assertNotNull(user.getId());
-
-        attributes.setUserId(user.getId());
-        daoSession.getUserAttributesDao().insert(attributes);
-        user.getUserAttributesList().add(attributes);
-
-        assertNotNull(userDao.load(user.getId()));
-        assertEquals(1, userDao.count());
-        assertEquals(1, daoSession.loadAll(User.class).size());
-
-        assertNotNull(userAttributesDao.load(attributes.getId()));
-        assertEquals(1, userAttributesDao.count());
-        assertEquals(1, daoSession.loadAll(UserAttributes.class).size());
-
-        daoSession.getUserDao().update(user);
-        daoSession.delete(user);
-        daoSession.delete(attributes);
-        daoSession.delete(attributes);
-        assertNull(userDao.load(user.getId()));
-    }
+public class SampleProviderTest extends TestBase {
 
     @Test
     public void testDBHelper() {
