@@ -1,163 +1,173 @@
 package nodomain.freeyourgadget.gadgetbridge.database;
 
-import android.database.sqlite.SQLiteDatabase;
-
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
-import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.GBException;
-import nodomain.freeyourgadget.gadgetbridge.entities.ActivityDescription;
-import nodomain.freeyourgadget.gadgetbridge.entities.ActivityDescriptionDao;
-import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
-import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
-import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributes;
-import nodomain.freeyourgadget.gadgetbridge.entities.Tag;
+import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
-import nodomain.freeyourgadget.gadgetbridge.entities.UserAttributes;
-import nodomain.freeyourgadget.gadgetbridge.entities.UserAttributesDao;
-import nodomain.freeyourgadget.gadgetbridge.entities.UserDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.test.TestBase;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 public class SampleProviderTest extends TestBase {
 
-    @Test
-    public void testDBHelper() {
-        GBDevice dummyGBDevice = createDummyGDevice("00:00:00:00:01");
-        Device device = DBHelper.getDevice(dummyGBDevice, daoSession);
-        assertNotNull(device);
-        assertEquals("00:00:00:00:01", device.getIdentifier());
-        assertEquals("Testie", device.getName());
-        assertEquals("4.0", device.getModel());
-        assertEquals(DeviceType.TEST.getKey(), device.getType());
-        DeviceAttributes attributes = device.getDeviceAttributesList().get(0);
-        assertNotNull(attributes);
-        assertEquals("1.2.3", attributes.getFirmwareVersion1());
+    private GBDevice dummyGBDevice;
+
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        dummyGBDevice = createDummyGDevice("00:00:00:00:10");
     }
 
     @Test
-    public void testActivityDescription() {
+    public void testBasics() {
+        MiBandSampleProvider sampleProvider = new MiBandSampleProvider(dummyGBDevice, daoSession);
+        assertNotNull(sampleProvider.getDevice());
+        assertSame(dummyGBDevice, sampleProvider.getDevice());
+        assertNotNull(sampleProvider.getSampleDao());
+        assertNotNull(sampleProvider.createActivitySample());
+        float intensity = sampleProvider.normalizeIntensity(50);
+        assertTrue(intensity > 0);
+        assertTrue(intensity < 1);
+    }
+
+    @Test
+    public void testActivityKind() {
+        MiBandSampleProvider sampleProvider = new MiBandSampleProvider(dummyGBDevice, daoSession);
+        int type = sampleProvider.normalizeType(MiBandSampleProvider.TYPE_ACTIVITY);
+        assertEquals(ActivityKind.TYPE_ACTIVITY, type);
+
+        type = sampleProvider.normalizeType(MiBandSampleProvider.TYPE_DEEP_SLEEP);
+        assertEquals(ActivityKind.TYPE_DEEP_SLEEP, type);
+
+        type = sampleProvider.normalizeType(MiBandSampleProvider.TYPE_LIGHT_SLEEP);
+        assertEquals(ActivityKind.TYPE_LIGHT_SLEEP, type);
+
+        type = sampleProvider.normalizeType(MiBandSampleProvider.TYPE_NONWEAR);
+        assertEquals(ActivityKind.TYPE_NOT_WORN, type);
+    }
+
+    @Test
+    public void testNoSamples() {
+        MiBandSampleProvider sampleProvider = new MiBandSampleProvider(dummyGBDevice, daoSession);
+        List<MiBandActivitySample> samples = sampleProvider.getAllActivitySamples(0, 0);
+        assertEquals(0, samples.size());
+
+        samples = sampleProvider.getAllActivitySamples(-1, 1);
+        assertEquals(0, samples.size());
+
+        samples = sampleProvider.getAllActivitySamples(1, -1);
+        assertEquals(0, samples.size());
+
+        // now specific activity kinds
+        samples = sampleProvider.getActivitySamples(0, 0);
+        assertEquals(0, samples.size());
+
+        samples = sampleProvider.getActivitySamples(-1, 1);
+        assertEquals(0, samples.size());
+
+        samples = sampleProvider.getActivitySamples(1, -1);
+        assertEquals(0, samples.size());
+
+        // and sleep
+        samples = sampleProvider.getSleepSamples(0, 0);
+        assertEquals(0, samples.size());
+
+        samples = sampleProvider.getSleepSamples(-1, 1);
+        assertEquals(0, samples.size());
+
+        samples = sampleProvider.getSleepSamples(1, -1);
+        assertEquals(0, samples.size());
+    }
+
+    private <T extends AbstractActivitySample> T createSample(SampleProvider<T> sampleProvider, int rawKind, int timestamp, int rawIntensity, int heartRate, int steps, User user, Device device) {
+        T sample = sampleProvider.createActivitySample();
+        sample.setProvider(sampleProvider);
+        sample.setRawKind(rawKind);
+        sample.setTimestamp(timestamp);
+        sample.setRawIntensity(rawIntensity);
+        sample.setHeartRate(heartRate);
+        sample.setSteps(steps);
+        sample.setUserId(user.getId());
+        sample.setDeviceId(device.getId());
+
+        return sample;
+    }
+
+    @Test
+    public void testSamples() {
+        MiBandSampleProvider sampleProvider = new MiBandSampleProvider(dummyGBDevice, daoSession);
         User user = DBHelper.getUser(daoSession);
         assertNotNull(user);
+        assertNotNull(user.getId());
+        Device device = DBHelper.getDevice(dummyGBDevice, daoSession);
+        assertNotNull(device);
 
-        ActivityDescriptionDao descDao = daoSession.getActivityDescriptionDao();
-        assertEquals(0, descDao.count());
+        MiBandActivitySample s1 = createSample(sampleProvider, MiBandSampleProvider.TYPE_ACTIVITY, 100, 10, 70, 1000, user, device);
+        sampleProvider.addGBActivitySample(s1);
+        sampleProvider.addGBActivitySample(s1); // add again, should not throw or fail
 
-        List<ActivityDescription> list = DBHelper.findActivityDecriptions(user, 10, 100, daoSession);
-        assertTrue(list.isEmpty());
+        MiBandActivitySample s2 = createSample(sampleProvider, MiBandSampleProvider.TYPE_ACTIVITY, 200, 20, 80, 1030, user, device);
+        sampleProvider.addGBActivitySample(s2);
 
-        ActivityDescription desc = DBHelper.createActivityDescription(user, 10, 100, daoSession);
-        assertNotNull(desc);
-        assertEquals(user, desc.getUser());
-        assertEquals(10, desc.getTimestampFrom());
-        assertEquals(100, desc.getTimestampTo());
-        List<Tag> tagList = desc.getTagList();
-        assertEquals(0, tagList.size());
+        MiBandActivitySample s3 = createSample(sampleProvider, MiBandSampleProvider.TYPE_DEEP_SLEEP, 1200, 10, 62, 4030, user, device);
+        MiBandActivitySample s4 = createSample(sampleProvider, MiBandSampleProvider.TYPE_LIGHT_SLEEP, 2000, 10, 60, 4030, user, device);
+        sampleProvider.addGBActivitySamples(new MiBandActivitySample[] { s3, s4 });
 
-        Tag t1 = DBHelper.getTag(user, "Table Tennis", daoSession);
-        assertNotNull(t1);
-        assertEquals("Table Tennis", t1.getName());
-        t1.setDescription("Table tennis training for Olympia");
-        tagList.add(t1);
+        // first checks for irrelevant timestamps => no samples
+        List<MiBandActivitySample> samples = sampleProvider.getAllActivitySamples(0, 0);
+        assertEquals(0, samples.size());
 
-        list = DBHelper.findActivityDecriptions(user, 10, 100, daoSession);
-        assertEquals(1, list.size());
-        ActivityDescription desc1 = list.get(0);
-        assertEquals(desc, desc1);
-        assertEquals(1, desc1.getTagList().size());
+        samples = sampleProvider.getAllActivitySamples(-1, 1);
+        assertEquals(0, samples.size());
 
-        // check for partial range overlaps
-        list = DBHelper.findActivityDecriptions(user, 20, 80, daoSession);
-        assertEquals(1, list.size());
+        samples = sampleProvider.getAllActivitySamples(1, -1);
+        assertEquals(0, samples.size());
 
-        list = DBHelper.findActivityDecriptions(user, 5, 120, daoSession);
-        assertEquals(1, list.size());
+        // now specific activity kinds
+        samples = sampleProvider.getActivitySamples(0, 0);
+        assertEquals(0, samples.size());
 
-        list = DBHelper.findActivityDecriptions(user, 20, 120, daoSession);
-        assertEquals(1, list.size());
+        samples = sampleProvider.getActivitySamples(-1, 1);
+        assertEquals(0, samples.size());
 
-        list = DBHelper.findActivityDecriptions(user, 5, 80, daoSession);
-        assertEquals(1, list.size());
+        samples = sampleProvider.getActivitySamples(1, -1);
+        assertEquals(0, samples.size());
 
-        // Now with a second, adjacent ActivityDescription
-        ActivityDescription desc2 = DBHelper.createActivityDescription(user, 101, 200, daoSession);
+        // and sleep
+        samples = sampleProvider.getSleepSamples(0, 0);
+        assertEquals(0, samples.size());
 
-        list = DBHelper.findActivityDecriptions(user, 10, 100, daoSession);
-        assertEquals(1, list.size());
+        samples = sampleProvider.getSleepSamples(-1, 1);
+        assertEquals(0, samples.size());
 
-        list = DBHelper.findActivityDecriptions(user, 20, 80, daoSession);
-        assertEquals(1, list.size());
+        samples = sampleProvider.getSleepSamples(1, -1);
+        assertEquals(0, samples.size());
 
-        list = DBHelper.findActivityDecriptions(user, 5, 120, daoSession);
-        assertEquals(2, list.size());
+        // finally checks for existing timestamps
+        List<MiBandActivitySample> allSamples = sampleProvider.getAllActivitySamples(0, 10000);
+        assertEquals(4, allSamples.size());
+        List<MiBandActivitySample> activitySamples = sampleProvider.getActivitySamples(0, 10000);
+        assertEquals(2, activitySamples.size());
+        List<MiBandActivitySample> sleepSamples = sampleProvider.getSleepSamples(0, 10000);
+        assertEquals(2, sleepSamples.size());
 
-        list = DBHelper.findActivityDecriptions(user, 20, 120, daoSession);
-        assertEquals(2, list.size());
-
-        list = DBHelper.findActivityDecriptions(user, 5, 80, daoSession);
-        assertEquals(1, list.size());
-
-        // Now with a third, partially overlapping ActivityDescription
-        ActivityDescription desc3 = DBHelper.createActivityDescription(user, 5, 15, daoSession);
-
-        list = DBHelper.findActivityDecriptions(user, 10, 100, daoSession);
-        assertEquals(2, list.size());
-
-        list = DBHelper.findActivityDecriptions(user, 20, 80, daoSession);
-        assertEquals(1, list.size());
-
-        list = DBHelper.findActivityDecriptions(user, 5, 120, daoSession);
-        assertEquals(3, list.size());
-
-        list = DBHelper.findActivityDecriptions(user, 20, 120, daoSession);
-        assertEquals(2, list.size());
-
-        list = DBHelper.findActivityDecriptions(user, 5, 80, daoSession);
-        assertEquals(2, list.size());
-    }
-
-    @Test
-    public void testDeviceAttributes() throws Exception {
-        GBDevice dummyGBDevice = createDummyGDevice("00:00:00:00:02");
-        dummyGBDevice.setFirmwareVersion("1.0");
-        Device deviceOld = DBHelper.getDevice(dummyGBDevice, daoSession);
-        assertNotNull(deviceOld);
-
-        List<DeviceAttributes> attrListOld = deviceOld.getDeviceAttributesList();
-        assertEquals(1, attrListOld.size());
-        assertEquals("1.0", attrListOld.get(0).getFirmwareVersion1());
-        assertEquals("1.0", DBHelper.getDeviceAttributes(deviceOld).getFirmwareVersion1());
-
-        // some time passes, firmware update occurs
-        Thread.sleep(2 * 1000);
-        dummyGBDevice.setFirmwareVersion("2.0");
-
-        Device deviceNew = DBHelper.getDevice(dummyGBDevice, daoSession);
-        assertNotNull(deviceNew);
-        List<DeviceAttributes> attrListNew = deviceNew.getDeviceAttributesList();
-        assertEquals(2, attrListNew.size());
-        assertEquals("2.0", attrListNew.get(0).getFirmwareVersion1());
-        assertEquals("1.0", attrListNew.get(1).getFirmwareVersion1());
-
-        assertEquals("2.0", DBHelper.getDeviceAttributes(deviceNew).getFirmwareVersion1());
+        // now with more strict time ranges
+        allSamples = sampleProvider.getAllActivitySamples(0, 1300);
+        assertEquals(3, allSamples.size());
+        activitySamples = sampleProvider.getActivitySamples(10, 150);
+        assertEquals(1, activitySamples.size());
+        sleepSamples = sampleProvider.getSleepSamples(1500, 2500);
+        assertEquals(1, sleepSamples.size());
     }
 }
