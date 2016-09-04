@@ -5,7 +5,6 @@
 * Store activity data per device and provider to allow multiple devices of the same kind with separate data. Migration is available, except for Pebble Misfit data. Existing data from multiple devices of the same kind (eg. multiple Mi Bands) will get merged while importing.
 * In Control Center, display known devices even when Bluetooth is off
 * In Control center, new menu point to launch the new "Database management" activity
-* Pebble: Misfit data is now stored as raw original data and interpreted on demand
 * Pebble: Support for Pebble Health on Firmware 4.0
 * Pebble: Optionally allow raw Pebble Health data to be stored in database completely (for later interpretation, when we are able to decode it)
 * Mi Band: fix displaying of deep sleep vs. light sleep (was inverted)
