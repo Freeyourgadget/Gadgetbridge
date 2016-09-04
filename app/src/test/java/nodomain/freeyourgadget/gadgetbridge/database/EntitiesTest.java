@@ -40,7 +40,6 @@ public class EntitiesTest extends TestBase {
     @Override
     public void tearDown() throws Exception {
         super.tearDown();
-//        GBApplication.releaseDB();
     }
 
 
