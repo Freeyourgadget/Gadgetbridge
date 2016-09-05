@@ -13,8 +13,16 @@
   <string name="title_activity_debug">Depuración</string>
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">Gestor de app</string>
+  <string name="appmanager_cached_watchapps_watchfaces">Apps en caché</string>
+  <string name="appmanager_installed_watchapps">Apps instaladas</string>
+  <string name="appmanager_installed_watchfaces">Esferas instaladas</string>
   <string name="appmananger_app_delete">Borrar</string>
   <string name="appmananger_app_delete_cache">Borrar y quitar de la caché</string>
+  <string name="appmananger_app_reinstall">Reinstalar</string>
+  <string name="appmanager_health_activate">Activar</string>
+  <string name="appmanager_health_deactivate">Desactivar</string>
+  <string name="app_configure">Configurar</string>
+  <string name="app_move_to_top">Mover a la parte de arriba</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Lista negra de notificaciones</string>
   <!--Strings related to FwAppInstaller-->
@@ -226,16 +234,11 @@
   <string name="miband_prefs_hr_sleep_detection">Usar sensor de pulsaciones para mejorar la detección del sueño</string>
   <string name="miband_prefs_device_time_offset_hours">Compensación de la hora del dispositivo en horas (para detectar el sueño de trabajadores a turnos)</string>
   <string name="waiting_for_reconnect">esperando reconexión</string>
-  <string name="appmananger_app_reinstall">Reinstalar</string>
   <string name="activity_prefs_about_you">Sobre ti</string>
   <string name="activity_prefs_year_birth">Año de nacimiento</string>
   <string name="activity_prefs_gender">Género</string>
   <string name="activity_prefs_height_cm">Altura (cm)</string>
   <string name="activity_prefs_weight_kg">Peso (kg)</string>
-  <string name="appmanager_health_activate">Activar</string>
-  <string name="appmanager_health_deactivate">Desactivar</string>
-  <string name="app_configure">Configurar</string>
-  <string name="app_move_to_top">Mover a la parte de arriba</string>
   <string name="authenticating">autenticando</string>
   <string name="authentication_required">autenticación requerida</string>
   <string name="appwidget_text">Zzz</string>
@@ -250,7 +253,9 @@
   <string name="updatefirmwareoperation_firmware_not_sent">Firmware no enviado</string>
   <string name="charts_legend_heartrate">Pulsaciones</string>
   <string name="live_activity_heart_rate">Pulsaciones</string>
-  <string name="appmanager_cached_watchapps_watchfaces">Apps en caché</string>
-  <string name="appmanager_installed_watchapps">Apps instaladas</string>
-  <string name="appmanager_installed_watchfaces">Esferas instaladas</string>
+  <!--Strings related to Onboading Activity-->
+  <string name="title_activity_onboarding">Importar Base de Datos</string>
+  <string name="import_old_db_buttonlabel">Importar datos de actividad antiguos</string>
+  <string name="action_db_management">Administración de Bases de Datos</string>
+  <string name="title_activity_db_management">Administración de Bases de Datos</string>
 </resources>
