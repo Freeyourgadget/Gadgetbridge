@@ -605,8 +605,8 @@ public class DBHelper {
             int colSteps = cursor.getColumnIndex(KEY_STEPS);
             int colType = cursor.getColumnIndex(KEY_TYPE);
             int colCustomShort = cursor.getColumnIndex(KEY_CUSTOM_SHORT);
-            Long deviceId = DBHelper.getDevice(targetDevice, targetSession).getId();
-            Long userId = user.getId();
+            long deviceId = DBHelper.getDevice(targetDevice, targetSession).getId();
+            long userId = user.getId();
             newSamples = new ArrayList<>(Math.min(BATCH_SIZE, cursor.getCount()));
             while (cursor.moveToNext()) {
                 T newSample = sampleProvider.createActivitySample();

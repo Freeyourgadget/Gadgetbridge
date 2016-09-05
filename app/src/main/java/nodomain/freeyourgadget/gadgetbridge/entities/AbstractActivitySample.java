@@ -42,7 +42,7 @@ public abstract class AbstractActivitySample implements ActivitySample {
 
     public abstract void setTimestamp(int timestamp);
 
-    public abstract void setUserId(Long userId);
+    public abstract void setUserId(long userId);
 
     @Override
     public void setHeartRate(int heartRate) {
@@ -53,11 +53,11 @@ public abstract class AbstractActivitySample implements ActivitySample {
         return NOT_MEASURED;
     }
 
-    public abstract void setDeviceId(Long deviceId);
+    public abstract void setDeviceId(long deviceId);
 
-    public abstract Long getDeviceId();
+    public abstract long getDeviceId();
 
-    public abstract Long getUserId();
+    public abstract long getUserId();
 
     @Override
     public int getRawIntensity() {

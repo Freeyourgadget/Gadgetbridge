@@ -63,7 +63,7 @@ public class GBDaoGenerator {
         tag.addIdProperty();
         tag.addStringProperty("name").notNull();
         tag.addStringProperty("description").javaDocGetterAndSetter("An optional description of this tag.");
-        tag.addLongProperty("userId");
+        tag.addLongProperty("userId").notNull();
 
         return tag;
     }
@@ -128,8 +128,8 @@ public class GBDaoGenerator {
     }
 
     private static void addDateValidityTo(Entity entity) {
-        entity.addDateProperty(VALID_FROM_UTC);
-        entity.addDateProperty(VALID_TO_UTC);
+        entity.addDateProperty(VALID_FROM_UTC).codeBeforeGetter(OVERRIDE);
+        entity.addDateProperty(VALID_TO_UTC).codeBeforeGetter(OVERRIDE);
 
         entity.implementsInterface(VALID_BY_DATE);
     }
@@ -189,10 +189,10 @@ public class GBDaoGenerator {
         activityOverlay.addIntProperty(TIMESTAMP_FROM).notNull().primaryKey();
         activityOverlay.addIntProperty(TIMESTAMP_TO).notNull().primaryKey();
         activityOverlay.addIntProperty(SAMPLE_RAW_KIND).notNull().primaryKey();
-        Property deviceId = activityOverlay.addLongProperty("deviceId").primaryKey().getProperty();
+        Property deviceId = activityOverlay.addLongProperty("deviceId").primaryKey().notNull().getProperty();
         activityOverlay.addToOne(device, deviceId);
 
-        Property userId = activityOverlay.addLongProperty("userId").getProperty();
+        Property userId = activityOverlay.addLongProperty("userId").notNull().getProperty();
         activityOverlay.addToOne(user, userId);
         activityOverlay.addByteArrayProperty("rawPebbleHealthData");
 
@@ -221,9 +221,9 @@ public class GBDaoGenerator {
                         "intensity, are device specific. Normalized values can be retrieved through the\n" +
                         "corresponding {@link SampleProvider}.");
         activitySample.addIntProperty("timestamp").notNull().codeBeforeGetterAndSetter(OVERRIDE).primaryKey();
-        Property deviceId = activitySample.addLongProperty("deviceId").primaryKey().codeBeforeGetterAndSetter(OVERRIDE).getProperty();
+        Property deviceId = activitySample.addLongProperty("deviceId").primaryKey().notNull().codeBeforeGetterAndSetter(OVERRIDE).getProperty();
         activitySample.addToOne(device, deviceId);
-        Property userId = activitySample.addLongProperty("userId").codeBeforeGetterAndSetter(OVERRIDE).getProperty();
+        Property userId = activitySample.addLongProperty("userId").notNull().codeBeforeGetterAndSetter(OVERRIDE).getProperty();
         activitySample.addToOne(user, userId);
     }
 
