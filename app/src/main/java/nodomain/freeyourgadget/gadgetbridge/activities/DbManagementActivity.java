@@ -68,7 +68,16 @@ public class DbManagementActivity extends GBActivity {
             }
         });
 
+        boolean hasOldDB = hasOldActivityDatabase();
+        int oldDBVisibility = hasOldDB ? View.VISIBLE : View.GONE;
+
+        View oldDBTitle = findViewById(R.id.mergeOldActivityDataTitle);
+        oldDBTitle.setVisibility(oldDBVisibility);
+        View oldDBText = findViewById(R.id.mergeOldActivityDataText);
+        oldDBText.setVisibility(oldDBVisibility);
+
         importOldActivityDataButton = (Button) findViewById(R.id.mergeOldActivityData);
+        importOldActivityDataButton.setVisibility(oldDBVisibility);
         importOldActivityDataButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,6 +86,7 @@ public class DbManagementActivity extends GBActivity {
         });
 
         deleteOldActivityDBButton = (Button) findViewById(R.id.deleteOldActivityDB);
+        deleteOldActivityDBButton.setVisibility(oldDBVisibility);
         deleteOldActivityDBButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,6 +101,10 @@ public class DbManagementActivity extends GBActivity {
                 deleteActivityDatabase();
             }
         });
+    }
+
+    private boolean hasOldActivityDatabase() {
+        return new DBHelper(this).getOldActivityDatabaseHandler() != null;
     }
 
     private String getExternalPath() {
