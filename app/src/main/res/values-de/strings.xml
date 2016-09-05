@@ -13,8 +13,16 @@
   <string name="title_activity_debug">Debug</string>
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">App Manager</string>
+  <string name="appmanager_cached_watchapps_watchfaces">Apps im Zwischenspeicher</string>
+  <string name="appmanager_installed_watchapps">Installierte Apps</string>
+  <string name="appmanager_installed_watchfaces">Installierte Zifferblätter</string>
   <string name="appmananger_app_delete">Löschen</string>
   <string name="appmananger_app_delete_cache">Löschen und aus dem Zwischenspeicher entfernen</string>
+  <string name="appmananger_app_reinstall">Erneut installieren</string>
+  <string name="appmanager_health_activate">aktivieren</string>
+  <string name="appmanager_health_deactivate">deaktivieren</string>
+  <string name="app_configure">Konfigurieren</string>
+  <string name="app_move_to_top">Nach oben</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Sperre für Benachrichtigungen</string>
   <!--Strings related to FwAppInstaller-->
@@ -74,6 +82,8 @@
   <string name="pref_title_location_aquire">Standort Bestimmen</string>
   <string name="pref_title_location_latitude">Breitengrad</string>
   <string name="pref_title_location_longitude">Längengrad</string>
+  <string name="toast_enable_networklocationprovider">Bitte ungefähre Standortbestimmung einschalten</string>
+  <string name="toast_aqurired_networklocation">Standort wurde bestimmt</string>
   <string name="pref_title_pebble_forceprotocol">Benachrichtigungsprotokoll erzwingen</string>
   <string name="pref_summary_pebble_forceprotocol">Diese Option erzwingt das neuste Benachrichtigungsprotokoll abhängig von der Firmwareversion. NUR EINSCHALTEN, WENN DU WEISST WAS DU TUST!</string>
   <string name="pref_title_pebble_forceuntested">Ungetestete Features freischalten</string>
@@ -92,7 +102,7 @@
   <string name="bluetooth_is_not_supported_">Bluetooth wird nicht unterstützt.</string>
   <string name="bluetooth_is_disabled_">Bluetooth ist abgeschaltet.</string>
   <string name="tap_connected_device_for_app_mananger">berühre das verbundene Gerät, um den App Manager zu starten</string>
-  <string name="tap_connected_device_for_activity">Tippe auf ein verbundenes Gerät, um die Aktivitäten anzuzeigen</string>
+  <string name="tap_connected_device_for_activity">Tippe auf das verbundene Gerät um die Aktivitätsdaten anzuzeigen</string>
   <string name="tap_a_device_to_connect">berühre ein Gerät zum Verbinden</string>
   <string name="cannot_connect_bt_address_invalid_">Verbindung kann nicht aufgebaut werden. BT Adresse ungültig?</string>
   <string name="gadgetbridge_running">Gadgetbridge läuft</string>
@@ -224,16 +234,11 @@
   <string name="miband_prefs_hr_sleep_detection">Verwende den Herzfrequenzsensor um die Schlaferkennung zu verbessern</string>
   <string name="miband_prefs_device_time_offset_hours">Zeitausgleich in Stunden (um den Schlaf von Schichtarbeitern zu erkennen)</string>
   <string name="waiting_for_reconnect">warte auf Verbindung</string>
-  <string name="appmananger_app_reinstall">Erneut installieren</string>
   <string name="activity_prefs_about_you">Über Dich</string>
   <string name="activity_prefs_year_birth">Geburtsjahr</string>
   <string name="activity_prefs_gender">Geschlecht</string>
   <string name="activity_prefs_height_cm">Größe in cm</string>
   <string name="activity_prefs_weight_kg">Gewicht in kg</string>
-  <string name="appmanager_health_activate">aktivieren</string>
-  <string name="appmanager_health_deactivate">deaktivieren</string>
-  <string name="app_configure">Konfigurieren</string>
-  <string name="app_move_to_top">Nach oben</string>
   <string name="authenticating">Authentifiziere</string>
   <string name="authentication_required">Authentifizierung erforderlich</string>
   <string name="appwidget_text">Zzz</string>
@@ -248,7 +253,24 @@
   <string name="updatefirmwareoperation_firmware_not_sent">Firmware wurde nicht gesendet</string>
   <string name="charts_legend_heartrate">Herzfrequenz</string>
   <string name="live_activity_heart_rate">Herzfrequenz</string>
-  <string name="appmanager_cached_watchapps_watchfaces">Apps im Zwischenspeicher</string>
-  <string name="appmanager_installed_watchapps">Installierte Apps</string>
-  <string name="appmanager_installed_watchfaces">Installierte Zifferblätter</string>
+  <!--Strings related to Onboading Activity-->
+  <string name="title_activity_onboarding">Datenbankimport</string>
+  <string name="import_old_db_buttonlabel">Alte Aktivitätsdaten importieren</string>
+  <string name="import_old_db_information">Seit Gadgetbridge 0.12.0 benutzen wir ein neues Datenbankformat.
+Du kannst alte Aktivitätsdaten dem zu verbindenden Gerär (%1$s.)  zuordnen\n
+\n
+Wenn Du jetzt keine alten Aktivitätsdaten importierst, kannst Du das immer noch später in dem Datenbankverwaltung Bildschirm machen, indem Du dort den \"MERGE OLD ACTIVITY DATA\" Knopf drückst.\n
+\n
+Bitte beachte, dass Du Daten vom Mi Band, Pebble Health und Morpheuz importieren kannst - aber nicht von Pebble Misfit.
+</string>
+  <string name="pref_title_pebble_health_store_raw">Rohdaten in der Datenbank speichern</string>
+  <string name="pref_summary_pebble_health_store_raw">Wenn eingeschaltet, werden Daten so wie sie eingehen gespeichrt, um später noch interpretiert werden zu können. Achtung: Die Datenbank wird dadurch größer!</string>
+  <string name="action_db_management">Datenbankmanagement</string>
+  <string name="title_activity_db_management">Datenbankmanagement</string>
+  <string name="activity_db_management_import_export_explanation">Die Datenbankoperationen nutzen den folgenden Dateipfad.\n
+Dieser Pfad is von anderen Android Apps und von Deinem Computer aus erreichbar.\n
+Deine exportierte Datenbank (und der Ort für eine zu importierende Datenbank) ist hier:</string>
+  <string name="activity_db_management_merge_old_explanation">Die Aktivitätsdaten, die mit Gadgetbridge Versionen vor 0.12.0 aufgezeichnet wurden, müssen in ein neues Format umgewandelt werden.\n
+Du kannst das tun, indem du den Knopf unten drückst. Bitte beachte, dass Du mit dem  Gerät verbunden sein musst, für das Du alten Aktivitätsdaten importieren willst.\n
+Wenn Du schon deine Daten importiert hast und mit dem Ergebnis zufrieden bist, kannst du die alte Datenbank löschen.</string>
 </resources>
