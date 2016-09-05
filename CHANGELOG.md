@@ -1,6 +1,6 @@
 ###Changelog
 
-####Version 0.12.0 (next)
+####Version 0.12.0
 * NB: User action needed to migrate existing data! 
 * Store activity data per device and provider to allow multiple devices of the same kind with separate data. Migration is available, except for Pebble Misfit data. Existing data from multiple devices of the same kind (eg. multiple Mi Bands) will get merged while importing.
 * In Control Center, display known devices even when Bluetooth is off
