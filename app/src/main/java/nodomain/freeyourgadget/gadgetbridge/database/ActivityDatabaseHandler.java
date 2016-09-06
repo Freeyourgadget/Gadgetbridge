@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
+import java.io.File;
+
 import nodomain.freeyourgadget.gadgetbridge.database.schema.ActivityDBCreationScript;
 import nodomain.freeyourgadget.gadgetbridge.database.schema.SchemaMigration;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
@@ -23,9 +25,11 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
 
     private static final int DATABASE_VERSION = 7;
     private static final String UPDATER_CLASS_NAME_PREFIX = "ActivityDBUpdate_";
+    private final Context context;
 
     public ActivityDatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     @Override
@@ -66,7 +70,16 @@ public class ActivityDatabaseHandler extends SQLiteOpenHelper implements DBHandl
         return this;
     }
 
+    public Context getContext() {
+        return context;
+    }
+
     public boolean hasContent() {
+        File dbFile = getContext().getDatabasePath(getDatabaseName());
+        if (dbFile == null || !dbFile.exists()) {
+            return false;
+        }
+
         try {
             try (SQLiteDatabase db = this.getReadableDatabase()) {
                 try (Cursor cursor = db.query(TABLE_GBACTIVITYSAMPLES, new String[]{KEY_TIMESTAMP}, null, null, null, null, null, "1")) {
