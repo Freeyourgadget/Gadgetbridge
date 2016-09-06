@@ -6,7 +6,7 @@ TODO before 0.12.0 release:
 * ~~optional raw health record storing (settings)~~
 * ~~onboarding hint about import-db in Debug activity~~ DONE, needs check.
 * support pebble health record of firmware 4
-* check why the old DB reappears (apparently the ActivityDatabaseHandler.getOldActivityDatabaseHandler() is to blame.
+* ~~check why the old DB reappears (apparently the ActivityDatabaseHandler.getOldActivityDatabaseHandler() is to blame.~~ DONE, needs check
 * TESTING!
 * tx pull
 
