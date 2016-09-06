@@ -13,8 +13,16 @@
   <string name="title_activity_debug">デバッグ</string>
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">アプリ管理画面</string>
+  <string name="appmanager_cached_watchapps_watchfaces">キャッシュ中のアプリ</string>
+  <string name="appmanager_installed_watchapps">インストール済アプリ</string>
+  <string name="appmanager_installed_watchfaces">インストール済ウォッチフェイス</string>
   <string name="appmananger_app_delete">削除</string>
   <string name="appmananger_app_delete_cache">キャッシュから削除</string>
+  <string name="appmananger_app_reinstall">再インストール</string>
+  <string name="appmanager_health_activate">アクティベート</string>
+  <string name="appmanager_health_deactivate">非アクティベート</string>
+  <string name="app_configure">設定</string>
+  <string name="app_move_to_top">先頭に移動</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">ステータス通知ブラックリスト</string>
   <!--Strings related to FwAppInstaller-->
@@ -226,16 +234,11 @@
   <string name="miband_prefs_hr_sleep_detection">睡眠の検出を改善するために心拍センサーを使用する</string>
   <string name="miband_prefs_device_time_offset_hours">デバイスの時刻オフセット時間 (交代勤務の睡眠検知用)</string>
   <string name="waiting_for_reconnect">再接続の待機中</string>
-  <string name="appmananger_app_reinstall">再インストール</string>
   <string name="activity_prefs_about_you">あなたについて</string>
   <string name="activity_prefs_year_birth">誕生年</string>
   <string name="activity_prefs_gender">性別</string>
   <string name="activity_prefs_height_cm">身長（cm）</string>
   <string name="activity_prefs_weight_kg">体重（kg）</string>
-  <string name="appmanager_health_activate">アクティベート</string>
-  <string name="appmanager_health_deactivate">非アクティベート</string>
-  <string name="app_configure">設定</string>
-  <string name="app_move_to_top">先頭に移動</string>
   <string name="authenticating">認証中</string>
   <string name="authentication_required">認証が必要</string>
   <string name="appwidget_text">Zzz</string>
@@ -250,7 +253,20 @@
   <string name="updatefirmwareoperation_firmware_not_sent">ファームウェアを送信しませんでした</string>
   <string name="charts_legend_heartrate">心拍数</string>
   <string name="live_activity_heart_rate">心拍数</string>
-  <string name="appmanager_cached_watchapps_watchfaces">キャッシュ中のアプリ</string>
-  <string name="appmanager_installed_watchapps">インストール済アプリ</string>
-  <string name="appmanager_installed_watchfaces">インストール済ウォッチフェイス</string>
+  <!--Strings related to Onboading Activity-->
+  <string name="title_activity_onboarding">データベースのインポート</string>
+  <string name="import_old_db_buttonlabel">古い活動データをインポート</string>
+  <string name="import_old_db_information">ガジェットブリッジ 0.12.0 以降、新しいデータベース形式を使用しています。
+古い活動データをインポートして、(%1$s) に接続しているデバイスと関連付けすることができます。\n
+\n
+今、古い活動データをインポートしない場合でも、データベース管理で「古い活動データをマージ」ボタンをタップして、後で行うことができます\n
+\n
+Mi Band、Pebble Health、Morpheuz からデータをインポートすることはできますが、Pebble Misfit からはできませんのでご注意ください。</string>
+  <string name="pref_title_pebble_health_store_raw">データベースに生のレコードを格納する</string>
+  <string name="pref_summary_pebble_health_store_raw">チェックした場合、データを「そのまま」格納し、後で翻訳して利用することができます。注意: この場合データベースは大きくなります!</string>
+  <string name="action_db_management">データベース管理</string>
+  <string name="title_activity_db_management">データベース管理</string>
+  <string name="activity_db_management_import_export_explanation">データベース操作は、お使いのデバイスで次のパスを使用します。 \nこのパスは、他の Android アプリケーションやお使いのコンピュータがアクセス可能です。\nエクスポートされたデータベースが見つかります (またはインポートするデータベースを配置します):</string>
+  <string name="activity_db_management_merge_old_explanation">ガジェットブリッジの 0.12 より前のバージョンで記録された活動データを新しい形式に変換する必要があります。 \n下のボタンを使用してこれを行うことができます。古い活動データと関連付けたいデバイスに接続する必要があることに注意してください! \n既にデータをインポートし、その結果に満足している場合は、古いデータベースを削除することができます。</string>
+  <string name="activity_db_management_merge_old_title">レガシー データベースのインポート / 削除</string>
 </resources>
