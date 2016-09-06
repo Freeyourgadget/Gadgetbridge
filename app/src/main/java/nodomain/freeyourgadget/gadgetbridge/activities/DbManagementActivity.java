@@ -111,8 +111,9 @@ public class DbManagementActivity extends GBActivity {
         try {
             return FileUtils.getExternalFilesDir().getAbsolutePath();
         } catch (Exception ex) {
+            LOG.warn("Unable to get external files dir", ex);
         }
-        return "Cannot access export path. Please contact the developers.";
+        return getString(R.string.dbmanagementactivvity_cannot_access_export_path);
     }
 
     private void exportDB() {
@@ -120,18 +121,18 @@ public class DbManagementActivity extends GBActivity {
             DBHelper helper = new DBHelper(this);
             File dir = FileUtils.getExternalFilesDir();
             File destFile = helper.exportDB(dbHandler, dir);
-            GB.toast(this, "Exported to: " + destFile.getAbsolutePath(), Toast.LENGTH_LONG, GB.INFO);
+            GB.toast(this, getString(R.string.dbmanagementactivity_exported_to, destFile.getAbsolutePath()), Toast.LENGTH_LONG, GB.INFO);
         } catch (Exception ex) {
-            GB.toast(this, "Error exporting DB: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
+            GB.toast(this, getString(R.string.dbmanagementactivity_error_exporting_db, ex.getMessage()), Toast.LENGTH_LONG, GB.ERROR, ex);
         }
     }
 
     private void importDB() {
         new AlertDialog.Builder(this)
                 .setCancelable(true)
-                .setTitle("Import Activity Data?")
-                .setMessage("Really overwrite the current activity database? All your activity data (if any) will be lost.")
-                .setPositiveButton("Overwrite", new DialogInterface.OnClickListener() {
+                .setTitle(R.string.dbmanagementactivity_import_data_title)
+                .setMessage(R.string.dbmanagementactivity_overwrite_database_confirmation)
+                .setPositiveButton(R.string.dbmanagementactivity_overwrite, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         try (DBHandler dbHandler = GBApplication.acquireDB()) {
@@ -141,13 +142,13 @@ public class DbManagementActivity extends GBActivity {
                             File sourceFile = new File(dir, sqLiteOpenHelper.getDatabaseName());
                             helper.importDB(dbHandler, sourceFile);
                             helper.validateDB(sqLiteOpenHelper);
-                            GB.toast(DbManagementActivity.this, "Import successful.", Toast.LENGTH_LONG, GB.INFO);
+                            GB.toast(DbManagementActivity.this, getString(R.string.dbmanagementactivity_import_successful), Toast.LENGTH_LONG, GB.INFO);
                         } catch (Exception ex) {
-                            GB.toast(DbManagementActivity.this, "Error importing DB: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
+                            GB.toast(DbManagementActivity.this, getString(R.string.dbmanagementactivity_error_importing_db, ex.getMessage()), Toast.LENGTH_LONG, GB.ERROR, ex);
                         }
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                     }
@@ -159,18 +160,18 @@ public class DbManagementActivity extends GBActivity {
         final DBHelper helper = new DBHelper(getBaseContext());
         final ActivityDatabaseHandler oldHandler = helper.getOldActivityDatabaseHandler();
         if (oldHandler == null) {
-            GB.toast(this, "No old activity database found, nothing to import.", Toast.LENGTH_LONG, GB.ERROR);
+            GB.toast(this, getString(R.string.dbmanagementactivity_no_old_activitydatabase_found), Toast.LENGTH_LONG, GB.ERROR);
             return;
         }
         selectDeviceForMergingActivityDatabaseInto(new DeviceSelectionCallback() {
             @Override
             public void invoke(final GBDevice device) {
                 if (device == null) {
-                    GB.toast(DbManagementActivity.this, "No connected device to associate old activity data with.", Toast.LENGTH_LONG, GB.ERROR);
+                    GB.toast(DbManagementActivity.this, getString(R.string.dbmanagementactivity_no_connected_device), Toast.LENGTH_LONG, GB.ERROR);
                     return;
                 }
                 try (DBHandler targetHandler = GBApplication.acquireDB()) {
-                    final ProgressDialog progress = ProgressDialog.show(DbManagementActivity.this, "Merging Activity Data", "Please wait while merging your activity data...", true, false);
+                    final ProgressDialog progress = ProgressDialog.show(DbManagementActivity.this, getString(R.string.dbmanagementactivity_merging_activity_data_title), getString(R.string.dbmanagementactivity_please_wait_while_merging), true, false);
                     new AsyncTask<Object, ProgressDialog, Object>() {
                         @Override
                         protected Object doInBackground(Object[] params) {
@@ -182,7 +183,7 @@ public class DbManagementActivity extends GBActivity {
                         }
                     }.execute((Object[]) null);
                 } catch (Exception ex) {
-                    GB.toast(DbManagementActivity.this, "Error importing old activity data into new database.", Toast.LENGTH_LONG, GB.ERROR, ex);
+                    GB.toast(DbManagementActivity.this, getString(R.string.dbmanagementactivity_error_importing_old_activity_data), Toast.LENGTH_LONG, GB.ERROR, ex);
                 }
             }
         });
@@ -199,7 +200,7 @@ public class DbManagementActivity extends GBActivity {
 
         new AlertDialog.Builder(this)
                 .setCancelable(true)
-                .setTitle("Associate old Data with Device")
+                .setTitle(R.string.dbmanagementactivity_associate_old_data_with_device)
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -207,7 +208,7 @@ public class DbManagementActivity extends GBActivity {
                         callback.invoke(device);
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // ignore, just return
@@ -219,19 +220,19 @@ public class DbManagementActivity extends GBActivity {
     private void deleteActivityDatabase() {
         new AlertDialog.Builder(this)
                 .setCancelable(true)
-                .setTitle("Delete Activity Data?")
-                .setMessage("Really delete the entire activity database? All your activity data will be lost.")
-                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                .setTitle(R.string.dbmanagementactivity_delete_activity_data_title)
+                .setMessage(R.string.dbmanagementactivity_really_delete_entire_db)
+                .setPositiveButton(R.string.Delete, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (GBApplication.deleteActivityDatabase(DbManagementActivity.this)) {
-                            GB.toast(DbManagementActivity.this, "Activity database successfully deleted.", Toast.LENGTH_SHORT, GB.INFO);
+                            GB.toast(DbManagementActivity.this, getString(R.string.dbmanagementactivity_database_successfully_deleted), Toast.LENGTH_SHORT, GB.INFO);
                         } else {
-                            GB.toast(DbManagementActivity.this, "Activity database deletion failed.", Toast.LENGTH_SHORT, GB.INFO);
+                            GB.toast(DbManagementActivity.this, getString(R.string.dbmanagementactivity_db_deletion_failed), Toast.LENGTH_SHORT, GB.INFO);
                         }
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                     }
@@ -240,26 +241,25 @@ public class DbManagementActivity extends GBActivity {
     }
 
     private void deleteOldActivityDbFile() {
-        new AlertDialog.Builder(this)
-                .setCancelable(true)
-                .setTitle("Delete old Activity Database?")
-                .setMessage("Really delete the old activity database? Activity data that were not imported will be lost.")
-                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (GBApplication.deleteOldActivityDatabase(DbManagementActivity.this)) {
-                            GB.toast(DbManagementActivity.this, "Old Activity database successfully deleted.", Toast.LENGTH_SHORT, GB.INFO);
-                        } else {
-                            GB.toast(DbManagementActivity.this, "Old Activity database deletion failed.", Toast.LENGTH_SHORT, GB.INFO);
-                        }
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
-                .show();
+        new AlertDialog.Builder(this).setCancelable(true);
+        new AlertDialog.Builder(this).setTitle(R.string.dbmanagementactivity_delete_old_activity_db);
+        new AlertDialog.Builder(this).setMessage(R.string.dbmanagementactivity_delete_old_activitydb_confirmation);
+        new AlertDialog.Builder(this).setPositiveButton(R.string.Delete, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (GBApplication.deleteOldActivityDatabase(DbManagementActivity.this)) {
+                    GB.toast(DbManagementActivity.this, getString(R.string.dbmanagementactivity_old_activity_db_successfully_deleted), Toast.LENGTH_SHORT, GB.INFO);
+                } else {
+                    GB.toast(DbManagementActivity.this, getString(R.string.dbmanagementactivity_old_activity_db_deletion_failed), Toast.LENGTH_SHORT, GB.INFO);
+                }
+            }
+        });
+        new AlertDialog.Builder(this).setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        new AlertDialog.Builder(this).show();
     }
 
     @Override
