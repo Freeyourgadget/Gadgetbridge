@@ -267,10 +267,21 @@ Bitte beachte, dass Du Daten vom Mi Band, Pebble Health und Morpheuz importieren
   <string name="pref_summary_pebble_health_store_raw">Wenn eingeschaltet, werden Daten so wie sie eingehen gespeichrt, um später noch interpretiert werden zu können. Achtung: Die Datenbank wird dadurch größer!</string>
   <string name="action_db_management">Datenbankmanagement</string>
   <string name="title_activity_db_management">Datenbankmanagement</string>
-  <string name="activity_db_management_import_export_explanation">Die Datenbankoperationen nutzen den folgenden Dateipfad.\n
-Dieser Pfad is von anderen Android Apps und von Deinem Computer aus erreichbar.\n
-Deine exportierte Datenbank (und der Ort für eine zu importierende Datenbank) ist hier:</string>
   <string name="activity_db_management_merge_old_explanation">Die Aktivitätsdaten, die mit Gadgetbridge Versionen vor 0.12.0 aufgezeichnet wurden, müssen in ein neues Format umgewandelt werden.\n
 Du kannst das tun, indem du den Knopf unten drückst. Bitte beachte, dass Du mit dem  Gerät verbunden sein musst, für das Du alten Aktivitätsdaten importieren willst.\n
 Wenn Du schon deine Daten importiert hast und mit dem Ergebnis zufrieden bist, kannst du die alte Datenbank löschen.</string>
+  <string name="dbmanagementactivity_exported_to">Exportiert nach: %1$s</string>
+  <string name="dbmanagementactivity_error_exporting_db">Fehler beim Exportieren der DB: %1$s</string>
+  <string name="dbmanagementactivity_import_data_title">Daten importieren?</string>
+  <string name="dbmanagementactivity_import_successful">Import erfolgreich.</string>
+  <string name="dbmanagementactivity_error_importing_db">Fehler beim Importieren der DB: %1$s</string>
+  <string name="dbmanagementactivity_delete_activity_data_title">Alte Daten löschen?</string>
+  <string name="dbmanagementactivity_database_successfully_deleted">Daten erfolgreich gelöscht.</string>
+  <string name="dbmanagementactivity_db_deletion_failed">Löschen der Datenbank fehlgeschlagen.</string>
+  <string name="dbmanagementactivity_delete_old_activity_db">Alte Aktivitätsdatenbank löschen?</string>
+  <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Alte Aktivitätsdatenbank erfolgreich gelöscht.</string>
+  <string name="dbmanagementactivity_old_activity_db_deletion_failed">Löschen der alten Aktivitätsdatenbank fehlgeschlagen.</string>
+  <string name="dbmanagementactivity_overwrite">Überschreiben</string>
+  <string name="Cancel">Abbrechen</string>
+  <string name="Delete">Löschen</string>
 </resources>

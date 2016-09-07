@@ -267,10 +267,8 @@ Notez que vous pouvez importer des données de Mi Band, Pebble Health et Morpheu
 NOTE : la base de données sera bien évidement plus grande !</string>
   <string name="action_db_management">Gestion de base de données</string>
   <string name="title_activity_db_management">Gestion de base de données</string>
-  <string name="activity_db_management_import_export_explanation">Les opérations de base de données utilisent le chemin suivant sur votre appareil.\n
-Ce chemin est accessible à d\'autres applications Android et votre ordinateur.\n
-Attendez-vous à trouver votre base de données exportée (ou placer la base de données que vous souhaitez importer) là :</string>
   <string name="activity_db_management_merge_old_explanation">Les données d\'activité enregistrées avec les versions antérieures à la 0.12 de Gadgetbridge doivent être convertis en un nouveau format.\n
 Vous pouvez le faire en utilisant le bouton ci-dessous. Soyez conscient que vous devez être connecté à l\'appareil que vous souhaitez associer avec les anciennes données d\'activité !\n
 Si vous avez déjà importé vos données et êtes satisfait du résultat, vous pouvez supprimer l\'ancienne base de données.</string>
+  <string name="Delete">Supprimer</string>
 </resources>

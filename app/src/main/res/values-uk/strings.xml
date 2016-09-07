@@ -14,6 +14,10 @@
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">App Manager</string>
   <string name="appmananger_app_delete">Вилучити</string>
+  <string name="appmananger_app_reinstall">Перевстановити</string>
+  <string name="appmanager_health_activate">Увімкнути</string>
+  <string name="appmanager_health_deactivate">Вимкнути</string>
+  <string name="app_configure">Конфігурація</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Перелік заблокованих сповіщень</string>
   <!--Strings related to FwAppInstaller-->
@@ -207,16 +211,14 @@
   <string name="miband_fwinstaller_incompatible_version">Мікропрограма не підтримується</string>
   <string name="fwinstaller_firmware_not_compatible_to_device">Ця мікропрограма не підтримується даним пристроєм</string>
   <string name="waiting_for_reconnect">очікування повторного підключення</string>
-  <string name="appmananger_app_reinstall">Перевстановити</string>
   <string name="activity_prefs_about_you">Про Вас</string>
   <string name="activity_prefs_year_birth">Рік народження</string>
   <string name="activity_prefs_gender">Стать</string>
   <string name="activity_prefs_height_cm">Зріст в см</string>
   <string name="activity_prefs_weight_kg">Вага в кг</string>
-  <string name="appmanager_health_activate">Увімкнути</string>
-  <string name="appmanager_health_deactivate">Вимкнути</string>
-  <string name="app_configure">Конфігурація</string>
   <string name="add_widget">Додати віджет</string>
   <string name="device_hw">Пристрій: %1$s</string>
   <string name="device_fw">ПЗ: %1$s</string>
+  <!--Strings related to Onboading Activity-->
+  <string name="Delete">Вилучити</string>
 </resources>

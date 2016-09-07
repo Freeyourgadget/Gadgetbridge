@@ -265,7 +265,7 @@ Si possono importare i dati da Mi Band, Pebble Health e Morpheuz, NON quelli di 
   <string name="pref_title_pebble_health_store_raw">Memorizza i record grezzi nel database</string>
   <string name="pref_summary_pebble_health_store_raw">Se selezionato, i dati vengono memorizzati come trasmessi dal Pebble, in modo da avere più dati in futuro. NB: Il database sarà più grande</string>
   <string name="action_db_management">Gestione del database</string>
-  <string name="title_activity_db_management">Gestione database</string>
-  <string name="activity_db_management_import_export_explanation">Le operazioni sul database utilizzano il percorso qui sotto. \nQuesto percorso è accessibile ad altre applicazioni ed al tuo computer. \nDopo l\'esportazione il database si troverà qui (oppure copia qui il database che desideri importare):</string>
+  <string name="title_activity_db_management">Gestione del database</string>
   <string name="activity_db_management_merge_old_explanation">I dati delle attività memorizzati  con Gadgetbridge prima della versione 0.12 devono essere convertiti ad un nuovo formato. \nPuoi farlo utilizzando il bottone qui sotto. Attenzione: devi essere collegato al dispositivo per cui desideri importare i dati! \nSe hai già importato i dati e sei soddisfatto del risultato, puoi cancellare il vecchio database.</string>
+  <string name="Delete">Cancella</string>
 </resources>

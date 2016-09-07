@@ -14,6 +14,10 @@
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">앱 관리자</string>
   <string name="appmananger_app_delete">삭제</string>
+  <string name="appmananger_app_reinstall">재설치</string>
+  <string name="appmanager_health_activate">활성화</string>
+  <string name="appmanager_health_deactivate">비활성화</string>
+  <string name="app_configure">설정</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">알림 블랙리스트</string>
   <!--Strings related to FwAppInstaller-->
@@ -202,15 +206,11 @@
   <string name="miband_prefs_reserve_alarm_calendar">다가오는 이벤트를 위해 예약할 알람</string>
   <string name="miband_prefs_hr_sleep_detection">수면 측정을 향상시키기 위해 심박 센서 사용</string>
   <string name="waiting_for_reconnect">재접속을 기다리는 중</string>
-  <string name="appmananger_app_reinstall">재설치</string>
   <string name="activity_prefs_about_you">당신에 대해</string>
   <string name="activity_prefs_year_birth">출생년도</string>
   <string name="activity_prefs_gender">성별</string>
   <string name="activity_prefs_height_cm">키 (cm)</string>
   <string name="activity_prefs_weight_kg">몸무게 (kg)</string>
-  <string name="appmanager_health_activate">활성화</string>
-  <string name="appmanager_health_deactivate">비활성화</string>
-  <string name="app_configure">설정</string>
   <string name="authenticating">인증 중</string>
   <string name="authentication_required">인증 필요</string>
   <string name="appwidget_text">Zzz</string>
@@ -225,4 +225,6 @@
   <string name="updatefirmwareoperation_firmware_not_sent">펌웨어가 전송되지 않음</string>
   <string name="charts_legend_heartrate">심박수</string>
   <string name="live_activity_heart_rate">심박수</string>
+  <!--Strings related to Onboading Activity-->
+  <string name="Delete">삭제</string>
 </resources>

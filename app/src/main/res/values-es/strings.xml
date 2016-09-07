@@ -258,4 +258,5 @@
   <string name="import_old_db_buttonlabel">Importar datos de actividad antiguos</string>
   <string name="action_db_management">Administración de Bases de Datos</string>
   <string name="title_activity_db_management">Administración de Bases de Datos</string>
+  <string name="Delete">Borrar</string>
 </resources>

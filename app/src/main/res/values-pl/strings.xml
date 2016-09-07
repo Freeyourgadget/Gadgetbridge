@@ -195,4 +195,6 @@
   <string name="activity_prefs_gender">Płeć</string>
   <string name="activity_prefs_height_cm">Wzrost w cm</string>
   <string name="activity_prefs_weight_kg">Waga w kg</string>
+  <!--Strings related to Onboading Activity-->
+  <string name="Delete">Usuń</string>
 </resources>
