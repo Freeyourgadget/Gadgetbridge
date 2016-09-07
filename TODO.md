@@ -8,7 +8,7 @@ TODO before 0.12.0 release:
 * support pebble health record of firmware 4
 * ~~check why the old DB reappears (apparently the ActivityDatabaseHandler.getOldActivityDatabaseHandler() is to blame.~~ DONE, needs check
 * TESTING!
-** If the user does something else while the import is in progress (e.g. switch to other app) when going back to GB there's a crash.
+  * If the user does something else while the import is in progress (e.g. switch to other app) when going back to GB there's a crash.
 ```
 09-07 21:01:42.739 17420-17420/nodomain.freeyourgadget.gadgetbridge E/WindowManager: android.view.WindowLeaked: Activity nodomain.freeyourgadget.gadgetbridge.activities.OnboardingActivity has leaked window com.android.internal.policy.impl.PhoneWindow$DecorView{80404d6 V.E..... R......D 0,0-684,322} that was originally added here
                                                                                          at android.view.ViewRootImpl.<init>(ViewRootImpl.java:363)
@@ -69,11 +69,11 @@ TODO before 0.12.0 release:
                                                                                           at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:903)
                                                                                           at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:698)
 ```
-** After deleting the DB, until GB is quitted and swiped away from the recent activities this error is displayed:
+  * After deleting the DB, until GB is quitted and swiped away from the recent activities this error is displayed:
 ```
  09-07 20:47:56.846 3217-3217/nodomain.freeyourgadget.gadgetbridge E/nodomain.freeyourgadget.gadgetbridge.util.GB: Error retrieving devices from database
 ```
-** Birthday in the user table is a timestamp: year is the user-entered value, month, day, hour, etc. are from the timestamp when the record gets created.
+  * Birthday in the user table is a timestamp: year is the user-entered value, month, day, hour, etc. are from the timestamp when the record gets created.
 * tx pull
 
 Non blocking issues:
