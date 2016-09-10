@@ -209,12 +209,6 @@ public class NotificationListener extends NotificationListenerService {
             return;
         }
 
-        if (source.equals("eu.siacs.conversations")) {
-            if (!"never".equals(prefs.getString("notification_mode_pebblemsg", "when_screen_off"))) {
-                return;
-            }
-        }
-
         if (source.equals("com.fsck.k9")) {
             if (!"never".equals(prefs.getString("notification_mode_k9mail", "when_screen_off"))) {
                 return;

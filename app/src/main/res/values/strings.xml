@@ -63,7 +63,7 @@
     <string name="pref_title_notifications_sms">SMS</string>
     <string name="pref_title_notifications_k9mail">K9-Mail</string>
     <string name="pref_title_notifications_pebblemsg">Pebble Messages</string>
-    <string name="pref_summary_notifications_pebblemsg">Support for applications which send Notifications to the Pebble via Intent. Can be used for Conversations.</string>
+    <string name="pref_summary_notifications_pebblemsg">Support for applications which send Notifications to the Pebble via PebbleKit.</string>
     <string name="pref_title_notifications_generic">Generic notification support</string>
     <string name="pref_title_whenscreenon">… also when screen is on</string>
     <string name="pref_title_notification_filter">Do Not Disturb</string>
