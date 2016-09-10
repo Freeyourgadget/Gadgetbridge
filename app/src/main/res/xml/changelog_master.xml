@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release version="0.12.1" versioncode="60">
-        <change>Pebble: fix Morpheuz and Misfit data being associated with the wrong device and/or user in some cases causing them to invisible in charts</change>
+        <change>Pebble: fix activity data being associated with the wrong device and/or user in some cases causing them to invisible in charts</change>
         <change>Remove special handling for Conversations notfications since upstream dropped special pebble support</change>
     </release>
     <release version="0.12.0" versioncode="59">

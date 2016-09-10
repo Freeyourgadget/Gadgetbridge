@@ -56,7 +56,6 @@ public class NotificationListener extends NotificationListenerService {
     private LimitedQueue mActionLookup = new LimitedQueue(16);
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @SuppressLint("NewApi")
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -69,7 +68,7 @@ public class NotificationListener extends NotificationListenerService {
                     StatusBarNotification[] sbns = NotificationListener.this.getActiveNotifications();
                     int handle = intent.getIntExtra("handle", -1);
                     for (StatusBarNotification sbn : sbns) {
-                        if ((int) sbn.getPostTime() == handle) {
+                        if (sbn.getId() == handle) {
                             if (action.equals(ACTION_OPEN)) {
                                 try {
                                     PendingIntent pi = sbn.getNotification().contentIntent;
@@ -92,7 +91,7 @@ public class NotificationListener extends NotificationListenerService {
                     StatusBarNotification[] sbns = NotificationListener.this.getActiveNotifications();
                     int handle = intent.getIntExtra("handle", -1);
                     for (StatusBarNotification sbn : sbns) {
-                        if ((int) sbn.getPostTime() == handle) {
+                        if (sbn.getId() == handle) {
                             if (GBApplication.isRunningLollipopOrLater()) {
                                 String key = sbn.getKey();
                                 NotificationListener.this.cancelNotification(key);
@@ -276,8 +275,7 @@ public class NotificationListener extends NotificationListenerService {
         LOG.info("Processing notification from source " + source);
 
         dissectNotificationTo(notification, notificationSpec);
-        notificationSpec.id = (int) sbn.getPostTime(); //FIMXE: a truly unique id would be better
-
+        notificationSpec.id = sbn.getId();
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender(notification);
         List<NotificationCompat.Action> actions = wearableExtender.getActions();
         for (NotificationCompat.Action act : actions) {
