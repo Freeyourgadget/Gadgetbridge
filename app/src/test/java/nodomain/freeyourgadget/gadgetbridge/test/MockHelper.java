@@ -11,14 +11,12 @@ import org.mockito.Mockito;
 
 import java.lang.reflect.Constructor;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
 public class MockHelper {
     public <T extends Service> NotificationManager createNotificationManager(Context mContext) throws Exception {
-        Constructor<?>[] constructors = NotificationManager.class.getDeclaredConstructors();
-        constructors[0].setAccessible(true);
-        Class<?>[] parameterTypes = constructors[0].getParameterTypes();
-        return (NotificationManager) constructors[0].newInstance();
+        return (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     public <T extends Service> T createService(Class<T> serviceClass, Application application) throws Exception {
@@ -31,10 +29,10 @@ public class MockHelper {
         return mockedService;
     }
 
-    public <T extends DeviceCommunicationService> T createDeviceCommunicationService(Class<T> serviceClass, GBMockApplication application) throws Exception {
+    public <T extends DeviceCommunicationService> T createDeviceCommunicationService(Class<T> serviceClass, GBApplication application) throws Exception {
         T mockedService = createService(serviceClass, application);
-        Mockito.when(mockedService.getPrefs()).thenReturn(application.getPrefs());
-        Mockito.when(mockedService.getGBPrefs()).thenReturn(application.getGBPrefs());
+        Mockito.when(mockedService.getPrefs()).thenReturn(GBApplication.getPrefs());
+        Mockito.when(mockedService.getGBPrefs()).thenReturn(GBApplication.getGBPrefs());
         return mockedService;
     }
 

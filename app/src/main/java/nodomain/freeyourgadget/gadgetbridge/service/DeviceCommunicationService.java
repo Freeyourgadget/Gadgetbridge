@@ -120,6 +120,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_URI
 
 public class DeviceCommunicationService extends Service implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final Logger LOG = LoggerFactory.getLogger(DeviceCommunicationService.class);
+    private static DeviceSupportFactory DEVICE_SUPPORT_FACTORY = null;
 
     private boolean mStarted = false;
 
@@ -137,6 +138,19 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private AlarmReceiver mAlarmReceiver = null;
 
     private Random mRandom = new Random();
+
+    /**
+     * For testing!
+     *
+     * @param factory
+     */
+    public static void setDeviceSupportFactory(DeviceSupportFactory factory) {
+        DEVICE_SUPPORT_FACTORY = factory;
+    }
+
+    public DeviceCommunicationService() {
+
+    }
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -178,11 +192,18 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         LOG.debug("DeviceCommunicationService is being created");
         super.onCreate();
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED));
-        mFactory = new DeviceSupportFactory(this);
+        mFactory = getDeviceSupportFactory();
 
         if (hasPrefs()) {
             getPrefs().getPreferences().registerOnSharedPreferenceChangeListener(this);
         }
+    }
+
+    private DeviceSupportFactory getDeviceSupportFactory() {
+        if (DEVICE_SUPPORT_FACTORY != null) {
+            return DEVICE_SUPPORT_FACTORY;
+        }
+        return new DeviceSupportFactory(this);
     }
 
     @Override
@@ -459,15 +480,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         }
 
         return START_STICKY;
-    }
-
-    /**
-     * For testing!
-     *
-     * @param factory
-     */
-    public void setDeviceSupportFactory(DeviceSupportFactory factory) {
-        mFactory = factory;
     }
 
     /**

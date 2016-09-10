@@ -12,6 +12,7 @@ import org.robolectric.annotation.Config;
 import java.io.File;
 import java.io.IOException;
 
+import ch.qos.logback.classic.util.ContextInitializer;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
@@ -27,33 +28,9 @@ import static org.junit.Assert.fail;
  * Test is currently disabled because logback-android does not work
  * inside a plain junit test.
  */
-@RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 19)
-// need sdk 19 because "WITHOUT ROWID" is not supported in robolectric/sqlite4java
-public class LoggingTest {
-
-    private static File logFilesDir;
+public class LoggingTest extends TestBase {
 
     public LoggingTest() throws Exception {
-    }
-
-    @BeforeClass
-    public static void setupSuite() throws Exception {
-        // properties might be preconfigured in build.gradle because of test ordering problems
-        String logDir = System.getProperty(Logging.PROP_LOGFILES_DIR);
-        if (logDir != null) {
-            logFilesDir = new File(logDir);
-        } else {
-            logFilesDir = FileUtils.createTempDir("logfiles");
-            System.setProperty(Logging.PROP_LOGFILES_DIR, logFilesDir.getAbsolutePath());
-        }
-
-        if (System.getProperty("logback.configurationFile") == null) {
-            File workingDir = new File(System.getProperty("user.dir"));
-            File configFile = new File(workingDir, "src/main/assets/logback.xml");
-            System.out.println(configFile.getAbsolutePath());
-            System.setProperty("logback.configurationFile", configFile.getAbsolutePath());
-        }
     }
 
     private Logging logging = new Logging() {

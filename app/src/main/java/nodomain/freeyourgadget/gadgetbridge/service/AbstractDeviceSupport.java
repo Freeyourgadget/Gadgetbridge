@@ -61,6 +61,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     private Context context;
     private boolean autoReconnect;
 
+    @Override
     public void setContext(GBDevice gbDevice, BluetoothAdapter btAdapter, Context context) {
         this.gbDevice = gbDevice;
         this.btAdapter = btAdapter;
@@ -281,11 +282,11 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                 (BatteryState.BATTERY_LOW.equals(deviceEvent.state) ||
                         BatteryState.BATTERY_NORMAL.equals(deviceEvent.state))
                 ) {
-            GB.updateBatteryNotification(context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), deviceEvent.level),
+            GB.updateBatteryNotification(context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), String.valueOf(deviceEvent.level)),
                     deviceEvent.extendedInfoAvailable() ?
-                            context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), deviceEvent.level) + "\n" +
+                            context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), String.valueOf(deviceEvent.level)) + "\n" +
                                     context.getString(R.string.notif_battery_low_bigtext_last_charge_time, DateFormat.getDateTimeInstance().format(deviceEvent.lastChargeTime.getTime())) +
-                                    context.getString(R.string.notif_battery_low_bigtext_number_of_charges, deviceEvent.numCharges)
+                                    context.getString(R.string.notif_battery_low_bigtext_number_of_charges, String.valueOf(deviceEvent.numCharges))
                             : ""
                     , context);
         }
