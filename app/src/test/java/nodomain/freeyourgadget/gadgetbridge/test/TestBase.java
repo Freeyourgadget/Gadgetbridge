@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.test;
 
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import org.junit.After;
@@ -63,6 +64,7 @@ public abstract class TestBase {
     @Before
     public void setUp() throws Exception {
         assertNotNull(app);
+        assertNotNull(getContext());
 // doesn't work with Robolectric yet
 //        dbHandler = GBApplication.acquireDB();
 //        daoSession = dbHandler.getDaoSession();
@@ -84,4 +86,7 @@ public abstract class TestBase {
         return dummyGBDevice;
     }
 
+    protected Context getContext() {
+        return app;
+    }
 }

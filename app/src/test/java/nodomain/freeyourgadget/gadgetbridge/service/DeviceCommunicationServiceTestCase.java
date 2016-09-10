@@ -10,11 +10,12 @@ import org.mockito.Mockito;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.test.TestBase;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class DeviceCommunicationServiceTestCase extends AbstractServiceTestCase<DeviceCommunicationService> {
+public class DeviceCommunicationServiceTestCase extends TestBase {
     private static final java.lang.String TEST_DEVICE_ADDRESS = TestDeviceSupport.class.getName();
 
     /**
@@ -49,7 +50,7 @@ public class DeviceCommunicationServiceTestCase extends AbstractServiceTestCase<
         mockSupport = Mockito.spy(realSupport);
         DeviceCommunicationService.setDeviceSupportFactory(new TestDeviceSupportFactory(getContext()));
 
-        mDeviceService = new TestDeviceService(this);
+        mDeviceService = new TestDeviceService(getContext());
     }
 
     protected GBDevice getDevice() {

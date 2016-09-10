@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 
 import org.robolectric.Robolectric;
@@ -13,13 +14,11 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
  * with Robolectric.
  */
 public class TestDeviceService extends GBDeviceService {
-    private final AbstractServiceTestCase<?> mTestCase;
     private final ServiceController<DeviceCommunicationService> serviceController;
     private final DeviceCommunicationService service;
 
-    public TestDeviceService(AbstractServiceTestCase<?> testCase) throws Exception {
-        super(testCase.getContext());
-        mTestCase = testCase;
+    public TestDeviceService(Context context) throws Exception {
+        super(context);
 
         serviceController = Robolectric.buildService(DeviceCommunicationService.class, createIntent());
         service = serviceController.create().get();
