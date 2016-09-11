@@ -41,7 +41,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.CalendarEvents;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
-import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -1062,9 +1061,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         if (status == BluetoothGatt.GATT_SUCCESS) {
             mDeviceInfo = new DeviceInfo(value);
             if (getDeviceInfo().supportsHeartrate()) {
-                getDevice().addDeviceInfo(new GenericItem(
-                        getContext().getString(R.string.DEVINFO_HR_VER),
-                        MiBandFWHelper.formatFirmwareVersion(mDeviceInfo.getHeartrateFirmwareVersion())));
+                getDevice().setFirmwareVersion2(MiBandFWHelper.formatFirmwareVersion(mDeviceInfo.getHeartrateFirmwareVersion()));
             }
             LOG.warn("Device info: " + mDeviceInfo);
             versionCmd.hwVersion = mDeviceInfo.getHwVersion();

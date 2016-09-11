@@ -43,6 +43,7 @@ public class GBDevice implements Parcelable {
     public static final String EXTRA_DEVICE = "device";
     private static final String DEVINFO_HW_VER = "HW: ";
     private static final String DEVINFO_FW_VER = "FW: ";
+    private static final String DEVINFO_HR_VER = "HR: ";
     private static final String DEVINFO_ADDR = "ADDR: ";
     private String mName;
     private final String mAddress;
@@ -133,6 +134,10 @@ public class GBDevice implements Parcelable {
         mFirmwareVersion = firmwareVersion;
     }
 
+    /**
+     * Sets the second firmware version, typically the heart rate firmware version
+     * @param firmwareVersion2
+     */
     public void setFirmwareVersion2(String firmwareVersion2) {
         mFirmwareVersion2 = firmwareVersion2;
     }
@@ -404,6 +409,9 @@ public class GBDevice implements Parcelable {
         }
         if (mFirmwareVersion != null) {
             result.add(new GenericItem(DEVINFO_FW_VER, mFirmwareVersion));
+        }
+        if (mFirmwareVersion2 != null) {
+            result.add(new GenericItem(DEVINFO_HR_VER, mFirmwareVersion2));
         }
         if (mAddress != null) {
             result.add(new GenericItem(DEVINFO_ADDR, mAddress));

@@ -981,9 +981,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             mDeviceInfo = new DeviceInfo(value);
             mDeviceInfo.setTest1AHRMode(MI_1A_HR_FW_UPDATE_TEST_MODE_ENABLED);
             if (getDeviceInfo().supportsHeartrate()) {
-                getDevice().addDeviceInfo(new GenericItem(
-                        getContext().getString(R.string.DEVINFO_HR_VER),
-                        MiBandFWHelper.formatFirmwareVersion(mDeviceInfo.getHeartrateFirmwareVersion())));
+                getDevice().setFirmwareVersion2(MiBandFWHelper.formatFirmwareVersion(mDeviceInfo.getHeartrateFirmwareVersion()));
             }
             LOG.warn("Device info: " + mDeviceInfo);
             versionCmd.hwVersion = mDeviceInfo.getHwVersion();
