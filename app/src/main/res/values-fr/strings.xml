@@ -52,7 +52,7 @@
   <string name="pref_title_notifications_sms">Textos</string>
   <string name="pref_title_notifications_k9mail">K9-Mail</string>
   <string name="pref_title_notifications_pebblemsg">Messages Pebble</string>
-  <string name="pref_summary_notifications_pebblemsg">Support pour les applications qui envoient des notifications au Pebble via Intent. Peut être utilisé pour les conversations.</string>
+  <string name="pref_summary_notifications_pebblemsg">Support des applications qui envoient des notification à Pebble par PebbleKit.</string>
   <string name="pref_title_notifications_generic">Support des notifications génériques</string>
   <string name="pref_title_whenscreenon">... y compris quand l\'écran est allumé</string>
   <string name="pref_title_notification_filter">Ne Pas Déranger</string>
@@ -267,8 +267,33 @@ Notez que vous pouvez importer des données de Mi Band, Pebble Health et Morpheu
 NOTE : la base de données sera bien évidement plus grande !</string>
   <string name="action_db_management">Gestion de base de données</string>
   <string name="title_activity_db_management">Gestion de base de données</string>
+  <string name="activity_db_management_import_export_explanation">Les opérations sur la base de donnée ont utilisé le chemin suivant sur votre appareil.\n Ce chemin n\'est pas accessible par d\'autres applications Android ou par votre ordinateur./nBase de donnée à attendu (Vous pouvez mettre aussi la base de donnée que vous souhaitez importer ici) :</string>
   <string name="activity_db_management_merge_old_explanation">Les données d\'activité enregistrées avec les versions antérieures à la 0.12 de Gadgetbridge doivent être convertis en un nouveau format.\n
 Vous pouvez le faire en utilisant le bouton ci-dessous. Soyez conscient que vous devez être connecté à l\'appareil que vous souhaitez associer avec les anciennes données d\'activité !\n
 Si vous avez déjà importé vos données et êtes satisfait du résultat, vous pouvez supprimer l\'ancienne base de données.</string>
+  <string name="activity_db_management_merge_old_title">Import / Suppression des anciennes Base de Données.</string>
+  <string name="dbmanagementactivvity_cannot_access_export_path">Impossible d\'accéder au fichier d\'export. Merci de contacter les développeurs.</string>
+  <string name="dbmanagementactivity_exported_to">Exporter vers : %1$s</string>
+  <string name="dbmanagementactivity_error_exporting_db">Erreur  d\'exportation BD: %1$s</string>
+  <string name="dbmanagementactivity_import_data_title">Importer des données ?</string>
+  <string name="dbmanagementactivity_overwrite_database_confirmation">Voulez vous vraiment effacer la base de donnée actuel ? Toutes vos données (si vous en avez) seront perdu.</string>
+  <string name="dbmanagementactivity_import_successful">Importation réussit.</string>
+  <string name="dbmanagementactivity_error_importing_db">Erreur lors de l\'importation BD: %1$s</string>
+  <string name="dbmanagementactivity_no_old_activitydatabase_found">Aucune ancienne base de donnée trouvé, rien à importer.</string>
+  <string name="dbmanagementactivity_no_connected_device">Pas d\'appareil connecté à associer avec l\'ancienne base de donnée.</string>
+  <string name="dbmanagementactivity_merging_activity_data_title">Fusion des données d\'activités</string>
+  <string name="dbmanagementactivity_please_wait_while_merging">Merci d\'attendre pendant la fusion de vos données.</string>
+  <string name="dbmanagementactivity_error_importing_old_activity_data">Échec de l\'import des anciennes données d\'activité dans la nouvelle base de donnée.</string>
+  <string name="dbmanagementactivity_associate_old_data_with_device">Association des ancienne donnée avec le nouvel appareil.</string>
+  <string name="dbmanagementactivity_delete_activity_data_title">Détruire les ancienne données ?</string>
+  <string name="dbmanagementactivity_really_delete_entire_db">Voulez vous vraiment détruire entièrement la base de donnée ? Toutes vos données d\'activités et vos informations issus de vos appareils seront perdu.</string>
+  <string name="dbmanagementactivity_database_successfully_deleted">Les données ont été effacées.</string>
+  <string name="dbmanagementactivity_db_deletion_failed">Échec de la destruction de la base de donnée.</string>
+  <string name="dbmanagementactivity_delete_old_activity_db">Voulez vous détruire les anciennes activités de la base ?</string>
+  <string name="dbmanagementactivity_delete_old_activitydb_confirmation">Voulez vous vraiment détruire entièrement la base de donnée ? Toutes vos données non importé seront perdu.</string>
+  <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Les ancienne données d\'activité ont été effacés correctement.</string>
+  <string name="dbmanagementactivity_old_activity_db_deletion_failed">Échec de la destruction de l\'ancienne base de donnée.</string>
+  <string name="dbmanagementactivity_overwrite">Écraser</string>
+  <string name="Cancel">Annuler</string>
   <string name="Delete">Supprimer</string>
 </resources>

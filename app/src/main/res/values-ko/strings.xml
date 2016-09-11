@@ -46,7 +46,6 @@
   <string name="pref_title_notifications_sms">SMS</string>
   <string name="pref_title_notifications_k9mail">K-9 메일</string>
   <string name="pref_title_notifications_pebblemsg">Pebble 메세지</string>
-  <string name="pref_summary_notifications_pebblemsg">인텐트를 통해 Pebble에 알림을 전송할 수 있는 앱 지원. Conversations 앱 등에 사용할 수 있습니다.</string>
   <string name="pref_title_notifications_generic">일반적인 알림 지원</string>
   <string name="pref_title_whenscreenon">… 화면이 켜져있을 때도</string>
   <string name="always">항상</string>
