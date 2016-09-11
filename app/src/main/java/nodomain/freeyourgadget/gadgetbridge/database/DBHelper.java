@@ -8,6 +8,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -47,6 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.ValidByDate;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
@@ -67,6 +71,8 @@ import static nodomain.freeyourgadget.gadgetbridge.database.DBConstants.TABLE_GB
  * these should be under revision control instead of 100% generated at build time.
  */
 public class DBHelper {
+    private static final Logger LOG = LoggerFactory.getLogger(DBHelper.class);
+
     private final Context context;
 
     public DBHelper(Context context) {
@@ -312,15 +318,19 @@ public class DBHelper {
 
     private static boolean isEqual(UserAttributes attr, ActivityUser prefsUser) {
         if (prefsUser.getHeightCm() != attr.getHeightCM()) {
+            LOG.info("user height changed to " + prefsUser.getHeightCm() + " from " + attr.getHeightCM());
             return false;
         }
         if (prefsUser.getWeightKg() != attr.getWeightKG()) {
+            LOG.info("user changed to " + prefsUser.getWeightKg() + " from " + attr.getWeightKG());
             return false;
         }
         if (!Integer.valueOf(prefsUser.getSleepDuration()).equals(attr.getSleepGoalHPD())) {
+            LOG.info("user sleep goal changed to " + prefsUser.getSleepDuration() + " from " + attr.getSleepGoalHPD());
             return false;
         }
         if (!Integer.valueOf(prefsUser.getStepsGoal()).equals(attr.getStepsGoalSPD())) {
+            LOG.info("user steps goal changed to " + prefsUser.getStepsGoal() + " from " + attr.getStepsGoalSPD());
             return false;
         }
         return true;
