@@ -1,5 +1,8 @@
 ###Changelog
 
+####Version 0.12.2
+* Fix for user attribute database table getting spammed and store sleep and steps goals properly
+
 ####Version 0.12.1 (release withdrawn)
 * Pebble: Fix activity data being associated with the wrong device and/or user in some cases causing them to invisible in charts
 * Remove special handling for Conversations notfications since upstream dropped special pebble support
