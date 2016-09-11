@@ -266,6 +266,8 @@ public class DBHelper {
         attributes.setValidFromUTC(now.getTime());
         attributes.setHeightCM(prefsUser.getHeightCm());
         attributes.setWeightKG(prefsUser.getWeightKg());
+        attributes.setSleepGoalHPD(prefsUser.getSleepDuration());
+        attributes.setStepsGoalSPD(prefsUser.getStepsGoal());
         attributes.setUserId(user.getId());
         session.getUserAttributesDao().insert(attributes);
 
