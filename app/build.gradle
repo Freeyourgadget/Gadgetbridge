@@ -74,6 +74,7 @@ dependencies {
     compile 'net.e175.klaus:solarpositioning:0.0.9'
     compile 'com.github.freeyourgadget:greendao:1998d7cd2d21f662c6044f6ccf3b3a251bbad341'
     compile 'com.github.woxthebox:draglistview:1.2.6'
+    compile 'org.apache.commons:commons-lang3:3.4'
 
 //    compile project(":DaoCore")
 }
