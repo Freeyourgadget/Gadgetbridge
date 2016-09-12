@@ -8,12 +8,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -21,6 +23,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -56,6 +62,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WriteAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
+import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -165,13 +172,16 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     private MiBand2Support testInit(TransactionBuilder builder) {
-        builder.read(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC6)); // example read value: 0f6200e0070804072b2c20e00708040625372064
-        builder.read(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC7)); // example read value: 0019000000
+        //builder.read(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC6)); // example read value: 0f6200e0070804072b2c20e00708040625372064
+        //builder.read(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC7)); // example read value: 0019000000
         setCurrentTimeWithService(builder);
-        builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC4), new byte[] { 0x01, 0x01, (byte) 0xe0, 0x07, 0x07, 0x17, 0x15, 0x04, 0x00, 0x04 });
-        builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC4), new byte[] { 0x02 });
+        // write key to miband2
+        builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC9), new byte[] { 0x01, 0x01, (byte) 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x40, 0x41, 0x42, 0x43, 0x44, 0x45 });
+        // get random auth number
+        builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC9), new byte[] { 0x02 });
         builder.read(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC6)); // probably superfluous
         builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC8), new byte[] { 0x20, 0x00, 0x00, 0x02 });
+        Log.d("TESTINIT", "testinit");
 
         return this;
     }
@@ -236,6 +246,8 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     private MiBand2Support enableNotifications(TransactionBuilder builder, boolean enable) {
         builder.notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_NOTIFICATION), enable);
         builder.notify(getCharacteristic(GattService.UUID_SERVICE_CURRENT_TIME), enable);
+        // Notify CHARACTERISTIC9 to receive random auth code
+        builder.notify(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC9), enable);
         return this;
     }
 
@@ -394,9 +406,13 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
      */
     private MiBand2Support pair(TransactionBuilder transaction) {
         LOG.info("Attempting to pair MI device...");
-        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_PAIR);
+        //BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_PAIR);
+        // write key to miband2
+        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC9);
         if (characteristic != null) {
-            transaction.write(characteristic, new byte[]{2});
+            transaction.write(characteristic, new byte[] { 0x01, 0x01, (byte) 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x40, 0x41, 0x42, 0x43, 0x44, 0x45 });
+            transaction.write(characteristic, new byte[] { 0x02 });
+            LOG.info("Pair write");
         } else {
             LOG.info("Unable to pair MI device -- characteristic not available");
         }
@@ -882,6 +898,14 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 //        } else if (MiBand2Service.UUID_UNKNOQN_CHARACTERISTIC0.equals(characteristicUUID)) {
 //            handleUnknownCharacteristic(characteristic.getValue());
 //            return true;
+        } else if (MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC9.equals(characteristicUUID)) {
+            if (characteristic.getValue()[0] == 0x10) {
+                byte[] eValue = handleAESAuth(characteristic.getValue());
+                byte[] responseValue = org.apache.commons.lang3.ArrayUtils.addAll(new byte[] {0x03, 0x00}, eValue);
+                characteristic.setValue(responseValue);
+                gatt.writeCharacteristic(characteristic);
+            }
+            //
         } else {
             LOG.info("Unhandled characteristic changed: " + characteristicUUID);
             logMessageContent(characteristic.getValue());
@@ -995,6 +1019,22 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 .putExtra(DeviceService.EXTRA_REALTIME_STEPS, steps)
                 .putExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
         LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+    }
+
+    private byte[] handleAESAuth(byte[] value) {
+        byte[] mValue = Arrays.copyOfRange(value, 3, 188);
+        try {
+            Cipher ecipher = null;
+            byte[] sRandom = {0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x40, 0x41, 0x42, 0x43, 0x44, 0x45};
+            ecipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            SecretKeySpec newKey = new SecretKeySpec(sRandom, "AES");
+            ecipher.init(Cipher.ENCRYPT_MODE, newKey);
+            byte[] enc = ecipher.doFinal(mValue);
+            return enc;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return value;
     }
 
     /**
