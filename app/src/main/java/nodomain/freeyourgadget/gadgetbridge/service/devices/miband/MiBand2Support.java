@@ -8,14 +8,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -25,7 +23,6 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -62,7 +59,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WriteAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
-import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -104,12 +100,19 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
             } else if (s.equals(BatteryInfoProfile.ACTION_BATTERY_INFO)) {
                 handleBatteryInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfo) intent.getParcelableExtra(BatteryInfoProfile.EXTRA_BATTERY_INFO));
+            } else if (s.equals(DeviceService.ACTION_MIBAND2_AUTH)) {
+                byte[] response = intent.getExtras().getByteArray(DeviceService.EXTRA_MIBAND2_AUTH_BYTE);
+                BluetoothGattCharacteristic temp = getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC9);
+                temp.setValue(response);
+                mBluetoothGatt.writeCharacteristic(temp);
+
             }
         }
     };
 
     private volatile boolean telephoneRinging;
     private volatile boolean isLocatingDevice;
+    private BluetoothGatt mBluetoothGatt;
 
     private DeviceInfo mDeviceInfo;
 
@@ -136,6 +139,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(DeviceInfoProfile.ACTION_DEVICE_INFO);
         intentFilter.addAction(BatteryInfoProfile.ACTION_BATTERY_INFO);
+        intentFilter.addAction(DeviceService.ACTION_MIBAND2_AUTH);
         broadcastManager.registerReceiver(mReceiver, intentFilter);
     }
 
@@ -156,8 +160,9 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 // so we simply not use the UUID_PAIR characteristic.
 //                .pair(builder)
                 .testInit(builder)
-                .requestDeviceInfo(builder)
-                .requestBatteryInfo(builder);
+                .setInitialized(builder);
+                //.requestDeviceInfo(builder)
+                //.requestBatteryInfo(builder);
 //                .sendUserInfo(builder)
 //                .checkAuthenticationNeeded(builder, getDevice())
 //                .setWearLocation(builder)
@@ -176,12 +181,11 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         //builder.read(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC7)); // example read value: 0019000000
         setCurrentTimeWithService(builder);
         // write key to miband2
-        builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC9), new byte[] { 0x01, 0x01, (byte) 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x40, 0x41, 0x42, 0x43, 0x44, 0x45 });
+        //builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC9), new byte[] { 0x01, 0x08, (byte) 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x40, 0x41, 0x42, 0x43, 0x44, 0x45 });
         // get random auth number
-        builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC9), new byte[] { 0x02 });
-        builder.read(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC6)); // probably superfluous
-        builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC8), new byte[] { 0x20, 0x00, 0x00, 0x02 });
-        Log.d("TESTINIT", "testinit");
+        builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC9), new byte[] { 0x02 , 0x08});
+        //builder.read(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC6)); // probably superfluous
+        //builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC8), new byte[] { 0x20, 0x00, 0x00, 0x02 });
 
         return this;
     }
@@ -410,8 +414,8 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         // write key to miband2
         BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC9);
         if (characteristic != null) {
-            transaction.write(characteristic, new byte[] { 0x01, 0x01, (byte) 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x40, 0x41, 0x42, 0x43, 0x44, 0x45 });
-            transaction.write(characteristic, new byte[] { 0x02 });
+            transaction.write(characteristic, new byte[] { 0x01, 0x08, (byte) 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x40, 0x41, 0x42, 0x43, 0x44, 0x45 });
+            //transaction.write(characteristic, new byte[] { 0x02, 0x08 });
             LOG.info("Pair write");
         } else {
             LOG.info("Unable to pair MI device -- characteristic not available");
@@ -878,6 +882,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     public boolean onCharacteristicChanged(BluetoothGatt gatt,
                                            BluetoothGattCharacteristic characteristic) {
         super.onCharacteristicChanged(gatt, characteristic);
+        mBluetoothGatt = gatt;
 
         UUID characteristicUUID = characteristic.getUuid();
         if (MiBandService.UUID_CHARACTERISTIC_BATTERY.equals(characteristicUUID)) {
@@ -899,11 +904,15 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 //            handleUnknownCharacteristic(characteristic.getValue());
 //            return true;
         } else if (MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC9.equals(characteristicUUID)) {
-            if (characteristic.getValue()[0] == 0x10) {
+            logMessageContent(characteristic.getValue());
+            if (characteristic.getValue()[0] == 0x10 &&
+                    characteristic.getValue()[1] == 0x02 &&
+                    characteristic.getValue()[2] == 0x01) {
                 byte[] eValue = handleAESAuth(characteristic.getValue());
-                byte[] responseValue = org.apache.commons.lang3.ArrayUtils.addAll(new byte[] {0x03, 0x00}, eValue);
-                characteristic.setValue(responseValue);
-                gatt.writeCharacteristic(characteristic);
+                byte[] responseValue = org.apache.commons.lang3.ArrayUtils.addAll(new byte[] {0x03, 0x08}, eValue);
+                Intent intent = new Intent(DeviceService.ACTION_MIBAND2_AUTH)
+                        .putExtra(DeviceService.EXTRA_MIBAND2_AUTH_BYTE, responseValue);
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
             }
             //
         } else {
@@ -957,6 +966,10 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             return true;
         } else if (MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT.equals(characteristicUUID)) {
             handleControlPointResult(characteristic.getValue(), status);
+            return true;
+        } else if (MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC9.equals(characteristicUUID)) {
+            LOG.info("KEY AES SEND");
+            logMessageContent(characteristic.getValue());
             return true;
         }
         return false;
@@ -1022,11 +1035,11 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     private byte[] handleAESAuth(byte[] value) {
-        byte[] mValue = Arrays.copyOfRange(value, 3, 188);
+        byte[] mValue = Arrays.copyOfRange(value, 3, 19);
         try {
             Cipher ecipher = null;
             byte[] sRandom = {0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x40, 0x41, 0x42, 0x43, 0x44, 0x45};
-            ecipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            ecipher = Cipher.getInstance("AES/ECB/NoPadding");
             SecretKeySpec newKey = new SecretKeySpec(sRandom, "AES");
             ecipher.init(Cipher.ENCRYPT_MODE, newKey);
             byte[] enc = ecipher.doFinal(mValue);

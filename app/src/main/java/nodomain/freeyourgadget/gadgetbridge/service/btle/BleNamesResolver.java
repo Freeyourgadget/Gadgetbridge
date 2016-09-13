@@ -1,8 +1,8 @@
 package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
-import java.util.HashMap;
-
 import android.util.SparseArray;
+
+import java.util.HashMap;
 
 public class BleNamesResolver {
 	private static HashMap<String, String> mServices = new HashMap<String, String>();
