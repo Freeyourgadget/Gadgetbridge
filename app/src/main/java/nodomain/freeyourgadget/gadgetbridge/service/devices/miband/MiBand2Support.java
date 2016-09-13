@@ -112,13 +112,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 byte[] response = intent.getExtras().getByteArray(DeviceService.EXTRA_MIBAND2_AUTH_BYTE);
                 BluetoothGattCharacteristic temp = getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC9);
                 temp.setValue(response);
-                if ((temp.getProperties() & (BluetoothGattCharacteristic.PROPERTY_WRITE | BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE)) != 0) {
-                    Log.d("HELLO", "its looks ok");
-                }
-                if (!mBluetoothGatt.writeCharacteristic(temp)) {
-                    Log.d("ERROR", "ERROR");
-                }
-                Log.d("HELLO", "HELLO");
+                mBluetoothGatt.writeCharacteristic(temp);
 
             }
         }
@@ -173,7 +167,8 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 // this is apparently not needed anymore, and actually causes problems when bonding is not used/does not work
 // so we simply not use the UUID_PAIR characteristic.
 //                .pair(builder)
-                .testInit(builder);
+                .testInit(builder)
+                .setInitialized(builder);
                 //.requestDeviceInfo(builder)
                 //.requestBatteryInfo(builder);
 //                .sendUserInfo(builder)
