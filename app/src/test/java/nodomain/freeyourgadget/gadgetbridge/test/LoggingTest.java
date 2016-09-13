@@ -3,17 +3,11 @@ package nodomain.freeyourgadget.gadgetbridge.test;
 import android.support.annotation.NonNull;
 
 import org.junit.After;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
 import java.io.File;
 import java.io.IOException;
 
-import ch.qos.logback.classic.util.ContextInitializer;
-import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
