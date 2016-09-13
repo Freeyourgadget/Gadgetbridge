@@ -12,6 +12,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 public interface DeviceService extends EventHandler {
     String PREFIX = "nodomain.freeyourgadget.gadgetbridge.devices";
 
+    String ACTION_MIBAND2_AUTH = PREFIX + ".action.miban2_auth";
     String ACTION_START = PREFIX + ".action.start";
     String ACTION_CONNECT = PREFIX + ".action.connect";
     String ACTION_NOTIFICATION = PREFIX + ".action.notification";
@@ -83,6 +84,7 @@ public interface DeviceService extends EventHandler {
     String EXTRA_CALENDAREVENT_DURATION = "calendarevent_duration";
     String EXTRA_CALENDAREVENT_TITLE = "calendarevent_title";
     String EXTRA_CALENDAREVENT_DESCRIPTION = "calendarevent_description";
+    String EXTRA_MIBAND2_AUTH_BYTE = "miband2_auth_byte";
 
     void start();
 
