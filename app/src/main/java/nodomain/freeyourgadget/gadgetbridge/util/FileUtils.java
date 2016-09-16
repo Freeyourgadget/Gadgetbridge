@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
