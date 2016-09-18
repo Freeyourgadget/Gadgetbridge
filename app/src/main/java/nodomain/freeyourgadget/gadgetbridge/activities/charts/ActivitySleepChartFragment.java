@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 
@@ -55,7 +56,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
 
     private void setupChart() {
         mChart.setBackgroundColor(BACKGROUND_COLOR);
-        mChart.setDescriptionColor(DESCRIPTION_COLOR);
+        mChart.getDescription().setTextColor(DESCRIPTION_COLOR);
         configureBarLineChartDefaults(mChart);
 
 
@@ -119,26 +120,42 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
         mChart.setData(dcd.getCombinedData());
     }
 
+    @Override
     protected void renderCharts() {
         mChart.animateX(ANIM_TIME, Easing.EasingOption.EaseInOutQuart);
     }
 
+    @Override
     protected void setupLegend(Chart chart) {
-        List<Integer> legendColors = new ArrayList<>(4);
-        List<String> legendLabels = new ArrayList<>(4);
-        legendColors.add(akActivity.color);
-        legendLabels.add(akActivity.label);
-        legendColors.add(akLightSleep.color);
-        legendLabels.add(akLightSleep.label);
-        legendColors.add(akDeepSleep.color);
-        legendLabels.add(akDeepSleep.label);
-        legendColors.add(akNotWorn.color);
-        legendLabels.add(akNotWorn.label);
+        List<LegendEntry> legendEntries = new ArrayList<>(5);
+
+        LegendEntry activityEntry = new LegendEntry();
+        activityEntry.label = akActivity.label;
+        activityEntry.formColor = akActivity.color;
+        legendEntries.add(activityEntry);
+
+        LegendEntry lightSleepEntry = new LegendEntry();
+        lightSleepEntry.label = akLightSleep.label;
+        lightSleepEntry.formColor = akLightSleep.color;
+        legendEntries.add(lightSleepEntry);
+
+        LegendEntry deepSleepEntry = new LegendEntry();
+        deepSleepEntry.label = akDeepSleep.label;
+        deepSleepEntry.formColor = akDeepSleep.color;
+        legendEntries.add(deepSleepEntry);
+
+        LegendEntry notWornEntry = new LegendEntry();
+        notWornEntry.label = akNotWorn.label;
+        notWornEntry.formColor = akNotWorn.color;
+        legendEntries.add(notWornEntry);
+
         if (supportsHeartrate(getChartsHost().getDevice())) {
-            legendColors.add(HEARTRATE_COLOR);
-            legendLabels.add(HEARTRATE_LABEL);
+            LegendEntry hrEntry = new LegendEntry();
+            hrEntry.label = HEARTRATE_LABEL;
+            hrEntry.formColor = HEARTRATE_COLOR;
+            legendEntries.add(hrEntry);
         }
-        chart.getLegend().setCustom(legendColors, legendLabels);
+        chart.getLegend().setCustom(legendEntries);
     }
 
     @Override

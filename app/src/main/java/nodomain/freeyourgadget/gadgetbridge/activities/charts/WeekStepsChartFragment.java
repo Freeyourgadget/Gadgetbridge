@@ -19,6 +19,9 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,26 +84,35 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         day = (Calendar) day.clone(); // do not modify the caller's argument
         day.add(Calendar.DATE, -7);
         List<BarEntry> entries = new ArrayList<>();
-        List<String> labels = new ArrayList<>();
+        final String[] labels = new String[7];
 
         for (int counter = 0; counter < 7; counter++) {
-            entries.add(new BarEntry(analysis.calculateTotalSteps(getSamplesOfDay(db, day, device)), counter));
-            labels.add(day.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, mLocale));
+            entries.add(new BarEntry(counter, analysis.calculateTotalSteps(getSamplesOfDay(db, day, device))));
+            labels[counter] = day.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, mLocale);
             day.add(Calendar.DATE, 1);
         }
 
         BarDataSet set = new BarDataSet(entries, "");
         set.setColor(akActivity.color);
 
-        BarData barData = new BarData(labels, set);
+//        BarData barData = new BarData(labels);
+        BarData barData = new BarData();
         barData.setValueTextColor(Color.GRAY); //prevent tearing other graph elements with the black text. Another approach would be to hide the values cmpletely with data.setDrawValues(false);
+        IValueFormatter weekDayValueFormatter = new IValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                return labels[(int) value]; // is value the x or y value?
+            }
+        };
+        barData.setValueFormatter(weekDayValueFormatter);
 
         LimitLine target = new LimitLine(mTargetSteps);
         combinedChart.getAxisLeft().removeAllLimitLines();
         combinedChart.getAxisLeft().addLimitLine(target);
 
-        CombinedData combinedData = new CombinedData(labels);
+        CombinedData combinedData = new CombinedData();
         combinedData.setData(barData);
+        combinedData.setValueFormatter(weekDayValueFormatter);
         return new DefaultChartsData(combinedData);
     }
 
@@ -112,19 +124,15 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         int totalSteps = analysis.calculateTotalSteps(getSamplesOfDay(db, day, device));
 
         PieData data = new PieData();
-        List<Entry> entries = new ArrayList<>();
+        List<PieEntry> entries = new ArrayList<>();
         List<Integer> colors = new ArrayList<>();
 
-        entries.add(new Entry(totalSteps, 0));
+        entries.add(new PieEntry(totalSteps, "")); //we don't want labels on the pie chart
         colors.add(akActivity.color);
-        //we don't want labels on the pie chart
-        data.addXValue("");
 
         if (totalSteps < mTargetSteps) {
-            entries.add(new Entry((mTargetSteps - totalSteps), 1));
+            entries.add(new PieEntry((mTargetSteps - totalSteps))); //we don't want labels on the pie chart
             colors.add(Color.GRAY);
-            //we don't want labels on the pie chart
-            data.addXValue("");
         }
 
         PieDataSet set = new PieDataSet(entries, "");
@@ -168,9 +176,9 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
 
     private void setupTodayStepsChart() {
         mTodayStepsChart.setBackgroundColor(BACKGROUND_COLOR);
-        mTodayStepsChart.setDescriptionColor(DESCRIPTION_COLOR);
-        mTodayStepsChart.setDescription(getContext().getString(R.string.weeksteps_today_steps_description, mTargetSteps));
-        mTodayStepsChart.setNoDataTextDescription("");
+        mTodayStepsChart.getDescription().setTextColor(DESCRIPTION_COLOR);
+        mTodayStepsChart.getDescription().setText(getContext().getString(R.string.weeksteps_today_steps_description, String.valueOf(mTargetSteps)));
+//        mTodayStepsChart.setNoDataTextDescription("");
         mTodayStepsChart.setNoDataText("");
         mTodayStepsChart.getLegend().setEnabled(false);
 //        setupLegend(mTodayStepsChart);
@@ -178,8 +186,8 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
 
     private void setupWeekStepsChart() {
         mWeekStepsChart.setBackgroundColor(BACKGROUND_COLOR);
-        mWeekStepsChart.setDescriptionColor(DESCRIPTION_COLOR);
-        mWeekStepsChart.setDescription("");
+        mWeekStepsChart.getDescription().setTextColor(DESCRIPTION_COLOR);
+        mWeekStepsChart.getDescription().setText("");
 
         configureBarLineChartDefaults(mWeekStepsChart);
 
@@ -205,6 +213,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
     }
 
+    @Override
     protected void setupLegend(Chart chart) {
 //        List<Integer> legendColors = new ArrayList<>(1);
 //        List<String> legendLabels = new ArrayList<>(1);

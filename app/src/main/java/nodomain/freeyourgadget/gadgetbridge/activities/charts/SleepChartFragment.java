@@ -11,12 +11,14 @@ import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import org.slf4j.Logger;
@@ -62,22 +64,23 @@ public class SleepChartFragment extends AbstractChartFragment {
         ActivityAnalysis analysis = new ActivityAnalysis();
         ActivityAmounts amounts = analysis.calculateActivityAmounts(samples);
         PieData data = new PieData();
-        List<Entry> entries = new ArrayList<>();
+        List<PieEntry> entries = new ArrayList<>();
         List<Integer> colors = new ArrayList<>();
-        int index = 0;
+//        int index = 0;
         long totalSeconds = 0;
         for (ActivityAmount amount : amounts.getAmounts()) {
             if ((amount.getActivityKind() & ActivityKind.TYPE_SLEEP) != 0) {
                 long value = amount.getTotalSeconds();
                 totalSeconds += value;
-                entries.add(new Entry(value, index++));
+//                entries.add(new PieEntry(value, index++));
+                entries.add(new PieEntry(value, amount.getName(getActivity())));
                 colors.add(getColorFor(amount.getActivityKind()));
-                data.addXValue(amount.getName(getActivity()));
+//                data.addXValue(amount.getName(getActivity()));
             }
         }
         String totalSleep = DateTimeUtils.formatDurationHoursMinutes(totalSeconds, TimeUnit.SECONDS);
         PieDataSet set = new PieDataSet(entries, "");
-        set.setValueFormatter(new ValueFormatter() {
+        set.setValueFormatter(new IValueFormatter() {
             @Override
             public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
                 return DateTimeUtils.formatDurationHoursMinutes((long) value, TimeUnit.SECONDS);
@@ -138,16 +141,16 @@ public class SleepChartFragment extends AbstractChartFragment {
 
     private void setupSleepAmountChart() {
         mSleepAmountChart.setBackgroundColor(BACKGROUND_COLOR);
-        mSleepAmountChart.setDescriptionColor(DESCRIPTION_COLOR);
-        mSleepAmountChart.setDescription("");
-        mSleepAmountChart.setNoDataTextDescription("");
+        mSleepAmountChart.getDescription().setTextColor(DESCRIPTION_COLOR);
+        mSleepAmountChart.getDescription().setText("");
+//        mSleepAmountChart.getDescription().setNoDataTextDescription("");
         mSleepAmountChart.setNoDataText("");
         mSleepAmountChart.getLegend().setEnabled(false);
     }
 
     private void setupActivityChart() {
         mActivityChart.setBackgroundColor(BACKGROUND_COLOR);
-        mActivityChart.setDescriptionColor(DESCRIPTION_COLOR);
+        mActivityChart.getDescription().setTextColor(DESCRIPTION_COLOR);
         configureBarLineChartDefaults(mActivityChart);
 
         XAxis x = mActivityChart.getXAxis();
@@ -179,18 +182,26 @@ public class SleepChartFragment extends AbstractChartFragment {
         yAxisRight.setAxisMinValue(HeartRateUtils.MIN_HEART_RATE_VALUE);
     }
 
+    @Override
     protected void setupLegend(Chart chart) {
-        List<Integer> legendColors = new ArrayList<>(2);
-        List<String> legendLabels = new ArrayList<>(2);
-        legendColors.add(akLightSleep.color);
-        legendLabels.add(akLightSleep.label);
-        legendColors.add(akDeepSleep.color);
-        legendLabels.add(akDeepSleep.label);
+        List<LegendEntry> legendEntries = new ArrayList<>(3);
+        LegendEntry lightSleepEntry = new LegendEntry();
+        lightSleepEntry.label = akLightSleep.label;
+        lightSleepEntry.formColor = akLightSleep.color;
+        legendEntries.add(lightSleepEntry);
+
+        LegendEntry deepSleepEntry = new LegendEntry();
+        deepSleepEntry.label = akDeepSleep.label;
+        deepSleepEntry.formColor = akDeepSleep.color;
+        legendEntries.add(deepSleepEntry);
+
         if (supportsHeartrate(getChartsHost().getDevice())) {
-            legendColors.add(HEARTRATE_COLOR);
-            legendLabels.add(HEARTRATE_LABEL);
+            LegendEntry hrEntry = new LegendEntry();
+            hrEntry.label = HEARTRATE_LABEL;
+            hrEntry.formColor = HEARTRATE_COLOR;
+            legendEntries.add(hrEntry);
         }
-        chart.getLegend().setCustom(legendColors, legendLabels);
+        chart.getLegend().setCustom(legendEntries);
         chart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
     }
 
@@ -201,6 +212,7 @@ public class SleepChartFragment extends AbstractChartFragment {
         return super.getAllSamples(db, device, tsFrom, tsTo);
     }
 
+    @Override
     protected void renderCharts() {
         mActivityChart.animateX(ANIM_TIME, Easing.EasingOption.EaseInOutQuart);
         mSleepAmountChart.invalidate();

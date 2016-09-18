@@ -192,7 +192,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
 //        addEntries();
     }
 
-    private void addEntries() {
+    private void addEntries(long timestamp) {
         mTotalStepsChart.setSingleEntryYValue(mSteps.getTotalSteps());
         YAxis stepsPerMinuteCurrentYAxis = mStepsPerMinuteCurrentChart.getAxisLeft();
         int maxStepsPerMinute = mSteps.getMaxStepsPerMinute();
@@ -211,16 +211,15 @@ public class LiveActivityFragment extends AbstractChartFragment {
         }
 
         ChartData data = mStepsPerMinuteHistoryChart.getData();
-        data.addXValue("");
         if (stepsPerMinute < 0) {
             stepsPerMinute = 0;
         }
-        mHistorySet.addEntry(new Entry(stepsPerMinute, data.getXValCount() - 1));
+        mHistorySet.addEntry(new Entry(stepsPerMinute, timestamp));
         int hr = getCurrentHeartRate();
         if (hr < 0) {
             hr = 0;
         }
-        mHeartRateSet.addEntry(new Entry(hr, data.getXValCount() - 1));
+        mHeartRateSet.addEntry(new Entry(hr, timestamp));
     }
 
     private boolean addHistoryDataSet(boolean force) {
@@ -305,7 +304,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
      * Called in the UI thread.
      */
     private void pulse() {
-        addEntries();
+        addEntries(System.currentTimeMillis());
 
         LineData historyData = (LineData) mStepsPerMinuteHistoryChart.getData();
         if (historyData == null) {
@@ -368,14 +367,13 @@ public class LiveActivityFragment extends AbstractChartFragment {
         chart.getXAxis().setDrawLabels(false);
         chart.getXAxis().setEnabled(false);
         chart.setBackgroundColor(BACKGROUND_COLOR);
-        chart.setDescriptionColor(DESCRIPTION_COLOR);
-        chart.setDescription(title);
-        chart.setNoDataTextDescription("");
+        chart.getDescription().setTextColor(DESCRIPTION_COLOR);
+        chart.getDescription().setText(title);
+//        chart.setNoDataTextDescription("");
         chart.setNoDataText("");
         chart.getAxisRight().setEnabled(false);
 
         List<BarEntry> entries = new ArrayList<>();
-        List<String> xLabels = new ArrayList<>();
         List<Integer> colors = new ArrayList<>();
 
         entries.add(new BarEntry(0, 0));
@@ -384,16 +382,16 @@ public class LiveActivityFragment extends AbstractChartFragment {
         colors.add(akActivity.color);
         colors.add(akActivity.color);
         colors.add(akActivity.color);
-        //we don't want labels
-        xLabels.add("");
-        xLabels.add("");
-        xLabels.add("");
+//        //we don't want labels
+//        xLabels.add("");
+//        xLabels.add("");
+//        xLabels.add("");
 
         BarDataSet set = new BarDataSet(entries, "");
         set.setDrawValues(false);
         set.setColors(colors);
-        BarData data = new BarData(xLabels, set);
-        data.setGroupSpace(0);
+        BarData data = new BarData(set);
+//        data.setGroupSpace(0);
         chart.setData(data);
 
         chart.getLegend().setEnabled(false);
@@ -411,8 +409,8 @@ public class LiveActivityFragment extends AbstractChartFragment {
 
         chart.setTouchEnabled(false); // no zooming or anything, because it's updated all the time
         chart.setBackgroundColor(BACKGROUND_COLOR);
-        chart.setDescriptionColor(DESCRIPTION_COLOR);
-        chart.setDescription(getString(R.string.live_activity_steps_per_minute_history));
+        chart.getDescription().setTextColor(DESCRIPTION_COLOR);
+        chart.getDescription().setText(getString(R.string.live_activity_steps_per_minute_history));
         chart.setNoDataText(getString(R.string.live_activity_start_your_activity));
         chart.getLegend().setEnabled(false);
         Paint infoPaint = chart.getPaint(Chart.PAINT_INFO);
@@ -447,7 +445,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
         mHistorySet.setAxisDependency(YAxis.AxisDependency.LEFT);
         mHistorySet.setColor(akActivity.color);
         mHistorySet.setDrawCircles(false);
-        mHistorySet.setDrawCubic(true);
+        mHistorySet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         mHistorySet.setDrawFilled(true);
         mHistorySet.setDrawValues(false);
 

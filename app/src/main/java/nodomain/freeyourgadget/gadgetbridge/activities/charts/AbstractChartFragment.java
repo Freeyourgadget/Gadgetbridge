@@ -339,7 +339,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     protected void configureChartDefaults(Chart<?> chart) {
-        chart.setDescription("");
+        chart.getDescription().setText("");
 
         // if enabled, the chart will always start at zero on the y-axis
         chart.setNoDataText(getString(R.string.chart_no_data_synchronize));
@@ -506,23 +506,25 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
             BarDataSet activitySet = createActivitySet(activityEntries, colors, "Activity");
             // create a data object with the datasets
-            combinedData = new CombinedData(xLabels);
+//            combinedData = new CombinedData(xLabels);
+            combinedData = new CombinedData();
             List<IBarDataSet> list = new ArrayList<>();
             list.add(activitySet);
-            BarData barData = new BarData(xLabels, list);
-            barData.setGroupSpace(0);
+            BarData barData = new BarData(list);
+//            barData.setGroupSpace(0);
             combinedData.setData(barData);
 
             if (hr && heartrateEntries.size() > 0) {
                 LineDataSet heartrateSet = createHeartrateSet(heartrateEntries, "Heart Rate");
-                LineData lineData = new LineData(xLabels, heartrateSet);
+                LineData lineData = new LineData(heartrateSet);
                 combinedData.setData(lineData);
             }
 
 //            chart.setDescription(getString(R.string.sleep_activity_date_range, dateStringFrom, dateStringTo));
 //            chart.setDescriptionPosition(?, ?);
         } else {
-            combinedData = new CombinedData(Collections.<String>emptyList());
+//            combinedData = new CombinedData(Collections.<String>emptyList());
+            combinedData = new CombinedData();
         }
 
         return new DefaultChartsData(combinedData);
@@ -575,7 +577,8 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         LineDataSet set1 = new LineDataSet(values, label);
         set1.setLineWidth(0.8f);
         set1.setColor(HEARTRATE_COLOR);
-        set1.setDrawCubic(true);
+//        set1.setDrawCubic(true);
+        set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         set1.setCubicIntensity(0.1f);
         set1.setDrawCircles(false);
 //        set1.setCircleRadius(2f);

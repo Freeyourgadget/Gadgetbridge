@@ -23,8 +23,8 @@ public class SingleEntryValueAnimator extends ChartAnimator {
     }
 
     public void setEntryYValue(float value) {
-        this.previousValue = entry.getVal();
-        entry.setVal(value);
+        this.previousValue = entry.getY();
+        entry.setY(value);
     }
 
     @Override
@@ -38,10 +38,10 @@ public class SingleEntryValueAnimator extends ChartAnimator {
 
         float startAnim;
         float endAnim = 1f;
-        if (entry.getVal() == 0f) {
+        if (entry.getY() == 0f) {
             startAnim = 0f;
         } else {
-            startAnim = previousValue / entry.getVal();
+            startAnim = previousValue / entry.getY();
         }
 
 //        LOG.debug("anim factors: " + startAnim + ", " + endAnim);
