@@ -15,9 +15,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class VibratissimoCoordinator extends AbstractDeviceCoordinator {
-    public VibratissimoCoordinator() {
-    }
-
     @Override
     public boolean supports(GBDeviceCandidate candidate) {
         String name = candidate.getDevice().getName();
@@ -76,6 +73,6 @@ public class VibratissimoCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public String getManufacturer() {
-        return "Armor Gummiwaren GmbH";
+        return "Amor AG";
     }
 }
