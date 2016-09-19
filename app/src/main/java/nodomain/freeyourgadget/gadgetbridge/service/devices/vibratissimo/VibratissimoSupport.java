@@ -57,6 +57,7 @@ public class VibratissimoSupport extends AbstractBTLEDeviceSupport {
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ACCESS);
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ATTRIBUTE);
         addSupportedService(GattService.UUID_SERVICE_DEVICE_INFORMATION);
+        addSupportedService(GattService.UUID_SERVICE_BATTERY_SERVICE);
         addSupportedService(UUID.fromString("00001523-1212-efde-1523-785feabcd123"));
 
         deviceInfoProfile = new DeviceInfoProfile<>(this);
@@ -88,6 +89,7 @@ public class VibratissimoSupport extends AbstractBTLEDeviceSupport {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
         requestDeviceInfo(builder);
         setInitialized(builder);
+        batteryInfoProfile.requestBatteryInfo(builder);
         return builder;
     }
 
