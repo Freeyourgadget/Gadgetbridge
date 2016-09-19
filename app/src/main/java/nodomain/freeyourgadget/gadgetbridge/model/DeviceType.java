@@ -11,6 +11,7 @@ public enum DeviceType {
     PEBBLE(1),
     MIBAND(10),
     MIBAND2(11),
+    VIBRATISSIMO(20),
     TEST(1000);
 
     private final int key;
