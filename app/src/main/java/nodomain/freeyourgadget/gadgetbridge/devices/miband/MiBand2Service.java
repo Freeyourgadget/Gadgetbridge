@@ -23,7 +23,7 @@ public class MiBand2Service {
     public static final UUID UUID_UNKNOWN_CHARACTERISTIC7 = UUID.fromString("00000007-0000-3512-2118-0009af100700");
     public static final UUID UUID_UNKNOWN_CHARACTERISTIC8 = UUID.fromString("00000008-0000-3512-2118-0009af100700");
     // service uuid fee1
-    public static final UUID UUID_UNKNOWN_CHARACTERISTIC9 = UUID.fromString("00000009-0000-3512-2118-0009af100700");
+    public static final UUID UUID_CHARACTERISTIC_AUTH = UUID.fromString("00000009-0000-3512-2118-0009af100700");
     public static final UUID UUID_UNKNOWN_CHARACTERISTIC10 = UUID.fromString("00000010-0000-3512-2118-0009af100700");
 
     // set metric distance
@@ -232,6 +232,47 @@ public class MiBand2Service {
 //	public static final byte TEST_SELFTEST = 0x2;
 
     private static final Map<UUID, String> MIBAND_DEBUG;
+
+    /**
+     * Mi Band 2 authentication has three steps.
+     * This is step 1: sending a "secret" key to the band.
+     * This is byte 0, followed by {@link #AUTH_BYTE} and then the key.
+     * In the response, it is byte 1 in the byte[] value.
+     */
+    public static final byte AUTH_SEND_KEY = 0x01;
+    /**
+     * Mi Band 2 authentication has three steps.
+     * This is step 2: requesting a random authentication key from the band.
+     * This is byte 0, followed by {@link #AUTH_BYTE}.
+     * In the response, it is byte 1 in the byte[] value.
+     */
+    public static final byte AUTH_REQUEST_RANDOM_AUTH_NUMBER = 0x02;
+    /**
+     * Mi Band 2 authentication has three steps.
+     * This is step 3: sending the encrypted random authentication key to the band.
+     * This is byte 0, followed by {@link #AUTH_BYTE} and then the encrypted random authentication key.
+     * In the response, it is byte 1 in the byte[] value.
+     */
+    public static final byte AUTH_SEND_ENCRYPTED_AUTH_NUMBER = 0x03;
+
+    /**
+     * Received in response to any authentication requests (byte 0 in the byte[] value.
+     */
+    public static final byte AUTH_RESPONSE = 0x10;
+    /**
+     * Receeived in response to any authentication requests (byte 2 in the byte[] value.
+     * 0x01 means success.
+     */
+    public static final byte AUTH_SUCCESS = 0x01;
+    /**
+     * Received in response to any authentication requests (byte 2 in the byte[] value.
+     * 0x04 means failure.
+     */
+    public static final byte AUTH_FAIL = 0x04;
+    /**
+     * In some logs it's 0x0...
+     */
+    public static final byte AUTH_BYTE = 0x8;
 
     static {
         MIBAND_DEBUG = new HashMap<>();

@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -255,6 +256,23 @@ public final class BtLEQueue {
         LOG.debug("about to add: " + transaction);
         if (!transaction.isEmpty()) {
             mTransactions.add(transaction);
+        }
+    }
+
+    /**
+     * Adds a transaction to the beginning of the queue.
+     * Note that actions of the *currently executing* transaction
+     * will still be executed before the given transaction.
+     *
+     * @param transaction
+     */
+    public void insert(Transaction transaction) {
+        LOG.debug("about to insert: " + transaction);
+        if (!transaction.isEmpty()) {
+            List<Transaction> tail = new ArrayList<>(mTransactions.size() + 2);
+            mTransactions.drainTo(tail);
+            mTransactions.add(transaction);
+            mTransactions.addAll(tail);
         }
     }
 
