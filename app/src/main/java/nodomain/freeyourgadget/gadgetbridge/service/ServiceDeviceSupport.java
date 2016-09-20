@@ -257,6 +257,14 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
+    public void onSetConstantVibration(int intensity) {
+        if (checkBusy("set constant vibration")) {
+            return;
+        }
+        delegate.onSetConstantVibration(intensity);
+    }
+
+    @Override
     public void onScreenshotReq() {
         if (checkBusy("request screenshot")) {
             return;

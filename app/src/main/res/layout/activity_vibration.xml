@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="false"
+    android:layout_centerInParent="false"
+    android:layout_centerVertical="false"
+    android:weightSum="1">
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:id="@+id/vibration_seekbar"
+        android:max="256"
+        android:scaleY="4.0"
+        android:layout_height="wrap_content" />
+</LinearLayout>

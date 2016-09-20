@@ -775,6 +775,11 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onSetConstantVibration(int intensity) {
+
+    }
+
+    @Override
     public void onFetchActivityData() {
 // TODO: onFetchActivityData
 //        try {

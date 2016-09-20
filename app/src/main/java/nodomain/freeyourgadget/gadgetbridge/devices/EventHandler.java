@@ -57,6 +57,8 @@ public interface EventHandler {
 
     void onFindDevice(boolean start);
 
+    void onSetConstantVibration(int integer);
+
     void onScreenshotReq();
 
     void onEnableHeartRateSleepSupport(boolean enable);

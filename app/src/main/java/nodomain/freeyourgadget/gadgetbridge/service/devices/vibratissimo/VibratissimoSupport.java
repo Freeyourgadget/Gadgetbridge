@@ -51,7 +51,6 @@ public class VibratissimoSupport extends AbstractBTLEDeviceSupport {
             }
         }
     };
-    private BtLEQueue mQueue;
 
     public VibratissimoSupport() {
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ACCESS);
@@ -136,21 +135,7 @@ public class VibratissimoSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetCallState(CallSpec callSpec) {
-        BluetoothGattCharacteristic characteristic2 = getCharacteristic(UUID.fromString("00001526-1212-efde-1523-785feabcd123"));
-        BluetoothGattCharacteristic characteristic1 = getCharacteristic(UUID.fromString("00001524-1212-efde-1523-785feabcd123"));
 
-        TransactionBuilder builder = new TransactionBuilder("phonetest");
-        builder.write(characteristic1, new byte[]{0x03, (byte) 0x80});
-
-        byte intensity;
-        if (callSpec.command == CallSpec.CALL_INCOMING) {
-            intensity = 0x65;
-            builder.write(characteristic2, new byte[]{0x65, 0x00});
-        } else {
-            intensity = 0;
-        }
-        builder.write(characteristic2, new byte[]{intensity, 0x00});
-        builder.queue(getQueue());
     }
 
     @Override
@@ -225,7 +210,19 @@ public class VibratissimoSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFindDevice(boolean start) {
+        onSetConstantVibration(start ? 0xff : 0x00);
+    }
 
+    @Override
+    public void onSetConstantVibration(int intensity) {
+        BluetoothGattCharacteristic characteristic2 = getCharacteristic(UUID.fromString("00001526-1212-efde-1523-785feabcd123"));
+        BluetoothGattCharacteristic characteristic1 = getCharacteristic(UUID.fromString("00001524-1212-efde-1523-785feabcd123"));
+
+        TransactionBuilder builder = new TransactionBuilder("vibration");
+        builder.write(characteristic1, new byte[]{0x03, (byte) 0x80});
+
+        builder.write(characteristic2, new byte[]{(byte) intensity, 0x00});
+        builder.queue(getQueue());
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.Uri;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.VibrationActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -31,10 +32,10 @@ public class VibratissimoCoordinator extends AbstractDeviceCoordinator {
         return null;
     }
 
+    @Override
     public Class<? extends Activity> getPrimaryActivity() {
-        return null;
+        return VibrationActivity.class;
     }
-
 
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
@@ -53,7 +54,7 @@ public class VibratissimoCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsScreenshots() {
-        return true;
+        return false;
     }
 
     @Override
@@ -68,7 +69,7 @@ public class VibratissimoCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public int getTapString() {
-        return R.string.tap_connected_device_for_activity;
+        return R.string.tap_connected_device_for_vibration;
     }
 
     @Override
