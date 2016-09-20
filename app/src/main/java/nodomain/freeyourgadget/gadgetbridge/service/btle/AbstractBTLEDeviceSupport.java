@@ -76,7 +76,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
         }
     }
 
-    protected TransactionBuilder createTransactionBuilder(String taskName) {
+    public TransactionBuilder createTransactionBuilder(String taskName) {
         return new TransactionBuilder(taskName);
     }
 
@@ -110,13 +110,26 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
      * @throws IOException
      * @see {@link #performInitialized(String)}
      */
-    protected void performConnected(Transaction transaction) throws IOException {
+    public void performConnected(Transaction transaction) throws IOException {
         if (!isConnected()) {
             if (!connect()) {
                 throw new IOException("2: Unable to connect to device: " + getDevice());
             }
         }
         getQueue().add(transaction);
+    }
+
+    /**
+     * Performs the actions of the given transaction as soon as possible,
+     * that is, before any other queued transactions, but after the actions
+     * of the currently executing transaction.
+     * @param builder
+     */
+    public void performImmediately(TransactionBuilder builder) throws IOException {
+        if (!isConnected()) {
+            throw new IOException("Not connected to device: " + getDevice());
+        }
+        getQueue().insert(builder.getTransaction());
     }
 
     public BtLEQueue getQueue() {
