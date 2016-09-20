@@ -72,6 +72,14 @@ public interface DeviceCoordinator {
     boolean supportsActivityDataFetching();
 
     /**
+     * Returns true if activity tracking is supported by the device
+     * (with this coordinator).
+     *
+     * @return
+     */
+    boolean supportsActivityTracking();
+
+    /**
      * Returns true if activity data fetching is supported AND possible at this
      * very moment. This will consider the device state (being connected/disconnected/busy...)
      * etc.

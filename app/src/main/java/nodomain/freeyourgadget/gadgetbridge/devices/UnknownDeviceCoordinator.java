@@ -107,6 +107,11 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsActivityTracking() {
+        return false;
+    }
+
+    @Override
     public boolean supportsScreenshots() {
         return false;
     }

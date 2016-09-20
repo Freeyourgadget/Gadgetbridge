@@ -94,6 +94,11 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsActivityTracking() {
+        return true;
+    }
+
+    @Override
     public int getTapString() {
         return R.string.tap_connected_device_for_activity;
     }

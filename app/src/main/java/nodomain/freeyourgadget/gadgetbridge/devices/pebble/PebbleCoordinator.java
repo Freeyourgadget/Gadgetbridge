@@ -69,6 +69,11 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsActivityTracking() {
+        return true;
+    }
+
+    @Override
     public boolean supportsScreenshots() {
         return true;
     }

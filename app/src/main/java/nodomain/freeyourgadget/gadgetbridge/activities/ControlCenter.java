@@ -197,6 +197,9 @@ public class ControlCenter extends GBActivity {
         if (!coordinator.supportsAlarmConfiguration()) {
             menu.removeItem(R.id.controlcenter_configure_alarms);
         }
+        if (!coordinator.supportsActivityTracking()) {
+            menu.removeItem(R.id.controlcenter_start_sleepmonitor);
+        }
 
         if (selectedDevice.getState() == GBDevice.State.NOT_CONNECTED) {
             menu.removeItem(R.id.controlcenter_disconnect);
