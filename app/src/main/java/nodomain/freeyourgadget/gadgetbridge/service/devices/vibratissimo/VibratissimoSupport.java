@@ -215,6 +215,7 @@ public class VibratissimoSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetConstantVibration(int intensity) {
+        getQueue().clear();
         BluetoothGattCharacteristic characteristic2 = getCharacteristic(UUID.fromString("00001526-1212-efde-1523-785feabcd123"));
         BluetoothGattCharacteristic characteristic1 = getCharacteristic(UUID.fromString("00001524-1212-efde-1523-785feabcd123"));
 

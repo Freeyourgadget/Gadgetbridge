@@ -44,7 +44,9 @@ public class VibrationActivity extends GBActivity {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                LOG.info("changed to:" + progress);
+                if (progress > 0) { // 1-16
+                    progress = progress * 16 - 1; // max 255
+                }
                 GBApplication.deviceService().onSetConstantVibration(progress);
             }
 

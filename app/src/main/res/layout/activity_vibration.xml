@@ -10,7 +10,7 @@
     <SeekBar
         android:layout_width="match_parent"
         android:id="@+id/vibration_seekbar"
-        android:max="256"
+        android:max="16"
         android:scaleY="4.0"
         android:layout_height="wrap_content" />
 </LinearLayout>
