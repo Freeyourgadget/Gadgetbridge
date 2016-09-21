@@ -1,5 +1,9 @@
 ###Changelog
 
+####Version 0.13.0
+* Initial working Mi Band 2 support (only notifications, no activity and heart rate support)
+* Experimental support for Vibratissimo devices
+
 ####Version 0.12.2
 * Fix for user attribute database table getting spammed and store sleep and steps goals properly
 
