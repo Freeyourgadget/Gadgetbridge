@@ -15,7 +15,9 @@ need to create an account and transmit any of your data to the vendor's servers.
 
 ## Supported Devices
 * Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round
-* Mi Band, Mi Band 1A, Mi Band 1S (experimental)
+* Mi Band, Mi Band 1A, Mi Band 1S
+* Mi Band 2 (only notifications)
+* Vibratissimo (experimental)
 
 ***THE PEBBLE 2 AND PEBBLE TIME 2 ARE CURRENTLY NOT SUPPORTED. ADDING SUPPORT IS HIGH-PRIORITY BUT WE CANNOT GIVE YOU AN ETA!***
 
@@ -42,7 +44,7 @@ need to create an account and transmit any of your data to the vendor's servers.
 * Fetch activity data from Pebble Health, Misfit and Morpheuz (experimental)
 * Configure watchfaces / apps (limited compatibility, experimental)
 
-## Notes about Firmware 3.x (Pebble Time, updated OG)
+## Notes about Firmware >=3.0 (Pebble Time, updated OG)
 
 * Gadgetbridge will keep track of installed watchfaces, but if the Pebble is used with another phone or another app, the information displayed in the app manager can get out of sync since it is impossible to query Firmware >= 3.x for installed apps/watchfaces.
 
