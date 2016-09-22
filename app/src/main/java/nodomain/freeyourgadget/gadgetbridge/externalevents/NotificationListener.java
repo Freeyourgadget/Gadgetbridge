@@ -285,6 +285,11 @@ public class NotificationListener extends NotificationListenerService {
 
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender(notification);
         List<NotificationCompat.Action> actions = wearableExtender.getActions();
+
+        if (actions.isEmpty() && notificationSpec.type == NotificationType.TELEGRAM) {
+            return; // workaround for duplicate telegram message
+        }
+
         for (NotificationCompat.Action act : actions) {
             if (act != null && act.getRemoteInputs() != null) {
                 LOG.info("found wearable action: " + act.getTitle() + "  " + sbn.getTag());
