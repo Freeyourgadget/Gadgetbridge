@@ -120,7 +120,7 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
                         //logMessageContent(result.getScanRecord().getBytes());
                         handleDeviceFound(result.getDevice(), (short) result.getRssi());
                     } catch (NullPointerException e) {
-                        e.printStackTrace();
+                        LOG.warn("Error handling scan result", e);
                     }
                 }
             };
