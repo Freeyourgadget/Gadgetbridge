@@ -255,7 +255,20 @@
   <!--Strings related to Onboading Activity-->
   <string name="title_activity_onboarding">Importar Base de Datos</string>
   <string name="import_old_db_buttonlabel">Importar datos de actividad antiguos</string>
+  <string name="pref_title_pebble_health_store_raw">Almacenar datos en bruto en la base de datos </string>
   <string name="action_db_management">Administración de Bases de Datos</string>
   <string name="title_activity_db_management">Administración de Bases de Datos</string>
+  <string name="activity_db_management_merge_old_title">Importar/Borrar Base de Datos Antigua</string>
+  <string name="dbmanagementactivvity_cannot_access_export_path">No se puede acceder a la ruta para exportar . Por favor, contacta con los desarrolladores.</string>
+  <string name="dbmanagementactivity_exported_to">Exportado a: %1$s</string>
+  <string name="dbmanagementactivity_error_exporting_db">Error exportando DB: %1$s</string>
+  <string name="dbmanagementactivity_import_data_title">¿Importar Datos?</string>
+  <string name="dbmanagementactivity_import_successful">Importado con éxito.</string>
+  <string name="dbmanagementactivity_error_importing_db">Error importando DB: %1$s</string>
+  <string name="dbmanagementactivity_db_deletion_failed">El borrado de la Base de Datos ha fallado.</string>
+  <string name="dbmanagementactivity_delete_old_activity_db">¿Quieres borrar la antigua Base de Datos de Actividades?</string>
+  <string name="dbmanagementactivity_overwrite">Sobreescribir</string>
+  <string name="Cancel">Cancelar</string>
   <string name="Delete">Borrar</string>
+  <!--Strings related to Vibration Activity-->
 </resources>

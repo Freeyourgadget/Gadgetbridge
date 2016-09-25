@@ -127,6 +127,13 @@ public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {
                     deviceImageView.setImageResource(R.drawable.ic_device_miband_disabled);
                 }
                 break;
+            case VIBRATISSIMO:
+                if (device.isConnected()) {
+                    deviceImageView.setImageResource(R.drawable.ic_device_lovetoy);
+                } else {
+                    deviceImageView.setImageResource(R.drawable.ic_device_lovetoy_disabled);
+                }
+                break;
             default:
                 if (device.isConnected()) {
                     deviceImageView.setImageResource(R.drawable.ic_launcher);

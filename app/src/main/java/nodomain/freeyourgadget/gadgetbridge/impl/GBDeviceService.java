@@ -228,6 +228,13 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
+    public void onSetConstantVibration(int intensity) {
+        Intent intent = createIntent().setAction(ACTION_SET_CONSTANT_VIBRATION)
+                .putExtra(EXTRA_VIBRATION_INTENSITY, intensity);
+        invokeService(intent);
+    }
+
+    @Override
     public void onScreenshotReq() {
         Intent intent = createIntent().setAction(ACTION_REQUEST_SCREENSHOT);
         invokeService(intent);

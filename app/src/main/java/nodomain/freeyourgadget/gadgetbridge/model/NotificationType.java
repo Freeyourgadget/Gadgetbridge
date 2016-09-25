@@ -9,4 +9,5 @@ public enum NotificationType {
     FACEBOOK,
     SMS,
     TWITTER,
+    TELEGRAM,
 }

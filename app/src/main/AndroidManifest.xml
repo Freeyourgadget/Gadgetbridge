@@ -259,6 +259,10 @@
             android:name=".activities.AlarmDetails"
             android:label="@string/title_activity_alarm_details"
             android:parentActivityName=".activities.ConfigureAlarms" />
+        <activity
+            android:name=".activities.VibrationActivity"
+            android:label="@string/title_activity_vibration"
+            android:parentActivityName=".activities.ControlCenter" />
 
         <provider
             android:name=".contentprovider.PebbleContentProvider"

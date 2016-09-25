@@ -126,6 +126,7 @@
     <string name="bluetooth_is_disabled_">Bluetooth is disabled.</string>
     <string name="tap_connected_device_for_app_mananger">Tap connected device for App Manager</string>
     <string name="tap_connected_device_for_activity">Tap connected device for Activity</string>
+    <string name="tap_connected_device_for_vibration">Tap connected device for Vibration</string>
     <string name="tap_a_device_to_connect">Tap a device to connect</string>
     <string name="cannot_connect_bt_address_invalid_">Cannot connect. BT address invalid?</string>
     <string name="gadgetbridge_running">Gadgetbridge running</string>
@@ -326,4 +327,7 @@
     <string name="dbmanagementactivity_overwrite">Overwrite</string>
     <string name="Cancel">Cancel</string>
     <string name="Delete">Delete</string>
+
+    <!-- Strings related to Vibration Activity -->
+    <string name="title_activity_vibration">Vibration</string>
 </resources>

@@ -291,16 +291,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     private NotificationStrategy getNotificationStrategy() {
-        if (mDeviceInfo == null) {
-            // not initialized yet?
-            return new NoNotificationStrategy();
-        }
-        if (mDeviceInfo.getFirmwareVersion() < MiBandFWHelper.FW_16779790) {
-            return new V1NotificationStrategy(this);
-        } else {
-            //use the new alert characteristic
-            return new V2NotificationStrategy(this);
-        }
+        return new V2NotificationStrategy(this);
     }
 
     static final byte[] reboot = new byte[]{MiBandService.COMMAND_REBOOT};
@@ -722,6 +713,11 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             };
             performDefaultNotification("locating device", (short) 255, abortAction);
         }
+    }
+
+    @Override
+    public void onSetConstantVibration(int intensity) {
+
     }
 
     @Override

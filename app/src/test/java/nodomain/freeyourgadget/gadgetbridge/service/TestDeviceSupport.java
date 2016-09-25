@@ -134,6 +134,11 @@ public class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
+    public void onSetConstantVibration(int intensity) {
+
+    }
+
+    @Override
     public void onScreenshotReq() {
 
     }

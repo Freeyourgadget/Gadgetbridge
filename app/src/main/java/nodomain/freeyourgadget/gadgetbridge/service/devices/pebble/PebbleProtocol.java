@@ -854,6 +854,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 icon_id = PebbleIconID.NOTIFICATION_HIPCHAT;
                 color_id = PebbleColor.Inchworm;
                 break;
+            case TELEGRAM:
+                icon_id = PebbleIconID.NOTIFICATION_TELEGRAM;
+                color_id = PebbleColor.PictonBlue;
+                break;
             default:
                 icon_id = PebbleIconID.NOTIFICATION_GENERIC;
                 color_id = PebbleColor.Red;

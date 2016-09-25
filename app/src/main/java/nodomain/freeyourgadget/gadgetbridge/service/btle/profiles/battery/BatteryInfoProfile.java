@@ -27,7 +27,7 @@ public class BatteryInfoProfile<T extends AbstractBTLEDeviceSupport> extends Abs
     public static final UUID SERVICE_UUID = GattService.UUID_SERVICE_BATTERY_SERVICE;
 
     public static final UUID UUID_CHARACTERISTIC_BATTERY_LEVEL = GattCharacteristic.UUID_CHARACTERISTIC_BATTERY_LEVEL;
-    private BatteryInfo batteryInfo;
+    private final BatteryInfo batteryInfo = new BatteryInfo();
 
     public BatteryInfoProfile(T support) {
         super(support);

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.13.0" versioncode="62">
+        <change>Initial working Mi Band 2 support (only notifications, no activity and heart rate support)</change>
+        <change>Experimental support for Vibratissimo devices</change>
+    </release>
     <release version="0.12.2" versioncode="61">
         <change>Fix for user attribute database table getting spammed and store sleep and steps goals properly</change>
     </release>

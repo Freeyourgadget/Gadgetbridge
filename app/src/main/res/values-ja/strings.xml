@@ -52,6 +52,7 @@
   <string name="pref_title_notifications_sms">SMS</string>
   <string name="pref_title_notifications_k9mail">K9メール</string>
   <string name="pref_title_notifications_pebblemsg">Pebbleメッセージ</string>
+  <string name="pref_summary_notifications_pebblemsg">PebbleKit経由でPebbleに通知を送信するアプリケーションをサポートします。</string>
   <string name="pref_title_notifications_generic">一般ステータス通知対応</string>
   <string name="pref_title_whenscreenon">… スクリーンがオンのときにも</string>
   <string name="pref_title_notification_filter">サイレント</string>
@@ -102,6 +103,7 @@
   <string name="bluetooth_is_disabled_">Bluetoothは無効です。</string>
   <string name="tap_connected_device_for_app_mananger">アプリマネージャーの接続されたデバイスをタップ</string>
   <string name="tap_connected_device_for_activity">アクティビティの接続されたデバイスをタップ</string>
+  <string name="tap_connected_device_for_vibration">バイブレーションの接続されたデバイスをタップ</string>
   <string name="tap_a_device_to_connect">接続するデバイスをタップ</string>
   <string name="cannot_connect_bt_address_invalid_">接続できません。 BTアドレスが無効?</string>
   <string name="gadgetbridge_running">ガジェットブリッジは実行中</string>
@@ -292,4 +294,6 @@ Mi Band、Pebble Health、Morpheuz からデータをインポートすること
   <string name="dbmanagementactivity_overwrite">上書き</string>
   <string name="Cancel">キャンセル</string>
   <string name="Delete">削除</string>
+  <!--Strings related to Vibration Activity-->
+  <string name="title_activity_vibration">バイブレーション</string>
 </resources>
