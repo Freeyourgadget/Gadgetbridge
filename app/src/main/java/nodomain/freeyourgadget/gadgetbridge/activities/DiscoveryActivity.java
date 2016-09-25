@@ -1,15 +1,20 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
+import android.bluetooth.le.ScanCallback;
+import android.bluetooth.le.ScanResult;
+import android.bluetooth.le.ScanSettings;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -36,9 +41,14 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
+import static android.bluetooth.le.ScanSettings.MATCH_MODE_STICKY;
+import static android.bluetooth.le.ScanSettings.SCAN_MODE_LOW_LATENCY;
+
 public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemClickListener {
     private static final Logger LOG = LoggerFactory.getLogger(DiscoveryActivity.class);
     private static final long SCAN_DURATION = 60000; // 60s
+
+    private ScanCallback newLeScanCallback = null;
 
     private final Handler handler = new Handler();
 
@@ -92,6 +102,32 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
         }
     };
 
+
+    // why use a method to to get callback?
+    // because this callback need API >= 21
+    // we cant add @TARGETAPI("Lollipop") at class header
+    // so use a method woth SDK check to return this callback
+    private ScanCallback getScanCallback() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            newLeScanCallback = new ScanCallback() {
+                @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                @Override
+                public void onScanResult(int callbackType, ScanResult result) {
+                    super.onScanResult(callbackType, result);
+                    try {
+                        LOG.warn(result.getDevice().getName() + ": " +
+                                ((result.getScanRecord() != null) ? result.getScanRecord().getBytes().length : -1));
+                        //logMessageContent(result.getScanRecord().getBytes());
+                        handleDeviceFound(result.getDevice(), (short) result.getRssi());
+                    } catch (NullPointerException e) {
+                        LOG.warn("Error handling scan result", e);
+                    }
+                }
+            };
+        }
+        return newLeScanCallback;
+    }
+
     public void logMessageContent(byte[] value) {
         if (value != null) {
             for (byte b : value) {
@@ -118,6 +154,7 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
     private enum Scanning {
         SCANNING_BT,
         SCANNING_BTLE,
+        SCANNING_NEW_BTLE,
         SCANNING_OFF
     }
 
@@ -224,7 +261,11 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
             LOG.warn("Not starting discovery, because already scanning.");
             return;
         }
-        startDiscovery(Scanning.SCANNING_BT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            startDiscovery(Scanning.SCANNING_NEW_BTLE);
+        } else {
+            startDiscovery(Scanning.SCANNING_BT);
+        }
     }
 
     private void startDiscovery(Scanning what) {
@@ -237,6 +278,12 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
                 if (GB.supportsBluetoothLE()) {
                     startBTLEDiscovery();
                 } else {
+                    discoveryFinished();
+                }
+            } else if (what == Scanning.SCANNING_NEW_BTLE) {
+                if (GB.supportsBluetoothLE()) {
+                    startNEWBTLEDiscovery();
+                } else  {
                     discoveryFinished();
                 }
             }
@@ -262,6 +309,8 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
                 stopBTDiscovery();
             } else if (wasScanning == Scanning.SCANNING_BTLE) {
                 stopBTLEDiscovery();
+            } else if (wasScanning == Scanning.SCANNING_NEW_BTLE) {
+                stopNewBTLEDiscovery();
             }
             handler.removeMessages(0, stopRunnable);
         }
@@ -273,6 +322,11 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
 
     private void stopBTDiscovery() {
         adapter.cancelDiscovery();
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void stopNewBTLEDiscovery() {
+        adapter.getBluetoothLeScanner().stopScan(newLeScanCallback);
     }
 
     private void bluetoothStateChanged(int oldState, int newState) {
@@ -332,6 +386,33 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
         }
         this.adapter = adapter;
         return true;
+    }
+
+    // New BTLE Discovery use startScan (List<ScanFilter> filters,
+    //                                  ScanSettings settings,
+    //                                  ScanCallback callback)
+    // Its added on API21
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void startNEWBTLEDiscovery() {
+        // Only use new APi when user use Lollipop+ device
+            LOG.info("Start New BTLE Discovery");
+            handler.removeMessages(0, stopRunnable);
+            handler.sendMessageDelayed(getPostMessage(stopRunnable), SCAN_DURATION);
+            adapter.getBluetoothLeScanner().startScan(null, getScanSettings(), getScanCallback());
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private ScanSettings getScanSettings() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return new ScanSettings.Builder()
+                    .setScanMode(SCAN_MODE_LOW_LATENCY)
+                    .setMatchMode(MATCH_MODE_STICKY)
+                    .build();
+        } else {
+            return new ScanSettings.Builder()
+                    .setScanMode(SCAN_MODE_LOW_LATENCY)
+                    .build();
+        }
     }
 
     private void startBTLEDiscovery() {
