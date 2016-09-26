@@ -1,5 +1,9 @@
 ###Changelog
 
+####Version 0.13.1
+* Pebble: try to work around duplicate Telegram messages and support Telegram icon
+* Pebble: fix some incompatibilities with certain PebbleKit Android apps
+
 ####Version 0.13.0
 * Initial working Mi Band 2 support (only notifications, no activity and heart rate support)
 * Experimental support for Vibratissimo devices
