@@ -261,7 +261,8 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
             LOG.warn("Not starting discovery, because already scanning.");
             return;
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (false && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // does not work for @ashimokawa
             startDiscovery(Scanning.SCANNING_NEW_BTLE);
         } else {
             startDiscovery(Scanning.SCANNING_BT);
