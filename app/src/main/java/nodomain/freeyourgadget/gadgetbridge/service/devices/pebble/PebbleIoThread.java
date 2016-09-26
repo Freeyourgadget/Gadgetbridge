@@ -47,7 +47,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-public class PebbleIoThread extends GBDeviceIoThread {
+class PebbleIoThread extends GBDeviceIoThread {
     private static final Logger LOG = LoggerFactory.getLogger(PebbleIoThread.class);
 
     public static final String PEBBLEKIT_ACTION_PEBBLE_CONNECTED = "com.getpebble.action.PEBBLE_CONNECTED";
@@ -144,22 +144,20 @@ public class PebbleIoThread extends GBDeviceIoThread {
         getContext().sendBroadcast(intent);
     }
 
-    private void sendAppMessageAck(int transactionId) {
-        if (transactionId > 0 && transactionId <= 255) {
-            Intent intent = new Intent();
-            intent.setAction(PEBBLEKIT_ACTION_APP_RECEIVE_ACK);
-            intent.putExtra("transaction_id", transactionId);
-            LOG.info("broadcasting ACK (transaction id " + transactionId + ")");
-            getContext().sendBroadcast(intent);
-        }
-    }
-
-    public PebbleIoThread(PebbleSupport pebbleSupport, GBDevice gbDevice, GBDeviceProtocol gbDeviceProtocol, BluetoothAdapter btAdapter, Context context) {
+    PebbleIoThread(PebbleSupport pebbleSupport, GBDevice gbDevice, GBDeviceProtocol gbDeviceProtocol, BluetoothAdapter btAdapter, Context context) {
         super(gbDevice, context);
         mPebbleProtocol = (PebbleProtocol) gbDeviceProtocol;
         mBtAdapter = btAdapter;
         mPebbleSupport = pebbleSupport;
         mEnablePebblekit = prefs.getBoolean("pebble_enable_pebblekit", false);
+    }
+
+    private void sendAppMessageAck(int transactionId) {
+        Intent intent = new Intent();
+        intent.setAction(PEBBLEKIT_ACTION_APP_RECEIVE_ACK);
+        intent.putExtra("transaction_id", transactionId);
+        LOG.info("broadcasting ACK (transaction id " + transactionId + ")");
+        getContext().sendBroadcast(intent);
     }
 
     @Override
@@ -562,11 +560,11 @@ public class PebbleIoThread extends GBDeviceIoThread {
         return false;
     }
 
-    public void setToken(int token) {
+    private void setToken(int token) {
         mAppInstallToken = token;
     }
 
-    public void setInstallSlot(int slot) {
+    private void setInstallSlot(int slot) {
         if (mIsInstalling) {
             mInstallSlot = slot;
         }
@@ -580,7 +578,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
         write_real(bytes);
     }
 
-    public void installApp(Uri uri, int appId) {
+    void installApp(Uri uri, int appId) {
         if (mIsInstalling) {
             return;
         }
@@ -651,7 +649,7 @@ public class PebbleIoThread extends GBDeviceIoThread {
         }
     }
 
-    public void finishInstall(boolean hadError) {
+    private void finishInstall(boolean hadError) {
         if (!mIsInstalling) {
             return;
         }
