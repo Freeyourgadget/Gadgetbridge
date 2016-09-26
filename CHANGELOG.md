@@ -1,6 +1,7 @@
 ###Changelog
 
 ####Version 0.13.1
+* Improved BLE scanning for Android 5.0+
 * Pebble: try to work around duplicate Telegram messages and support Telegram icon
 * Pebble: fix some incompatibilities with certain PebbleKit Android apps
 
