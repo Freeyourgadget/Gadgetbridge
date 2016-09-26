@@ -47,5 +47,8 @@ public class HeartRateProfile<T extends AbstractBTLEDeviceSupport> extends Abstr
 //            } else {
 //                format = BluetoothGattCharacteristic.FORMAT_UINT8;
 //            }
-//            final int heartRate = characteristic.getIntValue(format, 1);    }
+//            final int heartRate = characteristic.getIntValue(format, 1);
+//        }
+        return false;
+    }
 }
