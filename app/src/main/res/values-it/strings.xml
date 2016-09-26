@@ -9,7 +9,7 @@
   <string name="controlcenter_start_sleepmonitor">Monitoraggio del sonno (ALPHA)</string>
   <string name="controlcenter_find_device">Trova dispositivo smarrito...</string>
   <string name="controlcenter_take_screenshot">Salva uno screenshot</string>
-  <string name="controlcenter_disconnect">Disconetti</string>
+  <string name="controlcenter_disconnect">Disconnetti</string>
   <string name="title_activity_debug">Debug</string>
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">Gestione app</string>
@@ -18,7 +18,7 @@
   <string name="appmanager_installed_watchfaces">Watchface installate</string>
   <string name="appmananger_app_delete">Cancella</string>
   <string name="appmananger_app_delete_cache">Cancella e rimuovi dalla cache</string>
-  <string name="appmananger_app_reinstall">Re-installazion</string>
+  <string name="appmananger_app_reinstall">Re-installazione</string>
   <string name="appmanager_health_activate">Attiva</string>
   <string name="appmanager_health_deactivate">Disattiva</string>
   <string name="app_configure">Configura</string>
@@ -36,7 +36,7 @@
   <string name="title_activity_settings">Impostazioni</string>
   <string name="pref_header_general">Impostazioni globali</string>
   <string name="pref_title_general_autoconnectonbluetooth">Collegati al dispositivo quando il bluetooth viene acceso</string>
-  <string name="pref_title_general_autocreonnect">Riconessione automatica</string>
+  <string name="pref_title_general_autocreonnect">Riconnessione automatica</string>
   <string name="pref_title_audo_player">Applicazione musicale preferita</string>
   <string name="pref_default">Default</string>
   <string name="pref_header_datetime">Data e ora</string>
@@ -51,7 +51,7 @@
   <string name="pref_title_notifications_call">Chiamate telefoniche</string>
   <string name="pref_title_notifications_sms">SMS</string>
   <string name="pref_title_notifications_k9mail">K9-Mail</string>
-  <string name="pref_title_notifications_pebblemsg">Pebble Messages</string>
+  <string name="pref_title_notifications_pebblemsg">Messaggi Pebble</string>
   <string name="pref_title_notifications_generic">Notifiche generiche</string>
   <string name="pref_title_whenscreenon">… anche se lo schermo è acceso</string>
   <string name="pref_title_notification_filter">Non disturbare</string>
@@ -66,12 +66,12 @@
   <string name="pref_title_canned_messages_dismisscall">Rifiuto chiamata</string>
   <string name="pref_title_canned_messages_set">Invia al Pebble</string>
   <string name="pref_header_development">Opzioni di sviluppo</string>
-  <string name="pref_title_development_miaddr">Indirizzo Miband</string>
+  <string name="pref_title_development_miaddr">Indirizzo Mi Band</string>
   <string name="pref_title_pebble_settings">Impostazioni Pebble</string>
   <string name="pref_header_activitytrackers">Activity Trackers</string>
   <string name="pref_title_pebble_activitytracker">Tracker delle attività preferito</string>
   <string name="pref_title_pebble_sync_health">Sincronizza Pebble Health</string>
-  <string name="pref_title_pebble_sync_misfit">Sincronizza misfi</string>
+  <string name="pref_title_pebble_sync_misfit">Sincronizza Misfit</string>
   <string name="pref_title_pebble_sync_morpheuz">Sincronizza Morpheuz</string>
   <string name="pref_title_enable_pebblekit">Consenti accesso ad altre applicazioni</string>
   <string name="pref_summary_enable_pebblekit">Attiva l\'accesso sperimentale ad applicazioni Android che usano PebbleKit</string>
@@ -102,6 +102,7 @@
   <string name="bluetooth_is_disabled_">Bluetooth disabilitato.</string>
   <string name="tap_connected_device_for_app_mananger">tocca il dispositivo connesso per gestire le App</string>
   <string name="tap_connected_device_for_activity">Tocca il dispositivo connesso per vedere le tue attività</string>
+  <string name="tap_connected_device_for_vibration">Tocca il dispositivo connesso per la vibrazione</string>
   <string name="tap_a_device_to_connect">tocca il dispositivo a cui connettersi</string>
   <string name="cannot_connect_bt_address_invalid_">Impossibile connettersi. Indirizzo BT non valido?</string>
   <string name="gadgetbridge_running">Gadgetbridge in esecuzione</string>
@@ -156,11 +157,11 @@
   <string name="pref_screen_notification_profile_sms">Notifiche SMS</string>
   <string name="pref_header_vibration_settings">Impostazioni vibrazioni</string>
   <string name="pref_screen_notification_profile_generic">Notifiche generiche</string>
-  <string name="pref_screen_notification_profile_pebblemsg">Notifiche Pebbl</string>
+  <string name="pref_screen_notification_profile_pebblemsg">Notifiche Pebble</string>
   <string name="pref_screen_notification_profile_k9mail">Notifiche email da K9 Mail</string>
-  <string name="pref_screen_notification_profile_incoming_call">Notiche chiamata in arrivo</string>
+  <string name="pref_screen_notification_profile_incoming_call">Notifiche chiamata in arrivo</string>
   <string name="control_center_find_lost_device">Trova dispositivo smarrito</string>
-  <string name="control_center_cancel_to_stop_vibration">Annulla per fermare la vibrazion</string>
+  <string name="control_center_cancel_to_stop_vibration">Annulla per fermare la vibrazione</string>
   <string name="title_activity_charts">Le tue attività</string>
   <string name="title_activity_set_alarm">Configurazione sveglia</string>
   <string name="controlcenter_start_configure_alarms">Configurazione sveglia</string>
@@ -232,7 +233,7 @@
   <string name="miband_prefs_reserve_alarm_calendar">Sveglie da riservare per i prossimi eventi del calendario</string>
   <string name="miband_prefs_hr_sleep_detection">Utilizza il sensore del battito cardiaco per migliorare il riconoscimento del sonno</string>
   <string name="miband_prefs_device_time_offset_hours">Sfasamento dell\'orario per il device (per consentire il rilevamento del sonno per chi lavora a turni)</string>
-  <string name="waiting_for_reconnect">in attesa di riconessione</string>
+  <string name="waiting_for_reconnect">in attesa di riconnessione</string>
   <string name="activity_prefs_about_you">Informazioni sull\'utilizzatore</string>
   <string name="activity_prefs_year_birth">Anno di nascita</string>
   <string name="activity_prefs_gender">Genere</string>
@@ -241,7 +242,7 @@
   <string name="authenticating">in autenticazione</string>
   <string name="authentication_required">autenticazione necessaria</string>
   <string name="appwidget_text">Zzz</string>
-  <string name="add_widget">Aggiungi widge</string>
+  <string name="add_widget">Aggiungi widget</string>
   <string name="activity_prefs_sleep_duration">Ore di sonno preferite</string>
   <string name="appwidget_alarms_set">Impostata sveglia per %1$02d:%2$02d</string>
   <string name="device_hw">HW: %1$s</string>
@@ -292,4 +293,6 @@ Si possono importare i dati da Mi Band, Pebble Health e Morpheuz, NON quelli di 
   <string name="dbmanagementactivity_overwrite">Sovrascrivi</string>
   <string name="Cancel">Annulla</string>
   <string name="Delete">Cancella</string>
+  <!--Strings related to Vibration Activity-->
+  <string name="title_activity_vibration">Vibrazione</string>
 </resources>
