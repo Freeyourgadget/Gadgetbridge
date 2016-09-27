@@ -193,6 +193,11 @@ public class NotificationListener extends NotificationListenerService {
             }
         }
 
+        //don't forward group summary notifications to the wearable, they are meant for the android device only
+        if ((notification.flags & Notification.FLAG_GROUP_SUMMARY) == Notification.FLAG_GROUP_SUMMARY) {
+            return;
+        }
+
         if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
             return;
         }
