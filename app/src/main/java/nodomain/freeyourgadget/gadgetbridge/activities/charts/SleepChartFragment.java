@@ -99,6 +99,7 @@ public class SleepChartFragment extends AbstractChartFragment {
         mSleepAmountChart.setCenterText(mcd.getPieData().getTotalSleep());
         mSleepAmountChart.setData(mcd.getPieData().getPieData());
 
+        mActivityChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
         mActivityChart.setData(mcd.getChartsData().getCombinedData());
     }
 

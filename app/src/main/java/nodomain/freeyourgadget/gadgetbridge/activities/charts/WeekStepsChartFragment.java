@@ -67,6 +67,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         mTodayStepsChart.setCenterText(NumberFormat.getNumberInstance(mLocale).format(mcd.getDaySteps().totalSteps));
         mTodayStepsChart.setData(mcd.getDaySteps().data);
 
+        mWeekStepsChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
         mWeekStepsChart.setData(mcd.getWeekBeforeStepsData().getCombinedData());
         mWeekStepsChart.getLegend().setEnabled(false);
     }
