@@ -68,7 +68,7 @@ dependencies {
     compile 'com.android.support:design:23.3.0'
     compile 'com.github.tony19:logback-android-classic:1.1.1-4'
     compile 'org.slf4j:slf4j-api:1.7.7'
-    compile 'com.github.PhilJay:MPAndroidChart:5b9bd6e633f2f084ea8064af64f8f72402964cd4'
+    compile 'com.github.PhilJay:MPAndroidChart:01d8b246869f3d9517b615814d8ecb30cbfebdf0'
     compile 'com.github.pfichtner:durationformatter:0.1.1'
     compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
     compile 'net.e175.klaus:solarpositioning:0.0.9'
