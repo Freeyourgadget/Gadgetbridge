@@ -89,6 +89,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         return mChartDirty;
     }
 
+    @Override
     public abstract String getTitle();
 
     public boolean supportsHeartrate(GBDevice device) {
@@ -548,11 +549,11 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     protected abstract void setupLegend(Chart chart);
 
     protected BarEntry createBarEntry(float value, int index) {
-        return new BarEntry(value, index);
+        return new BarEntry(index, value);
     }
 
     protected Entry createLineEntry(float value, int index) {
-        return new Entry(value, index);
+        return new Entry(index, value);
     }
 
     protected BarDataSet createActivitySet(List<BarEntry> values, List<Integer> colors, String label) {
