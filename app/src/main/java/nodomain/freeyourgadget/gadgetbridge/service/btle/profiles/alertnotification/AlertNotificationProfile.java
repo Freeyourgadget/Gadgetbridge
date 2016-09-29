@@ -7,4 +7,6 @@ public class AlertNotificationProfile<T extends AbstractBTLEDeviceSupport> exten
     public AlertNotificationProfile(T support) {
         super(support);
     }
+
+
 }

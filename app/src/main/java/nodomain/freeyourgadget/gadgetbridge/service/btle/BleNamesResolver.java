@@ -87,8 +87,8 @@ public class BleNamesResolver {
 		mServices.put("00001530-0000-3512-2118-0009af100700", "(Propr: Xiaomi Weight Service)");
 
 		
-		mCharacteristics.put("00002a43-0000-1000-8000-00805f9b34fb", "Alert Category ID");
-		mCharacteristics.put("00002a42-0000-1000-8000-00805f9b34fb", "Alert Category ID Bit Mask");
+		mCharacteristics.put("00002a43-0000-1000-8000-00805f9b34fb", "Alert AlertCategory ID");
+		mCharacteristics.put("00002a42-0000-1000-8000-00805f9b34fb", "Alert AlertCategory ID Bit Mask");
 		mCharacteristics.put("00002a06-0000-1000-8000-00805f9b34fb", "Alert Level");
 		mCharacteristics.put("00002a44-0000-1000-8000-00805f9b34fb", "Alert Notification Control Point");
 		mCharacteristics.put("00002a3f-0000-1000-8000-00805f9b34fb", "Alert Status");
@@ -155,8 +155,8 @@ public class BleNamesResolver {
 		mCharacteristics.put("00002a25-0000-1000-8000-00805f9b34fb", "Serial Number String");
 		mCharacteristics.put("00002a05-0000-1000-8000-00805f9b34fb", "Service Changed");
 		mCharacteristics.put("00002a28-0000-1000-8000-00805f9b34fb", "Software Revision String");
-		mCharacteristics.put("00002a47-0000-1000-8000-00805f9b34fb", "Supported New Alert Category");
-		mCharacteristics.put("00002a48-0000-1000-8000-00805f9b34fb", "Supported Unread Alert Category");
+		mCharacteristics.put("00002a47-0000-1000-8000-00805f9b34fb", "Supported New Alert AlertCategory");
+		mCharacteristics.put("00002a48-0000-1000-8000-00805f9b34fb", "Supported Unread Alert AlertCategory");
 		mCharacteristics.put("00002a23-0000-1000-8000-00805f9b34fb", "System ID");
 		mCharacteristics.put("00002a1c-0000-1000-8000-00805f9b34fb", "Temperature Measurement");
 		mCharacteristics.put("00002a1d-0000-1000-8000-00805f9b34fb", "Temperature Type");
