@@ -101,19 +101,18 @@ public class DeviceHelper {
             GB.toast(context, context.getString(R.string.bluetooth_is_disabled_), Toast.LENGTH_SHORT, GB.WARN);
         }
         List<GBDevice> dbDevices = getDatabaseDevices();
+        // these come first, as they have the most information already
+        availableDevices.addAll(dbDevices);
         if (btAdapter != null) {
             List<GBDevice> bondedDevices = getBondedDevices(btAdapter);
             availableDevices.addAll(bondedDevices);
         }
-        availableDevices.addAll(dbDevices);
 
         Prefs prefs = GBApplication.getPrefs();
         String miAddr = prefs.getString(MiBandConst.PREF_MIBAND_ADDRESS, "");
         if (miAddr.length() > 0) {
             GBDevice miDevice = new GBDevice(miAddr, "MI", DeviceType.MIBAND);
-            if (!availableDevices.contains(miDevice)) {
-                availableDevices.add(miDevice);
-            }
+            availableDevices.add(miDevice);
         }
 
         String pebbleEmuAddr = prefs.getString("pebble_emu_addr", "");
