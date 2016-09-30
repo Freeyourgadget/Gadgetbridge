@@ -300,7 +300,6 @@ public class ControlCenter extends GBActivity {
                 return true;
             case R.id.controlcenter_delete_device:
                 if (selectedDevice != null) {
-                    GBApplication.deviceService().disconnect();
                     showDeleteDeviceDialog(selectedDevice);
                     selectedDevice = null;
                     refreshPairedDevices();
@@ -372,6 +371,10 @@ public class ControlCenter extends GBActivity {
 
     private void deleteDevice(final GBDevice gbDevice) {
         LOG.info("will try to delete device: " + gbDevice.getName());
+        if (gbDevice.isConnected() || gbDevice.isConnected()) {
+            GBApplication.deviceService().disconnect();
+        }
+        GBApplication.deviceService().disconnect();
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             DaoSession session = dbHandler.getDaoSession();
             Device device = DBHelper.getDevice(gbDevice, session);
