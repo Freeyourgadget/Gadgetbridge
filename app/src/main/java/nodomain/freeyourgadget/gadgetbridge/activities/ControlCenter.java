@@ -3,6 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -300,7 +301,7 @@ public class ControlCenter extends GBActivity {
             case R.id.controlcenter_delete_device:
                 if (selectedDevice != null) {
                     GBApplication.deviceService().disconnect();
-                    deleteDevice(selectedDevice);
+                    showDeleteDeviceDialog(selectedDevice);
                     selectedDevice = null;
                     refreshPairedDevices();
                 }
@@ -349,17 +350,34 @@ public class ControlCenter extends GBActivity {
         startActivity(new Intent(this, DiscoveryActivity.class));
     }
 
-    private void deleteDevice(GBDevice gbDevice) {
+    private void showDeleteDeviceDialog(final GBDevice gbDevice) {
+        new AlertDialog.Builder(this)
+                .setCancelable(true)
+                .setTitle(R.string.controlcenter_delete_device)
+                .setMessage(R.string.controlcenter_delete_device_dialogmessage)
+                .setPositiveButton(R.string.Delete, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteDevice(gbDevice);
+                    }
+                })
+                .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .show();
+    }
+
+    private void deleteDevice(final GBDevice gbDevice) {
         LOG.info("will try to delete device: " + gbDevice.getName());
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             DaoSession session = dbHandler.getDaoSession();
             Device device = DBHelper.getDevice(gbDevice, session);
             if (device != null) {
                 long deviceId = device.getId();
-                QueryBuilder qb = session.getDeviceDao().queryBuilder();
-                qb.where(DeviceDao.Properties.Id.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
-                qb = session.getDeviceAttributesDao().queryBuilder();
-                qb.where(DeviceAttributesDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
+                QueryBuilder qb;
                 switch (gbDevice.getType()) {
                     case PEBBLE:
                         qb = session.getPebbleHealthActivitySampleDao().queryBuilder();
@@ -379,6 +397,10 @@ public class ControlCenter extends GBActivity {
                     default:
                         break;
                 }
+                qb = session.getDeviceAttributesDao().queryBuilder();
+                qb.where(DeviceAttributesDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
+                qb = session.getDeviceDao().queryBuilder();
+                qb.where(DeviceDao.Properties.Id.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
             } else {
                 LOG.warn("device not found while deleting");
             }
@@ -386,6 +408,7 @@ public class ControlCenter extends GBActivity {
             LOG.warn("Database exception while deleting device " + e.getMessage());
         }
     }
+
     @Override
     protected void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
