@@ -1,5 +1,12 @@
 ###Changelog
 
+####Version 0.13.2
+* Support deleting devices (and their data) in control center
+* Sort devices lexicographically in control center
+* Do not forward group summary notifications (could fix some duplicate notifications)
+* Pebble: Support for health on FW 4.1
+* Mi Band: Fix offline charts not displaying heartrate for Mi 1S
+
 ####Version 0.13.1
 * Improved BLE scanning for Android 5.0+
 * Pebble: try to work around duplicate Telegram messages and support Telegram icon
