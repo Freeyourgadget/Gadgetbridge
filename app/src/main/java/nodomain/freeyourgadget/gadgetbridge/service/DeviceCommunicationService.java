@@ -42,6 +42,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -165,8 +166,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     boolean enableReceivers = mDeviceSupport != null && (mDeviceSupport.useAutoConnect() || mGBDevice.isInitialized());
                     setReceiversEnableState(enableReceivers);
                     GB.updateNotification(mGBDevice.getName() + " " + mGBDevice.getStateString(), mGBDevice.isInitialized(), context);
-
-                    if (device.isInitialized()) {
+                    if (device.isInitialized() && (device.getType() != DeviceType.VIBRATISSIMO)) {
                         try (DBHandler dbHandler = GBApplication.acquireDB()) {
                             DaoSession session = dbHandler.getDaoSession();
                             if (DBHelper.findDevice(device, session) == null) {
