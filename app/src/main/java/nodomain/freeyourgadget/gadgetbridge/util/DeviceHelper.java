@@ -8,6 +8,8 @@ import android.widget.Toast;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -233,5 +235,29 @@ public class DeviceHelper {
             }
         }
         return result;
+    }
+
+    /**
+     * Attempts to removing the bonding with the given device. Returns true
+     * if bonding was supposedly successful and false if anything went wrong
+     * @param device
+     * @return
+     */
+    public boolean removeBond(GBDevice device) {
+        BluetoothAdapter defaultAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (defaultAdapter != null) {
+            BluetoothDevice remoteDevice = defaultAdapter.getRemoteDevice(device.getAddress());
+            if (remoteDevice != null) {
+                try {
+                    Method method = BluetoothDevice.class.getMethod("removeBond", (Class[]) null);
+                    Object result = method.invoke(remoteDevice, (Object[]) null);
+                    return Boolean.TRUE.equals(result);
+                } catch (Exception e) {
+                    LOG.warn("Error removing bond to device: " + device);
+                    return false;
+                }
+            }
+        }
+        return false;
     }
 }

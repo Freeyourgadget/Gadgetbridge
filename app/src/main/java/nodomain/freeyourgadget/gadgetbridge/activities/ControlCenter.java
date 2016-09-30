@@ -47,7 +47,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributesDao;
-import nodomain.freeyourgadget.gadgetbridge.entities.DeviceDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivityOverlayDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivitySampleDao;
@@ -300,12 +299,7 @@ public class ControlCenter extends GBActivity {
                 return true;
             case R.id.controlcenter_delete_device:
                 if (selectedDevice != null) {
-                    if (confirmDeleteDevice(selectedDevice)) {
-                        deleteDevice(selectedDevice);
-                        selectedDevice = null;
-                        Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
-                        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(refreshIntent);
-                    }
+                    confirmDeleteDevice(selectedDevice);
                 }
                 return true;
             default:
@@ -352,8 +346,7 @@ public class ControlCenter extends GBActivity {
         startActivity(new Intent(this, DiscoveryActivity.class));
     }
 
-    private boolean confirmDeleteDevice(final GBDevice gbDevice) {
-        final boolean[] result = new boolean[1];
+    private void confirmDeleteDevice(final GBDevice gbDevice) {
         new AlertDialog.Builder(this)
                 .setCancelable(true)
                 .setTitle(getString(R.string.controlcenter_delete_device_name, gbDevice.getName()))
@@ -361,7 +354,11 @@ public class ControlCenter extends GBActivity {
                 .setPositiveButton(R.string.Delete, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        result[0] = true;
+                        deleteDevice(selectedDevice);
+                        DeviceHelper.getInstance().removeBond(selectedDevice);
+                        selectedDevice = null;
+                        Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
+                        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(refreshIntent);
                     }
                 })
                 .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
@@ -371,7 +368,6 @@ public class ControlCenter extends GBActivity {
                     }
                 })
                 .show();
-        return result[0];
     }
 
     private void deleteDevice(final GBDevice gbDevice) {
@@ -381,7 +377,7 @@ public class ControlCenter extends GBActivity {
         }
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             DaoSession session = dbHandler.getDaoSession();
-            Device device = DBHelper.getDevice(gbDevice, session);
+            Device device = DBHelper.findDevice(gbDevice, session);
             if (device != null) {
                 long deviceId = device.getId();
                 QueryBuilder qb;
