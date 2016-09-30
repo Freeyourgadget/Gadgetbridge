@@ -377,7 +377,7 @@ public class ControlCenter extends GBActivity {
         }
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             DaoSession session = dbHandler.getDaoSession();
-            Device device = DBHelper.getDevice(gbDevice, session);
+            Device device = DBHelper.findDevice(gbDevice, session);
             if (device != null) {
                 long deviceId = device.getId();
                 QueryBuilder qb;
