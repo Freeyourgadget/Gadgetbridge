@@ -12,6 +12,7 @@
     <string name="controlcenter_take_screenshot">Take Screenshot</string>
     <string name="controlcenter_disconnect">Disconnect</string>
     <string name="controlcenter_delete_device">Delete Device</string>
+    <string name="controlcenter_delete_device_name">Delete %1$s</string>
     <string name="controlcenter_delete_device_dialogmessage">This will delete the device and all associated data!</string>
 
     <string name="title_activity_debug">Debug</string>

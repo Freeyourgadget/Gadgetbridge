@@ -301,6 +301,7 @@ public class ControlCenter extends GBActivity {
             case R.id.controlcenter_delete_device:
                 if (selectedDevice != null) {
                     if (confirmDeleteDevice(selectedDevice)) {
+                        deleteDevice(selectedDevice);
                         selectedDevice = null;
                         Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
                         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(refreshIntent);
@@ -355,12 +356,11 @@ public class ControlCenter extends GBActivity {
         final boolean[] result = new boolean[1];
         new AlertDialog.Builder(this)
                 .setCancelable(true)
-                .setTitle(R.string.controlcenter_delete_device)
+                .setTitle(getString(R.string.controlcenter_delete_device_name, gbDevice.getName()))
                 .setMessage(R.string.controlcenter_delete_device_dialogmessage)
                 .setPositiveButton(R.string.Delete, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        deleteDevice(gbDevice);
                         result[0] = true;
                     }
                 })
@@ -381,7 +381,7 @@ public class ControlCenter extends GBActivity {
         }
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             DaoSession session = dbHandler.getDaoSession();
-            Device device = DBHelper.findDevice(gbDevice, session);
+            Device device = DBHelper.getDevice(gbDevice, session);
             if (device != null) {
                 long deviceId = device.getId();
                 QueryBuilder qb;
@@ -406,8 +406,7 @@ public class ControlCenter extends GBActivity {
                 }
                 qb = session.getDeviceAttributesDao().queryBuilder();
                 qb.where(DeviceAttributesDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
-                qb = session.getDeviceDao().queryBuilder();
-                qb.where(DeviceDao.Properties.Id.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
+                session.getDeviceDao().delete(device);
             } else {
                 LOG.warn("device not found while deleting");
             }
