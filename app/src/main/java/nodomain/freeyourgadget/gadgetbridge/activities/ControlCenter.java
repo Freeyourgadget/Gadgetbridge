@@ -300,10 +300,11 @@ public class ControlCenter extends GBActivity {
                 return true;
             case R.id.controlcenter_delete_device:
                 if (selectedDevice != null) {
-                    showDeleteDeviceDialog(selectedDevice);
-                    selectedDevice = null;
-                    Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(refreshIntent);
+                    if (confirmDeleteDevice(selectedDevice)) {
+                        selectedDevice = null;
+                        Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
+                        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(refreshIntent);
+                    }
                 }
                 return true;
             default:
@@ -350,7 +351,8 @@ public class ControlCenter extends GBActivity {
         startActivity(new Intent(this, DiscoveryActivity.class));
     }
 
-    private void showDeleteDeviceDialog(final GBDevice gbDevice) {
+    private boolean confirmDeleteDevice(final GBDevice gbDevice) {
+        final boolean[] result = new boolean[1];
         new AlertDialog.Builder(this)
                 .setCancelable(true)
                 .setTitle(R.string.controlcenter_delete_device)
@@ -359,6 +361,7 @@ public class ControlCenter extends GBActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         deleteDevice(gbDevice);
+                        result[0] = true;
                     }
                 })
                 .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
@@ -368,6 +371,7 @@ public class ControlCenter extends GBActivity {
                     }
                 })
                 .show();
+        return result[0];
     }
 
     private void deleteDevice(final GBDevice gbDevice) {
