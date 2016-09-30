@@ -50,7 +50,7 @@ public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
 
             recordVersion = datalogMessage.getShort();
 
-            if ((recordVersion != 5) && (recordVersion != 6) && (recordVersion != 7))
+            if ((recordVersion != 5) && (recordVersion != 6) && (recordVersion != 7) && (recordVersion != 12))
                 return false; //we don't know how to deal with the data TODO: this is not ideal because we will get the same message again and again since we NACK it
 
             timestamp = datalogMessage.getInt();
@@ -101,7 +101,7 @@ public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
     }
 
     private class StepsRecord {
-        byte[] knownVersions = {5, 6, 7};
+        byte[] knownVersions = {5, 6, 7, 12};
         short version;
         int timestamp;
         int steps;
