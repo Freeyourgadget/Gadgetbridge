@@ -103,6 +103,7 @@
   <string name="bluetooth_is_disabled_">Le Bluetooth est désactivé.</string>
   <string name="tap_connected_device_for_app_mananger">Cliquez sur l\'appareil pour ouvrir le gestionnaire d\'application</string>
   <string name="tap_connected_device_for_activity">Cliquez sur l\'appareil pour ouvrir l\'activité</string>
+  <string name="tap_connected_device_for_vibration">Cliquez sur connecter pour envoyer une vibration</string>
   <string name="tap_a_device_to_connect">Tapotter sur le périphérique pour le connecter.</string>
   <string name="cannot_connect_bt_address_invalid_">Connexion impossible. L’adresse Bluetooth est-elle invalide? </string>
   <string name="gadgetbridge_running">Gadgetbridge est en fonctionnement</string>
@@ -296,4 +297,6 @@ Si vous avez déjà importé vos données et êtes satisfait du résultat, vous 
   <string name="dbmanagementactivity_overwrite">Écraser</string>
   <string name="Cancel">Annuler</string>
   <string name="Delete">Supprimer</string>
+  <!--Strings related to Vibration Activity-->
+  <string name="title_activity_vibration">Vibration</string>
 </resources>
