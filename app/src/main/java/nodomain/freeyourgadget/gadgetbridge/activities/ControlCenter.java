@@ -302,7 +302,8 @@ public class ControlCenter extends GBActivity {
                 if (selectedDevice != null) {
                     showDeleteDeviceDialog(selectedDevice);
                     selectedDevice = null;
-                    refreshPairedDevices();
+                    Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
+                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(refreshIntent);
                 }
                 return true;
             default:
