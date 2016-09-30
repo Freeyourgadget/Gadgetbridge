@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -243,7 +244,7 @@ public class DeviceHelper {
      * @param device
      * @return
      */
-    public boolean removeBond(GBDevice device) {
+    public boolean removeBond(GBDevice device) throws GBException {
         BluetoothAdapter defaultAdapter = BluetoothAdapter.getDefaultAdapter();
         if (defaultAdapter != null) {
             BluetoothDevice remoteDevice = defaultAdapter.getRemoteDevice(device.getAddress());
@@ -253,8 +254,7 @@ public class DeviceHelper {
                     Object result = method.invoke(remoteDevice, (Object[]) null);
                     return Boolean.TRUE.equals(result);
                 } catch (Exception e) {
-                    LOG.warn("Error removing bond to device: " + device);
-                    return false;
+                    throw new GBException("Error removing bond to device: " + device, e);
                 }
             }
         }

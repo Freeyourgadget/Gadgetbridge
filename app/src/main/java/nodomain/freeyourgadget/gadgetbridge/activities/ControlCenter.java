@@ -37,6 +37,7 @@ import java.util.List;
 import de.cketti.library.changelog.ChangeLog;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapter;
@@ -354,11 +355,16 @@ public class ControlCenter extends GBActivity {
                 .setPositiveButton(R.string.Delete, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        deleteDevice(selectedDevice);
-                        DeviceHelper.getInstance().removeBond(selectedDevice);
-                        selectedDevice = null;
-                        Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
-                        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(refreshIntent);
+                        try {
+                            deleteDevice(selectedDevice);
+                            DeviceHelper.getInstance().removeBond(selectedDevice);
+                        } catch (Exception ex) {
+                            GB.toast(ControlCenter.this, "Error deleting device: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
+                        } finally {
+                            selectedDevice = null;
+                            Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
+                            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(refreshIntent);
+                        }
                     }
                 })
                 .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
@@ -370,7 +376,7 @@ public class ControlCenter extends GBActivity {
                 .show();
     }
 
-    private void deleteDevice(final GBDevice gbDevice) {
+    private void deleteDevice(final GBDevice gbDevice) throws GBException {
         LOG.info("will try to delete device: " + gbDevice.getName());
         if (gbDevice.isConnected() || gbDevice.isConnecting()) {
             GBApplication.deviceService().disconnect();
@@ -404,10 +410,10 @@ public class ControlCenter extends GBActivity {
                 qb.where(DeviceAttributesDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
                 session.getDeviceDao().delete(device);
             } else {
-                LOG.warn("device not found while deleting");
+                LOG.info("device to delete not found in db: " + gbDevice);
             }
         } catch (Exception e) {
-            LOG.warn("Database exception while deleting device " + e.getMessage());
+            throw new GBException("Error deleting device: " + e.getMessage(), e);
         }
     }
 
