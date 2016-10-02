@@ -75,6 +75,10 @@ public class DebugActivity extends GBActivity {
             }
         }
     };
+    private Button sendChatButton;
+    private Button sendTelegramButton;
+    private Button sendTwitterButton;
+    private Button sendFacebookButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +114,58 @@ public class DebugActivity extends GBActivity {
                 notificationSpec.subject = editContent.getText().toString();
                 notificationSpec.body = editContent.getText().toString();
                 notificationSpec.type = NotificationType.EMAIL;
+                notificationSpec.id = -1;
+                GBApplication.deviceService().onNotification(notificationSpec);
+            }
+        });
+        sendChatButton = (Button) findViewById(R.id.sendChatButton);
+        sendChatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NotificationSpec notificationSpec = new NotificationSpec();
+                notificationSpec.sender = getResources().getText(R.string.app_name).toString();
+                notificationSpec.subject = editContent.getText().toString();
+                notificationSpec.body = editContent.getText().toString();
+                notificationSpec.type = NotificationType.CHAT;
+                notificationSpec.id = -1;
+                GBApplication.deviceService().onNotification(notificationSpec);
+            }
+        });
+        sendTelegramButton = (Button) findViewById(R.id.sendTelegramButton);
+        sendTelegramButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NotificationSpec notificationSpec = new NotificationSpec();
+                notificationSpec.sender = getResources().getText(R.string.app_name).toString();
+                notificationSpec.subject = editContent.getText().toString();
+                notificationSpec.body = editContent.getText().toString();
+                notificationSpec.type = NotificationType.TELEGRAM;
+                notificationSpec.id = -1;
+                GBApplication.deviceService().onNotification(notificationSpec);
+            }
+        });
+        sendTwitterButton = (Button) findViewById(R.id.sendTwitterButton);
+        sendTwitterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NotificationSpec notificationSpec = new NotificationSpec();
+                notificationSpec.sender = getResources().getText(R.string.app_name).toString();
+                notificationSpec.subject = editContent.getText().toString();
+                notificationSpec.body = editContent.getText().toString();
+                notificationSpec.type = NotificationType.TWITTER;
+                notificationSpec.id = -1;
+                GBApplication.deviceService().onNotification(notificationSpec);
+            }
+        });
+        sendFacebookButton = (Button) findViewById(R.id.sendFacebookButton);
+        sendFacebookButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NotificationSpec notificationSpec = new NotificationSpec();
+                notificationSpec.sender = getResources().getText(R.string.app_name).toString();
+                notificationSpec.subject = editContent.getText().toString();
+                notificationSpec.body = editContent.getText().toString();
+                notificationSpec.type = NotificationType.FACEBOOK;
                 notificationSpec.id = -1;
                 GBApplication.deviceService().onNotification(notificationSpec);
             }

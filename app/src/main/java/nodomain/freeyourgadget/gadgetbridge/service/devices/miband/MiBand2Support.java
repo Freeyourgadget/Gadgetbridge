@@ -54,7 +54,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.AbortTransactio
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.ConditionalWriteAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WriteAction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertLevel;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.Mi2NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.InitOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -291,7 +293,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     private NotificationStrategy getNotificationStrategy() {
-        return new V2NotificationStrategy(this);
+        return new Mi2NotificationStrategy(this);
     }
 
     static final byte[] reboot = new byte[]{MiBandService.COMMAND_REBOOT};
@@ -475,7 +477,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void performPreferredNotification(String task, String notificationOrigin, BtLEAction extraAction) {
+    private void performPreferredNotification(String task, String notificationOrigin, int alertLevel, BtLEAction extraAction) {
         try {
             TransactionBuilder builder = performInitialized(task);
             Prefs prefs = GBApplication.getPrefs();
@@ -483,6 +485,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             int vibratePause = getPreferredVibratePause(notificationOrigin, prefs);
             short vibrateTimes = getPreferredVibrateCount(notificationOrigin, prefs);
             VibrationProfile profile = getPreferredVibrateProfile(notificationOrigin, prefs, vibrateTimes);
+            profile.setAlertLevel(alertLevel);
 
             int flashTimes = getPreferredFlashCount(notificationOrigin, prefs);
             int flashColour = getPreferredFlashColour(notificationOrigin, prefs);
@@ -553,20 +556,47 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
-        // FIXME: these ORIGIN contants do not really make sense anymore
+        String task;
+        String origin;
+        int alertLevel;
         switch (notificationSpec.type) {
             case SMS:
-                performPreferredNotification("sms received", ORIGIN_SMS, null);
+                task = "sms received";
+                origin = ORIGIN_SMS;
+                alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
                 break;
             case EMAIL:
-                performPreferredNotification("email received", ORIGIN_K9MAIL, null);
+                task = "email received";
+                origin = ORIGIN_K9MAIL;
+                alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
+                break;
+            case FACEBOOK:
+                task = "facebook message received";
+                origin = ORIGIN_GENERIC;
+                alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
+                break;
+            case TWITTER:
+                task = "twitter message received";
+                origin = ORIGIN_GENERIC;
+                alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
+                break;
+            case TELEGRAM:
+                task = "telegram message received";
+                origin = ORIGIN_GENERIC;
+                alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
                 break;
             case CHAT:
-                performPreferredNotification("chat message received", ORIGIN_PEBBLEMSG, null);
+                task = "chat message received";
+                origin = ORIGIN_PEBBLEMSG;
+                alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
                 break;
+            case UNDEFINED:
             default:
-                performPreferredNotification("generic notification received", ORIGIN_GENERIC, null);
+                task = "generic notification received";
+                origin = ORIGIN_GENERIC;
+                alertLevel = MiBand2Service.ALERT_LEVEL_VIBRATE_ONLY;
         }
+        performPreferredNotification(task, origin, alertLevel, null);
     }
 
     @Override
@@ -624,8 +654,20 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 protected boolean shouldAbort() {
                     return !isTelephoneRinging();
                 }
+
+                @Override
+                public boolean run(BluetoothGatt gatt) {
+                    if (!super.run(gatt)) {
+                        // send a signal to stop the vibration
+                        BluetoothGattCharacteristic characteristic = MiBand2Support.this.getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL);
+                        characteristic.setValue(new byte[] {MiBand2Service.ALERT_LEVEL_NONE});
+                        gatt.writeCharacteristic(characteristic);
+                        return false;
+                    }
+                    return true;
+                }
             };
-            performPreferredNotification("incoming call", MiBandConst.ORIGIN_INCOMING_CALL, abortAction);
+            performPreferredNotification("incoming call", MiBandConst.ORIGIN_INCOMING_CALL, MiBand2Service.ALERT_LEVEL_PHONE_CALL, abortAction);
         } else if ((callSpec.command == CallSpec.CALL_START) || (callSpec.command == CallSpec.CALL_END)) {
             telephoneRinging = false;
         }

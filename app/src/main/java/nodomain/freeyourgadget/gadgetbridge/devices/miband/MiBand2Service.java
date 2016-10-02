@@ -26,6 +26,11 @@ public class MiBand2Service {
     public static final UUID UUID_CHARACTERISTIC_AUTH = UUID.fromString("00000009-0000-3512-2118-0009af100700");
     public static final UUID UUID_UNKNOWN_CHARACTERISTIC10 = UUID.fromString("00000010-0000-3512-2118-0009af100700");
 
+    public static final int ALERT_LEVEL_NONE = 0;
+    public static final int ALERT_LEVEL_MESSAGE = 1;
+    public static final int ALERT_LEVEL_PHONE_CALL = 2;
+    public static final int ALERT_LEVEL_VIBRATE_ONLY = 3;
+
     // set metric distance
     // set 12 hour time mode
 
