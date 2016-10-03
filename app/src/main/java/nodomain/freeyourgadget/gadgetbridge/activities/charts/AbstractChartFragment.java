@@ -85,7 +85,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     };
     private boolean mChartDirty = true;
     private AsyncTask refreshTask;
-    private XIndexLabelFormatter xIndexFormatter = new XIndexLabelFormatter();
+    protected XIndexLabelFormatter xIndexFormatter = new XIndexLabelFormatter();
 
     public boolean isChartDirty() {
         return mChartDirty;
@@ -409,6 +409,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         Date date;
         String dateStringFrom = "";
         String dateStringTo = "";
+        ArrayList<String> xLabels = null;
 
         LOG.info("" + getTitle() + ": number of samples:" + samples.size());
         CombinedData combinedData;
@@ -422,7 +423,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             SimpleDateFormat annotationDateFormat = new SimpleDateFormat("HH:mm");
 
             int numEntries = samples.size();
-            ArrayList<String> xLabels = new ArrayList<>(numEntries);
+            xLabels = new ArrayList<>(numEntries);
             List<BarEntry> activityEntries = new ArrayList<>(numEntries);
             boolean hr = supportsHeartrate(gbDevice);
             List<Entry> heartrateEntries = hr ? new ArrayList<Entry>(numEntries) : null;
@@ -507,9 +508,6 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                 xLabels.add(xLabel);
             }
 
-            xIndexFormatter.setxLabels(xLabels);
-//            chart.getXAxis().setValues(xLabels);
-
             BarDataSet activitySet = createActivitySet(activityEntries, colors, "Activity");
             // create a data object with the datasets
 //            combinedData = new CombinedData(xLabels);
@@ -533,7 +531,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             combinedData = new CombinedData();
         }
 
-        return new DefaultChartsData(combinedData);
+        return new DefaultChartsData(combinedData, xLabels);
     }
 
     protected boolean isValidHeartRateValue(int value) {
@@ -717,8 +715,9 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     public static class DefaultChartsData extends ChartsData {
         private final CombinedData combinedData;
 
-        public DefaultChartsData(CombinedData combinedData) {
+        public DefaultChartsData(CombinedData combinedData, ArrayList<String> xLabels) {
             this.combinedData = combinedData;
+            setxLabels(xLabels);
         }
 
         public CombinedData getCombinedData() {

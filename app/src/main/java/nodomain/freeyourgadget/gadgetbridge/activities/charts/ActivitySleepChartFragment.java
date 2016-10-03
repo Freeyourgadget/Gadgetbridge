@@ -119,6 +119,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
         DefaultChartsData dcd = (DefaultChartsData) chartsData;
         mChart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
         mChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
+        xIndexFormatter.setxLabels(dcd.getXLabels());
         mChart.setData(dcd.getCombinedData());
     }
 

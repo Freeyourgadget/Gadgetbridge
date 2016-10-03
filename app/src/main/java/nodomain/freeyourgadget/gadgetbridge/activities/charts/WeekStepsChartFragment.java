@@ -71,6 +71,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         mWeekStepsChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
         mWeekStepsChart.setData(mcd.getWeekBeforeStepsData().getCombinedData());
         mWeekStepsChart.getLegend().setEnabled(false);
+        xIndexLabelFormatter.setxLabels(mcd.getWeekBeforeStepsData().getXLabels());
     }
 
     @Override
@@ -97,7 +98,6 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         BarDataSet set = new BarDataSet(entries, "");
         set.setColor(akActivity.color);
 
-        xIndexLabelFormatter.setxLabels(labels);
         BarData barData = new BarData(set);
         barData.setValueTextColor(Color.GRAY); //prevent tearing other graph elements with the black text. Another approach would be to hide the values cmpletely with data.setDrawValues(false);
 
@@ -107,7 +107,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
 
         CombinedData combinedData = new CombinedData();
         combinedData.setData(barData);
-        return new DefaultChartsData(combinedData);
+        return new DefaultChartsData(combinedData, labels);
     }
 
 
