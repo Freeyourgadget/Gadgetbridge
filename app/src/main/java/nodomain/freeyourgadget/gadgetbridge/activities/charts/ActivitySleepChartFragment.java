@@ -71,8 +71,8 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
         y.setDrawGridLines(false);
 //        y.setDrawLabels(false);
         // TODO: make fixed max value optional
-        y.setAxisMaxValue(1f);
-        y.setAxisMinValue(0);
+        y.setAxisMaximum(1f);
+        y.setAxisMinimum(0);
         y.setDrawTopYLabelEntry(false);
         y.setTextColor(CHART_TEXT_COLOR);
 
@@ -85,8 +85,8 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
         yAxisRight.setDrawLabels(true);
         yAxisRight.setDrawTopYLabelEntry(true);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
-        yAxisRight.setAxisMaxValue(HeartRateUtils.MAX_HEART_RATE_VALUE);
-        yAxisRight.setAxisMinValue(HeartRateUtils.MIN_HEART_RATE_VALUE);
+        yAxisRight.setAxisMaximum(HeartRateUtils.MAX_HEART_RATE_VALUE);
+        yAxisRight.setAxisMinimum(HeartRateUtils.MIN_HEART_RATE_VALUE);
 
         // refresh immediately instead of use refreshIfVisible(), for perceived performance
         refresh();
@@ -118,13 +118,14 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
         DefaultChartsData dcd = (DefaultChartsData) chartsData;
         mChart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
         mChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
-        xIndexFormatter.setxLabels(dcd.getXLabels());
+        mChart.getXAxis().setValueFormatter(dcd.getXValueFormatter());
         mChart.setData(dcd.getData());
     }
 
     @Override
     protected void renderCharts() {
         mChart.animateX(ANIM_TIME, Easing.EasingOption.EaseInOutQuart);
+//        mChart.invalidate();
     }
 
     @Override

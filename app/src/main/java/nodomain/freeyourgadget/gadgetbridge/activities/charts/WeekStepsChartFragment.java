@@ -66,7 +66,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         mWeekStepsChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
         mWeekStepsChart.setData(mcd.getWeekBeforeStepsData().getData());
         mWeekStepsChart.getLegend().setEnabled(false);
-        xIndexFormatter.setxLabels(mcd.getWeekBeforeStepsData().getXLabels());
+        mWeekStepsChart.getXAxis().setValueFormatter(mcd.getWeekBeforeStepsData().getXValueFormatter());
     }
 
     @Override
@@ -75,7 +75,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         mTodayStepsChart.invalidate();
     }
 
-    private DefaultChartsData refreshWeekBeforeSteps(DBHandler db, BarChart barChart, Calendar day, GBDevice device) {
+    private DefaultChartsData<BarData> refreshWeekBeforeSteps(DBHandler db, BarChart barChart, Calendar day, GBDevice device) {
 
         ActivityAnalysis analysis = new ActivityAnalysis();
 
@@ -100,7 +100,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         barChart.getAxisLeft().removeAllLimitLines();
         barChart.getAxisLeft().addLimitLine(target);
 
-        return new DefaultChartsData(barData, labels);
+        return new DefaultChartsData(barData, new PreformattedXIndexLabelFormatter(labels));
     }
 
 
@@ -184,7 +184,6 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         x.setEnabled(true);
         x.setTextColor(CHART_TEXT_COLOR);
         x.setDrawLimitLinesBehindData(true);
-        x.setValueFormatter(xIndexFormatter);
         x.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         YAxis y = mWeekStepsChart.getAxisLeft();

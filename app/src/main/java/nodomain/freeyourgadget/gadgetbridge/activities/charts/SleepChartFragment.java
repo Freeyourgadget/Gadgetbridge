@@ -101,7 +101,7 @@ public class SleepChartFragment extends AbstractChartFragment {
         mSleepAmountChart.setData(mcd.getPieData().getPieData());
 
         mActivityChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
-        xIndexFormatter.setxLabels(mcd.getChartsData().getXLabels());
+        mActivityChart.getXAxis().setValueFormatter(mcd.getChartsData().getXValueFormatter());
         mActivityChart.setData(mcd.getChartsData().getData());
     }
 

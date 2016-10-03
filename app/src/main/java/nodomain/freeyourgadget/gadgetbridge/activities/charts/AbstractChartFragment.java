@@ -87,7 +87,6 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     };
     private boolean mChartDirty = true;
     private AsyncTask refreshTask;
-    protected XIndexLabelFormatter xIndexFormatter = new XIndexLabelFormatter();
 
     public boolean isChartDirty() {
         return mChartDirty;
@@ -344,6 +343,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     protected void configureChartDefaults(Chart<?> chart) {
+        chart.getXAxis().setValueFormatter(new TimestampValueFormatter());
         chart.getDescription().setText("");
 
         // if enabled, the chart will always start at zero on the y-axis
@@ -355,7 +355,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         // enable touch gestures
         chart.setTouchEnabled(true);
 
-        chart.getXAxis().setValueFormatter(xIndexFormatter);
+        chart.getXAxis().setGranularity(60*5);
 
         setupLegend(chart);
     }
@@ -408,13 +408,14 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
      */
     protected abstract void renderCharts();
 
-    protected DefaultChartsData refresh(GBDevice gbDevice, List<? extends ActivitySample> samples) {
-        Calendar cal = GregorianCalendar.getInstance();
-        cal.clear();
-        Date date;
-        String dateStringFrom = "";
-        String dateStringTo = "";
-        ArrayList<String> xLabels = null;
+    protected DefaultChartsData<CombinedData> refresh(GBDevice gbDevice, List<? extends ActivitySample> samples) {
+//        Calendar cal = GregorianCalendar.getInstance();
+//        cal.clear();
+        int tsOffset = 0;
+//        Date date;
+//        String dateStringFrom = "";
+//        String dateStringTo = "";
+//        ArrayList<String> xLabels = null;
 
         LOG.info("" + getTitle() + ": number of samples:" + samples.size());
         CombinedData combinedData;
@@ -424,11 +425,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
             int last_type = ActivityKind.TYPE_UNKNOWN;
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-            SimpleDateFormat annotationDateFormat = new SimpleDateFormat("HH:mm");
-
             int numEntries = samples.size();
-            xLabels = new ArrayList<>(numEntries);
             List<BarEntry> activityEntries = new ArrayList<>(numEntries);
             boolean hr = supportsHeartrate(gbDevice);
             List<Entry> heartrateEntries = hr ? new ArrayList<Entry>(numEntries) : null;
@@ -438,17 +435,26 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             for (int i = 0; i < numEntries; i++) {
                 ActivitySample sample = samples.get(i);
                 int type = sample.getKind();
-
-                // determine start and end dates
+                int ts;
                 if (i == 0) {
-                    cal.setTimeInMillis(sample.getTimestamp() * 1000L); // make sure it's converted to long
-                    date = cal.getTime();
-                    dateStringFrom = dateFormat.format(date);
-                } else if (i == samples.size() - 1) {
-                    cal.setTimeInMillis(sample.getTimestamp() * 1000L); // same here
-                    date = cal.getTime();
-                    dateStringTo = dateFormat.format(date);
+                    tsOffset = sample.getTimestamp();
+                    ts = 0;
+                } else {
+                    ts = sample.getTimestamp() - tsOffset;
                 }
+
+//                System.out.println(ts);
+//                ts = i;
+                // determine start and end dates
+//                if (i == 0) {
+//                    cal.setTimeInMillis(ts * 1000L); // make sure it's converted to long
+//                    date = cal.getTime();
+//                    dateStringFrom = dateFormat.format(date);
+//                } else if (i == samples.size() - 1) {
+//                    cal.setTimeInMillis(ts * 1000L); // same here
+//                    date = cal.getTime();
+//                    dateStringTo = dateFormat.format(date);
+//                }
 
                 float movement = sample.getIntensity();
 
@@ -474,23 +480,23 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 //                        value = ((float) movement) / movement_divisor;
                         colors.add(akActivity.color);
                 }
-                activityEntries.add(createBarEntry(value, i));
+                activityEntries.add(createBarEntry(value, ts));
                 if (hr && isValidHeartRateValue(sample.getHeartRate())) {
-                    if (lastHrSampleIndex > -1 && i - lastHrSampleIndex > HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
+                    if (lastHrSampleIndex > -1 && ts - lastHrSampleIndex > 60*HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
                         heartrateEntries.add(createLineEntry(0, lastHrSampleIndex + 1));
-                        heartrateEntries.add(createLineEntry(0, i - 1));
+                        heartrateEntries.add(createLineEntry(0, ts - 1));
                     }
 
-                    heartrateEntries.add(createLineEntry(sample.getHeartRate(), i));
-                    lastHrSampleIndex = i;
+                    heartrateEntries.add(createLineEntry(sample.getHeartRate(), ts));
+                    lastHrSampleIndex = ts;
                 }
 
                 String xLabel = "";
                 if (annotate) {
-                    cal.setTimeInMillis(sample.getTimestamp() * 1000L);
-                    date = cal.getTime();
-                    String dateString = annotationDateFormat.format(date);
-                    xLabel = dateString;
+//                    cal.setTimeInMillis((ts + tsOffset) * 1000L);
+//                    date = cal.getTime();
+//                    String dateString = annotationDateFormat.format(date);
+//                    xLabel = dateString;
 //                    if (last_type != type) {
 //                        if (isSleep(last_type) && !isSleep(type)) {
 //                            // woken up
@@ -508,9 +514,8 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 //                            chart.getXAxis().addLimitLine(line);
 //                        }
 //                    }
-                    last_type = type;
+//                    last_type = type;
                 }
-                xLabels.add(xLabel);
             }
 
             BarDataSet activitySet = createActivitySet(activityEntries, colors, "Activity");
@@ -520,6 +525,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             List<IBarDataSet> list = new ArrayList<>();
             list.add(activitySet);
             BarData barData = new BarData(list);
+            barData.setBarWidth(100f);
 //            barData.setGroupSpace(0);
             combinedData.setData(barData);
 
@@ -532,11 +538,11 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 //            chart.setDescription(getString(R.string.sleep_activity_date_range, dateStringFrom, dateStringTo));
 //            chart.setDescriptionPosition(?, ?);
         } else {
-//            combinedData = new CombinedData(Collections.<String>emptyList());
             combinedData = new CombinedData();
         }
 
-        return new DefaultChartsData(combinedData, xLabels);
+        IAxisValueFormatter xValueFormatter = new SampleXLabelFormatter(tsOffset);
+        return new DefaultChartsData(combinedData, xValueFormatter);
     }
 
     protected boolean isValidHeartRateValue(int value) {
@@ -556,12 +562,12 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
     protected abstract void setupLegend(Chart chart);
 
-    protected BarEntry createBarEntry(float value, int index) {
-        return new BarEntry(index, value);
+    protected BarEntry createBarEntry(float value, int xValue) {
+        return new BarEntry(xValue, value);
     }
 
-    protected Entry createLineEntry(float value, int index) {
-        return new Entry(index, value);
+    protected Entry createLineEntry(float value, int xValue) {
+        return new Entry(xValue, value);
     }
 
     protected BarDataSet createActivitySet(List<BarEntry> values, List<Integer> colors, String label) {
@@ -702,7 +708,15 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     protected List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device) {
-        return getSamples(db, device, getTSStart(), getTSEnd());
+        List<? extends ActivitySample> samples = getSamples(db, device, getTSStart(), getTSEnd());
+//        List<ActivitySample> samples2 = new ArrayList<>();
+//        int min = Math.min(samples.size(), 10);
+//        int min = Math.min(samples.size(), 10);
+//        for (int i = 0; i < min; i++) {
+//            samples2.add(samples.get(i));
+//        }
+//        return samples2;
+        return samples;
     }
 
     private int getTSEnd() {
@@ -719,10 +733,15 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
     public static class DefaultChartsData<T extends ChartData<?>> extends ChartsData {
         private final T data;
+        private IAxisValueFormatter xValueFormatter;
 
-        public DefaultChartsData(T data, ArrayList<String> xLabels) {
+        public DefaultChartsData(T data, IAxisValueFormatter xValueFormatter) {
+            this.xValueFormatter = xValueFormatter;
             this.data = data;
-            setxLabels(xLabels);
+        }
+
+        public IAxisValueFormatter getXValueFormatter() {
+            return xValueFormatter;
         }
 
         public T getData() {
@@ -730,14 +749,40 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         }
     }
 
-    protected static class XIndexLabelFormatter implements IAxisValueFormatter {
+    protected static class SampleXLabelFormatter implements IAxisValueFormatter {
+        private final int tsOffset;
+        SimpleDateFormat annotationDateFormat = new SimpleDateFormat("HH:mm");
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        Calendar cal = GregorianCalendar.getInstance();
 
-        private ArrayList<String> xLabels;
+        public SampleXLabelFormatter(int tsOffset) {
+            this.tsOffset = tsOffset;
 
-        public void setxLabels(ArrayList<String> xLabels) {
-            this.xLabels = xLabels;
+        }
+        // TODO: this does not work. Cannot use precomputed labels
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+            cal.clear();
+            int ts = (int) value;
+            cal.setTimeInMillis((ts + tsOffset) * 1000L);
+            Date date = cal.getTime();
+            String dateString = annotationDateFormat.format(date);
+            return dateString;
         }
 
+        @Override
+        public int getDecimalDigits() {
+            return 0;
+        }
+    }
+
+    protected static class PreformattedXIndexLabelFormatter implements IAxisValueFormatter {
+        private ArrayList<String> xLabels;
+
+        public PreformattedXIndexLabelFormatter(ArrayList<String> xLabels) {
+            this.xLabels = xLabels;
+
+        }
         @Override
         public String getFormattedValue(float value, AxisBase axis) {
             int index = (int) value;
