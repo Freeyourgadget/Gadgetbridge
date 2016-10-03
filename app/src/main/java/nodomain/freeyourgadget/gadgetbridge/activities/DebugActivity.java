@@ -13,12 +13,16 @@ import android.support.v4.app.RemoteInput;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -39,8 +43,8 @@ public class DebugActivity extends GBActivity {
     private static final String ACTION_REPLY
             = "nodomain.freeyourgadget.gadgetbridge.DebugActivity.action.reply";
 
-    private Button sendSMSButton;
-    private Button sendEmailButton;
+    private Spinner sendTypeSpinner;
+    private Button sendButton;
     private Button incomingCallButton;
     private Button outgoingCallButton;
     private Button startCallButton;
@@ -75,10 +79,6 @@ public class DebugActivity extends GBActivity {
             }
         }
     };
-    private Button sendChatButton;
-    private Button sendTelegramButton;
-    private Button sendTwitterButton;
-    private Button sendFacebookButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,79 +93,26 @@ public class DebugActivity extends GBActivity {
         registerReceiver(mReceiver, filter); // for ACTION_REPLY
 
         editContent = (EditText) findViewById(R.id.editContent);
-        sendSMSButton = (Button) findViewById(R.id.sendSMSButton);
-        sendSMSButton.setOnClickListener(new View.OnClickListener() {
+
+        ArrayList<String> spinnerArray = new ArrayList<>();
+        for (NotificationType notificationType : NotificationType.values()) {
+            spinnerArray.add(notificationType.name());
+        }
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
+        sendTypeSpinner = (Spinner) findViewById(R.id.sendTypeSpinner);
+        sendTypeSpinner.setAdapter(spinnerArrayAdapter);
+
+        sendButton = (Button) findViewById(R.id.sendButton);
+        sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 NotificationSpec notificationSpec = new NotificationSpec();
-                notificationSpec.phoneNumber = editContent.getText().toString();
-                notificationSpec.body = editContent.getText().toString();
-                notificationSpec.type = NotificationType.SMS;
-                notificationSpec.id = -1;
-                GBApplication.deviceService().onNotification(notificationSpec);
-            }
-        });
-        sendEmailButton = (Button) findViewById(R.id.sendEmailButton);
-        sendEmailButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NotificationSpec notificationSpec = new NotificationSpec();
-                notificationSpec.sender = getResources().getText(R.string.app_name).toString();
-                notificationSpec.subject = editContent.getText().toString();
-                notificationSpec.body = editContent.getText().toString();
-                notificationSpec.type = NotificationType.EMAIL;
-                notificationSpec.id = -1;
-                GBApplication.deviceService().onNotification(notificationSpec);
-            }
-        });
-        sendChatButton = (Button) findViewById(R.id.sendChatButton);
-        sendChatButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NotificationSpec notificationSpec = new NotificationSpec();
-                notificationSpec.sender = getResources().getText(R.string.app_name).toString();
-                notificationSpec.subject = editContent.getText().toString();
-                notificationSpec.body = editContent.getText().toString();
-                notificationSpec.type = NotificationType.CHAT;
-                notificationSpec.id = -1;
-                GBApplication.deviceService().onNotification(notificationSpec);
-            }
-        });
-        sendTelegramButton = (Button) findViewById(R.id.sendTelegramButton);
-        sendTelegramButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NotificationSpec notificationSpec = new NotificationSpec();
-                notificationSpec.sender = getResources().getText(R.string.app_name).toString();
-                notificationSpec.subject = editContent.getText().toString();
-                notificationSpec.body = editContent.getText().toString();
-                notificationSpec.type = NotificationType.TELEGRAM;
-                notificationSpec.id = -1;
-                GBApplication.deviceService().onNotification(notificationSpec);
-            }
-        });
-        sendTwitterButton = (Button) findViewById(R.id.sendTwitterButton);
-        sendTwitterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NotificationSpec notificationSpec = new NotificationSpec();
-                notificationSpec.sender = getResources().getText(R.string.app_name).toString();
-                notificationSpec.subject = editContent.getText().toString();
-                notificationSpec.body = editContent.getText().toString();
-                notificationSpec.type = NotificationType.TWITTER;
-                notificationSpec.id = -1;
-                GBApplication.deviceService().onNotification(notificationSpec);
-            }
-        });
-        sendFacebookButton = (Button) findViewById(R.id.sendFacebookButton);
-        sendFacebookButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NotificationSpec notificationSpec = new NotificationSpec();
-                notificationSpec.sender = getResources().getText(R.string.app_name).toString();
-                notificationSpec.subject = editContent.getText().toString();
-                notificationSpec.body = editContent.getText().toString();
-                notificationSpec.type = NotificationType.FACEBOOK;
+                String testString = editContent.getText().toString();
+                notificationSpec.phoneNumber = testString;
+                notificationSpec.body = testString;
+                notificationSpec.sender = testString;
+                notificationSpec.subject = testString;
+                notificationSpec.type = NotificationType.values()[sendTypeSpinner.getSelectedItemPosition()];
                 notificationSpec.id = -1;
                 GBApplication.deviceService().onNotification(notificationSpec);
             }
