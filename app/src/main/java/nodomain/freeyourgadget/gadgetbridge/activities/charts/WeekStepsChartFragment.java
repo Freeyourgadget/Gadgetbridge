@@ -16,12 +16,9 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.CombinedData;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.IValueFormatter;
-import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +44,6 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
 
     private PieChart mTodayStepsChart;
     private CombinedChart mWeekStepsChart;
-    private XIndexLabelFormatter xIndexLabelFormatter = new XIndexLabelFormatter();
 
     @Override
     protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
@@ -71,7 +67,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         mWeekStepsChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
         mWeekStepsChart.setData(mcd.getWeekBeforeStepsData().getCombinedData());
         mWeekStepsChart.getLegend().setEnabled(false);
-        xIndexLabelFormatter.setxLabels(mcd.getWeekBeforeStepsData().getXLabels());
+        xIndexFormatter.setxLabels(mcd.getWeekBeforeStepsData().getXLabels());
     }
 
     @Override
@@ -191,7 +187,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         x.setEnabled(true);
         x.setTextColor(CHART_TEXT_COLOR);
         x.setDrawLimitLinesBehindData(true);
-        x.setValueFormatter(xIndexLabelFormatter);
+        x.setValueFormatter(xIndexFormatter);
         x.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         YAxis y = mWeekStepsChart.getAxisLeft();
