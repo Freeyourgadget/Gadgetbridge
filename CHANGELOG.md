@@ -3,6 +3,7 @@
 ####Version 0.13.3
 * Fix regressions with missing bars and labels in charts
 * Allow to set notification type in Debug activity
+* Mi Band 2: Display Message and Phone icons
 
 ####Version 0.13.2
 * Support deleting devices (and their data) in control center
