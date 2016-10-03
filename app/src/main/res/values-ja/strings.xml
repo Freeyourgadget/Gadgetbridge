@@ -10,6 +10,9 @@
   <string name="controlcenter_find_device">デバイスをバイブさせる</string>
   <string name="controlcenter_take_screenshot">スクリーンショットを撮る</string>
   <string name="controlcenter_disconnect">切断</string>
+  <string name="controlcenter_delete_device">デバイスを削除</string>
+  <string name="controlcenter_delete_device_name">%1$s を削除</string>
+  <string name="controlcenter_delete_device_dialogmessage">これにより、デバイスと関連するデータを削除します!</string>
   <string name="title_activity_debug">デバッグ</string>
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">アプリ管理画面</string>
