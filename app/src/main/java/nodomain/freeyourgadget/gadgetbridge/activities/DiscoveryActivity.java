@@ -58,7 +58,9 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
         public void onReceive(Context context, Intent intent) {
             switch (intent.getAction()) {
                 case BluetoothAdapter.ACTION_DISCOVERY_STARTED:
-                    discoveryStarted(Scanning.SCANNING_BT);
+                    if (isScanning != Scanning.SCANNING_BTLE && isScanning != Scanning.SCANNING_NEW_BTLE) {
+                        discoveryStarted(Scanning.SCANNING_BT);
+                    }
                     break;
                 case BluetoothAdapter.ACTION_DISCOVERY_FINISHED:
                     // continue with LE scan, if available
@@ -227,7 +229,11 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(bluetoothReceiver);
+        try {
+            unregisterReceiver(bluetoothReceiver);
+        } catch (IllegalArgumentException e) {
+            LOG.warn("Tried to unregister Bluetooth Receiver that wasn't registered.");
+        }
         super.onDestroy();
     }
 
