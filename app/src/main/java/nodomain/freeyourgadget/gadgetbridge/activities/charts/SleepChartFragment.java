@@ -100,6 +100,7 @@ public class SleepChartFragment extends AbstractChartFragment {
         mSleepAmountChart.setData(mcd.getPieData().getPieData());
 
         mActivityChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
+        xIndexFormatter.setxLabels(mcd.getChartsData().getXLabels());
         mActivityChart.setData(mcd.getChartsData().getCombinedData());
     }
 
@@ -165,8 +166,8 @@ public class SleepChartFragment extends AbstractChartFragment {
         y.setDrawGridLines(false);
 //        y.setDrawLabels(false);
         // TODO: make fixed max value optional
-        y.setAxisMaxValue(1f);
-        y.setAxisMinValue(0);
+        y.setAxisMaximum(1f);
+        y.setAxisMinimum(0);
         y.setDrawTopYLabelEntry(false);
         y.setTextColor(CHART_TEXT_COLOR);
 
