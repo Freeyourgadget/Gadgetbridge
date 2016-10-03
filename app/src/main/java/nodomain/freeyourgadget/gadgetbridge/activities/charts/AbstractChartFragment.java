@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -21,6 +22,7 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
 import org.slf4j.Logger;
@@ -30,7 +32,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
@@ -84,6 +85,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     };
     private boolean mChartDirty = true;
     private AsyncTask refreshTask;
+    private XIndexLabelFormatter xIndexFormatter = new XIndexLabelFormatter();
 
     public boolean isChartDirty() {
         return mChartDirty;
@@ -351,6 +353,8 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         // enable touch gestures
         chart.setTouchEnabled(true);
 
+        chart.getXAxis().setValueFormatter(xIndexFormatter);
+
         setupLegend(chart);
     }
 
@@ -418,7 +422,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             SimpleDateFormat annotationDateFormat = new SimpleDateFormat("HH:mm");
 
             int numEntries = samples.size();
-            List<String> xLabels = new ArrayList<>(numEntries);
+            ArrayList<String> xLabels = new ArrayList<>(numEntries);
             List<BarEntry> activityEntries = new ArrayList<>(numEntries);
             boolean hr = supportsHeartrate(gbDevice);
             List<Entry> heartrateEntries = hr ? new ArrayList<Entry>(numEntries) : null;
@@ -503,6 +507,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                 xLabels.add(xLabel);
             }
 
+            xIndexFormatter.setxLabels(xLabels);
 //            chart.getXAxis().setValues(xLabels);
 
             BarDataSet activitySet = createActivitySet(activityEntries, colors, "Activity");
@@ -718,6 +723,29 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
         public CombinedData getCombinedData() {
             return combinedData;
+        }
+    }
+
+    private static class XIndexLabelFormatter implements IAxisValueFormatter {
+
+        private ArrayList<String> xLabels;
+
+        public void setxLabels(ArrayList<String> xLabels) {
+            this.xLabels = xLabels;
+        }
+
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+            if (xLabels == null) {
+                return String.valueOf(value);
+            }
+            int index = (int) value;
+            return xLabels.get(index);
+        }
+
+        @Override
+        public int getDecimalDigits() {
+            return 0;
         }
     }
 }
