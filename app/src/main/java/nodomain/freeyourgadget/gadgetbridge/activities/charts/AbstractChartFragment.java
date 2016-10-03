@@ -726,7 +726,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         }
     }
 
-    private static class XIndexLabelFormatter implements IAxisValueFormatter {
+    protected static class XIndexLabelFormatter implements IAxisValueFormatter {
 
         private ArrayList<String> xLabels;
 

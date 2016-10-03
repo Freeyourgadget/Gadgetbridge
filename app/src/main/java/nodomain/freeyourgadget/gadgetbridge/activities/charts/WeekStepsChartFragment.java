@@ -47,6 +47,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
 
     private PieChart mTodayStepsChart;
     private CombinedChart mWeekStepsChart;
+    private XIndexLabelFormatter xIndexLabelFormatter = new XIndexLabelFormatter();
 
     @Override
     protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
@@ -85,27 +86,20 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         day = (Calendar) day.clone(); // do not modify the caller's argument
         day.add(Calendar.DATE, -7);
         List<BarEntry> entries = new ArrayList<>();
-        final String[] labels = new String[7];
+        ArrayList<String> labels = new ArrayList<String>();
 
         for (int counter = 0; counter < 7; counter++) {
             entries.add(new BarEntry(counter, analysis.calculateTotalSteps(getSamplesOfDay(db, day, device))));
-            labels[counter] = day.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, mLocale);
+            labels.add(day.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, mLocale));
             day.add(Calendar.DATE, 1);
         }
 
         BarDataSet set = new BarDataSet(entries, "");
         set.setColor(akActivity.color);
 
-//        BarData barData = new BarData(labels);
-        BarData barData = new BarData();
+        xIndexLabelFormatter.setxLabels(labels);
+        BarData barData = new BarData(set);
         barData.setValueTextColor(Color.GRAY); //prevent tearing other graph elements with the black text. Another approach would be to hide the values cmpletely with data.setDrawValues(false);
-        IValueFormatter weekDayValueFormatter = new IValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-                return labels[(int) value]; // is value the x or y value?
-            }
-        };
-        barData.setValueFormatter(weekDayValueFormatter);
 
         LimitLine target = new LimitLine(mTargetSteps);
         combinedChart.getAxisLeft().removeAllLimitLines();
@@ -113,7 +107,6 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
 
         CombinedData combinedData = new CombinedData();
         combinedData.setData(barData);
-        combinedData.setValueFormatter(weekDayValueFormatter);
         return new DefaultChartsData(combinedData);
     }
 
@@ -198,6 +191,8 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         x.setEnabled(true);
         x.setTextColor(CHART_TEXT_COLOR);
         x.setDrawLimitLinesBehindData(true);
+        x.setValueFormatter(xIndexLabelFormatter);
+        x.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         YAxis y = mWeekStepsChart.getAxisLeft();
         y.setDrawGridLines(false);
