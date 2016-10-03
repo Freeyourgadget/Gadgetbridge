@@ -739,7 +739,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     public boolean supportsHeartRate() {
-        return getDeviceInfo() != null && getDeviceInfo().supportsHeartrate();
+        return true;
     }
 
     @Override
