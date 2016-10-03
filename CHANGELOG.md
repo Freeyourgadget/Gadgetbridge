@@ -1,5 +1,9 @@
 ###Changelog
 
+####Version 0.13.3
+* Fix regressions with missing bars and labels in charts
+* Allow to set notification type in Debug activity
+
 ####Version 0.13.2
 * Support deleting devices (and their data) in control center
 * Sort devices lexicographically in control center
