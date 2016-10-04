@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/controlcenter_fetch_activity_data"
         android:title="@string/controlcenter_fetch_activity_data"/>
@@ -16,9 +16,9 @@
         android:id="@+id/controlcenter_take_screenshot"
         android:title="@string/controlcenter_take_screenshot"/>
     <item
-        android:id="@+id/controlcenter_disconnect"
-        android:title="@string/controlcenter_disconnect"/>
-    <item
         android:id="@+id/controlcenter_delete_device"
         android:title="@string/controlcenter_delete_device"/>
+    <item
+        android:id="@+id/controlcenter_disconnect"
+        android:title="@string/controlcenter_disconnect"/>
 </menu>
