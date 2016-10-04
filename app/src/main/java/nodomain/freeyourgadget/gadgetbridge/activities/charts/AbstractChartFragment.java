@@ -735,10 +735,10 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
         @Override
         public String getFormattedValue(float value, AxisBase axis) {
-            if (xLabels == null) {
+            int index = (int) value;
+            if (xLabels == null || index >= xLabels.size()) {
                 return String.valueOf(value);
             }
-            int index = (int) value;
             return xLabels.get(index);
         }
 
