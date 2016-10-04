@@ -3,6 +3,7 @@
 ####Version 0.13.3
 * Fix regressions with missing bars and labels in charts
 * Allow to set notification type in Debug activity
+* Move "Disconnect" back to the bottom of the context menu
 * Mi Band 2: Display Message and Phone icons
 
 ####Version 0.13.2
