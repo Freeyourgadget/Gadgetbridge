@@ -49,6 +49,7 @@ public class MiBandFWHelper {
             //FW_16779790, //1.0.10.14 reported on the wiki (vibration does not work currently)
             68094986, // 4.15.12.10 tested by developer
             68158215, // 4.16.3.7 tested by developer
+            68158486, // 4.16.4.22 tested by developer and user
             84870926, // 5.15.7.14 tested by developer
     };
 
