@@ -108,9 +108,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         enableNotifications(builder, true)
                 .setLowLatency(builder)
                 .readDate(builder) // without reading the data, we get sporadic connection problems, especially directly after turning on BT
-// this is apparently not needed anymore, and actually causes problems when bonding is not used/does not work
-// so we simply not use the UUID_PAIR characteristic.
-//                .pair(builder)
+                .pair(builder)
                 .requestDeviceInfo(builder)
                 .sendUserInfo(builder)
                 .checkAuthenticationNeeded(builder, getDevice())
@@ -320,12 +318,21 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
      * @return
      */
     private MiBandSupport pair(TransactionBuilder transaction) {
-        LOG.info("Attempting to pair MI device...");
-        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_PAIR);
-        if (characteristic != null) {
-            transaction.write(characteristic, new byte[]{2});
-        } else {
-            LOG.info("Unable to pair MI device -- characteristic not available");
+// this is apparently only needed to get a more strict bond between mobile and mi band,
+// e.g. such that Mi Fit and Gadgetbridge can coexist without needing to re-pair (with
+// full device-data-reset).
+// Unfortunately this extra pairing causes problems when bonding is not used/does not work
+// so we only do this when configured to keep data on the device
+
+        Prefs prefs = GBApplication.getPrefs();
+        if (prefs.getBoolean(MiBandConst.PREF_MIBAND_DONT_ACK_TRANSFER, false)) {
+            LOG.info("Attempting to pair MI device...");
+            BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_PAIR);
+            if (characteristic != null) {
+                transaction.write(characteristic, new byte[]{2});
+            } else {
+                LOG.info("Unable to pair MI device -- characteristic not available");
+            }
         }
         return this;
     }
