@@ -14,6 +14,7 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -101,7 +102,7 @@ public class SleepChartFragment extends AbstractChartFragment {
 
         mActivityChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
         xIndexFormatter.setxLabels(mcd.getChartsData().getXLabels());
-        mActivityChart.setData(mcd.getChartsData().getCombinedData());
+        mActivityChart.setData(mcd.getChartsData().getData());
     }
 
     @Override
@@ -239,10 +240,10 @@ public class SleepChartFragment extends AbstractChartFragment {
     }
 
     private static class MyChartsData extends ChartsData {
-        private final DefaultChartsData chartsData;
+        private final DefaultChartsData<CombinedData> chartsData;
         private final MySleepChartsData pieData;
 
-        public MyChartsData(MySleepChartsData pieData, DefaultChartsData chartsData) {
+        public MyChartsData(MySleepChartsData pieData, DefaultChartsData<CombinedData> chartsData) {
             this.pieData = pieData;
             this.chartsData = chartsData;
         }
@@ -251,7 +252,7 @@ public class SleepChartFragment extends AbstractChartFragment {
             return pieData;
         }
 
-        public DefaultChartsData getChartsData() {
+        public DefaultChartsData<CombinedData> getChartsData() {
             return chartsData;
         }
     }

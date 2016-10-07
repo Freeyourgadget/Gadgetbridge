@@ -5,14 +5,14 @@
     android:orientation="vertical">
 
     <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/sleepchart_pie_light_deep"
+        android:id="@+id/todaystepschart"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="20">
     </com.github.mikephil.charting.charts.PieChart>
 
-    <com.github.mikephil.charting.charts.CombinedChart
-        android:id="@+id/sleepchart"
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/weekstepschart"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
 

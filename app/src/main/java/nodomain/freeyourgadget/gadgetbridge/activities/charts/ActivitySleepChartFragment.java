@@ -13,7 +13,6 @@ import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.CombinedData;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -120,7 +119,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
         mChart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
         mChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
         xIndexFormatter.setxLabels(dcd.getXLabels());
-        mChart.setData(dcd.getCombinedData());
+        mChart.setData(dcd.getData());
     }
 
     @Override

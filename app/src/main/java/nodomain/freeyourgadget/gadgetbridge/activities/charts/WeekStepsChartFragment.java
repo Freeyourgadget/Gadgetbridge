@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.Chart;
-import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
@@ -15,7 +15,6 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -43,7 +42,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
     private int mTargetSteps = 10000;
 
     private PieChart mTodayStepsChart;
-    private CombinedChart mWeekStepsChart;
+    private BarChart mWeekStepsChart;
 
     @Override
     protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
@@ -65,7 +64,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         mTodayStepsChart.setData(mcd.getDaySteps().data);
 
         mWeekStepsChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
-        mWeekStepsChart.setData(mcd.getWeekBeforeStepsData().getCombinedData());
+        mWeekStepsChart.setData(mcd.getWeekBeforeStepsData().getData());
         mWeekStepsChart.getLegend().setEnabled(false);
         xIndexFormatter.setxLabels(mcd.getWeekBeforeStepsData().getXLabels());
     }
@@ -76,7 +75,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         mTodayStepsChart.invalidate();
     }
 
-    private DefaultChartsData refreshWeekBeforeSteps(DBHandler db, CombinedChart combinedChart, Calendar day, GBDevice device) {
+    private DefaultChartsData refreshWeekBeforeSteps(DBHandler db, BarChart barChart, Calendar day, GBDevice device) {
 
         ActivityAnalysis analysis = new ActivityAnalysis();
 
@@ -98,14 +97,11 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         barData.setValueTextColor(Color.GRAY); //prevent tearing other graph elements with the black text. Another approach would be to hide the values cmpletely with data.setDrawValues(false);
 
         LimitLine target = new LimitLine(mTargetSteps);
-        combinedChart.getAxisLeft().removeAllLimitLines();
-        combinedChart.getAxisLeft().addLimitLine(target);
+        barChart.getAxisLeft().removeAllLimitLines();
+        barChart.getAxisLeft().addLimitLine(target);
 
-        CombinedData combinedData = new CombinedData();
-        combinedData.setData(barData);
-        return new DefaultChartsData(combinedData, labels);
+        return new DefaultChartsData(barData, labels);
     }
-
 
 
     private DaySteps refreshDaySteps(DBHandler db, Calendar day, GBDevice device) {
@@ -139,7 +135,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
                              Bundle savedInstanceState) {
         mLocale = getResources().getConfiguration().locale;
 
-        View rootView = inflater.inflate(R.layout.fragment_sleepchart, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_weeksteps_chart, container, false);
 
         GBDevice device = getChartsHost().getDevice();
         if (device != null) {
@@ -147,8 +143,8 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
             mTargetSteps = MiBandCoordinator.getFitnessGoal(device.getAddress());
         }
 
-        mWeekStepsChart = (CombinedChart) rootView.findViewById(R.id.sleepchart);
-        mTodayStepsChart = (PieChart) rootView.findViewById(R.id.sleepchart_pie_light_deep);
+        mTodayStepsChart = (PieChart) rootView.findViewById(R.id.todaystepschart);
+        mWeekStepsChart = (BarChart) rootView.findViewById(R.id.weekstepschart);
 
         setupWeekStepsChart();
         setupTodayStepsChart();
@@ -178,6 +174,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         mWeekStepsChart.setBackgroundColor(BACKGROUND_COLOR);
         mWeekStepsChart.getDescription().setTextColor(DESCRIPTION_COLOR);
         mWeekStepsChart.getDescription().setText("");
+        mWeekStepsChart.setFitBars(true);
 
         configureBarLineChartDefaults(mWeekStepsChart);
 
@@ -251,10 +248,10 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
     }
 
     private static class MyChartsData extends ChartsData {
-        private final DefaultChartsData weekBeforeStepsData;
+        private final DefaultChartsData<BarData> weekBeforeStepsData;
         private final DaySteps daySteps;
 
-        public MyChartsData(DaySteps daySteps, DefaultChartsData weekBeforeStepsData) {
+        public MyChartsData(DaySteps daySteps, DefaultChartsData<BarData> weekBeforeStepsData) {
             this.daySteps = daySteps;
             this.weekBeforeStepsData = weekBeforeStepsData;
         }
@@ -263,7 +260,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
             return daySteps;
         }
 
-        public DefaultChartsData getWeekBeforeStepsData() {
+        public DefaultChartsData<BarData> getWeekBeforeStepsData() {
             return weekBeforeStepsData;
         }
     }

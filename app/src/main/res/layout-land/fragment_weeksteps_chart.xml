@@ -2,20 +2,26 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity$PlaceholderFragment"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
     <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/sleepchart_pie_light_deep"
+        android:id="@+id/todaystepschart"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="20">
+        android:layout_weight="40">
     </com.github.mikephil.charting.charts.PieChart>
 
-    <com.github.mikephil.charting.charts.CombinedChart
-        android:id="@+id/sleepchart"
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/weekstepschart"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
 
         android:layout_weight="20" />
+
+    <!--<TextView-->
+        <!--android:text="Test"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:layout_weight="20" />-->
 
 </LinearLayout>

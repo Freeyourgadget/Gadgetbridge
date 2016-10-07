@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -18,6 +19,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -360,6 +362,9 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
     protected void configureBarLineChartDefaults(BarLineChartBase<?> chart) {
         configureChartDefaults(chart);
+        if (chart instanceof BarChart) {
+            ((BarChart) chart).setFitBars(true);
+        }
 
         // enable scaling and dragging
         chart.setDragEnabled(true);
@@ -712,16 +717,16 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         return (int) ((date.getTime() / 1000));
     }
 
-    public static class DefaultChartsData extends ChartsData {
-        private final CombinedData combinedData;
+    public static class DefaultChartsData<T extends ChartData<?>> extends ChartsData {
+        private final T data;
 
-        public DefaultChartsData(CombinedData combinedData, ArrayList<String> xLabels) {
-            this.combinedData = combinedData;
+        public DefaultChartsData(T data, ArrayList<String> xLabels) {
+            this.data = data;
             setxLabels(xLabels);
         }
 
-        public CombinedData getCombinedData() {
-            return combinedData;
+        public T getData() {
+            return data;
         }
     }
 
