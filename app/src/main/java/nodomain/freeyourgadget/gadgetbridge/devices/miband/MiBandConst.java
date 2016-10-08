@@ -18,8 +18,14 @@ public final class MiBandConst {
     public static final String PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION = "mi_hr_sleep_detection";
 	public static final String PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS = "mi_device_time_offset_hours";
 
+    public static final String PREF_TRY_SMS = "mi_try_sms";
+
 
     public static final String ORIGIN_SMS = "sms";
+    public static final String ORIGIN_CHAT = "chat";
+    public static final String ORIGIN_TELEGRAM = "telegram";
+    public static final String ORIGIN_TWITTER = "twitter";
+    public static final String ORIGIN_FACEBOOK = "facebook";
     public static final String ORIGIN_INCOMING_CALL = "incoming_call";
     public static final String ORIGIN_K9MAIL = "k9mail";
     public static final String ORIGIN_PEBBLEMSG = "pebblemsg";

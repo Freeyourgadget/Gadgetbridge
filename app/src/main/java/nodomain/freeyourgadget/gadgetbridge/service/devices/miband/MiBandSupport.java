@@ -77,10 +77,13 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.FL
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.FLASH_COUNT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.FLASH_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.FLASH_ORIGINAL_COLOUR;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_FACEBOOK;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_GENERIC;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_K9MAIL;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_PEBBLEMSG;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_SMS;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_TELEGRAM;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_TWITTER;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_COUNT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_PAUSE;
@@ -473,7 +476,9 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             int originalColour = getPreferredOriginalColour(notificationOrigin, prefs);
             int flashDuration = getPreferredFlashDuration(notificationOrigin, prefs);
 
+//            setLowLatency(builder);
             sendCustomNotification(profile, flashTimes, flashColour, originalColour, flashDuration, extraAction, builder);
+//            setHighLatency(builder);
 //            sendCustomNotification(vibrateDuration, vibrateTimes, vibratePause, flashTimes, flashColour, originalColour, flashDuration, builder);
             builder.queue(getQueue());
         } catch (IOException ex) {
@@ -547,6 +552,15 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 break;
             case CHAT:
                 performPreferredNotification("chat message received", ORIGIN_PEBBLEMSG, null);
+                break;
+            case TELEGRAM:
+                performPreferredNotification("chat message received", ORIGIN_TELEGRAM, null);
+                break;
+            case TWITTER:
+                performPreferredNotification("chat message received", ORIGIN_TWITTER, null);
+                break;
+            case FACEBOOK:
+                performPreferredNotification("chat message received", ORIGIN_FACEBOOK, null);
                 break;
             default:
                 performPreferredNotification("generic notification received", ORIGIN_GENERIC, null);

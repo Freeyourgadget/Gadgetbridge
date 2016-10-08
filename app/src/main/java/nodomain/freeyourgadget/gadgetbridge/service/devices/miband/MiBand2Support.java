@@ -74,10 +74,14 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.FL
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.FLASH_COUNT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.FLASH_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.FLASH_ORIGINAL_COLOUR;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_CHAT;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_FACEBOOK;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_GENERIC;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_K9MAIL;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_PEBBLEMSG;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_SMS;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_TELEGRAM;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_TWITTER;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_COUNT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_PAUSE;
@@ -572,22 +576,22 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 break;
             case FACEBOOK:
                 task = "facebook message received";
-                origin = ORIGIN_GENERIC;
+                origin = ORIGIN_FACEBOOK;
                 alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
                 break;
             case TWITTER:
                 task = "twitter message received";
-                origin = ORIGIN_GENERIC;
+                origin = ORIGIN_TWITTER;
                 alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
                 break;
             case TELEGRAM:
                 task = "telegram message received";
-                origin = ORIGIN_GENERIC;
+                origin = ORIGIN_TELEGRAM;
                 alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
                 break;
             case CHAT:
                 task = "chat message received";
-                origin = ORIGIN_PEBBLEMSG;
+                origin = ORIGIN_CHAT;
                 alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
                 break;
             case UNDEFINED:

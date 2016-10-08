@@ -333,4 +333,9 @@
 
     <!-- Strings related to Vibration Activity -->
     <string name="title_activity_vibration">Vibration</string>
+    <string name="vibration_try">Try</string>
+    <string name="pref_screen_notification_profile_chat">Chat</string>
+    <string name="pref_screen_notification_profile_facebook">Facebook</string>
+    <string name="pref_screen_notification_profile_twitter">Twitter</string>
+    <string name="pref_screen_notification_profile_telegram">Telegram</string>
 </resources>
