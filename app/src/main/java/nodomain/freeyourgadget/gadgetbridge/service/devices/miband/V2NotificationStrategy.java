@@ -34,14 +34,8 @@ public class V2NotificationStrategy implements NotificationStrategy {
                 int on = onOffSequence[j];
                 on = Math.min(500, on); // longer than 500ms is not possible
                 builder.write(alert, new byte[]{GattCharacteristic.MILD_ALERT}); //MILD_ALERT lights up GREEN leds, HIGH_ALERT lights up RED leds
-                builder.wait(on);
-                builder.write(alert, new byte[]{GattCharacteristic.HIGH_ALERT});
-                builder.wait(on);
-                builder.write(alert, new byte[]{0x3});
-                builder.wait(on);
-                builder.write(alert, new byte[]{0x4});
-                builder.wait(on);
-                builder.write(alert, new byte[]{0x5});
+//                builder.wait(on);
+//                builder.write(alert, new byte[]{GattCharacteristic.HIGH_ALERT});
                 builder.wait(on);
                 builder.write(alert, new byte[]{GattCharacteristic.NO_ALERT});
 
