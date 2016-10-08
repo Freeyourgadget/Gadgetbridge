@@ -69,13 +69,13 @@ public class LiveActivityFragment extends AbstractChartFragment {
     private List<Measurement> heartRateValues;
     private LineDataSet mHeartRateSet;
     private int mHeartRate;
-    private long tsOffset = -1;
+    private TimestampTranslation tsTranslation;
 
     private class Steps {
         private int initialSteps;
 
         private int steps;
-        private long lastTimestamp;
+        private int lastTimestamp;
         private int currentStepsPerMinute;
         private int maxStepsPerMinute;
         private int lastStepsPerMinute;
@@ -97,7 +97,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
             return maxStepsPerMinute;
         }
 
-        public void updateCurrentSteps(int newSteps, long timestamp) {
+        public void updateCurrentSteps(int newSteps, int timestamp) {
             try {
                 if (steps == 0) {
                     steps = newSteps;
@@ -111,7 +111,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
 
                 if (newSteps >= steps) {
                     int stepsDelta = newSteps - steps;
-                    long timeDelta = timestamp - lastTimestamp;
+                    int timeDelta = timestamp - lastTimestamp;
                     currentStepsPerMinute = calculateStepsPerMinute(stepsDelta, timeDelta);
                     if (currentStepsPerMinute > maxStepsPerMinute) {
                         maxStepsPerMinute = currentStepsPerMinute;
@@ -128,16 +128,16 @@ public class LiveActivityFragment extends AbstractChartFragment {
             }
         }
 
-        private int calculateStepsPerMinute(int stepsDelta, long millis) {
+        private int calculateStepsPerMinute(int stepsDelta, int seconds) {
             if (stepsDelta == 0) {
                 return 0; // not walking or not enough data per mills?
             }
-            if (millis <= 0) {
-                throw new IllegalArgumentException("delta in millis is <= 0 -- time change?");
+            if (seconds <= 0) {
+                throw new IllegalArgumentException("delta in seconds is <= 0 -- time change?");
             }
 
-            long oneMinute = 60 * 1000;
-            float factor = oneMinute / millis;
+            int oneMinute = 60 * 1000;
+            float factor = oneMinute / seconds;
             int result = (int) (stepsDelta * factor);
             if (result > MAX_STEPS_PER_MINUTE) {
                 // ignore, return previous value instead
@@ -154,15 +154,13 @@ public class LiveActivityFragment extends AbstractChartFragment {
             switch (action) {
                 case DeviceService.ACTION_REALTIME_STEPS: {
                     int steps = intent.getIntExtra(DeviceService.EXTRA_REALTIME_STEPS, 0);
-                    long timestamp = intent.getLongExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
-                    timestamp = adjust(timestamp);
+                    int timestamp = translateTimestampFrom(intent);
                     addEntries(steps, timestamp);
                     break;
                 }
                 case DeviceService.ACTION_HEARTRATE_MEASUREMENT: {
                     int heartRate = intent.getIntExtra(DeviceService.EXTRA_HEART_RATE_VALUE, 0);
-                    long timestamp = intent.getLongExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
-                    timestamp = adjust(timestamp);
+                    int timestamp = translateTimestampFrom(intent);
                     if (isValidHeartRateValue(heartRate)) {
                         setCurrentHeartRate(heartRate, timestamp);
                     }
@@ -172,15 +170,16 @@ public class LiveActivityFragment extends AbstractChartFragment {
         }
     };
 
-    private long adjust(long timestamp) {
-        if (tsOffset == -1) {
-            tsOffset = timestamp;
-            return 0;
-        }
-        return timestamp - tsOffset;
+    private int translateTimestampFrom(Intent intent) {
+        return translateTimestamp(intent.getLongExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis()));
     }
 
-    private void setCurrentHeartRate(int heartRate, long timestamp) {
+    private int translateTimestamp(long tsMillis) {
+        int timestamp = (int) (tsMillis / 1000); // translate to seconds
+        return tsTranslation.shorten(timestamp); // and shorten
+    }
+
+    private void setCurrentHeartRate(int heartRate, int timestamp) {
         addHistoryDataSet(true);
         mHeartRate = heartRate;
     }
@@ -191,7 +190,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
         return result;
     }
 
-    private void addEntries(int steps, long timestamp) {
+    private void addEntries(int steps, int timestamp) {
         mSteps.updateCurrentSteps(steps, timestamp);
         if (++maxStepsResetCounter > RESET_COUNT) {
             maxStepsResetCounter = 0;
@@ -203,7 +202,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
 //        addEntries();
     }
 
-    private void addEntries(long timestamp) {
+    private void addEntries(int timestamp) {
         mTotalStepsChart.setSingleEntryYValue(mSteps.getTotalSteps());
         YAxis stepsPerMinuteCurrentYAxis = mStepsPerMinuteCurrentChart.getAxisLeft();
         int maxStepsPerMinute = mSteps.getMaxStepsPerMinute();
@@ -255,6 +254,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
         filterLocal.addAction(DeviceService.ACTION_REALTIME_STEPS);
         filterLocal.addAction(DeviceService.ACTION_HEARTRATE_MEASUREMENT);
         heartRateValues = new ArrayList<>();
+        tsTranslation = new TimestampTranslation();
 
         View rootView = inflater.inflate(R.layout.fragment_live_activity, container, false);
 
@@ -315,7 +315,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
      * Called in the UI thread.
      */
     private void pulse() {
-        addEntries(adjust(System.currentTimeMillis()));
+        addEntries(translateTimestamp(System.currentTimeMillis()));
 
         LineData historyData = (LineData) mStepsPerMinuteHistoryChart.getData();
         if (historyData == null) {
@@ -333,7 +333,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
         GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(true);
     }
 
-    private long getPulseIntervalMillis() {
+    private int getPulseIntervalMillis() {
         return 1000;
     }
 

@@ -411,7 +411,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     protected DefaultChartsData<CombinedData> refresh(GBDevice gbDevice, List<? extends ActivitySample> samples) {
 //        Calendar cal = GregorianCalendar.getInstance();
 //        cal.clear();
-        int tsOffset = 0;
+        TimestampTranslation tsTranslation = new TimestampTranslation();
 //        Date date;
 //        String dateStringFrom = "";
 //        String dateStringTo = "";
@@ -435,13 +435,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             for (int i = 0; i < numEntries; i++) {
                 ActivitySample sample = samples.get(i);
                 int type = sample.getKind();
-                int ts;
-                if (i == 0) {
-                    tsOffset = sample.getTimestamp();
-                    ts = 0;
-                } else {
-                    ts = sample.getTimestamp() - tsOffset;
-                }
+                int ts = tsTranslation.shorten(sample.getTimestamp());
 
 //                System.out.println(ts);
 //                ts = i;
@@ -541,7 +535,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             combinedData = new CombinedData();
         }
 
-        IAxisValueFormatter xValueFormatter = new SampleXLabelFormatter(tsOffset);
+        IAxisValueFormatter xValueFormatter = new SampleXLabelFormatter(tsTranslation);
         return new DefaultChartsData(combinedData, xValueFormatter);
     }
 
@@ -750,13 +744,13 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     protected static class SampleXLabelFormatter implements IAxisValueFormatter {
-        private final int tsOffset;
+        private final TimestampTranslation tsTranslation;
         SimpleDateFormat annotationDateFormat = new SimpleDateFormat("HH:mm");
 //        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         Calendar cal = GregorianCalendar.getInstance();
 
-        public SampleXLabelFormatter(int tsOffset) {
-            this.tsOffset = tsOffset;
+        public SampleXLabelFormatter(TimestampTranslation tsTranslation) {
+            this.tsTranslation = tsTranslation;
 
         }
         // TODO: this does not work. Cannot use precomputed labels
@@ -764,7 +758,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         public String getFormattedValue(float value, AxisBase axis) {
             cal.clear();
             int ts = (int) value;
-            cal.setTimeInMillis((ts + tsOffset) * 1000L);
+            cal.setTimeInMillis(tsTranslation.toOriginalValue(ts) * 1000L);
             Date date = cal.getTime();
             String dateString = annotationDateFormat.format(date);
             return dateString;
@@ -795,6 +789,33 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         @Override
         public int getDecimalDigits() {
             return 0;
+        }
+    }
+
+    /**
+     * Awkward class that helps in translating long timestamp
+     * values to float (sic!) values. It basically rebases all
+     * timestamps to a base (the very first) timestamp value.
+     *
+     * It does this so that the large timestamp values can be used
+     * floating point values, where the mantissa is just 24 bits.
+     */
+    protected static class TimestampTranslation {
+        private int tsOffset = -1;
+
+        public int shorten(int timestamp) {
+            if (tsOffset == -1) {
+                tsOffset = timestamp;
+                return 0;
+            }
+            return timestamp - tsOffset;
+        }
+
+        public int toOriginalValue(int timestamp) {
+            if (tsOffset == -1) {
+                return timestamp;
+            }
+            return timestamp + tsOffset;
         }
     }
 }
