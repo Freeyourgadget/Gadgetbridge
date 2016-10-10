@@ -54,7 +54,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.AbortTransactio
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.ConditionalWriteAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WriteAction;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertLevel;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.Mi2NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.InitOperation;
@@ -74,14 +73,6 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.FL
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.FLASH_COUNT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.FLASH_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.FLASH_ORIGINAL_COLOUR;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_CHAT;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_FACEBOOK;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_GENERIC;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_K9MAIL;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_PEBBLEMSG;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_SMS;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_TELEGRAM;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_TWITTER;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_COUNT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_PAUSE;
@@ -561,46 +552,38 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
         String task;
-        String origin;
         int alertLevel;
         switch (notificationSpec.type) {
             case SMS:
                 task = "sms received";
-                origin = ORIGIN_SMS;
                 alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
                 break;
             case EMAIL:
                 task = "email received";
-                origin = ORIGIN_K9MAIL;
                 alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
                 break;
             case FACEBOOK:
                 task = "facebook message received";
-                origin = ORIGIN_FACEBOOK;
                 alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
                 break;
             case TWITTER:
                 task = "twitter message received";
-                origin = ORIGIN_TWITTER;
                 alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
                 break;
             case TELEGRAM:
                 task = "telegram message received";
-                origin = ORIGIN_TELEGRAM;
                 alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
                 break;
             case CHAT:
                 task = "chat message received";
-                origin = ORIGIN_CHAT;
                 alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
                 break;
             case UNDEFINED:
             default:
                 task = "generic notification received";
-                origin = ORIGIN_GENERIC;
                 alertLevel = MiBand2Service.ALERT_LEVEL_VIBRATE_ONLY;
         }
-        performPreferredNotification(task, origin, alertLevel, null);
+        performPreferredNotification(task, notificationSpec.type.getFixedValue(), alertLevel, null);
     }
 
     @Override

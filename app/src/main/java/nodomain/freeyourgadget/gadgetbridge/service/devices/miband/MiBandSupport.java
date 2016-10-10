@@ -36,7 +36,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
@@ -77,13 +76,6 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.FL
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.FLASH_COUNT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.FLASH_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.FLASH_ORIGINAL_COLOUR;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_FACEBOOK;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_GENERIC;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_K9MAIL;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_PEBBLEMSG;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_SMS;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_TELEGRAM;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_TWITTER;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_COUNT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_PAUSE;
@@ -542,28 +534,29 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
-        // FIXME: these ORIGIN contants do not really make sense anymore
+        String origin = notificationSpec.type.getFixedValue();
         switch (notificationSpec.type) {
             case SMS:
-                performPreferredNotification("sms received", ORIGIN_SMS, null);
+                performPreferredNotification("sms received", origin, null);
                 break;
             case EMAIL:
-                performPreferredNotification("email received", ORIGIN_K9MAIL, null);
+                performPreferredNotification("email received", origin, null);
                 break;
             case CHAT:
-                performPreferredNotification("chat message received", ORIGIN_PEBBLEMSG, null);
+                performPreferredNotification("chat message received", origin, null);
                 break;
             case TELEGRAM:
-                performPreferredNotification("chat message received", ORIGIN_TELEGRAM, null);
+                performPreferredNotification("chat message received", origin, null);
                 break;
             case TWITTER:
-                performPreferredNotification("chat message received", ORIGIN_TWITTER, null);
+                performPreferredNotification("chat message received", origin, null);
                 break;
             case FACEBOOK:
-                performPreferredNotification("chat message received", ORIGIN_FACEBOOK, null);
+                performPreferredNotification("chat message received", origin, null);
                 break;
+            case UNDEFINED:
             default:
-                performPreferredNotification("generic notification received", ORIGIN_GENERIC, null);
+                performPreferredNotification("generic notification received", origin, null);
         }
     }
 

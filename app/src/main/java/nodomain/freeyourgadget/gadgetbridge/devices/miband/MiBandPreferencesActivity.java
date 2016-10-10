@@ -14,21 +14,12 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_CHAT;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_FACEBOOK;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_GENERIC;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_INCOMING_CALL;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_K9MAIL;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_PEBBLEMSG;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_SMS;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_TELEGRAM;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_TWITTER;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_ADDRESS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_FITNESS_GOAL;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_TRY_SMS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_USER_ALIAS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_COUNT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.getNotificationPrefKey;
@@ -66,7 +57,7 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
 
     private void addTryListeners() {
         for (final NotificationType type : NotificationType.values()) {
-            String prefKey = "mi_try_" + type.name();
+            String prefKey = "mi_try_" + type.getFixedValue();
             final Preference tryPref = findPreference(prefKey);
             if (tryPref != null) {
                 tryPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -90,21 +81,20 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
 
     @Override
     protected String[] getPreferenceKeysWithSummary() {
-        return new String[]{
+        String[] strings1 = {
                 PREF_USER_ALIAS,
                 PREF_MIBAND_ADDRESS,
                 PREF_MIBAND_FITNESS_GOAL,
                 PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR,
-		        PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS,
-                getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_SMS),
-                getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_CHAT),
-                getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_TELEGRAM),
-                getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_TWITTER),
-                getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_FACEBOOK),
-                getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_INCOMING_CALL),
-                getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_K9MAIL),
-                getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_PEBBLEMSG),
-                getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_GENERIC),
+                PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS,
+                getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_INCOMING_CALL)
         };
+        String[] strings2 = new String[NotificationType.values().length];
+        int i = 0;
+        for (NotificationType type : NotificationType.values()) {
+            strings2[i++] = type.getFixedValue();
+        }
+
+        return org.apache.commons.lang3.ArrayUtils.addAll(strings1, strings2);
     }
 }

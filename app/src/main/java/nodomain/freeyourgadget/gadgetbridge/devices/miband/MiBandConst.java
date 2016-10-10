@@ -21,15 +21,7 @@ public final class MiBandConst {
     public static final String PREF_TRY_SMS = "mi_try_sms";
 
 
-    public static final String ORIGIN_SMS = "sms";
-    public static final String ORIGIN_CHAT = "chat";
-    public static final String ORIGIN_TELEGRAM = "telegram";
-    public static final String ORIGIN_TWITTER = "twitter";
-    public static final String ORIGIN_FACEBOOK = "facebook";
     public static final String ORIGIN_INCOMING_CALL = "incoming_call";
-    public static final String ORIGIN_K9MAIL = "k9mail";
-    public static final String ORIGIN_PEBBLEMSG = "pebblemsg";
-    public static final String ORIGIN_GENERIC = "generic";
     public static final String MI_GENERAL_NAME_PREFIX = "MI";
     public static final String MI_BAND2_NAME = "MI Band 2";
     public static final String MI_1 = "1";
