@@ -139,7 +139,7 @@
   <string name="pref_header_vibration_settings">Параметри вібро</string>
   <string name="pref_screen_notification_profile_generic">Загальні сповіщення</string>
   <string name="pref_screen_notification_profile_pebblemsg">Сповіщення Pebble</string>
-  <string name="pref_screen_notification_profile_k9mail">Сповіщення пошти K9</string>
+  <string name="pref_screen_notification_profile_email">Сповіщення пошти</string>
   <string name="pref_screen_notification_profile_incoming_call">Сповіщення під час вхідного дзвінку</string>
   <string name="control_center_find_lost_device">Знайти загублений пристрій</string>
   <string name="control_center_cancel_to_stop_vibration">Скасуйте, аби зупинити вібро</string>

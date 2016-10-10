@@ -162,7 +162,7 @@
   <string name="pref_header_vibration_settings">バイブレーションの設定</string>
   <string name="pref_screen_notification_profile_generic">全般通知</string>
   <string name="pref_screen_notification_profile_pebblemsg">Pebble通知</string>
-  <string name="pref_screen_notification_profile_k9mail">K9 Mail 通知</string>
+  <string name="pref_screen_notification_profile_email">Mail 通知</string>
   <string name="pref_screen_notification_profile_incoming_call">着信通知</string>
   <string name="control_center_find_lost_device">なくしたデバイスを探す</string>
   <string name="control_center_cancel_to_stop_vibration">キャンセルで振動を停止します。</string>

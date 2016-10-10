@@ -134,7 +134,7 @@
   <string name="pref_header_vibration_settings">Настройки вибро</string>
   <string name="pref_screen_notification_profile_generic">Общие уведомления</string>
   <string name="pref_screen_notification_profile_pebblemsg">Уведомления Pebble</string>
-  <string name="pref_screen_notification_profile_k9mail">Уведомления почты K9</string>
+  <string name="pref_screen_notification_profile_email">Уведомления почты</string>
   <string name="pref_screen_notification_profile_incoming_call">Уведомления о входящем звонке</string>
   <string name="control_center_find_lost_device">Найти потерянное устройство</string>
   <string name="control_center_cancel_to_stop_vibration">Отмените, чтобы остановить вибро</string>

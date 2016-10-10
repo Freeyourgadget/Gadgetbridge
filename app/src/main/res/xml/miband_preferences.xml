@@ -97,7 +97,7 @@
 
         <PreferenceScreen
             android:key="vibration_profile_key"
-            android:title="@string/pref_screen_notification_profile_k9mail"
+            android:title="@string/pref_screen_notification_profile_email"
             android:persistent="false">
 
             <ListPreference

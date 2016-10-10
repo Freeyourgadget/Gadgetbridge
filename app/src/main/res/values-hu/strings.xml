@@ -143,7 +143,7 @@
     <string name="pref_header_vibration_settings">Rezgésbeállítások</string>
     <string name="pref_screen_notification_profile_generic">Általános értesítések</string>
     <string name="pref_screen_notification_profile_incoming_call">Bejővő hívás értesítés</string>
-    <string name="pref_screen_notification_profile_k9mail">K9 E-Mail értesítés</string>
+    <string name="pref_screen_notification_profile_email">E-Mail értesítés</string>
     <string name="pref_screen_notification_profile_pebblemsg">Pebble értesítés</string>
     <string name="pref_screen_notification_profile_sms">SMS értesítés</string>
     <string name="pref_screen_vibration_profile">Rezgés profil</string>

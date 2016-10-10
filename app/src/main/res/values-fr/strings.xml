@@ -159,7 +159,7 @@
   <string name="pref_header_vibration_settings">Paramètres des vibrations</string>
   <string name="pref_screen_notification_profile_generic">Notification générique</string>
   <string name="pref_screen_notification_profile_pebblemsg">Notification Pebble</string>
-  <string name="pref_screen_notification_profile_k9mail">Notification K9 Mail</string>
+  <string name="pref_screen_notification_profile_email">Notification e-mail</string>
   <string name="pref_screen_notification_profile_incoming_call">Notification d\'appels entrants</string>
   <string name="control_center_find_lost_device">Trouver l\'appareil perdu</string>
   <string name="control_center_cancel_to_stop_vibration">Annuler pour arrêter les vibrations</string>

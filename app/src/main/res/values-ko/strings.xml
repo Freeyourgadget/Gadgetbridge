@@ -132,7 +132,7 @@
   <string name="pref_header_vibration_settings">진동 설정</string>
   <string name="pref_screen_notification_profile_generic">일반 알림</string>
   <string name="pref_screen_notification_profile_pebblemsg">Pebble 알림</string>
-  <string name="pref_screen_notification_profile_k9mail">K-9 Mail 알림</string>
+  <string name="pref_screen_notification_profile_email">Mail 알림</string>
   <string name="pref_screen_notification_profile_incoming_call">걸려오는 전화 알림</string>
   <string name="control_center_find_lost_device">잃어버린 기기 찾기</string>
   <string name="control_center_cancel_to_stop_vibration">진동을 멈추려면 취소를 선택하세요.</string>
