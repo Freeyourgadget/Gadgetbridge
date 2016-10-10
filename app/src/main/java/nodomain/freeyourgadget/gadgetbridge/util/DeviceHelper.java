@@ -46,13 +46,8 @@ public class DeviceHelper {
 
     // lazily created
     private List<DeviceCoordinator> coordinators;
-    // the current single coordinator (typically there's just one device connected
-    private DeviceCoordinator coordinator;
 
     public boolean isSupported(GBDeviceCandidate candidate) {
-        if (coordinator != null && coordinator.supports(candidate)) {
-            return true;
-        }
         for (DeviceCoordinator coordinator : getAllCoordinators()) {
             if (coordinator.supports(candidate)) {
                 return true;
@@ -62,9 +57,6 @@ public class DeviceHelper {
     }
 
     public boolean isSupported(GBDevice device) {
-        if (coordinator != null && coordinator.supports(device)) {
-            return true;
-        }
         for (DeviceCoordinator coordinator : getAllCoordinators()) {
             if (coordinator.supports(device)) {
                 return true;
@@ -130,9 +122,6 @@ public class DeviceHelper {
     public GBDevice toSupportedDevice(BluetoothDevice device) {
         GBDeviceCandidate candidate = new GBDeviceCandidate(device, GBDevice.RSSI_UNKNOWN);
 
-        if (coordinator != null && coordinator.supports(candidate)) {
-            return coordinator.createDevice(candidate);
-        }
         for (DeviceCoordinator coordinator : getAllCoordinators()) {
             if (coordinator.supports(candidate)) {
                 return coordinator.createDevice(candidate);
@@ -142,14 +131,10 @@ public class DeviceHelper {
     }
 
     public DeviceCoordinator getCoordinator(GBDeviceCandidate device) {
-        if (coordinator != null && coordinator.supports(device)) {
-            return coordinator;
-        }
         synchronized (this) {
             for (DeviceCoordinator coord : getAllCoordinators()) {
                 if (coord.supports(device)) {
-                    coordinator = coord;
-                    return coordinator;
+                    return coord;
                 }
             }
         }
@@ -157,14 +142,10 @@ public class DeviceHelper {
     }
 
     public DeviceCoordinator getCoordinator(GBDevice device) {
-        if (coordinator != null && coordinator.supports(device)) {
-            return coordinator;
-        }
         synchronized (this) {
             for (DeviceCoordinator coord : getAllCoordinators()) {
                 if (coord.supports(device)) {
-                    coordinator = coord;
-                    return coordinator;
+                    return coord;
                 }
             }
         }
