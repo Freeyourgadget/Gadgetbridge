@@ -121,27 +121,6 @@
 
         <PreferenceScreen
             android:key="vibration_profile_key"
-            android:title="@string/pref_screen_notification_profile_pebblemsg"
-            android:persistent="false">
-
-            <ListPreference
-                android:defaultValue="@string/p_short"
-                android:entries="@array/vibration_profile"
-                android:entryValues="@array/vibration_profile_values"
-                android:key="mi_vibration_profile_pebblemsg"
-                android:title="@string/miband_prefs_vibration"
-                android:summary="%s" />
-
-            <EditTextPreference
-                android:defaultValue="1"
-                android:inputType="number"
-                android:key="mi_vibration_count_pebblemsg"
-                android:maxLength="1"
-                android:title="@string/pref_title_notifications_repetitions" />
-        </PreferenceScreen>
-
-        <PreferenceScreen
-            android:key="vibration_profile_key"
             android:title="@string/pref_screen_notification_profile_telegram"
             android:persistent="false">
 
