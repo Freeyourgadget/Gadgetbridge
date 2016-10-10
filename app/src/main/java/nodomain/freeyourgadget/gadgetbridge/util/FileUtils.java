@@ -166,8 +166,8 @@ public class FileUtils {
 
             // the first directory is also the primary external storage, i.e. the same as Environment.getExternalFilesDir()
             // TODO: check the mount state of *all* dirs when switching to later API level
-            if (!dir.canWrite() || (i == 0 && !Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()))) {
-                GB.log("ignoring non-writable external storage dir: " + dir, GB.INFO, null);
+            if (i == 0 && !Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+                GB.log("ignoring unmounted external storage dir: " + dir, GB.INFO, null);
                 continue;
             }
             result.add(dir); // add last
