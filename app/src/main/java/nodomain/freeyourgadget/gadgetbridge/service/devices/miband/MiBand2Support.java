@@ -578,7 +578,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 task = "chat message received";
                 alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
                 break;
-            case UNDEFINED:
+            case UNKNOWN:
             default:
                 task = "generic notification received";
                 alertLevel = MiBand2Service.ALERT_LEVEL_VIBRATE_ONLY;

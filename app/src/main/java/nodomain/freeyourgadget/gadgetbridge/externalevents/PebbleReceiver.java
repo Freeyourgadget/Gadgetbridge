@@ -58,7 +58,7 @@ public class PebbleReceiver extends BroadcastReceiver {
         }
 
         if (notificationSpec.title != null) {
-            notificationSpec.type = NotificationType.UNDEFINED;
+            notificationSpec.type = NotificationType.UNKNOWN;
             String sender = intent.getStringExtra("sender");
             if ("Conversations".equals(sender)) {
                 notificationSpec.type = NotificationType.CHAT;

@@ -279,7 +279,7 @@ public class NotificationListener extends NotificationListenerService {
                 notificationSpec.type = NotificationType.FACEBOOK;
                 break;
             default:
-                notificationSpec.type = NotificationType.UNDEFINED;
+                notificationSpec.type = NotificationType.UNKNOWN;
                 break;
         }
 

@@ -230,18 +230,18 @@
                 android:defaultValue="@string/p_waterdrop"
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
-                android:key="mi_vibration_profile_undefined"
+                android:key="mi_vibration_profile_unknown"
                 android:title="@string/miband_prefs_vibration"
                 android:summary="%s" />
 
             <EditTextPreference
                 android:defaultValue="3"
                 android:inputType="number"
-                android:key="mi_vibration_count_undefined"
+                android:key="mi_vibration_count_unknown"
                 android:maxLength="1"
                 android:title="@string/pref_title_notifications_repetitions" />
             <Preference
-                android:key="mi_try_undefined"
+                android:key="mi_try_unknown"
                 android:persistent="false"
                 android:title="@string/vibration_try"/>
         </PreferenceScreen>

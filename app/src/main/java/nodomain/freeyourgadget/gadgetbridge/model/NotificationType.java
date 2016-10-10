@@ -2,7 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.model;
 
 public enum NotificationType {
 
-    UNDEFINED,
+    UNKNOWN,
 
     CHAT,
     EMAIL,

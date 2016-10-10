@@ -554,7 +554,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             case FACEBOOK:
                 performPreferredNotification("chat message received", origin, null);
                 break;
-            case UNDEFINED:
+            case UNKNOWN:
             default:
                 performPreferredNotification("generic notification received", origin, null);
         }
