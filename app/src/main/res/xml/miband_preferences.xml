@@ -71,6 +71,7 @@
 
             <Preference
                 android:key="mi_try_sms"
+                android:persistent="false"
                 android:title="@string/vibration_try"/>
         </PreferenceScreen>
 
@@ -116,6 +117,7 @@
                 android:title="@string/pref_title_notifications_repetitions" />
             <Preference
                 android:key="mi_try_email"
+                android:persistent="false"
                 android:title="@string/vibration_try"/>
         </PreferenceScreen>
 
@@ -140,6 +142,7 @@
                 android:title="@string/pref_title_notifications_repetitions" />
             <Preference
                 android:key="mi_try_telegram"
+                android:persistent="false"
                 android:title="@string/vibration_try"/>
         </PreferenceScreen>
 
@@ -164,6 +167,7 @@
                 android:title="@string/pref_title_notifications_repetitions" />
             <Preference
                 android:key="mi_try_chat"
+                android:persistent="false"
                 android:title="@string/vibration_try"/>
         </PreferenceScreen>
 
@@ -188,6 +192,7 @@
                 android:title="@string/pref_title_notifications_repetitions" />
             <Preference
                 android:key="mi_try_twitter"
+                android:persistent="false"
                 android:title="@string/vibration_try"/>
         </PreferenceScreen>
 
@@ -211,6 +216,7 @@
                 android:maxLength="1"
                 android:title="@string/pref_title_notifications_repetitions" />
             <Preference
+                android:persistent="false"
                 android:key="mi_try_facebook"
                 android:title="@string/vibration_try"/>
         </PreferenceScreen>
@@ -236,6 +242,7 @@
                 android:title="@string/pref_title_notifications_repetitions" />
             <Preference
                 android:key="mi_try_undefined"
+                android:persistent="false"
                 android:title="@string/vibration_try"/>
         </PreferenceScreen>
 
