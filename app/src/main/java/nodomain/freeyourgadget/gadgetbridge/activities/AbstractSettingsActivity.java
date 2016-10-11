@@ -180,6 +180,7 @@ public abstract class AbstractSettingsActivity extends PreferenceActivity {
         getDelegate().addContentView(view, params);
     }
 
+    @Override
     public void invalidateOptionsMenu() {
         getDelegate().invalidateOptionsMenu();
     }
