@@ -54,6 +54,11 @@
             android:title="@string/pref_screen_notification_profile_sms"
             android:persistent="false">
 
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory
+                android:title="@string/pref_screen_notification_profile_sms"
+            />
+
             <ListPreference
                 android:defaultValue="@string/p_staccato"
                 android:entries="@array/vibration_profile"
@@ -80,6 +85,11 @@
             android:title="@string/pref_screen_notification_profile_incoming_call"
             android:persistent="false">
 
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory
+                android:title="@string/pref_screen_notification_profile_incoming_call"
+                />
+
             <ListPreference
                 android:defaultValue="@string/p_ring"
                 android:entries="@array/vibration_profile"
@@ -100,6 +110,11 @@
             android:key="vibration_profile_key"
             android:title="@string/pref_screen_notification_profile_email"
             android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory
+                android:title="@string/pref_screen_notification_profile_email"
+                />
 
             <ListPreference
                 android:defaultValue="@string/p_medium"
@@ -126,6 +141,11 @@
             android:title="@string/pref_screen_notification_profile_generic_chat"
             android:persistent="false">
 
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory
+                android:title="@string/pref_screen_notification_profile_generic_chat"
+                />
+
             <ListPreference
                 android:defaultValue="@string/p_waterdrop"
                 android:entries="@array/vibration_profile"
@@ -150,6 +170,11 @@
             android:key="vibration_profile_key"
             android:title="@string/pref_screen_notification_profile_generic_social"
             android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory
+                android:title="@string/pref_screen_notification_profile_generic_social"
+                />
 
             <ListPreference
                 android:defaultValue="@string/p_waterdrop"
@@ -176,6 +201,11 @@
             android:title="@string/pref_screen_notification_profile_generic_navigation"
             android:persistent="false">
 
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory
+                android:title="@string/pref_screen_notification_profile_generic_navigation"
+                />
+
             <ListPreference
                 android:defaultValue="@string/p_waterdrop"
                 android:entries="@array/vibration_profile"
@@ -200,6 +230,11 @@
             android:key="vibration_profile_key"
             android:title="@string/pref_screen_notification_profile_generic"
             android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory
+                android:title="@string/pref_screen_notification_profile_generic"
+                />
 
             <ListPreference
                 android:defaultValue="@string/p_waterdrop"
