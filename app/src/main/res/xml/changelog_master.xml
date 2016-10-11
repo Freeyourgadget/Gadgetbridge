@@ -8,6 +8,8 @@
         <change>Mi Band 2: Possibly fix weird connection interdependency between Mi 1 and 2</change>
         <change>Mi Band 1S: Whitelist firmware 4.16.4.22</change>
         <change>Mi Band: try application level pairing again, in ordert to support data sharing with Mi Fit</change>
+        <change>Pebble: new icons and colours for certain apps</change>
+        <change>Debug-screen: added button to test "new functionality", currently live sensor data for Mi Band 1</change>
     </release>
     <release version="0.13.3" versioncode="65">
         <change>Fix regressions with missing bars and labels in charts</change>
