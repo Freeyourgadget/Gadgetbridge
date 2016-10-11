@@ -3,7 +3,7 @@
     <release version="0.13.4" versioncode="66">
         <change>Mi Band: Initial support for recording heart and displaying rate values</change>
         <change>Mi Band: Support for testing vibration patterns directly from the preferences</change>
-        <change>Mi Band: Clean up vibration preferences</change>
+        <change>Mi Band: Clean up vibration preferences -- you may need to reconfigure some of them </change>
         <change>Possibly fix logging to file on certain devices)</change>
         <change>Mi Band 2: Possibly fix weird connection interdependency between Mi 1 and 2</change>
         <change>Mi Band 1S: Whitelist firmware 4.16.4.22</change>
