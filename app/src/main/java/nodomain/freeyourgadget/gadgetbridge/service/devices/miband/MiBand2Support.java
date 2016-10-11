@@ -44,6 +44,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
@@ -551,47 +552,12 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
-        String task;
-        int alertLevel;
-        switch (notificationSpec.type) {
-            case CONVERSATIONS:
-                task = "conversations message received";
-                alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
-                break;
-            case GENERIC_SMS:
-                task = "sms received";
-                alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
-                break;
-            case GENERIC_EMAIL:
-                task = "email received";
-                alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
-                break;
-            case FACEBOOK:
-                task = "facebook message received";
-                alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
-                break;
-            case FACEBOOK_MESSENGER:
-                task = "facebook messenger message received";
-                alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
-                break;
-            case SIGNAL:
-                task = "signal message received";
-                alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
-                break;
-            case TWITTER:
-                task = "twitter message received";
-                alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
-                break;
-            case TELEGRAM:
-                task = "telegram message received";
-                alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
-                break;
-            case UNKNOWN:
-            default:
-                task = "generic notification received";
-                alertLevel = MiBand2Service.ALERT_LEVEL_VIBRATE_ONLY;
+        int alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
+        if (notificationSpec.type == NotificationType.UNKNOWN) {
+            alertLevel = MiBand2Service.ALERT_LEVEL_VIBRATE_ONLY;
         }
-        performPreferredNotification(task, notificationSpec.type.getFixedValue(), alertLevel, null);
+        String origin = notificationSpec.type.getGenericType();
+        performPreferredNotification(origin + " received", origin, alertLevel, null);
     }
 
     @Override
