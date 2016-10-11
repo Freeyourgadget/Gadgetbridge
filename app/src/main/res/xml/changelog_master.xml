@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.13.4" versioncode="66">
+        <change>Mi Band: Initial support for recording heart and displaying rate values</change>
+        <change>Mi Band: Support for testing vibration patterns directly from the preferences</change>
+        <change>Mi Band: Clean up vibration preferences</change>
+        <change>Possibly fix logging to file on certain devices)</change>
+        <change>Mi Band 2: Possibly fix weird connection interdependency between Mi 1 and 2</change>
+        <change>Mi Band 1S: Whitelist firmware 4.16.4.22</change>
+        <change>Mi Band: try application level pairing again, in ordert to support data sharing with Mi Fit</change>
+    </release>
     <release version="0.13.3" versioncode="65">
         <change>Fix regressions with missing bars and labels in charts</change>
         <change>Allow to set notification type in Debug activity</change>
