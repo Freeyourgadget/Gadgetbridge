@@ -257,26 +257,30 @@ public class NotificationListener extends NotificationListenerService {
                 break;
             case "com.fsck.k9":
             case "com.android.email":
-                notificationSpec.type = NotificationType.EMAIL;
+                notificationSpec.type = NotificationType.GENERIC_EMAIL;
                 break;
             case "com.moez.QKSMS":
             case "com.android.mms":
             case "com.android.messaging":
             case "com.sonyericsson.conversations":
             case "org.smssecure.smssecure":
-                notificationSpec.type = NotificationType.SMS;
+                notificationSpec.type = NotificationType.GENERIC_SMS;
                 break;
             case "eu.siacs.conversations":
+                notificationSpec.type = NotificationType.CONVERSATIONS;
+                break;
             case "org.thoughtcrime.securesms":
-                notificationSpec.type = NotificationType.CHAT;
+                notificationSpec.type = NotificationType.SIGNAL;
                 break;
             case "org.telegram.messenger":
                 notificationSpec.type = NotificationType.TELEGRAM;
                 break;
-            case "com.facebook.orca":
             case "com.facebook.katana":
             case "org.indywidualni.fblite":
                 notificationSpec.type = NotificationType.FACEBOOK;
+                break;
+            case "com.facebook.orca":
+                notificationSpec.type = NotificationType.FACEBOOK_MESSENGER;
                 break;
             default:
                 notificationSpec.type = NotificationType.UNKNOWN;

@@ -554,16 +554,28 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         String task;
         int alertLevel;
         switch (notificationSpec.type) {
-            case SMS:
+            case CONVERSATIONS:
+                task = "conversations message received";
+                alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
+                break;
+            case GENERIC_SMS:
                 task = "sms received";
                 alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
                 break;
-            case EMAIL:
+            case GENERIC_EMAIL:
                 task = "email received";
                 alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
                 break;
             case FACEBOOK:
                 task = "facebook message received";
+                alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
+                break;
+            case FACEBOOK_MESSENGER:
+                task = "facebook messenger message received";
+                alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
+                break;
+            case SIGNAL:
+                task = "signal message received";
                 alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
                 break;
             case TWITTER:
@@ -572,10 +584,6 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 break;
             case TELEGRAM:
                 task = "telegram message received";
-                alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
-                break;
-            case CHAT:
-                task = "chat message received";
                 alertLevel = MiBand2Service.ALERT_LEVEL_MESSAGE;
                 break;
             case UNKNOWN:

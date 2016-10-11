@@ -310,14 +310,14 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 notificationSpec.id = intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1);
                 notificationSpec.flags = intent.getIntExtra(EXTRA_NOTIFICATION_FLAGS, 0);
                 notificationSpec.sourceName = intent.getStringExtra(EXTRA_NOTIFICATION_SOURCENAME);
-                if (notificationSpec.type == NotificationType.SMS && notificationSpec.phoneNumber != null) {
+                if (notificationSpec.type == NotificationType.GENERIC_SMS && notificationSpec.phoneNumber != null) {
                     notificationSpec.sender = getContactDisplayNameByNumber(notificationSpec.phoneNumber);
 
                     notificationSpec.id = mRandom.nextInt(); // FIXME: add this in external SMS Receiver?
                     GBApplication.getIDSenderLookup().add(notificationSpec.id, notificationSpec.phoneNumber);
                 }
                 if (((notificationSpec.flags & NotificationSpec.FLAG_WEARABLE_REPLY) > 0)
-                        || (notificationSpec.type == NotificationType.SMS && notificationSpec.phoneNumber != null)) {
+                        || (notificationSpec.type == NotificationType.GENERIC_SMS && notificationSpec.phoneNumber != null)) {
                     // NOTE: maybe not where it belongs
                     if (prefs.getBoolean("pebble_force_untested", false)) {
                         // I would rather like to save that as an array in ShadredPreferences

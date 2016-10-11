@@ -464,7 +464,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         if (mFwMajor >= 3) {
             // 3.x notification
             return encodeBlobdbNotification(id, (int) (ts & 0xffffffffL), title, subtitle, notificationSpec.body, notificationSpec.sourceName, hasHandle, notificationSpec.type, notificationSpec.cannedReplies);
-        } else if (mForceProtocol || notificationSpec.type != NotificationType.EMAIL) {
+        } else if (mForceProtocol || notificationSpec.type != NotificationType.GENERIC_EMAIL) {
             // 2.x notification
             return encodeExtensibleNotification(id, (int) (ts & 0xffffffffL), title, subtitle, notificationSpec.body, notificationSpec.sourceName, hasHandle, notificationSpec.cannedReplies);
         } else {
@@ -834,11 +834,19 @@ public class PebbleProtocol extends GBDeviceProtocol {
         int icon_id;
         byte color_id;
         switch (notificationType) {
-            case EMAIL:
+            case CONVERSATIONS:
+                icon_id = PebbleIconID.NOTIFICATION_HIPCHAT;
+                color_id = PebbleColor.Inchworm;
+                break;
+            case GENERIC_EMAIL:
                 icon_id = PebbleIconID.GENERIC_EMAIL;
                 color_id = PebbleColor.JaegerGreen;
                 break;
-            case SMS:
+            case GENERIC_NAVIGATION:
+                icon_id = mFwMajor >= 4 ? PebbleIconID.NOTIFICATION_GOOGLE_MAPS : PebbleIconID.LOCATION;
+                color_id = PebbleColor.Orange;
+                break;
+            case GENERIC_SMS:
                 icon_id = PebbleIconID.GENERIC_SMS;
                 color_id = PebbleColor.VividViolet;
                 break;
@@ -848,15 +856,19 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 break;
             case FACEBOOK:
                 icon_id = PebbleIconID.NOTIFICATION_FACEBOOK;
-                color_id = PebbleColor.VeryLightBlue;
+                color_id = PebbleColor.Liberty;
                 break;
-            case CHAT:
-                icon_id = PebbleIconID.NOTIFICATION_HIPCHAT;
-                color_id = PebbleColor.Inchworm;
+            case FACEBOOK_MESSENGER:
+                icon_id = PebbleIconID.NOTIFICATION_FACEBOOK_MESSENGER;
+                color_id = PebbleColor.VeryLightBlue;
                 break;
             case TELEGRAM:
                 icon_id = PebbleIconID.NOTIFICATION_TELEGRAM;
                 color_id = PebbleColor.PictonBlue;
+                break;
+            case SIGNAL:
+                icon_id = PebbleIconID.NOTIFICATION_HIPCHAT;
+                color_id = PebbleColor.BlueMoon;
                 break;
             default:
                 icon_id = PebbleIconID.NOTIFICATION_GENERIC;

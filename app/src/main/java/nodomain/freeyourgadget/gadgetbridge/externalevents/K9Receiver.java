@@ -54,7 +54,7 @@ public class K9Receiver extends BroadcastReceiver {
 
         NotificationSpec notificationSpec = new NotificationSpec();
         notificationSpec.id = -1;
-        notificationSpec.type = NotificationType.EMAIL;
+        notificationSpec.type = NotificationType.GENERIC_EMAIL;
 
         /*
          * there seems to be no way to specify the the uri in the where clause.

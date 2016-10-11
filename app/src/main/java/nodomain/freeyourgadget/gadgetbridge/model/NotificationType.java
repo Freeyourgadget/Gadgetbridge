@@ -4,10 +4,13 @@ public enum NotificationType {
 
     UNKNOWN,
 
-    CHAT,
-    EMAIL,
+    CONVERSATIONS,
+    GENERIC_EMAIL,
+    GENERIC_NAVIGATION,
+    GENERIC_SMS,
     FACEBOOK,
-    SMS,
+    FACEBOOK_MESSENGER,
+    SIGNAL,
     TWITTER,
     TELEGRAM;
 

@@ -536,22 +536,18 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     public void onNotification(NotificationSpec notificationSpec) {
         String origin = notificationSpec.type.getFixedValue();
         switch (notificationSpec.type) {
-            case SMS:
+            case GENERIC_SMS:
                 performPreferredNotification("sms received", origin, null);
                 break;
-            case EMAIL:
+            case GENERIC_EMAIL:
                 performPreferredNotification("email received", origin, null);
                 break;
-            case CHAT:
-                performPreferredNotification("chat message received", origin, null);
-                break;
-            case TELEGRAM:
-                performPreferredNotification("chat message received", origin, null);
-                break;
-            case TWITTER:
-                performPreferredNotification("chat message received", origin, null);
-                break;
+            case CONVERSATIONS:
             case FACEBOOK:
+            case FACEBOOK_MESSENGER:
+            case SIGNAL:
+            case TELEGRAM:
+            case TWITTER:
                 performPreferredNotification("chat message received", origin, null);
                 break;
             case UNKNOWN:
