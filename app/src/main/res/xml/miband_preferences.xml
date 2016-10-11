@@ -70,7 +70,7 @@
                 android:title="@string/pref_title_notifications_repetitions" />
 
             <Preference
-                android:key="mi_try_sms"
+                android:key="mi_try_generic_sms"
                 android:persistent="false"
                 android:title="@string/vibration_try"/>
         </PreferenceScreen>
@@ -116,7 +116,7 @@
                 android:maxLength="1"
                 android:title="@string/pref_title_notifications_repetitions" />
             <Preference
-                android:key="mi_try_email"
+                android:key="mi_try_generic_34email"
                 android:persistent="false"
                 android:title="@string/vibration_try"/>
         </PreferenceScreen>
@@ -141,7 +141,7 @@
                 android:maxLength="1"
                 android:title="@string/pref_title_notifications_repetitions" />
             <Preference
-                android:key="mi_try_chat"
+                android:key="mi_try_generic_chat"
                 android:persistent="false"
                 android:title="@string/vibration_try"/>
         </PreferenceScreen>
@@ -216,7 +216,7 @@
                 android:maxLength="1"
                 android:title="@string/pref_title_notifications_repetitions" />
             <Preference
-                android:key="mi_try_unknown"
+                android:key="mi_try_generic"
                 android:persistent="false"
                 android:title="@string/vibration_try"/>
         </PreferenceScreen>

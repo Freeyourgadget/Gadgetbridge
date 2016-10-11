@@ -57,7 +57,7 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
 
     private void addTryListeners() {
         for (final NotificationType type : NotificationType.values()) {
-            String prefKey = "mi_try_" + type.getFixedValue();
+            String prefKey = "mi_try_" + type.getGenericType();
             final Preference tryPref = findPreference(prefKey);
             if (tryPref != null) {
                 tryPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
