@@ -26,8 +26,8 @@ public class Mi2NotificationStrategy extends V2NotificationStrategy {
                 int on = onOffSequence[j];
                 on = Math.min(500, on); // longer than 500ms is not possible
                 builder.write(alert, new byte[]{(byte) vibrationProfile.getAlertLevel()});
-//                builder.wait(on);
-//                builder.write(alert, new byte[]{GattCharacteristic.NO_ALERT});
+                builder.wait(on);
+                builder.write(alert, new byte[]{GattCharacteristic.NO_ALERT});
 
                 if (++j < onOffSequence.length) {
                     int off = Math.max(onOffSequence[j], 25); // wait at least 25ms
