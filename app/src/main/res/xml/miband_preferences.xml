@@ -116,7 +116,7 @@
                 android:maxLength="1"
                 android:title="@string/pref_title_notifications_repetitions" />
             <Preference
-                android:key="mi_try_generic_34email"
+                android:key="mi_try_generic_email"
                 android:persistent="false"
                 android:title="@string/vibration_try"/>
         </PreferenceScreen>
