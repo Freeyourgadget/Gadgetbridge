@@ -93,6 +93,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     public static final boolean MI_1A_HR_FW_UPDATE_TEST_MODE_ENABLED = false;
     private volatile boolean telephoneRinging;
     private volatile boolean isLocatingDevice;
+    private volatile boolean isReadingSensorData;
 
     private DeviceInfo mDeviceInfo;
 
@@ -248,6 +249,9 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     static final byte[] startRealTimeStepsNotifications = new byte[]{MiBandService.COMMAND_SET_REALTIME_STEPS_NOTIFICATION, 1};
     static final byte[] stopRealTimeStepsNotifications = new byte[]{MiBandService.COMMAND_SET_REALTIME_STEPS_NOTIFICATION, 0};
+
+    private static final byte[] startSensorRead = new byte[]{MiBandService.COMMAND_GET_SENSOR_DATA, 1};
+    private static final byte[] stopSensorRead = new byte[]{MiBandService.COMMAND_GET_SENSOR_DATA, 0};
 
     /**
      * Part of device initialization process. Do not call manually.
@@ -814,6 +818,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         } else if (MiBandService.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT.equals(characteristicUUID)) {
             handleHeartrate(characteristic.getValue());
             return true;
+        } else if (MiBandService.UUID_CHARACTERISTIC_SENSOR_DATA.equals(characteristicUUID)) {
+            handleSensorData(characteristic.getValue());
         } else {
             LOG.info("Unhandled characteristic changed: " + characteristicUUID);
             logMessageContent(characteristic.getValue());
@@ -1214,5 +1220,38 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onTestNewFunction() {
+        try {
+            TransactionBuilder builder = performInitialized("Toggle sensor reading");
+            if (isReadingSensorData) {
+                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), stopSensorRead);
+                isReadingSensorData = false;
+            } else {
+                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), startSensorRead);
+                isReadingSensorData = true;
+            }
+            builder.queue(getQueue());
+        } catch (IOException ex) {
+            LOG.error("Unable to toggle sensor reading MI", ex);
+        }
+    }
+
+    private void handleSensorData(byte[] value) {
+        int counter=0, step=0, axis1=0, axis2=0, axis3 =0;
+        if ((value.length - 2) % 6 != 0) {
+            LOG.warn("GOT UNEXPECTED SENSOR DATA WITH LENGTH: " + value.length);
+            for (byte b : value) {
+                LOG.warn("DATA: " + String.format("0x%4x", b));
+            }
+        }
+        else {
+            counter = (value[0] & 0xff) | ((value[1] & 0xff) << 8);
+            for (int idx = 0; idx < ((value.length - 2) / 6); idx++) {
+                step = idx * 6;
+                axis1 = (value[step+2] & 0xff) | ((value[step+3] & 0xff) << 8);
+                axis2 = (value[step+4] & 0xff) | ((value[step+5] & 0xff) << 8);
+                axis3 = (value[step+6] & 0xff) | ((value[step+7] & 0xff) << 8);
+            }
+            LOG.info("READ SENSOR DATA VALUES: counter:"+counter+" step:"+step+" axis1:"+axis1+" axis2:"+axis2+" axis3:"+axis3+";");
+        }
     }
 }

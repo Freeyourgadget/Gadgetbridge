@@ -164,6 +164,7 @@ public class MiBandService {
     public static final byte COMMAND_SET__HR_CONTINUOUS = 0x1;
     public static final byte COMMAND_SET_HR_MANUAL = 0x2;
 
+    public static final byte COMMAND_GET_SENSOR_DATA = 0x12;
 
     /* FURTHER COMMANDS: unchecked therefore left commented
 
@@ -171,8 +172,6 @@ public class MiBandService {
 	public static final byte COMMAND_FACTORY_RESET = 0x9t;
 
 	public static final int COMMAND_SET_COLOR_THEME = et;
-
-	public static final byte COMMAND_GET_SENSOR_DATA = 0x12t
 
 	*/
 
