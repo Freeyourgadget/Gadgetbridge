@@ -123,31 +123,6 @@
 
         <PreferenceScreen
             android:key="vibration_profile_key"
-            android:title="@string/pref_screen_notification_profile_telegram"
-            android:persistent="false">
-
-            <ListPreference
-                android:defaultValue="@string/p_waterdrop"
-                android:entries="@array/vibration_profile"
-                android:entryValues="@array/vibration_profile_values"
-                android:key="mi_vibration_profile_telegram"
-                android:title="@string/miband_prefs_vibration"
-                android:summary="%s" />
-
-            <EditTextPreference
-                android:defaultValue="3"
-                android:inputType="number"
-                android:key="mi_vibration_count_telegram"
-                android:maxLength="1"
-                android:title="@string/pref_title_notifications_repetitions" />
-            <Preference
-                android:key="mi_try_telegram"
-                android:persistent="false"
-                android:title="@string/vibration_try"/>
-        </PreferenceScreen>
-
-        <PreferenceScreen
-            android:key="vibration_profile_key"
             android:title="@string/pref_screen_notification_profile_chat"
             android:persistent="false">
 
@@ -173,51 +148,51 @@
 
         <PreferenceScreen
             android:key="vibration_profile_key"
-            android:title="@string/pref_screen_notification_profile_twitter"
+            android:title="@string/pref_screen_notification_profile_generic_social"
             android:persistent="false">
 
             <ListPreference
                 android:defaultValue="@string/p_waterdrop"
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
-                android:key="mi_vibration_profile_twitter"
+                android:key="mi_vibration_profile_generic_social"
                 android:title="@string/miband_prefs_vibration"
                 android:summary="%s" />
 
             <EditTextPreference
                 android:defaultValue="3"
                 android:inputType="number"
-                android:key="mi_vibration_count_twitter"
+                android:key="mi_vibration_count_generic_social"
                 android:maxLength="1"
                 android:title="@string/pref_title_notifications_repetitions" />
             <Preference
-                android:key="mi_try_twitter"
+                android:key="mi_try_generic_social"
                 android:persistent="false"
                 android:title="@string/vibration_try"/>
         </PreferenceScreen>
 
         <PreferenceScreen
             android:key="vibration_profile_key"
-            android:title="@string/pref_screen_notification_profile_facebook"
+            android:title="@string/pref_screen_notification_profile_generic_navigation"
             android:persistent="false">
 
             <ListPreference
                 android:defaultValue="@string/p_waterdrop"
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
-                android:key="mi_vibration_profile_facebook"
+                android:key="mi_vibration_profile_generic_navigation"
                 android:title="@string/miband_prefs_vibration"
                 android:summary="%s" />
 
             <EditTextPreference
                 android:defaultValue="3"
                 android:inputType="number"
-                android:key="mi_vibration_count_facebook"
+                android:key="mi_vibration_count_generic_navigation"
                 android:maxLength="1"
                 android:title="@string/pref_title_notifications_repetitions" />
             <Preference
                 android:persistent="false"
-                android:key="mi_try_facebook"
+                android:key="mi_try_generic_navigation"
                 android:title="@string/vibration_try"/>
         </PreferenceScreen>
 

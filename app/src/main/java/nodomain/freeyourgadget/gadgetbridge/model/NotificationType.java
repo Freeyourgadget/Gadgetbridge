@@ -23,4 +23,24 @@ public enum NotificationType {
     public String getFixedValue() {
         return name().toLowerCase();
     }
+
+    public String getGenericType() {
+        switch (this) {
+            case GENERIC_EMAIL:
+            case GENERIC_NAVIGATION:
+            case GENERIC_SMS:
+                return getFixedValue();
+            case FACEBOOK:
+            case TWITTER:
+                return "generic_social";
+            case CONVERSATIONS:
+            case FACEBOOK_MESSENGER:
+            case SIGNAL:
+            case TELEGRAM:
+                return "generic_chat";
+            case UNKNOWN:
+            default:
+                return "generic";
+        }
+    }
 }
