@@ -167,4 +167,9 @@ public class TestDeviceSupport extends AbstractDeviceSupport {
     public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
 
     }
+
+    @Override
+    public void onTestNewFunction() {
+
+    }
 }

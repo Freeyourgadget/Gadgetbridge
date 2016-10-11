@@ -48,6 +48,7 @@ public interface DeviceService extends EventHandler {
     String ACTION_HEARTRATE_MEASUREMENT = PREFIX + ".action.hr_measurement";
     String ACTION_ADD_CALENDAREVENT = PREFIX + ".action.add_calendarevent";
     String ACTION_DELETE_CALENDAREVENT = PREFIX + ".action.delete_calendarevent";
+    String ACTION_TEST_NEW_FUNCTION = PREFIX + ".action.test_new_function";
     String EXTRA_DEVICE_ADDRESS = "device_address";
     String EXTRA_NOTIFICATION_BODY = "notification_body";
     String EXTRA_NOTIFICATION_FLAGS = "notification_flags";

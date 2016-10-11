@@ -269,7 +269,10 @@ public class VibratissimoSupport extends AbstractBTLEDeviceSupport {
 
         LOG.info("Unhandled characteristic read: " + characteristicUUID);
         return false;
+    }
 
+    @Override
+    public void onTestNewFunction() {
 
     }
 }

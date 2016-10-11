@@ -319,4 +319,12 @@ public class ServiceDeviceSupport implements DeviceSupport {
         }
         delegate.onDeleteCalendarEvent(type, id);
     }
+
+    @Override
+    public void onTestNewFunction() {
+        if (checkBusy("test new function event")) {
+            return;
+        }
+        delegate.onTestNewFunction();
+    }
 }

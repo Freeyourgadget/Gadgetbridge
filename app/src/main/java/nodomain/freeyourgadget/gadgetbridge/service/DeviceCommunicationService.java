@@ -80,6 +80,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SE
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_CONSTANT_VIBRATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_STARTAPP;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_TEST_NEW_FUNCTION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_ALARMS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_CONFIG;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_START;
@@ -482,6 +483,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             case ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT: {
                 boolean enable = intent.getBooleanExtra(EXTRA_BOOLEAN_ENABLE, false);
                 mDeviceSupport.onEnableRealtimeHeartRateMeasurement(enable);
+                break;
+            }
+            case ACTION_TEST_NEW_FUNCTION: {
+                mDeviceSupport.onTestNewFunction();
                 break;
             }
         }

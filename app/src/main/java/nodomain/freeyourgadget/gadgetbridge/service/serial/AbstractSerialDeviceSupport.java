@@ -214,4 +214,10 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
         byte[] bytes = gbDeviceProtocol.encodeDeleteCalendarEvent(type, id);
         sendToDevice(bytes);
     }
+
+    @Override
+    public void onTestNewFunction() {
+        byte[] bytes = gbDeviceProtocol.encodeTestNewFunction();
+        sendToDevice(bytes);
+    }
 }

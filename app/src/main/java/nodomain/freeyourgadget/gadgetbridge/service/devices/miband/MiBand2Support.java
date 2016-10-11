@@ -1206,5 +1206,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         }
     }
 
-
+    @Override
+    public void onTestNewFunction() {
+    }
 }

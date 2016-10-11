@@ -280,4 +280,10 @@ public class GBDeviceService implements DeviceService {
                 .putExtra(EXTRA_CALENDAREVENT_ID, id);
         invokeService(intent);
     }
+
+    @Override
+    public void onTestNewFunction() {
+        Intent intent = createIntent().setAction(ACTION_TEST_NEW_FUNCTION);
+        invokeService(intent);
+    }
 }

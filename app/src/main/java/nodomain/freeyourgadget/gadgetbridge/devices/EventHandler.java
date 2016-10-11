@@ -66,4 +66,6 @@ public interface EventHandler {
     void onAddCalendarEvent(CalendarEventSpec calendarEventSpec);
 
     void onDeleteCalendarEvent(byte type, long id);
+
+    void onTestNewFunction();
 }
