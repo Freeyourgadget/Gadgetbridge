@@ -58,14 +58,14 @@
                 android:defaultValue="@string/p_staccato"
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
-                android:key="mi_vibration_profile_sms"
+                android:key="mi_vibration_profile_generic_sms"
                 android:title="@string/miband_prefs_vibration"
                 android:summary="%s" />
 
             <EditTextPreference
                 android:defaultValue="3"
                 android:inputType="number"
-                android:key="mi_vibration_count_sms"
+                android:key="mi_vibration_count_generic_sms"
                 android:maxLength="1"
                 android:title="@string/pref_title_notifications_repetitions" />
 
@@ -105,14 +105,14 @@
                 android:defaultValue="@string/p_medium"
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
-                android:key="mi_vibration_profile_email"
+                android:key="mi_vibration_profile_generic_email"
                 android:title="@string/miband_prefs_vibration"
                 android:summary="%s" />
 
             <EditTextPreference
                 android:defaultValue="2"
                 android:inputType="number"
-                android:key="mi_vibration_count_email"
+                android:key="mi_vibration_count_generic_email"
                 android:maxLength="1"
                 android:title="@string/pref_title_notifications_repetitions" />
             <Preference
@@ -130,14 +130,14 @@
                 android:defaultValue="@string/p_waterdrop"
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
-                android:key="mi_vibration_profile_chat"
+                android:key="mi_vibration_profile_generic_chat"
                 android:title="@string/miband_prefs_vibration"
                 android:summary="%s" />
 
             <EditTextPreference
                 android:defaultValue="3"
                 android:inputType="number"
-                android:key="mi_vibration_count_chat"
+                android:key="mi_vibration_count_generic_chat"
                 android:maxLength="1"
                 android:title="@string/pref_title_notifications_repetitions" />
             <Preference
@@ -205,14 +205,14 @@
                 android:defaultValue="@string/p_waterdrop"
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
-                android:key="mi_vibration_profile_unknown"
+                android:key="mi_vibration_profile_generic"
                 android:title="@string/miband_prefs_vibration"
                 android:summary="%s" />
 
             <EditTextPreference
                 android:defaultValue="3"
                 android:inputType="number"
-                android:key="mi_vibration_count_unknown"
+                android:key="mi_vibration_count_generic"
                 android:maxLength="1"
                 android:title="@string/pref_title_notifications_repetitions" />
             <Preference
