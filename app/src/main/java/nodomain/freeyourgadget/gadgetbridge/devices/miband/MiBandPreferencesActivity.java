@@ -93,7 +93,8 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
         prefKeys.add(getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_INCOMING_CALL));
 
         for (NotificationType type : NotificationType.values()) {
-            prefKeys.add(type.getGenericType());
+            String key = type.getGenericType();
+            prefKeys.add(getNotificationPrefKey(VIBRATION_COUNT, key));
         }
 
         return prefKeys.toArray(new String[0]);
