@@ -6,6 +6,9 @@ import android.preference.Preference;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivity;
@@ -81,20 +84,18 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
 
     @Override
     protected String[] getPreferenceKeysWithSummary() {
-        String[] strings1 = {
-                PREF_USER_ALIAS,
-                PREF_MIBAND_ADDRESS,
-                PREF_MIBAND_FITNESS_GOAL,
-                PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR,
-                PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS,
-                getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_INCOMING_CALL)
-        };
-        String[] strings2 = new String[NotificationType.values().length];
-        int i = 0;
+        Set<String> prefKeys = new HashSet<>();
+        prefKeys.add(PREF_USER_ALIAS);
+        prefKeys.add(PREF_MIBAND_ADDRESS);
+        prefKeys.add(PREF_MIBAND_FITNESS_GOAL);
+        prefKeys.add(PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR);
+        prefKeys.add(PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS);
+        prefKeys.add(getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_INCOMING_CALL));
+
         for (NotificationType type : NotificationType.values()) {
-            strings2[i++] = type.getFixedValue();
+            prefKeys.add(type.getGenericType());
         }
 
-        return org.apache.commons.lang3.ArrayUtils.addAll(strings1, strings2);
+        return prefKeys.toArray(new String[0]);
     }
 }
