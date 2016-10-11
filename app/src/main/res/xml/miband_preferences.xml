@@ -123,7 +123,7 @@
 
         <PreferenceScreen
             android:key="vibration_profile_key"
-            android:title="@string/pref_screen_notification_profile_chat"
+            android:title="@string/pref_screen_notification_profile_generic_chat"
             android:persistent="false">
 
             <ListPreference
