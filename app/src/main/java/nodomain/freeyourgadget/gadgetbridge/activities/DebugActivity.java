@@ -54,6 +54,7 @@ public class DebugActivity extends GBActivity {
     private Button setTimeButton;
     private Button rebootButton;
     private Button HeartRateButton;
+    private Button testNewFunctionalityButton;
 
     private EditText editContent;
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -214,6 +215,18 @@ public class DebugActivity extends GBActivity {
                 testNotification();
             }
         });
+
+        testNewFunctionalityButton = (Button) findViewById(R.id.testNewFunctionality);
+        testNewFunctionalityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testNewFunctionality();
+            }
+        });
+    }
+
+    private void testNewFunctionality() {
+        GBApplication.deviceService().onTestNewFunction();
     }
 
     private void testNotification() {
