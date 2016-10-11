@@ -23,6 +23,7 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
         return new GBDevice(candidate.getDevice().getAddress(), candidate.getName(), getDeviceType());
     }
 
+    @Override
     public boolean allowFetchActivityData(GBDevice device) {
         return device.isInitialized() && !device.isBusy() && supportsActivityDataFetching();
     }

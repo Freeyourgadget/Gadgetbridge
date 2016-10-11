@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
@@ -33,6 +34,21 @@ public class MiBand2Coordinator extends MiBandCoordinator {
         }
         return false;
 
+    }
+
+    @Override
+    public boolean supportsHeartRateMeasurement(GBDevice device) {
+        return false; // not yet
+    }
+
+    @Override
+    public boolean supportsAlarmConfiguration() {
+        return false; // not yet
+    }
+
+    @Override
+    public boolean supportsActivityDataFetching() {
+        return false; // not yet
     }
 
     @Override
