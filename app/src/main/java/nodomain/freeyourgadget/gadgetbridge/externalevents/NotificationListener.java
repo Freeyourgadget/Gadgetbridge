@@ -313,16 +313,24 @@ public class NotificationListener extends NotificationListenerService {
 
     private void dissectNotificationTo(Notification notification, NotificationSpec notificationSpec) {
         Bundle extras = notification.extras;
+
+        //dumpExtras(extras);
+
         CharSequence title = extras.getCharSequence(Notification.EXTRA_TITLE);
         if (title != null) {
             notificationSpec.title = title.toString();
         }
-        if (extras.containsKey(Notification.EXTRA_TEXT)) {
-            CharSequence contentCS = extras.getCharSequence(Notification.EXTRA_TEXT);
-            if (contentCS != null) {
-                notificationSpec.body = contentCS.toString();
-            }
+
+        CharSequence contentCS = null;
+        if (extras.containsKey(Notification.EXTRA_BIG_TEXT)) {
+            contentCS = extras.getCharSequence(Notification.EXTRA_BIG_TEXT);
+        } else if (extras.containsKey(Notification.EXTRA_TEXT)) {
+            contentCS = extras.getCharSequence(Notification.EXTRA_TEXT);
         }
+        if (contentCS != null) {
+            notificationSpec.body = contentCS.toString();
+        }
+
     }
 
     private boolean isServiceRunning() {
@@ -411,5 +419,15 @@ public class NotificationListener extends NotificationListenerService {
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
 
+    }
+
+    private void dumpExtras(Bundle bundle) {
+        for (String key : bundle.keySet()) {
+            Object value = bundle.get(key);
+            if (value == null) {
+                continue;
+            }
+            LOG.debug(String.format("Notification extra: %s %s (%s)", key, value.toString(), value.getClass().getName()));
+        }
     }
 }
