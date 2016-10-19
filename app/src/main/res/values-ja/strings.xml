@@ -158,12 +158,15 @@
   <string name="vibration_profile_ring">鳴り響く</string>
   <string name="vibration_profile_alarm_clock">目覚まし時計</string>
   <string name="miband_prefs_vibration">バイブレーション</string>
+  <string name="vibration_try">試す</string>
   <string name="pref_screen_notification_profile_sms">SMS通知</string>
   <string name="pref_header_vibration_settings">バイブレーションの設定</string>
   <string name="pref_screen_notification_profile_generic">全般通知</string>
-  <string name="pref_screen_notification_profile_pebblemsg">Pebble通知</string>
-  <string name="pref_screen_notification_profile_email">Mail 通知</string>
+  <string name="pref_screen_notification_profile_email">メール通知</string>
   <string name="pref_screen_notification_profile_incoming_call">着信通知</string>
+  <string name="pref_screen_notification_profile_generic_chat">チャット</string>
+  <string name="pref_screen_notification_profile_generic_navigation">ナビゲーション</string>
+  <string name="pref_screen_notification_profile_generic_social">ソーシャルネットワーク</string>
   <string name="control_center_find_lost_device">なくしたデバイスを探す</string>
   <string name="control_center_cancel_to_stop_vibration">キャンセルで振動を停止します。</string>
   <string name="title_activity_charts">あなたの活動</string>

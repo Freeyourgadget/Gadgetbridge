@@ -10,6 +10,9 @@
   <string name="controlcenter_find_device">Trova dispositivo smarrito...</string>
   <string name="controlcenter_take_screenshot">Salva uno screenshot</string>
   <string name="controlcenter_disconnect">Disconnetti</string>
+  <string name="controlcenter_delete_device">Rimuovi dispositivo</string>
+  <string name="controlcenter_delete_device_name">Rimuovi %1$s</string>
+  <string name="controlcenter_delete_device_dialogmessage">Il dispositivo verrà rimosso e tutti i dati ad esso associati verranno cancellati!</string>
   <string name="title_activity_debug">Debug</string>
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">Gestione app</string>
@@ -155,11 +158,11 @@
   <string name="vibration_profile_ring">Anello</string>
   <string name="vibration_profile_alarm_clock">Sveglia</string>
   <string name="miband_prefs_vibration">Vibrazione</string>
+  <string name="vibration_try">Test</string>
   <string name="pref_screen_notification_profile_sms">Notifiche SMS</string>
   <string name="pref_header_vibration_settings">Impostazioni vibrazioni</string>
   <string name="pref_screen_notification_profile_generic">Notifiche generiche</string>
-  <string name="pref_screen_notification_profile_pebblemsg">Notifiche Pebble</string>
-  <string name="pref_screen_notification_profile_email">Notifiche email</string>
+  <string name="pref_screen_notification_profile_email">Notifiche Email</string>
   <string name="pref_screen_notification_profile_incoming_call">Notifiche chiamata in arrivo</string>
   <string name="control_center_find_lost_device">Trova dispositivo smarrito</string>
   <string name="control_center_cancel_to_stop_vibration">Annulla per fermare la vibrazione</string>
