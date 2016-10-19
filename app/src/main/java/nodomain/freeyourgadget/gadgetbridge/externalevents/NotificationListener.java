@@ -248,6 +248,8 @@ public class NotificationListener extends NotificationListenerService {
             notificationSpec.sourceName = (String) pm.getApplicationLabel(ai);
         }
 
+        boolean preferBigText = false;
+
         switch (source) {
             case "org.mariotaku.twidere":
             case "com.twitter.android":
@@ -258,6 +260,7 @@ public class NotificationListener extends NotificationListenerService {
             case "com.fsck.k9":
             case "com.android.email":
                 notificationSpec.type = NotificationType.GENERIC_EMAIL;
+                preferBigText = true;
                 break;
             case "com.moez.QKSMS":
             case "com.android.mms":
@@ -289,7 +292,7 @@ public class NotificationListener extends NotificationListenerService {
 
         LOG.info("Processing notification from source " + source);
 
-        dissectNotificationTo(notification, notificationSpec);
+        dissectNotificationTo(notification, notificationSpec, preferBigText);
         notificationSpec.id = (int) sbn.getPostTime(); //FIMXE: a truly unique id would be better
 
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender(notification);
@@ -311,7 +314,7 @@ public class NotificationListener extends NotificationListenerService {
         GBApplication.deviceService().onNotification(notificationSpec);
     }
 
-    private void dissectNotificationTo(Notification notification, NotificationSpec notificationSpec) {
+    private void dissectNotificationTo(Notification notification, NotificationSpec notificationSpec, boolean preferBigText) {
         Bundle extras = notification.extras;
 
         //dumpExtras(extras);
@@ -322,7 +325,7 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         CharSequence contentCS = null;
-        if (extras.containsKey(Notification.EXTRA_BIG_TEXT)) {
+        if (preferBigText && extras.containsKey(Notification.EXTRA_BIG_TEXT)) {
             contentCS = extras.getCharSequence(Notification.EXTRA_BIG_TEXT);
         } else if (extras.containsKey(Notification.EXTRA_TEXT)) {
             contentCS = extras.getCharSequence(Notification.EXTRA_TEXT);
