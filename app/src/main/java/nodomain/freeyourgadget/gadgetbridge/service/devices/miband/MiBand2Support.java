@@ -1056,6 +1056,11 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         Calendar calendar = alarm.getAlarmCal();
         int daysMask = 0;
 
+        if (alarm.getIndex() != 0 && alarm.isEnabled()) {
+            GB.toast(getContext(), "Only the first alarm is currently supported.", Toast.LENGTH_LONG, GB.WARN);
+            return;
+        }
+
         if (alarm.isEnabled()) {
             if (alarm.getRepetition(Alarm.ALARM_MON)) {
                 daysMask |= 1;
@@ -1087,9 +1092,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 (byte) calendar.get(Calendar.MINUTE),
                 (byte) daysMask,
         };
-        if (alarm.isEnabled()) {
-            builder.write(characteristic, alarmMessage);
-        }
+        builder.write(characteristic, alarmMessage);
     }
 
     private void handleControlPointResult(byte[] value, int status) {
