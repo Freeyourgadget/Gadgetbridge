@@ -37,6 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -1193,22 +1194,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                     int slotToUse = 2 - iteration;
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis(mEvt.getBegin());
-                    byte[] calBytes = MiBandDateConverter.calendarToRawBytes(calendar);
-
-                    byte[] alarmMessage = new byte[]{
-                            MiBandService.COMMAND_SET_TIMER,
-                            (byte) slotToUse,
-                            (byte) 1,
-                            calBytes[0],
-                            calBytes[1],
-                            calBytes[2],
-                            calBytes[3],
-                            calBytes[4],
-                            calBytes[5],
-                            (byte) 0,
-                            (byte) 0
-                    };
-                    builder.write(characteristic, alarmMessage);
+                    Alarm alarm = GBAlarm.createSingleShot(slotToUse, false, calendar);
+                    queueAlarm(alarm, builder, characteristic);
                     iteration++;
                 }
                 builder.queue(getQueue());

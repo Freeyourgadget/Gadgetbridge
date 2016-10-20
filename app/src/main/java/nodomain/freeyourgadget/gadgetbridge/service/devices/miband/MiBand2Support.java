@@ -33,6 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandDateConverter;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
@@ -226,6 +227,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         builder.notify(getCharacteristic(GattService.UUID_SERVICE_CURRENT_TIME), enable);
         // Notify CHARACTERISTIC9 to receive random auth code
         builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_AUTH), enable);
+        builder.notify(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC4), enable);
         return this;
     }
 
@@ -532,7 +534,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
         try {
-            BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
+            BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC4);
             TransactionBuilder builder = performInitialized("Set alarm");
             boolean anyAlarmEnabled = false;
             for (Alarm alarm : alarms) {
@@ -1054,6 +1056,8 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 //        }
     }
 
+    private void queueAlarm(Calendar calender, boolean enabled, boolean smartWakeup, TransactionBuilder builder, BluetoothGattCharacteristic characteristic) {
+    }
     /**
      * Convert an alarm from the GB internal structure to a Mi Band message and put on the specified
      * builder queue as a write message for the passed characteristic
@@ -1066,16 +1070,16 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         byte[] alarmCalBytes = MiBandDateConverter.calendarToRawBytes(alarm.getAlarmCal());
 
         byte[] alarmMessage = new byte[]{
-                MiBandService.COMMAND_SET_TIMER,
-                (byte) alarm.getIndex(),
+//                MiBandService.COMMAND_SET_TIMER,
                 (byte) (alarm.isEnabled() ? 1 : 0),
+                (byte) alarm.getIndex(),
                 alarmCalBytes[0],
                 alarmCalBytes[1],
                 alarmCalBytes[2],
                 alarmCalBytes[3],
                 alarmCalBytes[4],
                 alarmCalBytes[5],
-                (byte) (alarm.isSmartWakeup() ? 30 : 0),
+                (byte) (alarm.isSmartWakeup() ? 38 : 0),
                 (byte) alarm.getRepetitionMask()
         };
         builder.write(characteristic, alarmMessage);
@@ -1181,22 +1185,8 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                     int slotToUse = 2 - iteration;
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis(mEvt.getBegin());
-                    byte[] calBytes = MiBandDateConverter.calendarToRawBytes(calendar);
-
-                    byte[] alarmMessage = new byte[]{
-                            MiBandService.COMMAND_SET_TIMER,
-                            (byte) slotToUse,
-                            (byte) 1,
-                            calBytes[0],
-                            calBytes[1],
-                            calBytes[2],
-                            calBytes[3],
-                            calBytes[4],
-                            calBytes[5],
-                            (byte) 0,
-                            (byte) 0
-                    };
-                    builder.write(characteristic, alarmMessage);
+                    Alarm alarm = GBAlarm.createSingleShot(slotToUse, false, calendar);
+                    queueAlarm(alarm, builder, characteristic);
                     iteration++;
                 }
                 builder.queue(getQueue());

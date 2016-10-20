@@ -27,7 +27,7 @@ public class GBAlarm implements Alarm {
     public static final String[] DEFAULT_ALARMS = {"2,false,false,0,15,30", "1,false,false,96,8,0", "0,false,true,31,7,30"};
 
 
-    public GBAlarm(int index, boolean enabled, boolean smartWakeup, byte repetition, int hour, int minute) {
+    public GBAlarm(int index, boolean enabled, boolean smartWakeup, int repetition, int hour, int minute) {
         this.index = index;
         this.enabled = enabled;
         this.smartWakeup = smartWakeup;
@@ -47,6 +47,10 @@ public class GBAlarm implements Alarm {
         this.minute = Integer.parseInt(tokens[5]);
     }
 
+    public static GBAlarm createSingleShot(int index, boolean smartWakeup, Calendar calendar) {
+        return new GBAlarm(index, true, smartWakeup, Alarm.ALARM_ONCE, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+    }
+
     private static GBAlarm readFromParcel(Parcel pc) {
         int index = pc.readInt();
         boolean enabled = Boolean.parseBoolean(pc.readString());
@@ -54,7 +58,7 @@ public class GBAlarm implements Alarm {
         int repetition = pc.readInt();
         int hour = pc.readInt();
         int minute = pc.readInt();
-        return new GBAlarm(index, enabled, smartWakeup, (byte) repetition, hour, minute);
+        return new GBAlarm(index, enabled, smartWakeup, repetition, hour, minute);
     }
 
     @Override

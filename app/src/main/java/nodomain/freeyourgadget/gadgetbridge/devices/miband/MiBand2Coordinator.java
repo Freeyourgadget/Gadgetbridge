@@ -43,7 +43,7 @@ public class MiBand2Coordinator extends MiBandCoordinator {
 
     @Override
     public boolean supportsAlarmConfiguration() {
-        return false; // not yet
+        return true;
     }
 
     @Override
