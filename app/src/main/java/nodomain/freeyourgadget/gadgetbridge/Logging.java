@@ -125,4 +125,12 @@ public abstract class Logging {
         }
         return false;
     }
+
+    public static void logBytes(Logger logger, byte[] value) {
+        if (value != null) {
+            for (byte b : value) {
+                logger.warn("DATA: " + String.format("0x%2x", b));
+            }
+        }
+    }
 }

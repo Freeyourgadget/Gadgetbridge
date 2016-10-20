@@ -106,6 +106,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
 
     public MiBand2Support() {
+        super(LOG);
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ACCESS);
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ATTRIBUTE);
         addSupportedService(GattService.UUID_SERVICE_HEART_RATE);
@@ -915,20 +916,6 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             return true;
         }
         return false;
-    }
-
-    /**
-     * Utility method that may be used to log incoming messages when we don't know how to deal with them yet.
-     *
-     * @param value
-     */
-    public void logMessageContent(byte[] value) {
-        LOG.info("RECEIVED DATA WITH LENGTH: " + ((value != null) ? value.length : "(null)"));
-        if (value != null) {
-            for (byte b : value) {
-                LOG.warn("DATA: " + String.format("0x%2x", b));
-            }
-        }
     }
 
     public void logDate(byte[] value, int status) {

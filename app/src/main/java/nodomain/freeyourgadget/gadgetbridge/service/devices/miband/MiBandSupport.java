@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -103,6 +104,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private RealtimeSamplesSupport realtimeSamplesSupport;
 
     public MiBandSupport() {
+        super(LOG);
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ACCESS);
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ATTRIBUTE);
         addSupportedService(MiBandService.UUID_SERVICE_MIBAND_SERVICE);
@@ -871,20 +873,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             return true;
         }
         return false;
-    }
-
-    /**
-     * Utility method that may be used to log incoming messages when we don't know how to deal with them yet.
-     *
-     * @param value
-     */
-    public void logMessageContent(byte[] value) {
-        LOG.info("RECEIVED DATA WITH LENGTH: " + ((value != null) ? value.length : "(null)"));
-        if (value != null) {
-            for (byte b : value) {
-                LOG.warn("DATA: " + String.format("0x%2x", b));
-            }
-        }
     }
 
     public void logDate(byte[] value, int status) {
