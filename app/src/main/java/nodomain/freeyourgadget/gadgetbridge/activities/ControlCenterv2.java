@@ -68,6 +68,12 @@ public class ControlCenterv2 extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (GBApplication.isDarkThemeEnabled()) {
+            setTheme(R.style.GadgetbridgeThemeDark_NoActionBar);
+        } else {
+            setTheme(R.style.GadgetbridgeTheme_NoActionBar);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_controlcenterv2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
