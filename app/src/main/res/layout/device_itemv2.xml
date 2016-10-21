@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal">
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="4dp"
+        card_view:contentPadding="16dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/device_image"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="left|top"
+                android:contentDescription="@string/candidate_item_device_image"
+                tools:src="@drawable/ic_device_pebble" />
+
+            <TextView
+                android:id="@+id/device_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@id/device_image"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                tools:text="My Pebble Watch" />
+
+            <TextView
+                android:id="@+id/device_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/device_name"
+                android:layout_toRightOf="@id/device_image"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                tools:text="@string/connecting" />
+
+            <LinearLayout
+                android:id="@+id/device_battery_status_box"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/device_image"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:minWidth="36dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/device_battery_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    card_view:srcCompat="@drawable/ic_battery" />
+
+                <TextView
+                    android:id="@+id/battery_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/secondarytext"
+                    android:textStyle="bold"
+                    tools:text="100% CHG" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/device_action_fetch_activity_box"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/device_image"
+                android:layout_margin="8dp"
+                android:layout_toRightOf="@id/device_battery_status_box"
+                android:gravity="center_vertical"
+                android:minWidth="36dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/device_action_fetch_activity"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:clickable="true"
+                    android:contentDescription="@string/controlcenter_fetch_activity_data"
+                    card_view:srcCompat="@drawable/ic_action_fetch_activity_data" />
+
+                <ProgressBar
+                    android:id="@+id/device_busy_indicator"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:indeterminate="true"
+                    android:visibility="visible"
+                    tools:visibility="visible" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/device_action_take_screenshot"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_below="@id/device_image"
+                android:layout_margin="8dp"
+                android:layout_toRightOf="@id/device_action_fetch_activity_box"
+                android:clickable="true"
+                android:contentDescription="@string/controlcenter_take_screenshot"
+                card_view:srcCompat="@drawable/ic_screenshot" />
+
+            <ImageView
+                android:id="@+id/device_action_set_alarms"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_below="@id/device_image"
+                android:layout_margin="8dp"
+                android:layout_toRightOf="@id/device_action_take_screenshot"
+                android:clickable="true"
+                android:contentDescription="@string/controlcenter_start_configure_alarms"
+                card_view:srcCompat="@drawable/ic_device_set_alarms" />
+
+            <ImageView
+                android:id="@+id/device_action_show_activity_graphs"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_below="@id/device_image"
+                android:layout_margin="8dp"
+                android:layout_toRightOf="@id/device_action_set_alarms"
+                android:clickable="true"
+                card_view:srcCompat="@drawable/ic_activity_graphs" />
+
+            <ImageView
+                android:id="@+id/device_info_image"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/device_image"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:contentDescription="@string/candidate_item_device_image"
+                android:src="@drawable/ic_information_outline_grey600_24dp" />
+
+
+            <RelativeLayout
+                android:id="@+id/device_item_infos_box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@id/device_info_image"
+                android:layout_marginTop="8dp"
+                android:visibility="gone">
+
+                <!--TODO: set width-->
+                <ListView
+                    android:id="@+id/device_item_infos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true" />
+
+                <ImageView
+                    android:id="@+id/device_action_remove"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginTop="8dp"
+                    android:clickable="true"
+                    card_view:srcCompat="@drawable/ic_remove_device" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>

@@ -26,4 +26,13 @@
         <item name="chart_activity">@color/chart_activity_dark</item>
         -->
     </style>
+
+    <style name="GadgetbridgeTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="GadgetbridgeTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="GadgetbridgeTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
