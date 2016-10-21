@@ -2,7 +2,6 @@ package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.Collections;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -24,7 +22,6 @@ import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
-import nodomain.freeyourgadget.gadgetbridge.model.ItemWithDetails;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
 /**
@@ -57,6 +54,16 @@ public class GBDeviceAdapterv2 extends ArrayAdapter<GBDevice> {
 
         TextView batteryStatusLabel = (TextView) view.findViewById(R.id.battery_status);
         final ImageView deviceImageView = (ImageView) view.findViewById(R.id.device_image);
+        deviceImageView.setOnLongClickListener(new View.OnLongClickListener(){
+
+            @Override
+            public boolean onLongClick(View v) {
+                //TODO: move somewhere else
+                GBApplication.deviceService().disconnect();
+
+                return true;
+            }
+        });
 
         ProgressBar busyIndicator = (ProgressBar) view.findViewById(R.id.device_busy_indicator);
 
@@ -82,110 +89,120 @@ public class GBDeviceAdapterv2 extends ArrayAdapter<GBDevice> {
             batteryStatusBox.setVisibility(View.VISIBLE);
             batteryStatusLabel.setText(device.getBatteryLevel() + "%");
             BatteryState batteryState = device.getBatteryState();
-            if (BatteryState.BATTERY_LOW.equals(batteryState)) {
-                //batteryIcon.setImageTintMode(olor.RED);
+            if (BatteryState.BATTERY_CHARGING.equals(batteryState) ||
+                    BatteryState.BATTERY_CHARGING_FULL.equals(batteryState)) {
+                batteryIcon.setImageLevel(device.getBatteryLevel() + 100);
             } else {
-                batteryStatusLabel.setTextColor(ContextCompat.getColor(getContext(), R.color.secondarytext));
-
-                if (BatteryState.BATTERY_CHARGING.equals(batteryState) ||
-                        BatteryState.BATTERY_CHARGING_FULL.equals(batteryState)) {
-                    batteryStatusLabel.append(" CHG");
-                }
+                batteryIcon.setImageLevel(device.getBatteryLevel());
             }
         }
-
 
         //fetch activity data
         ImageView fetchActivityData = (ImageView) view.findViewById(R.id.device_action_fetch_activity);
         LinearLayout fetchActivityDataBox = (LinearLayout) view.findViewById(R.id.device_action_fetch_activity_box);
 
-        fetchActivityDataBox.setVisibility((device.isConnected() && coordinator.supportsActivityDataFetching()) ? View.VISIBLE : View.GONE);
-        fetchActivityData.setOnClickListener(new View.OnClickListener() {
-                                                  @Override
-                                                  public void onClick(View v) {
-                                                      GBApplication.deviceService().onFetchActivityData();
-                                                  }
-                                              }
+        fetchActivityDataBox.setVisibility((device.isInitialized() && coordinator.supportsActivityDataFetching()) ? View.VISIBLE : View.GONE);
+        fetchActivityData.setOnClickListener(new View.OnClickListener()
+
+                                             {
+                                                 @Override
+                                                 public void onClick(View v) {
+                                                     GBApplication.deviceService().onFetchActivityData();
+                                                 }
+                                             }
+
         );
 
 
         //take screenshot
         ImageView takeScreenshotView = (ImageView) view.findViewById(R.id.device_action_take_screenshot);
-        takeScreenshotView.setVisibility((device.isConnected() && coordinator.supportsScreenshots()) ? View.VISIBLE : View.GONE);
-        takeScreenshotView.setOnClickListener(new View.OnClickListener() {
+        takeScreenshotView.setVisibility((device.isInitialized() && coordinator.supportsScreenshots()) ? View.VISIBLE : View.GONE);
+        takeScreenshotView.setOnClickListener(new View.OnClickListener()
+
+                                              {
                                                   @Override
                                                   public void onClick(View v) {
                                                       GBApplication.deviceService().onScreenshotReq();
                                                   }
                                               }
+
         );
 
         //set alarms
         ImageView setAlarmsView = (ImageView) view.findViewById(R.id.device_action_set_alarms);
         setAlarmsView.setVisibility(coordinator.supportsAlarmConfiguration() ? View.VISIBLE : View.GONE);
-        setAlarmsView.setOnClickListener(new View.OnClickListener() {
-                                                  @Override
-                                                  public void onClick(View v) {
-                                                      Intent startIntent;
-                                                      startIntent = new Intent(context, ConfigureAlarms.class);
-                                                      context.startActivity(startIntent);
-                                                  }
-                                              }
+        setAlarmsView.setOnClickListener(new View.OnClickListener()
+
+                                         {
+                                             @Override
+                                             public void onClick(View v) {
+                                                 Intent startIntent;
+                                                 startIntent = new Intent(context, ConfigureAlarms.class);
+                                                 context.startActivity(startIntent);
+                                             }
+                                         }
+
         );
 
         //show graphs
         ImageView showActivityGraphs = (ImageView) view.findViewById(R.id.device_action_show_activity_graphs);
         showActivityGraphs.setVisibility(coordinator.supportsActivityTracking() ? View.VISIBLE : View.GONE);
-        showActivityGraphs.setOnClickListener(new View.OnClickListener() {
+        showActivityGraphs.setOnClickListener(new View.OnClickListener()
+
+                                              {
                                                   @Override
                                                   public void onClick(View v) {
                                                       Intent startIntent;
                                                       startIntent = new Intent(context, ChartsActivity.class);
                                                       startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
-                                                      context.startActivity(startIntent);                                                  }
+                                                      context.startActivity(startIntent);
+                                                  }
                                               }
+
         );
 
         //Info icon is last in the row
         ImageView deviceInfoView = (ImageView) view.findViewById(R.id.device_info_image);
         final RelativeLayout deviceInfoBox = (RelativeLayout) view.findViewById(R.id.device_item_infos_box);
-        final ListView deviceInfoList = (ListView) view.findViewById(R.id.device_item_infos);
-        //TODO: can we spare all these additional layouts? find out more.
+        ListView deviceInfoList = (ListView) view.findViewById(R.id.device_item_infos);
         ItemWithDetailsAdapter infoAdapter = new ItemWithDetailsAdapter(context, device.getDeviceInfos());
         infoAdapter.setHorizontalAlignment(true);
         deviceInfoList.setAdapter(infoAdapter);
+        justifyListViewHeightBasedOnChildren(deviceInfoList);
+        deviceInfoList.setFocusable(false);
+
         boolean showInfoIcon = device.hasDeviceInfos() && !device.isBusy();
         deviceInfoView.setVisibility(showInfoIcon ? View.VISIBLE : View.GONE);
         deviceInfoView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (deviceInfoBox.getVisibility() == View.VISIBLE) {
-                    deviceInfoBox.setVisibility(View.GONE);
-                } else {
-                    ArrayAdapter adapter = (ArrayAdapter) deviceInfoList.getAdapter();
-                    adapter.clear();
-                    List<ItemWithDetails> infos = device.getDeviceInfos();
-                    Collections.sort(infos);
-                    adapter.addAll(infos);
-                    justifyListViewHeightBasedOnChildren(deviceInfoList);
-                    deviceInfoBox.setVisibility(View.VISIBLE);
-                    deviceInfoBox.setFocusable(false);
-                }
-            }
-        });
+                                              @Override
+                                              public void onClick(View v) {
+                                                  if (deviceInfoBox.getVisibility() == View.VISIBLE) {
+                                                      deviceInfoBox.setVisibility(View.GONE);
+                                                  } else {
+                                                      deviceInfoBox.setVisibility(View.VISIBLE);
+                                                  }
+                                              }
+                                          }
+
+        );
 
         //remove device, hidden under details
         ImageView removeDevice = (ImageView) view.findViewById(R.id.device_action_remove);
-        removeDevice.setOnClickListener(new View.OnClickListener() {
-                                                  @Override
-                                                  public void onClick(View v) {
-                                                      //TODO: the logic is bolted to controlcenter, but I don't think it belongs here
-                                                  }
-                                              }
+        removeDevice.setOnClickListener(new View.OnClickListener()
+
+                                        {
+                                            @Override
+                                            public void onClick(View v) {
+                                                //TODO: the logic is bolted to controlcenter, but I don't think it belongs here
+                                            }
+                                        }
+
         );
 
 
-        switch (device.getType()) {
+        switch (device.getType())
+
+        {
             case PEBBLE:
                 if (device.isConnected()) {
                     deviceImageView.setImageResource(R.drawable.ic_device_pebble);

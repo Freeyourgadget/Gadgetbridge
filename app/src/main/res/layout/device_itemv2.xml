@@ -24,8 +24,10 @@
                 android:id="@+id/device_image"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_gravity="left|top"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
                 android:contentDescription="@string/candidate_item_device_image"
+                android:longClickable="true"
                 tools:src="@drawable/ic_device_pebble" />
 
             <TextView
@@ -56,25 +58,27 @@
                 android:layout_below="@id/device_image"
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="0dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginRight="0dp"
                 android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:minWidth="36dp"
+                android:minWidth="48dp"
                 android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/device_battery_status"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
-                    card_view:srcCompat="@drawable/ic_battery" />
+                    android:tint="?android:attr/textColor"
+                    card_view:srcCompat="@drawable/level_list_battery" />
 
                 <TextView
                     android:id="@+id/battery_status"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/secondarytext"
+                    android:gravity="center_horizontal"
+                    android:minWidth="36dp"
+                    android:textColor="?android:attr/textColor"
                     android:textStyle="bold"
-                    tools:text="100% CHG" />
+                    tools:text="100%" />
 
             </LinearLayout>
 
@@ -95,6 +99,7 @@
                     android:layout_height="36dp"
                     android:clickable="true"
                     android:contentDescription="@string/controlcenter_fetch_activity_data"
+                    android:tint="?android:attr/textColor"
                     card_view:srcCompat="@drawable/ic_action_fetch_activity_data" />
 
                 <ProgressBar
@@ -117,6 +122,7 @@
                 android:layout_toRightOf="@id/device_action_fetch_activity_box"
                 android:clickable="true"
                 android:contentDescription="@string/controlcenter_take_screenshot"
+                android:tint="?android:attr/textColor"
                 card_view:srcCompat="@drawable/ic_screenshot" />
 
             <ImageView
@@ -128,6 +134,7 @@
                 android:layout_toRightOf="@id/device_action_take_screenshot"
                 android:clickable="true"
                 android:contentDescription="@string/controlcenter_start_configure_alarms"
+                android:tint="?android:attr/textColor"
                 card_view:srcCompat="@drawable/ic_device_set_alarms" />
 
             <ImageView
@@ -138,6 +145,7 @@
                 android:layout_margin="8dp"
                 android:layout_toRightOf="@id/device_action_set_alarms"
                 android:clickable="true"
+                android:tint="?android:attr/textColor"
                 card_view:srcCompat="@drawable/ic_activity_graphs" />
 
             <ImageView
@@ -152,7 +160,8 @@
                 android:layout_marginTop="8dp"
                 android:clickable="true"
                 android:contentDescription="@string/candidate_item_device_image"
-                android:src="@drawable/ic_information_outline_grey600_24dp" />
+                android:tint="?android:attr/textColor"
+                android:src="@drawable/ic_more_vert" />
 
 
             <RelativeLayout
@@ -162,25 +171,30 @@
                 android:layout_alignParentBottom="true"
                 android:layout_below="@id/device_info_image"
                 android:layout_marginTop="8dp"
+                android:focusable="false"
                 android:visibility="gone">
 
-                <!--TODO: set width-->
                 <ListView
                     android:id="@+id/device_item_infos"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true" />
+                    android:focusable="false"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toStartOf="@+id/device_action_remove"
+                    android:scrollbars="none" />
 
                 <ImageView
                     android:id="@+id/device_action_remove"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
                     android:layout_marginBottom="8dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="0dp"
                     android:layout_marginTop="8dp"
                     android:clickable="true"
+                    android:tint="?android:attr/textColor"
                     card_view:srcCompat="@drawable/ic_remove_device" />
             </RelativeLayout>
 
