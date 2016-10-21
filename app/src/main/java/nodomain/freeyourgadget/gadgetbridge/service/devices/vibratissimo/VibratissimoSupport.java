@@ -53,6 +53,7 @@ public class VibratissimoSupport extends AbstractBTLEDeviceSupport {
     };
 
     public VibratissimoSupport() {
+        super(LOG);
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ACCESS);
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ATTRIBUTE);
         addSupportedService(GattService.UUID_SERVICE_DEVICE_INFORMATION);

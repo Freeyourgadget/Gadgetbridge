@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.13.5" versioncode="67">
+        <change>Mi Band 2: Support setting one alarm</change>
+        <change>Pebble: Health compatibility for Firmware 4.2</change>
+        <change>Improve support for K9 when generic notifications are used (K9 notifications set to never)</change>
+    </release>
     <release version="0.13.4" versioncode="66">
         <change>Mi Band: Initial support for recording heart and displaying rate values</change>
         <change>Mi Band: Support for testing vibration patterns directly from the preferences</change>

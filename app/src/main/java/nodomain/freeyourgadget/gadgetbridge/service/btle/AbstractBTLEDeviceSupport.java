@@ -6,7 +6,6 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.CheckInitializedAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.AbstractBleProfile;
@@ -32,14 +32,20 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.AbstractBlePro
  * @see BtLEQueue
  */
 public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport implements GattCallback {
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractBTLEDeviceSupport.class);
-
     private BtLEQueue mQueue;
     private HashMap<UUID, BluetoothGattCharacteristic> mAvailableCharacteristics;
     private final Set<UUID> mSupportedServices = new HashSet<>(4);
-    private final List<AbstractBleProfile<?>> mSupportedProfiles = new ArrayList<>();
+    private Logger logger;
 
+    private final List<AbstractBleProfile<?>> mSupportedProfiles = new ArrayList<>();
     public static final String BASE_UUID = "0000%s-0000-1000-8000-00805f9b34fb"; //this is common for all BTLE devices. see http://stackoverflow.com/questions/18699251/finding-out-android-bluetooth-le-gatt-profiles
+
+    public AbstractBTLEDeviceSupport(Logger logger) {
+        this.logger = logger;
+        if (logger == null) {
+            throw new IllegalArgumentException("logger must not be null");
+        }
+    }
 
     @Override
     public boolean connect() {
@@ -168,33 +174,43 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
 
     private void gattServicesDiscovered(List<BluetoothGattService> discoveredGattServices) {
         if (discoveredGattServices == null) {
-            LOG.warn("No gatt services discovered: null!");
+            logger.warn("No gatt services discovered: null!");
             return;
         }
         Set<UUID> supportedServices = getSupportedServices();
         mAvailableCharacteristics = new HashMap<>();
         for (BluetoothGattService service : discoveredGattServices) {
             if (supportedServices.contains(service.getUuid())) {
-                LOG.debug("discovered supported service: " + BleNamesResolver.resolveServiceName(service.getUuid().toString()) + ": " + service.getUuid());
+                logger.debug("discovered supported service: " + BleNamesResolver.resolveServiceName(service.getUuid().toString()) + ": " + service.getUuid());
                 List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
                 if (characteristics == null || characteristics.isEmpty()) {
-                    LOG.warn("Supported LE service " + service.getUuid() + "did not return any characteristics");
+                    logger.warn("Supported LE service " + service.getUuid() + "did not return any characteristics");
                     continue;
                 }
                 HashMap<UUID, BluetoothGattCharacteristic> intmAvailableCharacteristics = new HashMap<>(characteristics.size());
                 for (BluetoothGattCharacteristic characteristic : characteristics) {
                     intmAvailableCharacteristics.put(characteristic.getUuid(), characteristic);
-                    LOG.info("    characteristic: " + BleNamesResolver.resolveCharacteristicName(characteristic.getUuid().toString()) + ": " + characteristic.getUuid());
+                    logger.info("    characteristic: " + BleNamesResolver.resolveCharacteristicName(characteristic.getUuid().toString()) + ": " + characteristic.getUuid());
                 }
                 mAvailableCharacteristics.putAll(intmAvailableCharacteristics);
             } else {
-                LOG.debug("discovered unsupported service: " + BleNamesResolver.resolveServiceName(service.getUuid().toString()) + ": " + service.getUuid());
+                logger.debug("discovered unsupported service: " + BleNamesResolver.resolveServiceName(service.getUuid().toString()) + ": " + service.getUuid());
             }
         }
     }
 
     protected Set<UUID> getSupportedServices() {
         return mSupportedServices;
+    }
+
+    /**
+     * Utility method that may be used to log incoming messages when we don't know how to deal with them yet.
+     *
+     * @param value
+     */
+    public void logMessageContent(byte[] value) {
+        logger.info("RECEIVED DATA WITH LENGTH: " + ((value != null) ? value.length : "(null)"));
+        Logging.logBytes(logger, value);
     }
 
     // default implementations of event handler methods (gatt callbacks)

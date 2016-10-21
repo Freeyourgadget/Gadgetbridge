@@ -17,7 +17,6 @@ import java.util.GregorianCalendar;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
-import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
@@ -77,16 +76,17 @@ public class SleepAlarmWidget extends AppWidgetProvider {
             // add preferred sleep duration
             calendar.add(Calendar.HOUR_OF_DAY, userSleepDuration);
 
-            int hours = calendar.get(calendar.HOUR_OF_DAY);
-            int minutes = calendar.get(calendar.MINUTE);
 
             // overwrite the first alarm and activate it
-            GBAlarm alarm = new GBAlarm(0, true, true, Alarm.ALARM_ONCE, hours, minutes);
+            GBAlarm alarm = GBAlarm.createSingleShot(0, true, calendar);
             alarm.store();
 
             if (GBApplication.isRunningLollipopOrLater()) {
                 setAlarmViaAlarmManager(context, calendar.getTimeInMillis());
             }
+
+            int hours = calendar.get(Calendar.HOUR_OF_DAY);
+            int minutes = calendar.get(Calendar.MINUTE);
 
             GB.toast(context,
                     String.format(context.getString(R.string.appwidget_alarms_set), hours, minutes),

@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -37,6 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -102,6 +104,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private RealtimeSamplesSupport realtimeSamplesSupport;
 
     public MiBandSupport() {
+        super(LOG);
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ACCESS);
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ATTRIBUTE);
         addSupportedService(MiBandService.UUID_SERVICE_MIBAND_SERVICE);
@@ -872,20 +875,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         return false;
     }
 
-    /**
-     * Utility method that may be used to log incoming messages when we don't know how to deal with them yet.
-     *
-     * @param value
-     */
-    public void logMessageContent(byte[] value) {
-        LOG.info("RECEIVED DATA WITH LENGTH: " + ((value != null) ? value.length : "(null)"));
-        if (value != null) {
-            for (byte b : value) {
-                LOG.warn("DATA: " + String.format("0x%2x", b));
-            }
-        }
-    }
-
     public void logDate(byte[] value, int status) {
         if (status == BluetoothGatt.GATT_SUCCESS) {
             GregorianCalendar calendar = MiBandDateConverter.rawBytesToCalendar(value);
@@ -1193,22 +1182,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                     int slotToUse = 2 - iteration;
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis(mEvt.getBegin());
-                    byte[] calBytes = MiBandDateConverter.calendarToRawBytes(calendar);
-
-                    byte[] alarmMessage = new byte[]{
-                            MiBandService.COMMAND_SET_TIMER,
-                            (byte) slotToUse,
-                            (byte) 1,
-                            calBytes[0],
-                            calBytes[1],
-                            calBytes[2],
-                            calBytes[3],
-                            calBytes[4],
-                            calBytes[5],
-                            (byte) 0,
-                            (byte) 0
-                    };
-                    builder.write(characteristic, alarmMessage);
+                    Alarm alarm = GBAlarm.createSingleShot(slotToUse, false, calendar);
+                    queueAlarm(alarm, builder, characteristic);
                     iteration++;
                 }
                 builder.queue(getQueue());

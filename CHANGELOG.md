@@ -1,5 +1,10 @@
 ###Changelog
 
+####Version 0.13.5
+* Mi Band 2: Support setting one alarm
+* Pebble: Health compatibility for Firmware 4.2
+* Improve support for K9 when generic notifications are used (K9 notifications set to never)
+
 ####Version 0.13.4
 * Mi Band: Initial support for recording heart and displaying rate values
 * Mi Band: Support for testing vibration patterns directly from the preferences

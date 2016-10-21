@@ -33,6 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandDateConverter;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
@@ -105,6 +106,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
 
     public MiBand2Support() {
+        super(LOG);
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ACCESS);
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ATTRIBUTE);
         addSupportedService(GattService.UUID_SERVICE_HEART_RATE);
@@ -226,6 +228,8 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         builder.notify(getCharacteristic(GattService.UUID_SERVICE_CURRENT_TIME), enable);
         // Notify CHARACTERISTIC9 to receive random auth code
         builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_AUTH), enable);
+        builder.notify(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC3), enable);
+        builder.notify(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC4), enable);
         return this;
     }
 
@@ -532,7 +536,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
         try {
-            BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
+            BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC3);
             TransactionBuilder builder = performInitialized("Set alarm");
             boolean anyAlarmEnabled = false;
             for (Alarm alarm : alarms) {
@@ -915,20 +919,6 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return false;
     }
 
-    /**
-     * Utility method that may be used to log incoming messages when we don't know how to deal with them yet.
-     *
-     * @param value
-     */
-    public void logMessageContent(byte[] value) {
-        LOG.info("RECEIVED DATA WITH LENGTH: " + ((value != null) ? value.length : "(null)"));
-        if (value != null) {
-            for (byte b : value) {
-                LOG.warn("DATA: " + String.format("0x%2x", b));
-            }
-        }
-    }
-
     public void logDate(byte[] value, int status) {
         if (status == BluetoothGatt.GATT_SUCCESS) {
             GregorianCalendar calendar = MiBandDateConverter.rawBytesToCalendar(value);
@@ -1063,20 +1053,44 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
      * @param characteristic
      */
     private void queueAlarm(Alarm alarm, TransactionBuilder builder, BluetoothGattCharacteristic characteristic) {
-        byte[] alarmCalBytes = MiBandDateConverter.calendarToRawBytes(alarm.getAlarmCal());
+        Calendar calendar = alarm.getAlarmCal();
+        int daysMask = 0;
 
-        byte[] alarmMessage = new byte[]{
-                MiBandService.COMMAND_SET_TIMER,
-                (byte) alarm.getIndex(),
-                (byte) (alarm.isEnabled() ? 1 : 0),
-                alarmCalBytes[0],
-                alarmCalBytes[1],
-                alarmCalBytes[2],
-                alarmCalBytes[3],
-                alarmCalBytes[4],
-                alarmCalBytes[5],
-                (byte) (alarm.isSmartWakeup() ? 30 : 0),
-                (byte) alarm.getRepetitionMask()
+        if (alarm.getIndex() != 0 && alarm.isEnabled()) {
+            GB.toast(getContext(), "Only the first alarm is currently supported.", Toast.LENGTH_LONG, GB.WARN);
+            return;
+        }
+
+        if (alarm.isEnabled()) {
+            if (alarm.getRepetition(Alarm.ALARM_MON)) {
+                daysMask |= 1;
+            }
+            if (alarm.getRepetition(Alarm.ALARM_TUE)) {
+                daysMask |= 2;
+            }
+            if (alarm.getRepetition(Alarm.ALARM_WED)) {
+                daysMask |= 4;
+            }
+            if (alarm.getRepetition(Alarm.ALARM_THU)) {
+                daysMask |= 8;
+            }
+            if (alarm.getRepetition(Alarm.ALARM_FRI)) {
+                daysMask |= 16;
+            }
+            if (alarm.getRepetition(Alarm.ALARM_SAT)) {
+                daysMask |= 32;
+            }
+            if (alarm.getRepetition(Alarm.ALARM_SUN)) {
+                daysMask |= 64;
+            }
+        }
+
+        byte[] alarmMessage = new byte[] {
+                (byte) 0x2, // TODO what is this? 0x1 does not work
+                (byte) 128, // TODO: what is this?
+                (byte) calendar.get(Calendar.HOUR_OF_DAY),
+                (byte) calendar.get(Calendar.MINUTE),
+                (byte) daysMask,
         };
         builder.write(characteristic, alarmMessage);
     }
@@ -1164,7 +1178,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     private void sendCalendarEvents() {
         try {
             TransactionBuilder builder = performInitialized("Send upcoming events");
-            BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
+            BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC3);
 
             Prefs prefs = GBApplication.getPrefs();
             int availableSlots = prefs.getInt(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, 0);
@@ -1181,22 +1195,8 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                     int slotToUse = 2 - iteration;
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis(mEvt.getBegin());
-                    byte[] calBytes = MiBandDateConverter.calendarToRawBytes(calendar);
-
-                    byte[] alarmMessage = new byte[]{
-                            MiBandService.COMMAND_SET_TIMER,
-                            (byte) slotToUse,
-                            (byte) 1,
-                            calBytes[0],
-                            calBytes[1],
-                            calBytes[2],
-                            calBytes[3],
-                            calBytes[4],
-                            calBytes[5],
-                            (byte) 0,
-                            (byte) 0
-                    };
-                    builder.write(characteristic, alarmMessage);
+                    Alarm alarm = GBAlarm.createSingleShot(slotToUse, false, calendar);
+                    queueAlarm(alarm, builder, characteristic);
                     iteration++;
                 }
                 builder.queue(getQueue());
