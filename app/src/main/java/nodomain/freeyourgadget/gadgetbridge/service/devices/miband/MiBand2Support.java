@@ -1056,33 +1056,15 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         Calendar calendar = alarm.getAlarmCal();
         int daysMask = 0;
 
-        if (alarm.getIndex() != 0 && alarm.isEnabled()) {
-            GB.toast(getContext(), "Only the first alarm is currently supported.", Toast.LENGTH_LONG, GB.WARN);
+        if (alarm.getIndex() != 0) {
+            if (alarm.isEnabled()) {
+                GB.toast(getContext(), "Only the first alarm is currently supported.", Toast.LENGTH_LONG, GB.WARN);
+            }
             return;
         }
 
         if (alarm.isEnabled()) {
-            if (alarm.getRepetition(Alarm.ALARM_MON)) {
-                daysMask |= 1;
-            }
-            if (alarm.getRepetition(Alarm.ALARM_TUE)) {
-                daysMask |= 2;
-            }
-            if (alarm.getRepetition(Alarm.ALARM_WED)) {
-                daysMask |= 4;
-            }
-            if (alarm.getRepetition(Alarm.ALARM_THU)) {
-                daysMask |= 8;
-            }
-            if (alarm.getRepetition(Alarm.ALARM_FRI)) {
-                daysMask |= 16;
-            }
-            if (alarm.getRepetition(Alarm.ALARM_SAT)) {
-                daysMask |= 32;
-            }
-            if (alarm.getRepetition(Alarm.ALARM_SUN)) {
-                daysMask |= 64;
-            }
+            daysMask = alarm.getRepetitionMask();
         }
 
         byte[] alarmMessage = new byte[] {
@@ -1093,6 +1075,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 (byte) daysMask,
         };
         builder.write(characteristic, alarmMessage);
+        // TODO: react on 0x10, 0x02, 0x01 on notification (success)
     }
 
     private void handleControlPointResult(byte[] value, int status) {
