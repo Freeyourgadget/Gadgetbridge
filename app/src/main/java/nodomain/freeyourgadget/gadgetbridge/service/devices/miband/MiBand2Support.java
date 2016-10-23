@@ -1056,9 +1056,10 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         Calendar calendar = alarm.getAlarmCal();
         int daysMask = 0;
 
-        if (alarm.getIndex() != 0) {
+        int maxAlarms = 5; // arbitrary at the moment...
+        if (alarm.getIndex() >= maxAlarms) {
             if (alarm.isEnabled()) {
-                GB.toast(getContext(), "Only the first alarm is currently supported.", Toast.LENGTH_LONG, GB.WARN);
+                GB.toast(getContext(), "Only 5 alarms are currently supported.", Toast.LENGTH_LONG, GB.WARN);
             }
             return;
         }
@@ -1068,8 +1069,8 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         }
 
         byte[] alarmMessage = new byte[] {
-                (byte) 0x2, // TODO what is this? 0x1 does not work
-                (byte) 128, // TODO: what is this?
+                (byte) 0x2, // TODO what is this?
+                (byte) (128 + alarm.getIndex()), // 128 is the base, alarm slot is added
                 (byte) calendar.get(Calendar.HOUR_OF_DAY),
                 (byte) calendar.get(Calendar.MINUTE),
                 (byte) daysMask,
