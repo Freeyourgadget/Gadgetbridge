@@ -87,6 +87,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(MiBand2Support.class);
     private final DeviceInfoProfile<MiBand2Support> deviceInfoProfile;
+    private final HeartRateProfile<MiBand2Support> heartRateProfile;
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -120,6 +121,8 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
         deviceInfoProfile = new DeviceInfoProfile<>(this);
         addSupportedProfile(deviceInfoProfile);
+        heartRateProfile = new HeartRateProfile<MiBand2Support>(this);
+        addSupportedProfile(heartRateProfile);
 
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getContext());
         IntentFilter intentFilter = new IntentFilter();
@@ -675,8 +678,8 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         if (supportsHeartRate()) {
             try {
                 TransactionBuilder builder = performInitialized("HeartRateTest");
-                HeartRateProfile<MiBand2Support> profile = new HeartRateProfile<>(this);
-                profile.requestHeartRateMeasurement(builder);
+                heartRateProfile.requestHeartRateMeasurement(builder);
+//                profile.resetEnergyExpended(builder);
 //                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementContinuous);
 //                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementManual);
 //                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), startHeartMeasurementManual);
