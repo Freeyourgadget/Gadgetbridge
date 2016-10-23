@@ -1,5 +1,9 @@
 ###Changelog
 
+####Version 0.13.6
+* Mi Band 2: Support for multiple alarms (3 at the moment)
+* Mi Band 2: Fix for alarms not working when just one is enabled
+
 ####Version 0.13.5
 * Mi Band 2: Support setting one alarm
 * Pebble: Health compatibility for Firmware 4.2
