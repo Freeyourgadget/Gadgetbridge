@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 
+import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
@@ -39,6 +40,13 @@ public interface DeviceCoordinator {
     boolean supports(GBDevice device);
 
     GBDevice createDevice(GBDeviceCandidate candidate);
+
+    /**
+     * Deletes all information, including all related database content about the
+     * given device.
+     * @throws GBException
+     */
+    void deleteDevice(GBDevice device) throws GBException;
 
     /**
      * Returns the kind of device type this coordinator supports.
