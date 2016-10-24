@@ -68,7 +68,7 @@
                     android:id="@+id/device_battery_status"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
-                    android:tint="?android:attr/textColor"
+                    android:tint="@color/secondarytext"
                     card_view:srcCompat="@drawable/level_list_battery" />
 
                 <TextView
@@ -77,7 +77,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:minWidth="36dp"
-                    android:textColor="?android:attr/textColor"
+                    android:textColor="@color/secondarytext"
                     android:textStyle="bold"
                     tools:text="100%" />
 
@@ -100,7 +100,7 @@
                     android:layout_height="36dp"
                     android:clickable="true"
                     android:contentDescription="@string/controlcenter_fetch_activity_data"
-                    android:tint="?android:attr/textColor"
+                    android:tint="@color/secondarytext"
                     android:background="?android:attr/selectableItemBackground"
                     card_view:srcCompat="@drawable/ic_action_fetch_activity_data" />
 
@@ -124,7 +124,7 @@
                 android:layout_toRightOf="@id/device_action_fetch_activity_box"
                 android:clickable="true"
                 android:contentDescription="@string/controlcenter_take_screenshot"
-                android:tint="?android:attr/textColor"
+                android:tint="@color/secondarytext"
                 android:background="?android:attr/selectableItemBackground"
                 card_view:srcCompat="@drawable/ic_screenshot" />
 
@@ -137,7 +137,7 @@
                 android:layout_toRightOf="@id/device_action_take_screenshot"
                 android:clickable="true"
                 android:contentDescription="@string/controlcenter_start_configure_alarms"
-                android:tint="?android:attr/textColor"
+                android:tint="@color/secondarytext"
                 android:background="?android:attr/selectableItemBackground"
                 card_view:srcCompat="@drawable/ic_device_set_alarms" />
 
@@ -149,7 +149,7 @@
                 android:layout_margin="8dp"
                 android:layout_toRightOf="@id/device_action_set_alarms"
                 android:clickable="true"
-                android:tint="?android:attr/textColor"
+                android:tint="@color/secondarytext"
                 card_view:srcCompat="@drawable/ic_activity_graphs"
                 android:background="?android:attr/selectableItemBackground"
                 android:contentDescription="@string/controlcenter_start_activitymonitor" />
@@ -166,7 +166,7 @@
                 android:layout_marginTop="8dp"
                 android:clickable="true"
                 android:contentDescription="@string/candidate_item_device_image"
-                android:tint="?android:attr/textColor"
+                android:tint="@color/secondarytext"
                 android:background="?android:attr/selectableItemBackground"
                 card_view:srcCompat="@drawable/ic_more_vert" />
 
@@ -201,7 +201,7 @@
                     android:layout_marginRight="0dp"
                     android:layout_marginTop="8dp"
                     android:clickable="true"
-                    android:tint="?android:attr/textColor"
+                    android:tint="?android:textColorTertiary"
                     android:background="?android:attr/selectableItemBackground"
                     card_view:srcCompat="@drawable/ic_action_find_lost_device"
                     android:contentDescription="@string/controlcenter_find_device" />
@@ -217,7 +217,7 @@
                     android:layout_marginRight="0dp"
                     android:layout_marginTop="8dp"
                     android:clickable="true"
-                    android:tint="?android:attr/textColor"
+                    android:tint="?android:textColorTertiary"
                     android:background="?android:attr/selectableItemBackground"
                     card_view:srcCompat="@drawable/ic_remove_device"
                     android:contentDescription="@string/controlcenter_delete_device" />
