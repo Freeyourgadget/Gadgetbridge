@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.13.6" versioncode="68">
+        <change>Mi Band 2: Support multiple alarms (3 at the moment)</change>
+        <change>Mi Band 2: Fix for alarms not working when just one is enabled</change>
+    </release>
     <release version="0.13.5" versioncode="67">
         <change>Mi Band 2: Support setting one alarm</change>
         <change>Pebble: Health compatibility for Firmware 4.2</change>
