@@ -302,6 +302,7 @@
             android:label="@string/title_activity_controlcenter"
             android:theme="@style/GadgetbridgeTheme.NoActionBar">
             <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

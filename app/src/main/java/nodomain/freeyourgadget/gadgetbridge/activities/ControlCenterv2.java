@@ -2,12 +2,12 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -19,13 +19,16 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,11 +48,18 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 public class ControlCenterv2 extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    //needed for KK compatibility
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
     private DeviceManager deviceManager;
     private ImageView background;
     private TextView hintTextView;
 
+    private List<GBDevice> deviceList;
     private GBDeviceAdapterv2 mGBDeviceAdapter;
+    private RecyclerView deviceListView;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -99,29 +109,50 @@ public class ControlCenterv2 extends AppCompatActivity
         //end of material design boilerplate
         deviceManager = GBApplication.getDeviceManager();
         hintTextView = (TextView) findViewById(R.id.hintTextView);
-        ListView deviceListView = (ListView) findViewById(R.id.deviceListView);
+
+        deviceListView = (RecyclerView) findViewById(R.id.deviceListView);
+        deviceListView.setHasFixedSize(true);
+        deviceListView.setLayoutManager(new LinearLayoutManager(this));
         background = (ImageView) findViewById(R.id.no_items_bg);
 
-        final List<GBDevice> deviceList = deviceManager.getDevices();
+        deviceList = deviceManager.getDevices();
         mGBDeviceAdapter = new GBDeviceAdapterv2(this, deviceList);
+
         deviceListView.setAdapter(this.mGBDeviceAdapter);
-        deviceListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.LEFT , ItemTouchHelper.RIGHT) {
             @Override
-            public void onItemClick(AdapterView parent, View v, int position, long id) {
-                GBDevice gbDevice = mGBDeviceAdapter.getItem(position);
-                if (gbDevice.isInitialized()) {
-                    DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
-                    Class<? extends Activity> primaryActivity = coordinator.getPrimaryActivity();
-                    if (primaryActivity != null) {
-                        Intent startIntent = new Intent(ControlCenterv2.this, primaryActivity);
-                        startIntent.putExtra(GBDevice.EXTRA_DEVICE, gbDevice);
-                        startActivity(startIntent);
-                    }
-                } else {
-                    GBApplication.deviceService().connect(gbDevice);
-                }
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                if(dX>50)
+                    dX = 50;
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+
+            }
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                GB.toast(getBaseContext(), "onMove", Toast.LENGTH_LONG, GB.ERROR);
+
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                GB.toast(getBaseContext(), "onSwiped", Toast.LENGTH_LONG, GB.ERROR);
+
+            }
+
+            @Override
+            public void onChildDrawOver(Canvas c, RecyclerView recyclerView,
+                                        RecyclerView.ViewHolder viewHolder, float dX, float dY,
+                                        int actionState, boolean isCurrentlyActive) {
             }
         });
+
+        //uncomment to enable fixed-swipe to reveal more actions
+        //swipeToDismissTouchHelper.attachToRecyclerView(deviceListView);
+
 
         registerForContextMenu(deviceListView);
 
@@ -256,6 +287,5 @@ public class ControlCenterv2 extends AppCompatActivity
         if (!wantedPermissions.isEmpty())
             ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[wantedPermissions.size()]), 0);
     }
-
 
 }

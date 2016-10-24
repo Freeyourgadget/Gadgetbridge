@@ -17,7 +17,7 @@
         android:layout_centerInParent="true"
         android:src="@drawable/gadgetbridge_img" />
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/deviceListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
