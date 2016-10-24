@@ -35,24 +35,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.cketti.library.changelog.ChangeLog;
-import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapter;
-import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
-import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
-import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
-import nodomain.freeyourgadget.gadgetbridge.entities.Device;
-import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributesDao;
-import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySampleDao;
-import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivityOverlayDao;
-import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivitySampleDao;
-import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMisfitSampleDao;
-import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMorpheuzSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -356,7 +344,10 @@ public class ControlCenter extends GBActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         try {
-                            deleteDevice(selectedDevice);
+                            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+                            if (coordinator != null) {
+                                coordinator.deleteDevice(selectedDevice);
+                            }
                             DeviceHelper.getInstance().removeBond(selectedDevice);
                         } catch (Exception ex) {
                             GB.toast(ControlCenter.this, "Error deleting device: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
@@ -374,47 +365,6 @@ public class ControlCenter extends GBActivity {
                     }
                 })
                 .show();
-    }
-
-    private void deleteDevice(final GBDevice gbDevice) throws GBException {
-        LOG.info("will try to delete device: " + gbDevice.getName());
-        if (gbDevice.isConnected() || gbDevice.isConnecting()) {
-            GBApplication.deviceService().disconnect();
-        }
-        try (DBHandler dbHandler = GBApplication.acquireDB()) {
-            DaoSession session = dbHandler.getDaoSession();
-            Device device = DBHelper.findDevice(gbDevice, session);
-            if (device != null) {
-                long deviceId = device.getId();
-                QueryBuilder qb;
-                switch (gbDevice.getType()) {
-                    case PEBBLE:
-                        qb = session.getPebbleHealthActivitySampleDao().queryBuilder();
-                        qb.where(PebbleHealthActivitySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
-                        qb = session.getPebbleHealthActivityOverlayDao().queryBuilder();
-                        qb.where(PebbleHealthActivityOverlayDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
-                        qb = session.getPebbleMisfitSampleDao().queryBuilder();
-                        qb.where(PebbleMisfitSampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
-                        qb = session.getPebbleMorpheuzSampleDao().queryBuilder();
-                        qb.where(PebbleMorpheuzSampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
-                        break;
-                    case MIBAND:
-                    case MIBAND2:
-                        qb = session.getMiBandActivitySampleDao().queryBuilder();
-                        qb.where(MiBandActivitySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
-                        break;
-                    default:
-                        break;
-                }
-                qb = session.getDeviceAttributesDao().queryBuilder();
-                qb.where(DeviceAttributesDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
-                session.getDeviceDao().delete(device);
-            } else {
-                LOG.info("device to delete not found in db: " + gbDevice);
-            }
-        } catch (Exception e) {
-            throw new GBException("Error deleting device: " + e.getMessage(), e);
-        }
     }
 
     @Override
