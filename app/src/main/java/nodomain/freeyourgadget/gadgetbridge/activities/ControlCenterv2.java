@@ -27,7 +27,6 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -37,10 +36,8 @@ import de.cketti.library.changelog.ChangeLog;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapterv2;
-import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -55,7 +52,8 @@ public class ControlCenterv2 extends AppCompatActivity
 
     private DeviceManager deviceManager;
     private ImageView background;
-    private TextView hintTextView;
+    //hidden temporarily?
+    //private TextView hintTextView;
 
     private List<GBDevice> deviceList;
     private GBDeviceAdapterv2 mGBDeviceAdapter;
@@ -108,7 +106,7 @@ public class ControlCenterv2 extends AppCompatActivity
 
         //end of material design boilerplate
         deviceManager = GBApplication.getDeviceManager();
-        hintTextView = (TextView) findViewById(R.id.hintTextView);
+//        hintTextView = (TextView) findViewById(R.id.hintTextView);
 
         deviceListView = (RecyclerView) findViewById(R.id.deviceListView);
         deviceListView.setHasFixedSize(true);
@@ -248,12 +246,12 @@ public class ControlCenterv2 extends AppCompatActivity
             background.setVisibility(View.INVISIBLE);
         }
 
-        if (connectedDevice != null) {
-            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(connectedDevice);
-            hintTextView.setText(coordinator.getTapString());
-        } else if (!deviceList.isEmpty()) {
-            hintTextView.setText(R.string.tap_a_device_to_connect);
-        }
+//        if (connectedDevice != null) {
+//            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(connectedDevice);
+//            hintTextView.setText(coordinator.getTapString());
+//        } else if (!deviceList.isEmpty()) {
+//            hintTextView.setText(R.string.tap_a_device_to_connect);
+//        }
 
         mGBDeviceAdapter.notifyDataSetChanged();
     }
