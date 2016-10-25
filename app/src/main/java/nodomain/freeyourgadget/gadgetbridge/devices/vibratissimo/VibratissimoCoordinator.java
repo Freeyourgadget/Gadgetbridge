@@ -86,6 +86,16 @@ public class VibratissimoCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsAppsManagement() {
+        return false;
+    }
+
+    @Override
+    public Class<? extends Activity> getAppsManagementActivity() {
+        return null;
+    }
+
+    @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
         // nothing to delete, yet
     }
