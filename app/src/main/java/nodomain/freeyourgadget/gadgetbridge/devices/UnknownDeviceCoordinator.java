@@ -142,4 +142,14 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     public String getManufacturer() {
         return "unknown";
     }
+
+    @Override
+    public boolean supportsAppsManagement() {
+        return false;
+    }
+
+    @Override
+    public Class<? extends Activity> getAppsManagementActivity() {
+        return null;
+    }
 }

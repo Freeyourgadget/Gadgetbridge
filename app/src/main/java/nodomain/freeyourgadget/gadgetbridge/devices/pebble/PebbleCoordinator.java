@@ -117,4 +117,14 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     public String getManufacturer() {
         return "Pebble";
     }
+
+    @Override
+    public boolean supportsAppsManagement() {
+        return true;
+    }
+
+    @Override
+    public Class<? extends Activity> getAppsManagementActivity() {
+        return AppManagerActivity.class;
+    }
 }

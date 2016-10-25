@@ -140,4 +140,19 @@ public interface DeviceCoordinator {
      * Returns the readable name of the manufacturer.
      */
     String getManufacturer();
+
+    /**
+     * Returns true if this device/coordinator supports managing device apps.
+     *
+     * @return
+     */
+    boolean supportsAppsManagement();
+
+    /**
+     * Returns the Activity class that will be used to manage device apps.
+     *
+     * @return
+     */
+    Class<? extends Activity> getAppsManagementActivity();
+
 }
