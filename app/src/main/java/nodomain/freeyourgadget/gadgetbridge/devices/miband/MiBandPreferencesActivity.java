@@ -34,6 +34,20 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
 
         addPreferencesFromResource(R.xml.miband_preferences);
 
+        addTryListeners();
+
+        final Preference enableHeartrateSleepSupport = findPreference(PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION);
+        enableHeartrateSleepSupport.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                GBApplication.deviceService().onEnableHeartRateSleepSupport(Boolean.TRUE.equals(newVal));
+                return true;
+            }
+        });
+    }
+
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
         final Preference developmentMiaddr = findPreference(PREF_MIBAND_ADDRESS);
         developmentMiaddr.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -44,17 +58,6 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
                 return true;
             }
 
-        });
-
-        addTryListeners();
-
-        final Preference enableHeartrateSleepSupport = findPreference(PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION);
-        enableHeartrateSleepSupport.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onEnableHeartRateSleepSupport(Boolean.TRUE.equals(newVal));
-                return true;
-            }
         });
     }
 
