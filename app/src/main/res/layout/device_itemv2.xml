@@ -129,12 +129,25 @@
                 card_view:srcCompat="@drawable/ic_screenshot" />
 
             <ImageView
-                android:id="@+id/device_action_set_alarms"
+                android:id="@+id/device_action_manage_apps"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_below="@id/device_image"
                 android:layout_margin="8dp"
                 android:layout_toRightOf="@id/device_action_take_screenshot"
+                android:clickable="true"
+                android:contentDescription="@string/title_activity_appmanager"
+                android:tint="@color/secondarytext"
+                android:background="?android:attr/selectableItemBackground"
+                card_view:srcCompat="@drawable/ic_action_manage_apps" />
+
+            <ImageView
+                android:id="@+id/device_action_set_alarms"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_below="@id/device_image"
+                android:layout_margin="8dp"
+                android:layout_toRightOf="@id/device_action_manage_apps"
                 android:clickable="true"
                 android:contentDescription="@string/controlcenter_start_configure_alarms"
                 android:tint="@color/secondarytext"

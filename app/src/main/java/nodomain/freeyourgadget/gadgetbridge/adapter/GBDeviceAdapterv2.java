@@ -1,10 +1,12 @@
 package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -25,9 +28,11 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
  * Adapter for displaying GBDevice instances.
@@ -57,29 +62,23 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         final GBDevice device = deviceList.get(position);
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
 
+        holder.deviceImageView.setImageResource(R.drawable.level_list_device);
+        //level-list does not allow negative values, hence we always add 100 to the key.
+        holder.deviceImageView.setImageLevel(device.getType().getKey() + 100 + (device.isInitialized() ? 100 : 0));
+
         holder.deviceImageView.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                if (device.isInitialized()) {
-                    DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
-                    Class<? extends Activity> primaryActivity = coordinator.getPrimaryActivity();
-                    if (primaryActivity != null) {
-                        Intent startIntent = new Intent(context, primaryActivity);
-                        startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
-                        context.startActivity(startIntent);
-                    }
-                } else {
-                    //TODO: move somewhere else
-                    GBApplication.deviceService().connect(device);
-                }
+                //TODO: move somewhere else?
+                GBApplication.deviceService().connect(device);
             }
         });
         holder.deviceImageView.setOnLongClickListener(new View.OnLongClickListener() {
 
             @Override
             public boolean onLongClick(View v) {
-                //TODO: move somewhere else
+                //TODO: move somewhere else?
                 GBApplication.deviceService().disconnect();
                 return true;
             }
@@ -87,6 +86,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
 
         holder.deviceNameLabel.setText(getUniqueDeviceName(device));
 
+        //TODO: snackbar!
         if (device.isBusy()) {
             holder.deviceStatusLabel.setText(device.getBusyTask());
             holder.busyIndicator.setVisibility(View.VISIBLE);
@@ -134,6 +134,24 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                                              GBApplication.deviceService().onScreenshotReq();
                                                          }
                                                      }
+        );
+
+        //manage apps
+        holder.manageAppsView.setVisibility((device.isInitialized() && coordinator.supportsAppsManagement()) ? View.VISIBLE : View.GONE);
+        holder.manageAppsView.setOnClickListener(new View.OnClickListener()
+
+                                                 {
+                                                     @Override
+                                                     public void onClick(View v) {
+                                                         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+                                                         Class<? extends Activity> appsManagementActivity = coordinator.getAppsManagementActivity();
+                                                         if (appsManagementActivity != null) {
+                                                             Intent startIntent = new Intent(context, appsManagementActivity);
+                                                             startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                                                             context.startActivity(startIntent);
+                                                         }
+                                                     }
+                                                 }
         );
 
         //set alarms
@@ -218,40 +236,37 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         {
             @Override
             public void onClick(View v) {
-                //TODO: the logic is bolted to controlcenter, but I don't think it belongs here
+                new AlertDialog.Builder(context)
+                        .setCancelable(true)
+                        .setTitle(context.getString(R.string.controlcenter_delete_device_name, device.getName()))
+                        .setMessage(R.string.controlcenter_delete_device_dialogmessage)
+                        .setPositiveButton(R.string.Delete, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                try {
+                                    DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+                                    if (coordinator != null) {
+                                        coordinator.deleteDevice(device);
+                                    }
+                                    DeviceHelper.getInstance().removeBond(device);
+                                } catch (Exception ex) {
+                                    GB.toast(context, "Error deleting device: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
+                                } finally {
+                                    Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
+                                    LocalBroadcastManager.getInstance(context).sendBroadcast(refreshIntent);
+                                }
+                            }
+                        })
+                        .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .show();
             }
         });
 
-        switch (device.getType()) {
-            case PEBBLE:
-                if (device.isConnected()) {
-                    holder.deviceImageView.setImageResource(R.drawable.ic_device_pebble);
-                } else {
-                    holder.deviceImageView.setImageResource(R.drawable.ic_device_pebble_disabled);
-                }
-                break;
-            case MIBAND:
-            case MIBAND2:
-                if (device.isConnected()) {
-                    holder.deviceImageView.setImageResource(R.drawable.ic_device_miband);
-                } else {
-                    holder.deviceImageView.setImageResource(R.drawable.ic_device_miband_disabled);
-                }
-                break;
-            case VIBRATISSIMO:
-                if (device.isConnected()) {
-                    holder.deviceImageView.setImageResource(R.drawable.ic_device_lovetoy);
-                } else {
-                    holder.deviceImageView.setImageResource(R.drawable.ic_device_lovetoy_disabled);
-                }
-                break;
-            default:
-                if (device.isConnected()) {
-                    holder.deviceImageView.setImageResource(R.drawable.ic_launcher);
-                } else {
-                    holder.deviceImageView.setImageResource(R.drawable.ic_device_default_disabled);
-                }
-        }
     }
 
     @Override
@@ -273,6 +288,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         ImageView fetchActivityData;
         ProgressBar busyIndicator;
         ImageView takeScreenshotView;
+        ImageView manageAppsView;
         ImageView setAlarmsView;
         ImageView showActivityGraphs;
 
@@ -297,6 +313,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             fetchActivityData = (ImageView) view.findViewById(R.id.device_action_fetch_activity);
             busyIndicator = (ProgressBar) view.findViewById(R.id.device_busy_indicator);
             takeScreenshotView = (ImageView) view.findViewById(R.id.device_action_take_screenshot);
+            manageAppsView = (ImageView) view.findViewById(R.id.device_action_manage_apps);
             setAlarmsView = (ImageView) view.findViewById(R.id.device_action_set_alarms);
             showActivityGraphs = (ImageView) view.findViewById(R.id.device_action_show_activity_graphs);
             deviceInfoView = (ImageView) view.findViewById(R.id.device_info_image);
