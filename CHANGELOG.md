@@ -1,5 +1,10 @@
 ###Changelog
 
+####Version 0.13.7
+* Pebble: Fix configuration of certain pebble apps (eg. QR Generator, Squared 4.0)
+* Mi Band: allow to delete Mi Band address from development settings
+* Mi Band 2: Some initial hacky support for hr readings (Debug activity only)
+
 ####Version 0.13.6
 * Mi Band 2: Support for multiple alarms (3 at the moment)
 * Mi Band 2: Fix for alarms not working when just one is enabled

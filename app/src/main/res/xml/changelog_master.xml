@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.13.7" versioncode="69">
+        <change>Pebble: Fix configuration of certain pebble apps (eg. QR Generator, Squared 4.0)</change>
+        <change>Mi Band: allow to delete Mi Band address from development settings</change>
+        <change>Mi Band 2: Some initial hacky support for hr readings (Debug activity only)</change>
+    </release>
     <release version="0.13.6" versioncode="68">
         <change>Mi Band 2: Support multiple alarms (3 at the moment)</change>
         <change>Mi Band 2: Fix for alarms not working when just one is enabled</change>
