@@ -161,23 +161,22 @@ public class ExternalPebbleJSActivity extends GBActivity {
 
         @JavascriptInterface
         public void sendAppMessage(String msg) {
-            LOG.debug("from WEBVIEW: ", msg);
+            LOG.debug("from WEBVIEW: " + msg);
             JSONObject knownKeys = getAppConfigurationKeys();
 
             try {
                 JSONObject in = new JSONObject(msg);
                 JSONObject out = new JSONObject();
                 String inKey, outKey;
-                boolean passKey = false;
+                boolean passKey;
                 for (Iterator<String> key = in.keys(); key.hasNext(); ) {
                     passKey = false;
                     inKey = key.next();
                     outKey = null;
-                    int pebbleAppIndex = knownKeys.optInt(inKey);
-                    if (pebbleAppIndex != 0) {
+                    int pebbleAppIndex = knownKeys.optInt(inKey, -1);
+                    if (pebbleAppIndex != -1) {
                         passKey = true;
                         outKey = String.valueOf(pebbleAppIndex);
-
                     } else {
                         //do not discard integer keys (see https://developer.pebble.com/guides/communication/using-pebblekit-js/ )
                         Scanner scanner = new Scanner(inKey);
@@ -187,7 +186,7 @@ public class ExternalPebbleJSActivity extends GBActivity {
                         }
                     }
 
-                    if (passKey && outKey != null) {
+                    if (passKey) {
                         Object obj = in.get(inKey);
                         if (obj instanceof Boolean) {
                             obj = ((Boolean) obj) ? "true" : "false";

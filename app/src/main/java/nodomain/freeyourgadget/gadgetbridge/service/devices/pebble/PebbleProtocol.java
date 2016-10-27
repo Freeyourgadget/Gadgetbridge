@@ -1645,6 +1645,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
             } else if (pair.second instanceof byte[]) {
                 length += ((byte[]) pair.second).length;
             }
+            else {
+                LOG.warn("unknown type: " + pair.second.getClass().toString());
+            }
         }
 
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + length);
