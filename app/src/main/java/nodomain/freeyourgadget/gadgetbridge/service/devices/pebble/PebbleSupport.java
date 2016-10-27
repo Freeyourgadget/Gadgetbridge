@@ -3,6 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 import android.net.Uri;
 import android.util.Pair;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -59,6 +60,14 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
             while (keysIterator.hasNext()) {
                 String keyStr = keysIterator.next();
                 Object object = json.get(keyStr);
+                if (object instanceof JSONArray) {
+                    JSONArray jsonArray = (JSONArray) object;
+                    byte[] byteArray = new byte[jsonArray.length()];
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        byteArray[i] = ((Integer) jsonArray.get(i)).byteValue();
+                    }
+                    object = byteArray;
+                }
                 pairs.add(new Pair<>(Integer.parseInt(keyStr), object));
             }
             getDeviceIOThread().write(((PebbleProtocol) getDeviceProtocol()).encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, uuid, pairs));
