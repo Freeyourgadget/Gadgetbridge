@@ -278,6 +278,9 @@ public class NotificationListener extends NotificationListenerService {
             case "org.telegram.messenger":
                 notificationSpec.type = NotificationType.TELEGRAM;
                 break;
+            case "me.zeeroooo.materialfb":
+            case "it.rignanese.leo.slimfacebook":
+            case "me.jakelane.wrapperforfacebook":
             case "com.facebook.katana":
             case "org.indywidualni.fblite":
                 notificationSpec.type = NotificationType.FACEBOOK;
