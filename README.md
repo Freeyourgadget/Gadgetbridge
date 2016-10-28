@@ -37,7 +37,7 @@ need to create an account and transmit any of your data to the vendor's servers.
 * Music control: play/pause, next track, previous track, volume up, volume down
 * List and remove installed apps/watchfaces
 * Install watchfaces and watchapps (.pbw)
-* Install firwmare files (.pbz) [READ THE WIKI](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble-Firmware-updates)
+* Install firmware files (.pbz) [READ THE WIKI](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble-Firmware-updates)
 * Install language files (.pbl)
 * Take and share screenshots from the Pebble's screen
 * PebbleKit support for 3rd Party Android Apps (experimental)
