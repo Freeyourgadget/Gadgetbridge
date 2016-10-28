@@ -1061,7 +1061,6 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
      */
     private void queueAlarm(Alarm alarm, TransactionBuilder builder, BluetoothGattCharacteristic characteristic) {
         Calendar calendar = alarm.getAlarmCal();
-        int daysMask = 0;
 
         int maxAlarms = 5; // arbitrary at the moment...
         if (alarm.getIndex() >= maxAlarms) {
@@ -1071,13 +1070,12 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             return;
         }
 
-        if (alarm.isEnabled()) {
-            daysMask = alarm.getRepetitionMask();
-        }
+        int daysMask = alarm.getRepetitionMask();
+        int base = alarm.isEnabled() ? 128 : 0;
 
         byte[] alarmMessage = new byte[] {
                 (byte) 0x2, // TODO what is this?
-                (byte) (128 + alarm.getIndex()), // 128 is the base, alarm slot is added
+                (byte) (base + alarm.getIndex()), // 128 is the base, alarm slot is added
                 (byte) calendar.get(Calendar.HOUR_OF_DAY),
                 (byte) calendar.get(Calendar.MINUTE),
                 (byte) daysMask,
