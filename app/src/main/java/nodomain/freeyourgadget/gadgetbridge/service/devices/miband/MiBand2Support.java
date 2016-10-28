@@ -1070,9 +1070,14 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             return;
         }
 
+        int base = 0;
+        if (alarm.isEnabled()) {
+            base = 128;
+        }
         int daysMask = alarm.getRepetitionMask();
-        int base = alarm.isEnabled() ? 128 : 0;
-
+        if (!alarm.isRepetitive()) {
+            daysMask = 128;
+        }
         byte[] alarmMessage = new byte[] {
                 (byte) 0x2, // TODO what is this?
                 (byte) (base + alarm.getIndex()), // 128 is the base, alarm slot is added
