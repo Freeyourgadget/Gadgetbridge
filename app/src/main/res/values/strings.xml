@@ -338,4 +338,8 @@
 
     <!-- Strings related to Vibration Activity -->
     <string name="title_activity_vibration">Vibration</string>
+    <string name="miband_pairing_creating_bond_with">"Creating bond with %1$s (%2$s)"</string>
+    <string name="miband_pairing_unable_to_pair_with">"Unable to pair with %1$s (%s$s)"</string>
+    <string name="miband_pairing_in_progress">Bonding in progress: %1$s (%2$s)</string>
+    <string name="miband_pairing_already_bonded">"Already bonded with %1$s (%2$s), connecting…"</string>
 </resources>
