@@ -28,7 +28,7 @@
             android:scrollHorizontally="false"
             style="@style/Base.TextAppearance.AppCompat.SearchResult.Title"
             android:text="Item Name"
-            android:singleLine="true" />
+            android:maxLines="1"/>
 
         <TextView
             android:id="@+id/item_details"
