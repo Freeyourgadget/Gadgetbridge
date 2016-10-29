@@ -7,7 +7,7 @@
         <change>Mi Band 2: Initial support for heart rate readings (Debug activity only)</change>
         <change>Mi Band 2: Support disabled alarms</change>
         <change>Attempt to fix spurious device discovery problems</change>
-        <change>Update MPAndroidChart to release 3.0</change>
+        <change>Correctly recognize Toffeed, Slimsocial and MaterialFBook as facebook notification sources</change>
     </release>
     <release version="0.13.6" versioncode="68">
         <change>Mi Band 2: Support multiple alarms (3 at the moment)</change>

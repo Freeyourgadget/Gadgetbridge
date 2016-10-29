@@ -8,12 +8,10 @@
         <item name="android:textColorTertiary">@color/tertiarytext_light</item>
         <item name="colorAccent">@color/accent</item>
 
-        <!-- unfortunately it doesn't work this way :( -->
-        <!--
         <item name="chart_deep_sleep">@color/chart_deep_sleep_light</item>
         <item name="chart_light_sleep">@color/chart_light_sleep_light</item>
         <item name="chart_activity">@color/chart_activity_light</item>
-        -->
+        <item name="chart_not_worn">@color/chart_not_worn_light</item>
     </style>
 
     <style name="GadgetbridgeTheme.NoActionBar">
@@ -30,12 +28,10 @@
         <item name="android:textColorTertiary">@color/tertiarytext_dark</item>
         <item name="colorAccent">@color/accent</item>
 
-        <!-- unfortunately it doesn't work this way :( -->
-        <!--
         <item name="chart_deep_sleep">@color/chart_deep_sleep_dark</item>
         <item name="chart_light_sleep">@color/chart_light_sleep_dark</item>
         <item name="chart_activity">@color/chart_activity_dark</item>
-        -->
+        <item name="chart_not_worn">@color/chart_not_worn_dark</item>
     </style>
 
     <style name="GadgetbridgeThemeDark.NoActionBar">

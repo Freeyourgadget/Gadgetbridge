@@ -8,7 +8,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.TypedValue;
 import android.view.View;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -155,15 +157,20 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     protected void init() {
+        TypedValue runningColor = new TypedValue();
         BACKGROUND_COLOR = GBApplication.getBackgroundColor(getContext());
         LEGEND_TEXT_COLOR = DESCRIPTION_COLOR = GBApplication.getTextColor(getContext());
-        CHART_TEXT_COLOR = getResources().getColor(R.color.secondarytext);
-        HEARTRATE_COLOR = getResources().getColor(R.color.chart_heartrate);
-        HEARTRATE_FILL_COLOR = getResources().getColor(R.color.chart_heartrate_fill);
-        AK_ACTIVITY_COLOR = getResources().getColor(R.color.chart_activity_light);
-        AK_DEEP_SLEEP_COLOR = getResources().getColor(R.color.chart_light_sleep_light);
-        AK_LIGHT_SLEEP_COLOR = getResources().getColor(R.color.chart_deep_sleep_light);
-        AK_NOT_WORN_COLOR = getResources().getColor(R.color.chart_not_worn_light);
+        CHART_TEXT_COLOR = ContextCompat.getColor(getContext(), R.color.secondarytext);
+        HEARTRATE_COLOR = ContextCompat.getColor(getContext(), R.color.chart_heartrate);
+        HEARTRATE_FILL_COLOR = ContextCompat.getColor(getContext(), R.color.chart_heartrate_fill);
+        getContext().getTheme().resolveAttribute(R.attr.chart_activity, runningColor, true);
+        AK_ACTIVITY_COLOR = runningColor.data;
+        getContext().getTheme().resolveAttribute(R.attr.chart_light_sleep, runningColor, true);
+        AK_DEEP_SLEEP_COLOR = runningColor.data;
+        getContext().getTheme().resolveAttribute(R.attr.chart_deep_sleep, runningColor, true);
+        AK_LIGHT_SLEEP_COLOR = runningColor.data;
+        getContext().getTheme().resolveAttribute(R.attr.chart_not_worn, runningColor, true);
+        AK_NOT_WORN_COLOR = runningColor.data;
 
         HEARTRATE_LABEL = getContext().getString(R.string.charts_legend_heartrate);
 
