@@ -182,6 +182,15 @@
 
                 <data android:mimeType="application/octet-stream" />
             </intent-filter>
+            <!-- to receive firmwares from the donwload content provider if recognized as zip-->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="application/zip" />
+                <data android:mimeType="application/x-zip-compressed" />
+            </intent-filter>
         </activity>
 
         <service
