@@ -10,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
-import org.robolectric.shadows.ShadowLog;
 
 import java.io.File;
 
@@ -41,7 +40,8 @@ public abstract class TestBase {
     @BeforeClass
     public static void setupSuite() throws Exception {
         // print everything going to android.util.Log to System.out
-        ShadowLog.stream = System.out;
+        System.setProperty("robolectric.logging", "stdout");
+//        ShadowLog.stream = System.out;
 
         // properties might be preconfigured in build.gradle because of test ordering problems
         String logDir = System.getProperty(Logging.PROP_LOGFILES_DIR);
