@@ -16,4 +16,9 @@
             android:icon="@drawable/ic_quit" />
     </group>
 
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/external_changelog"
+            android:title="@string/changelog_title" />
+    </group>
 </menu>

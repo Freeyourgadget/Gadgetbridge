@@ -52,8 +52,6 @@ public class ControlCenterv2 extends AppCompatActivity
 
     private DeviceManager deviceManager;
     private ImageView background;
-    //hidden temporarily?
-    //private TextView hintTextView;
 
     private List<GBDevice> deviceList;
     private GBDeviceAdapterv2 mGBDeviceAdapter;
@@ -106,7 +104,6 @@ public class ControlCenterv2 extends AppCompatActivity
 
         //end of material design boilerplate
         deviceManager = GBApplication.getDeviceManager();
-//        hintTextView = (TextView) findViewById(R.id.hintTextView);
 
         deviceListView = (RecyclerView) findViewById(R.id.deviceListView);
         deviceListView.setHasFixedSize(true);
@@ -245,13 +242,6 @@ public class ControlCenterv2 extends AppCompatActivity
         } else {
             background.setVisibility(View.INVISIBLE);
         }
-
-//        if (connectedDevice != null) {
-//            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(connectedDevice);
-//            hintTextView.setText(coordinator.getTapString());
-//        } else if (!deviceList.isEmpty()) {
-//            hintTextView.setText(R.string.tap_a_device_to_connect);
-//        }
 
         mGBDeviceAdapter.notifyDataSetChanged();
     }

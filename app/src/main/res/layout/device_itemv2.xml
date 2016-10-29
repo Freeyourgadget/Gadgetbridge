@@ -19,12 +19,66 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
+            <RelativeLayout
+                android:id="@+id/device_item_infos_box"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="8dp"
+                android:focusable="false"
+                android:visibility="gone">
+
+                <ListView
+                    android:id="@+id/device_item_infos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:focusable="false"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toStartOf="@+id/device_action_remove"
+                    android:scrollbars="none" />
+
+                <ImageView
+                    android:id="@+id/device_action_find"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginTop="8dp"
+                    android:clickable="true"
+                    android:tint="?android:textColorTertiary"
+                    android:background="?android:attr/selectableItemBackground"
+                    card_view:srcCompat="@drawable/ic_action_find_lost_device"
+                    android:contentDescription="@string/controlcenter_find_device" />
+
+                <ImageView
+                    android:id="@+id/device_action_remove"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/device_action_find"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginTop="8dp"
+                    android:clickable="true"
+                    android:tint="?android:textColorTertiary"
+                    android:background="?android:attr/selectableItemBackground"
+                    card_view:srcCompat="@drawable/ic_remove_device"
+                    android:contentDescription="@string/controlcenter_delete_device" />
+            </RelativeLayout>
+
+
             <ImageView
                 android:id="@+id/device_image"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
+                android:layout_below="@id/device_item_infos_box"
                 android:contentDescription="@string/candidate_item_device_image"
                 android:clickable="true"
                 android:longClickable="true"
@@ -35,12 +89,14 @@
                 android:id="@+id/device_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
                 android:layout_toRightOf="@id/device_image"
+                android:layout_toLeftOf="@id/device_info_image"
+                android:layout_below="@id/device_item_infos_box"
                 android:gravity="center"
                 android:maxLines="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                tools:text="My Pebble Watch" />
+                tools:text="My Pebble Watch"
+                android:layout_alignParentEnd="true" />
 
             <TextView
                 android:id="@+id/device_status"
@@ -48,9 +104,27 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/device_name"
                 android:layout_toRightOf="@id/device_image"
+                android:layout_toLeftOf="@id/device_info_image"
                 android:gravity="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 tools:text="@string/connecting" />
+
+            <ImageView
+                android:id="@+id/device_info_image"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/device_item_infos_box"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:contentDescription="@string/candidate_item_device_image"
+                android:tint="@color/secondarytext"
+                android:background="?android:attr/selectableItemBackground"
+                card_view:srcCompat="@drawable/ic_more_vert" />
+
 
             <LinearLayout
                 android:id="@+id/device_battery_status_box"
@@ -167,74 +241,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:contentDescription="@string/controlcenter_start_activitymonitor" />
 
-            <ImageView
-                android:id="@+id/device_info_image"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/device_image"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="0dp"
-                android:layout_marginTop="8dp"
-                android:clickable="true"
-                android:contentDescription="@string/candidate_item_device_image"
-                android:tint="@color/secondarytext"
-                android:background="?android:attr/selectableItemBackground"
-                card_view:srcCompat="@drawable/ic_more_vert" />
 
-
-            <RelativeLayout
-                android:id="@+id/device_item_infos_box"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_below="@id/device_info_image"
-                android:layout_marginTop="8dp"
-                android:focusable="false"
-                android:visibility="gone">
-
-                <ListView
-                    android:id="@+id/device_item_infos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:focusable="false"
-                    android:layout_alignParentLeft="true"
-                    android:layout_toStartOf="@+id/device_action_remove"
-                    android:scrollbars="none" />
-
-                <ImageView
-                    android:id="@+id/device_action_find"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="0dp"
-                    android:layout_marginTop="8dp"
-                    android:clickable="true"
-                    android:tint="?android:textColorTertiary"
-                    android:background="?android:attr/selectableItemBackground"
-                    card_view:srcCompat="@drawable/ic_action_find_lost_device"
-                    android:contentDescription="@string/controlcenter_find_device" />
-
-                <ImageView
-                    android:id="@+id/device_action_remove"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@id/device_action_find"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="0dp"
-                    android:layout_marginTop="8dp"
-                    android:clickable="true"
-                    android:tint="?android:textColorTertiary"
-                    android:background="?android:attr/selectableItemBackground"
-                    card_view:srcCompat="@drawable/ic_remove_device"
-                    android:contentDescription="@string/controlcenter_delete_device" />
-            </RelativeLayout>
 
         </RelativeLayout>
 

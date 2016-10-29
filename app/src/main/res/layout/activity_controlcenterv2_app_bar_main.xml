@@ -23,19 +23,6 @@
 
     <include layout="@layout/activity_controlcenterv2_content_main" />
 
-<!--    <TextView
-        android:id="@+id/hintTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/secondarytext"
-        android:textStyle="italic"
-        android:text="@string/tap_connected_device_for_app_mananger"
-        android:elevation="0dp" />
--->
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"

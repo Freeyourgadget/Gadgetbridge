@@ -16,6 +16,11 @@
     <string name="controlcenter_delete_device_dialogmessage">This will delete the device and all associated data!</string>
     <string name="controlcenter_navigation_drawer_open">Open navigation drawer</string>
     <string name="controlcenter_navigation_drawer_close">Close navigation drawer</string>
+    <string name="controlcenter_snackbar_need_longpress">Long press the card to disconnect</string>
+    <string name="controlcenter_snackbar_disconnecting">Disconnecting</string>
+    <string name="controlcenter_snackbar_connecting">Connecting</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Taking a screenshot of the device</string>
+
 
     <string name="title_activity_debug">Debug</string>
 

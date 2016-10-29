@@ -6,7 +6,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
@@ -62,31 +64,33 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         final GBDevice device = deviceList.get(position);
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
 
-        holder.deviceImageView.setImageResource(R.drawable.level_list_device);
-        //level-list does not allow negative values, hence we always add 100 to the key.
-        holder.deviceImageView.setImageLevel(device.getType().getKey() + 100 + (device.isInitialized() ? 100 : 0));
-
-        holder.deviceImageView.setOnClickListener(new View.OnClickListener() {
+        holder.container.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                //TODO: move somewhere else?
-                GBApplication.deviceService().connect(device);
+                if (device.isInitialized() || device.isConnected()) {
+                    showTransientSnackbar(R.string.controlcenter_snackbar_need_longpress);
+                } else {
+                    showTransientSnackbar(R.string.controlcenter_snackbar_connecting);
+                    GBApplication.deviceService().connect(device);
+                }
             }
         });
-        holder.deviceImageView.setOnLongClickListener(new View.OnLongClickListener() {
 
+        holder.container.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                //TODO: move somewhere else?
+                showTransientSnackbar(R.string.controlcenter_snackbar_disconnecting);
                 GBApplication.deviceService().disconnect();
                 return true;
             }
         });
+        holder.deviceImageView.setImageResource(R.drawable.level_list_device);
+        //level-list does not allow negative values, hence we always add 100 to the key.
+        holder.deviceImageView.setImageLevel(device.getType().getKey() + 100 + (device.isInitialized() ? 100 : 0));
 
         holder.deviceNameLabel.setText(getUniqueDeviceName(device));
 
-        //TODO: snackbar!
         if (device.isBusy()) {
             holder.deviceStatusLabel.setText(device.getBusyTask());
             holder.busyIndicator.setVisibility(View.VISIBLE);
@@ -118,6 +122,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                                     {
                                                         @Override
                                                         public void onClick(View v) {
+                                                            showTransientSnackbar(R.string.busy_task_fetch_activity_data);
                                                             GBApplication.deviceService().onFetchActivityData();
                                                         }
                                                     }
@@ -131,6 +136,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                                      {
                                                          @Override
                                                          public void onClick(View v) {
+                                                             showTransientSnackbar(R.string.controlcenter_snackbar_requested_screenshot);
                                                              GBApplication.deviceService().onScreenshotReq();
                                                          }
                                                      }
@@ -276,6 +282,8 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
+        CardView container;
+
         ImageView deviceImageView;
         TextView deviceNameLabel;
         TextView deviceStatusLabel;
@@ -301,6 +309,8 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
 
         ViewHolder(View view) {
             super(view);
+            container = (CardView) view.findViewById(R.id.card_view);
+
             deviceImageView = (ImageView) view.findViewById(R.id.device_image);
             deviceNameLabel = (TextView) view.findViewById(R.id.device_name);
             deviceStatusLabel = (TextView) view.findViewById(R.id.device_status);
@@ -374,4 +384,18 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         }
         return true;
     }
+
+    private void showTransientSnackbar(int resource) {
+        Snackbar snackbar = Snackbar.make(parent, resource, Snackbar.LENGTH_SHORT);
+
+        View snackbarView = snackbar.getView();
+
+// change snackbar text color
+        int snackbarTextId = android.support.design.R.id.snackbar_text;
+        TextView textView = (TextView) snackbarView.findViewById(snackbarTextId);
+        //textView.setTextColor();
+        //snackbarView.setBackgroundColor(Color.MAGENTA);
+        snackbar.show();
+    }
+
 }
