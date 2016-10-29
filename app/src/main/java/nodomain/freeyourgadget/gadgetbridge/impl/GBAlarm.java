@@ -153,6 +153,11 @@ public class GBAlarm implements Alarm {
         return this.repetition;
     }
 
+    @Override
+    public boolean isRepetitive() {
+        return getRepetitionMask() != ALARM_ONCE;
+    }
+
     public String toPreferences() {
         return String.valueOf(this.index) + ',' +
                 String.valueOf(this.enabled) + ',' +
@@ -209,10 +214,12 @@ public class GBAlarm implements Alarm {
     }
 
     public static final Creator CREATOR = new Creator() {
+        @Override
         public GBAlarm createFromParcel(Parcel in) {
             return readFromParcel(in);
         }
 
+        @Override
         public GBAlarm[] newArray(int size) {
             return new GBAlarm[size];
         }

@@ -138,7 +138,7 @@
   <string name="miband_pairing_using_dummy_userdata">有効なユーザーデータはありません。今のところ、ダミーのユーザーデータを使用します。</string>
   <string name="miband_pairing_tap_hint">お使いのMi Bandが振動と点滅したとき、それを連続して数回タップしてください。</string>
   <string name="appinstaller_install">インストール</string>
-  <string name="discovery_connected_devices_hint">お使いのデバイスを検出可能にしてください。現在、接続されたデバイスは、おそらく検出されません。お使いのデバイスが 2 分しても表示されない場合は、モバイルデバイスを再起動した後にもう一度試してください。</string>
+  <string name="discovery_connected_devices_hint">お使いのデバイスを検出可能にしてください。現在、接続されたデバイスは、おそらく検出されません。Android 6 以降では位置情報を有効にする必要があります (例 GPS)。お使いのデバイスが 2 分しても表示されない場合は、モバイルデバイスを再起動した後にもう一度試してください。</string>
   <string name="discovery_note">注:</string>
   <string name="candidate_item_device_image">デバイスイメージ</string>
   <string name="miband_prefs_alias">名前/別名</string>
@@ -302,4 +302,7 @@ Mi Band、Pebble Health、Morpheuz からデータをインポートすること
   <string name="Delete">削除</string>
   <!--Strings related to Vibration Activity-->
   <string name="title_activity_vibration">バイブレーション</string>
+  <string name="miband_pairing_creating_bond_with">%1$s (%2$s) と結合を作成中</string>
+  <string name="miband_pairing_in_progress">結合の進行中: %1$s (%2$s)</string>
+  <string name="miband_pairing_already_bonded">既に %1$s (%2$s) と結合しています。接続中…</string>
 </resources>

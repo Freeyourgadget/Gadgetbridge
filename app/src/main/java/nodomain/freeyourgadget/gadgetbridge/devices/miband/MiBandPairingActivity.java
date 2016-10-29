@@ -209,20 +209,20 @@ public class MiBandPairingActivity extends GBActivity {
     protected void performBluetoothPair(BluetoothDevice device) {
         int bondState = device.getBondState();
         if (bondState == BluetoothDevice.BOND_BONDED) {
-            GB.toast("Already bonded with " + device.getName() + " (" + device.getAddress() + "), connecting...", Toast.LENGTH_SHORT, GB.INFO);
+            GB.toast(getString(R.string.miband_pairing_already_bonded, device.getName(), device.getAddress()), Toast.LENGTH_SHORT, GB.INFO);
             performPair();
             return;
         }
 
         bondingMacAddress = device.getAddress();
         if (bondState == BluetoothDevice.BOND_BONDING) {
-            GB.toast(this, "Bonding in progress: " + bondingMacAddress, Toast.LENGTH_LONG, GB.INFO);
+            GB.toast(this, getString(R.string.miband_pairing_in_progress, device.getName(), bondingMacAddress), Toast.LENGTH_LONG, GB.INFO);
             return;
         }
 
-        GB.toast(this, "Creating bond with" + bondingMacAddress, Toast.LENGTH_LONG, GB.INFO);
+        GB.toast(this, getString(R.string.miband_pairing_creating_bond_with, device.getName(), bondingMacAddress), Toast.LENGTH_LONG, GB.INFO);
         if (!device.createBond()) {
-            GB.toast(this, "Unable to pair with " + bondingMacAddress, Toast.LENGTH_LONG, GB.ERROR);
+            GB.toast(this, getString(R.string.miband_pairing_unable_to_pair_with, device.getName(), bondingMacAddress), Toast.LENGTH_LONG, GB.ERROR);
         }
     }
 

@@ -2,8 +2,12 @@
 
 ####Version 0.13.7
 * Pebble: Fix configuration of certain pebble apps (eg. QR Generator, Squared 4.0)
+* Pebble: Add context menu option in app manager to search a watchapp in the pebble appstore
 * Mi Band: allow to delete Mi Band address from development settings
-* Mi Band 2: Some initial hacky support for hr readings (Debug activity only)
+* Mi Band 2: Initial support for heart rate readings (Debug activity only)
+* Mi Band 2: Support disabled alarms
+* Attempt to fix spurious device discovery problems
+* Update MPAndroidChart to release 3.0
 
 ####Version 0.13.6
 * Mi Band 2: Support for multiple alarms (3 at the moment)

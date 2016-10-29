@@ -10,6 +10,9 @@
   <string name="controlcenter_find_device">Suche verlegtes Gerät…</string>
   <string name="controlcenter_take_screenshot">Bildschirmfoto</string>
   <string name="controlcenter_disconnect">Trennen</string>
+  <string name="controlcenter_delete_device">Gerät Löschen</string>
+  <string name="controlcenter_delete_device_name">%1$s Löschen</string>
+  <string name="controlcenter_delete_device_dialogmessage">Das wird das Gerät und die dazugehörigen Daten löschen!</string>
   <string name="title_activity_debug">Debug</string>
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">App Manager</string>
@@ -52,6 +55,7 @@
   <string name="pref_title_notifications_sms">SMS</string>
   <string name="pref_title_notifications_k9mail">K9-Mail</string>
   <string name="pref_title_notifications_pebblemsg">Pebble Nachrichten</string>
+  <string name="pref_summary_notifications_pebblemsg">Unterstützung für Anwendungen die Benachrichtigungen an die Pebble via PebbleKit senden.</string>
   <string name="pref_title_notifications_generic">Andere Benachrichtigungen</string>
   <string name="pref_title_whenscreenon">… auch wenn der Bildschirm an ist</string>
   <string name="pref_title_notification_filter">Bitte nicht stören</string>
@@ -102,6 +106,7 @@
   <string name="bluetooth_is_disabled_">Bluetooth ist abgeschaltet.</string>
   <string name="tap_connected_device_for_app_mananger">berühre das verbundene Gerät, um den App Manager zu starten</string>
   <string name="tap_connected_device_for_activity">Tippe auf das verbundene Gerät um die Aktivitätsdaten anzuzeigen</string>
+  <string name="tap_connected_device_for_vibration">Tippe auf das verbundene Gerät um zu vibrieren</string>
   <string name="tap_a_device_to_connect">berühre ein Gerät zum Verbinden</string>
   <string name="cannot_connect_bt_address_invalid_">Verbindung kann nicht aufgebaut werden. BT Adresse ungültig?</string>
   <string name="gadgetbridge_running">Gadgetbridge läuft</string>
@@ -133,7 +138,8 @@
   <string name="miband_pairing_using_dummy_userdata">Keine gültigen Benutzerinformationen angegeben, verwende Dummy-Daten für\'s Erste.</string>
   <string name="miband_pairing_tap_hint">Wenn Dein Mi Band vibriert und blinkt, tippe ein paar Mal schnell hintereinander darauf.</string>
   <string name="appinstaller_install">Installieren</string>
-  <string name="discovery_connected_devices_hint">Mach Dein Gerät auffindbar. Derzeit verbundene Geräte sind in der Regel nicht auffindbar. Wenn Dein Gerät nach zwei Minuten nicht angezeigt wird, versuche es nach einem Neustart Deines Telefons noch einmal. </string>
+  <string name="discovery_connected_devices_hint">Mach Dein Gerät auffindbar. Derzeit verbundene Geräte sind in der Regel nicht auffindbar. Android 6 oder neuer braucht dafür Standortbestimmung (z.B. GPS). Wenn Dein Gerät nach zwei Minuten nicht
+ angezeigt wird, versuche es nach einem Neustart Deines Telefons noch einmal.</string>
   <string name="discovery_note">Tipp:</string>
   <string name="candidate_item_device_image">Bild des Geräts</string>
   <string name="miband_prefs_alias">Name/Alias</string>
@@ -153,12 +159,15 @@
   <string name="vibration_profile_ring">Ring</string>
   <string name="vibration_profile_alarm_clock">Wecker</string>
   <string name="miband_prefs_vibration">Vibration</string>
+  <string name="vibration_try">Test</string>
   <string name="pref_screen_notification_profile_sms">SMS Benachrichtigung</string>
   <string name="pref_header_vibration_settings">Vibrationseinstellungen</string>
   <string name="pref_screen_notification_profile_generic">Sonstige Benachrichtigung</string>
-  <string name="pref_screen_notification_profile_pebblemsg">Pebble Benachrichtigung</string>
-  <string name="pref_screen_notification_profile_email">E-Mail Benachrichtigung</string>
-  <string name="pref_screen_notification_profile_incoming_call">Benachrichtigung für eingehende Anrufe</string>
+  <string name="pref_screen_notification_profile_email">E-Mail</string>
+  <string name="pref_screen_notification_profile_incoming_call">Eingehende Anrufe</string>
+  <string name="pref_screen_notification_profile_generic_chat">Chat</string>
+  <string name="pref_screen_notification_profile_generic_navigation">Navigation</string>
+  <string name="pref_screen_notification_profile_generic_social">Soziales Netzwerk</string>
   <string name="control_center_find_lost_device">Verlegtes Gerät suchen</string>
   <string name="control_center_cancel_to_stop_vibration">Abbrechen um die Vibration zu stoppen.</string>
   <string name="title_activity_charts">Deine Aktivität</string>
@@ -274,6 +283,7 @@ Wenn Du schon deine Daten importiert hast und mit dem Ergebnis zufrieden bist, k
   <string name="dbmanagementactivity_import_data_title">Daten importieren?</string>
   <string name="dbmanagementactivity_import_successful">Import erfolgreich.</string>
   <string name="dbmanagementactivity_error_importing_db">Fehler beim Importieren der DB: %1$s</string>
+  <string name="dbmanagementactivity_merging_activity_data_title">Führe Aktivitätsdaten zusammen</string>
   <string name="dbmanagementactivity_delete_activity_data_title">Alte Daten löschen?</string>
   <string name="dbmanagementactivity_database_successfully_deleted">Daten erfolgreich gelöscht.</string>
   <string name="dbmanagementactivity_db_deletion_failed">Löschen der Datenbank fehlgeschlagen.</string>
@@ -283,4 +293,6 @@ Wenn Du schon deine Daten importiert hast und mit dem Ergebnis zufrieden bist, k
   <string name="dbmanagementactivity_overwrite">Überschreiben</string>
   <string name="Cancel">Abbrechen</string>
   <string name="Delete">Löschen</string>
+  <!--Strings related to Vibration Activity-->
+  <string name="title_activity_vibration">Vibration</string>
 </resources>

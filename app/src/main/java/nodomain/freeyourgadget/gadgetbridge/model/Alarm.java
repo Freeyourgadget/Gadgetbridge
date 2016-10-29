@@ -26,5 +26,7 @@ public interface Alarm extends Parcelable, Comparable<Alarm> {
 
     int getRepetitionMask();
 
+    boolean isRepetitive();
+
     boolean getRepetition(int dow);
 }

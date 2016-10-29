@@ -853,9 +853,6 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         } else if (MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS.equals(characteristicUUID)) {
             handleRealtimeSteps(characteristic.getValue());
             return true;
-        } else if (MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS.equals(characteristicUUID)) {
-            handleRealtimeSteps(characteristic.getValue());
-            return true;
         } else if (MiBandService.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT.equals(characteristicUUID)) {
             handleHeartrate(characteristic.getValue());
             return true;
@@ -1061,7 +1058,6 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
      */
     private void queueAlarm(Alarm alarm, TransactionBuilder builder, BluetoothGattCharacteristic characteristic) {
         Calendar calendar = alarm.getAlarmCal();
-        int daysMask = 0;
 
         int maxAlarms = 5; // arbitrary at the moment...
         if (alarm.getIndex() >= maxAlarms) {
@@ -1071,13 +1067,17 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             return;
         }
 
+        int base = 0;
         if (alarm.isEnabled()) {
-            daysMask = alarm.getRepetitionMask();
+            base = 128;
         }
-
+        int daysMask = alarm.getRepetitionMask();
+        if (!alarm.isRepetitive()) {
+            daysMask = 128;
+        }
         byte[] alarmMessage = new byte[] {
                 (byte) 0x2, // TODO what is this?
-                (byte) (128 + alarm.getIndex()), // 128 is the base, alarm slot is added
+                (byte) (base + alarm.getIndex()), // 128 is the base, alarm slot is added
                 (byte) calendar.get(Calendar.HOUR_OF_DAY),
                 (byte) calendar.get(Calendar.MINUTE),
                 (byte) daysMask,

@@ -287,6 +287,14 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         if (!selectedApp.isConfigurable()) {
             menu.removeItem(R.id.appmanager_app_configure);
         }
+        switch (selectedApp.getType()) {
+            case WATCHFACE:
+            case APP_GENERIC:
+            case APP_ACTIVITYTRACKER:
+                break;
+            default:
+                menu.removeItem(R.id.appmanager_app_openinstore);
+        }
         //menu.setHeaderTitle(selectedApp.getName());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                                                  public boolean onMenuItemClick(MenuItem item) {
@@ -353,6 +361,12 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                 startIntent.putExtra(DeviceService.EXTRA_APP_UUID, selectedApp.getUUID());
                 startIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
                 startActivity(startIntent);
+                return true;
+            case R.id.appmanager_app_openinstore:
+                String url = "https://apps.getpebble.com/en_US/search/" + ((selectedApp.getType() == GBDeviceApp.Type.WATCHFACE) ? "watchfaces" : "watchapps") + "/1?query=" + selectedApp.getName() + "&dev_settings=true";
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                startActivity(intent);
                 return true;
             default:
                 return super.onContextItemSelected(item);

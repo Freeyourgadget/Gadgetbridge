@@ -63,17 +63,22 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
                     }
                     break;
                 case BluetoothAdapter.ACTION_DISCOVERY_FINISHED:
-                    // continue with LE scan, if available
-                    if (isScanning == Scanning.SCANNING_BT) {
-                        checkAndRequestLocationPermission();
-                        if (GBApplication.isRunningLollipopOrLater()) {
-                            startDiscovery(Scanning.SCANNING_NEW_BTLE);
-                        } else {
-                            startDiscovery(Scanning.SCANNING_BTLE);
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            // continue with LE scan, if available
+                            if (isScanning == Scanning.SCANNING_BT) {
+                                checkAndRequestLocationPermission();
+                                if (GBApplication.isRunningLollipopOrLater()) {
+                                    startDiscovery(Scanning.SCANNING_NEW_BTLE);
+                                } else {
+                                    startDiscovery(Scanning.SCANNING_BTLE);
+                                }
+                            } else {
+                                discoveryFinished();
+                            }
                         }
-                    } else {
-                        discoveryFinished();
-                    }
+                    });
                     break;
                 case BluetoothAdapter.ACTION_STATE_CHANGED:
                     int oldState = intent.getIntExtra(BluetoothAdapter.EXTRA_PREVIOUS_STATE, BluetoothAdapter.STATE_OFF);
