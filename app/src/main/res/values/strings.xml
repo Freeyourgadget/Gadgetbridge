@@ -25,6 +25,7 @@
     <string name="appmananger_app_delete">Delete</string>
     <string name="appmananger_app_delete_cache">Delete and remove from cache</string>
     <string name="appmananger_app_reinstall">Reinstall</string>
+    <string name="appmanager_app_openinstore">Open in Pebble Appstore</string>
     <string name="appmanager_health_activate">Activate</string>
     <string name="appmanager_health_deactivate">Deactivate</string>
     <string name="app_configure">Configure</string>
@@ -151,6 +152,10 @@
     <string name="android_pairing_hint">Use the Android Bluetooth Pairing dialog to pair the device.</string>
     <string name="title_activity_mi_band_pairing">Pair your Mi Band</string>
     <string name="miband_pairing">Pairing with %s…</string>
+    <string name="miband_pairing_creating_bond_with">"Creating bond with %1$s (%2$s)"</string>
+    <string name="miband_pairing_unable_to_pair_with">"Unable to pair with %1$s (%2$s)"</string>
+    <string name="miband_pairing_in_progress">Bonding in progress: %1$s (%2$s)</string>
+    <string name="miband_pairing_already_bonded">"Already bonded with %1$s (%2$s), connecting…"</string>
     <string name="message_cannot_pair_no_mac">No mac address passed, cannot pair.</string>
     <string name="preferences_category_device_specific_settings">Device Specific Settings</string>
     <string name="preferences_miband_settings">Mi Band Settings</string>
@@ -338,8 +343,4 @@
 
     <!-- Strings related to Vibration Activity -->
     <string name="title_activity_vibration">Vibration</string>
-    <string name="miband_pairing_creating_bond_with">"Creating bond with %1$s (%2$s)"</string>
-    <string name="miband_pairing_unable_to_pair_with">"Unable to pair with %1$s (%2$s)"</string>
-    <string name="miband_pairing_in_progress">Bonding in progress: %1$s (%2$s)</string>
-    <string name="miband_pairing_already_bonded">"Already bonded with %1$s (%2$s), connecting…"</string>
 </resources>
