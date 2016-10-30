@@ -227,6 +227,12 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                                          public void onClick(View v) {
                                                              GBApplication.deviceService().onFindDevice(false);
                                                          }
+                                                     }).setCallback(new Snackbar.Callback() {
+                                                         @Override
+                                                         public void onDismissed(Snackbar snackbar, int event) {
+                                                             GBApplication.deviceService().onFindDevice(false);
+                                                             super.onDismissed(snackbar, event);
+                                                         }
                                                      }).show();
 //                                                     ProgressDialog.show(
 //                                                             context,
