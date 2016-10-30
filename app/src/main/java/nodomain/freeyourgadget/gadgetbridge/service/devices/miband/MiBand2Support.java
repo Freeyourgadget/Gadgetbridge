@@ -30,7 +30,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandDateConverter;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
@@ -456,9 +455,6 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             builder.add(new ConditionalWriteAction(characteristic) {
                 @Override
                 protected byte[] checkCondition() {
-                    if (!supportsHeartRate()) {
-                        return null;
-                    }
                     if (MiBandCoordinator.getHeartrateSleepSupport(getDevice().getAddress())) {
                         LOG.info("Enabling heartrate sleep support...");
                         return startHeartMeasurementSleep;
@@ -675,43 +671,33 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onHeartRateTest() {
-        if (supportsHeartRate()) {
-            try {
-                TransactionBuilder builder = performInitialized("HeartRateTest");
-                heartRateProfile.requestHeartRateMeasurement(builder);
+        try {
+            TransactionBuilder builder = performInitialized("HeartRateTest");
+            heartRateProfile.requestHeartRateMeasurement(builder);
 //                profile.resetEnergyExpended(builder);
 //                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementContinuous);
 //                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementManual);
 //                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), startHeartMeasurementManual);
-                builder.queue(getQueue());
-            } catch (IOException ex) {
-                LOG.error("Unable to read HearRate with MI2", ex);
-            }
-        } else {
-            GB.toast(getContext(), "Heart rate is not supported on this device", Toast.LENGTH_LONG, GB.ERROR);
+            builder.queue(getQueue());
+        } catch (IOException ex) {
+            LOG.error("Unable to read HearRate with MI2", ex);
         }
     }
 
     @Override
     public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
-        if (supportsHeartRate()) {
-            try {
-                TransactionBuilder builder = performInitialized("EnableRealtimeHeartRateMeasurement");
-                if (enable) {
-                    builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementManual);
-                    builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), startHeartMeasurementContinuous);
-                } else {
-                    builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementContinuous);
-                }
-                builder.queue(getQueue());
-            } catch (IOException ex) {
-                LOG.error("Unable to enable realtime heart rate measurement in  MI1S", ex);
+        try {
+            TransactionBuilder builder = performInitialized("EnableRealtimeHeartRateMeasurement");
+            if (enable) {
+                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementManual);
+                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), startHeartMeasurementContinuous);
+            } else {
+                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementContinuous);
             }
+            builder.queue(getQueue());
+        } catch (IOException ex) {
+            LOG.error("Unable to enable realtime heart rate measurement in  MI1S", ex);
         }
-    }
-
-    public boolean supportsHeartRate() {
-        return true;
     }
 
     @Override
@@ -880,10 +866,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         super.onCharacteristicRead(gatt, characteristic, status);
 
         UUID characteristicUUID = characteristic.getUuid();
-        if (MiBandService.UUID_CHARACTERISTIC_DEVICE_INFO.equals(characteristicUUID)) {
-            handleDeviceInfo(characteristic.getValue(), status);
-            return true;
-        } else if (GattCharacteristic.UUID_CHARACTERISTIC_GAP_DEVICE_NAME.equals(characteristicUUID)) {
+        if (GattCharacteristic.UUID_CHARACTERISTIC_GAP_DEVICE_NAME.equals(characteristicUUID)) {
             handleDeviceName(characteristic.getValue(), status);
             return true;
         } else if (MiBandService.UUID_CHARACTERISTIC_BATTERY.equals(characteristicUUID)) {
@@ -1025,19 +1008,6 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to initialize device after authentication", ex);
-        }
-    }
-
-    private void handleDeviceInfo(byte[] value, int status) {
-        if (status == BluetoothGatt.GATT_SUCCESS) {
-            mDeviceInfo = new DeviceInfo(value);
-            if (getDeviceInfo().supportsHeartrate()) {
-                getDevice().setFirmwareVersion2(MiBandFWHelper.formatFirmwareVersion(mDeviceInfo.getHeartrateFirmwareVersion()));
-            }
-            LOG.warn("Device info: " + mDeviceInfo);
-            versionCmd.hwVersion = mDeviceInfo.getHwVersion();
-            versionCmd.fwVersion = MiBandFWHelper.formatFirmwareVersion(mDeviceInfo.getFirmwareVersion());
-            handleGBDeviceEvent(versionCmd);
         }
     }
 
