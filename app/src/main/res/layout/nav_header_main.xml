@@ -24,8 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="User 1"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:visibility="gone" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+        android:text="@string/app_name" />
 
 </LinearLayout>
