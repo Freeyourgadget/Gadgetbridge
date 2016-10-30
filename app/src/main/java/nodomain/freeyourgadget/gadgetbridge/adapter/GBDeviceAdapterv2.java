@@ -2,7 +2,6 @@ package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -222,17 +221,24 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                                  @Override
                                                  public void onClick(View v) {
                                                      GBApplication.deviceService().onFindDevice(true);
-                                                     ProgressDialog.show(
-                                                             context,
-                                                             context.getString(R.string.control_center_find_lost_device),
-                                                             context.getString(R.string.control_center_cancel_to_stop_vibration),
-                                                             true, true,
-                                                             new DialogInterface.OnCancelListener() {
-                                                                 @Override
-                                                                 public void onCancel(DialogInterface dialog) {
-                                                                     GBApplication.deviceService().onFindDevice(false);
-                                                                 }
-                                                             });
+                                                     //TODO: extract string resource if we like this solution.
+                                                     Snackbar.make(parent, R.string.control_center_find_lost_device, Snackbar.LENGTH_INDEFINITE).setAction("Found it!", new View.OnClickListener() {
+                                                         @Override
+                                                         public void onClick(View v) {
+                                                             GBApplication.deviceService().onFindDevice(false);
+                                                         }
+                                                     }).show();
+//                                                     ProgressDialog.show(
+//                                                             context,
+//                                                             context.getString(R.string.control_center_find_lost_device),
+//                                                             context.getString(R.string.control_center_cancel_to_stop_vibration),
+//                                                             true, true,
+//                                                             new DialogInterface.OnCancelListener() {
+//                                                                 @Override
+//                                                                 public void onCancel(DialogInterface dialog) {
+//                                                                     GBApplication.deviceService().onFindDevice(false);
+//                                                                 }
+//                                                             });
                                                  }
                                              }
 
