@@ -80,8 +80,10 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         holder.container.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                showTransientSnackbar(R.string.controlcenter_snackbar_disconnecting);
-                GBApplication.deviceService().disconnect();
+                if (device.isInitialized() || device.isConnected()) {
+                    showTransientSnackbar(R.string.controlcenter_snackbar_disconnecting);
+                    GBApplication.deviceService().disconnect();
+                }
                 return true;
             }
         });
