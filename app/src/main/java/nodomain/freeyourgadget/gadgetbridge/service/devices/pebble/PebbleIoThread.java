@@ -21,6 +21,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.nio.ByteBuffer;
@@ -177,17 +179,25 @@ class PebbleIoThread extends GBDeviceIoThread {
             } else {
                 mIsTCP = false;
                 BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(btDeviceAddress);
-                ParcelUuid uuids[] = btDevice.getUuids();
-                if (uuids == null) {
-                    return false;
+                if (btDevice.getType() == BluetoothDevice.DEVICE_TYPE_LE) {
+                    LOG.info("Ok this seems to be a LE Pebble, will try something that does not work :P");
+                    mInStream = new PipedInputStream(new PipedOutputStream()); // fake so that io blocks
+                    mOutStream = new PipedOutputStream(new PipedInputStream()); // fake so that io blocks
+                    //new PebbleLESupport(this.getContext(),btDeviceAddress); // secret branch :P
                 }
-                for (ParcelUuid uuid : uuids) {
-                    LOG.info("found service UUID " + uuid);
+                else {
+                    ParcelUuid uuids[] = btDevice.getUuids();
+                    if (uuids == null) {
+                        return false;
+                    }
+                    for (ParcelUuid uuid : uuids) {
+                        LOG.info("found service UUID " + uuid);
+                    }
+                    mBtSocket = btDevice.createRfcommSocketToServiceRecord(uuids[0].getUuid());
+                    mBtSocket.connect();
+                    mInStream = mBtSocket.getInputStream();
+                    mOutStream = mBtSocket.getOutputStream();
                 }
-                mBtSocket = btDevice.createRfcommSocketToServiceRecord(uuids[0].getUuid());
-                mBtSocket.connect();
-                mInStream = mBtSocket.getInputStream();
-                mOutStream = mBtSocket.getOutputStream();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -361,7 +371,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                     e.printStackTrace();
                 }
             } catch (IOException e) {
-                if (e.getMessage().contains("socket closed")) { //FIXME: this does not feel right
+                if (e.getMessage() != null && e.getMessage().contains("socket closed")) { //FIXME: this does not feel right
                     LOG.info(e.getMessage());
                     mIsConnected = false;
                     int reconnectAttempts = prefs.getInt("pebble_reconnect_attempts", 10);
