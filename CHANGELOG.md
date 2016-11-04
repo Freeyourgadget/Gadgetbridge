@@ -1,5 +1,8 @@
 ###Changelog
 
+####Version 0.13.8
+* Mi Band2: attempt at fixing connection issues for users of Mi Fit (#408, #425)
+
 ####Version 0.13.7
 * Pebble: Fix configuration of certain pebble apps (eg. QR Generator, Squared 4.0)
 * Pebble: Add context menu option in app manager to search a watchapp in the pebble appstore
