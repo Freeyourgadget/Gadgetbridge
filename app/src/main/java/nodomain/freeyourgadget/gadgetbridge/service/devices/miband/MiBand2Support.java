@@ -233,15 +233,14 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_AUTH), enable);
         builder.notify(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC3), enable);
         builder.notify(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC4), enable);
-        builder.notify(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT), enable);
         return this;
     }
 
-    private MiBand2Support enableFurtherNotifications(TransactionBuilder builder, boolean enable) {
-        builder.notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS), enable)
-                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_ACTIVITY_DATA), enable)
-                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_BATTERY), enable)
-                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_SENSOR_DATA), enable);
+    public MiBand2Support enableFurtherNotifications(TransactionBuilder builder, boolean enable) {
+//        builder.notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS), enable)
+//                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_ACTIVITY_DATA), enable)
+//                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_BATTERY), enable)
+//                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_SENSOR_DATA), enable);
         // cannot use supportsHeartrate() here because we don't have that information yet
         BluetoothGattCharacteristic heartrateCharacteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT);
         if (heartrateCharacteristic != null) {

@@ -101,6 +101,7 @@ public class InitOperation extends AbstractBTLEOperation<MiBand2Support> {
                     TransactionBuilder builder = createTransactionBuilder("Sending the encrypted random key to the band");
                     builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
                     getSupport().requestDeviceInfo(builder);
+                    getSupport().enableFurtherNotifications(builder, true);
                     getSupport().setInitialized(builder);
                     getSupport().performImmediately(builder);
                 } else {
