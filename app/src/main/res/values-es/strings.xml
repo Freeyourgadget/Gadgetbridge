@@ -22,6 +22,7 @@
   <string name="appmananger_app_delete">Borrar</string>
   <string name="appmananger_app_delete_cache">Borrar y quitar de la caché</string>
   <string name="appmananger_app_reinstall">Reinstalar</string>
+  <string name="appmanager_app_openinstore">Buscar en la Appstore de Pebble</string>
   <string name="appmanager_health_activate">Activar</string>
   <string name="appmanager_health_deactivate">Desactivar</string>
   <string name="app_configure">Configurar</string>
@@ -126,6 +127,10 @@
   <string name="android_pairing_hint">Usar el menú de emparejar Bluetooth de Android para emparejar el dispositivo.</string>
   <string name="title_activity_mi_band_pairing">Emparejar tu MiBand</string>
   <string name="miband_pairing">Emparejando con %s...</string>
+  <string name="miband_pairing_creating_bond_with">Creando emparejamiento con %1$s (%2$s)</string>
+  <string name="miband_pairing_unable_to_pair_with">No se ha podido emparejar con %1$s (%2$s)</string>
+  <string name="miband_pairing_in_progress">Emparejamiento en progreso: %1$s (%2$s)</string>
+  <string name="miband_pairing_already_bonded">Emparejado con %1$s (%2$s), conectando…</string>
   <string name="message_cannot_pair_no_mac">Ninguna dirección MAC aprobada, no se puede emparejar.</string>
   <string name="preferences_category_device_specific_settings">Ajustes específicos del dispositivo</string>
   <string name="preferences_miband_settings">Ajustes de MiBand</string>
@@ -137,7 +142,7 @@
   <string name="miband_pairing_using_dummy_userdata">No se han proporcionado datos de usuario válidos, se usarán datos de usuario por defecto.</string>
   <string name="miband_pairing_tap_hint">Cuando tu MiBand vibre y parpadee, púlsala repetidas veces.</string>
   <string name="appinstaller_install">Instalar</string>
-  <string name="discovery_connected_devices_hint">Haz tu dispositivo detectable. Los dipositivos ya conectados es probable que no se encuentren. Si tu dispositivo no aparece en dos minutos, prueba de nuevo reiniciando tu móvil.</string>
+  <string name="discovery_connected_devices_hint">Haga su dispositivo detectable. Actualmente los dispositivos conectados no serán detectables. En Android 6 o superior, necesita activar la localización (ej. GPS). Si su dispositivo no aparece en dos minutos, vuelva a intentarlo tras reiniciar su teléfono.</string>
   <string name="discovery_note">Nota:</string>
   <string name="candidate_item_device_image">Imagen del dispositivo</string>
   <string name="miband_prefs_alias">Nombre/Apodo</string>
