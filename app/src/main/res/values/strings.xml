@@ -106,6 +106,8 @@
     <string name="pref_title_location_aquire">Acquire Location</string>
     <string name="pref_title_location_latitude">Latitude</string>
     <string name="pref_title_location_longitude">Longitude</string>
+    <string name="pref_title_location_keep_uptodate">Keep location updated</string>
+    <string name="pref_summary_location_keep_uptodate">Try to get the current location at runtime, use the stored location as fallback</string>
 
     <string name="toast_enable_networklocationprovider">Please enable network location</string>
     <string name="toast_aqurired_networklocation">location acquired</string>

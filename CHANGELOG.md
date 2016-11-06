@@ -1,5 +1,8 @@
 ###Changelog
 
+####Version next
+* Pebble: use the last known location for setting sunrise and sunset
+
 ####Version 0.13.8
 * Mi Band2: attempt at fixing connection issues for users of Mi Fit (#408, #425)
 

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="next">
+        <change>Pebble: use the last known location for setting sunrise and sunset</change>
+    </release>
     <release version="0.13.8" versioncode="70">
         <change>Mi Band 2: attempt at fixing connection issues for users of Mi Fit</change>
     </release>
