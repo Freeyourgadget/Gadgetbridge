@@ -4,7 +4,8 @@
 * Pebble: use the last known location for setting sunrise and sunset
 
 ####Version 0.13.8
-* Mi Band2: attempt at fixing connection issues for users of Mi Fit (#408, #425)
+* Mi Band 2: fix connection issues for users of Mi Fit (#408, #425)
+* Mi Band 1A: fix firmware update for certain 1A models
 
 ####Version 0.13.7
 * Pebble: Fix configuration of certain pebble apps (eg. QR Generator, Squared 4.0)
