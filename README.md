@@ -56,38 +56,53 @@ need to create an account and transmit any of your data to the vendor's servers.
 
 For more information read [this wiki article](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble-Getting-Started) 
 
-## Features (Mi Band)
+## Features (Mi Band 1x)
 
-* Mi Band notifications (LEDs + vibration) for 
-    * Discovery and pairing
+* Discovery and pairing
+* Mi Band notifications (LEDs + vibration) for
     * Incoming calls
     * SMS received
     * K-9 mails received
+    * Conversations messages
     * Generic Android notifications
 * Synchronize the time to the Mi Band
 * Display firmware version and battery state
 * Firmware Update
-* Heartrate Measurement (alpha)
+* Heart rate measurement
 * Synchronize activity data
 * Display sleep data (alpha)
 * Display sports data (step count) (alpha)
 * Display live activity data (alpha)
 * Set alarms on the Mi Band
 
-## How to use (Mi Band)
+## Features (Mi Band 2)
 
-* When starting Gadgetbridge and no device is visible, it will automatically
-  attempt to discover and pair your Mi Band. Alternatively you can invoke this
-  manually via the menu button. It will ask you for some personal info that appears
+* Discovery and pairing
+* Mi Band notifications (Display + vibration) for
+    * Incoming calls
+    * SMS received
+    * K-9 mails received
+    * Conversations messages
+    * Generic Android notifications
+* Synchronize the time to the Mi Band
+* Display firmware version
+* Heart rate measurement (alpha)
+* Set alarms on the Mi Band 2
+
+## How to use (Mi Band 1+2)
+
+* When starting Gadgetbridge the first time, it will automatically
+  attempt to discover and pair your Mi Band. Alternatively you can invoke discovery
+  manually via the "+" button. It will ask you for some personal info that appears
   to be needed for proper steps calculation on the band. If you do not provide these,
   some hardcoded default "dummy" values will be used instead. 
 
-  When your Mi Band starts to vibrate and blink with all three LEDs during the pairing process,
+  When your Mi Band starts to vibrate and blink during the pairing process,
   tap it quickly a few times in a row to confirm the pairing with the band.
 
 1. Configure other notifications as desired
 2. Go back to the "Gadgetbridge" Activity
-3. Tap the "MI" item to connect if you're not connected yet.
+3. Tap the Mi Band item to connect if you're not connected yet.
 4. To test, chose "Debug" from the menu and play around
 
 Known Issues:
