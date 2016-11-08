@@ -68,7 +68,7 @@ For more information read [this wiki article](https://github.com/Freeyourgadget/
 * Synchronize the time to the Mi Band
 * Display firmware version and battery state
 * Firmware Update
-* Heart rate measurement
+* Heart rate measurement on demand and during sleep
 * Synchronize activity data
 * Display sleep data (alpha)
 * Display sports data (step count) (alpha)
