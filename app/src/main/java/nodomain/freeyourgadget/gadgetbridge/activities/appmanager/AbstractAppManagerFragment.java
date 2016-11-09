@@ -310,7 +310,6 @@ public abstract class AbstractAppManagerFragment extends Fragment {
 
     public boolean onContextItemSelected(MenuItem item, GBDeviceApp selectedApp) {
         switch (item.getItemId()) {
-            case R.id.appmanager_health_deactivate:
             case R.id.appmanager_app_delete_cache:
                 String baseName;
                 try {
@@ -353,6 +352,9 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                 return true;
             case R.id.appmanager_health_activate:
                 GBApplication.deviceService().onInstallApp(Uri.parse("fake://health"));
+                return true;
+            case R.id.appmanager_health_deactivate:
+                GBApplication.deviceService().onAppDelete(selectedApp.getUUID());
                 return true;
             case R.id.appmanager_app_configure:
                 GBApplication.deviceService().onAppStart(selectedApp.getUUID(), true);
