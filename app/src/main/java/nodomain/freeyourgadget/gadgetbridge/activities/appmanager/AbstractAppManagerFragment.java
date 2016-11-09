@@ -46,7 +46,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             = "nodomain.freeyourgadget.gadgetbridge.appmanager.action.refresh_applist";
     private static final Logger LOG = LoggerFactory.getLogger(AbstractAppManagerFragment.class);
 
-    protected abstract void refreshList();
+    protected abstract List<GBDeviceApp> getSystemAppsInCategory();
 
     protected abstract String getSortFilename();
 
@@ -60,6 +60,23 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             uuidList.add(gbDeviceApp.getUUID());
         }
         AppManagerActivity.rewriteAppOrderFile(getSortFilename(), uuidList);
+    }
+
+    protected void refreshList() {
+        appList.clear();
+        ArrayList uuids = AppManagerActivity.getUuidsFromFile(getSortFilename());
+        List<GBDeviceApp> systemApps = getSystemAppsInCategory();
+        boolean needsRewrite = false;
+        for (GBDeviceApp systemApp : systemApps) {
+            if (!uuids.contains(systemApp.getUUID())) {
+                uuids.add(systemApp.getUUID());
+                needsRewrite = true;
+            }
+        }
+        if (needsRewrite) {
+            AppManagerActivity.rewriteAppOrderFile(getSortFilename(), uuids);
+        }
+        appList.addAll(getCachedApps(uuids));
     }
 
     private void refreshListFromPebble(Intent intent) {
@@ -102,29 +119,6 @@ public abstract class AbstractAppManagerFragment extends Fragment {
     protected final List<GBDeviceApp> appList = new ArrayList<>();
     private GBDeviceAppAdapter mGBDeviceAppAdapter;
     protected GBDevice mGBDevice = null;
-
-    protected List<GBDeviceApp> getSystemApps() {
-        List<GBDeviceApp> systemApps = new ArrayList<>();
-        //systemApps.add(new GBDeviceApp(UUID.fromString("4dab81a6-d2fc-458a-992c-7a1f3b96a970"), "Sports (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
-        //systemApps.add(new GBDeviceApp(UUID.fromString("cf1e816a-9db0-4511-bbb8-f60c48ca8fac"), "Golf (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
-        systemApps.add(new GBDeviceApp(UUID.fromString("1f03293d-47af-4f28-b960-f2b02a6dd757"), "Music (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
-        systemApps.add(new GBDeviceApp(UUID.fromString("b2cae818-10f8-46df-ad2b-98ad2254a3c1"), "Notifications (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
-        systemApps.add(new GBDeviceApp(UUID.fromString("67a32d95-ef69-46d4-a0b9-854cc62f97f9"), "Alarms (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
-        systemApps.add(new GBDeviceApp(UUID.fromString("18e443ce-38fd-47c8-84d5-6d0c775fbe55"), "Watchfaces (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
-
-        if (mGBDevice != null && !"aplite".equals(PebbleUtils.getPlatformName(mGBDevice.getModel()))) {
-            systemApps.add(new GBDeviceApp(UUID.fromString("0863fc6a-66c5-4f62-ab8a-82ed00a98b5d"), "Send Text (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
-            systemApps.add(new GBDeviceApp(PebbleProtocol.UUID_PEBBLE_HEALTH, "Health (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
-        }
-
-        return systemApps;
-    }
-
-    protected List<GBDeviceApp> getSystemWatchfaces() {
-        List<GBDeviceApp> systemWatchfaces = new ArrayList<>();
-        systemWatchfaces.add(new GBDeviceApp(UUID.fromString("8f3c8686-31a1-4f5f-91f5-01600c9bdc59"), "Tic Toc (System)", "Pebble Inc.", "", GBDeviceApp.Type.WATCHFACE_SYSTEM));
-        return systemWatchfaces;
-    }
 
     protected List<GBDeviceApp> getCachedApps(List<UUID> uuids) {
         List<GBDeviceApp> cachedAppList = new ArrayList<>();
