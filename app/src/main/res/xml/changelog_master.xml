@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="next">
+    <release version="0.13.9" versioncode="71">
         <change>Pebble: use the last known location for setting sunrise and sunset</change>
+        <change>Pebble: fix Health disappering forever when deactivating through app manager (and get it back for affected users)</change>
+        <change>Mi Band 2: More fixes for connection issues (#408)</change>
     </release>
     <release version="0.13.8" versioncode="70">
         <change>Mi Band 2: fix connection issues for users of Mi Fit</change>

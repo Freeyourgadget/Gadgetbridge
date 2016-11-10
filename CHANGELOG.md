@@ -1,7 +1,9 @@
 ###Changelog
 
-####Version next
+####Version 0.13.9
 * Pebble: use the last known location for setting sunrise and sunset
+* Pebble: fix Health disappering forever when deactivating through app manager (and get it back for affected users)
+* Mi Band 2: More fixes for connection issues (#408)
 
 ####Version 0.13.8
 * Mi Band 2: fix connection issues for users of Mi Fit (#408, #425)
