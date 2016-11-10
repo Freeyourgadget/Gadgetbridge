@@ -181,9 +181,9 @@ class PebbleIoThread extends GBDeviceIoThread {
                 BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(btDeviceAddress);
                 if (btDevice.getType() == BluetoothDevice.DEVICE_TYPE_LE) {
                     LOG.info("Ok this seems to be a LE Pebble, will try something that does not work :P");
-                    mInStream = new PipedInputStream(new PipedOutputStream()); // fake so that io blocks
-                    mOutStream = new PipedOutputStream(new PipedInputStream()); // fake so that io blocks
-                    //new PebbleLESupport(this.getContext(),btDeviceAddress); // secret branch :P
+                    mInStream = new PipedInputStream(); // fake so that io blocks
+                    mOutStream = new PipedOutputStream(); // fake so that io blocks
+                    //new PebbleLESupport(this.getContext(),btDeviceAddress,(PipedInputStream)mInStream,(PipedOutputStream)mOutStream); // secret branch :P
                 }
                 else {
                     ParcelUuid uuids[] = btDevice.getUuids();
@@ -323,9 +323,10 @@ class PebbleIoThread extends GBDeviceIoThread {
                 }
                 int bytes = mInStream.read(buffer, 0, 4);
 
-                if (bytes < 4) {
-                    continue;
+                while (bytes < 4) {
+                    bytes += mInStream.read(buffer, bytes, 4 - bytes);
                 }
+
                 ByteBuffer buf = ByteBuffer.wrap(buffer);
                 buf.order(ByteOrder.BIG_ENDIAN);
                 short length = buf.getShort();
@@ -340,11 +341,6 @@ class PebbleIoThread extends GBDeviceIoThread {
 
                 bytes = mInStream.read(buffer, 4, length);
                 while (bytes < length) {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                     bytes += mInStream.read(buffer, bytes + 4, length - bytes);
                 }
 

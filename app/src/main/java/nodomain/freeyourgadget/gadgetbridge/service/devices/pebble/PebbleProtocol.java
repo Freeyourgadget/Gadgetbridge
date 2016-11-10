@@ -1297,11 +1297,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putInt(os);
 
         buf.put(PHONEVERSION_APPVERSION_MAGIC);
-        buf.put((byte) 3); // major
-        buf.put((byte) 12); // minor
-        buf.put((byte) 0); // patch
+        buf.put((byte) 4); // major
+        buf.put((byte) 1); // minor
+        buf.put((byte) 1); // patch
         buf.order(ByteOrder.LITTLE_ENDIAN);
-        buf.putLong(0x00000000000001af); //flags
+        buf.putLong(0x00000000000029af); //flags
 
         return buf.array();
     }
