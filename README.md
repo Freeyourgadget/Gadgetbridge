@@ -16,7 +16,7 @@ need to create an account and transmit any of your data to the vendor's servers.
 ## Supported Devices
 * Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round
 * Mi Band, Mi Band 1A, Mi Band 1S
-* Mi Band 2 (only notifications)
+* Mi Band 2 (notifications, alarms and heart rate measurement only)
 * Vibratissimo (experimental)
 
 ***THE PEBBLE 2 AND PEBBLE TIME 2 ARE CURRENTLY NOT SUPPORTED. ADDING SUPPORT IS HIGH-PRIORITY BUT WE CANNOT GIVE YOU AN ETA!***
