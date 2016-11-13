@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.btle.GattDescriptor.UUID_DESCRIPTOR_GATT_CLIENT_CHARACTERISTIC_CONFIGURATION;
 
@@ -20,7 +19,7 @@ import static nodomain.freeyourgadget.gadgetbridge.service.btle.GattDescriptor.U
  */
 public class NotifyAction extends BtLEAction {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TransactionBuilder.class);
+    private static final Logger LOG = LoggerFactory.getLogger(NotifyAction.class);
     protected final boolean enableFlag;
     private boolean hasWrittenDescriptor = true;
 
@@ -49,7 +48,7 @@ public class NotifyAction extends BtLEAction {
                     hasWrittenDescriptor = false;
                 }
             } else {
-                LOG.warn("sleep descriptor null");
+                LOG.warn("Descriptor CLIENT_CHARACTERISTIC_CONFIGURATION for characteristic " + getCharacteristic().getUuid() + " is null");
                 hasWrittenDescriptor = false;
             }
         } else {
