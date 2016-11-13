@@ -94,6 +94,10 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
+    public byte[] encodeSendConfiguration(String config) {
+        return null;
+    }
+
     public byte[] encodeTestNewFunction() { return null; }
 
     public GBDeviceEvent[] decodeResponse(byte[] responseData) {
@@ -103,4 +107,5 @@ public abstract class GBDeviceProtocol {
     public GBDevice getDevice() {
         return mDevice;
     }
+
 }

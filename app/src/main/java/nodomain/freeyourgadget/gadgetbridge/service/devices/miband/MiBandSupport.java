@@ -1191,6 +1191,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onSendConfiguration(String config) {
+        // nothing yet
+    }
+
+    @Override
     public void onTestNewFunction() {
         try {
             TransactionBuilder builder = performInitialized("Toggle sensor reading");

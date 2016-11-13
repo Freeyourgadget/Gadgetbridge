@@ -17,6 +17,7 @@ public final class MiBandConst {
     public static final String PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR = "mi_reserve_alarm_calendar";
     public static final String PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION = "mi_hr_sleep_detection";
 	public static final String PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS = "mi_device_time_offset_hours";
+	public static final String PREF_MI2_DATEFORMAT = "mi2_dateformat";
 
     public static final String PREF_TRY_SMS = "mi_try_sms";
 

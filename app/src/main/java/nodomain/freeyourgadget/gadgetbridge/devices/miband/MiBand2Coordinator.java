@@ -7,10 +7,13 @@ import android.net.Uri;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class MiBand2Coordinator extends MiBandCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MiBand2Coordinator.class);
@@ -54,5 +57,14 @@ public class MiBand2Coordinator extends MiBandCoordinator {
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         return null; // not supported at the moment
+    }
+
+    public static DateTimeDisplay getDateDisplay(Context context) throws IllegalArgumentException {
+        Prefs prefs = GBApplication.getPrefs();
+        String dateFormatTime = context.getString(R.string.p_dateformat_time);
+        if (dateFormatTime.equals(prefs.getString(MiBandConst.PREF_MI2_DATEFORMAT, dateFormatTime))) {
+            return DateTimeDisplay.TIME;
+        }
+        return DateTimeDisplay.DATE_TIME;
     }
 }

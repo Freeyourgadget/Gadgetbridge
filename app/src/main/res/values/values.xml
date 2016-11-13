@@ -9,4 +9,7 @@
     <item name="p_ring" type="string">ring</item>
     <item name="p_alarm_clock" type="string">alarm_clock</item>
 
+    <item name="p_dateformat_time" type="string">dateformat_time</item>
+    <item name="p_dateformat_datetime" type="string">dateformat_datetime</item>
+
 </resources>

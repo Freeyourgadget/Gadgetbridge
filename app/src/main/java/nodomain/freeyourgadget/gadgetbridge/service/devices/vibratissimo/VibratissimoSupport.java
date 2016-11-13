@@ -273,6 +273,11 @@ public class VibratissimoSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onSendConfiguration(String config) {
+
+    }
+
+    @Override
     public void onTestNewFunction() {
 
     }

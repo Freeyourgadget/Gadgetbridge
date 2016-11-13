@@ -72,6 +72,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_RE
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_APPINFO;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_DEVICEINFO;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_SCREENSHOT;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SEND_CONFIGURATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETCANNEDMESSAGES;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETMUSICINFO;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETMUSICSTATE;
@@ -96,6 +97,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CAL
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_PHONENUMBER;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CANNEDMESSAGES;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CANNEDMESSAGES_TYPE;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CONFIG;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_DEVICE_ADDRESS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_FIND_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_ALBUM;
@@ -483,6 +485,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             case ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT: {
                 boolean enable = intent.getBooleanExtra(EXTRA_BOOLEAN_ENABLE, false);
                 mDeviceSupport.onEnableRealtimeHeartRateMeasurement(enable);
+                break;
+            }
+            case ACTION_SEND_CONFIGURATION: {
+                String config = intent.getStringExtra(EXTRA_CONFIG);
+                mDeviceSupport.onSendConfiguration(config);
                 break;
             }
             case ACTION_TEST_NEW_FUNCTION: {

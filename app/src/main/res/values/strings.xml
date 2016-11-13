@@ -345,4 +345,7 @@
 
     <!-- Strings related to Vibration Activity -->
     <string name="title_activity_vibration">Vibration</string>
+    <string name="miband2_prefs_dateformat">Mi2: Date Format</string>
+    <string name="dateformat_time">Time</string>
+    <string name="dateformat_date_time"><![CDATA[Time & Date]]></string>
 </resources>

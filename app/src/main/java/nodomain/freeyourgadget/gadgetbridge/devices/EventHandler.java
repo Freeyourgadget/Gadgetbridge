@@ -67,5 +67,12 @@ public interface EventHandler {
 
     void onDeleteCalendarEvent(byte type, long id);
 
+    /**
+     * Sets the given option in the device, typically with values from the preferences.
+     * The config name is device specific.
+     * @param config the device specific option to set on the device
+     */
+    void onSendConfiguration(String config);
+
     void onTestNewFunction();
 }

@@ -321,6 +321,14 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
+    public void onSendConfiguration(String config) {
+        if (checkBusy("send configuration: " + config)) {
+            return;
+        }
+        delegate.onSendConfiguration(config);
+    }
+
+    @Override
     public void onTestNewFunction() {
         if (checkBusy("test new function event")) {
             return;
