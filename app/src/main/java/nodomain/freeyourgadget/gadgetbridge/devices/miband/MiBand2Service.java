@@ -279,6 +279,25 @@ public class MiBand2Service {
      */
     public static final byte AUTH_BYTE = 0x8;
 
+    public static byte COMMAND_DATEFORMAT = 0x06;
+
+    public static final byte[] DATEFORMAT_DATE_TIME = new byte[] { COMMAND_DATEFORMAT, 0x0a, 0x0, 0x03 };
+    public static final byte[] DATEFORMAT_TIME = new byte[] { COMMAND_DATEFORMAT, 0x0a, 0x0, 0x0 };
+
+    public static final byte RESPONSE = 0x10;
+
+    /**
+     * Received in response to any dateformat configuration request (byte 0 in the byte[] value.
+     */
+    public static final byte[] RESPONSE_DATEFORMAT_SUCCESS = new byte[] { RESPONSE, COMMAND_DATEFORMAT, 0x0a, 0x0, 0x01 };
+
+    public static final byte[] WEAR_LOCATION_LEFT_WRIST = new byte[] { 0x20, 0x00, 0x00, 0x02 };
+    public static final byte[] WEAR_LOCATION_RIGHT_WRIST = new byte[] { 0x20, 0x00, 0x00, (byte) 0x82};
+
+    public static final byte[] COMMAND_ENABLE_HR_SLEEP_MEASUREMENT = new byte[]{0x15, 0x00, 0x01};
+    public static final byte[] COMMAND_DISABLE_HR_SLEEP_MEASUREMENT = new byte[]{0x15, 0x00, 0x00};
+
+
     static {
         MIBAND_DEBUG = new HashMap<>();
         MIBAND_DEBUG.put(UUID_SERVICE_MIBAND_SERVICE, "MiBand Service");

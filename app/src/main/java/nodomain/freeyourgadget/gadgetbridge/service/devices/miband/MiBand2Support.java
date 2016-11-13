@@ -52,11 +52,11 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.AbortTransactionAction;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.ConditionalWriteAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WriteAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.heartrate.HeartRateProfile;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.DateDisplay;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.Mi2NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.InitOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
@@ -394,28 +394,22 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     /**
      * Part of device initialization process. Do not call manually.
      *
-     * @param transaction
+     * @param builder
      * @return
      */
-    private MiBand2Support setWearLocation(TransactionBuilder transaction) {
+    private MiBand2Support setWearLocation(TransactionBuilder builder) {
         LOG.info("Attempting to set wear location...");
-        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
+        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC8);
         if (characteristic != null) {
-            transaction.add(new ConditionalWriteAction(characteristic) {
-                @Override
-                protected byte[] checkCondition() {
-                    if (getDeviceInfo() != null && getDeviceInfo().isAmazFit()) {
-                        return null;
-                    }
-                    int location = MiBandCoordinator.getWearLocation(getDevice().getAddress());
-                    return new byte[]{
-                            MiBandService.COMMAND_SET_WEAR_LOCATION,
-                            (byte) location
-                    };
-                }
-            });
-        } else {
-            LOG.info("Unable to set Wear Location");
+            int location = MiBandCoordinator.getWearLocation(getDevice().getAddress());
+            switch (location) {
+                case 0: // left hand
+                    builder.write(characteristic, MiBand2Service.WEAR_LOCATION_LEFT_WRIST);
+                    break;
+                case 1: // write hand
+                    builder.write(characteristic, MiBand2Service.WEAR_LOCATION_RIGHT_WRIST);
+                    break;
+            }
         }
         return this;
     }
@@ -447,20 +441,16 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
      * @param builder
      */
     private MiBand2Support setHeartrateSleepSupport(TransactionBuilder builder) {
-        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT);
-        if (characteristic != null) {
-            builder.add(new ConditionalWriteAction(characteristic) {
-                @Override
-                protected byte[] checkCondition() {
-                    if (MiBandCoordinator.getHeartrateSleepSupport(getDevice().getAddress())) {
-                        LOG.info("Enabling heartrate sleep support...");
-                        return startHeartMeasurementSleep;
-                    } else {
-                        LOG.info("Disabling heartrate sleep support...");
-                        return stopHeartMeasurementSleep;
-                    }
-                }
-            });
+        BluetoothGattCharacteristic characteristicHRControlPoint = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT);
+        final boolean enableHrSleepSupport = MiBandCoordinator.getHeartrateSleepSupport(getDevice().getAddress());
+        if (characteristicHRControlPoint != null) {
+            if (enableHrSleepSupport) {
+                LOG.info("Enabling heartrate sleep support...");
+                builder.write(characteristicHRControlPoint, MiBand2Service.COMMAND_ENABLE_HR_SLEEP_MEASUREMENT);
+            } else {
+                LOG.info("Disabling heartrate sleep support...");
+                builder.write(characteristicHRControlPoint, MiBand2Service.COMMAND_DISABLE_HR_SLEEP_MEASUREMENT);
+            }
         }
         return this;
     }
@@ -1166,5 +1156,26 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onTestNewFunction() {
+    }
+
+    public MiBand2Support setDateDisplay(DateDisplay displayConfig, TransactionBuilder builder) {
+        LOG.info("Setting date display to " + displayConfig);
+        switch (displayConfig) {
+            case TIME:
+                builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC3), MiBand2Service.DATEFORMAT_TIME);
+                break;
+            case DATE_TIME:
+                builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC3), MiBand2Service.DATEFORMAT_DATE_TIME);
+                break;
+        }
+        return this;
+    }
+
+    public void phase2Initialize(TransactionBuilder builder) {
+        LOG.info("phase2Initialize...");
+        enableFurtherNotifications(builder, true);
+        setDateDisplay(DateDisplay.TIME, builder);
+        setWearLocation(builder);
+        setHeartrateSleepSupport(builder);
     }
 }
