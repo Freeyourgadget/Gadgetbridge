@@ -42,6 +42,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PBWReader;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleInstallable;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.ble.PebbleLESupport;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
@@ -75,6 +76,8 @@ class PebbleIoThread extends GBDeviceIoThread {
     private Socket mTCPSocket = null; // for emulator
     private InputStream mInStream = null;
     private OutputStream mOutStream = null;
+    private PebbleLESupport mPebbleLESupport;
+
     private boolean mQuit = false;
     private boolean mIsConnected = false;
     private boolean mIsInstalling = false;
@@ -180,12 +183,11 @@ class PebbleIoThread extends GBDeviceIoThread {
                 mIsTCP = false;
                 BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(btDeviceAddress);
                 if (btDevice.getType() == BluetoothDevice.DEVICE_TYPE_LE) {
-                    LOG.info("Ok this seems to be a LE Pebble, will try something that does not work :P");
-                    mInStream = new PipedInputStream(); // fake so that io blocks
-                    mOutStream = new PipedOutputStream(); // fake so that io blocks
-                    //new PebbleLESupport(this.getContext(),btDeviceAddress,(PipedInputStream)mInStream,(PipedOutputStream)mOutStream); // secret branch :P
-                }
-                else {
+                    LOG.info("Ok this seems to be a LE Pebble, try LE Support, trouble ahead!");
+                    mInStream = new PipedInputStream();
+                    mOutStream = new PipedOutputStream();
+                    mPebbleLESupport = new PebbleLESupport(this.getContext(),btDeviceAddress,(PipedInputStream)mInStream,(PipedOutputStream)mOutStream); // secret branch :P
+                } else {
                     ParcelUuid uuids[] = btDevice.getUuids();
                     if (uuids == null) {
                         return false;
@@ -708,6 +710,7 @@ class PebbleIoThread extends GBDeviceIoThread {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            mBtSocket = null;
         }
         if (mTCPSocket != null) {
             try {
@@ -715,6 +718,11 @@ class PebbleIoThread extends GBDeviceIoThread {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            mTCPSocket = null;
+        }
+        if (mPebbleLESupport != null) {
+            mPebbleLESupport.close();
+            mPebbleLESupport = null;
         }
     }
 
