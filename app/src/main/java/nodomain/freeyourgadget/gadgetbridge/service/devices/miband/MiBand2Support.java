@@ -1168,6 +1168,9 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 case MiBandConst.PREF_MI2_DATEFORMAT:
                     setDateDisplay(builder);
                     break;
+                case MiBandConst.PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT:
+                    setActivateDisplayOnLiftWrist(builder);
+                    break;
             }
             builder.queue(getQueue());
         } catch (IOException e) {
@@ -1193,11 +1196,23 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return this;
     }
 
+    private MiBand2Support setActivateDisplayOnLiftWrist(TransactionBuilder builder) {
+        boolean enable = MiBand2Coordinator.getActivateDisplayOnLiftWrist();
+        LOG.info("Setting activate display on lift wrist to " + enable);
+        if (enable) {
+            builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC3), MiBand2Service.COMMAND_ENABLE_DISPLAY_ON_LIFT_WRIST);
+        } else {
+            builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC3), MiBand2Service.COMMAND_DISABLE_DISPLAY_ON_LIFT_WRIST);
+        }
+        return this;
+    }
+
     public void phase2Initialize(TransactionBuilder builder) {
         LOG.info("phase2Initialize...");
         enableFurtherNotifications(builder, true);
         setDateDisplay(builder);
         setWearLocation(builder);
+        setActivateDisplayOnLiftWrist(builder);
         setHeartrateSleepSupport(builder);
 
     }

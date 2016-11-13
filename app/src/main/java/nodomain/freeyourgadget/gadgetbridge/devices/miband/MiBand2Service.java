@@ -297,6 +297,9 @@ public class MiBand2Service {
     public static final byte[] COMMAND_ENABLE_HR_SLEEP_MEASUREMENT = new byte[]{0x15, 0x00, 0x01};
     public static final byte[] COMMAND_DISABLE_HR_SLEEP_MEASUREMENT = new byte[]{0x15, 0x00, 0x00};
 
+    public static final byte[] COMMAND_ENABLE_DISPLAY_ON_LIFT_WRIST = new byte[]{0x06, 0x05, 0x00, 0x01};
+    public static final byte[] COMMAND_DISABLE_DISPLAY_ON_LIFT_WRIST = new byte[]{0x06, 0x05, 0x00, 0x00};
+
 
     static {
         MIBAND_DEBUG = new HashMap<>();

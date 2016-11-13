@@ -348,4 +348,5 @@
     <string name="miband2_prefs_dateformat">Mi2: Date Format</string>
     <string name="dateformat_time">Time</string>
     <string name="dateformat_date_time"><![CDATA[Time & Date]]></string>
+    <string name="mi2_prefs_activate_display_on_lift">Activate display upon lift</string>
 </resources>
