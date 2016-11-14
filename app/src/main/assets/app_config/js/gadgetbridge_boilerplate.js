@@ -1,5 +1,16 @@
-//clay stores the values in the localStorage
-localStorage.clear();
+if (window.Storage){
+    var prefix = GBjs.getAppUUID();
+    GBjs.gbLog("redefining local storage with prefix: " + prefix);
+
+    Storage.prototype.setItem = (function(key, value) {
+        this.call(localStorage,prefix + key, value);
+    }).bind(Storage.prototype.setItem);
+
+    Storage.prototype.getItem = (function(key) {
+        //GBjs.gbLog("I am about to return " + prefix + key);
+        return this.call(localStorage,prefix + key);
+    }).bind(Storage.prototype.getItem);
+}
 
 function loadScript(url, callback) {
     // Adding the script tag to the head as suggested before
