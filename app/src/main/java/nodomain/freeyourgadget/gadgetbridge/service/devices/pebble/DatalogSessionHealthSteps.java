@@ -131,7 +131,7 @@ public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
                 record.getInt();
                 record.getShort();
                 record.get();
-                this.heart_rate = record.get();
+                this.heart_rate = record.get() & 0xff;
             }
         }
 
