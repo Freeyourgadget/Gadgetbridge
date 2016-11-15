@@ -22,6 +22,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMorpheuzSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class PebbleCoordinator extends AbstractDeviceCoordinator {
@@ -105,7 +106,7 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
-        return false;
+        return PebbleUtils.hasHRM(device.getModel());
     }
 
     @Override
