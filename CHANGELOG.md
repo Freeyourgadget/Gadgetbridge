@@ -1,5 +1,8 @@
 ###Changelog
 
+####Version 0.14.0 (next)
+* Pebble 2: Initial unstable pre-alpha support for P2/PT2 using BLE (won't be usable without weird workarounds for pairing)
+
 ####Version 0.13.9
 * Pebble: use the last known location for setting sunrise and sunset
 * Pebble: fix Health disappering forever when deactivating through app manager (and get it back for affected users)
