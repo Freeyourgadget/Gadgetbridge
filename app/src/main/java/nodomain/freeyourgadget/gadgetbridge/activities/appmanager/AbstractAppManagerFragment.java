@@ -283,6 +283,10 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             menu.removeItem(R.id.appmanager_health_activate);
             menu.removeItem(R.id.appmanager_health_deactivate);
         }
+        if (!PebbleProtocol.UUID_WORKOUT.equals(selectedApp.getUUID())) {
+            menu.removeItem(R.id.appmanager_hrm_activate);
+            menu.removeItem(R.id.appmanager_hrm_deactivate);
+        }
         if (selectedApp.getType() == GBDeviceApp.Type.APP_SYSTEM || selectedApp.getType() == GBDeviceApp.Type.WATCHFACE_SYSTEM) {
             menu.removeItem(R.id.appmanager_app_delete);
         }
@@ -355,7 +359,11 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             case R.id.appmanager_health_activate:
                 GBApplication.deviceService().onInstallApp(Uri.parse("fake://health"));
                 return true;
+            case R.id.appmanager_hrm_activate:
+                GBApplication.deviceService().onInstallApp(Uri.parse("fake://hrm"));
+                return true;
             case R.id.appmanager_health_deactivate:
+            case R.id.appmanager_hrm_deactivate:
                 GBApplication.deviceService().onAppDelete(selectedApp.getUUID());
                 return true;
             case R.id.appmanager_app_configure:

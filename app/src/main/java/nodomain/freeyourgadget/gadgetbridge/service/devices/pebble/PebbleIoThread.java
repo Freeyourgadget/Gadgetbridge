@@ -596,6 +596,10 @@ class PebbleIoThread extends GBDeviceIoThread {
             write(mPebbleProtocol.encodeSetSaneDistanceUnit(true));
             return;
         }
+        if (uri.equals(Uri.parse("fake://hrm"))) {
+            write(mPebbleProtocol.encodeActivateHRM(true));
+            return;
+        }
 
         String platformName = PebbleUtils.getPlatformName(gbDevice.getModel());
 

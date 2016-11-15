@@ -28,6 +28,8 @@
     <string name="appmanager_app_openinstore">Search in Pebble Appstore</string>
     <string name="appmanager_health_activate">Activate</string>
     <string name="appmanager_health_deactivate">Deactivate</string>
+    <string name="appmanager_hrm_activate">Activate HRM</string>
+    <string name="appmanager_hrm_deactivate">Deactivate HRM</string>
     <string name="app_configure">Configure</string>
     <string name="app_move_to_top">Move to top</string>
 

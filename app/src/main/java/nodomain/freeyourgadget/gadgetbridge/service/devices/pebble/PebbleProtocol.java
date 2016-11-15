@@ -721,10 +721,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    public byte[] encodeActivateHealth(boolean activate) {
+    byte[] encodeActivateHealth(boolean activate) {
         byte[] blob;
-        byte command;
-        command = BLOBDB_INSERT;
         if (activate) {
 
             ByteBuffer buf = ByteBuffer.allocate(9);
@@ -744,10 +742,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
         } else {
             blob = new byte[]{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
         }
-        return encodeBlobdb("activityPreferences", command, BLOBDB_PREFERENCES, blob);
+        return encodeBlobdb("activityPreferences", BLOBDB_INSERT, BLOBDB_PREFERENCES, blob);
     }
 
-    public byte[] encodeSetSaneDistanceUnit(boolean sane) {
+    byte[] encodeSetSaneDistanceUnit(boolean sane) {
         byte value;
         if (sane) {
             value = 0x00;
@@ -757,7 +755,13 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return encodeBlobdb("unitsDistance", BLOBDB_INSERT, BLOBDB_PREFERENCES, new byte[]{value});
     }
 
-    public byte[] encodeReportDataLogSessions() {
+
+    byte[] encodeActivateHRM(boolean activate) {
+        return encodeBlobdb("hrmPreferences", BLOBDB_INSERT, BLOBDB_PREFERENCES,
+                activate ? new byte[]{0x01} : new byte[]{0x00});
+    }
+
+    byte[] encodeReportDataLogSessions() {
         return encodeSimpleMessage(ENDPOINT_DATALOG, DATALOG_REPORTSESSIONS);
     }
 
@@ -1248,6 +1252,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
         if (mFwMajor >= 3) {
             if (UUID_PEBBLE_HEALTH.equals(uuid)) {
                 return encodeActivateHealth(false);
+            }
+            if (UUID_WORKOUT.equals(uuid)) {
+                return encodeActivateHRM(false);
             }
             return encodeBlobdb(uuid, BLOBDB_DELETE, BLOBDB_APP, null);
         } else {
