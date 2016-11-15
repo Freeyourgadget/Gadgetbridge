@@ -182,10 +182,18 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                             cachedAppList.add(new GBDeviceApp(UUID.fromString("cf1e816a-9db0-4511-bbb8-f60c48ca8fac"), "Golf (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
                         }
                         */
-                        if (mGBDevice != null && !"aplite".equals(PebbleUtils.getPlatformName(mGBDevice.getModel()))) {
-                            if (baseName.equals(PebbleProtocol.UUID_PEBBLE_HEALTH.toString())) {
-                                cachedAppList.add(new GBDeviceApp(PebbleProtocol.UUID_PEBBLE_HEALTH, "Health (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
-                                continue;
+                        if (mGBDevice != null) {
+                            if (PebbleUtils.hasHealth(mGBDevice.getModel())) {
+                                if (baseName.equals(PebbleProtocol.UUID_PEBBLE_HEALTH.toString())) {
+                                    cachedAppList.add(new GBDeviceApp(PebbleProtocol.UUID_PEBBLE_HEALTH, "Health (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
+                                    continue;
+                                }
+                            }
+                            if (PebbleUtils.hasHRM(mGBDevice.getModel())) {
+                                if (baseName.equals(PebbleProtocol.UUID_WORKOUT.toString())) {
+                                    cachedAppList.add(new GBDeviceApp(PebbleProtocol.UUID_WORKOUT, "Workout (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
+                                    continue;
+                                }
                             }
                         }
                         if (uuids == null) {

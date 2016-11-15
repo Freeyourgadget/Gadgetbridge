@@ -366,6 +366,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private final ArrayList<UUID> tmpUUIDS = new ArrayList<>();
 
     public static final UUID UUID_PEBBLE_HEALTH = UUID.fromString("36d8c6ed-4c83-4fa1-a9e2-8f12dc941f8c"); // FIXME: store somewhere else, this is also accessed by other code
+    public static final UUID UUID_WORKOUT = UUID.fromString("fef82c82-7176-4e22-88de-35a3fc18d43f"); // FIXME: store somewhere else, this is also accessed by other code
     private static final UUID UUID_GBPEBBLE = UUID.fromString("61476764-7465-7262-6469-656775527a6c");
     private static final UUID UUID_MORPHEUZ = UUID.fromString("5be44f1d-d262-4ea6-aa30-ddbec1e3cab2");
     private static final UUID UUID_WHETHERNEAT = UUID.fromString("3684003b-a685-45f9-a713-abc6364ba051");
@@ -2020,6 +2021,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         mDatalogSessions.put(id, new DatalogSessionHealthSleep(id, uuid, log_tag, item_type, item_size, getDevice()));
                     } else if (uuid.equals(UUID_ZERO) && log_tag == 84) {
                         mDatalogSessions.put(id, new DatalogSessionHealthOverlayData(id, uuid, log_tag, item_type, item_size, getDevice()));
+                    } else if (uuid.equals(UUID_ZERO) && log_tag == 85) {
+                        mDatalogSessions.put(id, new DatalogSessionHealthHR(id, uuid, log_tag, item_type, item_size, getDevice()));
                     } else {
                         mDatalogSessions.put(id, new DatalogSession(id, uuid, log_tag, item_type, item_size));
                     }

@@ -22,7 +22,7 @@ public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
 
     public DatalogSessionHealthSteps(byte id, UUID uuid, int tag, byte item_type, short item_size, GBDevice device) {
         super(id, uuid, tag, item_type, item_size, device);
-        taginfo = "(health - steps)";
+        taginfo = "(Health - steps)";
     }
 
     @Override
@@ -110,7 +110,7 @@ public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
         int light_intensity;
         byte[] rawData;
 
-        public StepsRecord(int timestamp, short version, byte[] rawData) {
+        StepsRecord(int timestamp, short version, byte[] rawData) {
             this.timestamp = timestamp;
             this.rawData = rawData;
             ByteBuffer record = ByteBuffer.wrap(rawData);
@@ -125,7 +125,7 @@ public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
             this.light_intensity = record.get() & 0xff;
         }
 
-        public byte[] getRawData() {
+        byte[] getRawData() {
             if (storePebbleHealthRawRecord()) {
                 return rawData;
             }
