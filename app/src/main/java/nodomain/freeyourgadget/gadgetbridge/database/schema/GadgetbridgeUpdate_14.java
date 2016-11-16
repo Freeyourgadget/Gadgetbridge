@@ -15,7 +15,7 @@ public class GadgetbridgeUpdate_14 implements DBUpdateScript {
     public void upgradeSchema(SQLiteDatabase db) {
         if (!DBHelper.existsColumn(PebbleHealthActivitySampleDao.TABLENAME, PebbleHealthActivitySampleDao.Properties.HeartRate.columnName, db)) {
             String ADD_COLUMN_HEART_RATE = "ALTER TABLE " + PebbleHealthActivitySampleDao.TABLENAME + " ADD COLUMN "
-                    + PebbleHealthActivitySampleDao.Properties.HeartRate.columnName + " INTEGER NOT NULL;";
+                    + PebbleHealthActivitySampleDao.Properties.HeartRate.columnName + " INTEGER NOT NULL DEFAULT 0;";
             db.execSQL(ADD_COLUMN_HEART_RATE);
         }
     }
