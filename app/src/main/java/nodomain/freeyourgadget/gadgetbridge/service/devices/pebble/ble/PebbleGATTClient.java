@@ -94,7 +94,7 @@ class PebbleGATTClient extends BluetoothGattCallback {
         }
         LOG.info("onCharacteristicWrite() " + characteristic.getUuid());
         if (characteristic.getUuid().equals(PAIRING_TRIGGER_CHARACTERISTIC) || characteristic.getUuid().equals(CONNECTIVITY_CHARACTERISTIC)) {
-            mBtDevice.createBond(); // did not work when last tried
+            //mBtDevice.createBond(); // did not work when last tried
 
             if (oldPebble) {
                 subscribeToConnectivity(gatt);
@@ -139,7 +139,7 @@ class PebbleGATTClient extends BluetoothGattCallback {
             if (doPairing) {
                 BluetoothGattCharacteristic characteristic = gatt.getService(SERVICE_UUID).getCharacteristic(PAIRING_TRIGGER_CHARACTERISTIC);
                 if ((characteristic.getProperties() & PROPERTY_WRITE) != 0) {
-                    characteristic.setValue(new byte[]{0, 1}); // bits 0=1 1=no slave sec 2=kk 3=samsung kk
+                    characteristic.setValue(new byte[]{1});
                     gatt.writeCharacteristic(characteristic);
                 }
                 else {
@@ -173,7 +173,7 @@ class PebbleGATTClient extends BluetoothGattCallback {
         if (mBluetoothGatt != null) {
             this.close();
         }
-        mBtDevice.createBond();
+        //mBtDevice.createBond();
         mBluetoothGatt = btDevice.connectGatt(mContext, false, this);
     }
 

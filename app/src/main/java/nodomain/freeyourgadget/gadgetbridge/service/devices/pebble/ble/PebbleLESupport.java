@@ -2,7 +2,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.ble;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothGattServerCallback;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 
@@ -13,7 +12,7 @@ import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 
-public class PebbleLESupport extends BluetoothGattServerCallback {
+public class PebbleLESupport {
     private static final Logger LOG = LoggerFactory.getLogger(PebbleLESupport.class);
     private PipeReader mPipeReader;
     private PebbleGATTServer mPebbleGATTServer;
