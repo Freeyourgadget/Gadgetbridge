@@ -52,6 +52,42 @@ public class BLETypeConversions {
         };
     }
 
+    /**
+     * Similar to calendarToRawBytes, but only up to (and including) the MINUTES.
+     * @param timestamp
+     * @param honorDeviceTimeOffset
+     * @return
+     */
+    public static byte[] shortCalendarToRawBytes(Calendar timestamp, boolean honorDeviceTimeOffset) {
+
+        // The mi-band device currently records sleep
+        // only if it happens after 10pm and before 7am.
+        // The offset is used to trick the device to record sleep
+        // in non-standard hours.
+        // If you usually sleep, say, from 6am to 2pm, set the
+        // shift to -8, so at 6am the device thinks it's still 10pm
+        // of the day before.
+        if (honorDeviceTimeOffset) {
+            int offsetInHours = MiBandCoordinator.getDeviceTimeOffsetHours();
+            if (offsetInHours != 0) {
+                timestamp.add(Calendar.HOUR_OF_DAY, offsetInHours);
+            }
+        }
+
+        // MiBand2:
+        // year,year,month,dayofmonth,hour,minute,second,dayofweek,0,0,tz
+
+        byte[] year = fromUint16(timestamp.get(Calendar.YEAR));
+        return new byte[] {
+                year[0],
+                year[1],
+                fromUint8(timestamp.get(Calendar.MONTH) + 1),
+                fromUint8(timestamp.get(Calendar.DATE)),
+                fromUint8(timestamp.get(Calendar.HOUR_OF_DAY)),
+                fromUint8(timestamp.get(Calendar.MINUTE))
+        };
+    }
+
     private static int getMiBand2TimeZone(int rawOffset) {
         int offsetMinutes = rawOffset / 1000 / 60;
         rawOffset = offsetMinutes < 0 ? -1 : 1;

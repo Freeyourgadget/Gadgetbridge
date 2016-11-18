@@ -41,7 +41,7 @@ public class MiBand2Coordinator extends MiBandCoordinator {
 
     @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
-        return false; // not yet
+        return true;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class MiBand2Coordinator extends MiBandCoordinator {
 
     @Override
     public boolean supportsActivityDataFetching() {
-        return false; // not yet
+        return true;
     }
 
     @Override

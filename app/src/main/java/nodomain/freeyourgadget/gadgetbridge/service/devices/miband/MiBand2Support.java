@@ -26,6 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.DateTimeDisplay;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
@@ -57,8 +58,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WriteAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.heartrate.HeartRateProfile;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.DateTimeDisplay;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.Mi2NotificationStrategy;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.FetchActivityOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.InitOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -176,13 +177,23 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 //        return this;
 //    }
 
-    public MiBand2Support setCurrentTimeWithService(TransactionBuilder builder) {
-        GregorianCalendar now = BLETypeConversions.createCalendar();
-        byte[] bytes = BLETypeConversions.calendarToRawBytes(now, true);
-        byte[] tail = new byte[] { 0, BLETypeConversions.mapTimeZone(now.getTimeZone()) }; // 0 = adjust reason bitflags? or DST offset?? , timezone
+    public byte[] getTimeBytes(Calendar calendar) {
+        byte[] bytes = BLETypeConversions.shortCalendarToRawBytes(calendar, true);
+        byte[] tail = new byte[] { 0, BLETypeConversions.mapTimeZone(calendar.getTimeZone()) }; // 0 = adjust reason bitflags? or DST offset?? , timezone
 //        byte[] tail = new byte[] { 0x2 }; // reason
         byte[] all = BLETypeConversions.join(bytes, tail);
-        builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_CURRENT_TIME), all);
+        return all;
+    }
+
+    public Calendar fromTimeBytes(byte[] bytes) {
+        GregorianCalendar timestamp = BLETypeConversions.rawBytesToCalendar(bytes, true);
+        return timestamp;
+    }
+
+    public MiBand2Support setCurrentTimeWithService(TransactionBuilder builder) {
+        GregorianCalendar now = BLETypeConversions.createCalendar();
+        byte[] bytes = getTimeBytes(now);
+        builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_CURRENT_TIME), bytes);
 //        byte[] localtime = BLETypeConversions.calendarToLocalTimeBytes(now);
 //        builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_LOCAL_TIME_INFORMATION), localtime);
 //        builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_CURRENT_TIME), new byte[] {0x2, 0x00});
@@ -412,7 +423,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                     builder.write(characteristic, MiBand2Service.WEAR_LOCATION_RIGHT_WRIST);
                     break;
             }
-            builder.notify(characteristic, false); // TODO: this should actually be in some kind of finally-block in the queue
+            builder.notify(characteristic, false); // TODO: this should actually be in some kind of finally-block in the queue. It should also be sent asynchronously after the notifications have completely arrived and processed.
         }
         return this;
     }
@@ -455,7 +466,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 LOG.info("Disabling heartrate sleep support...");
                 builder.write(characteristicHRControlPoint, MiBand2Service.COMMAND_DISABLE_HR_SLEEP_MEASUREMENT);
             }
-            builder.notify(characteristicHRControlPoint, false); // TODO: this should run in some kind of finally-block in the queue
+            builder.notify(characteristicHRControlPoint, false); // TODO: this should actually be in some kind of finally-block in the queue. It should also be sent asynchronously after the notifications have completely arrived and processed.
         }
         return this;
     }
@@ -678,18 +689,18 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
-        try {
-            TransactionBuilder builder = performInitialized("EnableRealtimeHeartRateMeasurement");
-            if (enable) {
-                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementManual);
-                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), startHeartMeasurementContinuous);
-            } else {
-                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementContinuous);
-            }
-            builder.queue(getQueue());
-        } catch (IOException ex) {
-            LOG.error("Unable to enable realtime heart rate measurement in  MI1S", ex);
-        }
+//        try {
+//            TransactionBuilder builder = performInitialized("EnableRealtimeHeartRateMeasurement");
+//            if (enable) {
+//                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementManual);
+//                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), startHeartMeasurementContinuous);
+//            } else {
+//                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementContinuous);
+//            }
+//            builder.queue(getQueue());
+//        } catch (IOException ex) {
+//            LOG.error("Unable to enable realtime heart rate measurement in  MI1S", ex);
+//        }
     }
 
     @Override
@@ -714,28 +725,27 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFetchActivityData() {
-// TODO: onFetchActivityData
-//        try {
-//            new FetchActivityOperation(this).perform();
-//        } catch (IOException ex) {
-//            LOG.error("Unable to fetch MI activity data", ex);
-//        }
+        try {
+            new FetchActivityOperation(this).perform();
+        } catch (IOException ex) {
+            LOG.error("Unable to fetch MI activity data", ex);
+        }
     }
 
     @Override
     public void onEnableRealtimeSteps(boolean enable) {
-        try {
-            BluetoothGattCharacteristic controlPoint = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
-            if (enable) {
-                TransactionBuilder builder = performInitialized("Read realtime steps");
-                builder.read(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS)).queue(getQueue());
-            }
-            performInitialized(enable ? "Enabling realtime steps notifications" : "Disabling realtime steps notifications")
-                    .write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_LE_PARAMS), enable ? getLowLatency() : getHighLatency())
-                    .write(controlPoint, enable ? startRealTimeStepsNotifications : stopRealTimeStepsNotifications).queue(getQueue());
-        } catch (IOException e) {
-            LOG.error("Unable to change realtime steps notification to: " + enable, e);
-        }
+//        try {
+//            BluetoothGattCharacteristic controlPoint = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
+//            if (enable) {
+//                TransactionBuilder builder = performInitialized("Read realtime steps");
+//                builder.read(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS)).queue(getQueue());
+//            }
+//            performInitialized(enable ? "Enabling realtime steps notifications" : "Disabling realtime steps notifications")
+//                    .write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_LE_PARAMS), enable ? getLowLatency() : getHighLatency())
+//                    .write(controlPoint, enable ? startRealTimeStepsNotifications : stopRealTimeStepsNotifications).queue(getQueue());
+//        } catch (IOException e) {
+//            LOG.error("Unable to change realtime steps notification to: " + enable, e);
+//        }
     }
 
     private byte[] getHighLatency() {

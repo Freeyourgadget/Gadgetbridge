@@ -28,7 +28,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-public class UpdateFirmwareOperation extends AbstractMiBandOperation {
+public class UpdateFirmwareOperation extends AbstractMiBand1Operation {
     private static final Logger LOG = LoggerFactory.getLogger(UpdateFirmwareOperation.class);
 
     private final Uri uri;
@@ -39,6 +39,10 @@ public class UpdateFirmwareOperation extends AbstractMiBandOperation {
     public UpdateFirmwareOperation(Uri uri, MiBandSupport support) {
         super(support);
         this.uri = uri;
+    }
+
+    @Override
+    protected void enableNeededNotifications(TransactionBuilder builder, boolean enable) {
     }
 
     @Override
