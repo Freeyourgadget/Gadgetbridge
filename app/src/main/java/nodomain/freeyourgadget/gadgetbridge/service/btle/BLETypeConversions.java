@@ -82,11 +82,11 @@ public class BLETypeConversions {
             int year = toUint16(value[0], value[1]);
             GregorianCalendar timestamp = new GregorianCalendar(
                     year,
-                    value[2],
-                    value[3],
-                    value[4],
-                    value[5],
-                    value[6]
+                    (value[2] & 0xff) - 1,
+                    value[3] & 0xff,
+                    value[4] & 0xff,
+                    value[5] & 0xff,
+                    value[6] & 0xff
             );
 
             if (honorDeviceTimeOffset) {
@@ -103,7 +103,7 @@ public class BLETypeConversions {
     }
 
     public static int toUint16(byte... bytes) {
-        return bytes[0] | (bytes[1] << 8);
+        return (bytes[0] & 0xff) | ((bytes[1] & 0xff) << 8);
     }
 
     public static byte[] fromUint16(int value) {
@@ -156,7 +156,7 @@ public class BLETypeConversions {
 
     /**
      * https://www.bluetooth.com/specifications/gatt/viewer?attributeXmlFile=org.bluetooth.characteristic.dst_offset.xml
-     * @param Calendar
+     * @param now
      * @return the DST offset for the given time; 0 if none; 255 if unknown
      */
     public static byte mapDstOffset(Calendar now) {
