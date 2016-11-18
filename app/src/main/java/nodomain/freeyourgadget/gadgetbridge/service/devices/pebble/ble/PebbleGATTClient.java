@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Method;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT16;
@@ -211,10 +212,14 @@ class PebbleGATTClient extends BluetoothGattCallback {
 
     private void setMTU(BluetoothGatt gatt) {
         LOG.info("setting MTU");
-        BluetoothGattCharacteristic characteristic = gatt.getService(SERVICE_UUID).getCharacteristic(MTU_CHARACTERISTIC);
-        BluetoothGattDescriptor descriptor = characteristic.getDescriptor(CHARACTERISTIC_CONFIGURATION_DESCRIPTOR);
-        descriptor.setValue(new byte[]{0x0b, 0x01}); // unknown
-        gatt.writeCharacteristic(characteristic);
+        if (GBApplication.isRunningLollipopOrLater()) {
+            gatt.requestMtu(339);
+        } else {
+            BluetoothGattCharacteristic characteristic = gatt.getService(SERVICE_UUID).getCharacteristic(MTU_CHARACTERISTIC);
+            BluetoothGattDescriptor descriptor = characteristic.getDescriptor(CHARACTERISTIC_CONFIGURATION_DESCRIPTOR);
+            descriptor.setValue(new byte[]{0x0b, 0x01}); // unknown
+            gatt.writeCharacteristic(characteristic);
+        }
     }
 
     public void close() {
