@@ -7,8 +7,12 @@ if (window.Storage){
     }).bind(Storage.prototype.setItem);
 
     Storage.prototype.getItem = (function(key) {
-        //GBjs.gbLog("I am about to return " + prefix + key);
-        return this.call(localStorage,prefix + key);
+//        console.log("I am about to return " + prefix + key);
+        var def = null;
+        if(key == 'clay-settings') {
+            def = '{}';
+        }
+        return this.call(localStorage,prefix + key) || def;
     }).bind(Storage.prototype.getItem);
 }
 
