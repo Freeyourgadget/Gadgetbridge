@@ -19,6 +19,7 @@ public class PebbleLESupport {
     private PebbleGATTClient mPebbleGATTClient;
     private PipedInputStream mPipedInputStream;
     private PipedOutputStream mPipedOutputStream;
+    private int mMTU = 20;
 
     public PebbleLESupport(Context context, final String btDeviceAddress, PipedInputStream pipedInputStream, PipedOutputStream pipedOutputStream) {
 
@@ -37,7 +38,7 @@ public class PebbleLESupport {
         mPebbleGATTServer = new PebbleGATTServer(this, context, btDevice);
         mPebbleGATTServer.initialize();
 
-        mPebbleGATTClient = new PebbleGATTClient(context, btDevice);
+        mPebbleGATTClient = new PebbleGATTClient(this, context, btDevice);
         mPebbleGATTClient.initialize();
     }
 
@@ -83,13 +84,16 @@ public class PebbleLESupport {
         }
     }
 
+    void setMTU(int mtu) {
+        mMTU = mtu;
+    }
+
     private class PipeReader extends Thread {
         int mmSequence = 0;
         private boolean mQuit = false;
 
         @Override
         public void run() {
-            int MTU = 339 - 3;
             byte[] buf = new byte[8192];
             int bytesRead;
             while (!mQuit) {
@@ -113,7 +117,7 @@ public class PebbleLESupport {
                     int payloadToSend = bytesRead + 4;
                     int srcPos = 0;
                     while (payloadToSend > 0) {
-                        int chunkSize = (payloadToSend < (MTU - 1)) ? payloadToSend : MTU - 1;
+                        int chunkSize = (payloadToSend < (mMTU - 4)) ? payloadToSend : mMTU - 4;
                         byte[] outBuf = new byte[chunkSize + 1];
                         outBuf[0] = (byte) ((mmSequence++ << 3) & 0xff);
                         System.arraycopy(buf, srcPos, outBuf, 1, chunkSize);

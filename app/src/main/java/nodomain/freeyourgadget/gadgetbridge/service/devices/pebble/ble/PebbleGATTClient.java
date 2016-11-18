@@ -15,6 +15,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
+import static android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT16;
 import static android.bluetooth.BluetoothGattCharacteristic.PROPERTY_WRITE;
 
 
@@ -32,15 +33,17 @@ class PebbleGATTClient extends BluetoothGattCallback {
     private final String mBtDeviceAddress;
     private final BluetoothDevice mBtDevice;
     private final Context mContext;
+    private final PebbleLESupport mPebbleLESupport;
 
     private boolean oldPebble = false;
     private boolean doPairing = true;
     private boolean removeBond = false;
     private BluetoothGatt mBluetoothGatt;
 
-    PebbleGATTClient(Context context, BluetoothDevice btDevice) {
+    PebbleGATTClient(PebbleLESupport pebbleLESupport, Context context, BluetoothDevice btDevice) {
         mContext = context;
         mBtDevice = btDevice;
+        mPebbleLESupport = pebbleLESupport;
         mBtDeviceAddress = btDevice.getAddress();
     }
 
@@ -54,7 +57,13 @@ class PebbleGATTClient extends BluetoothGattCallback {
             LOG.info("onCharacteristicChanged() unexpected device: " + gatt.getDevice().getAddress() + " , expected: " + mBtDeviceAddress);
             return;
         }
-        LOG.info("onCharacteristicChanged()" + characteristic.getUuid().toString() + " " + GB.hexdump(characteristic.getValue(), 0, -1));
+        if (characteristic.getUuid().equals(MTU_CHARACTERISTIC)) {
+            int newMTU = characteristic.getIntValue(FORMAT_UINT16, 0);
+            mPebbleLESupport.setMTU(newMTU);
+            LOG.info("Pebble requested MTU = " + newMTU);
+        } else {
+            LOG.info("onCharacteristicChanged()" + characteristic.getUuid().toString() + " " + GB.hexdump(characteristic.getValue(), 0, -1));
+        }
     }
 
     public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
@@ -141,8 +150,7 @@ class PebbleGATTClient extends BluetoothGattCallback {
                 if ((characteristic.getProperties() & PROPERTY_WRITE) != 0) {
                     characteristic.setValue(new byte[]{1});
                     gatt.writeCharacteristic(characteristic);
-                }
-                else {
+                } else {
                     LOG.info("This seems to be some <4.0 FW Pebble, reading pairing trigger");
                     gatt.readCharacteristic(characteristic);
                 }
