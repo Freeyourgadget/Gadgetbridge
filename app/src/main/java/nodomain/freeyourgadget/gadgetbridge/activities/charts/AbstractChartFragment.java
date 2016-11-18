@@ -770,11 +770,6 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             String dateString = annotationDateFormat.format(date);
             return dateString;
         }
-
-        @Override
-        public int getDecimalDigits() {
-            return 0;
-        }
     }
 
     protected static class PreformattedXIndexLabelFormatter implements IAxisValueFormatter {
@@ -791,11 +786,6 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                 return String.valueOf(value);
             }
             return xLabels.get(index);
-        }
-
-        @Override
-        public int getDecimalDigits() {
-            return 0;
         }
     }
 
