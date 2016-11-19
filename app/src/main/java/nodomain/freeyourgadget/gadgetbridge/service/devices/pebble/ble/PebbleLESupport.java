@@ -50,7 +50,7 @@ public class PebbleLESupport {
         }
     }
 
-    public void close() {
+    synchronized public void close() {
         destroyPipedInputReader();
         if (mPebbleGATTServer != null) {
             mPebbleGATTServer.close();
@@ -59,6 +59,11 @@ public class PebbleLESupport {
         if (mPebbleGATTClient != null) {
             mPebbleGATTClient.close();
             mPebbleGATTClient = null;
+        }
+        try {
+            mPipedInputStream.close();
+            mPipedOutputStream.close();
+        } catch (IOException ignore) {
         }
     }
 

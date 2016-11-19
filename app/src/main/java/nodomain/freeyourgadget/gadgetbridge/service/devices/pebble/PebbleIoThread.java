@@ -368,8 +368,8 @@ class PebbleIoThread extends GBDeviceIoThread {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            } catch (IOException e) {
-                if (e.getMessage() != null && e.getMessage().contains("socket closed")) { //FIXME: this does not feel right
+            } catch (IOException | ArrayIndexOutOfBoundsException e) {
+                if (e.getMessage() != null && (e instanceof  ArrayIndexOutOfBoundsException || e.getMessage().contains("socket closed"))) { //FIXME: this does not feel right
                     LOG.info(e.getMessage());
                     mIsConnected = false;
                     int reconnectAttempts = prefs.getInt("pebble_reconnect_attempts", 10);

@@ -127,6 +127,9 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
 
     public void onConnectionStateChange(BluetoothDevice device, int status, int newState) {
         LOG.info("Connection state change for device: " + device.getAddress() + "  status = " + status + " newState = " + newState);
+        if (newState == BluetoothGattServer.STATE_DISCONNECTED) {
+            mPebbleLESupport.close();
+        }
     }
 
     public void onDescriptorWriteRequest(BluetoothDevice device, int requestId, BluetoothGattDescriptor descriptor,

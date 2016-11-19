@@ -93,7 +93,9 @@ class PebbleGATTClient extends BluetoothGattCallback {
         if (newState == BluetoothGatt.STATE_CONNECTED) {
             LOG.info("calling discoverServices()");
             gatt.discoverServices();
-
+        }
+        else if (newState == BluetoothGatt.STATE_DISCONNECTED){
+            mPebbleLESupport.close();
         }
     }
 
