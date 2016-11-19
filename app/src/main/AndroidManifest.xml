@@ -257,6 +257,9 @@
             android:name=".devices.miband.MiBandPairingActivity"
             android:label="@string/title_activity_mi_band_pairing" />
         <activity
+            android:name=".devices.pebble.PebblePairingActivity"
+            android:label="@string/title_activity_pebble_pairing" />
+        <activity
             android:name=".activities.charts.ChartsActivity"
             android:label="@string/title_activity_charts"
             android:parentActivityName=".activities.ControlCenter" />

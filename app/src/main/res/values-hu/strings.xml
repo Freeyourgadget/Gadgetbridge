@@ -123,7 +123,7 @@
   <string name="title_activity_android_pairing">Eszköz párosítása</string>
   <string name="android_pairing_hint">Használja az Android Bluetooth párosítás ablakot eszköz párosításához.</string>
   <string name="title_activity_mi_band_pairing">Párosítsd a Mi Band-ed</string>
-  <string name="miband_pairing">Párosítás: %s…</string>
+  <string name="pairing">Párosítás: %s…</string>
   <string name="message_cannot_pair_no_mac">Nincs találat a MAC címre, nem lehet párosítani.</string>
   <string name="preferences_category_device_specific_settings">Eszközspecifikus beállítások</string>
   <string name="preferences_miband_settings">MI Band beállítások</string>

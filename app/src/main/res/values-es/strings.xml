@@ -126,11 +126,11 @@
   <string name="title_activity_android_pairing">Emparejar dispositivo</string>
   <string name="android_pairing_hint">Usar el menú de emparejar Bluetooth de Android para emparejar el dispositivo.</string>
   <string name="title_activity_mi_band_pairing">Emparejar tu MiBand</string>
-  <string name="miband_pairing">Emparejando con %s...</string>
-  <string name="miband_pairing_creating_bond_with">Creando emparejamiento con %1$s (%2$s)</string>
-  <string name="miband_pairing_unable_to_pair_with">No se ha podido emparejar con %1$s (%2$s)</string>
-  <string name="miband_pairing_in_progress">Emparejamiento en progreso: %1$s (%2$s)</string>
-  <string name="miband_pairing_already_bonded">Emparejado con %1$s (%2$s), conectando…</string>
+  <string name="pairing">Emparejando con %s...</string>
+  <string name="pairing_creating_bond_with">Creando emparejamiento con %1$s (%2$s)</string>
+  <string name="pairing_unable_to_pair_with">No se ha podido emparejar con %1$s (%2$s)</string>
+  <string name="pairing_in_progress">Emparejamiento en progreso: %1$s (%2$s)</string>
+  <string name="pairing_already_bonded">Emparejado con %1$s (%2$s), conectando…</string>
   <string name="message_cannot_pair_no_mac">Ninguna dirección MAC aprobada, no se puede emparejar.</string>
   <string name="preferences_category_device_specific_settings">Ajustes específicos del dispositivo</string>
   <string name="preferences_miband_settings">Ajustes de MiBand</string>

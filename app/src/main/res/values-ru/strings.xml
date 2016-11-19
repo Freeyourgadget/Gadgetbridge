@@ -99,7 +99,7 @@
   <string name="title_activity_android_pairing">Сопряжение устройств</string>
   <string name="android_pairing_hint">Для сопряжения устройств используйте диалог Android.</string>
   <string name="title_activity_mi_band_pairing">Сопряжение вашего Mi Band</string>
-  <string name="miband_pairing">Сопряжение с %s…</string>
+  <string name="pairing">Сопряжение с %s…</string>
   <string name="message_cannot_pair_no_mac">MAC-адрес не был передан, сопряжение не удалось.</string>
   <string name="preferences_category_device_specific_settings">Настройки устройства</string>
   <string name="preferences_miband_settings">Настройки Mi Band</string>

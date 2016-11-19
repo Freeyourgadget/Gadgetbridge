@@ -155,11 +155,11 @@
     <string name="title_activity_android_pairing">Pair Device</string>
     <string name="android_pairing_hint">Use the Android Bluetooth Pairing dialog to pair the device.</string>
     <string name="title_activity_mi_band_pairing">Pair your Mi Band</string>
-    <string name="miband_pairing">Pairing with %s…</string>
-    <string name="miband_pairing_creating_bond_with">"Creating bond with %1$s (%2$s)"</string>
-    <string name="miband_pairing_unable_to_pair_with">"Unable to pair with %1$s (%2$s)"</string>
-    <string name="miband_pairing_in_progress">Bonding in progress: %1$s (%2$s)</string>
-    <string name="miband_pairing_already_bonded">"Already bonded with %1$s (%2$s), connecting…"</string>
+    <string name="pairing">Pairing with %s…</string>
+    <string name="pairing_creating_bond_with">"Creating bond with %1$s (%2$s)"</string>
+    <string name="pairing_unable_to_pair_with">"Unable to pair with %1$s (%2$s)"</string>
+    <string name="pairing_in_progress">Bonding in progress: %1$s (%2$s)</string>
+    <string name="pairing_already_bonded">"Already bonded with %1$s (%2$s), connecting…"</string>
     <string name="message_cannot_pair_no_mac">No mac address passed, cannot pair.</string>
     <string name="preferences_category_device_specific_settings">Device Specific Settings</string>
     <string name="preferences_miband_settings">Mi Band Settings</string>
@@ -278,6 +278,10 @@
     <string name="miband_prefs_reserve_alarm_calendar">Alarms to reserve for upcoming events</string>
     <string name="miband_prefs_hr_sleep_detection">Use Heartrate Sensor to improve sleep detection</string>
 	<string name="miband_prefs_device_time_offset_hours">Device time offset in hours (for detecting sleep of shift workers)</string>
+    <string name="miband2_prefs_dateformat">Mi2: Date Format</string>
+    <string name="dateformat_time">Time</string>
+    <string name="dateformat_date_time"><![CDATA[Time & Date]]></string>
+    <string name="mi2_prefs_activate_display_on_lift">Activate display upon lift</string>
 
     <string name="waiting_for_reconnect">waiting for reconnect</string>
 
@@ -347,8 +351,8 @@
 
     <!-- Strings related to Vibration Activity -->
     <string name="title_activity_vibration">Vibration</string>
-    <string name="miband2_prefs_dateformat">Mi2: Date Format</string>
-    <string name="dateformat_time">Time</string>
-    <string name="dateformat_date_time"><![CDATA[Time & Date]]></string>
-    <string name="mi2_prefs_activate_display_on_lift">Activate display upon lift</string>
+
+    <!-- Strings related to Pebble Pairing Activity-->
+    <string name="title_activity_pebble_pairing">Pebble Pairing</string>
+    <string name="pebble_le_pairing_hint">A pairing dialog is expected to pop up on your Android device. If that does not happen, look in the notification drawer and accept the pairing request. After that accept the pairing request on your Pebble</string>
 </resources>

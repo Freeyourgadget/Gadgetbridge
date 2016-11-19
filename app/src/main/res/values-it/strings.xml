@@ -126,7 +126,7 @@
   <string name="title_activity_android_pairing">Accoppia dispositivo</string>
   <string name="android_pairing_hint">Utilizza la funzione del sistema operativo per accoppiare il dispositivo.</string>
   <string name="title_activity_mi_band_pairing">Accoppia la Mi Band</string>
-  <string name="miband_pairing">Accoppiamento con %s…</string>
+  <string name="pairing">Accoppiamento con %s…</string>
   <string name="message_cannot_pair_no_mac">Indirizzo MAC mancante, impossibile completare l\'accoppiamento.</string>
   <string name="preferences_category_device_specific_settings">Impostazioni specifiche dispositivo</string>
   <string name="preferences_miband_settings">Impostazioni Mi Band</string>

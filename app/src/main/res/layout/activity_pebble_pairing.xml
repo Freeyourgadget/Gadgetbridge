@@ -4,25 +4,25 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPairingActivity">
+    tools:context="nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebblePairingActivity">
 
     <TextView android:text="@string/pairing" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/miband_pair_message" />
+        android:id="@+id/pebble_pair_message" />
 
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/progressBar"
         android:layout_marginTop="25dp"
-        android:layout_below="@+id/miband_pair_message"
+        android:layout_below="@+id/pebble_pair_message"
         android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/miband_pairing_tap_hint"
-        android:id="@+id/miband_pair_hint"
+        android:text="@string/pebble_le_pairing_hint"
+        android:id="@+id/pebble_le_pair_hint"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true" />
 

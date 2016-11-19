@@ -123,7 +123,7 @@
   <string name="title_activity_android_pairing">Coupler l\'appareil</string>
   <string name="android_pairing_hint">Utiliser le couplement Bluetooth d\'Android pour coupler l\'appareil</string>
   <string name="title_activity_mi_band_pairing">Coupler votre Mi Band</string>
-  <string name="miband_pairing">Coupler avec %s...</string>
+  <string name="pairing">Coupler avec %s...</string>
   <string name="message_cannot_pair_no_mac">Aucune adresse mac fournie, ne peut être couplé</string>
   <string name="preferences_category_device_specific_settings">Paramètres spécifiques à l\'appareil </string>
   <string name="preferences_miband_settings">Paramètres Mi Band</string>

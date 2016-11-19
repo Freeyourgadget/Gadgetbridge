@@ -42,7 +42,7 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public Class<? extends Activity> getPairingActivity() {
-        return null;
+        return PebblePairingActivity.class;
     }
 
     public Class<? extends Activity> getPrimaryActivity() {

@@ -129,11 +129,11 @@
   <string name="title_activity_android_pairing">デバイスのペアリング</string>
   <string name="android_pairing_hint">デバイスをペアリングするには、AndroidのBluetoothペアリングのダイアログを使用します。</string>
   <string name="title_activity_mi_band_pairing">お使いのMi Bandをペアリング</string>
-  <string name="miband_pairing">%sとペアリング…</string>
-  <string name="miband_pairing_creating_bond_with">%1$s (%2$s) と結合を作成中</string>
-  <string name="miband_pairing_unable_to_pair_with">%1$s (%2$s) とペアにすることができません</string>
-  <string name="miband_pairing_in_progress">結合の進行中: %1$s (%2$s)</string>
-  <string name="miband_pairing_already_bonded">既に %1$s (%2$s) と結合しています。接続中…</string>
+  <string name="pairing">%sとペアリング…</string>
+  <string name="pairing_creating_bond_with">%1$s (%2$s) と結合を作成中</string>
+  <string name="pairing_unable_to_pair_with">%1$s (%2$s) とペアにすることができません</string>
+  <string name="pairing_in_progress">結合の進行中: %1$s (%2$s)</string>
+  <string name="pairing_already_bonded">既に %1$s (%2$s) と結合しています。接続中…</string>
   <string name="message_cannot_pair_no_mac">MACアドレスが渡されませんでした。ペアリングできません。</string>
   <string name="preferences_category_device_specific_settings">デバイス固有の設定</string>
   <string name="preferences_miband_settings">Mi Bandの設定</string>
