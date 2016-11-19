@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.ble;
 
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattServer;
@@ -49,10 +50,6 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
         pebbleGATTService.addCharacteristic(writeCharacteristics);
         mBluetoothGattServer.addService(pebbleGATTService);
 
-
-        final BluetoothGattService badbadService = new BluetoothGattService(SERVER_SERVICE_BADBAD, BluetoothGattService.SERVICE_TYPE_PRIMARY);
-        badbadService.addCharacteristic(new BluetoothGattCharacteristic(SERVER_SERVICE_BADBAD, BluetoothGattCharacteristic.PROPERTY_READ, BluetoothGattCharacteristic.PERMISSION_READ));
-        mBluetoothGattServer.addService(badbadService);
         return true;
     }
 
@@ -148,6 +145,11 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
 
     public void onServiceAdded(int status, BluetoothGattService service) {
         LOG.info("onServiceAdded() status = " + status + " service = " + service.getUuid());
+        if (status == BluetoothGatt.GATT_SUCCESS && service.getUuid().equals(SERVER_SERVICE)) {
+            final BluetoothGattService badbadService = new BluetoothGattService(SERVER_SERVICE_BADBAD, BluetoothGattService.SERVICE_TYPE_PRIMARY);
+            badbadService.addCharacteristic(new BluetoothGattCharacteristic(SERVER_SERVICE_BADBAD, BluetoothGattCharacteristic.PROPERTY_READ, BluetoothGattCharacteristic.PERMISSION_READ));
+            mBluetoothGattServer.addService(badbadService);
+        }
     }
 
     public void onNotificationSent(BluetoothDevice bluetoothDevice, int status) {
