@@ -21,8 +21,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/pebble_le_pairing_hint"
-        android:id="@+id/pebble_le_pair_hint"
+        android:text="@string/pebble_pairing_hint"
+        android:id="@+id/pebble_pair_hint"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true" />
 

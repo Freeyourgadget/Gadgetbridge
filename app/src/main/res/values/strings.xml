@@ -354,5 +354,5 @@
 
     <!-- Strings related to Pebble Pairing Activity-->
     <string name="title_activity_pebble_pairing">Pebble Pairing</string>
-    <string name="pebble_le_pairing_hint">A pairing dialog is expected to pop up on your Android device. If that does not happen, look in the notification drawer and accept the pairing request. After that accept the pairing request on your Pebble</string>
+    <string name="pebble_pairing_hint">A pairing dialog is expected to pop up on your Android device. If that does not happen, look in the notification drawer and accept the pairing request. After that accept the pairing request on your Pebble</string>
 </resources>
