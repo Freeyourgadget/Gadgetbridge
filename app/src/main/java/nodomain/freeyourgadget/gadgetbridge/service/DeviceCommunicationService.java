@@ -174,7 +174,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                         try (DBHandler dbHandler = GBApplication.acquireDB()) {
                             DaoSession session = dbHandler.getDaoSession();
                             boolean askForDBMigration = false;
-                            if (DBHelper.findDevice(device, session) == null && device.getType() != DeviceType.VIBRATISSIMO) {
+                            if (DBHelper.findDevice(device, session) == null && device.getType() != DeviceType.VIBRATISSIMO && (device.getType() != DeviceType.LIVEVIEW)) {
                                 askForDBMigration = true;
                             }
                             DBHelper.getDevice(device, session); // implicitly creates the device in database if not present, and updates device attributes
