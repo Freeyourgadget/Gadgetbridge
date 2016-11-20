@@ -35,6 +35,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WaitAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBand2Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.AbstractMiBand2Operation;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
@@ -132,6 +133,8 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
                     timestamp.add(Calendar.MINUTE, 1);
                 }
                 sampleProvider.addGBActivitySamples(samples.toArray(new MiBandActivitySample[0]));
+
+                LOG.info("Mi2 activity data: last sample timestamp: " + DateTimeUtils.formatDateTime(timestamp.getTime()));
 
             } catch (Exception ex) {
                 GB.toast(getContext(), "Error saving activity samples", Toast.LENGTH_LONG, GB.ERROR);

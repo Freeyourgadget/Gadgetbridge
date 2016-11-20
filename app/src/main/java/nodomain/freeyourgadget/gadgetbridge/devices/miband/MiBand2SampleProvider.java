@@ -5,29 +5,25 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
-public class MiBandSampleProvider extends AbstractMiBandSampleProvider {
-    public static final int TYPE_DEEP_SLEEP = 4;
+public class MiBand2SampleProvider extends AbstractMiBandSampleProvider {
+    // these are all bogus atm (come from Mi1)
+    public static final int TYPE_DEEP_SLEEP = 11;
     public static final int TYPE_LIGHT_SLEEP = 5;
     public static final int TYPE_ACTIVITY = -1;
     public static final int TYPE_UNKNOWN = -1;
     public static final int TYPE_NONWEAR = 3;
     public static final int TYPE_CHARGING = 6;
 
-//    public static final byte TYPE_NREM = 5; // DEEP SLEEP
-//    public static final byte TYPE_ONBED = 7;
-//    public static final byte TYPE_REM = 4; // LIGHT SLEEP
-//    public static final byte TYPE_RUNNING = 2;
-//    public static final byte TYPE_SLIENT = 0;
-//    public static final byte TYPE_USER = 100;
-//    public static final byte TYPE_WALKING = 1;
+    // observed the following values so far:
+    // 00 01 02 09 0a 0b 0c 10 11
 
-    public MiBandSampleProvider(GBDevice device, DaoSession session) {
+    public MiBand2SampleProvider(GBDevice device, DaoSession session) {
         super(device, session);
     }
 
     @Override
     public int getID() {
-        return SampleProvider.PROVIDER_MIBAND;
+        return SampleProvider.PROVIDER_MIBAND2;
     }
 
     @Override
