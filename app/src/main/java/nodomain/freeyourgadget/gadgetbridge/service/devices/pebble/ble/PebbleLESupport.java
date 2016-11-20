@@ -60,14 +60,9 @@ public class PebbleLESupport {
             mPebbleGATTClient.close();
             mPebbleGATTClient = null;
         }
-        try {
-            mPipedInputStream.close();
-            mPipedOutputStream.close();
-        } catch (IOException ignore) {
-        }
     }
 
-    void createPipedInputReader() {
+    synchronized void createPipedInputReader() {
         if (mPipeReader == null) {
             mPipeReader = new PipeReader();
         }
@@ -76,7 +71,7 @@ public class PebbleLESupport {
         }
     }
 
-    private void destroyPipedInputReader() {
+    synchronized private void destroyPipedInputReader() {
         if (mPipeReader != null) {
             mPipeReader.quit();
             mPipeReader.interrupt();
@@ -136,6 +131,11 @@ public class PebbleLESupport {
                     mQuit = true;
                     break;
                 }
+            }
+            try {
+                mPipedOutputStream.close();
+                mPipedInputStream.close();
+            } catch (IOException ignore) {
             }
         }
 

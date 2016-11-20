@@ -157,6 +157,14 @@ class PebbleIoThread extends GBDeviceIoThread {
         mEnablePebblekit = prefs.getBoolean("pebble_enable_pebblekit", false);
     }
 
+    private int readWithException(InputStream inputStream, byte[] buffer, int byteOffset, int byteCount) throws IOException {
+        int ret = inputStream.read(buffer, byteOffset, byteCount);
+        if (ret == -1) {
+            throw new IOException("broken pipe");
+        }
+        return ret;
+    }
+
     private void sendAppMessageAck(int transactionId) {
         Intent intent = new Intent();
         intent.setAction(PEBBLEKIT_ACTION_APP_RECEIVE_ACK);
@@ -323,10 +331,10 @@ class PebbleIoThread extends GBDeviceIoThread {
                 if (mIsTCP) {
                     mInStream.skip(6);
                 }
-                int bytes = mInStream.read(buffer, 0, 4);
+                int bytes = readWithException(mInStream, buffer, 0, 4);
 
                 while (bytes < 4) {
-                    bytes += mInStream.read(buffer, bytes, 4 - bytes);
+                    bytes += readWithException(mInStream, buffer, bytes, 4 - bytes);
                 }
 
                 ByteBuffer buf = ByteBuffer.wrap(buffer);
@@ -336,14 +344,14 @@ class PebbleIoThread extends GBDeviceIoThread {
                 if (length < 0 || length > 8192) {
                     LOG.info("invalid length " + length);
                     while (mInStream.available() > 0) {
-                        mInStream.read(buffer); // read all
+                        readWithException(mInStream, buffer, 0, buffer.length); // read all
                     }
                     continue;
                 }
 
-                bytes = mInStream.read(buffer, 4, length);
+                bytes = readWithException(mInStream, buffer, 4, length);
                 while (bytes < length) {
-                    bytes += mInStream.read(buffer, bytes + 4, length - bytes);
+                    bytes += readWithException(mInStream, buffer, bytes + 4, length - bytes);
                 }
 
                 if (mIsTCP) {
@@ -368,8 +376,8 @@ class PebbleIoThread extends GBDeviceIoThread {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            } catch (IOException | ArrayIndexOutOfBoundsException e) {
-                if (e.getMessage() != null && (e instanceof  ArrayIndexOutOfBoundsException || e.getMessage().contains("socket closed"))) { //FIXME: this does not feel right
+            } catch (IOException e) {
+                if (e.getMessage() != null && (e.getMessage().equals("broken pipe") || e.getMessage().contains("socket closed"))) { //FIXME: this does not feel right
                     LOG.info(e.getMessage());
                     mIsConnected = false;
                     int reconnectAttempts = prefs.getInt("pebble_reconnect_attempts", 10);
