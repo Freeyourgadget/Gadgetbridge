@@ -15,12 +15,10 @@ need to create an account and transmit any of your data to the vendor's servers.
 
 ## Supported Devices
 * Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round
+* Pebble 2 (experimental, PAIR WITHIN GADGETBRIDGE)
 * Mi Band, Mi Band 1A, Mi Band 1S
 * Mi Band 2 (notifications, alarms and heart rate measurement only)
 * Vibratissimo (experimental)
-
-***THE PEBBLE 2 AND PEBBLE TIME 2 ARE CURRENTLY NOT SUPPORTED. ADDING SUPPORT IS HIGH-PRIORITY BUT WE CANNOT GIVE YOU AN ETA!***
-
 
 ## Features (Pebble)
 
@@ -50,7 +48,7 @@ need to create an account and transmit any of your data to the vendor's servers.
 
 ## Getting Started (Pebble)
 
-1. Pair your Pebble through the Android's Bluetooth Settings
+1. Pair your Pebble through the Android's Bluetooth Settings or Gadgetbridge. Pebble 2 MUST be paried though Gadgetbridge (tap on the + in Control Center)
 2. Start Gadgetbridge, tap on the device you want to connect to
 3. To test, choose "Debug" from the menu and play around
 
