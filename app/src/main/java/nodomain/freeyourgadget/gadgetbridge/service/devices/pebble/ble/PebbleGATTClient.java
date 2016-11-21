@@ -61,6 +61,7 @@ class PebbleGATTClient extends BluetoothGattCallback {
         if (characteristic.getUuid().equals(MTU_CHARACTERISTIC)) {
             int newMTU = characteristic.getIntValue(FORMAT_UINT16, 0);
             LOG.info("Pebble requested MTU: " + newMTU);
+            mPebbleLESupport.setMTU(newMTU);
         } else {
             LOG.info("onCharacteristicChanged()" + characteristic.getUuid().toString() + " " + GB.hexdump(characteristic.getValue(), 0, -1));
         }
