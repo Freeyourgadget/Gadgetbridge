@@ -74,12 +74,14 @@ public abstract class AbstractActivitySample implements ActivitySample {
 
     @Override
     public String toString() {
+        int kind = getProvider() != null ? getKind() : ActivitySample.NOT_MEASURED;
+        float intensity = getProvider() != null ? getIntensity() : ActivitySample.NOT_MEASURED;
         return getClass().getSimpleName() + "{" +
                 "timestamp=" + DateTimeUtils.formatDateTime(DateTimeUtils.parseTimeStamp(getTimestamp())) +
-                ", intensity=" + getIntensity() +
+                ", intensity=" + intensity +
                 ", steps=" + getSteps() +
                 ", heartrate=" + getHeartRate() +
-                ", type=" + getKind() +
+                ", type=" + kind +
                 ", userId=" + getUserId() +
                 ", deviceId=" + getDeviceId() +
                 '}';

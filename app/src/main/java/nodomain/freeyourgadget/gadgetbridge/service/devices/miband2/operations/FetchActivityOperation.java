@@ -12,21 +12,26 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
 
+import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -79,12 +84,23 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
         builder.queue(getQueue());
     }
 
-    // TODO: use last synchronized sample for the timestamp!
-    // and what do we do if there was no sync? timestamp from first connectionn?
-    // or just now - 20d?
     private GregorianCalendar getLastSuccessfulSynchronizedTime() {
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            DaoSession session = dbHandler.getDaoSession();
+            SampleProvider<MiBandActivitySample> sampleProvider = new MiBand2SampleProvider(getDevice(), session);
+            MiBandActivitySample sample = sampleProvider.getLatestActivitySample();
+            if (sample != null) {
+                int timestamp = sample.getTimestamp();
+                GregorianCalendar calendar = BLETypeConversions.createCalendar();
+                calendar.setTimeInMillis(timestamp * 1000);
+                return calendar;
+            }
+        } catch (Exception ex) {
+            LOG.error("Error querying for latest activity sample, synchronizing the last 10 days", ex);
+        }
+
         GregorianCalendar calendar = BLETypeConversions.createCalendar();
-        calendar.add(Calendar.DAY_OF_MONTH, -4);
+        calendar.add(Calendar.DAY_OF_MONTH, -10);
         return calendar;
     }
 

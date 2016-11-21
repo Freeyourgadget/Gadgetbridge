@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.List;
 
@@ -61,6 +62,12 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
 
         @Override
         public AbstractActivitySample createActivitySample() {
+            return null;
+        }
+
+        @Nullable
+        @Override
+        public AbstractActivitySample getLatestActivitySample() {
             return null;
         }
 

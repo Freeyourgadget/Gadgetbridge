@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.devices;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.List;
 
@@ -88,4 +89,11 @@ public interface SampleProvider<T extends AbstractActivitySample> {
      * @return the newly created "empty" sample
      */
     T createActivitySample();
+
+    /**
+     * Returns the activity sample with the highest timestamp. or null if none
+     * @return the latest sample or null
+     */
+    @Nullable
+    T getLatestActivitySample();
 }
