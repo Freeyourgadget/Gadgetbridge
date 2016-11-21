@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.14.0" versioncode="72">
+        <change>Pebble 2: Initial experimental support for P2/PT2 using BLE</change>
+        <change>Pebble: Special support in device discovery activity (MUST be used to get Pebble 2 working)</change>
+        <change>Pebble: Improve compatibility for watchface configuration</change>
+    </release>
     <release version="0.13.9" versioncode="71">
         <change>Pebble: use the last known location for setting sunrise and sunset</change>
         <change>Pebble: fix Health disappering forever when deactivating through app manager (and get it back for affected users)</change>

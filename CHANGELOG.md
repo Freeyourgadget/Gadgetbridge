@@ -1,7 +1,9 @@
 ###Changelog
 
 ####Version 0.14.0 (next)
-* Pebble 2: Initial unstable pre-alpha support for P2/PT2 using BLE (won't be usable without weird workarounds for pairing)
+* Pebble 2: Initial experimental support for P2/PT2 using BLE
+* Pebble: Special support in device discovery activity (MUST be used to get Pebble 2 working)
+* Pebble: Improve compatibility for watchface configuration
 
 ####Version 0.13.9
 * Pebble: use the last known location for setting sunrise and sunset
