@@ -4,6 +4,10 @@
 * Pebble 2: Initial experimental support for P2/PT2 using BLE
 * Pebble: Special support in device discovery activity (MUST be used to get Pebble 2 working)
 * Pebble: Improve compatibility for watchface configuration
+* Mi Band 2: support for heart rate measurement during sleep
+* Mi Band 2: configuration option to activate the display on lift
+* Mi Band 2: configuration option to display the time + date or just the time
+* Mi Band 2: honor the wear location configuration option
 
 ####Version 0.13.9
 * Pebble: use the last known location for setting sunrise and sunset
