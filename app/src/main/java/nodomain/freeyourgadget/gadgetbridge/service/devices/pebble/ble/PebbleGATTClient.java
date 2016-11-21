@@ -60,7 +60,7 @@ class PebbleGATTClient extends BluetoothGattCallback {
         }
         if (characteristic.getUuid().equals(MTU_CHARACTERISTIC)) {
             int newMTU = characteristic.getIntValue(FORMAT_UINT16, 0);
-            LOG.info("Pebble requested MTU = " + newMTU);
+            LOG.info("Pebble requested MTU: " + newMTU);
         } else {
             LOG.info("onCharacteristicChanged()" + characteristic.getUuid().toString() + " " + GB.hexdump(characteristic.getValue(), 0, -1));
         }
@@ -92,8 +92,7 @@ class PebbleGATTClient extends BluetoothGattCallback {
         if (newState == BluetoothGatt.STATE_CONNECTED) {
             LOG.info("calling discoverServices()");
             gatt.discoverServices();
-        }
-        else if (newState == BluetoothGatt.STATE_DISCONNECTED){
+        } else if (newState == BluetoothGatt.STATE_DISCONNECTED) {
             mPebbleLESupport.close();
         }
     }
@@ -111,6 +110,10 @@ class PebbleGATTClient extends BluetoothGattCallback {
                 subscribeToConnectivity(gatt);
             } else {
                 subscribeToConnectionParams(gatt);
+            }
+        } else if (characteristic.getUuid().equals(MTU_CHARACTERISTIC)) {
+            if (GBApplication.isRunningLollipopOrLater()) {
+                gatt.requestMtu(339);
             }
         }
     }
