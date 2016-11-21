@@ -25,6 +25,8 @@
   <string name="appmanager_app_openinstore">Pebble Appstore で検索</string>
   <string name="appmanager_health_activate">アクティベート</string>
   <string name="appmanager_health_deactivate">非アクティベート</string>
+  <string name="appmanager_hrm_activate">HRM をアクティベート</string>
+  <string name="appmanager_hrm_deactivate">HRM を非アクティベート</string>
   <string name="app_configure">設定</string>
   <string name="app_move_to_top">先頭に移動</string>
   <!--Strings related to AppBlacklist-->
@@ -247,6 +249,10 @@
   <string name="miband_prefs_reserve_alarm_calendar">今後のイベントのために予約するアラーム</string>
   <string name="miband_prefs_hr_sleep_detection">睡眠の検出を改善するために心拍センサーを使用する</string>
   <string name="miband_prefs_device_time_offset_hours">デバイスの時刻オフセット時間 (交代勤務の睡眠検知用)</string>
+  <string name="miband2_prefs_dateformat">Mi2: 日付形式</string>
+  <string name="dateformat_time">時間</string>
+  <string name="dateformat_date_time"><![CDATA[時間 & 日付]]></string>
+  <string name="mi2_prefs_activate_display_on_lift">持ち上げ時に表示を有効にする</string>
   <string name="waiting_for_reconnect">再接続の待機中</string>
   <string name="activity_prefs_about_you">あなたについて</string>
   <string name="activity_prefs_year_birth">誕生年</string>
@@ -309,8 +315,7 @@ Mi Band、Pebble Health、Morpheuz からデータをインポートすること
   <string name="Delete">削除</string>
   <!--Strings related to Vibration Activity-->
   <string name="title_activity_vibration">バイブレーション</string>
-  <string name="miband2_prefs_dateformat">Mi2: 日付形式</string>
-  <string name="dateformat_time">時間</string>
-  <string name="dateformat_date_time"><![CDATA[時間 & 日付]]></string>
-  <string name="mi2_prefs_activate_display_on_lift">持ち上げ時に表示を有効にする</string>
+  <!--Strings related to Pebble Pairing Activity-->
+  <string name="title_activity_pebble_pairing">Pebbleペアリング</string>
+  <string name="pebble_pairing_hint">お使いのAndroidデバイスでペアリングのダイアログがポップアップすると思います。 起こらない場合は、通知ドロワーを調べて、ペアリング要求を受け入れます。 その後、Pebbleでペアリング要求を受け入れます</string>
 </resources>
