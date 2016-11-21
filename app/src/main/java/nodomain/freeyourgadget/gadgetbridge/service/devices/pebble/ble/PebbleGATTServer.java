@@ -59,7 +59,6 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
 
 
         mBluetoothGattServer.notifyCharacteristicChanged(mBtDevice, writeCharacteristics, false);
-
         try {
             Thread.sleep(100); // FIXME: bad bad, I mean BAAAD
         } catch (InterruptedException ignore) {
@@ -150,6 +149,12 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
             badbadService.addCharacteristic(new BluetoothGattCharacteristic(SERVER_SERVICE_BADBAD, BluetoothGattCharacteristic.PROPERTY_READ, BluetoothGattCharacteristic.PERMISSION_READ));
             mBluetoothGattServer.addService(badbadService);
         }
+    }
+
+    @Override
+    public void onMtuChanged(BluetoothDevice device, int mtu) {
+        LOG.info("Pebble requested mtu for server: " + mtu);
+        mPebbleLESupport.setMTU(mtu);
     }
 
     public void onNotificationSent(BluetoothDevice bluetoothDevice, int status) {

@@ -60,7 +60,6 @@ class PebbleGATTClient extends BluetoothGattCallback {
         }
         if (characteristic.getUuid().equals(MTU_CHARACTERISTIC)) {
             int newMTU = characteristic.getIntValue(FORMAT_UINT16, 0);
-            mPebbleLESupport.setMTU(newMTU);
             LOG.info("Pebble requested MTU = " + newMTU);
         } else {
             LOG.info("onCharacteristicChanged()" + characteristic.getUuid().toString() + " " + GB.hexdump(characteristic.getValue(), 0, -1));
@@ -214,14 +213,10 @@ class PebbleGATTClient extends BluetoothGattCallback {
 
     private void setMTU(BluetoothGatt gatt) {
         LOG.info("setting MTU");
-        if (GBApplication.isRunningLollipopOrLater()) {
-            gatt.requestMtu(339);
-        } else {
-            BluetoothGattCharacteristic characteristic = gatt.getService(SERVICE_UUID).getCharacteristic(MTU_CHARACTERISTIC);
-            BluetoothGattDescriptor descriptor = characteristic.getDescriptor(CHARACTERISTIC_CONFIGURATION_DESCRIPTOR);
-            descriptor.setValue(new byte[]{0x0b, 0x01}); // unknown
-            gatt.writeCharacteristic(characteristic);
-        }
+        BluetoothGattCharacteristic characteristic = gatt.getService(SERVICE_UUID).getCharacteristic(MTU_CHARACTERISTIC);
+        BluetoothGattDescriptor descriptor = characteristic.getDescriptor(CHARACTERISTIC_CONFIGURATION_DESCRIPTOR);
+        descriptor.setValue(new byte[]{0x0b, 0x01}); // unknown
+        gatt.writeCharacteristic(characteristic);
     }
 
     public void close() {
