@@ -236,12 +236,14 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
                         DateFormat.getDateTimeInstance().format(startTimestamp.getTime())), Toast.LENGTH_LONG, GB.INFO);
             } else {
                 LOG.warn("Unexpected activity metadata: " + Logging.formatBytes(value));
+                handleActivityFetchFinish();
             }
         } else if (value.length == 3) {
             if (Arrays.equals(MiBand2Service.RESPONSE_FINISH_SUCCESS, value)) {
                 handleActivityFetchFinish();
             } else {
                 LOG.warn("Unexpected activity metadata: " + Logging.formatBytes(value));
+                handleActivityFetchFinish();
             }
         }
     }

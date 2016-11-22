@@ -709,7 +709,10 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     protected List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device) {
-        List<? extends ActivitySample> samples = getSamples(db, device, getTSStart(), getTSEnd());
+        int tsStart = getTSStart();
+        int tsEnd = getTSEnd();
+        List<ActivitySample> samples = (List<ActivitySample>) getSamples(db, device, tsStart, tsEnd);
+        ensureStartAndEndSamples(samples, tsStart, tsEnd);
 //        List<ActivitySample> samples2 = new ArrayList<>();
 //        int min = Math.min(samples.size(), 10);
 //        int min = Math.min(samples.size(), 10);
@@ -718,6 +721,33 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 //        }
 //        return samples2;
         return samples;
+    }
+
+    protected void ensureStartAndEndSamples(List<ActivitySample> samples, int tsStart, int tsEnd) {
+        if (samples == null || samples.isEmpty()) {
+            return;
+        }
+        ActivitySample lastSample = samples.get(samples.size() - 1);
+        if (lastSample.getTimestamp() < tsEnd) {
+            samples.add(createTrailingActivitySample(lastSample, tsEnd));
+        }
+
+        ActivitySample firstSample = samples.get(0);
+        if (firstSample.getTimestamp() > tsStart) {
+            samples.add(createTrailingActivitySample(firstSample, tsStart));
+        }
+    }
+
+    private ActivitySample createTrailingActivitySample(ActivitySample referenceSample, int timestamp) {
+        TrailingActivitySample sample = new TrailingActivitySample();
+        if (referenceSample instanceof AbstractActivitySample) {
+            AbstractActivitySample reference = (AbstractActivitySample) referenceSample;
+            sample.setUserId(reference.getUserId());
+            sample.setDeviceId(reference.getDeviceId());
+            sample.setProvider(reference.getProvider());
+        }
+        sample.setTimestamp(timestamp);
+        return sample;
     }
 
     private int getTSEnd() {
