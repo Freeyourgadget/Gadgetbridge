@@ -12,14 +12,11 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
 
-import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
@@ -31,7 +28,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -92,7 +88,7 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
             if (sample != null) {
                 int timestamp = sample.getTimestamp();
                 GregorianCalendar calendar = BLETypeConversions.createCalendar();
-                calendar.setTimeInMillis(timestamp * 1000);
+                calendar.setTimeInMillis((long) timestamp * 1000);
                 return calendar;
             }
         } catch (Exception ex) {
