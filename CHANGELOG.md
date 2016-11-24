@@ -5,6 +5,7 @@
 * Mi Band 2: Send the fitness goal (steps) to the band
 * Pebble 2: Work around firmware installation issues (tested with upgrading 4.2 to 4.3)
 * Pebble: Further improve compatibility for watchface configuration
+* Pebble: add Kickstart watch face to app manager on FW 4.x
 * Charts: display the total time range, not just the range with available data
 
 ####Version 0.14.0
