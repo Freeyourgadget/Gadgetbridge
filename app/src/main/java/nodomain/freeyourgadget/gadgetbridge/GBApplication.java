@@ -22,6 +22,7 @@ import android.util.TypedValue;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -32,9 +33,11 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
@@ -129,6 +132,31 @@ public class GBApplication extends Application {
         if (isRunningMarshmallowOrLater()) {
             notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         }
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        if (level >= TRIM_MEMORY_BACKGROUND) {
+            if (!hasBusyDevice()) {
+                DBHelper.clearSession();
+            }
+        }
+    }
+
+    /**
+     * Returns true if at least a single device is busy, e.g synchronizing activity data
+     * or something similar.
+     * Note: busy is not the same as connected or initialized!
+     */
+    private boolean hasBusyDevice() {
+        List<GBDevice> devices = getDeviceManager().getDevices();
+        for (GBDevice device: devices) {
+            if (device.isBusy()) {
+                return true;
+            }
+        }
+        return true;
     }
 
     public static void setupLogging(boolean enabled) {

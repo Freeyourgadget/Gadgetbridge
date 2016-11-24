@@ -26,6 +26,7 @@ import de.greenrobot.dao.query.Query;
 import de.greenrobot.dao.query.QueryBuilder;
 import de.greenrobot.dao.query.WhereCondition;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleHealthSampleProvider;
@@ -684,5 +685,14 @@ public class DBHelper {
             return defaultValue;
         }
         return cursor.getInt(columnIndex);
+    }
+
+    public static void clearSession() {
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            DaoSession session = dbHandler.getDaoSession();
+            session.clear();
+        } catch (Exception e) {
+            LOG.warn("Unable to acquire database to clear the session", e);
+        }
     }
 }
