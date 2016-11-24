@@ -282,6 +282,10 @@ public class MiBand2Service {
     // maybe not really activity data, but steps?
     public static final byte COMMAND_FETCH_ACTIVITY_DATA = 0x02;
 
+    public static final byte[] COMMAND_SET_FITNESS_GOAL_START = new byte[] { 0x10, 0x0, 0x0 };
+    public static final byte[] COMMAND_SET_FITNESS_GOAL_END = new byte[] { 0, 0 };
+
+
     public static byte COMMAND_DATEFORMAT = 0x06;
 
     public static final byte[] DATEFORMAT_DATE_TIME = new byte[] { COMMAND_DATEFORMAT, 0x0a, 0x0, 0x03 };

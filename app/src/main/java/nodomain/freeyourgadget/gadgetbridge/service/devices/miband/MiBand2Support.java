@@ -10,10 +10,12 @@ import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -388,15 +390,15 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     private MiBand2Support setFitnessGoal(TransactionBuilder transaction) {
         LOG.info("Attempting to set Fitness Goal...");
-        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
+        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC8);
         if (characteristic != null) {
             int fitnessGoal = MiBandCoordinator.getFitnessGoal(getDevice().getAddress());
-            transaction.write(characteristic, new byte[]{
-                    MiBandService.COMMAND_SET_FITNESS_GOAL,
-                    0,
-                    (byte) (fitnessGoal & 0xff),
-                    (byte) ((fitnessGoal >>> 8) & 0xff)
-            });
+            byte[] bytes = ArrayUtils.addAll(
+                    MiBand2Service.COMMAND_SET_FITNESS_GOAL_START,
+                    BLETypeConversions.fromUint16(fitnessGoal));
+            bytes = ArrayUtils.addAll(bytes,
+                    MiBand2Service.COMMAND_SET_FITNESS_GOAL_END);
+            transaction.write(characteristic, bytes);
         } else {
             LOG.info("Unable to set Fitness Goal");
         }
@@ -419,7 +421,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 case 0: // left hand
                     builder.write(characteristic, MiBand2Service.WEAR_LOCATION_LEFT_WRIST);
                     break;
-                case 1: // write hand
+                case 1: // right hand
                     builder.write(characteristic, MiBand2Service.WEAR_LOCATION_RIGHT_WRIST);
                     break;
             }
@@ -1181,6 +1183,9 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 case MiBandConst.PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT:
                     setActivateDisplayOnLiftWrist(builder);
                     break;
+                case MiBandConst.PREF_MIBAND_FITNESS_GOAL:
+                    setFitnessGoal(builder);
+                    break;
             }
             builder.queue(getQueue());
         } catch (IOException e) {
@@ -1222,6 +1227,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         enableFurtherNotifications(builder, true);
         setDateDisplay(builder);
         setWearLocation(builder);
+        setFitnessGoal(builder);
         setActivateDisplayOnLiftWrist(builder);
         setHeartrateSleepSupport(builder);
 

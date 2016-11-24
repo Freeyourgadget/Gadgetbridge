@@ -74,6 +74,20 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
                 return true;
             }
         });
+
+        final Preference fitnessGoal = findPreference(PREF_MIBAND_FITNESS_GOAL);
+        fitnessGoal.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MIBAND_FITNESS_GOAL);
+                    }
+                });
+                return true;
+            }
+        });
     }
 
     /**
