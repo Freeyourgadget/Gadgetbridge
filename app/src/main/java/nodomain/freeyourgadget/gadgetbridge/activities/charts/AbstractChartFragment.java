@@ -346,7 +346,10 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         // enable touch gestures
         chart.setTouchEnabled(true);
 
-        chart.getXAxis().setGranularity(60*5);
+// commented out: this has weird bugs/sideeffects at least on WeekStepsCharts
+// where only the first Day-label is drawn, because AxisRenderer.computeAxisValues(float,float)
+// appears to have an overflow when calculating 'n' (number of entries)
+//        chart.getXAxis().setGranularity(60*5);
 
         setupLegend(chart);
     }
