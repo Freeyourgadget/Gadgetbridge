@@ -1,6 +1,8 @@
 ###Changelog
 
-####Version next
+####Version 0.14.1
+* Mi Band 2: Initial experimental support for activity data
+* Pebble 2: Work around firmware installation issues (tested with upgrading 4.2 to 4.3)
 * Pebble: Further improve compatibility for watchface configuration
 
 ####Version 0.14.0
