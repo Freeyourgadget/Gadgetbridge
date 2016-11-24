@@ -25,6 +25,8 @@
   <string name="appmanager_app_openinstore">Buscar en la Appstore de Pebble</string>
   <string name="appmanager_health_activate">Activar</string>
   <string name="appmanager_health_deactivate">Desactivar</string>
+  <string name="appmanager_hrm_activate">Activar Monitor de Ritmo Cardíaco</string>
+  <string name="appmanager_hrm_deactivate">Desactivar Monitor de Ritmo Cardíaco</string>
   <string name="app_configure">Configurar</string>
   <string name="app_move_to_top">Mover a la parte de arriba</string>
   <!--Strings related to AppBlacklist-->
@@ -85,6 +87,7 @@
   <string name="pref_title_location_aquire">Buscar localización</string>
   <string name="pref_title_location_latitude">Latitud</string>
   <string name="pref_title_location_longitude">Longitud</string>
+  <string name="pref_title_location_keep_uptodate">Mantener la localización actualizada</string>
   <string name="toast_enable_networklocationprovider">Por favor, activa la localización por red</string>
   <string name="toast_aqurired_networklocation">localización encontrada</string>
   <string name="pref_title_pebble_forceprotocol">Forzar protocolo de notificación</string>
@@ -244,6 +247,9 @@
   <string name="miband_prefs_reserve_alarm_calendar">Reserva de alarmas para próximos eventos</string>
   <string name="miband_prefs_hr_sleep_detection">Usar sensor de pulsaciones para mejorar la detección del sueño</string>
   <string name="miband_prefs_device_time_offset_hours">Compensación de la hora del dispositivo en horas (para detectar el sueño de trabajadores a turnos)</string>
+  <string name="miband2_prefs_dateformat">Mi2: Formato de fecha</string>
+  <string name="dateformat_time">Tiempo</string>
+  <string name="mi2_prefs_activate_display_on_lift">Activar pantalla al levantar</string>
   <string name="waiting_for_reconnect">esperando reconexión</string>
   <string name="activity_prefs_about_you">Sobre ti</string>
   <string name="activity_prefs_year_birth">Año de nacimiento</string>
@@ -299,4 +305,6 @@
   <string name="Delete">Borrar</string>
   <!--Strings related to Vibration Activity-->
   <string name="title_activity_vibration">Vibración</string>
+  <!--Strings related to Pebble Pairing Activity-->
+  <string name="title_activity_pebble_pairing">Emparejando con Pebble</string>
 </resources>

@@ -253,6 +253,7 @@
   <string name="dateformat_time">時間</string>
   <string name="dateformat_date_time"><![CDATA[時間 & 日付]]></string>
   <string name="mi2_prefs_activate_display_on_lift">持ち上げ時に表示を有効にする</string>
+  <string name="FetchActivityOperation_about_to_transfer_since">%1$s からデータを転送することについて</string>
   <string name="waiting_for_reconnect">再接続の待機中</string>
   <string name="activity_prefs_about_you">あなたについて</string>
   <string name="activity_prefs_year_birth">誕生年</string>
