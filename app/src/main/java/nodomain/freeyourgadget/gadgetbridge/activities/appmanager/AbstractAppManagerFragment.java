@@ -195,6 +195,11 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                                     continue;
                                 }
                             }
+                            if (PebbleUtils.getFwMajor(mGBDevice.getFirmwareVersion()) >= 4) {
+                                if (baseName.equals("3af858c3-16cb-4561-91e7-f1ad2df8725f")) {
+                                    cachedAppList.add(new GBDeviceApp(UUID.fromString(baseName), "Kickstart (System)", "Pebble Inc.", "", GBDeviceApp.Type.WATCHFACE_SYSTEM));
+                                }
+                            }
                         }
                         if (uuids == null) {
                             cachedAppList.add(new GBDeviceApp(UUID.fromString(baseName), baseName, "N/A", "", GBDeviceApp.Type.UNKNOWN));
