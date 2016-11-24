@@ -57,12 +57,7 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
         LOG.info("send data to pebble " + GB.hexdump(data, 0, -1));
         writeCharacteristics.setValue(data.clone());
 
-
         mBluetoothGattServer.notifyCharacteristicChanged(mBtDevice, writeCharacteristics, false);
-        try {
-            Thread.sleep(100); // FIXME: bad bad, I mean BAAAD
-        } catch (InterruptedException ignore) {
-        }
     }
 
     synchronized private void sendAckToPebble(int serial) {

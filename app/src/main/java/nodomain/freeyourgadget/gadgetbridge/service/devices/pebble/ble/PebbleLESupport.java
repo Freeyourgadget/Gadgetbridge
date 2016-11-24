@@ -126,6 +126,11 @@ public class PebbleLESupport {
                         payloadToSend -= chunkSize;
                     }
 
+                    try {
+                        Thread.sleep(500); // FIXME ugly wait 0.5s after each pebble package send to the pebble (we do not wait for the GATT chunks)
+                    } catch (InterruptedException ignore) {
+                    }
+
                 } catch (IOException e) {
                     LOG.warn("IO exception");
                     mQuit = true;
