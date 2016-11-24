@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="next">
+        <change>Pebble: Further improve compatibility for watchface configuration</change>
+    </release>
     <release version="0.14.0" versioncode="72">
         <change>Pebble 2: Initial experimental support for P2/PT2 using BLE</change>
         <change>Pebble: Special support in device discovery activity (MUST be used to get Pebble 2 working)</change>

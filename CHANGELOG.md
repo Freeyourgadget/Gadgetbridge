@@ -1,5 +1,8 @@
 ###Changelog
 
+####Version next
+* Pebble: Further improve compatibility for watchface configuration
+
 ####Version 0.14.0
 * Pebble 2: Initial experimental support for P2/PT2 using BLE
 * Pebble: Special support in device discovery activity (MUST be used to get Pebble 2 working)
