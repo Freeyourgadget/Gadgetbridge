@@ -89,7 +89,9 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
         if (samples.isEmpty()) {
             return null;
         }
-        return samples.get(0);
+        T sample = samples.get(0);
+        sample.setProvider(this);
+        return sample;
     }
 
     protected List<T> getGBActivitySamples(int timestamp_from, int timestamp_to, int activityType) {
