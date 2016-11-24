@@ -2,8 +2,10 @@
 <changelog>
     <release version="0.14.1" versioncode="73">
         <change>Mi Band 2: Initial experimental support for activity data</change>
+        <change>Mi Band 2: Send the fitness goal (steps) to the band</change>
         <change>Pebble 2: Work around firmware installation issues (tested with upgrading 4.2 to 4.3)</change>
         <change>Pebble: Further improve compatibility for watchface configuration</change>
+        <change>Charts: display the total time range, not just the range with available data</change>
     </release>
     <release version="0.14.0" versioncode="72">
         <change>Pebble 2: Initial experimental support for P2/PT2 using BLE</change>

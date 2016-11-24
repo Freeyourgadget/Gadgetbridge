@@ -2,8 +2,10 @@
 
 ####Version 0.14.1
 * Mi Band 2: Initial experimental support for activity data
+* Mi Band 2: Send the fitness goal (steps) to the band
 * Pebble 2: Work around firmware installation issues (tested with upgrading 4.2 to 4.3)
 * Pebble: Further improve compatibility for watchface configuration
+* Charts: display the total time range, not just the range with available data
 
 ####Version 0.14.0
 * Pebble 2: Initial experimental support for P2/PT2 using BLE
