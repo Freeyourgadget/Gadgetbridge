@@ -173,7 +173,7 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
             return;
         }
 
-        if (value.length == 17) {
+        if ((value.length % 4) == 1) {
             if ((byte) (lastPacketCounter + 1) == value[0] ) {
                 lastPacketCounter++;
                 bufferActivityData(value);
@@ -182,7 +182,6 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
                 handleActivityFetchFinish();
                 return;
             }
-            handleActivityMetadata(value);
         } else {
             GB.toast("Error fetching activity data, unexpected package length: " + value.length, Toast.LENGTH_LONG, GB.ERROR);
         }
