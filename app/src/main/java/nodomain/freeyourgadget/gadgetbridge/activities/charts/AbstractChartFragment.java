@@ -322,10 +322,6 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         return provider.getAllActivitySamples(tsFrom, tsTo);
     }
 
-    private int getTSLast24Hours(int tsTo) {
-        return (tsTo) - (24 * 60 * 60); // -24 hours
-    }
-
     protected List<? extends AbstractActivitySample> getActivitySamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
         SampleProvider<? extends AbstractActivitySample> provider = getProvider(db, device);
         return provider.getActivitySamples(tsFrom, tsTo);
@@ -335,18 +331,6 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     protected List<? extends ActivitySample> getSleepSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
         SampleProvider<? extends ActivitySample> provider = getProvider(db, device);
         return provider.getSleepSamples(tsFrom, tsTo);
-    }
-
-    protected List<? extends ActivitySample> getTestSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-        Calendar cal = Calendar.getInstance();
-        cal.clear();
-        cal.set(2015, Calendar.JUNE, 10, 6, 40);
-        // ignore provided date ranges
-        tsTo = (int) ((cal.getTimeInMillis() / 1000));
-        tsFrom = tsTo - (24 * 60 * 60);
-
-        SampleProvider<? extends ActivitySample> provider = getProvider(db, device);
-        return provider.getAllActivitySamples(tsFrom, tsTo);
     }
 
     protected void configureChartDefaults(Chart<?> chart) {
