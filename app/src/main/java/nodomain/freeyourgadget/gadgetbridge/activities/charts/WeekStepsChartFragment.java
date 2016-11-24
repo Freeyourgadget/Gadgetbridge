@@ -192,6 +192,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         y.setTextColor(CHART_TEXT_COLOR);
         y.setDrawZeroLine(true);
         y.setSpaceBottom(0);
+        y.setAxisMinimum(0);
 
         y.setEnabled(true);
 
