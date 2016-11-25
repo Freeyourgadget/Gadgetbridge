@@ -244,7 +244,7 @@
   <string name="miband2_prefs_dateformat">Mi band 2 : format de l\'heure</string>
   <string name="dateformat_time">Heure seule</string>
   <string name="dateformat_date_time"><![CDATA[Heure & date]]></string>
-  <string name="mi2_prefs_activate_display_on_lift">Alumer quand le poignet se lève</string>
+  <string name="mi2_prefs_activate_display_on_lift">Allumer quand le poignet se lève</string>
   <string name="FetchActivityOperation_about_to_transfer_since">About to transfer data since %1$s</string>
   <string name="waiting_for_reconnect">en attente de reconnexion</string>
   <string name="activity_prefs_about_you">A propos de vous</string>
