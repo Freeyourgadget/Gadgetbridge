@@ -156,7 +156,7 @@ public class GBApplication extends Application {
                 return true;
             }
         }
-        return true;
+        return false;
     }
 
     public static void setupLogging(boolean enabled) {
