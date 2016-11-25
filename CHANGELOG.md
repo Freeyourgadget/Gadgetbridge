@@ -1,5 +1,8 @@
 ###Changelog
 
+####Version 0.14.2
+* Pebble 2: Fix a bug where the Pebble got disconnected by other unrelated LE devices
+
 ####Version 0.14.1
 * Mi Band 2: Initial experimental support for activity data
 * Mi Band 2: Send the fitness goal (steps) to the band

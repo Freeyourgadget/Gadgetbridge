@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.14.2" versioncode="74">
+        <change>Pebble 2: Fix a bug where the Pebble got disconnected by other unrelated LE devices
+    </release>
     <release version="0.14.1" versioncode="73">
         <change>Mi Band 2: Initial experimental support for activity data</change>
         <change>Mi Band 2: Send the fitness goal (steps) to the band</change>
