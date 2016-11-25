@@ -31,7 +31,6 @@ class PebbleGATTClient extends BluetoothGattCallback {
     private static final UUID CONNECTION_PARAMETERS_CHARACTERISTIC = UUID.fromString("00000005-328E-0FBB-C642-1AA6699BDADA");
     private static final UUID CHARACTERISTIC_CONFIGURATION_DESCRIPTOR = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
 
-    private final String mBtDeviceAddress;
     private final BluetoothDevice mBtDevice;
     private final Context mContext;
     private final PebbleLESupport mPebbleLESupport;
@@ -45,7 +44,6 @@ class PebbleGATTClient extends BluetoothGattCallback {
         mContext = context;
         mBtDevice = btDevice;
         mPebbleLESupport = pebbleLESupport;
-        mBtDeviceAddress = btDevice.getAddress();
     }
 
     boolean initialize() {
@@ -54,10 +52,10 @@ class PebbleGATTClient extends BluetoothGattCallback {
     }
 
     public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-        if (!gatt.getDevice().getAddress().equals(mBtDeviceAddress)) {
-            LOG.info("onCharacteristicChanged() unexpected device: " + gatt.getDevice().getAddress() + " , expected: " + mBtDeviceAddress);
+        if (!mPebbleLESupport.isExpectedDevice(gatt.getDevice())) {
             return;
         }
+
         if (characteristic.getUuid().equals(MTU_CHARACTERISTIC)) {
             int newMTU = characteristic.getIntValue(FORMAT_UINT16, 0);
             LOG.info("Pebble requested MTU: " + newMTU);
@@ -68,10 +66,10 @@ class PebbleGATTClient extends BluetoothGattCallback {
     }
 
     public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-        if (!gatt.getDevice().getAddress().equals(mBtDeviceAddress)) {
-            LOG.info("onCharacteristicRead() unexpected device: " + gatt.getDevice().getAddress() + " , expected: " + mBtDeviceAddress);
+        if (!mPebbleLESupport.isExpectedDevice(gatt.getDevice())) {
             return;
         }
+
         LOG.info("onCharacteristicRead() status = " + status);
         if (status == BluetoothGatt.GATT_SUCCESS) {
             LOG.info("onCharacteristicRead()" + characteristic.getUuid().toString() + " " + GB.hexdump(characteristic.getValue(), 0, -1));
@@ -85,10 +83,10 @@ class PebbleGATTClient extends BluetoothGattCallback {
     }
 
     public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-        if (!gatt.getDevice().getAddress().equals(mBtDeviceAddress)) {
-            LOG.info("onConnectionStateChange() unexpected device: " + gatt.getDevice().getAddress() + " , expected: " + mBtDeviceAddress);
+        if (!mPebbleLESupport.isExpectedDevice(gatt.getDevice())) {
             return;
         }
+
         LOG.info("onConnectionStateChange() status = " + status + " newState = " + newState);
         if (newState == BluetoothGatt.STATE_CONNECTED) {
             LOG.info("calling discoverServices()");
@@ -99,10 +97,10 @@ class PebbleGATTClient extends BluetoothGattCallback {
     }
 
     public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-        if (!gatt.getDevice().getAddress().equals(mBtDeviceAddress)) {
-            LOG.info("onCharacteristcsWrite unexpected device: " + gatt.getDevice().getAddress() + " , expected: " + mBtDeviceAddress);
+        if (!mPebbleLESupport.isExpectedDevice(gatt.getDevice())) {
             return;
         }
+
         LOG.info("onCharacteristicWrite() " + characteristic.getUuid());
         if (characteristic.getUuid().equals(PAIRING_TRIGGER_CHARACTERISTIC) || characteristic.getUuid().equals(CONNECTIVITY_CHARACTERISTIC)) {
             //mBtDevice.createBond(); // did not work when last tried
@@ -120,10 +118,10 @@ class PebbleGATTClient extends BluetoothGattCallback {
     }
 
     public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor bluetoothGattDescriptor, int status) {
-        if (!gatt.getDevice().getAddress().equals(mBtDeviceAddress)) {
-            LOG.info("onDescriptorWrite() unexpected device: " + gatt.getDevice().getAddress() + " , expected: " + mBtDeviceAddress);
+        if (!mPebbleLESupport.isExpectedDevice(gatt.getDevice())) {
             return;
         }
+
         LOG.info("onDescriptorWrite() status=" + status);
 
         UUID CHARACTERISTICUUID = bluetoothGattDescriptor.getCharacteristic().getUuid();
@@ -138,10 +136,10 @@ class PebbleGATTClient extends BluetoothGattCallback {
     }
 
     public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-        if (!gatt.getDevice().getAddress().equals(mBtDeviceAddress)) {
-            LOG.info("onServicesDiscovered() unexpected device: " + gatt.getDevice().getAddress() + " , expected: " + mBtDeviceAddress);
+        if (!mPebbleLESupport.isExpectedDevice(gatt.getDevice())) {
             return;
         }
+
         LOG.info("onServicesDiscovered() status = " + status);
         if (status == BluetoothGatt.GATT_SUCCESS) {
             BluetoothGattCharacteristic connectionPararmharacteristic = gatt.getService(SERVICE_UUID).getCharacteristic(CONNECTION_PARAMETERS_CHARACTERISTIC);

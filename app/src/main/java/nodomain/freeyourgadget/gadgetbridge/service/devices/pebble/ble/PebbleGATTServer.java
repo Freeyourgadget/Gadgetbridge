@@ -74,6 +74,10 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
     }
 
     public void onCharacteristicReadRequest(BluetoothDevice device, int requestId, int offset, BluetoothGattCharacteristic characteristic) {
+        if (!mPebbleLESupport.isExpectedDevice(device)) {
+            return;
+        }
+
         if (!characteristic.getUuid().equals(READ_CHARACTERISTICS)) {
             LOG.warn("unexpected read request");
             return;
@@ -88,6 +92,10 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
 
     public void onCharacteristicWriteRequest(BluetoothDevice device, int requestId, BluetoothGattCharacteristic characteristic,
                                              boolean preparedWrite, boolean responseNeeded, int offset, byte[] value) {
+        if (!mPebbleLESupport.isExpectedDevice(device)) {
+            return;
+        }
+
         if (!characteristic.getUuid().equals(WRITE_CHARACTERISTICS)) {
             LOG.warn("unexpected write request");
             return;
@@ -117,6 +125,10 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
     }
 
     public void onConnectionStateChange(BluetoothDevice device, int status, int newState) {
+        if (!mPebbleLESupport.isExpectedDevice(device)) {
+            return;
+        }
+
         LOG.info("Connection state change for device: " + device.getAddress() + "  status = " + status + " newState = " + newState);
         if (newState == BluetoothGattServer.STATE_DISCONNECTED) {
             mPebbleLESupport.close();
@@ -125,6 +137,10 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
 
     public void onDescriptorWriteRequest(BluetoothDevice device, int requestId, BluetoothGattDescriptor descriptor,
                                          boolean preparedWrite, boolean responseNeeded, int offset, byte[] value) {
+
+        if (!mPebbleLESupport.isExpectedDevice(device)) {
+            return;
+        }
 
         if (!descriptor.getCharacteristic().getUuid().equals(WRITE_CHARACTERISTICS)) {
             LOG.warn("unexpected write request");
@@ -148,6 +164,10 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
 
     @Override
     public void onMtuChanged(BluetoothDevice device, int mtu) {
+        if (!mPebbleLESupport.isExpectedDevice(device)) {
+            return;
+        }
+
         LOG.info("Pebble requested mtu for server: " + mtu);
         mPebbleLESupport.setMTU(mtu);
     }

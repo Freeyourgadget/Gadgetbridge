@@ -14,6 +14,7 @@ import java.io.PipedOutputStream;
 
 public class PebbleLESupport {
     private static final Logger LOG = LoggerFactory.getLogger(PebbleLESupport.class);
+    private final BluetoothDevice mBtDevice;
     private PipeReader mPipeReader;
     private PebbleGATTServer mPebbleGATTServer;
     private PebbleGATTClient mPebbleGATTClient;
@@ -34,11 +35,11 @@ public class PebbleLESupport {
 
         BluetoothManager manager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
         BluetoothAdapter adapter = manager.getAdapter();
-        BluetoothDevice btDevice = adapter.getRemoteDevice(btDeviceAddress);
-        mPebbleGATTServer = new PebbleGATTServer(this, context, btDevice);
+        mBtDevice = adapter.getRemoteDevice(btDeviceAddress);
+        mPebbleGATTServer = new PebbleGATTServer(this, context, mBtDevice);
         mPebbleGATTServer.initialize();
 
-        mPebbleGATTClient = new PebbleGATTClient(this, context, btDevice);
+        mPebbleGATTClient = new PebbleGATTClient(this, context, mBtDevice);
         mPebbleGATTClient.initialize();
     }
 
@@ -149,5 +150,12 @@ public class PebbleLESupport {
         }
     }
 
+    boolean isExpectedDevice(BluetoothDevice device) {
+        if (!device.getAddress().equals(mBtDevice.getAddress())) {
+            LOG.info("unhandled device: " + device.getAddress() + " , ignoring, will only talk to " + mBtDevice.getAddress());
+            return false;
+        }
+        return true;
+    }
 }
 
