@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.le.ScanCallback;
+import android.bluetooth.le.ScanFilter;
 import android.bluetooth.le.ScanResult;
 import android.bluetooth.le.ScanSettings;
 import android.content.BroadcastReceiver;
@@ -32,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -39,9 +41,11 @@ import nodomain.freeyourgadget.gadgetbridge.adapter.DeviceCandidateAdapter;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
+import static android.bluetooth.le.ScanSettings.CALLBACK_TYPE_ALL_MATCHES;
 import static android.bluetooth.le.ScanSettings.MATCH_MODE_STICKY;
 import static android.bluetooth.le.ScanSettings.SCAN_MODE_LOW_LATENCY;
 
@@ -257,7 +261,9 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
         }
 
         GBDeviceCandidate candidate = new GBDeviceCandidate(device, rssi);
-        if (DeviceHelper.getInstance().isSupported(candidate)) {
+        DeviceType deviceType = DeviceHelper.getInstance().getSupportedType(candidate);
+        if (deviceType.isSupported()) {
+            candidate.setDeviceType(deviceType);
             int index = deviceCandidates.indexOf(candidate);
             if (index >= 0) {
                 deviceCandidates.set(index, candidate); // replace
@@ -410,7 +416,15 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
             LOG.info("Start New BTLE Discovery");
             handler.removeMessages(0, stopRunnable);
             handler.sendMessageDelayed(getPostMessage(stopRunnable), SCAN_DURATION);
-            adapter.getBluetoothLeScanner().startScan(null, getScanSettings(), getScanCallback());
+            adapter.getBluetoothLeScanner().startScan(getScanFilters(), getScanSettings(), getScanCallback());
+    }
+
+    private List<ScanFilter> getScanFilters() {
+        List<ScanFilter> allFilters = new ArrayList<>();
+        for (DeviceCoordinator coordinator : DeviceHelper.getInstance().getAllCoordinators()) {
+            allFilters.addAll(coordinator.createBLEScanFilters());
+        }
+        return allFilters;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothDevice;
 import android.os.Parcel;
 import android.os.ParcelUuid;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,7 @@ public class GBDeviceCandidate implements Parcelable {
         rssi = (short) in.readInt();
         deviceType = DeviceType.valueOf(in.readString());
 
-        if (device == null || deviceType == null) {
+        if (device == null) {
             throw new IllegalStateException("Unable to read state from Parcel");
         }
     }
@@ -52,6 +53,10 @@ public class GBDeviceCandidate implements Parcelable {
 
     public BluetoothDevice getDevice() {
         return device;
+    }
+
+    public void setDeviceType(DeviceType type) {
+        deviceType = type;
     }
 
     public DeviceType getDeviceType() {

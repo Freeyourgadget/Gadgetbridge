@@ -2,10 +2,14 @@ package nodomain.freeyourgadget.gadgetbridge.devices;
 
 import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.le.ScanFilter;
 import android.support.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Collection;
+import java.util.Collections;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -21,10 +25,20 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractDeviceCoordinator.class);
 
+    @Override
+    public final boolean supports(GBDeviceCandidate candidate) {
+        return getSupportedType(candidate).isSupported();
+    }
 
     @Override
     public boolean supports(GBDevice device) {
         return getDeviceType().equals(device.getType());
+    }
+
+    @NonNull
+    @Override
+    public Collection<? extends ScanFilter> createBLEScanFilters() {
+        return Collections.emptyList();
     }
 
     @Override

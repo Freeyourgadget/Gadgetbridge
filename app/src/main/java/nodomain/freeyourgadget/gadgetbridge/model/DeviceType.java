@@ -24,6 +24,10 @@ public enum DeviceType {
         return key;
     }
 
+    public boolean isSupported() {
+        return this != UNKNOWN;
+    }
+
     public static DeviceType fromKey(int key) {
         for (DeviceType type : values()) {
             if (type.key == key) {

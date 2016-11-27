@@ -8,7 +8,6 @@ import android.widget.Toast;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,16 +46,17 @@ public class DeviceHelper {
     // lazily created
     private List<DeviceCoordinator> coordinators;
 
-    public boolean isSupported(GBDeviceCandidate candidate) {
+    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         for (DeviceCoordinator coordinator : getAllCoordinators()) {
-            if (coordinator.supports(candidate)) {
-                return true;
+            DeviceType deviceType = coordinator.getSupportedType(candidate);
+            if (deviceType.isSupported()) {
+                return deviceType;
             }
         }
-        return false;
+        return DeviceType.UNKNOWN;
     }
 
-    public boolean isSupported(GBDevice device) {
+    public boolean getSupportedType(GBDevice device) {
         for (DeviceCoordinator coordinator : getAllCoordinators()) {
             if (coordinator.supports(device)) {
                 return true;
@@ -174,7 +174,7 @@ public class DeviceHelper {
             List<Device> activeDevices = DBHelper.getActiveDevices(lockHandler.getDaoSession());
             for (Device dbDevice : activeDevices) {
                 GBDevice gbDevice = toGBDevice(dbDevice);
-                if (gbDevice != null && DeviceHelper.getInstance().isSupported(gbDevice)) {
+                if (gbDevice != null && DeviceHelper.getInstance().getSupportedType(gbDevice)) {
                     result.add(gbDevice);
                 }
             }

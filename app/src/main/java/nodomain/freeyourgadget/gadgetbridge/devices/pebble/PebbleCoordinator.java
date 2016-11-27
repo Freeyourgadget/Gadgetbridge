@@ -30,9 +30,12 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supports(GBDeviceCandidate candidate) {
+    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String name = candidate.getDevice().getName();
-        return name != null && name.startsWith("Pebble");
+        if (name != null && name.startsWith("Pebble")) {
+            return DeviceType.PEBBLE;
+        }
+        return DeviceType.UNKNOWN;
     }
 
     @Override
@@ -45,6 +48,7 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
         return PebblePairingActivity.class;
     }
 
+    @Override
     public Class<? extends Activity> getPrimaryActivity() {
         return AppManagerActivity.class;
     }

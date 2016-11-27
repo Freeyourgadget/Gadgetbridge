@@ -1,11 +1,19 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
+import android.annotation.TargetApi;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
+import android.os.ParcelUuid;
+import android.support.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Collection;
+import java.util.Collections;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -23,19 +31,30 @@ public class MiBand2Coordinator extends MiBandCoordinator {
         return DeviceType.MIBAND2;
     }
 
+    @NonNull
     @Override
-    public boolean supports(GBDeviceCandidate candidate) {
-        // and a heuristic
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public Collection<? extends ScanFilter> createBLEScanFilters() {
+        ParcelUuid mi2Service = new ParcelUuid(MiBandService.UUID_SERVICE_MIBAND2_SERVICE);
+        ScanFilter filter = new ScanFilter.Builder().setServiceUuid(mi2Service).build();
+        return Collections.singletonList(filter);
+    }
+
+    @Override
+    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+        // and a heuristic for now
         try {
             BluetoothDevice device = candidate.getDevice();
             if (isHealthWearable(device)) {
                 String name = device.getName();
-                return name != null && name.equalsIgnoreCase(MiBandConst.MI_BAND2_NAME);
+                if (name != null && name.equalsIgnoreCase(MiBandConst.MI_BAND2_NAME)) {
+                    return DeviceType.MIBAND2;
+                }
             }
         } catch (Exception ex) {
             LOG.error("unable to check device support", ex);
         }
-        return false;
+        return DeviceType.UNKNOWN;
 
     }
 

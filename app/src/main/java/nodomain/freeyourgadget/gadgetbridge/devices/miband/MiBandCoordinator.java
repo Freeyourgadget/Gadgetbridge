@@ -1,12 +1,20 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
+import android.os.ParcelUuid;
+import android.support.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Collection;
+import java.util.Collections;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -32,28 +40,39 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
     public MiBandCoordinator() {
     }
 
+    @NonNull
     @Override
-    public boolean supports(GBDeviceCandidate candidate) {
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public Collection<? extends ScanFilter> createBLEScanFilters() {
+        ParcelUuid mi1Service = new ParcelUuid(MiBandService.UUID_SERVICE_MIBAND_SERVICE);
+        ScanFilter filter = new ScanFilter.Builder().setServiceUuid(mi1Service).build();
+        return Collections.singletonList(filter);
+    }
+
+    @Override
+    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String macAddress = candidate.getMacAddress().toUpperCase();
         if (macAddress.startsWith(MiBandService.MAC_ADDRESS_FILTER_1_1A)
                 || macAddress.startsWith(MiBandService.MAC_ADDRESS_FILTER_1S)) {
-            return true;
+            return DeviceType.MIBAND;
         }
         if (candidate.supportsService(MiBandService.UUID_SERVICE_MIBAND_SERVICE)
                 && !candidate.supportsService(MiBandService.UUID_SERVICE_MIBAND2_SERVICE)) {
-            return true;
+            return DeviceType.MIBAND;
         }
         // and a heuristic
         try {
             BluetoothDevice device = candidate.getDevice();
             if (isHealthWearable(device)) {
                 String name = device.getName();
-                return name != null && name.toUpperCase().startsWith(MiBandConst.MI_GENERAL_NAME_PREFIX.toUpperCase());
+                if (name != null && name.toUpperCase().startsWith(MiBandConst.MI_GENERAL_NAME_PREFIX.toUpperCase())) {
+                    return DeviceType.MIBAND;
+                }
             }
         } catch (Exception ex) {
             LOG.error("unable to check device support", ex);
         }
-        return false;
+        return DeviceType.UNKNOWN;
     }
 
     @Override
