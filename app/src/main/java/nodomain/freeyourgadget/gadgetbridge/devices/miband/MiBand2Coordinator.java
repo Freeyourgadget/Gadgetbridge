@@ -40,8 +40,13 @@ public class MiBand2Coordinator extends MiBandCoordinator {
         return Collections.singletonList(filter);
     }
 
+    @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+        if (candidate.supportsService(MiBand2Service.UUID_SERVICE_MIBAND2_SERVICE)) {
+            return DeviceType.MIBAND2;
+        }
+
         // and a heuristic for now
         try {
             BluetoothDevice device = candidate.getDevice();

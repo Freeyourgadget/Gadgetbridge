@@ -120,7 +120,7 @@ public class DeviceHelper {
     }
 
     public GBDevice toSupportedDevice(BluetoothDevice device) {
-        GBDeviceCandidate candidate = new GBDeviceCandidate(device, GBDevice.RSSI_UNKNOWN);
+        GBDeviceCandidate candidate = new GBDeviceCandidate(device, GBDevice.RSSI_UNKNOWN, device.getUuids());
 
         for (DeviceCoordinator coordinator : getAllCoordinators()) {
             if (coordinator.supports(candidate)) {

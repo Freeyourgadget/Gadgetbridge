@@ -49,6 +49,7 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
         return Collections.singletonList(filter);
     }
 
+    @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String macAddress = candidate.getMacAddress().toUpperCase();
