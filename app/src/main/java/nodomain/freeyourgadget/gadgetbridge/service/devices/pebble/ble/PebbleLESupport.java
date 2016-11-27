@@ -1,8 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.ble;
 
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothManager;
 import android.content.Context;
 
 import org.slf4j.Logger;
@@ -22,8 +20,8 @@ public class PebbleLESupport {
     private PipedOutputStream mPipedOutputStream;
     private int mMTU = 20;
 
-    public PebbleLESupport(Context context, final String btDeviceAddress, PipedInputStream pipedInputStream, PipedOutputStream pipedOutputStream) {
-
+    public PebbleLESupport(Context context, final BluetoothDevice btDevice, PipedInputStream pipedInputStream, PipedOutputStream pipedOutputStream) {
+        mBtDevice = btDevice;
         mPipedInputStream = new PipedInputStream();
         mPipedOutputStream = new PipedOutputStream();
         try {
@@ -33,9 +31,6 @@ public class PebbleLESupport {
             LOG.warn("could not connect input stream");
         }
 
-        BluetoothManager manager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
-        BluetoothAdapter adapter = manager.getAdapter();
-        mBtDevice = adapter.getRemoteDevice(btDeviceAddress);
         mPebbleGATTServer = new PebbleGATTServer(this, context, mBtDevice);
         mPebbleGATTServer.initialize();
 

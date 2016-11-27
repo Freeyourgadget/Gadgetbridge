@@ -40,13 +40,18 @@ public class GBDaoGenerator {
     private static final String TIMESTAMP_TO = "timestampTo";
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(14, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(15, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
 
         Entity deviceAttributes = addDeviceAttributes(schema);
         Entity device = addDevice(schema, deviceAttributes);
+
+        // yeah deep shit, has to be here (after device) for db upgrade and column order
+        // because addDevice adds a property to deviceAttributes also....
+        deviceAttributes.addStringProperty("volatileIdentifier");
+
         Entity tag = addTag(schema);
         Entity userDefinedActivityOverlay = addActivityDescription(schema, tag, user);
 

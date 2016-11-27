@@ -21,7 +21,7 @@ public abstract class GBDeviceIoThread extends Thread {
         return gbDevice;
     }
 
-    protected boolean connect(String btDeviceAddress) {
+    protected boolean connect() {
         return false;
     }
 

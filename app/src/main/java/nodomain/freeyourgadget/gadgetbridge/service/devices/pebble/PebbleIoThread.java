@@ -64,7 +64,7 @@ class PebbleIoThread extends GBDeviceIoThread {
     public static final String PEBBLEKIT_ACTION_APP_START = "com.getpebble.action.app.START";
     public static final String PEBBLEKIT_ACTION_APP_STOP = "com.getpebble.action.app.STOP";
 
-    final Prefs prefs = GBApplication.getPrefs();
+    private final Prefs prefs = GBApplication.getPrefs();
 
     private final PebbleProtocol mPebbleProtocol;
     private final PebbleSupport mPebbleSupport;
@@ -174,27 +174,31 @@ class PebbleIoThread extends GBDeviceIoThread {
     }
 
     @Override
-    protected boolean connect(String btDeviceAddress) {
+    protected boolean connect() {
+        String deviceAddress = gbDevice.getAddress();
         GBDevice.State originalState = gbDevice.getState();
         gbDevice.setState(GBDevice.State.CONNECTING);
         gbDevice.sendDeviceUpdateIntent(getContext());
         try {
             // contains only one ":"? then it is addr:port
-            int firstColon = btDeviceAddress.indexOf(":");
-            if (firstColon == btDeviceAddress.lastIndexOf(":")) {
+            int firstColon = deviceAddress.indexOf(":");
+            if (firstColon == deviceAddress.lastIndexOf(":")) {
                 mIsTCP = true;
-                InetAddress serverAddr = InetAddress.getByName(btDeviceAddress.substring(0, firstColon));
-                mTCPSocket = new Socket(serverAddr, Integer.parseInt(btDeviceAddress.substring(firstColon + 1)));
+                InetAddress serverAddr = InetAddress.getByName(deviceAddress.substring(0, firstColon));
+                mTCPSocket = new Socket(serverAddr, Integer.parseInt(deviceAddress.substring(firstColon + 1)));
                 mInStream = mTCPSocket.getInputStream();
                 mOutStream = mTCPSocket.getOutputStream();
             } else {
                 mIsTCP = false;
-                BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(btDeviceAddress);
+                if (gbDevice.getVolatileAddress() != null && prefs.getBoolean("pebble_force_le", false)) {
+                    deviceAddress = gbDevice.getVolatileAddress();
+                }
+                BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(deviceAddress);
                 if (btDevice.getType() == BluetoothDevice.DEVICE_TYPE_LE) {
                     LOG.info("Ok this seems to be a LE Pebble, try LE Support, trouble ahead!");
                     mInStream = new PipedInputStream();
                     mOutStream = new PipedOutputStream();
-                    mPebbleLESupport = new PebbleLESupport(this.getContext(),btDeviceAddress,(PipedInputStream)mInStream,(PipedOutputStream)mOutStream); // secret branch :P
+                    mPebbleLESupport = new PebbleLESupport(this.getContext(), btDevice, (PipedInputStream) mInStream, (PipedOutputStream) mOutStream);
                 } else {
                     ParcelUuid uuids[] = btDevice.getUuids();
                     if (uuids == null) {
@@ -232,7 +236,7 @@ class PebbleIoThread extends GBDeviceIoThread {
 
     @Override
     public void run() {
-        mIsConnected = connect(gbDevice.getAddress());
+        mIsConnected = connect();
         if (!mIsConnected) {
             if (GBApplication.getGBPrefs().getAutoReconnect()) {
                 gbDevice.setState(GBDevice.State.WAITING_FOR_RECONNECT);
@@ -388,7 +392,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                         int delaySeconds = 1;
                         while (reconnectAttempts-- > 0 && !mQuit && !mIsConnected) {
                             LOG.info("Trying to reconnect (attempts left " + reconnectAttempts + ")");
-                            mIsConnected = connect(gbDevice.getAddress());
+                            mIsConnected = connect();
                             if (!mIsConnected) {
                                 try {
                                     Thread.sleep(delaySeconds * 1000);

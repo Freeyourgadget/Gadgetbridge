@@ -192,7 +192,7 @@ public class DeviceHelper {
      * @param dbDevice
      * @return
      */
-    private GBDevice toGBDevice(Device dbDevice) {
+    public GBDevice toGBDevice(Device dbDevice) {
         DeviceType deviceType = DeviceType.fromKey(dbDevice.getType());
         GBDevice gbDevice = new GBDevice(dbDevice.getIdentifier(), dbDevice.getName(), deviceType);
         List<DeviceAttributes> deviceAttributesList = dbDevice.getDeviceAttributesList();
@@ -201,6 +201,7 @@ public class DeviceHelper {
             DeviceAttributes attrs = deviceAttributesList.get(0);
             gbDevice.setFirmwareVersion(attrs.getFirmwareVersion1());
             gbDevice.setFirmwareVersion2(attrs.getFirmwareVersion2());
+            gbDevice.setVolatileAddress(attrs.getVolatileIdentifier());
         }
 
         return gbDevice;
@@ -211,6 +212,9 @@ public class DeviceHelper {
         List<GBDevice> result = new ArrayList<>(pairedDevices.size());
         DeviceHelper deviceHelper = DeviceHelper.getInstance();
         for (BluetoothDevice pairedDevice : pairedDevices) {
+            if (pairedDevice.getName() != null && (pairedDevice.getName().startsWith("Pebble-LE ") || pairedDevice.getName().startsWith("Pebble Time LE "))) {
+                continue; // ignore LE Pebble (this is part of the main device now (volatileAddress)
+            }
             GBDevice device = deviceHelper.toSupportedDevice(pairedDevice);
             if (device != null) {
                 result.add(device);

@@ -174,8 +174,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                             DaoSession session = dbHandler.getDaoSession();
                             if (DBHelper.findDevice(device, session) == null) {
                                 DBHelper dbHelper = new DBHelper(context);
+                                DBHelper.getDevice(device, session); // implicitly creates it :P
                                 if (dbHelper.getOldActivityDatabaseHandler() != null) {
-                                    DBHelper.getDevice(device, session); // implicitly creates it :P
                                     Intent startIntent = new Intent(context, OnboardingActivity.class);
                                     startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
