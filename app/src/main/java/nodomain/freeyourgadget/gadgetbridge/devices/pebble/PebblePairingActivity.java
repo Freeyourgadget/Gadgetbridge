@@ -46,7 +46,7 @@ public class PebblePairingActivity extends GBActivity {
             if (GBDevice.ACTION_DEVICE_CHANGED.equals(intent.getAction())) {
                 GBDevice device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                 LOG.debug("pairing activity: device changed: " + device);
-                if (macAddress.equals(device.getAddress())) {
+                if (macAddress.equals(device.getAddress()) || macAddress.equals(device.getVolatileAddress())) {
                     if (device.isInitialized()) {
                         pairingFinished(true);
                     } else if (device.isConnecting() || device.isInitializing()) {
