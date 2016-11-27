@@ -345,6 +345,9 @@ public class DBHelper {
         if (!Objects.equals(attr.getFirmwareVersion2(), gbDevice.getFirmwareVersion2())) {
             return false;
         }
+        if (!Objects.equals(attr.getVolatileIdentifier(), gbDevice.getVolatileAddress())) {
+            return false;
+        }
         return true;
     }
 
