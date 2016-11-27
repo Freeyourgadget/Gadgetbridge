@@ -1,5 +1,5 @@
 if (window.Storage){
-    var prefix = GBjs.getAppUUID();
+    var prefix = GBjs.getAppLocalstoragePrefix();
     GBjs.gbLog("redefining local storage with prefix: " + prefix);
 
     Storage.prototype.setItem = (function(key, value) {
@@ -85,7 +85,6 @@ function gbPebble() {
     }
 
     self.evaluate = function(name, args) {
-        console.log(args);
         if (!self.events.hasOwnProperty(name))
             return;
 

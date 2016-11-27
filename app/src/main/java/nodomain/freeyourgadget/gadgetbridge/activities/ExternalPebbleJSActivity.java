@@ -24,7 +24,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.UUID;
@@ -272,6 +275,25 @@ public class ExternalPebbleJSActivity extends GBActivity {
         @JavascriptInterface
         public String getAppUUID() {
             return appUuid.toString();
+        }
+
+        @JavascriptInterface
+        public String getAppLocalstoragePrefix() {
+            String prefix = mGBDevice.getAddress() + appUuid.toString();
+            try {
+                MessageDigest digest = MessageDigest.getInstance("SHA-1");
+                byte[] bytes = prefix.getBytes("UTF-8");
+                digest.update(bytes, 0, bytes.length);
+                bytes = digest.digest();
+                final StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < bytes.length; i++) {
+                    sb.append(String.format("%02X", bytes[i]));
+                }
+                return sb.toString().toLowerCase();
+            } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+                e.printStackTrace();
+                return prefix;
+            }
         }
 
         @JavascriptInterface
