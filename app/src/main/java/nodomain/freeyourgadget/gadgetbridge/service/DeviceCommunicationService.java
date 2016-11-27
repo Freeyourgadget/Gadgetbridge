@@ -173,9 +173,13 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     if (device.isInitialized()) {
                         try (DBHandler dbHandler = GBApplication.acquireDB()) {
                             DaoSession session = dbHandler.getDaoSession();
-                            DBHelper dbHelper = new DBHelper(context);
-                            DBHelper.getDevice(device, session); // implicitly creates it :P
-                            if (DBHelper.findDevice(device, session) == null && (device.getType() != DeviceType.VIBRATISSIMO)) {
+                            boolean askForDBMigration = false;
+                            if (DBHelper.findDevice(device, session) == null && device.getType() != DeviceType.VIBRATISSIMO) {
+                                askForDBMigration = true;
+                            }
+                            DBHelper.getDevice(device, session); // implicitly creates the device in database if not present, and updates device attributes
+                            if (askForDBMigration) {
+                                DBHelper dbHelper = new DBHelper(context);
                                 if (dbHelper.getOldActivityDatabaseHandler() != null) {
                                     Intent startIntent = new Intent(context, OnboardingActivity.class);
                                     startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
