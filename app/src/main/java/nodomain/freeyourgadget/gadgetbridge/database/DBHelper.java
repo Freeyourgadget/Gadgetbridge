@@ -455,6 +455,7 @@ public class DBHelper {
         attributes.setValidFromUTC(now.getTime());
         attributes.setFirmwareVersion1(gbDevice.getFirmwareVersion());
         attributes.setFirmwareVersion2(gbDevice.getFirmwareVersion2());
+        attributes.setVolatileIdentifier(gbDevice.getVolatileAddress());
         DeviceAttributesDao attributesDao = session.getDeviceAttributesDao();
         attributesDao.insert(attributes);
 
