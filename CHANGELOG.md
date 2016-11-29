@@ -2,7 +2,8 @@
 
 ####Version 0.14.3
 * Pebble: Experimental support for pairing and using all Pebble models via BLE
-* Mi Band: Fix regressing causing wrong activity data
+* Mi Band 1: Fix regression causing display of wrong activity data (#440)
+* Mi Band 2: Support for continuous heart rate measurements in live activity view
 
 ####Version 0.14.2
 * Pebble 2: Fix a bug where the Pebble got disconnected by other unrelated LE devices
