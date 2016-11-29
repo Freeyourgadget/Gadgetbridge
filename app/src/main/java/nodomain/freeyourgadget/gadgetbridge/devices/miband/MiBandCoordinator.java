@@ -100,7 +100,7 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public SampleProvider<? extends AbstractActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
-        return new MiBand2SampleProvider(device, session);
+        return new MiBandSampleProvider(device, session);
     }
 
     @Override
