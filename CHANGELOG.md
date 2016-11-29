@@ -1,5 +1,9 @@
 ###Changelog
 
+####Version 0.14.3
+* Pebble: Experimental support for pairing and using all Pebble models via BLE
+* Mi Band: Fix regressing causing wrong activity data
+
 ####Version 0.14.2
 * Pebble 2: Fix a bug where the Pebble got disconnected by other unrelated LE devices
 
