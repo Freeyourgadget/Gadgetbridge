@@ -331,7 +331,7 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
                     steps = activityStruct.activityDataHolder[i + 2];
                     if (hasExtendedActivityData) {
                         heartrate = activityStruct.activityDataHolder[i + 3];
-                        LOG.debug("heartrate received: " + (heartrate & 0xff));
+//                        LOG.debug("heartrate received: " + (heartrate & 0xff));
                     }
 
                     MiBandActivitySample sample = getSupport().createActivitySample(device, user, timestampInSeconds, provider);
