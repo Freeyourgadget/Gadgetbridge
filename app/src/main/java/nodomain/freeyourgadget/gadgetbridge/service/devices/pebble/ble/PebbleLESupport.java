@@ -82,6 +82,10 @@ public class PebbleLESupport {
             mPipedInputStream.close();
         } catch (IOException ignore) {
         }
+        try {
+            mPipedOutputStream.close();
+        } catch (IOException ignore) {
+        }
     }
 
     void setMTU(int mtu) {
@@ -126,18 +130,20 @@ public class PebbleLESupport {
                     }
 
                     Thread.sleep(500); // FIXME ugly wait 0.5s after each pebble package send to the pebble (we do not wait for the GATT chunks)
-                } catch (InterruptedIOException | InterruptedException e) {
+                } catch (IOException | InterruptedException e) {
+                    LOG.info(e.getMessage());
                     Thread.currentThread().interrupt();
                     break;
-                } catch (IOException ignore) {
                 }
             }
+            LOG.info("Pipereader thread shut down");
         }
 
         @Override
         public void interrupt() {
             super.interrupt();
             try {
+                LOG.info("closing piped inputstream");
                 mPipedInputStream.close();
             } catch (IOException ignore) {
             }
