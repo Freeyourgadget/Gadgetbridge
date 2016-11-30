@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 
@@ -69,13 +70,17 @@ public class PebbleLESupport {
 
     synchronized private void destroyPipedInputReader() {
         if (mPipeReader != null) {
-            mPipeReader.quit();
             mPipeReader.interrupt();
             try {
                 mPipeReader.join();
             } catch (InterruptedException e) {
                 LOG.error(e.getMessage());
             }
+            try {
+                mPipedOutputStream.close();
+            } catch (IOException ignore) {
+            }
+
             mPipeReader = null;
         }
     }
@@ -86,13 +91,12 @@ public class PebbleLESupport {
 
     private class PipeReader extends Thread {
         int mmSequence = 0;
-        private boolean mQuit = false;
 
         @Override
         public void run() {
             byte[] buf = new byte[8192];
             int bytesRead;
-            while (!mQuit) {
+            while (true) {
                 try {
                     // this code is very similar to iothread, that is bad
                     // because we are the ones who prepared the buffer, there should be no
@@ -122,26 +126,22 @@ public class PebbleLESupport {
                         payloadToSend -= chunkSize;
                     }
 
-                    try {
-                        Thread.sleep(500); // FIXME ugly wait 0.5s after each pebble package send to the pebble (we do not wait for the GATT chunks)
-                    } catch (InterruptedException ignore) {
-                    }
-
-                } catch (IOException e) {
-                    LOG.warn("IO exception");
-                    mQuit = true;
+                    Thread.sleep(500); // FIXME ugly wait 0.5s after each pebble package send to the pebble (we do not wait for the GATT chunks)
+                } catch (InterruptedIOException | InterruptedException e) {
+                    Thread.currentThread().interrupt();
                     break;
+                } catch (IOException ignore) {
                 }
-            }
-            try {
-                mPipedOutputStream.close();
-                mPipedInputStream.close();
-            } catch (IOException ignore) {
             }
         }
 
-        void quit() {
-            mQuit = true;
+        @Override
+        public void interrupt() {
+            super.interrupt();
+            try {
+                mPipedInputStream.close();
+            } catch (IOException ignore) {
+            }
         }
     }
 
