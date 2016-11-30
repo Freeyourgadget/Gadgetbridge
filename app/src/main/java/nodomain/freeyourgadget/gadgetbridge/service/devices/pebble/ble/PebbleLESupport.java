@@ -57,6 +57,14 @@ public class PebbleLESupport {
             mPebbleGATTClient.close();
             mPebbleGATTClient = null;
         }
+        try {
+            mPipedInputStream.close();
+        } catch (IOException ignore) {
+        }
+        try {
+            mPipedOutputStream.close();
+        } catch (IOException ignore) {
+        }
     }
 
     synchronized void createPipedInputReader() {
@@ -77,14 +85,6 @@ public class PebbleLESupport {
                 LOG.error(e.getMessage());
             }
             mPipeReader = null;
-        }
-        try {
-            mPipedInputStream.close();
-        } catch (IOException ignore) {
-        }
-        try {
-            mPipedOutputStream.close();
-        } catch (IOException ignore) {
         }
     }
 
