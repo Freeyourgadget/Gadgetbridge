@@ -76,12 +76,11 @@ public class PebbleLESupport {
             } catch (InterruptedException e) {
                 LOG.error(e.getMessage());
             }
-            try {
-                mPipedOutputStream.close();
-            } catch (IOException ignore) {
-            }
-
             mPipeReader = null;
+        }
+        try {
+            mPipedInputStream.close();
+        } catch (IOException ignore) {
         }
     }
 
