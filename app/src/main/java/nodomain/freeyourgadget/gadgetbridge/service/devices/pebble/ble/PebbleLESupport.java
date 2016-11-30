@@ -33,10 +33,10 @@ public class PebbleLESupport {
         }
 
         mPebbleGATTServer = new PebbleGATTServer(this, context, mBtDevice);
-        mPebbleGATTServer.initialize();
-
-        mPebbleGATTClient = new PebbleGATTClient(this, context, mBtDevice);
-        mPebbleGATTClient.initialize();
+        if (mPebbleGATTServer.initialize()) {
+            mPebbleGATTClient = new PebbleGATTClient(this, context, mBtDevice);
+            mPebbleGATTClient.initialize();
+        }
     }
 
     void writeToPipedOutputStream(byte[] value, int offset, int count) {

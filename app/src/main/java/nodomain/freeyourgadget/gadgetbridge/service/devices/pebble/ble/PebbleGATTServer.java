@@ -40,6 +40,9 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
         BluetoothManager bluetoothManager = (BluetoothManager) mContext.getSystemService(Context.BLUETOOTH_SERVICE);
 
         mBluetoothGattServer = bluetoothManager.openGattServer(mContext, this);
+        if (mBluetoothGattServer == null) {
+            return false;
+        }
 
         BluetoothGattService pebbleGATTService = new BluetoothGattService(SERVER_SERVICE, BluetoothGattService.SERVICE_TYPE_PRIMARY);
         pebbleGATTService.addCharacteristic(new BluetoothGattCharacteristic(READ_CHARACTERISTICS, BluetoothGattCharacteristic.PROPERTY_READ, BluetoothGattCharacteristic.PERMISSION_READ));
