@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
@@ -73,7 +74,7 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
         BluetoothGattCharacteristic characteristicActivityData = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_ACTIVITY_DATA);
 
         GregorianCalendar sinceWhen = getLastSuccessfulSynchronizedTime();
-        builder.write(characteristicFetch, BLETypeConversions.join(new byte[] { MiBand2Service.COMMAND_ACTIVITY_DATA_START_DATE, 0x01 }, getSupport().getTimeBytes(sinceWhen)));
+        builder.write(characteristicFetch, BLETypeConversions.join(new byte[] { MiBand2Service.COMMAND_ACTIVITY_DATA_START_DATE, 0x01 }, getSupport().getTimeBytes(sinceWhen, TimeUnit.MINUTES)));
         builder.add(new WaitAction(1000)); // TODO: actually wait for the success-reply
         builder.notify(characteristicActivityData, true);
         builder.write(characteristicFetch, new byte[] { MiBand2Service.COMMAND_FETCH_ACTIVITY_DATA });

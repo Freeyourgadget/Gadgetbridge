@@ -18,10 +18,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -182,8 +182,15 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return builder;
     }
 
-    public byte[] getTimeBytes(Calendar calendar) {
-        byte[] bytes = BLETypeConversions.shortCalendarToRawBytes(calendar, true);
+    public byte[] getTimeBytes(Calendar calendar, TimeUnit precision) {
+        byte[] bytes;
+        if (precision == TimeUnit.MINUTES) {
+            bytes = BLETypeConversions.shortCalendarToRawBytes(calendar, true);
+        } else if (precision == TimeUnit.SECONDS) {
+            bytes = BLETypeConversions.calendarToRawBytes(calendar, true);
+        } else {
+            throw new IllegalArgumentException("Unsupported precision, only MINUTES and SECONDS are supported till now");
+        }
         byte[] tail = new byte[] { 0, BLETypeConversions.mapTimeZone(calendar.getTimeZone()) }; // 0 = adjust reason bitflags? or DST offset?? , timezone
 //        byte[] tail = new byte[] { 0x2 }; // reason
         byte[] all = BLETypeConversions.join(bytes, tail);
@@ -197,8 +204,9 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     public MiBand2Support setCurrentTimeWithService(TransactionBuilder builder) {
         GregorianCalendar now = BLETypeConversions.createCalendar();
-        byte[] bytes = getTimeBytes(now);
+        byte[] bytes = getTimeBytes(now, TimeUnit.SECONDS);
         builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_CURRENT_TIME), bytes);
+
 //        byte[] localtime = BLETypeConversions.calendarToLocalTimeBytes(now);
 //        builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_LOCAL_TIME_INFORMATION), localtime);
 //        builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_CURRENT_TIME), new byte[] {0x2, 0x00});
@@ -577,46 +585,13 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     public void onSetTime() {
         try {
             TransactionBuilder builder = performInitialized("Set date and time");
-            setCurrentTime(builder);
+            setCurrentTimeWithService(builder);
+            //TODO: once we have a common strategy for sending events (e.g. EventHandler), remove this call from here. Meanwhile it does no harm.
+            sendCalendarEvents(builder);
             builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to set time on MI device", ex);
         }
-        //TODO: once we have a common strategy for sending events (e.g. EventHandler), remove this call from here. Meanwhile it does no harm.
-        sendCalendarEvents();
-    }
-
-    /**
-     * Sets the current time to the Mi device using the given builder.
-     *
-     * @param builder
-     */
-    private MiBand2Support setCurrentTime(TransactionBuilder builder) {
-        Calendar now = GregorianCalendar.getInstance();
-        Date date = now.getTime();
-        LOG.info("Sending current time to Mi Band: " + DateTimeUtils.formatDate(date) + " (" + date.toGMTString() + ")");
-        byte[] nowBytes = MiBandDateConverter.calendarToRawBytes(now);
-        byte[] time = new byte[]{
-                nowBytes[0],
-                nowBytes[1],
-                nowBytes[2],
-                nowBytes[3],
-                nowBytes[4],
-                nowBytes[5],
-                (byte) 0x0f,
-                (byte) 0x0f,
-                (byte) 0x0f,
-                (byte) 0x0f,
-                (byte) 0x0f,
-                (byte) 0x0f
-        };
-        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_DATE_TIME);
-        if (characteristic != null) {
-            builder.write(characteristic, time);
-        } else {
-            LOG.info("Unable to set time -- characteristic not available");
-        }
-        return this;
     }
 
     @Override
@@ -1209,36 +1184,33 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     /**
      * Fetch the events from the android device calendars and set the alarms on the miband.
+     * @param builder
      */
-    private void sendCalendarEvents() {
-        try {
-            TransactionBuilder builder = performInitialized("Send upcoming events");
-            BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC3);
+    private MiBand2Support sendCalendarEvents(TransactionBuilder builder) {
+        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC3);
 
-            Prefs prefs = GBApplication.getPrefs();
-            int availableSlots = prefs.getInt(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, 0);
+        Prefs prefs = GBApplication.getPrefs();
+        int availableSlots = prefs.getInt(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, 0);
 
-            if (availableSlots > 0) {
-                CalendarEvents upcomingEvents = new CalendarEvents();
-                List<CalendarEvents.CalendarEvent> mEvents = upcomingEvents.getCalendarEventList(getContext());
+        if (availableSlots > 0) {
+            CalendarEvents upcomingEvents = new CalendarEvents();
+            List<CalendarEvents.CalendarEvent> mEvents = upcomingEvents.getCalendarEventList(getContext());
 
-                int iteration = 0;
-                for (CalendarEvents.CalendarEvent mEvt : mEvents) {
-                    if (iteration >= availableSlots || iteration > 2) {
-                        break;
-                    }
-                    int slotToUse = 2 - iteration;
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTimeInMillis(mEvt.getBegin());
-                    Alarm alarm = GBAlarm.createSingleShot(slotToUse, false, calendar);
-                    queueAlarm(alarm, builder, characteristic);
-                    iteration++;
+            int iteration = 0;
+            for (CalendarEvents.CalendarEvent mEvt : mEvents) {
+                if (iteration >= availableSlots || iteration > 2) {
+                    break;
                 }
-                builder.queue(getQueue());
+                int slotToUse = 2 - iteration;
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(mEvt.getBegin());
+                Alarm alarm = GBAlarm.createSingleShot(slotToUse, false, calendar);
+                queueAlarm(alarm, builder, characteristic);
+                iteration++;
             }
-        } catch (IOException ex) {
-            LOG.error("Unable to send Events to MI device", ex);
+            builder.queue(getQueue());
         }
+        return this;
     }
 
     @Override

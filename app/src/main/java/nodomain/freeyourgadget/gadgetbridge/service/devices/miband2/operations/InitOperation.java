@@ -98,7 +98,7 @@ public class InitOperation extends AbstractBTLEOperation<MiBand2Support> {
                 } else if (value[0] == MiBand2Service.AUTH_RESPONSE &&
                         value[1] == MiBand2Service.AUTH_SEND_ENCRYPTED_AUTH_NUMBER &&
                         value[2] == MiBand2Service.AUTH_SUCCESS) {
-                    TransactionBuilder builder = createTransactionBuilder("Sending the encrypted random key to the band");
+                    TransactionBuilder builder = createTransactionBuilder("Authenticated, now initialize phase 2");
                     builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
                     getSupport().requestDeviceInfo(builder);
                     getSupport().phase2Initialize(builder);
