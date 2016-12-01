@@ -127,6 +127,7 @@ Translations can be contributed via https://www.transifex.com/projects/p/gadgetb
 
 Feel free to open an issue on our issue tracker, but please:
 - do not use the issue tracker as a forum, do not ask for ETAs and read the issue conversation before posting
+- If you want to discuss and ask questions, please use this forum / mailing list --> ??
 - use the search functionality to ensure that your questions wasn't already answered. Don't forget to check the **closed** issues as well!
 - remember that this is a community project, people are contributing in their free time because they like doing so: don't take the fun away! Be kind and constructive.
 
