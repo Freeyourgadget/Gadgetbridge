@@ -27,7 +27,7 @@
 
 ####Version 0.13.9
 * Pebble: use the last known location for setting sunrise and sunset
-* Pebble: fix Health disappering forever when deactivating through app manager (and get it back for affected users)
+* Pebble: fix Health disappearing forever when deactivating through app manager (and get it back for affected users)
 * Mi Band 2: More fixes for connection issues (#408)
 
 ####Version 0.13.8
@@ -59,7 +59,7 @@
 * Possibly fix logging to file on certain devices (#406)
 * Mi Band 2: Possibly fix weird connection interdependency between Mi 1 and 2 (#323)
 * Mi Band 1S: Whitelist firmware 4.16.4.22
-* Mi Band: try application level pairing again, in ordert to support data sharing with Mi Fit (#250)
+* Mi Band: try application level pairing again, in order to support data sharing with Mi Fit (#250)
 * Pebble: new icons and colours for certain apps
 * Debug-screen: added button to test "new functionality", currently live sensor data for Mi Band 1
 
@@ -90,7 +90,7 @@
 
 ####Version 0.12.1 (release withdrawn)
 * Pebble: Fix activity data being associated with the wrong device and/or user in some cases causing them to invisible in charts
-* Remove special handling for Conversations notfications since upstream dropped special pebble support
+* Remove special handling for Conversations notifications since upstream dropped special pebble support
 
 ####Version 0.12.0 (release withdrawn)
 * NB: User action needed to migrate existing data! 
@@ -107,13 +107,13 @@
 ####Version 0.11.1
 * Various fixes (including crashes) for location settings
 * Pebble: Support Pebble Time 2 emulator (needs recompilation of Gadgetbridge)
-* Fix a rare crash when, due to bluetooth problems, when a device has no name
+* Fix a rare crash when, due to Bluetooth problems, when a device has no name
 * Fix activity fetching getting stuck when double tapping (#333)
 * Mi Band: in the Device Discovery activity, do not display devices that are already paired
 * Mi Band: only allow automatic reconnection on disconnect when the device was previously fully connected
-* Mi Band: fix a rare crash when reading data fails due to bluetooth problems
+* Mi Band: fix a rare crash when reading data fails due to Bluetooth problems
 * Mi Band: log full activity sample to help deciphering activity kinds (#341)
-* Mi Band 2: improved discovery mechanism to not rely on mac addresses (#323)
+* Mi Band 2: improved discovery mechanism to not rely on MAC addresses (#323)
 * Charts: only display heart rate samples on devices that support that
 * Add more logging to detect problems with external directories (#343)
 
@@ -126,13 +126,13 @@
 ####Version 0.10.2
 * Pebble: allow to manually paste configuration data for legacy configuration pages
 * Pebble: various improvements to the configuration page
-* Pebble: Suppport FW 4.0-dp1 and Pebble2 emulator (needs recompilation of Gadgetbridge)
+* Pebble: Support FW 4.0-dp1 and Pebble2 emulator (needs recompilation of Gadgetbridge)
 * Pebble: Fix a problem with key events when using the Pebble music player
 
 ####Version 0.10.1
 * Pebble: set extended music info by dissecting notifications on Android 5.0+
-* Pebble: various other improvemnts to music playback
-* Pebble: allow ignoring activity trackers indiviually (to keep the data on the pebble)
+* Pebble: various other improvements to music playback
+* Pebble: allow ignoring activity trackers individually (to keep the data on the pebble)
 * Mi Band: support for shifting the device time by N hours (for people who sleep at daytime)
 * Mi Band: initial and untested support for Mi Band 2
 * Allow setting the application language
@@ -141,12 +141,12 @@
 * Pebble: option to send sunrise and sunset events to timeline
 * Pebble: fix problems with unknown app keys while configuring watchfaces
 * Mi Band: BLE connection fixes
-* Fixes for enabling logging at whithout restarting Gadgetbridge
+* Fixes for enabling logging at without restarting Gadgetbridge
 * Re-enable device paring activity on Android 6 (BLE scanning needs the location preference)
 * Display device address in device info
 
 ####Version 0.9.8
-* Pebble: fix more reconnnect issues
+* Pebble: fix more reconnect issues
 * Pebble: fix deep sleep not being detected with Firmware 3.12 when using Pebble Health
 * Pebble: option in AppManager to delete files from cache
 * Pebble: enable pbw cache and watchface configuration for Firmware 2.x
@@ -158,7 +158,7 @@
 * Pebble: hopefully fix some reconnect issues
 * Mi Band: fix live activity monitoring running forever if back button pressed
 * Mi Band: allow low latency firmware updates, fixes update with some phones
-* Mi Band: inital experimental and probably broken support for Amazfit
+* Mi Band: initial experimental and probably broken support for Amazfit
 * Show aliases for BT Devices if they had been renamed in BT Settings
 * Do not show a hint about App Manager when a Mi Band is connected
 
@@ -240,7 +240,7 @@
 ####Version 0.7.4
 * Refactored the settings activity: User details are now generic instead of miband specific. Old settings are preserved.
 * Pebble: Fix regression with broken active reconnect since 0.7.0
-* Pebble: Support activation and deactivation of Pebble Health. Activation uses the User details as seen above. Insigths are NOT activated.
+* Pebble: Support activation and deactivation of Pebble Health. Activation uses the User details as seen above. Insights are NOT activated.
   Please be aware that deactivation does NOT delete the data stored on the watch (but it seems to stop the tracking), and we do not know how to switch to metric length units.
 
 ####Version 0.7.3
@@ -249,7 +249,7 @@
 
 ####Version 0.7.2
 * Pebble: Allow replying to generic notifications that contain a wearable reply action (tested with Signal)
-* Pebble: Support seting up a common suffix for canned replies (defaults to " (canned reply)")
+* Pebble: Support setting up a common suffix for canned replies (defaults to " (canned reply)")
 * Mi Band: Avoid NPEs when aborting an erroneous sync #205
 * Mi Band: Fix discovery of Mi Band 1S
 * Add a confirmation dialog when performing a db import
@@ -266,7 +266,7 @@
 * Pebble: Allow installing apps compiled with SDK 2.x also on the basalt platform (Time, Time Steel)
 * Pebble: Fix decoding strings in appmessages from the pebble (fixes sending SMS from "Dialer for Pebble")
 * Pebble: Support incoming reconnections when device returns from "Airplane Mode" or "Stand-By Mode"
-* Pebble: Fix crash when turning off bluetooth when connected on Android 6.0
+* Pebble: Fix crash when turning off Bluetooth when connected on Android 6.0
 * Mi Band: reserve some alarm slots for alerting when upcoming events begin. NB: the band will vibrate at the start time of the event, android reminders are ignored
 * Mi Band: Display unique devices Names, not just "MI"
 * Some new and updated icons
@@ -290,7 +290,7 @@
 * Pebble: fix installation of pbw files on firmware 3.x when using content providers (eg. download manager)   
 * Pebble: fix crash on firmware 3.x when pebble requests a pbw that is not in Gadgetbridge's cache 
 + Treat Signal notifications as chat notifications
-* Fix crash when contacts cannot be read on Android 6.0 (non-granted pemissions)
+* Fix crash when contacts cannot be read on Android 6.0 (non-granted permissions)
 
 ####Version 0.6.7
 * Pebble: Allow installation of 3.x apps on OG Pebble (FW will be released soon)
@@ -324,7 +324,7 @@
 * Try to prevent service being killed by disallowing backups
 
 ####Version 0.6.2
-* Mi Band: support firmare versione 1.0.10.14 (and onwards?) vibration
+* Mi Band: support firmware version 1.0.10.14 (and onwards?) vibration
 * Mi Band: get device name from official BT SIG endpoint
 * Mi Band: initial support for displaying live activity data, screen stays on
 
@@ -336,11 +336,11 @@
 * Bugfix for app blacklist (some checkboxes where wrongly drawn as checked)
 
 ####Version 0.6.0
-* Pebble: WIP implementantion of PebbleKit Intents to make some 3rd party Android apps work with the Pebble (eg. Ventoo)
+* Pebble: WIP implementation of PebbleKit Intents to make some 3rd party Android apps work with the Pebble (eg. Ventoo)
 * Pebble: Option to set reconnection attempts in settings (one attempt usually takes about 5 seconds)
-* Support contolling all audio players that react to media buttons (can be chosen in settings)
+* Support controlling all audio players that react to media buttons (can be chosen in settings)
 * Treat SMS as generic notification if set to "never" (can be blacklisted there also if desired)
-* Treat Conversations messagess as chat messages, even if arrived via Pebble Intents (nice icon for Pebble FW 3.x)
+* Treat Conversations messages as chat messages, even if arrived via Pebble Intents (nice icon for Pebble FW 3.x)
 * Allow opening firmware / app files from the download manager "app" (technically a content provider)
 * Mi Band: whitelisted a few firmware versions
 
@@ -364,7 +364,7 @@
 * Graphs are now using the same theme as the rest of the application
 * Graphs now show when the device was not worn by the user (for devices that send this information)
 * Remove unused settings option in charts view
-* Build target is now Android SDK 23 (Marshmellow)
+* Build target is now Android SDK 23 (Marshmallow)
 
 ####Version 0.5.1
 * Pebble: support taking screenshot from Pebble Time
@@ -377,7 +377,7 @@
 * Pebble: use SMS/EMAIL icons for FW 3.x/Pebble Time
 * Pebble: do not throttle notifications
 * Support going forward/backwards in time in the activity charts
-* Various small bugfixes to the App/Fw Installation Activity
+* Various small bugfixes to the App/FW Installation Activity
 
 ####Version 0.4.6
 * Mi Band: Fixed negative number of steps displayed (#91)
@@ -392,13 +392,13 @@
 ####Version 0.4.5
 * Enhancement to activity graphs: new graph showing the number of steps done today and in the last week
 * New preference to set the desired fitness goal (number of steps to walk in one day)
-* Mi Band: support for setting the fitness goal (the band will show the progress to the goal with the leds and vibrates when the goal is reached)
+* Mi Band: support for setting the fitness goal (the band will show the progress to the goal with the LEDs and vibrates when the goal is reached)
 * Mi Band: send the wear location (left / right hand) to the device
 * Mi Band: support for flashing firmware from .fw files (upgrades and downgrades are possible)
 * Fixed crash when synchronizing activity data in the graphs activity and changing device orientation
 
 ####Version 0.4.4
-* Set GadgetBridge notification visibility to public, to show the connection status on the lockscreen
+* Set Gadgetbridge notification visibility to public, to show the connection status on the lockscreen
 * Support for backup up and restoring of the activity database (via Debug activity)
 * Support for graceful upgrades and downgrades, keeping your activity database intact
 * Enhancement to activity graphs: new graphs for sleep data (only last night) accessible swiping right from the main graph
@@ -475,7 +475,7 @@
 ####Version 0.2.0
 * Experimental pbw installation support (watchfaces/apps)
 * New icons for device and app lists
-* Fix for device list not refreshing when bluetooth gets turned on
+* Fix for device list not refreshing when Bluetooth gets turned on
 * Filter out annoying low battery notifications
 * Fix for crash on some devices when creating a debug notification
 * Lots of internal changes preparing multi device support
@@ -498,8 +498,8 @@
 * Remove quit button from the service notification, put a quit item in the context menu instead
 
 ####Version 0.1.2
-* Added option to start Gadgetbridge and connect automatically when bluetooth is turned on
-* stop service if bluetooth is turned off
+* Added option to start Gadgetbridge and connect automatically when Bluetooth is turned on
+* stop service if Bluetooth is turned off
 * try to reconnect if connection was lost
 
 ####Version 0.1.1

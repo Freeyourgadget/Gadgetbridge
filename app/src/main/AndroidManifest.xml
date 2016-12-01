@@ -174,7 +174,7 @@
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbl" />
             </intent-filter>
 
-            <!-- to receive the firmwares from the donwload content provider -->
+            <!-- to receive the firmwares from the download content provider -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -182,7 +182,7 @@
 
                 <data android:mimeType="application/octet-stream" />
             </intent-filter>
-            <!-- to receive firmwares from the donwload content provider if recognized as zip-->
+            <!-- to receive firmwares from the download content provider if recognized as zip-->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

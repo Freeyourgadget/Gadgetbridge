@@ -644,7 +644,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
         setDeviceSupport(null);
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.cancel(GB.NOTIFICATION_ID); // need to do this because the updated notification wont be cancelled when service stops
+        nm.cancel(GB.NOTIFICATION_ID); // need to do this because the updated notification won't be cancelled when service stops
     }
 
     @Override

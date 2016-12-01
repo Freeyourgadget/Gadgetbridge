@@ -298,7 +298,7 @@ public class ExternalPebbleJSActivity extends GBActivity {
 
         @JavascriptInterface
         public String getWatchToken() {
-            //specification says: A string that is is guaranteed to be identical for each Pebble device for the same app across different mobile devices. The token is unique to your app and cannot be used to track Pebble devices across applications. see https://developer.pebble.com/docs/js/Pebble/
+            //specification says: A string that is guaranteed to be identical for each Pebble device for the same app across different mobile devices. The token is unique to your app and cannot be used to track Pebble devices across applications. see https://developer.pebble.com/docs/js/Pebble/
             return "gb" + appUuid.toString();
         }
 

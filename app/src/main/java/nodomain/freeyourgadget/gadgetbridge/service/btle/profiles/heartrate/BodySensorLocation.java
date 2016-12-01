@@ -7,7 +7,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.heartrate;
  */
 public enum BodySensorLocation {
     Other(0),
-    Checst(1),
+    Chest(1),
     Wrist(2),
     Finger(3),
     Hand(4),

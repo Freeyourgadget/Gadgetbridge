@@ -265,7 +265,7 @@ public class MiBand2Service {
      */
     public static final byte AUTH_RESPONSE = 0x10;
     /**
-     * Receeived in response to any authentication requests (byte 2 in the byte[] value.
+     * Received in response to any authentication requests (byte 2 in the byte[] value.
      * 0x01 means success.
      */
     public static final byte AUTH_SUCCESS = 0x01;

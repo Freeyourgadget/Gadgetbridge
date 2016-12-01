@@ -257,7 +257,7 @@ public class GBDevice implements Parcelable {
     }
 
     /**
-     * for simplicity the user wont see all internal states, just connecting -> connected
+     * for simplicity the user won't see all internal states, just connecting -> connected
      * instead of connecting->connected->initializing->initialized
      * Set simple to true to get this behavior.
      */
