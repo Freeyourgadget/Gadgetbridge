@@ -57,7 +57,7 @@ public class K9Receiver extends BroadcastReceiver {
         notificationSpec.type = NotificationType.GENERIC_EMAIL;
 
         /*
-         * there seems to be no way to specify the the uri in the where clause.
+         * there seems to be no way to specify the uri in the where clause.
          * If we do so, we just get the newest message, not the one requested.
          * So, we will just search our message and match the uri manually.
          * It should be the first one returned by the query in most cases,

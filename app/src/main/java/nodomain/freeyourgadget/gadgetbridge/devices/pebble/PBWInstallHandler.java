@@ -181,7 +181,7 @@ public class PBWInstallHandler implements InstallHandler {
     }
 
     public boolean isValid() {
-        // always pretend it is valid, as we cant know yet about hw/fw version
+        // always pretend it is valid, as we can't know yet about hw/fw version
         return true;
     }
 

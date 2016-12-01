@@ -148,7 +148,7 @@ public final class BtLEQueue {
         }
         synchronized (mGattMonitor) {
             if (mBluetoothGatt != null) {
-                // Tribal knowledge says you're better off not reusing existing BlueoothGatt connections,
+                // Tribal knowledge says you're better off not reusing existing BluetoothGatt connections,
                 // so create a new one.
                 LOG.info("connect() requested -- disconnecting previous connection: " + mGbDevice.getName());
                 disconnect();

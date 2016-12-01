@@ -129,10 +129,10 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
     };
 
 
-    // why use a method to to get callback?
+    // why use a method to get callback?
     // because this callback need API >= 21
     // we cant add @TARGETAPI("Lollipop") at class header
-    // so use a method woth SDK check to return this callback
+    // so use a method with SDK check to return this callback
     private ScanCallback getScanCallback() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             newLeScanCallback = new ScanCallback() {
@@ -439,10 +439,10 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
     // New BTLE Discovery use startScan (List<ScanFilter> filters,
     //                                  ScanSettings settings,
     //                                  ScanCallback callback)
-    // Its added on API21
+    // It's added on API21
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void startNEWBTLEDiscovery() {
-        // Only use new APi when user use Lollipop+ device
+        // Only use new API when user uses Lollipop+ device
             LOG.info("Start New BTLE Discovery");
             handler.removeMessages(0, stopRunnable);
             handler.sendMessageDelayed(getPostMessage(stopRunnable), SCAN_DURATION);

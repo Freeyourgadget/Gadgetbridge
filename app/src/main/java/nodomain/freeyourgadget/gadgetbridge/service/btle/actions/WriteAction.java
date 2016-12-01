@@ -30,7 +30,7 @@ public class WriteAction extends BtLEAction {
     public boolean run(BluetoothGatt gatt) {
         BluetoothGattCharacteristic characteristic = getCharacteristic();
         int properties = characteristic.getProperties();
-        //TODO: expectsResult should return false if PROPERTY_WRITE_NO_RESPONSE is true, but this yelds to timing issues
+        //TODO: expectsResult should return false if PROPERTY_WRITE_NO_RESPONSE is true, but this leads to timing issues
         if ((properties & BluetoothGattCharacteristic.PROPERTY_WRITE) > 0 || ((properties & BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE) > 0)) {
             return writeValue(gatt, characteristic, value);
         }

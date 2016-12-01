@@ -17,7 +17,7 @@ public class SupportedNewAlertCategory {
 
     /**
      * Returns the numerical ID value of this category
-     * To be used as uin8 value
+     * To be used as uint8 value
      * @return the uint8 value for this category
      */
     public int getId() {

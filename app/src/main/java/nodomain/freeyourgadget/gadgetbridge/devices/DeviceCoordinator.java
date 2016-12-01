@@ -148,7 +148,7 @@ public interface DeviceCoordinator {
     boolean supportsScreenshots();
 
     /**
-     * Returns true if this device/coordinator supports settig alarms.
+     * Returns true if this device/coordinator supports setting alarms.
      *
      * @return
      */

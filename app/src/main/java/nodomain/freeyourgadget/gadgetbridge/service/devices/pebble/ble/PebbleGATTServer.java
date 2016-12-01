@@ -113,10 +113,10 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
         if (command == 0x02) { // some request?
             LOG.info("got command 0x02");
             if (value.length > 1) {
-                sendDataToPebble(new byte[]{0x03, 0x19, 0x19}); // no we dont know what that means
+                sendDataToPebble(new byte[]{0x03, 0x19, 0x19}); // no we don't know what that means
                 mPebbleLESupport.createPipedInputReader(); // FIXME: maybe not here
             } else {
-                sendDataToPebble(new byte[]{0x03}); // no we dont know what that means
+                sendDataToPebble(new byte[]{0x03}); // no we don't know what that means
             }
         } else if (command == 0) { // normal package
             LOG.info("got PPoGATT package serial = " + serial + " sending ACK");

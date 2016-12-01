@@ -808,7 +808,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putShort(duration);
         buf.put((byte) 0x02); // type (0x02 = pin)
         buf.putShort((short) 0x0001); // flags 0x0001 = ?
-        buf.put((byte) 0x01); // layout was (0x02 = pin?), 0x01 needed for subtitle aber seems to do no harm if there isn't one
+        buf.put((byte) 0x01); // layout was (0x02 = pin?), 0x01 needed for subtitle but seems to do no harm if there isn't one
 
         buf.putShort((short) attributes_length); // total length of all attributes and actions in bytes
         buf.put(attributes_count);
@@ -1373,7 +1373,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         ByteBuffer buf = ByteBuffer.allocate(12 + replies_length);
         buf.order(ByteOrder.LITTLE_ENDIAN);
         buf.putInt(0x00000000); // unknown
-        buf.put((byte) 0x00); // atributes count?
+        buf.put((byte) 0x00); // attributes count?
         buf.put((byte) 0x01); // actions count?
 
         // action
