@@ -199,11 +199,9 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
             throw new AssertionError("Unexpected activity array size: " + value);
         }
 
-        for (int i = 1; i < len; i++) {
-            if (i % 4 == 1) {
-                MiBandActivitySample sample = createSample(value[i], value[i + 1], value[i + 2], value[i + 3]);
-                samples.add(sample);
-            }
+        for (int i = 1; i < len; i+=4) {
+            MiBandActivitySample sample = createSample(value[i], value[i + 1], value[i + 2], value[i + 3]);
+            samples.add(sample);
         }
     }
 

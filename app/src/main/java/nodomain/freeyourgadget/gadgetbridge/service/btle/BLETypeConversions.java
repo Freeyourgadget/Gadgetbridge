@@ -75,7 +75,7 @@ public class BLETypeConversions {
         }
 
         // MiBand2:
-        // year,year,month,dayofmonth,hour,minute,second,dayofweek,0,0,tz
+        // year,year,month,dayofmonth,hour,minute
 
         byte[] year = fromUint16(timestamp.get(Calendar.YEAR));
         return new byte[] {
