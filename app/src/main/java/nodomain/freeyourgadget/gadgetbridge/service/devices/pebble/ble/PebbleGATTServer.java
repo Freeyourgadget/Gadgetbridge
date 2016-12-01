@@ -103,6 +103,7 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
             LOG.warn("unexpected write request");
             return;
         }
+        mPebbleLESupport.mIsConnected = true;
         LOG.info("write request: offset = " + offset + " value = " + GB.hexdump(value, 0, -1));
         int header = value[0] & 0xff;
         int command = header & 7;
@@ -180,8 +181,10 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
     }
 
     void close() {
-        mBluetoothGattServer.cancelConnection(mBtDevice);
-        mBluetoothGattServer.clearServices();
-        mBluetoothGattServer.close();
+        if (mBluetoothGattServer != null) {
+            mBluetoothGattServer.cancelConnection(mBtDevice);
+            mBluetoothGattServer.clearServices();
+            mBluetoothGattServer.close();
+        }
     }
 }

@@ -44,11 +44,7 @@ class PebbleGATTClient extends BluetoothGattCallback {
         mContext = context;
         mBtDevice = btDevice;
         mPebbleLESupport = pebbleLESupport;
-    }
-
-    boolean initialize() {
         connectToPebble(mBtDevice);
-        return true;
     }
 
     public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
@@ -185,7 +181,6 @@ class PebbleGATTClient extends BluetoothGattCallback {
         if (mBluetoothGatt != null) {
             this.close();
         }
-        //mBtDevice.createBond();
         mBluetoothGatt = btDevice.connectGatt(mContext, false, this);
     }
 

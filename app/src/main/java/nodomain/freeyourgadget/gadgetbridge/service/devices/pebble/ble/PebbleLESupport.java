@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.InterruptedIOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 
@@ -20,8 +19,9 @@ public class PebbleLESupport {
     private PipedInputStream mPipedInputStream;
     private PipedOutputStream mPipedOutputStream;
     private int mMTU = 20;
+    boolean mIsConnected = false;
 
-    public PebbleLESupport(Context context, final BluetoothDevice btDevice, PipedInputStream pipedInputStream, PipedOutputStream pipedOutputStream) {
+    public PebbleLESupport(Context context, final BluetoothDevice btDevice, PipedInputStream pipedInputStream, PipedOutputStream pipedOutputStream) throws IOException {
         mBtDevice = btDevice;
         mPipedInputStream = new PipedInputStream();
         mPipedOutputStream = new PipedOutputStream();
@@ -35,8 +35,16 @@ public class PebbleLESupport {
         mPebbleGATTServer = new PebbleGATTServer(this, context, mBtDevice);
         if (mPebbleGATTServer.initialize()) {
             mPebbleGATTClient = new PebbleGATTClient(this, context, mBtDevice);
-            mPebbleGATTClient.initialize();
+            try {
+                Thread.sleep(6000);
+                if (mIsConnected) {
+                    return;
+                }
+            } catch (InterruptedException ignored) {
+            }
         }
+        this.close();
+        throw new IOException("conntection failed");
     }
 
     void writeToPipedOutputStream(byte[] value, int offset, int count) {
