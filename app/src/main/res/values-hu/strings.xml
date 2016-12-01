@@ -214,7 +214,7 @@
   <string name="weeksteps_today_steps_description">Lépések ma, cél: %1$s</string>
   <string name="pref_title_dont_ack_transfer">Hagyja az aktivitási adatokat a készüléken</string>
   <string name="pref_summary_dont_ack_transfers">Az aktivitás adatok a band-en maradnak. Hasznos, ha a GB-t más alkalamzásokkal együtt használod.</string>
-  <string name="pref_summary_keep_data_on_device">Az adatokat a Mi Band-en fogja tárolni szinkronizálás után is. Hasznos, ha a GadgetBridge-et együtt használod más alkalmazásokkal.</string>
+  <string name="pref_summary_keep_data_on_device">Az adatokat a Mi Band-en fogja tárolni szinkronizálás után is. Hasznos, ha a Gadgetbridge-et együtt használod más alkalmazásokkal.</string>
   <string name="pref_title_low_latency_fw_update">Használja a low-latency módot a Firmware frissítésnél</string>
   <string name="pref_summary_low_latency_fw_update">Ez segíthet, ha a firmware frissítés sikertelen.</string>
   <string name="live_activity_steps_history">Lépésnapló</string>

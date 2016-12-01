@@ -48,7 +48,7 @@ public final class BtLEQueue {
     private final InternalGattCallback internalGattCallback;
     private boolean mAutoReconnect;
 
-    private Thread dispatchThread = new Thread("GadgetBridge GATT Dispatcher") {
+    private Thread dispatchThread = new Thread("Gadgetbridge GATT Dispatcher") {
 
         @Override
         public void run() {
