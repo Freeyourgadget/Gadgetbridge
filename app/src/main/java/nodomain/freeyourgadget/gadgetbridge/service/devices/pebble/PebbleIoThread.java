@@ -195,7 +195,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                 }
                 BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(deviceAddress);
                 if (btDevice.getType() == BluetoothDevice.DEVICE_TYPE_LE) {
-                    LOG.info("Ok this seems to be a LE Pebble, try LE Support, trouble ahead!");
+                    LOG.info("This is a Pebble 2 or Pebble-LE/Pebble Time LE, will use BLE");
                     mInStream = new PipedInputStream();
                     mOutStream = new PipedOutputStream();
                     mPebbleLESupport = new PebbleLESupport(this.getContext(), btDevice, (PipedInputStream) mInStream, (PipedOutputStream) mOutStream);
@@ -238,7 +238,7 @@ class PebbleIoThread extends GBDeviceIoThread {
     public void run() {
         mIsConnected = connect();
         if (!mIsConnected) {
-            if (GBApplication.getGBPrefs().getAutoReconnect()) {
+            if (GBApplication.getGBPrefs().getAutoReconnect() && !mQuit) {
                 gbDevice.setState(GBDevice.State.WAITING_FOR_RECONNECT);
                 gbDevice.sendDeviceUpdateIntent(getContext());
             }
@@ -723,16 +723,14 @@ class PebbleIoThread extends GBDeviceIoThread {
         if (mBtSocket != null) {
             try {
                 mBtSocket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ignored) {
             }
             mBtSocket = null;
         }
         if (mTCPSocket != null) {
             try {
                 mTCPSocket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ignored) {
             }
             mTCPSocket = null;
         }

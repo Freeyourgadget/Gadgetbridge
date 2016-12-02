@@ -46,7 +46,7 @@ public class PebbleLESupport {
             }
         }
         this.close();
-        throw new IOException("conntection failed");
+        throw new IOException("connection failed");
     }
 
     void writeToPipedOutputStream(byte[] value, int offset, int count) {

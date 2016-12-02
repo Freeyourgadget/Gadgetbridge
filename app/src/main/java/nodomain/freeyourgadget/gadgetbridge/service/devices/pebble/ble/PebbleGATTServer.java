@@ -57,15 +57,13 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
     }
 
     synchronized void sendDataToPebble(byte[] data) {
-        LOG.info("send data to pebble " + GB.hexdump(data, 0, -1));
+        //LOG.info("send data to pebble " + GB.hexdump(data, 0, -1));
         writeCharacteristics.setValue(data.clone());
 
         mBluetoothGattServer.notifyCharacteristicChanged(mBtDevice, writeCharacteristics, false);
     }
 
     synchronized private void sendAckToPebble(int serial) {
-        LOG.info("send ack to pebble for serial " + serial);
-
         writeCharacteristics.setValue(new byte[]{(byte) (((serial << 3) | 1) & 0xff)});
 
         mBluetoothGattServer.notifyCharacteristicChanged(mBtDevice, writeCharacteristics, false);
@@ -109,7 +107,7 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
                 mPebbleLESupport.notify();
             }
         }
-        LOG.info("write request: offset = " + offset + " value = " + GB.hexdump(value, 0, -1));
+        //LOG.info("write request: offset = " + offset + " value = " + GB.hexdump(value, 0, -1));
         int header = value[0] & 0xff;
         int command = header & 7;
         int serial = header >> 3;
