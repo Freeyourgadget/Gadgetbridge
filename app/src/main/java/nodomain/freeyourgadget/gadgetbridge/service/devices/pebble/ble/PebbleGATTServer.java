@@ -103,9 +103,11 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
             LOG.warn("unexpected write request");
             return;
         }
-        mPebbleLESupport.mIsConnected = true;
-        synchronized (mPebbleLESupport) {
-            mPebbleLESupport.notify();
+        if (!mPebbleLESupport.mIsConnected) {
+            mPebbleLESupport.mIsConnected = true;
+            synchronized (mPebbleLESupport) {
+                mPebbleLESupport.notify();
+            }
         }
         LOG.info("write request: offset = " + offset + " value = " + GB.hexdump(value, 0, -1));
         int header = value[0] & 0xff;
