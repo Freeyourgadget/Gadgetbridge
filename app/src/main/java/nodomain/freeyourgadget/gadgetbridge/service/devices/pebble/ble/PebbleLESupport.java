@@ -36,9 +36,11 @@ public class PebbleLESupport {
         if (mPebbleGATTServer.initialize()) {
             mPebbleGATTClient = new PebbleGATTClient(this, context, mBtDevice);
             try {
-                Thread.sleep(6000);
-                if (mIsConnected) {
-                    return;
+                synchronized (this) {
+                    wait(30000);
+                    if (mIsConnected) {
+                        return;
+                    }
                 }
             } catch (InterruptedException ignored) {
             }

@@ -104,6 +104,9 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
             return;
         }
         mPebbleLESupport.mIsConnected = true;
+        synchronized (mPebbleLESupport) {
+            mPebbleLESupport.notify();
+        }
         LOG.info("write request: offset = " + offset + " value = " + GB.hexdump(value, 0, -1));
         int header = value[0] & 0xff;
         int command = header & 7;
