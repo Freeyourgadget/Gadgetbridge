@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.14.4" versioncode="76">
+        <change>Pebble 2/LE: Fix multiple bugs in reconnection code, honor reconnect tries from settings</change>
+        <change>Mi Band 2: Experimental support for activity recognition</change>
+        <change>Mi Band 2: Fix time setting code</change>
+    </release>
     <release version="0.14.3" versioncode="75">
         <change>Pebble: Experimental support for pairing and using all Pebble models via BLE</change>
         <change>Mi Band 1: Fix regression causing display of wrong activity data</change>

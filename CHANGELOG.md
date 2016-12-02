@@ -1,5 +1,10 @@
 ###Changelog
 
+####Version 0.14.4
+* Pebble 2/LE: Fix multiple bugs in reconnection code, honor reconnect tries from settings
+* Mi Band 2: Experimental support for activity recognition
+* Mi Band 2: Fix time setting code
+
 ####Version 0.14.3
 * Pebble: Experimental support for pairing and using all Pebble models via BLE
 * Mi Band 1: Fix regression causing display of wrong activity data (#440)
