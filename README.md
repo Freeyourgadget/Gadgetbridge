@@ -17,7 +17,7 @@ need to create an account and transmit any of your data to the vendor's servers.
 * Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round
 * Pebble 2 (experimental, PAIR WITHIN GADGETBRIDGE)
 * Mi Band, Mi Band 1A, Mi Band 1S
-* Mi Band 2 (notifications, alarms and heart rate measurement only)
+* Mi Band 2
 * Vibratissimo (experimental)
 
 ## Features (Pebble)
@@ -58,6 +58,7 @@ For more information read [this wiki article](https://github.com/Freeyourgadget/
 
 * Discovery and pairing
 * Mi Band notifications (LEDs + vibration) for
+* Display live activity data (alpha)
     * Incoming calls
     * SMS received
     * K-9 mails received
@@ -82,9 +83,10 @@ For more information read [this wiki article](https://github.com/Freeyourgadget/
     * K-9 mails received
     * Conversations messages
     * Generic Android notifications
-* Synchronize the time to the Mi Band
+* Synchronize the time to the Mi Band 2
 * Display firmware version
-* Heart rate measurement (alpha)
+* Heart rate measurement on demand and during sleep
+* Synchronize activity data (alpha)
 * Set alarms on the Mi Band 2
 
 ## How to use (Mi Band 1+2)
