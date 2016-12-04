@@ -19,6 +19,7 @@ need to create an account and transmit any of your data to the vendor's servers.
 * Mi Band, Mi Band 1A, Mi Band 1S
 * Mi Band 2
 * Vibratissimo (experimental)
+* Liveview
 
 ## Features (Pebble)
 
@@ -110,6 +111,12 @@ Known Issues:
 * The initial connection to a Mi Band sometimes takes a little patience. Try to connect a few times, wait, 
   and try connecting again. This only happens until you have "bonded" with the Mi Band, i.e. until it 
   knows your MAC address. This behavior may also only occur with older firmware versions.
+
+
+## Features (Liveview)
+
+* set time (automatically upon connection)
+* display notifications and vibrate
 
 ## Authors (in order of first code contribution)
 
