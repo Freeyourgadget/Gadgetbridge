@@ -14,10 +14,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.devices.liveview.LiveviewConstants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
@@ -45,7 +45,7 @@ public class LiveviewIoThread extends GBDeviceIoThread {
             try {
                 mBtSocket.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage());
             }
         }
     }
@@ -99,6 +99,7 @@ public class LiveviewIoThread extends GBDeviceIoThread {
                 }
 
             } catch (IOException e) {
+
                 if (e.getMessage() != null && e.getMessage().contains("socket closed")) { //FIXME: this does not feel right
                     LOG.info(e.getMessage());
                     mIsConnected = false;
@@ -116,7 +117,7 @@ public class LiveviewIoThread extends GBDeviceIoThread {
             try {
                 mBtSocket.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage());
             }
             mBtSocket = null;
         }
@@ -143,8 +144,8 @@ public class LiveviewIoThread extends GBDeviceIoThread {
             mOutStream = mBtSocket.getOutputStream();
             setUpdateState(GBDevice.State.CONNECTED);
         } catch (IOException e) {
-            e.printStackTrace();
-            LOG.error("Server socket cannot be started");
+            LOG.error("Server socket cannot be started.");
+            //LOG.error(e.getMessage());
             setUpdateState(originalState);
             mInStream = null;
             mOutStream = null;
@@ -214,7 +215,7 @@ public class LiveviewIoThread extends GBDeviceIoThread {
     private int getLastInt(ByteArrayOutputStream stream) {
         byte[] array = stream.toByteArray();
         ByteBuffer buffer = ByteBuffer.wrap(array, array.length - 4, 4);
-        buffer.order(ByteOrder.BIG_ENDIAN);
+        buffer.order(LiveviewConstants.BYTE_ORDER);
         return buffer.getInt();
     }
 }

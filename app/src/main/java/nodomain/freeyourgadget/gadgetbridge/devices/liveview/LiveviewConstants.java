@@ -1,6 +1,10 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.liveview;
 //Changed by Renze: Fixed brightness constants
 
+import java.nio.ByteOrder;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+
 /**
  * Message constants reverse-engineered by Andrew de Quincey (<a
  * href="http://adq.livejournal.com">http://adq.livejournal.com</a>).
@@ -8,6 +12,12 @@ package nodomain.freeyourgadget.gadgetbridge.devices.liveview;
  * @author Robert &lt;xperimental@solidproject.de&gt;
  */
 public final class LiveviewConstants {
+
+    public static Charset ENCODING = StandardCharsets.ISO_8859_1;
+    public static ByteOrder BYTE_ORDER = ByteOrder.BIG_ENDIAN;
+
+    public static final byte CLOCK_24H = 0;
+    public static final byte CLOCK_12H = 1;
 
     public static final byte MSG_GETCAPS = 1;
     public static final byte MSG_GETCAPS_RESP = 2;

@@ -1,8 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.liveview;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.util.Calendar;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
@@ -13,11 +11,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 
 public class LiveviewProtocol extends GBDeviceProtocol {
-
-    @Override
-    public GBDevice getDevice() {
-        return super.getDevice();
-    }
 
     @Override
     public byte[] encodeFindDevice(boolean start) {
@@ -67,8 +60,9 @@ public class LiveviewProtocol extends GBDeviceProtocol {
         time += Calendar.getInstance().get(Calendar.ZONE_OFFSET) / 1000;
         time += Calendar.getInstance().get(Calendar.DST_OFFSET) / 1000;
         ByteBuffer buffer = ByteBuffer.allocate(5);
+        buffer.order(LiveviewConstants.BYTE_ORDER);
         buffer.putInt(time);
-        buffer.put((byte) 0); // 24 hour
+        buffer.put(LiveviewConstants.CLOCK_24H);
         return constructMessage(LiveviewConstants.MSG_GETTIME_RESP, buffer.array());
     }
 
@@ -85,30 +79,25 @@ public class LiveviewProtocol extends GBDeviceProtocol {
         String footerText = (null != notificationSpec.sourceName) ? notificationSpec.sourceName : "";
         String bodyText = (null != notificationSpec.body) ? notificationSpec.body : "";
 
-        try {
-            byte[] headerTextArray = headerText.getBytes("iso-8859-1");
-            byte[] footerTextArray = footerText.getBytes("iso-8859-1");
-            byte[] bodyTextArray = bodyText.getBytes("iso-8859-1");
-            int size = 15 + headerTextArray.length + bodyTextArray.length + footerTextArray.length;
-            ByteBuffer buffer = ByteBuffer.allocate(size);
-            buffer.put((byte) 1);
-            buffer.putShort((short) 0);
-            buffer.putShort((short) 0);
-            buffer.putShort((short) 0);
-            buffer.put((byte) 80); //should alert but it doesn't make the liveview vibrate
+        byte[] headerTextArray = headerText.getBytes(LiveviewConstants.ENCODING);
+        byte[] footerTextArray = footerText.getBytes(LiveviewConstants.ENCODING);
+        byte[] bodyTextArray = bodyText.getBytes(LiveviewConstants.ENCODING);
+        int size = 15 + headerTextArray.length + bodyTextArray.length + footerTextArray.length;
+        ByteBuffer buffer = ByteBuffer.allocate(size);
+        buffer.put((byte) 1);
+        buffer.putShort((short) 0);
+        buffer.putShort((short) 0);
+        buffer.putShort((short) 0);
+        buffer.put((byte) 80); //should alert but it doesn't make the liveview vibrate
 
-            buffer.put((byte) 0); //0 is for plaintext vs bitmapimage (1) strings
-            buffer.putShort((short) headerTextArray.length);
-            buffer.put(headerTextArray);
-            buffer.putShort((short) bodyTextArray.length);
-            buffer.put(bodyTextArray);
-            buffer.putShort((short) footerTextArray.length);
-            buffer.put(footerTextArray);
-            return constructMessage(LiveviewConstants.MSG_DISPLAYPANEL, buffer.array());
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return encodeVibrateRequest((short) 100, (short) 200);
-        }
+        buffer.put((byte) 0); //0 is for plaintext vs bitmapimage (1) strings
+        buffer.putShort((short) headerTextArray.length);
+        buffer.put(headerTextArray);
+        buffer.putShort((short) bodyTextArray.length);
+        buffer.put(bodyTextArray);
+        buffer.putShort((short) footerTextArray.length);
+        buffer.put(footerTextArray);
+        return constructMessage(LiveviewConstants.MSG_DISPLAYPANEL, buffer.array());
     }
 
 
@@ -116,7 +105,7 @@ public class LiveviewProtocol extends GBDeviceProtocol {
 
     public static byte[] constructMessage(byte messageType, byte[] payload) {
         ByteBuffer msgBuffer = ByteBuffer.allocate(payload.length + 6);
-        msgBuffer.order(ByteOrder.BIG_ENDIAN);
+        msgBuffer.order(LiveviewConstants.BYTE_ORDER);
         msgBuffer.put(messageType);
         msgBuffer.put((byte) 4);
         msgBuffer.putInt(payload.length);
@@ -126,23 +115,18 @@ public class LiveviewProtocol extends GBDeviceProtocol {
 
     public byte[] encodeVibrateRequest(short delay, short time) {
         ByteBuffer buffer = ByteBuffer.allocate(4);
-        buffer.order(ByteOrder.BIG_ENDIAN);
+        buffer.order(LiveviewConstants.BYTE_ORDER);
         buffer.putShort(delay);
         buffer.putShort(time);
         return constructMessage(LiveviewConstants.MSG_SETVIBRATE, buffer.array());
     }
 
     public byte[] encodeCapabilitiesRequest() {
-        try {
-            byte[] version = LiveviewConstants.CLIENT_SOFTWARE_VERSION.getBytes("iso-8859-1");
-            ByteBuffer buffer = ByteBuffer.allocate(version.length + 1);
-            buffer.order(ByteOrder.BIG_ENDIAN);
-            buffer.put((byte) version.length);
-            buffer.put(version);
-            return constructMessage(LiveviewConstants.MSG_GETCAPS, buffer.array());
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return null;
+        byte[] version = LiveviewConstants.CLIENT_SOFTWARE_VERSION.getBytes(LiveviewConstants.ENCODING);
+        ByteBuffer buffer = ByteBuffer.allocate(version.length + 1);
+        buffer.order(LiveviewConstants.BYTE_ORDER);
+        buffer.put((byte) version.length);
+        buffer.put(version);
+        return constructMessage(LiveviewConstants.MSG_GETCAPS, buffer.array());
     }
 }
