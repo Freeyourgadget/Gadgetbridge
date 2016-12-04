@@ -25,9 +25,9 @@ public class MiBand2SampleProvider extends AbstractMiBandSampleProvider {
     // 0 = same activity kind as before
     // 1 = light activity walking?
     // 3 = definitely non-wear
-    // 9 = probably deep sleep, definitely some kind of sleep
+    // 9 = probably light sleep, definitely some kind of sleep
     // 10 = ignore, except for hr (if valid)
-    // 11 = probably light sleep
+    // 11 = probably deep sleep
     // 12 = definitely wake up
     // 17 = definitely not sleep related
 
