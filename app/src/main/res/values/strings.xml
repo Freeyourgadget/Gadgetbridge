@@ -120,8 +120,8 @@
     <string name="pref_summary_pebble_forceuntested">Enable features that are untested. ENABLE ONLY IF YOU KNOW WHAT YOU ARE DOING!</string>
     <string name="pref_title_pebble_forcele">Always prefer BLE</string>
     <string name="pref_summary_pebble_forcele">Use experimental Pebble LE support for all Pebbles instead of BT classic, requires paring a "Pebble LE" after non LE had been connected once</string>
-    <string name="pref_summary_pebble_enable_applogs">Enable Watch App Logging</string>
-    <string name="pref_title_pebble_enable_applogs">Will cause logs from watch apps to be logged by Gadgetbridge (requires reconnect)</string>
+    <string name="pref_title_pebble_enable_applogs">Enable Watch App Logging</string>
+    <string name="pref_summary_pebble_enable_applogs">Will cause logs from watch apps to be logged by Gadgetbridge (requires reconnect)</string>
 
     <string name="pref_title_pebble_reconnect_attempts">Reconnection Attempts</string>
 
