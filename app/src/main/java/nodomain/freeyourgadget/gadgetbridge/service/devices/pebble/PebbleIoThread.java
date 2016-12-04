@@ -500,6 +500,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                 LOG.info("syncing time");
                 write(mPebbleProtocol.encodeSetTime());
             }
+            write(mPebbleProtocol.encodeEnableAppLogs(prefs.getBoolean("pebble_enable_applogs",false)));
             write(mPebbleProtocol.encodeReportDataLogSessions());
             gbDevice.setState(GBDevice.State.INITIALIZED);
             return false;

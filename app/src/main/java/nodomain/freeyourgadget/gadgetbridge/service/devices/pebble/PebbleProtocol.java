@@ -1543,6 +1543,17 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
+    byte[] encodeEnableAppLogs(boolean enable) {
+        final short LENGTH_APPLOGS = 1;
+        ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_APPLOGS);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putShort(LENGTH_APPLOGS);
+        buf.putShort(ENDPOINT_APPLOGS);
+        buf.put((byte) (enable ? 1 : 0));
+
+        return buf.array();
+    }
+
     private ArrayList<Pair<Integer, Object>> decodeDict(ByteBuffer buf) {
         ArrayList<Pair<Integer, Object>> dict = new ArrayList<>();
         buf.order(ByteOrder.LITTLE_ENDIAN);
@@ -1652,8 +1663,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 length += ((String) pair.second).getBytes().length + 1;
             } else if (pair.second instanceof byte[]) {
                 length += ((byte[]) pair.second).length;
-            }
-            else {
+            } else {
                 LOG.warn("unknown type: " + pair.second.getClass().toString());
             }
         }
@@ -1905,6 +1915,19 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return null;
     }
 
+    private void decodeAppLogs(ByteBuffer buf) {
+        long uuid_high = buf.getLong();
+        long uuid_low = buf.getLong();
+        UUID uuid = new UUID(uuid_high, uuid_low);
+        int timestamp = buf.getInt();
+        int logLevel = buf.get() & 0xff;
+        int messageLength = buf.get() & 0xff;
+        int lineNumber = buf.getShort() & 0xffff;
+        String fileName = getFixedString(buf, 16);
+        String message = getFixedString(buf, messageLength);
+        LOG.debug("APP_LOGS from uuid " + uuid.toString() + " in " + fileName + ":" + lineNumber + " " + message);
+    }
+
     private GBDeviceEvent decodeSystemMessage(ByteBuffer buf) {
         buf.get(); // unknown;
         byte command = buf.get();
@@ -2123,14 +2146,12 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
 
                 buf.getInt(); // skip
-                byte[] tmp = new byte[32];
-                buf.get(tmp, 0, 32);
-
-                versionCmd.fwVersion = new String(tmp).trim();
+                versionCmd.fwVersion = getFixedString(buf, 32);
 
                 mFwMajor = versionCmd.fwVersion.charAt(1) - 48;
                 LOG.info("Pebble firmware major detected as " + mFwMajor);
 
+                byte[] tmp = new byte[9];
                 buf.get(tmp, 0, 9);
                 int hwRev = buf.get() + 8;
                 if (hwRev >= 0 && hwRev < hwRevisions.length) {
@@ -2145,8 +2166,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         GBDeviceEventAppInfo appInfoCmd = new GBDeviceEventAppInfo();
                         int slotCount = buf.getInt();
                         int slotsUsed = buf.getInt();
-                        byte[] appName = new byte[32];
-                        byte[] appCreator = new byte[32];
                         appInfoCmd.apps = new GBDeviceApp[slotsUsed];
                         boolean[] slotInUse = new boolean[slotCount];
 
@@ -2154,8 +2173,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
                             int id = buf.getInt();
                             int index = buf.getInt();
                             slotInUse[index] = true;
-                            buf.get(appName, 0, 32);
-                            buf.get(appCreator, 0, 32);
+                            String appName = getFixedString(buf, 32);
+                            String appCreator = getFixedString(buf, 32);
+
                             int flags = buf.getInt();
 
                             GBDeviceApp.Type appType;
@@ -2167,7 +2187,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                                 appType = GBDeviceApp.Type.APP_GENERIC;
                             }
                             Short appVersion = buf.getShort();
-                            appInfoCmd.apps[i] = new GBDeviceApp(tmpUUIDS.get(i), new String(appName).trim(), new String(appCreator).trim(), appVersion.toString(), appType);
+                            appInfoCmd.apps[i] = new GBDeviceApp(tmpUUIDS.get(i), appName, appCreator, appVersion.toString(), appType);
                         }
                         for (int i = 0; i < slotCount; i++) {
                             if (!slotInUse[i]) {
@@ -2318,6 +2338,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 break;
             case ENDPOINT_APPREORDER:
                 devEvts = new GBDeviceEvent[]{decodeAppReorder(buf)};
+                break;
+            case ENDPOINT_APPLOGS:
+                decodeAppLogs(buf);
+                break;
             default:
                 break;
         }
@@ -2325,8 +2349,15 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return devEvts;
     }
 
-    public void setForceProtocol(boolean force) {
+    void setForceProtocol(boolean force) {
         LOG.info("setting force protocol to " + force);
         mForceProtocol = force;
+    }
+
+    private String getFixedString(ByteBuffer buf, int length) {
+        byte[] tmp = new byte[length];
+        buf.get(tmp, 0, length);
+
+        return new String(tmp).trim();
     }
 }
