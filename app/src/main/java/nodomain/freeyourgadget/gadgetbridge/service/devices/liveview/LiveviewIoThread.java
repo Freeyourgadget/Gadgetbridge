@@ -13,6 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.SocketTimeoutException;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
@@ -97,18 +98,16 @@ public class LiveviewIoThread extends GBDeviceIoThread {
                         mLiveviewSupport.evaluateGBDeviceEvent(deviceEvent);
                     }
                 }
-
+            } catch (SocketTimeoutException ignore) {
+                LOG.debug("socket timeout, we can't help but ignore this");
             } catch (IOException e) {
-
-                if (e.getMessage() != null && e.getMessage().contains("socket closed")) { //FIXME: this does not feel right
-                    LOG.info(e.getMessage());
-                    mIsConnected = false;
-                    mBtSocket = null;
-                    mInStream = null;
-                    mOutStream = null;
-                    LOG.info("Bluetooth socket closed, will quit IO Thread");
-                    break;
-                }
+                LOG.info(e.getMessage());
+                mIsConnected = false;
+                mBtSocket = null;
+                mInStream = null;
+                mOutStream = null;
+                LOG.info("Bluetooth socket closed, will quit IO Thread");
+                break;
             }
         }
 
