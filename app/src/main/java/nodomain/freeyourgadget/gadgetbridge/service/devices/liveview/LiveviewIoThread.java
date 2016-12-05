@@ -166,38 +166,33 @@ public class LiveviewIoThread extends GBDeviceIoThread {
     private byte[] parseIncoming() throws IOException {
         ByteArrayOutputStream msgStream = new ByteArrayOutputStream();
 
-        int needRead = 1;
+        boolean finished = false;
         ReaderState state = ReaderState.ID;
-        do {
+        byte[] incoming = new byte[1];
 
-            byte read = -1;
-            read = (byte) mInStream.read();
+        while (!finished) {
+            mInStream.read(incoming);
+            msgStream.write(incoming);
 
-            if (read == -1) {
-                LOG.error("Invalid message received (length=" + msgStream.size() + ")");
+            switch (state) {
+                case ID:
+                    state = ReaderState.HEADER_LEN;
+                    incoming = new byte[1];
+                    break;
+                case HEADER_LEN:
+                    state = ReaderState.HEADER;
+                    incoming = new byte[incoming[0]];
+                    break;
+                case HEADER:
+                    int payloadSize = getLastInt(msgStream);
+                    state = ReaderState.PAYLOAD;
+                    incoming = new byte[payloadSize];
+                    break;
+                case PAYLOAD: //read is blocking, if we are here we have all the data
+                    finished = true;
+                    break;
             }
-            needRead--;
-            msgStream.write(read);
-            if (needRead == 0) {
-                switch (state) {
-                    case ID:
-                        state = ReaderState.HEADER_LEN;
-                        needRead = 1;
-                        break;
-                    case HEADER_LEN:
-                        state = ReaderState.HEADER;
-                        needRead = read;
-                        break;
-                    case HEADER:
-                        int payloadSize = getLastInt(msgStream);
-                        state = ReaderState.PAYLOAD;
-                        needRead = payloadSize;
-                        break;
-                    default:
-                        break;
-                }
-            }
-        } while (needRead > 0);
+        }
         byte[] msgArray = msgStream.toByteArray();
         LOG.debug("received: " + GB.hexdump(msgArray, 0, msgArray.length));
         return msgArray;
