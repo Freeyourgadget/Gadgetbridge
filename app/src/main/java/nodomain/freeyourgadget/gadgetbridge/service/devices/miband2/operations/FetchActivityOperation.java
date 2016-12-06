@@ -60,7 +60,7 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
     protected void enableNeededNotifications(TransactionBuilder builder, boolean enable) {
         if (!enable) {
             // dynamically enabled, but always disabled on finish
-            builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_ACTIVITY_DATA), enable);
+            builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_5_ACTIVITY_DATA), enable);
         }
     }
 
@@ -71,7 +71,7 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
         builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.busy_task_fetch_activity_data), getContext()));
         BluetoothGattCharacteristic characteristicFetch = getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC4);
         builder.notify(characteristicFetch, true);
-        BluetoothGattCharacteristic characteristicActivityData = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_ACTIVITY_DATA);
+        BluetoothGattCharacteristic characteristicActivityData = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_5_ACTIVITY_DATA);
 
         GregorianCalendar sinceWhen = getLastSuccessfulSynchronizedTime();
         builder.write(characteristicFetch, BLETypeConversions.join(new byte[] { MiBand2Service.COMMAND_ACTIVITY_DATA_START_DATE, 0x01 }, getSupport().getTimeBytes(sinceWhen, TimeUnit.MINUTES)));
@@ -105,7 +105,7 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
     public boolean onCharacteristicChanged(BluetoothGatt gatt,
                                            BluetoothGattCharacteristic characteristic) {
         UUID characteristicUUID = characteristic.getUuid();
-        if (MiBand2Service.UUID_CHARACTERISTIC_ACTIVITY_DATA.equals(characteristicUUID)) {
+        if (MiBand2Service.UUID_CHARACTERISTIC_5_ACTIVITY_DATA.equals(characteristicUUID)) {
             handleActivityNotif(characteristic.getValue());
             return true;
         } else if (MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC4.equals(characteristicUUID)) {
