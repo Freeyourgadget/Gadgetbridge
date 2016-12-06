@@ -110,8 +110,8 @@ Known Issues:
 * The initial connection to a Mi Band sometimes takes a little patience. Try to connect a few times, wait, 
   and try connecting again. This only happens until you have "bonded" with the Mi Band, i.e. until it 
   knows your MAC address. This behavior may also only occur with older firmware versions.
-* The band may not "bond" if you have the band paired with other apps like the MiFit.
-  In order to "bond" with Gadgetbridge, please unpair the band on other apps first.
+* If you use other apps like Mi Fit, and "bonding" with Gadgetbridge does not work, please
+  try to unpair the band in the other app and try again with Gadgetbridge.
 
 ## Authors (in order of first code contribution)
 
