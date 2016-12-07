@@ -180,11 +180,16 @@ public class LiveviewIoThread extends GBDeviceIoThread {
                     incoming = new byte[1];
                     break;
                 case HEADER_LEN:
+                    int headerSize = 0xff & incoming[0];
+                    if (headerSize < 0)
+                        throw new IOException();
                     state = ReaderState.HEADER;
-                    incoming = new byte[incoming[0]];
+                    incoming = new byte[headerSize];
                     break;
                 case HEADER:
                     int payloadSize = getLastInt(msgStream);
+                    if (payloadSize < 0 || payloadSize > 8000) //this will possibly be changed in the future
+                        throw new IOException();
                     state = ReaderState.PAYLOAD;
                     incoming = new byte[payloadSize];
                     break;
