@@ -19,6 +19,7 @@ need to create an account and transmit any of your data to the vendor's servers.
 * Mi Band, Mi Band 1A, Mi Band 1S
 * Mi Band 2
 * Vibratissimo (experimental)
+* Liveview
 
 ## Features (Pebble)
 
@@ -112,6 +113,12 @@ Known Issues:
   knows your MAC address. This behavior may also only occur with older firmware versions.
 * If you use other apps like Mi Fit, and "bonding" with Gadgetbridge does not work, please
   try to unpair the band in the other app and try again with Gadgetbridge.
+
+
+## Features (Liveview)
+
+* set time (automatically upon connection)
+* display notifications and vibrate
 
 ## Authors (in order of first code contribution)
 
