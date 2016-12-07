@@ -37,7 +37,6 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
@@ -78,14 +77,14 @@ public class GBApplication extends Application {
             return dir.getAbsolutePath();
         }
     };
-    private static DeviceManager deviceManager;
+
+    private DeviceManager deviceManager;
 
     public static void quit() {
         GB.log("Quitting Gadgetbridge...", GB.INFO, null);
         Intent quitIntent = new Intent(GBApplication.ACTION_QUIT);
         LocalBroadcastManager.getInstance(context).sendBroadcast(quitIntent);
         GBApplication.deviceService().quit();
-        GB.removeAllNotifications(context);
     }
 
     public GBApplication() {
@@ -151,7 +150,7 @@ public class GBApplication extends Application {
      */
     private boolean hasBusyDevice() {
         List<GBDevice> devices = getDeviceManager().getDevices();
-        for (GBDevice device: devices) {
+        for (GBDevice device : devices) {
             if (device.isBusy()) {
                 return true;
             }
@@ -201,7 +200,7 @@ public class GBApplication extends Application {
      * when that was not successful
      * If acquiring was successful, callers must call #releaseDB when they
      * are done (from the same thread that acquired the lock!
-     *
+     * <p>
      * Callers must not hold a reference to the returned instance because it
      * will be invalidated at some point.
      *
@@ -269,7 +268,7 @@ public class GBApplication extends Application {
     @TargetApi(Build.VERSION_CODES.M)
     public static boolean isPriorityNumber(int priorityType, String number) {
         NotificationManager.Policy notificationPolicy = notificationManager.getNotificationPolicy();
-        if(priorityType == Policy.PRIORITY_CATEGORY_MESSAGES) {
+        if (priorityType == Policy.PRIORITY_CATEGORY_MESSAGES) {
             if ((notificationPolicy.priorityCategories & Policy.PRIORITY_CATEGORY_MESSAGES) == Policy.PRIORITY_CATEGORY_MESSAGES) {
                 return isPrioritySender(notificationPolicy.priorityMessageSenders, number);
             }
@@ -421,6 +420,7 @@ public class GBApplication extends Application {
         theme.resolveAttribute(android.R.attr.textColor, typedValue, true);
         return typedValue.data;
     }
+
     public static int getBackgroundColor(Context context) {
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = context.getTheme();
@@ -436,7 +436,7 @@ public class GBApplication extends Application {
         return gbPrefs;
     }
 
-    public static DeviceManager getDeviceManager() {
+    public DeviceManager getDeviceManager() {
         return deviceManager;
     }
 }
