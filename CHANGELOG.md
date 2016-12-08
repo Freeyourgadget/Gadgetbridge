@@ -1,5 +1,9 @@
 ###Changelog
 
+####Version next
+* New device: Liveview
+* Liveview: initial support (set the time and receive notifications)
+
 ####Version 0.14.4
 * Pebble 2/LE: Fix multiple bugs in reconnection code, honor reconnect tries from settings
 * Mi Band 2: Experimental support for activity recognition

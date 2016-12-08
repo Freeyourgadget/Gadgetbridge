@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="next">
+        <change>New device: Liveview</change>
+        <change>Liveview: initial support (set the time and receive notifications)</change>
+    </release>
     <release version="0.14.4" versioncode="76">
         <change>Pebble 2/LE: Fix multiple bugs in reconnection code, honor reconnect tries from settings</change>
         <change>Mi Band 2: Experimental support for activity recognition</change>
