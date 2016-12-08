@@ -51,6 +51,9 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
 
 		// Facebook Messenger
 		put("com.facebook.orca", NotificationType.FACEBOOK_MESSENGER);
+
+		// WhatsApp
+		put("com.whatsapp", NotificationType.WHATSAPP);
 	}
 
 }

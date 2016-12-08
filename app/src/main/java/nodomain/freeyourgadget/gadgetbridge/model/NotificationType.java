@@ -15,7 +15,8 @@ public enum NotificationType {
     FACEBOOK_MESSENGER(PebbleIconID.NOTIFICATION_FACEBOOK_MESSENGER, PebbleColor.VeryLightBlue),
     SIGNAL(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.BlueMoon),
     TWITTER(PebbleIconID.NOTIFICATION_TWITTER, PebbleColor.BlueMoon),
-    TELEGRAM(PebbleIconID.NOTIFICATION_TELEGRAM, PebbleColor.PictonBlue);
+    TELEGRAM(PebbleIconID.NOTIFICATION_TELEGRAM, PebbleColor.PictonBlue),
+    WHATSAPP(PebbleIconID.NOTIFICATION_WHATSAPP, PebbleColor.MayGreen);
 
     public int icon;
     public byte color;
@@ -47,6 +48,7 @@ public enum NotificationType {
             case FACEBOOK_MESSENGER:
             case SIGNAL:
             case TELEGRAM:
+            case WHATSAPP:
                 return "generic_chat";
             case UNKNOWN:
             default:
