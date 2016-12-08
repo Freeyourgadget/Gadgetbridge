@@ -23,20 +23,15 @@ import android.service.notification.StatusBarNotification;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.RemoteInput;
 import android.support.v4.content.LocalBroadcastManager;
-
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.model.*;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
-import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class NotificationListener extends NotificationListenerService {
 
@@ -250,48 +245,7 @@ public class NotificationListener extends NotificationListenerService {
 
         boolean preferBigText = false;
 
-        switch (source) {
-            case "org.mariotaku.twidere":
-            case "com.twitter.android":
-            case "org.andstatus.app":
-            case "org.mustard.android":
-                notificationSpec.type = NotificationType.TWITTER;
-                break;
-            case "com.fsck.k9":
-            case "com.android.email":
-                notificationSpec.type = NotificationType.GENERIC_EMAIL;
-                preferBigText = true;
-                break;
-            case "com.moez.QKSMS":
-            case "com.android.mms":
-            case "com.android.messaging":
-            case "com.sonyericsson.conversations":
-            case "org.smssecure.smssecure":
-                notificationSpec.type = NotificationType.GENERIC_SMS;
-                break;
-            case "eu.siacs.conversations":
-                notificationSpec.type = NotificationType.CONVERSATIONS;
-                break;
-            case "org.thoughtcrime.securesms":
-                notificationSpec.type = NotificationType.SIGNAL;
-                break;
-            case "org.telegram.messenger":
-                notificationSpec.type = NotificationType.TELEGRAM;
-                break;
-            case "me.zeeroooo.materialfb":
-            case "it.rignanese.leo.slimfacebook":
-            case "me.jakelane.wrapperforfacebook":
-            case "com.facebook.katana":
-            case "org.indywidualni.fblite":
-                notificationSpec.type = NotificationType.FACEBOOK;
-                break;
-            case "com.facebook.orca":
-                notificationSpec.type = NotificationType.FACEBOOK_MESSENGER;
-                break;
-            default:
-                notificationSpec.type = NotificationType.UNKNOWN;
-                break;
-        }
+        notificationSpec.type = AppNotificationType.getInstance().get(source);
 
         LOG.info("Processing notification from source " + source);
 
