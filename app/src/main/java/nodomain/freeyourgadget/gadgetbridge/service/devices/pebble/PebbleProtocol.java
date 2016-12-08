@@ -70,6 +70,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
     public static final short ENDPOINT_DATALOG = 6778;
     static final short ENDPOINT_RUNKEEPER = 7000;
     static final short ENDPOINT_SCREENSHOT = 8000;
+    static final short ENDPOINT_AUDIOSTREAM = 10000;
+    static final short ENDPOINT_VOICECONTROL = 11000;
     static final short ENDPOINT_NOTIFICATIONACTION = 11440; // 3.x only, TODO: find a better name
     static final short ENDPOINT_APPREORDER = (short) 0xabcd; // 3.x only
     static final short ENDPOINT_BLOBDB = (short) 45531;  // 3.x only
@@ -2076,6 +2078,32 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return null;
     }
 
+    private GBDeviceEvent decodeVoiceControl(ByteBuffer buf) {
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        byte command = buf.get();
+        int flags = buf.getInt();
+        byte session_type = buf.get(); //0x01 dictation 0x02 command
+        short session_id = buf.getShort();
+        //attributes
+        byte count = buf.get();
+        byte type = buf.get();
+        short length = buf.getShort();
+        byte[] version = new byte[20];
+        buf.get(version); //it's a string like "1.2rc1"
+        int sample_rate = buf.getInt();
+        short bit_rate = buf.getShort();
+        byte bitstream_version = buf.get();
+        short frame_size = buf.getShort();
+
+        GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
+        if (command == 0x01) { //session setup
+            sendBytes.encodedBytes = null;
+        } else if (command == 0x02) { //dictation result
+            sendBytes.encodedBytes = null;
+        }
+        return sendBytes;
+    }
+
     @Override
     public GBDeviceEvent[] decodeResponse(byte[] responseData) {
         ByteBuffer buf = ByteBuffer.wrap(responseData);
@@ -2324,6 +2352,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
             case ENDPOINT_APPLOGS:
                 decodeAppLogs(buf);
                 break;
+//            case ENDPOINT_VOICECONTROL:
+//                devEvts = new GBDeviceEvent[]{decodeVoiceControl(buf)};
+//            case ENDPOINT_AUDIOSTREAM:
+//                LOG.debug(GB.hexdump(responseData, 0, responseData.length));
+//                break;
             default:
                 break;
         }
