@@ -15,7 +15,7 @@ need to create an account and transmit any of your data to the vendor's servers.
 
 ## Supported Devices
 * Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round
-* Pebble 2 (experimental, PAIR WITHIN GADGETBRIDGE)
+* Pebble 2, Pebble Time 2 (experimental, PAIR WITHIN GADGETBRIDGE)
 * Mi Band, Mi Band 1A, Mi Band 1S
 * Mi Band 2
 * Vibratissimo (experimental)

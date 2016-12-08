@@ -1,8 +1,9 @@
 ###Changelog
 
-####Version next
+####Version 0.15.0
 * New device: Liveview
 * Liveview: initial support (set the time and receive notifications)
+* Pebble: log pebble app logs if option is enabled in pebble development settings
 
 ####Version 0.14.4
 * Pebble 2/LE: Fix multiple bugs in reconnection code, honor reconnect tries from settings
