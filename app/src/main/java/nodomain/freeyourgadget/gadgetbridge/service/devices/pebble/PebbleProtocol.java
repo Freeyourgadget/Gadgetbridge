@@ -814,6 +814,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         String[] parts = {title, subtitle, body};
 
+        if(notificationType == null) {
+            notificationType = NotificationType.UNKNOWN;
+        }
+
         int icon_id = notificationType.icon;
         byte color_id = notificationType.color;
 
