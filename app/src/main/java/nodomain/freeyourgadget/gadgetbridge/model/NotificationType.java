@@ -53,4 +53,4 @@ public enum NotificationType {
                 return "generic";
         }
     }
-    }
+}
