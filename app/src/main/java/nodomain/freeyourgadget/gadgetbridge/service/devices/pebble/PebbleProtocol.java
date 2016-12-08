@@ -1921,7 +1921,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         int lineNumber = buf.getShort() & 0xffff;
         String fileName = getFixedString(buf, 16);
         String message = getFixedString(buf, messageLength);
-        LOG.debug("APP_LOGS from uuid " + uuid.toString() + " in " + fileName + ":" + lineNumber + " " + message);
+        LOG.debug("APP_LOGS (" + logLevel +") from uuid " + uuid.toString() + " in " + fileName + ":" + lineNumber + " " + message);
     }
 
     private GBDeviceEvent decodeSystemMessage(ByteBuffer buf) {
