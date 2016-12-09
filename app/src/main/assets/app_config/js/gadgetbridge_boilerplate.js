@@ -195,9 +195,10 @@ var storedPreset = GBjs.getAppStoredPreset();
 document.addEventListener('DOMContentLoaded', function(){
 if (jsConfigFile != null) {
     loadScript(jsConfigFile, function() {
+        Pebble.evaluate('ready');
         if (getURLVariable('config') == 'true') {
             showStep("step2");
-            var json_string = decodeURIComponent(getURLVariable('json'));
+            var json_string = getURLVariable('json');
             var t = new Object();
             t.response = json_string;
             if (json_string != '') {
@@ -211,7 +212,6 @@ if (jsConfigFile != null) {
                         presetElements[i].style.display = 'none';
                     }
             }
-            Pebble.evaluate('ready');
             Pebble.evaluate('showConfiguration');
         }
     });
