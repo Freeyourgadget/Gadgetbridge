@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.database.DBUpdateScript;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributesDao;
-import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivitySampleDao;
 
 /*
  * adds heart rate column to health table

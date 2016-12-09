@@ -15,8 +15,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
-
 class PebbleGATTServer extends BluetoothGattServerCallback {
     private static final Logger LOG = LoggerFactory.getLogger(PebbleGATTServer.class);
     private static final UUID WRITE_CHARACTERISTICS = UUID.fromString("10000001-328E-0FBB-C642-1AA6699BDADA");

@@ -1,9 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.miband2;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBand2Support;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.AbstractMiBandOperation;
 
 public abstract class AbstractMiBand2Operation extends AbstractMiBandOperation<MiBand2Support> {
