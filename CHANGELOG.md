@@ -4,6 +4,8 @@
 * New device: Liveview
 * Liveview: initial support (set the time and receive notifications)
 * Pebble: log pebble app logs if option is enabled in pebble development settings
+* Pebble: notification icons for more apps
+* Pebble: Further improve compatibility for watchface configuration
 
 ####Version 0.14.4
 * Pebble 2/LE: Fix multiple bugs in reconnection code, honor reconnect tries from settings
