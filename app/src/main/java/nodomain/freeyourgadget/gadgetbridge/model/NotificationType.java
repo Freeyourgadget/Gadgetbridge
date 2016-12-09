@@ -1,24 +1,35 @@
 package nodomain.freeyourgadget.gadgetbridge.model;
 
+import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleColor;
+import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleIconID;
+
 public enum NotificationType {
 
-    UNKNOWN,
+    UNKNOWN(PebbleIconID.NOTIFICATION_GENERIC, PebbleColor.Red),
 
-    CONVERSATIONS,
-    GENERIC_EMAIL,
-    GENERIC_NAVIGATION,
-    GENERIC_SMS,
-    FACEBOOK,
-    FACEBOOK_MESSENGER,
-    SIGNAL,
-    TWITTER,
-    TELEGRAM;
+    CONVERSATIONS(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.Inchworm),
+    GENERIC_EMAIL(PebbleIconID.GENERIC_EMAIL, PebbleColor.JaegerGreen),
+    GENERIC_NAVIGATION(PebbleIconID.LOCATION, PebbleColor.Orange),
+    GENERIC_SMS(PebbleIconID.GENERIC_SMS, PebbleColor.VividViolet),
+    FACEBOOK(PebbleIconID.NOTIFICATION_FACEBOOK, PebbleColor.Liberty),
+    FACEBOOK_MESSENGER(PebbleIconID.NOTIFICATION_FACEBOOK_MESSENGER, PebbleColor.VeryLightBlue),
+    SIGNAL(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.BlueMoon),
+    TWITTER(PebbleIconID.NOTIFICATION_TWITTER, PebbleColor.BlueMoon),
+    TELEGRAM(PebbleIconID.NOTIFICATION_TELEGRAM, PebbleColor.PictonBlue),
+    WHATSAPP(PebbleIconID.NOTIFICATION_WHATSAPP, PebbleColor.MayGreen);
+
+    public int icon;
+    public byte color;
+
+    NotificationType(int icon, byte color) {
+        this.icon = icon;
+        this.color = color;
+    }
 
     /**
      * Returns the enum constant as a fixed String value, e.g. to be used
      * as preference key. In case the keys are ever changed, this method
      * may be used to bring backward compatibility.
-     * @return
      */
     public String getFixedValue() {
         return name().toLowerCase();
@@ -37,6 +48,7 @@ public enum NotificationType {
             case FACEBOOK_MESSENGER:
             case SIGNAL:
             case TELEGRAM:
+            case WHATSAPP:
                 return "generic_chat";
             case UNKNOWN:
             default:
