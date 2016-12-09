@@ -21,7 +21,6 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
 		
 		// Generic SMS
 		put("com.moez.QKSMS", NotificationType.GENERIC_SMS);
-		put("com.moez.QKSMS", NotificationType.GENERIC_SMS);
 		put("com.android.mms", NotificationType.GENERIC_SMS);
 		put("com.android.messaging", NotificationType.GENERIC_SMS);
 		put("com.sonyericsson.conversations", NotificationType.GENERIC_SMS);
