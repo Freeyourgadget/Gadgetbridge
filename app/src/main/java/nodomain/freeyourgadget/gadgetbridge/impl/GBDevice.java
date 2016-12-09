@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
@@ -42,12 +43,16 @@ public class GBDevice implements Parcelable {
     public static final String EXTRA_DEVICE = "device";
     private static final String DEVINFO_HW_VER = "HW: ";
     private static final String DEVINFO_FW_VER = "FW: ";
+    private static final String DEVINFO_HR_VER = "HR: ";
     private static final String DEVINFO_ADDR = "ADDR: ";
-    private final String mName;
+    private static final String DEVINFO_ADDR2 = "ADDR2: ";
+    private String mName;
     private final String mAddress;
+    private String mVolatileAddress;
     private final DeviceType mDeviceType;
-    private String mFirmwareVersion = null;
-    private String mHardwareVersion = null;
+    private String mFirmwareVersion;
+    private String mFirmwareVersion2;
+    private String mModel;
     private State mState = State.NOT_CONNECTED;
     private short mBatteryLevel = BATTERY_UNKNOWN;
     private short mBatteryThresholdPercent = BATTERY_THRESHOLD_PERCENT;
@@ -57,8 +62,13 @@ public class GBDevice implements Parcelable {
     private List<ItemWithDetails> mDeviceInfos;
 
     public GBDevice(String address, String name, DeviceType deviceType) {
+        this(address, null, name, deviceType);
+    }
+
+    public GBDevice(String address, String address2, String name, DeviceType deviceType) {
         mAddress = address;
-        mName = name;
+        mVolatileAddress = address2;
+        mName = (name != null) ? name : mAddress;
         mDeviceType = deviceType;
         validate();
     }
@@ -66,9 +76,11 @@ public class GBDevice implements Parcelable {
     private GBDevice(Parcel in) {
         mName = in.readString();
         mAddress = in.readString();
+        mVolatileAddress = in.readString();
         mDeviceType = DeviceType.values()[in.readInt()];
         mFirmwareVersion = in.readString();
-        mHardwareVersion = in.readString();
+        mFirmwareVersion2 = in.readString();
+        mModel = in.readString();
         mState = State.values()[in.readInt()];
         mBatteryLevel = (short) in.readInt();
         mBatteryThresholdPercent = (short) in.readInt();
@@ -84,9 +96,11 @@ public class GBDevice implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mName);
         dest.writeString(mAddress);
+        dest.writeString(mVolatileAddress);
         dest.writeInt(mDeviceType.ordinal());
         dest.writeString(mFirmwareVersion);
-        dest.writeString(mHardwareVersion);
+        dest.writeString(mFirmwareVersion2);
+        dest.writeString(mModel);
         dest.writeInt(mState.ordinal());
         dest.writeInt(mBatteryLevel);
         dest.writeInt(mBatteryThresholdPercent);
@@ -106,24 +120,58 @@ public class GBDevice implements Parcelable {
         return mName;
     }
 
+    public void setName(String name) {
+        if (name == null) {
+            LOG.warn("Ignoring setting of GBDevice name to null for " + this);
+            return;
+        }
+        mName = name;
+    }
+
     public String getAddress() {
         return mAddress;
     }
 
+    public String getVolatileAddress() {
+        return mVolatileAddress;
+    }
+
     public String getFirmwareVersion() {
         return mFirmwareVersion;
+    }
+    public String getFirmwareVersion2() {
+        return mFirmwareVersion2;
     }
 
     public void setFirmwareVersion(String firmwareVersion) {
         mFirmwareVersion = firmwareVersion;
     }
 
-    public String getHardwareVersion() {
-        return mHardwareVersion;
+    /**
+     * Sets the second firmware version, typically the heart rate firmware version
+     * @param firmwareVersion2
+     */
+    public void setFirmwareVersion2(String firmwareVersion2) {
+        mFirmwareVersion2 = firmwareVersion2;
     }
 
-    public void setHardwareVersion(String hardwareVersion) {
-        mHardwareVersion = hardwareVersion;
+    public void setVolatileAddress(String volatileAddress) {
+        mVolatileAddress = volatileAddress;
+    }
+
+    /**
+     * Returns the specific model/hardware revision of this device.
+     * This information is not always available, typically only when the device is initialized
+     * @return the model/hardware revision of this device
+     * @see #getType()
+     */
+    @Nullable
+    public String getModel() {
+        return mModel;
+    }
+
+    public void setModel(String model) {
+        mModel = model;
     }
 
     public boolean isConnected() {
@@ -197,6 +245,7 @@ public class GBDevice implements Parcelable {
         setBatteryLevel(BATTERY_UNKNOWN);
         setBatteryState(BatteryState.UNKNOWN);
         setFirmwareVersion(null);
+        setFirmwareVersion2(null);
         setRssi(RSSI_UNKNOWN);
         if (mBusyTask != null) {
             unsetBusyTask();
@@ -204,29 +253,51 @@ public class GBDevice implements Parcelable {
     }
 
     public String getStateString() {
-         /*
-          * for simplicity the user wont see all internal states, just connecting -> connected
-          * instead of connecting->connected->initializing->initialized
-          */
+        return getStateString(true);
+    }
+
+    /**
+     * for simplicity the user won't see all internal states, just connecting -> connected
+     * instead of connecting->connected->initializing->initialized
+     * Set simple to true to get this behavior.
+     */
+    private String getStateString(boolean simple) {
         switch (mState) {
             case NOT_CONNECTED:
                 return GBApplication.getContext().getString(R.string.not_connected);
             case WAITING_FOR_RECONNECT:
                 return GBApplication.getContext().getString(R.string.waiting_for_reconnect);
             case CONNECTING:
-            case CONNECTED:
-            case INITIALIZING:
                 return GBApplication.getContext().getString(R.string.connecting);
+            case CONNECTED:
+                if (simple) {
+                    return GBApplication.getContext().getString(R.string.connecting);
+                }
+                return GBApplication.getContext().getString(R.string.connected);
+            case INITIALIZING:
+                if (simple) {
+                    return GBApplication.getContext().getString(R.string.connecting);
+                }
+                return GBApplication.getContext().getString(R.string.initializing);
             case AUTHENTICATION_REQUIRED:
                 return GBApplication.getContext().getString(R.string.authentication_required);
             case AUTHENTICATING:
                 return GBApplication.getContext().getString(R.string.authenticating);
             case INITIALIZED:
-                return GBApplication.getContext().getString(R.string.connected);
+                if (simple) {
+                    return GBApplication.getContext().getString(R.string.connected);
+                }
+                return GBApplication.getContext().getString(R.string.initialized);
         }
         return GBApplication.getContext().getString(R.string.unknown_state);
     }
 
+    /**
+     * Returns the general type of this device. For more detailed information,
+     * soo #getModel()
+     * @return the general type of this device
+     */
+    @NonNull
     public DeviceType getType() {
         return mDeviceType;
     }
@@ -313,7 +384,7 @@ public class GBDevice implements Parcelable {
 
     @Override
     public String toString() {
-        return "Device " + getName() + ", " + getAddress() + ", " + getStateString();
+        return "Device " + getName() + ", " + getAddress() + ", " + getStateString(false);
     }
 
     /**
@@ -336,19 +407,34 @@ public class GBDevice implements Parcelable {
         return getDeviceInfos().size() > 0;
     }
 
+    public ItemWithDetails getDeviceInfo(String name) {
+        for (ItemWithDetails item : getDeviceInfos()) {
+            if (name.equals(item.getName())) {
+                return item;
+            }
+        }
+        return null;
+    }
+
     public List<ItemWithDetails> getDeviceInfos() {
         List<ItemWithDetails> result = new ArrayList<>();
         if (mDeviceInfos != null) {
             result.addAll(mDeviceInfos);
         }
-        if (mHardwareVersion != null) {
-            result.add(new GenericItem(DEVINFO_HW_VER, mHardwareVersion));
+        if (mModel != null) {
+            result.add(new GenericItem(DEVINFO_HW_VER, mModel));
         }
         if (mFirmwareVersion != null) {
             result.add(new GenericItem(DEVINFO_FW_VER, mFirmwareVersion));
         }
+        if (mFirmwareVersion2 != null) {
+            result.add(new GenericItem(DEVINFO_HR_VER, mFirmwareVersion2));
+        }
         if (mAddress != null) {
             result.add(new GenericItem(DEVINFO_ADDR, mAddress));
+        }
+        if (mVolatileAddress != null) {
+            result.add(new GenericItem(DEVINFO_ADDR2, mVolatileAddress));
         }
         Collections.sort(result);
         return result;

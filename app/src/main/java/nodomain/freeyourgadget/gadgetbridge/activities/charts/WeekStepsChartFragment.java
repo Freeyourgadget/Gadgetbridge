@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.Chart;
-import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
@@ -15,10 +15,9 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.CombinedData;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +42,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
     private int mTargetSteps = 10000;
 
     private PieChart mTodayStepsChart;
-    private CombinedChart mWeekStepsChart;
+    private BarChart mWeekStepsChart;
 
     @Override
     protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
@@ -64,8 +63,10 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         mTodayStepsChart.setCenterText(NumberFormat.getNumberInstance(mLocale).format(mcd.getDaySteps().totalSteps));
         mTodayStepsChart.setData(mcd.getDaySteps().data);
 
-        mWeekStepsChart.setData(mcd.getWeekBeforeStepsData().getCombinedData());
+        mWeekStepsChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
+        mWeekStepsChart.setData(mcd.getWeekBeforeStepsData().getData());
         mWeekStepsChart.getLegend().setEnabled(false);
+        mWeekStepsChart.getXAxis().setValueFormatter(mcd.getWeekBeforeStepsData().getXValueFormatter());
     }
 
     @Override
@@ -74,17 +75,17 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         mTodayStepsChart.invalidate();
     }
 
-    private DefaultChartsData refreshWeekBeforeSteps(DBHandler db, CombinedChart combinedChart, Calendar day, GBDevice device) {
+    private DefaultChartsData<BarData> refreshWeekBeforeSteps(DBHandler db, BarChart barChart, Calendar day, GBDevice device) {
 
         ActivityAnalysis analysis = new ActivityAnalysis();
 
         day = (Calendar) day.clone(); // do not modify the caller's argument
         day.add(Calendar.DATE, -7);
         List<BarEntry> entries = new ArrayList<>();
-        List<String> labels = new ArrayList<>();
+        ArrayList<String> labels = new ArrayList<String>();
 
         for (int counter = 0; counter < 7; counter++) {
-            entries.add(new BarEntry(analysis.calculateTotalSteps(getSamplesOfDay(db, day, device)), counter));
+            entries.add(new BarEntry(counter, analysis.calculateTotalSteps(getSamplesOfDay(db, day, device))));
             labels.add(day.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, mLocale));
             day.add(Calendar.DATE, 1);
         }
@@ -92,18 +93,15 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         BarDataSet set = new BarDataSet(entries, "");
         set.setColor(akActivity.color);
 
-        BarData barData = new BarData(labels, set);
+        BarData barData = new BarData(set);
         barData.setValueTextColor(Color.GRAY); //prevent tearing other graph elements with the black text. Another approach would be to hide the values cmpletely with data.setDrawValues(false);
 
         LimitLine target = new LimitLine(mTargetSteps);
-        combinedChart.getAxisLeft().removeAllLimitLines();
-        combinedChart.getAxisLeft().addLimitLine(target);
+        barChart.getAxisLeft().removeAllLimitLines();
+        barChart.getAxisLeft().addLimitLine(target);
 
-        CombinedData combinedData = new CombinedData(labels);
-        combinedData.setData(barData);
-        return new DefaultChartsData(combinedData);
+        return new DefaultChartsData(barData, new PreformattedXIndexLabelFormatter(labels));
     }
-
 
 
     private DaySteps refreshDaySteps(DBHandler db, Calendar day, GBDevice device) {
@@ -112,19 +110,15 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         int totalSteps = analysis.calculateTotalSteps(getSamplesOfDay(db, day, device));
 
         PieData data = new PieData();
-        List<Entry> entries = new ArrayList<>();
+        List<PieEntry> entries = new ArrayList<>();
         List<Integer> colors = new ArrayList<>();
 
-        entries.add(new Entry(totalSteps, 0));
+        entries.add(new PieEntry(totalSteps, "")); //we don't want labels on the pie chart
         colors.add(akActivity.color);
-        //we don't want labels on the pie chart
-        data.addXValue("");
 
         if (totalSteps < mTargetSteps) {
-            entries.add(new Entry((mTargetSteps - totalSteps), 1));
+            entries.add(new PieEntry((mTargetSteps - totalSteps))); //we don't want labels on the pie chart
             colors.add(Color.GRAY);
-            //we don't want labels on the pie chart
-            data.addXValue("");
         }
 
         PieDataSet set = new PieDataSet(entries, "");
@@ -141,7 +135,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
                              Bundle savedInstanceState) {
         mLocale = getResources().getConfiguration().locale;
 
-        View rootView = inflater.inflate(R.layout.fragment_sleepchart, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_weeksteps_chart, container, false);
 
         GBDevice device = getChartsHost().getDevice();
         if (device != null) {
@@ -149,8 +143,8 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
             mTargetSteps = MiBandCoordinator.getFitnessGoal(device.getAddress());
         }
 
-        mWeekStepsChart = (CombinedChart) rootView.findViewById(R.id.sleepchart);
-        mTodayStepsChart = (PieChart) rootView.findViewById(R.id.sleepchart_pie_light_deep);
+        mTodayStepsChart = (PieChart) rootView.findViewById(R.id.todaystepschart);
+        mWeekStepsChart = (BarChart) rootView.findViewById(R.id.weekstepschart);
 
         setupWeekStepsChart();
         setupTodayStepsChart();
@@ -168,9 +162,9 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
 
     private void setupTodayStepsChart() {
         mTodayStepsChart.setBackgroundColor(BACKGROUND_COLOR);
-        mTodayStepsChart.setDescriptionColor(DESCRIPTION_COLOR);
-        mTodayStepsChart.setDescription(getContext().getString(R.string.weeksteps_today_steps_description, mTargetSteps));
-        mTodayStepsChart.setNoDataTextDescription("");
+        mTodayStepsChart.getDescription().setTextColor(DESCRIPTION_COLOR);
+        mTodayStepsChart.getDescription().setText(getContext().getString(R.string.weeksteps_today_steps_description, String.valueOf(mTargetSteps)));
+//        mTodayStepsChart.setNoDataTextDescription("");
         mTodayStepsChart.setNoDataText("");
         mTodayStepsChart.getLegend().setEnabled(false);
 //        setupLegend(mTodayStepsChart);
@@ -178,8 +172,9 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
 
     private void setupWeekStepsChart() {
         mWeekStepsChart.setBackgroundColor(BACKGROUND_COLOR);
-        mWeekStepsChart.setDescriptionColor(DESCRIPTION_COLOR);
-        mWeekStepsChart.setDescription("");
+        mWeekStepsChart.getDescription().setTextColor(DESCRIPTION_COLOR);
+        mWeekStepsChart.getDescription().setText("");
+        mWeekStepsChart.setFitBars(true);
 
         configureBarLineChartDefaults(mWeekStepsChart);
 
@@ -189,11 +184,15 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         x.setEnabled(true);
         x.setTextColor(CHART_TEXT_COLOR);
         x.setDrawLimitLinesBehindData(true);
+        x.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         YAxis y = mWeekStepsChart.getAxisLeft();
         y.setDrawGridLines(false);
         y.setDrawTopYLabelEntry(false);
         y.setTextColor(CHART_TEXT_COLOR);
+        y.setDrawZeroLine(true);
+        y.setSpaceBottom(0);
+        y.setAxisMinimum(0);
 
         y.setEnabled(true);
 
@@ -205,6 +204,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
     }
 
+    @Override
     protected void setupLegend(Chart chart) {
 //        List<Integer> legendColors = new ArrayList<>(1);
 //        List<String> legendLabels = new ArrayList<>(1);
@@ -214,7 +214,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
 //        chart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
     }
 
-    private List<ActivitySample> getSamplesOfDay(DBHandler db, Calendar day, GBDevice device) {
+    private List<? extends ActivitySample> getSamplesOfDay(DBHandler db, Calendar day, GBDevice device) {
         int startTs;
         int endTs;
 
@@ -233,7 +233,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
     }
 
     @Override
-    protected List<ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+    protected List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
         return super.getAllSamples(db, device, tsFrom, tsTo);
     }
 
@@ -248,10 +248,10 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
     }
 
     private static class MyChartsData extends ChartsData {
-        private final DefaultChartsData weekBeforeStepsData;
+        private final DefaultChartsData<BarData> weekBeforeStepsData;
         private final DaySteps daySteps;
 
-        public MyChartsData(DaySteps daySteps, DefaultChartsData weekBeforeStepsData) {
+        public MyChartsData(DaySteps daySteps, DefaultChartsData<BarData> weekBeforeStepsData) {
             this.daySteps = daySteps;
             this.weekBeforeStepsData = weekBeforeStepsData;
         }
@@ -260,7 +260,7 @@ public class WeekStepsChartFragment extends AbstractChartFragment {
             return daySteps;
         }
 
-        public DefaultChartsData getWeekBeforeStepsData() {
+        public DefaultChartsData<BarData> getWeekBeforeStepsData() {
             return weekBeforeStepsData;
         }
     }

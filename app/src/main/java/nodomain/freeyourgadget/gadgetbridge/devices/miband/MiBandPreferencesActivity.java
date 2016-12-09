@@ -4,27 +4,29 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.support.v4.content.LocalBroadcastManager;
+import android.widget.Toast;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivity;
-import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_GENERIC;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_INCOMING_CALL;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_K9MAIL;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_PEBBLEMSG;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_SMS;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DATEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_ADDRESS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_DONT_ACK_TRANSFER;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_FITNESS_GOAL;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_WEARSIDE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_USER_ALIAS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_COUNT;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_PROFILE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.getNotificationPrefKey;
 
 public class MiBandPreferencesActivity extends AbstractSettingsActivity {
@@ -34,17 +36,7 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
 
         addPreferencesFromResource(R.xml.miband_preferences);
 
-        final Preference developmentMiaddr = findPreference(PREF_MIBAND_ADDRESS);
-        developmentMiaddr.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                Intent refreshIntent = new Intent(ControlCenter.ACTION_REFRESH_DEVICELIST);
-                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(refreshIntent);
-                preference.setSummary(newVal.toString());
-                return true;
-            }
-
-        });
+        addTryListeners();
 
         final Preference enableHeartrateSleepSupport = findPreference(PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION);
         enableHeartrateSleepSupport.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -54,21 +46,112 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
                 return true;
             }
         });
+
+        final Preference setDateFormat = findPreference(PREF_MI2_DATEFORMAT);
+        setDateFormat.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DATEFORMAT);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference activateDisplayOnLift = findPreference(PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT);
+        activateDisplayOnLift.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference fitnessGoal = findPreference(PREF_MIBAND_FITNESS_GOAL);
+        fitnessGoal.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MIBAND_FITNESS_GOAL);
+                    }
+                });
+                return true;
+            }
+        });
+    }
+
+    /**
+     * delayed execution so that the preferences are applied first
+      */
+    private void invokeLater(Runnable runnable) {
+        getListView().post(runnable);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        final Preference developmentMiaddr = findPreference(PREF_MIBAND_ADDRESS);
+        developmentMiaddr.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
+                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(refreshIntent);
+                preference.setSummary(newVal.toString());
+                return true;
+            }
+
+        });
+    }
+
+    private void addTryListeners() {
+        for (final NotificationType type : NotificationType.values()) {
+            String prefKey = "mi_try_" + type.getGenericType();
+            final Preference tryPref = findPreference(prefKey);
+            if (tryPref != null) {
+                tryPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        tryVibration(type);
+                        return true;
+                    }
+                });
+            } else {
+                GB.toast(getBaseContext(), "Unable to find preference key: " + prefKey + ", trying the vibration won't work", Toast.LENGTH_LONG, GB.WARN);
+            }
+        }
+    }
+
+    private void tryVibration(NotificationType type) {
+        NotificationSpec spec = new NotificationSpec();
+        spec.type = type;
+        GBApplication.deviceService().onNotification(spec);
     }
 
     @Override
     protected String[] getPreferenceKeysWithSummary() {
-        return new String[]{
-                PREF_USER_ALIAS,
-                PREF_MIBAND_ADDRESS,
-                PREF_MIBAND_FITNESS_GOAL,
-                PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR,
-		        PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS,
-                getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_SMS),
-                getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_INCOMING_CALL),
-                getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_K9MAIL),
-                getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_PEBBLEMSG),
-                getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_GENERIC),
-        };
+        Set<String> prefKeys = new HashSet<>();
+        prefKeys.add(PREF_USER_ALIAS);
+        prefKeys.add(PREF_MIBAND_ADDRESS);
+        prefKeys.add(PREF_MIBAND_FITNESS_GOAL);
+        prefKeys.add(PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR);
+        prefKeys.add(PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS);
+        prefKeys.add(getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_INCOMING_CALL));
+
+        for (NotificationType type : NotificationType.values()) {
+            String key = type.getGenericType();
+            prefKeys.add(getNotificationPrefKey(VIBRATION_COUNT, key));
+        }
+
+        return prefKeys.toArray(new String[0]);
     }
 }

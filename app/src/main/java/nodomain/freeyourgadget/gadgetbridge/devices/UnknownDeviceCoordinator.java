@@ -3,8 +3,16 @@ package nodomain.freeyourgadget.gadgetbridge.devices;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import java.util.List;
+
+import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
+import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
@@ -30,6 +38,40 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
         }
 
         @Override
+        public List getAllActivitySamples(int timestamp_from, int timestamp_to) {
+            return null;
+        }
+
+        @Override
+        public List getActivitySamples(int timestamp_from, int timestamp_to) {
+            return null;
+        }
+
+        @Override
+        public List getSleepSamples(int timestamp_from, int timestamp_to) {
+            return null;
+        }
+
+        @Override
+        public void addGBActivitySample(AbstractActivitySample activitySample) {
+        }
+
+        @Override
+        public void addGBActivitySamples(AbstractActivitySample[] activitySamples) {
+        }
+
+        @Override
+        public AbstractActivitySample createActivitySample() {
+            return null;
+        }
+
+        @Nullable
+        @Override
+        public AbstractActivitySample getLatestActivitySample() {
+            return null;
+        }
+
+        @Override
         public int getID() {
             return PROVIDER_UNKNOWN;
         }
@@ -40,13 +82,12 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supports(GBDeviceCandidate candidate) {
-        return false;
+    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+        return DeviceType.UNKNOWN;
     }
 
     @Override
-    public boolean supports(GBDevice device) {
-        return getDeviceType().equals(device.getType());
+    protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
     }
 
     @Override
@@ -65,8 +106,8 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public SampleProvider getSampleProvider() {
-        return sampleProvider;
+    public SampleProvider<?> getSampleProvider(GBDevice device, DaoSession session) {
+        return new UnknownSampleProvider();
     }
 
     @Override
@@ -76,6 +117,11 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsActivityDataFetching() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsActivityTracking() {
         return false;
     }
 
@@ -90,7 +136,27 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsHeartRateMeasurement(GBDevice device) {
+        return false;
+    }
+
+    @Override
     public int getTapString() {
         return 0;
+    }
+
+    @Override
+    public String getManufacturer() {
+        return "unknown";
+    }
+
+    @Override
+    public boolean supportsAppsManagement() {
+        return false;
+    }
+
+    @Override
+    public Class<? extends Activity> getAppsManagementActivity() {
+        return null;
     }
 }

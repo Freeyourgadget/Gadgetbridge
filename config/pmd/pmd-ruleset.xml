@@ -33,7 +33,10 @@
         <!-- Espresso is designed this way !-->
         <exclude name="TooManyStaticImports" />
     </rule>
-    <rule ref="rulesets/java/logging-java.xml" />
+    <rule ref="rulesets/java/logging-java.xml">
+        <!-- disabled because of lots of NullPointerExceptions -->
+        <exclude name="InvalidSlf4jMessageFormat"/>
+    </rule>
     <rule ref="rulesets/java/braces.xml" />
     <rule ref="rulesets/java/strings.xml" />
     <rule ref="rulesets/java/basic.xml" />

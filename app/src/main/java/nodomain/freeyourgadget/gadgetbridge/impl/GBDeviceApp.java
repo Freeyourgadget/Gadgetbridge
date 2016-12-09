@@ -89,6 +89,7 @@ public class GBDeviceApp {
     public enum Type {
         UNKNOWN,
         WATCHFACE,
+        WATCHFACE_SYSTEM,
         APP_GENERIC,
         APP_ACTIVITYTRACKER,
         APP_SYSTEM,

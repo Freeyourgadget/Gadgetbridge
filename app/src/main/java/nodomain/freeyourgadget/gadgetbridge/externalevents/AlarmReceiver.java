@@ -1,11 +1,17 @@
 package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
+import android.support.v4.app.ActivityCompat;
 
 import net.e175.klaus.solarpositioning.DeltaT;
 import net.e175.klaus.solarpositioning.SPA;
@@ -64,6 +70,21 @@ public class AlarmReceiver extends BroadcastReceiver {
         float latitude = prefs.getFloat("location_latitude", 0);
         float longitude = prefs.getFloat("location_longitude", 0);
         LOG.info("got longitude/latitude from preferences: " + latitude + "/" + longitude);
+
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                prefs.getBoolean("use_updated_location_if_available", false)) {
+            LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+            Criteria criteria = new Criteria();
+            String provider = locationManager.getBestProvider(criteria, false);
+            if (provider != null) {
+                Location lastKnownLocation = locationManager.getLastKnownLocation(provider);
+                if (lastKnownLocation != null) {
+                    latitude = (float) lastKnownLocation.getLatitude();
+                    longitude = (float) lastKnownLocation.getLongitude();
+                    LOG.info("got longitude/latitude from last known location: " + latitude + "/" + longitude);
+                }
+            }
+        }
         GregorianCalendar[] sunriseTransitSetTomorrow = SPA.calculateSunriseTransitSet(dateTimeTomorrow, latitude, longitude, DeltaT.estimate(dateTimeTomorrow));
 
         CalendarEventSpec calendarEventSpec = new CalendarEventSpec();

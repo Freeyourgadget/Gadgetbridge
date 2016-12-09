@@ -24,7 +24,7 @@ import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.AppManagerActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AbstractAppManagerFragment;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsHost;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
@@ -61,6 +61,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     private Context context;
     private boolean autoReconnect;
 
+    @Override
     public void setContext(GBDevice gbDevice, BluetoothAdapter btAdapter, Context context) {
         this.gbDevice = gbDevice;
         this.btAdapter = btAdapter;
@@ -152,7 +153,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             return;
         }
         gbDevice.setFirmwareVersion(infoEvent.fwVersion);
-        gbDevice.setHardwareVersion(infoEvent.hwVersion);
+        gbDevice.setModel(infoEvent.hwVersion);
         gbDevice.sendDeviceUpdateIntent(context);
     }
 
@@ -160,7 +161,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         Context context = getContext();
         LOG.info("Got event for APP_INFO");
 
-        Intent appInfoIntent = new Intent(AppManagerActivity.ACTION_REFRESH_APPLIST);
+        Intent appInfoIntent = new Intent(AbstractAppManagerFragment.ACTION_REFRESH_APPLIST);
         int appCount = appInfoEvent.apps.length;
         appInfoIntent.putExtra("app_count", appCount);
         for (Integer i = 0; i < appCount; i++) {
@@ -243,10 +244,12 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                 action = NotificationListener.ACTION_MUTE;
                 break;
             case REPLY:
-                String phoneNumber = (String) GBApplication.getIDSenderLookup().lookup(deviceEvent.handle);
-                if (phoneNumber != null) {
-                    LOG.info("got notfication reply for SMS from " + phoneNumber + " : " + deviceEvent.reply);
-                    SmsManager.getDefault().sendTextMessage(phoneNumber, null, deviceEvent.reply, null, null);
+                if (deviceEvent.phoneNumber == null) {
+                    deviceEvent.phoneNumber = (String) GBApplication.getIDSenderLookup().lookup(deviceEvent.handle);
+                }
+                if (deviceEvent.phoneNumber != null) {
+                    LOG.info("got notfication reply for SMS from " + deviceEvent.phoneNumber + " : " + deviceEvent.reply);
+                    SmsManager.getDefault().sendTextMessage(deviceEvent.phoneNumber, null, deviceEvent.reply, null, null);
                 } else {
                     LOG.info("got notfication reply for notification id " + deviceEvent.handle + " : " + deviceEvent.reply);
                     action = NotificationListener.ACTION_REPLY;
@@ -279,11 +282,11 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                 (BatteryState.BATTERY_LOW.equals(deviceEvent.state) ||
                         BatteryState.BATTERY_NORMAL.equals(deviceEvent.state))
                 ) {
-            GB.updateBatteryNotification(context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), deviceEvent.level),
+            GB.updateBatteryNotification(context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), String.valueOf(deviceEvent.level)),
                     deviceEvent.extendedInfoAvailable() ?
-                            context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), deviceEvent.level) + "\n" +
+                            context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), String.valueOf(deviceEvent.level)) + "\n" +
                                     context.getString(R.string.notif_battery_low_bigtext_last_charge_time, DateFormat.getDateTimeInstance().format(deviceEvent.lastChargeTime.getTime())) +
-                                    context.getString(R.string.notif_battery_low_bigtext_number_of_charges, deviceEvent.numCharges)
+                                    context.getString(R.string.notif_battery_low_bigtext_number_of_charges, String.valueOf(deviceEvent.numCharges))
                             : ""
                     , context);
         }

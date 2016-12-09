@@ -80,7 +80,7 @@
     <string name="title_activity_android_pairing">Cihaz ile eşleştir</string>
     <string name="android_pairing_hint">Android Bluetooth Eşleme penceresini kullanarak cihaz ile eşleştiriniz.</string>
     <string name="title_activity_mi_band_pairing">Mi Band ile eşleştir</string>
-    <string name="miband_pairing">%s ile eşleşiyor…</string>
+    <string name="pairing">%s ile eşleşiyor…</string>
     <string name="message_cannot_pair_no_mac">MAC adresi gelmedi, eşleşemiyor.</string>
     <string name="preferences_category_device_specific_settings">Cihaz için özel ayarlar</string>
     <string name="preferences_miband_settings">Mi Band Ayarları</string>

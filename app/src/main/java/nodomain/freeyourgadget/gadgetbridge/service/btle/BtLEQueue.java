@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -47,7 +48,7 @@ public final class BtLEQueue {
     private final InternalGattCallback internalGattCallback;
     private boolean mAutoReconnect;
 
-    private Thread dispatchThread = new Thread("GadgetBridge GATT Dispatcher") {
+    private Thread dispatchThread = new Thread("Gadgetbridge GATT Dispatcher") {
 
         @Override
         public void run() {
@@ -147,7 +148,7 @@ public final class BtLEQueue {
         }
         synchronized (mGattMonitor) {
             if (mBluetoothGatt != null) {
-                // Tribal knowledge says you're better off not reusing existing BlueoothGatt connections,
+                // Tribal knowledge says you're better off not reusing existing BluetoothGatt connections,
                 // so create a new one.
                 LOG.info("connect() requested -- disconnecting previous connection: " + mGbDevice.getName());
                 disconnect();
@@ -198,6 +199,7 @@ public final class BtLEQueue {
         if (mWaitForActionResultLatch != null) {
             mWaitForActionResultLatch.countDown();
         }
+        boolean wasInitialized = mGbDevice.isInitialized();
         setDeviceConnectionState(State.NOT_CONNECTED);
 
         // either we've been disconnected because the device is out of range
@@ -207,7 +209,7 @@ public final class BtLEQueue {
         // reconnecting automatically, so we try to fix this by re-creating mBluetoothGatt.
         // Not sure if this actually works without re-initializing the device...
         if (status != 0) {
-            if (!maybeReconnect()) {
+            if (!wasInitialized || !maybeReconnect()) {
                 disconnect(); // ensure that we start over cleanly next time
             }
         }
@@ -254,6 +256,23 @@ public final class BtLEQueue {
         LOG.debug("about to add: " + transaction);
         if (!transaction.isEmpty()) {
             mTransactions.add(transaction);
+        }
+    }
+
+    /**
+     * Adds a transaction to the beginning of the queue.
+     * Note that actions of the *currently executing* transaction
+     * will still be executed before the given transaction.
+     *
+     * @param transaction
+     */
+    public void insert(Transaction transaction) {
+        LOG.debug("about to insert: " + transaction);
+        if (!transaction.isEmpty()) {
+            List<Transaction> tail = new ArrayList<>(mTransactions.size() + 2);
+            mTransactions.drainTo(tail);
+            mTransactions.add(transaction);
+            mTransactions.addAll(tail);
         }
     }
 
@@ -329,8 +348,14 @@ public final class BtLEQueue {
                     LOG.info("Connected to GATT server.");
                     setDeviceConnectionState(State.CONNECTED);
                     // Attempts to discover services after successful connection.
-                    LOG.info("Attempting to start service discovery:" +
-                            gatt.discoverServices());
+                    List<BluetoothGattService> cachedServices = gatt.getServices();
+                    if (cachedServices != null && cachedServices.size() > 0) {
+                        LOG.info("Using cached services, skipping discovery");
+                        onServicesDiscovered(gatt, BluetoothGatt.GATT_SUCCESS);
+                    } else {
+                        LOG.info("Attempting to start service discovery:" +
+                                gatt.discoverServices());
+                    }
                     break;
                 case BluetoothProfile.STATE_DISCONNECTED:
                     LOG.info("Disconnected from GATT server.");

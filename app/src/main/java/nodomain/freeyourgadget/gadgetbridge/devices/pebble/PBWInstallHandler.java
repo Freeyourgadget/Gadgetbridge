@@ -18,6 +18,7 @@ import java.io.Writer;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.InstallActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
@@ -51,7 +52,7 @@ public class PBWInstallHandler implements InstallHandler {
             return;
         }
 
-        String platformName = PebbleUtils.getPlatformName(device.getHardwareVersion());
+        String platformName = PebbleUtils.getPlatformName(device.getModel());
 
         try {
             mPBWReader = new PBWReader(mUri, mContext, platformName);
@@ -74,7 +75,7 @@ public class PBWInstallHandler implements InstallHandler {
             installItem.setIcon(R.drawable.ic_firmware);
 
             String hwRevision = mPBWReader.getHWRevision();
-            if (hwRevision != null && hwRevision.equals(device.getHardwareVersion())) {
+            if (hwRevision != null && hwRevision.equals(device.getModel())) {
                 installItem.setName(mContext.getString(R.string.pbw_installhandler_pebble_firmware, ""));
                 installItem.setDetails(mContext.getString(R.string.pbwinstallhandler_correct_hw_revision));
 
@@ -135,6 +136,8 @@ public class PBWInstallHandler implements InstallHandler {
             destDir = new File(FileUtils.getExternalFilesDir() + "/pbw-cache");
             destDir.mkdirs();
             FileUtils.copyURItoFile(mContext, mUri, new File(destDir, app.getUUID().toString() + ".pbw"));
+
+            AppManagerActivity.addToAppOrderFile("pbwcacheorder.txt", app.getUUID());
         } catch (IOException e) {
             LOG.error("Installation failed: " + e.getMessage(), e);
             return;
@@ -174,10 +177,11 @@ public class PBWInstallHandler implements InstallHandler {
                 LOG.error("Failed to open output file: " + e.getMessage(), e);
             }
         }
+
     }
 
     public boolean isValid() {
-        // always pretend it is valid, as we cant know yet about hw/fw version
+        // always pretend it is valid, as we can't know yet about hw/fw version
         return true;
     }
 

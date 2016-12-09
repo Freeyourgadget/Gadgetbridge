@@ -1,18 +1,33 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
+import android.os.ParcelUuid;
+import android.support.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collection;
+import java.util.Collections;
+
+import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
@@ -21,22 +36,51 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class MiBandCoordinator extends AbstractDeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandCoordinator.class);
-    private final MiBandSampleProvider sampleProvider;
 
     public MiBandCoordinator() {
-        sampleProvider = new MiBandSampleProvider();
     }
 
+    @NonNull
     @Override
-    public boolean supports(GBDeviceCandidate candidate) {
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public Collection<? extends ScanFilter> createBLEScanFilters() {
+        ParcelUuid mi1Service = new ParcelUuid(MiBandService.UUID_SERVICE_MIBAND_SERVICE);
+        ScanFilter filter = new ScanFilter.Builder().setServiceUuid(mi1Service).build();
+        return Collections.singletonList(filter);
+    }
+
+    @NonNull
+    @Override
+    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String macAddress = candidate.getMacAddress().toUpperCase();
-        return macAddress.startsWith(MiBandService.MAC_ADDRESS_FILTER_1_1A)
-                || macAddress.startsWith(MiBandService.MAC_ADDRESS_FILTER_1S);
+        if (macAddress.startsWith(MiBandService.MAC_ADDRESS_FILTER_1_1A)
+                || macAddress.startsWith(MiBandService.MAC_ADDRESS_FILTER_1S)) {
+            return DeviceType.MIBAND;
+        }
+        if (candidate.supportsService(MiBandService.UUID_SERVICE_MIBAND_SERVICE)
+                && !candidate.supportsService(MiBandService.UUID_SERVICE_MIBAND2_SERVICE)) {
+            return DeviceType.MIBAND;
+        }
+        // and a heuristic
+        try {
+            BluetoothDevice device = candidate.getDevice();
+            if (isHealthWearable(device)) {
+                String name = device.getName();
+                if (name != null && name.toUpperCase().startsWith(MiBandConst.MI_GENERAL_NAME_PREFIX.toUpperCase())) {
+                    return DeviceType.MIBAND;
+                }
+            }
+        } catch (Exception ex) {
+            LOG.error("unable to check device support", ex);
+        }
+        return DeviceType.UNKNOWN;
     }
 
     @Override
-    public boolean supports(GBDevice device) {
-        return getDeviceType().equals(device.getType());
+    protected void deleteDevice(GBDevice gbDevice, Device device, DaoSession session) throws GBException {
+        Long deviceId = device.getId();
+        QueryBuilder<?> qb = session.getMiBandActivitySampleDao().queryBuilder();
+        qb.where(MiBandActivitySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
     }
 
     @Override
@@ -49,13 +93,14 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
         return MiBandPairingActivity.class;
     }
 
+    @Override
     public Class<? extends Activity> getPrimaryActivity() {
         return ChartsActivity.class;
     }
 
     @Override
-    public SampleProvider getSampleProvider() {
-        return sampleProvider;
+    public SampleProvider<? extends AbstractActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
+        return new MiBandSampleProvider(device, session);
     }
 
     @Override
@@ -80,8 +125,28 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsActivityTracking() {
+        return true;
+    }
+
+    @Override
     public int getTapString() {
         return R.string.tap_connected_device_for_activity;
+    }
+
+    @Override
+    public String getManufacturer() {
+        return "Xiaomi";
+    }
+
+    @Override
+    public boolean supportsAppsManagement() {
+        return false;
+    }
+
+    @Override
+    public Class<? extends Activity> getAppsManagementActivity() {
+        return null;
     }
 
     public static boolean hasValidUserInfo() {
@@ -122,10 +187,10 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
         UserInfo info = UserInfo.create(
                 miBandAddress,
                 prefs.getString(MiBandConst.PREF_USER_ALIAS, null),
-                activityUser.getActivityUserGender(),
-                activityUser.getActivityUserAge(),
-                activityUser.getActivityUserHeightCm(),
-                activityUser.getActivityUserWeightKg(),
+                activityUser.getGender(),
+                activityUser.getAge(),
+                activityUser.getHeightCm(),
+                activityUser.getWeightKg(),
                 0
         );
         return info;
@@ -158,5 +223,19 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
     public static int getReservedAlarmSlots(String miBandAddress) throws IllegalArgumentException {
         Prefs prefs = GBApplication.getPrefs();
         return prefs.getInt(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, 0);
+    }
+
+    @Override
+    public boolean supportsHeartRateMeasurement(GBDevice device) {
+        String hwVersion = device.getModel();
+        return isMi1S(hwVersion) || isMiPro(hwVersion);
+    }
+
+    private boolean isMi1S(String hardwareVersion) {
+        return MiBandConst.MI_1S.equals(hardwareVersion);
+    }
+
+    private boolean isMiPro(String hardwareVersion) {
+        return MiBandConst.MI_PRO.equals(hardwareVersion);
     }
 }

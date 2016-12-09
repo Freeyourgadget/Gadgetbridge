@@ -3,8 +3,8 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -33,7 +33,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import de.cketti.library.changelog.ChangeLog;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -41,6 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapter;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -50,18 +50,17 @@ public class ControlCenter extends GBActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(ControlCenter.class);
 
-    public static final String ACTION_REFRESH_DEVICELIST
-            = "nodomain.freeyourgadget.gadgetbridge.controlcenter.action.set_version";
-
     private TextView hintTextView;
     private FloatingActionButton fab;
     private ImageView background;
 
     private SwipeRefreshLayout swipeLayout;
     private GBDeviceAdapter mGBDeviceAdapter;
-    private GBDevice selectedDevice = null;
-
-    private final List<GBDevice> deviceList = new ArrayList<>();
+    private DeviceManager deviceManager;
+    /**
+     * Temporary field for the context menu
+     */
+    private GBDevice selectedDevice;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -71,48 +70,20 @@ public class ControlCenter extends GBActivity {
                 case GBApplication.ACTION_QUIT:
                     finish();
                     break;
-                case ACTION_REFRESH_DEVICELIST:
-                case BluetoothDevice.ACTION_BOND_STATE_CHANGED:
+                case DeviceManager.ACTION_DEVICES_CHANGED:
                     refreshPairedDevices();
-                    break;
-                case GBDevice.ACTION_DEVICE_CHANGED:
-                    GBDevice dev = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
-                    if (dev.getAddress() != null) {
-                        int index = deviceList.indexOf(dev); // search by address
-                        if (index >= 0) {
-                            deviceList.set(index, dev);
-                        } else {
-                            deviceList.add(dev);
-                        }
+                    GBDevice selectedDevice = deviceManager.getSelectedDevice();
+                    if (selectedDevice != null) {
+                        refreshBusyState(selectedDevice);
+                        enableSwipeRefresh(selectedDevice);
                     }
-                    updateSelectedDevice(dev);
-                    refreshPairedDevices();
-
-                    refreshBusyState(dev);
-                    enableSwipeRefresh(selectedDevice);
                     break;
             }
         }
     };
 
-    private void updateSelectedDevice(GBDevice dev) {
-        if (selectedDevice == null) {
-            selectedDevice = dev;
-        } else {
-            if (!selectedDevice.equals(dev)) {
-                if (selectedDevice.isConnected() && dev.isConnected()) {
-                    LOG.warn("multiple connected devices -- this is currently not really supported");
-                    selectedDevice = dev; // use the last one that changed
-                }
-                if (!selectedDevice.isConnected()) {
-                    selectedDevice = dev; // use the last one that changed
-                }
-            }
-        }
-    }
-
     private void refreshBusyState(GBDevice dev) {
-        if (dev.isBusy()) {
+        if (dev != null && dev.isBusy()) {
             swipeLayout.setRefreshing(true);
         } else {
             boolean wasBusy = swipeLayout.isRefreshing();
@@ -120,13 +91,14 @@ public class ControlCenter extends GBActivity {
                 swipeLayout.setRefreshing(false);
             }
         }
-        mGBDeviceAdapter.notifyDataSetChanged();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_controlcenter);
+
+        deviceManager = ((GBApplication)getApplication()).getDeviceManager();
 
         hintTextView = (TextView) findViewById(R.id.hintTextView);
         ListView deviceListView = (ListView) findViewById(R.id.deviceListView);
@@ -140,12 +112,13 @@ public class ControlCenter extends GBActivity {
             }
         });
 
+        final List<GBDevice> deviceList = deviceManager.getDevices();
         mGBDeviceAdapter = new GBDeviceAdapter(this, deviceList);
         deviceListView.setAdapter(this.mGBDeviceAdapter);
         deviceListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
-                GBDevice gbDevice = deviceList.get(position);
+                GBDevice gbDevice = mGBDeviceAdapter.getItem(position);
                 if (gbDevice.isInitialized()) {
                     DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
                     Class<? extends Activity> primaryActivity = coordinator.getPrimaryActivity();
@@ -155,7 +128,7 @@ public class ControlCenter extends GBActivity {
                         startActivity(startIntent);
                     }
                 } else {
-                    GBApplication.deviceService().connect(deviceList.get(position));
+                    GBApplication.deviceService().connect(gbDevice);
                 }
             }
         });
@@ -172,12 +145,8 @@ public class ControlCenter extends GBActivity {
 
         IntentFilter filterLocal = new IntentFilter();
         filterLocal.addAction(GBApplication.ACTION_QUIT);
-        filterLocal.addAction(ACTION_REFRESH_DEVICELIST);
-        filterLocal.addAction(GBDevice.ACTION_DEVICE_CHANGED);
-        filterLocal.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
+        filterLocal.addAction(DeviceManager.ACTION_DEVICES_CHANGED);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
-
-        registerReceiver(mReceiver, new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED));
 
         refreshPairedDevices();
         /*
@@ -200,7 +169,7 @@ public class ControlCenter extends GBActivity {
 
         GBApplication.deviceService().start();
 
-        enableSwipeRefresh(selectedDevice);
+        enableSwipeRefresh(deviceManager.getSelectedDevice());
         if (GB.isBluetoothEnabled() && deviceList.isEmpty() && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             startActivity(new Intent(this, DiscoveryActivity.class));
         } else {
@@ -212,7 +181,7 @@ public class ControlCenter extends GBActivity {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
-        selectedDevice = deviceList.get(acmi.position);
+        selectedDevice = mGBDeviceAdapter.getItem(acmi.position);
         if (selectedDevice != null && selectedDevice.isBusy()) {
             // no context menu when device is busy
             return;
@@ -228,6 +197,9 @@ public class ControlCenter extends GBActivity {
         }
         if (!coordinator.supportsAlarmConfiguration()) {
             menu.removeItem(R.id.controlcenter_configure_alarms);
+        }
+        if (!coordinator.supportsActivityTracking()) {
+            menu.removeItem(R.id.controlcenter_start_sleepmonitor);
         }
 
         if (selectedDevice.getState() == GBDevice.State.NOT_CONNECTED) {
@@ -254,6 +226,7 @@ public class ControlCenter extends GBActivity {
     }
 
     private void fetchActivityData() {
+        GBDevice selectedDevice = deviceManager.getSelectedDevice();
         if (selectedDevice == null) {
             return;
         }
@@ -313,6 +286,11 @@ public class ControlCenter extends GBActivity {
                     GBApplication.deviceService().onScreenshotReq();
                 }
                 return true;
+            case R.id.controlcenter_delete_device:
+                if (selectedDevice != null) {
+                    confirmDeleteDevice(selectedDevice);
+                }
+                return true;
             default:
                 return super.onContextItemSelected(item);
         }
@@ -341,11 +319,12 @@ public class ControlCenter extends GBActivity {
                 Intent debugIntent = new Intent(this, DebugActivity.class);
                 startActivity(debugIntent);
                 return true;
+            case R.id.action_db_management:
+                Intent dbIntent = new Intent(this, DbManagementActivity.class);
+                startActivity(dbIntent);
+                return true;
             case R.id.action_quit:
-                GBApplication.deviceService().quit();
-
-                Intent quitIntent = new Intent(GBApplication.ACTION_QUIT);
-                LocalBroadcastManager.getInstance(this).sendBroadcast(quitIntent);
+                GBApplication.quit();
                 return true;
         }
 
@@ -356,25 +335,51 @@ public class ControlCenter extends GBActivity {
         startActivity(new Intent(this, DiscoveryActivity.class));
     }
 
+    private void confirmDeleteDevice(final GBDevice gbDevice) {
+        new AlertDialog.Builder(this)
+                .setCancelable(true)
+                .setTitle(getString(R.string.controlcenter_delete_device_name, gbDevice.getName()))
+                .setMessage(R.string.controlcenter_delete_device_dialogmessage)
+                .setPositiveButton(R.string.Delete, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+                            if (coordinator != null) {
+                                coordinator.deleteDevice(selectedDevice);
+                            }
+                            DeviceHelper.getInstance().removeBond(selectedDevice);
+                        } catch (Exception ex) {
+                            GB.toast(ControlCenter.this, "Error deleting device: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
+                        } finally {
+                            selectedDevice = null;
+                            Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
+                            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(refreshIntent);
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .show();
+    }
+
     @Override
     protected void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
-        unregisterReceiver(mReceiver);
         super.onDestroy();
     }
 
     private void refreshPairedDevices() {
-        Set<GBDevice> availableDevices = DeviceHelper.getInstance().getAvailableDevices(this);
-        deviceList.retainAll(availableDevices);
-        for (GBDevice availableDevice : availableDevices) {
-            if (!deviceList.contains(availableDevice)) {
-                deviceList.add(availableDevice);
-            }
-        }
-        boolean connected = false;
+        List<GBDevice> deviceList = deviceManager.getDevices();
+        GBDevice connectedDevice = null;
+
         for (GBDevice device : deviceList) {
             if (device.isConnected() || device.isConnecting()) {
-                connected = true;
+                connectedDevice = device;
                 break;
             }
         }
@@ -385,8 +390,8 @@ public class ControlCenter extends GBActivity {
             background.setVisibility(View.INVISIBLE);
         }
 
-        if (connected) {
-            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(selectedDevice);
+        if (connectedDevice != null) {
+            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(connectedDevice);
             hintTextView.setText(coordinator.getTapString());
         } else if (!deviceList.isEmpty()) {
             hintTextView.setText(R.string.tap_a_device_to_connect);

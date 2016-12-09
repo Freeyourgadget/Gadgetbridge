@@ -10,11 +10,25 @@
   <string name="controlcenter_find_device">デバイスをバイブさせる</string>
   <string name="controlcenter_take_screenshot">スクリーンショットを撮る</string>
   <string name="controlcenter_disconnect">切断</string>
+  <string name="controlcenter_delete_device">デバイスを削除</string>
+  <string name="controlcenter_delete_device_name">%1$s を削除</string>
+  <string name="controlcenter_delete_device_dialogmessage">これにより、デバイスと関連するデータを削除します!</string>
   <string name="title_activity_debug">デバッグ</string>
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">アプリ管理画面</string>
+  <string name="appmanager_cached_watchapps_watchfaces">キャッシュ中のアプリ</string>
+  <string name="appmanager_installed_watchapps">インストール済アプリ</string>
+  <string name="appmanager_installed_watchfaces">インストール済ウォッチフェイス</string>
   <string name="appmananger_app_delete">削除</string>
   <string name="appmananger_app_delete_cache">キャッシュから削除</string>
+  <string name="appmananger_app_reinstall">再インストール</string>
+  <string name="appmanager_app_openinstore">Pebble Appstore で検索</string>
+  <string name="appmanager_health_activate">アクティベート</string>
+  <string name="appmanager_health_deactivate">非アクティベート</string>
+  <string name="appmanager_hrm_activate">HRM をアクティベート</string>
+  <string name="appmanager_hrm_deactivate">HRM を非アクティベート</string>
+  <string name="app_configure">設定</string>
+  <string name="app_move_to_top">先頭に移動</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">ステータス通知ブラックリスト</string>
   <!--Strings related to FwAppInstaller-->
@@ -37,13 +51,14 @@
   <string name="pref_title_theme">テーマ</string>
   <string name="pref_theme_light">ライト</string>
   <string name="pref_theme_dark">ダーク</string>
+  <string name="pref_title_language">言語</string>
   <string name="pref_header_notifications">通知</string>
   <string name="pref_title_notifications_repetitions">繰り返し</string>
   <string name="pref_title_notifications_call">電話通知</string>
   <string name="pref_title_notifications_sms">SMS</string>
   <string name="pref_title_notifications_k9mail">K9メール</string>
   <string name="pref_title_notifications_pebblemsg">Pebbleメッセージ</string>
-  <string name="pref_summary_notifications_pebblemsg">インテント経由でPebbleに通知を送信するアプリケーションをサポートします。Conversationsに使用することができます。</string>
+  <string name="pref_summary_notifications_pebblemsg">PebbleKit経由でPebbleに通知を送信するアプリケーションをサポートします。</string>
   <string name="pref_title_notifications_generic">一般ステータス通知対応</string>
   <string name="pref_title_whenscreenon">… スクリーンがオンのときにも</string>
   <string name="pref_title_notification_filter">サイレント</string>
@@ -52,12 +67,19 @@
   <string name="when_screen_off">スクリーンがオフのとき</string>
   <string name="never">なし</string>
   <string name="pref_blacklist">アップのブラックリスト</string>
-  <string name="pref_title_canned_replies">定型の返信</string>
+  <string name="pref_header_cannned_messages">定型のメッセージ</string>
+  <string name="pref_title_canned_replies">返信</string>
   <string name="pref_title_canned_reply_suffix">共通の接尾語</string>
+  <string name="pref_title_canned_messages_dismisscall">着信拒否</string>
+  <string name="pref_title_canned_messages_set">Pebble で更新</string>
   <string name="pref_header_development">開発者用設定</string>
   <string name="pref_title_development_miaddr">Mi Bandのアドレス</string>
   <string name="pref_title_pebble_settings">Pebbleの設定</string>
+  <string name="pref_header_activitytrackers">アクティビティ トラッカー</string>
   <string name="pref_title_pebble_activitytracker">お好みのアクティビティ トラッカー</string>
+  <string name="pref_title_pebble_sync_health">Pebble Health 同期</string>
+  <string name="pref_title_pebble_sync_misfit">Misfit 同期</string>
+  <string name="pref_title_pebble_sync_morpheuz">Morpheuz 同期</string>
   <string name="pref_title_enable_pebblekit">第三者のアンドロイドアップにアクセス権利を与える</string>
   <string name="pref_summary_enable_pebblekit">PebbleKitを使用してAndroidアプリ用の実験的なサポートを有効にします</string>
   <string name="pref_title_sunrise_sunset">日の出と日の入り</string>
@@ -66,10 +88,18 @@
   <string name="pref_title_location_aquire">場所の取得</string>
   <string name="pref_title_location_latitude">緯度</string>
   <string name="pref_title_location_longitude">経度</string>
+  <string name="pref_title_location_keep_uptodate">場所の更新を継続する</string>
+  <string name="pref_summary_location_keep_uptodate">実行時に現在位置の取得を試みます。フォールバックとして保存されている場所を使用します</string>
+  <string name="toast_enable_networklocationprovider">ネットワークの場所を有効にしてください</string>
+  <string name="toast_aqurired_networklocation">場所を取得しました</string>
   <string name="pref_title_pebble_forceprotocol">通知プロトコルを強制する</string>
   <string name="pref_summary_pebble_forceprotocol">このオプションを指定すると、ファームウェアのバージョンに応じて強制的に最新の通知プロトコルを使用します。何をしているかわかっている場合のみ有効にしてください!</string>
   <string name="pref_title_pebble_forceuntested">未テストの機能を有効にする</string>
   <string name="pref_summary_pebble_forceuntested">テストされていない機能を有効にします。何をしているかわかっている場合のみ有効にしてください!</string>
+  <string name="pref_title_pebble_forcele">常に BLE を好みにする</string>
+  <string name="pref_summary_pebble_forcele">すべてのPebbleに対して、BT クラシックではなく実験的なPebble LEサポートを使用します。非LEで一度接続された後に \"Pebble LE\" をペアリングする必要があります</string>
+  <string name="pref_title_pebble_enable_applogs">ウォッチアプリのログ記録を有効にする</string>
+  <string name="pref_summary_pebble_enable_applogs">Gadgetbridgeがウォッチアプリからログを記録するようにする (再接続が必要です)</string>
   <string name="pref_title_pebble_reconnect_attempts">再接続の試行</string>
   <string name="not_connected">非接続</string>
   <string name="connecting">接続中</string>
@@ -85,6 +115,7 @@
   <string name="bluetooth_is_disabled_">Bluetoothは無効です。</string>
   <string name="tap_connected_device_for_app_mananger">アプリマネージャーの接続されたデバイスをタップ</string>
   <string name="tap_connected_device_for_activity">アクティビティの接続されたデバイスをタップ</string>
+  <string name="tap_connected_device_for_vibration">バイブレーションの接続されたデバイスをタップ</string>
   <string name="tap_a_device_to_connect">接続するデバイスをタップ</string>
   <string name="cannot_connect_bt_address_invalid_">接続できません。 BTアドレスが無効?</string>
   <string name="gadgetbridge_running">ガジェットブリッジは実行中</string>
@@ -104,7 +135,11 @@
   <string name="title_activity_android_pairing">デバイスのペアリング</string>
   <string name="android_pairing_hint">デバイスをペアリングするには、AndroidのBluetoothペアリングのダイアログを使用します。</string>
   <string name="title_activity_mi_band_pairing">お使いのMi Bandをペアリング</string>
-  <string name="miband_pairing">%sとペアリング…</string>
+  <string name="pairing">%sとペアリング…</string>
+  <string name="pairing_creating_bond_with">%1$s (%2$s) と結合を作成中</string>
+  <string name="pairing_unable_to_pair_with">%1$s (%2$s) とペアにすることができません</string>
+  <string name="pairing_in_progress">結合の進行中: %1$s (%2$s)</string>
+  <string name="pairing_already_bonded">既に %1$s (%2$s) と結合しています。接続中…</string>
   <string name="message_cannot_pair_no_mac">MACアドレスが渡されませんでした。ペアリングできません。</string>
   <string name="preferences_category_device_specific_settings">デバイス固有の設定</string>
   <string name="preferences_miband_settings">Mi Bandの設定</string>
@@ -116,7 +151,7 @@
   <string name="miband_pairing_using_dummy_userdata">有効なユーザーデータはありません。今のところ、ダミーのユーザーデータを使用します。</string>
   <string name="miband_pairing_tap_hint">お使いのMi Bandが振動と点滅したとき、それを連続して数回タップしてください。</string>
   <string name="appinstaller_install">インストール</string>
-  <string name="discovery_connected_devices_hint">お使いのデバイスを検出可能にしてください。現在、接続されたデバイスは、おそらく検出されません。お使いのデバイスが 2 分しても表示されない場合は、モバイルデバイスを再起動した後にもう一度試してください。</string>
+  <string name="discovery_connected_devices_hint">お使いのデバイスを検出可能にしてください。現在、接続されたデバイスは、おそらく検出されません。Android 6 以降では位置情報を有効にする必要があります (例 GPS)。お使いのデバイスが 2 分しても表示されない場合は、モバイルデバイスを再起動した後にもう一度試してください。</string>
   <string name="discovery_note">注:</string>
   <string name="candidate_item_device_image">デバイスイメージ</string>
   <string name="miband_prefs_alias">名前/別名</string>
@@ -136,12 +171,15 @@
   <string name="vibration_profile_ring">鳴り響く</string>
   <string name="vibration_profile_alarm_clock">目覚まし時計</string>
   <string name="miband_prefs_vibration">バイブレーション</string>
+  <string name="vibration_try">試す</string>
   <string name="pref_screen_notification_profile_sms">SMS通知</string>
   <string name="pref_header_vibration_settings">バイブレーションの設定</string>
   <string name="pref_screen_notification_profile_generic">全般通知</string>
-  <string name="pref_screen_notification_profile_pebblemsg">Pebble通知</string>
-  <string name="pref_screen_notification_profile_k9mail">K9 Mail 通知</string>
+  <string name="pref_screen_notification_profile_email">メール通知</string>
   <string name="pref_screen_notification_profile_incoming_call">着信通知</string>
+  <string name="pref_screen_notification_profile_generic_chat">チャット</string>
+  <string name="pref_screen_notification_profile_generic_navigation">ナビゲーション</string>
+  <string name="pref_screen_notification_profile_generic_social">ソーシャルネットワーク</string>
   <string name="control_center_find_lost_device">なくしたデバイスを探す</string>
   <string name="control_center_cancel_to_stop_vibration">キャンセルで振動を停止します。</string>
   <string name="title_activity_charts">あなたの活動</string>
@@ -159,7 +197,7 @@
   <string name="user_feedback_miband_set_alarms_failed">アラームの設定時にエラーが発生しました。もう一度試してください!</string>
   <string name="user_feedback_miband_set_alarms_ok">アラームをデバイスに送信しました!</string>
   <string name="chart_no_data_synchronize">データはありません。デバイスを同期しますか?</string>
-  <string name="user_feedback_miband_activity_data_transfer">%1$s のデータを %2$s から転送することについて</string>
+  <string name="user_feedback_miband_activity_data_transfer">%1$s のデータを %2$s から転送します</string>
   <string name="miband_prefs_fitness_goal">毎日の目標ステップ</string>
   <string name="dbaccess_error_executing">\'%1$s\' の実行エラー</string>
   <string name="controlcenter_start_activitymonitor">あなたの活動 (アルファ版)</string>
@@ -214,18 +252,20 @@
   <string name="fwinstaller_firmware_not_compatible_to_device">このファームウェアは、デバイスと互換性がありません</string>
   <string name="miband_prefs_reserve_alarm_calendar">今後のイベントのために予約するアラーム</string>
   <string name="miband_prefs_hr_sleep_detection">睡眠の検出を改善するために心拍センサーを使用する</string>
+  <string name="miband_prefs_device_time_offset_hours">デバイスの時刻オフセット時間 (交代勤務の睡眠検知用)</string>
+  <string name="miband2_prefs_dateformat">Mi2: 日付形式</string>
+  <string name="dateformat_time">時間</string>
+  <string name="dateformat_date_time"><![CDATA[時間 & 日付]]></string>
+  <string name="mi2_prefs_activate_display_on_lift">持ち上げ時に表示を有効にする</string>
+  <string name="FetchActivityOperation_about_to_transfer_since">%1$s からのデータを転送します</string>
   <string name="waiting_for_reconnect">再接続の待機中</string>
-  <string name="appmananger_app_reinstall">再インストール</string>
   <string name="activity_prefs_about_you">あなたについて</string>
   <string name="activity_prefs_year_birth">誕生年</string>
   <string name="activity_prefs_gender">性別</string>
   <string name="activity_prefs_height_cm">身長（cm）</string>
   <string name="activity_prefs_weight_kg">体重（kg）</string>
-  <string name="appmanager_health_activate">アクティベート</string>
-  <string name="appmanager_health_deactivate">非アクティベート</string>
   <string name="authenticating">認証中</string>
   <string name="authentication_required">認証が必要</string>
-  <string name="app_configure">設定</string>
   <string name="appwidget_text">Zzz</string>
   <string name="add_widget">ウィジェットを追加</string>
   <string name="activity_prefs_sleep_duration">好ましい睡眠時間（時間）</string>
@@ -238,4 +278,49 @@
   <string name="updatefirmwareoperation_firmware_not_sent">ファームウェアを送信しませんでした</string>
   <string name="charts_legend_heartrate">心拍数</string>
   <string name="live_activity_heart_rate">心拍数</string>
+  <!--Strings related to Onboading Activity-->
+  <string name="title_activity_onboarding">データベースのインポート</string>
+  <string name="import_old_db_buttonlabel">古い活動データをインポート</string>
+  <string name="import_old_db_information">ガジェットブリッジ 0.12.0 以降、新しいデータベース形式を使用しています。
+古い活動データをインポートして、(%1$s) に接続しているデバイスと関連付けすることができます。\n
+\n
+今、古い活動データをインポートしない場合でも、データベース管理で「古い活動データをマージ」ボタンをタップして、後で行うことができます\n
+\n
+Mi Band、Pebble Health、Morpheuz からデータをインポートすることはできますが、Pebble Misfit からはできませんのでご注意ください。</string>
+  <string name="pref_title_pebble_health_store_raw">データベースに生のレコードを格納する</string>
+  <string name="pref_summary_pebble_health_store_raw">チェックした場合、データを「そのまま」格納し、後で翻訳して利用することができます。注意: この場合データベースは大きくなります!</string>
+  <string name="action_db_management">データベース管理</string>
+  <string name="title_activity_db_management">データベース管理</string>
+  <string name="activity_db_management_import_export_explanation">データベース操作は、お使いのデバイスで次のパスを使用します。 \nこのパスは、他の Android アプリケーションやお使いのコンピュータがアクセス可能です。\nエクスポートされたデータベースが見つかります (またはインポートしたいデータベースを配置します):</string>
+  <string name="activity_db_management_merge_old_explanation">ガジェットブリッジの 0.12 より前のバージョンで記録された活動データを新しい形式に変換する必要があります。 \n下のボタンを使用してこれを行うことができます。古い活動データと関連付けたいデバイスに接続する必要があることに注意してください! \n既にデータをインポートし、その結果に満足している場合は、古いデータベースを削除することができます。</string>
+  <string name="activity_db_management_merge_old_title">レガシー データベースのインポート / 削除</string>
+  <string name="dbmanagementactivvity_cannot_access_export_path">エクスポート パスにアクセスできません。開発者にご連絡ください。</string>
+  <string name="dbmanagementactivity_exported_to">エクスポートしました: %1$s</string>
+  <string name="dbmanagementactivity_error_exporting_db">DB のエクスポート時にエラー: %1$s</string>
+  <string name="dbmanagementactivity_import_data_title">データをインポートしますか?</string>
+  <string name="dbmanagementactivity_overwrite_database_confirmation">現在のデータベースを上書きしてもよろしいですか? 現在の活動データは (もしあれば) すべて失われます。</string>
+  <string name="dbmanagementactivity_import_successful">インポートに成功しました。</string>
+  <string name="dbmanagementactivity_error_importing_db">DB のインポート時にエラー: %1$s</string>
+  <string name="dbmanagementactivity_no_old_activitydatabase_found">古い活動データベースが見つかりません。インポートするものはありません。</string>
+  <string name="dbmanagementactivity_no_connected_device">古い活動データに関連付ける接続されたデバイスがありません。</string>
+  <string name="dbmanagementactivity_merging_activity_data_title">活動データのマージ中</string>
+  <string name="dbmanagementactivity_please_wait_while_merging">活動データのマージ中。しばらくお待ちください…</string>
+  <string name="dbmanagementactivity_error_importing_old_activity_data">古い活動データを新しいデータベースにインポート中にエラー。</string>
+  <string name="dbmanagementactivity_associate_old_data_with_device">古いデータをデバイスに関連付け</string>
+  <string name="dbmanagementactivity_delete_activity_data_title">活動データを削除しますか?</string>
+  <string name="dbmanagementactivity_really_delete_entire_db">データベース全体を削除してもよろしいですか? 活動データとお使いのデバイスに関する情報がすべて失われます。</string>
+  <string name="dbmanagementactivity_database_successfully_deleted">データを正常に削除しました。</string>
+  <string name="dbmanagementactivity_db_deletion_failed">データベースの削除に失敗しました。</string>
+  <string name="dbmanagementactivity_delete_old_activity_db">古い活動データベースを削除しますか?</string>
+  <string name="dbmanagementactivity_delete_old_activitydb_confirmation">古い活動データベースを削除してもよろしいですか? インポートされなかった活動データが失われます。</string>
+  <string name="dbmanagementactivity_old_activity_db_successfully_deleted">古い活動データを正常に削除しました。</string>
+  <string name="dbmanagementactivity_old_activity_db_deletion_failed">古い活動データベースの削除に失敗しました。</string>
+  <string name="dbmanagementactivity_overwrite">上書き</string>
+  <string name="Cancel">キャンセル</string>
+  <string name="Delete">削除</string>
+  <!--Strings related to Vibration Activity-->
+  <string name="title_activity_vibration">バイブレーション</string>
+  <!--Strings related to Pebble Pairing Activity-->
+  <string name="title_activity_pebble_pairing">Pebbleペアリング</string>
+  <string name="pebble_pairing_hint">お使いのAndroidデバイスでペアリングのダイアログがポップアップすると思います。 起こらない場合は、通知ドロワーを調べて、ペアリング要求を受け入れます。 その後、Pebbleでペアリング要求を受け入れます</string>
 </resources>

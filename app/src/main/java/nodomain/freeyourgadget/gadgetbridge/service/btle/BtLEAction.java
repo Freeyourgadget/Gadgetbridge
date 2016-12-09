@@ -25,7 +25,7 @@ public abstract class BtLEAction {
     }
 
     /**
-     * Returns true if this actions expects an (async) result which must
+     * Returns true if this action expects an (async) result which must
      * be waited for, before continuing with other actions.
      * <p/>
      * This is needed because the current Bluedroid stack can only deal

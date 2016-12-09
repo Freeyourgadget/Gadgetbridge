@@ -94,63 +94,6 @@
         <Preference
             android:key="pref_key_blacklist"
             android:title="@string/pref_blacklist" />
-        <PreferenceScreen
-            android:key="pref_key_canned_replies"
-            android:title="@string/pref_title_canned_replies">
-            <EditTextPreference
-                android:defaultValue=" (canned reply)"
-                android:key="canned_reply_suffix"
-                android:maxLength="64"
-                android:title="@string/pref_title_canned_reply_suffix" />
-            <EditTextPreference
-                android:key="canned_reply_1"
-                android:maxLength="64" />
-            <EditTextPreference
-                android:key="canned_reply_2"
-                android:maxLength="64" />
-            <EditTextPreference
-                android:key="canned_reply_3"
-                android:maxLength="64" />
-            <EditTextPreference
-                android:key="canned_reply_4"
-                android:maxLength="64" />
-            <EditTextPreference
-                android:key="canned_reply_5"
-                android:maxLength="64" />
-            <EditTextPreference
-                android:key="canned_reply_6"
-                android:maxLength="64" />
-            <EditTextPreference
-                android:key="canned_reply_7"
-                android:maxLength="64" />
-            <EditTextPreference
-                android:key="canned_reply_8"
-                android:maxLength="64" />
-            <EditTextPreference
-                android:key="canned_reply_9"
-                android:maxLength="64" />
-            <EditTextPreference
-                android:key="canned_reply_10"
-                android:maxLength="64" />
-            <EditTextPreference
-                android:key="canned_reply_11"
-                android:maxLength="64" />
-            <EditTextPreference
-                android:key="canned_reply_12"
-                android:maxLength="64" />
-            <EditTextPreference
-                android:key="canned_reply_13"
-                android:maxLength="64" />
-            <EditTextPreference
-                android:key="canned_reply_14"
-                android:maxLength="64" />
-            <EditTextPreference
-                android:key="canned_reply_15"
-                android:maxLength="64" />
-            <EditTextPreference
-                android:key="canned_reply_16"
-                android:maxLength="64" />
-        </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceScreen
@@ -192,7 +135,6 @@
     </PreferenceScreen>
 
     <PreferenceCategory
-        android:key="pref_key_device_specific_category"
         android:title="@string/preferences_category_device_specific_settings">
         <Preference
             android:icon="@drawable/ic_device_miband"
@@ -234,6 +176,12 @@
                     android:title="@string/pref_title_pebble_sync_health" />
                 <CheckBoxPreference
                     android:defaultValue="true"
+                    android:key="pebble_health_store_raw"
+                    android:dependency="pebble_sync_health"
+                    android:title="@string/pref_title_pebble_health_store_raw"
+                    android:summary="@string/pref_summary_pebble_health_store_raw" />
+                <CheckBoxPreference
+                    android:defaultValue="true"
                     android:key="pebble_sync_misfit"
                     android:title="@string/pref_title_pebble_sync_misfit" />>
                 <CheckBoxPreference
@@ -248,16 +196,133 @@
                 android:title="@string/pref_title_location_aquire"/>
             <EditTextPreference
                 android:maxLength="7"
-                android:digits="0123456789."
+                android:inputType="numberDecimal|numberSigned"
                 android:defaultValue="0"
                 android:key="location_latitude"
                 android:title="@string/pref_title_location_latitude" />
             <EditTextPreference
                 android:maxLength="7"
-                android:digits="0123456789."
+                android:inputType="numberDecimal|numberSigned"
                 android:defaultValue="0"
                 android:key="location_longitude"
                 android:title="@string/pref_title_location_longitude" />
+                <CheckBoxPreference
+                    android:defaultValue="true"
+                    android:dependency="location_aquire"
+                    android:key="use_updated_location_if_available"
+                    android:summary="@string/pref_summary_location_keep_uptodate"
+                    android:title="@string/pref_title_location_keep_uptodate" />
+            </PreferenceCategory>
+            <PreferenceCategory
+                android:title="@string/pref_header_cannned_messages">
+                <PreferenceScreen android:title="@string/pref_title_canned_replies">
+                    <EditTextPreference
+                        android:defaultValue=" (canned reply)"
+                        android:key="canned_reply_suffix"
+                        android:maxLength="64"
+                        android:title="@string/pref_title_canned_reply_suffix" />
+                    <EditTextPreference
+                        android:key="canned_reply_1"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_reply_2"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_reply_3"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_reply_4"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_reply_5"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_reply_6"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_reply_7"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_reply_8"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_reply_9"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_reply_10"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_reply_11"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_reply_12"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_reply_13"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_reply_14"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_reply_15"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_reply_16"
+                        android:maxLength="64" />
+                </PreferenceScreen>
+                <PreferenceScreen android:title="@string/pref_title_canned_messages_dismisscall">
+                    <Preference
+                        android:key="canned_messages_dismisscall_send"
+                        android:title="@string/pref_title_canned_messages_set" />
+                    <EditTextPreference
+                        android:key="canned_message_dismisscall_1"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_message_dismisscall_2"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_message_dismisscall_3"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_message_dismisscall_4"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_message_dismisscall_5"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_message_dismisscall_6"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_message_dismisscall_7"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_message_dismisscall_8"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_message_dismisscall_9"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_message_dismisscall_10"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_message_dismisscall_11"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_message_dismisscall_12"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_message_dismisscall_13"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_message_dismisscall_14"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_message_dismisscall_15"
+                        android:maxLength="64" />
+                    <EditTextPreference
+                        android:key="canned_message_dismisscall_16"
+                        android:maxLength="64" />
+                </PreferenceScreen>
             </PreferenceCategory>
             <PreferenceCategory
                 android:title="@string/pref_header_development">
@@ -271,6 +336,16 @@
                     android:key="pebble_force_untested"
                     android:summary="@string/pref_summary_pebble_forceuntested"
                     android:title="@string/pref_title_pebble_forceuntested" />
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="pebble_force_le"
+                    android:summary="@string/pref_summary_pebble_forcele"
+                    android:title="@string/pref_title_pebble_forcele" />
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="pebble_enable_applogs"
+                    android:summary="@string/pref_summary_pebble_enable_applogs"
+                    android:title="@string/pref_title_pebble_enable_applogs" />
                 <EditTextPreference
                     android:digits="0123456789."
                     android:key="pebble_emu_addr"

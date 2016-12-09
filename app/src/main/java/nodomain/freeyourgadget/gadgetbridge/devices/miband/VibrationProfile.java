@@ -4,6 +4,7 @@ import android.content.Context;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertLevel;
 
 public class VibrationProfile {
     public static final Context CONTEXT = GBApplication.getContext();
@@ -42,13 +43,14 @@ public class VibrationProfile {
 
     private final int[] onOffSequence;
     private final short repeat;
+    private int alertLevel = AlertLevel.MildAlert.getId();
 
     /**
      * Creates a new profile instance.
      *
      * @param id            the ID, used as preference key.
      * @param onOffSequence a sequence of alternating on and off durations, in milliseconds
-     * @param repeat        how ofoften the sequence shall be repeated
+     * @param repeat        how often the sequence shall be repeated
      */
     public VibrationProfile(String id, int[] onOffSequence, short repeat) {
         this.id = id;
@@ -66,5 +68,13 @@ public class VibrationProfile {
 
     public short getRepeat() {
         return repeat;
+    }
+
+    public void setAlertLevel(int alertLevel) {
+        this.alertLevel = alertLevel;
+    }
+
+    public int getAlertLevel() {
+        return alertLevel;
     }
 }

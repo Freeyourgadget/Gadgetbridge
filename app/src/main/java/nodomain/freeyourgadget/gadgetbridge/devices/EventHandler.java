@@ -8,12 +8,13 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 
 /**
- * Specifies all events that GadgetBridge intends to send to the gadget device.
+ * Specifies all events that Gadgetbridge intends to send to the gadget device.
  * Implementations can decide to ignore events that they do not support.
  * Implementations need to send/encode event to the connected device.
  */
@@ -25,6 +26,8 @@ public interface EventHandler {
     void onSetAlarms(ArrayList<? extends Alarm> alarms);
 
     void onSetCallState(CallSpec callSpec);
+
+    void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec);
 
     void onSetMusicState(MusicStateSpec stateSpec);
 
@@ -42,6 +45,8 @@ public interface EventHandler {
 
     void onAppConfiguration(UUID appUuid, String config);
 
+    void onAppReorder(UUID uuids[]);
+
     void onFetchActivityData();
 
     void onReboot();
@@ -52,6 +57,8 @@ public interface EventHandler {
 
     void onFindDevice(boolean start);
 
+    void onSetConstantVibration(int integer);
+
     void onScreenshotReq();
 
     void onEnableHeartRateSleepSupport(boolean enable);
@@ -59,4 +66,13 @@ public interface EventHandler {
     void onAddCalendarEvent(CalendarEventSpec calendarEventSpec);
 
     void onDeleteCalendarEvent(byte type, long id);
+
+    /**
+     * Sets the given option in the device, typically with values from the preferences.
+     * The config name is device specific.
+     * @param config the device specific option to set on the device
+     */
+    void onSendConfiguration(String config);
+
+    void onTestNewFunction();
 }

@@ -1,18 +1,26 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
+import android.bluetooth.le.ScanCallback;
+import android.bluetooth.le.ScanFilter;
+import android.bluetooth.le.ScanRecord;
+import android.bluetooth.le.ScanResult;
+import android.bluetooth.le.ScanSettings;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.ParcelUuid;
 import android.os.Parcelable;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
@@ -26,18 +34,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.DeviceCandidateAdapter;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+
+import static android.bluetooth.le.ScanSettings.MATCH_MODE_STICKY;
+import static android.bluetooth.le.ScanSettings.SCAN_MODE_LOW_LATENCY;
 
 public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemClickListener {
     private static final Logger LOG = LoggerFactory.getLogger(DiscoveryActivity.class);
     private static final long SCAN_DURATION = 60000; // 60s
+
+    private ScanCallback newLeScanCallback = null;
 
     private final Handler handler = new Handler();
 
@@ -46,16 +63,27 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
         public void onReceive(Context context, Intent intent) {
             switch (intent.getAction()) {
                 case BluetoothAdapter.ACTION_DISCOVERY_STARTED:
-                    discoveryStarted(Scanning.SCANNING_BT);
+                    if (isScanning != Scanning.SCANNING_BTLE && isScanning != Scanning.SCANNING_NEW_BTLE) {
+                        discoveryStarted(Scanning.SCANNING_BT);
+                    }
                     break;
                 case BluetoothAdapter.ACTION_DISCOVERY_FINISHED:
-                    // continue with LE scan, if available
-                    if (isScanning == Scanning.SCANNING_BT) {
-                        checkAndRequestLocationPermission();
-                        startDiscovery(Scanning.SCANNING_BTLE);
-                    } else {
-                        discoveryFinished();
-                    }
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            // continue with LE scan, if available
+                            if (isScanning == Scanning.SCANNING_BT) {
+                                checkAndRequestLocationPermission();
+                                if (GBApplication.isRunningLollipopOrLater()) {
+                                    startDiscovery(Scanning.SCANNING_NEW_BTLE);
+                                } else {
+                                    startDiscovery(Scanning.SCANNING_BTLE);
+                                }
+                            } else {
+                                discoveryFinished();
+                            }
+                        }
+                    });
                     break;
                 case BluetoothAdapter.ACTION_STATE_CHANGED:
                     int oldState = intent.getIntExtra(BluetoothAdapter.EXTRA_PREVIOUS_STATE, BluetoothAdapter.STATE_OFF);
@@ -66,6 +94,14 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     short rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, GBDevice.RSSI_UNKNOWN);
                     handleDeviceFound(device, rssi);
+                    break;
+                }
+                case BluetoothDevice.ACTION_UUID: {
+                    BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                    short rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, GBDevice.RSSI_UNKNOWN);
+                    Parcelable[] uuids = intent.getParcelableArrayExtra(BluetoothDevice.EXTRA_UUID);
+                    ParcelUuid[] uuids2 = AndroidUtils.toParcelUUids(uuids);
+                    handleDeviceFound(device, rssi, uuids2);
                     break;
                 }
                 case BluetoothDevice.ACTION_BOND_STATE_CHANGED: {
@@ -85,9 +121,53 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
     private final BluetoothAdapter.LeScanCallback leScanCallback = new BluetoothAdapter.LeScanCallback() {
         @Override
         public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
+            LOG.warn(device.getName() + ": " + ((scanRecord != null) ? scanRecord.length : -1));
+            logMessageContent(scanRecord);
             handleDeviceFound(device, (short) rssi);
         }
     };
+
+
+    // why use a method to get callback?
+    // because this callback need API >= 21
+    // we cant add @TARGETAPI("Lollipop") at class header
+    // so use a method with SDK check to return this callback
+    private ScanCallback getScanCallback() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            newLeScanCallback = new ScanCallback() {
+                @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                @Override
+                public void onScanResult(int callbackType, ScanResult result) {
+                    super.onScanResult(callbackType, result);
+                    try {
+                        ScanRecord scanRecord = result.getScanRecord();
+                        ParcelUuid[] uuids = null;
+                        if (scanRecord != null) {
+                            //logMessageContent(scanRecord.getBytes());
+                            List<ParcelUuid> serviceUuids = scanRecord.getServiceUuids();
+                            if (serviceUuids != null) {
+                                uuids = serviceUuids.toArray(new ParcelUuid[0]);
+                            }
+                        }
+                        LOG.warn(result.getDevice().getName() + ": " +
+                                ((scanRecord != null) ? scanRecord.getBytes().length : -1));
+                        handleDeviceFound(result.getDevice(), (short) result.getRssi(), uuids);
+                    } catch (NullPointerException e) {
+                        LOG.warn("Error handling scan result", e);
+                    }
+                }
+            };
+        }
+        return newLeScanCallback;
+    }
+
+    public void logMessageContent(byte[] value) {
+        if (value != null) {
+            for (byte b : value) {
+                LOG.warn("DATA: " + String.format("0x%2x", b) + " - " + (char) (b & 0xff));
+            }
+        }
+    }
 
     private final Runnable stopRunnable = new Runnable() {
         @Override
@@ -107,6 +187,7 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
     private enum Scanning {
         SCANNING_BT,
         SCANNING_BTLE,
+        SCANNING_NEW_BTLE,
         SCANNING_OFF
     }
 
@@ -135,6 +216,7 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
 
         IntentFilter bluetoothIntents = new IntentFilter();
         bluetoothIntents.addAction(BluetoothDevice.ACTION_FOUND);
+        bluetoothIntents.addAction(BluetoothDevice.ACTION_UUID);
         bluetoothIntents.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         bluetoothIntents.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
         bluetoothIntents.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
@@ -174,13 +256,43 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(bluetoothReceiver);
+        try {
+            unregisterReceiver(bluetoothReceiver);
+        } catch (IllegalArgumentException e) {
+            LOG.warn("Tried to unregister Bluetooth Receiver that wasn't registered.");
+        }
         super.onDestroy();
     }
 
     private void handleDeviceFound(BluetoothDevice device, short rssi) {
-        GBDeviceCandidate candidate = new GBDeviceCandidate(device, rssi);
-        if (DeviceHelper.getInstance().isSupported(candidate)) {
+        ParcelUuid[] uuids = device.getUuids();
+        if (uuids == null) {
+            if (device.fetchUuidsWithSdp()) {
+                return;
+            }
+        }
+
+        handleDeviceFound(device, rssi, uuids);
+    }
+
+
+    private void handleDeviceFound(BluetoothDevice device, short rssi, ParcelUuid[] uuids) {
+        LOG.debug("found device: " + device.getName() + ", " + device.getAddress());
+        if (LOG.isDebugEnabled()) {
+            if (uuids != null && uuids.length > 0) {
+                for (ParcelUuid uuid : uuids) {
+                    LOG.debug("  supports uuid: " + uuid.toString());
+                }
+            }
+        }
+        if (device.getBondState() == BluetoothDevice.BOND_BONDED) {
+            return; // ignore already bonded devices
+        }
+
+        GBDeviceCandidate candidate = new GBDeviceCandidate(device, rssi, uuids);
+        DeviceType deviceType = DeviceHelper.getInstance().getSupportedType(candidate);
+        if (deviceType.isSupported()) {
+            candidate.setDeviceType(deviceType);
             int index = deviceCandidates.indexOf(candidate);
             if (index >= 0) {
                 deviceCandidates.set(index, candidate); // replace
@@ -215,6 +327,12 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
                 } else {
                     discoveryFinished();
                 }
+            } else if (what == Scanning.SCANNING_NEW_BTLE) {
+                if (GB.supportsBluetoothLE()) {
+                    startNEWBTLEDiscovery();
+                } else  {
+                    discoveryFinished();
+                }
             }
         } else {
             discoveryFinished();
@@ -238,6 +356,8 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
                 stopBTDiscovery();
             } else if (wasScanning == Scanning.SCANNING_BTLE) {
                 stopBTLEDiscovery();
+            } else if (wasScanning == Scanning.SCANNING_NEW_BTLE) {
+                stopNewBTLEDiscovery();
             }
             handler.removeMessages(0, stopRunnable);
         }
@@ -249,6 +369,11 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
 
     private void stopBTDiscovery() {
         adapter.cancelDiscovery();
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void stopNewBTLEDiscovery() {
+        adapter.getBluetoothLeScanner().stopScan(newLeScanCallback);
     }
 
     private void bluetoothStateChanged(int oldState, int newState) {
@@ -308,6 +433,41 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
         }
         this.adapter = adapter;
         return true;
+    }
+
+    // New BTLE Discovery use startScan (List<ScanFilter> filters,
+    //                                  ScanSettings settings,
+    //                                  ScanCallback callback)
+    // It's added on API21
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void startNEWBTLEDiscovery() {
+        // Only use new API when user uses Lollipop+ device
+            LOG.info("Start New BTLE Discovery");
+            handler.removeMessages(0, stopRunnable);
+            handler.sendMessageDelayed(getPostMessage(stopRunnable), SCAN_DURATION);
+            adapter.getBluetoothLeScanner().startScan(getScanFilters(), getScanSettings(), getScanCallback());
+    }
+
+    private List<ScanFilter> getScanFilters() {
+        List<ScanFilter> allFilters = new ArrayList<>();
+        for (DeviceCoordinator coordinator : DeviceHelper.getInstance().getAllCoordinators()) {
+            allFilters.addAll(coordinator.createBLEScanFilters());
+        }
+        return allFilters;
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private ScanSettings getScanSettings() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return new ScanSettings.Builder()
+                    .setScanMode(SCAN_MODE_LOW_LATENCY)
+                    .setMatchMode(MATCH_MODE_STICKY)
+                    .build();
+        } else {
+            return new ScanSettings.Builder()
+                    .setScanMode(SCAN_MODE_LOW_LATENCY)
+                    .build();
+        }
     }
 
     private void startBTLEDiscovery() {

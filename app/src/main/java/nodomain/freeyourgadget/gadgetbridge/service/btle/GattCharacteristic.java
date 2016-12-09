@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
+import android.bluetooth.BluetoothGattCharacteristic;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -182,8 +184,8 @@ public class GattCharacteristic {
 
     static {
         GATTCHARACTERISTIC_DEBUG = new HashMap<>();
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_ALERT_CATEGORY_ID, "Alert Category ID");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_ALERT_CATEGORY_ID_BIT_MASK, "Alert Category ID Bit Mask");
+        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_ALERT_CATEGORY_ID, "Alert AlertCategory ID");
+        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_ALERT_CATEGORY_ID_BIT_MASK, "Alert AlertCategory ID Bit Mask");
         GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_ALERT_LEVEL, "Alert Level");
         GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_ALERT_NOTIFICATION_CONTROL_POINT, "Alert Notification Control Point");
         GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_ALERT_STATUS, "Alert Status");
@@ -219,8 +221,8 @@ public class GattCharacteristic {
         GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_SERIAL_NUMBER_STRING, "Serial Number String");
         GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_GATT_SERVICE_CHANGED, "Service Changed");
         GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_SOFTWARE_REVISION_STRING, "Software Revision String");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_SUPPORTED_NEW_ALERT_CATEGORY, "Supported New Alert Category");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_SUPPORTED_UNREAD_ALERT_CATEGORY, "Supported Unread Alert Category");
+        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_SUPPORTED_NEW_ALERT_CATEGORY, "Supported New Alert AlertCategory");
+        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_SUPPORTED_UNREAD_ALERT_CATEGORY, "Supported Unread Alert AlertCategory");
         GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_SYSTEM_ID, "System ID");
         GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_TEMPERATURE_MEASUREMENT, "Temperature Measurement");
         GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_TEMPERATURE_TYPE, "Temperature DeviceType");
@@ -241,4 +243,7 @@ public class GattCharacteristic {
         return name;
     }
 
+    public static String toString(BluetoothGattCharacteristic characteristic) {
+        return characteristic.getUuid() + " (" + lookup(characteristic.getUuid(), "unknown") + ")";
+    }
 }

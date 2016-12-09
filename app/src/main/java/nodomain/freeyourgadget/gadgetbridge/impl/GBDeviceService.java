@@ -12,11 +12,14 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+
+//import java.util.UUID;
 
 public class GBDeviceService implements DeviceService {
     protected final Context mContext;
@@ -28,8 +31,7 @@ public class GBDeviceService implements DeviceService {
     }
 
     protected Intent createIntent() {
-        Intent startIntent = new Intent(mContext, mServiceClass);
-        return startIntent;
+        return new Intent(mContext, mServiceClass);
     }
 
     protected void invokeService(Intent intent) {
@@ -127,6 +129,14 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
+    public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
+        Intent intent = createIntent().setAction(ACTION_SETCANNEDMESSAGES)
+                .putExtra(EXTRA_CANNEDMESSAGES_TYPE, cannedMessagesSpec.type)
+                .putExtra(EXTRA_CANNEDMESSAGES, cannedMessagesSpec.cannedMessages);
+        invokeService(intent);
+    }
+
+    @Override
     public void onSetMusicState(MusicStateSpec stateSpec) {
         Intent intent = createIntent().setAction(ACTION_SETMUSICSTATE)
                 .putExtra(EXTRA_MUSIC_REPEAT, stateSpec.repeat)
@@ -186,6 +196,13 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
+    public void onAppReorder(UUID[] uuids) {
+        Intent intent = createIntent().setAction(ACTION_APP_REORDER)
+                .putExtra(EXTRA_APP_UUID, uuids);
+        invokeService(intent);
+    }
+
+    @Override
     public void onFetchActivityData() {
         Intent intent = createIntent().setAction(ACTION_FETCH_ACTIVITY_DATA);
         invokeService(intent);
@@ -207,6 +224,13 @@ public class GBDeviceService implements DeviceService {
     public void onFindDevice(boolean start) {
         Intent intent = createIntent().setAction(ACTION_FIND_DEVICE)
                 .putExtra(EXTRA_FIND_START, start);
+        invokeService(intent);
+    }
+
+    @Override
+    public void onSetConstantVibration(int intensity) {
+        Intent intent = createIntent().setAction(ACTION_SET_CONSTANT_VIBRATION)
+                .putExtra(EXTRA_VIBRATION_INTENSITY, intensity);
         invokeService(intent);
     }
 
@@ -254,6 +278,19 @@ public class GBDeviceService implements DeviceService {
         Intent intent = createIntent().setAction(ACTION_DELETE_CALENDAREVENT)
                 .putExtra(EXTRA_CALENDAREVENT_TYPE, type)
                 .putExtra(EXTRA_CALENDAREVENT_ID, id);
+        invokeService(intent);
+    }
+
+    @Override
+    public void onSendConfiguration(String config) {
+        Intent intent = createIntent().setAction(ACTION_SEND_CONFIGURATION)
+                .putExtra(EXTRA_CONFIG, config);
+        invokeService(intent);
+    }
+
+    @Override
+    public void onTestNewFunction() {
+        Intent intent = createIntent().setAction(ACTION_TEST_NEW_FUNCTION);
         invokeService(intent);
     }
 }

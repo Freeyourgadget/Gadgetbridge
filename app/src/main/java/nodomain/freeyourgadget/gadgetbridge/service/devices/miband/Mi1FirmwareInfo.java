@@ -31,7 +31,7 @@ public class Mi1FirmwareInfo extends AbstractMi1FirmwareInfo {
 
     @Override
     public boolean isGenerallyCompatibleWith(GBDevice device) {
-        String hwVersion = device.getHardwareVersion();
+        String hwVersion = device.getModel();
         return MiBandConst.MI_1.equals(hwVersion);
     }
 }

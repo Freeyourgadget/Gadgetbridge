@@ -4,13 +4,12 @@ import android.annotation.TargetApi;
 import android.app.Application;
 import android.app.NotificationManager;
 import android.app.NotificationManager.Policy;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Build.VERSION;
@@ -23,13 +22,18 @@ import android.util.TypedValue;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBConstants;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
@@ -39,8 +43,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-//import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
-
 /**
  * Main Application class that initializes and provides access to certain things like
  * logging and DB access.
@@ -48,8 +50,9 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 public class GBApplication extends Application {
     // Since this class must not log to slf4j, we use plain android.util.Log
     private static final String TAG = "GBApplication";
+    public static final String DATABASE_NAME = "Gadgetbridge";
+
     private static GBApplication context;
-    private static ActivityDatabaseHandler mActivityDatabaseHandler;
     private static final Lock dbLock = new ReentrantLock();
     private static DeviceService deviceService;
     private static SharedPreferences sharedPrefs;
@@ -59,6 +62,7 @@ public class GBApplication extends Application {
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
     private static Prefs prefs;
     private static GBPrefs gbPrefs;
+    private static LockHandler lockHandler;
     /**
      * Note: is null on Lollipop and Kitkat
      */
@@ -73,20 +77,14 @@ public class GBApplication extends Application {
             return dir.getAbsolutePath();
         }
     };
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            switch (action) {
-                case ACTION_QUIT:
-                    quit();
-                    break;
-            }
-        }
-    };
 
-    private void quit() {
-        GB.removeAllNotifications(this);
+    private DeviceManager deviceManager;
+
+    public static void quit() {
+        GB.log("Quitting Gadgetbridge...", GB.INFO, null);
+        Intent quitIntent = new Intent(GBApplication.ACTION_QUIT);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(quitIntent);
+        GBApplication.deviceService().quit();
     }
 
     public GBApplication() {
@@ -102,6 +100,11 @@ public class GBApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        if (lockHandler != null) {
+            // guard against multiple invocations (robolectric)
+            return;
+        }
+
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefs = new Prefs(sharedPrefs);
         gbPrefs = new GBPrefs(prefs);
@@ -116,22 +119,43 @@ public class GBApplication extends Application {
 
         setupExceptionHandler();
 
-        deviceService = createDeviceService();
         GB.environment = GBEnvironment.createDeviceEnvironment();
-        mActivityDatabaseHandler = new ActivityDatabaseHandler(context);
-        loadBlackList();
 
-        IntentFilter filterLocal = new IntentFilter();
-        filterLocal.addAction(ACTION_QUIT);
-        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
+        setupDatabase(this);
+
+        deviceManager = new DeviceManager(this);
+
+        deviceService = createDeviceService();
+        loadBlackList();
 
         if (isRunningMarshmallowOrLater()) {
             notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         }
+    }
 
-// for testing DB stuff
-//        SQLiteDatabase db = mActivityDatabaseHandler.getWritableDatabase();
-//        db.close();
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        if (level >= TRIM_MEMORY_BACKGROUND) {
+            if (!hasBusyDevice()) {
+                DBHelper.clearSession();
+            }
+        }
+    }
+
+    /**
+     * Returns true if at least a single device is busy, e.g synchronizing activity data
+     * or something similar.
+     * Note: busy is not the same as connected or initialized!
+     */
+    private boolean hasBusyDevice() {
+        List<GBDevice> devices = getDeviceManager().getDevices();
+        for (GBDevice device : devices) {
+            if (device.isBusy()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void setupLogging(boolean enabled) {
@@ -145,6 +169,16 @@ public class GBApplication extends Application {
 
     public static boolean isFileLoggingEnabled() {
         return prefs.getBoolean("log_to_file", false);
+    }
+
+    static void setupDatabase(Context context) {
+        DBOpenHelper helper = new DBOpenHelper(context, DATABASE_NAME, null);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        DaoMaster daoMaster = new DaoMaster(db);
+        if (lockHandler == null) {
+            lockHandler = new LockHandler();
+        }
+        lockHandler.init(daoMaster, helper);
     }
 
     public static Context getContext() {
@@ -166,6 +200,9 @@ public class GBApplication extends Application {
      * when that was not successful
      * If acquiring was successful, callers must call #releaseDB when they
      * are done (from the same thread that acquired the lock!
+     * <p>
+     * Callers must not hold a reference to the returned instance because it
+     * will be invalidated at some point.
      *
      * @return the DBHandler
      * @throws GBException
@@ -174,7 +211,7 @@ public class GBApplication extends Application {
     public static DBHandler acquireDB() throws GBException {
         try {
             if (dbLock.tryLock(30, TimeUnit.SECONDS)) {
-                return mActivityDatabaseHandler;
+                return lockHandler;
             }
         } catch (InterruptedException ex) {
             Log.i(TAG, "Interrupted while waiting for DB lock");
@@ -231,7 +268,7 @@ public class GBApplication extends Application {
     @TargetApi(Build.VERSION_CODES.M)
     public static boolean isPriorityNumber(int priorityType, String number) {
         NotificationManager.Policy notificationPolicy = notificationManager.getNotificationPolicy();
-        if(priorityType == Policy.PRIORITY_CATEGORY_MESSAGES) {
+        if (priorityType == Policy.PRIORITY_CATEGORY_MESSAGES) {
             if ((notificationPolicy.priorityCategories & Policy.PRIORITY_CATEGORY_MESSAGES) == Policy.PRIORITY_CATEGORY_MESSAGES) {
                 return isPrioritySender(notificationPolicy.priorityMessageSenders, number);
             }
@@ -285,17 +322,35 @@ public class GBApplication extends Application {
     }
 
     /**
-     * Deletes the entire Activity database and recreates it with empty tables.
+     * Deletes both the old Activity database and the new one recreates it with empty tables.
      *
      * @return true on successful deletion
      */
-    public static synchronized boolean deleteActivityDatabase() {
-        if (mActivityDatabaseHandler != null) {
-            mActivityDatabaseHandler.close();
-            mActivityDatabaseHandler = null;
+    public static synchronized boolean deleteActivityDatabase(Context context) {
+        // TODO: flush, close, reopen db
+        if (lockHandler != null) {
+            lockHandler.closeDb();
         }
-        boolean result = getContext().deleteDatabase(DBConstants.DATABASE_NAME);
-        mActivityDatabaseHandler = new ActivityDatabaseHandler(getContext());
+        DBHelper dbHelper = new DBHelper(context);
+        boolean result = true;
+        if (dbHelper.existsDB(DBConstants.DATABASE_NAME)) {
+            result = getContext().deleteDatabase(DBConstants.DATABASE_NAME);
+        }
+        result &= getContext().deleteDatabase(DATABASE_NAME);
+        return result;
+    }
+
+    /**
+     * Deletes the legacy (pre 0.12) Activity database
+     *
+     * @return true on successful deletion
+     */
+    public static synchronized boolean deleteOldActivityDatabase(Context context) {
+        DBHelper dbHelper = new DBHelper(context);
+        boolean result = true;
+        if (dbHelper.existsDB(DBConstants.DATABASE_NAME)) {
+            result = getContext().deleteDatabase(DBConstants.DATABASE_NAME);
+        }
         return result;
     }
 
@@ -365,6 +420,7 @@ public class GBApplication extends Application {
         theme.resolveAttribute(android.R.attr.textColor, typedValue, true);
         return typedValue.data;
     }
+
     public static int getBackgroundColor(Context context) {
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = context.getTheme();
@@ -378,5 +434,9 @@ public class GBApplication extends Application {
 
     public static GBPrefs getGBPrefs() {
         return gbPrefs;
+    }
+
+    public DeviceManager getDeviceManager() {
+        return deviceManager;
     }
 }

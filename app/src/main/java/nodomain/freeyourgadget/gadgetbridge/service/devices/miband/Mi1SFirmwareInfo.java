@@ -30,7 +30,7 @@ public class Mi1SFirmwareInfo extends CompositeMiFirmwareInfo {
 
     @Override
     public boolean isGenerallyCompatibleWith(GBDevice device) {
-        return MiBandConst.MI_1S.equals(device.getHardwareVersion());
+        return MiBandConst.MI_1S.equals(device.getModel());
     }
 
     @Override

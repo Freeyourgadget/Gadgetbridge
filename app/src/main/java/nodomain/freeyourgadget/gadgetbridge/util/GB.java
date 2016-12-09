@@ -128,7 +128,7 @@ public class GB {
             // file header
             headerbuf.put((byte) 'B');
             headerbuf.put((byte) 'M');
-            headerbuf.putInt(0); // size in bytes (unconpressed = 0)
+            headerbuf.putInt(0); // size in bytes (uncompressed = 0)
             headerbuf.putInt(0); // reserved
             headerbuf.putInt(FILE_HEADER_SIZE + INFO_HEADER_SIZE + screenshot.clut.length);
 
@@ -139,7 +139,7 @@ public class GB {
             headerbuf.putShort((short) 1); // planes
             headerbuf.putShort((short) screenshot.bpp);
             headerbuf.putInt(0); // compression
-            headerbuf.putInt(0); // length of pixeldata in byte (uncompressed=0)
+            headerbuf.putInt(0); // length of pixeldata in bytes (uncompressed=0)
             headerbuf.putInt(0); // pixels per meter (x)
             headerbuf.putInt(0); // pixels per meter (y)
             headerbuf.putInt(screenshot.clut.length / 4); // number of colors in CLUT

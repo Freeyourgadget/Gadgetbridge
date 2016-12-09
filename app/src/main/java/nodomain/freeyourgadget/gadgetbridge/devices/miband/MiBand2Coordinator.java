@@ -1,0 +1,107 @@
+package nodomain.freeyourgadget.gadgetbridge.devices.miband;
+
+import android.annotation.TargetApi;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.le.ScanFilter;
+import android.content.Context;
+import android.net.Uri;
+import android.os.Build;
+import android.os.ParcelUuid;
+import android.support.annotation.NonNull;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Collection;
+import java.util.Collections;
+
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+
+public class MiBand2Coordinator extends MiBandCoordinator {
+    private static final Logger LOG = LoggerFactory.getLogger(MiBand2Coordinator.class);
+
+    @Override
+    public DeviceType getDeviceType() {
+        return DeviceType.MIBAND2;
+    }
+
+    @NonNull
+    @Override
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public Collection<? extends ScanFilter> createBLEScanFilters() {
+        ParcelUuid mi2Service = new ParcelUuid(MiBandService.UUID_SERVICE_MIBAND2_SERVICE);
+        ScanFilter filter = new ScanFilter.Builder().setServiceUuid(mi2Service).build();
+        return Collections.singletonList(filter);
+    }
+
+    @NonNull
+    @Override
+    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+        if (candidate.supportsService(MiBand2Service.UUID_SERVICE_MIBAND2_SERVICE)) {
+            return DeviceType.MIBAND2;
+        }
+
+        // and a heuristic for now
+        try {
+            BluetoothDevice device = candidate.getDevice();
+            if (isHealthWearable(device)) {
+                String name = device.getName();
+                if (name != null && name.equalsIgnoreCase(MiBandConst.MI_BAND2_NAME)) {
+                    return DeviceType.MIBAND2;
+                }
+            }
+        } catch (Exception ex) {
+            LOG.error("unable to check device support", ex);
+        }
+        return DeviceType.UNKNOWN;
+
+    }
+
+    @Override
+    public boolean supportsHeartRateMeasurement(GBDevice device) {
+        return true;
+    }
+
+    @Override
+    public boolean supportsAlarmConfiguration() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsActivityDataFetching() {
+        return true;
+    }
+
+    @Override
+    public SampleProvider<? extends AbstractActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
+        return new MiBand2SampleProvider(device, session);
+    }
+
+    @Override
+    public InstallHandler findInstallHandler(Uri uri, Context context) {
+        return null; // not supported at the moment
+    }
+
+    public static DateTimeDisplay getDateDisplay(Context context) throws IllegalArgumentException {
+        Prefs prefs = GBApplication.getPrefs();
+        String dateFormatTime = context.getString(R.string.p_dateformat_time);
+        if (dateFormatTime.equals(prefs.getString(MiBandConst.PREF_MI2_DATEFORMAT, dateFormatTime))) {
+            return DateTimeDisplay.TIME;
+        }
+        return DateTimeDisplay.DATE_TIME;
+    }
+
+    public static boolean getActivateDisplayOnLiftWrist() {
+        Prefs prefs = GBApplication.getPrefs();
+        return prefs.getBoolean(MiBandConst.PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT, true);
+    }
+}

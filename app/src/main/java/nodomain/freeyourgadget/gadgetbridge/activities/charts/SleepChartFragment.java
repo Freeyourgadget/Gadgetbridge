@@ -11,12 +11,15 @@ import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import org.slf4j.Logger;
@@ -50,7 +53,7 @@ public class SleepChartFragment extends AbstractChartFragment {
 
     @Override
     protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
-        List<ActivitySample> samples = getSamples(db, device);
+        List<? extends ActivitySample> samples = getSamples(db, device);
 
         MySleepChartsData mySleepChartsData = refreshSleepAmounts(device, samples);
         DefaultChartsData chartsData = refresh(device, samples);
@@ -58,26 +61,27 @@ public class SleepChartFragment extends AbstractChartFragment {
         return new MyChartsData(mySleepChartsData, chartsData);
     }
 
-    private MySleepChartsData refreshSleepAmounts(GBDevice mGBDevice, List<ActivitySample> samples) {
+    private MySleepChartsData refreshSleepAmounts(GBDevice mGBDevice, List<? extends ActivitySample> samples) {
         ActivityAnalysis analysis = new ActivityAnalysis();
         ActivityAmounts amounts = analysis.calculateActivityAmounts(samples);
         PieData data = new PieData();
-        List<Entry> entries = new ArrayList<>();
+        List<PieEntry> entries = new ArrayList<>();
         List<Integer> colors = new ArrayList<>();
-        int index = 0;
+//        int index = 0;
         long totalSeconds = 0;
         for (ActivityAmount amount : amounts.getAmounts()) {
             if ((amount.getActivityKind() & ActivityKind.TYPE_SLEEP) != 0) {
                 long value = amount.getTotalSeconds();
                 totalSeconds += value;
-                entries.add(new Entry(value, index++));
+//                entries.add(new PieEntry(value, index++));
+                entries.add(new PieEntry(value, amount.getName(getActivity())));
                 colors.add(getColorFor(amount.getActivityKind()));
-                data.addXValue(amount.getName(getActivity()));
+//                data.addXValue(amount.getName(getActivity()));
             }
         }
         String totalSleep = DateTimeUtils.formatDurationHoursMinutes(totalSeconds, TimeUnit.SECONDS);
         PieDataSet set = new PieDataSet(entries, "");
-        set.setValueFormatter(new ValueFormatter() {
+        set.setValueFormatter(new IValueFormatter() {
             @Override
             public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
                 return DateTimeUtils.formatDurationHoursMinutes((long) value, TimeUnit.SECONDS);
@@ -96,7 +100,9 @@ public class SleepChartFragment extends AbstractChartFragment {
         mSleepAmountChart.setCenterText(mcd.getPieData().getTotalSleep());
         mSleepAmountChart.setData(mcd.getPieData().getPieData());
 
-        mActivityChart.setData(mcd.getChartsData().getCombinedData());
+        mActivityChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
+        mActivityChart.getXAxis().setValueFormatter(mcd.getChartsData().getXValueFormatter());
+        mActivityChart.setData(mcd.getChartsData().getData());
     }
 
     @Override
@@ -138,16 +144,16 @@ public class SleepChartFragment extends AbstractChartFragment {
 
     private void setupSleepAmountChart() {
         mSleepAmountChart.setBackgroundColor(BACKGROUND_COLOR);
-        mSleepAmountChart.setDescriptionColor(DESCRIPTION_COLOR);
-        mSleepAmountChart.setDescription("");
-        mSleepAmountChart.setNoDataTextDescription("");
+        mSleepAmountChart.getDescription().setTextColor(DESCRIPTION_COLOR);
+        mSleepAmountChart.getDescription().setText("");
+//        mSleepAmountChart.getDescription().setNoDataTextDescription("");
         mSleepAmountChart.setNoDataText("");
         mSleepAmountChart.getLegend().setEnabled(false);
     }
 
     private void setupActivityChart() {
         mActivityChart.setBackgroundColor(BACKGROUND_COLOR);
-        mActivityChart.setDescriptionColor(DESCRIPTION_COLOR);
+        mActivityChart.getDescription().setTextColor(DESCRIPTION_COLOR);
         configureBarLineChartDefaults(mActivityChart);
 
         XAxis x = mActivityChart.getXAxis();
@@ -161,8 +167,8 @@ public class SleepChartFragment extends AbstractChartFragment {
         y.setDrawGridLines(false);
 //        y.setDrawLabels(false);
         // TODO: make fixed max value optional
-        y.setAxisMaxValue(1f);
-        y.setAxisMinValue(0);
+        y.setAxisMaximum(1f);
+        y.setAxisMinimum(0);
         y.setDrawTopYLabelEntry(false);
         y.setTextColor(CHART_TEXT_COLOR);
 
@@ -171,7 +177,7 @@ public class SleepChartFragment extends AbstractChartFragment {
 
         YAxis yAxisRight = mActivityChart.getAxisRight();
         yAxisRight.setDrawGridLines(false);
-        yAxisRight.setEnabled(supportsHeartrate());
+        yAxisRight.setEnabled(supportsHeartrate(getChartsHost().getDevice()));
         yAxisRight.setDrawLabels(true);
         yAxisRight.setDrawTopYLabelEntry(true);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
@@ -179,28 +185,37 @@ public class SleepChartFragment extends AbstractChartFragment {
         yAxisRight.setAxisMinValue(HeartRateUtils.MIN_HEART_RATE_VALUE);
     }
 
+    @Override
     protected void setupLegend(Chart chart) {
-        List<Integer> legendColors = new ArrayList<>(2);
-        List<String> legendLabels = new ArrayList<>(2);
-        legendColors.add(akLightSleep.color);
-        legendLabels.add(akLightSleep.label);
-        legendColors.add(akDeepSleep.color);
-        legendLabels.add(akDeepSleep.label);
-        if (supportsHeartrate()) {
-            legendColors.add(HEARTRATE_COLOR);
-            legendLabels.add(HEARTRATE_LABEL);
+        List<LegendEntry> legendEntries = new ArrayList<>(3);
+        LegendEntry lightSleepEntry = new LegendEntry();
+        lightSleepEntry.label = akLightSleep.label;
+        lightSleepEntry.formColor = akLightSleep.color;
+        legendEntries.add(lightSleepEntry);
+
+        LegendEntry deepSleepEntry = new LegendEntry();
+        deepSleepEntry.label = akDeepSleep.label;
+        deepSleepEntry.formColor = akDeepSleep.color;
+        legendEntries.add(deepSleepEntry);
+
+        if (supportsHeartrate(getChartsHost().getDevice())) {
+            LegendEntry hrEntry = new LegendEntry();
+            hrEntry.label = HEARTRATE_LABEL;
+            hrEntry.formColor = HEARTRATE_COLOR;
+            legendEntries.add(hrEntry);
         }
-        chart.getLegend().setCustom(legendColors, legendLabels);
+        chart.getLegend().setCustom(legendEntries);
         chart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
     }
 
     @Override
-    protected List<ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+    protected List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
 // temporary fix for totally wrong sleep amounts
 //        return super.getSleepSamples(db, device, tsFrom, tsTo);
         return super.getAllSamples(db, device, tsFrom, tsTo);
     }
 
+    @Override
     protected void renderCharts() {
         mActivityChart.animateX(ANIM_TIME, Easing.EasingOption.EaseInOutQuart);
         mSleepAmountChart.invalidate();
@@ -225,10 +240,10 @@ public class SleepChartFragment extends AbstractChartFragment {
     }
 
     private static class MyChartsData extends ChartsData {
-        private final DefaultChartsData chartsData;
+        private final DefaultChartsData<CombinedData> chartsData;
         private final MySleepChartsData pieData;
 
-        public MyChartsData(MySleepChartsData pieData, DefaultChartsData chartsData) {
+        public MyChartsData(MySleepChartsData pieData, DefaultChartsData<CombinedData> chartsData) {
             this.pieData = pieData;
             this.chartsData = chartsData;
         }
@@ -237,7 +252,7 @@ public class SleepChartFragment extends AbstractChartFragment {
             return pieData;
         }
 
-        public DefaultChartsData getChartsData() {
+        public DefaultChartsData<CombinedData> getChartsData() {
             return chartsData;
         }
     }

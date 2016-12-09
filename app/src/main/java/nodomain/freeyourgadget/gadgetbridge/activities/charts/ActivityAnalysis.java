@@ -8,7 +8,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 public class ActivityAnalysis {
-    public ActivityAmounts calculateActivityAmounts(List<ActivitySample> samples) {
+    public ActivityAmounts calculateActivityAmounts(List<? extends ActivitySample> samples) {
         ActivityAmount deepSleep = new ActivityAmount(ActivityKind.TYPE_DEEP_SLEEP);
         ActivityAmount lightSleep = new ActivityAmount(ActivityKind.TYPE_LIGHT_SLEEP);
         ActivityAmount notWorn = new ActivityAmount(ActivityKind.TYPE_NOT_WORN);
@@ -17,7 +17,7 @@ public class ActivityAnalysis {
         ActivityAmount previousAmount = null;
         ActivitySample previousSample = null;
         for (ActivitySample sample : samples) {
-            ActivityAmount amount = null;
+            ActivityAmount amount;
             switch (sample.getKind()) {
                 case ActivityKind.TYPE_DEEP_SLEEP:
                     amount = deepSleep;
@@ -43,8 +43,6 @@ public class ActivityAnalysis {
                     previousAmount.addSeconds(sharedTimeDifference);
                     amount.addSeconds(sharedTimeDifference);
                 }
-            } else {
-                // nothing to do, we can only calculate when we have the next sample
             }
 
             previousAmount = amount;
@@ -66,10 +64,13 @@ public class ActivityAnalysis {
         return result;
     }
 
-    public int calculateTotalSteps(List<ActivitySample> samples) {
+    public int calculateTotalSteps(List<? extends ActivitySample> samples) {
         int totalSteps = 0;
         for (ActivitySample sample : samples) {
-            totalSteps += sample.getSteps();
+            int steps = sample.getSteps();
+            if (steps > 0) {
+                totalSteps += sample.getSteps();
+            }
         }
         return totalSteps;
     }

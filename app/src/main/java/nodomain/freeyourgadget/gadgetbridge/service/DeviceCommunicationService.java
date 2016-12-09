@@ -25,6 +25,10 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.OnboardingActivity;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.K9Receiver;
@@ -37,6 +41,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -48,6 +54,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ADD_CALENDAREVENT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_APP_CONFIGURE;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_APP_REORDER;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CALLSTATE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CONNECT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DELETEAPP;
@@ -65,12 +72,16 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_RE
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_APPINFO;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_DEVICEINFO;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_SCREENSHOT;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SEND_CONFIGURATION;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETCANNEDMESSAGES;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETMUSICINFO;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETMUSICSTATE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETTIME;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_ALARMS;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_CONSTANT_VIBRATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_STARTAPP;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_TEST_NEW_FUNCTION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_ALARMS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_CONFIG;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_START;
@@ -84,6 +95,9 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CAL
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_TYPE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_COMMAND;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_PHONENUMBER;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CANNEDMESSAGES;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CANNEDMESSAGES_TYPE;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CONFIG;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_DEVICE_ADDRESS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_FIND_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_ALBUM;
@@ -108,9 +122,11 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOT
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_TYPE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_PERFORM_PAIR;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_URI;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_VIBRATION_INTENSITY;
 
 public class DeviceCommunicationService extends Service implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final Logger LOG = LoggerFactory.getLogger(DeviceCommunicationService.class);
+    private static DeviceSupportFactory DEVICE_SUPPORT_FACTORY = null;
 
     private boolean mStarted = false;
 
@@ -129,6 +145,19 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
     private Random mRandom = new Random();
 
+    /**
+     * For testing!
+     *
+     * @param factory
+     */
+    public static void setDeviceSupportFactory(DeviceSupportFactory factory) {
+        DEVICE_SUPPORT_FACTORY = factory;
+    }
+
+    public DeviceCommunicationService() {
+
+    }
+
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -140,6 +169,27 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     boolean enableReceivers = mDeviceSupport != null && (mDeviceSupport.useAutoConnect() || mGBDevice.isInitialized());
                     setReceiversEnableState(enableReceivers);
                     GB.updateNotification(mGBDevice.getName() + " " + mGBDevice.getStateString(), mGBDevice.isInitialized(), context);
+
+                    if (device.isInitialized()) {
+                        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                            DaoSession session = dbHandler.getDaoSession();
+                            boolean askForDBMigration = false;
+                            if (DBHelper.findDevice(device, session) == null && device.getType() != DeviceType.VIBRATISSIMO && (device.getType() != DeviceType.LIVEVIEW)) {
+                                askForDBMigration = true;
+                            }
+                            DBHelper.getDevice(device, session); // implicitly creates the device in database if not present, and updates device attributes
+                            if (askForDBMigration) {
+                                DBHelper dbHelper = new DBHelper(context);
+                                if (dbHelper.getOldActivityDatabaseHandler() != null) {
+                                    Intent startIntent = new Intent(context, OnboardingActivity.class);
+                                    startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                                    startActivity(startIntent);
+                                }
+                            }
+                        } catch (Exception ignore) {
+                        }
+                    }
                 } else {
                     LOG.error("Got ACTION_DEVICE_CHANGED from unexpected device: " + mGBDevice);
                 }
@@ -152,11 +202,18 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         LOG.debug("DeviceCommunicationService is being created");
         super.onCreate();
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED));
-        mFactory = new DeviceSupportFactory(this);
+        mFactory = getDeviceSupportFactory();
 
         if (hasPrefs()) {
             getPrefs().getPreferences().registerOnSharedPreferenceChangeListener(this);
         }
+    }
+
+    private DeviceSupportFactory getDeviceSupportFactory() {
+        if (DEVICE_SUPPORT_FACTORY != null) {
+            return DEVICE_SUPPORT_FACTORY;
+        }
+        return new DeviceSupportFactory(this);
     }
 
     @Override
@@ -261,14 +318,14 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 notificationSpec.id = intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1);
                 notificationSpec.flags = intent.getIntExtra(EXTRA_NOTIFICATION_FLAGS, 0);
                 notificationSpec.sourceName = intent.getStringExtra(EXTRA_NOTIFICATION_SOURCENAME);
-                if (notificationSpec.type == NotificationType.SMS && notificationSpec.phoneNumber != null) {
+                if (notificationSpec.type == NotificationType.GENERIC_SMS && notificationSpec.phoneNumber != null) {
                     notificationSpec.sender = getContactDisplayNameByNumber(notificationSpec.phoneNumber);
 
                     notificationSpec.id = mRandom.nextInt(); // FIXME: add this in external SMS Receiver?
                     GBApplication.getIDSenderLookup().add(notificationSpec.id, notificationSpec.phoneNumber);
                 }
                 if (((notificationSpec.flags & NotificationSpec.FLAG_WEARABLE_REPLY) > 0)
-                        || (notificationSpec.type == NotificationType.SMS && notificationSpec.phoneNumber != null)) {
+                        || (notificationSpec.type == NotificationType.GENERIC_SMS && notificationSpec.phoneNumber != null)) {
                     // NOTE: maybe not where it belongs
                     if (prefs.getBoolean("pebble_force_untested", false)) {
                         // I would rather like to save that as an array in ShadredPreferences
@@ -330,6 +387,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 mDeviceSupport.onFindDevice(start);
                 break;
             }
+            case ACTION_SET_CONSTANT_VIBRATION: {
+                int intensity = intent.getIntExtra(EXTRA_VIBRATION_INTENSITY, 0);
+                mDeviceSupport.onSetConstantVibration(intensity);
+                break;
+            }
             case ACTION_CALLSTATE:
                 int command = intent.getIntExtra(EXTRA_CALL_COMMAND, CallSpec.CALL_UNDEFINED);
 
@@ -344,6 +406,15 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 callSpec.number = phoneNumber;
                 callSpec.name = callerName;
                 mDeviceSupport.onSetCallState(callSpec);
+                break;
+            case ACTION_SETCANNEDMESSAGES:
+                int type = intent.getIntExtra(EXTRA_CANNEDMESSAGES_TYPE, -1);
+                String[] cannedMessages = intent.getStringArrayExtra(EXTRA_CANNEDMESSAGES);
+
+                CannedMessagesSpec cannedMessagesSpec = new CannedMessagesSpec();
+                cannedMessagesSpec.type = type;
+                cannedMessagesSpec.cannedMessages = cannedMessages;
+                mDeviceSupport.onSetCannedMessages(cannedMessagesSpec);
                 break;
             case ACTION_SETTIME:
                 mDeviceSupport.onSetTime();
@@ -360,11 +431,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 break;
             case ACTION_SETMUSICSTATE:
                 MusicStateSpec stateSpec = new MusicStateSpec();
-                stateSpec.shuffle = intent.getByteExtra(EXTRA_MUSIC_SHUFFLE, (byte)0);
-                stateSpec.repeat = intent.getByteExtra(EXTRA_MUSIC_REPEAT, (byte)0);
+                stateSpec.shuffle = intent.getByteExtra(EXTRA_MUSIC_SHUFFLE, (byte) 0);
+                stateSpec.repeat = intent.getByteExtra(EXTRA_MUSIC_REPEAT, (byte) 0);
                 stateSpec.position = intent.getIntExtra(EXTRA_MUSIC_POSITION, 0);
                 stateSpec.playRate = intent.getIntExtra(EXTRA_MUSIC_RATE, 0);
-                stateSpec.state = intent.getByteExtra(EXTRA_MUSIC_STATE, (byte)0);
+                stateSpec.state = intent.getByteExtra(EXTRA_MUSIC_STATE, (byte) 0);
                 mDeviceSupport.onSetMusicState(stateSpec);
                 break;
             case ACTION_REQUEST_APPINFO:
@@ -388,6 +459,12 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 UUID uuid = (UUID) intent.getSerializableExtra(EXTRA_APP_UUID);
                 String config = intent.getStringExtra(EXTRA_APP_CONFIG);
                 mDeviceSupport.onAppConfiguration(uuid, config);
+                break;
+            }
+            case ACTION_APP_REORDER: {
+                UUID[] uuids = (UUID[]) intent.getSerializableExtra(EXTRA_APP_UUID);
+                mDeviceSupport.onAppReorder(uuids);
+                break;
             }
             case ACTION_INSTALL:
                 Uri uri = intent.getParcelableExtra(EXTRA_URI);
@@ -415,18 +492,18 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 mDeviceSupport.onEnableRealtimeHeartRateMeasurement(enable);
                 break;
             }
+            case ACTION_SEND_CONFIGURATION: {
+                String config = intent.getStringExtra(EXTRA_CONFIG);
+                mDeviceSupport.onSendConfiguration(config);
+                break;
+            }
+            case ACTION_TEST_NEW_FUNCTION: {
+                mDeviceSupport.onTestNewFunction();
+                break;
+            }
         }
 
         return START_STICKY;
-    }
-
-    /**
-     * For testing!
-     *
-     * @param factory
-     */
-    public void setDeviceSupportFactory(DeviceSupportFactory factory) {
-        mFactory = factory;
     }
 
     /**
@@ -567,7 +644,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
         setDeviceSupport(null);
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.cancel(GB.NOTIFICATION_ID); // need to do this because the updated notification wont be cancelled when service stops
+        nm.cancel(GB.NOTIFICATION_ID); // need to do this because the updated notification won't be cancelled when service stops
     }
 
     @Override

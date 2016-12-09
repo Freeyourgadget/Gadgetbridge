@@ -120,10 +120,18 @@ public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {
                 }
                 break;
             case MIBAND:
+            case MIBAND2:
                 if (device.isConnected()) {
                     deviceImageView.setImageResource(R.drawable.ic_device_miband);
                 } else {
                     deviceImageView.setImageResource(R.drawable.ic_device_miband_disabled);
+                }
+                break;
+            case VIBRATISSIMO:
+                if (device.isConnected()) {
+                    deviceImageView.setImageResource(R.drawable.ic_device_lovetoy);
+                } else {
+                    deviceImageView.setImageResource(R.drawable.ic_device_lovetoy_disabled);
                 }
                 break;
             default:
@@ -160,8 +168,8 @@ public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {
     private String getUniqueDeviceName(GBDevice device) {
         String deviceName = device.getName();
         if (!isUniqueDeviceName(device, deviceName)) {
-            if (device.getHardwareVersion() != null) {
-                deviceName = deviceName + " " + device.getHardwareVersion();
+            if (device.getModel() != null) {
+                deviceName = deviceName + " " + device.getModel();
                 if (!isUniqueDeviceName(device, deviceName)) {
                     deviceName = deviceName + " " + device.getShortAddress();
                 }

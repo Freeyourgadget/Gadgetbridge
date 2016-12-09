@@ -14,6 +14,10 @@
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">앱 관리자</string>
   <string name="appmananger_app_delete">삭제</string>
+  <string name="appmananger_app_reinstall">재설치</string>
+  <string name="appmanager_health_activate">활성화</string>
+  <string name="appmanager_health_deactivate">비활성화</string>
+  <string name="app_configure">설정</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">알림 블랙리스트</string>
   <!--Strings related to FwAppInstaller-->
@@ -42,7 +46,6 @@
   <string name="pref_title_notifications_sms">SMS</string>
   <string name="pref_title_notifications_k9mail">K-9 메일</string>
   <string name="pref_title_notifications_pebblemsg">Pebble 메세지</string>
-  <string name="pref_summary_notifications_pebblemsg">인텐트를 통해 Pebble에 알림을 전송할 수 있는 앱 지원. Conversations 앱 등에 사용할 수 있습니다.</string>
   <string name="pref_title_notifications_generic">일반적인 알림 지원</string>
   <string name="pref_title_whenscreenon">… 화면이 켜져있을 때도</string>
   <string name="always">항상</string>
@@ -93,7 +96,7 @@
   <string name="title_activity_android_pairing">기기 페어링</string>
   <string name="android_pairing_hint">기기를 페어링하려면 안드로이드 블루투스 페어링 설정을 사용하세요</string>
   <string name="title_activity_mi_band_pairing">Mi Band 페어링</string>
-  <string name="miband_pairing">%s에 페어링…</string>
+  <string name="pairing">%s에 페어링…</string>
   <string name="message_cannot_pair_no_mac">MAC 주소가 통과되지 않았습니다. 페어링 할 수 없습니다.</string>
   <string name="preferences_category_device_specific_settings">기기 특정 설정</string>
   <string name="preferences_miband_settings">Mi Band 설정</string>
@@ -129,7 +132,7 @@
   <string name="pref_header_vibration_settings">진동 설정</string>
   <string name="pref_screen_notification_profile_generic">일반 알림</string>
   <string name="pref_screen_notification_profile_pebblemsg">Pebble 알림</string>
-  <string name="pref_screen_notification_profile_k9mail">K-9 Mail 알림</string>
+  <string name="pref_screen_notification_profile_email">Mail 알림</string>
   <string name="pref_screen_notification_profile_incoming_call">걸려오는 전화 알림</string>
   <string name="control_center_find_lost_device">잃어버린 기기 찾기</string>
   <string name="control_center_cancel_to_stop_vibration">진동을 멈추려면 취소를 선택하세요.</string>
@@ -202,17 +205,13 @@
   <string name="miband_prefs_reserve_alarm_calendar">다가오는 이벤트를 위해 예약할 알람</string>
   <string name="miband_prefs_hr_sleep_detection">수면 측정을 향상시키기 위해 심박 센서 사용</string>
   <string name="waiting_for_reconnect">재접속을 기다리는 중</string>
-  <string name="appmananger_app_reinstall">재설치</string>
   <string name="activity_prefs_about_you">당신에 대해</string>
   <string name="activity_prefs_year_birth">출생년도</string>
   <string name="activity_prefs_gender">성별</string>
   <string name="activity_prefs_height_cm">키 (cm)</string>
   <string name="activity_prefs_weight_kg">몸무게 (kg)</string>
-  <string name="appmanager_health_activate">활성화</string>
-  <string name="appmanager_health_deactivate">비활성화</string>
   <string name="authenticating">인증 중</string>
   <string name="authentication_required">인증 필요</string>
-  <string name="app_configure">설정</string>
   <string name="appwidget_text">Zzz</string>
   <string name="add_widget">위젯 추가</string>
   <string name="activity_prefs_sleep_duration">선호하는 수면 시간</string>
@@ -225,4 +224,6 @@
   <string name="updatefirmwareoperation_firmware_not_sent">펌웨어가 전송되지 않음</string>
   <string name="charts_legend_heartrate">심박수</string>
   <string name="live_activity_heart_rate">심박수</string>
+  <!--Strings related to Onboading Activity-->
+  <string name="Delete">삭제</string>
 </resources>

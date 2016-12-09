@@ -2,7 +2,7 @@
 <resources>
   <string name="app_name">Gadgetbridge</string>
   <string name="title_activity_controlcenter">Gadgetbridge</string>
-  <string name="action_settings">Параметри</string>
+  <string name="action_settings">Налаштування</string>
   <string name="action_debug">Зневадження</string>
   <string name="action_quit">Вихід</string>
   <string name="controlcenter_fetch_activity_data">Синхронізувати</string>
@@ -14,6 +14,10 @@
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">App Manager</string>
   <string name="appmananger_app_delete">Вилучити</string>
+  <string name="appmananger_app_reinstall">Перевстановити</string>
+  <string name="appmanager_health_activate">Увімкнути</string>
+  <string name="appmanager_health_deactivate">Вимкнути</string>
+  <string name="app_configure">Конфігурація</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Перелік заблокованих сповіщень</string>
   <!--Strings related to FwAppInstaller-->
@@ -26,6 +30,7 @@
   <string name="title_activity_settings">Параметри</string>
   <string name="pref_header_general">Загальні параметри</string>
   <string name="pref_title_general_autoconnectonbluetooth">З\'єднання із пристроєм при активації Bluetooth</string>
+  <string name="pref_title_general_autocreonnect">Перепід\'єднуватись автоматично</string>
   <string name="pref_title_audo_player">Переважний музичний програвач</string>
   <string name="pref_default">Типовий</string>
   <string name="pref_header_datetime">Дата і час</string>
@@ -34,25 +39,37 @@
   <string name="pref_title_theme">Тема</string>
   <string name="pref_theme_light">Світла</string>
   <string name="pref_theme_dark">Темна</string>
+  <string name="pref_title_language">Мова</string>
   <string name="pref_header_notifications">Сповіщення</string>
   <string name="pref_title_notifications_repetitions">Повтори</string>
   <string name="pref_title_notifications_call">Виклики</string>
   <string name="pref_title_notifications_sms">SMS—повідомлення</string>
   <string name="pref_title_notifications_k9mail">K9-Mail</string>
   <string name="pref_title_notifications_pebblemsg">Повідомлення Pebble</string>
-  <string name="pref_summary_notifications_pebblemsg">Підтримка додатків, які надсилають сповіщення на Pebble за допомогою Intent. Може використовуватись для Conversations.</string>
   <string name="pref_title_notifications_generic">Підтримка звичайних сповіщень</string>
   <string name="pref_title_whenscreenon">… навіть коли екран увімкнено</string>
+  <string name="pref_title_notification_filter">Не тубрувати</string>
   <string name="always">завжди</string>
   <string name="when_screen_off">коли екран вимкнуто</string>
   <string name="never">ніколи</string>
   <string name="pref_blacklist">Перелік заблокованих додатків</string>
+  <string name="pref_title_canned_replies">Відповіді</string>
+  <string name="pref_title_canned_reply_suffix">Загальний суфікс</string>
   <string name="pref_header_development">Параметри для розробників</string>
   <string name="pref_title_development_miaddr">Адреса Mi—Band</string>
   <string name="pref_title_pebble_settings">Параметри Pebble</string>
+  <string name="pref_header_activitytrackers">Трекер активності</string>
   <string name="pref_title_pebble_activitytracker">Переважний трекер активності</string>
+  <string name="pref_title_pebble_sync_health">Синхронізувати Pebble Health</string>
+  <string name="pref_title_pebble_sync_misfit">Синхронізувати Misfit</string>
+  <string name="pref_title_pebble_sync_morpheuz">Синхронізувати Morpheuz</string>
   <string name="pref_title_enable_pebblekit">Дозволити доступ іншим особам</string>
   <string name="pref_summary_enable_pebblekit">Додати експериментальну підтримку додатків Android, які використовують PebbleKit</string>
+  <string name="pref_title_sunrise_sunset">Схід і захід сонця</string>
+  <string name="pref_summary_sunrise_sunset">Надіслати час сходу і заходу сонця оснований на місцезнаходженні до розкладу Pebble</string>
+  <string name="pref_header_location">Місцезнаходження</string>
+  <string name="pref_title_location_latitude">Широта</string>
+  <string name="pref_title_location_longitude">Довгота</string>
   <string name="pref_title_pebble_forceprotocol">Примусовий протокол сповіщень</string>
   <string name="pref_summary_pebble_forceprotocol">Цей параметр примусово вмикає новий протокол сповіщень, який залежить від версії мікропрограми. ВМИКАЙТЕ, ЯКЩО ВИ ЗНАЄТЕ НА ЩО ЙДЕТЕ.</string>
   <string name="pref_title_pebble_forceuntested">Увімкнути не перевірені можливості</string>
@@ -88,7 +105,7 @@
   <string name="title_activity_android_pairing">Створення пари з пристроєм</string>
   <string name="android_pairing_hint">Для створення пари із пристроєм використовуйте діалог Android.</string>
   <string name="title_activity_mi_band_pairing">Створення пари із вашим Mi—Band</string>
-  <string name="miband_pairing">Створення пари із %s…</string>
+  <string name="pairing">Створення пари із %s…</string>
   <string name="message_cannot_pair_no_mac">MAC-адресу не було передано, не вдалося створити пару.</string>
   <string name="preferences_category_device_specific_settings">Параметри пристрою</string>
   <string name="preferences_miband_settings">Параметри Mi—Band</string>
@@ -117,12 +134,12 @@
   <string name="vibration_profile_waterdrop">Крапля води</string>
   <string name="vibration_profile_ring">Дзвінок</string>
   <string name="vibration_profile_alarm_clock">Будильник</string>
-  <string name="miband_prefs_vibration">Вібро</string>
+  <string name="miband_prefs_vibration">Вібрація</string>
   <string name="pref_screen_notification_profile_sms">SMS-сповіщення</string>
   <string name="pref_header_vibration_settings">Параметри вібро</string>
   <string name="pref_screen_notification_profile_generic">Загальні сповіщення</string>
   <string name="pref_screen_notification_profile_pebblemsg">Сповіщення Pebble</string>
-  <string name="pref_screen_notification_profile_k9mail">Сповіщення пошти K9</string>
+  <string name="pref_screen_notification_profile_email">Сповіщення пошти</string>
   <string name="pref_screen_notification_profile_incoming_call">Сповіщення під час вхідного дзвінку</string>
   <string name="control_center_find_lost_device">Знайти загублений пристрій</string>
   <string name="control_center_cancel_to_stop_vibration">Скасуйте, аби зупинити вібро</string>
@@ -193,14 +210,14 @@
   <string name="miband_fwinstaller_incompatible_version">Мікропрограма не підтримується</string>
   <string name="fwinstaller_firmware_not_compatible_to_device">Ця мікропрограма не підтримується даним пристроєм</string>
   <string name="waiting_for_reconnect">очікування повторного підключення</string>
-  <string name="appmananger_app_reinstall">Перевстановити</string>
   <string name="activity_prefs_about_you">Про Вас</string>
   <string name="activity_prefs_year_birth">Рік народження</string>
   <string name="activity_prefs_gender">Стать</string>
   <string name="activity_prefs_height_cm">Зріст в см</string>
   <string name="activity_prefs_weight_kg">Вага в кг</string>
-  <string name="appmanager_health_activate">Увімкнути</string>
-  <string name="appmanager_health_deactivate">Вимкнути</string>
-  <string name="app_configure">Конфігурація</string>
   <string name="add_widget">Додати віджет</string>
+  <string name="device_hw">Пристрій: %1$s</string>
+  <string name="device_fw">ПЗ: %1$s</string>
+  <!--Strings related to Onboading Activity-->
+  <string name="Delete">Вилучити</string>
 </resources>

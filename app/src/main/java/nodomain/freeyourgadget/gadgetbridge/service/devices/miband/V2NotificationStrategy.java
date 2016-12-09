@@ -3,15 +3,20 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.miband;
 import android.bluetooth.BluetoothGattCharacteristic;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 
 public class V2NotificationStrategy implements NotificationStrategy {
-    private final MiBandSupport support;
+    private final AbstractBTLEDeviceSupport support;
 
-    public V2NotificationStrategy(MiBandSupport support) {
+    public V2NotificationStrategy(AbstractBTLEDeviceSupport support) {
         this.support = support;
+    }
+
+    protected AbstractBTLEDeviceSupport getSupport() {
+        return support;
     }
 
     @Override
@@ -20,7 +25,7 @@ public class V2NotificationStrategy implements NotificationStrategy {
         sendCustomNotification(profile, extraAction, builder);
     }
 
-    private void sendCustomNotification(VibrationProfile vibrationProfile, BtLEAction extraAction, TransactionBuilder builder) {
+    protected void sendCustomNotification(VibrationProfile vibrationProfile, BtLEAction extraAction, TransactionBuilder builder) {
         //use the new alert characteristic
         BluetoothGattCharacteristic alert = support.getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL);
         for (short i = 0; i < vibrationProfile.getRepeat(); i++) {
@@ -29,6 +34,8 @@ public class V2NotificationStrategy implements NotificationStrategy {
                 int on = onOffSequence[j];
                 on = Math.min(500, on); // longer than 500ms is not possible
                 builder.write(alert, new byte[]{GattCharacteristic.MILD_ALERT}); //MILD_ALERT lights up GREEN leds, HIGH_ALERT lights up RED leds
+//                builder.wait(on);
+//                builder.write(alert, new byte[]{GattCharacteristic.HIGH_ALERT});
                 builder.wait(on);
                 builder.write(alert, new byte[]{GattCharacteristic.NO_ALERT});
 

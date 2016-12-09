@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -116,6 +115,7 @@ public class FileUtils {
             file.delete();
             return true;
         } catch (FileNotFoundException e) {
+            GB.log("Cannot write to directory: " + dir.getAbsolutePath(), GB.INFO, e);
             return false;
         }
     }
@@ -134,7 +134,19 @@ public class FileUtils {
     @NonNull
     private static List<File> getWritableExternalFilesDirs() throws IOException {
         Context context = GBApplication.getContext();
-        File[] dirs = context.getExternalFilesDirs(null);
+        File[] dirs;
+        try {
+            dirs = context.getExternalFilesDirs(null);
+        } catch (NullPointerException | UnsupportedOperationException ex) {
+            // workaround for robolectric 3.1.2 not implementinc getExternalFilesDirs()
+            // https://github.com/robolectric/robolectric/issues/2531
+            File dir = context.getExternalFilesDir(null);
+            if (dir != null) {
+                dirs = new File[] { dir };
+            } else {
+                throw ex;
+            }
+        }
         if (dirs == null) {
             throw new IOException("Unable to access external files dirs: null");
         }
@@ -144,13 +156,18 @@ public class FileUtils {
         }
         for (int i = 0; i < dirs.length; i++) {
             File dir = dirs[i];
-            if (dir == null || (!dir.exists() && !dir.mkdirs())) {
+            if (dir == null) {
                 continue;
             }
+            if (!dir.exists() && !dir.mkdirs()) {
+                GB.log("Unable to create directories: " + dir.getAbsolutePath(), GB.INFO, null);
+                continue;
+            }
+
             // the first directory is also the primary external storage, i.e. the same as Environment.getExternalFilesDir()
             // TODO: check the mount state of *all* dirs when switching to later API level
-            if (!dir.canWrite() || (i == 0 && !Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()))) {
-                Log.i(TAG, "ignoring non-writable external storage dir: " + dir);
+            if (i == 0 && !Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+                GB.log("ignoring unmounted external storage dir: " + dir, GB.INFO, null);
                 continue;
             }
             result.add(dir); // add last

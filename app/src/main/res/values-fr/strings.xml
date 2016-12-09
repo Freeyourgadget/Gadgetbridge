@@ -10,10 +10,21 @@
   <string name="controlcenter_find_device">Trouver l\'appareil</string>
   <string name="controlcenter_take_screenshot">Prendre une capture d\'écran</string>
   <string name="controlcenter_disconnect">Déconnexion</string>
+    <string name="controlcenter_delete_device">Supprimer l\'appareil</string>
+    <string name="controlcenter_delete_device_name">Supprimer %1$s</string>
   <string name="title_activity_debug">Déboguer</string>
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">Gestionnaire d\'application</string>
+  <string name="appmanager_cached_watchapps_watchfaces">Apps en cache</string>
+  <string name="appmanager_installed_watchapps">Apps installées</string>
+  <string name="appmanager_installed_watchfaces">Watchfaces installées</string>
   <string name="appmananger_app_delete">Supprimer</string>
+  <string name="appmananger_app_delete_cache">Supprimer et effacer du cache</string>
+  <string name="appmananger_app_reinstall">Réinstaller</string>
+  <string name="appmanager_health_activate">Activer</string>
+  <string name="appmanager_health_deactivate">Désactiver</string>
+  <string name="app_configure">Configurer</string>
+  <string name="app_move_to_top">Haut de page </string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Liste noire de notifications</string>
   <!--Strings related to FwAppInstaller-->
@@ -27,32 +38,56 @@
   <string name="title_activity_settings">Paramètres</string>
   <string name="pref_header_general">Paramètres généraux</string>
   <string name="pref_title_general_autoconnectonbluetooth">Connecter votre appareil quand le Bluetooth est mis en marche</string>
+  <string name="pref_title_general_autocreonnect">Reconnexion automatique </string>
   <string name="pref_title_audo_player">Lecteur audio préféré</string>
   <string name="pref_default">Par défaut</string>
   <string name="pref_header_datetime">Date et heure</string>
   <string name="pref_title_datetime_syctimeonconnect">Synchroniser l\'heure</string>
   <string name="pref_summary_datetime_syctimeonconnect">Synchroniser l\'heure à l\'appareil lors de la connexion et lorsque l\'heure ou le fuseau horaire changent sur Android</string>
+  <string name="pref_title_theme">Thème</string>
+  <string name="pref_theme_light">Clair</string>
+  <string name="pref_theme_dark">Sombre</string>
+  <string name="pref_title_language">Langue</string>
   <string name="pref_header_notifications">Notifications</string>
   <string name="pref_title_notifications_repetitions">Répétitions</string>
   <string name="pref_title_notifications_call">Appels téléphoniques</string>
-  <string name="pref_title_notifications_sms">Textos</string>
+  <string name="pref_title_notifications_sms">SMS</string>
   <string name="pref_title_notifications_k9mail">K9-Mail</string>
   <string name="pref_title_notifications_pebblemsg">Messages Pebble</string>
-  <string name="pref_summary_notifications_pebblemsg">Support pour les applications qui envoient des notifications au Pebble via Intent. Peut être utilisé pour les conversations.</string>
+  <string name="pref_summary_notifications_pebblemsg">Support des applications qui envoient des notification à Pebble par PebbleKit.</string>
   <string name="pref_title_notifications_generic">Support des notifications génériques</string>
   <string name="pref_title_whenscreenon">... y compris quand l\'écran est allumé</string>
+  <string name="pref_title_notification_filter">Ne Pas Déranger</string>
+  <string name="pref_summary_notification_filter">Arrêter l’envoie des Notification non-désirée en mode Ne Pas Déranger.</string>
   <string name="always">toujours</string>
   <string name="when_screen_off">quand l\'écran est éteint</string>
   <string name="never">jamais</string>
-  <string name="pref_blacklist">Apps bloquées</string>
-  <string name="pref_title_canned_replies">Modèles de réponses</string>
+  <string name="pref_blacklist">Applications bloquées</string>
+  <string name="pref_header_cannned_messages">Modèles de messages</string>
+  <string name="pref_title_canned_replies">Réponses</string>
   <string name="pref_title_canned_reply_suffix">Suffixe commun</string>
+  <string name="pref_title_canned_messages_dismisscall">Raccrocher</string>
+  <string name="pref_title_canned_messages_set">Mise à jour Pebble</string>
   <string name="pref_header_development">Options développeur</string>
   <string name="pref_title_development_miaddr">Adresse Mi Band</string>
   <string name="pref_title_pebble_settings">Paramètres Pebble</string>
+  <string name="pref_header_activitytrackers">Traqueur d\'activité</string>
   <string name="pref_title_pebble_activitytracker">Traqueur d\'activité préféré</string>
+  <string name="pref_title_pebble_sync_health">Synchroniser Pebble Health</string>
+  <string name="pref_title_pebble_sync_misfit">Synchroniser Misfit</string>
+  <string name="pref_title_pebble_sync_morpheuz">Synchroniser Morpheuz</string>
   <string name="pref_title_enable_pebblekit">Permettre l\'accès d\'applications tierces Android</string>
   <string name="pref_summary_enable_pebblekit">Activer le support expérimental pour les applications Android utilisant PebbleKit</string>
+  <string name="pref_title_sunrise_sunset">Lever et coucher de soleil</string>
+  <string name="pref_summary_sunrise_sunset">Envoyer heures de lever et coucher du soleil dans la timeline Pebble en fonction de l\'emplacement</string>
+  <string name="pref_header_location">Emplacement</string>
+  <string name="pref_title_location_aquire">Obtenir l\'emplacement</string>
+  <string name="pref_title_location_latitude">Latitude</string>
+  <string name="pref_title_location_longitude">Longitude</string>
+    <string name="pref_title_location_keep_uptodate">Garder l\'emplacement à jour</string>
+    <string name="pref_summary_location_keep_uptodate">Tenter d\'obtenir la localisation pendant la course à pied, utiliser la localisation enregistré en cas de problème.</string>
+  <string name="toast_enable_networklocationprovider">Activez la localisation réseau s\'il vous plaît</string>
+  <string name="toast_aqurired_networklocation">Emplacement obtenu</string>
   <string name="pref_title_pebble_forceprotocol">Protocole des notifications en vigueur</string>
   <string name="pref_summary_pebble_forceprotocol">Cette option force l\'utilisation du plus récent protocole de notification qui dépend de la version du micrologiciel. ACTIVEZ-LA UNIQUEMENT SI VOUS SAVEZ CE QUE VOUS FAITES!</string>
   <string name="pref_title_pebble_forceuntested">Activer les fonctionnalités non-testées</string>
@@ -70,7 +105,9 @@
   <string name="this_is_a_test_notification_from_gadgetbridge">Ceci est un test de notification venant de Gadgetbridge</string>
   <string name="bluetooth_is_not_supported_">Le Bluetooth n\'est pas supporté.</string>
   <string name="bluetooth_is_disabled_">Le Bluetooth est désactivé.</string>
-  <string name="tap_connected_device_for_app_mananger">Cliquez sur l\'appareil pour le connecter au gestionnaire d\'application</string>
+  <string name="tap_connected_device_for_app_mananger">Cliquez sur l\'appareil pour ouvrir le gestionnaire d\'application</string>
+  <string name="tap_connected_device_for_activity">Cliquez sur l\'appareil pour ouvrir l\'activité</string>
+  <string name="tap_connected_device_for_vibration">Cliquez sur connecter pour envoyer une vibration</string>
   <string name="tap_a_device_to_connect">Tapotter sur le périphérique pour le connecter.</string>
   <string name="cannot_connect_bt_address_invalid_">Connexion impossible. L’adresse Bluetooth est-elle invalide? </string>
   <string name="gadgetbridge_running">Gadgetbridge est en fonctionnement</string>
@@ -90,7 +127,7 @@
   <string name="title_activity_android_pairing">Coupler l\'appareil</string>
   <string name="android_pairing_hint">Utiliser le couplement Bluetooth d\'Android pour coupler l\'appareil</string>
   <string name="title_activity_mi_band_pairing">Coupler votre Mi Band</string>
-  <string name="miband_pairing">Coupler avec %s...</string>
+  <string name="pairing">Coupler avec %s...</string>
   <string name="message_cannot_pair_no_mac">Aucune adresse mac fournie, ne peut être couplé</string>
   <string name="preferences_category_device_specific_settings">Paramètres spécifiques à l\'appareil </string>
   <string name="preferences_miband_settings">Paramètres Mi Band</string>
@@ -108,10 +145,11 @@
   <string name="miband_prefs_alias">Nom/Pseudo</string>
   <string name="pref_header_vibration_count">Nombre de vibrations</string>
   <string name="title_activity_sleepmonitor">Moniteur de sommeil</string>
+  <string name="pref_write_logfiles">Écrire des fichiers journaux</string>
   <string name="initializing">Initialisation</string>
   <string name="busy_task_fetch_activity_data">Récupération des données d\'activité</string>
   <string name="sleep_activity_date_range">De %1$s à %2$s</string>
-  <string name="miband_prefs_wearside">Port main gauche ou droite?</string>
+  <string name="miband_prefs_wearside">Côté de port du bracelet</string>
   <string name="pref_screen_vibration_profile">Profil de vibration</string>
   <string name="vibration_profile_staccato">Saccadé</string>
   <string name="vibration_profile_short">Court</string>
@@ -121,11 +159,14 @@
   <string name="vibration_profile_ring">Sonnette</string>
   <string name="vibration_profile_alarm_clock">Réveil</string>
   <string name="miband_prefs_vibration">Vibration</string>
-  <string name="pref_screen_notification_profile_sms">Notification Texto</string>
+  <string name="pref_screen_notification_profile_sms">Notification SMS</string>
+  <string name="pref_screen_notification_profile_generic_chat">Clavardage (Chat)</string>
+  <string name="pref_screen_notification_profile_generic_navigation">Navigation</string>
+  <string name="pref_screen_notification_profile_generic_social">Réseaux sociaux</string>
   <string name="pref_header_vibration_settings">Paramètres des vibrations</string>
   <string name="pref_screen_notification_profile_generic">Notification générique</string>
   <string name="pref_screen_notification_profile_pebblemsg">Notification Pebble</string>
-  <string name="pref_screen_notification_profile_k9mail">Notification K9 Mail</string>
+  <string name="pref_screen_notification_profile_email">Notification e-mail</string>
   <string name="pref_screen_notification_profile_incoming_call">Notification d\'appels entrants</string>
   <string name="control_center_find_lost_device">Trouver l\'appareil perdu</string>
   <string name="control_center_cancel_to_stop_vibration">Annuler pour arrêter les vibrations</string>
@@ -177,10 +218,12 @@
   <string name="updatefirmwareoperation_write_failed">Échec lors de l\'écriture du micrologiciel</string>
   <string name="chart_steps">Pas</string>
   <string name="liveactivity_live_activity">Activité en direct</string>
-  <string name="weeksteps_today_steps_description">Nombre de pas aujourd\'hui, objectif: %1$s</string>
+  <string name="weeksteps_today_steps_description">Nombre de pas aujourd\'hui, objectif : %1$s</string>
   <string name="pref_title_dont_ack_transfer">Ne pas confirmer le transfert de données d\'activités</string>
   <string name="pref_summary_dont_ack_transfers">Les données d\'activités ne seront pas effacées du bracelet si elles ne sont pas confirmées. Utile si GB est utilisé avec d\'autres applications.</string>
   <string name="pref_summary_keep_data_on_device">Les données d\'activités seront conservées sur le Mi Band après la synchronisation. Utile si GB est utilisé avec d\'autres applications.</string>
+  <string name="pref_title_low_latency_fw_update">Utilisez le mode low-latency pour les mises à jour FW</string>
+  <string name="pref_summary_low_latency_fw_update">Cela peu aider sur les appareils où les mises à jour du firmware échouent</string>
   <string name="live_activity_steps_history">Historique de pas</string>
   <string name="live_activity_current_steps_per_minute">Pas/minute actuel</string>
   <string name="live_activity_total_steps">Nombre total de pas</string>
@@ -197,21 +240,23 @@
   <string name="fwinstaller_firmware_not_compatible_to_device">Ce micrologiciel n\'est pas compatible avec l\'appareil</string>
   <string name="miband_prefs_reserve_alarm_calendar">Alarmes à réserver pour événements futurs</string>
   <string name="miband_prefs_hr_sleep_detection">Utiliser le capteur cardiaque pour améliorer la précision du sommeil</string>
+  <string name="miband_prefs_device_time_offset_hours">La compensation de temps en heure (pour détecter le sommeil de travailleurs en rotation, par exemple)</string>
+  <string name="miband2_prefs_dateformat">Mi band 2 : format de l\'heure</string>
+  <string name="dateformat_time">Heure seule</string>
+  <string name="dateformat_date_time"><![CDATA[Heure & date]]></string>
+  <string name="mi2_prefs_activate_display_on_lift">Allumer quand le poignet se lève</string>
+  <string name="FetchActivityOperation_about_to_transfer_since">About to transfer data since %1$s</string>
   <string name="waiting_for_reconnect">en attente de reconnexion</string>
-  <string name="appmananger_app_reinstall">Réinstaller</string>
   <string name="activity_prefs_about_you">A propos de vous</string>
   <string name="activity_prefs_year_birth">Année de naissance</string>
   <string name="activity_prefs_gender">Genre</string>
   <string name="activity_prefs_height_cm">Taille en cm</string>
   <string name="activity_prefs_weight_kg">Poids en kg</string>
-  <string name="appmanager_health_activate">Activer</string>
-  <string name="appmanager_health_deactivate">Désactiver</string>
   <string name="authenticating">authentification</string>
   <string name="authentication_required">authentification requise</string>
-  <string name="app_configure">Configurer</string>
   <string name="appwidget_text">ZzZz</string>
   <string name="add_widget">Ajouter un widget</string>
-  <string name="activity_prefs_sleep_duration">Préférer le mode heure pendant le sommeil</string>
+  <string name="activity_prefs_sleep_duration">Durée préférée de sommeil en heures</string>
   <string name="appwidget_alarms_set">Une alarme a été enregistré pour %1$02d:%2$02d</string>
   <string name="device_hw">Modèle: %1$s</string>
   <string name="device_fw">Micrologiciel: %1$s</string>
@@ -221,4 +266,49 @@
   <string name="updatefirmwareoperation_firmware_not_sent">Échec lors de l\'écriture du micrologiciel</string>
   <string name="charts_legend_heartrate">Rythme cardiaque</string>
   <string name="live_activity_heart_rate">Rythme cardiaque</string>
+  <!--Strings related to Onboading Activity-->
+  <string name="title_activity_onboarding">Importer la base de donnée</string>
+  <string name="import_old_db_buttonlabel">Importer des données d\'activité ancienne</string>
+  <string name="import_old_db_information">Depuis Gadgetbridge 0.12.0, nous utilisons un nouveau format de base de données.
+Vous êtes en mesure d\'importer des données d\'activité ancienne et l\'associer à l\'appareil que vous vous connectez à (%1$s).\n
+\n
+Si vous ne voulez pas importer les anciennes données maintenant, vous pouvez toujours le faire plus tard en appuyant sur le bouton FUSIONNER LES ANCIENNES DONNÉES D’ACTIVITÉ » dans le Gestionnaire de base de données\n
+\n
+Notez que vous pouvez importer des données de Mi Band, Pebble Health et Morpheuz mais PAS de Pebble Misfit.</string>
+  <string name="pref_title_pebble_health_store_raw">Stockez les enregistrement brut dans la base de données</string>
+  <string name="pref_summary_pebble_health_store_raw">Si coché, les données sont stockées \"tel quel\" et seront disponible pour interprétation ultérieurement (lorsque-nous serons en mesure de mieux les comprendre). 
+NOTE : la base de données sera bien évidement plus grande !</string>
+  <string name="action_db_management">Gestion de base de données</string>
+  <string name="title_activity_db_management">Gestion de base de données</string>
+  <string name="activity_db_management_import_export_explanation">Les opérations sur la base de donnée ont utilisé le chemin suivant sur votre appareil.\n Ce chemin n\'est pas accessible par d\'autres applications Android ou par votre ordinateur./nBase de donnée à attendu (Vous pouvez mettre aussi la base de donnée que vous souhaitez importer ici) :</string>
+  <string name="activity_db_management_merge_old_explanation">Les données d\'activité enregistrées avec les versions antérieures à la 0.12 de Gadgetbridge doivent être convertis en un nouveau format.\n
+Vous pouvez le faire en utilisant le bouton ci-dessous. Soyez conscient que vous devez être connecté à l\'appareil que vous souhaitez associer avec les anciennes données d\'activité !\n
+Si vous avez déjà importé vos données et êtes satisfait du résultat, vous pouvez supprimer l\'ancienne base de données.</string>
+  <string name="activity_db_management_merge_old_title">Import / Suppression des anciennes Base de Données.</string>
+  <string name="dbmanagementactivvity_cannot_access_export_path">Impossible d\'accéder au fichier d\'export. Merci de contacter les développeurs.</string>
+  <string name="dbmanagementactivity_exported_to">Exporter vers : %1$s</string>
+  <string name="dbmanagementactivity_error_exporting_db">Erreur  d\'exportation BD: %1$s</string>
+  <string name="dbmanagementactivity_import_data_title">Importer des données ?</string>
+  <string name="dbmanagementactivity_overwrite_database_confirmation">Voulez vous vraiment effacer la base de donnée actuel ? Toutes vos données (si vous en avez) seront perdu.</string>
+  <string name="dbmanagementactivity_import_successful">Importation réussit.</string>
+  <string name="dbmanagementactivity_error_importing_db">Erreur lors de l\'importation BD: %1$s</string>
+  <string name="dbmanagementactivity_no_old_activitydatabase_found">Aucune ancienne base de donnée trouvé, rien à importer.</string>
+  <string name="dbmanagementactivity_no_connected_device">Pas d\'appareil connecté à associer avec l\'ancienne base de donnée.</string>
+  <string name="dbmanagementactivity_merging_activity_data_title">Fusion des données d\'activités</string>
+  <string name="dbmanagementactivity_please_wait_while_merging">Merci d\'attendre pendant la fusion de vos données.</string>
+  <string name="dbmanagementactivity_error_importing_old_activity_data">Échec de l\'import des anciennes données d\'activité dans la nouvelle base de donnée.</string>
+  <string name="dbmanagementactivity_associate_old_data_with_device">Association des ancienne donnée avec le nouvel appareil.</string>
+  <string name="dbmanagementactivity_delete_activity_data_title">Détruire les ancienne données ?</string>
+  <string name="dbmanagementactivity_really_delete_entire_db">Voulez vous vraiment détruire entièrement la base de donnée ? Toutes vos données d\'activités et vos informations issus de vos appareils seront perdu.</string>
+  <string name="dbmanagementactivity_database_successfully_deleted">Les données ont été effacées.</string>
+  <string name="dbmanagementactivity_db_deletion_failed">Échec de la destruction de la base de donnée.</string>
+  <string name="dbmanagementactivity_delete_old_activity_db">Voulez vous détruire les anciennes activités de la base ?</string>
+  <string name="dbmanagementactivity_delete_old_activitydb_confirmation">Voulez vous vraiment détruire entièrement la base de donnée ? Toutes vos données non importé seront perdu.</string>
+  <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Les ancienne données d\'activité ont été effacés correctement.</string>
+  <string name="dbmanagementactivity_old_activity_db_deletion_failed">Échec de la destruction de l\'ancienne base de donnée.</string>
+  <string name="dbmanagementactivity_overwrite">Écraser</string>
+  <string name="Cancel">Annuler</string>
+  <string name="Delete">Supprimer</string>
+  <!--Strings related to Vibration Activity-->
+  <string name="title_activity_vibration">Vibration</string>
 </resources>

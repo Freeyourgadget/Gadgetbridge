@@ -6,17 +6,19 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.CheckInitializedAction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.AbstractBleProfile;
 
 /**
  * Abstract base class for all devices connected through Bluetooth Low Energy (LE) aka
@@ -30,13 +32,20 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.CheckInitialize
  * @see BtLEQueue
  */
 public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport implements GattCallback {
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractBTLEDeviceSupport.class);
-
     private BtLEQueue mQueue;
     private HashMap<UUID, BluetoothGattCharacteristic> mAvailableCharacteristics;
     private final Set<UUID> mSupportedServices = new HashSet<>(4);
+    private Logger logger;
 
+    private final List<AbstractBleProfile<?>> mSupportedProfiles = new ArrayList<>();
     public static final String BASE_UUID = "0000%s-0000-1000-8000-00805f9b34fb"; //this is common for all BTLE devices. see http://stackoverflow.com/questions/18699251/finding-out-android-bluetooth-le-gatt-profiles
+
+    public AbstractBTLEDeviceSupport(Logger logger) {
+        this.logger = logger;
+        if (logger == null) {
+            throw new IllegalArgumentException("logger must not be null");
+        }
+    }
 
     @Override
     public boolean connect() {
@@ -73,7 +82,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
         }
     }
 
-    protected TransactionBuilder createTransactionBuilder(String taskName) {
+    public TransactionBuilder createTransactionBuilder(String taskName) {
         return new TransactionBuilder(taskName);
     }
 
@@ -107,13 +116,26 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
      * @throws IOException
      * @see {@link #performInitialized(String)}
      */
-    protected void performConnected(Transaction transaction) throws IOException {
+    public void performConnected(Transaction transaction) throws IOException {
         if (!isConnected()) {
             if (!connect()) {
                 throw new IOException("2: Unable to connect to device: " + getDevice());
             }
         }
         getQueue().add(transaction);
+    }
+
+    /**
+     * Performs the actions of the given transaction as soon as possible,
+     * that is, before any other queued transactions, but after the actions
+     * of the currently executing transaction.
+     * @param builder
+     */
+    public void performImmediately(TransactionBuilder builder) throws IOException {
+        if (!isConnected()) {
+            throw new IOException("Not connected to device: " + getDevice());
+        }
+        getQueue().insert(builder.getTransaction());
     }
 
     public BtLEQueue getQueue() {
@@ -129,6 +151,10 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
      */
     protected void addSupportedService(UUID aSupportedService) {
         mSupportedServices.add(aSupportedService);
+    }
+
+    protected void addSupportedProfile(AbstractBleProfile<?> profile) {
+        mSupportedProfiles.add(profile);
     }
 
     /**
@@ -148,22 +174,27 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
 
     private void gattServicesDiscovered(List<BluetoothGattService> discoveredGattServices) {
         if (discoveredGattServices == null) {
+            logger.warn("No gatt services discovered: null!");
             return;
         }
         Set<UUID> supportedServices = getSupportedServices();
         mAvailableCharacteristics = new HashMap<>();
         for (BluetoothGattService service : discoveredGattServices) {
             if (supportedServices.contains(service.getUuid())) {
+                logger.debug("discovered supported service: " + BleNamesResolver.resolveServiceName(service.getUuid().toString()) + ": " + service.getUuid());
                 List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
                 if (characteristics == null || characteristics.isEmpty()) {
-                    LOG.warn("Supported LE service " + service.getUuid() + "did not return any characteristics");
+                    logger.warn("Supported LE service " + service.getUuid() + "did not return any characteristics");
                     continue;
                 }
                 HashMap<UUID, BluetoothGattCharacteristic> intmAvailableCharacteristics = new HashMap<>(characteristics.size());
                 for (BluetoothGattCharacteristic characteristic : characteristics) {
                     intmAvailableCharacteristics.put(characteristic.getUuid(), characteristic);
+                    logger.info("    characteristic: " + BleNamesResolver.resolveCharacteristicName(characteristic.getUuid().toString()) + ": " + characteristic.getUuid());
                 }
                 mAvailableCharacteristics.putAll(intmAvailableCharacteristics);
+            } else {
+                logger.debug("discovered unsupported service: " + BleNamesResolver.resolveServiceName(service.getUuid().toString()) + ": " + service.getUuid());
             }
         }
     }
@@ -172,9 +203,22 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
         return mSupportedServices;
     }
 
+    /**
+     * Utility method that may be used to log incoming messages when we don't know how to deal with them yet.
+     *
+     * @param value
+     */
+    public void logMessageContent(byte[] value) {
+        logger.info("RECEIVED DATA WITH LENGTH: " + ((value != null) ? value.length : "(null)"));
+        Logging.logBytes(logger, value);
+    }
+
     // default implementations of event handler methods (gatt callbacks)
     @Override
     public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+        for (AbstractBleProfile profile : mSupportedProfiles) {
+            profile.onConnectionStateChange(gatt, status, newState);
+        }
     }
 
     @Override
@@ -184,29 +228,62 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     }
 
     @Override
-    public void onCharacteristicRead(BluetoothGatt gatt,
-                                     BluetoothGattCharacteristic characteristic, int status) {
+    public boolean onCharacteristicRead(BluetoothGatt gatt,
+                                        BluetoothGattCharacteristic characteristic, int status) {
+        for (AbstractBleProfile profile : mSupportedProfiles) {
+            if (profile.onCharacteristicRead(gatt, characteristic, status)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
-    public void onCharacteristicWrite(BluetoothGatt gatt,
-                                      BluetoothGattCharacteristic characteristic, int status) {
+    public boolean onCharacteristicWrite(BluetoothGatt gatt,
+                                         BluetoothGattCharacteristic characteristic, int status) {
+        for (AbstractBleProfile profile : mSupportedProfiles) {
+            if (profile.onCharacteristicWrite(gatt, characteristic, status)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
-    public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+    public boolean onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+        for (AbstractBleProfile profile : mSupportedProfiles) {
+            if (profile.onDescriptorRead(gatt, descriptor, status)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
-    public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+    public boolean onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+        for (AbstractBleProfile profile : mSupportedProfiles) {
+            if (profile.onDescriptorWrite(gatt, descriptor, status)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
-    public void onCharacteristicChanged(BluetoothGatt gatt,
-                                        BluetoothGattCharacteristic characteristic) {
+    public boolean onCharacteristicChanged(BluetoothGatt gatt,
+                                           BluetoothGattCharacteristic characteristic) {
+        for (AbstractBleProfile profile : mSupportedProfiles) {
+            if (profile.onCharacteristicChanged(gatt, characteristic)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
+        for (AbstractBleProfile profile : mSupportedProfiles) {
+            profile.onReadRemoteRssi(gatt, rssi, status);
+        }
     }
 }

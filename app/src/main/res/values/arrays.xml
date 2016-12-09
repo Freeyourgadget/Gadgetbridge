@@ -24,6 +24,7 @@
         <item name="uk">Українська</item>
         <item name="ko">한국어</item>
         <item name="ja">日本語</item>
+        <item name="hu">Magyar</item>
     </string-array>
 
     <string-array name="pref_language_values">
@@ -39,6 +40,7 @@
         <item>uk</item>
         <item>ko</item>
         <item>ja</item>
+        <item>hu</item>
     </string-array>
 
     <string-array name="notification_mode">
@@ -110,6 +112,14 @@
         <item>4</item>
         <item>3</item>
         <item>1</item>
+    </string-array>
+    <string-array name="mi2_dateformats">
+        <item>@string/dateformat_time</item>
+        <item>@string/dateformat_date_time</item>
+    </string-array>
+    <string-array name="mi2_dateformats_values">
+        <item>@string/p_dateformat_time</item>
+        <item>@string/p_dateformat_datetime</item>
     </string-array>
 
 </resources>

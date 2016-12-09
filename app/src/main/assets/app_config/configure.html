@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta name='viewport' content='initial-scale=1.0, maximum-scale=1.0'>
     <script type="text/javascript" src="js/Uri.js">
     </script>
@@ -19,7 +19,8 @@
         }
         #config_url,#jsondata {
         word-wrap: break-word;
-        margin: 20px;
+        margin: 20px 0;
+        width: 90%;
         }
         .btn {
         display: inline-block;
@@ -38,19 +39,52 @@
         box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2)inset;
         transition-delay: 0s;
         }
+        p {
+        width: 90%;
+        }
+        #pastereturn {
+        width: 90%;
+        min-height: 3em;
+        }
+        #step1compat, #step2 {
+        display: none;
+        }
         <!-- TODO -->
     </style>
 </head>
-<body onload="" style="width: 100%;">
-<div id="step1">
-    <h2>Url of the configuration:</h2>
+<body>
+<div id="step1" class="step">
+    <h2>URL of the configuration:</h2>
     <div id="config_url"></div>
     <!--<button class="btn" name="show config" value="show config" onclick="Pebble.showConfiguration()" >Show config / URL</button>-->
-    <button class="btn" name="open config" value="open config" onclick="Pebble.actuallyOpenURL()" >Open configuration website</button>
+    <button class="btn" name="open config" value="open config" onclick="Pebble.actuallyOpenURL()">
+        Open configuration website
+    </button>
+    <h2 class="load_presets">App presets:</h2>
+    <button class="btn load_presets" name="read config" value="read config"
+            onclick="Pebble.loadPreset()">
+        Load saved configuration
+    </button>
 </div>
-<div id="step2">
+<div id="step1compat" class="step">
+    <p>In case of "network error" after saving settings in the watchapp, copy the "network error"
+        URL and paste it here:</p>
+    <textarea id="pastereturn"></textarea><br/>
+    <button class="btn" name="parse" onclick="Pebble.parseReturnedPebbleJS()">Parse legacy app
+        configuration
+    </button>
+</div>
+<div id="step2" class="step">
     <h2>Incoming configuration data:</h2>
     <div id="jsondata"></div>
-    <button class="btn" name="send config" value="send config" onclick="Pebble.actuallySendData()" >Send data to pebble</button>
+    <button class="btn" name="send config" value="send config" onclick="Pebble.actuallySendData()">
+        Send data to pebble
+    </button>
+    <h2 class="store_presets">App Presets:</h2>
+    <button class="btn store_presets" name="store config" value="store config"
+            onclick="Pebble.savePreset()">
+        Store incoming configuration
+    </button>
+    <p class="store_presets">Existing presets will be deleted.</p>
 </div>
 </body>

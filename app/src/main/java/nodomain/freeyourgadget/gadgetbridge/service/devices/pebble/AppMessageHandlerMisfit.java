@@ -13,13 +13,13 @@ import java.util.SimpleTimeZone;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
-import nodomain.freeyourgadget.gadgetbridge.devices.pebble.MisfitSampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleMisfitSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMisfitSample;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class AppMessageHandlerMisfit extends AppMessageHandler {
@@ -40,8 +40,6 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
         super(uuid, pebbleProtocol);
     }
 
-    private final MisfitSampleProvider sampleProvider = new MisfitSampleProvider();
-
     @Override
     public boolean isEnabled() {
         Prefs prefs = GBApplication.getPrefs();
@@ -50,6 +48,7 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
 
     @Override
     public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
+        GBDevice device = getDevice();
         for (Pair<Integer, Object> pair : pairs) {
             switch (pair.first) {
                 case KEY_INCOMING_DATA_BEGIN:
@@ -69,7 +68,7 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
                         break;
                     }
 
-                    if (!mPebbleProtocol.isFw3x) {
+                    if (mPebbleProtocol.mFwMajor < 3) {
                         timestamp -= SimpleTimeZone.getDefault().getOffset(timestamp * 1000L) / 1000;
                     }
                     Date startDate = new Date((long) timestamp * 1000L);
@@ -77,52 +76,26 @@ public class AppMessageHandlerMisfit extends AppMessageHandler {
                     LOG.info("got data from " + startDate + " to " + endDate);
 
                     int totalSteps = 0;
-                    GBActivitySample[] activitySamples = new GBActivitySample[samples];
-                    for (int i = 0; i < samples; i++) {
-                        short sample = buf.getShort();
-                        int steps = 0;
-                        int intensity = 0;
-                        int activityKind = ActivityKind.TYPE_UNKNOWN;
+                    PebbleMisfitSample[] misfitSamples = new PebbleMisfitSample[samples];
+                    try (DBHandler db = GBApplication.acquireDB()) {
+                        PebbleMisfitSampleProvider sampleProvider = new PebbleMisfitSampleProvider(device, db.getDaoSession());
+                        Long userId = DBHelper.getUser(db.getDaoSession()).getId();
+                        Long deviceId = DBHelper.getDevice(getDevice(), db.getDaoSession()).getId();
+                        for (int i = 0; i < samples; i++) {
+                            short sample = buf.getShort();
+                            misfitSamples[i] = new PebbleMisfitSample(timestamp + i * 60, deviceId, userId, sample & 0xffff);
+                            misfitSamples[i].setProvider(sampleProvider);
+                            int steps = misfitSamples[i].getSteps();
+                            totalSteps += steps;
+                            LOG.info("got steps for sample " + i + " : " + steps + "(" + Integer.toHexString(sample & 0xffff) + ")");
 
-                        if (((sample & 0x83ff) == 0x0001) && ((sample & 0xff00) <= 0x4800)) {
-                            // sleep seems to be from 0x2401 to 0x4801  (0b0IIIII0000000001) where I = intensity ?
-                            intensity = (sample & 0x7c00) >>> 10;
-                            // 9-18 decimal after shift
-                            if (intensity <= 13) {
-                                activityKind = ActivityKind.TYPE_DEEP_SLEEP;
-                            } else {
-                                // FIXME: this leads to too much false positives, ignore for now
-                                //activityKind = ActivityKind.TYPE_LIGHT_SLEEP;
-                                //intensity *= 2; // better visual distinction
-                            }
-                        } else {
-                            if ((sample & 0x0001) == 0) { // 16-??? steps encoded in bits 1-7
-                                steps = (sample & 0x00fe);
-                            } else { // 0-14 steps encoded in bits 1-3, most of the time fc71 bits are set in that case
-                                steps = (sample & 0x000e);
-                            }
-                            intensity = steps;
-                            activityKind = ActivityKind.TYPE_ACTIVITY;
                         }
+                        LOG.info("total steps for above period: " + totalSteps);
 
-                        totalSteps += steps;
-                        LOG.info("got steps for sample " + i + " : " + steps + "(" + Integer.toHexString(sample & 0xffff) + ")");
-
-                        activitySamples[i] = new GBActivitySample(sampleProvider, timestamp + i * 60, intensity, steps, activityKind);
-                    }
-                    LOG.info("total steps for above period: " + totalSteps);
-
-                    DBHandler db = null;
-                    try {
-                        db = GBApplication.acquireDB();
-                        db.addGBActivitySamples(activitySamples);
-                    } catch (GBException e) {
+                        sampleProvider.addGBActivitySamples(misfitSamples);
+                    } catch (Exception e) {
                         LOG.error("Error acquiring database", e);
                         return null;
-                    } finally {
-                        if (db != null) {
-                            db.release();
-                        }
                     }
                     break;
                 default:

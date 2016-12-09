@@ -3,37 +3,34 @@ package nodomain.freeyourgadget.gadgetbridge.database;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.util.List;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+/**
+ * Provides lowlevel access to the database.
+ */
+public interface DBHandler extends AutoCloseable {
+    /**
+     * Closes the database.
+     */
+    void closeDb();
 
-public interface DBHandler {
+    /**
+     * Opens the database. Note that this is only possible after an explicit
+     * #closeDb(). Initially the db is implicitly open.
+     */
+    void openDb();
+
     SQLiteOpenHelper getHelper();
 
     /**
-     * Releases the DB handler. No access may be performed after calling this method.
-     * Same as calling {@link GBApplication#releaseDB()}
+     * Releases the DB handler. No DB access will be possible before
+     * #openDb() will be called.
      */
-    void release();
+    void close() throws Exception;
 
-    List<ActivitySample> getAllActivitySamples(int tsFrom, int tsTo, SampleProvider provider);
+    SQLiteDatabase getDatabase();
 
-    List<ActivitySample> getActivitySamples(int tsFrom, int tsTo, SampleProvider provider);
-
-    List<ActivitySample> getSleepSamples(int tsFrom, int tsTo, SampleProvider provider);
-
-    void addGBActivitySample(int timestamp, int provider, int intensity, int steps, int kind, int heartrate);
-
-    void addGBActivitySamples(ActivitySample[] activitySamples);
-
-    SQLiteDatabase getWritableDatabase();
-
-    void changeStoredSamplesType(int timestampFrom, int timestampTo, int kind, SampleProvider provider);
-
-    void changeStoredSamplesType(int timestampFrom, int timestampTo, int fromKind, int toKind, SampleProvider provider);
-
-    int fetchLatestTimestamp(SampleProvider provider);
-
+    DaoMaster getDaoMaster();
+    DaoSession getDaoSession();
 }

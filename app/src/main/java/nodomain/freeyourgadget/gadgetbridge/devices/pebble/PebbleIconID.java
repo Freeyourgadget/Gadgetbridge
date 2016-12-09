@@ -85,11 +85,25 @@ public final class PebbleIconID {
     public static final int SETTINGS = 83;
     public static final int SUNRISE = 84;
     public static final int SUNSET = 85;
-    public static final int FACETIME_DISMISSED = 86;
-    public static final int FACETIME_INCOMING = 87;
-    public static final int FACETIME_OUTGOING = 88;
-    public static final int FACETIME_MISSED = 89;
-    public static final int FACETIME_DURING = 90;
-    public static final int BLUESCREEN_OF_DEATH = 91;
-    public static final int START_MUSIC_PHONE = 92;
+    public static final int RESULT_UNMUTE = 86;
+    public static final int RESULT_UNMUTE_ALT = 94;
+    public static final int DURING_PHONE_CALL_CENTERED = 95;
+    public static final int TIMELINE_EMPTY_CALENDAR = 96;
+    public static final int THUMBS_UP = 97;
+    public static final int ARROW_UP = 98;
+    public static final int ARROW_DOWN = 99;
+    public static final int ACTIVITY = 100;
+    public static final int SLEEP = 101;
+    public static final int REWARD_BAD = 102;
+    public static final int REWARD_GOOD = 103;
+    public static final int REWARD_AVERAGE = 104;
+    public static final int NOTIFICATION_FACETIME = 110;
+
+    // 4.x only from here
+    public static final int NOTIFICATION_AMAZON = 111;
+    public static final int NOTIFICATION_GOOGLE_MAPS = 112;
+    public static final int NOTIFICATION_GOOGLE_PHOTOS = 113;
+    public static final int NOTIFICATION_IOS_PHOTOS = 114;
+    public static final int NOTIFICATION_LINKEDIN = 115;
+    public static final int NOTIFICATION_SLACK = 116;
 }

@@ -2,7 +2,8 @@ language: android
 
 jdk:
   - oraclejdk8
-  - oraclejdk7
+# disabled -- we now set sourceCompatibility and targetCompatibility appropriately
+#  - oraclejdk7
 
 env:
   - GRADLE_OPTS="-XX:MaxPermSize=256m"
@@ -28,3 +29,5 @@ android:
     # if you need to run emulator(s) during your tests
     #- sys-img-armeabi-v7a-android-19
     #- sys-img-x86-android-17
+
+script: ./gradlew build connectedCheck --info --stacktrace

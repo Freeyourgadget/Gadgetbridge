@@ -2,11 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.test;
 
 import android.support.annotation.NonNull;
 
-import junit.framework.AssertionFailedError;
-
 import org.junit.After;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -15,35 +11,26 @@ import java.io.IOException;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Tests dynamic enablement and disablement of file appenders.
  * Test is currently disabled because logback-android does not work
  * inside a plain junit test.
  */
-@Ignore
-public class LoggingTest {
+public class LoggingTest extends TestBase {
 
-    @BeforeClass
-    public static void setupSuite() {
-        System.setProperty("logback.configurationFile", "logback.xml");
+    public LoggingTest() throws Exception {
     }
 
     private Logging logging = new Logging() {
         @Override
         protected String createLogDirectory() throws IOException {
-            File dir = ensureLogFilesDir();
-            return dir.getAbsolutePath();
-        }
-
-        @NonNull
-        private File ensureLogFilesDir() throws IOException {
-            return FileUtils.createTempDir("logfiles");
+            return logFilesDir.getAbsolutePath();
         }
     };
 
@@ -67,7 +54,7 @@ public class LoggingTest {
     public void testToggleLogging() {
         try {
             File dir = getLogFilesDir();
-        } catch (AssertionFailedError ignored) {
+        } catch (AssertionError ignored) {
             // expected, as not yet set up
         }
 
@@ -85,7 +72,7 @@ public class LoggingTest {
             logging.setupLogging(true);
             assertNotNull(logging.getFileLogger());
             assertTrue(logging.getFileLogger().isStarted());
-        } catch (AssertionFailedError ex) {
+        } catch (AssertionError ex) {
             logging.debugLoggingConfiguration();
             System.err.println(System.getProperty("java.class.path"));
             throw ex;

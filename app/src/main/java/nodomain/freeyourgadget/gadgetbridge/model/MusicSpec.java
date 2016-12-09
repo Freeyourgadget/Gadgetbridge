@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.model;
 
+import java.util.Objects;
+
 public class MusicSpec {
     public static final int MUSIC_UNDEFINED = 0;
     public static final int MUSIC_PLAY = 1;
@@ -14,4 +16,23 @@ public class MusicSpec {
     public int duration;
     public int trackCount;
     public int trackNr;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof MusicSpec)) {
+            return false;
+        }
+        MusicSpec musicSpec = (MusicSpec) obj;
+
+        return Objects.equals(this.artist, musicSpec.artist) &&
+                Objects.equals(this.album, musicSpec.album) &&
+                Objects.equals(this.track, musicSpec.track) &&
+                this.duration == musicSpec.duration &&
+                this.trackCount == musicSpec.trackCount &&
+                this.trackNr == musicSpec.trackNr;
+
+    }
 }

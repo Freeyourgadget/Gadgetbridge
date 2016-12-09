@@ -58,10 +58,13 @@ public class PebbleReceiver extends BroadcastReceiver {
         }
 
         if (notificationSpec.title != null) {
-            notificationSpec.type = NotificationType.UNDEFINED;
+            notificationSpec.type = NotificationType.UNKNOWN;
             String sender = intent.getStringExtra("sender");
             if ("Conversations".equals(sender)) {
-                notificationSpec.type = NotificationType.CHAT;
+                notificationSpec.type = NotificationType.CONVERSATIONS;
+            }
+            else if ("OsmAnd".equals(sender)) {
+                notificationSpec.type = NotificationType.GENERIC_NAVIGATION;
             }
             GBApplication.deviceService().onNotification(notificationSpec);
         }

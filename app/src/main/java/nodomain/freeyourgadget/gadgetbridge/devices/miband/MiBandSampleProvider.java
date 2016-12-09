@@ -1,11 +1,13 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
-public class MiBandSampleProvider implements SampleProvider {
-    public static final int TYPE_DEEP_SLEEP = 5;
-    public static final int TYPE_LIGHT_SLEEP = 4;
+public class MiBandSampleProvider extends AbstractMiBandSampleProvider {
+    public static final int TYPE_DEEP_SLEEP = 4;
+    public static final int TYPE_LIGHT_SLEEP = 5;
     public static final int TYPE_ACTIVITY = -1;
     public static final int TYPE_UNKNOWN = -1;
     public static final int TYPE_NONWEAR = 3;
@@ -19,8 +21,14 @@ public class MiBandSampleProvider implements SampleProvider {
 //    public static final byte TYPE_USER = 100;
 //    public static final byte TYPE_WALKING = 1;
 
-    // maybe this should be configurable 256 seems way off, though.
-    private final float movementDivisor = 180.0f; //256.0f;
+    public MiBandSampleProvider(GBDevice device, DaoSession session) {
+        super(device, session);
+    }
+
+    @Override
+    public int getID() {
+        return SampleProvider.PROVIDER_MIBAND;
+    }
 
     @Override
     public int normalizeType(int rawType) {
@@ -56,15 +64,5 @@ public class MiBandSampleProvider implements SampleProvider {
             default:
                 return TYPE_UNKNOWN;
         }
-    }
-
-    @Override
-    public float normalizeIntensity(int rawIntensity) {
-        return rawIntensity / movementDivisor;
-    }
-
-    @Override
-    public int getID() {
-        return SampleProvider.PROVIDER_MIBAND;
     }
 }

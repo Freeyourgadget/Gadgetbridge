@@ -7,6 +7,10 @@ public class PebbleUtils {
             platformName = "basalt";
         } else if (hwRev.startsWith("spalding")) {
             platformName = "chalk";
+        } else if (hwRev.startsWith("silk")) {
+            platformName = "diorite";
+        } else if (hwRev.startsWith("robert")) {
+            platformName = "emery";
         } else {
             platformName = "aplite";
         }
@@ -20,9 +24,27 @@ public class PebbleUtils {
             model = "pebble_time_black";
         } else if (hwRev.startsWith("spalding")) {
             model = "pebble_time_round_black_20mm";
+        } else if (hwRev.startsWith("silk")) {
+            model = "pebble2_black";
+        } else if (hwRev.startsWith("robert")) {
+            model = "pebble_time2_black";
         } else {
             model = "pebble_black";
         }
         return model;
+    }
+
+    public static int getFwMajor(String fwString) {
+        return fwString.charAt(1) - 48;
+    }
+
+    public static boolean hasHRM(String hwRev) {
+        String platformName = getPlatformName(hwRev);
+        return "diorite".equals(platformName) || "emery".equals(platformName);
+    }
+
+    public static boolean hasHealth(String hwRev) {
+        String platformName = getPlatformName(hwRev);
+        return !"aplite".equals(platformName);
     }
 }

@@ -12,10 +12,12 @@ import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 public interface DeviceService extends EventHandler {
     String PREFIX = "nodomain.freeyourgadget.gadgetbridge.devices";
 
+    String ACTION_MIBAND2_AUTH = PREFIX + ".action.miban2_auth";
     String ACTION_START = PREFIX + ".action.start";
     String ACTION_CONNECT = PREFIX + ".action.connect";
     String ACTION_NOTIFICATION = PREFIX + ".action.notification";
     String ACTION_CALLSTATE = PREFIX + ".action.callstate";
+    String ACTION_SETCANNEDMESSAGES = PREFIX + ".action.setcannedmessages";
     String ACTION_SETTIME = PREFIX + ".action.settime";
     String ACTION_SETMUSICINFO = PREFIX + ".action.setmusicinfo";
     String ACTION_SETMUSICSTATE = PREFIX + ".action.setmusicstate";
@@ -25,20 +27,29 @@ public interface DeviceService extends EventHandler {
     String ACTION_STARTAPP = PREFIX + ".action.startapp";
     String ACTION_DELETEAPP = PREFIX + ".action.deleteapp";
     String ACTION_APP_CONFIGURE = PREFIX + ".action.app_configure";
+    String ACTION_APP_REORDER = PREFIX + ".action.app_reorder";
     String ACTION_INSTALL = PREFIX + ".action.install";
     String ACTION_REBOOT = PREFIX + ".action.reboot";
     String ACTION_HEARTRATE_TEST = PREFIX + ".action.heartrate_test";
     String ACTION_FETCH_ACTIVITY_DATA = PREFIX + ".action.fetch_activity_data";
     String ACTION_DISCONNECT = PREFIX + ".action.disconnect";
     String ACTION_FIND_DEVICE = PREFIX + ".action.find_device";
+    String ACTION_SET_CONSTANT_VIBRATION = PREFIX + ".action.set_constant_vibration";
     String ACTION_SET_ALARMS = PREFIX + ".action.set_alarms";
     String ACTION_ENABLE_REALTIME_STEPS = PREFIX + ".action.enable_realtime_steps";
+    String ACTION_REALTIME_SAMPLES = PREFIX + ".action.realtime_samples";
+    /**
+     * Use EXTRA_REALTIME_SAMPLE instead
+     */
+    @Deprecated
     String ACTION_REALTIME_STEPS = PREFIX + ".action.realtime_steps";
     String ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT = PREFIX + ".action.realtime_hr_measurement";
     String ACTION_ENABLE_HEARTRATE_SLEEP_SUPPORT = PREFIX + ".action.enable_heartrate_sleep_support";
     String ACTION_HEARTRATE_MEASUREMENT = PREFIX + ".action.hr_measurement";
     String ACTION_ADD_CALENDAREVENT = PREFIX + ".action.add_calendarevent";
     String ACTION_DELETE_CALENDAREVENT = PREFIX + ".action.delete_calendarevent";
+    String ACTION_SEND_CONFIGURATION = PREFIX + ".action.send_configuration";
+    String ACTION_TEST_NEW_FUNCTION = PREFIX + ".action.test_new_function";
     String EXTRA_DEVICE_ADDRESS = "device_address";
     String EXTRA_NOTIFICATION_BODY = "notification_body";
     String EXTRA_NOTIFICATION_FLAGS = "notification_flags";
@@ -50,8 +61,11 @@ public interface DeviceService extends EventHandler {
     String EXTRA_NOTIFICATION_TITLE = "notification_title";
     String EXTRA_NOTIFICATION_TYPE = "notification_type";
     String EXTRA_FIND_START = "find_start";
+    String EXTRA_VIBRATION_INTENSITY = "vibration_intensity";
     String EXTRA_CALL_COMMAND = "call_command";
     String EXTRA_CALL_PHONENUMBER = "call_phonenumber";
+    String EXTRA_CANNEDMESSAGES = "cannedmessages";
+    String EXTRA_CANNEDMESSAGES_TYPE = "cannedmessages_type";
     String EXTRA_MUSIC_ARTIST = "music_artist";
     String EXTRA_MUSIC_ALBUM = "music_album";
     String EXTRA_MUSIC_TRACK = "music_track";
@@ -67,11 +81,21 @@ public interface DeviceService extends EventHandler {
     String EXTRA_APP_START = "app_start";
     String EXTRA_APP_CONFIG = "app_config";
     String EXTRA_URI = "uri";
+    String EXTRA_CONFIG = "config";
     String EXTRA_ALARMS = "alarms";
     String EXTRA_PERFORM_PAIR = "perform_pair";
     String EXTRA_BOOLEAN_ENABLE = "enable_realtime_steps";
+    /**
+     * Use EXTRA_REALTIME_SAMPLE instead
+     */
+    @Deprecated
     String EXTRA_REALTIME_STEPS = "realtime_steps";
+    String EXTRA_REALTIME_SAMPLE = "realtime_sample";
     String EXTRA_TIMESTAMP = "timestamp";
+    /**
+     * Use EXTRA_REALTIME_SAMPLE instead
+     */
+    @Deprecated
     String EXTRA_HEART_RATE_VALUE = "hr_value";
     String EXTRA_CALENDAREVENT_ID = "calendarevent_id";
     String EXTRA_CALENDAREVENT_TYPE = "calendarevent_type";
@@ -79,6 +103,7 @@ public interface DeviceService extends EventHandler {
     String EXTRA_CALENDAREVENT_DURATION = "calendarevent_duration";
     String EXTRA_CALENDAREVENT_TITLE = "calendarevent_title";
     String EXTRA_CALENDAREVENT_DESCRIPTION = "calendarevent_description";
+    String EXTRA_MIBAND2_AUTH_BYTE = "miband2_auth_byte";
 
     void start();
 

@@ -59,7 +59,7 @@ public abstract class AbstractBTLEOperation<T extends AbstractBTLEDeviceSupport>
      * Subclasses must implement this. When invoked, #prePerform() returned
      * successfully.
      * Note that subclasses HAVE TO call #operationFinished() when the entire
-     * opreation is done (successful or not).
+     * operation is done (successful or not).
      *
      * @throws IOException
      */
@@ -67,7 +67,7 @@ public abstract class AbstractBTLEOperation<T extends AbstractBTLEDeviceSupport>
 
     /**
      * You MUST call this method when the operation has finished, either
-     * successfull or unsuccessfully.
+     * successfully or unsuccessfully.
      *
      * @throws IOException
      */
@@ -105,8 +105,10 @@ public abstract class AbstractBTLEOperation<T extends AbstractBTLEDeviceSupport>
     }
 
     protected void unsetBusy() {
-        getDevice().unsetBusyTask();
-        getDevice().sendDeviceUpdateIntent(getContext());
+        if (getDevice().isBusy()) {
+            getDevice().unsetBusyTask();
+            getDevice().sendDeviceUpdateIntent(getContext());
+        }
     }
 
     public boolean isOperationRunning() {
@@ -133,28 +135,28 @@ public abstract class AbstractBTLEOperation<T extends AbstractBTLEDeviceSupport>
     }
 
     @Override
-    public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-        mSupport.onCharacteristicRead(gatt, characteristic, status);
+    public boolean onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+        return mSupport.onCharacteristicRead(gatt, characteristic, status);
     }
 
     @Override
-    public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-        mSupport.onCharacteristicWrite(gatt, characteristic, status);
+    public boolean onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+        return mSupport.onCharacteristicWrite(gatt, characteristic, status);
     }
 
     @Override
-    public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-        mSupport.onCharacteristicChanged(gatt, characteristic);
+    public boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+        return mSupport.onCharacteristicChanged(gatt, characteristic);
     }
 
     @Override
-    public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-        mSupport.onDescriptorRead(gatt, descriptor, status);
+    public boolean onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+        return mSupport.onDescriptorRead(gatt, descriptor, status);
     }
 
     @Override
-    public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-        mSupport.onDescriptorWrite(gatt, descriptor, status);
+    public boolean onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+        return mSupport.onDescriptorWrite(gatt, descriptor, status);
     }
 
     @Override

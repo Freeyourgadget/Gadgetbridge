@@ -67,7 +67,7 @@
   <string name="device_with_rssi">%1$s (%2$s)</string>
   <string name="title_activity_android_pairing">Ghép đôi thiết bị</string>
   <string name="title_activity_mi_band_pairing">Ghép đôi Mi Band</string>
-  <string name="miband_pairing">Đang ghép đôi với %s…</string>
+  <string name="pairing">Đang ghép đôi với %s…</string>
   <string name="message_cannot_pair_no_mac">không thể kiểm tra địa chỉ mac, không thể ghép đôi.</string>
   <string name="preferences_category_device_specific_settings">Cài đặt cụ thể cho thiết bị</string>
   <string name="preferences_miband_settings">Cài đặt Mi Band</string>
@@ -90,7 +90,7 @@
   <string name="pref_screen_notification_profile_sms">Thông báo SMS</string>
   <string name="pref_header_vibration_settings">Cài đặt rung</string>
   <string name="pref_screen_notification_profile_pebblemsg">Thông báo Pebble</string>
-  <string name="pref_screen_notification_profile_k9mail">Thông báo K9 Mail</string>
+  <string name="pref_screen_notification_profile_email">Thông báo Mail</string>
   <string name="pref_screen_notification_profile_incoming_call">Thông báo cuộc gọi đến</string>
   <string name="control_center_find_lost_device">Tìm thiết bị thất lạc</string>
   <string name="control_center_cancel_to_stop_vibration">Huỷ để ngừng rung.</string>

@@ -13,9 +13,8 @@ public class GBEnvironment {
         return env;
     }
 
-    public static GBEnvironment createDeviceEnvironment() {
-        GBEnvironment env = new GBEnvironment();
-        return env;
+    static GBEnvironment createDeviceEnvironment() {
+        return new GBEnvironment();
     }
 
     public final boolean isTest() {

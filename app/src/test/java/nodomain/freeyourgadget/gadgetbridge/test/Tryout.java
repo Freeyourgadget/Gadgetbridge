@@ -1,0 +1,36 @@
+package nodomain.freeyourgadget.gadgetbridge.test;
+
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.GregorianCalendar;
+
+import nodomain.freeyourgadget.gadgetbridge.Logging;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandDateConverter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBand2Support;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
+
+/**
+ * A simple class for trying out things, not actually testing something.
+ */
+public class Tryout extends TestBase {
+    private static final Logger LOG = LoggerFactory.getLogger(MiBand2Support.class);
+
+    @Test
+    public void blah() {
+        int v = 1 << 7 | 1 << 2;
+        byte b = (byte) v;
+        LOG.info("v: " + v);
+        Logging.logBytes(LOG, new byte[] { b });
+    }
+
+    @Test
+    public void testCalendarBytes() {
+        GregorianCalendar calendar = MiBandDateConverter.createCalendar();
+        byte[] bytes = MiBandDateConverter.calendarToRawBytes(calendar);
+        LOG.info("Calender: " + DateTimeUtils.formatDateTime(calendar.getTime()));
+        Logging.logBytes(LOG, bytes);
+    }
+
+}

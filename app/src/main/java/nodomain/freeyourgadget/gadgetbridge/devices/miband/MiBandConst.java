@@ -17,13 +17,13 @@ public final class MiBandConst {
     public static final String PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR = "mi_reserve_alarm_calendar";
     public static final String PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION = "mi_hr_sleep_detection";
 	public static final String PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS = "mi_device_time_offset_hours";
+	public static final String PREF_MI2_DATEFORMAT = "mi2_dateformat";
+	public static final String PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT = "mi2_activate_display_on_lift_wrist";
 
 
-    public static final String ORIGIN_SMS = "sms";
     public static final String ORIGIN_INCOMING_CALL = "incoming_call";
-    public static final String ORIGIN_K9MAIL = "k9mail";
-    public static final String ORIGIN_PEBBLEMSG = "pebblemsg";
-    public static final String ORIGIN_GENERIC = "generic";
+    public static final String MI_GENERAL_NAME_PREFIX = "MI";
+    public static final String MI_BAND2_NAME = "MI Band 2";
     public static final String MI_1 = "1";
     public static final String MI_1A = "1A";
     public static final String MI_1S = "1S";

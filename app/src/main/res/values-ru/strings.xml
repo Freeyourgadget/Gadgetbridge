@@ -14,6 +14,12 @@
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">App Manager</string>
   <string name="appmananger_app_delete">Удалить</string>
+  <string name="appmananger_app_delete_cache">Удалить и очистить кеш</string>
+  <string name="appmananger_app_reinstall">Переустановка</string>
+  <string name="appmanager_health_activate">Активировать</string>
+  <string name="appmanager_health_deactivate">Деактивировать</string>
+  <string name="app_configure">Настроить</string>
+  <string name="app_move_to_top">Переместить наверх</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Заблокированные уведомления</string>
   <!--Strings related to FwAppInstaller-->
@@ -26,31 +32,38 @@
   <string name="title_activity_settings">Настройки</string>
   <string name="pref_header_general">Общие настройки</string>
   <string name="pref_title_general_autoconnectonbluetooth">Подключение к устройству при активации Bluetooth</string>
+  <string name="pref_title_general_autocreonnect">Переподключаться автоматически</string>
   <string name="pref_title_audo_player">Предпочтительный музыкальный плеер</string>
   <string name="pref_default">По-умолчанию</string>
   <string name="pref_header_datetime">Дата и время</string>
   <string name="pref_title_datetime_syctimeonconnect">Синхронизировать время при подключении</string>
   <string name="pref_summary_datetime_syctimeonconnect">Синхронизировать время при подключении к устройству, а также при изменении времени или временной зоны в системе</string>
+  <string name="pref_title_theme">Тема</string>
+  <string name="pref_theme_light">Светлая</string>
+  <string name="pref_theme_dark">Темная</string>
+  <string name="pref_title_language">Язык</string>
   <string name="pref_header_notifications">Уведомления</string>
   <string name="pref_title_notifications_repetitions">Повторы</string>
   <string name="pref_title_notifications_call">Вызовы</string>
   <string name="pref_title_notifications_sms">СМС-сообщения</string>
   <string name="pref_title_notifications_k9mail">K9-Mail</string>
   <string name="pref_title_notifications_pebblemsg">Сообщения Pebble</string>
-  <string name="pref_summary_notifications_pebblemsg">Поддержка приложений, посылающих уведомления на Pebble с помощью Intent. Может использоваться для Conversations.</string>
   <string name="pref_title_notifications_generic">Поддержка обычных уведомлений</string>
   <string name="pref_title_whenscreenon">… даже когда экран включён</string>
+  <string name="pref_title_notification_filter">Не беспокоить</string>
+  <string name="pref_summary_notification_filter">Предотвращать отправку нежелательных уведомлений в режиме \"Не беспокоить\"</string>
   <string name="always">всегда</string>
   <string name="when_screen_off">когда экран выключен</string>
   <string name="never">никогда</string>
   <string name="pref_blacklist">Нежелательные приложения</string>
-  <string name="pref_title_canned_replies">Типовые ответы</string>
   <string name="pref_title_canned_reply_suffix">Общий суффикс</string>
   <string name="pref_header_development">Настройки для разработчиков</string>
   <string name="pref_title_development_miaddr">Адрес Mi Band</string>
   <string name="pref_title_pebble_settings">Настройки Pebble</string>
   <string name="pref_title_enable_pebblekit">Разрешить доступ приложениям третьих лиц</string>
   <string name="pref_summary_enable_pebblekit">Добавить экспериментальную поддержку приложений Android, использующих PebbleKit</string>
+  <string name="pref_title_location_latitude">Широта</string>
+  <string name="pref_title_location_longitude">Долгота</string>
   <string name="pref_title_pebble_forceprotocol">Принудительный протокол уведомлений</string>
   <string name="pref_summary_pebble_forceprotocol">Эта настройка заставляет принудительно использовать самый новый протокол уведомлений, зависящий от версии прошивки. ВКЛЮЧАЙТЕ, ТОЛЬКО ЕСЛИ ЗНАЕТЕ НА ЧТО ВЫ ИДЁТЕ.</string>
   <string name="pref_title_pebble_forceuntested">Включить непроверенные функции</string>
@@ -86,7 +99,7 @@
   <string name="title_activity_android_pairing">Сопряжение устройств</string>
   <string name="android_pairing_hint">Для сопряжения устройств используйте диалог Android.</string>
   <string name="title_activity_mi_band_pairing">Сопряжение вашего Mi Band</string>
-  <string name="miband_pairing">Сопряжение с %s…</string>
+  <string name="pairing">Сопряжение с %s…</string>
   <string name="message_cannot_pair_no_mac">MAC-адрес не был передан, сопряжение не удалось.</string>
   <string name="preferences_category_device_specific_settings">Настройки устройства</string>
   <string name="preferences_miband_settings">Настройки Mi Band</string>
@@ -103,6 +116,7 @@
   <string name="miband_prefs_alias">Имя/псевдоним</string>
   <string name="pref_header_vibration_count">Количество вибраций</string>
   <string name="title_activity_sleepmonitor">Анализ сна</string>
+  <string name="pref_write_logfiles">Сохранять файл журнала</string>
   <string name="initializing">Инициализация</string>
   <string name="busy_task_fetch_activity_data">Получение данных активности</string>
   <string name="sleep_activity_date_range">От %1$s до %2$s</string>
@@ -120,7 +134,7 @@
   <string name="pref_header_vibration_settings">Настройки вибро</string>
   <string name="pref_screen_notification_profile_generic">Общие уведомления</string>
   <string name="pref_screen_notification_profile_pebblemsg">Уведомления Pebble</string>
-  <string name="pref_screen_notification_profile_k9mail">Уведомления почты K9</string>
+  <string name="pref_screen_notification_profile_email">Уведомления почты</string>
   <string name="pref_screen_notification_profile_incoming_call">Уведомления о входящем звонке</string>
   <string name="control_center_find_lost_device">Найти потерянное устройство</string>
   <string name="control_center_cancel_to_stop_vibration">Отмените, чтобы остановить вибро</string>
@@ -176,6 +190,7 @@
   <string name="pref_title_dont_ack_transfer">Не передавать данные об активности</string>
   <string name="pref_summary_dont_ack_transfers">Если данные об активности не будут переданы на устройство, оно не будет очищено. Полезно, если GB используется с другими приложениями.</string>
   <string name="pref_summary_keep_data_on_device">Хранить данные о деятельности на Mi Band, даже после синхронизации. Полезно, если Mi Band используется совместно с другими приложениями.</string>
+  <string name="pref_summary_low_latency_fw_update">Это может помочь в случае неудачного обновления прошивки</string>
   <string name="live_activity_steps_history">История шагов</string>
   <string name="live_activity_current_steps_per_minute">Текущие шаги в минуту</string>
   <string name="live_activity_total_steps">Всего шагов</string>
@@ -191,11 +206,21 @@
   <string name="miband_fwinstaller_incompatible_version">Несовместимая прошивка</string>
   <string name="fwinstaller_firmware_not_compatible_to_device">Эта прошивка не совместима с устройством</string>
   <string name="miband_prefs_reserve_alarm_calendar">Резервные сигналы для предстоящих событий</string>
+  <string name="miband_prefs_hr_sleep_detection">Использовать датчик сердцебиения для улучшения мониторинга сна</string>
+  <string name="miband_prefs_device_time_offset_hours">Смещение времени в часах (для тех, кто работает по ночам)</string>
   <string name="waiting_for_reconnect">Ожидание переподключения</string>
-  <string name="appmananger_app_reinstall">Переустановка</string>
   <string name="activity_prefs_about_you">Ваши данные</string>
   <string name="activity_prefs_year_birth">Год рождения</string>
   <string name="activity_prefs_gender">Пол</string>
   <string name="activity_prefs_height_cm">Рост в см</string>
   <string name="activity_prefs_weight_kg">Вес в кг</string>
+  <string name="add_widget">Добавить виджет</string>
+  <string name="activity_prefs_sleep_duration">Желаемая продолжительность сна</string>
+  <string name="appwidget_alarms_set">Будильник был установлен на %1$02d:%2$02d</string>
+  <string name="device_hw">Версия устройства: %1$s</string>
+  <string name="device_fw"> Версия ПО: %1$s</string>
+  <string name="error_creating_directory_for_logfiles">Ошибка создания каталога для лог-файлов: %1$s</string>
+  <string name="updatefirmwareoperation_update_in_progress">Обновление прошивки в процессе</string>
+  <!--Strings related to Onboading Activity-->
+  <string name="Delete">Удалить</string>
 </resources>

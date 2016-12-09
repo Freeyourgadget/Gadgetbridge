@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 
@@ -55,7 +56,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
 
     private void setupChart() {
         mChart.setBackgroundColor(BACKGROUND_COLOR);
-        mChart.setDescriptionColor(DESCRIPTION_COLOR);
+        mChart.getDescription().setTextColor(DESCRIPTION_COLOR);
         configureBarLineChartDefaults(mChart);
 
 
@@ -70,8 +71,8 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
         y.setDrawGridLines(false);
 //        y.setDrawLabels(false);
         // TODO: make fixed max value optional
-        y.setAxisMaxValue(1f);
-        y.setAxisMinValue(0);
+        y.setAxisMaximum(1f);
+        y.setAxisMinimum(0);
         y.setDrawTopYLabelEntry(false);
         y.setTextColor(CHART_TEXT_COLOR);
 
@@ -80,12 +81,12 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
 
         YAxis yAxisRight = mChart.getAxisRight();
         yAxisRight.setDrawGridLines(false);
-        yAxisRight.setEnabled(supportsHeartrate());
+        yAxisRight.setEnabled(supportsHeartrate(getChartsHost().getDevice()));
         yAxisRight.setDrawLabels(true);
         yAxisRight.setDrawTopYLabelEntry(true);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
-        yAxisRight.setAxisMaxValue(HeartRateUtils.MAX_HEART_RATE_VALUE);
-        yAxisRight.setAxisMinValue(HeartRateUtils.MIN_HEART_RATE_VALUE);
+        yAxisRight.setAxisMaximum(HeartRateUtils.MAX_HEART_RATE_VALUE);
+        yAxisRight.setAxisMinimum(HeartRateUtils.MIN_HEART_RATE_VALUE);
 
         // refresh immediately instead of use refreshIfVisible(), for perceived performance
         refresh();
@@ -108,7 +109,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
 
     @Override
     protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
-        List<ActivitySample> samples = getSamples(db, device);
+        List<? extends ActivitySample> samples = getSamples(db, device);
         return refresh(device, samples);
     }
 
@@ -116,33 +117,52 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
     protected void updateChartsnUIThread(ChartsData chartsData) {
         DefaultChartsData dcd = (DefaultChartsData) chartsData;
         mChart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
-        mChart.setData(dcd.getCombinedData());
-    }
-
-    protected void renderCharts() {
-        mChart.animateX(ANIM_TIME, Easing.EasingOption.EaseInOutQuart);
-    }
-
-    protected void setupLegend(Chart chart) {
-        List<Integer> legendColors = new ArrayList<>(4);
-        List<String> legendLabels = new ArrayList<>(4);
-        legendColors.add(akActivity.color);
-        legendLabels.add(akActivity.label);
-        legendColors.add(akLightSleep.color);
-        legendLabels.add(akLightSleep.label);
-        legendColors.add(akDeepSleep.color);
-        legendLabels.add(akDeepSleep.label);
-        legendColors.add(akNotWorn.color);
-        legendLabels.add(akNotWorn.label);
-        if (supportsHeartrate()) {
-            legendColors.add(HEARTRATE_COLOR);
-            legendLabels.add(HEARTRATE_LABEL);
-        }
-        chart.getLegend().setCustom(legendColors, legendLabels);
+        mChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
+        mChart.getXAxis().setValueFormatter(dcd.getXValueFormatter());
+        mChart.setData(dcd.getData());
     }
 
     @Override
-    protected List<ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+    protected void renderCharts() {
+        mChart.animateX(ANIM_TIME, Easing.EasingOption.EaseInOutQuart);
+//        mChart.invalidate();
+    }
+
+    @Override
+    protected void setupLegend(Chart chart) {
+        List<LegendEntry> legendEntries = new ArrayList<>(5);
+
+        LegendEntry activityEntry = new LegendEntry();
+        activityEntry.label = akActivity.label;
+        activityEntry.formColor = akActivity.color;
+        legendEntries.add(activityEntry);
+
+        LegendEntry lightSleepEntry = new LegendEntry();
+        lightSleepEntry.label = akLightSleep.label;
+        lightSleepEntry.formColor = akLightSleep.color;
+        legendEntries.add(lightSleepEntry);
+
+        LegendEntry deepSleepEntry = new LegendEntry();
+        deepSleepEntry.label = akDeepSleep.label;
+        deepSleepEntry.formColor = akDeepSleep.color;
+        legendEntries.add(deepSleepEntry);
+
+        LegendEntry notWornEntry = new LegendEntry();
+        notWornEntry.label = akNotWorn.label;
+        notWornEntry.formColor = akNotWorn.color;
+        legendEntries.add(notWornEntry);
+
+        if (supportsHeartrate(getChartsHost().getDevice())) {
+            LegendEntry hrEntry = new LegendEntry();
+            hrEntry.label = HEARTRATE_LABEL;
+            hrEntry.formColor = HEARTRATE_COLOR;
+            legendEntries.add(hrEntry);
+        }
+        chart.getLegend().setCustom(legendEntries);
+    }
+
+    @Override
+    protected List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
         return getAllSamples(db, device, tsFrom, tsTo);
     }
 }

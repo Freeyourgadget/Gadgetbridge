@@ -25,6 +25,10 @@ import android.bluetooth.BluetoothGattDescriptor;
  * Callback interface handling gatt events.
  * Pretty much the same as {@link BluetoothGattCallback}, except it's an interface
  * instead of an abstract class. Some handlers commented out, because not used (yet).
+ *
+ * Note: the boolean return values indicate whether this callback "consumed" this event
+ * or not. True means, the event was consumed by this instance and no further instances
+ * shall be notified. Fallse means, this instance could not handle the event.
  */
 public interface GattCallback {
 
@@ -48,7 +52,7 @@ public interface GattCallback {
      * @param status
      * @see BluetoothGattCallback#onCharacteristicRead(BluetoothGatt, BluetoothGattCharacteristic, int)
      */
-    void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status);
+    boolean onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status);
 
     /**
      * @param gatt
@@ -56,7 +60,7 @@ public interface GattCallback {
      * @param status
      * @see BluetoothGattCallback#onCharacteristicWrite(BluetoothGatt, BluetoothGattCharacteristic, int)
      */
-    void onCharacteristicWrite(BluetoothGatt gatt,
+    boolean onCharacteristicWrite(BluetoothGatt gatt,
                                BluetoothGattCharacteristic characteristic, int status);
 
     /**
@@ -64,7 +68,7 @@ public interface GattCallback {
      * @param characteristic
      * @see BluetoothGattCallback#onCharacteristicChanged(BluetoothGatt, BluetoothGattCharacteristic)
      */
-    void onCharacteristicChanged(BluetoothGatt gatt,
+    boolean onCharacteristicChanged(BluetoothGatt gatt,
                                  BluetoothGattCharacteristic characteristic);
 
     /**
@@ -73,7 +77,7 @@ public interface GattCallback {
      * @param status
      * @see BluetoothGattCallback#onDescriptorRead(BluetoothGatt, BluetoothGattDescriptor, int)
      */
-    void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor,
+    boolean onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor,
                           int status);
 
     /**
@@ -82,7 +86,7 @@ public interface GattCallback {
      * @param status
      * @see BluetoothGattCallback#onDescriptorWrite(BluetoothGatt, BluetoothGattDescriptor, int)
      */
-    void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor,
+    boolean onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor,
                            int status);
 //
 //    /**

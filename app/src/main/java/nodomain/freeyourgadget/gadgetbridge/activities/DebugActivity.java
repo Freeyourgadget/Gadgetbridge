@@ -1,14 +1,11 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.NotificationCompat;
@@ -16,33 +13,27 @@ import android.support.v4.app.RemoteInput;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
-
-import net.e175.klaus.solarpositioning.DeltaT;
-import net.e175.klaus.solarpositioning.SPA;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.util.GregorianCalendar;
+import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
-import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
-import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
-import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 
 public class DebugActivity extends GBActivity {
@@ -52,8 +43,8 @@ public class DebugActivity extends GBActivity {
     private static final String ACTION_REPLY
             = "nodomain.freeyourgadget.gadgetbridge.DebugActivity.action.reply";
 
-    private Button sendSMSButton;
-    private Button sendEmailButton;
+    private Spinner sendTypeSpinner;
+    private Button sendButton;
     private Button incomingCallButton;
     private Button outgoingCallButton;
     private Button startCallButton;
@@ -63,9 +54,7 @@ public class DebugActivity extends GBActivity {
     private Button setTimeButton;
     private Button rebootButton;
     private Button HeartRateButton;
-    private Button exportDBButton;
-    private Button importDBButton;
-    private Button deleteDBButton;
+    private Button testNewFunctionalityButton;
 
     private EditText editContent;
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -105,27 +94,26 @@ public class DebugActivity extends GBActivity {
         registerReceiver(mReceiver, filter); // for ACTION_REPLY
 
         editContent = (EditText) findViewById(R.id.editContent);
-        sendSMSButton = (Button) findViewById(R.id.sendSMSButton);
-        sendSMSButton.setOnClickListener(new View.OnClickListener() {
+
+        ArrayList<String> spinnerArray = new ArrayList<>();
+        for (NotificationType notificationType : NotificationType.values()) {
+            spinnerArray.add(notificationType.name());
+        }
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
+        sendTypeSpinner = (Spinner) findViewById(R.id.sendTypeSpinner);
+        sendTypeSpinner.setAdapter(spinnerArrayAdapter);
+
+        sendButton = (Button) findViewById(R.id.sendButton);
+        sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 NotificationSpec notificationSpec = new NotificationSpec();
-                notificationSpec.phoneNumber = editContent.getText().toString();
-                notificationSpec.body = editContent.getText().toString();
-                notificationSpec.type = NotificationType.SMS;
-                notificationSpec.id = -1;
-                GBApplication.deviceService().onNotification(notificationSpec);
-            }
-        });
-        sendEmailButton = (Button) findViewById(R.id.sendEmailButton);
-        sendEmailButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NotificationSpec notificationSpec = new NotificationSpec();
-                notificationSpec.sender = getResources().getText(R.string.app_name).toString();
-                notificationSpec.subject = editContent.getText().toString();
-                notificationSpec.body = editContent.getText().toString();
-                notificationSpec.type = NotificationType.EMAIL;
+                String testString = editContent.getText().toString();
+                notificationSpec.phoneNumber = testString;
+                notificationSpec.body = testString;
+                notificationSpec.sender = testString;
+                notificationSpec.subject = testString;
+                notificationSpec.type = NotificationType.values()[sendTypeSpinner.getSelectedItemPosition()];
                 notificationSpec.id = -1;
                 GBApplication.deviceService().onNotification(notificationSpec);
             }
@@ -168,29 +156,6 @@ public class DebugActivity extends GBActivity {
                 CallSpec callSpec = new CallSpec();
                 callSpec.command = CallSpec.CALL_END;
                 GBApplication.deviceService().onSetCallState(callSpec);
-            }
-        });
-
-        exportDBButton = (Button) findViewById(R.id.exportDBButton);
-        exportDBButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                exportDB();
-            }
-        });
-        importDBButton = (Button) findViewById(R.id.importDBButton);
-        importDBButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                importDB();
-            }
-        });
-
-        deleteDBButton = (Button) findViewById(R.id.emptyDBButton);
-        deleteDBButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteActivityDatabase();
             }
         });
 
@@ -250,81 +215,18 @@ public class DebugActivity extends GBActivity {
                 testNotification();
             }
         });
-    }
 
-    private void exportDB() {
-        DBHandler dbHandler = null;
-        try {
-            dbHandler = GBApplication.acquireDB();
-            DBHelper helper = new DBHelper(this);
-            File dir = FileUtils.getExternalFilesDir();
-            File destFile = helper.exportDB(dbHandler.getHelper(), dir);
-            GB.toast(this, "Exported to: " + destFile.getAbsolutePath(), Toast.LENGTH_LONG, GB.INFO);
-        } catch (Exception ex) {
-            GB.toast(this, "Error exporting DB: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
-        } finally {
-            if (dbHandler != null) {
-                dbHandler.release();
+        testNewFunctionalityButton = (Button) findViewById(R.id.testNewFunctionality);
+        testNewFunctionalityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testNewFunctionality();
             }
-        }
+        });
     }
 
-    private void importDB() {
-        new AlertDialog.Builder(this)
-                .setCancelable(true)
-                .setTitle("Import Activity Data?")
-                .setMessage("Really overwrite the current activity database? All your activity data (if any) will be lost.")
-                .setPositiveButton("Overwrite", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        DBHandler dbHandler = null;
-                        try {
-                            dbHandler = GBApplication.acquireDB();
-                            DBHelper helper = new DBHelper(DebugActivity.this);
-                            File dir = FileUtils.getExternalFilesDir();
-                            SQLiteOpenHelper sqLiteOpenHelper = dbHandler.getHelper();
-                            File sourceFile = new File(dir, sqLiteOpenHelper.getDatabaseName());
-                            helper.importDB(sqLiteOpenHelper, sourceFile);
-                            helper.validateDB(sqLiteOpenHelper);
-                            GB.toast(DebugActivity.this, "Import successful.", Toast.LENGTH_LONG, GB.INFO);
-                        } catch (Exception ex) {
-                            GB.toast(DebugActivity.this, "Error importing DB: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
-                        } finally {
-                            if (dbHandler != null) {
-                                dbHandler.release();
-                            }
-                        }
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
-                .show();
-    }
-
-    private void deleteActivityDatabase() {
-        new AlertDialog.Builder(this)
-                .setCancelable(true)
-                .setTitle("Delete Activity Data?")
-                .setMessage("Really delete the entire activity database? All your activity data will be lost.")
-                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (GBApplication.deleteActivityDatabase()) {
-                            GB.toast(DebugActivity.this, "Activity database successfully deleted.", Toast.LENGTH_SHORT, GB.INFO);
-                        } else {
-                            GB.toast(DebugActivity.this, "Activity database deletion failed.", Toast.LENGTH_SHORT, GB.INFO);
-                        }
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
-                .show();
+    private void testNewFunctionality() {
+        GBApplication.deviceService().onTestNewFunction();
     }
 
     private void testNotification() {
@@ -379,4 +281,7 @@ public class DebugActivity extends GBActivity {
         unregisterReceiver(mReceiver);
     }
 
+    public interface DeviceSelectionCallback {
+        void invoke(GBDevice device);
+    }
 }

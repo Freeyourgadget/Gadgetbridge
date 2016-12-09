@@ -8,19 +8,25 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.TypedValue;
 import android.view.View;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
 import org.slf4j.Logger;
@@ -30,7 +36,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
@@ -45,6 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -82,17 +88,18 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         }
     };
     private boolean mChartDirty = true;
-    private boolean supportsHeartrateChart = true;
     private AsyncTask refreshTask;
 
     public boolean isChartDirty() {
         return mChartDirty;
     }
 
+    @Override
     public abstract String getTitle();
 
-    public boolean supportsHeartrate() {
-        return supportsHeartrateChart;
+    public boolean supportsHeartrate(GBDevice device) {
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        return coordinator != null && coordinator.supportsHeartRateMeasurement(device);
     }
 
     protected static final class ActivityConfig {
@@ -150,15 +157,20 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     protected void init() {
+        TypedValue runningColor = new TypedValue();
         BACKGROUND_COLOR = GBApplication.getBackgroundColor(getContext());
         LEGEND_TEXT_COLOR = DESCRIPTION_COLOR = GBApplication.getTextColor(getContext());
-        CHART_TEXT_COLOR = getResources().getColor(R.color.secondarytext);
-        HEARTRATE_COLOR = getResources().getColor(R.color.chart_heartrate);
-        HEARTRATE_FILL_COLOR = getResources().getColor(R.color.chart_heartrate_fill);
-        AK_ACTIVITY_COLOR = getResources().getColor(R.color.chart_activity_light);
-        AK_DEEP_SLEEP_COLOR = getResources().getColor(R.color.chart_light_sleep_light);
-        AK_LIGHT_SLEEP_COLOR = getResources().getColor(R.color.chart_deep_sleep_light);
-        AK_NOT_WORN_COLOR = getResources().getColor(R.color.chart_not_worn_light);
+        CHART_TEXT_COLOR = ContextCompat.getColor(getContext(), R.color.secondarytext);
+        HEARTRATE_COLOR = ContextCompat.getColor(getContext(), R.color.chart_heartrate);
+        HEARTRATE_FILL_COLOR = ContextCompat.getColor(getContext(), R.color.chart_heartrate_fill);
+        getContext().getTheme().resolveAttribute(R.attr.chart_activity, runningColor, true);
+        AK_ACTIVITY_COLOR = runningColor.data;
+        getContext().getTheme().resolveAttribute(R.attr.chart_light_sleep, runningColor, true);
+        AK_DEEP_SLEEP_COLOR = runningColor.data;
+        getContext().getTheme().resolveAttribute(R.attr.chart_deep_sleep, runningColor, true);
+        AK_LIGHT_SLEEP_COLOR = runningColor.data;
+        getContext().getTheme().resolveAttribute(R.attr.chart_not_worn, runningColor, true);
+        AK_NOT_WORN_COLOR = runningColor.data;
 
         HEARTRATE_LABEL = getContext().getString(R.string.charts_legend_heartrate);
 
@@ -292,9 +304,9 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         return akActivity.color;
     }
 
-    protected SampleProvider getProvider(GBDevice device) {
+    protected SampleProvider<? extends AbstractActivitySample> getProvider(DBHandler db, GBDevice device) {
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
-        return coordinator.getSampleProvider();
+        return coordinator.getSampleProvider(device, db.getDaoSession());
     }
 
     /**
@@ -305,40 +317,25 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
      * @param tsFrom
      * @param tsTo
      */
-    protected List<ActivitySample> getAllSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-        SampleProvider provider = getProvider(device);
-        return db.getAllActivitySamples(tsFrom, tsTo, provider);
+    protected List<? extends ActivitySample> getAllSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+        SampleProvider<? extends ActivitySample> provider = getProvider(db, device);
+        return provider.getAllActivitySamples(tsFrom, tsTo);
     }
 
-    private int getTSLast24Hours(int tsTo) {
-        return (tsTo) - (24 * 60 * 60); // -24 hours
-    }
-
-    protected List<ActivitySample> getActivitySamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-        SampleProvider provider = getProvider(device);
-        return db.getActivitySamples(tsFrom, tsTo, provider);
+    protected List<? extends AbstractActivitySample> getActivitySamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+        SampleProvider<? extends AbstractActivitySample> provider = getProvider(db, device);
+        return provider.getActivitySamples(tsFrom, tsTo);
     }
 
 
-    protected List<ActivitySample> getSleepSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-        SampleProvider provider = getProvider(device);
-        return db.getSleepSamples(tsFrom, tsTo, provider);
-    }
-
-    protected List<ActivitySample> getTestSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-        Calendar cal = Calendar.getInstance();
-        cal.clear();
-        cal.set(2015, Calendar.JUNE, 10, 6, 40);
-        // ignore provided date ranges
-        tsTo = (int) ((cal.getTimeInMillis() / 1000));
-        tsFrom = tsTo - (24 * 60 * 60);
-
-        SampleProvider provider = getProvider(device);
-        return db.getAllActivitySamples(tsFrom, tsTo, provider);
+    protected List<? extends ActivitySample> getSleepSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+        SampleProvider<? extends ActivitySample> provider = getProvider(db, device);
+        return provider.getSleepSamples(tsFrom, tsTo);
     }
 
     protected void configureChartDefaults(Chart<?> chart) {
-        chart.setDescription("");
+        chart.getXAxis().setValueFormatter(new TimestampValueFormatter());
+        chart.getDescription().setText("");
 
         // if enabled, the chart will always start at zero on the y-axis
         chart.setNoDataText(getString(R.string.chart_no_data_synchronize));
@@ -349,11 +346,19 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         // enable touch gestures
         chart.setTouchEnabled(true);
 
+// commented out: this has weird bugs/sideeffects at least on WeekStepsCharts
+// where only the first Day-label is drawn, because AxisRenderer.computeAxisValues(float,float)
+// appears to have an overflow when calculating 'n' (number of entries)
+//        chart.getXAxis().setGranularity(60*5);
+
         setupLegend(chart);
     }
 
     protected void configureBarLineChartDefaults(BarLineChartBase<?> chart) {
         configureChartDefaults(chart);
+        if (chart instanceof BarChart) {
+            ((BarChart) chart).setFitBars(true);
+        }
 
         // enable scaling and dragging
         chart.setDragEnabled(true);
@@ -397,12 +402,14 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
      */
     protected abstract void renderCharts();
 
-    protected DefaultChartsData refresh(GBDevice gbDevice, List<ActivitySample> samples) {
-        Calendar cal = GregorianCalendar.getInstance();
-        cal.clear();
-        Date date;
-        String dateStringFrom = "";
-        String dateStringTo = "";
+    protected DefaultChartsData<CombinedData> refresh(GBDevice gbDevice, List<? extends ActivitySample> samples) {
+//        Calendar cal = GregorianCalendar.getInstance();
+//        cal.clear();
+        TimestampTranslation tsTranslation = new TimestampTranslation();
+//        Date date;
+//        String dateStringFrom = "";
+//        String dateStringTo = "";
+//        ArrayList<String> xLabels = null;
 
         LOG.info("" + getTitle() + ": number of samples:" + samples.size());
         CombinedData combinedData;
@@ -412,13 +419,9 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
             int last_type = ActivityKind.TYPE_UNKNOWN;
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-            SimpleDateFormat annotationDateFormat = new SimpleDateFormat("HH:mm");
-
             int numEntries = samples.size();
-            List<String> xLabels = new ArrayList<>(numEntries);
             List<BarEntry> activityEntries = new ArrayList<>(numEntries);
-            boolean hr = supportsHeartrate();
+            boolean hr = supportsHeartrate(gbDevice);
             List<Entry> heartrateEntries = hr ? new ArrayList<Entry>(numEntries) : null;
             List<Integer> colors = new ArrayList<>(numEntries); // this is kinda inefficient...
             int lastHrSampleIndex = -1;
@@ -426,17 +429,20 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             for (int i = 0; i < numEntries; i++) {
                 ActivitySample sample = samples.get(i);
                 int type = sample.getKind();
+                int ts = tsTranslation.shorten(sample.getTimestamp());
 
+//                System.out.println(ts);
+//                ts = i;
                 // determine start and end dates
-                if (i == 0) {
-                    cal.setTimeInMillis(sample.getTimestamp() * 1000L); // make sure it's converted to long
-                    date = cal.getTime();
-                    dateStringFrom = dateFormat.format(date);
-                } else if (i == samples.size() - 1) {
-                    cal.setTimeInMillis(sample.getTimestamp() * 1000L); // same here
-                    date = cal.getTime();
-                    dateStringTo = dateFormat.format(date);
-                }
+//                if (i == 0) {
+//                    cal.setTimeInMillis(ts * 1000L); // make sure it's converted to long
+//                    date = cal.getTime();
+//                    dateStringFrom = dateFormat.format(date);
+//                } else if (i == samples.size() - 1) {
+//                    cal.setTimeInMillis(ts * 1000L); // same here
+//                    date = cal.getTime();
+//                    dateStringTo = dateFormat.format(date);
+//                }
 
                 float movement = sample.getIntensity();
 
@@ -462,23 +468,23 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 //                        value = ((float) movement) / movement_divisor;
                         colors.add(akActivity.color);
                 }
-                activityEntries.add(createBarEntry(value, i));
-                if (hr && isValidHeartRateValue(sample.getCustomValue())) {
-                    if (lastHrSampleIndex > -1 && i - lastHrSampleIndex > HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
+                activityEntries.add(createBarEntry(value, ts));
+                if (hr && isValidHeartRateValue(sample.getHeartRate())) {
+                    if (lastHrSampleIndex > -1 && ts - lastHrSampleIndex > 60*HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
                         heartrateEntries.add(createLineEntry(0, lastHrSampleIndex + 1));
-                        heartrateEntries.add(createLineEntry(0, i - 1));
+                        heartrateEntries.add(createLineEntry(0, ts - 1));
                     }
 
-                    heartrateEntries.add(createLineEntry(sample.getCustomValue(), i));
-                    lastHrSampleIndex = i;
+                    heartrateEntries.add(createLineEntry(sample.getHeartRate(), ts));
+                    lastHrSampleIndex = ts;
                 }
 
                 String xLabel = "";
                 if (annotate) {
-                    cal.setTimeInMillis(sample.getTimestamp() * 1000L);
-                    date = cal.getTime();
-                    String dateString = annotationDateFormat.format(date);
-                    xLabel = dateString;
+//                    cal.setTimeInMillis((ts + tsOffset) * 1000L);
+//                    date = cal.getTime();
+//                    String dateString = annotationDateFormat.format(date);
+//                    xLabel = dateString;
 //                    if (last_type != type) {
 //                        if (isSleep(last_type) && !isSleep(type)) {
 //                            // woken up
@@ -496,35 +502,35 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 //                            chart.getXAxis().addLimitLine(line);
 //                        }
 //                    }
-                    last_type = type;
+//                    last_type = type;
                 }
-                xLabels.add(xLabel);
             }
-
-//            chart.getXAxis().setValues(xLabels);
 
             BarDataSet activitySet = createActivitySet(activityEntries, colors, "Activity");
             // create a data object with the datasets
-            combinedData = new CombinedData(xLabels);
+//            combinedData = new CombinedData(xLabels);
+            combinedData = new CombinedData();
             List<IBarDataSet> list = new ArrayList<>();
             list.add(activitySet);
-            BarData barData = new BarData(xLabels, list);
-            barData.setGroupSpace(0);
+            BarData barData = new BarData(list);
+            barData.setBarWidth(100f);
+//            barData.setGroupSpace(0);
             combinedData.setData(barData);
 
             if (hr && heartrateEntries.size() > 0) {
                 LineDataSet heartrateSet = createHeartrateSet(heartrateEntries, "Heart Rate");
-                LineData lineData = new LineData(xLabels, heartrateSet);
+                LineData lineData = new LineData(heartrateSet);
                 combinedData.setData(lineData);
             }
 
 //            chart.setDescription(getString(R.string.sleep_activity_date_range, dateStringFrom, dateStringTo));
 //            chart.setDescriptionPosition(?, ?);
         } else {
-            combinedData = new CombinedData(Collections.<String>emptyList());
+            combinedData = new CombinedData();
         }
 
-        return new DefaultChartsData(combinedData);
+        IAxisValueFormatter xValueFormatter = new SampleXLabelFormatter(tsTranslation);
+        return new DefaultChartsData(combinedData, xValueFormatter);
     }
 
     protected boolean isValidHeartRateValue(int value) {
@@ -540,16 +546,16 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
      * @param tsTo
      * @return
      */
-    protected abstract List<ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo);
+    protected abstract List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo);
 
     protected abstract void setupLegend(Chart chart);
 
-    protected BarEntry createBarEntry(float value, int index) {
-        return new BarEntry(value, index);
+    protected BarEntry createBarEntry(float value, int xValue) {
+        return new BarEntry(xValue, value);
     }
 
-    protected Entry createLineEntry(float value, int index) {
-        return new Entry(value, index);
+    protected Entry createLineEntry(float value, int xValue) {
+        return new Entry(xValue, value);
     }
 
     protected BarDataSet createActivitySet(List<BarEntry> values, List<Integer> colors, String label) {
@@ -574,7 +580,8 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         LineDataSet set1 = new LineDataSet(values, label);
         set1.setLineWidth(0.8f);
         set1.setColor(HEARTRATE_COLOR);
-        set1.setDrawCubic(true);
+//        set1.setDrawCubic(true);
+        set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         set1.setCubicIntensity(0.1f);
         set1.setDrawCircles(false);
 //        set1.setCircleRadius(2f);
@@ -688,8 +695,46 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         }
     }
 
-    protected List<ActivitySample> getSamples(DBHandler db, GBDevice device) {
-        return getSamples(db, device, getTSStart(), getTSEnd());
+    protected List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device) {
+        int tsStart = getTSStart();
+        int tsEnd = getTSEnd();
+        List<ActivitySample> samples = (List<ActivitySample>) getSamples(db, device, tsStart, tsEnd);
+        ensureStartAndEndSamples(samples, tsStart, tsEnd);
+//        List<ActivitySample> samples2 = new ArrayList<>();
+//        int min = Math.min(samples.size(), 10);
+//        int min = Math.min(samples.size(), 10);
+//        for (int i = 0; i < min; i++) {
+//            samples2.add(samples.get(i));
+//        }
+//        return samples2;
+        return samples;
+    }
+
+    protected void ensureStartAndEndSamples(List<ActivitySample> samples, int tsStart, int tsEnd) {
+        if (samples == null || samples.isEmpty()) {
+            return;
+        }
+        ActivitySample lastSample = samples.get(samples.size() - 1);
+        if (lastSample.getTimestamp() < tsEnd) {
+            samples.add(createTrailingActivitySample(lastSample, tsEnd));
+        }
+
+        ActivitySample firstSample = samples.get(0);
+        if (firstSample.getTimestamp() > tsStart) {
+            samples.add(createTrailingActivitySample(firstSample, tsStart));
+        }
+    }
+
+    private ActivitySample createTrailingActivitySample(ActivitySample referenceSample, int timestamp) {
+        TrailingActivitySample sample = new TrailingActivitySample();
+        if (referenceSample instanceof AbstractActivitySample) {
+            AbstractActivitySample reference = (AbstractActivitySample) referenceSample;
+            sample.setUserId(reference.getUserId());
+            sample.setDeviceId(reference.getDeviceId());
+            sample.setProvider(reference.getProvider());
+        }
+        sample.setTimestamp(timestamp);
+        return sample;
     }
 
     private int getTSEnd() {
@@ -704,15 +749,87 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         return (int) ((date.getTime() / 1000));
     }
 
-    public static class DefaultChartsData extends ChartsData {
-        private final CombinedData combinedData;
+    public static class DefaultChartsData<T extends ChartData<?>> extends ChartsData {
+        private final T data;
+        private IAxisValueFormatter xValueFormatter;
 
-        public DefaultChartsData(CombinedData combinedData) {
-            this.combinedData = combinedData;
+        public DefaultChartsData(T data, IAxisValueFormatter xValueFormatter) {
+            this.xValueFormatter = xValueFormatter;
+            this.data = data;
         }
 
-        public CombinedData getCombinedData() {
-            return combinedData;
+        public IAxisValueFormatter getXValueFormatter() {
+            return xValueFormatter;
+        }
+
+        public T getData() {
+            return data;
+        }
+    }
+
+    protected static class SampleXLabelFormatter implements IAxisValueFormatter {
+        private final TimestampTranslation tsTranslation;
+        SimpleDateFormat annotationDateFormat = new SimpleDateFormat("HH:mm");
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        Calendar cal = GregorianCalendar.getInstance();
+
+        public SampleXLabelFormatter(TimestampTranslation tsTranslation) {
+            this.tsTranslation = tsTranslation;
+
+        }
+        // TODO: this does not work. Cannot use precomputed labels
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+            cal.clear();
+            int ts = (int) value;
+            cal.setTimeInMillis(tsTranslation.toOriginalValue(ts) * 1000L);
+            Date date = cal.getTime();
+            String dateString = annotationDateFormat.format(date);
+            return dateString;
+        }
+    }
+
+    protected static class PreformattedXIndexLabelFormatter implements IAxisValueFormatter {
+        private ArrayList<String> xLabels;
+
+        public PreformattedXIndexLabelFormatter(ArrayList<String> xLabels) {
+            this.xLabels = xLabels;
+
+        }
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+            int index = (int) value;
+            if (xLabels == null || index >= xLabels.size()) {
+                return String.valueOf(value);
+            }
+            return xLabels.get(index);
+        }
+    }
+
+    /**
+     * Awkward class that helps in translating long timestamp
+     * values to float (sic!) values. It basically rebases all
+     * timestamps to a base (the very first) timestamp value.
+     *
+     * It does this so that the large timestamp values can be used
+     * floating point values, where the mantissa is just 24 bits.
+     */
+    protected static class TimestampTranslation {
+        private int tsOffset = -1;
+
+        public int shorten(int timestamp) {
+            if (tsOffset == -1) {
+                tsOffset = timestamp;
+                return 0;
+            }
+            return timestamp - tsOffset;
+        }
+
+        public int toOriginalValue(int timestamp) {
+            if (tsOffset == -1) {
+                return timestamp;
+            }
+            return timestamp + tsOffset;
         }
     }
 }

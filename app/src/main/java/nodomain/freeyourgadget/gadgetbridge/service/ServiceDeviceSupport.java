@@ -15,6 +15,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -152,6 +153,14 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
+    public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
+        if (checkBusy("set canned messages")) {
+            return;
+        }
+        delegate.onSetCannedMessages(cannedMessagesSpec);
+    }
+
+    @Override
     public void onSetMusicState(MusicStateSpec stateSpec) {
         if (checkBusy("set music state")) {
             return;
@@ -208,6 +217,14 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
+    public void onAppReorder(UUID[] uuids) {
+        if (checkBusy("app reorder")) {
+            return;
+        }
+        delegate.onAppReorder(uuids);
+    }
+
+    @Override
     public void onFetchActivityData() {
         if (checkBusy("fetch activity data")) {
             return;
@@ -237,6 +254,14 @@ public class ServiceDeviceSupport implements DeviceSupport {
             return;
         }
         delegate.onFindDevice(start);
+    }
+
+    @Override
+    public void onSetConstantVibration(int intensity) {
+        if (checkBusy("set constant vibration")) {
+            return;
+        }
+        delegate.onSetConstantVibration(intensity);
     }
 
     @Override
@@ -293,5 +318,21 @@ public class ServiceDeviceSupport implements DeviceSupport {
             return;
         }
         delegate.onDeleteCalendarEvent(type, id);
+    }
+
+    @Override
+    public void onSendConfiguration(String config) {
+        if (checkBusy("send configuration: " + config)) {
+            return;
+        }
+        delegate.onSendConfiguration(config);
+    }
+
+    @Override
+    public void onTestNewFunction() {
+        if (checkBusy("test new function event")) {
+            return;
+        }
+        delegate.onTestNewFunction();
     }
 }

@@ -18,7 +18,6 @@ import android.media.session.PlaybackState;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
-import android.provider.MediaStore;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.support.v4.app.NotificationCompat;
@@ -31,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.model.AppNotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -194,6 +194,11 @@ public class NotificationListener extends NotificationListenerService {
             }
         }
 
+        //don't forward group summary notifications to the wearable, they are meant for the android device only
+        if ((notification.flags & Notification.FLAG_GROUP_SUMMARY) == Notification.FLAG_GROUP_SUMMARY) {
+            return;
+        }
+
         if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
             return;
         }
@@ -208,12 +213,6 @@ public class NotificationListener extends NotificationListenerService {
                 source.equals("com.android.dialer") ||
                 source.equals("com.cyanogenmod.eleven")) {
             return;
-        }
-
-        if (source.equals("eu.siacs.conversations")) {
-            if (!"never".equals(prefs.getString("notification_mode_pebblemsg", "when_screen_off"))) {
-                return;
-            }
         }
 
         if (source.equals("com.fsck.k9")) {
@@ -250,43 +249,22 @@ public class NotificationListener extends NotificationListenerService {
             notificationSpec.sourceName = (String) pm.getApplicationLabel(ai);
         }
 
-        switch (source) {
-            case "org.mariotaku.twidere":
-            case "com.twitter.android":
-            case "org.andstatus.app":
-            case "org.mustard.android":
-                notificationSpec.type = NotificationType.TWITTER;
-                break;
-            case "com.fsck.k9":
-            case "com.android.email":
-                notificationSpec.type = NotificationType.EMAIL;
-                break;
-            case "com.moez.QKSMS":
-            case "com.android.mms":
-            case "com.android.messaging":
-            case "com.sonyericsson.conversations":
-            case "org.smssecure.smssecure":
-                notificationSpec.type = NotificationType.SMS;
-                break;
-            case "eu.siacs.conversations":
-            case "org.thoughtcrime.securesms":
-                notificationSpec.type = NotificationType.CHAT;
-                break;
-            case "org.indywidualni.fblite":
-                notificationSpec.type = NotificationType.FACEBOOK;
-                break;
-            default:
-                notificationSpec.type = NotificationType.UNDEFINED;
-                break;
-        }
+        boolean preferBigText = false;
+
+        notificationSpec.type = AppNotificationType.getInstance().get(source);
 
         LOG.info("Processing notification from source " + source);
 
-        dissectNotificationTo(notification, notificationSpec);
+        dissectNotificationTo(notification, notificationSpec, preferBigText);
         notificationSpec.id = (int) sbn.getPostTime(); //FIMXE: a truly unique id would be better
 
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender(notification);
         List<NotificationCompat.Action> actions = wearableExtender.getActions();
+
+        if (actions.isEmpty() && notificationSpec.type == NotificationType.TELEGRAM) {
+            return; // workaround for duplicate telegram message
+        }
+
         for (NotificationCompat.Action act : actions) {
             if (act != null && act.getRemoteInputs() != null) {
                 LOG.info("found wearable action: " + act.getTitle() + "  " + sbn.getTag());
@@ -299,18 +277,26 @@ public class NotificationListener extends NotificationListenerService {
         GBApplication.deviceService().onNotification(notificationSpec);
     }
 
-    private void dissectNotificationTo(Notification notification, NotificationSpec notificationSpec) {
+    private void dissectNotificationTo(Notification notification, NotificationSpec notificationSpec, boolean preferBigText) {
         Bundle extras = notification.extras;
+
+        //dumpExtras(extras);
+
         CharSequence title = extras.getCharSequence(Notification.EXTRA_TITLE);
         if (title != null) {
             notificationSpec.title = title.toString();
         }
-        if (extras.containsKey(Notification.EXTRA_TEXT)) {
-            CharSequence contentCS = extras.getCharSequence(Notification.EXTRA_TEXT);
-            if (contentCS != null) {
-                notificationSpec.body = contentCS.toString();
-            }
+
+        CharSequence contentCS = null;
+        if (preferBigText && extras.containsKey(Notification.EXTRA_BIG_TEXT)) {
+            contentCS = extras.getCharSequence(Notification.EXTRA_BIG_TEXT);
+        } else if (extras.containsKey(Notification.EXTRA_TEXT)) {
+            contentCS = extras.getCharSequence(Notification.EXTRA_TEXT);
         }
+        if (contentCS != null) {
+            notificationSpec.body = contentCS.toString();
+        }
+
     }
 
     private boolean isServiceRunning() {
@@ -354,7 +340,7 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         PlaybackState s = c.getPlaybackState();
-        stateSpec.position = (int)s.getPosition();
+        stateSpec.position = (int) (s.getPosition() / 1000);
         stateSpec.playRate = Math.round(100 * s.getPlaybackSpeed());
         stateSpec.repeat = 1;
         stateSpec.shuffle = 1;
@@ -384,6 +370,10 @@ public class NotificationListener extends NotificationListenerService {
             musicSpec.track = d.getString(MediaMetadata.METADATA_KEY_TITLE);
         if (d.containsKey(MediaMetadata.METADATA_KEY_DURATION))
             musicSpec.duration = (int)d.getLong(MediaMetadata.METADATA_KEY_DURATION) / 1000;
+        if (d.containsKey(MediaMetadata.METADATA_KEY_NUM_TRACKS))
+            musicSpec.trackCount = (int)d.getLong(MediaMetadata.METADATA_KEY_NUM_TRACKS);
+        if (d.containsKey(MediaMetadata.METADATA_KEY_TRACK_NUMBER))
+            musicSpec.trackNr = (int)d.getLong(MediaMetadata.METADATA_KEY_TRACK_NUMBER);
 
         // finally, tell the device about it
         GBApplication.deviceService().onSetMusicInfo(musicSpec);
@@ -395,5 +385,15 @@ public class NotificationListener extends NotificationListenerService {
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
 
+    }
+
+    private void dumpExtras(Bundle bundle) {
+        for (String key : bundle.keySet()) {
+            Object value = bundle.get(key);
+            if (value == null) {
+                continue;
+            }
+            LOG.debug(String.format("Notification extra: %s %s (%s)", key, value.toString(), value.getClass().getName()));
+        }
     }
 }

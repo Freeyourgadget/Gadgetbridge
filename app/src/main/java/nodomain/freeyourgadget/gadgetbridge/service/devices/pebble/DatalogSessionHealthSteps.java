@@ -5,24 +5,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.pebble.HealthSampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleHealthSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
 
     private static final Logger LOG = LoggerFactory.getLogger(DatalogSessionHealthSteps.class);
 
-    public DatalogSessionHealthSteps(byte id, UUID uuid, int tag, byte item_type, short item_size) {
-        super(id, uuid, tag, item_type, item_size);
-        taginfo = "(health - steps)";
+    public DatalogSessionHealthSteps(byte id, UUID uuid, int tag, byte item_type, short item_size, GBDevice device) {
+        super(id, uuid, tag, item_type, item_size, device);
+        taginfo = "(Health - steps)";
     }
 
     @Override
@@ -50,7 +50,7 @@ public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
 
             recordVersion = datalogMessage.getShort();
 
-            if ((recordVersion != 5) && (recordVersion != 6))
+            if ((recordVersion != 5) && (recordVersion != 6) && (recordVersion != 7) && (recordVersion != 12) && (recordVersion != 13))
                 return false; //we don't know how to deal with the data TODO: this is not ideal because we will get the same message again and again since we NACK it
 
             timestamp = datalogMessage.getInt();
@@ -60,10 +60,12 @@ public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
 
             beginOfRecordPosition = datalogMessage.position();
             StepsRecord[] stepsRecords = new StepsRecord[recordNum];
+            byte[] tempRecord = new byte[recordLength];
 
             for (int recordIdx = 0; recordIdx < recordNum; recordIdx++) {
                 datalogMessage.position(beginOfRecordPosition + recordIdx * recordLength); //we may not consume all the bytes of a record
-                stepsRecords[recordIdx] = new StepsRecord(timestamp, datalogMessage.get() & 0xff, datalogMessage.get() & 0xff, datalogMessage.getShort() & 0xffff, datalogMessage.get() & 0xff);
+                datalogMessage.get(tempRecord);
+                stepsRecords[recordIdx] = new StepsRecord(timestamp, recordVersion, tempRecord);
                 timestamp += 60;
             }
 
@@ -74,45 +76,70 @@ public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
 
     private void store(StepsRecord[] stepsRecords) {
 
-        DBHandler dbHandler = null;
-        SampleProvider sampleProvider = new HealthSampleProvider();
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            PebbleHealthSampleProvider sampleProvider = new PebbleHealthSampleProvider(getDevice(), dbHandler.getDaoSession());
+            PebbleHealthActivitySample[] samples = new PebbleHealthActivitySample[stepsRecords.length];
+            // TODO: user and device
+            Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
+            Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
+            for (int j = 0; j < stepsRecords.length; j++) {
+                StepsRecord stepsRecord = stepsRecords[j];
+                samples[j] = new PebbleHealthActivitySample(
+                        stepsRecord.timestamp,
+                        deviceId, userId,
+                        stepsRecord.getRawData(),
+                        stepsRecord.intensity,
+                        stepsRecord.steps,
+                        stepsRecord.heart_rate
+                );
+                samples[j].setProvider(sampleProvider);
+            }
 
-        ActivitySample[] samples = new ActivitySample[stepsRecords.length];
-        for (int j = 0; j < stepsRecords.length; j++) {
-            StepsRecord stepsRecord = stepsRecords[j];
-            samples[j] = new GBActivitySample(
-                    sampleProvider,
-                    stepsRecord.timestamp,
-                    stepsRecord.intensity,
-                    stepsRecord.steps,
-                    sampleProvider.toRawActivityKind(ActivityKind.TYPE_ACTIVITY));
-        }
-
-        try {
-            dbHandler = GBApplication.acquireDB();
-            dbHandler.addGBActivitySamples(samples);
+            sampleProvider.addGBActivitySamples(samples);
         } catch (Exception ex) {
             LOG.debug(ex.getMessage());
-        } finally {
-            if (dbHandler != null) {
-                dbHandler.release();
-            }
         }
     }
 
     private class StepsRecord {
+        byte[] knownVersions = {5, 6, 7, 12, 13};
+        short version;
         int timestamp;
         int steps;
         int orientation;
         int intensity;
         int light_intensity;
+        int heart_rate;
 
-        public StepsRecord(int timestamp, int steps, int orientation, int intensity, int light_intensity) {
+        byte[] rawData;
+
+        StepsRecord(int timestamp, short version, byte[] rawData) {
             this.timestamp = timestamp;
-            this.steps = steps;
-            this.orientation = orientation;
-            this.intensity = intensity;
-            this.light_intensity = light_intensity;
+            this.rawData = rawData;
+            ByteBuffer record = ByteBuffer.wrap(rawData);
+            record.order(ByteOrder.LITTLE_ENDIAN);
+
+            this.version = version;
+            //TODO: check supported versions?
+
+            this.steps = record.get() & 0xff;
+            this.orientation = record.get() & 0xff;
+            this.intensity = record.getShort() & 0xffff;
+            this.light_intensity = record.get() & 0xff;
+            if (version >= 7) {
+                // skip 7 bytes
+                record.getInt();
+                record.getShort();
+                record.get();
+                this.heart_rate = record.get() & 0xff;
+            }
+        }
+
+        byte[] getRawData() {
+            if (storePebbleHealthRawRecord()) {
+                return rawData;
+            }
+            return null;
         }
     }
 

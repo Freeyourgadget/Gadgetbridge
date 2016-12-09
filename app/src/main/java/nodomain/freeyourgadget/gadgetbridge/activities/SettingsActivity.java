@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
@@ -21,14 +22,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
+import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_HEIGHT_CM;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_SLEEP_DURATION;
@@ -78,7 +83,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
         pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newVal) {
-                Intent refreshIntent = new Intent(ControlCenter.ACTION_REFRESH_DEVICELIST);
+                Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
                 LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(refreshIntent);
                 preference.setSummary(newVal.toString());
                 return true;
@@ -90,7 +95,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
         pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newVal) {
-                Intent refreshIntent = new Intent(ControlCenter.ACTION_REFRESH_DEVICELIST);
+                Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
                 LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(refreshIntent);
                 preference.setSummary(newVal.toString());
                 return true;
@@ -138,18 +143,54 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 String provider = locationManager.getBestProvider(criteria, false);
                 if (provider != null) {
                     Location location = locationManager.getLastKnownLocation(provider);
-                    String latitude = String.format(Locale.US, "%.6g", location.getLatitude());
-                    String longitude = String.format(Locale.US, "%.6g", location.getLongitude());
-                    LOG.info("got location. Lat: " + latitude + " Lng: " + longitude);
-                    EditTextPreference pref_latitude = (EditTextPreference) findPreference("location_latitude");
-                    EditTextPreference pref_longitude = (EditTextPreference) findPreference("location_longitude");
-                    pref_latitude.setText(latitude);
-                    pref_longitude.setText(longitude);
-                    pref_latitude.setSummary(latitude);
-                    pref_longitude.setSummary(longitude);
+                    if (location != null) {
+                        setLocationPreferences(location);
+                    } else {
+                        locationManager.requestSingleUpdate(provider, new LocationListener() {
+                            @Override
+                            public void onLocationChanged(Location location) {
+                                setLocationPreferences(location);
+                            }
+
+                            @Override
+                            public void onStatusChanged(String provider, int status, Bundle extras) {
+                                LOG.info("provider status changed to " + status + " (" + provider + ")");
+                            }
+
+                            @Override
+                            public void onProviderEnabled(String provider) {
+                                LOG.info("provider enabled (" + provider + ")");
+                            }
+
+                            @Override
+                            public void onProviderDisabled(String provider) {
+                                LOG.info("provider disabled (" + provider + ")");
+                                GB.toast(SettingsActivity.this, getString(R.string.toast_enable_networklocationprovider), 3000, 0);
+                            }
+                        }, null);
+                    }
                 } else {
                     LOG.warn("No location provider found, did you deny location permission?");
                 }
+                return true;
+            }
+        });
+
+        pref = findPreference("canned_messages_dismisscall_send");
+        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                Prefs prefs = GBApplication.getPrefs();
+                ArrayList<String> messages = new ArrayList<>();
+                for (int i = 1; i <= 16; i++) {
+                    String message = prefs.getString("canned_message_dismisscall_" + i, null);
+                    if (message != null && !message.equals("")) {
+                        messages.add(message);
+                    }
+                }
+                CannedMessagesSpec cannedMessagesSpec = new CannedMessagesSpec();
+                cannedMessagesSpec.type = CannedMessagesSpec.TYPE_MISSEDCALLS;
+                cannedMessagesSpec.cannedMessages = messages.toArray(new String[messages.size()]);
+                GBApplication.deviceService().onSetCannedMessages(cannedMessagesSpec);
                 return true;
             }
         });
@@ -205,6 +246,22 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 "canned_reply_14",
                 "canned_reply_15",
                 "canned_reply_16",
+                "canned_message_dismisscall_1",
+                "canned_message_dismisscall_2",
+                "canned_message_dismisscall_3",
+                "canned_message_dismisscall_4",
+                "canned_message_dismisscall_5",
+                "canned_message_dismisscall_6",
+                "canned_message_dismisscall_7",
+                "canned_message_dismisscall_8",
+                "canned_message_dismisscall_9",
+                "canned_message_dismisscall_10",
+                "canned_message_dismisscall_11",
+                "canned_message_dismisscall_12",
+                "canned_message_dismisscall_13",
+                "canned_message_dismisscall_14",
+                "canned_message_dismisscall_15",
+                "canned_message_dismisscall_16",
                 PREF_USER_YEAR_OF_BIRTH,
                 PREF_USER_HEIGHT_CM,
                 PREF_USER_WEIGHT_KG,
@@ -212,4 +269,16 @@ public class SettingsActivity extends AbstractSettingsActivity {
         };
     }
 
+    private void setLocationPreferences(Location location) {
+        String latitude = String.format(Locale.US, "%.6g", location.getLatitude());
+        String longitude = String.format(Locale.US, "%.6g", location.getLongitude());
+        LOG.info("got location. Lat: " + latitude + " Lng: " + longitude);
+        GB.toast(SettingsActivity.this, getString(R.string.toast_aqurired_networklocation), 2000, 0);
+        EditTextPreference pref_latitude = (EditTextPreference) findPreference("location_latitude");
+        EditTextPreference pref_longitude = (EditTextPreference) findPreference("location_longitude");
+        pref_latitude.setText(latitude);
+        pref_longitude.setText(longitude);
+        pref_latitude.setSummary(latitude);
+        pref_longitude.setSummary(longitude);
+    }
 }

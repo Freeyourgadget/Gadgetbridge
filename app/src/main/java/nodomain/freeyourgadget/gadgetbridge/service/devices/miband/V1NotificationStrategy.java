@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 
@@ -16,9 +17,9 @@ public class V1NotificationStrategy implements NotificationStrategy {
     static final byte[] startVibrate = new byte[]{MiBandService.COMMAND_SEND_NOTIFICATION, 1};
     static final byte[] stopVibrate = new byte[]{MiBandService.COMMAND_STOP_MOTOR_VIBRATE};
 
-    private final MiBandSupport support;
+    private final AbstractBTLEDeviceSupport support;
 
-    public V1NotificationStrategy(MiBandSupport support) {
+    public V1NotificationStrategy(AbstractBTLEDeviceSupport support) {
         this.support = support;
     }
 
@@ -61,6 +62,7 @@ public class V1NotificationStrategy implements NotificationStrategy {
      * @param extraAction      an extra action to be executed after every vibration and flash sequence. Allows to abort the repetition, for example.
      * @param builder
      */
+    @Override
     public void sendCustomNotification(VibrationProfile vibrationProfile, int flashTimes, int flashColour, int originalColour, long flashDuration, BtLEAction extraAction, TransactionBuilder builder) {
         BluetoothGattCharacteristic controlPoint = support.getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
         for (short i = 0; i < vibrationProfile.getRepeat(); i++) {

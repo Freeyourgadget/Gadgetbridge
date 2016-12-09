@@ -4,22 +4,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.pebble.HealthSampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivityOverlay;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivityOverlayDao;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 class DatalogSessionHealthOverlayData extends DatalogSessionPebbleHealth {
 
     private static final Logger LOG = LoggerFactory.getLogger(DatalogSessionHealthOverlayData.class);
 
-    public DatalogSessionHealthOverlayData(byte id, UUID uuid, int tag, byte item_type, short item_size) {
-        super(id, uuid, tag, item_type, item_size);
-        taginfo = "(health - overlay data " + tag + " )";
+    public DatalogSessionHealthOverlayData(byte id, UUID uuid, int tag, byte item_type, short item_size, GBDevice device) {
+        super(id, uuid, tag, item_type, item_size, device);
+        taginfo = "(Health - overlay data " + tag + " )";
     }
 
     @Override
@@ -40,64 +45,65 @@ class DatalogSessionHealthOverlayData extends DatalogSessionPebbleHealth {
 
         int recordCount = length / itemSize;
         OverlayRecord[] overlayRecords = new OverlayRecord[recordCount];
+        byte[] tempRecord = new byte[itemSize];
 
         for (int recordIdx = 0; recordIdx < recordCount; recordIdx++) {
             beginOfRecordPosition = initialPosition + recordIdx * itemSize;
             datalogMessage.position(beginOfRecordPosition);//we may not consume all the bytes of a record
-            recordVersion = datalogMessage.getShort();
-            if ((recordVersion != 1) && (recordVersion != 3))
-                return false;//we don't know how to deal with the data TODO: this is not ideal because we will get the same message again and again since we NACK it
-
-            datalogMessage.getShort();//throwaway, unknown
-            recordType = datalogMessage.getShort();
-
-            overlayRecords[recordIdx] = new OverlayRecord(recordType, datalogMessage.getInt(), datalogMessage.getInt(), datalogMessage.getInt());
+            datalogMessage.get(tempRecord);
+            overlayRecords[recordIdx] = new OverlayRecord(tempRecord);
         }
 
-        return store(overlayRecords);//NACK if we cannot store the data yet, the watch will send the overlay records again.
-    }
-
-    private boolean store(OverlayRecord[] overlayRecords) {
-        DBHandler dbHandler = null;
-        SampleProvider sampleProvider = new HealthSampleProvider();
-        try {
-            dbHandler = GBApplication.acquireDB();
-            int latestTimestamp = dbHandler.fetchLatestTimestamp(sampleProvider);
-            for (OverlayRecord overlayRecord : overlayRecords) {
-                if (latestTimestamp < (overlayRecord.timestampStart + overlayRecord.durationSeconds))
-                    return false;
-                switch (overlayRecord.type) {
-                    case 1:
-                        dbHandler.changeStoredSamplesType(overlayRecord.timestampStart, (overlayRecord.timestampStart + overlayRecord.durationSeconds), sampleProvider.toRawActivityKind(ActivityKind.TYPE_ACTIVITY), sampleProvider.toRawActivityKind(ActivityKind.TYPE_LIGHT_SLEEP), sampleProvider);
-                        break;
-                    case 2:
-                        dbHandler.changeStoredSamplesType(overlayRecord.timestampStart, (overlayRecord.timestampStart + overlayRecord.durationSeconds), sampleProvider.toRawActivityKind(ActivityKind.TYPE_DEEP_SLEEP), sampleProvider);
-                        break;
-                    default:
-                        //TODO: other values refer to unknown activity types.
-                }
-            }
-        } catch (Exception ex) {
-            LOG.debug(ex.getMessage());
-        } finally {
-            if (dbHandler != null) {
-                dbHandler.release();
-            }
-        }
+        store(overlayRecords);
         return true;
     }
 
+    private void store(OverlayRecord[] overlayRecords) {
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            DaoSession session = dbHandler.getDaoSession();
+            Long userId = DBHelper.getUser(session).getId();
+            Long deviceId = DBHelper.getDevice(getDevice(), session).getId();
+
+            PebbleHealthActivityOverlayDao overlayDao = session.getPebbleHealthActivityOverlayDao();
+
+            List<PebbleHealthActivityOverlay> overlayList = new ArrayList<>();
+            for (OverlayRecord overlayRecord : overlayRecords) {
+                overlayList.add(new PebbleHealthActivityOverlay(overlayRecord.timestampStart, overlayRecord.timestampStart + overlayRecord.durationSeconds, overlayRecord.type, deviceId, userId, overlayRecord.getRawData()));
+            }
+            overlayDao.insertOrReplaceInTx(overlayList);
+        } catch (Exception ex) {
+            LOG.debug(ex.getMessage());
+        }
+    }
+
     private class OverlayRecord {
+        byte[] knownVersions = {1, 3};
+        short version;
         int type; //1=sleep, 2=deep sleep
         int offsetUTC; //probably
         int timestampStart;
         int durationSeconds;
+        byte[] rawData;
 
-        public OverlayRecord(int type, int offsetUTC, int timestampStart, int durationSeconds) {
-            this.type = type;
-            this.offsetUTC = offsetUTC;
-            this.timestampStart = timestampStart;
-            this.durationSeconds = durationSeconds;
+        OverlayRecord(byte[] rawData) {
+            this.rawData = rawData;
+            ByteBuffer record = ByteBuffer.wrap(rawData);
+            record.order(ByteOrder.LITTLE_ENDIAN);
+
+            this.version = record.getShort();
+            //TODO: check supported versions?
+            record.getShort();//throwaway, unknown
+            this.type = record.getShort();
+            this.offsetUTC = record.getInt();
+            this.timestampStart = record.getInt();
+            this.durationSeconds = record.getInt();
+        }
+
+        byte[] getRawData() {
+            if (storePebbleHealthRawRecord()) {
+                return rawData;
+            }
+            return null;
         }
     }
 }

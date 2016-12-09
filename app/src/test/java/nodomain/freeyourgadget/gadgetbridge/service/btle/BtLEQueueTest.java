@@ -1,19 +1,23 @@
 package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class BtLEQueueTest extends TestCase {
+import nodomain.freeyourgadget.gadgetbridge.test.TestBase;
 
+public class BtLEQueueTest extends TestBase {
+
+    @Override
     public void setUp() throws Exception {
         super.setUp();
-
     }
 
+    @Override
     public void tearDown() throws Exception {
-
+        super.tearDown();
     }
 
+    @Test
     public void testIsConnected() throws Exception {
-
+        // TODO
     }
 }

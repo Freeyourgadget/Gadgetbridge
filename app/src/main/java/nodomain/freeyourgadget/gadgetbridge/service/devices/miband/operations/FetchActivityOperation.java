@@ -2,7 +2,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -18,13 +17,14 @@ import java.util.concurrent.TimeUnit;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandDateConverter;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport;
@@ -40,7 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
  * An operation that fetches activity data. For every fetch, a new operation must
  * be created, i.e. an operation may not be reused for multiple fetches.
  */
-public class FetchActivityOperation extends AbstractMiBandOperation {
+public class FetchActivityOperation extends AbstractMiBand1Operation {
     private static final Logger LOG = LoggerFactory.getLogger(FetchActivityOperation.class);
     private static final byte[] fetch = new byte[]{MiBandService.COMMAND_FETCH_DATA};
 
@@ -142,6 +142,11 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
     }
 
     @Override
+    protected void enableNeededNotifications(TransactionBuilder builder, boolean enable) {
+        // enabled all the time... maybe we should change that!
+    }
+
+    @Override
     protected void doPerform() throws IOException {
 //        scheduleTaskExecutor = Executors.newScheduledThreadPool(1);
 
@@ -153,13 +158,14 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
     }
 
     @Override
-    public void onCharacteristicChanged(BluetoothGatt gatt,
-                                        BluetoothGattCharacteristic characteristic) {
+    public boolean onCharacteristicChanged(BluetoothGatt gatt,
+                                           BluetoothGattCharacteristic characteristic) {
         UUID characteristicUUID = characteristic.getUuid();
         if (MiBandService.UUID_CHARACTERISTIC_ACTIVITY_DATA.equals(characteristicUUID)) {
             handleActivityNotif(characteristic.getValue());
+            return true;
         } else {
-            super.onCharacteristicChanged(gatt, characteristic);
+            return super.onCharacteristicChanged(gatt, characteristic);
         }
     }
 
@@ -306,18 +312,18 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
         LOG.debug("flushing activity data samples: " + activityStruct.activityDataHolderProgress / bpm);
         byte category, intensity, steps, heartrate = 0;
 
-        DBHandler dbHandler = null;
-        try {
-            dbHandler = GBApplication.acquireDB();
+        try (DBHandler dbHandler = GBApplication.acquireDB()){
+            MiBandSampleProvider provider = new MiBandSampleProvider(getDevice(), dbHandler.getDaoSession());
+            User user = DBHelper.getUser(dbHandler.getDaoSession());
+            Device device = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession());
             int minutes = 0;
-            try (SQLiteDatabase db = dbHandler.getWritableDatabase()) { // explicitly keep the db open while looping over the samples
+            try {
                 int timestampInSeconds = (int) (activityStruct.activityDataTimestampProgress.getTimeInMillis() / 1000);
                 if ((activityStruct.activityDataHolderProgress % bpm) != 0) {
-                    throw new IllegalStateException("Unexpected data, progress should be mutiple of " + bpm + ": " + activityStruct.activityDataHolderProgress);
+                    throw new IllegalStateException("Unexpected data, progress should be multiple of " + bpm + ": " + activityStruct.activityDataHolderProgress);
                 }
                 int numSamples = activityStruct.activityDataHolderProgress / bpm;
-                ActivitySample[] samples = new ActivitySample[numSamples];
-                SampleProvider sampleProvider = new MiBandSampleProvider();
+                MiBandActivitySample[] samples = new MiBandActivitySample[numSamples];
 
                 for (int i = 0; i < activityStruct.activityDataHolderProgress; i += bpm) {
                     category = activityStruct.activityDataHolder[i];
@@ -325,31 +331,30 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
                     steps = activityStruct.activityDataHolder[i + 2];
                     if (hasExtendedActivityData) {
                         heartrate = activityStruct.activityDataHolder[i + 3];
-                        LOG.debug("heartrate received: " + (heartrate & 0xff));
+//                        LOG.debug("heartrate received: " + (heartrate & 0xff));
                     }
 
-                    samples[minutes] = new GBActivitySample(
-                            sampleProvider,
-                            timestampInSeconds,
-                            intensity & 0xff,
-                            steps & 0xff,
-                            category & 0xff,
-                            heartrate & 0xff);
+                    MiBandActivitySample sample = getSupport().createActivitySample(device, user, timestampInSeconds, provider);
+                    sample.setRawIntensity(intensity & 0xff);
+                    sample.setSteps(steps & 0xff);
+                    sample.setRawKind(category & 0xff);
+                    sample.setHeartRate(heartrate & 0xff);
+                    samples[minutes] = sample;
+
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("sample: " + samples[minutes]);
+                    }
 
                     // next minute
                     minutes++;
                     timestampInSeconds += 60;
                 }
-                dbHandler.addGBActivitySamples(samples);
+                provider.addGBActivitySamples(samples);
             } finally {
                 activityStruct.bufferFlushed(minutes);
             }
         } catch (Exception ex) {
             GB.toast(getContext(), ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
-        } finally {
-            if (dbHandler != null) {
-                dbHandler.release();
-            }
         }
     }
 

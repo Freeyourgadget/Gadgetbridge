@@ -55,7 +55,7 @@
             android:parentActivityName=".activities.SettingsActivity" />
         <activity
             android:launchMode="singleTop"
-            android:name=".activities.AppManagerActivity"
+            android:name=".activities.appmanager.AppManagerActivity"
             android:label="@string/title_activity_appmanager"
             android:parentActivityName=".activities.ControlCenter" />
         <activity
@@ -174,13 +174,22 @@
                 <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pbl" />
             </intent-filter>
 
-            <!-- to receive the firmwares from the donwload content provider -->
+            <!-- to receive the firmwares from the download content provider -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="application/octet-stream" />
+            </intent-filter>
+            <!-- to receive firmwares from the download content provider if recognized as zip-->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="application/zip" />
+                <data android:mimeType="application/x-zip-compressed" />
             </intent-filter>
         </activity>
 
@@ -231,11 +240,27 @@
             </intent-filter>
         </receiver>
 
+        <!--
+            forcing the DebugActivity to portrait mode avoids crashes with the progress
+            dialog when changing orientation
+         -->
         <activity
             android:name=".activities.DebugActivity"
             android:label="@string/title_activity_debug"
             android:parentActivityName=".activities.ControlCenter"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.DbManagementActivity"
+            android:label="@string/title_activity_db_management"
+            android:parentActivityName=".activities.ControlCenter"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.OnboardingActivity"
+            android:label="@string/title_activity_onboarding"
+            android:parentActivityName=".activities.ControlCenter"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.DiscoveryActivity"
             android:label="@string/title_activity_discovery"
@@ -246,6 +271,9 @@
         <activity
             android:name=".devices.miband.MiBandPairingActivity"
             android:label="@string/title_activity_mi_band_pairing" />
+        <activity
+            android:name=".devices.pebble.PebblePairingActivity"
+            android:label="@string/title_activity_pebble_pairing" />
         <activity
             android:name=".activities.charts.ChartsActivity"
             android:label="@string/title_activity_charts"
@@ -258,6 +286,10 @@
             android:name=".activities.AlarmDetails"
             android:label="@string/title_activity_alarm_details"
             android:parentActivityName=".activities.ConfigureAlarms" />
+        <activity
+            android:name=".activities.VibrationActivity"
+            android:label="@string/title_activity_vibration"
+            android:parentActivityName=".activities.ControlCenter" />
 
         <provider
             android:name=".contentprovider.PebbleContentProvider"
@@ -276,9 +308,12 @@
         </receiver>
 
         <activity
+            android:launchMode="singleTask"
+            android:allowTaskReparenting="true"
+            android:clearTaskOnLaunch="true"
             android:name=".activities.ExternalPebbleJSActivity"
             android:label="@string/app_configure"
-            android:parentActivityName=".activities.AppManagerActivity">
+            android:parentActivityName=".activities.appmanager.AppManagerActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter" />

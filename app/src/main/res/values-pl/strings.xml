@@ -37,14 +37,12 @@
   <string name="pref_title_notifications_sms">SMS</string>
   <string name="pref_title_notifications_k9mail">K9-Mail</string>
   <string name="pref_title_notifications_pebblemsg">Wiadomości Pebble</string>
-  <string name="pref_summary_notifications_pebblemsg">Obsługa aplikacji które wysyłają powiadomienia do Pebble przez Intent. Może być użyte do konwersacji</string>
   <string name="pref_title_notifications_generic">Obsługa ogólnych powiadomień</string>
   <string name="pref_title_whenscreenon">... także gdy ekran jest włączony</string>
   <string name="always">zawsze</string>
   <string name="when_screen_off">gdy ekran jest wyłączony</string>
   <string name="never">nigdy</string>
   <string name="pref_blacklist">Czarna lista aplikacji</string>
-  <string name="pref_title_canned_replies">Odrzucone odpowiedzi</string>
   <string name="pref_header_development">Ustawienia programisty</string>
   <string name="pref_title_development_miaddr">Adres Mi Band</string>
   <string name="pref_title_pebble_settings">Ustawienia Pebble</string>
@@ -85,7 +83,7 @@
   <string name="title_activity_android_pairing">sparuj urządzenie</string>
   <string name="android_pairing_hint">Użyj parowania bluetooth na androidzie by sparować urządzenie.</string>
   <string name="title_activity_mi_band_pairing">Sparuj swoje Mi Band</string>
-  <string name="miband_pairing">Parowanie z %s…</string>
+  <string name="pairing">Parowanie z %s…</string>
   <string name="message_cannot_pair_no_mac">Żaden mac nie przeszedł, nie można sparować.</string>
   <string name="preferences_category_device_specific_settings">Ustawienia danego urządzenia</string>
   <string name="preferences_miband_settings">Ustawienia Mi Band</string>
@@ -119,7 +117,7 @@
   <string name="pref_header_vibration_settings">Ustawienia wibracji</string>
   <string name="pref_screen_notification_profile_generic">Ogólne powiadomienia</string>
   <string name="pref_screen_notification_profile_pebblemsg">Powiadomienia Pebble</string>
-  <string name="pref_screen_notification_profile_k9mail">Powiadomienia K9 Mail</string>
+  <string name="pref_screen_notification_profile_email">Powiadomienia email</string>
   <string name="pref_screen_notification_profile_incoming_call">Powiadomienia o połaczeniach przychodzących</string>
   <string name="control_center_find_lost_device">Odnajdź zagubione urządzenie</string>
   <string name="control_center_cancel_to_stop_vibration">Anuluj by przerwać wibracje.</string>
@@ -196,4 +194,6 @@
   <string name="activity_prefs_gender">Płeć</string>
   <string name="activity_prefs_height_cm">Wzrost w cm</string>
   <string name="activity_prefs_weight_kg">Waga w kg</string>
+  <!--Strings related to Onboading Activity-->
+  <string name="Delete">Usuń</string>
 </resources>

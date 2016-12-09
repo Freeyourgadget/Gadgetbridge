@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public class AppMessageHandler {
     protected final PebbleProtocol mPebbleProtocol;
@@ -31,5 +32,9 @@ public class AppMessageHandler {
 
     public GBDeviceEvent[] pushMessage() {
         return null;
+    }
+
+    protected GBDevice getDevice() {
+        return mPebbleProtocol.getDevice();
     }
 }
