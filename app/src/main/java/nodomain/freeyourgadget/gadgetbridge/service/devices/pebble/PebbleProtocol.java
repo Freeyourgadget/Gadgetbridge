@@ -2233,17 +2233,17 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
                 switch (pebbleCmd) {
                     case APPLICATIONMESSAGE_PUSH:
-                        if (endpoint == ENDPOINT_LAUNCHER) {
-                            LOG.info("got LAUNCHER PUSH from UUID " + uuid);
-                            break;
-                        }
-                        LOG.info("got APPLICATIONMESSAGE PUSH from UUID " + uuid);
-
+                        LOG.info((endpoint == ENDPOINT_LAUNCHER ? "got LAUNCHER PUSH from UUID : " : "got APPLICATIONMESSAGE PUSH from UUID : ")  + uuid);
                         AppMessageHandler handler = mAppMessageHandlers.get(uuid);
                         if (handler != null) {
                             if (handler.isEnabled()) {
-                                ArrayList<Pair<Integer, Object>> dict = decodeDict(buf);
-                                devEvts = handler.handleMessage(dict);
+                                if (endpoint == ENDPOINT_APPLICATIONMESSAGE) {
+                                    ArrayList<Pair<Integer, Object>> dict = decodeDict(buf);
+                                    devEvts = handler.handleMessage(dict);
+                                }
+                                else {
+                                    devEvts = handler.pushMessage();
+                                }
                             } else {
                                 devEvts = new GBDeviceEvent[]{null};
                             }
