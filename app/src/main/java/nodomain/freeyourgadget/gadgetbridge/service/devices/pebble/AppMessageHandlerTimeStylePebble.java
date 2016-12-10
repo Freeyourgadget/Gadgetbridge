@@ -34,10 +34,10 @@ public class AppMessageHandlerTimeStylePebble extends AppMessageHandler {
 
         if (weather != null) {
             //TODO: use the night icons when night
-            pairs.add(new Pair<>(MESSAGE_KEY_WeatherUseNightIcon, (Object) 0));
+            pairs.add(new Pair<>(MESSAGE_KEY_WeatherUseNightIcon, (Object) 1));
             pairs.add(new Pair<>(MESSAGE_KEY_WeatherTemperature, (Object) (weather.currentTemp - 273)));
-            pairs.add(new Pair<>(MESSAGE_KEY_WeatherCondition, (Object) Weather.mapToYahooCondition(weather.currentConditionCode)));
-            pairs.add(new Pair<>(MESSAGE_KEY_WeatherForecastCondition, (Object) Weather.mapToYahooCondition(weather.forecastConditionCode)));
+            pairs.add(new Pair<>(MESSAGE_KEY_WeatherCondition, (Object) (weather.currentConditionCode)));
+            pairs.add(new Pair<>(MESSAGE_KEY_WeatherForecastCondition, (Object) (weather.forecastConditionCode)));
             pairs.add(new Pair<>(MESSAGE_KEY_WeatherForecastHighTemp, (Object) (weather.highTemp - 273)));
             pairs.add(new Pair<>(MESSAGE_KEY_WeatherForecastLowTemp, (Object) (weather.lowTemp - 273)));
         }
