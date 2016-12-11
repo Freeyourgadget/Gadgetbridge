@@ -12,12 +12,14 @@ public class GBDeviceEventAppManagement extends GBDeviceEvent {
         UNKNOWN,
         INSTALL,
         DELETE,
+        START,
+        STOP,
     }
 
     public enum Event {
         UNKNOWN,
         SUCCESS,
-        ACKNOLEDGE,
+        ACKNOWLEDGE,
         FAILURE,
         REQUEST,
     }

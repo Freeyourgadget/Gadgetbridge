@@ -6,6 +6,7 @@
 * Pebble: log pebble app logs if option is enabled in pebble development settings
 * Pebble: notification icons for more apps
 * Pebble: Further improve compatibility for watchface configuration
+* Mi Band 2: Initial support for firmware update (tested so far: 1.0.0.39)
 
 ####Version 0.14.4
 * Pebble 2/LE: Fix multiple bugs in reconnection code, honor reconnect tries from settings

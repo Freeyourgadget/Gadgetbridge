@@ -148,6 +148,24 @@ public class BLETypeConversions {
                 (byte) ((value >> 8) & 0xff),
         };
     }
+
+    public static byte[] fromUint24(int value) {
+        return new byte[] {
+                (byte) (value & 0xff),
+                (byte) ((value >> 8) & 0xff),
+                (byte) ((value >> 16) & 0xff),
+        };
+    }
+
+    public static byte[] fromUint32(int value) {
+        return new byte[] {
+                (byte) (value & 0xff),
+                (byte) ((value >> 8) & 0xff),
+                (byte) ((value >> 16) & 0xff),
+                (byte) ((value >> 24) & 0xff),
+        };
+    }
+
     public static byte fromUint8(int value) {
         return (byte) (value & 0xff);
     }

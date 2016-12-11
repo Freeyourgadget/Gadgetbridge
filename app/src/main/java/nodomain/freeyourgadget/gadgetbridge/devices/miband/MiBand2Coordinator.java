@@ -19,6 +19,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband2.MiBand2FWInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -86,11 +87,6 @@ public class MiBand2Coordinator extends MiBandCoordinator {
         return new MiBand2SampleProvider(device, session);
     }
 
-    @Override
-    public InstallHandler findInstallHandler(Uri uri, Context context) {
-        return null; // not supported at the moment
-    }
-
     public static DateTimeDisplay getDateDisplay(Context context) throws IllegalArgumentException {
         Prefs prefs = GBApplication.getPrefs();
         String dateFormatTime = context.getString(R.string.p_dateformat_time);
@@ -103,5 +99,11 @@ public class MiBand2Coordinator extends MiBandCoordinator {
     public static boolean getActivateDisplayOnLiftWrist() {
         Prefs prefs = GBApplication.getPrefs();
         return prefs.getBoolean(MiBandConst.PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT, true);
+    }
+
+    @Override
+    public InstallHandler findInstallHandler(Uri uri, Context context) {
+        MiBand2FWInstallHandler handler = new MiBand2FWInstallHandler(uri, context);
+        return handler.isValid() ? handler : null;
     }
 }

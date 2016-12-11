@@ -71,6 +71,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.heartrate.Hear
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.Mi2NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.FetchActivityOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.InitOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.UpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -130,6 +131,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
         addSupportedService(MiBandService.UUID_SERVICE_MIBAND_SERVICE);
         addSupportedService(MiBandService.UUID_SERVICE_MIBAND2_SERVICE);
+        addSupportedService(MiBand2Service.UUID_SERVICE_FIRMWARE_SERVICE);
 
         deviceInfoProfile = new DeviceInfoProfile<>(this);
         addSupportedProfile(deviceInfoProfile);
@@ -264,7 +266,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 //                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_ACTIVITY_DATA), enable)
 //                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_BATTERY), enable)
 //                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_SENSOR_DATA), enable);
-        builder.notify(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC3), enable);
+        builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), enable);
         BluetoothGattCharacteristic heartrateCharacteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT);
         if (heartrateCharacteristic != null) {
             builder.notify(heartrateCharacteristic, enable);
@@ -553,7 +555,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
         try {
-            BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC3);
+            BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION);
             TransactionBuilder builder = performInitialized("Set alarm");
             boolean anyAlarmEnabled = false;
             for (Alarm alarm : alarms) {
@@ -768,12 +770,11 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onInstallApp(Uri uri) {
-// TODO: onInstallApp (firmware update)
-//        try {
-//            new UpdateFirmwareOperation(uri, this).perform();
-//        } catch (IOException ex) {
-//            GB.toast(getContext(), "Firmware cannot be installed: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
-//        }
+        try {
+            new UpdateFirmwareOperation(uri, this).perform();
+        } catch (IOException ex) {
+            GB.toast(getContext(), "Firmware cannot be installed: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
+        }
     }
 
     @Override
@@ -1187,7 +1188,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
      * @param builder
      */
     private MiBand2Support sendCalendarEvents(TransactionBuilder builder) {
-        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC3);
+        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION);
 
         Prefs prefs = GBApplication.getPrefs();
         int availableSlots = prefs.getInt(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, 0);
@@ -1244,10 +1245,10 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         LOG.info("Setting date display to " + dateTimeDisplay);
         switch (dateTimeDisplay) {
             case TIME:
-                builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC3), MiBand2Service.DATEFORMAT_TIME);
+                builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.DATEFORMAT_TIME);
                 break;
             case DATE_TIME:
-                builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC3), MiBand2Service.DATEFORMAT_DATE_TIME);
+                builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.DATEFORMAT_DATE_TIME);
                 break;
         }
         return this;
@@ -1257,9 +1258,9 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         boolean enable = MiBand2Coordinator.getActivateDisplayOnLiftWrist();
         LOG.info("Setting activate display on lift wrist to " + enable);
         if (enable) {
-            builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC3), MiBand2Service.COMMAND_ENABLE_DISPLAY_ON_LIFT_WRIST);
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_ENABLE_DISPLAY_ON_LIFT_WRIST);
         } else {
-            builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC3), MiBand2Service.COMMAND_DISABLE_DISPLAY_ON_LIFT_WRIST);
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_DISABLE_DISPLAY_ON_LIFT_WRIST);
         }
         return this;
     }
