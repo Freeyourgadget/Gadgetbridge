@@ -12,7 +12,7 @@ public class MiBand2Service {
     public static final UUID UUID_SERVICE_MIBAND_SERVICE = UUID.fromString(String.format(BASE_UUID, "FEE0"));
     public static final UUID UUID_SERVICE_MIBAND2_SERVICE = UUID.fromString(String.format(BASE_UUID, "FEE1"));
     public static final UUID UUID_SERVICE_HEART_RATE = UUID.fromString(String.format(BASE_UUID, "180D"));
-    public static final UUID UUID_SERVICE_WEIGHT_SERVICE = UUID.fromString("00001530-0000-3512-2118-0009af100700");
+    public static final UUID UUID_SERVICE_FIRMWARE_SERVICE = UUID.fromString("00001530-0000-3512-2118-0009af100700");
 
     public static final UUID UUID_CHARACTERISTIC_FIRMWARE = UUID.fromString("00001531-0000-3512-2118-0009af100700");
     public static final UUID UUID_CHARACTERISTIC_FIRMWARE_DATA = UUID.fromString("00001532-0000-3512-2118-0009af100700");
@@ -105,11 +105,11 @@ public class MiBand2Service {
     public static final byte COMMAND_ACTIVITY_DATA_START_DATE = 0x01;
     public static final byte COMMAND_ACTIVITY_DATA_XXX_DATE = 0x02; // issued on first connect, followd by COMMAND_XXXX_ACTIVITY_DATA instead of COMMAND_FETCH_ACTIVITY_DATA
 
-    public static final byte COMMAND_FIRMWARE_INIT = 0x01; // to UUID_CHARACTERISTIC_FIRMWARE
+    public static final byte COMMAND_FIRMWARE_INIT = 0x01; // to UUID_CHARACTERISTIC_FIRMWARE, followed by fw file size in bytes
     public static final byte COMMAND_FIRMWARE_START_DATA = 0x03; // to UUID_CHARACTERISTIC_FIRMWARE
     public static final byte COMMAND_FIRMWARE_UPDATE_SYNC = 0x00; // to UUID_CHARACTERISTIC_FIRMWARE
-    public static final byte COMMAND_FIRMWARE_FINISH = 0x04; // to UUID_CHARACTERISTIC_FIRMWARE
-    public static final byte COMMAND_FIRMWARE_APPLY = 0x05; // or is it REBOOT? to UUID_CHARACTERISTIC_FIRMWARE
+    public static final byte COMMAND_FIRMWARE_CHECKSUM = 0x04; // to UUID_CHARACTERISTIC_FIRMWARE
+    public static final byte COMMAND_FIRMWARE_APPLY_REBOOT = 0x05; // or is it REBOOT? to UUID_CHARACTERISTIC_FIRMWARE
 
     public static final byte[] RESPONSE_FINISH_SUCCESS = new byte[] {RESPONSE, 2, SUCCESS };
     public static final byte[] RESPONSE_FIRMWARE_DATA_SUCCESS = new byte[] {RESPONSE, COMMAND_FIRMWARE_START_DATA, SUCCESS };

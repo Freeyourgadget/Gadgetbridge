@@ -71,6 +71,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.heartrate.Hear
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.Mi2NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.FetchActivityOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.InitOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.UpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -130,6 +131,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
         addSupportedService(MiBandService.UUID_SERVICE_MIBAND_SERVICE);
         addSupportedService(MiBandService.UUID_SERVICE_MIBAND2_SERVICE);
+        addSupportedService(MiBand2Service.UUID_SERVICE_FIRMWARE_SERVICE);
 
         deviceInfoProfile = new DeviceInfoProfile<>(this);
         addSupportedProfile(deviceInfoProfile);
@@ -768,12 +770,11 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onInstallApp(Uri uri) {
-// TODO: onInstallApp (firmware update)
-//        try {
-//            new UpdateFirmwareOperation(uri, this).perform();
-//        } catch (IOException ex) {
-//            GB.toast(getContext(), "Firmware cannot be installed: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
-//        }
+        try {
+            new UpdateFirmwareOperation(uri, this).perform();
+        } catch (IOException ex) {
+            GB.toast(getContext(), "Firmware cannot be installed: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
+        }
     }
 
     @Override

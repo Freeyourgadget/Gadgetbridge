@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import java.util.Collection;
+
 public class ArrayUtils {
     /**
      * Checks the two given arrays for equality, but comparing only a subset of the second
@@ -25,15 +27,33 @@ public class ArrayUtils {
         if (second.length < secondEndIndex) {
             throw new IllegalArgumentException("secondStartIndex must be smaller than secondEndIndex");
         }
-        if (first.length < secondEndIndex) {
+        int len = secondEndIndex - secondStartIndex;
+        if (first.length != len) {
             return false;
         }
-        int len = secondEndIndex - secondStartIndex;
         for (int i = 0; i < len; i++) {
             if (first[i] != second[secondStartIndex + i]) {
                 return false;
             }
         }
         return true;
+    }
+
+    /**
+     * Converts a collection of Integer values to an int[] array.
+     * @param values
+     * @return null if the given collection is null, otherwise an array of the same size as the collection
+     * @throws NullPointerException when an element of the collection is null
+     */
+    public static int[] toIntArray(Collection<Integer> values) {
+        if (values == null) {
+            return null;
+        }
+        int i = 0;
+        int[] result = new int[values.size()];
+        for (Integer value : values) {
+            result[i++] = value;
+        }
+        return result;
     }
 }
