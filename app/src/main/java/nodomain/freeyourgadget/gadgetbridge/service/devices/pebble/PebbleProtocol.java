@@ -1915,7 +1915,13 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 if (handler != null) {
                     return handler.pushMessage();
                 }
-                break;
+                else {
+                    GBDeviceEventAppManagement gbDeviceEventAppManagement = new GBDeviceEventAppManagement();
+                    gbDeviceEventAppManagement.uuid = uuid;
+                    gbDeviceEventAppManagement.type = GBDeviceEventAppManagement.EventType.START;
+                    gbDeviceEventAppManagement.event = GBDeviceEventAppManagement.Event.SUCCESS;
+                    return new GBDeviceEvent[] {gbDeviceEventAppManagement};
+                }
             case APPRUNSTATE_STOP:
                 LOG.info(ENDPOINT_NAME + ": stopped " + uuid);
                 break;
@@ -2246,9 +2252,18 @@ public class PebbleProtocol extends GBDeviceProtocol {
                             }
                         } else {
                             try {
-                                devEvts = decodeDictToJSONAppMessage(uuid, buf);
+                                if (endpoint == ENDPOINT_APPLICATIONMESSAGE) {
+                                    devEvts = decodeDictToJSONAppMessage(uuid, buf);
+                                }
+                                else {
+                                    GBDeviceEventAppManagement gbDeviceEventAppManagement = new GBDeviceEventAppManagement();
+                                    gbDeviceEventAppManagement.uuid = uuid;
+                                    gbDeviceEventAppManagement.type = GBDeviceEventAppManagement.EventType.START;
+                                    gbDeviceEventAppManagement.event = GBDeviceEventAppManagement.Event.SUCCESS;
+                                    devEvts = new GBDeviceEvent[] {gbDeviceEventAppManagement};
+                                }
                             } catch (JSONException e) {
-                                e.printStackTrace();
+                                LOG.error(e.getMessage());
                                 return null;
                             }
                         }

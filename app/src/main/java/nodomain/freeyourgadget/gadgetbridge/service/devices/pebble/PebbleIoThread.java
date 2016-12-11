@@ -562,6 +562,9 @@ class PebbleIoThread extends GBDeviceIoThread {
                             break;
                     }
                     break;
+                case START:
+                    LOG.info("got GBDeviceEventAppManagement START event for uuid: " + appMgmt.uuid);
+                    break;
                 default:
                     break;
             }
