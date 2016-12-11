@@ -86,6 +86,7 @@ For more information read [this wiki article](https://github.com/Freeyourgadget/
     * Generic Android notifications
 * Synchronize the time to the Mi Band 2
 * Display firmware version
+* Firmware update (beta)
 * Heart rate measurement on demand and during sleep
 * Synchronize activity data (alpha)
 * Set alarms on the Mi Band 2
