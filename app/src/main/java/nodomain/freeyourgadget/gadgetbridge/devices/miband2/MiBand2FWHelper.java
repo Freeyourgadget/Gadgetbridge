@@ -56,6 +56,9 @@ public class MiBand2FWHelper extends AbstractMiBandFWHelper {
     @Override
     protected void determineFirmwareInfo(byte[] wholeFirmwareBytes) {
         firmwareInfo = new Mi2FirmwareInfo(wholeFirmwareBytes);
+        if (!firmwareInfo.isHeaderValid()) {
+            throw new IllegalArgumentException("Not a Mi Band 2 firmware");
+        }
     }
 
     @Override
