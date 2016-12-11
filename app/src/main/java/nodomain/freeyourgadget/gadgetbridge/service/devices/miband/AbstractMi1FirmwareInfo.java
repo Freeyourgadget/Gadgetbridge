@@ -94,7 +94,7 @@ public abstract class AbstractMi1FirmwareInfo extends AbstractMiFirmwareInfo {
     @Override
     protected boolean isHeaderValid() {
         // TODO: not sure if this is a correct check!
-        return ArrayUtils.equals(SINGLE_FW_HEADER, wholeFirmwareBytes, SINGLE_FW_HEADER_OFFSET, SINGLE_FW_HEADER_OFFSET + SINGLE_FW_HEADER.length);
+        return ArrayUtils.equals(wholeFirmwareBytes, SINGLE_FW_HEADER, SINGLE_FW_HEADER_OFFSET);
     }
 
     @Override
