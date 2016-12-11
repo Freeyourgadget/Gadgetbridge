@@ -41,10 +41,12 @@ public abstract class AbstractMi1FirmwareInfo extends AbstractMiFirmwareInfo {
         return 0;
     }
 
+    @Override
     public int getFirmwareLength() {
         return wholeFirmwareBytes.length;
     }
 
+    @Override
     public int getFirmwareVersion() {
         return (wholeFirmwareBytes[getOffsetFirmwareVersionMajor()] << 24)
                 | (wholeFirmwareBytes[getOffsetFirmwareVersionMinor()] << 16)
@@ -89,6 +91,7 @@ public abstract class AbstractMi1FirmwareInfo extends AbstractMiFirmwareInfo {
         return false;
     }
 
+    @Override
     protected boolean isHeaderValid() {
         // TODO: not sure if this is a correct check!
         return ArrayUtils.equals(SINGLE_FW_HEADER, wholeFirmwareBytes, SINGLE_FW_HEADER_OFFSET, SINGLE_FW_HEADER_OFFSET + SINGLE_FW_HEADER.length);

@@ -38,6 +38,7 @@ public class Mi1SFirmwareInfo extends CompositeMiFirmwareInfo {
         return false;
     }
 
+    @Override
     protected boolean isHeaderValid() {
         // TODO: not sure if this is a correct check!
         return ArrayUtils.equals(DOUBLE_FW_HEADER, wholeFirmwareBytes, DOUBLE_FW_HEADER_OFFSET, DOUBLE_FW_HEADER_OFFSET + DOUBLE_FW_HEADER.length);
