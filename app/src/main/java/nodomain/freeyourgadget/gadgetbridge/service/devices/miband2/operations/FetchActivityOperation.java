@@ -218,7 +218,7 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
     private void handleActivityMetadata(byte[] value) {
         if (value.length == 15) {
             // first two bytes are whether our request was accepted
-            if (ArrayUtils.equals(MiBand2Service.RESPONSE_ACTIVITY_DATA_START_DATE_SUCCESS, value, 0, 2)) {
+            if (ArrayUtils.equals(value, MiBand2Service.RESPONSE_ACTIVITY_DATA_START_DATE_SUCCESS, 0)) {
                 // the third byte (0x01 on success) = ?
                 // the 4th - 7th bytes probably somehow represent the number of bytes/packets to expect
 

@@ -57,9 +57,9 @@ public class Mi2FirmwareInfo {
         return isHeaderValid() && device.getType() == DeviceType.MIBAND2;
     }
 
-    protected boolean isHeaderValid() {
-        // TODO: not sure if this is a correct check!
-        return ArrayUtils.equals(FW_HEADER, bytes, FW_HEADER_OFFSET, FW_HEADER_OFFSET + FW_HEADER.length);
+    public boolean isHeaderValid() {
+        // TODO: this is certainly not a correct validation, but it works for now
+        return ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET);
     }
 
     public void checkValid() throws IllegalArgumentException {

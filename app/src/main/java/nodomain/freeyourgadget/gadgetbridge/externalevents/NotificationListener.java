@@ -190,16 +190,19 @@ public class NotificationListener extends NotificationListenerService {
         if (!prefs.getBoolean("notifications_generic_whenscreenon", false)) {
             PowerManager powermanager = (PowerManager) getSystemService(POWER_SERVICE);
             if (powermanager.isScreenOn()) {
+                LOG.info("Not forwarding notification, screen seems to be on and settings do not allow this");
                 return;
             }
         }
 
         //don't forward group summary notifications to the wearable, they are meant for the android device only
         if ((notification.flags & Notification.FLAG_GROUP_SUMMARY) == Notification.FLAG_GROUP_SUMMARY) {
+            LOG.info("Not forwarding notification, FLAG_GROUP_SUMMARY is set");
             return;
         }
 
         if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
+            LOG.info("Not forwarding notification, FLAG_ONGOING_EVENT is set");
             return;
         }
 
@@ -212,6 +215,7 @@ public class NotificationListener extends NotificationListenerService {
                 source.equals("com.android.systemui") ||
                 source.equals("com.android.dialer") ||
                 source.equals("com.cyanogenmod.eleven")) {
+            LOG.info("Not forwarding notification, is a system event");
             return;
         }
 
@@ -232,6 +236,7 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         if (GBApplication.blacklist != null && GBApplication.blacklist.contains(source)) {
+            LOG.info("Not forwarding notification, application is blacklisted");
             return;
         }
 

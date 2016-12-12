@@ -19,8 +19,6 @@ import static org.junit.Assert.fail;
 
 /**
  * Tests dynamic enablement and disablement of file appenders.
- * Test is currently disabled because logback-android does not work
- * inside a plain junit test.
  */
 public class LoggingTest extends TestBase {
 
