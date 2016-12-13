@@ -68,9 +68,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WriteAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.heartrate.HeartRateProfile;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.BatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.CheckAuthenticationNeededAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.DeviceInfo;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.RealtimeSamplesSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.FetchActivityOperation;
@@ -268,9 +268,9 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     public MiBand2Support enableFurtherNotifications(TransactionBuilder builder, boolean enable) {
 //        builder.notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS), enable)
 //                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_ACTIVITY_DATA), enable)
-//                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_BATTERY), enable)
 //                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_SENSOR_DATA), enable);
         builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), enable);
+        builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_6_BATTERY_INFO), enable);
         BluetoothGattCharacteristic heartrateCharacteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT);
         if (heartrateCharacteristic != null) {
             builder.notify(heartrateCharacteristic, enable);
@@ -364,6 +364,13 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 ).run(gatt);
             }
         });
+        return this;
+    }
+
+    private MiBand2Support requestBatteryInfo(TransactionBuilder builder) {
+        LOG.debug("Requesting Battery Info!");
+        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_6_BATTERY_INFO);
+        builder.read(characteristic);
         return this;
     }
 
@@ -817,7 +824,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         super.onCharacteristicChanged(gatt, characteristic);
 
         UUID characteristicUUID = characteristic.getUuid();
-        if (MiBandService.UUID_CHARACTERISTIC_BATTERY.equals(characteristicUUID)) {
+        if (MiBand2Service.UUID_CHARACTERISTIC_6_BATTERY_INFO.equals(characteristicUUID)) {
             handleBatteryInfo(characteristic.getValue(), BluetoothGatt.GATT_SUCCESS);
             return true;
         } else if (MiBandService.UUID_CHARACTERISTIC_NOTIFICATION.equals(characteristicUUID)) {
@@ -856,7 +863,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         if (GattCharacteristic.UUID_CHARACTERISTIC_GAP_DEVICE_NAME.equals(characteristicUUID)) {
             handleDeviceName(characteristic.getValue(), status);
             return true;
-        } else if (MiBandService.UUID_CHARACTERISTIC_BATTERY.equals(characteristicUUID)) {
+        } else if (MiBand2Service.UUID_CHARACTERISTIC_6_BATTERY_INFO.equals(characteristicUUID)) {
             handleBatteryInfo(characteristic.getValue(), status);
             return true;
         } else if (MiBandService.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT.equals(characteristicUUID)) {
@@ -1272,11 +1279,11 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     public void phase2Initialize(TransactionBuilder builder) {
         LOG.info("phase2Initialize...");
         enableFurtherNotifications(builder, true);
+        requestBatteryInfo(builder);
         setDateDisplay(builder);
         setWearLocation(builder);
         setFitnessGoal(builder);
         setActivateDisplayOnLiftWrist(builder);
         setHeartrateSleepSupport(builder);
-
     }
 }
