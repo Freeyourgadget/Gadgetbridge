@@ -103,7 +103,7 @@ public class ControlCenterv2 extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //end of material design boilerplate
-        deviceManager = GBApplication.getDeviceManager();
+        deviceManager = ((GBApplication) getApplication()).getDeviceManager();
 
         deviceListView = (RecyclerView) findViewById(R.id.deviceListView);
         deviceListView.setHasFixedSize(true);
