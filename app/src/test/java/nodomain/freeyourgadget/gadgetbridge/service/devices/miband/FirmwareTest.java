@@ -164,7 +164,7 @@ public class FirmwareTest {
         String path = System.getProperty("MiFirmwareDir");
         Assert.assertNotNull("You must run this test with -DMiFirmwareDir=/path/to/directory/with/miband/firmwarefiles/", path);
         File dir = new File(path);
-        Assert.assertTrue("System property MiFirmwareDir should point to a directory continaing the Mi Band firmware files", dir.isDirectory());
+        Assert.assertTrue("System property MiFirmwareDir should point to a directory containing the Mi Band firmware files", dir.isDirectory());
         return dir;
     }
 

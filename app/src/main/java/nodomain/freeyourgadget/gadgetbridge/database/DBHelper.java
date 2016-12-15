@@ -344,6 +344,9 @@ public class DBHelper {
         if (!Objects.equals(attr.getFirmwareVersion2(), gbDevice.getFirmwareVersion2())) {
             return false;
         }
+        if (!Objects.equals(attr.getVolatileIdentifier(), gbDevice.getVolatileAddress())) {
+            return false;
+        }
         return true;
     }
 
@@ -454,6 +457,7 @@ public class DBHelper {
         attributes.setValidFromUTC(now.getTime());
         attributes.setFirmwareVersion1(gbDevice.getFirmwareVersion());
         attributes.setFirmwareVersion2(gbDevice.getFirmwareVersion2());
+        attributes.setVolatileIdentifier(gbDevice.getVolatileAddress());
         DeviceAttributesDao attributesDao = session.getDeviceAttributesDao();
         attributesDao.insert(attributes);
 
@@ -684,5 +688,14 @@ public class DBHelper {
             return defaultValue;
         }
         return cursor.getInt(columnIndex);
+    }
+
+    public static void clearSession() {
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            DaoSession session = dbHandler.getDaoSession();
+            session.clear();
+        } catch (Exception e) {
+            LOG.warn("Unable to acquire database to clear the session", e);
+        }
     }
 }

@@ -96,7 +96,7 @@
   <string name="title_activity_android_pairing">기기 페어링</string>
   <string name="android_pairing_hint">기기를 페어링하려면 안드로이드 블루투스 페어링 설정을 사용하세요</string>
   <string name="title_activity_mi_band_pairing">Mi Band 페어링</string>
-  <string name="miband_pairing">%s에 페어링…</string>
+  <string name="pairing">%s에 페어링…</string>
   <string name="message_cannot_pair_no_mac">MAC 주소가 통과되지 않았습니다. 페어링 할 수 없습니다.</string>
   <string name="preferences_category_device_specific_settings">기기 특정 설정</string>
   <string name="preferences_miband_settings">Mi Band 설정</string>

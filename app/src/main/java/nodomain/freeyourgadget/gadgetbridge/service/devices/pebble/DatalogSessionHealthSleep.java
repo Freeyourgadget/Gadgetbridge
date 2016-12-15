@@ -24,7 +24,7 @@ class DatalogSessionHealthSleep extends DatalogSessionPebbleHealth {
 
     public DatalogSessionHealthSleep(byte id, UUID uuid, int tag, byte item_type, short item_size, GBDevice device) {
         super(id, uuid, tag, item_type, item_size, device);
-        taginfo = "(health - sleep " + tag + " )";
+        taginfo = "(Health - sleep " + tag + " )";
     }
 
     @Override
@@ -87,7 +87,7 @@ class DatalogSessionHealthSleep extends DatalogSessionPebbleHealth {
         int deepSleepSeconds;
         byte[] rawData;
 
-        public SleepRecord(byte[] rawData) {
+        SleepRecord(byte[] rawData) {
             this.rawData = rawData;
             ByteBuffer record = ByteBuffer.wrap(rawData);
             record.order(ByteOrder.LITTLE_ENDIAN);
@@ -101,7 +101,7 @@ class DatalogSessionHealthSleep extends DatalogSessionPebbleHealth {
             this.deepSleepSeconds = record.getInt();
         }
 
-        public byte[] getRawData() {
+        byte[] getRawData() {
             if (storePebbleHealthRawRecord()) {
                 return rawData;
             }

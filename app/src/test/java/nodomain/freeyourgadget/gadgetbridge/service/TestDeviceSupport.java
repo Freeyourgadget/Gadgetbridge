@@ -169,6 +169,11 @@ public class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
+    public void onSendConfiguration(String config) {
+
+    }
+
+    @Override
     public void onTestNewFunction() {
 
     }

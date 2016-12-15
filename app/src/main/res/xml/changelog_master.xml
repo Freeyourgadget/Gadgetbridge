@@ -1,5 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.15.0" versioncode="77">
+        <change>New device: Liveview</change>
+        <change>Liveview: initial support (set the time and receive notifications)</change>
+        <change>Pebble: log pebble app logs if option is enabled in pebble development settings</change>
+        <change>Pebble: notification icons for more apps</change>
+        <change>Pebble: Further improve compatibility for watchface configuration</change>
+        <change>Mi Band 2: Initial support for firmware update (tested so far: 1.0.0.39)</change>
+    </release>
+    <release version="0.14.4" versioncode="76">
+        <change>Pebble 2/LE: Fix multiple bugs in reconnection code, honor reconnect tries from settings</change>
+        <change>Mi Band 2: Experimental support for activity recognition</change>
+        <change>Mi Band 2: Fix time setting code</change>
+    </release>
+    <release version="0.14.3" versioncode="75">
+        <change>Pebble: Experimental support for pairing and using all Pebble models via BLE</change>
+        <change>Mi Band 1: Fix regression causing display of wrong activity data</change>
+        <change>Mi Band 2: Support for continuous heart rate measurements in live activity view</change>
+    </release>
+    <release version="0.14.2" versioncode="74">
+        <change>Pebble 2: Fix a bug where the Pebble got disconnected by other unrelated LE devices</change>
+    </release>
+    <release version="0.14.1" versioncode="73">
+        <change>Mi Band 2: Initial experimental support for activity data</change>
+        <change>Mi Band 2: Send the fitness goal (steps) to the band</change>
+        <change>Pebble 2: Work around firmware installation issues (tested with upgrading 4.2 to 4.3)</change>
+        <change>Pebble: Further improve compatibility for watchface configuration</change>
+        <change>Pebble: add Kickstart watch face to app manager on FW 4.x</change>
+        <change>Charts: display the total time range, not just the range with available data</change>
+    </release>
+    <release version="0.14.0" versioncode="72">
+        <change>Pebble 2: Initial experimental support for P2/PT2 using BLE</change>
+        <change>Pebble: Special support in device discovery activity (MUST be used to get Pebble 2 working)</change>
+        <change>Pebble: Improve compatibility for watchface configuration</change>
+        <change>Mi Band 2: support for heart rate measurement during sleep</change>
+        <change>Mi Band 2: configuration option to activate the display on lift</change>
+        <change>Mi Band 2: configuration option to display the time + date or just the time</change>
+        <change>Mi Band 2: honor the wear location configuration option</change>
+    </release>
+    <release version="0.13.9" versioncode="71">
+        <change>Pebble: use the last known location for setting sunrise and sunset</change>
+        <change>Pebble: fix Health disappearing forever when deactivating through app manager (and get it back for affected users)</change>
+        <change>Mi Band 2: More fixes for connection issues (#408)</change>
+    </release>
+    <release version="0.13.8" versioncode="70">
+        <change>Mi Band 2: fix connection issues for users of Mi Fit</change>
+        <change>Mi Band 1A: fix firmware update on certain 1A models</change>
+    </release>
     <release version="0.13.7" versioncode="69">
         <change>Pebble: Fix configuration of certain pebble apps (eg. QR Generator, Squared 4.0)</change>
         <change>Pebble: Add context menu option in app manager to search a watchapp in the pebble appstore</change>
@@ -25,7 +72,7 @@
         <change>Possibly fix logging to file on certain devices)</change>
         <change>Mi Band 2: Possibly fix weird connection interdependency between Mi 1 and 2</change>
         <change>Mi Band 1S: Whitelist firmware 4.16.4.22</change>
-        <change>Mi Band: try application level pairing again, in ordert to support data sharing with Mi Fit</change>
+        <change>Mi Band: try application level pairing again, in order to support data sharing with Mi Fit</change>
         <change>Pebble: new icons and colours for certain apps</change>
         <change>Debug-screen: added button to test "new functionality", currently live sensor data for Mi Band 1</change>
     </release>
@@ -56,7 +103,7 @@
     </release>
     <release version="0.12.1" versioncode="60">
         <change>Pebble: fix activity data being associated with the wrong device and/or user in some cases causing them to invisible in charts</change>
-        <change>Remove special handling for Conversations notfications since upstream dropped special pebble support</change>
+        <change>Remove special handling for Conversations notifications since upstream dropped special pebble support</change>
     </release>
     <release version="0.12.0" versioncode="59">
         <change>NB: User action needed to migrate existing data!</change>
@@ -73,13 +120,13 @@
     <release version="0.11.1" versioncode="57">
         <change>Various fixes (including crashes) for location settings</change>
         <change>Pebble: Support Pebble Time 2 emulator (needs recompilation of Gadgetbridge)</change>
-		<change>Fix a rare crash when, due to bluetooth problems, when a device has no name</change>
+		<change>Fix a rare crash when, due to Bluetooth problems, when a device has no name</change>
 		<change>Fix activity fetching getting stuck when double tapping (#333)</change>
 		<change>Mi Band: in the Device Discovery activity, do not display devices that are already paired</change>
 		<change>Mi Band: only allow automatic reconnection on disconnect when the device was previously fully connected</change>
-		<change>Mi Band: fix a rare crash when reading data fails due to bluetooth problems</change>
+		<change>Mi Band: fix a rare crash when reading data fails due to Bluetooth problems</change>
 		<change>Mi Band: log full activity sample to help deciphering activity kinds (#341)</change>
-		<change>Mi Band 2: improved discovery mechanism to not rely on mac addresses (#323)</change>
+		<change>Mi Band 2: improved discovery mechanism to not rely on MAC addresses (#323)</change>
 		<change>Charts: only display heart rate samples on devices that support that</change>
 		<change>Add more logging to detect problems with external directories (#343)</change>
 	</release>
@@ -92,13 +139,13 @@
     <release version="0.10.2" versioncode="55">
         <change>Pebble: allow to manually paste configuration data for legacy configuration pages</change>
         <change>Pebble: various improvements to the configuration page</change>
-        <change>Pebble: Suppport FW 4.0-dp1 and Pebble2 emulator (needs recompilation of Gadgetbridge)</change>
+        <change>Pebble: Support FW 4.0-dp1 and Pebble2 emulator (needs recompilation of Gadgetbridge)</change>
         <change>Pebble: Fix a problem with key events when using the Pebble music player</change>
     </release>
     <release version="0.10.1" versioncode="54">
         <change>Pebble: set extended music info by dissecting notifications on Android 5.0+</change>
-        <change>Pebble: various other improvemnts to music playback</change>
-        <change>Pebble: allow ignoring activity trackers indiviually (to keep the data on the pebble)</change>
+        <change>Pebble: various other improvements to music playback</change>
+        <change>Pebble: allow ignoring activity trackers individually (to keep the data on the pebble)</change>
         <change>Mi Band: support for shifting the device time by N hours (for people who sleep at daytime)</change>
         <change>Mi Band: initial and untested support for Mi Band 2</change>
         <change>Allow setting the application language</change>
@@ -107,12 +154,12 @@
         <change>Pebble: option to send sunrise and sunset events to timeline</change>
 	<change>Pebble: fix problems with unknown app keys while configuring watchfaces</change>
         <change>Mi Band: BLE connection fixes</change>
-        <change>Fixes for enabling logging at whithout restarting Gadgetbridge</change>
+        <change>Fixes for enabling logging at without restarting Gadgetbridge</change>
         <change>Re-enable device paring activity on Android 6 (BLE scanning needs the location preference)</change>
 	<change>Display device address in device info</change>
     </release>
     <release version="0.9.8" versioncode="52">
-        <change>Pebble: fix more reconnnect issues</change>
+        <change>Pebble: fix more reconnect issues</change>
         <change>Pebble: fix deep sleep not being detected with Firmware 3.12 when using Pebble Health</change>
         <change>Pebble: option in AppManager to delete files from cache</change>
         <change>Pebble: enable pbw cache and watchface configuration for Firmware 2.x</change>
@@ -124,7 +171,7 @@
 	<change>Pebble: hopefully fix some reconnect issues</change>
 	<change>Mi Band: fix live activity monitoring running forever if back button pressed</change>
 	<change>Mi Band: allow low latency firmware updates, fixes update with some phones</change>
-	<change>Mi Band: inital experimental and probably broken support for Amazfit</change>
+	<change>Mi Band: initial experimental and probably broken support for Amazfit</change>
 	<change>Show aliases for BT Devices if they had been renamed in BT Settings</change>
 	<change>Do not show a hint about App Manager when a Mi Band is connected</change>
     </release>

@@ -216,6 +216,12 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     }
 
     @Override
+    public void onSendConfiguration(String config) {
+        byte[] bytes = gbDeviceProtocol.encodeSendConfiguration(config);
+        sendToDevice(bytes);
+    }
+
+    @Override
     public void onTestNewFunction() {
         byte[] bytes = gbDeviceProtocol.encodeTestNewFunction();
         sendToDevice(bytes);

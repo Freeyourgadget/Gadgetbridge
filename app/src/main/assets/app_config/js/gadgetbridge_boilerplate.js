@@ -1,5 +1,20 @@
-//clay stores the values in the localStorage
-localStorage.clear();
+if (window.Storage){
+    var prefix = GBjs.getAppLocalstoragePrefix();
+    GBjs.gbLog("redefining local storage with prefix: " + prefix);
+
+    Storage.prototype.setItem = (function(key, value) {
+        this.call(localStorage,prefix + key, value);
+    }).bind(Storage.prototype.setItem);
+
+    Storage.prototype.getItem = (function(key) {
+//        console.log("I am about to return " + prefix + key);
+        var def = null;
+        if(key == 'clay-settings') {
+            def = '{}';
+        }
+        return this.call(localStorage,prefix + key) || def;
+    }).bind(Storage.prototype.getItem);
+}
 
 function loadScript(url, callback) {
     // Adding the script tag to the head as suggested before
@@ -51,36 +66,37 @@ function gbPebble() {
     this.configurationURL = null;
     this.configurationValues = null;
     var self = this;
+    self.events = {};
+    //events processing: see http://stackoverflow.com/questions/10978311/implementing-events-in-my-own-object
+    self.addEventListener = function(name, handler) {
+        if (self.events.hasOwnProperty(name))
+            self.events[name].push(handler);
+        else
+            self.events[name] = [handler];
+    }
 
-    this.addEventListener = function(e, f) {
-        if(e == 'ready') {
-            self.ready = f;
-        }
-        if(e == 'showConfiguration') {
-            self.showConfiguration = f;
-        }
-        if(e == 'webviewclosed') {
-            self.parseconfig = f;
-        }
-        if(e == 'appmessage') {
-            self.appmessage = f;
+    self.removeEventListener = function(name, handler) {
+        if (!self.events.hasOwnProperty(name))
+            return;
+
+        var index = self.events[name].indexOf(handler);
+        if (index != -1)
+            self.events[name].splice(index, 1);
+    }
+
+    self.evaluate = function(name, args) {
+        if (!self.events.hasOwnProperty(name))
+            return;
+
+        if (!args || !args.length)
+            args = [];
+
+        var evs = self.events[name], l = evs.length;
+        for (var i = 0; i < l; i++) {
+            evs[i].apply(null, args);
         }
     }
 
-    this.removeEventListener = function(e, f) {
-        if(e == 'ready') {
-            self.ready = null;
-        }
-        if(e == 'showConfiguration') {
-            self.showConfiguration = null;
-        }
-        if(e == 'webviewclosed') {
-            self.parseconfig = null;
-        }
-        if(e == 'appmessage') {
-            self.appmessage = null;
-        }
-    }
     this.actuallyOpenURL = function() {
         showStep("step1compat");
         window.open(self.configurationURL.toString(), "config");
@@ -150,8 +166,6 @@ function gbPebble() {
         GBjs.gbLog("app wanted to show: " + title + " body: "+ body);
     }
 
-    this.ready = function() {
-    }
 
     this.showConfiguration = function() {
         console.error("This watchapp doesn't support configuration");
@@ -164,8 +178,8 @@ function gbPebble() {
 
         if (str.split(needle)[1] !== undefined) {
             var t = new Object();
-            t.response = unescape(str.split(needle)[1]);
-            self.parseconfig(t);
+            t.response = decodeURIComponent(str.split(needle)[1]);
+            self.evaluate('webviewclosed',[t]);
             showStep("step2");
         } else {
             console.error("No valid configuration found in the entered string.");
@@ -181,13 +195,16 @@ var storedPreset = GBjs.getAppStoredPreset();
 document.addEventListener('DOMContentLoaded', function(){
 if (jsConfigFile != null) {
     loadScript(jsConfigFile, function() {
+        Pebble.evaluate('ready');
         if (getURLVariable('config') == 'true') {
             showStep("step2");
-            var json_string = unescape(getURLVariable('json'));
+            var json_string = getURLVariable('json');
             var t = new Object();
             t.response = json_string;
-            if (json_string != '')
-                Pebble.parseconfig(t);
+            if (json_string != '') {
+                Pebble.evaluate('webviewclosed',[t]);
+            }
+
         } else {
             if (storedPreset === undefined) {
                 var presetElements = document.getElementsByClassName("load_presets");
@@ -195,8 +212,7 @@ if (jsConfigFile != null) {
                         presetElements[i].style.display = 'none';
                     }
             }
-            Pebble.ready();
-            Pebble.showConfiguration();
+            Pebble.evaluate('showConfiguration');
         }
     });
 }

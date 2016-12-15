@@ -44,12 +44,6 @@ public class HeartRateProfile<T extends AbstractBTLEDeviceSupport> extends Abstr
 
     }
 
-    // TODO: I didn't find anything in the spec to request heart rate readings, so probably this
-    // should be done in a device specific way.
-    public void requestHeartRateMeasurement(TransactionBuilder builder) {
-        writeToControlPoint(new byte[] { 0x15, 0x02, 0x01}, builder);
-    }
-
     @Override
     public boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
         if (GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT.equals(characteristic.getUuid())) {
@@ -61,7 +55,7 @@ public class HeartRateProfile<T extends AbstractBTLEDeviceSupport> extends Abstr
                 format = BluetoothGattCharacteristic.FORMAT_UINT8;
             }
             final int heartRate = characteristic.getIntValue(format, 1);
-            GB.toast(getContext(), "Heart rate: " + heartRate, Toast.LENGTH_LONG, GB.INFO);
+            LOG.info("Heart rate: " + heartRate, Toast.LENGTH_LONG, GB.INFO);
         }
         return false;
     }

@@ -4,6 +4,10 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 
 /**
@@ -12,6 +16,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
  * {@link BluetoothGattCallback}
  */
 public class WriteAction extends BtLEAction {
+    private static final Logger LOG = LoggerFactory.getLogger(WriteAction.class);
 
     private final byte[] value;
 
@@ -24,7 +29,7 @@ public class WriteAction extends BtLEAction {
     public boolean run(BluetoothGatt gatt) {
         BluetoothGattCharacteristic characteristic = getCharacteristic();
         int properties = characteristic.getProperties();
-        //TODO: expectsResult should return false if PROPERTY_WRITE_NO_RESPONSE is true, but this yelds to timing issues
+        //TODO: expectsResult should return false if PROPERTY_WRITE_NO_RESPONSE is true, but this leads to timing issues
         if ((properties & BluetoothGattCharacteristic.PROPERTY_WRITE) > 0 || ((properties & BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE) > 0)) {
             return writeValue(gatt, characteristic, value);
         }
@@ -32,6 +37,9 @@ public class WriteAction extends BtLEAction {
     }
 
     protected boolean writeValue(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, byte[] value) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("writing to characteristic: " + characteristic.getUuid() + ": " + Logging.formatBytes(value));
+        }
         if (characteristic.setValue(value)) {
             return gatt.writeCharacteristic(characteristic);
         }

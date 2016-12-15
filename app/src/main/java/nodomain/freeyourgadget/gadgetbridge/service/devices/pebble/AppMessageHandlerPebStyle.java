@@ -56,7 +56,7 @@ public class AppMessageHandlerPebStyle extends AppMessageHandler {
         pairs.add(new Pair<>(KEY_SECOND_HAND, (Object) 0)); //1 enabled
         pairs.add(new Pair<>(KEY_BLUETOOTH_ALERT, (Object) 0)); //1 silent, 2 weak, up to 5
         pairs.add(new Pair<>(KEY_TEMPERATURE_FORMAT, (Object) 1)); //0 fahrenheit
-        pairs.add(new Pair<>(KEY_LOCATION_SERVICE, (Object) 2)); //0 uto, 1 manual
+        pairs.add(new Pair<>(KEY_LOCATION_SERVICE, (Object) 2)); //0 auto, 1 manual
         pairs.add(new Pair<>(KEY_SIDEBAR_LOCATION, (Object) 1)); //0 right
         pairs.add(new Pair<>(KEY_COLOR_SELECTION, (Object) 1)); //1 custom
         pairs.add(new Pair<>(KEY_MAIN_COLOR, (Object) PebbleColor.Black));

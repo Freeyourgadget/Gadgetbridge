@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -1188,6 +1187,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         } catch (IOException ex) {
             LOG.error("Unable to send Events to MI device", ex);
         }
+    }
+
+    @Override
+    public void onSendConfiguration(String config) {
+        // nothing yet
     }
 
     @Override

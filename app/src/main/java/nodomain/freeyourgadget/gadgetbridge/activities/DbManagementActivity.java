@@ -190,7 +190,7 @@ public class DbManagementActivity extends GBActivity {
     }
 
     private void selectDeviceForMergingActivityDatabaseInto(final DeviceSelectionCallback callback) {
-        GBDevice connectedDevice = GBApplication.getDeviceManager().getSelectedDevice();
+        GBDevice connectedDevice = ((GBApplication)getApplication()).getDeviceManager().getSelectedDevice();
         if (connectedDevice == null) {
             callback.invoke(null);
             return;

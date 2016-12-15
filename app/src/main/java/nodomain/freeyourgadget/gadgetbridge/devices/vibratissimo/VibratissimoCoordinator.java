@@ -20,9 +20,12 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class VibratissimoCoordinator extends AbstractDeviceCoordinator {
     @Override
-    public boolean supports(GBDeviceCandidate candidate) {
+    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String name = candidate.getDevice().getName();
-        return name != null && name.startsWith("Vibratissimo");
+        if (name != null && name.startsWith("Vibratissimo")) {
+            return DeviceType.VIBRATISSIMO;
+        }
+        return DeviceType.UNKNOWN;
     }
 
     @Override

@@ -24,7 +24,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.UUID;
@@ -69,6 +72,8 @@ public class ExternalPebbleJSActivity extends GBActivity {
         webSettings.setJavaScriptEnabled(true);
         //needed to access the DOM
         webSettings.setDomStorageEnabled(true);
+        //needed for localstorage
+        webSettings.setDatabaseEnabled(true);
 
         JSInterface gbJSInterface = new JSInterface(this);
         myWebView.addJavascriptInterface(gbJSInterface, "GBjs");
@@ -273,8 +278,27 @@ public class ExternalPebbleJSActivity extends GBActivity {
         }
 
         @JavascriptInterface
+        public String getAppLocalstoragePrefix() {
+            String prefix = mGBDevice.getAddress() + appUuid.toString();
+            try {
+                MessageDigest digest = MessageDigest.getInstance("SHA-1");
+                byte[] bytes = prefix.getBytes("UTF-8");
+                digest.update(bytes, 0, bytes.length);
+                bytes = digest.digest();
+                final StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < bytes.length; i++) {
+                    sb.append(String.format("%02X", bytes[i]));
+                }
+                return sb.toString().toLowerCase();
+            } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+                e.printStackTrace();
+                return prefix;
+            }
+        }
+
+        @JavascriptInterface
         public String getWatchToken() {
-            //specification says: A string that is is guaranteed to be identical for each Pebble device for the same app across different mobile devices. The token is unique to your app and cannot be used to track Pebble devices across applications. see https://developer.pebble.com/docs/js/Pebble/
+            //specification says: A string that is guaranteed to be identical for each Pebble device for the same app across different mobile devices. The token is unique to your app and cannot be used to track Pebble devices across applications. see https://developer.pebble.com/docs/js/Pebble/
             return "gb" + appUuid.toString();
         }
 

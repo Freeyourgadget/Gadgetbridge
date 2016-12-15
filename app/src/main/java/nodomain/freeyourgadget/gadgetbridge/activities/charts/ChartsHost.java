@@ -1,6 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
-import android.content.res.Resources;
 import android.view.ViewGroup;
 
 import java.util.Date;

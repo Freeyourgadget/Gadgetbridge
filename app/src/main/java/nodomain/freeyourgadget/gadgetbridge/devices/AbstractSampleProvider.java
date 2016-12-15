@@ -74,6 +74,26 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
         getSampleDao().insertOrReplaceInTx(activitySamples);
     }
 
+    @Nullable
+    @Override
+    public T getLatestActivitySample() {
+        QueryBuilder<T> qb = getSampleDao().queryBuilder();
+        Device dbDevice = DBHelper.findDevice(getDevice(), getSession());
+        if (dbDevice == null) {
+            // no device, no sample
+            return null;
+        }
+        Property deviceProperty = getDeviceIdentifierSampleProperty();
+        qb.where(deviceProperty.eq(dbDevice.getId())).orderDesc(getTimestampSampleProperty()).limit(1);
+        List<T> samples = qb.build().list();
+        if (samples.isEmpty()) {
+            return null;
+        }
+        T sample = samples.get(0);
+        sample.setProvider(this);
+        return sample;
+    }
+
     protected List<T> getGBActivitySamples(int timestamp_from, int timestamp_to, int activityType) {
         if (getRawKindSampleProperty() == null && activityType != ActivityKind.TYPE_ALL) {
             // if we do not have a raw kind property we cannot query anything else then TYPE_ALL

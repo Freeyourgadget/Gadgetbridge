@@ -22,6 +22,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMorpheuzSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class PebbleCoordinator extends AbstractDeviceCoordinator {
@@ -29,9 +30,12 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supports(GBDeviceCandidate candidate) {
+    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String name = candidate.getDevice().getName();
-        return name != null && name.startsWith("Pebble");
+        if (name != null && name.startsWith("Pebble")) {
+            return DeviceType.PEBBLE;
+        }
+        return DeviceType.UNKNOWN;
     }
 
     @Override
@@ -41,9 +45,10 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public Class<? extends Activity> getPairingActivity() {
-        return null;
+        return PebblePairingActivity.class;
     }
 
+    @Override
     public Class<? extends Activity> getPrimaryActivity() {
         return AppManagerActivity.class;
     }
@@ -105,7 +110,7 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
-        return false;
+        return PebbleUtils.hasHRM(device.getModel());
     }
 
     @Override

@@ -83,7 +83,7 @@ public class DeviceInfo extends AbstractInfo {
     }
 
     public boolean supportsHeartrate() {
-        return isMiliPro() || isMili1S() || (test1AHRMode && isMili1A());
+        return isMili1S() || (test1AHRMode && isMili1A());
     }
 
     @Override
@@ -116,10 +116,6 @@ public class DeviceInfo extends AbstractInfo {
         return hwVersion == 6;
     }
 
-    public boolean isMiliPro() {
-        return hwVersion == 8 || (feature == 8 && appearance == 0);
-    }
-
     public String getHwVersion() {
         if (isMili1()) {
             return MiBandConst.MI_1;
@@ -132,9 +128,6 @@ public class DeviceInfo extends AbstractInfo {
         }
         if (isAmazFit()) {
             return MiBandConst.MI_AMAZFIT;
-        }
-        if (isMiliPro()) {
-            return MiBandConst.MI_PRO;
         }
         return "?";
     }

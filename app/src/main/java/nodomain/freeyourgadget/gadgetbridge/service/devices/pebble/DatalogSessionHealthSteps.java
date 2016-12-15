@@ -22,7 +22,7 @@ public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
 
     public DatalogSessionHealthSteps(byte id, UUID uuid, int tag, byte item_type, short item_size, GBDevice device) {
         super(id, uuid, tag, item_type, item_size, device);
-        taginfo = "(health - steps)";
+        taginfo = "(Health - steps)";
     }
 
     @Override
@@ -89,7 +89,8 @@ public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
                         deviceId, userId,
                         stepsRecord.getRawData(),
                         stepsRecord.intensity,
-                        stepsRecord.steps
+                        stepsRecord.steps,
+                        stepsRecord.heart_rate
                 );
                 samples[j].setProvider(sampleProvider);
             }
@@ -108,9 +109,11 @@ public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
         int orientation;
         int intensity;
         int light_intensity;
+        int heart_rate;
+
         byte[] rawData;
 
-        public StepsRecord(int timestamp, short version, byte[] rawData) {
+        StepsRecord(int timestamp, short version, byte[] rawData) {
             this.timestamp = timestamp;
             this.rawData = rawData;
             ByteBuffer record = ByteBuffer.wrap(rawData);
@@ -123,9 +126,16 @@ public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
             this.orientation = record.get() & 0xff;
             this.intensity = record.getShort() & 0xffff;
             this.light_intensity = record.get() & 0xff;
+            if (version >= 7) {
+                // skip 7 bytes
+                record.getInt();
+                record.getShort();
+                record.get();
+                this.heart_rate = record.get() & 0xff;
+            }
         }
 
-        public byte[] getRawData() {
+        byte[] getRawData() {
             if (storePebbleHealthRawRecord()) {
                 return rawData;
             }

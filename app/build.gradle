@@ -26,8 +26,8 @@ android {
         targetSdkVersion 23
 
         // note: always bump BOTH versionCode and versionName!
-        versionName "0.13.7"
-        versionCode 69
+        versionName "0.15.0"
+        versionCode 77
 
         vectorDrawables.useSupportLibrary = true
     }
@@ -72,7 +72,7 @@ dependencies {
     compile 'com.android.support:design:23.4.0'
     compile 'com.github.tony19:logback-android-classic:1.1.1-4'
     compile 'org.slf4j:slf4j-api:1.7.7'
-    compile 'com.github.PhilJay:MPAndroidChart:v3.0.0'
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
     compile 'com.github.pfichtner:durationformatter:0.1.1'
     compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
     compile 'net.e175.klaus:solarpositioning:0.0.9'

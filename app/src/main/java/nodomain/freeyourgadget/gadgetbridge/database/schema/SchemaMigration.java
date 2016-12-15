@@ -53,7 +53,7 @@ public class SchemaMigration {
 
     private DBUpdateScript getUpdateScript(SQLiteDatabase db, int version) {
         try {
-            Class<?> updateClass = getClass().getClassLoader().loadClass(getClass().getPackage().getName() + ".schema." + classNamePrefix + version);
+            Class<?> updateClass = getClass().getClassLoader().loadClass(getClass().getPackage().getName() + "." + classNamePrefix + version);
             return (DBUpdateScript) updateClass.newInstance();
         } catch (ClassNotFoundException e) {
             return null;

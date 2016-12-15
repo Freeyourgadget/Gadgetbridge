@@ -45,8 +45,10 @@ public class GBDevice implements Parcelable {
     private static final String DEVINFO_FW_VER = "FW: ";
     private static final String DEVINFO_HR_VER = "HR: ";
     private static final String DEVINFO_ADDR = "ADDR: ";
+    private static final String DEVINFO_ADDR2 = "ADDR2: ";
     private String mName;
     private final String mAddress;
+    private String mVolatileAddress;
     private final DeviceType mDeviceType;
     private String mFirmwareVersion;
     private String mFirmwareVersion2;
@@ -60,7 +62,12 @@ public class GBDevice implements Parcelable {
     private List<ItemWithDetails> mDeviceInfos;
 
     public GBDevice(String address, String name, DeviceType deviceType) {
+        this(address, null, name, deviceType);
+    }
+
+    public GBDevice(String address, String address2, String name, DeviceType deviceType) {
         mAddress = address;
+        mVolatileAddress = address2;
         mName = (name != null) ? name : mAddress;
         mDeviceType = deviceType;
         validate();
@@ -69,6 +76,7 @@ public class GBDevice implements Parcelable {
     private GBDevice(Parcel in) {
         mName = in.readString();
         mAddress = in.readString();
+        mVolatileAddress = in.readString();
         mDeviceType = DeviceType.values()[in.readInt()];
         mFirmwareVersion = in.readString();
         mFirmwareVersion2 = in.readString();
@@ -88,6 +96,7 @@ public class GBDevice implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mName);
         dest.writeString(mAddress);
+        dest.writeString(mVolatileAddress);
         dest.writeInt(mDeviceType.ordinal());
         dest.writeString(mFirmwareVersion);
         dest.writeString(mFirmwareVersion2);
@@ -123,6 +132,10 @@ public class GBDevice implements Parcelable {
         return mAddress;
     }
 
+    public String getVolatileAddress() {
+        return mVolatileAddress;
+    }
+
     public String getFirmwareVersion() {
         return mFirmwareVersion;
     }
@@ -140,6 +153,10 @@ public class GBDevice implements Parcelable {
      */
     public void setFirmwareVersion2(String firmwareVersion2) {
         mFirmwareVersion2 = firmwareVersion2;
+    }
+
+    public void setVolatileAddress(String volatileAddress) {
+        mVolatileAddress = volatileAddress;
     }
 
     /**
@@ -240,7 +257,7 @@ public class GBDevice implements Parcelable {
     }
 
     /**
-     * for simplicity the user wont see all internal states, just connecting -> connected
+     * for simplicity the user won't see all internal states, just connecting -> connected
      * instead of connecting->connected->initializing->initialized
      * Set simple to true to get this behavior.
      */
@@ -415,6 +432,9 @@ public class GBDevice implements Parcelable {
         }
         if (mAddress != null) {
             result.add(new GenericItem(DEVINFO_ADDR, mAddress));
+        }
+        if (mVolatileAddress != null) {
+            result.add(new GenericItem(DEVINFO_ADDR2, mVolatileAddress));
         }
         Collections.sort(result);
         return result;

@@ -26,26 +26,32 @@ import de.greenrobot.daogenerator.Schema;
  */
 public class GBDaoGenerator {
 
-    public static final String VALID_FROM_UTC = "validFromUTC";
-    public static final String VALID_TO_UTC = "validToUTC";
+    private static final String VALID_FROM_UTC = "validFromUTC";
+    private static final String VALID_TO_UTC = "validToUTC";
     private static final String MAIN_PACKAGE = "nodomain.freeyourgadget.gadgetbridge";
     private static final String MODEL_PACKAGE = MAIN_PACKAGE + ".model";
     private static final String VALID_BY_DATE = MODEL_PACKAGE + ".ValidByDate";
     private static final String OVERRIDE = "@Override";
-    public static final String SAMPLE_RAW_INTENSITY = "rawIntensity";
-    public static final String SAMPLE_STEPS = "steps";
-    public static final String SAMPLE_RAW_KIND = "rawKind";
-    public static final String TIMESTAMP_FROM = "timestampFrom";
-    public static final String TIMESTAMP_TO = "timestampTo";
+    private static final String SAMPLE_RAW_INTENSITY = "rawIntensity";
+    private static final String SAMPLE_STEPS = "steps";
+    private static final String SAMPLE_RAW_KIND = "rawKind";
+    private static final String SAMPLE_HEART_RATE = "heartRate";
+    private static final String TIMESTAMP_FROM = "timestampFrom";
+    private static final String TIMESTAMP_TO = "timestampTo";
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(13, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(15, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
 
         Entity deviceAttributes = addDeviceAttributes(schema);
         Entity device = addDevice(schema, deviceAttributes);
+
+        // yeah deep shit, has to be here (after device) for db upgrade and column order
+        // because addDevice adds a property to deviceAttributes also....
+        deviceAttributes.addStringProperty("volatileIdentifier");
+
         Entity tag = addTag(schema);
         Entity userDefinedActivityOverlay = addActivityDescription(schema, tag, user);
 
@@ -172,7 +178,7 @@ public class GBDaoGenerator {
     }
 
     private static void addHeartRateProperties(Entity activitySample) {
-        activitySample.addIntProperty("heartRate").notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_HEART_RATE).notNull().codeBeforeGetterAndSetter(OVERRIDE);
     }
 
     private static Entity addPebbleHealthActivitySample(Schema schema, Entity user, Entity device) {
@@ -181,6 +187,7 @@ public class GBDaoGenerator {
         activitySample.addByteArrayProperty("rawPebbleHealthData").codeBeforeGetter(OVERRIDE);
         activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        addHeartRateProperties(activitySample);
         return activitySample;
     }
 

@@ -1,7 +1,7 @@
 Gadgetbridge
 ============
 
-Gadgetbridge is an Android (4.4+) Application which will allow you to use your
+Gadgetbridge is an Android (4.4+) application which will allow you to use your
 Pebble or Mi Band without the vendor's closed source application and without the
 need to create an account and transmit any of your data to the vendor's servers.
 
@@ -15,12 +15,11 @@ need to create an account and transmit any of your data to the vendor's servers.
 
 ## Supported Devices
 * Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round
+* Pebble 2, Pebble Time 2 (experimental, PAIR WITHIN GADGETBRIDGE)
 * Mi Band, Mi Band 1A, Mi Band 1S
-* Mi Band 2 (only notifications)
+* Mi Band 2
 * Vibratissimo (experimental)
-
-***THE PEBBLE 2 AND PEBBLE TIME 2 ARE CURRENTLY NOT SUPPORTED. ADDING SUPPORT IS HIGH-PRIORITY BUT WE CANNOT GIVE YOU AN ETA!***
-
+* Liveview
 
 ## Features (Pebble)
 
@@ -31,7 +30,7 @@ need to create an account and transmit any of your data to the vendor's servers.
 * K-9 Mail notification support
 * Support for generic notifications (above filtered out)
 * Support for up to 16 predefined replies for SMS and Android Wear compatible notifications (experimental, tested with Signal)
-* Dismiss individial notifications, mute or open corresponding app on phone from the action menu (generic notifications)
+* Dismiss individual notifications, mute or open corresponding app on phone from the action menu (generic notifications)
 * Dismiss all notifications from the action menu (non-generic notifications) 
 * Music playback info (artist, album, track)
 * Music control: play/pause, next track, previous track, volume up, volume down
@@ -50,44 +49,62 @@ need to create an account and transmit any of your data to the vendor's servers.
 
 ## Getting Started (Pebble)
 
-1. Pair your Pebble through the Android's Bluetooth Settings
+1. Pair your Pebble through the Android's Bluetooth Settings or Gadgetbridge. Pebble 2 MUST be paired though Gadgetbridge (tap on the + in Control Center)
 2. Start Gadgetbridge, tap on the device you want to connect to
 3. To test, choose "Debug" from the menu and play around
 
 For more information read [this wiki article](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble-Getting-Started) 
 
-## Features (Mi Band)
+## Features (Mi Band 1x)
 
-* Mi Band notifications (LEDs + vibration) for 
-    * Discovery and pairing
+* Discovery and pairing
+* Mi Band notifications (LEDs + vibration) for
+* Display live activity data (alpha)
     * Incoming calls
     * SMS received
     * K-9 mails received
+    * Conversations messages
     * Generic Android notifications
 * Synchronize the time to the Mi Band
 * Display firmware version and battery state
-* Firmware Update
-* Heartrate Measurement (alpha)
+* Firmware update
+* Heart rate measurement on demand and during sleep
 * Synchronize activity data
 * Display sleep data (alpha)
 * Display sports data (step count) (alpha)
 * Display live activity data (alpha)
 * Set alarms on the Mi Band
 
-## How to use (Mi Band)
+## Features (Mi Band 2)
 
-* When starting Gadgetbridge and no device is visible, it will automatically
-  attempt to discover and pair your Mi Band. Alternatively you can invoke this
-  manually via the menu button. It will ask you for some personal info that appears
+* Discovery and pairing
+* Mi Band notifications (Display + vibration) for
+    * Incoming calls
+    * SMS received
+    * K-9 mails received
+    * Conversations messages
+    * Generic Android notifications
+* Synchronize the time to the Mi Band 2
+* Display firmware version
+* Firmware update (beta)
+* Heart rate measurement on demand and during sleep
+* Synchronize activity data (alpha)
+* Set alarms on the Mi Band 2
+
+## How to use (Mi Band 1+2)
+
+* When starting Gadgetbridge the first time, it will automatically
+  attempt to discover and pair your Mi Band. Alternatively you can invoke discovery
+  manually via the "+" button. It will ask you for some personal info that appears
   to be needed for proper steps calculation on the band. If you do not provide these,
   some hardcoded default "dummy" values will be used instead. 
 
-  When your Mi Band starts to vibrate and blink with all three LEDs during the pairing process,
+  When your Mi Band starts to vibrate and blink during the pairing process,
   tap it quickly a few times in a row to confirm the pairing with the band.
 
 1. Configure other notifications as desired
-2. Go back to the "Gadgetbridge" Activity
-3. Tap the "MI" item to connect if you're not connected yet.
+2. Go back to the "Gadgetbridge" activity
+3. Tap the Mi Band item to connect if you're not connected yet
 4. To test, chose "Debug" from the menu and play around
 
 Known Issues:
@@ -95,6 +112,14 @@ Known Issues:
 * The initial connection to a Mi Band sometimes takes a little patience. Try to connect a few times, wait, 
   and try connecting again. This only happens until you have "bonded" with the Mi Band, i.e. until it 
   knows your MAC address. This behavior may also only occur with older firmware versions.
+* If you use other apps like Mi Fit, and "bonding" with Gadgetbridge does not work, please
+  try to unpair the band in the other app and try again with Gadgetbridge.
+
+
+## Features (Liveview)
+
+* set time (automatically upon connection)
+* display notifications and vibrate
 
 ## Authors (in order of first code contribution)
 
@@ -114,9 +139,8 @@ Translations can be contributed via https://www.transifex.com/projects/p/gadgetb
 
 Feel free to open an issue on our issue tracker, but please:
 - do not use the issue tracker as a forum, do not ask for ETAs and read the issue conversation before posting
-- use the search functionality to ensure that your questions wasn't already answered. Don't forget to check the **closed** issues as well!
+- use the search functionality to ensure that your question wasn't already answered. Don't forget to check the **closed** issues as well!
 - remember that this is a community project, people are contributing in their free time because they like doing so: don't take the fun away! Be kind and constructive.
-
 
 ## Having problems?
 

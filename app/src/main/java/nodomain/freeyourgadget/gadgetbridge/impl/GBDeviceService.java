@@ -282,6 +282,13 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
+    public void onSendConfiguration(String config) {
+        Intent intent = createIntent().setAction(ACTION_SEND_CONFIGURATION)
+                .putExtra(EXTRA_CONFIG, config);
+        invokeService(intent);
+    }
+
+    @Override
     public void onTestNewFunction() {
         Intent intent = createIntent().setAction(ACTION_TEST_NEW_FUNCTION);
         invokeService(intent);

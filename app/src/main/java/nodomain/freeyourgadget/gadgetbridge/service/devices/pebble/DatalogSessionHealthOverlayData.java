@@ -24,7 +24,7 @@ class DatalogSessionHealthOverlayData extends DatalogSessionPebbleHealth {
 
     public DatalogSessionHealthOverlayData(byte id, UUID uuid, int tag, byte item_type, short item_size, GBDevice device) {
         super(id, uuid, tag, item_type, item_size, device);
-        taginfo = "(health - overlay data " + tag + " )";
+        taginfo = "(Health - overlay data " + tag + " )";
     }
 
     @Override
@@ -85,7 +85,7 @@ class DatalogSessionHealthOverlayData extends DatalogSessionPebbleHealth {
         int durationSeconds;
         byte[] rawData;
 
-        public OverlayRecord(byte[] rawData) {
+        OverlayRecord(byte[] rawData) {
             this.rawData = rawData;
             ByteBuffer record = ByteBuffer.wrap(rawData);
             record.order(ByteOrder.LITTLE_ENDIAN);
@@ -99,7 +99,7 @@ class DatalogSessionHealthOverlayData extends DatalogSessionPebbleHealth {
             this.durationSeconds = record.getInt();
         }
 
-        public byte[] getRawData() {
+        byte[] getRawData() {
             if (storePebbleHealthRawRecord()) {
                 return rawData;
             }

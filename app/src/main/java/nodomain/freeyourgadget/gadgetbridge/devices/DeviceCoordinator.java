@@ -1,8 +1,14 @@
 package nodomain.freeyourgadget.gadgetbridge.devices;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.NonNull;
+
+import java.util.Collection;
 
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
@@ -24,7 +30,18 @@ public interface DeviceCoordinator {
     String EXTRA_DEVICE_MAC_ADDRESS = "nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate.EXTRA_MAC_ADDRESS";
 
     /**
-     * Checks whether this candidate handles the given candidate.
+     * Checks whether this coordinator handles the given candidate.
+     * Returns the supported device type for the given candidate or
+     * DeviceType.UNKNOWN
+     *
+     * @param candidate
+     * @return the supported device type for the given candidate.
+     */
+    @NonNull
+    DeviceType getSupportedType(GBDeviceCandidate candidate);
+
+    /**
+     * Checks whether this coordinator handles the given candidate.
      *
      * @param candidate
      * @return true if this coordinator handles the given candidate.
@@ -38,6 +55,15 @@ public interface DeviceCoordinator {
      * @return true if this coordinator handles the given device.
      */
     boolean supports(GBDevice device);
+
+    /**
+     * Returns a list of scan filters that shall be used to discover devices supported
+     * by this coordinator.
+     * @return the list of scan filters, may be empty
+     */
+    @NonNull
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    Collection<? extends ScanFilter> createBLEScanFilters();
 
     GBDevice createDevice(GBDeviceCandidate candidate);
 
@@ -122,7 +148,7 @@ public interface DeviceCoordinator {
     boolean supportsScreenshots();
 
     /**
-     * Returns true if this device/coordinator supports settig alarms.
+     * Returns true if this device/coordinator supports setting alarms.
      *
      * @return
      */
@@ -154,5 +180,4 @@ public interface DeviceCoordinator {
      * @return
      */
     Class<? extends Activity> getAppsManagementActivity();
-
 }

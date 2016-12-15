@@ -32,9 +32,4 @@ public class TimestampValueFormatter implements IAxisValueFormatter {
         String dateString = dateFormat.format(date);
         return dateString;
     }
-
-    @Override
-    public int getDecimalDigits() {
-        return 0;
-    }
 }

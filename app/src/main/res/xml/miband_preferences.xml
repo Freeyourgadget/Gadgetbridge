@@ -43,6 +43,20 @@
 			android:maxLength="2"
 			android:title="@string/miband_prefs_device_time_offset_hours" />
 
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="mi2_activate_display_on_lift_wrist"
+            android:title="@string/mi2_prefs_activate_display_on_lift" />
+
+        <ListPreference
+            android:defaultValue="@string/p_dateformat_time"
+            android:entries="@array/mi2_dateformats"
+            android:entryValues="@array/mi2_dateformats_values"
+            android:key="mi2_dateformat"
+            android:title="@string/miband2_prefs_dateformat"
+            android:summary="%s" />
+
+
     </PreferenceCategory>
 
     <PreferenceCategory

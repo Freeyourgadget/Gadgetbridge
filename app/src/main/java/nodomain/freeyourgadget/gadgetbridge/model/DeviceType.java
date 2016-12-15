@@ -12,6 +12,7 @@ public enum DeviceType {
     MIBAND(10),
     MIBAND2(11),
     VIBRATISSIMO(20),
+    LIVEVIEW(30),
     TEST(1000);
 
     private final int key;
@@ -22,6 +23,10 @@ public enum DeviceType {
 
     public int getKey() {
         return key;
+    }
+
+    public boolean isSupported() {
+        return this != UNKNOWN;
     }
 
     public static DeviceType fromKey(int key) {

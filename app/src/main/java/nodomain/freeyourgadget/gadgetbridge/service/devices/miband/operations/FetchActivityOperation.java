@@ -40,7 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
  * An operation that fetches activity data. For every fetch, a new operation must
  * be created, i.e. an operation may not be reused for multiple fetches.
  */
-public class FetchActivityOperation extends AbstractMiBandOperation {
+public class FetchActivityOperation extends AbstractMiBand1Operation {
     private static final Logger LOG = LoggerFactory.getLogger(FetchActivityOperation.class);
     private static final byte[] fetch = new byte[]{MiBandService.COMMAND_FETCH_DATA};
 
@@ -139,6 +139,11 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
         hasExtendedActivityData = support.getDeviceInfo().supportsHeartrate();
         activityDataHolderSize = getBytesPerMinuteOfActivityData() * 60 * 4; // 4h
         activityStruct = new ActivityStruct(activityDataHolderSize);
+    }
+
+    @Override
+    protected void enableNeededNotifications(TransactionBuilder builder, boolean enable) {
+        // enabled all the time... maybe we should change that!
     }
 
     @Override
@@ -326,7 +331,7 @@ public class FetchActivityOperation extends AbstractMiBandOperation {
                     steps = activityStruct.activityDataHolder[i + 2];
                     if (hasExtendedActivityData) {
                         heartrate = activityStruct.activityDataHolder[i + 3];
-                        LOG.debug("heartrate received: " + (heartrate & 0xff));
+//                        LOG.debug("heartrate received: " + (heartrate & 0xff));
                     }
 
                     MiBandActivitySample sample = getSupport().createActivitySample(device, user, timestampInSeconds, provider);

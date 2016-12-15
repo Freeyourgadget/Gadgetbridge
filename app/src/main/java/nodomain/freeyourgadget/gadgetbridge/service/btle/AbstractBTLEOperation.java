@@ -59,7 +59,7 @@ public abstract class AbstractBTLEOperation<T extends AbstractBTLEDeviceSupport>
      * Subclasses must implement this. When invoked, #prePerform() returned
      * successfully.
      * Note that subclasses HAVE TO call #operationFinished() when the entire
-     * opreation is done (successful or not).
+     * operation is done (successful or not).
      *
      * @throws IOException
      */
@@ -67,7 +67,7 @@ public abstract class AbstractBTLEOperation<T extends AbstractBTLEDeviceSupport>
 
     /**
      * You MUST call this method when the operation has finished, either
-     * successfull or unsuccessfully.
+     * successfully or unsuccessfully.
      *
      * @throws IOException
      */

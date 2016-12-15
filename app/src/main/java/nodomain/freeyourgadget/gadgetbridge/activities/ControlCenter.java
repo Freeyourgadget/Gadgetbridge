@@ -98,7 +98,7 @@ public class ControlCenter extends GBActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_controlcenter);
 
-        deviceManager = GBApplication.getDeviceManager();
+        deviceManager = ((GBApplication)getApplication()).getDeviceManager();
 
         hintTextView = (TextView) findViewById(R.id.hintTextView);
         ListView deviceListView = (ListView) findViewById(R.id.deviceListView);

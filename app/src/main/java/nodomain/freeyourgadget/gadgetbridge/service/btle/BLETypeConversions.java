@@ -52,6 +52,42 @@ public class BLETypeConversions {
         };
     }
 
+    /**
+     * Similar to calendarToRawBytes, but only up to (and including) the MINUTES.
+     * @param timestamp
+     * @param honorDeviceTimeOffset
+     * @return
+     */
+    public static byte[] shortCalendarToRawBytes(Calendar timestamp, boolean honorDeviceTimeOffset) {
+
+        // The mi-band device currently records sleep
+        // only if it happens after 10pm and before 7am.
+        // The offset is used to trick the device to record sleep
+        // in non-standard hours.
+        // If you usually sleep, say, from 6am to 2pm, set the
+        // shift to -8, so at 6am the device thinks it's still 10pm
+        // of the day before.
+        if (honorDeviceTimeOffset) {
+            int offsetInHours = MiBandCoordinator.getDeviceTimeOffsetHours();
+            if (offsetInHours != 0) {
+                timestamp.add(Calendar.HOUR_OF_DAY, offsetInHours);
+            }
+        }
+
+        // MiBand2:
+        // year,year,month,dayofmonth,hour,minute
+
+        byte[] year = fromUint16(timestamp.get(Calendar.YEAR));
+        return new byte[] {
+                year[0],
+                year[1],
+                fromUint8(timestamp.get(Calendar.MONTH) + 1),
+                fromUint8(timestamp.get(Calendar.DATE)),
+                fromUint8(timestamp.get(Calendar.HOUR_OF_DAY)),
+                fromUint8(timestamp.get(Calendar.MINUTE))
+        };
+    }
+
     private static int getMiBand2TimeZone(int rawOffset) {
         int offsetMinutes = rawOffset / 1000 / 60;
         rawOffset = offsetMinutes < 0 ? -1 : 1;
@@ -82,11 +118,11 @@ public class BLETypeConversions {
             int year = toUint16(value[0], value[1]);
             GregorianCalendar timestamp = new GregorianCalendar(
                     year,
-                    value[2],
-                    value[3],
-                    value[4],
-                    value[5],
-                    value[6]
+                    (value[2] & 0xff) - 1,
+                    value[3] & 0xff,
+                    value[4] & 0xff,
+                    value[5] & 0xff,
+                    value[6] & 0xff
             );
 
             if (honorDeviceTimeOffset) {
@@ -103,7 +139,7 @@ public class BLETypeConversions {
     }
 
     public static int toUint16(byte... bytes) {
-        return bytes[0] | (bytes[1] << 8);
+        return (bytes[0] & 0xff) | ((bytes[1] & 0xff) << 8);
     }
 
     public static byte[] fromUint16(int value) {
@@ -112,6 +148,24 @@ public class BLETypeConversions {
                 (byte) ((value >> 8) & 0xff),
         };
     }
+
+    public static byte[] fromUint24(int value) {
+        return new byte[] {
+                (byte) (value & 0xff),
+                (byte) ((value >> 8) & 0xff),
+                (byte) ((value >> 16) & 0xff),
+        };
+    }
+
+    public static byte[] fromUint32(int value) {
+        return new byte[] {
+                (byte) (value & 0xff),
+                (byte) ((value >> 8) & 0xff),
+                (byte) ((value >> 16) & 0xff),
+                (byte) ((value >> 24) & 0xff),
+        };
+    }
+
     public static byte fromUint8(int value) {
         return (byte) (value & 0xff);
     }
@@ -156,7 +210,7 @@ public class BLETypeConversions {
 
     /**
      * https://www.bluetooth.com/specifications/gatt/viewer?attributeXmlFile=org.bluetooth.characteristic.dst_offset.xml
-     * @param Calendar
+     * @param now
      * @return the DST offset for the given time; 0 if none; 255 if unknown
      */
     public static byte mapDstOffset(Calendar now) {

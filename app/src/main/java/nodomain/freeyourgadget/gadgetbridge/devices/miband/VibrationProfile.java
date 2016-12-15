@@ -50,7 +50,7 @@ public class VibrationProfile {
      *
      * @param id            the ID, used as preference key.
      * @param onOffSequence a sequence of alternating on and off durations, in milliseconds
-     * @param repeat        how ofoften the sequence shall be repeated
+     * @param repeat        how often the sequence shall be repeated
      */
     public VibrationProfile(String id, int[] onOffSequence, short repeat) {
         this.id = id;

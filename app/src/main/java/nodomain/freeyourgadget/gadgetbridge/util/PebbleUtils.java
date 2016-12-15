@@ -37,4 +37,14 @@ public class PebbleUtils {
     public static int getFwMajor(String fwString) {
         return fwString.charAt(1) - 48;
     }
+
+    public static boolean hasHRM(String hwRev) {
+        String platformName = getPlatformName(hwRev);
+        return "diorite".equals(platformName) || "emery".equals(platformName);
+    }
+
+    public static boolean hasHealth(String hwRev) {
+        String platformName = getPlatformName(hwRev);
+        return !"aplite".equals(platformName);
+    }
 }

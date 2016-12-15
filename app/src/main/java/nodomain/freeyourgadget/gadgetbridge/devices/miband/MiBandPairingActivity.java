@@ -160,7 +160,7 @@ public class MiBandPairingActivity extends GBActivity {
 
     private void startPairing() {
         isPairing = true;
-        message.setText(getString(R.string.miband_pairing, macAddress));
+        message.setText(getString(R.string.pairing, macAddress));
 
         IntentFilter filter = new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED);
         LocalBroadcastManager.getInstance(this).registerReceiver(mPairingReceiver, filter);
@@ -209,20 +209,20 @@ public class MiBandPairingActivity extends GBActivity {
     protected void performBluetoothPair(BluetoothDevice device) {
         int bondState = device.getBondState();
         if (bondState == BluetoothDevice.BOND_BONDED) {
-            GB.toast(getString(R.string.miband_pairing_already_bonded, device.getName(), device.getAddress()), Toast.LENGTH_SHORT, GB.INFO);
+            GB.toast(getString(R.string.pairing_already_bonded, device.getName(), device.getAddress()), Toast.LENGTH_SHORT, GB.INFO);
             performPair();
             return;
         }
 
         bondingMacAddress = device.getAddress();
         if (bondState == BluetoothDevice.BOND_BONDING) {
-            GB.toast(this, getString(R.string.miband_pairing_in_progress, device.getName(), bondingMacAddress), Toast.LENGTH_LONG, GB.INFO);
+            GB.toast(this, getString(R.string.pairing_in_progress, device.getName(), bondingMacAddress), Toast.LENGTH_LONG, GB.INFO);
             return;
         }
 
-        GB.toast(this, getString(R.string.miband_pairing_creating_bond_with, device.getName(), bondingMacAddress), Toast.LENGTH_LONG, GB.INFO);
+        GB.toast(this, getString(R.string.pairing_creating_bond_with, device.getName(), bondingMacAddress), Toast.LENGTH_LONG, GB.INFO);
         if (!device.createBond()) {
-            GB.toast(this, getString(R.string.miband_pairing_unable_to_pair_with, device.getName(), bondingMacAddress), Toast.LENGTH_LONG, GB.ERROR);
+            GB.toast(this, getString(R.string.pairing_unable_to_pair_with, device.getName(), bondingMacAddress), Toast.LENGTH_LONG, GB.ERROR);
         }
     }
 

@@ -232,7 +232,7 @@ public class PBWReader {
                     byte[] tmp_buf = new byte[32];
                     ByteBuffer buf = ByteBuffer.wrap(buffer);
                     buf.order(ByteOrder.LITTLE_ENDIAN);
-                    buf.getLong();  // header, TODO: verifiy
+                    buf.getLong();  // header, TODO: verify
                     buf.getShort(); // struct version, TODO: verify
                     mSdkVersion = buf.getShort();
                     mAppVersion = buf.getShort();

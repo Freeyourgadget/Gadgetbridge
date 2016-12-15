@@ -83,7 +83,7 @@
   <string name="title_activity_android_pairing">sparuj urządzenie</string>
   <string name="android_pairing_hint">Użyj parowania bluetooth na androidzie by sparować urządzenie.</string>
   <string name="title_activity_mi_band_pairing">Sparuj swoje Mi Band</string>
-  <string name="miband_pairing">Parowanie z %s…</string>
+  <string name="pairing">Parowanie z %s…</string>
   <string name="message_cannot_pair_no_mac">Żaden mac nie przeszedł, nie można sparować.</string>
   <string name="preferences_category_device_specific_settings">Ustawienia danego urządzenia</string>
   <string name="preferences_miband_settings">Ustawienia Mi Band</string>

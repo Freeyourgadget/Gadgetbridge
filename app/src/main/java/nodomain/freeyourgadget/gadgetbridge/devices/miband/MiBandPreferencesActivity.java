@@ -18,6 +18,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_INCOMING_CALL;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DATEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_ADDRESS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_FITNESS_GOAL;
@@ -44,8 +46,58 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
                 return true;
             }
         });
+
+        final Preference setDateFormat = findPreference(PREF_MI2_DATEFORMAT);
+        setDateFormat.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DATEFORMAT);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference activateDisplayOnLift = findPreference(PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT);
+        activateDisplayOnLift.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference fitnessGoal = findPreference(PREF_MIBAND_FITNESS_GOAL);
+        fitnessGoal.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MIBAND_FITNESS_GOAL);
+                    }
+                });
+                return true;
+            }
+        });
     }
 
+    /**
+     * delayed execution so that the preferences are applied first
+      */
+    private void invokeLater(Runnable runnable) {
+        getListView().post(runnable);
+    }
+
+    @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         final Preference developmentMiaddr = findPreference(PREF_MIBAND_ADDRESS);

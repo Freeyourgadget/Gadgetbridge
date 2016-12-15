@@ -126,7 +126,7 @@
   <string name="title_activity_android_pairing">Gerät paaren</string>
   <string name="android_pairing_hint">Verwende den Android Bluetooth Paaren-Dialog um Dein Gerät zu paaren.</string>
   <string name="title_activity_mi_band_pairing">Paare Dein Mi Band</string>
-  <string name="miband_pairing">Paarung mit %s…</string>
+  <string name="pairing">Paarung mit %s…</string>
   <string name="message_cannot_pair_no_mac">Kein MAC Adresse bekommen, kann nicht paaren.</string>
   <string name="preferences_category_device_specific_settings">Gerätespezifische Einstellungen</string>
   <string name="preferences_miband_settings">Mi Band Einstellungen</string>
@@ -284,10 +284,12 @@ Wenn Du schon deine Daten importiert hast und mit dem Ergebnis zufrieden bist, k
   <string name="dbmanagementactivity_import_successful">Import erfolgreich.</string>
   <string name="dbmanagementactivity_error_importing_db">Fehler beim Importieren der DB: %1$s</string>
   <string name="dbmanagementactivity_merging_activity_data_title">Führe Aktivitätsdaten zusammen</string>
+  <string name="dbmanagementactivity_error_importing_old_activity_data">Beim Importieren der alten Aktivitätsdaten ist ein Fehler aufgetreten! </string>
   <string name="dbmanagementactivity_delete_activity_data_title">Alte Daten löschen?</string>
   <string name="dbmanagementactivity_database_successfully_deleted">Daten erfolgreich gelöscht.</string>
   <string name="dbmanagementactivity_db_deletion_failed">Löschen der Datenbank fehlgeschlagen.</string>
   <string name="dbmanagementactivity_delete_old_activity_db">Alte Aktivitätsdatenbank löschen?</string>
+  <string name="dbmanagementactivity_delete_old_activitydb_confirmation">Wirklich die alte Aktivitätsdatenbank löschen? Nicht importierte Aktivitätsdaten gehen verloren.</string>
   <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Alte Aktivitätsdatenbank erfolgreich gelöscht.</string>
   <string name="dbmanagementactivity_old_activity_db_deletion_failed">Löschen der alten Aktivitätsdatenbank fehlgeschlagen.</string>
   <string name="dbmanagementactivity_overwrite">Überschreiben</string>

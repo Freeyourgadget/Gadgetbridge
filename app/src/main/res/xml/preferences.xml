@@ -206,6 +206,12 @@
                 android:defaultValue="0"
                 android:key="location_longitude"
                 android:title="@string/pref_title_location_longitude" />
+                <CheckBoxPreference
+                    android:defaultValue="true"
+                    android:dependency="location_aquire"
+                    android:key="use_updated_location_if_available"
+                    android:summary="@string/pref_summary_location_keep_uptodate"
+                    android:title="@string/pref_title_location_keep_uptodate" />
             </PreferenceCategory>
             <PreferenceCategory
                 android:title="@string/pref_header_cannned_messages">
@@ -330,6 +336,16 @@
                     android:key="pebble_force_untested"
                     android:summary="@string/pref_summary_pebble_forceuntested"
                     android:title="@string/pref_title_pebble_forceuntested" />
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="pebble_force_le"
+                    android:summary="@string/pref_summary_pebble_forcele"
+                    android:title="@string/pref_title_pebble_forcele" />
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="pebble_enable_applogs"
+                    android:summary="@string/pref_summary_pebble_enable_applogs"
+                    android:title="@string/pref_title_pebble_enable_applogs" />
                 <EditTextPreference
                     android:digits="0123456789."
                     android:key="pebble_emu_addr"

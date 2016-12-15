@@ -322,10 +322,6 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         return provider.getAllActivitySamples(tsFrom, tsTo);
     }
 
-    private int getTSLast24Hours(int tsTo) {
-        return (tsTo) - (24 * 60 * 60); // -24 hours
-    }
-
     protected List<? extends AbstractActivitySample> getActivitySamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
         SampleProvider<? extends AbstractActivitySample> provider = getProvider(db, device);
         return provider.getActivitySamples(tsFrom, tsTo);
@@ -335,18 +331,6 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     protected List<? extends ActivitySample> getSleepSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
         SampleProvider<? extends ActivitySample> provider = getProvider(db, device);
         return provider.getSleepSamples(tsFrom, tsTo);
-    }
-
-    protected List<? extends ActivitySample> getTestSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-        Calendar cal = Calendar.getInstance();
-        cal.clear();
-        cal.set(2015, Calendar.JUNE, 10, 6, 40);
-        // ignore provided date ranges
-        tsTo = (int) ((cal.getTimeInMillis() / 1000));
-        tsFrom = tsTo - (24 * 60 * 60);
-
-        SampleProvider<? extends ActivitySample> provider = getProvider(db, device);
-        return provider.getAllActivitySamples(tsFrom, tsTo);
     }
 
     protected void configureChartDefaults(Chart<?> chart) {
@@ -362,7 +346,10 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         // enable touch gestures
         chart.setTouchEnabled(true);
 
-        chart.getXAxis().setGranularity(60*5);
+// commented out: this has weird bugs/sideeffects at least on WeekStepsCharts
+// where only the first Day-label is drawn, because AxisRenderer.computeAxisValues(float,float)
+// appears to have an overflow when calculating 'n' (number of entries)
+//        chart.getXAxis().setGranularity(60*5);
 
         setupLegend(chart);
     }
@@ -709,7 +696,10 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     protected List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device) {
-        List<? extends ActivitySample> samples = getSamples(db, device, getTSStart(), getTSEnd());
+        int tsStart = getTSStart();
+        int tsEnd = getTSEnd();
+        List<ActivitySample> samples = (List<ActivitySample>) getSamples(db, device, tsStart, tsEnd);
+        ensureStartAndEndSamples(samples, tsStart, tsEnd);
 //        List<ActivitySample> samples2 = new ArrayList<>();
 //        int min = Math.min(samples.size(), 10);
 //        int min = Math.min(samples.size(), 10);
@@ -718,6 +708,33 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 //        }
 //        return samples2;
         return samples;
+    }
+
+    protected void ensureStartAndEndSamples(List<ActivitySample> samples, int tsStart, int tsEnd) {
+        if (samples == null || samples.isEmpty()) {
+            return;
+        }
+        ActivitySample lastSample = samples.get(samples.size() - 1);
+        if (lastSample.getTimestamp() < tsEnd) {
+            samples.add(createTrailingActivitySample(lastSample, tsEnd));
+        }
+
+        ActivitySample firstSample = samples.get(0);
+        if (firstSample.getTimestamp() > tsStart) {
+            samples.add(createTrailingActivitySample(firstSample, tsStart));
+        }
+    }
+
+    private ActivitySample createTrailingActivitySample(ActivitySample referenceSample, int timestamp) {
+        TrailingActivitySample sample = new TrailingActivitySample();
+        if (referenceSample instanceof AbstractActivitySample) {
+            AbstractActivitySample reference = (AbstractActivitySample) referenceSample;
+            sample.setUserId(reference.getUserId());
+            sample.setDeviceId(reference.getDeviceId());
+            sample.setProvider(reference.getProvider());
+        }
+        sample.setTimestamp(timestamp);
+        return sample;
     }
 
     private int getTSEnd() {
@@ -770,11 +787,6 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             String dateString = annotationDateFormat.format(date);
             return dateString;
         }
-
-        @Override
-        public int getDecimalDigits() {
-            return 0;
-        }
     }
 
     protected static class PreformattedXIndexLabelFormatter implements IAxisValueFormatter {
@@ -791,11 +803,6 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                 return String.valueOf(value);
             }
             return xLabels.get(index);
-        }
-
-        @Override
-        public int getDecimalDigits() {
-            return 0;
         }
     }
 
