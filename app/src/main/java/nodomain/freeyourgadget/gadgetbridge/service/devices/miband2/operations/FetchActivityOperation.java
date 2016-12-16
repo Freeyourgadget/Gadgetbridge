@@ -34,7 +34,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WaitAction;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBand2Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.AbstractMiBand2Operation;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;

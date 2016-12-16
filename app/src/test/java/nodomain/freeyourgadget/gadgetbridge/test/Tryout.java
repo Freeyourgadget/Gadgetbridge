@@ -4,23 +4,17 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.GregorianCalendar;
 
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandDateConverter;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBand2Support;
-import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 /**
  * A simple class for trying out things, not actually testing something.
  */
 public class Tryout extends TestBase {
-    private static final Logger LOG = LoggerFactory.getLogger(MiBand2Support.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Tryout.class);
 
     @Test
     public void blah() {
