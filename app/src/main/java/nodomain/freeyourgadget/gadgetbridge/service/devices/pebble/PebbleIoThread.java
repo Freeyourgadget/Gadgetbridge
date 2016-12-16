@@ -486,10 +486,11 @@ class PebbleIoThread extends GBDeviceIoThread {
         if (bytes == null) {
             return;
         }
-        // block writes if app installation in in progress
-        if (mIsConnected && (!mIsInstalling || mInstallState == PebbleAppInstallState.WAIT_SLOT)) {
-            write_real(bytes);
+        // on FW < 3.0 block writes if app installation in in progress
+        if (!mIsConnected || (mPebbleProtocol.mFwMajor < 3 && mIsInstalling && mInstallState != PebbleAppInstallState.WAIT_SLOT)) {
+            return;
         }
+        write_real(bytes);
     }
 
     // FIXME: parts are supporsed to be generic code
@@ -500,7 +501,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                 LOG.info("syncing time");
                 write(mPebbleProtocol.encodeSetTime());
             }
-            write(mPebbleProtocol.encodeEnableAppLogs(prefs.getBoolean("pebble_enable_applogs",false)));
+            write(mPebbleProtocol.encodeEnableAppLogs(prefs.getBoolean("pebble_enable_applogs", false)));
             write(mPebbleProtocol.encodeReportDataLogSessions());
             gbDevice.setState(GBDevice.State.INITIALIZED);
             return false;
@@ -603,10 +604,6 @@ class PebbleIoThread extends GBDeviceIoThread {
     }
 
     void installApp(Uri uri, int appId) {
-        if (mIsInstalling) {
-            return;
-        }
-
         if (uri.equals(Uri.parse("fake://health"))) {
             write(mPebbleProtocol.encodeActivateHealth(true));
             write(mPebbleProtocol.encodeSetSaneDistanceUnit(true));
@@ -614,6 +611,10 @@ class PebbleIoThread extends GBDeviceIoThread {
         }
         if (uri.equals(Uri.parse("fake://hrm"))) {
             write(mPebbleProtocol.encodeActivateHRM(true));
+            return;
+        }
+
+        if (mIsInstalling) {
             return;
         }
 
