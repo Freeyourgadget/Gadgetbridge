@@ -595,7 +595,7 @@ class PebbleIoThread extends GBDeviceIoThread {
         }
     }
 
-    private void writeInstallApp(byte[] bytes) {
+    synchronized private void writeInstallApp(byte[] bytes) {
         if (!mIsInstalling) {
             return;
         }
