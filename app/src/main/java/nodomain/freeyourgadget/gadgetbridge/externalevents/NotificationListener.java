@@ -258,7 +258,7 @@ public class NotificationListener extends NotificationListenerService {
 
         notificationSpec.type = AppNotificationType.getInstance().get(source);
 
-        LOG.info("Processing notification from source " + source);
+        LOG.info("Processing notification from source " + source + " with flags: " + notification.flags);
 
         dissectNotificationTo(notification, notificationSpec, preferBigText);
         notificationSpec.id = (int) sbn.getPostTime(); //FIMXE: a truly unique id would be better
