@@ -1,7 +1,8 @@
 ###Changelog
 
-####Version next
+####Version 0.15.1
 * Improved handling of notifications for some apps
+* Pebble 2/LE: Add setting to limit GATT MTU for debugging broken BLE stacks
 
 ####Version 0.15.0
 * New device: Liveview
