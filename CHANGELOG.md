@@ -1,5 +1,8 @@
 ###Changelog
 
+####Version next
+* Improved handling of notifications for some apps
+
 ####Version 0.15.0
 * New device: Liveview
 * Liveview: initial support (set the time and receive notifications)

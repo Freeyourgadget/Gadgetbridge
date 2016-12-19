@@ -34,7 +34,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.AppNotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -190,19 +189,13 @@ public class NotificationListener extends NotificationListenerService {
         if (!prefs.getBoolean("notifications_generic_whenscreenon", false)) {
             PowerManager powermanager = (PowerManager) getSystemService(POWER_SERVICE);
             if (powermanager.isScreenOn()) {
-                LOG.info("Not forwarding notification, screen seems to be on and settings do not allow this");
+//                LOG.info("Not forwarding notification, screen seems to be on and settings do not allow this");
                 return;
             }
         }
 
-        //don't forward group summary notifications to the wearable, they are meant for the android device only
-        if ((notification.flags & Notification.FLAG_GROUP_SUMMARY) == Notification.FLAG_GROUP_SUMMARY) {
-            LOG.info("Not forwarding notification, FLAG_GROUP_SUMMARY is set");
-            return;
-        }
-
         if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
-            LOG.info("Not forwarding notification, FLAG_ONGOING_EVENT is set");
+//            LOG.info("Not forwarding notification, FLAG_ONGOING_EVENT is set. Notification flags: " + notification.flags);
             return;
         }
 
@@ -258,7 +251,7 @@ public class NotificationListener extends NotificationListenerService {
 
         notificationSpec.type = AppNotificationType.getInstance().get(source);
 
-        LOG.info("Processing notification from source " + source);
+        LOG.info("Processing notification from source " + source + " with flags: " + notification.flags);
 
         dissectNotificationTo(notification, notificationSpec, preferBigText);
         notificationSpec.id = (int) sbn.getPostTime(); //FIMXE: a truly unique id would be better
@@ -266,8 +259,9 @@ public class NotificationListener extends NotificationListenerService {
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender(notification);
         List<NotificationCompat.Action> actions = wearableExtender.getActions();
 
-        if (actions.isEmpty() && notificationSpec.type == NotificationType.TELEGRAM) {
-            return; // workaround for duplicate telegram message
+        if (actions.isEmpty() && (notification.flags & Notification.FLAG_GROUP_SUMMARY) == Notification.FLAG_GROUP_SUMMARY) { //this could cause #395 to come back
+            LOG.info("Not forwarding notification, FLAG_GROUP_SUMMARY is set and no wearable action present. Notification flags: " + notification.flags);
+            return;
         }
 
         for (NotificationCompat.Action act : actions) {

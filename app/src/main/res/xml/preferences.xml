@@ -341,6 +341,13 @@
                     android:key="pebble_force_le"
                     android:summary="@string/pref_summary_pebble_forcele"
                     android:title="@string/pref_title_pebble_forcele" />
+                <EditTextPreference
+                    android:inputType="number"
+                    android:key="pebble_mtu_limit"
+                    android:maxLength="3"
+                    android:defaultValue="512"
+                    android:title="@string/pref_title_pebble_mtu_limit"
+                    android:summary="@string/pref_summary_pebble_mtu_limit" />
                 <CheckBoxPreference
                     android:defaultValue="false"
                     android:key="pebble_enable_applogs"

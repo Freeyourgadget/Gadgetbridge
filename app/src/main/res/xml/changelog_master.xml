@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="next">
+        <change>* Improved handling of notifications for some apps</change>
+    </release>
     <release version="0.15.0" versioncode="77">
         <change>New device: Liveview</change>
         <change>Liveview: initial support (set the time and receive notifications)</change>

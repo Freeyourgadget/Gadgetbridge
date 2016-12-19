@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+
 public class PebbleLESupport {
     private static final Logger LOG = LoggerFactory.getLogger(PebbleLESupport.class);
     private final BluetoothDevice mBtDevice;
@@ -19,6 +21,7 @@ public class PebbleLESupport {
     private PipedInputStream mPipedInputStream;
     private PipedOutputStream mPipedOutputStream;
     private int mMTU = 20;
+    private int mMTULimit = Integer.MAX_VALUE;
     boolean mIsConnected = false;
 
     public PebbleLESupport(Context context, final BluetoothDevice btDevice, PipedInputStream pipedInputStream, PipedOutputStream pipedOutputStream) throws IOException {
@@ -31,6 +34,9 @@ public class PebbleLESupport {
         } catch (IOException e) {
             LOG.warn("could not connect input stream");
         }
+        mMTULimit = GBApplication.getPrefs().getInt("pebble_mtu_limit", 512);
+        mMTULimit = Math.max(mMTULimit, 20);
+        mMTULimit = Math.min(mMTULimit, 512);
 
         mPebbleGATTServer = new PebbleGATTServer(this, context, mBtDevice);
         if (mPebbleGATTServer.initialize()) {
@@ -99,7 +105,7 @@ public class PebbleLESupport {
     }
 
     void setMTU(int mtu) {
-        mMTU = mtu;
+        mMTU = Math.min(mtu, mMTULimit);
     }
 
     private class PipeReader extends Thread {
