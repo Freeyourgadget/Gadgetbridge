@@ -226,6 +226,8 @@ public class GBDaoGenerator {
         Entity activitySample = addEntity(schema, "HPlusHealthActivitySample");
         addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
         activitySample.addByteArrayProperty("rawHPlusHealthData");
+        activitySample.addIntProperty("rawHPlusCalories").notNull();
+        activitySample.addIntProperty("rawHPlusDistance").notNull();
         activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);

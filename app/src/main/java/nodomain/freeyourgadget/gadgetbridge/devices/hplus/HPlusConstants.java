@@ -56,9 +56,6 @@ public final class HPlusConstants {
     public static final byte COMMAND_SET_PREF_FINDME = 0x0a;
     public static final byte COMMAND_SET_PREF_SAVE = 0x17;
     public static final byte COMMAND_SET_PREF_END = 0x4f;
-    public static final byte COMMAND_SET_INCOMMING_SOCIAL = 0x31;
-    public static final byte COMMAND_SET_INCOMMING_SMS = 0x40;
-    public static final byte COMMAND_SET_DISPLAY_TEXT = 0x43;
     public static final byte COMMAND_SET_DISPLAY_ALERT = 0x23;
     public static final byte COMMAND_SET_PREF_ALLDAYHR = 53;
 
@@ -68,9 +65,17 @@ public final class HPlusConstants {
     public static final byte COMMAND_SET_CONF_SAVE = 0x17;
     public static final byte COMMAND_SET_CONF_END = 0x4f;
 
+    public static final byte COMMAND_SET_PREFS = 0x50;
+    public static final byte COMMAND_SET_SIT_INTERVAL = 0x51;
+
+
 
     public static final byte DATA_STATS = 0x33;
     public static final byte DATA_SLEEP = 0x1A;
+
+    public static final byte COMMAND_ACTION_INCOMING_SOCIAL = 0x31;
+    public static final byte COMMAND_ACTION_INCOMMING_SMS = 0x40;
+    public static final byte COMMAND_ACTION_DISPLAY_TEXT = 0x43;
 
 
     public static final String PREF_HPLUS_USER_ALIAS = "hplus_user_alias";
@@ -79,4 +84,11 @@ public final class HPlusConstants {
     public static final String PREF_HPLUS_ALLDAYHR = "hplus_alldayhr";
     public static final String PREF_HPLUS_UNIT = "hplus_unit";
     public static final String PREF_HPLUS_TIMEMODE = "hplus_timemode";
+    public static final String PREF_HPLUS_WRIST = "hplus_wrist";
+    public static final String PREF_HPLUS_SWALERT = "hplus_sw_alert";
+    public static final String PREF_HPLUS_ALERT_TIME = "hplus_alert_time";
+    public static final String PREF_HPLUS_SIT_START_TIME = "hplus_sit_start_time";
+    public static final String PREF_HPLUS_SIT_END_TIME = "hplus_sit_end_time";
+    public static final String PREF_HPLUS_COUNTRY = "hplus_country";
+
 }

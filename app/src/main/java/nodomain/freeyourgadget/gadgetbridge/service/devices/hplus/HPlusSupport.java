@@ -35,7 +35,9 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.HPlusHealthActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
+import nodomain.freeyourgadget.gadgetbridge.entities.UserAttributes;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -99,14 +101,12 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
 
-        //Fill device info
-        requestDeviceInfo(builder);
-
         getDevice().setFirmwareVersion("0");
         getDevice().setFirmwareVersion2("0");
 
         //Initialize device
         setInitValues(builder);
+        syncPreferences(builder);
 
         builder.notify(getCharacteristic(HPlusConstants.UUID_CHARACTERISTIC_MEASURE), true);
 
@@ -121,22 +121,78 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         return builder;
     }
 
-    private HPlusSupport setInitValues(TransactionBuilder builder){
+    private HPlusSupport setInitValues(TransactionBuilder builder) {
         LOG.debug("Set Init Values");
         builder.write(ctrlCharacteristic, HPlusConstants.COMMAND_SET_INIT1);
         builder.write(ctrlCharacteristic, HPlusConstants.COMMAND_SET_INIT2);
         return this;
     }
 
-    private HPlusSupport sendUserInfo(TransactionBuilder builder){
+    private HPlusSupport sendUserInfo(TransactionBuilder builder) {
         builder.write(ctrlCharacteristic, HPlusConstants.COMMAND_SET_PREF_START);
         builder.write(ctrlCharacteristic, HPlusConstants.COMMAND_SET_PREF_START1);
+
+        syncPreferences(builder);
 
         builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.COMMAND_SET_CONF_SAVE});
         builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.COMMAND_SET_CONF_END});
         return this;
     }
 
+    private HPlusSupport syncPreferences(TransactionBuilder transaction) {
+        LOG.info("Attempting to sync preferences...");
+        transaction.add(new ConditionalWriteAction(ctrlCharacteristic) {
+            @Override
+            protected byte[] checkCondition() {
+
+                byte sex = HPlusCoordinator.getUserSex(getDevice().getAddress());
+                byte age = HPlusCoordinator.getUserAge(getDevice().getAddress());
+                byte bodyHeight = HPlusCoordinator.getUserHeight(getDevice().getAddress());
+                byte bodyWeight = HPlusCoordinator.getUserWeight(getDevice().getAddress());
+                int goal = HPlusCoordinator.getGoal(getDevice().getAddress());
+                byte displayTime = HPlusCoordinator.getScreenTime(getDevice().getAddress());
+                byte country = HPlusCoordinator.getCountry(getDevice().getAddress());
+                byte social = HPlusCoordinator.getSocial(getDevice().getAddress()); // ??
+                byte allDayHeart = HPlusCoordinator.getAllDayHR(getDevice().getAddress());
+                byte wrist = HPlusCoordinator.getUserWrist(getDevice().getAddress());
+                byte alertTimeHour = 0;
+                byte alertTimeMinute = 0;
+
+                if (HPlusCoordinator.getSWAlertTime(getDevice().getAddress())) {
+                    int t = HPlusCoordinator.getAlertTime(getDevice().getAddress());
+
+                    alertTimeHour = (byte) (t / 256);
+                    alertTimeMinute = (byte) (t % 256);
+                }
+
+                byte unit = HPlusCoordinator.getUnit(getDevice().getAddress());
+                byte timemode = HPlusCoordinator.getTimeMode((getDevice().getAddress()));
+
+                return new byte[]{
+                        HPlusConstants.COMMAND_SET_PREF_COUNTRY,
+                        sex,
+                        age,
+                        bodyHeight,
+                        bodyWeight,
+                        0,
+                        0,
+                        (byte) (goal / 256),
+                        (byte) (goal % 256),
+                        displayTime,
+                        country,
+                        0,
+                        social,
+                        allDayHeart,
+                        wrist,
+                        alertTimeHour,
+                        alertTimeMinute,
+                        unit,
+                        timemode
+                };
+            }
+        });
+        return this;
+    }
 
     private HPlusSupport setCountry(TransactionBuilder transaction) {
         LOG.info("Attempting to set country...");
@@ -200,10 +256,10 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
                 return new byte[]{
                         HPlusConstants.COMMAND_SET_PREF_DATE,
-                        (byte)  (year / 256),
-                        (byte)  (year % 256),
-                        (byte)  (month),
-                        (byte)  (day)
+                        (byte) (year / 256),
+                        (byte) (year % 256),
+                        (byte) (month),
+                        (byte) (day)
                 };
             }
         });
@@ -251,11 +307,30 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         transaction.add(new ConditionalWriteAction(ctrlCharacteristic) {
             @Override
             protected byte[] checkCondition() {
-                Calendar c = Calendar.getInstance();
+                int startTime = HPlusCoordinator.getSITStartTime(getDevice().getAddress());
+                int endTime = HPlusCoordinator.getSITEndTime(getDevice().getAddress());
+
+                Calendar now = Calendar.getInstance();
 
                 return new byte[]{
-                        HPlusConstants.COMMAND_SET_PREF_SIT,
-                        0, 0, 0, 0, 0
+                        HPlusConstants.COMMAND_SET_SIT_INTERVAL,
+                        (byte) (startTime / 256),
+                        (byte) (startTime % 256),
+                        (byte) (endTime / 256),
+                        (byte) (endTime % 256),
+                        0,
+                        0,
+                        (byte) (now.get(Calendar.YEAR) / 256),
+                        (byte) (now.get(Calendar.YEAR) % 256),
+                        (byte) (now.get(Calendar.MONTH) + 1),
+                        (byte) (now.get(Calendar.DAY_OF_MONTH)),
+                        (byte) (now.get(Calendar.HOUR)),
+                        (byte) (now.get(Calendar.MINUTE)),
+                        (byte) (now.get(Calendar.SECOND)),
+                        0,
+                        0,
+                        0,
+                        0
                 };
             }
         });
@@ -443,7 +518,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetCallState(CallSpec callSpec) {
-        switch(callSpec.command){
+        switch (callSpec.command) {
             case CallSpec.CALL_INCOMING: {
                 showText(callSpec.name, callSpec.number);
                 break;
@@ -454,7 +529,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
-        LOG.debug("Canned Messages: "+cannedMessagesSpec);
+        LOG.debug("Canned Messages: " + cannedMessagesSpec);
     }
 
     @Override
@@ -535,7 +610,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         TransactionBuilder builder = new TransactionBuilder("realTimeHeartMeasurement");
         byte state = 0;
 
-        if(enable)
+        if (enable)
             state = HPlusConstants.HEARTRATE_ALLDAY_ON;
         else
             state = HPlusConstants.HEARTRATE_ALLDAY_OFF;
@@ -556,7 +631,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         byte[] msg = new byte[2];
         msg[0] = HPlusConstants.COMMAND_SET_PREF_FINDME;
 
-        if(start)
+        if (start)
             msg[1] = 1;
         else
             msg[1] = 0;
@@ -577,7 +652,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         byte[] msg = new byte[15];
         msg[0] = HPlusConstants.COMMAND_SET_DISPLAY_ALERT;
 
-        for(int i = 0;i<msg.length - 1; i++)
+        for (int i = 0; i < msg.length - 1; i++)
             msg[i + 1] = (byte) "GadgetBridge".charAt(i);
 
         builder.write(ctrlCharacteristic, msg);
@@ -606,7 +681,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendConfiguration(String config) {
-        LOG.debug("Send Configuration: "+config);
+        LOG.debug("Send Configuration: " + config);
 
     }
 
@@ -617,74 +692,74 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
 
-    private void showText(String message){
+    private void showText(String message) {
         showText(null, message);
     }
 
-    private void showText(String title, String body){
+    private void showText(String title, String body) {
         LOG.debug("Show Notification");
 
-            TransactionBuilder builder = new TransactionBuilder("showText");
-            if(ctrlCharacteristic == null)
-                ctrlCharacteristic = getCharacteristic(HPlusConstants.UUID_CHARACTERISTIC_CONTROL);
+        TransactionBuilder builder = new TransactionBuilder("showText");
+        if (ctrlCharacteristic == null)
+            ctrlCharacteristic = getCharacteristic(HPlusConstants.UUID_CHARACTERISTIC_CONTROL);
 
-            byte[] msg = new byte[20];
-            for(int i = 0; i < msg.length; i++)
-                msg[i] = 32;
+        byte[] msg = new byte[20];
+        for (int i = 0; i < msg.length; i++)
+            msg[i] = 32;
 
-            msg[0] = HPlusConstants.COMMAND_SET_DISPLAY_TEXT;
+        msg[0] = HPlusConstants.COMMAND_ACTION_DISPLAY_TEXT;
 
-            String message = "";
+        String message = "";
 
-            if(title != null){
-                if(title.length() > 12) {
-                    message = title.substring(0, 12);
-                }else {
-                    message = title;
-                    for(int i = message.length(); i < 12; i++)
-                        message += "";
-                }
+        if (title != null) {
+            if (title.length() > 12) {
+                message = title.substring(0, 12);
+            } else {
+                message = title;
+                for (int i = message.length(); i < 12; i++)
+                    message += " ";
             }
-            message += body;
+        }
+        message += body;
 
-            int length = message.length() / 17;
+        int length = message.length() / 17;
 
-            builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.COMMAND_SET_INCOMMING_SOCIAL, (byte) length});
+        builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.COMMAND_ACTION_INCOMING_SOCIAL, (byte) 255});
 
-            int remaining = 0;
+        int remaining = 0;
 
-            if(message.length() % 17 > 0)
-                remaining = length + 1;
-            else
-                remaining = length;
+        if (message.length() % 17 > 0)
+            remaining = length + 1;
+        else
+            remaining = length;
 
-            msg[1] = (byte) remaining;
-            int message_index = 0;
-            int i = 3;
+        msg[1] = (byte) remaining;
+        int message_index = 0;
+        int i = 3;
 
-            for(int j=0; j < message.length(); j++){
-                msg[i++] = (byte) message.charAt(j);
+        for (int j = 0; j < message.length(); j++) {
+            msg[i++] = (byte) message.charAt(j);
 
-                if(i == msg.length){
-                    message_index ++;
-                    msg[2] = (byte) message_index;
-                    builder.write(ctrlCharacteristic, msg);
+            if (i == msg.length) {
+                message_index++;
+                msg[2] = (byte) message_index;
+                builder.write(ctrlCharacteristic, msg);
 
-                    msg = msg.clone();
-                    for(i=3; i < msg.length; i++)
-                        msg[i] = 32;
+                msg = msg.clone();
+                for (i = 3; i < msg.length; i++)
+                    msg[i] = 32;
 
-                    if(message_index < remaining)
-                        i = 3;
-                    else
-                        break;
-                }
+                if (message_index < remaining)
+                    i = 3;
+                else
+                    break;
             }
+        }
 
-            msg[2] = (byte) remaining;
+        msg[2] = (byte) remaining;
 
-            builder.write(ctrlCharacteristic, msg);
-            builder.queue(getQueue());
+        builder.write(ctrlCharacteristic, msg);
+        builder.queue(getQueue());
     }
 
     public boolean isExpectedDevice(BluetoothDevice device) {
@@ -703,14 +778,14 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
         UUID characteristicUUID = characteristic.getUuid();
         byte[] data = characteristic.getValue();
-        if(data.length == 0)
+        if (data.length == 0)
             return true;
 
-        switch(data[0]){
+        switch (data[0]) {
             case HPlusConstants.DATA_STATS:
-                    return processDataStats(data);
+                return processDataStats(data);
             case HPlusConstants.DATA_SLEEP:
-                    return processSleepStats(data);
+                return processSleepStats(data);
             default:
                 LOG.info("Unhandled characteristic changed: " + characteristicUUID);
 
@@ -718,10 +793,10 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         return false;
     }
 
-    private boolean processSleepStats(byte[] data){
+    private boolean processSleepStats(byte[] data) {
         LOG.debug("Process Sleep Stats");
 
-        if(data.length < 19) {
+        if (data.length < 19) {
             LOG.error("Invalid Sleep Message Length " + data.length);
             return false;
         }
@@ -735,13 +810,12 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             int ts = (int) (System.currentTimeMillis() / 1000);
             HPlusSampleProvider provider = new HPlusSampleProvider(gbDevice, session);
 
-            Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
-                    .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, record.getRawData() )
-                    .putExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
+            //TODO: Store Sample. How?
 
-            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+            //provider.addGBActivitySample(record);
 
-        }catch (GBException e) {
+
+        } catch (GBException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
@@ -751,14 +825,16 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
 
-    private boolean processDataStats(byte[]data){
+    private boolean processDataStats(byte[] data) {
+        //TODO: Store Calories and Distance. How?
+
         LOG.debug("Process Data Stats");
 
-        if(data.length < 15) {
+        if (data.length < 15) {
             LOG.error("Invalid Stats Message Length " + data.length);
             return false;
         }
-        double distance = ( (int) data[4] * 256 + data[3]) / 100.0;
+        double distance = ((int) data[4] * 256 + data[3]) / 100.0;
 
         int x = (int) data[6] * 256 + data[5];
         int y = (int) data[8] * 256 + data[7];
@@ -778,9 +854,12 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             if (bpm != HPlusHealthActivitySample.NOT_MEASURED) {
                 HPlusHealthActivitySample sample = createActivitySample(device, user, ts, provider);
                 sample.setHeartRate(bpm);
+                sample.setSteps(0);
+                sample.setRawIntensity(ActivitySample.NOT_MEASURED);
+                sample.setRawKind(HPlusSampleProvider.TYPE_ACTIVITY); // to make it visible in the charts TODO: add a MANUAL kind for that?
                 provider.addGBActivitySample(sample);
             }
-        }catch (GBException e) {
+        } catch (GBException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();

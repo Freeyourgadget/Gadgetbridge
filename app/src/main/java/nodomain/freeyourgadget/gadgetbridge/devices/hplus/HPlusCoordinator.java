@@ -145,7 +145,7 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static byte getCountry(String address) {
-        return (byte) prefs.getInt(HPlusConstants.PREF_HPLUS_ALLDAYHR + "_" + address, 10);
+        return (byte) prefs.getInt(HPlusConstants.PREF_HPLUS_COUNTRY + "_" + address, 10);
 
     }
 
@@ -199,4 +199,38 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
         return (byte) prefs.getInt(HPlusConstants.PREF_HPLUS_ALLDAYHR + "_" + address, 10);
 
     }
+
+    public static byte getSocial(String address) {
+
+        //TODO: Figure what this is. Returning the default value
+
+        return (byte) 255;
+    }
+
+    public static byte getUserWrist(String address) {
+        return (byte) prefs.getInt(HPlusConstants.PREF_HPLUS_WRIST + "_" + address, 10);
+
+    }
+
+    public static boolean getSWAlertTime(String address) {
+        return (boolean) prefs.getBoolean(HPlusConstants.PREF_HPLUS_SWALERT + "_" + address, false);
+
+
+    }
+
+    public static int getAlertTime(String address) {
+        return (int) prefs.getInt(HPlusConstants.PREF_HPLUS_ALERT_TIME + "_" + address, 0);
+
+    }
+
+    public static int getSITStartTime(String address) {
+        return (int) prefs.getInt(HPlusConstants.PREF_HPLUS_SIT_START_TIME + "_" + address, 0);
+
+    }
+
+    public static int getSITEndTime(String address) {
+        return (int) prefs.getInt(HPlusConstants.PREF_HPLUS_SIT_END_TIME + "_" + address, 0);
+
+    }
+
 }
