@@ -106,6 +106,9 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
         //Initialize device
         setInitValues(builder);
+        setCurrentDate(builder);
+        setCurrentTime(builder);
+
         syncPreferences(builder);
 
         builder.notify(getCharacteristic(HPlusConstants.UUID_CHARACTERISTIC_MEASURE), true);
@@ -233,7 +236,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 HPlusConstants.COMMAND_SET_PREF_DATE,
                 (byte) ((year / 256) & 0xff),
                 (byte) (year % 256),
-                (byte) (month),
+                (byte) (month + 1),
                 (byte) (day)
 
         });
