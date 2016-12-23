@@ -4,9 +4,13 @@ package nodomain.freeyourgadget.gadgetbridge.devices.hplus;
 * @author João Paulo Barraca &lt;jpbarraca@gmail.com&gt;
 */
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
+import android.os.ParcelUuid;
 import android.support.annotation.NonNull;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -29,17 +33,35 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collection;
+import java.util.Collections;
+
 public class HPlusCoordinator extends AbstractDeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(HPlusCoordinator.class);
     private static Prefs prefs  = GBApplication.getPrefs();
 
+    @NonNull
+    @Override
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public Collection<? extends ScanFilter> createBLEScanFilters() {
+        ParcelUuid mi2Service = new ParcelUuid(HPlusConstants.UUID_SERVICE_HP);
+        ScanFilter filter = new ScanFilter.Builder().setServiceUuid(mi2Service).build();
+        return Collections.singletonList(filter);
+    }
+
+    @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+        if (candidate.supportsService(HPlusConstants.UUID_SERVICE_HP)) {
+            return DeviceType.HPLUS;
+        }
+
         String name = candidate.getDevice().getName();
         LOG.debug("Looking for: " + name);
         if (name != null && name.startsWith("HPLUS")) {
             return DeviceType.HPLUS;
         }
+
         return DeviceType.UNKNOWN;
     }
 
@@ -123,27 +145,6 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
         return prefs.getInt(HPlusConstants.PREF_HPLUS_FITNESS_GOAL + "_" + address, 10000);
     }
 
-    /**
-     * Returns the user info from the user configured data in the preferences.
-     *
-     * @param hplusAddress
-     * @throws IllegalArgumentException when the user info can not be created
-     */
-    public static UserInfo getConfiguredUserInfo(String hplusAddress) throws IllegalArgumentException {
-        ActivityUser activityUser = new ActivityUser();
-
-        UserInfo info = UserInfo.create(
-                hplusAddress,
-                prefs.getString(HPlusConstants.PREF_HPLUS_USER_ALIAS, null),
-                activityUser.getGender(),
-                activityUser.getAge(),
-                activityUser.getHeightCm(),
-                activityUser.getWeightKg(),
-                0
-        );
-        return info;
-    }
-
     public static byte getCountry(String address) {
         return (byte) prefs.getInt(HPlusConstants.PREF_HPLUS_COUNTRY + "_" + address, 10);
 
@@ -213,23 +214,23 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static boolean getSWAlertTime(String address) {
-        return (boolean) prefs.getBoolean(HPlusConstants.PREF_HPLUS_SWALERT + "_" + address, false);
+        return prefs.getBoolean(HPlusConstants.PREF_HPLUS_SWALERT + "_" + address, false);
 
 
     }
 
     public static int getAlertTime(String address) {
-        return (int) prefs.getInt(HPlusConstants.PREF_HPLUS_ALERT_TIME + "_" + address, 0);
+        return prefs.getInt(HPlusConstants.PREF_HPLUS_ALERT_TIME + "_" + address, 0);
 
     }
 
     public static int getSITStartTime(String address) {
-        return (int) prefs.getInt(HPlusConstants.PREF_HPLUS_SIT_START_TIME + "_" + address, 0);
+        return prefs.getInt(HPlusConstants.PREF_HPLUS_SIT_START_TIME + "_" + address, 0);
 
     }
 
     public static int getSITEndTime(String address) {
-        return (int) prefs.getInt(HPlusConstants.PREF_HPLUS_SIT_END_TIME + "_" + address, 0);
+        return prefs.getInt(HPlusConstants.PREF_HPLUS_SIT_END_TIME + "_" + address, 0);
 
     }
 
