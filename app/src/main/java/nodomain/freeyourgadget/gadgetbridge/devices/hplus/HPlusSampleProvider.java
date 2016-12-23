@@ -48,32 +48,6 @@ public class HPlusSampleProvider extends AbstractSampleProvider<HPlusHealthActiv
         return activityKind;
     }
 
-
-    @Override
-    public List<HPlusHealthActivitySample> getAllActivitySamples(int timestamp_from, int timestamp_to) {
-        List<HPlusHealthActivitySample> samples = super.getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_ALL);
-
-        Device dbDevice = DBHelper.findDevice(getDevice(), getSession());
-        if (dbDevice == null) {
-            // no device, no samples
-            return Collections.emptyList();
-        }
-
-        QueryBuilder<HPlusHealthActivitySample> qb = getSession().getHPlusHealthActivitySampleDao().queryBuilder();
-
-        qb.where(HPlusHealthActivitySampleDao.Properties.DeviceId.eq(dbDevice.getId()), HPlusHealthActivitySampleDao.Properties.Timestamp.ge(timestamp_from))
-                .where(HPlusHealthActivitySampleDao.Properties.Timestamp.le(timestamp_to));
-
-        List<HPlusHealthActivitySample> sampleList = qb.build().list();
-
-        for (HPlusHealthActivitySample sample : sampleList) {
-            if (timestamp_from <= sample.getTimestamp() && sample.getTimestamp() < timestamp_to) {
-                sample.setRawKind(sample.getRawKind());
-            }
-        }
-        detachFromSession();
-        return samples;
-    }
     @NonNull
     @Override
     protected de.greenrobot.dao.Property getTimestampSampleProperty() {

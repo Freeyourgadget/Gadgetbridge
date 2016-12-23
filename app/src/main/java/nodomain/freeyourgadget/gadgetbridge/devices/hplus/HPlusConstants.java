@@ -71,6 +71,7 @@ public final class HPlusConstants {
 
 
     public static final byte DATA_STATS = 0x33;
+    public static final byte DATA_STEPS = 0x36;
     public static final byte DATA_SLEEP = 0x1A;
 
     public static final byte COMMAND_ACTION_INCOMING_SOCIAL = 0x31;
@@ -78,8 +79,6 @@ public final class HPlusConstants {
     public static final byte COMMAND_ACTION_DISPLAY_TEXT = 0x43;
 
 
-    public static final String PREF_HPLUS_USER_ALIAS = "hplus_user_alias";
-    public static final String PREF_HPLUS_FITNESS_GOAL = "hplus_fitness_goal";
     public static final String PREF_HPLUS_SCREENTIME = "hplus_screentime";
     public static final String PREF_HPLUS_ALLDAYHR = "hplus_alldayhr";
     public static final String PREF_HPLUS_UNIT = "hplus_unit";

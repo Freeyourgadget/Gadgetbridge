@@ -141,8 +141,9 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static int getFitnessGoal(String address) throws IllegalArgumentException {
-        Prefs prefs = GBApplication.getPrefs();
-        return prefs.getInt(HPlusConstants.PREF_HPLUS_FITNESS_GOAL + "_" + address, 10000);
+        ActivityUser activityUser = new ActivityUser();
+
+        return activityUser.getStepsGoal();
     }
 
     public static byte getCountry(String address) {
@@ -161,28 +162,25 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     public static byte getUserWeight(String address) {
         ActivityUser activityUser = new ActivityUser();
 
-        return (byte) activityUser.getWeightKg();
+        return (byte) (activityUser.getWeightKg() & 0xFF);
     }
 
     public static byte getUserHeight(String address) {
         ActivityUser activityUser = new ActivityUser();
 
-        return (byte) activityUser.getHeightCm();
+        return (byte) (activityUser.getHeightCm() & 0xFF);
     }
 
     public static byte getUserAge(String address) {
         ActivityUser activityUser = new ActivityUser();
 
-        return (byte) activityUser.getAge();
+        return (byte) (activityUser.getAge() & 0xFF);
     }
 
     public static byte getUserSex(String address) {
         ActivityUser activityUser = new ActivityUser();
 
-        int gender = activityUser.getGender();
-
-        return (byte) gender;
-
+        return (byte) (activityUser.getGender() & 0xFF);
     }
 
     public static int getGoal(String address) {
@@ -192,46 +190,37 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static byte getScreenTime(String address) {
-        return (byte) prefs.getInt(HPlusConstants.PREF_HPLUS_SCREENTIME + "_" + address, 5);
-
+        return (byte) (prefs.getInt(HPlusConstants.PREF_HPLUS_SCREENTIME + "_" + address, 5) & 0xFF);
     }
 
     public static byte getAllDayHR(String address) {
-        return (byte) prefs.getInt(HPlusConstants.PREF_HPLUS_ALLDAYHR + "_" + address, 10);
-
+        return (byte) (prefs.getInt(HPlusConstants.PREF_HPLUS_ALLDAYHR + "_" + address, 10) & 0xFF);
     }
 
     public static byte getSocial(String address) {
-
         //TODO: Figure what this is. Returning the default value
 
         return (byte) 255;
     }
 
     public static byte getUserWrist(String address) {
-        return (byte) prefs.getInt(HPlusConstants.PREF_HPLUS_WRIST + "_" + address, 10);
-
+        return (byte) (prefs.getInt(HPlusConstants.PREF_HPLUS_WRIST + "_" + address, 10) & 0xFF);
     }
 
     public static boolean getSWAlertTime(String address) {
         return prefs.getBoolean(HPlusConstants.PREF_HPLUS_SWALERT + "_" + address, false);
-
-
     }
 
     public static int getAlertTime(String address) {
         return prefs.getInt(HPlusConstants.PREF_HPLUS_ALERT_TIME + "_" + address, 0);
-
     }
 
     public static int getSITStartTime(String address) {
         return prefs.getInt(HPlusConstants.PREF_HPLUS_SIT_START_TIME + "_" + address, 0);
-
     }
 
     public static int getSITEndTime(String address) {
         return prefs.getInt(HPlusConstants.PREF_HPLUS_SIT_END_TIME + "_" + address, 0);
-
     }
 
 }
