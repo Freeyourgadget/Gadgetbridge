@@ -722,7 +722,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
             byte[] msg = new byte[20];
             for (int i = 0; i < msg.length; i++)
-                msg[i] = 32;
+                msg[i] = ' ';
 
             msg[0] = HPlusConstants.COMMAND_ACTION_DISPLAY_TEXT;
 
@@ -730,7 +730,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
             if (title != null) {
                 if (title.length() > 17) {
-                    message = title.substring(0, 12);
+                    message = title.substring(0, 17);
                 } else {
                     message = title;
                     for (int i = message.length(); i < 17; i++)
@@ -764,7 +764,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
                     msg = msg.clone();
                     for (i = 3; i < msg.length; i++)
-                        msg[i] = 32;
+                        msg[i] = ' ';
 
                     if (message_index < remaining)
                         i = 3;
