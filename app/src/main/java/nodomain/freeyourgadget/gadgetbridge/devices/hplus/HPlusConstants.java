@@ -59,7 +59,7 @@ public final class HPlusConstants {
     public static final byte COMMAND_SET_DISPLAY_ALERT = 0x23;
     public static final byte COMMAND_SET_PREF_ALLDAYHR = 53;
 
-    public static final byte COMMAND_SET_INCOMMING_CALL = 65;
+    public static final byte COMMAND_SET_INCOMING_CALL = 0x41;
     public static final byte[] COMMAND_FACTORY_RESET = new byte[] {-74, 90};
 
     public static final byte COMMAND_SET_CONF_SAVE = 0x17;
@@ -75,8 +75,13 @@ public final class HPlusConstants {
     public static final byte DATA_SLEEP = 0x1A;
 
     public static final byte COMMAND_ACTION_INCOMING_SOCIAL = 0x31;
-    public static final byte COMMAND_ACTION_INCOMMING_SMS = 0x40;
+    public static final byte COMMAND_ACTION_INCOMING_SMS = 0x40;
     public static final byte COMMAND_ACTION_DISPLAY_TEXT = 0x43;
+    public static final byte[] COMMAND_ACTION_INCOMING_CALL = new byte[] {6, -86};
+    public static final byte COMMAND_ACTION_DISPLAY_TEXT_CENTER = 0x23;
+    public static final byte COMMAND_ACTION_DISPLAY_TEXT_NAME = 0x3F;
+    public static final byte COMMAND_ACTION_DISPLAY_TEXT_NAME_CN = 0x3E; //Text in GB2312?
+
 
 
     public static final String PREF_HPLUS_SCREENTIME = "hplus_screentime";

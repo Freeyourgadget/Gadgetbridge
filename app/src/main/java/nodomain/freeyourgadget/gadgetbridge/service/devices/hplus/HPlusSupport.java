@@ -462,7 +462,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     public void onSetCallState(CallSpec callSpec) {
         switch (callSpec.command) {
             case CallSpec.CALL_INCOMING: {
-                showText(callSpec.name, callSpec.number);
+                showIncomingCall(callSpec.name, callSpec.number);
                 break;
             }
         }
@@ -635,6 +635,79 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         LOG.debug("Test New Function");
     }
 
+
+    private void showIncomingCall(String name, String number){
+        LOG.debug("Show Incoming Call");
+
+        try {
+            TransactionBuilder builder = performInitialized("incomingCallIcon");
+
+            //Enable call notifications
+            builder.write(ctrlCharacteristic, new byte[] {HPlusConstants.COMMAND_SET_INCOMING_CALL, 1 });
+
+            //Show Call Icon
+            builder.write(ctrlCharacteristic, HPlusConstants.COMMAND_ACTION_INCOMING_CALL);
+
+            //builder = performInitialized("incomingCallText");
+            builder.queue(getQueue());
+
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            byte[] msg = new byte[13];
+
+            builder = performInitialized("incomingCallNumber");
+
+            //Show call number
+            for (int i = 0; i < msg.length; i++)
+                msg[i] = ' ';
+
+            for(int i = 0; i < number.length() && i < (msg.length - 1); i++)
+                msg[i + 1] = (byte) number.charAt(i);
+
+
+            msg[0] = HPlusConstants.COMMAND_ACTION_DISPLAY_TEXT_CENTER;
+
+            builder.write(ctrlCharacteristic, msg);
+            builder.queue(getQueue());
+
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            builder = performInitialized("incomingCallText");
+
+            //Show call name
+            //Must call twice, otherwise nothing happens
+            for (int i = 0; i < msg.length; i++)
+                msg[i] = ' ';
+
+            for(int i = 0; i < name.length() &&  i < (msg.length - 1); i++)
+                msg[i + 1] = (byte) name.charAt(i);
+
+            msg[0] = HPlusConstants.COMMAND_ACTION_DISPLAY_TEXT_NAME;
+            builder.write(ctrlCharacteristic, msg);
+
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            msg[0] = HPlusConstants.COMMAND_ACTION_DISPLAY_TEXT_NAME_CN;
+            builder.write(ctrlCharacteristic, msg);
+
+            builder.queue(getQueue());
+        }catch(IOException e){
+            GB.toast(getContext(), "Error showing incoming call: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+
+        }
+    }
 
     private void showText(String message) {
         showText(null, message);
