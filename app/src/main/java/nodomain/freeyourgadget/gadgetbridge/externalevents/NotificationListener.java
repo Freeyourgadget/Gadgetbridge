@@ -34,6 +34,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.AppNotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -250,6 +251,10 @@ public class NotificationListener extends NotificationListenerService {
         boolean preferBigText = false;
 
         notificationSpec.type = AppNotificationType.getInstance().get(source);
+
+        if (notificationSpec.type == null) {
+            notificationSpec.type = NotificationType.UNKNOWN;
+        }
 
         LOG.info("Processing notification from source " + source + " with flags: " + notification.flags);
 
