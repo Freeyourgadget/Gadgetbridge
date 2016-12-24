@@ -1,5 +1,8 @@
 ###Changelog
 
+####Version 0.15.2
+* Mi Band: Fix crash with unknown notification sources
+
 ####Version 0.15.1
 * Improved handling of notifications for some apps
 * Pebble 2/LE: Add setting to limit GATT MTU for debugging broken BLE stacks
