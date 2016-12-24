@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.15.2" versioncode="79">
+        <change>Mi Band: Fix crash with unknown notification sources</change>
+    </release>
     <release version="0.15.1" versioncode="78">
         <change>Improved handling of notifications for some apps</change>
         <change>Pebble 2/LE: Add setting to limit GATT MTU for debugging broken BLE stacks</change>

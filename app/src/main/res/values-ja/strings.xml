@@ -98,6 +98,8 @@
   <string name="pref_summary_pebble_forceuntested">テストされていない機能を有効にします。何をしているかわかっている場合のみ有効にしてください!</string>
   <string name="pref_title_pebble_forcele">常に BLE を好みにする</string>
   <string name="pref_summary_pebble_forcele">すべてのPebbleに対して、BT クラシックではなく実験的なPebble LEサポートを使用します。非LEで一度接続された後に \"Pebble LE\" をペアリングする必要があります</string>
+  <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU 制限</string>
+  <string name="pref_summary_pebble_mtu_limit">Pebble 2/Pebble LE が期待どおりに機能しない場合は、この設定を試して MTU を制限してください (有効範囲 20-512)</string>
   <string name="pref_title_pebble_enable_applogs">ウォッチアプリのログ記録を有効にする</string>
   <string name="pref_summary_pebble_enable_applogs">Gadgetbridgeがウォッチアプリからログを記録するようにする (再接続が必要です)</string>
   <string name="pref_title_pebble_reconnect_attempts">再接続の試行</string>
