@@ -61,6 +61,8 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     private BluetoothGattCharacteristic ctrlCharacteristic = null;
     private BluetoothGattCharacteristic measureCharacteristic = null;
 
+    private byte[] lastDataStats = null;
+
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -108,7 +110,6 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         setInitValues(builder);
         setCurrentDate(builder);
         setCurrentTime(builder);
-
         syncPreferences(builder);
 
         builder.notify(getCharacteristic(HPlusConstants.UUID_CHARACTERISTIC_MEASURE), true);
@@ -449,6 +450,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onSetTime() {
         TransactionBuilder builder = new TransactionBuilder("time");
+
         setCurrentDate(builder);
         setCurrentTime(builder);
     }
@@ -651,6 +653,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             //builder = performInitialized("incomingCallText");
             builder.queue(getQueue());
 
+            //TODO: Use WaitAction
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {
@@ -728,6 +731,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
             String message = "";
 
+            //TODO: Create StringUtils.pad and StringUtils.truncate
             if (title != null) {
                 if (title.length() > 17) {
                     message = title.substring(0, 17);
@@ -951,6 +955,13 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             LOG.error("Invalid Stats Message Length " + data.length);
             return false;
         }
+
+        //Ignore duplicate packets
+        if(data.equals(lastDataStats))
+            return true;
+
+        lastDataStats = data.clone();
+
         double distance = ((int) data[4] * 256 + data[3]) / 100.0;
 
         int x = (int) data[6] * 256 + data[5];

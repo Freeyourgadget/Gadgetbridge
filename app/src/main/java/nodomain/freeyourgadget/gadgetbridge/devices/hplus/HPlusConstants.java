@@ -72,6 +72,7 @@ public final class HPlusConstants {
 
     public static final byte DATA_STATS = 0x33;
     public static final byte DATA_STEPS = 0x36;
+    
     public static final byte DATA_SLEEP = 0x1A;
 
     public static final byte COMMAND_ACTION_INCOMING_SOCIAL = 0x31;
