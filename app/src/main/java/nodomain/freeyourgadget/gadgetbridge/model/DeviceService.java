@@ -38,11 +38,6 @@ public interface DeviceService extends EventHandler {
     String ACTION_SET_ALARMS = PREFIX + ".action.set_alarms";
     String ACTION_ENABLE_REALTIME_STEPS = PREFIX + ".action.enable_realtime_steps";
     String ACTION_REALTIME_SAMPLES = PREFIX + ".action.realtime_samples";
-    /**
-     * Use EXTRA_REALTIME_SAMPLE instead
-     */
-    @Deprecated
-    String ACTION_REALTIME_STEPS = PREFIX + ".action.realtime_steps";
     String ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT = PREFIX + ".action.realtime_hr_measurement";
     String ACTION_ENABLE_HEARTRATE_SLEEP_SUPPORT = PREFIX + ".action.enable_heartrate_sleep_support";
     String ACTION_HEARTRATE_MEASUREMENT = PREFIX + ".action.hr_measurement";

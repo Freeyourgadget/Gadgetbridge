@@ -136,7 +136,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
                 throw new IllegalArgumentException("delta in seconds is <= 0 -- time change?");
             }
 
-            int oneMinute = 60 * 1000;
+            int oneMinute = 60;
             float factor = oneMinute / seconds;
             int result = (int) (stepsDelta * factor);
             if (result > MAX_STEPS_PER_MINUTE) {
@@ -152,23 +152,24 @@ public class LiveActivityFragment extends AbstractChartFragment {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             switch (action) {
-                case DeviceService.ACTION_REALTIME_STEPS: {
-                    int steps = intent.getIntExtra(DeviceService.EXTRA_REALTIME_STEPS, 0);
-                    int timestamp = translateTimestampFrom(intent);
-                    addEntries(steps, timestamp);
-                    break;
-                }
-                case DeviceService.ACTION_HEARTRATE_MEASUREMENT: {
-                    int heartRate = intent.getIntExtra(DeviceService.EXTRA_HEART_RATE_VALUE, 0);
-                    int timestamp = translateTimestampFrom(intent);
-                    if (isValidHeartRateValue(heartRate)) {
-                        setCurrentHeartRate(heartRate, timestamp);
-                    }
+                case DeviceService.ACTION_REALTIME_SAMPLES: {
+                    ActivitySample sample = (ActivitySample) intent.getSerializableExtra(DeviceService.EXTRA_REALTIME_SAMPLE);
+                    addSample(sample);
                     break;
                 }
             }
         }
     };
+
+    private void addSample(ActivitySample sample) {
+        int heartRate = sample.getHeartRate();
+        int timestamp = tsTranslation.shorten(sample.getTimestamp());
+        if (isValidHeartRateValue(heartRate)) {
+            setCurrentHeartRate(heartRate, timestamp);
+        }
+        int steps = sample.getSteps();
+        addEntries(steps, timestamp);
+    }
 
     private int translateTimestampFrom(Intent intent) {
         return translateTimestamp(intent.getLongExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis()));
@@ -251,8 +252,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         IntentFilter filterLocal = new IntentFilter();
-        filterLocal.addAction(DeviceService.ACTION_REALTIME_STEPS);
-        filterLocal.addAction(DeviceService.ACTION_HEARTRATE_MEASUREMENT);
+        filterLocal.addAction(DeviceService.ACTION_REALTIME_SAMPLES);
         heartRateValues = new ArrayList<>();
         tsTranslation = new TimestampTranslation();
 
