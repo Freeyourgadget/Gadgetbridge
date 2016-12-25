@@ -60,6 +60,7 @@ public class GBDaoGenerator {
         addPebbleHealthActivityKindOverlay(schema, user, device);
         addPebbleMisfitActivitySample(schema, user, device);
         addPebbleMorpheuzActivitySample(schema, user, device);
+        addHPlusHealthActivitySample(schema, user, device);
 
         new DaoGenerator().generateAll(schema, "app/src/main/java");
     }
@@ -218,6 +219,19 @@ public class GBDaoGenerator {
         Entity activitySample = addEntity(schema, "PebbleMorpheuzSample");
         addCommonActivitySampleProperties("AbstractPebbleMorpheuzActivitySample", activitySample, user, device);
         activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        return activitySample;
+    }
+
+    private static Entity addHPlusHealthActivitySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "HPlusHealthActivitySample");
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        activitySample.addByteArrayProperty("rawHPlusHealthData");
+        activitySample.addIntProperty("rawHPlusCalories").notNull();
+        activitySample.addIntProperty("rawHPlusDistance").notNull();
+        activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        addHeartRateProperties(activitySample);
         return activitySample;
     }
 

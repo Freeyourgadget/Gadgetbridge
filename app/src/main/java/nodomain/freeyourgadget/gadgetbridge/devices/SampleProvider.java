@@ -24,6 +24,7 @@ public interface SampleProvider<T extends AbstractActivitySample> {
     int PROVIDER_PEBBLE_MISFIT = 3;
     int PROVIDER_PEBBLE_HEALTH = 4;
     int PROVIDER_MIBAND2 = 5;
+    int PROVIDER_HPLUS = 6;
 
     int PROVIDER_UNKNOWN = 100;
     // TODO: can also be removed
