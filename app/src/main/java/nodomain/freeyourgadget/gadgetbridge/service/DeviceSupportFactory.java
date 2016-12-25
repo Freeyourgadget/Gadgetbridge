@@ -15,6 +15,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Suppo
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.vibratissimo.VibratissimoSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.hplus.HPlusSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class DeviceSupportFactory {
@@ -95,6 +96,9 @@ public class DeviceSupportFactory {
                         break;
                     case LIVEVIEW:
                         deviceSupport = new ServiceDeviceSupport(new LiveviewSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
+                    case HPLUS:
+                        deviceSupport = new ServiceDeviceSupport(new HPlusSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
                 }
                 if (deviceSupport != null) {

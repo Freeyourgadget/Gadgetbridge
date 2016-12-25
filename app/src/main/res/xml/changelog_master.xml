@@ -6,6 +6,7 @@
     <release version="0.15.1" versioncode="78">
         <change>Improved handling of notifications for some apps</change>
         <change>Pebble 2/LE: Add setting to limit GATT MTU for debugging broken BLE stacks</change>
+        <change>Mi Band 2: Display battery status</change>
     </release>
     <release version="0.15.0" versioncode="77">
         <change>New device: Liveview</change>
