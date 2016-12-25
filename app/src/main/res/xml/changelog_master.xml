@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.16.0" versioncode="80">
+        <change>New device: ZeBand</change>
+        <change>ZeBand: Initial experimental support</change>
+        <change>Pebble 2: Fix Pebble Classic FW 3.x app variant being priorized over native Pebble 2 app variant</change>
+    </release>
     <release version="0.15.2" versioncode="79">
         <change>Mi Band: Fix crash with unknown notification sources</change>
     </release>

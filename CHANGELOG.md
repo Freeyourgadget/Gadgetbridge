@@ -1,5 +1,10 @@
 ###Changelog
 
+####Version 0.16.0
+* New device: ZeBand
+* ZeBand: Initial experimental support
+* Pebble 2: Fix Pebble Classic FW 3.x app variant being priorized over native Pebble 2 app variant
+
 ####Version 0.15.2
 * Mi Band: Fix crash with unknown notification sources
 
