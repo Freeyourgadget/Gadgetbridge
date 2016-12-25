@@ -124,16 +124,21 @@ public class PBWReader {
 
                 ZipInputStream zis = new ZipInputStream(afin);
                 ZipEntry ze;
+                boolean found = false;
                 try {
                     while ((ze = zis.getNextEntry()) != null) {
                         if (ze.getName().startsWith(dir)) {
                             platformDir = dir;
+                            found = true;
                             break;
                         }
                     }
                     zis.close();
                 } catch (IOException e) {
                     e.printStackTrace();
+                }
+                if (found) {
+                    break;
                 }
             }
 
