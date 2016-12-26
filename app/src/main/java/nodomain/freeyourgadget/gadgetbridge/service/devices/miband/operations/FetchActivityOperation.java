@@ -55,6 +55,7 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
     private final boolean hasExtendedActivityData;
 
     private static class ActivityStruct {
+        private int lastNotifiedProgress;
         private final byte[] activityDataHolder;
         private final int activityDataHolderSize;
         //index of the buffer above
@@ -129,6 +130,7 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
         public void bufferFlushed(int minutes) {
             activityDataTimestampProgress.add(Calendar.MINUTE, minutes);
             activityDataHolderProgress = 0;
+            lastNotifiedProgress = 0;
         }
     }
 
@@ -199,9 +201,16 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
         } else {
             bufferActivityData(value);
         }
-        LOG.debug("activity data: length: " + value.length + ", remaining bytes: " + activityStruct.activityDataRemainingBytes);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("activity data: length: " + value.length + ", remaining bytes: " + activityStruct.activityDataRemainingBytes);
+        }
 
-        GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), true, (int) (((float) (activityStruct.activityDataUntilNextHeader - activityStruct.activityDataRemainingBytes)) / activityStruct.activityDataUntilNextHeader * 100), getContext());
+        int progress = (int) (((float) (activityStruct.activityDataUntilNextHeader - activityStruct.activityDataRemainingBytes)) / activityStruct.activityDataUntilNextHeader * 100);
+        // avoid too many notifications overloading the system
+        if (progress - activityStruct.lastNotifiedProgress >= 8) {
+            activityStruct.lastNotifiedProgress = progress;
+            GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), true, progress, getContext());
+        }
 
         if (activityStruct.isBlockFinished()) {
             sendAckDataTransfer(activityStruct.activityDataTimestampToAck, activityStruct.activityDataUntilNextHeader);
