@@ -367,6 +367,9 @@ public class LiveActivityFragment extends AbstractChartFragment {
 //        chart.getXAxis().setPosition(XAxis.XAxisPosition.TOP);
         chart.getXAxis().setDrawLabels(false);
         chart.getXAxis().setEnabled(false);
+        chart.getXAxis().setTextColor(CHART_TEXT_COLOR);
+        chart.getAxisLeft().setTextColor(CHART_TEXT_COLOR);
+
         chart.setBackgroundColor(BACKGROUND_COLOR);
         chart.getDescription().setTextColor(DESCRIPTION_COLOR);
         chart.getDescription().setText(title);
