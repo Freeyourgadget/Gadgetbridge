@@ -72,8 +72,6 @@ public class LiveActivityFragment extends AbstractChartFragment {
     private TimestampTranslation tsTranslation;
 
     private class Steps {
-        private int initialSteps;
-
         private int steps;
         private int lastTimestamp;
         private int currentStepsPerMinute;
@@ -90,7 +88,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
         }
 
         public int getTotalSteps() {
-            return steps - initialSteps;
+            return steps;
         }
 
         public int getMaxStepsPerMinute() {
@@ -102,10 +100,6 @@ public class LiveActivityFragment extends AbstractChartFragment {
                 if (steps == 0) {
                     steps += stepsDelta;
                     lastTimestamp = timestamp;
-
-//                    if (stepsDelta > 0) {
-//                        initialSteps = stepsDelta;
-//                    }
                     return;
                 }
 
@@ -162,7 +156,9 @@ public class LiveActivityFragment extends AbstractChartFragment {
             setCurrentHeartRate(heartRate, timestamp);
         }
         int steps = sample.getSteps();
-        addEntries(steps, timestamp);
+        if (steps != ActivitySample.NOT_MEASURED) {
+            addEntries(steps, timestamp);
+        }
     }
 
     private int translateTimestampFrom(Intent intent) {

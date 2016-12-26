@@ -61,12 +61,17 @@ public abstract class RealtimeSamplesSupport {
         this.steps = stepsPerMinute;
     }
 
+    /**
+     * Returns the number of steps recorded since the last measurements. If no
+     * steps are available yet, ActivitySample.NOT_MEASURED is returned.
+     * @return
+     */
     public synchronized int getSteps() {
-        if (lastSteps == 0)  {
-            return 0; // wait until we have a delta between two samples
-        }
         if (steps == ActivitySample.NOT_MEASURED) {
-            return 0;
+            return ActivitySample.NOT_MEASURED;
+        }
+        if (lastSteps == 0)  {
+            return ActivitySample.NOT_MEASURED; // wait until we have a delta between two samples
         }
         int delta = steps - lastSteps;
         if (delta < 0) {

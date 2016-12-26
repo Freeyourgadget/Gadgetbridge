@@ -953,7 +953,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                         sample.setRawIntensity(ActivitySample.NOT_MEASURED);
                         sample.setRawKind(MiBandSampleProvider.TYPE_ACTIVITY); // to make it visible in the charts TODO: add a MANUAL kind for that?
 
-                        LOG.debug("Storing realtime sample: " + sample);
                         provider.addGBActivitySample(sample);
 
                         // set the steps only afterwards, since realtime steps are also recorded
@@ -961,6 +960,10 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                         // Note: we know that the DAO sample is never committed again, so we simply
                         // change the value here in memory.
                         sample.setSteps(getSteps());
+
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("realtime sample: " + sample);
+                        }
 
                         Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
                                 .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
