@@ -22,6 +22,7 @@ public abstract class RealtimeSamplesSupport {
 
     protected int steps;
     protected int heartrateBpm;
+    private int lastSteps;
     // subclasses may add more
 
     private Timer realtimeStorageTimer;
@@ -56,12 +57,22 @@ public abstract class RealtimeSamplesSupport {
         return realtimeStorageTimer != null;
     }
 
-    public void setSteps(int stepsPerMinute) {
+    public synchronized void setSteps(int stepsPerMinute) {
         this.steps = stepsPerMinute;
     }
 
-    public int getSteps() {
-        return steps;
+    public synchronized int getSteps() {
+        if (lastSteps == 0)  {
+            return 0; // wait until we have a delta between two samples
+        }
+        if (steps == ActivitySample.NOT_MEASURED) {
+            return 0;
+        }
+        int delta = steps - lastSteps;
+        if (delta < 0) {
+            return 0;
+        }
+        return delta;
     }
 
     public void setHeartrateBpm(int hrBpm) {
@@ -77,7 +88,10 @@ public abstract class RealtimeSamplesSupport {
         resetCurrentValues();
     }
 
-    protected void resetCurrentValues() {
+    protected synchronized void resetCurrentValues() {
+        if (steps >= lastSteps) {
+            lastSteps = steps;
+        }
         steps = ActivitySample.NOT_MEASURED;
         heartrateBpm = ActivitySample.NOT_MEASURED;
     }

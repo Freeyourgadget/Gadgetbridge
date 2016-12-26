@@ -97,32 +97,26 @@ public class LiveActivityFragment extends AbstractChartFragment {
             return maxStepsPerMinute;
         }
 
-        public void updateCurrentSteps(int newSteps, int timestamp) {
+        public void updateCurrentSteps(int stepsDelta, int timestamp) {
             try {
                 if (steps == 0) {
-                    steps = newSteps;
+                    steps += stepsDelta;
                     lastTimestamp = timestamp;
 
-                    if (newSteps > 0) {
-                        initialSteps = newSteps;
-                    }
+//                    if (stepsDelta > 0) {
+//                        initialSteps = stepsDelta;
+//                    }
                     return;
                 }
 
-                if (newSteps >= steps) {
-                    int stepsDelta = newSteps - steps;
-                    int timeDelta = timestamp - lastTimestamp;
-                    currentStepsPerMinute = calculateStepsPerMinute(stepsDelta, timeDelta);
-                    if (currentStepsPerMinute > maxStepsPerMinute) {
-                        maxStepsPerMinute = currentStepsPerMinute;
-                        maxStepsResetCounter = 0;
-                    }
-                    steps = newSteps;
-                    lastTimestamp = timestamp;
-                } else {
-                    // TODO: handle new day?
-
+                int timeDelta = timestamp - lastTimestamp;
+                currentStepsPerMinute = calculateStepsPerMinute(stepsDelta, timeDelta);
+                if (currentStepsPerMinute > maxStepsPerMinute) {
+                    maxStepsPerMinute = currentStepsPerMinute;
+                    maxStepsResetCounter = 0;
                 }
+                steps += stepsDelta;
+                lastTimestamp = timestamp;
             } catch (Exception ex) {
                 GB.toast(LiveActivityFragment.this.getContext(), ex.getMessage(), Toast.LENGTH_SHORT, GB.ERROR, ex);
             }

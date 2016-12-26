@@ -950,16 +950,22 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                         MiBandSampleProvider provider = new MiBandSampleProvider(gbDevice, session);
                         MiBandActivitySample sample = createActivitySample(device, user, ts, provider);
                         sample.setHeartRate(getHeartrateBpm());
-                        sample.setSteps(getSteps());
                         sample.setRawIntensity(ActivitySample.NOT_MEASURED);
                         sample.setRawKind(MiBandSampleProvider.TYPE_ACTIVITY); // to make it visible in the charts TODO: add a MANUAL kind for that?
+
+                        LOG.debug("Storing realtime sample: " + sample);
+                        provider.addGBActivitySample(sample);
+
+                        // set the steps only afterwards, since realtime steps are also recorded
+                        // in the regular samples and we must not count them twice
+                        // Note: we know that the DAO sample is never committed again, so we simply
+                        // change the value here in memory.
+                        sample.setSteps(getSteps());
 
                         Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
                                 .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
                         LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
 
-                        LOG.debug("Storing realtime sample: " + sample);
-                        provider.addGBActivitySample(sample);
                     } catch (Exception e) {
                         LOG.warn("Unable to acquire db for saving realtime samples", e);
                     }
