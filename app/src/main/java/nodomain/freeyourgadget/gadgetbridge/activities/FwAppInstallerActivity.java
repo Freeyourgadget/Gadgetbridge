@@ -152,6 +152,9 @@ public class FwAppInstallerActivity extends GBActivity implements InstallActivit
         });
 
         uri = getIntent().getData();
+        if (uri == null) { //for "share" intent
+            uri = getIntent().getParcelableExtra(Intent.EXTRA_STREAM);
+        }
         installHandler = findInstallHandlerFor(uri);
         if (installHandler == null) {
             setInfoText(getString(R.string.installer_activity_unable_to_find_handler));
