@@ -2,7 +2,9 @@ package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.MediaStore;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,6 +59,7 @@ public class PBWReader {
     private short mAppVersion;
     private int mIconId;
     private int mFlags;
+    private long fileSize;
 
     private JSONObject mAppKeys = null;
 
@@ -66,7 +69,17 @@ public class PBWReader {
 
         InputStream fin = new BufferedInputStream(cr.openInputStream(uri));
 
-        if (uri.toString().endsWith(".pbl")) {
+        Uri filePathUri = uri;
+        if (uri.getScheme().toString().compareTo("content") == 0) {
+            Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
+            if (cursor.moveToFirst()) {
+                int name_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME);
+                int size_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.SIZE);
+                filePathUri = Uri.parse(cursor.getString(name_index));
+                fileSize = cursor.getLong(size_index);
+            }
+        }
+        if (filePathUri.toString().endsWith(".pbl")) {
             STM32CRC stm32crc = new STM32CRC();
             try {
                 byte[] buf = new byte[2000];
@@ -83,10 +96,12 @@ public class PBWReader {
             int crc = stm32crc.getResult();
             // language file
             app = new GBDeviceApp(UUID.randomUUID(), "Language File", "unknown", "unknown", GBDeviceApp.Type.UNKNOWN);
-            File f = new File(uri.getPath());
-
+            if (fileSize == 0) {
+                File f = new File(uri.getPath());
+                fileSize = f.length();
+            }
             pebbleInstallables = new ArrayList<>();
-            pebbleInstallables.add(new PebbleInstallable("lang", (int) f.length(), crc, PebbleProtocol.PUTBYTES_TYPE_FILE));
+            pebbleInstallables.add(new PebbleInstallable("lang", (int) fileSize, crc, PebbleProtocol.PUTBYTES_TYPE_FILE));
 
             isValid = true;
             isLanguage = true;
@@ -95,7 +110,7 @@ public class PBWReader {
 
         String platformDir = "";
 
-        if (!uri.toString().endsWith(".pbz")) {
+        if (!filePathUri.toString().endsWith(".pbz")) {
             /*
              * for aplite and basalt it is possible to install 2.x apps which have no subfolder
              * we still prefer the subfolders if present.
