@@ -104,7 +104,7 @@ function gbPebble() {
 
     this.actuallySendData = function() {
         GBjs.sendAppMessage(self.configurationValues);
-        GBjs.closeActivity();
+        GBActivity.closeActivity();
     }
 
     this.savePreset = function() {
@@ -169,7 +169,7 @@ function gbPebble() {
 
     this.showConfiguration = function() {
         console.error("This watchapp doesn't support configuration");
-        GBjs.closeActivity();
+        GBActivity.closeActivity();
     }
 
     this.parseReturnedPebbleJS = function() {
@@ -204,7 +204,6 @@ if (jsConfigFile != null) {
             if (json_string != '') {
                 Pebble.evaluate('webviewclosed',[t]);
             }
-
         } else {
             if (storedPreset === undefined) {
                 var presetElements = document.getElementsByClassName("load_presets");
@@ -212,7 +211,6 @@ if (jsConfigFile != null) {
                         presetElements[i].style.display = 'none';
                     }
             }
-            Pebble.evaluate('showConfiguration');
         }
     });
 }

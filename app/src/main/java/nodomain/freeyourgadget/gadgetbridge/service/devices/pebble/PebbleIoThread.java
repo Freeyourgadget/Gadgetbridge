@@ -49,6 +49,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton;
 
 class PebbleIoThread extends GBDeviceIoThread {
     private static final Logger LOG = LoggerFactory.getLogger(PebbleIoThread.class);
@@ -429,6 +430,9 @@ class PebbleIoThread extends GBDeviceIoThread {
         } else {
             gbDevice.setState(GBDevice.State.WAITING_FOR_RECONNECT);
         }
+
+        WebViewSingleton.disposeWebView();
+
         gbDevice.sendDeviceUpdateIntent(getContext());
     }
 
@@ -565,6 +569,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                     break;
                 case START:
                     LOG.info("got GBDeviceEventAppManagement START event for uuid: " + appMgmt.uuid);
+                    WebViewSingleton.getorInitWebView(getContext(), gbDevice, appMgmt.uuid);
                     break;
                 default:
                     break;
