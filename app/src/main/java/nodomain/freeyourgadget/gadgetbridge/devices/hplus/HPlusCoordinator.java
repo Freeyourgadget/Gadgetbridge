@@ -177,10 +177,13 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
         return (byte) (activityUser.getAge() & 0xFF);
     }
 
-    public static byte getUserSex(String address) {
+    public static byte getUserGender(String address) {
         ActivityUser activityUser = new ActivityUser();
 
-        return (byte) (activityUser.getGender() & 0xFF);
+        if (activityUser.getGender() == ActivityUser.GENDER_MALE)
+            return HPlusConstants.PREF_VALUE_GENDER_MALE;
+
+        return HPlusConstants.PREF_VALUE_GENDER_FEMALE;
     }
 
     public static int getGoal(String address) {

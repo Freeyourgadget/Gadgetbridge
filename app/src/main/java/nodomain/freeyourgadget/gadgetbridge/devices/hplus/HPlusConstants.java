@@ -23,8 +23,8 @@ public final class HPlusConstants {
     public static final byte UNIT_METRIC = 0;
     public static final byte UNIT_IMPERIAL = 1;
 
-    public static final byte SEX_MALE = 0;
-    public static final byte SEX_FEMALE = 1;
+    public static final byte PREF_VALUE_GENDER_MALE = 0;
+    public static final byte PREF_VALUE_GENDER_FEMALE = 1;
 
     public static final byte HEARTRATE_MEASURE_ON = 11;
     public static final byte HEARTRATE_MEASURE_OFF = 22;

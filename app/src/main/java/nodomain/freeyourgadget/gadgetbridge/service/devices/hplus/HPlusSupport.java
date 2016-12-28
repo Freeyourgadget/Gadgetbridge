@@ -143,7 +143,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     private HPlusSupport syncPreferences(TransactionBuilder transaction) {
         LOG.info("Attempting to sync preferences...");
 
-        byte sex = HPlusCoordinator.getUserSex(getDevice().getAddress());
+        byte gender = HPlusCoordinator.getUserGender(getDevice().getAddress());
         byte age = HPlusCoordinator.getUserAge(getDevice().getAddress());
         byte bodyHeight = HPlusCoordinator.getUserHeight(getDevice().getAddress());
         byte bodyWeight = HPlusCoordinator.getUserWeight(getDevice().getAddress());
@@ -167,8 +167,8 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         byte timemode = HPlusCoordinator.getTimeMode((getDevice().getAddress()));
 
         transaction.write(ctrlCharacteristic, new byte[]{
-                HPlusConstants.COMMAND_SET_PREF_COUNTRY,
-                sex,
+                HPlusConstants.COMMAND_SET_PREFS,
+                gender,
                 age,
                 bodyHeight,
                 bodyWeight,
@@ -345,7 +345,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     private HPlusSupport setSex(TransactionBuilder transaction) {
         LOG.info("Attempting to set Sex...");
 
-        byte value = HPlusCoordinator.getUserSex(getDevice().getAddress());
+        byte value = HPlusCoordinator.getUserGender(getDevice().getAddress());
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.COMMAND_SET_PREF_SEX,
                 value
