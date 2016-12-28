@@ -107,10 +107,10 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         getDevice().setFirmwareVersion2("0");
 
         //Initialize device
-        setInitValues(builder);
-        setCurrentDate(builder);
-        setCurrentTime(builder);
-        syncPreferences(builder);
+        syncPreferences(builder); //Sync preferences
+        setSIT(builder);          //Sync SIT Interval
+        setCurrentDate(builder);  // Sync Current Date
+        setCurrentTime(builder);  // Sync Current Time
 
         builder.notify(getCharacteristic(HPlusConstants.UUID_CHARACTERISTIC_MEASURE), true);
 
@@ -119,14 +119,6 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
         setInitialized(builder);
         return builder;
-    }
-
-    private HPlusSupport setInitValues(TransactionBuilder builder) {
-        LOG.debug("Set Init Values");
-
-        builder.write(ctrlCharacteristic, HPlusConstants.COMMAND_SET_INIT1);
-        builder.write(ctrlCharacteristic, HPlusConstants.COMMAND_SET_INIT2);
-        return this;
     }
 
     private HPlusSupport sendUserInfo(TransactionBuilder builder) {
@@ -553,9 +545,9 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         byte state;
 
         if (enable)
-            state = HPlusConstants.HEARTRATE_ALLDAY_ON;
+            state = HPlusConstants.PREF_VALUE_HEARTRATE_ALLDAY_ON;
         else
-            state = HPlusConstants.HEARTRATE_ALLDAY_OFF;
+            state = HPlusConstants.PREF_VALUE_HEARTRATE_ALLDAY_OFF;
 
         builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.COMMAND_SET_PREF_ALLDAYHR, state});
         builder.queue(getQueue());
@@ -813,7 +805,11 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 return processSleepStats(data);
             case HPlusConstants.DATA_STEPS:
                 return processStepStats(data);
-
+            case HPlusConstants.DATA_DAY_SUMMARY:
+            case HPlusConstants.DATA_DAY_SUMMARY_ALT:
+                return processDaySummary(data);
+            case HPlusConstants.DATA_INCOMING_CALL_STATE:
+                return processIncomingCallState(data);
             default:
                 LOG.info("Unhandled characteristic changed: " + characteristicUUID);
 
@@ -821,18 +817,25 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         return false;
     }
 
+    private boolean processIncomingCallState(byte[] data){
+        LOG.debug("Process Incoming Call State");
+        //Disabled now
+        return true;
+    }
     /*
       Receives a message containing the status of the day.
      */
-    private boolean processDayStats(byte[] data) {
+    private boolean processDaySummary(byte[] data) {
+        LOG.debug("Process Day Summary");
+
         int a = data[4] * 256 + data[5];
         if (a < 144) {
             int slot = a * 2; // 10 minute slots as an offset from 0:00 AM
-            int avgHR = data[1]; //Average Heart Rate
+            int avgHR = data[1]; //Average Heart Rate ?
             int steps = data[2] * 256 + data[3]; // Steps in this period
 
             //?? data[6];
-            int timeInactive = data[7];
+            int timeInactive = data[7]; // ?
 
             LOG.debug("Day Stats: Slot: " + slot + " HR: " + avgHR + " Steps: " + steps + " TimeInactive: " + timeInactive);
 
@@ -996,6 +999,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
         return true;
     }
+
 
     public HPlusHealthActivitySample createActivitySample(Device device, User user, int timestampInSeconds, SampleProvider provider) {
         HPlusHealthActivitySample sample = new HPlusHealthActivitySample();
