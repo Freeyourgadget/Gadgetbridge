@@ -73,7 +73,7 @@ public class WebViewSingleton {
 
                 if (jsInterface == null || (jsInterface != null && (!device.equals(jsInterface.device) || !uuid.equals(jsInterface.mUuid)))) {
                     instance.removeJavascriptInterface("GBjs");
-                    jsInterface = new JSInterface(device, uuid); //TODO: context is used for navigating up but this only works for the externalJSActivity
+                    jsInterface = new JSInterface(device, uuid);
                     instance.addJavascriptInterface(jsInterface, "GBjs");
                     instance.loadUrl("file:///android_asset/app_config/configure.html");
                 } else {
