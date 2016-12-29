@@ -7,6 +7,7 @@
 * Charts (Live Activity): Fix axis labels color in dark theme
 * Mi Band: Fix ginormous step count when using Live Activity
 * Mi Band: Improved performance during activity sync
+* Mi Band 2: Fix activity data missing after doing manual hr measurements or live activity
 * Support sharing firmwares/watchapps/watchfaces to Gadgetbridge
 
 ####Version 0.15.2
