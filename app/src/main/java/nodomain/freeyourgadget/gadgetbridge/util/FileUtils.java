@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.channels.FileChannel;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,14 +47,20 @@ public class FileUtils {
         }
     }
 
+    /**
+     * Copies the contents of the given input stream to the destination file.
+     * @param inputStream the contents to write. Note: the caller has to close the input stream!
+     * @param destFile the file to write to
+     * @throws IOException
+     */
     public static void copyStreamToFile(InputStream inputStream, File destFile) throws IOException {
-        FileOutputStream fout = new FileOutputStream(destFile);
-        byte[] buf = new byte[4096];
-        while (inputStream.available() > 0) {
-            int bytes = inputStream.read(buf);
-            fout.write(buf, 0, bytes);
+        try (FileOutputStream fout = new FileOutputStream(destFile)) {
+            byte[] buf = new byte[4096];
+            while (inputStream.available() > 0) {
+                int bytes = inputStream.read(buf);
+                fout.write(buf, 0, bytes);
+            }
         }
-        fout.close();
     }
 
     public static void copyURItoFile(Context ctx, Uri uri, File destFile) throws IOException {
@@ -62,29 +69,47 @@ public class FileUtils {
         }
 
         ContentResolver cr = ctx.getContentResolver();
-        InputStream fin;
-        try {
-            fin = new BufferedInputStream(cr.openInputStream(uri));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return;
+        InputStream in = cr.openInputStream(uri);
+        if (in == null) {
+            throw new IOException("unable to open input stream: " + uri);
         }
-        copyStreamToFile(fin, destFile);
-        fin.close();
+        try (InputStream fin = new BufferedInputStream(in)) {
+            copyStreamToFile(fin, destFile);
+            fin.close();
+        }
     }
 
+    /**
+     * Returns the textual contents of the given file. The contents is expected to be
+     * in UTF-8 encoding.
+     * @param file the file to read
+     * @return the file contents as a newline-delimited string
+     * @throws IOException
+     * @see #getStringFromFile(File, String)
+     */
     public static String getStringFromFile(File file) throws IOException {
+        return getStringFromFile(file, StandardCharsets.UTF_8.name());
+    }
+
+    /**
+     * Returns the textual contents of the given file. The contents will be interpreted using the
+     * given encoding.
+     * @param file the file to read
+     * @return the file contents as a newline-delimited string
+     * @throws IOException
+     * @see #getStringFromFile(File)
+     */
+    public static String getStringFromFile(File file, String encoding) throws IOException {
         FileInputStream fin = new FileInputStream(file);
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            sb.append(line).append("\n");
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(fin, encoding))) {
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line).append("\n");
+            }
+            return sb.toString();
         }
-        reader.close();
-        fin.close();
-        return sb.toString();
     }
 
     /**
