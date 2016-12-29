@@ -9,6 +9,7 @@
 * Mi Band: Improved performance during activity sync
 * Mi Band 2: Fix activity data missing after doing manual hr measurements or live activity
 * Support sharing firmwares/watchapps/watchfaces to Gadgetbridge
+* Support for the "Subsonic" music player (#474)
 
 ####Version 0.15.2
 * Mi Band: Fix crash with unknown notification sources
