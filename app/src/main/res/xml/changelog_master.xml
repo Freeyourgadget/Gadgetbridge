@@ -7,6 +7,7 @@
         <change>Charts (Live Activity): Fix axis labels color in dark theme</change>
         <change>Mi Band: Fix ginormous step count when using Live Activity</change>
         <change>Mi Band: Improved performance during activity sync</change>
+        <change>Support sharing firmwares/watchapps/watchfaces to Gadgetbridge</change>
     </release>
     <release version="0.15.2" versioncode="79">
         <change>Mi Band: Fix crash with unknown notification sources</change>
