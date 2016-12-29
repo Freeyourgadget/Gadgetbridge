@@ -191,6 +191,15 @@
                 <data android:mimeType="application/zip" />
                 <data android:mimeType="application/x-zip-compressed" />
             </intent-filter>
+            <!-- to receive files from the "share" intent -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="*/*" />
+
+            </intent-filter>
         </activity>
 
         <service

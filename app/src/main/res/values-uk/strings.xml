@@ -105,7 +105,6 @@
   <string name="title_activity_android_pairing">Створення пари з пристроєм</string>
   <string name="android_pairing_hint">Для створення пари із пристроєм використовуйте діалог Android.</string>
   <string name="title_activity_mi_band_pairing">Створення пари із вашим Mi—Band</string>
-  <string name="pairing">Створення пари із %s…</string>
   <string name="message_cannot_pair_no_mac">MAC-адресу не було передано, не вдалося створити пару.</string>
   <string name="preferences_category_device_specific_settings">Параметри пристрою</string>
   <string name="preferences_miband_settings">Параметри Mi—Band</string>
@@ -138,8 +137,6 @@
   <string name="pref_screen_notification_profile_sms">SMS-сповіщення</string>
   <string name="pref_header_vibration_settings">Параметри вібро</string>
   <string name="pref_screen_notification_profile_generic">Загальні сповіщення</string>
-  <string name="pref_screen_notification_profile_pebblemsg">Сповіщення Pebble</string>
-  <string name="pref_screen_notification_profile_email">Сповіщення пошти</string>
   <string name="pref_screen_notification_profile_incoming_call">Сповіщення під час вхідного дзвінку</string>
   <string name="control_center_find_lost_device">Знайти загублений пристрій</string>
   <string name="control_center_cancel_to_stop_vibration">Скасуйте, аби зупинити вібро</string>
@@ -220,4 +217,6 @@
   <string name="device_fw">ПЗ: %1$s</string>
   <!--Strings related to Onboading Activity-->
   <string name="Delete">Вилучити</string>
+  <!--Strings related to Vibration Activity-->
+  <!--Strings related to Pebble Pairing Activity-->
 </resources>

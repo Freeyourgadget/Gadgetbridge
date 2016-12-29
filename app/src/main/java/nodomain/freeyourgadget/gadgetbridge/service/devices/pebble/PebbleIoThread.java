@@ -623,7 +623,10 @@ class PebbleIoThread extends GBDeviceIoThread {
         try {
             mPBWReader = new PBWReader(uri, getContext(), platformName);
         } catch (FileNotFoundException e) {
-            LOG.warn("file not found!");
+            LOG.warn("file not found: " + e.getMessage(), e);
+            return;
+        } catch (IOException e) {
+            LOG.warn("unable to read file: " + e.getMessage(), e);
             return;
         }
 

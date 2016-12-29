@@ -108,7 +108,6 @@
   <string name="miband_pairing_using_dummy_userdata">올바르지 않은 사용자 정보입니다. 일단 임시 사용자 정보를 사용합니다.</string>
   <string name="miband_pairing_tap_hint">Mi Band가 진동하고 깜빡일 때, 연달아 몇 번 두드리세요.</string>
   <string name="appinstaller_install">설치</string>
-  <string name="discovery_connected_devices_hint">기기를 발견 가능하도록 설정하세요. 현재 연결된 기기들은 발견될 수 없습니다. 2분이 지나도 기기가 나타나지 않는다면 재부팅 후 다시 시도해보세요.</string>
   <string name="discovery_note">알림: </string>
   <string name="candidate_item_device_image">기기 이미지</string>
   <string name="miband_prefs_alias">이름/별명</string>
@@ -131,8 +130,6 @@
   <string name="pref_screen_notification_profile_sms">SMS 알림</string>
   <string name="pref_header_vibration_settings">진동 설정</string>
   <string name="pref_screen_notification_profile_generic">일반 알림</string>
-  <string name="pref_screen_notification_profile_pebblemsg">Pebble 알림</string>
-  <string name="pref_screen_notification_profile_email">Mail 알림</string>
   <string name="pref_screen_notification_profile_incoming_call">걸려오는 전화 알림</string>
   <string name="control_center_find_lost_device">잃어버린 기기 찾기</string>
   <string name="control_center_cancel_to_stop_vibration">진동을 멈추려면 취소를 선택하세요.</string>
@@ -226,4 +223,6 @@
   <string name="live_activity_heart_rate">심박수</string>
   <!--Strings related to Onboading Activity-->
   <string name="Delete">삭제</string>
+  <!--Strings related to Vibration Activity-->
+  <!--Strings related to Pebble Pairing Activity-->
 </resources>

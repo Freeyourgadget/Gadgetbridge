@@ -2,6 +2,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -23,7 +25,6 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
@@ -73,7 +74,7 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
         builder.notify(characteristicFetch, true);
         BluetoothGattCharacteristic characteristicActivityData = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_5_ACTIVITY_DATA);
 
-        GregorianCalendar sinceWhen = getLastSuccessfulSynchronizedTime();
+        GregorianCalendar sinceWhen = getLastSuccessfulSyncTime();
         builder.write(characteristicFetch, BLETypeConversions.join(new byte[] { MiBand2Service.COMMAND_ACTIVITY_DATA_START_DATE, 0x01 }, getSupport().getTimeBytes(sinceWhen, TimeUnit.MINUTES)));
         builder.add(new WaitAction(1000)); // TODO: actually wait for the success-reply
         builder.notify(characteristicActivityData, true);
@@ -81,24 +82,26 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
         builder.queue(getQueue());
     }
 
-    private GregorianCalendar getLastSuccessfulSynchronizedTime() {
-        try (DBHandler dbHandler = GBApplication.acquireDB()) {
-            DaoSession session = dbHandler.getDaoSession();
-            SampleProvider<MiBandActivitySample> sampleProvider = new MiBand2SampleProvider(getDevice(), session);
-            MiBandActivitySample sample = sampleProvider.getLatestActivitySample();
-            if (sample != null) {
-                int timestamp = sample.getTimestamp();
-                GregorianCalendar calendar = BLETypeConversions.createCalendar();
-                calendar.setTimeInMillis((long) timestamp * 1000);
-                return calendar;
-            }
-        } catch (Exception ex) {
-            LOG.error("Error querying for latest activity sample, synchronizing the last 10 days", ex);
+    private GregorianCalendar getLastSuccessfulSyncTime() {
+        long timeStampMillis = GBApplication.getPrefs().getLong(getLastSyncTimeKey(), 0);
+        if (timeStampMillis != 0) {
+            GregorianCalendar calendar = BLETypeConversions.createCalendar();
+            calendar.setTimeInMillis(timeStampMillis);
+            return calendar;
         }
-
         GregorianCalendar calendar = BLETypeConversions.createCalendar();
         calendar.add(Calendar.DAY_OF_MONTH, -10);
         return calendar;
+    }
+
+    private void saveLastSyncTimestamp(@NonNull GregorianCalendar timestamp) {
+        SharedPreferences.Editor editor = GBApplication.getPrefs().getPreferences().edit();
+        editor.putLong(getLastSyncTimeKey(), timestamp.getTimeInMillis());
+        editor.apply();
+    }
+
+    private String getLastSyncTimeKey() {
+        return getDevice().getAddress() + "_" + "lastSyncTimeMillis";
     }
 
     @Override
@@ -147,6 +150,7 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
                 }
                 sampleProvider.addGBActivitySamples(samples.toArray(new MiBandActivitySample[0]));
 
+                saveLastSyncTimestamp(timestamp);
                 LOG.info("Mi2 activity data: last sample timestamp: " + DateTimeUtils.formatDateTime(timestamp.getTime()));
 
             } catch (Exception ex) {

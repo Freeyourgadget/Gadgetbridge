@@ -1,6 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 
@@ -9,9 +8,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,6 +23,7 @@ import java.util.zip.ZipInputStream;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleProtocol;
+import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
 
 public class PBWReader {
     private static final Logger LOG = LoggerFactory.getLogger(PBWReader.class);
@@ -45,8 +43,7 @@ public class PBWReader {
         fwFileTypesMap.put("resources", PebbleProtocol.PUTBYTES_TYPE_SYSRESOURCES);
     }
 
-    private final Uri uri;
-    private final ContentResolver cr;
+    private final UriHelper uriHelper;
     private GBDeviceApp app;
     private ArrayList<PebbleInstallable> pebbleInstallables = null;
     private boolean isFirmware = false;
@@ -60,105 +57,45 @@ public class PBWReader {
 
     private JSONObject mAppKeys = null;
 
-    public PBWReader(Uri uri, Context context, String platform) throws FileNotFoundException {
-        this.uri = uri;
-        cr = context.getContentResolver();
+    public PBWReader(Uri uri, Context context, String platform) throws IOException {
+        uriHelper = UriHelper.get(uri, context);
 
-        InputStream fin = new BufferedInputStream(cr.openInputStream(uri));
-
-        if (uri.toString().endsWith(".pbl")) {
+        if (uriHelper.getFileName().endsWith(".pbl")) {
             STM32CRC stm32crc = new STM32CRC();
-            try {
+            try (InputStream fin = uriHelper.openInputStream()) {
                 byte[] buf = new byte[2000];
                 while (fin.available() > 0) {
                     int count = fin.read(buf);
                     stm32crc.addData(buf, count);
                 }
-                fin.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return;
             }
-
             int crc = stm32crc.getResult();
             // language file
             app = new GBDeviceApp(UUID.randomUUID(), "Language File", "unknown", "unknown", GBDeviceApp.Type.UNKNOWN);
-            File f = new File(uri.getPath());
-
             pebbleInstallables = new ArrayList<>();
-            pebbleInstallables.add(new PebbleInstallable("lang", (int) f.length(), crc, PebbleProtocol.PUTBYTES_TYPE_FILE));
+            pebbleInstallables.add(new PebbleInstallable("lang", (int) uriHelper.getFileSize(), crc, PebbleProtocol.PUTBYTES_TYPE_FILE));
 
             isValid = true;
             isLanguage = true;
             return;
         }
 
-        String platformDir = "";
-
-        if (!uri.toString().endsWith(".pbz")) {
-            /*
-             * for aplite and basalt it is possible to install 2.x apps which have no subfolder
-             * we still prefer the subfolders if present.
-             * chalk needs to be its subfolder
-             */
-            String[] platformDirs;
-            switch (platform) {
-                case "basalt":
-                    platformDirs = new String[]{"basalt/"};
-                    break;
-                case "chalk":
-                    platformDirs = new String[]{"chalk/"};
-                    break;
-                case "diorite":
-                    platformDirs = new String[]{"diorite/", "aplite/"};
-                    break;
-                case "emery":
-                    platformDirs = new String[]{"emery/", "basalt/"};
-                    break;
-                default:
-                    platformDirs = new String[]{"aplite/"};
-            }
-
-            for (String dir : platformDirs) {
-                InputStream afin = new BufferedInputStream(cr.openInputStream(uri));
-
-                ZipInputStream zis = new ZipInputStream(afin);
-                ZipEntry ze;
-                boolean found = false;
-                try {
-                    while ((ze = zis.getNextEntry()) != null) {
-                        if (ze.getName().startsWith(dir)) {
-                            platformDir = dir;
-                            found = true;
-                            break;
-                        }
-                    }
-                    zis.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (found) {
-                    break;
-                }
-            }
-
-            if (platform.equals("chalk") && platformDir.equals("")) {
-                return;
-            }
+        String platformDir = determinePlatformDir(uriHelper, platform);
+        if (platform.equals("chalk") && platformDir.equals("")) {
+            return;
         }
+
         LOG.info("using platformdir: '" + platformDir + "'");
         String appName = null;
         String appCreator = null;
         String appVersion = null;
         UUID appUUID = null;
 
-        ZipInputStream zis = new ZipInputStream(fin);
         ZipEntry ze;
         pebbleInstallables = new ArrayList<>();
         byte[] buffer = new byte[1024];
         int count;
-
-        try {
+        try (ZipInputStream zis = new ZipInputStream(uriHelper.openInputStream())) {
             while ((ze = zis.getNextEntry()) != null) {
                 String fileName = ze.getName();
                 if (fileName.equals(platformDir + "manifest.json")) {
@@ -254,7 +191,6 @@ public class PBWReader {
                     // more follows but, not interesting for us
                 }
             }
-            zis.close();
             if (appUUID != null && appName != null && appCreator != null && appVersion != null) {
                 GBDeviceApp.Type appType = GBDeviceApp.Type.APP_GENERIC;
 
@@ -265,9 +201,56 @@ public class PBWReader {
                 }
                 app = new GBDeviceApp(appUUID, appName, appCreator, appVersion, appType);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+    }
+
+    /**
+     * Determines the platform dir to use for the given uri and platform.
+     * @param uriHelper
+     * @param platform
+     * @return the platform dir to use
+     * @throws IOException
+     */
+    private String determinePlatformDir(UriHelper uriHelper, String platform) throws IOException {
+        String platformDir = "";
+
+        if (uriHelper.getFileName().endsWith(".pbz")) {
+            return platformDir;
+        }
+        /*
+         * for aplite and basalt it is possible to install 2.x apps which have no subfolder
+         * we still prefer the subfolders if present.
+         * chalk needs to be its subfolder
+         */
+        String[] platformDirs;
+        switch (platform) {
+            case "basalt":
+                platformDirs = new String[]{"basalt/"};
+                break;
+            case "chalk":
+                platformDirs = new String[]{"chalk/"};
+                break;
+            case "diorite":
+                platformDirs = new String[]{"diorite/", "aplite/"};
+                break;
+            case "emery":
+                platformDirs = new String[]{"emery/", "basalt/"};
+                break;
+            default:
+                platformDirs = new String[]{"aplite/"};
+        }
+
+        for (String dir : platformDirs) {
+            try (ZipInputStream zis = new ZipInputStream(uriHelper.openInputStream())) {
+                ZipEntry ze;
+                while ((ze = zis.getNextEntry()) != null) {
+                    if (ze.getName().startsWith(dir)) {
+                        return dir;
+                    }
+                }
+            }
+        }
+        return platformDir;
     }
 
     public boolean isFirmware() {
@@ -287,28 +270,29 @@ public class PBWReader {
     }
 
     public InputStream getInputStreamFile(String filename) {
-        InputStream fin;
-        try {
-            fin = new BufferedInputStream(cr.openInputStream(uri));
-            if (isLanguage) {
-                return fin;
+        if (isLanguage) {
+            try {
+                return uriHelper.openInputStream();
+            } catch (FileNotFoundException e) {
+                LOG.warn("file not found: " + e);
+                return null;
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
         }
-        ZipInputStream zis = new ZipInputStream(fin);
+        ZipInputStream zis = null;
         ZipEntry ze;
         try {
+            zis = new ZipInputStream(uriHelper.openInputStream());
             while ((ze = zis.getNextEntry()) != null) {
                 if (ze.getName().equals(filename)) {
-                    return zis;
+                    return zis; // return WITHOUT closing the stream!
                 }
             }
             zis.close();
         } catch (Throwable e) {
             try {
-                zis.close();
+                if (zis != null) {
+                    zis.close();
+                }
             } catch (IOException e1) {
                 // ignore
             }

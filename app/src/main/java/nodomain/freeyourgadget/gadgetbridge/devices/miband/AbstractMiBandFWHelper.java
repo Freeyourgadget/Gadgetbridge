@@ -15,6 +15,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
 
 /**
  * Also see Mi1SFirmwareInfo.
@@ -26,12 +27,13 @@ public abstract class AbstractMiBandFWHelper {
     private final byte[] fw;
 
     public AbstractMiBandFWHelper(Uri uri, Context context) throws IOException {
+        UriHelper uriHelper = UriHelper.get(uri, context);
         String pebblePattern = ".*\\.(pbw|pbz|pbl)";
-        if (uri.getPath().matches(pebblePattern)) {
+        if (uriHelper.getFileName().matches(pebblePattern)) {
             throw new IOException("Firmware has a filename that looks like a Pebble app/firmware.");
         }
 
-        try (InputStream in = new BufferedInputStream(context.getContentResolver().openInputStream(uri))) {
+        try (InputStream in = new BufferedInputStream(uriHelper.openInputStream())) {
             this.fw = FileUtils.readAll(in, 1024 * 1024); // 1 MB
             determineFirmwareInfo(fw);
         } catch (IOException ex) {
