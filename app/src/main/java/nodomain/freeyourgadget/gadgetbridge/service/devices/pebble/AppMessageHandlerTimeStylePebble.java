@@ -105,8 +105,8 @@ public class AppMessageHandlerTimeStylePebble extends AppMessageHandler {
             pairs.add(new Pair<>(MESSAGE_KEY_WeatherTemperature, (Object) (weather.currentTemp - 273)));
             pairs.add(new Pair<>(MESSAGE_KEY_WeatherCondition, (Object) (getIconForConditionCode(weather.currentConditionCode, isNight))));
             pairs.add(new Pair<>(MESSAGE_KEY_WeatherForecastCondition, (Object) (getIconForConditionCode(weather.forecastConditionCode, isNight))));
-            pairs.add(new Pair<>(MESSAGE_KEY_WeatherForecastHighTemp, (Object) (weather.highTemp - 273)));
-            pairs.add(new Pair<>(MESSAGE_KEY_WeatherForecastLowTemp, (Object) (weather.lowTemp - 273)));
+            pairs.add(new Pair<>(MESSAGE_KEY_WeatherForecastHighTemp, (Object) (weather.todayHighTemp - 273)));
+            pairs.add(new Pair<>(MESSAGE_KEY_WeatherForecastLowTemp, (Object) (weather.todayLowTemp - 273)));
         }
         return mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs);
 

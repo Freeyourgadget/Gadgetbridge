@@ -23,8 +23,10 @@ public class ParcelableWeather2 implements Parcelable {
     public int currentConditionCode = 3200;
     String[] forecastConditionType = null;
     public int forecastConditionCode = 3200;
-    public int lowTemp = 0;
-    public int highTemp = 0;
+    public int todayLowTemp = 0;
+    public int todayHighTemp = 0;
+    public int forecastLowTemp = 0;
+    public int forecastHighTemp = 0;
 
 
     private ParcelableWeather2(Parcel in) {
@@ -33,6 +35,7 @@ public class ParcelableWeather2 implements Parcelable {
             return;
         }
         Bundle bundle = in.readBundle();
+
         location = bundle.getString("weather_location");
         time = bundle.getLong("weather_time");
         queryTime = bundle.getLong("weather_query_time");
@@ -46,13 +49,15 @@ public class ParcelableWeather2 implements Parcelable {
 
             currentConditionType = conditionBundle.getStringArray("weather_condition_types");
             currentConditionCode = weatherConditionTypesToOpenWeatherMapIds(currentConditionType[0]);
-            lowTemp = conditionBundle.getInt("weather_low_temp");
-            highTemp = conditionBundle.getInt("weather_high_temp");
+            todayLowTemp = conditionBundle.getInt("weather_low_temp");
+            todayHighTemp = conditionBundle.getInt("weather_high_temp");
             //fetch immediate next forecast
             if (--conditions > 0) {
                 Bundle forecastBundle = in.readBundle();
                 forecastConditionType = forecastBundle.getStringArray("weather_condition_types");
                 forecastConditionCode = weatherConditionTypesToOpenWeatherMapIds(forecastConditionType[0]);
+                forecastLowTemp = forecastBundle.getInt("weather_low_temp");
+                forecastHighTemp = forecastBundle.getInt("weather_high_temp");
             }
         }
         // get the rest
