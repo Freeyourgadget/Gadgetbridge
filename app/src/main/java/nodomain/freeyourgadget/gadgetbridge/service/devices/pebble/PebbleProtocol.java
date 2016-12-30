@@ -87,8 +87,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final byte BLOBDB_APP = 2;
     static final byte BLOBDB_REMINDER = 3;
     static final byte BLOBDB_NOTIFICATION = 4;
+    static final byte BLOBDB_WEATHER = 5;
     static final byte BLOBDB_CANNED_MESSAGES = 6;
     static final byte BLOBDB_PREFERENCES = 7;
+    static final byte BLOBDB_APPSETTINGS = 9;
     static final byte BLOBDB_APPGLANCE = 11;
 
     static final byte BLOBDB_SUCCESS = 1;
@@ -378,6 +380,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     private static final UUID UUID_ZERO = new UUID(0, 0);
 
+    private static final UUID UUID_LOCATION = UUID.fromString("2c7e6a86-51e5-4ddd-b606-db43d1e4ad28"); // might be the location of "Berlin" or "Auto"
+
     private final Map<UUID, AppMessageHandler> mAppMessageHandlers = new HashMap<>();
 
     public PebbleProtocol(GBDevice device) {
@@ -534,7 +538,15 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeFindDevice(boolean start) {
-        return encodeSetCallState("Where are you?", "Gadgetbridge", start ? CallSpec.CALL_INCOMING : CallSpec.CALL_END);
+        //  return encodeSetCallState("Where are you?", "Gadgetbridge", start ? CallSpec.CALL_INCOMING : CallSpec.CALL_END);
+        int ts = (int) (System.currentTimeMillis() / 1000);
+
+        if (start) {
+            return encodeActivateWeather(true);
+        } else {
+            //return encodeWeatherPin(ts, "Weather", "1°/-1°", "Gadgetbridge is Sunny", "Berlin", 37);
+            return encodeWeatherForecast(ts, "Berlin", 0, 5, -5, 1, "Sexy", 7, 2, 1);
+        }
     }
 
     private byte[] encodeExtensibleNotification(int id, int timestamp, String title, String subtitle, String body, String sourceName, boolean hasHandle, String[] cannedReplies) {
@@ -763,6 +775,21 @@ public class PebbleProtocol extends GBDeviceProtocol {
     byte[] encodeActivateHRM(boolean activate) {
         return encodeBlobdb("hrmPreferences", BLOBDB_INSERT, BLOBDB_PREFERENCES,
                 activate ? new byte[]{0x01} : new byte[]{0x00});
+    }
+
+    byte[] encodeActivateWeather(boolean activate) {
+        if (activate) {
+            ByteBuffer buf = ByteBuffer.allocate(0x61);
+            buf.put((byte) 1);
+            buf.order(ByteOrder.BIG_ENDIAN);
+            buf.putLong(UUID_LOCATION.getMostSignificantBits());
+            buf.putLong(UUID_LOCATION.getLeastSignificantBits());
+            // disable remaining 5 possible location
+            buf.put(new byte[60 - 16]);
+            return encodeBlobdb("weatherApp", BLOBDB_INSERT, BLOBDB_APPSETTINGS, buf.array());
+        } else {
+            return encodeBlobdb("weatherApp", BLOBDB_DELETE, BLOBDB_APPSETTINGS, null);
+        }
     }
 
     byte[] encodeReportDataLogSessions() {
@@ -1003,6 +1030,149 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putShort((short) caption.getBytes().length);
         buf.put(caption.getBytes());
         return buf.array();
+    }
+
+    private byte[] encodeWeatherPin(int timestamp, String title, String subtitle, String body, String location, int iconId) {
+        final short NOTIFICATION_PIN_LENGTH = 46;
+        final short ACTION_LENGTH_MIN = 10;
+
+        String[] parts = {title, subtitle, body, location, "test", "test"};
+
+        // Calculate length first
+        byte actions_count = 1;
+        short actions_length;
+        String remove_string = "Remove";
+        actions_length = (short) (ACTION_LENGTH_MIN * actions_count + remove_string.getBytes().length);
+
+        byte attributes_count = 3;
+        short attributes_length = (short) (21 + actions_length);
+        if (parts != null) {
+            for (String s : parts) {
+                if (s == null || s.equals("")) {
+                    continue;
+                }
+                attributes_count++;
+                attributes_length += (3 + s.getBytes().length);
+            }
+        }
+
+        UUID uuid = UUID.fromString("61b22bc8-1e29-460d-a236-3fe409a43901");
+
+        short pin_length = (short) (NOTIFICATION_PIN_LENGTH + attributes_length);
+
+        ByteBuffer buf = ByteBuffer.allocate(pin_length);
+
+        // pin (46 bytes)
+        buf.order(ByteOrder.BIG_ENDIAN);
+        buf.putLong(uuid.getMostSignificantBits());
+        buf.putLong(uuid.getLeastSignificantBits());
+        buf.putLong(uuid.getMostSignificantBits());
+        buf.putLong(uuid.getLeastSignificantBits() | 0xff);
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        buf.putInt(timestamp); // 32-bit timestamp
+        buf.putShort((short) 0); // duration
+        buf.put((byte) 0x02); // type (0x02 = pin)
+        buf.putShort((short) 0x0001); // flags 0x0001 = ?
+        buf.put((byte) 0x06); // layout (0x06 = weather)
+        buf.putShort(attributes_length); // total length of all attributes and actions in bytes
+        buf.put(attributes_count);
+        buf.put(actions_count);
+
+        byte attribute_id = 0;
+        // Encode Pascal-Style Strings
+        if (parts != null) {
+            for (String s : parts) {
+                attribute_id++;
+                if (s == null || s.equals("")) {
+                    continue;
+                }
+
+                int partlength = s.getBytes().length;
+                if (partlength > 512) partlength = 512;
+                if (attribute_id == 4) {
+                    buf.put((byte) 11);
+                } else if (attribute_id == 5) {
+                    buf.put((byte) 25);
+                } else if (attribute_id == 6) {
+                    buf.put((byte) 26);
+                } else {
+                    buf.put(attribute_id);
+                }
+                buf.putShort((short) partlength);
+                buf.put(s.getBytes(), 0, partlength);
+            }
+        }
+
+        buf.put((byte) 4); // icon
+        buf.putShort((short) 4); // length of int
+        buf.putInt(0x80000000 | iconId);
+
+        buf.put((byte) 6); // icon
+        buf.putShort((short) 4); // length of int
+        buf.putInt(0x80000000 | iconId);
+
+        buf.put((byte) 14); // last updated
+        buf.putShort((short) 4); // length of int
+        buf.putInt(timestamp);
+
+        // remove action
+        buf.put((byte) 123); // action id
+        buf.put((byte) 0x09); // remove
+        buf.put((byte) 0x01); // number attributes
+        buf.put((byte) 0x01); // attribute id (title)
+        buf.putShort((short) remove_string.getBytes().length);
+        buf.put(remove_string.getBytes());
+
+        return encodeBlobdb(uuid, BLOBDB_INSERT, BLOBDB_PIN, buf.array());
+    }
+
+    private byte[] encodeWeatherForecast(int timestamp, String location, int tempNow, int tempHighToday, int tempLowToday, int conditionCodeToday, String conditionToday, int tempHighTomorrow, int tempLowTomorrow, int conditionCodeTomorrow) {
+        final short WEATHER_FORECAST_LENGTH = 20;
+
+        String[] parts = {location, conditionToday};
+
+        // Calculate length first
+        short attributes_length = 0;
+        if (parts != null) {
+            for (String s : parts) {
+                if (s == null || s.equals("")) {
+                    continue;
+                }
+                attributes_length += (2 + s.getBytes().length);
+            }
+        }
+
+        short pin_length = (short) (WEATHER_FORECAST_LENGTH + attributes_length);
+
+        ByteBuffer buf = ByteBuffer.allocate(pin_length);
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        buf.put((byte) 3); // unknown, always 3?
+        buf.putShort((short) tempNow);
+        buf.put((byte) 1);
+        buf.putShort((short) tempHighToday);
+        buf.putShort((short) tempLowToday);
+        buf.put((byte) 4);
+        buf.putShort((short) tempHighTomorrow);
+        buf.putShort((short) tempLowTomorrow);
+        buf.putInt(timestamp);
+        buf.put((byte) 0); // automatic location
+        buf.putShort(attributes_length);
+
+        // Encode Pascal-Style Strings
+        if (parts != null) {
+            for (String s : parts) {
+                if (s == null || s.equals("")) {
+                    continue;
+                }
+
+                int partlength = s.getBytes().length;
+                if (partlength > 512) partlength = 512;
+                buf.putShort((short) partlength);
+                buf.put(s.getBytes(), 0, partlength);
+            }
+        }
+
+        return encodeBlobdb(UUID_LOCATION, BLOBDB_INSERT, BLOBDB_WEATHER, buf.array());
     }
 
     private byte[] encodeActionResponse(UUID uuid, int iconId, String caption) {
