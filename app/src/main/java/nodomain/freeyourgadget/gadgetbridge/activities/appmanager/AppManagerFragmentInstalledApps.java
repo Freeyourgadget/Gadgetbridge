@@ -28,6 +28,9 @@ public class AppManagerFragmentInstalledApps extends AbstractAppManagerFragment 
             if (PebbleUtils.hasHRM(mGBDevice.getModel())) {
                 systemApps.add(new GBDeviceApp(PebbleProtocol.UUID_WORKOUT, "Workout (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
             }
+            if (PebbleUtils.getFwMajor(mGBDevice.getFirmwareVersion()) >= 4) {
+                systemApps.add(new GBDeviceApp(PebbleProtocol.UUID_WEATHER, "Weather (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
+            }
         }
 
         return systemApps;

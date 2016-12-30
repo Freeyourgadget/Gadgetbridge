@@ -613,6 +613,10 @@ class PebbleIoThread extends GBDeviceIoThread {
             write(mPebbleProtocol.encodeActivateHRM(true));
             return;
         }
+        if (uri.equals(Uri.parse("fake://weather"))) {
+            write(mPebbleProtocol.encodeActivateWeather(true));
+            return;
+        }
 
         if (mIsInstalling) {
             return;

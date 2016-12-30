@@ -38,7 +38,9 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
+import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
+import ru.gelin.android.weather.notification.ParcelableWeather2;
 
 public class PebbleProtocol extends GBDeviceProtocol {
 
@@ -370,6 +372,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     public static final UUID UUID_PEBBLE_HEALTH = UUID.fromString("36d8c6ed-4c83-4fa1-a9e2-8f12dc941f8c"); // FIXME: store somewhere else, this is also accessed by other code
     public static final UUID UUID_WORKOUT = UUID.fromString("fef82c82-7176-4e22-88de-35a3fc18d43f"); // FIXME: store somewhere else, this is also accessed by other code
+    public static final UUID UUID_WEATHER = UUID.fromString("61b22bc8-1e29-460d-a236-3fe409a439ff"); // FIXME: store somewhere else, this is also accessed by other code
     private static final UUID UUID_GBPEBBLE = UUID.fromString("61476764-7465-7262-6469-656775527a6c");
     private static final UUID UUID_MORPHEUZ = UUID.fromString("5be44f1d-d262-4ea6-aa30-ddbec1e3cab2");
     private static final UUID UUID_WHETHERNEAT = UUID.fromString("3684003b-a685-45f9-a713-abc6364ba051");
@@ -545,7 +548,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
             return encodeActivateWeather(true);
         } else {
             //return encodeWeatherPin(ts, "Weather", "1°/-1°", "Gadgetbridge is Sunny", "Berlin", 37);
-            return encodeWeatherForecast(ts, "Berlin", 0, 5, -5, 1, "Sexy", 7, 2, 1);
+            //return encodeWeatherForecast(ts, "Berlin", 0, 5, -5, 1, "Sexy", 7, 2, 1);
+            return encodeWeatherForecast(ts);
         }
     }
 
@@ -1126,6 +1130,24 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return encodeBlobdb(uuid, BLOBDB_INSERT, BLOBDB_PIN, buf.array());
     }
 
+    private byte[] encodeWeatherForecast(int timestamp) {
+        ParcelableWeather2 weather = Weather.getInstance().getWeather2();
+        if (weather != null) {
+            return encodeWeatherForecast(timestamp,
+                    weather.location,
+                    weather.currentTemp - 273,
+                    weather.todayHighTemp - 273,
+                    weather.todayLowTemp - 273,
+                    Weather.mapToPebbleCondition(weather.currentConditionCode),
+                    weather.currentCondition,
+                    weather.forecastHighTemp - 273,
+                    weather.forecastLowTemp - 273,
+                    Weather.mapToPebbleCondition(weather.forecastConditionCode)
+            );
+        }
+        return null;
+    }
+
     private byte[] encodeWeatherForecast(int timestamp, String location, int tempNow, int tempHighToday, int tempLowToday, int conditionCodeToday, String conditionToday, int tempHighTomorrow, int tempLowTomorrow, int conditionCodeTomorrow) {
         final short WEATHER_FORECAST_LENGTH = 20;
 
@@ -1148,10 +1170,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.order(ByteOrder.LITTLE_ENDIAN);
         buf.put((byte) 3); // unknown, always 3?
         buf.putShort((short) tempNow);
-        buf.put((byte) 1);
+        buf.put((byte) conditionCodeToday);
         buf.putShort((short) tempHighToday);
         buf.putShort((short) tempLowToday);
-        buf.put((byte) 4);
+        buf.put((byte) conditionCodeTomorrow);
         buf.putShort((short) tempHighTomorrow);
         buf.putShort((short) tempLowTomorrow);
         buf.putInt(timestamp);
@@ -1391,6 +1413,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
             }
             if (UUID_WORKOUT.equals(uuid)) {
                 return encodeActivateHRM(false);
+            }
+            if (UUID_WEATHER.equals(uuid)) { //TODO: probably it wasn't present in firmware 3
+                return encodeActivateWeather(false);
             }
             return encodeBlobdb(uuid, BLOBDB_DELETE, BLOBDB_APP, null);
         } else {
