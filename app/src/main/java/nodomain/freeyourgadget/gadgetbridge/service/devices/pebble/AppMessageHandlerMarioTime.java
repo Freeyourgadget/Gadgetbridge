@@ -55,11 +55,11 @@ class AppMessageHandlerMarioTime extends AppMessageHandler {
         if (!weatherRequested) {
             return new GBDeviceEvent[]{null};
         }
-        return pushMessage();
+        return onAppStart();
     }
 
     @Override
-    public GBDeviceEvent[] pushMessage() {
+    public GBDeviceEvent[] onAppStart() {
         ParcelableWeather2 weather = Weather.getInstance().getWeather2();
 
         if (weather == null) {

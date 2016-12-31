@@ -2126,7 +2126,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 currentRunningApp = uuid;
                 AppMessageHandler handler = mAppMessageHandlers.get(uuid);
                 if (handler != null) {
-                    return handler.pushMessage();
+                    return handler.onAppStart();
                 }
                 else {
                     GBDeviceEventAppManagement gbDeviceEventAppManagement = new GBDeviceEventAppManagement();
@@ -2459,7 +2459,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                                 }
                                 else {
                                     currentRunningApp = uuid;
-                                    devEvts = handler.pushMessage();
+                                    devEvts = handler.onAppStart();
                                 }
                             } else {
                                 devEvts = new GBDeviceEvent[]{null};

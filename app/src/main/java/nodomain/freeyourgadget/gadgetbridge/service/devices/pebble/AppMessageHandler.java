@@ -31,7 +31,7 @@ public class AppMessageHandler {
         return null;
     }
 
-    public GBDeviceEvent[] pushMessage() {
+    public GBDeviceEvent[] onAppStart() {
         return null;
     }
 

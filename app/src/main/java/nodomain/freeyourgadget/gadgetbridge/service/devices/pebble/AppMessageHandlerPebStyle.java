@@ -110,7 +110,7 @@ public class AppMessageHandlerPebStyle extends AppMessageHandler {
     }
 
     @Override
-    public GBDeviceEvent[] pushMessage() {
+    public GBDeviceEvent[] onAppStart() {
         return null;
         /*
         GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
