@@ -295,6 +295,10 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             menu.removeItem(R.id.appmanager_hrm_activate);
             menu.removeItem(R.id.appmanager_hrm_deactivate);
         }
+        if (!PebbleProtocol.UUID_WEATHER.equals(selectedApp.getUUID())) {
+            menu.removeItem(R.id.appmanager_weather_activate);
+            menu.removeItem(R.id.appmanager_weather_deactivate);
+        }
         if (selectedApp.getType() == GBDeviceApp.Type.APP_SYSTEM || selectedApp.getType() == GBDeviceApp.Type.WATCHFACE_SYSTEM) {
             menu.removeItem(R.id.appmanager_app_delete);
         }
