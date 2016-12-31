@@ -68,7 +68,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     static final short ENDPOINT_FCTREG = 5001;
     static final short ENDPOINT_APPMANAGER = 6000;
     static final short ENDPOINT_APPFETCH = 6001; // 3.x only
-    public static final short ENDPOINT_DATALOG = 6778;
+    static final short ENDPOINT_DATALOG = 6778;
     static final short ENDPOINT_RUNKEEPER = 7000;
     static final short ENDPOINT_SCREENSHOT = 8000;
     static final short ENDPOINT_AUDIOSTREAM = 10000;
@@ -272,18 +272,18 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private static final Random mRandom = new Random();
 
     int mFwMajor = 3;
-    boolean mForceProtocol = false;
-    GBDeviceEventScreenshot mDevEventScreenshot = null;
-    int mScreenshotRemaining = -1;
+    private boolean mForceProtocol = false;
+    private GBDeviceEventScreenshot mDevEventScreenshot = null;
+    private int mScreenshotRemaining = -1;
 
     //monochrome black + white
-    static final byte[] clut_pebble = {
+    private static final byte[] clut_pebble = {
             0x00, 0x00, 0x00, 0x00,
             (byte) 0xff, (byte) 0xff, (byte) 0xff, 0x00
     };
 
     // linear BGR222 (6 bit, 64 entries)
-    static final byte[] clut_pebbletime = new byte[]{
+    private static final byte[] clut_pebbletime = new byte[]{
             0x00, 0x00, 0x00, 0x00,
             0x55, 0x00, 0x00, 0x00,
             (byte) 0xaa, 0x00, 0x00, 0x00,
@@ -375,7 +375,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
     public static final UUID UUID_WEATHER = UUID.fromString("61b22bc8-1e29-460d-a236-3fe409a439ff"); // FIXME: store somewhere else, this is also accessed by other code
     private static final UUID UUID_GBPEBBLE = UUID.fromString("61476764-7465-7262-6469-656775527a6c");
     private static final UUID UUID_MORPHEUZ = UUID.fromString("5be44f1d-d262-4ea6-aa30-ddbec1e3cab2");
-    private static final UUID UUID_WHETHERNEAT = UUID.fromString("3684003b-a685-45f9-a713-abc6364ba051");
     private static final UUID UUID_MISFIT = UUID.fromString("0b73b76a-cd65-4dc2-9585-aaa213320858");
     private static final UUID UUID_PEBBLE_TIMESTYLE = UUID.fromString("4368ffa4-f0fb-4823-90be-f754b076bdaa");
     private static final UUID UUID_PEBSTYLE = UUID.fromString("da05e84d-e2a2-4020-a2dc-9cdcf265fcdd");
@@ -390,7 +389,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
     public PebbleProtocol(GBDevice device) {
         super(device);
         mAppMessageHandlers.put(UUID_MORPHEUZ, new AppMessageHandlerMorpheuz(UUID_MORPHEUZ, PebbleProtocol.this));
-        mAppMessageHandlers.put(UUID_WHETHERNEAT, new AppMessageHandlerWeatherNeat(UUID_WHETHERNEAT, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_MISFIT, new AppMessageHandlerMisfit(UUID_MISFIT, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_PEBBLE_TIMESTYLE, new AppMessageHandlerTimeStylePebble(UUID_PEBBLE_TIMESTYLE, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_PEBSTYLE, new AppMessageHandlerPebStyle(UUID_PEBSTYLE, PebbleProtocol.this));
