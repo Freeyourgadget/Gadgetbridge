@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
+import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
 public class AppMessageHandlerTimeStylePebble extends AppMessageHandler {
@@ -115,10 +116,18 @@ public class AppMessageHandlerTimeStylePebble extends AppMessageHandler {
 
     @Override
     public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
+        // Just ACK
         GBDeviceEventSendBytes sendBytesAck = new GBDeviceEventSendBytes();
         sendBytesAck.encodedBytes = mPebbleProtocol.encodeApplicationMessageAck(mUUID, mPebbleProtocol.last_id);
         return new GBDeviceEvent[]{sendBytesAck};
-        // TODO: trigger update of weather?
+    }
+
+    @Override
+    public GBDeviceEvent[] onAppStart() {
+        WeatherSpec weatherSpec = Weather.getInstance().getWeatherSpec();
+        GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
+        sendBytes.encodedBytes = encodeTimeStylePebbleWeather(weatherSpec);
+        return new GBDeviceEvent[]{sendBytes};
     }
 
     @Override

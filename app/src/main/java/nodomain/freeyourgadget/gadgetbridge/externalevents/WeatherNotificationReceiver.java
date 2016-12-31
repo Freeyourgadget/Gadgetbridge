@@ -45,7 +45,7 @@ public class WeatherNotificationReceiver extends BroadcastReceiver {
             weatherSpec.tomorrowConditionCode = weather.forecastConditionCode;
             weatherSpec.tomorrowMaxTemp = weather.forecastHighTemp;
             weatherSpec.tomorrowMinTemp = weather.forecastLowTemp;
-
+            Weather.getInstance().setWeatherSpec(weatherSpec);
             GBApplication.deviceService().onSendWeather(weatherSpec);
         }
     }
