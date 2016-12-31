@@ -541,16 +541,16 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeFindDevice(boolean start) {
-        //  return encodeSetCallState("Where are you?", "Gadgetbridge", start ? CallSpec.CALL_INCOMING : CallSpec.CALL_END);
+        return encodeSetCallState("Where are you?", "Gadgetbridge", start ? CallSpec.CALL_INCOMING : CallSpec.CALL_END);
+        /*
         int ts = (int) (System.currentTimeMillis() / 1000);
 
         if (start) {
-            return encodeActivateWeather(true);
-        } else {
             //return encodeWeatherPin(ts, "Weather", "1°/-1°", "Gadgetbridge is Sunny", "Berlin", 37);
             //return encodeWeatherForecast(ts, "Berlin", 0, 5, -5, 1, "Sexy", 7, 2, 1);
             return encodeWeatherForecast(ts);
         }
+        */
     }
 
     private byte[] encodeExtensibleNotification(int id, int timestamp, String title, String subtitle, String body, String sourceName, boolean hasHandle, String[] cannedReplies) {
