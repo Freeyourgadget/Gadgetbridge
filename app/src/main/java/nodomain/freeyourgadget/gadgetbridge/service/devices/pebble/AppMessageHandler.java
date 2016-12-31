@@ -8,10 +8,11 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
 public class AppMessageHandler {
-    protected final PebbleProtocol mPebbleProtocol;
-    protected final UUID mUUID;
+    final PebbleProtocol mPebbleProtocol;
+    final UUID mUUID;
 
     AppMessageHandler(UUID uuid, PebbleProtocol pebbleProtocol) {
         mUUID = uuid;
@@ -31,6 +32,10 @@ public class AppMessageHandler {
     }
 
     public GBDeviceEvent[] pushMessage() {
+        return null;
+    }
+
+    public byte[] encodeUpdateWeather(WeatherSpec weatherSpec) {
         return null;
     }
 

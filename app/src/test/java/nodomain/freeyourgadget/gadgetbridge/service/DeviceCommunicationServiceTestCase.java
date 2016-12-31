@@ -22,7 +22,7 @@ public class DeviceCommunicationServiceTestCase extends TestBase {
      * Factory that always returns the mockSupport instance
      */
     private class TestDeviceSupportFactory extends DeviceSupportFactory {
-        public TestDeviceSupportFactory(Context context) {
+        TestDeviceSupportFactory(Context context) {
             super(context);
         }
 
@@ -53,7 +53,7 @@ public class DeviceCommunicationServiceTestCase extends TestBase {
         mDeviceService = new TestDeviceService(getContext());
     }
 
-    protected GBDevice getDevice() {
+    private GBDevice getDevice() {
         return realSupport.getDevice();
     }
 

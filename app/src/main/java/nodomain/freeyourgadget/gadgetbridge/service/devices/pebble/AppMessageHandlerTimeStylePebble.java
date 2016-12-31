@@ -10,8 +10,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
-import nodomain.freeyourgadget.gadgetbridge.model.Weather;
-import ru.gelin.android.weather.notification.ParcelableWeather2;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
 public class AppMessageHandlerTimeStylePebble extends AppMessageHandler {
     private static final int MESSAGE_KEY_WeatherCondition = 10000;
@@ -95,35 +94,35 @@ public class AppMessageHandlerTimeStylePebble extends AppMessageHandler {
         return iconToLoad;
     }
 
-    private byte[] encodeTimeStylePebbleWeather() {
-        ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>();
-        ParcelableWeather2 weather = Weather.getInstance().getWeather2();
+    private byte[] encodeTimeStylePebbleWeather(WeatherSpec weatherSpec) {
 
-        boolean isNight = false;   //TODO: use the night icons when night
-        if (weather != null) {
-            pairs.add(new Pair<>(MESSAGE_KEY_WeatherUseNightIcon, (Object) (isNight ? 1 : 0)));
-            pairs.add(new Pair<>(MESSAGE_KEY_WeatherTemperature, (Object) (weather.currentTemp - 273)));
-            pairs.add(new Pair<>(MESSAGE_KEY_WeatherCondition, (Object) (getIconForConditionCode(weather.currentConditionCode, isNight))));
-            pairs.add(new Pair<>(MESSAGE_KEY_WeatherForecastCondition, (Object) (getIconForConditionCode(weather.forecastConditionCode, isNight))));
-            pairs.add(new Pair<>(MESSAGE_KEY_WeatherForecastHighTemp, (Object) (weather.todayHighTemp - 273)));
-            pairs.add(new Pair<>(MESSAGE_KEY_WeatherForecastLowTemp, (Object) (weather.todayLowTemp - 273)));
+        if (weatherSpec == null) {
+            return null;
         }
-        return mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs);
 
+        ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>();
+        boolean isNight = false;   //TODO: use the night icons when night
+        pairs.add(new Pair<>(MESSAGE_KEY_WeatherUseNightIcon, (Object) (isNight ? 1 : 0)));
+        pairs.add(new Pair<>(MESSAGE_KEY_WeatherTemperature, (Object) (weatherSpec.currentTemp - 273)));
+        pairs.add(new Pair<>(MESSAGE_KEY_WeatherCondition, (Object) (getIconForConditionCode(weatherSpec.currentConditionCode, isNight))));
+        pairs.add(new Pair<>(MESSAGE_KEY_WeatherForecastCondition, (Object) (getIconForConditionCode(weatherSpec.tomorrowConditionCode, isNight))));
+        pairs.add(new Pair<>(MESSAGE_KEY_WeatherForecastHighTemp, (Object) (weatherSpec.todayMaxTemp - 273)));
+
+        pairs.add(new Pair<>(MESSAGE_KEY_WeatherForecastLowTemp, (Object) (weatherSpec.todayMinTemp - 273)));
+
+        return mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs);
     }
 
     @Override
     public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
-        return pushMessage();
+        GBDeviceEventSendBytes sendBytesAck = new GBDeviceEventSendBytes();
+        sendBytesAck.encodedBytes = mPebbleProtocol.encodeApplicationMessageAck(mUUID, mPebbleProtocol.last_id);
+        return new GBDeviceEvent[]{sendBytesAck};
+        // TODO: trigger update of weather?
     }
 
     @Override
-    public GBDeviceEvent[] pushMessage() {
-        GBDeviceEventSendBytes sendBytesAck = new GBDeviceEventSendBytes();
-        sendBytesAck.encodedBytes = mPebbleProtocol.encodeApplicationMessageAck(mUUID, mPebbleProtocol.last_id);
-
-        GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
-        sendBytes.encodedBytes = encodeTimeStylePebbleWeather();
-        return new GBDeviceEvent[]{sendBytesAck, sendBytes};
+    public byte[] encodeUpdateWeather(WeatherSpec weatherSpec) {
+        return encodeTimeStylePebbleWeather(weatherSpec);
     }
 }

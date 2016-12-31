@@ -17,9 +17,9 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
-public class TestDeviceSupport extends AbstractDeviceSupport {
+class TestDeviceSupport extends AbstractDeviceSupport {
 
-    public TestDeviceSupport() {
+    TestDeviceSupport() {
     }
 
     @Override

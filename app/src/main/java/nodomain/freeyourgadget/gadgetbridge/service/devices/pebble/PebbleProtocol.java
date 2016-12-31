@@ -386,6 +386,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     private final Map<UUID, AppMessageHandler> mAppMessageHandlers = new HashMap<>();
 
+    private UUID currentRunningApp = UUID_ZERO;
+
     public PebbleProtocol(GBDevice device) {
         super(device);
         mAppMessageHandlers.put(UUID_MORPHEUZ, new AppMessageHandlerMorpheuz(UUID_MORPHEUZ, PebbleProtocol.this));
@@ -1134,7 +1136,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
         if (mFwMajor < 4) {
             return null;
         }
-        return encodeWeatherForecast(weatherSpec.timestamp,
+        byte[] watchfaceProtocol = null;
+        byte[] forecastProtocol = encodeWeatherForecast(weatherSpec.timestamp,
                 weatherSpec.location,
                 weatherSpec.currentTemp - 273,
                 weatherSpec.todayMaxTemp - 273,
@@ -1145,6 +1148,19 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 weatherSpec.tomorrowMinTemp - 273,
                 Weather.mapToPebbleCondition(weatherSpec.tomorrowConditionCode)
             );
+        AppMessageHandler handler = mAppMessageHandlers.get(currentRunningApp);
+        if (handler != null) {
+            watchfaceProtocol = handler.encodeUpdateWeather(weatherSpec);
+        }
+
+        if (watchfaceProtocol != null) {
+            ByteBuffer buf = ByteBuffer.allocate(forecastProtocol.length + watchfaceProtocol.length);
+            buf.put(forecastProtocol);
+            buf.put(watchfaceProtocol);
+            return buf.array();
+        }
+
+        return forecastProtocol;
     }
 
     private byte[] encodeWeatherForecast(int timestamp, String location, int tempNow, int tempHighToday, int tempLowToday, int conditionCodeToday, String conditionToday, int tempHighTomorrow, int tempLowTomorrow, int conditionCodeTomorrow) {
@@ -2107,7 +2123,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         switch (command) {
             case APPRUNSTATE_START:
                 LOG.info(ENDPOINT_NAME + ": started " + uuid);
-
+                currentRunningApp = uuid;
                 AppMessageHandler handler = mAppMessageHandlers.get(uuid);
                 if (handler != null) {
                     return handler.pushMessage();
@@ -2442,6 +2458,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                                     devEvts = handler.handleMessage(dict);
                                 }
                                 else {
+                                    currentRunningApp = uuid;
                                     devEvts = handler.pushMessage();
                                 }
                             } else {
@@ -2453,6 +2470,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                                     devEvts = decodeDictToJSONAppMessage(uuid, buf);
                                 }
                                 else {
+                                    currentRunningApp = uuid;
                                     GBDeviceEventAppManagement gbDeviceEventAppManagement = new GBDeviceEventAppManagement();
                                     gbDeviceEventAppManagement.uuid = uuid;
                                     gbDeviceEventAppManagement.type = GBDeviceEventAppManagement.EventType.START;
