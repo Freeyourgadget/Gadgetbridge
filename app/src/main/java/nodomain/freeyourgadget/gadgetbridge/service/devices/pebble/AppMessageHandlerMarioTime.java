@@ -26,6 +26,10 @@ class AppMessageHandlerMarioTime extends AppMessageHandler {
     }
 
     private byte[] encodeMarioWeatherMessage(WeatherSpec weatherSpec) {
+        if (weatherSpec == null) {
+            return null;
+        }
+
         ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>(2);
         pairs.add(new Pair<>(KEY_WEATHER_ICON_ID, (Object) (byte) 1));
         pairs.add(new Pair<>(KEY_WEATHER_TEMPERATURE, (Object) (byte) (weatherSpec.currentTemp - 273)));
