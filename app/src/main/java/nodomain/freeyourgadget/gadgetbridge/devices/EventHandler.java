@@ -12,6 +12,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
 /**
  * Specifies all events that Gadgetbridge intends to send to the gadget device.
@@ -75,4 +76,6 @@ public interface EventHandler {
     void onSendConfiguration(String config);
 
     void onTestNewFunction();
+
+    void onSendWeather(WeatherSpec weatherSpec);
 }

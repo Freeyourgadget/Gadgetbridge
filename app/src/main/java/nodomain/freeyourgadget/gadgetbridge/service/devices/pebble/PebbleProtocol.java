@@ -39,8 +39,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
-import ru.gelin.android.weather.notification.ParcelableWeather2;
 
 public class PebbleProtocol extends GBDeviceProtocol {
 
@@ -1128,22 +1128,23 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return encodeBlobdb(uuid, BLOBDB_INSERT, BLOBDB_PIN, buf.array());
     }
 
-    private byte[] encodeWeatherForecast(int timestamp) {
-        ParcelableWeather2 weather = Weather.getInstance().getWeather2();
-        if (weather != null) {
-            return encodeWeatherForecast(timestamp,
-                    weather.location,
-                    weather.currentTemp - 273,
-                    weather.todayHighTemp - 273,
-                    weather.todayLowTemp - 273,
-                    Weather.mapToPebbleCondition(weather.currentConditionCode),
-                    weather.currentCondition,
-                    weather.forecastHighTemp - 273,
-                    weather.forecastLowTemp - 273,
-                    Weather.mapToPebbleCondition(weather.forecastConditionCode)
-            );
+
+    @Override
+    public byte[] encodeSendWeather(WeatherSpec weatherSpec) {
+        if (mFwMajor < 4) {
+            return null;
         }
-        return null;
+        return encodeWeatherForecast(weatherSpec.timestamp,
+                weatherSpec.location,
+                weatherSpec.currentTemp - 273,
+                weatherSpec.todayMaxTemp - 273,
+                weatherSpec.todayMinTemp - 273,
+                Weather.mapToPebbleCondition(weatherSpec.currentConditionCode),
+                weatherSpec.currentCondition,
+                weatherSpec.tomorrowMaxTemp - 273,
+                weatherSpec.tomorrowMinTemp - 273,
+                Weather.mapToPebbleCondition(weatherSpec.tomorrowConditionCode)
+            );
     }
 
     private byte[] encodeWeatherForecast(int timestamp, String location, int tempNow, int tempHighToday, int tempLowToday, int conditionCodeToday, String conditionToday, int tempHighTomorrow, int tempLowTomorrow, int conditionCodeTomorrow) {

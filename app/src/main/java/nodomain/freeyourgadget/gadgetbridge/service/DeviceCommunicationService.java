@@ -47,6 +47,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
@@ -73,6 +74,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_RE
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_DEVICEINFO;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_SCREENSHOT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SEND_CONFIGURATION;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SEND_WEATHER;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETCANNEDMESSAGES;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETMUSICINFO;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETMUSICSTATE;
@@ -123,6 +125,16 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOT
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_PERFORM_PAIR;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_URI;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_VIBRATION_INTENSITY;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER_CURRENTCONDITION;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER_CURRENTCONDITIONCODE;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER_CURRENTTEMP;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER_LOCATION;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER_TIMESTAMP;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER_TODAYMAXTEMP;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER_TODAYMINTEMP;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER_TOMORROWCONDITIONCODE;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER_TOMORROWMAXTEMP;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER_TOMORROWMINTEMP;
 
 public class DeviceCommunicationService extends Service implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final Logger LOG = LoggerFactory.getLogger(DeviceCommunicationService.class);
@@ -499,6 +511,21 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             }
             case ACTION_TEST_NEW_FUNCTION: {
                 mDeviceSupport.onTestNewFunction();
+                break;
+            }
+            case ACTION_SEND_WEATHER: {
+                WeatherSpec weatherSpec = new WeatherSpec();
+                weatherSpec.timestamp = intent.getIntExtra(EXTRA_WEATHER_TIMESTAMP, 0);
+                weatherSpec.location = intent.getStringExtra(EXTRA_WEATHER_LOCATION);
+                weatherSpec.currentTemp = intent.getIntExtra(EXTRA_WEATHER_CURRENTTEMP, 0);
+                weatherSpec.currentConditionCode = intent.getIntExtra(EXTRA_WEATHER_CURRENTCONDITIONCODE, 0);
+                weatherSpec.currentCondition = intent.getStringExtra(EXTRA_WEATHER_CURRENTCONDITION);
+                weatherSpec.todayMaxTemp = intent.getIntExtra(EXTRA_WEATHER_TODAYMAXTEMP, 0);
+                weatherSpec.todayMinTemp = intent.getIntExtra(EXTRA_WEATHER_TODAYMINTEMP, 0);
+                weatherSpec.tomorrowMaxTemp = intent.getIntExtra(EXTRA_WEATHER_TOMORROWMAXTEMP, 0);
+                weatherSpec.tomorrowMinTemp = intent.getIntExtra(EXTRA_WEATHER_TOMORROWMINTEMP, 0);
+                weatherSpec.tomorrowConditionCode = intent.getIntExtra(EXTRA_WEATHER_TOMORROWCONDITIONCODE, 0);
+                mDeviceSupport.onSendWeather(weatherSpec);
                 break;
             }
         }

@@ -3,13 +3,13 @@ package nodomain.freeyourgadget.gadgetbridge.externalevents;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import ru.gelin.android.weather.notification.ParcelableWeather2;
 
 
@@ -34,12 +34,19 @@ public class WeatherNotificationReceiver extends BroadcastReceiver {
             Weather.getInstance().setWeather2(weather);
             LOG.info("weather in " + weather.location + " is " + weather.currentCondition + " (" + (weather.currentTemp - 273) + "°C)");
 
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-            SharedPreferences.Editor edit = sharedPrefs.edit();
-            edit.putString("weather_location", weather.location);
-            edit.putString("weather_current_condition", weather.currentCondition);
-            edit.putInt("weather_current_temp", weather.currentTemp);
-            edit.apply();
+            WeatherSpec weatherSpec = new WeatherSpec();
+            weatherSpec.timestamp = (int) (weather.queryTime / 1000);
+            weatherSpec.location = weather.location;
+            weatherSpec.currentTemp = weather.currentTemp;
+            weatherSpec.currentCondition = weather.currentCondition;
+            weatherSpec.currentConditionCode = weather.currentConditionCode;
+            weatherSpec.todayMaxTemp = weather.todayHighTemp;
+            weatherSpec.todayMinTemp = weather.todayLowTemp;
+            weatherSpec.tomorrowConditionCode = weather.forecastConditionCode;
+            weatherSpec.tomorrowMaxTemp = weather.forecastHighTemp;
+            weatherSpec.tomorrowMinTemp = weather.forecastLowTemp;
+
+            GBApplication.deviceService().onSendWeather(weatherSpec);
         }
     }
 }
