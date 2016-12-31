@@ -14,15 +14,15 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import ru.gelin.android.weather.notification.ParcelableWeather2;
 
-public class AppMessageHandlerMarioTime extends AppMessageHandler {
+class AppMessageHandlerMarioTime extends AppMessageHandler {
 
-    public static final int KEY_WEATHER_ICON_ID = 10;
-    public static final int KEY_WEATHER_TEMPERATURE = 11;
-    public static final int KEY_WEATHER_REQUEST = 12;
+    private static final int KEY_WEATHER_ICON_ID = 10;
+    private static final int KEY_WEATHER_TEMPERATURE = 11;
+    private static final int KEY_WEATHER_REQUEST = 12;
 
     private static final Logger LOG = LoggerFactory.getLogger(AppMessageHandlerMarioTime.class);
 
-    public AppMessageHandlerMarioTime(UUID uuid, PebbleProtocol pebbleProtocol) {
+    AppMessageHandlerMarioTime(UUID uuid, PebbleProtocol pebbleProtocol) {
         super(uuid, pebbleProtocol);
     }
 
@@ -34,7 +34,6 @@ public class AppMessageHandlerMarioTime extends AppMessageHandler {
 
         ByteBuffer buf = ByteBuffer.allocate(weatherMessage.length);
 
-        // encode ack and put in front of push message (hack for acknowledging the last message)
         buf.put(weatherMessage);
 
         return buf.array();
@@ -56,14 +55,23 @@ public class AppMessageHandlerMarioTime extends AppMessageHandler {
         if (!weatherRequested) {
             return new GBDeviceEvent[]{null};
         }
+        return pushMessage();
+    }
+
+    @Override
+    public GBDeviceEvent[] pushMessage() {
         ParcelableWeather2 weather = Weather.getInstance().getWeather2();
 
+        if (weather == null) {
+            return new GBDeviceEvent[]{null};
+        }
         GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
-        sendBytes.encodedBytes = encodeWeatherMessage(weather.currentConditionCode, weather.currentTemp - 273);
+        sendBytes.encodedBytes = encodeWeatherMessage(weather.currentTemp - 273, 1); // FIXME: condition code
 
         GBDeviceEventSendBytes sendBytesAck = new GBDeviceEventSendBytes();
         sendBytesAck.encodedBytes = mPebbleProtocol.encodeApplicationMessageAck(mUUID, mPebbleProtocol.last_id);
 
         return new GBDeviceEvent[]{sendBytesAck, sendBytes};
+
     }
 }
