@@ -532,8 +532,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         if (start) {
             //return encodeWeatherPin(ts, "Weather", "1°/-1°", "Gadgetbridge is Sunny", "Berlin", 37);
-            //return encodeWeatherForecast(ts, "Berlin", 0, 5, -5, 1, "Sexy", 7, 2, 1);
-            return encodeWeatherForecast(ts);
         }
         */
     }
@@ -1118,40 +1116,36 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeSendWeather(WeatherSpec weatherSpec) {
-        if (mFwMajor < 4) {
-            return null;
-        }
+        byte[] forecastProtocol = null;
         byte[] watchfaceProtocol = null;
-        byte[] forecastProtocol = encodeWeatherForecast(weatherSpec.timestamp,
-                weatherSpec.location,
-                weatherSpec.currentTemp - 273,
-                weatherSpec.todayMaxTemp - 273,
-                weatherSpec.todayMinTemp - 273,
-                Weather.mapToPebbleCondition(weatherSpec.currentConditionCode),
-                weatherSpec.currentCondition,
-                weatherSpec.tomorrowMaxTemp - 273,
-                weatherSpec.tomorrowMinTemp - 273,
-                Weather.mapToPebbleCondition(weatherSpec.tomorrowConditionCode)
-            );
+        int length = 0;
+        if (mFwMajor >= 4) {
+            forecastProtocol = encodeWeatherForecast(weatherSpec);
+            length += forecastProtocol.length;
+        }
         AppMessageHandler handler = mAppMessageHandlers.get(currentRunningApp);
         if (handler != null) {
             watchfaceProtocol = handler.encodeUpdateWeather(weatherSpec);
+            if (watchfaceProtocol != null) {
+                length += watchfaceProtocol.length;
+            }
         }
+        ByteBuffer buf = ByteBuffer.allocate(length);
 
-        if (watchfaceProtocol != null) {
-            ByteBuffer buf = ByteBuffer.allocate(forecastProtocol.length + watchfaceProtocol.length);
+        if (forecastProtocol != null) {
             buf.put(forecastProtocol);
+        }
+        if (watchfaceProtocol != null) {
             buf.put(watchfaceProtocol);
-            return buf.array();
         }
 
-        return forecastProtocol;
+        return buf.array();
     }
 
-    private byte[] encodeWeatherForecast(int timestamp, String location, int tempNow, int tempHighToday, int tempLowToday, int conditionCodeToday, String conditionToday, int tempHighTomorrow, int tempLowTomorrow, int conditionCodeTomorrow) {
+    private byte[] encodeWeatherForecast(WeatherSpec weatherSpec) {
         final short WEATHER_FORECAST_LENGTH = 20;
 
-        String[] parts = {location, conditionToday};
+        String[] parts = {weatherSpec.location, weatherSpec.currentCondition};
 
         // Calculate length first
         short attributes_length = 0;
@@ -1169,15 +1163,15 @@ public class PebbleProtocol extends GBDeviceProtocol {
         ByteBuffer buf = ByteBuffer.allocate(pin_length);
         buf.order(ByteOrder.LITTLE_ENDIAN);
         buf.put((byte) 3); // unknown, always 3?
-        buf.putShort((short) tempNow);
-        buf.put((byte) conditionCodeToday);
-        buf.putShort((short) tempHighToday);
-        buf.putShort((short) tempLowToday);
-        buf.put((byte) conditionCodeTomorrow);
-        buf.putShort((short) tempHighTomorrow);
-        buf.putShort((short) tempLowTomorrow);
-        buf.putInt(timestamp);
-        buf.put((byte) 0); // automatic location
+        buf.putShort((short) (weatherSpec.currentTemp - 273));
+        buf.put((byte) Weather.mapToPebbleCondition(weatherSpec.currentConditionCode));
+        buf.putShort((short) (weatherSpec.todayMaxTemp - 273));
+        buf.putShort((short) (weatherSpec.todayMinTemp - 273));
+        buf.put((byte) Weather.mapToPebbleCondition(weatherSpec.tomorrowConditionCode));
+        buf.putShort((short) (weatherSpec.tomorrowMaxTemp - 273));
+        buf.putShort((short) (weatherSpec.tomorrowMinTemp - 273));
+        buf.putInt(weatherSpec.timestamp);
+        buf.put((byte) 0); // automatic location 0=manual 1=auto
         buf.putShort(attributes_length);
 
         // Encode Pascal-Style Strings
