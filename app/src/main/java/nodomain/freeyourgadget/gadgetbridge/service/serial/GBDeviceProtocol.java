@@ -7,6 +7,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
 public abstract class GBDeviceProtocol {
 
@@ -108,4 +109,7 @@ public abstract class GBDeviceProtocol {
         return mDevice;
     }
 
+    public byte[] encodeSendWeather(WeatherSpec weatherSpec) {
+        return null;
+    }
 }

@@ -60,6 +60,10 @@ public class PBWInstallHandler implements InstallHandler {
             installActivity.setInfoText("file not found");
             installActivity.setInstallEnabled(false);
             return;
+        } catch (IOException e) {
+            installActivity.setInfoText("error reading file");
+            installActivity.setInstallEnabled(false);
+            return;
         }
 
         if (!mPBWReader.isValid()) {
@@ -168,18 +172,22 @@ public class PBWInstallHandler implements InstallHandler {
         }
 
         InputStream jsConfigFile = mPBWReader.getInputStreamFile("pebble-js-app.js");
-
         if (jsConfigFile != null) {
-            outputFile = new File(destDir, app.getUUID().toString() + "_config.js");
             try {
+                outputFile = new File(destDir, app.getUUID().toString() + "_config.js");
                 FileUtils.copyStreamToFile(jsConfigFile, outputFile);
             } catch (IOException e) {
                 LOG.error("Failed to open output file: " + e.getMessage(), e);
+            } finally {
+                try {
+                    jsConfigFile.close();
+                } catch (IOException e) {
+                }
             }
         }
-
     }
 
+    @Override
     public boolean isValid() {
         // always pretend it is valid, as we can't know yet about hw/fw version
         return true;

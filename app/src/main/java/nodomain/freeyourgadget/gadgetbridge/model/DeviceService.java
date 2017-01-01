@@ -44,6 +44,7 @@ public interface DeviceService extends EventHandler {
     String ACTION_ADD_CALENDAREVENT = PREFIX + ".action.add_calendarevent";
     String ACTION_DELETE_CALENDAREVENT = PREFIX + ".action.delete_calendarevent";
     String ACTION_SEND_CONFIGURATION = PREFIX + ".action.send_configuration";
+    String ACTION_SEND_WEATHER = PREFIX + ".action.send_weather";
     String ACTION_TEST_NEW_FUNCTION = PREFIX + ".action.test_new_function";
     String EXTRA_DEVICE_ADDRESS = "device_address";
     String EXTRA_NOTIFICATION_BODY = "notification_body";
@@ -80,6 +81,18 @@ public interface DeviceService extends EventHandler {
     String EXTRA_ALARMS = "alarms";
     String EXTRA_PERFORM_PAIR = "perform_pair";
     String EXTRA_BOOLEAN_ENABLE = "enable_realtime_steps";
+
+    String EXTRA_WEATHER_TIMESTAMP = "weather_timestamp";
+    String EXTRA_WEATHER_LOCATION = "weather_location";
+    String EXTRA_WEATHER_CURRENTTEMP = "weather_currenttemp";
+    String EXTRA_WEATHER_CURRENTCONDITIONCODE = "weather_currentconditioncode";
+    String EXTRA_WEATHER_CURRENTCONDITION = "currentcondition";
+    String EXTRA_WEATHER_TODAYMAXTEMP = "weather_todaymaxtemp";
+    String EXTRA_WEATHER_TODAYMINTEMP = "weather_todaymintemp";
+    String EXTRA_WEATHER_TOMORROWMAXTEMP = "weather_tomorrowmaxtemp";
+    String EXTRA_WEATHER_TOMORROWMINTEMP = "weather_tomorrowmintemp";
+    String EXTRA_WEATHER_TOMORROWCONDITIONCODE = "weather_tomorrowconditioncode";
+
     /**
      * Use EXTRA_REALTIME_SAMPLE instead
      */

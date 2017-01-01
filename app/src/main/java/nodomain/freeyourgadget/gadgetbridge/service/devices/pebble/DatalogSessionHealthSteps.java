@@ -16,7 +16,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
+class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
 
     private static final Logger LOG = LoggerFactory.getLogger(DatalogSessionHealthSteps.class);
 

@@ -13,11 +13,11 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
  * Extends GBDeviceServer so that communication with the service works
  * with Robolectric.
  */
-public class TestDeviceService extends GBDeviceService {
+class TestDeviceService extends GBDeviceService {
     private final ServiceController<DeviceCommunicationService> serviceController;
     private final DeviceCommunicationService service;
 
-    public TestDeviceService(Context context) throws Exception {
+    TestDeviceService(Context context) throws Exception {
         super(context);
 
         serviceController = Robolectric.buildService(DeviceCommunicationService.class, createIntent());

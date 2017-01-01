@@ -1,9 +1,15 @@
 ###Changelog
 
 ####Version 0.16.0
-* New device: ZeBand
-* ZeBand: Initial experimental support
-* Pebble 2: Fix Pebble Classic FW 3.x app variant being priorized over native Pebble 2 app variant
+* New devices: HPlus (e.g. Zeblaze ZeBand), contributed by João Paulo Barraca
+* ZeBand: Initial support: notifications, heart rate, sleep monitoring, user configuration, date+time
+* Pebble 2: Fix Pebble Classic FW 3.x app variant being prioritized over native Pebble 2 app variant
+* Charts (Live Activity): Fix axis labels color in dark theme
+* Mi Band: Fix ginormous step count when using Live Activity
+* Mi Band: Improved performance during activity sync
+* Mi Band 2: Fix activity data missing after doing manual hr measurements or live activity
+* Support sharing firmwares/watchapps/watchfaces to Gadgetbridge
+* Support for the "Subsonic" music player (#474)
 
 ####Version 0.15.2
 * Mi Band: Fix crash with unknown notification sources

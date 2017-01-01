@@ -57,6 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
@@ -1244,6 +1245,11 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onTestNewFunction() {
+    }
+
+    @Override
+    public void onSendWeather(WeatherSpec weatherSpec) {
+
     }
 
     private MiBand2Support setDateDisplay(TransactionBuilder builder) {
