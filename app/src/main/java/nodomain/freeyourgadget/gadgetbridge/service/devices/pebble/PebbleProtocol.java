@@ -1733,7 +1733,13 @@ public class PebbleProtocol extends GBDeviceProtocol {
             switch (type) {
                 case TYPE_INT:
                 case TYPE_UINT:
-                    dict.add(new Pair<Integer, Object>(key, buf.getInt()));
+                    if (length == 1) {
+                        dict.add(new Pair<Integer, Object>(key, buf.get()));
+                    } else if (length == 2) {
+                        dict.add(new Pair<Integer, Object>(key, buf.getShort()));
+                    } else {
+                        dict.add(new Pair<Integer, Object>(key, buf.getInt()));
+                    }
                     break;
                 case TYPE_CSTRING:
                 case TYPE_BYTEARRAY:
