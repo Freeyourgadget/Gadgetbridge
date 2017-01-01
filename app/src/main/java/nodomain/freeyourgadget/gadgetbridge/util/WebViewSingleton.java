@@ -46,11 +46,10 @@ public class WebViewSingleton extends Activity {
 
     public static WebView getorInitWebView(Context context, GBDevice device, UUID uuid) {
         if (context instanceof Activity) {
-            final MutableContextWrapper _contextWrapper = new MutableContextWrapper(context);
             if (contextWrapper != null) {
                 contextWrapper.setBaseContext(context);
             } else {
-                contextWrapper = _contextWrapper;
+                contextWrapper = new MutableContextWrapper(context);
             }
         }
         //here we are sure that contextWrapper is either null or an activity, hence we run on the main thread
