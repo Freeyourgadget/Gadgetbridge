@@ -570,6 +570,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                 case START:
                     LOG.info("got GBDeviceEventAppManagement START event for uuid: " + appMgmt.uuid);
                     WebViewSingleton.getorInitWebView(getContext(), gbDevice, appMgmt.uuid);
+                    //TODO: the method call above will not work the first time as we need an activity. Either we find a way to have one here, or replace it with a local broadcast
                     break;
                 default:
                     break;

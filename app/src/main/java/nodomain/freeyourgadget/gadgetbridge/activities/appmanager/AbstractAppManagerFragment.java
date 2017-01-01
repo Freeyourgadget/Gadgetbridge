@@ -39,6 +39,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton;
 
 
 public abstract class AbstractAppManagerFragment extends Fragment {
@@ -323,6 +324,8 @@ public abstract class AbstractAppManagerFragment extends Fragment {
 
         view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
         popupMenu.show();
+        //TODO: replace with local broadcast on app start
+        WebViewSingleton.getorInitWebView(getActivity(), mGBDevice, selectedApp.getUUID());
         return true;
     }
 

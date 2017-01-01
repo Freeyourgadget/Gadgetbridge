@@ -1,12 +1,10 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.MutableContextWrapper;
 import android.net.Uri;
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
 import android.webkit.ConsoleMessage;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
@@ -35,7 +33,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
-public class WebViewSingleton {
+public class WebViewSingleton extends Activity {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebViewSingleton.class);
 
@@ -46,56 +44,52 @@ public class WebViewSingleton {
     private WebViewSingleton() {
     }
 
-    public static WebView getorInitWebView(final Context context, final GBDevice device, final UUID uuid) {
-        final MutableContextWrapper _contextWrapper = new MutableContextWrapper(context);
-        if (contextWrapper != null) {
-            contextWrapper.setBaseContext(context);
-        } else {
-            contextWrapper = _contextWrapper;
-        }
-
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                if (instance == null) {
-                    instance = new WebView(_contextWrapper);
-                    instance.clearCache(true);
-                    instance.setWebViewClient(new GBWebClient());
-                    instance.setWebChromeClient(new GBChromeClient());
-                    instance.setWebContentsDebuggingEnabled(true);
-                    WebSettings webSettings = instance.getSettings();
-                    webSettings.setJavaScriptEnabled(true);
-                    //needed to access the DOM
-                    webSettings.setDomStorageEnabled(true);
-                    //needed for localstorage
-                    webSettings.setDatabaseEnabled(true);
-                }
-
-                if (jsInterface == null || (jsInterface != null && (!device.equals(jsInterface.device) || !uuid.equals(jsInterface.mUuid)))) {
-                    instance.removeJavascriptInterface("GBjs");
-                    jsInterface = new JSInterface(device, uuid);
-                    instance.addJavascriptInterface(jsInterface, "GBjs");
-                    instance.loadUrl("file:///android_asset/app_config/configure.html");
-                } else {
-                    LOG.debug("Not reloading the webview " + jsInterface.mUuid.toString());
-                }
+    public static WebView getorInitWebView(Context context, GBDevice device, UUID uuid) {
+        if (context instanceof Activity) {
+            final MutableContextWrapper _contextWrapper = new MutableContextWrapper(context);
+            if (contextWrapper != null) {
+                contextWrapper.setBaseContext(context);
+            } else {
+                contextWrapper = _contextWrapper;
             }
-        });
+        }
+        //here we are sure that contextWrapper is either null or an activity, hence we run on the main thread
+        if (contextWrapper != null) {
+            if (instance == null) {
+                instance = new WebView(contextWrapper);
+                instance.setWillNotDraw(true);
+                instance.clearCache(true);
+                instance.setWebViewClient(new GBWebClient());
+                instance.setWebChromeClient(new GBChromeClient());
+                instance.setWebContentsDebuggingEnabled(true);
+                WebSettings webSettings = instance.getSettings();
+                webSettings.setJavaScriptEnabled(true);
+                //needed to access the DOM
+                webSettings.setDomStorageEnabled(true);
+                //needed for localstorage
+                webSettings.setDatabaseEnabled(true);
+            }
 
+            if (jsInterface == null || (jsInterface != null && (!device.equals(jsInterface.device) || !uuid.equals(jsInterface.mUuid)))) {
+                instance.removeJavascriptInterface("GBjs");
+                jsInterface = new JSInterface(device, uuid);
+                instance.addJavascriptInterface(jsInterface, "GBjs");
+                instance.loadUrl("file:///android_asset/app_config/configure.html");
+            } else {
+                LOG.debug("Not reloading the webview " + jsInterface.mUuid.toString());
+            }
+        } else {
+            LOG.debug("WEBV: not using the passed context, as it is not an activity");
+        }
         return instance;
     }
 
 
     public static void disposeWebView() {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                if (instance != null) {
-                    instance.destroy();
-                    instance = null;
-                }
-            }
-        });
+        if (instance != null) {
+            instance.destroy();
+            instance = null;
+        }
     }
 
     private static class GBChromeClient extends WebChromeClient {
@@ -155,7 +149,7 @@ public class WebViewSingleton {
 
         @JavascriptInterface
         public void gbLog(String msg) {
-            Log.d("WEBVIEW", msg);
+            LOG.debug("WEBVIEW", msg);
         }
 
         @JavascriptInterface
@@ -196,7 +190,7 @@ public class WebViewSingleton {
                     }
 
                 }
-                LOG.info(out.toString());
+                LOG.info("WEBV:" + out.toString());
                 GBApplication.deviceService().onAppConfiguration(this.mUuid, out.toString());
 
             } catch (JSONException e) {
