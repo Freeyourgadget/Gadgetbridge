@@ -14,7 +14,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleColor;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import ru.gelin.android.weather.notification.ParcelableWeather2;
 
-public class AppMessageHandlerPebStyle extends AppMessageHandler {
+class AppMessageHandlerPebStyle extends AppMessageHandler {
     public static final int KEY_AMPM_TEXT = 21;
     public static final int KEY_BLUETOOTH_ALERT = 2;
     public static final int KEY_BLUETOOTH_ICON = 20;

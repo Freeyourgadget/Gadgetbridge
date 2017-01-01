@@ -2,9 +2,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 
 import android.util.Pair;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -13,7 +10,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
-public class AppMessageHandlerTimeStylePebble extends AppMessageHandler {
+class AppMessageHandlerTimeStylePebble extends AppMessageHandler {
     private static final int MESSAGE_KEY_WeatherCondition = 10000;
     private static final int MESSAGE_KEY_WeatherForecastCondition = 10002;
     private static final int MESSAGE_KEY_WeatherForecastHighTemp = 10003;
@@ -35,9 +32,7 @@ public class AppMessageHandlerTimeStylePebble extends AppMessageHandler {
     private static final int ICON_THUNDERSTORM = 10;
     private static final int ICON_WEATHER_GENERIC = 11;
 
-    private static final Logger LOG = LoggerFactory.getLogger(AppMessageHandlerTimeStylePebble.class);
-
-    public AppMessageHandlerTimeStylePebble(UUID uuid, PebbleProtocol pebbleProtocol) {
+    AppMessageHandlerTimeStylePebble(UUID uuid, PebbleProtocol pebbleProtocol) {
         super(uuid, pebbleProtocol);
     }
 
@@ -125,6 +120,9 @@ public class AppMessageHandlerTimeStylePebble extends AppMessageHandler {
     @Override
     public GBDeviceEvent[] onAppStart() {
         WeatherSpec weatherSpec = Weather.getInstance().getWeatherSpec();
+        if (weatherSpec == null) {
+            return new GBDeviceEvent[]{null};
+        }
         GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
         sendBytes.encodedBytes = encodeTimeStylePebbleWeather(weatherSpec);
         return new GBDeviceEvent[]{sendBytes};

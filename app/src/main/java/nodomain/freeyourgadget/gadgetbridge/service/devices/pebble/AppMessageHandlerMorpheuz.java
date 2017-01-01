@@ -20,37 +20,37 @@ import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleMorpheuzSampleP
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMorpheuzSample;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-public class AppMessageHandlerMorpheuz extends AppMessageHandler {
+class AppMessageHandlerMorpheuz extends AppMessageHandler {
 
-    public static final int KEY_POINT = 1;
-    public static final int KEY_POINT_46 = 10000;
-    public static final int KEY_CTRL = 2;
-    public static final int KEY_CTRL_46 = 10001;
-    public static final int KEY_FROM = 3;
-    public static final int KEY_FROM_46 = 10002;
-    public static final int KEY_TO = 4;
-    public static final int KEY_TO_46 = 10003;
-    public static final int KEY_BASE = 5;
-    public static final int KEY_BASE_46 = 10004;
-    public static final int KEY_VERSION = 6;
-    public static final int KEY_VERSION_46 = 10005;
-    public static final int KEY_GONEOFF = 7;
-    public static final int KEY_GONEOFF_46 = 10006;
-    public static final int KEY_TRANSMIT = 8;
-    public static final int KEY_TRANSMIT_46 = 10007;
-    public static final int KEY_AUTO_RESET = 9;
-    public static final int KEY_AUTO_RESET_46 = 10008;
-    public static final int KEY_SNOOZES = 10;
-    public static final int KEY_SNOOZES_46 = 10009;
-    public static final int KEY_FAULT_46 = 10010;
+    private static final int KEY_POINT = 1;
+    private static final int KEY_POINT_46 = 10000;
+    private static final int KEY_CTRL = 2;
+    private static final int KEY_CTRL_46 = 10001;
+    private static final int KEY_FROM = 3;
+    private static final int KEY_FROM_46 = 10002;
+    private static final int KEY_TO = 4;
+    private static final int KEY_TO_46 = 10003;
+    private static final int KEY_BASE = 5;
+    private static final int KEY_BASE_46 = 10004;
+    private static final int KEY_VERSION = 6;
+    private static final int KEY_VERSION_46 = 10005;
+    private static final int KEY_GONEOFF = 7;
+    private static final int KEY_GONEOFF_46 = 10006;
+    private static final int KEY_TRANSMIT = 8;
+    private static final int KEY_TRANSMIT_46 = 10007;
+    private static final int KEY_AUTO_RESET = 9;
+    private static final int KEY_AUTO_RESET_46 = 10008;
+    private static final int KEY_SNOOZES = 10;
+    private static final int KEY_SNOOZES_46 = 10009;
+    private static final int KEY_FAULT_46 = 10010;
 
-    public static final int CTRL_TRANSMIT_DONE = 1;
-    public static final int CTRL_VERSION_DONE = 2;
-    public static final int CTRL_GONEOFF_DONE = 4;
-    public static final int CTRL_DO_NEXT = 8;
-    public static final int CTRL_SET_LAST_SENT = 16;
-    public static final int CTRL_LAZARUS = 32;
-    public static final int CTRL_SNOOZES_DONE = 64;
+    private static final int CTRL_TRANSMIT_DONE = 1;
+    private static final int CTRL_VERSION_DONE = 2;
+    private static final int CTRL_GONEOFF_DONE = 4;
+    private static final int CTRL_DO_NEXT = 8;
+    private static final int CTRL_SET_LAST_SENT = 16;
+    private static final int CTRL_LAZARUS = 32;
+    private static final int CTRL_SNOOZES_DONE = 64;
 
     // data received from Morpheuz in native format
     private int version = 0;

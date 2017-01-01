@@ -2,12 +2,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 
 import android.util.Pair;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
@@ -18,8 +14,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 class AppMessageHandlerHealthify extends AppMessageHandler {
     private static final int KEY_TEMPERATURE = 10021;
     private static final int KEY_CONDITIONS = 10022;
-
-    private static final Logger LOG = LoggerFactory.getLogger(AppMessageHandlerHealthify.class);
 
     AppMessageHandlerHealthify(UUID uuid, PebbleProtocol pebbleProtocol) {
         super(uuid, pebbleProtocol);
@@ -53,6 +47,9 @@ class AppMessageHandlerHealthify extends AppMessageHandler {
     @Override
     public GBDeviceEvent[] onAppStart() {
         WeatherSpec weatherSpec = Weather.getInstance().getWeatherSpec();
+        if (weatherSpec == null) {
+            return new GBDeviceEvent[]{null};
+        }
         GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
         sendBytes.encodedBytes = encodeMarioWeatherMessage(weatherSpec);
         return new GBDeviceEvent[]{sendBytes};

@@ -22,21 +22,21 @@ import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMisfitSample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-public class AppMessageHandlerMisfit extends AppMessageHandler {
+class AppMessageHandlerMisfit extends AppMessageHandler {
 
-    public static final int KEY_SLEEPGOAL = 1;
-    public static final int KEY_STEP_ROGRESS = 2;
-    public static final int KEY_SLEEP_PROGRESS = 3;
-    public static final int KEY_VERSION = 4;
-    public static final int KEY_SYNC = 5;
-    public static final int KEY_INCOMING_DATA_BEGIN = 6;
-    public static final int KEY_INCOMING_DATA = 7;
-    public static final int KEY_INCOMING_DATA_END = 8;
-    public static final int KEY_SYNC_RESULT = 9;
+    private static final int KEY_SLEEPGOAL = 1;
+    private static final int KEY_STEP_ROGRESS = 2;
+    private static final int KEY_SLEEP_PROGRESS = 3;
+    private static final int KEY_VERSION = 4;
+    private static final int KEY_SYNC = 5;
+    private static final int KEY_INCOMING_DATA_BEGIN = 6;
+    private static final int KEY_INCOMING_DATA = 7;
+    private static final int KEY_INCOMING_DATA_END = 8;
+    private static final int KEY_SYNC_RESULT = 9;
 
     private static final Logger LOG = LoggerFactory.getLogger(AppMessageHandlerMisfit.class);
 
-    public AppMessageHandlerMisfit(UUID uuid, PebbleProtocol pebbleProtocol) {
+    AppMessageHandlerMisfit(UUID uuid, PebbleProtocol pebbleProtocol) {
         super(uuid, pebbleProtocol);
     }
 

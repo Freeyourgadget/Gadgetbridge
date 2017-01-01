@@ -10,7 +10,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
-public class AppMessageHandler {
+class AppMessageHandler {
     final PebbleProtocol mPebbleProtocol;
     final UUID mUUID;
 

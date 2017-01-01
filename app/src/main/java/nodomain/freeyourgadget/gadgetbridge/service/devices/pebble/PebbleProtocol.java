@@ -361,6 +361,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private static final UUID UUID_PEBSTYLE = UUID.fromString("da05e84d-e2a2-4020-a2dc-9cdcf265fcdd");
     private static final UUID UUID_MARIOTIME = UUID.fromString("43caa750-2896-4f46-94dc-1adbd4bc1ff3");
     private static final UUID UUID_HELTHIFY = UUID.fromString("7ee97b2c-95e8-4720-b94e-70fccd905d98");
+    private static final UUID UUID_TREKVOLLE = UUID.fromString("2da02267-7a19-4e49-9ed1-439d25db14e4");
 
     private static final UUID UUID_ZERO = new UUID(0, 0);
 
@@ -375,9 +376,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
         mAppMessageHandlers.put(UUID_MORPHEUZ, new AppMessageHandlerMorpheuz(UUID_MORPHEUZ, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_MISFIT, new AppMessageHandlerMisfit(UUID_MISFIT, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_PEBBLE_TIMESTYLE, new AppMessageHandlerTimeStylePebble(UUID_PEBBLE_TIMESTYLE, PebbleProtocol.this));
-        mAppMessageHandlers.put(UUID_PEBSTYLE, new AppMessageHandlerPebStyle(UUID_PEBSTYLE, PebbleProtocol.this));
+        //mAppMessageHandlers.put(UUID_PEBSTYLE, new AppMessageHandlerPebStyle(UUID_PEBSTYLE, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_MARIOTIME, new AppMessageHandlerMarioTime(UUID_MARIOTIME, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_HELTHIFY, new AppMessageHandlerHealthify(UUID_HELTHIFY, PebbleProtocol.this));
+        mAppMessageHandlers.put(UUID_TREKVOLLE, new AppMessageHandlerTrekVolle(UUID_TREKVOLLE, PebbleProtocol.this));
     }
 
     private final HashMap<Byte, DatalogSession> mDatalogSessions = new HashMap<>();
@@ -1164,10 +1166,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.order(ByteOrder.LITTLE_ENDIAN);
         buf.put((byte) 3); // unknown, always 3?
         buf.putShort((short) (weatherSpec.currentTemp - 273));
-        buf.put((byte) Weather.mapToPebbleCondition(weatherSpec.currentConditionCode));
+        buf.put(Weather.mapToPebbleCondition(weatherSpec.currentConditionCode));
         buf.putShort((short) (weatherSpec.todayMaxTemp - 273));
         buf.putShort((short) (weatherSpec.todayMinTemp - 273));
-        buf.put((byte) Weather.mapToPebbleCondition(weatherSpec.tomorrowConditionCode));
+        buf.put(Weather.mapToPebbleCondition(weatherSpec.tomorrowConditionCode));
         buf.putShort((short) (weatherSpec.tomorrowMaxTemp - 273));
         buf.putShort((short) (weatherSpec.tomorrowMinTemp - 273));
         buf.putInt(weatherSpec.timestamp);
