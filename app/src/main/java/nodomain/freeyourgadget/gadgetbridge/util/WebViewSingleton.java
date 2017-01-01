@@ -5,8 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.MutableContextWrapper;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.webkit.ConsoleMessage;
 import android.webkit.JavascriptInterface;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -83,12 +87,36 @@ public class WebViewSingleton extends Activity {
         return instance;
     }
 
+    public static void appMessage(final String message) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    instance.evaluateJavascript("Pebble.evaluate('appmessage',[{'payload':" + message + "}]);", new ValueCallback<String>() {
+                        @Override
+                        public void onReceiveValue(String s) {
+                            LOG.debug("Callback from showConfiguration", s);
+                        }
+                    });
+                } else {
+                    instance.loadUrl("javascript:Pebble.evaluate('appmessage',[{'payload':" + message + "}]);");
+                }
+            }
+        });
+    }
 
     public static void disposeWebView() {
-        if (instance != null) {
-            instance.destroy();
-            instance = null;
-        }
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                if (instance != null) {
+                    instance.destroy();
+                    instance = null;
+                    contextWrapper = null;
+                    jsInterface = null;
+                }
+            }
+        });
     }
 
     private static class GBChromeClient extends WebChromeClient {
