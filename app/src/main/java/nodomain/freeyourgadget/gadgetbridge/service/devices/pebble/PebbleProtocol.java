@@ -46,140 +46,137 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     private static final Logger LOG = LoggerFactory.getLogger(PebbleProtocol.class);
 
-    static final short ENDPOINT_TIME = 11;
-    static final short ENDPOINT_FIRMWAREVERSION = 16;
-    public static final short ENDPOINT_PHONEVERSION = 17;
-    static final short ENDPOINT_SYSTEMMESSAGE = 18;
-    static final short ENDPOINT_MUSICCONTROL = 32;
-    static final short ENDPOINT_PHONECONTROL = 33;
+    private static final short ENDPOINT_TIME = 11;
+    private static final short ENDPOINT_FIRMWAREVERSION = 16;
+    private static final short ENDPOINT_PHONEVERSION = 17;
+    private static final short ENDPOINT_SYSTEMMESSAGE = 18;
+    private static final short ENDPOINT_MUSICCONTROL = 32;
+    private static final short ENDPOINT_PHONECONTROL = 33;
     static final short ENDPOINT_APPLICATIONMESSAGE = 48;
-    static final short ENDPOINT_LAUNCHER = 49;
-    static final short ENDPOINT_APPRUNSTATE = 52; // 3.x only
-    static final short ENDPOINT_LOGS = 2000;
-    static final short ENDPOINT_PING = 2001;
-    static final short ENDPOINT_LOGDUMP = 2002;
-    static final short ENDPOINT_RESET = 2003;
-    static final short ENDPOINT_APP = 2004;
-    static final short ENDPOINT_APPLOGS = 2006;
-    static final short ENDPOINT_NOTIFICATION = 3000;
-    static final short ENDPOINT_EXTENSIBLENOTIFS = 3010;
-    static final short ENDPOINT_RESOURCE = 4000;
-    static final short ENDPOINT_SYSREG = 5000;
-    static final short ENDPOINT_FCTREG = 5001;
-    static final short ENDPOINT_APPMANAGER = 6000;
-    static final short ENDPOINT_APPFETCH = 6001; // 3.x only
-    static final short ENDPOINT_DATALOG = 6778;
-    static final short ENDPOINT_RUNKEEPER = 7000;
-    static final short ENDPOINT_SCREENSHOT = 8000;
-    static final short ENDPOINT_AUDIOSTREAM = 10000;
-    static final short ENDPOINT_VOICECONTROL = 11000;
-    static final short ENDPOINT_NOTIFICATIONACTION = 11440; // 3.x only, TODO: find a better name
-    static final short ENDPOINT_APPREORDER = (short) 0xabcd; // 3.x only
-    static final short ENDPOINT_BLOBDB = (short) 45531;  // 3.x only
-    static final short ENDPOINT_PUTBYTES = (short) 48879;
+    private static final short ENDPOINT_LAUNCHER = 49;
+    private static final short ENDPOINT_APPRUNSTATE = 52; // FW >=3.x
+    private static final short ENDPOINT_LOGS = 2000;
+    private static final short ENDPOINT_PING = 2001;
+    private static final short ENDPOINT_LOGDUMP = 2002;
+    private static final short ENDPOINT_RESET = 2003;
+    private static final short ENDPOINT_APP = 2004;
+    private static final short ENDPOINT_APPLOGS = 2006;
+    private static final short ENDPOINT_NOTIFICATION = 3000; // FW 1.x-2-x
+    private static final short ENDPOINT_EXTENSIBLENOTIFS = 3010; // FW 2.x
+    private static final short ENDPOINT_RESOURCE = 4000;
+    private static final short ENDPOINT_SYSREG = 5000;
+    private static final short ENDPOINT_FCTREG = 5001;
+    private static final short ENDPOINT_APPMANAGER = 6000;
+    private static final short ENDPOINT_APPFETCH = 6001; // FW >=3.x
+    private static final short ENDPOINT_DATALOG = 6778;
+    private static final short ENDPOINT_RUNKEEPER = 7000;
+    private static final short ENDPOINT_SCREENSHOT = 8000;
+    private static final short ENDPOINT_AUDIOSTREAM = 10000;
+    private static final short ENDPOINT_VOICECONTROL = 11000;
+    private static final short ENDPOINT_NOTIFICATIONACTION = 11440; // FW >=3.x, TODO: find a better name
+    private static final short ENDPOINT_APPREORDER = (short) 0xabcd; // FW >=3.x
+    private static final short ENDPOINT_BLOBDB = (short) 0xb1db;  // FW >=3.x
+    private static final short ENDPOINT_PUTBYTES = (short) 0xbeef;
 
-    static final byte APPRUNSTATE_START = 1;
-    static final byte APPRUNSTATE_STOP = 2;
+    private static final byte APPRUNSTATE_START = 1;
+    private static final byte APPRUNSTATE_STOP = 2;
 
-    static final byte BLOBDB_INSERT = 1;
-    static final byte BLOBDB_DELETE = 4;
-    static final byte BLOBDB_CLEAR = 5;
+    private static final byte BLOBDB_INSERT = 1;
+    private static final byte BLOBDB_DELETE = 4;
+    private static final byte BLOBDB_CLEAR = 5;
 
-    static final byte BLOBDB_PIN = 1;
-    static final byte BLOBDB_APP = 2;
-    static final byte BLOBDB_REMINDER = 3;
-    static final byte BLOBDB_NOTIFICATION = 4;
-    static final byte BLOBDB_WEATHER = 5;
-    static final byte BLOBDB_CANNED_MESSAGES = 6;
-    static final byte BLOBDB_PREFERENCES = 7;
-    static final byte BLOBDB_APPSETTINGS = 9;
-    static final byte BLOBDB_APPGLANCE = 11;
+    private static final byte BLOBDB_PIN = 1;
+    private static final byte BLOBDB_APP = 2;
+    private static final byte BLOBDB_REMINDER = 3;
+    private static final byte BLOBDB_NOTIFICATION = 4;
+    private static final byte BLOBDB_WEATHER = 5;
+    private static final byte BLOBDB_CANNED_MESSAGES = 6;
+    private static final byte BLOBDB_PREFERENCES = 7;
+    private static final byte BLOBDB_APPSETTINGS = 9;
+    private static final byte BLOBDB_APPGLANCE = 11;
 
-    static final byte BLOBDB_SUCCESS = 1;
-    static final byte BLOBDB_GENERALFAILURE = 2;
-    static final byte BLOBDB_INVALIDOPERATION = 3;
-    static final byte BLOBDB_INVALIDDATABASEID = 4;
-    static final byte BLOBDB_INVALIDDATA = 5;
-    static final byte BLOBDB_KEYDOESNOTEXIST = 6;
-    static final byte BLOBDB_DATABASEFULL = 7;
-    static final byte BLOBDB_DATASTALE = 8;
+    private static final byte BLOBDB_SUCCESS = 1;
+    private static final byte BLOBDB_GENERALFAILURE = 2;
+    private static final byte BLOBDB_INVALIDOPERATION = 3;
+    private static final byte BLOBDB_INVALIDDATABASEID = 4;
+    private static final byte BLOBDB_INVALIDDATA = 5;
+    private static final byte BLOBDB_KEYDOESNOTEXIST = 6;
+    private static final byte BLOBDB_DATABASEFULL = 7;
+    private static final byte BLOBDB_DATASTALE = 8;
 
 
-    // This is not in the Pebble protocol
-    static final byte NOTIFICATION_UNDEFINED = -1;
+    private static final byte NOTIFICATION_EMAIL = 0;
+    private static final byte NOTIFICATION_SMS = 1;
+    private static final byte NOTIFICATION_TWITTER = 2;
+    private static final byte NOTIFICATION_FACEBOOK = 3;
 
-    static final byte NOTIFICATION_EMAIL = 0;
-    static final byte NOTIFICATION_SMS = 1;
-    static final byte NOTIFICATION_TWITTER = 2;
-    static final byte NOTIFICATION_FACEBOOK = 3;
+    private static final byte PHONECONTROL_ANSWER = 1;
+    private static final byte PHONECONTROL_HANGUP = 2;
+    private static final byte PHONECONTROL_GETSTATE = 3;
+    private static final byte PHONECONTROL_INCOMINGCALL = 4;
+    private static final byte PHONECONTROL_OUTGOINGCALL = 5;
+    private static final byte PHONECONTROL_MISSEDCALL = 6;
+    private static final byte PHONECONTROL_RING = 7;
+    private static final byte PHONECONTROL_START = 8;
+    private static final byte PHONECONTROL_END = 9;
 
-    static final byte PHONECONTROL_ANSWER = 1;
-    static final byte PHONECONTROL_HANGUP = 2;
-    static final byte PHONECONTROL_GETSTATE = 3;
-    static final byte PHONECONTROL_INCOMINGCALL = 4;
-    static final byte PHONECONTROL_OUTGOINGCALL = 5;
-    static final byte PHONECONTROL_MISSEDCALL = 6;
-    static final byte PHONECONTROL_RING = 7;
-    static final byte PHONECONTROL_START = 8;
-    static final byte PHONECONTROL_END = 9;
+    private static final byte MUSICCONTROL_SETMUSICINFO = 0x10;
+    private static final byte MUSICCONTROL_SETPLAYSTATE = 0x11;
 
-    static final byte MUSICCONTROL_SETMUSICINFO = 0x10;
-    static final byte MUSICCONTROL_SETPLAYSTATE = 0x11;
+    private static final byte MUSICCONTROL_PLAYPAUSE = 1;
+    private static final byte MUSICCONTROL_PAUSE = 2;
+    private static final byte MUSICCONTROL_PLAY = 3;
+    private static final byte MUSICCONTROL_NEXT = 4;
+    private static final byte MUSICCONTROL_PREVIOUS = 5;
+    private static final byte MUSICCONTROL_VOLUMEUP = 6;
+    private static final byte MUSICCONTROL_VOLUMEDOWN = 7;
+    private static final byte MUSICCONTROL_GETNOWPLAYING = 8;
 
-    static final byte MUSICCONTROL_PLAYPAUSE = 1;
-    static final byte MUSICCONTROL_PAUSE = 2;
-    static final byte MUSICCONTROL_PLAY = 3;
-    static final byte MUSICCONTROL_NEXT = 4;
-    static final byte MUSICCONTROL_PREVIOUS = 5;
-    static final byte MUSICCONTROL_VOLUMEUP = 6;
-    static final byte MUSICCONTROL_VOLUMEDOWN = 7;
-    static final byte MUSICCONTROL_GETNOWPLAYING = 8;
+    private static final byte MUSICCONTROL_STATE_PAUSED = 0x00;
+    private static final byte MUSICCONTROL_STATE_PLAYING = 0x01;
+    private static final byte MUSICCONTROL_STATE_REWINDING = 0x02;
+    private static final byte MUSICCONTROL_STATE_FASTWORWARDING = 0x03;
+    private static final byte MUSICCONTROL_STATE_UNKNOWN = 0x04;
 
-    static final byte MUSICCONTROL_STATE_PAUSED = 0x00;
-    static final byte MUSICCONTROL_STATE_PLAYING = 0x01;
-    static final byte MUSICCONTROL_STATE_REWINDING = 0x02;
-    static final byte MUSICCONTROL_STATE_FASTWORWARDING = 0x03;
-    static final byte MUSICCONTROL_STATE_UNKNOWN = 0x04;
+    private static final byte NOTIFICATIONACTION_ACK = 0;
+    private static final byte NOTIFICATIONACTION_NACK = 1;
+    private static final byte NOTIFICATIONACTION_INVOKE = 0x02;
+    private static final byte NOTIFICATIONACTION_RESPONSE = 0x11;
 
-    static final byte NOTIFICATIONACTION_ACK = 0;
-    static final byte NOTIFICATIONACTION_NACK = 1;
-    static final byte NOTIFICATIONACTION_INVOKE = 0x02;
-    static final byte NOTIFICATIONACTION_RESPONSE = 0x11;
+    private static final byte TIME_GETTIME = 0;
+    private static final byte TIME_SETTIME = 2;
+    private static final byte TIME_SETTIME_UTC = 3;
 
-    static final byte TIME_GETTIME = 0;
-    static final byte TIME_SETTIME = 2;
-    static final byte TIME_SETTIME_UTC = 3;
+    private static final byte FIRMWAREVERSION_GETVERSION = 0;
 
-    static final byte FIRMWAREVERSION_GETVERSION = 0;
+    private static final byte APPMANAGER_GETAPPBANKSTATUS = 1;
+    private static final byte APPMANAGER_REMOVEAPP = 2;
+    private static final byte APPMANAGER_REFRESHAPP = 3;
+    private static final byte APPMANAGER_GETUUIDS = 5;
 
-    static final byte APPMANAGER_GETAPPBANKSTATUS = 1;
-    static final byte APPMANAGER_REMOVEAPP = 2;
-    static final byte APPMANAGER_REFRESHAPP = 3;
-    static final byte APPMANAGER_GETUUIDS = 5;
+    private static final int APPMANAGER_RES_SUCCESS = 1;
 
-    static final int APPMANAGER_RES_SUCCESS = 1;
+    private static final byte APPLICATIONMESSAGE_PUSH = 1;
+    private static final byte APPLICATIONMESSAGE_REQUEST = 2;
+    private static final byte APPLICATIONMESSAGE_ACK = (byte) 0xff;
+    private static final byte APPLICATIONMESSAGE_NACK = (byte) 0x7f;
 
-    static final byte APPLICATIONMESSAGE_PUSH = 1;
-    static final byte APPLICATIONMESSAGE_REQUEST = 2;
-    static final byte APPLICATIONMESSAGE_ACK = (byte) 0xff;
-    static final byte APPLICATIONMESSAGE_NACK = (byte) 0x7f;
+    private static final byte DATALOG_OPENSESSION = 0x01;
+    private static final byte DATALOG_SENDDATA = 0x02;
+    private static final byte DATALOG_CLOSE = 0x03;
+    private static final byte DATALOG_TIMEOUT = 0x07;
+    private static final byte DATALOG_REPORTSESSIONS = (byte) 0x84;
+    private static final byte DATALOG_ACK = (byte) 0x85;
+    private static final byte DATALOG_NACK = (byte) 0x86;
 
-    static final byte DATALOG_OPENSESSION = 0x01;
-    static final byte DATALOG_SENDDATA = 0x02;
-    static final byte DATALOG_CLOSE = 0x03;
-    static final byte DATALOG_TIMEOUT = 0x07;
-    static final byte DATALOG_REPORTSESSIONS = (byte) 0x84;
-    static final byte DATALOG_ACK = (byte) 0x85;
-    static final byte DATALOG_NACK = (byte) 0x86;
+    private static final byte PING_PING = 0;
+    private static final byte PING_PONG = 1;
 
-    static final byte PING_PING = 0;
-    static final byte PING_PONG = 1;
-
-    static final byte PUTBYTES_INIT = 1;
-    static final byte PUTBYTES_SEND = 2;
-    static final byte PUTBYTES_COMMIT = 3;
-    static final byte PUTBYTES_ABORT = 4;
-    static final byte PUTBYTES_COMPLETE = 5;
+    private static final byte PUTBYTES_INIT = 1;
+    private static final byte PUTBYTES_SEND = 2;
+    private static final byte PUTBYTES_COMMIT = 3;
+    private static final byte PUTBYTES_ABORT = 4;
+    private static final byte PUTBYTES_COMPLETE = 5;
 
     public static final byte PUTBYTES_TYPE_FIRMWARE = 1;
     public static final byte PUTBYTES_TYPE_RECOVERY = 2;
@@ -189,70 +186,54 @@ public class PebbleProtocol extends GBDeviceProtocol {
     public static final byte PUTBYTES_TYPE_FILE = 6;
     public static final byte PUTBYTES_TYPE_WORKER = 7;
 
-    static final byte RESET_REBOOT = 0;
+    private static final byte RESET_REBOOT = 0;
 
-    static final byte SCREENSHOT_TAKE = 0;
+    private static final byte SCREENSHOT_TAKE = 0;
 
-    static final byte SYSTEMMESSAGE_NEWFIRMWAREAVAILABLE = 0;
-    static final byte SYSTEMMESSAGE_FIRMWARESTART = 1;
-    static final byte SYSTEMMESSAGE_FIRMWARECOMPLETE = 2;
-    static final byte SYSTEMMESSAGE_FIRMWAREFAIL = 3;
-    static final byte SYSTEMMESSAGE_FIRMWARE_UPTODATE = 4;
-    static final byte SYSTEMMESSAGE_FIRMWARE_OUTOFDATE = 5;
-    static final byte SYSTEMMESSAGE_STOPRECONNECTING = 6;
-    static final byte SYSTEMMESSAGE_STARTRECONNECTING = 7;
+    private static final byte SYSTEMMESSAGE_NEWFIRMWAREAVAILABLE = 0;
+    private static final byte SYSTEMMESSAGE_FIRMWARESTART = 1;
+    private static final byte SYSTEMMESSAGE_FIRMWARECOMPLETE = 2;
+    private static final byte SYSTEMMESSAGE_FIRMWAREFAIL = 3;
+    private static final byte SYSTEMMESSAGE_FIRMWARE_UPTODATE = 4;
+    private static final byte SYSTEMMESSAGE_FIRMWARE_OUTOFDATE = 5;
+    private static final byte SYSTEMMESSAGE_STOPRECONNECTING = 6;
+    private static final byte SYSTEMMESSAGE_STARTRECONNECTING = 7;
 
-    static final byte PHONEVERSION_REQUEST = 0;
-    static final byte PHONEVERSION_APPVERSION_MAGIC = 2; // increase this if pebble complains
-    static final byte PHONEVERSION_APPVERSION_MAJOR = 2;
-    static final byte PHONEVERSION_APPVERSION_MINOR = 3;
-    static final byte PHONEVERSION_APPVERSION_PATCH = 0;
+    private static final byte PHONEVERSION_REQUEST = 0;
+    private static final byte PHONEVERSION_APPVERSION_MAGIC = 2; // increase this if pebble complains
+    private static final byte PHONEVERSION_APPVERSION_MAJOR = 2;
+    private static final byte PHONEVERSION_APPVERSION_MINOR = 3;
+    private static final byte PHONEVERSION_APPVERSION_PATCH = 0;
 
 
-    static final int PHONEVERSION_SESSION_CAPS_GAMMARAY = 0x80000000;
+    private static final int PHONEVERSION_SESSION_CAPS_GAMMARAY = 0x80000000;
 
-    static final int PHONEVERSION_REMOTE_CAPS_TELEPHONY = 0x00000010;
-    static final int PHONEVERSION_REMOTE_CAPS_SMS = 0x00000020;
-    static final int PHONEVERSION_REMOTE_CAPS_GPS = 0x00000040;
-    static final int PHONEVERSION_REMOTE_CAPS_BTLE = 0x00000080;
-    static final int PHONEVERSION_REMOTE_CAPS_REARCAMERA = 0x00000100;
-    static final int PHONEVERSION_REMOTE_CAPS_ACCEL = 0x00000200;
-    static final int PHONEVERSION_REMOTE_CAPS_GYRO = 0x00000400;
-    static final int PHONEVERSION_REMOTE_CAPS_COMPASS = 0x00000800;
+    private static final int PHONEVERSION_REMOTE_CAPS_TELEPHONY = 0x00000010;
+    private static final int PHONEVERSION_REMOTE_CAPS_SMS = 0x00000020;
+    private static final int PHONEVERSION_REMOTE_CAPS_GPS = 0x00000040;
+    private static final int PHONEVERSION_REMOTE_CAPS_BTLE = 0x00000080;
+    private static final int PHONEVERSION_REMOTE_CAPS_REARCAMERA = 0x00000100;
+    private static final int PHONEVERSION_REMOTE_CAPS_ACCEL = 0x00000200;
+    private static final int PHONEVERSION_REMOTE_CAPS_GYRO = 0x00000400;
+    private static final int PHONEVERSION_REMOTE_CAPS_COMPASS = 0x00000800;
 
-    static final byte PHONEVERSION_REMOTE_OS_UNKNOWN = 0;
-    static final byte PHONEVERSION_REMOTE_OS_IOS = 1;
-    static final byte PHONEVERSION_REMOTE_OS_ANDROID = 2;
-    static final byte PHONEVERSION_REMOTE_OS_OSX = 3;
-    static final byte PHONEVERSION_REMOTE_OS_LINUX = 4;
-    static final byte PHONEVERSION_REMOTE_OS_WINDOWS = 5;
+    private static final byte PHONEVERSION_REMOTE_OS_UNKNOWN = 0;
+    private static final byte PHONEVERSION_REMOTE_OS_IOS = 1;
+    private static final byte PHONEVERSION_REMOTE_OS_ANDROID = 2;
+    private static final byte PHONEVERSION_REMOTE_OS_OSX = 3;
+    private static final byte PHONEVERSION_REMOTE_OS_LINUX = 4;
+    private static final byte PHONEVERSION_REMOTE_OS_WINDOWS = 5;
 
-    static final byte TYPE_BYTEARRAY = 0;
-    static final byte TYPE_CSTRING = 1;
-    static final byte TYPE_UINT = 2;
-    static final byte TYPE_INT = 3;
+    private static final byte TYPE_BYTEARRAY = 0;
+    private static final byte TYPE_CSTRING = 1;
+    private static final byte TYPE_UINT = 2;
+    private static final byte TYPE_INT = 3;
 
-    static final short LENGTH_PREFIX = 4;
-    static final short LENGTH_SIMPLEMESSAGE = 1;
+    private final short LENGTH_PREFIX = 4;
 
-    static final short LENGTH_APPFETCH = 2;
-    static final short LENGTH_APPRUNSTATE = 17;
-    static final short LENGTH_PING = 5;
-    static final short LENGTH_PHONEVERSION = 17;
-    static final short LENGTH_REMOVEAPP_2X = 17;
-    static final short LENGTH_REFRESHAPP = 5;
-    static final short LENGTH_SETTIME = 5;
-    static final short LENGTH_SYSTEMMESSAGE = 2;
-    static final short LENGTH_UPLOADSTART_2X = 7;
-    static final short LENGTH_UPLOADSTART_3X = 10;
-    static final short LENGTH_UPLOADCHUNK = 9;
-    static final short LENGTH_UPLOADCOMMIT = 9;
-    static final short LENGTH_UPLOADCOMPLETE = 5;
-    static final short LENGTH_UPLOADCANCEL = 5;
+    private static final byte LENGTH_UUID = 16;
 
-    static final byte LENGTH_UUID = 16;
-
-    static final long GB_UUID_MASK = 0x4767744272646700L;
+    private static final long GB_UUID_MASK = 0x4767744272646700L;
 
     // base is -8
     private static final String[] hwRevisions = {
@@ -402,6 +383,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private final HashMap<Byte, DatalogSession> mDatalogSessions = new HashMap<>();
 
     private byte[] encodeSimpleMessage(short endpoint, byte command) {
+        final short LENGTH_SIMPLEMESSAGE = 1;
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_SIMPLEMESSAGE);
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putShort(LENGTH_SIMPLEMESSAGE);
@@ -514,6 +496,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeSetTime() {
+        final short LENGTH_SETTIME = 5;
         long ts = System.currentTimeMillis();
         long ts_offset = (SimpleTimeZone.getDefault().getOffset(ts));
         ByteBuffer buf;
@@ -791,7 +774,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             buf.putLong(UUID_LOCATION.getMostSignificantBits());
             buf.putLong(UUID_LOCATION.getLeastSignificantBits());
             // disable remaining 5 possible location
-            buf.put(new byte[60 - 16]);
+            buf.put(new byte[60 - LENGTH_UUID]);
             return encodeBlobdb("weatherApp", BLOBDB_INSERT, BLOBDB_APPSETTINGS, buf.array());
         } else {
             return encodeBlobdb("weatherApp", BLOBDB_DELETE, BLOBDB_APPSETTINGS, null);
@@ -1257,7 +1240,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return encodeBlobdb(uuid, BLOBDB_INSERT, BLOBDB_APP, buf.array());
     }
 
-    public byte[] encodeAppFetchAck() {
+    byte[] encodeAppFetchAck() {
+        final short LENGTH_APPFETCH = 2;
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_APPFETCH);
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putShort(LENGTH_APPFETCH);
@@ -1406,6 +1390,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     @Override
     public byte[] encodeAppStart(UUID uuid, boolean start) {
         if (mFwMajor >= 3) {
+            final short LENGTH_APPRUNSTATE = 17;
             ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_APPRUNSTATE);
             buf.order(ByteOrder.BIG_ENDIAN);
             buf.putShort(LENGTH_APPRUNSTATE);
@@ -1436,6 +1421,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             }
             return encodeBlobdb(uuid, BLOBDB_DELETE, BLOBDB_APP, null);
         } else {
+            final short LENGTH_REMOVEAPP_2X = 17;
             ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_REMOVEAPP_2X);
             buf.order(ByteOrder.BIG_ENDIAN);
             buf.putShort(LENGTH_REMOVEAPP_2X);
@@ -1448,6 +1434,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     private byte[] encodePhoneVersion2x(byte os) {
+        final short LENGTH_PHONEVERSION = 17;
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_PHONEVERSION);
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putShort(LENGTH_PHONEVERSION);
@@ -1574,10 +1561,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
     byte[] encodeUploadStart(byte type, int app_id, int size, String filename) {
         short length;
         if (mFwMajor >= 3 && (type != PUTBYTES_TYPE_FILE)) {
-            length = LENGTH_UPLOADSTART_3X;
+            length = (short) 10;
             type |= 0b10000000;
         } else {
-            length = LENGTH_UPLOADSTART_2X;
+            length = (short) 7;
         }
 
         if (type == PUTBYTES_TYPE_FILE && filename != null) {
@@ -1608,6 +1595,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     byte[] encodeUploadChunk(int token, byte[] buffer, int size) {
+        final short LENGTH_UPLOADCHUNK = 9;
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_UPLOADCHUNK + size);
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putShort((short) (LENGTH_UPLOADCHUNK + size));
@@ -1620,6 +1608,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     byte[] encodeUploadCommit(int token, int crc) {
+        final short LENGTH_UPLOADCOMMIT = 9;
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_UPLOADCOMMIT);
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putShort(LENGTH_UPLOADCOMMIT);
@@ -1631,6 +1620,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     byte[] encodeUploadComplete(int token) {
+        final short LENGTH_UPLOADCOMPLETE = 5;
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_UPLOADCOMPLETE);
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putShort(LENGTH_UPLOADCOMPLETE);
@@ -1641,6 +1631,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     byte[] encodeUploadCancel(int token) {
+        final short LENGTH_UPLOADCANCEL = 5;
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_UPLOADCANCEL);
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putShort(LENGTH_UPLOADCANCEL);
@@ -1651,6 +1642,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     private byte[] encodeSystemMessage(byte systemMessage) {
+        final short LENGTH_SYSTEMMESSAGE = 2;
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_SYSTEMMESSAGE);
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putShort(LENGTH_SYSTEMMESSAGE);
@@ -1675,6 +1667,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
 
     byte[] encodeAppRefresh(int index) {
+        final short LENGTH_REFRESHAPP = 5;
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_REFRESHAPP);
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putShort(LENGTH_REFRESHAPP);
@@ -1711,6 +1704,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     private byte[] encodePing(byte command, int cookie) {
+        final short LENGTH_PING = 5;
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + LENGTH_PING);
         buf.order(ByteOrder.BIG_ENDIAN);
         buf.putShort(LENGTH_PING);
