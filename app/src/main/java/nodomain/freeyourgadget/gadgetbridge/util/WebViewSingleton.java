@@ -12,6 +12,8 @@ import android.webkit.ConsoleMessage;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -55,35 +57,47 @@ public class WebViewSingleton extends Activity {
             } else {
                 contextWrapper = new MutableContextWrapper(context);
             }
-        }
-        //here we are sure that contextWrapper is either null or an activity, hence we run on the main thread
-        if (contextWrapper != null) {
+
             if (instance == null) {
                 instance = new WebView(contextWrapper);
-                instance.setWillNotDraw(true);
-                instance.clearCache(true);
-                instance.setWebViewClient(new GBWebClient());
-                instance.setWebChromeClient(new GBChromeClient());
-                instance.setWebContentsDebuggingEnabled(true);
-                WebSettings webSettings = instance.getSettings();
-                webSettings.setJavaScriptEnabled(true);
-                //needed to access the DOM
-                webSettings.setDomStorageEnabled(true);
-                //needed for localstorage
-                webSettings.setDatabaseEnabled(true);
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        instance.setWillNotDraw(true);
+                        instance.clearCache(true);
+                        instance.setWebViewClient(new GBWebClient());
+                        instance.setWebChromeClient(new GBChromeClient());
+                        instance.setWebContentsDebuggingEnabled(true);
+                        WebSettings webSettings = instance.getSettings();
+                        webSettings.setJavaScriptEnabled(true);
+                        //needed to access the DOM
+                        webSettings.setDomStorageEnabled(true);
+                        //needed for localstorage
+                        webSettings.setDatabaseEnabled(true);
+                    }
+                });
             }
 
-            if (jsInterface == null || (jsInterface != null && (!device.equals(jsInterface.device) || !uuid.equals(jsInterface.mUuid)))) {
-                instance.removeJavascriptInterface("GBjs");
-                jsInterface = new JSInterface(device, uuid);
-                instance.addJavascriptInterface(jsInterface, "GBjs");
-                instance.loadUrl("file:///android_asset/app_config/configure.html");
-            } else {
-                LOG.debug("Not reloading the webview " + jsInterface.mUuid.toString());
-            }
         } else {
             LOG.debug("WEBV: not using the passed context, as it is not an activity");
         }
+
+        if (jsInterface == null || (jsInterface != null && (!device.equals(jsInterface.device) || !uuid.equals(jsInterface.mUuid)))) {
+            jsInterface = new JSInterface(device, uuid);
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    if (instance != null) {
+                        instance.removeJavascriptInterface("GBjs");
+                        instance.addJavascriptInterface(jsInterface, "GBjs");
+                        instance.loadUrl("file:///android_asset/app_config/configure.html");
+                    }
+                }
+            });
+        } else {
+            LOG.debug("Not reloading the webview " + jsInterface.mUuid.toString());
+        }
+
         return instance;
     }
 
@@ -132,6 +146,15 @@ public class WebViewSingleton extends Activity {
     }
 
     private static class GBWebClient extends WebViewClient {
+        @Override
+        public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                LOG.debug("WEBVIEW shouldInterceptRequest URL" + request.getUrl());
+            }
+            LOG.debug("WEBVIEW request:" + request.toString());
+            return super.shouldInterceptRequest(view, request);
+        }
+
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             if (url.startsWith("http://") || url.startsWith("https://")) {
