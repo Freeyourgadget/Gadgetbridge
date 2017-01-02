@@ -74,6 +74,11 @@ public class WebViewSingleton extends Activity {
                         webSettings.setDomStorageEnabled(true);
                         //needed for localstorage
                         webSettings.setDatabaseEnabled(true);
+                        if (jsInterface != null) {
+                            LOG.debug("Attaching the existing jsInterface to the new webview instance");
+                            instance.addJavascriptInterface(jsInterface, "GBjs");
+                            instance.loadUrl("file:///android_asset/app_config/configure.html");
+                        }
                     }
                 });
             }
@@ -95,7 +100,7 @@ public class WebViewSingleton extends Activity {
                 }
             });
         } else {
-            LOG.debug("Not reloading the webview " + jsInterface.mUuid.toString());
+            LOG.debug("Not replacing the JS in the webview. JS uuid " + jsInterface.mUuid.toString());
         }
 
         return instance;
@@ -192,7 +197,7 @@ public class WebViewSingleton extends Activity {
         GBDevice device;
 
         public JSInterface(GBDevice device, UUID mUuid) {
-            LOG.debug("Creating JS interface");
+            LOG.debug("Creating JS interface for UUID: " + mUuid.toString());
             this.device = device;
             this.mUuid = mUuid;
         }
