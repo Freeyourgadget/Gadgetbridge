@@ -101,7 +101,7 @@ public class HPlusHealthSampleProvider extends AbstractSampleProvider<HPlusHealt
 
         QueryBuilder<HPlusHealthActivityOverlay> qb = getSession().getHPlusHealthActivityOverlayDao().queryBuilder();
 
-        qb.where(HPlusHealthActivityOverlayDao.Properties.DeviceId.eq(dbDevice.getId()), HPlusHealthActivityOverlayDao.Properties.TimestampFrom.ge(timestamp_from - 24 * 60 * 60))
+        qb.where(HPlusHealthActivityOverlayDao.Properties.DeviceId.eq(dbDevice.getId()), HPlusHealthActivityOverlayDao.Properties.TimestampFrom.ge(timestamp_from))
                 .where(HPlusHealthActivityOverlayDao.Properties.TimestampTo.le(timestamp_to));
 
         List<HPlusHealthActivityOverlay> overlayRecords = qb.build().list();
