@@ -23,22 +23,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.GBException;
-import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
-import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusSampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
-import nodomain.freeyourgadget.gadgetbridge.entities.Device;
-import nodomain.freeyourgadget.gadgetbridge.entities.HPlusHealthActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -58,12 +46,13 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 public class HPlusSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(HPlusSupport.class);
 
-    private BluetoothGattCharacteristic ctrlCharacteristic = null;
-    private BluetoothGattCharacteristic measureCharacteristic = null;
+    public BluetoothGattCharacteristic ctrlCharacteristic = null;
+    public BluetoothGattCharacteristic measureCharacteristic = null;
 
-    private byte[] lastDataStats = null;
+    private int[] lastDataStats = null;
 
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
+    private HPlusHandlerThread syncHelper;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -85,55 +74,68 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         IntentFilter intentFilter = new IntentFilter();
 
         broadcastManager.registerReceiver(mReceiver, intentFilter);
+
     }
 
     @Override
     public void dispose() {
+        LOG.debug("Dispose");
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getContext());
         broadcastManager.unregisterReceiver(mReceiver);
         super.dispose();
+
+        if(syncHelper != null)
+            syncHelper.quit();
     }
 
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
+        LOG.debug("Initializing");
+
+        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
 
         measureCharacteristic = getCharacteristic(HPlusConstants.UUID_CHARACTERISTIC_MEASURE);
         ctrlCharacteristic = getCharacteristic(HPlusConstants.UUID_CHARACTERISTIC_CONTROL);
 
+        getDevice().setFirmwareVersion("N/A");
+        getDevice().setFirmwareVersion2("N/A");
 
-        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
-
-        getDevice().setFirmwareVersion("0");
-        getDevice().setFirmwareVersion2("0");
+        syncHelper = new HPlusHandlerThread(getDevice(), getContext(), this);
 
         //Initialize device
-        syncPreferences(builder); //Sync preferences
+        sendUserInfo(builder); //Sync preferences
         setSIT(builder);          //Sync SIT Interval
         setCurrentDate(builder);  // Sync Current Date
         setCurrentTime(builder);  // Sync Current Time
 
-        builder.notify(getCharacteristic(HPlusConstants.UUID_CHARACTERISTIC_MEASURE), true);
+        requestDeviceInfo(builder);
 
+        setInitialized(builder);
+
+
+        syncHelper.start();
+
+        builder.notify(getCharacteristic(HPlusConstants.UUID_CHARACTERISTIC_MEASURE), true);
         builder.setGattCallback(this);
         builder.notify(measureCharacteristic, true);
 
-        setInitialized(builder);
+        //LOG.debug("Initialization Done");
+
         return builder;
     }
 
     private HPlusSupport sendUserInfo(TransactionBuilder builder) {
-        builder.write(ctrlCharacteristic, HPlusConstants.COMMAND_SET_PREF_START);
-        builder.write(ctrlCharacteristic, HPlusConstants.COMMAND_SET_PREF_START1);
+        builder.write(ctrlCharacteristic, HPlusConstants.CMD_SET_PREF_START);
+        builder.write(ctrlCharacteristic, HPlusConstants.CMD_SET_PREF_START1);
 
         syncPreferences(builder);
 
-        builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.COMMAND_SET_CONF_SAVE});
-        builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.COMMAND_SET_CONF_END});
+        builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SET_CONF_END});
         return this;
     }
 
     private HPlusSupport syncPreferences(TransactionBuilder transaction) {
-        LOG.info("Attempting to sync preferences...");
+        LOG.info("Attempting to sync preferences with: " + getDevice().getAddress());
 
         byte gender = HPlusCoordinator.getUserGender(getDevice().getAddress());
         byte age = HPlusCoordinator.getUserAge(getDevice().getAddress());
@@ -159,7 +161,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         byte timemode = HPlusCoordinator.getTimeMode((getDevice().getAddress()));
 
         transaction.write(ctrlCharacteristic, new byte[]{
-                HPlusConstants.COMMAND_SET_PREFS,
+                HPlusConstants.CMD_SET_PREFS,
                 gender,
                 age,
                 bodyHeight,
@@ -174,20 +176,24 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 social,
                 allDayHeart,
                 wrist,
+                0,
                 alertTimeHour,
                 alertTimeMinute,
                 unit,
                 timemode
         });
+
+        setAllDayHeart(transaction);
+
         return this;
     }
 
-    private HPlusSupport setCountry(TransactionBuilder transaction) {
-        LOG.info("Attempting to set country...");
+    private HPlusSupport setLanguage(TransactionBuilder transaction) {
+        LOG.info("Attempting to set language...");
 
         byte value = HPlusCoordinator.getCountry(getDevice().getAddress());
         transaction.write(ctrlCharacteristic, new byte[]{
-                HPlusConstants.COMMAND_SET_PREF_COUNTRY,
+                HPlusConstants.CMD_SET_LANGUAGE,
                 value
         });
         return this;
@@ -199,7 +205,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
         byte value = HPlusCoordinator.getTimeMode(getDevice().getAddress());
         transaction.write(ctrlCharacteristic, new byte[]{
-                HPlusConstants.COMMAND_SET_PREF_TIMEMODE,
+                HPlusConstants.CMD_SET_TIMEMODE,
                 value
         });
         return this;
@@ -211,7 +217,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
         byte value = HPlusCoordinator.getUnit(getDevice().getAddress());
         transaction.write(ctrlCharacteristic, new byte[]{
-                HPlusConstants.COMMAND_SET_PREF_UNIT,
+                HPlusConstants.CMD_SET_UNITS,
                 value
         });
         return this;
@@ -226,7 +232,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         int day = c.get(Calendar.DAY_OF_MONTH);
 
         transaction.write(ctrlCharacteristic, new byte[]{
-                HPlusConstants.COMMAND_SET_PREF_DATE,
+                HPlusConstants.CMD_SET_DATE,
                 (byte) ((year / 256) & 0xff),
                 (byte) (year % 256),
                 (byte) (month + 1),
@@ -242,7 +248,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         Calendar c = Calendar.getInstance();
 
         transaction.write(ctrlCharacteristic, new byte[]{
-                HPlusConstants.COMMAND_SET_PREF_TIME,
+                HPlusConstants.CMD_SET_TIME,
                 (byte) c.get(Calendar.HOUR_OF_DAY),
                 (byte) c.get(Calendar.MINUTE),
                 (byte) c.get(Calendar.SECOND)
@@ -258,7 +264,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         Calendar c = Calendar.getInstance();
 
         transaction.write(ctrlCharacteristic, new byte[]{
-                HPlusConstants.COMMAND_SET_PREF_WEEK,
+                HPlusConstants.CMD_SET_WEEK,
                 (byte) c.get(Calendar.DAY_OF_WEEK)
         });
         return this;
@@ -274,7 +280,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         Calendar now = Calendar.getInstance();
 
         transaction.write(ctrlCharacteristic, new byte[]{
-                HPlusConstants.COMMAND_SET_SIT_INTERVAL,
+                HPlusConstants.CMD_SET_SIT_INTERVAL,
                 (byte) ((startTime / 256) & 0xff),
                 (byte) (startTime % 256),
                 (byte) ((endTime / 256) & 0xff),
@@ -302,7 +308,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
         byte value = HPlusCoordinator.getUserWeight(getDevice().getAddress());
         transaction.write(ctrlCharacteristic, new byte[]{
-                HPlusConstants.COMMAND_SET_PREF_WEIGHT,
+                HPlusConstants.CMD_SET_WEIGHT,
                 value
 
         });
@@ -314,7 +320,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
         byte value = HPlusCoordinator.getUserHeight(getDevice().getAddress());
         transaction.write(ctrlCharacteristic, new byte[]{
-                HPlusConstants.COMMAND_SET_PREF_HEIGHT,
+                HPlusConstants.CMD_HEIGHT,
                 value
 
         });
@@ -327,19 +333,19 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
         byte value = HPlusCoordinator.getUserAge(getDevice().getAddress());
         transaction.write(ctrlCharacteristic, new byte[]{
-                HPlusConstants.COMMAND_SET_PREF_AGE,
+                HPlusConstants.CMD_SET_AGE,
                 value
 
         });
         return this;
     }
 
-    private HPlusSupport setSex(TransactionBuilder transaction) {
-        LOG.info("Attempting to set Sex...");
+    private HPlusSupport setGender(TransactionBuilder transaction) {
+        LOG.info("Attempting to set Gender...");
 
         byte value = HPlusCoordinator.getUserGender(getDevice().getAddress());
         transaction.write(ctrlCharacteristic, new byte[]{
-                HPlusConstants.COMMAND_SET_PREF_SEX,
+                HPlusConstants.CMD_SET_GENDER,
                 value
 
         });
@@ -352,7 +358,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
         int value = HPlusCoordinator.getGoal(getDevice().getAddress());
         transaction.write(ctrlCharacteristic, new byte[]{
-                HPlusConstants.COMMAND_SET_PREF_GOAL,
+                HPlusConstants.CMD_SET_GOAL,
                 (byte) ((value / 256) & 0xff),
                 (byte) (value % 256)
 
@@ -366,7 +372,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
         byte value = HPlusCoordinator.getScreenTime(getDevice().getAddress());
         transaction.write(ctrlCharacteristic, new byte[]{
-                HPlusConstants.COMMAND_SET_PREF_SCREENTIME,
+                HPlusConstants.CMD_SET_SCREENTIME,
                 value
 
         });
@@ -378,7 +384,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
         byte value = HPlusCoordinator.getAllDayHR(getDevice().getAddress());
         transaction.write(ctrlCharacteristic, new byte[]{
-                HPlusConstants.COMMAND_SET_PREF_ALLDAYHR,
+                HPlusConstants.CMD_SET_ALLDAY_HRM,
                 value
 
         });
@@ -407,8 +413,11 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     private HPlusSupport requestDeviceInfo(TransactionBuilder builder) {
         LOG.debug("Requesting Device Info!");
-        BluetoothGattCharacteristic deviceName = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_GAP_DEVICE_NAME);
-        builder.read(deviceName);
+
+        // HPlus devices seem to report some information in an alternative manner
+        builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_GET_DEVICE_ID});
+        builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_GET_VERSION});
+
         return this;
     }
 
@@ -435,7 +444,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     public void onNotification(NotificationSpec notificationSpec) {
         LOG.debug("Got Notification");
         //TODO: Show different notifications acccording to source as Band supports this
-        showText(notificationSpec.body);
+        showText(notificationSpec.title, notificationSpec.body);
     }
 
 
@@ -515,7 +524,8 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFetchActivityData() {
-
+        if(syncHelper != null)
+            syncHelper.sync();
     }
 
     @Override
@@ -531,7 +541,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
         TransactionBuilder builder = new TransactionBuilder("HeartRateTest");
 
-        builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.COMMAND_SET_PREF_ALLDAYHR, 0x10}); //Set Real Time... ?
+        builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SET_ALLDAY_HRM, 0x0A}); //Set Real Time... ?
         builder.queue(getQueue());
     }
 
@@ -545,11 +555,11 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         byte state;
 
         if (enable)
-            state = HPlusConstants.PREF_VALUE_HEARTRATE_ALLDAY_ON;
+            state = HPlusConstants.ARG_HEARTRATE_ALLDAY_ON;
         else
-            state = HPlusConstants.PREF_VALUE_HEARTRATE_ALLDAY_OFF;
+            state = HPlusConstants.ARG_HEARTRATE_ALLDAY_OFF;
 
-        builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.COMMAND_SET_PREF_ALLDAYHR, state});
+        builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SET_ALLDAY_HRM, state});
         builder.queue(getQueue());
     }
 
@@ -561,12 +571,12 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             TransactionBuilder builder = performInitialized("findMe");
 
             byte[] msg = new byte[2];
-            msg[0] = HPlusConstants.COMMAND_SET_PREF_FINDME;
+            msg[0] = HPlusConstants.CMD_SET_FINDME;
 
             if (start)
-                msg[1] = 1;
+                msg[1] = HPlusConstants.ARG_FINDME_ON;
             else
-                msg[1] = 0;
+                msg[1] = HPlusConstants.ARG_FINDME_OFF;
 
             builder.write(ctrlCharacteristic, msg);
             builder.queue(getQueue());
@@ -586,7 +596,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             TransactionBuilder builder = performInitialized("vibration");
 
             byte[] msg = new byte[15];
-            msg[0] = HPlusConstants.COMMAND_SET_DISPLAY_ALERT;
+            msg[0] = HPlusConstants.CMD_SET_INCOMING_CALL_NUMBER;
 
             for (int i = 0; i < msg.length - 1; i++)
                 msg[i + 1] = (byte) "GadgetBridge".charAt(i);
@@ -630,17 +640,17 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
 
-    private void showIncomingCall(String name, String number){
+    private void showIncomingCall(String name, String number) {
         LOG.debug("Show Incoming Call");
 
         try {
             TransactionBuilder builder = performInitialized("incomingCallIcon");
 
             //Enable call notifications
-            builder.write(ctrlCharacteristic, new byte[] {HPlusConstants.COMMAND_SET_INCOMING_CALL, 1 });
+            builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_ACTION_INCOMING_CALL, 1});
 
             //Show Call Icon
-            builder.write(ctrlCharacteristic, HPlusConstants.COMMAND_ACTION_INCOMING_CALL);
+            builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_ACTION_INCOMING_CALL, HPlusConstants.ARG_INCOMING_CALL});
 
             //builder = performInitialized("incomingCallText");
             builder.queue(getQueue());
@@ -660,11 +670,11 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             for (int i = 0; i < msg.length; i++)
                 msg[i] = ' ';
 
-            for(int i = 0; i < number.length() && i < (msg.length - 1); i++)
+            for (int i = 0; i < number.length() && i < (msg.length - 1); i++)
                 msg[i + 1] = (byte) number.charAt(i);
 
 
-            msg[0] = HPlusConstants.COMMAND_ACTION_DISPLAY_TEXT_CENTER;
+            msg[0] = HPlusConstants.CMD_SET_INCOMING_CALL_NUMBER;
 
             builder.write(ctrlCharacteristic, msg);
             builder.queue(getQueue());
@@ -682,10 +692,10 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             for (int i = 0; i < msg.length; i++)
                 msg[i] = ' ';
 
-            for(int i = 0; i < name.length() &&  i < (msg.length - 1); i++)
+            for (int i = 0; i < name.length() && i < (msg.length - 1); i++)
                 msg[i + 1] = (byte) name.charAt(i);
 
-            msg[0] = HPlusConstants.COMMAND_ACTION_DISPLAY_TEXT_NAME;
+            msg[0] = HPlusConstants.CMD_ACTION_DISPLAY_TEXT_NAME;
             builder.write(ctrlCharacteristic, msg);
 
             try {
@@ -694,17 +704,18 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 e.printStackTrace();
             }
 
-            msg[0] = HPlusConstants.COMMAND_ACTION_DISPLAY_TEXT_NAME_CN;
+            msg[0] = HPlusConstants.CMD_ACTION_DISPLAY_TEXT_NAME_CN;
             builder.write(ctrlCharacteristic, msg);
 
             builder.queue(getQueue());
-        }catch(IOException e){
+        } catch (IOException e) {
             GB.toast(getContext(), "Error showing incoming call: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
 
         }
     }
 
     private void showText(String message) {
+
         showText(null, message);
     }
 
@@ -719,7 +730,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             for (int i = 0; i < msg.length; i++)
                 msg[i] = ' ';
 
-            msg[0] = HPlusConstants.COMMAND_ACTION_DISPLAY_TEXT;
+            msg[0] = HPlusConstants.CMD_ACTION_DISPLAY_TEXT;
 
             String message = "";
 
@@ -737,7 +748,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
             int length = message.length() / 17;
 
-            builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.COMMAND_ACTION_INCOMING_SOCIAL, (byte) 255});
+            builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_ACTION_INCOMING_SOCIAL, (byte) 255});
 
             int remaining;
 
@@ -773,7 +784,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
             builder.write(ctrlCharacteristic, msg);
             builder.queue(getQueue());
-        }catch(IOException e){
+        } catch (IOException e) {
             GB.toast(getContext(), "Error showing device Notification: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
 
         }
@@ -799,17 +810,24 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             return true;
 
         switch (data[0]) {
-            case HPlusConstants.DATA_STATS:
-                return processDataStats(data);
-            case HPlusConstants.DATA_SLEEP:
-                return processSleepStats(data);
-            case HPlusConstants.DATA_STEPS:
-                return processStepStats(data);
+            case HPlusConstants.DATA_VERSION:
+                syncHelper.processVersion(data);
+            case HPlusConstants.DATA_STATS: {
+                syncHelper.processRealtimeStats(data);
+                return true;
+            }
+            case HPlusConstants.DATA_SLEEP: {
+                syncHelper.processIncomingSleepData(data);
+                return true;
+            }
+            case HPlusConstants.DATA_STEPS:{
+                syncHelper.processStepStats(data);
+                return true;
+            }
             case HPlusConstants.DATA_DAY_SUMMARY:
             case HPlusConstants.DATA_DAY_SUMMARY_ALT:
-                return processDaySummary(data);
-            case HPlusConstants.DATA_INCOMING_CALL_STATE:
-                return processIncomingCallState(data);
+                syncHelper.processIncomingDaySlotData(data);
+                return true;
             default:
                 LOG.info("Unhandled characteristic changed: " + characteristicUUID);
 
@@ -817,197 +835,5 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         return false;
     }
 
-    private boolean processIncomingCallState(byte[] data){
-        LOG.debug("Process Incoming Call State");
-        //Disabled now
-        return true;
-    }
-    /*
-      Receives a message containing the status of the day.
-     */
-    private boolean processDaySummary(byte[] data) {
-        LOG.debug("Process Day Summary");
 
-        int a = data[4] * 256 + data[5];
-        if (a < 144) {
-            int slot = a * 2; // 10 minute slots as an offset from 0:00 AM
-            int avgHR = data[1]; //Average Heart Rate ?
-            int steps = data[2] * 256 + data[3]; // Steps in this period
-
-            //?? data[6];
-            int timeInactive = data[7]; // ?
-
-            LOG.debug("Day Stats: Slot: " + slot + " HR: " + avgHR + " Steps: " + steps + " TimeInactive: " + timeInactive);
-
-            try (DBHandler handler = GBApplication.acquireDB()) {
-                DaoSession session = handler.getDaoSession();
-
-                Device device = DBHelper.getDevice(getDevice(), session);
-                User user = DBHelper.getUser(session);
-                int ts = (int) (System.currentTimeMillis() / 1000);
-                HPlusSampleProvider provider = new HPlusSampleProvider(gbDevice, session);
-
-
-                //TODO: Store Sample. How?
-
-                //provider.addGBActivitySample(record);
-
-
-            } catch (GBException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        } else
-            LOG.error("Invalid day stats");
-
-        return true;
-    }
-
-    private boolean processStepStats(byte[] data) {
-        LOG.debug("Process Step Stats");
-
-        if (data.length < 19) {
-            LOG.error("Invalid Steps Message Length " + data.length);
-            return false;
-        }
-        /*
-        This is a dump of the entire day.
-       */
-        int year = data[9] + data[10] * 256;
-        short month = data[11];
-        short day = data[12];
-        int steps = data[2] * 256 + data[1];
-
-        float distance = ((float) (data[3] + data[4] * 256) / 100.0f);
-
-        /*
-        unknown fields
-        short s12 = (short)(data[5] + data[6] * 256);
-        short s13 = (short)(data[7] + data[8] * 256);
-        short s16 = (short)(data[13]) + data[14] * 256);
-        short s17 = data[15];
-        short s18 = data[16];
-        */
-
-
-        LOG.debug("Step Stats: Year: " + year + " Month: " + month + " Day:");
-        try (DBHandler handler = GBApplication.acquireDB()) {
-            DaoSession session = handler.getDaoSession();
-
-            Device device = DBHelper.getDevice(getDevice(), session);
-            User user = DBHelper.getUser(session);
-            int ts = (int) (System.currentTimeMillis() / 1000);
-            HPlusSampleProvider provider = new HPlusSampleProvider(gbDevice, session);
-
-
-            //TODO: Store Sample. How?
-
-            //provider.addGBActivitySample(record);
-
-
-        } catch (GBException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return true;
-    }
-
-
-    private boolean processSleepStats(byte[] data) {
-        LOG.debug("Process Sleep Stats");
-
-        if (data.length < 19) {
-            LOG.error("Invalid Sleep Message Length " + data.length);
-            return false;
-        }
-        HPlusSleepRecord record = new HPlusSleepRecord(data);
-
-        try (DBHandler handler = GBApplication.acquireDB()) {
-            DaoSession session = handler.getDaoSession();
-
-            Device device = DBHelper.getDevice(getDevice(), session);
-            User user = DBHelper.getUser(session);
-            int ts = (int) (System.currentTimeMillis() / 1000);
-            HPlusSampleProvider provider = new HPlusSampleProvider(gbDevice, session);
-
-            //TODO: Store Sample. How?
-
-            //provider.addGBActivitySample(record);
-
-
-        } catch (GBException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return true;
-    }
-
-
-    private boolean processDataStats(byte[] data) {
-        //TODO: Store Calories and Distance. How?
-
-        LOG.debug("Process Data Stats");
-
-        if (data.length < 15) {
-            LOG.error("Invalid Stats Message Length " + data.length);
-            return false;
-        }
-
-        //Ignore duplicate packets
-        if(data.equals(lastDataStats))
-            return true;
-
-        lastDataStats = data.clone();
-
-        double distance = ((int) data[4] * 256 + data[3]) / 100.0;
-
-        int x = (int) data[6] * 256 + data[5];
-        int y = (int) data[8] * 256 + data[7];
-        int calories = x + y;
-
-        int bpm = (data[11] == -1) ? HPlusHealthActivitySample.NOT_MEASURED : data[11];
-
-        try (DBHandler handler = GBApplication.acquireDB()) {
-            DaoSession session = handler.getDaoSession();
-
-            Device device = DBHelper.getDevice(getDevice(), session);
-            User user = DBHelper.getUser(session);
-            int ts = (int) (System.currentTimeMillis() / 1000);
-            HPlusSampleProvider provider = new HPlusSampleProvider(gbDevice, session);
-
-
-            if (bpm != HPlusHealthActivitySample.NOT_MEASURED) {
-                HPlusHealthActivitySample sample = createActivitySample(device, user, ts, provider);
-                sample.setHeartRate(bpm);
-                sample.setSteps(0);
-                sample.setRawIntensity(ActivitySample.NOT_MEASURED);
-                sample.setRawKind(ActivityKind.TYPE_ACTIVITY); // to make it visible in the charts TODO: add a MANUAL kind for that?
-                provider.addGBActivitySample(sample);
-            }
-        } catch (GBException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        return true;
-    }
-
-
-    public HPlusHealthActivitySample createActivitySample(Device device, User user, int timestampInSeconds, SampleProvider provider) {
-        HPlusHealthActivitySample sample = new HPlusHealthActivitySample();
-        sample.setDevice(device);
-        sample.setUser(user);
-        sample.setTimestamp(timestampInSeconds);
-        sample.setProvider(provider);
-
-        return sample;
-    }
 }

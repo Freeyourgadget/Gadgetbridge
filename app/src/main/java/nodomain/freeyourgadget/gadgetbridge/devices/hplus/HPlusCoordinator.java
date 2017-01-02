@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.ParcelUuid;
 import android.support.annotation.NonNull;
 
+import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -20,9 +21,9 @@ import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.UserInfo;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.HPlusHealthActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -44,20 +45,15 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     @Override
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public Collection<? extends ScanFilter> createBLEScanFilters() {
-        ParcelUuid mi2Service = new ParcelUuid(HPlusConstants.UUID_SERVICE_HP);
-        ScanFilter filter = new ScanFilter.Builder().setServiceUuid(mi2Service).build();
+        ParcelUuid hpService = new ParcelUuid(HPlusConstants.UUID_SERVICE_HP);
+        ScanFilter filter = new ScanFilter.Builder().setServiceUuid(hpService).build();
         return Collections.singletonList(filter);
     }
 
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        if (candidate.supportsService(HPlusConstants.UUID_SERVICE_HP)) {
-            return DeviceType.HPLUS;
-        }
-
         String name = candidate.getDevice().getName();
-        LOG.debug("Looking for: " + name);
         if (name != null && name.startsWith("HPLUS")) {
             return DeviceType.HPLUS;
         }
@@ -97,7 +93,7 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
-        return new HPlusSampleProvider(device, session);
+        return new HPlusHealthSampleProvider(device, session);
     }
 
     @Override
@@ -137,7 +133,9 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
-        // nothing to delete, yet
+        Long deviceId = device.getId();
+        QueryBuilder<?> qb = session.getHPlusHealthActivitySampleDao().queryBuilder();
+        qb.where(HPlusHealthActivitySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
     }
 
     public static int getFitnessGoal(String address) throws IllegalArgumentException {
@@ -181,9 +179,9 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
         ActivityUser activityUser = new ActivityUser();
 
         if (activityUser.getGender() == ActivityUser.GENDER_MALE)
-            return HPlusConstants.PREF_VALUE_GENDER_MALE;
+            return HPlusConstants.ARG_GENDER_MALE;
 
-        return HPlusConstants.PREF_VALUE_GENDER_FEMALE;
+        return HPlusConstants.ARG_GENDER_FEMALE;
     }
 
     public static int getGoal(String address) {
@@ -197,7 +195,7 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static byte getAllDayHR(String address) {
-        return (byte) (prefs.getInt(HPlusConstants.PREF_HPLUS_ALLDAYHR + "_" + address, 10) & 0xFF);
+        return (byte) (prefs.getInt(HPlusConstants.PREF_HPLUS_ALLDAYHR + "_" + address, HPlusConstants.ARG_HEARTRATE_ALLDAY_ON) & 0xFF);
     }
 
     public static byte getSocial(String address) {
