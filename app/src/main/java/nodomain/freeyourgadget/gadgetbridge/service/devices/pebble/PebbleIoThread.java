@@ -140,6 +140,11 @@ class PebbleIoThread extends GBDeviceIoThread {
         }
     };
 
+    private void sendAppMessageJS(GBDeviceEventAppMessage appMessage) {
+        WebViewSingleton.getorInitWebView(getContext(), gbDevice, appMessage.appUUID);
+        WebViewSingleton.appMessage(appMessage.message);
+    }
+
     private void sendAppMessageIntent(GBDeviceEventAppMessage appMessage) {
         Intent intent = new Intent();
         intent.setAction(PEBBLEKIT_ACTION_APP_RECEIVE);
@@ -582,6 +587,7 @@ class PebbleIoThread extends GBDeviceIoThread {
             setInstallSlot(appInfoEvent.freeSlot);
             return false;
         } else if (deviceEvent instanceof GBDeviceEventAppMessage) {
+            sendAppMessageJS((GBDeviceEventAppMessage) deviceEvent);
             if (mEnablePebblekit) {
                 LOG.info("Got AppMessage event");
                 sendAppMessageIntent((GBDeviceEventAppMessage) deviceEvent);

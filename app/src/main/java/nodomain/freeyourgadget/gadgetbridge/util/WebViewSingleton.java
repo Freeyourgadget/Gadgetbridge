@@ -19,6 +19,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -32,6 +33,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.UUID;
@@ -107,18 +109,22 @@ public class WebViewSingleton extends Activity {
     }
 
     public static void appMessage(final String message) {
+
+        final String appMessage = jsInterface.parseIncomingAppMessage(message);
+        LOG.debug("to WEBVIEW: " + appMessage);
+
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    instance.evaluateJavascript("Pebble.evaluate('appmessage',[{'payload':" + message + "}]);", new ValueCallback<String>() {
+                    instance.evaluateJavascript("Pebble.evaluate('appmessage',[" + appMessage + "]);", new ValueCallback<String>() {
                         @Override
                         public void onReceiveValue(String s) {
                             LOG.debug("Callback from showConfiguration", s);
                         }
                     });
                 } else {
-                    instance.loadUrl("javascript:Pebble.evaluate('appmessage',[{'payload':" + message + "}]);");
+                    instance.loadUrl("javascript:Pebble.evaluate('appmessage',[" + appMessage + "]);");
                 }
             }
         });
@@ -129,6 +135,13 @@ public class WebViewSingleton extends Activity {
             @Override
             public void run() {
                 if (instance != null) {
+                    instance.setWebChromeClient(null);
+                    instance.setWebViewClient(null);
+                    instance.clearHistory();
+                    instance.clearCache(true);
+                    instance.loadUrl("about:blank");
+                    instance.freeMemory();
+                    instance.pauseTimers();
                     instance.destroy();
                     instance = null;
                     contextWrapper = null;
@@ -200,6 +213,48 @@ public class WebViewSingleton extends Activity {
             LOG.debug("Creating JS interface for UUID: " + mUuid.toString());
             this.device = device;
             this.mUuid = mUuid;
+        }
+
+        public String parseIncomingAppMessage(String msg) {
+            JSONObject jsAppMessage = new JSONObject();
+
+            JSONObject knownKeys = getAppConfigurationKeys(this.mUuid);
+            HashMap<Integer, String> appKeysMap = new HashMap<Integer, String>();
+
+            String inKey, outKey;
+            //knownKeys contains "name"->"index", we need to reverse that
+            for (Iterator<String> key = knownKeys.keys(); key.hasNext(); ) {
+                inKey = key.next();
+                appKeysMap.put(knownKeys.optInt(inKey), inKey);
+            }
+
+            try {
+                JSONArray incoming = new JSONArray(msg);
+                JSONObject outgoing = new JSONObject();
+                for (int i = 0; i < incoming.length(); i++) {
+                    JSONObject in = incoming.getJSONObject(i);
+                    outKey = null;
+                    Object outValue = null;
+                    for (Iterator<String> key = in.keys(); key.hasNext(); ) {
+                        inKey = key.next();
+                        switch (inKey) {
+                            case "key":
+                                outKey = appKeysMap.get(in.optInt(inKey));
+                                break;
+                            case "value":
+                                outValue = in.get(inKey);
+                        }
+                    }
+                    if (outKey != null && outValue != null) {
+                        outgoing.put(outKey, outValue);
+                    }
+                }
+                jsAppMessage.put("payload", outgoing);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return jsAppMessage.toString();
         }
 
         @JavascriptInterface

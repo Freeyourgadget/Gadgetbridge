@@ -141,7 +141,11 @@ function gbPebble() {
     this.sendAppMessage = function (dict, callbackAck, callbackNack){
         try {
             self.configurationValues = JSON.stringify(dict);
-            document.getElementById("jsondata").innerHTML=self.configurationValues;
+            if (document.getElementById("step2").style.display == 'block') { //intercept the values
+                document.getElementById("jsondata").innerHTML=self.configurationValues;
+            } else { //pass them silently
+                GBjs.sendAppMessage(JSON.stringify(dict));
+            }
             return callbackAck;
         }
         catch (e) {
@@ -179,8 +183,8 @@ function gbPebble() {
         if (str.split(needle)[1] !== undefined) {
             var t = new Object();
             t.response = decodeURIComponent(str.split(needle)[1]);
-            self.evaluate('webviewclosed',[t]);
             showStep("step2");
+            self.evaluate('webviewclosed',[t]);
         } else {
             console.error("No valid configuration found in the entered string.");
         }
