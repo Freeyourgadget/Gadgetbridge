@@ -252,6 +252,10 @@ public class NotificationListener extends NotificationListenerService {
 
         notificationSpec.type = AppNotificationType.getInstance().get(source);
 
+        if (source.equals("com.fsck.k9")) {
+            preferBigText = true;
+        }
+
         if (notificationSpec.type == null) {
             notificationSpec.type = NotificationType.UNKNOWN;
         }
