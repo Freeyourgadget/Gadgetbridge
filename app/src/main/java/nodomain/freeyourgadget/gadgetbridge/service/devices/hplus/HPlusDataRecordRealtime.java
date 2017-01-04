@@ -5,7 +5,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.hplus;
 */
 
 
-import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
@@ -26,7 +26,7 @@ class HPlusDataRecordRealtime extends HPlusDataRecord {
             throw new IllegalArgumentException("Invalid data packet");
         }
 
-        timestamp = (int) (Calendar.getInstance().getTimeInMillis() / 1000);
+        timestamp = (int) (GregorianCalendar.getInstance().getTimeInMillis() / 1000);
         distance = 10 * ((data[4] & 0xFF) * 256 + (data[3] & 0xFF)); // meters
 
         int x = (data[6] & 0xFF) * 256 + data[5] & 0xFF;

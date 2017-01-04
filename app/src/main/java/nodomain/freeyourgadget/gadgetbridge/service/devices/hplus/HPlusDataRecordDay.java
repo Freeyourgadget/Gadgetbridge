@@ -4,7 +4,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.hplus;
 * @author João Paulo Barraca &lt;jpbarraca@gmail.com&gt;
 */
 
-import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 
@@ -33,7 +34,7 @@ public class HPlusDataRecordDay extends HPlusDataRecord {
         //?? data[6];
         secondsInactive = data[7] & 0xFF; // ?
 
-        int now = (int) (Calendar.getInstance().getTimeInMillis() / (3600 * 24 * 1000L));
+        int now = (int) (GregorianCalendar.getInstance().getTimeInMillis() / (3600 * 24 * 1000L));
         timestamp = now * 3600 * 24 + (slot / 6 * 3600 + slot % 6 * 10);
     }
 

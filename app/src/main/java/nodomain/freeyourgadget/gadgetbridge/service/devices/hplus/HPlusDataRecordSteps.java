@@ -6,6 +6,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.hplus;
 
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 
@@ -45,7 +46,7 @@ class HPlusDataRecordSteps extends HPlusDataRecord{
         maxHeartRate = data[15] & 0xFF;
         minHeartRate = data[16] & 0xFF;
 
-        Calendar date = Calendar.getInstance();
+        Calendar date = GregorianCalendar.getInstance();
         date.set(Calendar.YEAR, year);
         date.set(Calendar.MONTH, month - 1);
         date.set(Calendar.DAY_OF_MONTH, day);

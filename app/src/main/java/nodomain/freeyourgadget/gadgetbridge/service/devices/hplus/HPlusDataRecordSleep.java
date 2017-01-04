@@ -7,6 +7,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.hplus;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
@@ -47,7 +48,7 @@ public class HPlusDataRecordSleep extends HPlusDataRecord {
         int hour = data[17] & 0xFF;
         int minute = data[18] & 0xFF;
 
-        Calendar sleepStart = Calendar.getInstance();
+        Calendar sleepStart = GregorianCalendar.getInstance();
         sleepStart.set(Calendar.YEAR, year);
         sleepStart.set(Calendar.MONTH, month - 1);
         sleepStart.set(Calendar.DAY_OF_MONTH, day);
@@ -61,9 +62,6 @@ public class HPlusDataRecordSleep extends HPlusDataRecord {
         lightSleepMinutes = enterSleepMinutes + spindleMinutes + remSleepMinutes;
 
         timestamp = bedTimeStart;
-
-        Calendar sleepEnd = Calendar.getInstance();
-        sleepEnd.setTimeInMillis(bedTimeEnd * 1000L);
         }
 
     public List<RecordInterval> getIntervals() {

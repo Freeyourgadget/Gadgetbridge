@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusConstants;
@@ -207,7 +208,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HPlusSupport setCurrentDate(TransactionBuilder transaction) {
-        Calendar c = Calendar.getInstance();
+        Calendar c = GregorianGregorianCalendar.getInstance();
         int year = c.get(Calendar.YEAR) - 1900;
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
@@ -224,7 +225,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HPlusSupport setCurrentTime(TransactionBuilder transaction) {
-        Calendar c = Calendar.getInstance();
+        Calendar c = GregorianCalendar.getInstance();
 
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_SET_TIME,
@@ -238,7 +239,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
 
     private HPlusSupport setDayOfWeek(TransactionBuilder transaction) {
-        Calendar c = Calendar.getInstance();
+        Calendar c = GregorianCalendar.getInstance();
 
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_SET_WEEK,
@@ -252,7 +253,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         int startTime = HPlusCoordinator.getSITStartTime(getDevice().getAddress());
         int endTime = HPlusCoordinator.getSITEndTime(getDevice().getAddress());
 
-        Calendar now = Calendar.getInstance();
+        Calendar now = GregorianCalendar.getInstance();
 
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_SET_SIT_INTERVAL,

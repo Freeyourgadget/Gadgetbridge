@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -46,16 +47,14 @@ class HPlusHandlerThread extends GBDeviceIoThread {
     private int mLastSlotReceived = 0;
     private int mLastSlotRequested = 0;
 
-    private Calendar mLastSleepDayReceived = Calendar.getInstance();
-
-    private Calendar mHelloTime = Calendar.getInstance();
-
-    private Calendar mGetDaySlotsTime = Calendar.getInstance();
-    private Calendar mGetSleepTime = Calendar.getInstance();
-
-    private final Object waitObject = new Object();
+    private Calendar mLastSleepDayReceived = GregorianCalendar.getInstance();
+    private Calendar mHelloTime = GregorianCalendar.getInstance();
+    private Calendar mGetDaySlotsTime = GregorianCalendar.getInstance();
+    private Calendar mGetSleepTime = GregorianCalendar.getInstance();
 
     private HPlusDataRecordRealtime prevRealTimeRecord = null;
+
+    private final Object waitObject = new Object();
 
     public HPlusHandlerThread(GBDevice gbDevice, Context context, HPlusSupport hplusSupport) {
         super(gbDevice, context);
@@ -92,7 +91,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
                 break;
             }
 
-            Calendar now = Calendar.getInstance();
+            Calendar now = GregorianCalendar.getInstance();
 
             if (now.compareTo(mHelloTime) > 0) {
                 sendHello();
@@ -106,7 +105,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
                 requestNextSleepData();
             }
 
-            now = Calendar.getInstance();
+            now = GregorianCalendar.getInstance();
             waitTime = Math.min(Math.min(mGetDaySlotsTime.getTimeInMillis(), mGetSleepTime.getTimeInMillis()), mHelloTime.getTimeInMillis()) - now.getTimeInMillis();
         }
 
@@ -151,7 +150,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
     }
 
     public void scheduleHello(){
-        mHelloTime = Calendar.getInstance();
+        mHelloTime = GregorianCalendar.getInstance();
         mHelloTime.add(Calendar.SECOND, HELLO_INTERVAL);
     }
 
@@ -211,8 +210,8 @@ class HPlusHandlerThread extends GBDeviceIoThread {
 
         byte nextMinute = 0;
 
-        if (nextHour == (byte) Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
-            nextMinute = (byte) Calendar.getInstance().get(Calendar.MINUTE);
+        if (nextHour == (byte) GregorianCalendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
+            nextMinute = (byte) GregorianCalendar.getInstance().get(Calendar.MINUTE);
         }
 
         byte minute = (byte) ((mLastSlotReceived % 6) * 10);
@@ -223,15 +222,15 @@ class HPlusHandlerThread extends GBDeviceIoThread {
             LOG.debug("Reached End of the Day");
             mLastSlotRequested = 0;
             mLastSlotReceived = 0;
-            mGetDaySlotsTime = Calendar.getInstance();
+            mGetDaySlotsTime = GregorianCalendar.getInstance();
             mGetDaySlotsTime.add(Calendar.SECOND, SYNC_PERIOD);
 
             return;
         }
 
-        if (nextHour > Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
+        if (nextHour > GregorianCalendar.getInstance().get(GregorianCalendar.HOUR_OF_DAY)) {
             LOG.debug("Day data is up to date");
-            mGetDaySlotsTime = Calendar.getInstance();
+            mGetDaySlotsTime = GregorianCalendar.getInstance();
             mGetDaySlotsTime.add(Calendar.SECOND, SYNC_PERIOD);
             return;
         }
@@ -243,7 +242,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
         builder.write(mHPlusSupport.ctrlCharacteristic, msg);
         builder.queue(mHPlusSupport.getQueue());
 
-        mGetDaySlotsTime = Calendar.getInstance();
+        mGetDaySlotsTime = GregorianCalendar.getInstance();
         mGetDaySlotsTime.add(Calendar.SECOND, SYNC_RETRY_PERIOD);
     }
 
@@ -298,15 +297,15 @@ class HPlusHandlerThread extends GBDeviceIoThread {
             LOG.debug(ex.getMessage());
         }
 
-        mGetSleepTime = Calendar.getInstance();
-        mGetSleepTime.add(Calendar.SECOND, SLEEP_SYNC_PERIOD);
+        mGetSleepTime = GregorianCalendar.getInstance();
+        mGetSleepTime.add(GregorianCalendar.SECOND, SLEEP_SYNC_PERIOD);
 
         return true;
     }
 
     private void requestNextSleepData() {
-        mGetSleepTime = Calendar.getInstance();
-        mGetSleepTime.add(Calendar.SECOND, SLEEP_RETRY_PERIOD);
+        mGetSleepTime = GregorianCalendar.getInstance();
+        mGetSleepTime.add(GregorianCalendar.SECOND, SLEEP_RETRY_PERIOD);
 
         TransactionBuilder builder = new TransactionBuilder("requestSleepStats");
         builder.write(mHPlusSupport.ctrlCharacteristic, new byte[]{HPlusConstants.CMD_GET_SLEEP});
