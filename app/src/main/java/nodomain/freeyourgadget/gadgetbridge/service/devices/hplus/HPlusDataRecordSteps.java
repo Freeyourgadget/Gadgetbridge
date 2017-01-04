@@ -5,19 +5,12 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.hplus;
 */
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Calendar;
 
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
-
-public class HPlusDataRecordSteps extends HPlusDataRecord{
-    private static final Logger LOG = LoggerFactory.getLogger(HPlusDataRecordSteps.class);
-
-    int steps;
-    int distance;
+class HPlusDataRecordSteps extends HPlusDataRecord{
+    public int steps;
+    public int distance;
 
     HPlusDataRecordSteps(byte[] data) {
         super(data);
@@ -45,15 +38,11 @@ public class HPlusDataRecordSteps extends HPlusDataRecord{
         date.set(Calendar.YEAR, year);
         date.set(Calendar.MONTH, month - 1);
         date.set(Calendar.DAY_OF_MONTH, day);
-        date.set(Calendar.HOUR, 23);
+        date.set(Calendar.HOUR_OF_DAY, 23);
         date.set(Calendar.MINUTE, 59);
         date.set(Calendar.SECOND, 59);
         date.set(Calendar.MILLISECOND, 999);
 
         timestamp = (int) (date.getTimeInMillis() / 1000);
-    }
-
-    public int getType(int ts){
-        return ActivityKind.TYPE_UNKNOWN;
     }
 }

@@ -6,9 +6,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.hplus;
 
 import android.support.annotation.NonNull;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -30,8 +27,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 public class HPlusHealthSampleProvider extends AbstractSampleProvider<HPlusHealthActivitySample> {
-    private static final Logger LOG = LoggerFactory.getLogger(HPlusHealthSampleProvider.class);
-
 
     private GBDevice mDevice;
     private DaoSession mSession;
@@ -71,12 +66,12 @@ public class HPlusHealthSampleProvider extends AbstractSampleProvider<HPlusHealt
 
     @Override
     protected Property getRawKindSampleProperty() {
-        return HPlusHealthActivitySampleDao.Properties.RawKind;
+        return null; // HPlusHealthActivitySampleDao.Properties.RawKind;
     }
 
     @Override
     public float normalizeIntensity(int rawIntensity) {
-        return rawIntensity; //TODO: Calculate actual value
+        return rawIntensity / (float) 100.0;
     }
 
     @NonNull
@@ -90,6 +85,7 @@ public class HPlusHealthSampleProvider extends AbstractSampleProvider<HPlusHealt
         return getSession().getHPlusHealthActivitySampleDao();
     }
 
+    @NonNull
     @Override
     public List<HPlusHealthActivitySample> getAllActivitySamples(int timestamp_from, int timestamp_to) {
         List<HPlusHealthActivitySample> samples = super.getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_ALL);
@@ -107,19 +103,17 @@ public class HPlusHealthSampleProvider extends AbstractSampleProvider<HPlusHealt
         List<HPlusHealthActivityOverlay> overlayRecords = qb.build().list();
 
         for (HPlusHealthActivityOverlay overlay : overlayRecords) {
-            insertVirtualItem(samples, overlay.getTimestampFrom(), overlay.getDeviceId(), overlay.getUserId());
-            insertVirtualItem(samples, overlay.getTimestampTo() - 1, overlay.getDeviceId(), overlay.getUserId());
+            insertVirtualItem(samples, Math.max(overlay.getTimestampFrom(), timestamp_from), overlay.getDeviceId(), overlay.getUserId());
+            insertVirtualItem(samples, Math.min(overlay.getTimestampTo() - 1, timestamp_to - 1), overlay.getDeviceId(), overlay.getUserId());
 
             for (HPlusHealthActivitySample sample : samples) {
-                if (overlay.getTimestampFrom() <= sample.getTimestamp() && sample.getTimestamp() < overlay.getTimestampTo()) {
+                if (sample.getTimestamp() >= overlay.getTimestampFrom() && sample.getTimestamp() < overlay.getTimestampTo()) {
                     sample.setRawKind(overlay.getRawKind());
                 }
             }
         }
 
         detachFromSession();
-
-        LOG.debug("Returning " + samples.size() + " samples processed by " + overlayRecords.size() + " overlays");
 
         Collections.sort(samples, new Comparator<HPlusHealthActivitySample>() {
             public int compare(HPlusHealthActivitySample one, HPlusHealthActivitySample other) {
@@ -137,7 +131,7 @@ public class HPlusHealthSampleProvider extends AbstractSampleProvider<HPlusHealt
                 userId,          // User id
                 null,                         // Raw Data
                 ActivityKind.TYPE_UNKNOWN,
-                ActivitySample.NOT_MEASURED, // Intensity
+                0, // Intensity
                 ActivitySample.NOT_MEASURED, // Steps
                 ActivitySample.NOT_MEASURED, // HR
                 ActivitySample.NOT_MEASURED, // Distance
@@ -149,4 +143,5 @@ public class HPlusHealthSampleProvider extends AbstractSampleProvider<HPlusHealt
 
         return samples;
     }
+
 }

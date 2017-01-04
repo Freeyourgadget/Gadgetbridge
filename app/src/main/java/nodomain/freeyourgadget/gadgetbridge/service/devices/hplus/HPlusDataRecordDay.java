@@ -9,10 +9,10 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 
 public class HPlusDataRecordDay extends HPlusDataRecord {
-    int slot;
-    int steps;
-    int secondsInactive;
-    int heartRate;
+    public int slot;
+    public int steps;
+    public int secondsInactive;
+    public int heartRate;
 
     public HPlusDataRecordDay(byte[] data) {
         super(data);

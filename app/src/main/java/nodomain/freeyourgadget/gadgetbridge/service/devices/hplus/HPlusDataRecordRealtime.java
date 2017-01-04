@@ -6,16 +6,18 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.hplus;
 
 
 import java.util.Calendar;
+import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 
-public class HPlusDataRecordRealtime extends HPlusDataRecord {
-    int distance;
-    int calories;
-    int heartRate;
-    byte battery;
-    int activeTime;
+class HPlusDataRecordRealtime extends HPlusDataRecord {
+    public int distance;
+    public int calories;
+    public int heartRate;
+    public byte battery;
+    public int activeTime;
+    public int intensity;
 
     public HPlusDataRecordRealtime(byte[] data) {
         super(data);
@@ -36,7 +38,10 @@ public class HPlusDataRecordRealtime extends HPlusDataRecord {
 
         heartRate = data[11] & 0xFF; // BPM
         activeTime = (data[14] & 0xFF * 256) + (data[13] & 0xFF);
-
+        if(heartRate == 255)
+            intensity = 0;
+        else
+            intensity = (int) (100 * Math.max(0, Math.min((heartRate - 60) / 120.0, 1))); // TODO: Calculate a proper value
     }
 
     public void computeActivity(HPlusDataRecordRealtime prev){
@@ -64,6 +69,10 @@ public class HPlusDataRecordRealtime extends HPlusDataRecord {
             return false;
 
         return distance == other.distance && calories == other.calories && heartRate == other.heartRate && battery == other.battery;
+    }
+
+    public String toString(){
+        return String.format(Locale.US, "Distance: %d Calories: %d HeartRate: %d Battery: %d ActiveTime: %d Intensity: %d", distance, calories, heartRate, battery, activeTime, intensity);
     }
 
 }

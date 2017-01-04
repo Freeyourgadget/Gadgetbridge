@@ -1,12 +1,11 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.hplus;
 
-import java.util.List;
-
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
-/**
- * Created by jpbarraca on 30/12/2016.
- */
+/*
+* @author João Paulo Barraca &lt;jpbarraca@gmail.com&gt;
+*/
+
 
 public  class HPlusDataRecord {
     public final static int TYPE_SLEEP = 1;

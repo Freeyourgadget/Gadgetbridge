@@ -36,6 +36,7 @@ public final class HPlusConstants {
 
     public static final byte[] CMD_SET_PREF_START = new byte[]{0x4f, 0x5a};
     public static final byte[] CMD_SET_PREF_START1 = new byte[]{0x4d};
+    public static final byte CMD_SET_ALARM = 0x4c;
     public static final byte CMD_SET_LANGUAGE = 0x22;
     public static final byte CMD_SET_TIMEMODE = 0x47;
     public static final byte CMD_SET_UNITS = 0x48;

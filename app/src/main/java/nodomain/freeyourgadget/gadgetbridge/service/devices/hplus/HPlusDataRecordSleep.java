@@ -5,9 +5,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.hplus;
 */
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -15,18 +12,16 @@ import java.util.List;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public class HPlusDataRecordSleep extends HPlusDataRecord {
-    private static final Logger LOG = LoggerFactory.getLogger(HPlusDataRecordSleep.class);
 
-    int type = TYPE_SLEEP;
-    int bedTimeStart;
-    int bedTimeEnd;
-    int deepSleepMinutes;
-    int lightSleepMinutes;
-    int enterSleepMinutes;
-    int spindleMinutes;
-    int remSleepMinutes;
-    int wakeupMinutes;
-    int wakeupCount;
+    public int bedTimeStart;
+    public int bedTimeEnd;
+    public int deepSleepMinutes;
+    public int lightSleepMinutes;
+    public int enterSleepMinutes;
+    public int spindleMinutes;
+    public int remSleepMinutes;
+    public int wakeupMinutes;
+    public int wakeupCount;
 
     public HPlusDataRecordSleep(byte[] data) {
         super(data);
@@ -56,7 +51,7 @@ public class HPlusDataRecordSleep extends HPlusDataRecord {
         sleepStart.set(Calendar.YEAR, year);
         sleepStart.set(Calendar.MONTH, month - 1);
         sleepStart.set(Calendar.DAY_OF_MONTH, day);
-        sleepStart.set(Calendar.HOUR, hour);
+        sleepStart.set(Calendar.HOUR_OF_DAY, hour);
         sleepStart.set(Calendar.MINUTE, minute);
         sleepStart.set(Calendar.SECOND, 0);
         sleepStart.set(Calendar.MILLISECOND, 0);
@@ -66,10 +61,13 @@ public class HPlusDataRecordSleep extends HPlusDataRecord {
         lightSleepMinutes = enterSleepMinutes + spindleMinutes + remSleepMinutes;
 
         timestamp = bedTimeStart;
-    }
+
+        Calendar sleepEnd = Calendar.getInstance();
+        sleepEnd.setTimeInMillis(bedTimeEnd * 1000L);
+        }
 
     public List<RecordInterval> getIntervals() {
-        List<RecordInterval> intervals = new ArrayList<RecordInterval>();
+        List<RecordInterval> intervals = new ArrayList<>();
 
         int ts = bedTimeStart + lightSleepMinutes * 60;
         intervals.add(new RecordInterval(bedTimeStart, ts, ActivityKind.TYPE_LIGHT_SLEEP));

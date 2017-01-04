@@ -18,15 +18,12 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusHealthSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
-import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.HPlusHealthActivityOverlay;
 import nodomain.freeyourgadget.gadgetbridge.entities.HPlusHealthActivityOverlayDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.HPlusHealthActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -34,16 +31,15 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
 
 
-public class HPlusHandlerThread extends GBDeviceIoThread {
+class HPlusHandlerThread extends GBDeviceIoThread {
+    private static final Logger LOG = LoggerFactory.getLogger(HPlusHandlerThread.class);
 
     private int SYNC_PERIOD = 60 * 10;
     private int SYNC_RETRY_PERIOD = 6;
     private int SLEEP_SYNC_PERIOD = 12 * 60 * 60;
     private int SLEEP_RETRY_PERIOD = 30;
 
-    private int HELLO_INTERVAL = 30;
-
-    private static final Logger LOG = LoggerFactory.getLogger(HPlusHandlerThread.class);
+    private int HELLO_INTERVAL = 60;
 
     private boolean mQuit = false;
     private HPlusSupport mHPlusSupport;
@@ -57,7 +53,7 @@ public class HPlusHandlerThread extends GBDeviceIoThread {
     private Calendar mGetDaySlotsTime = Calendar.getInstance();
     private Calendar mGetSleepTime = Calendar.getInstance();
 
-    private Object waitObject = new Object();
+    private final Object waitObject = new Object();
 
     private HPlusDataRecordRealtime prevRealTimeRecord = null;
 
@@ -80,7 +76,6 @@ public class HPlusHandlerThread extends GBDeviceIoThread {
 
         sync();
 
-        boolean starting = true;
         long waitTime = 0;
         while (!mQuit) {
             //LOG.debug("Waiting " + (waitTime));
@@ -147,25 +142,27 @@ public class HPlusHandlerThread extends GBDeviceIoThread {
         }
     }
 
-    public void sendHello() {
-        mHelloTime = Calendar.getInstance();
-        mHelloTime.add(Calendar.SECOND, HELLO_INTERVAL);
-
+    private void sendHello() {
         TransactionBuilder builder = new TransactionBuilder("hello");
         builder.write(mHPlusSupport.ctrlCharacteristic, HPlusConstants.CMD_ACTION_HELLO);
 
         builder.queue(mHPlusSupport.getQueue());
+        scheduleHello();
     }
 
+    public void scheduleHello(){
+        mHelloTime = Calendar.getInstance();
+        mHelloTime.add(Calendar.SECOND, HELLO_INTERVAL);
+    }
 
-    public void processIncomingDaySlotData(byte[] data) {
+    public boolean processIncomingDaySlotData(byte[] data) {
 
         HPlusDataRecordDay record;
         try{
             record = new HPlusDataRecordDay(data);
         } catch(IllegalArgumentException e){
             LOG.debug((e.getMessage()));
-            return;
+            return true;
         }
 
         if ((record.slot == 0 && mLastSlotReceived == 0) || (record.slot == mLastSlotReceived + 1)) {
@@ -181,7 +178,7 @@ public class HPlusHandlerThread extends GBDeviceIoThread {
                         deviceId, userId,               // User id
                         record.getRawData(),            // Raw Data
                         ActivityKind.TYPE_UNKNOWN,
-                        ActivitySample.NOT_MEASURED,    // Intensity
+                        0,    // Intensity
                         record.steps,                   // Steps
                         record.heartRate,               // HR
                         ActivitySample.NOT_MEASURED,    // Distance
@@ -204,11 +201,10 @@ public class HPlusHandlerThread extends GBDeviceIoThread {
                 }
             }
         }
+        return true;
     }
 
     private void requestNextDaySlots() {
-        LOG.debug("Request Next Slot: Got: " + mLastSlotReceived + " Request: " + mLastSlotRequested);
-
         //Sync Day Stats
         byte hour = (byte) ((mLastSlotReceived) / 6);
         byte nextHour = (byte) (hour + 1);
@@ -240,7 +236,7 @@ public class HPlusHandlerThread extends GBDeviceIoThread {
             return;
         }
 
-        LOG.debug("Making new Request From " + hour + ":" + minute + " to " + nextHour + ":" + nextMinute);
+        //LOG.debug("Making new Request From " + hour + ":" + minute + " to " + nextHour + ":" + nextMinute);
 
         byte[] msg = new byte[]{39, hour, minute, nextHour, nextMinute}; //Request the entire day
         TransactionBuilder builder = new TransactionBuilder("getNextDaySlot");
@@ -251,16 +247,14 @@ public class HPlusHandlerThread extends GBDeviceIoThread {
         mGetDaySlotsTime.add(Calendar.SECOND, SYNC_RETRY_PERIOD);
     }
 
-    public void processIncomingSleepData(byte[] data){
-        LOG.debug("Processing Sleep Data");
-
+    public boolean processIncomingSleepData(byte[] data){
         HPlusDataRecordSleep record;
 
         try{
             record = new HPlusDataRecordSleep(data);
         } catch(IllegalArgumentException e){
             LOG.debug((e.getMessage()));
-            return;
+            return true;
         }
 
         mLastSleepDayReceived.setTimeInMillis(record.bedTimeStart * 1000L);
@@ -288,7 +282,7 @@ public class HPlusHandlerThread extends GBDeviceIoThread {
                     deviceId, userId,            // User id
                     record.getRawData(),         // Raw Data
                     record.activityKind,
-                    ActivitySample.NOT_MEASURED, // Intensity
+                    0,                           // Intensity
                     ActivitySample.NOT_MEASURED, // Steps
                     ActivitySample.NOT_MEASURED, // HR
                     ActivitySample.NOT_MEASURED, // Distance
@@ -307,11 +301,10 @@ public class HPlusHandlerThread extends GBDeviceIoThread {
         mGetSleepTime = Calendar.getInstance();
         mGetSleepTime.add(Calendar.SECOND, SLEEP_SYNC_PERIOD);
 
+        return true;
     }
 
     private void requestNextSleepData() {
-        LOG.debug("Request New Sleep Data");
-
         mGetSleepTime = Calendar.getInstance();
         mGetSleepTime.add(Calendar.SECOND, SLEEP_RETRY_PERIOD);
 
@@ -321,20 +314,18 @@ public class HPlusHandlerThread extends GBDeviceIoThread {
     }
 
 
-    public void processRealtimeStats(byte[] data) {
-        LOG.debug("Processing Real time Stats");
-
+    public boolean processRealtimeStats(byte[] data) {
         HPlusDataRecordRealtime record;
 
         try{
             record = new HPlusDataRecordRealtime(data);
         } catch(IllegalArgumentException e){
             LOG.debug((e.getMessage()));
-            return;
+            return true;
         }
 
         if(record.same(prevRealTimeRecord))
-            return;
+            return true;
 
         prevRealTimeRecord = record;
 
@@ -345,18 +336,14 @@ public class HPlusHandlerThread extends GBDeviceIoThread {
         if(record.heartRate == 255) {
             getDevice().setFirmwareVersion2("---");
             getDevice().sendDeviceUpdateIntent(getContext());
-            return;
+            return true;
         }
 
-        getDevice().setFirmwareVersion2(""+record.heartRate);
+        getDevice().setFirmwareVersion2("" + record.heartRate);
         getDevice().sendDeviceUpdateIntent(getContext());
 
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
-            DaoSession session = dbHandler.getDaoSession();
-
             HPlusHealthSampleProvider provider = new HPlusHealthSampleProvider(getDevice(), dbHandler.getDaoSession());
-            HPlusHealthActivityOverlayDao overlayDao = session.getHPlusHealthActivityOverlayDao();
-
             Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
             Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
 
@@ -365,7 +352,7 @@ public class HPlusHandlerThread extends GBDeviceIoThread {
                     deviceId, userId,            // User id
                     record.getRawData(),         // Raw Data
                     record.activityKind,
-                    ActivitySample.NOT_MEASURED, // Intensity
+                    record.intensity, // Intensity
                     ActivitySample.NOT_MEASURED, // Steps
                     record.heartRate,            // HR
                     record.distance,             // Distance
@@ -375,32 +362,25 @@ public class HPlusHandlerThread extends GBDeviceIoThread {
             sample.setProvider(provider);
             provider.addGBActivitySample(sample);
 
-            if(record.activeTime > 0){
-                //TODO: Register ACTIVITY Time
-
-                //Insert the Overlays
-                //List<HPlusHealthActivityOverlay> overlayList = new ArrayList<>();
-                //overlayList.add(new HPlusHealthActivityOverlay(record.timestamp - record.activeTime * 60, record.timestamp, ActivityKind.TYPE_ACTIVITY, deviceId, userId, null));
-                //overlayDao.insertOrReplaceInTx(overlayList);
-            }
+            //TODO: Handle Active Time. With Overlay?
 
         } catch (GBException ex) {
             LOG.debug((ex.getMessage()));
         } catch (Exception ex) {
             LOG.debug(ex.getMessage());
         }
+        return true;
     }
 
 
-    public void processStepStats(byte[] data) {
-        LOG.debug("Processing Step Stats");
+    public boolean processStepStats(byte[] data) {
         HPlusDataRecordSteps record;
 
         try{
             record = new HPlusDataRecordSteps(data);
         } catch(IllegalArgumentException e){
             LOG.debug((e.getMessage()));
-            return;
+            return true;
         }
 
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
@@ -408,17 +388,40 @@ public class HPlusHandlerThread extends GBDeviceIoThread {
 
             Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
             Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
+
+            //Hugly (?) fix.
+            //This message returns the day summary, but the DB already has some detailed entries with steps and distance.
+            //However DB data is probably incomplete as some update messages could be missing
+            //Proposed fix: Calculate the total steps and distance and store a new sample with the remaining data
+            //Existing data will reflect user activity with the issue of a potencially large number of steps at midnight.
+            //Steps counters by day will be OK with this
+
+            List<HPlusHealthActivitySample> samples = provider.getActivitySamples(record.timestamp - 3600 * 24 + 1, record.timestamp);
+
+            int missingDistance = record.distance;
+            int missingSteps = record.steps;
+
+            for(HPlusHealthActivitySample sample : samples){
+                if(sample.getSteps() > 0) {
+                    missingSteps -= sample.getSteps();
+                }
+                if(sample.getDistance() > 0){
+                    missingDistance -= sample.getDistance();
+                }
+            }
+
             HPlusHealthActivitySample sample = new HPlusHealthActivitySample(
                     record.timestamp,               // ts
                     deviceId, userId,               // User id
                     record.getRawData(),            // Raw Data
                     ActivityKind.TYPE_UNKNOWN,
-                    ActivitySample.NOT_MEASURED,    // Intensity
-                    record.steps,                   // Steps
+                    0,                              // Intensity
+                    Math.max( missingSteps, 0),     // Steps
                     ActivitySample.NOT_MEASURED,    // HR
-                    record.distance,                // Distance
+                    Math.max( missingDistance, 0),  // Distance
                     ActivitySample.NOT_MEASURED     // Calories
             );
+
             sample.setProvider(provider);
             provider.addGBActivitySample(sample);
         } catch (GBException ex) {
@@ -426,11 +429,11 @@ public class HPlusHandlerThread extends GBDeviceIoThread {
         } catch (Exception ex) {
             LOG.debug(ex.getMessage());
         }
+
+        return true;
     }
 
     public boolean processVersion(byte[] data) {
-        LOG.debug("Process Version");
-
         int major = data[2] & 0xFF;
         int minor = data[1] & 0xFF;
 
@@ -439,15 +442,5 @@ public class HPlusHandlerThread extends GBDeviceIoThread {
         getDevice().sendDeviceUpdateIntent(getContext());
 
         return true;
-    }
-
-    public static HPlusHealthActivitySample createActivitySample(Device device, User user, int timestampInSeconds, SampleProvider provider) {
-        HPlusHealthActivitySample sample = new HPlusHealthActivitySample();
-        sample.setDevice(device);
-        sample.setUser(user);
-        sample.setTimestamp(timestampInSeconds);
-        sample.setProvider(provider);
-
-        return sample;
     }
 }
