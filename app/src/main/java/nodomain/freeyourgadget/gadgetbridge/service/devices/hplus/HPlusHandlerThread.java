@@ -264,11 +264,13 @@ class HPlusHandlerThread extends GBDeviceIoThread {
         builder.queue(mHPlusSupport.getQueue());
 
         mGetDaySlotsTime = now;
-        if(mSlotsToRequest < 144) {
+        if(mSlotsToRequest == 6) {
             mGetDaySlotsTime.add(Calendar.SECOND, CURRENT_DAY_SYNC_RETRY_PERIOD);
         }else{
             mGetDaySlotsTime.add(Calendar.SECOND, CURRENT_DAY_SYNC_PERIOD);
         }
+        LOG.debug("Requesting next slot " + mLastSlotRequested+ " at " + mGetDaySlotsTime.getTime());
+
     }
 
     public boolean processIncomingSleepData(byte[] data){
