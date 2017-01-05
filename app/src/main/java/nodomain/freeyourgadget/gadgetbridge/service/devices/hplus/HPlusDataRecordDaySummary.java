@@ -10,7 +10,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 
-class HPlusDataRecordSteps extends HPlusDataRecord{
+class HPlusDataRecordDaySummary extends HPlusDataRecord{
 
     /**
      * Year of the record reported by the device
@@ -59,7 +59,7 @@ class HPlusDataRecordSteps extends HPlusDataRecord{
      */
     public int calories;
 
-    HPlusDataRecordSteps(byte[] data) {
+    HPlusDataRecordDaySummary(byte[] data) {
         super(data);
 
         year =  (data[10] & 0xFF) * 256 + (data[9] & 0xFF);

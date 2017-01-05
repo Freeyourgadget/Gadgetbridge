@@ -35,10 +35,12 @@ import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
 class HPlusHandlerThread extends GBDeviceIoThread {
     private static final Logger LOG = LoggerFactory.getLogger(HPlusHandlerThread.class);
 
-    private int SYNC_PERIOD = 60 * 10;
-    private int SYNC_RETRY_PERIOD = 6;
+    private int CURRENT_DAY_SYNC_PERIOD = 60 * 10;
+    private int CURRENT_DAY_SYNC_RETRY_PERIOD = 6;
     private int SLEEP_SYNC_PERIOD = 12 * 60 * 60;
-    private int SLEEP_RETRY_PERIOD = 30;
+    private int SLEEP_SYNC_RETRY_PERIOD = 30;
+
+    private int DAY_SUMMARY_SYNC_PERIOD = 24 * 60 * 60;
 
     private int HELLO_INTERVAL = 60;
 
@@ -51,6 +53,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
     private Calendar mHelloTime = GregorianCalendar.getInstance();
     private Calendar mGetDaySlotsTime = GregorianCalendar.getInstance();
     private Calendar mGetSleepTime = GregorianCalendar.getInstance();
+    private Calendar mGetDaySummaryTime = GregorianCalendar.getInstance();
 
     private HPlusDataRecordRealtime prevRealTimeRecord = null;
 
@@ -62,10 +65,6 @@ class HPlusHandlerThread extends GBDeviceIoThread {
         mQuit = false;
 
         mHPlusSupport = hplusSupport;
-
-        mLastSleepDayReceived.setTimeInMillis(0);
-        mGetSleepTime.setTimeInMillis(0);
-        mGetDaySlotsTime.setTimeInMillis(0);
     }
 
 
@@ -105,6 +104,10 @@ class HPlusHandlerThread extends GBDeviceIoThread {
                 requestNextSleepData();
             }
 
+            if(now.compareTo(mGetDaySummaryTime) > 0) {
+                requestDaySummaryData();
+            }
+
             now = GregorianCalendar.getInstance();
             waitTime = Math.min(Math.min(mGetDaySlotsTime.getTimeInMillis(), mGetSleepTime.getTimeInMillis()), mHelloTime.getTimeInMillis()) - now.getTimeInMillis();
         }
@@ -122,6 +125,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
     public void sync() {
         mGetSleepTime.setTimeInMillis(0);
         mGetDaySlotsTime.setTimeInMillis(0);
+        mGetDaySummaryTime.setTimeInMillis(0);
 
         TransactionBuilder builder = new TransactionBuilder("startSyncDayStats");
 
@@ -152,6 +156,14 @@ class HPlusHandlerThread extends GBDeviceIoThread {
     public void scheduleHello(){
         mHelloTime = GregorianCalendar.getInstance();
         mHelloTime.add(Calendar.SECOND, HELLO_INTERVAL);
+    }
+
+    public void requestDaySummaryData(){
+        TransactionBuilder builder = new TransactionBuilder("startSyncDaySummary");
+        builder.write(mHPlusSupport.ctrlCharacteristic, new byte[]{HPlusConstants.CMD_GET_DAY_DATA});
+        builder.queue(mHPlusSupport.getQueue());
+
+        mGetDaySummaryTime.add(Calendar.SECOND, DAY_SUMMARY_SYNC_PERIOD);
     }
 
     public boolean processIncomingDaySlotData(byte[] data) {
@@ -223,7 +235,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
             mLastSlotRequested = 0;
             mLastSlotReceived = 0;
             mGetDaySlotsTime = GregorianCalendar.getInstance();
-            mGetDaySlotsTime.add(Calendar.SECOND, SYNC_PERIOD);
+            mGetDaySlotsTime.add(Calendar.SECOND, CURRENT_DAY_SYNC_PERIOD);
 
             return;
         }
@@ -231,7 +243,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
         if (nextHour > GregorianCalendar.getInstance().get(GregorianCalendar.HOUR_OF_DAY)) {
             LOG.debug("Day data is up to date");
             mGetDaySlotsTime = GregorianCalendar.getInstance();
-            mGetDaySlotsTime.add(Calendar.SECOND, SYNC_PERIOD);
+            mGetDaySlotsTime.add(Calendar.SECOND, CURRENT_DAY_SYNC_PERIOD);
             return;
         }
 
@@ -243,7 +255,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
         builder.queue(mHPlusSupport.getQueue());
 
         mGetDaySlotsTime = GregorianCalendar.getInstance();
-        mGetDaySlotsTime.add(Calendar.SECOND, SYNC_RETRY_PERIOD);
+        mGetDaySlotsTime.add(Calendar.SECOND, CURRENT_DAY_SYNC_RETRY_PERIOD);
     }
 
     public boolean processIncomingSleepData(byte[] data){
@@ -305,7 +317,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
 
     private void requestNextSleepData() {
         mGetSleepTime = GregorianCalendar.getInstance();
-        mGetSleepTime.add(GregorianCalendar.SECOND, SLEEP_RETRY_PERIOD);
+        mGetSleepTime.add(GregorianCalendar.SECOND, SLEEP_SYNC_RETRY_PERIOD);
 
         TransactionBuilder builder = new TransactionBuilder("requestSleepStats");
         builder.write(mHPlusSupport.ctrlCharacteristic, new byte[]{HPlusConstants.CMD_GET_SLEEP});
@@ -373,14 +385,16 @@ class HPlusHandlerThread extends GBDeviceIoThread {
 
 
     public boolean processStepStats(byte[] data) {
-        HPlusDataRecordSteps record;
+        LOG.debug("Process Step Stats");
+        HPlusDataRecordDaySummary record;
 
         try{
-            record = new HPlusDataRecordSteps(data);
+            record = new HPlusDataRecordDaySummary(data);
         } catch(IllegalArgumentException e){
             LOG.debug((e.getMessage()));
             return true;
         }
+        LOG.debug("Received: " + record);
 
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             HPlusHealthSampleProvider provider = new HPlusHealthSampleProvider(getDevice(), dbHandler.getDaoSession());
