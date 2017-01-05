@@ -156,9 +156,9 @@ class HPlusHandlerThread extends GBDeviceIoThread {
 
     public boolean processIncomingDaySlotData(byte[] data) {
 
-        HPlusDataRecordDay record;
+        HPlusDataRecordDaySlot record;
         try{
-            record = new HPlusDataRecordDay(data);
+            record = new HPlusDataRecordDaySlot(data);
         } catch(IllegalArgumentException e){
             LOG.debug((e.getMessage()));
             return true;

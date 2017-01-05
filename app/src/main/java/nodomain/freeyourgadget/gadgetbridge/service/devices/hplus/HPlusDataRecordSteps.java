@@ -11,16 +11,52 @@ import java.util.Locale;
 
 
 class HPlusDataRecordSteps extends HPlusDataRecord{
+
+    /**
+     * Year of the record reported by the device
+     * Sometimes the device will report a low number (e.g, 116) which will be "corrected"
+     * by adding 1900
+     */
     public int year;
+
+    /**
+     * Month of the record reported by the device from 1 to 12
+     */
     public int month;
+
+    /**
+     * Day of the record reported by the device
+     */
     public int day;
 
+    /**
+     * Number of steps accumulated in the day reported
+     */
     public int steps;
+
+    /**
+     * Distance in meters accumulated in the day reported
+     */
     public int distance;
 
+    /**
+     * Amount of time active in the day (Units are To Be Determined)
+     */
     public int activeTime;
+
+    /**
+     * Max Heart Rate recorded in Beats Per Minute
+     */
     public int maxHeartRate;
+
+    /**
+     * Min Heart  Rate recorded in Beats Per Minute
+     */
     public int minHeartRate;
+
+    /**
+     * Amount of estimated calories consumed during the day in KCalories
+     */
     public int calories;
 
     HPlusDataRecordSteps(byte[] data) {
@@ -31,6 +67,7 @@ class HPlusDataRecordSteps extends HPlusDataRecord{
         day = data[12] & 0xFF;
 
         //Recover from bug in firmware where year is corrupted
+        //data[10] will be set to 0, effectively offsetting values by minus 1900 years
         if(year < 1900)
             year += 1900;
 

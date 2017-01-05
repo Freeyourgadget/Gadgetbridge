@@ -14,14 +14,56 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public class HPlusDataRecordSleep extends HPlusDataRecord {
 
+    /**
+     * Time which the device determined to be the bed time in seconds
+     */
     public int bedTimeStart;
+
+    /**
+     * Time which the device determined to be the end of this sleep period in seconds
+     */
     public int bedTimeEnd;
+
+    /**
+     * Number of minutes in Deep Sleep
+     */
     public int deepSleepMinutes;
+
+    /**
+     * Number of minutes in Light Sleep
+     * This is considered as Light Sleep
+
+     */
     public int lightSleepMinutes;
+
+    /**
+     * Number of minutes to start sleeping (??)
+     * This is considered as Light Sleep
+     */
     public int enterSleepMinutes;
+
+    /**
+     * Number of minutes with Sleep Spindles (??)
+     * This is considered as Light Sleep
+     */
     public int spindleMinutes;
+
+    /**
+     * Number of minutes in REM sleep
+     * This is considered as Light Sleep
+
+     */
     public int remSleepMinutes;
+
+    /**
+     * Number of wake up minutes during the sleep period
+     * This is not considered as a sleep activity
+     */
     public int wakeupMinutes;
+
+    /**
+     * Number of times the user woke up
+     */
     public int wakeupCount;
 
     public HPlusDataRecordSleep(byte[] data) {

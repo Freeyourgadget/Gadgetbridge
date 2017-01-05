@@ -12,11 +12,36 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 
 class HPlusDataRecordRealtime extends HPlusDataRecord {
+
+    /**
+     * Distance accumulated during the day in meters
+     */
     public int distance;
+
+    /**
+     * Calories consumed during the day in KCalories
+     */
     public int calories;
+
+    /**
+     * Instantaneous Heart Rate measured in Beats Per Minute
+     */
     public int heartRate;
+
+    /**
+     * Battery level from 0 to 100
+     */
     public byte battery;
+
+    /**
+     * Time active (To be determined how it works)
+     */
     public int activeTime;
+
+    /**
+     * Computing intensity
+     * To be calculated appropriately
+     */
     public int intensity;
 
     public HPlusDataRecordRealtime(byte[] data) {
