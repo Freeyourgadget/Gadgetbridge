@@ -5,6 +5,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.hplus;
 */
 
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
@@ -56,4 +57,7 @@ public class HPlusDataRecordDaySlot extends HPlusDataRecord {
         timestamp = now * 3600 * 24 + (slot / 6 * 3600 + slot % 6 * 10);
     }
 
+    public String toString(){
+        return String.format(Locale.US, "Slot: %d, Steps: %d, InactiveSeconds: %d, HeartRate: %d", slot, steps, secondsInactive, heartRate);
+    }
 }

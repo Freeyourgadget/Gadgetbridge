@@ -36,7 +36,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
     private static final Logger LOG = LoggerFactory.getLogger(HPlusHandlerThread.class);
 
     private int CURRENT_DAY_SYNC_PERIOD = 60 * 10;
-    private int CURRENT_DAY_SYNC_RETRY_PERIOD = 6;
+    private int CURRENT_DAY_SYNC_RETRY_PERIOD = 10;
     private int SLEEP_SYNC_PERIOD = 12 * 60 * 60;
     private int SLEEP_SYNC_RETRY_PERIOD = 30;
 
@@ -48,6 +48,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
     private HPlusSupport mHPlusSupport;
     private int mLastSlotReceived = 0;
     private int mLastSlotRequested = 0;
+    private int mSlotsToRequest = 6;
 
     private Calendar mLastSleepDayReceived = GregorianCalendar.getInstance();
     private Calendar mHelloTime = GregorianCalendar.getInstance();
@@ -58,6 +59,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
     private HPlusDataRecordRealtime prevRealTimeRecord = null;
 
     private final Object waitObject = new Object();
+    List<HPlusHealthActivitySample> mDaySlotSamples = new ArrayList<>();
 
     public HPlusHandlerThread(GBDevice gbDevice, Context context, HPlusSupport hplusSupport) {
         super(gbDevice, context);
@@ -163,6 +165,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
         builder.write(mHPlusSupport.ctrlCharacteristic, new byte[]{HPlusConstants.CMD_GET_DAY_DATA});
         builder.queue(mHPlusSupport.getQueue());
 
+        mGetDaySummaryTime = GregorianCalendar.getInstance();
         mGetDaySummaryTime.add(Calendar.SECOND, DAY_SUMMARY_SYNC_PERIOD);
     }
 
@@ -175,87 +178,97 @@ class HPlusHandlerThread extends GBDeviceIoThread {
             LOG.debug((e.getMessage()));
             return true;
         }
+        mLastSlotReceived = record.slot;
 
-        if ((record.slot == 0 && mLastSlotReceived == 0) || (record.slot == mLastSlotReceived + 1)) {
-            mLastSlotReceived = record.slot;
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            HPlusHealthSampleProvider provider = new HPlusHealthSampleProvider(getDevice(), dbHandler.getDaoSession());
 
-            try (DBHandler dbHandler = GBApplication.acquireDB()) {
-                HPlusHealthSampleProvider provider = new HPlusHealthSampleProvider(getDevice(), dbHandler.getDaoSession());
+            Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
+            Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
+            HPlusHealthActivitySample sample = new HPlusHealthActivitySample(
+                    record.timestamp,               // ts
+                    deviceId, userId,               // User id
+                    record.getRawData(),            // Raw Data
+                    ActivityKind.TYPE_UNKNOWN,
+                    0,    // Intensity
+                    record.steps,                   // Steps
+                    record.heartRate,               // HR
+                    ActivitySample.NOT_MEASURED,    // Distance
+                    ActivitySample.NOT_MEASURED     // Calories
+            );
+            sample.setProvider(provider);
+            mDaySlotSamples.add(sample);
 
-                Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
-                Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
-                HPlusHealthActivitySample sample = new HPlusHealthActivitySample(
-                        record.timestamp,               // ts
-                        deviceId, userId,               // User id
-                        record.getRawData(),            // Raw Data
-                        ActivityKind.TYPE_UNKNOWN,
-                        0,    // Intensity
-                        record.steps,                   // Steps
-                        record.heartRate,               // HR
-                        ActivitySample.NOT_MEASURED,    // Distance
-                        ActivitySample.NOT_MEASURED     // Calories
-                );
-                sample.setProvider(provider);
+            Calendar now = GregorianCalendar.getInstance();
 
-                provider.addGBActivitySample(sample);
+            //Dump buffered samples to DB
+            if ((record.timestamp + (60*100) >= (now.getTimeInMillis() / 1000L) )) {
 
-            } catch (GBException ex) {
-                LOG.debug((ex.getMessage()));
-            } catch (Exception ex) {
-                LOG.debug(ex.getMessage());
+                provider.getSampleDao().insertOrReplaceInTx(mDaySlotSamples);
+
+                mGetDaySlotsTime.setTimeInMillis(0);
+                mDaySlotSamples.clear();
+                mSlotsToRequest = 144 - mLastSlotReceived;
             }
+        } catch (GBException ex) {
+            LOG.debug((ex.getMessage()));
+        } catch (Exception ex) {
+            LOG.debug(ex.getMessage());
+        }
 
-            if (record.slot >= mLastSlotRequested) {
-                synchronized (waitObject) {
-                    mGetDaySlotsTime.setTimeInMillis(0);
-                    waitObject.notify();
-                }
+        //Request next slot
+        if(mLastSlotReceived == mLastSlotRequested){
+            synchronized (waitObject) {
+                mGetDaySlotsTime.setTimeInMillis(0);
+                waitObject.notify();
             }
         }
+
+
         return true;
     }
 
     private void requestNextDaySlots() {
-        //Sync Day Stats
-        byte hour = (byte) ((mLastSlotReceived) / 6);
-        byte nextHour = (byte) (hour + 1);
 
-        byte nextMinute = 0;
+        Calendar now = GregorianCalendar.getInstance();
 
-        if (nextHour == (byte) GregorianCalendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
-            nextMinute = (byte) GregorianCalendar.getInstance().get(Calendar.MINUTE);
+        if (mLastSlotReceived >= 144 + 6) { // 24 * 6 + 6
+            LOG.debug("Reached End of the Day");
+            mLastSlotReceived = 0;
+            mSlotsToRequest = 6; // 1h
+            mGetDaySlotsTime = now;
+            mGetDaySlotsTime.add(Calendar.SECOND, CURRENT_DAY_SYNC_PERIOD);
+            mLastSlotRequested = 0;
+            return;
         }
 
+        //Sync Day Stats
+        mLastSlotRequested = Math.min(mLastSlotReceived + mSlotsToRequest, 144);
+
+        LOG.debug("Requesting slot " + mLastSlotRequested);
+
+        byte nextHour = (byte) (mLastSlotRequested / 6);
+        byte nextMinute = (byte) ((mLastSlotRequested % 6) * 10);
+
+        if (nextHour == (byte) now.get(Calendar.HOUR_OF_DAY)) {
+            nextMinute = (byte) now.get(Calendar.MINUTE);
+        }
+
+        byte hour = (byte) (mLastSlotReceived / 6);
         byte minute = (byte) ((mLastSlotReceived % 6) * 10);
 
-        mLastSlotRequested = (nextHour) * 6 + Math.round(nextMinute / 10);
+        byte[] msg = new byte[]{39, hour, minute, nextHour, nextMinute};
 
-        if (nextHour >= 24 && nextMinute > 0) { // 24 * 6
-            LOG.debug("Reached End of the Day");
-            mLastSlotRequested = 0;
-            mLastSlotReceived = 0;
-            mGetDaySlotsTime = GregorianCalendar.getInstance();
-            mGetDaySlotsTime.add(Calendar.SECOND, CURRENT_DAY_SYNC_PERIOD);
-
-            return;
-        }
-
-        if (nextHour > GregorianCalendar.getInstance().get(GregorianCalendar.HOUR_OF_DAY)) {
-            LOG.debug("Day data is up to date");
-            mGetDaySlotsTime = GregorianCalendar.getInstance();
-            mGetDaySlotsTime.add(Calendar.SECOND, CURRENT_DAY_SYNC_PERIOD);
-            return;
-        }
-
-        //LOG.debug("Making new Request From " + hour + ":" + minute + " to " + nextHour + ":" + nextMinute);
-
-        byte[] msg = new byte[]{39, hour, minute, nextHour, nextMinute}; //Request the entire day
         TransactionBuilder builder = new TransactionBuilder("getNextDaySlot");
         builder.write(mHPlusSupport.ctrlCharacteristic, msg);
         builder.queue(mHPlusSupport.getQueue());
 
-        mGetDaySlotsTime = GregorianCalendar.getInstance();
-        mGetDaySlotsTime.add(Calendar.SECOND, CURRENT_DAY_SYNC_RETRY_PERIOD);
+        mGetDaySlotsTime = now;
+        if(mSlotsToRequest < 144) {
+            mGetDaySlotsTime.add(Calendar.SECOND, CURRENT_DAY_SYNC_RETRY_PERIOD);
+        }else{
+            mGetDaySlotsTime.add(Calendar.SECOND, CURRENT_DAY_SYNC_PERIOD);
+        }
     }
 
     public boolean processIncomingSleepData(byte[] data){
