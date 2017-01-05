@@ -384,8 +384,8 @@ class HPlusHandlerThread extends GBDeviceIoThread {
     }
 
 
-    public boolean processStepStats(byte[] data) {
-        LOG.debug("Process Step Stats");
+    public boolean processDaySummary(byte[] data) {
+        LOG.debug("Process Day Summary");
         HPlusDataRecordDaySummary record;
 
         try{

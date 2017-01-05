@@ -790,7 +790,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 return syncHelper.processIncomingSleepData(data);
 
             case HPlusConstants.DATA_STEPS:
-                return syncHelper.processStepStats(data);
+                return syncHelper.processDaySummary(data);
 
             case HPlusConstants.DATA_DAY_SUMMARY:
             case HPlusConstants.DATA_DAY_SUMMARY_ALT:
