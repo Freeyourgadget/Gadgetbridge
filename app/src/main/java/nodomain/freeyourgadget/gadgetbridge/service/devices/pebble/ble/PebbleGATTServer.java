@@ -111,6 +111,11 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
         int serial = header >> 3;
         if (command == 0x01) {
             LOG.info("got ACK for serial = " + serial);
+            if (mPebbleLESupport.mPPAck != null) {
+                mPebbleLESupport.mPPAck.countDown();
+            } else {
+                LOG.warn("mPPAck countdownlatch is not present but it probably should");
+            }
         }
         if (command == 0x02) { // some request?
             LOG.info("got command 0x02");
