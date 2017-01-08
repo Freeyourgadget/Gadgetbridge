@@ -171,6 +171,10 @@ public class GBApplication extends Application {
         return prefs.getBoolean("log_to_file", false);
     }
 
+    public static boolean minimizeNotification() {
+        return prefs.getBoolean("minimize_priority", false);
+    }
+
     static void setupDatabase(Context context) {
         DBOpenHelper helper = new DBOpenHelper(context, DATABASE_NAME, null);
         SQLiteDatabase db = helper.getWritableDatabase();

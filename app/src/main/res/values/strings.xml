@@ -65,6 +65,10 @@
 
     <string name="pref_title_language">Language</string>
 
+    <string name="pref_title_minimize_priority">Hide the gadgetbridge notification</string>
+    <string name="pref_summary_minimize_priority_off">The icon in the status bar and the notification in the lockscreen are shown</string>
+    <string name="pref_summary_minimize_priority_on">The icon in the status bar and the notification in the lockscreen are hidden</string>
+
     <string name="pref_header_notifications">Notifications</string>
     <string name="pref_title_notifications_repetitions">Repetitions</string>
     <string name="pref_title_notifications_call">Phone Calls</string>

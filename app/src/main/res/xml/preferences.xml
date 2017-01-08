@@ -30,6 +30,12 @@
             android:entryValues="@array/pref_language_values"
             android:defaultValue="default"
             android:summary="%s" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="minimize_priority"
+            android:summaryOff="@string/pref_summary_minimize_priority_off"
+            android:summaryOn="@string/pref_summary_minimize_priority_on"
+            android:title="@string/pref_title_minimize_priority" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="pref_key_datetime"
