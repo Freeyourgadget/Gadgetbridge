@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
@@ -28,7 +29,10 @@ class AppMessageHandler {
     }
 
     public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
-        return null;
+        // Just ACK
+        GBDeviceEventSendBytes sendBytesAck = new GBDeviceEventSendBytes();
+        sendBytesAck.encodedBytes = mPebbleProtocol.encodeApplicationMessageAck(mUUID, mPebbleProtocol.last_id);
+        return new GBDeviceEvent[]{sendBytesAck};
     }
 
     public GBDeviceEvent[] onAppStart() {

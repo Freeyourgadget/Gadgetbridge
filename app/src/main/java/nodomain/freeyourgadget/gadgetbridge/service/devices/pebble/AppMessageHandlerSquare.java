@@ -53,14 +53,6 @@ class AppMessageHandlerSquare extends AppMessageHandler {
     }
 
     @Override
-    public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
-        // Just ACK
-        GBDeviceEventSendBytes sendBytesAck = new GBDeviceEventSendBytes();
-        sendBytesAck.encodedBytes = mPebbleProtocol.encodeApplicationMessageAck(mUUID, mPebbleProtocol.last_id);
-        return new GBDeviceEvent[]{sendBytesAck};
-    }
-
-    @Override
     public GBDeviceEvent[] onAppStart() {
         WeatherSpec weatherSpec = Weather.getInstance().getWeatherSpec();
         if (weatherSpec == null) {
