@@ -253,6 +253,10 @@ public class NotificationListener extends NotificationListenerService {
         notificationSpec.type = AppNotificationType.getInstance().get(source);
 
         if (source.equals("com.fsck.k9")) {
+            // we dont want group summaries at all for k9
+            if ((notification.flags & Notification.FLAG_GROUP_SUMMARY) == Notification.FLAG_GROUP_SUMMARY) {
+                return;
+            }
             preferBigText = true;
         }
 
