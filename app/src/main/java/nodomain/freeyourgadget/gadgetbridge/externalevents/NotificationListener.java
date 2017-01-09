@@ -392,7 +392,22 @@ public class NotificationListener extends NotificationListenerService {
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
+        //FIXME: deduplicate code
+        String source = sbn.getPackageName();
+        Notification notification = sbn.getNotification();
+        if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
+            return;
+        }
+
+        if (source.equals("android") ||
+                source.equals("com.android.systemui") ||
+                source.equals("com.android.dialer") ||
+                source.equals("com.cyanogenmod.eleven")) {
+            return;
+        }
+
         LOG.info("notification removed, will ask device to delete it");
+
         GBApplication.deviceService().onDeleteNotification((int) sbn.getPostTime()); //FIMXE: a truly unique id would be better
     }
 
