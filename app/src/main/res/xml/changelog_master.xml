@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="0.17.0" versioncode="81"></change>
+    <release version="0.17.0" versioncode="81">
         <change>Add weather support through "Weather Notification" app</change>
         <change>Pebble: Support for build-in weather system app (FW 4.x)</change>
         <change>Pebble: Add weather support for various watchfaces</change>
