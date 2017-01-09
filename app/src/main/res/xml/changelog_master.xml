@@ -4,6 +4,7 @@
         <change>Add weather support through "Weather Notification" app</change>
         <change>Pebble: Support for build-in weather system app (FW 4.x)</change>
         <change>Pebble: Add weather support for various watchfaces</change>
+	<change>Pebble: Add option to disable call display</change>
         <change>Pebble 2/LE: Improve reliablitly and transfer speed</change>
     </release>
     <release version="0.16.0" versioncode="80">

@@ -153,6 +153,11 @@
             <PreferenceCategory
                 android:title="@string/pref_header_general">
                 <CheckBoxPreference
+                    android:defaultValue="true"
+                    android:key="pebble_enable_outgoing_call"
+                    android:summary="@string/pref_summary_enable_outgoing_call"
+                    android:title="@string/pref_title_enable_outgoing_call" />
+                <CheckBoxPreference
                     android:defaultValue="false"
                     android:key="pebble_enable_pebblekit"
                     android:summary="@string/pref_summary_enable_pebblekit"
