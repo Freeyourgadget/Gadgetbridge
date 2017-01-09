@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.17.0" versioncode="81"></change>
+        <change>Add weather support through "Weather Notification" app</change>
+        <change>Pebble: Support for build-in weather system app (FW 4.x)</change>
+        <change>Pebble: Add weather support for various watchfaces</change>
+        <change>Pebble 2/LE: Improve reliablitly and transfer speed</change>
+    </release>
     <release version="0.16.0" versioncode="80">
         <change>New devices: HPlus (e.g. Zeblaze ZeBand), contributed by João Paulo Barraca</change>
         <change>ZeBand: Initial support: notifications, heart rate, sleep monitoring, user configuration, date+time</change>
@@ -10,7 +16,6 @@
         <change>Mi Band 2: Fix activity data missing after doing manual hr measurements or live activity</change>
         <change>Support sharing firmwares/watchapps/watchfaces to Gadgetbridge</change>
         <change>Support for the "Subsonic" music player (#474)</change>
-    </release>
     <release version="0.15.2" versioncode="79">
         <change>Mi Band: Fix crash with unknown notification sources</change>
     </release>
