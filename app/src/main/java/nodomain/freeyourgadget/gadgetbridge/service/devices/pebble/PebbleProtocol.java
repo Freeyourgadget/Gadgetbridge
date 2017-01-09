@@ -354,6 +354,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
     public static final UUID UUID_PEBBLE_HEALTH = UUID.fromString("36d8c6ed-4c83-4fa1-a9e2-8f12dc941f8c"); // FIXME: store somewhere else, this is also accessed by other code
     public static final UUID UUID_WORKOUT = UUID.fromString("fef82c82-7176-4e22-88de-35a3fc18d43f"); // FIXME: store somewhere else, this is also accessed by other code
     public static final UUID UUID_WEATHER = UUID.fromString("61b22bc8-1e29-460d-a236-3fe409a439ff"); // FIXME: store somewhere else, this is also accessed by other code
+    public static final UUID UUID_NOTIFICATIONS = UUID.fromString("b2cae818-10f8-46df-ad2b-98ad2254a3c1");
+
     private static final UUID UUID_GBPEBBLE = UUID.fromString("61476764-7465-7262-6469-656775527a6c");
     private static final UUID UUID_MORPHEUZ = UUID.fromString("5be44f1d-d262-4ea6-aa30-ddbec1e3cab2");
     private static final UUID UUID_MISFIT = UUID.fromString("0b73b76a-cd65-4dc2-9585-aaa213320858");
@@ -925,9 +927,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putLong(uuid.getMostSignificantBits());
         buf.putInt((int) (uuid.getLeastSignificantBits() >>> 32));
         buf.putInt(id);
-        buf.putLong(uuid.getMostSignificantBits());
-        buf.putInt((int) (uuid.getLeastSignificantBits() >>> 32));
-        buf.putInt(id);
+        buf.putLong(UUID_NOTIFICATIONS.getMostSignificantBits());
+        buf.putLong(UUID_NOTIFICATIONS.getLeastSignificantBits());
         buf.order(ByteOrder.LITTLE_ENDIAN);
         buf.putInt(timestamp); // 32-bit timestamp
         buf.putShort((short) 0); // duration
