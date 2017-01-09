@@ -136,6 +136,11 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
+    public void onDeleteNotification(int id) {
+        delegate.onDeleteNotification(id);
+    }
+
+    @Override
     public void onSetTime() {
         if (checkBusy("set time") || checkThrottle("set time")) {
             return;

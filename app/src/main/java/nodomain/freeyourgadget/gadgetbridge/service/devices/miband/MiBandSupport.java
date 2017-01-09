@@ -546,6 +546,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onDeleteNotification(int id) {
+
+    }
+
+    @Override
     public void onSetTime() {
         try {
             TransactionBuilder builder = performInitialized("Set date and time");

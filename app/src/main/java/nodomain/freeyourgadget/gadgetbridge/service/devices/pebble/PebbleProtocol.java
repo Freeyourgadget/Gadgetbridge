@@ -484,6 +484,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     @Override
+    public byte[] encodeDeleteNotification(int id) {
+        return encodeBlobdb(new UUID(GB_UUID_MASK, id), BLOBDB_DELETE, BLOBDB_NOTIFICATION, null);
+    }
+
+    @Override
     public byte[] encodeAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
         long id = calendarEventSpec.id != -1 ? calendarEventSpec.id : mRandom.nextLong();
         int iconId;
@@ -917,16 +922,14 @@ public class PebbleProtocol extends GBDeviceProtocol {
             }
         }
 
-        UUID uuid = UUID.randomUUID();
         short pin_length = (short) (NOTIFICATION_PIN_LENGTH + attributes_length);
 
         ByteBuffer buf = ByteBuffer.allocate(pin_length);
 
         // pin - 46 bytes
         buf.order(ByteOrder.BIG_ENDIAN);
-        buf.putLong(uuid.getMostSignificantBits());
-        buf.putInt((int) (uuid.getLeastSignificantBits() >>> 32));
-        buf.putInt(id);
+        buf.putLong(GB_UUID_MASK);
+        buf.putLong(id);
         buf.putLong(UUID_NOTIFICATIONS.getMostSignificantBits());
         buf.putLong(UUID_NOTIFICATIONS.getLeastSignificantBits());
         buf.order(ByteOrder.LITTLE_ENDIAN);

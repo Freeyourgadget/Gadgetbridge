@@ -22,6 +22,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 public interface EventHandler {
     void onNotification(NotificationSpec notificationSpec);
 
+    void onDeleteNotification(int id);
+
     void onSetTime();
 
     void onSetAlarms(ArrayList<? extends Alarm> alarms);

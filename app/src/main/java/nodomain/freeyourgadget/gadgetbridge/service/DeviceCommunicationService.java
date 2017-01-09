@@ -60,6 +60,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CA
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CONNECT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DELETEAPP;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DELETE_CALENDAREVENT;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DELETE_NOTIFICATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DISCONNECT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ENABLE_HEARTRATE_SLEEP_SUPPORT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT;
@@ -353,6 +354,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     }
                 }
                 mDeviceSupport.onNotification(notificationSpec);
+                break;
+            }
+            case ACTION_DELETE_NOTIFICATION: {
+                mDeviceSupport.onDeleteNotification(intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1));
                 break;
             }
             case ACTION_ADD_CALENDAREVENT: {

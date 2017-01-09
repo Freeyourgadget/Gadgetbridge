@@ -109,6 +109,12 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     }
 
     @Override
+    public void onDeleteNotification(int id) {
+        byte[] bytes = gbDeviceProtocol.encodeDeleteNotification(id);
+        sendToDevice(bytes);
+    }
+
+    @Override
     public void onSetTime() {
         byte[] bytes = gbDeviceProtocol.encodeSetTime();
         sendToDevice(bytes);

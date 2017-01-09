@@ -125,6 +125,11 @@ public class VibratissimoSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onDeleteNotification(int id) {
+
+    }
+
+    @Override
     public void onSetTime() {
 
     }

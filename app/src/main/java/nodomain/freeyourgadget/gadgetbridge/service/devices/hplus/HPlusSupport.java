@@ -447,6 +447,11 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         showText(notificationSpec.body);
     }
 
+    @Override
+    public void onDeleteNotification(int id) {
+
+    }
+
 
     @Override
     public void onSetTime() {

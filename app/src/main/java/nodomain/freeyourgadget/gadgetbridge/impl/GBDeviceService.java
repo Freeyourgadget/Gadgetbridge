@@ -106,6 +106,14 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
+    public void onDeleteNotification(int id) {
+        Intent intent = createIntent().setAction(ACTION_DELETE_NOTIFICATION)
+                .putExtra(EXTRA_NOTIFICATION_ID, id);
+        invokeService(intent);
+
+    }
+
+    @Override
     public void onSetTime() {
         Intent intent = createIntent().setAction(ACTION_SETTIME);
         invokeService(intent);

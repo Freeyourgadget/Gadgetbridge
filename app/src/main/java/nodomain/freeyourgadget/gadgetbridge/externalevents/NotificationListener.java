@@ -392,7 +392,8 @@ public class NotificationListener extends NotificationListenerService {
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
-
+        LOG.info("notification removed, will ask device to delete it");
+        GBApplication.deviceService().onDeleteNotification((int) sbn.getPostTime()); //FIMXE: a truly unique id would be better
     }
 
     private void dumpExtras(Bundle bundle) {
