@@ -27,6 +27,8 @@
   <string name="appmanager_health_deactivate">非アクティベート</string>
   <string name="appmanager_hrm_activate">HRM をアクティベート</string>
   <string name="appmanager_hrm_deactivate">HRM を非アクティベート</string>
+  <string name="appmanager_weather_activate">システムの天気アプリを有効にする</string>
+  <string name="appmanager_weather_deactivate">システムの天気アプリを無効にする</string>
   <string name="app_configure">設定</string>
   <string name="app_move_to_top">先頭に移動</string>
   <!--Strings related to AppBlacklist-->
