@@ -225,6 +225,7 @@ public class GBDaoGenerator {
 
     private static Entity addHPlusHealthActivitySample(Schema schema, Entity user, Entity device) {
         Entity activitySample = addEntity(schema, "HPlusHealthActivitySample");
+        activitySample.implementsSerializable();
         addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
         activitySample.addByteArrayProperty("rawHPlusHealthData");
         activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().primaryKey();

@@ -391,19 +391,12 @@ class HPlusHandlerThread extends GBDeviceIoThread {
             sample.setRawHPlusHealthData(record.getRawData());
             sample.setProvider(provider);
 
-            if (sample.getSteps() != ActivitySample.NOT_MEASURED && sample.getSteps() - prevRealTimeRecord.steps > 0) {
-                Intent intent = new Intent(DeviceService.ACTION_REALTIME_STEPS)
-                        .putExtra(DeviceService.EXTRA_REALTIME_STEPS, sample.getSteps() - prevRealTimeRecord.steps)
-                        .putExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
-                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
-            }
+            sample.setSteps(sample.getSteps() - prevRealTimeRecord.steps);
 
-            if (sample.getHeartRate() != ActivitySample.NOT_MEASURED) {
-                Intent intent = new Intent(DeviceService.ACTION_HEARTRATE_MEASUREMENT)
-                        .putExtra(DeviceService.EXTRA_HEART_RATE_VALUE, sample.getHeartRate())
-                        .putExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
-                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
-            }
+            Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+                    .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample)
+                    .putExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
+            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
 
             provider.addGBActivitySample(sample);
 
