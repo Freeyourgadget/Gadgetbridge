@@ -20,6 +20,7 @@ need to create an account and transmit any of your data to the vendor's servers.
 * Mi Band 2
 * Vibratissimo (experimental)
 * Liveview
+* HPlus Devices (e.g. ZeBand)
 
 ## Features (Pebble)
 

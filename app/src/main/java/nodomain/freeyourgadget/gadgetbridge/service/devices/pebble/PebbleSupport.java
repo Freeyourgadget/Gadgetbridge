@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -18,6 +19,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.AbstractSerialDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
@@ -119,7 +121,11 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
     @Override
     public void onSetCallState(CallSpec callSpec) {
         if (reconnect()) {
-            super.onSetCallState(callSpec);
+            if (callSpec.command == CallSpec.CALL_OUTGOING) {
+               if (GBApplication.getPrefs().getBoolean("pebble_enable_outgoing_call",true)) {
+                   super.onSetCallState(callSpec);
+               }
+            }
         }
     }
 
@@ -168,6 +174,13 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
     public void onTestNewFunction() {
         if (reconnect()) {
             super.onTestNewFunction();
+        }
+    }
+
+    @Override
+    public void onSendWeather(WeatherSpec weatherSpec) {
+        if (reconnect()) {
+            super.onSendWeather(weatherSpec);
         }
     }
 }

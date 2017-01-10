@@ -65,6 +65,9 @@ public class GB {
         if (GBApplication.isRunningLollipopOrLater()) {
             builder.setVisibility(Notification.VISIBILITY_PUBLIC);
         }
+        if (GBApplication.minimizeNotification()) {
+            builder.setPriority(Notification.PRIORITY_MIN);
+        }
         return builder.build();
     }
 

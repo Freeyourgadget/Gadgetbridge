@@ -17,13 +17,12 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
-
-//import java.util.UUID;
 
 public class GBDeviceService implements DeviceService {
     protected final Context mContext;
-    protected final Class<? extends Service> mServiceClass;
+    private final Class<? extends Service> mServiceClass;
 
     public GBDeviceService(Context context) {
         mContext = context;
@@ -104,6 +103,14 @@ public class GBDeviceService implements DeviceService {
                 .putExtra(EXTRA_NOTIFICATION_TYPE, notificationSpec.type)
                 .putExtra(EXTRA_NOTIFICATION_SOURCENAME, notificationSpec.sourceName);
         invokeService(intent);
+    }
+
+    @Override
+    public void onDeleteNotification(int id) {
+        Intent intent = createIntent().setAction(ACTION_DELETE_NOTIFICATION)
+                .putExtra(EXTRA_NOTIFICATION_ID, id);
+        invokeService(intent);
+
     }
 
     @Override
@@ -291,6 +298,22 @@ public class GBDeviceService implements DeviceService {
     @Override
     public void onTestNewFunction() {
         Intent intent = createIntent().setAction(ACTION_TEST_NEW_FUNCTION);
+        invokeService(intent);
+    }
+
+    @Override
+    public void onSendWeather(WeatherSpec weatherSpec) {
+        Intent intent = createIntent().setAction(ACTION_SEND_WEATHER)
+                .putExtra(EXTRA_WEATHER_TIMESTAMP, weatherSpec.timestamp)
+                .putExtra(EXTRA_WEATHER_LOCATION, weatherSpec.location)
+                .putExtra(EXTRA_WEATHER_CURRENTTEMP, weatherSpec.currentTemp)
+                .putExtra(EXTRA_WEATHER_CURRENTCONDITIONCODE, weatherSpec.currentConditionCode)
+                .putExtra(EXTRA_WEATHER_CURRENTCONDITION, weatherSpec.currentCondition)
+                .putExtra(EXTRA_WEATHER_TODAYMAXTEMP, weatherSpec.todayMaxTemp)
+                .putExtra(EXTRA_WEATHER_TODAYMINTEMP, weatherSpec.todayMinTemp)
+                .putExtra(EXTRA_WEATHER_TOMORROWMAXTEMP, weatherSpec.tomorrowMaxTemp)
+                .putExtra(EXTRA_WEATHER_TOMORROWMINTEMP, weatherSpec.tomorrowMinTemp)
+                .putExtra(EXTRA_WEATHER_TOMORROWCONDITIONCODE, weatherSpec.tomorrowConditionCode);
         invokeService(intent);
     }
 }

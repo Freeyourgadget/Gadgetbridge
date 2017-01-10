@@ -25,6 +25,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -121,6 +122,11 @@ public class VibratissimoSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
+    }
+
+    @Override
+    public void onDeleteNotification(int id) {
+
     }
 
     @Override
@@ -278,6 +284,11 @@ public class VibratissimoSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onTestNewFunction() {
+
+    }
+
+    @Override
+    public void onSendWeather(WeatherSpec weatherSpec) {
 
     }
 }

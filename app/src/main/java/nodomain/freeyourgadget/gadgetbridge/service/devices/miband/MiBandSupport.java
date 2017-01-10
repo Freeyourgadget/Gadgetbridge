@@ -50,6 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
@@ -545,6 +546,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onDeleteNotification(int id) {
+
+    }
+
+    @Override
     public void onSetTime() {
         try {
             TransactionBuilder builder = performInitialized("Set date and time");
@@ -950,30 +956,25 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                         MiBandSampleProvider provider = new MiBandSampleProvider(gbDevice, session);
                         MiBandActivitySample sample = createActivitySample(device, user, ts, provider);
                         sample.setHeartRate(getHeartrateBpm());
-                        sample.setSteps(getSteps());
                         sample.setRawIntensity(ActivitySample.NOT_MEASURED);
                         sample.setRawKind(MiBandSampleProvider.TYPE_ACTIVITY); // to make it visible in the charts TODO: add a MANUAL kind for that?
 
-                        // TODO: remove this once fully ported to REALTIME_SAMPLES
-                        if (sample.getSteps() != ActivitySample.NOT_MEASURED) {
-                            Intent intent = new Intent(DeviceService.ACTION_REALTIME_STEPS)
-                                    .putExtra(DeviceService.EXTRA_REALTIME_STEPS, sample.getSteps())
-                                    .putExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
-                            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
-                        }
-                        if (sample.getHeartRate() != ActivitySample.NOT_MEASURED) {
-                            Intent intent = new Intent(DeviceService.ACTION_HEARTRATE_MEASUREMENT)
-                                    .putExtra(DeviceService.EXTRA_HEART_RATE_VALUE, sample.getHeartRate())
-                                    .putExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
-                            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
-                        }
-
-//                    Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
-//                            .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
-//                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
-
-                        LOG.debug("Storing realtime sample: " + sample);
                         provider.addGBActivitySample(sample);
+
+                        // set the steps only afterwards, since realtime steps are also recorded
+                        // in the regular samples and we must not count them twice
+                        // Note: we know that the DAO sample is never committed again, so we simply
+                        // change the value here in memory.
+                        sample.setSteps(getSteps());
+
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("realtime sample: " + sample);
+                        }
+
+                        Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+                                .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
+                        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+
                     } catch (Exception e) {
                         LOG.warn("Unable to acquire db for saving realtime samples", e);
                     }
@@ -1209,6 +1210,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         } catch (IOException ex) {
             LOG.error("Unable to toggle sensor reading MI", ex);
         }
+    }
+
+    @Override
+    public void onSendWeather(WeatherSpec weatherSpec) {
+
     }
 
     private void handleSensorData(byte[] value) {

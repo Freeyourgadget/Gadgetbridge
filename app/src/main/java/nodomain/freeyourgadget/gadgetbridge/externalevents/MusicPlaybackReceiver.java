@@ -29,7 +29,13 @@ public class MusicPlaybackReceiver extends BroadcastReceiver {
         MusicSpec musicSpec = new MusicSpec();
         musicSpec.artist = intent.getStringExtra("artist");
         musicSpec.album = intent.getStringExtra("album");
-        musicSpec.track = intent.getStringExtra("track");
+        if (intent.hasExtra("track")) {
+            musicSpec.track = intent.getStringExtra("track");
+        }
+        else if (intent.hasExtra("title")) {
+            musicSpec.track = intent.getStringExtra("title");
+        }
+
         musicSpec.duration = intent.getIntExtra("duration", 0) / 1000;
 
         if (!lastMusicSpec.equals(musicSpec)) {

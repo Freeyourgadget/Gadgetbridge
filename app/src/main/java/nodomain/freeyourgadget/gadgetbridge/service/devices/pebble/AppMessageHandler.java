@@ -7,11 +7,13 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
-public class AppMessageHandler {
-    protected final PebbleProtocol mPebbleProtocol;
-    protected final UUID mUUID;
+class AppMessageHandler {
+    final PebbleProtocol mPebbleProtocol;
+    final UUID mUUID;
 
     AppMessageHandler(UUID uuid, PebbleProtocol pebbleProtocol) {
         mUUID = uuid;
@@ -27,10 +29,17 @@ public class AppMessageHandler {
     }
 
     public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
+        // Just ACK
+        GBDeviceEventSendBytes sendBytesAck = new GBDeviceEventSendBytes();
+        sendBytesAck.encodedBytes = mPebbleProtocol.encodeApplicationMessageAck(mUUID, mPebbleProtocol.last_id);
+        return new GBDeviceEvent[]{sendBytesAck};
+    }
+
+    public GBDeviceEvent[] onAppStart() {
         return null;
     }
 
-    public GBDeviceEvent[] pushMessage() {
+    public byte[] encodeUpdateWeather(WeatherSpec weatherSpec) {
         return null;
     }
 

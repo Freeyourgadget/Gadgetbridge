@@ -199,6 +199,9 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                                 if (baseName.equals("3af858c3-16cb-4561-91e7-f1ad2df8725f")) {
                                     cachedAppList.add(new GBDeviceApp(UUID.fromString(baseName), "Kickstart (System)", "Pebble Inc.", "", GBDeviceApp.Type.WATCHFACE_SYSTEM));
                                 }
+                                if (baseName.equals(PebbleProtocol.UUID_WEATHER.toString())) {
+                                    cachedAppList.add(new GBDeviceApp(PebbleProtocol.UUID_WEATHER, "Weather (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
+                                }
                             }
                         }
                         if (uuids == null) {
@@ -292,6 +295,10 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             menu.removeItem(R.id.appmanager_hrm_activate);
             menu.removeItem(R.id.appmanager_hrm_deactivate);
         }
+        if (!PebbleProtocol.UUID_WEATHER.equals(selectedApp.getUUID())) {
+            menu.removeItem(R.id.appmanager_weather_activate);
+            menu.removeItem(R.id.appmanager_weather_deactivate);
+        }
         if (selectedApp.getType() == GBDeviceApp.Type.APP_SYSTEM || selectedApp.getType() == GBDeviceApp.Type.WATCHFACE_SYSTEM) {
             menu.removeItem(R.id.appmanager_app_delete);
         }
@@ -367,8 +374,12 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             case R.id.appmanager_hrm_activate:
                 GBApplication.deviceService().onInstallApp(Uri.parse("fake://hrm"));
                 return true;
+            case R.id.appmanager_weather_activate:
+                GBApplication.deviceService().onInstallApp(Uri.parse("fake://weather"));
+                return true;
             case R.id.appmanager_health_deactivate:
             case R.id.appmanager_hrm_deactivate:
+            case R.id.appmanager_weather_deactivate:
                 GBApplication.deviceService().onAppDelete(selectedApp.getUUID());
                 return true;
             case R.id.appmanager_app_configure:

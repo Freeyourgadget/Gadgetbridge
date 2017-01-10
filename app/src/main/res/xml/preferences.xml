@@ -30,6 +30,12 @@
             android:entryValues="@array/pref_language_values"
             android:defaultValue="default"
             android:summary="%s" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="minimize_priority"
+            android:summaryOff="@string/pref_summary_minimize_priority_off"
+            android:summaryOn="@string/pref_summary_minimize_priority_on"
+            android:title="@string/pref_title_minimize_priority" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="pref_key_datetime"
@@ -146,6 +152,11 @@
             android:title="@string/pref_title_pebble_settings">
             <PreferenceCategory
                 android:title="@string/pref_header_general">
+                <CheckBoxPreference
+                    android:defaultValue="true"
+                    android:key="pebble_enable_outgoing_call"
+                    android:summary="@string/pref_summary_enable_outgoing_call"
+                    android:title="@string/pref_title_enable_outgoing_call" />
                 <CheckBoxPreference
                     android:defaultValue="false"
                     android:key="pebble_enable_pebblekit"
@@ -341,6 +352,13 @@
                     android:key="pebble_force_le"
                     android:summary="@string/pref_summary_pebble_forcele"
                     android:title="@string/pref_title_pebble_forcele" />
+                <EditTextPreference
+                    android:inputType="number"
+                    android:key="pebble_mtu_limit"
+                    android:maxLength="3"
+                    android:defaultValue="512"
+                    android:title="@string/pref_title_pebble_mtu_limit"
+                    android:summary="@string/pref_summary_pebble_mtu_limit" />
                 <CheckBoxPreference
                     android:defaultValue="false"
                     android:key="pebble_enable_applogs"

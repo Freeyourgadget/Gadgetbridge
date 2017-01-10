@@ -30,6 +30,8 @@
     <string name="appmanager_health_deactivate">Deactivate</string>
     <string name="appmanager_hrm_activate">Activate HRM</string>
     <string name="appmanager_hrm_deactivate">Deactivate HRM</string>
+    <string name="appmanager_weather_activate">Activate system weather app</string>
+    <string name="appmanager_weather_deactivate">Deactivate system weather app</string>
     <string name="app_configure">Configure</string>
     <string name="app_move_to_top">Move to top</string>
 
@@ -62,6 +64,10 @@
     <string name="pref_theme_dark">Dark</string>
 
     <string name="pref_title_language">Language</string>
+
+    <string name="pref_title_minimize_priority">Hide the gadgetbridge notification</string>
+    <string name="pref_summary_minimize_priority_off">The icon in the status bar and the notification in the lockscreen are shown</string>
+    <string name="pref_summary_minimize_priority_on">The icon in the status bar and the notification in the lockscreen are hidden</string>
 
     <string name="pref_header_notifications">Notifications</string>
     <string name="pref_title_notifications_repetitions">Repetitions</string>
@@ -98,6 +104,9 @@
     <string name="pref_title_pebble_sync_misfit">Sync Misfit</string>
     <string name="pref_title_pebble_sync_morpheuz">Sync Morpheuz</string>
 
+    <string name="pref_title_enable_outgoing_call">Support outgoing calls</string>
+    <string name="pref_summary_enable_outgoing_call">Disabling this will also stop the Pebble 2/LE to vibrate on outgoing calls</string>
+
     <string name="pref_title_enable_pebblekit">Allow 3rd Party Android App Access</string>
     <string name="pref_summary_enable_pebblekit">Enable experimental support for Android Apps using PebbleKit</string>
 
@@ -120,6 +129,8 @@
     <string name="pref_summary_pebble_forceuntested">Enable features that are untested. ENABLE ONLY IF YOU KNOW WHAT YOU ARE DOING!</string>
     <string name="pref_title_pebble_forcele">Always prefer BLE</string>
     <string name="pref_summary_pebble_forcele">Use experimental Pebble LE support for all Pebbles instead of BT classic, requires paring a "Pebble LE" after non LE had been connected once</string>
+    <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU limit</string>
+    <string name="pref_summary_pebble_mtu_limit">If your Pebble 2/Pebble LE does not work as expected, try this setting to limit the MTU (valid range 20–512)</string>
     <string name="pref_title_pebble_enable_applogs">Enable Watch App Logging</string>
     <string name="pref_summary_pebble_enable_applogs">Will cause logs from watch apps to be logged by Gadgetbridge (requires reconnect)</string>
 

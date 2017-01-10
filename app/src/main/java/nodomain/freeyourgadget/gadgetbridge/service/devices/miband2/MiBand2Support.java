@@ -57,6 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
@@ -70,7 +71,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.Dev
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.heartrate.HeartRateProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.CheckAuthenticationNeededAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.DeviceInfo;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.RealtimeSamplesSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.FetchActivityOperation;
@@ -595,6 +595,11 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onDeleteNotification(int id) {
+
+    }
+
+    @Override
     public void onSetTime() {
         try {
             TransactionBuilder builder = performInitialized("Set date and time");
@@ -983,26 +988,22 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                         sample.setRawIntensity(ActivitySample.NOT_MEASURED);
                         sample.setRawKind(MiBand2SampleProvider.TYPE_ACTIVITY); // to make it visible in the charts TODO: add a MANUAL kind for that?
 
-                        // TODO: remove this once fully ported to REALTIME_SAMPLES
-                        if (sample.getSteps() != ActivitySample.NOT_MEASURED) {
-                            Intent intent = new Intent(DeviceService.ACTION_REALTIME_STEPS)
-                                    .putExtra(DeviceService.EXTRA_REALTIME_STEPS, sample.getSteps())
-                                    .putExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
-                            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
-                        }
-                        if (sample.getHeartRate() != ActivitySample.NOT_MEASURED) {
-                            Intent intent = new Intent(DeviceService.ACTION_HEARTRATE_MEASUREMENT)
-                                    .putExtra(DeviceService.EXTRA_HEART_RATE_VALUE, sample.getHeartRate())
-                                    .putExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
-                            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
-                        }
-
-//                    Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
-//                            .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
-//                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
-
-                        LOG.debug("Storing realtime sample: " + sample);
                         provider.addGBActivitySample(sample);
+
+                        // set the steps only afterwards, since realtime steps are also recorded
+                        // in the regular samples and we must not count them twice
+                        // Note: we know that the DAO sample is never committed again, so we simply
+                        // change the value here in memory.
+                        sample.setSteps(getSteps());
+
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("realtime sample: " + sample);
+                        }
+
+                        Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+                                .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
+                        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+
                     } catch (Exception e) {
                         LOG.warn("Unable to acquire db for saving realtime samples", e);
                     }
@@ -1249,6 +1250,11 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onTestNewFunction() {
+    }
+
+    @Override
+    public void onSendWeather(WeatherSpec weatherSpec) {
+
     }
 
     private MiBand2Support setDateDisplay(TransactionBuilder builder) {

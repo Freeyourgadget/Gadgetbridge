@@ -138,7 +138,6 @@
   <string name="miband_pairing_using_dummy_userdata">Dati dell\'utente non inseriti, vengono usati dati d\'esempio.</string>
   <string name="miband_pairing_tap_hint">Quando la Mi Band vibra e lampeggia, dalle qualche leggero colpetto.</string>
   <string name="appinstaller_install">Installa</string>
-  <string name="discovery_connected_devices_hint">Imposta il tuo dispositivo perchè sia rilevabile. I dispositivi attualmente connessi non saranno probabilmente rilevati. Se non vedi il tuo dispositivo entro un paio di minuti, riprova dopo avere riavviato il dispositivo Android.</string>
   <string name="discovery_note">Nota:</string>
   <string name="candidate_item_device_image">Immagine dispositivo</string>
   <string name="miband_prefs_alias">Nome / Soprannome</string>
@@ -299,4 +298,5 @@ Si possono importare i dati da Mi Band, Pebble Health e Morpheuz, NON quelli di 
   <string name="Delete">Cancella</string>
   <!--Strings related to Vibration Activity-->
   <string name="title_activity_vibration">Vibrazione</string>
+  <!--Strings related to Pebble Pairing Activity-->
 </resources>

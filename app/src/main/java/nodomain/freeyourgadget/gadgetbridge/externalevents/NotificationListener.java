@@ -34,6 +34,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.AppNotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -251,6 +252,18 @@ public class NotificationListener extends NotificationListenerService {
 
         notificationSpec.type = AppNotificationType.getInstance().get(source);
 
+        if (source.equals("com.fsck.k9")) {
+            // we dont want group summaries at all for k9
+            if ((notification.flags & Notification.FLAG_GROUP_SUMMARY) == Notification.FLAG_GROUP_SUMMARY) {
+                return;
+            }
+            preferBigText = true;
+        }
+
+        if (notificationSpec.type == null) {
+            notificationSpec.type = NotificationType.UNKNOWN;
+        }
+
         LOG.info("Processing notification from source " + source + " with flags: " + notification.flags);
 
         dissectNotificationTo(notification, notificationSpec, preferBigText);
@@ -383,7 +396,23 @@ public class NotificationListener extends NotificationListenerService {
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
+        //FIXME: deduplicate code
+        String source = sbn.getPackageName();
+        Notification notification = sbn.getNotification();
+        if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
+            return;
+        }
 
+        if (source.equals("android") ||
+                source.equals("com.android.systemui") ||
+                source.equals("com.android.dialer") ||
+                source.equals("com.cyanogenmod.eleven")) {
+            return;
+        }
+
+        LOG.info("notification removed, will ask device to delete it");
+
+        GBApplication.deviceService().onDeleteNotification((int) sbn.getPostTime()); //FIMXE: a truly unique id would be better
     }
 
     private void dumpExtras(Bundle bundle) {
