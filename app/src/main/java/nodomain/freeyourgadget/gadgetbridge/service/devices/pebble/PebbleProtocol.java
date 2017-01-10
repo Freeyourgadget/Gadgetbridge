@@ -1811,7 +1811,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                     buf.get(bytes);
                     if (type == TYPE_BYTEARRAY) {
                         jsonObject.put("type", "bytes");
-                        jsonObject.put("value", Base64.encode(bytes, Base64.NO_WRAP));
+                        jsonObject.put("value", new String(Base64.encode(bytes, Base64.NO_WRAP)));
                     } else {
                         jsonObject.put("type", "string");
                         jsonObject.put("value", new String(bytes));
