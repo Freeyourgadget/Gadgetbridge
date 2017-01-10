@@ -2,12 +2,13 @@
 <changelog>
     <release version="0.17.0" versioncode="81">
         <change>Add weather support through "Weather Notification" app</change>
+	<change>Various fixes for K9 mail when using the generic notification receiver</change>
         <change>Pebble: Support for build-in weather system app (FW 4.x)</change>
         <change>Pebble: Add weather support for various watchfaces</change>
         <change>Pebble: Delete notifications that got dismissed on the phone</change>
 	<change>Pebble: Add option to disable call display</change>
+        <change>Pebble: Bugfix for some PebbleKit enabled 3rd party apps (TCW and maybe other)</change>
         <change>Pebble 2/LE: Improve reliablitly and transfer speed</change>
-	<change>Various fixes for K9 mail when using the generic notification receiver</change>
     </release>
     <release version="0.16.0" versioncode="80">
         <change>New devices: HPlus (e.g. Zeblaze ZeBand), contributed by João Paulo Barraca</change>
