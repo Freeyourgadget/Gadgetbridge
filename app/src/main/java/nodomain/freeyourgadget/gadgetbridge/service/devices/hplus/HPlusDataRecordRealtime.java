@@ -34,6 +34,11 @@ class HPlusDataRecordRealtime extends HPlusDataRecord {
     public byte battery;
 
     /**
+     * Number of steps today
+     */
+    public int steps;
+
+    /**
      * Time active (To be determined how it works)
      */
     public int activeTime;
@@ -45,7 +50,7 @@ class HPlusDataRecordRealtime extends HPlusDataRecord {
     public int intensity;
 
     public HPlusDataRecordRealtime(byte[] data) {
-        super(data);
+        super(data, TYPE_REALTIME);
 
         if (data.length < 15) {
             throw new IllegalArgumentException("Invalid data packet");
@@ -53,7 +58,7 @@ class HPlusDataRecordRealtime extends HPlusDataRecord {
 
         timestamp = (int) (GregorianCalendar.getInstance().getTimeInMillis() / 1000);
         distance = 10 * ((data[4] & 0xFF) * 256 + (data[3] & 0xFF)); // meters
-
+        steps = (data[2] & 0xFF) * 256 + (data[1] & 0xFF);
         int x = (data[6] & 0xFF) * 256 + data[5] & 0xFF;
         int y = (data[8] & 0xFF) * 256 + data[7] & 0xFF;
 
@@ -63,10 +68,14 @@ class HPlusDataRecordRealtime extends HPlusDataRecord {
 
         heartRate = data[11] & 0xFF; // BPM
         activeTime = (data[14] & 0xFF * 256) + (data[13] & 0xFF);
-        if(heartRate == 255)
+        if(heartRate == 255) {
             intensity = 0;
-        else
+            activityKind = ActivityKind.TYPE_NOT_MEASURED;
+        }
+        else {
             intensity = (int) (100 * Math.max(0, Math.min((heartRate - 60) / 120.0, 1))); // TODO: Calculate a proper value
+            activityKind = ActivityKind.TYPE_UNKNOWN;
+        }
     }
 
     public void computeActivity(HPlusDataRecordRealtime prev){
@@ -93,11 +102,11 @@ class HPlusDataRecordRealtime extends HPlusDataRecord {
         if(other == null)
             return false;
 
-        return distance == other.distance && calories == other.calories && heartRate == other.heartRate && battery == other.battery;
+        return steps == other.steps && distance == other.distance && calories == other.calories && heartRate == other.heartRate && battery == other.battery;
     }
 
     public String toString(){
-        return String.format(Locale.US, "Distance: %d Calories: %d HeartRate: %d Battery: %d ActiveTime: %d Intensity: %d", distance, calories, heartRate, battery, activeTime, intensity);
+        return String.format(Locale.US, "Distance: %d Steps: %d Calories: %d HeartRate: %d Battery: %d ActiveTime: %d Intensity: %d", distance, steps, calories, heartRate, battery, activeTime, intensity);
     }
 
 }

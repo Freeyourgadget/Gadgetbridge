@@ -37,6 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.AbstractBleProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -344,14 +345,23 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HPlusSupport setAllDayHeart(TransactionBuilder transaction) {
-        LOG.info("Attempting to set All Day HR...");
 
-        byte value = HPlusCoordinator.getAllDayHR(getDevice().getAddress());
+        byte value = HPlusCoordinator.getHRState(getDevice().getAddress());
+
+        transaction.write(ctrlCharacteristic, new byte[]{
+                HPlusConstants.CMD_SET_HEARTRATE_STATE,
+                value
+        });
+
+
+        value = HPlusCoordinator.getAllDayHR(getDevice().getAddress());
+
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_SET_ALLDAY_HRM,
                 value
 
         });
+
         return this;
     }
 
@@ -415,6 +425,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
         //TODO: Show different notifications according to source as Band supports this
+        //LOG.debug("OnNotification: Title: "+notificationSpec.title+" Body: "+notificationSpec.body+" Source: "+notificationSpec.sourceName+" Sender: "+notificationSpec.sender+" Subject: "+notificationSpec.subject);
         showText(notificationSpec.title, notificationSpec.body);
     }
 
@@ -534,7 +545,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
         TransactionBuilder builder = new TransactionBuilder("HeartRateTest");
 
-        builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SET_ALLDAY_HRM, 0x0A}); //Set Real Time... ?
+        builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SET_HEARTRATE_STATE, HPlusConstants.ARG_HEARTRATE_MEASURE_ON}); //Set Real Time... ?
         builder.queue(getQueue());
     }
 
@@ -629,20 +640,14 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_ACTION_INCOMING_CALL, 1});
 
             //Show Call Icon
-            builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_ACTION_INCOMING_CALL, HPlusConstants.ARG_INCOMING_CALL});
+            builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SET_INCOMING_CALL, HPlusConstants.ARG_INCOMING_CALL});
 
             builder.queue(getQueue());
-
-            //TODO: Use WaitAction
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
 
             byte[] msg = new byte[13];
 
             builder = performInitialized("incomingCallNumber");
+            builder.wait(200);
 
             //Show call number
             for (int i = 0; i < msg.length; i++)
@@ -657,13 +662,8 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             builder.write(ctrlCharacteristic, msg);
             builder.queue(getQueue());
 
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
             builder = performInitialized("incomingCallText");
+            builder.wait(200);
 
             //Show call name
             //Must call twice, otherwise nothing happens
@@ -676,11 +676,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             msg[0] = HPlusConstants.CMD_ACTION_DISPLAY_TEXT_NAME;
             builder.write(ctrlCharacteristic, msg);
 
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            builder.wait(200);
 
             msg[0] = HPlusConstants.CMD_ACTION_DISPLAY_TEXT_NAME_CN;
             builder.write(ctrlCharacteristic, msg);
@@ -693,6 +689,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void showText(String title, String body) {
+        LOG.debug("Show Notification: "+title+" --> "+body);
         try {
             TransactionBuilder builder = performInitialized("notification");
 
@@ -719,6 +716,8 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             int length = message.length() / 17;
 
             builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_ACTION_INCOMING_SOCIAL, (byte) 255});
+
+            builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SET_INCOMING_MESSAGE, HPlusConstants.ARG_INCOMING_MESSAGE});
 
             int remaining;
 
@@ -801,4 +800,5 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 return true;
         }
     }
+
 }

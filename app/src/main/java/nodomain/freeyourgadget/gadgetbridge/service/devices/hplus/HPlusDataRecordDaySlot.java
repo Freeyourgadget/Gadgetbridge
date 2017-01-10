@@ -4,6 +4,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.hplus;
 * @author João Paulo Barraca &lt;jpbarraca@gmail.com&gt;
 */
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
@@ -35,7 +36,7 @@ public class HPlusDataRecordDaySlot extends HPlusDataRecord {
     public int heartRate;
 
     public HPlusDataRecordDaySlot(byte[] data) {
-        super(data);
+        super(data, TYPE_DAY_SLOT);
 
         int a = (data[4] & 0xFF) * 256 + (data[5] & 0xFF);
         if (a >= 144) {
@@ -50,14 +51,34 @@ public class HPlusDataRecordDaySlot extends HPlusDataRecord {
 
         steps = (data[2] & 0xFF) * 256 + data[3] & 0xFF;
 
-        //?? data[6];
+        //?? data[6]; atemp?? always 0
         secondsInactive = data[7] & 0xFF; // ?
 
-        int now = (int) (GregorianCalendar.getInstance().getTimeInMillis() / (3600 * 24 * 1000L));
-        timestamp = now * 3600 * 24 + (slot / 6 * 3600 + slot % 6 * 10);
+        Calendar slotTime = GregorianCalendar.getInstance();
+
+        slotTime.set(Calendar.MINUTE, (slot % 6) * 10);
+        slotTime.set(Calendar.HOUR_OF_DAY, slot / 6);
+        slotTime.set(Calendar.SECOND, 0);
+
+        timestamp = (int) (slotTime.getTimeInMillis() / 1000L);
     }
 
     public String toString(){
-        return String.format(Locale.US, "Slot: %d, Steps: %d, InactiveSeconds: %d, HeartRate: %d", slot, steps, secondsInactive, heartRate);
+        Calendar slotTime = GregorianCalendar.getInstance();
+        slotTime.setTimeInMillis(timestamp * 1000L);
+        return String.format(Locale.US, "Slot: %d, Time: %s, Steps: %d, InactiveSeconds: %d, HeartRate: %d", slot, slotTime.getTime(), steps, secondsInactive, heartRate);
+    }
+
+    public void add(HPlusDataRecordDaySlot other){
+        if(other == null)
+            return;
+
+        steps += other.steps;
+        secondsInactive += other.secondsInactive;
+        if(heartRate == -1)
+            heartRate = other.heartRate;
+        else if(other.heartRate != -1) {
+            heartRate = (heartRate + other.heartRate) / 2;
+        }
     }
 }

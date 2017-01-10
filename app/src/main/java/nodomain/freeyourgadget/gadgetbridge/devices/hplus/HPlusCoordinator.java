@@ -198,6 +198,10 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
         return (byte) (prefs.getInt(HPlusConstants.PREF_HPLUS_ALLDAYHR + "_" + address, HPlusConstants.ARG_HEARTRATE_ALLDAY_ON) & 0xFF);
     }
 
+    public static byte getHRState(String address) {
+        return (byte) (prefs.getInt(HPlusConstants.PREF_HPLUS_HR + "_" + address, HPlusConstants.ARG_HEARTRATE_MEASURE_ON) & 0xFF);
+    }
+
     public static byte getSocial(String address) {
         //TODO: Figure what this is. Returning the default value
 

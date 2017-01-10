@@ -28,8 +28,8 @@ public final class HPlusConstants {
     public static final byte ARG_HEARTRATE_MEASURE_ON = 11;
     public static final byte ARG_HEARTRATE_MEASURE_OFF = 22;
 
-    public static final byte ARG_HEARTRATE_ALLDAY_ON = 10;
-    public static final byte ARG_HEARTRATE_ALLDAY_OFF = -1;
+    public static final byte ARG_HEARTRATE_ALLDAY_ON = 0x0A;
+    public static final byte ARG_HEARTRATE_ALLDAY_OFF = (byte) 0xff;
 
     public static final byte INCOMING_CALL_STATE_DISABLED_THRESHOLD = 0x7B;
     public static final byte INCOMING_CALL_STATE_ENABLED = (byte) 0xAA;
@@ -64,9 +64,7 @@ public final class HPlusConstants {
     public static final byte CMD_SET_CONF_END = 0x4f;
     public static final byte CMD_SET_PREFS = 0x50;
     public static final byte CMD_SET_SIT_INTERVAL = 0x51;
-
-    public static final byte[] COMMAND_FACTORY_RESET = new byte[] {-74, 90};
-
+    public static final byte CMD_SET_HEARTRATE_STATE = 0x32;
 
     //Actions to device
     public static final byte CMD_GET_ACTIVE_DAY = 0x27;
@@ -76,19 +74,17 @@ public final class HPlusConstants {
     public static final byte CMD_GET_DEVICE_ID = 0x24;
 
     public static final byte CMD_ACTION_INCOMING_SOCIAL = 0x31;
-    //public static final byte COMMAND_ACTION_INCOMING_SMS = 0x40;
+    //public static final byte COMMAND_ACTION_INCOMING_SMS = 0x40; //Unknown
     public static final byte CMD_ACTION_DISPLAY_TEXT = 0x43;
 
     public static final byte CMD_ACTION_DISPLAY_TEXT_NAME = 0x3F;
     public static final byte CMD_ACTION_DISPLAY_TEXT_NAME_CN = 0x3E; //Text in GB2312?
-    public static final byte[] CMD_ACTION_HELLO = new byte[]{0x01, 0};
-    public static final byte CMD_SHUTDOWN = 91;
-    public static final byte ARG_SHUTDOWN_EN = 90;
+    public static final byte[] CMD_ACTION_HELLO = new byte[]{0x01, 0x00};
+    public static final byte CMD_SHUTDOWN = 0x5B;
+    public static final byte ARG_SHUTDOWN_EN = 0x5A;
 
     public static final byte CMD_FACTORY_RESET = -74;
-    public static final byte ARG_FACTORY_RESET_EN = 90;
-
-
+    public static final byte ARG_FACTORY_RESET_EN = 0x5A;
 
     public static final byte CMD_SET_INCOMING_MESSAGE = 0x07;
     public static final byte CMD_SET_INCOMING_CALL = 0x06;
@@ -103,15 +99,9 @@ public final class HPlusConstants {
     public static final byte DATA_SLEEP = 0x1A;
     public static final byte DATA_VERSION = 0x18;
 
-
-    public static final byte DB_TYPE_DAY_SLOT_SUMMARY = 1;
-    public static final byte DB_TYPE_DAY_SUMMARY = 2;
-    public static final byte DB_TYPE_INSTANT_STATS = 3;
-    public static final byte DB_TYPE_SLEEP_STATS = 4;
-
-
     public static final String PREF_HPLUS_SCREENTIME = "hplus_screentime";
     public static final String PREF_HPLUS_ALLDAYHR = "hplus_alldayhr";
+    public static final String PREF_HPLUS_HR = "hplus_hr_enable";
     public static final String PREF_HPLUS_UNIT = "hplus_unit";
     public static final String PREF_HPLUS_TIMEMODE = "hplus_timemode";
     public static final String PREF_HPLUS_WRIST = "hplus_wrist";
@@ -120,5 +110,4 @@ public final class HPlusConstants {
     public static final String PREF_HPLUS_SIT_START_TIME = "hplus_sit_start_time";
     public static final String PREF_HPLUS_SIT_END_TIME = "hplus_sit_end_time";
     public static final String PREF_HPLUS_COUNTRY = "hplus_country";
-
 }

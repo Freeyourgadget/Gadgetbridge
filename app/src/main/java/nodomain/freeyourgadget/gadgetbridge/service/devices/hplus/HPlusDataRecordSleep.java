@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
@@ -67,7 +68,7 @@ public class HPlusDataRecordSleep extends HPlusDataRecord {
     public int wakeupCount;
 
     public HPlusDataRecordSleep(byte[] data) {
-        super(data);
+        super(data, TYPE_SLEEP);
 
         int year = (data[2] & 0xFF) * 256 + (data[1] & 0xFF);
         int month = data[3] & 0xFF;
@@ -91,6 +92,7 @@ public class HPlusDataRecordSleep extends HPlusDataRecord {
         int minute = data[18] & 0xFF;
 
         Calendar sleepStart = GregorianCalendar.getInstance();
+        sleepStart.clear();
         sleepStart.set(Calendar.YEAR, year);
         sleepStart.set(Calendar.MONTH, month - 1);
         sleepStart.set(Calendar.DAY_OF_MONTH, day);
@@ -113,5 +115,15 @@ public class HPlusDataRecordSleep extends HPlusDataRecord {
         intervals.add(new RecordInterval(bedTimeStart, ts, ActivityKind.TYPE_LIGHT_SLEEP));
         intervals.add(new RecordInterval(ts, bedTimeEnd, ActivityKind.TYPE_DEEP_SLEEP));
         return intervals;
+    }
+
+    public String toString(){
+        Calendar s = GregorianCalendar.getInstance();
+        s.setTimeInMillis(bedTimeStart * 1000L);
+
+        Calendar end = GregorianCalendar.getInstance();
+        end.setTimeInMillis(bedTimeEnd * 1000L);
+
+        return String.format(Locale.US, "Sleep start: %s end: %s enter: %d spindles: %d rem: %d deep: %d wake: %d-%d", s.getTime(), end.getTime(), enterSleepMinutes, spindleMinutes, remSleepMinutes, deepSleepMinutes, wakeupMinutes, wakeupCount);
     }
 }

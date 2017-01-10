@@ -60,7 +60,7 @@ class HPlusDataRecordDaySummary extends HPlusDataRecord{
     public int calories;
 
     HPlusDataRecordDaySummary(byte[] data) {
-        super(data);
+        super(data, TYPE_DAY_SUMMARY);
 
         year =  (data[10] & 0xFF) * 256 + (data[9] & 0xFF);
         month = data[11] & 0xFF;
@@ -75,7 +75,7 @@ class HPlusDataRecordDaySummary extends HPlusDataRecord{
             throw new IllegalArgumentException("Invalid record date "+year+"-"+month+"-"+day);
         }
         steps = (data[2] & 0xFF) * 256 + (data[1] & 0xFF);
-        distance = (data[4] & 0xFF) * 256 + (data[3] & 0xFF);
+        distance = ((data[4] & 0xFF) * 256 + (data[3] & 0xFF)) * 10;
         activeTime = (data[14] & 0xFF) * 256 + (data[13] & 0xFF);
         calories = (data[6] & 0xFF) * 256 + (data[5] & 0xFF);
         calories += (data[8] & 0xFF) * 256 + (data[7] & 0xFF);

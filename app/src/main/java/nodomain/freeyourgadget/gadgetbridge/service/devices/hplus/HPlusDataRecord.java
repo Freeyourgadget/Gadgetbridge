@@ -8,7 +8,13 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 
 public  class HPlusDataRecord {
-    public final static int TYPE_SLEEP = 1;
+    public final static int TYPE_UNKNOWN = 0;
+    public final static int TYPE_SLEEP = 100;
+    public final static int TYPE_DAY_SUMMARY = 101;
+    public final static int TYPE_DAY_SLOT = 102;
+    public final static int TYPE_REALTIME = 103;
+
+    public int type = TYPE_UNKNOWN;
     public int activityKind = ActivityKind.TYPE_UNKNOWN;
 
     /**
@@ -21,8 +27,13 @@ public  class HPlusDataRecord {
      */
     public byte[] rawData;
 
-    public HPlusDataRecord(byte[] data){
-        rawData = data;
+    protected HPlusDataRecord(){
+
+    }
+
+    protected HPlusDataRecord(byte[] data, int type){
+        this.rawData = data;
+        this.type = type;
     }
 
     public byte[] getRawData() {
