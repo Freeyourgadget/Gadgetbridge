@@ -9,6 +9,13 @@
 	<change>Pebble: Add option to disable call display</change>
         <change>Pebble: Bugfix for some PebbleKit enabled 3rd party apps (TCW and maybe other)</change>
         <change>Pebble 2/LE: Improve reliablitly and transfer speed</change>
+        <change>HPlus: Improved discovery and pairing</change>
+        <change>HPlus: Improved notifications (display + vibration)</change>
+        <change>HPlus: Synchronize time and date</change>
+        <change>HPlus: Display firmware version and battery charge</change>
+        <change>HPlus: Near real time Heart rate measurement</change>
+        <change>HPlus: Experimental synchronization of activity data (only sleep, steps and intensity)</change>
+        <change>HPlus: Fix some disconnection issues</change>
     </release>
     <release version="0.16.0" versioncode="80">
         <change>New devices: HPlus (e.g. Zeblaze ZeBand), contributed by João Paulo Barraca</change>

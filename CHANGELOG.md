@@ -9,6 +9,13 @@
 * Pebble: Delete notifications that got dismissed on the phone
 * Pebble: Bugfix for some PebbleKit enabled 3rd party apps (TCW and maybe other)
 * Pebble 2/LE: Improve reliablitly and transfer speed
+* HPlus: Improved discovery and pairing
+* HPlus: Improved notifications (display + vibration)
+* HPlus: Synchronize time and date
+* HPlus: Display firmware version and battery charge
+* HPlus: Near real time Heart rate measurement
+* HPlus: Experimental synchronization of activity data (only sleep, steps and intensity)
+* HPlus: Fix some disconnection issues
 
 ####Version 0.16.0
 * New devices: HPlus (e.g. Zeblaze ZeBand), contributed by João Paulo Barraca
