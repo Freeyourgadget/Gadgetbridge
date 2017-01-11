@@ -1783,6 +1783,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
             byte type = buf.get();
             short length = buf.getShort();
             jsonObject.put("key", key);
+            if (type == TYPE_CSTRING) {
+                length--;
+            }
             jsonObject.put("length", length);
             switch (type) {
                 case TYPE_UINT:
@@ -1815,6 +1818,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                     } else {
                         jsonObject.put("type", "string");
                         jsonObject.put("value", new String(bytes));
+                        buf.get(); // skip null-termination;
                     }
                     break;
                 default:
