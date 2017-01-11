@@ -1706,7 +1706,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put(APPLICATIONMESSAGE_ACK);
         buf.put(id);
         buf.putLong(uuid.getMostSignificantBits());
-        buf.putLong(uuid.getMostSignificantBits());
+        buf.putLong(uuid.getLeastSignificantBits());
 
         return buf.array();
     }
