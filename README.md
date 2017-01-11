@@ -122,11 +122,16 @@ Known Issues:
 * set time (automatically upon connection)
 * display notifications and vibrate
 
-## Authors (in order of first code contribution)
+## Authors
+### Core Team (in order of first code contribution)
 
 * Andreas Shimokawa
 * Carsten Pfeiffer
 * Daniele Gobbetti
+
+### Additional device support
+
+* João Paulo Barraca (HPlus)
 
 ## Contribute
 
