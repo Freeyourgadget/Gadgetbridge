@@ -77,6 +77,7 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.4'
 
 //    compile project(":DaoCore")
+    compile 'com.google.guava:guava:19.0'
 }
 
 preBuild.dependsOn(":GBDaoGenerator:genSources")

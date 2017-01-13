@@ -16,6 +16,7 @@
         <change>HPlus: Near real time Heart rate measurement</change>
         <change>HPlus: Experimental synchronization of activity data (only sleep, steps and intensity)</change>
         <change>HPlus: Fix some disconnection issues</change>
+        <change>HPlus: Transliterate unsupported Russian characters into English</change>
     </release>
     <release version="0.16.0" versioncode="80">
         <change>New devices: HPlus (e.g. Zeblaze ZeBand), contributed by João Paulo Barraca</change>
