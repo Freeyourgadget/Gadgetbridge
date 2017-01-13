@@ -1698,6 +1698,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     byte[] encodeApplicationMessageAck(UUID uuid, byte id) {
+        if (uuid == null) {
+            uuid = currentRunningApp;
+        }
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + 18); // +ACK
 
         buf.order(ByteOrder.BIG_ENDIAN);
@@ -1829,14 +1832,15 @@ public class PebbleProtocol extends GBDeviceProtocol {
         }
 
         // this is a hack we send an ack to the Pebble immediately because we cannot map the transaction_id from the intent back to a uuid yet
+        /*
         GBDeviceEventSendBytes sendBytesAck = new GBDeviceEventSendBytes();
         sendBytesAck.encodedBytes = encodeApplicationMessageAck(uuid, last_id);
-
+        */
         GBDeviceEventAppMessage appMessage = new GBDeviceEventAppMessage();
         appMessage.appUUID = uuid;
         appMessage.id = last_id & 0xff;
         appMessage.message = jsonArray.toString();
-        return new GBDeviceEvent[]{appMessage, sendBytesAck};
+        return new GBDeviceEvent[]{appMessage};
     }
 
     byte[] encodeApplicationMessagePush(short endpoint, UUID uuid, ArrayList<Pair<Integer, Object>> pairs) {

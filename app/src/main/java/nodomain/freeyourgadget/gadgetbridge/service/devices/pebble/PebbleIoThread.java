@@ -117,24 +117,22 @@ class PebbleIoThread extends GBDeviceIoThread {
                     try {
                         JSONArray jsonArray = new JSONArray(jsonString);
                         write(mPebbleProtocol.encodeApplicationMessageFromJSON(uuid, jsonArray));
-                        sendAppMessageAck(transaction_id);
-
+                        if (transaction_id >= 0 && transaction_id <= 255) {
+                            sendAppMessageAck(transaction_id);
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     break;
                 case PEBBLEKIT_ACTION_APP_ACK:
-                    // we do not get a uuid and cannot map a transaction id to it, so we ack in PebbleProtocol early
-                    /*
-                    uuid = (UUID) intent.getSerializableExtra("uuid");
-                    int transaction_id = intent.getIntExtra("transaction_id", -1);
+                    transaction_id = intent.getIntExtra("transaction_id", -1);
                     if (transaction_id >= 0 && transaction_id <= 255) {
-                        write(mPebbleProtocol.encodeApplicationMessageAck(uuid, (byte) transaction_id));
+                        write(mPebbleProtocol.encodeApplicationMessageAck(null, (byte) transaction_id));
                     } else {
                         LOG.warn("illegal transacktion id " + transaction_id);
                     }
-                    */
                     break;
+
             }
         }
     };
