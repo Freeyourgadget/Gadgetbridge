@@ -785,7 +785,12 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     //replace unsupported symbols to english analog
     private String transliterate(String txt){
+        if (txt == null || txt.isEmpty()) {
+            return txt;
+        }
+
         StringBuilder message = new StringBuilder();
+
         char[] chars = txt.toCharArray();
 
         for (char c : chars)
