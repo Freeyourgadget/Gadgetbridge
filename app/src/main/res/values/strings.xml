@@ -373,5 +373,5 @@
     <string name="title_activity_pebble_pairing">Pebble Pairing</string>
     <string name="pebble_pairing_hint">A pairing dialog is expected to pop up on your Android device. If that does not happen, look in the notification drawer and accept the pairing request. After that accept the pairing request on your Pebble</string>
 
-    <string name="weather_notification_label">Enable this skin to get weather information on your Pebble.\n\nConfiguration will be possible in a later version.</string>
+    <string name="weather_notification_label">Make sure that this skin is enabled in the Weather Notification app to get weather information on your Pebble.\n\nNo configuration is needed here.\n\nYou can enable the system weather app of your Pebble from the app management.\n\nSupported watchfaces will show the weather automatically.</string>
 </resources>
