@@ -172,6 +172,11 @@
                     android:title="@string/pref_title_sunrise_sunset"
                     android:summary="@string/pref_summary_sunrise_sunset"
                     android:key="send_sunrise_sunset" />
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="autoremove_notfifcations"
+                    android:summary="@string/pref_summary_autoremove_notifications"
+                    android:title="@string/pref_title_autoremove_notifications" />
             </PreferenceCategory>
             <PreferenceCategory android:title="@string/pref_header_activitytrackers">
                 <ListPreference

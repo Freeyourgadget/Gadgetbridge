@@ -114,6 +114,9 @@
     <string name="pref_title_sunrise_sunset">Sunrise and Sunset</string>
     <string name="pref_summary_sunrise_sunset">Send sunrise and sunset times based on the location to the pebble timeline</string>
 
+    <string name="pref_title_autoremove_notifications">Autoremove dismissed Notifications</string>
+    <string name="pref_summary_autoremove_notifications">Notifications are automatically removed from the Pebble when dismissed from the Android device</string>
+
     <string name="pref_header_location">Location</string>
     <string name="pref_title_location_aquire">Acquire Location</string>
     <string name="pref_title_location_latitude">Latitude</string>
