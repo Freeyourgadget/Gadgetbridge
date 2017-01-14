@@ -28,6 +28,9 @@
         android:id="@+id/appmanager_weather_deactivate"
         android:title="@string/appmanager_weather_deactivate" />
     <item
+        android:id="@+id/appmanager_weather_install_provider"
+        android:title="@string/appmanager_weather_install_provider" />
+    <item
         android:id="@+id/appmanager_app_configure"
         android:title="@string/app_configure"/>
     <item

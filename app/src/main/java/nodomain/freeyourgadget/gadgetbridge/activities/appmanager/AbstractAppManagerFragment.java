@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -298,6 +299,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         if (!PebbleProtocol.UUID_WEATHER.equals(selectedApp.getUUID())) {
             menu.removeItem(R.id.appmanager_weather_activate);
             menu.removeItem(R.id.appmanager_weather_deactivate);
+            menu.removeItem(R.id.appmanager_weather_install_provider);
         }
         if (selectedApp.getType() == GBDeviceApp.Type.APP_SYSTEM || selectedApp.getType() == GBDeviceApp.Type.WATCHFACE_SYSTEM) {
             menu.removeItem(R.id.appmanager_app_delete);
@@ -305,6 +307,18 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         if (!selectedApp.isConfigurable()) {
             menu.removeItem(R.id.appmanager_app_configure);
         }
+
+        if (PebbleProtocol.UUID_WEATHER.equals(selectedApp.getUUID())) {
+            PackageManager pm = getActivity().getPackageManager();
+            try {
+                pm.getPackageInfo("ru.gelin.android.weather.notification", PackageManager.GET_ACTIVITIES);
+                menu.removeItem(R.id.appmanager_weather_install_provider);
+            } catch (PackageManager.NameNotFoundException e) {
+                menu.removeItem(R.id.appmanager_weather_activate);
+                menu.removeItem(R.id.appmanager_weather_deactivate);
+            }
+        }
+
         switch (selectedApp.getType()) {
             case WATCHFACE:
             case APP_GENERIC:
@@ -381,6 +395,9 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             case R.id.appmanager_hrm_deactivate:
             case R.id.appmanager_weather_deactivate:
                 GBApplication.deviceService().onAppDelete(selectedApp.getUUID());
+                return true;
+            case R.id.appmanager_weather_install_provider:
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://f-droid.org/app/ru.gelin.android.weather.notification")));
                 return true;
             case R.id.appmanager_app_configure:
                 GBApplication.deviceService().onAppStart(selectedApp.getUUID(), true);

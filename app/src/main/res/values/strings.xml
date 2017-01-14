@@ -32,6 +32,7 @@
     <string name="appmanager_hrm_deactivate">Deactivate HRM</string>
     <string name="appmanager_weather_activate">Activate system weather app</string>
     <string name="appmanager_weather_deactivate">Deactivate system weather app</string>
+    <string name="appmanager_weather_install_provider">Install the weather notification app</string>
     <string name="app_configure">Configure</string>
     <string name="app_move_to_top">Move to top</string>
 
