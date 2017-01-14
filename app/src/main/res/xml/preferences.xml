@@ -174,7 +174,7 @@
                     android:key="send_sunrise_sunset" />
                 <CheckBoxPreference
                     android:defaultValue="false"
-                    android:key="autoremove_notfifcations"
+                    android:key="autoremove_notifications"
                     android:summary="@string/pref_summary_autoremove_notifications"
                     android:title="@string/pref_title_autoremove_notifications" />
             </PreferenceCategory>
