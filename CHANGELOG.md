@@ -3,6 +3,7 @@
 ####Version 0.17.0 (next)
 * Add weather support through "Weather Notification" app
 * Various fixes for K9 mail when using the generic notification receiver
+* Add a preference to hide the persistent notification icon of Gadgetbridge
 * Pebble: Support for build-in weather system app (FW 4.x)
 * Pebble: Add weather support for various watchfaces
 * Pebble: Add option to disable call display
