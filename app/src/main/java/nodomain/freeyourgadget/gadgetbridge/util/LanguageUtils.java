@@ -2,13 +2,16 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 
 import java.util.HashMap;
 import java.util.Map;
-
+import java.text.Normalizer;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 public class LanguageUtils {
     //transliteration map with english equivalent for unsupported chars
     private static Map<Character, String> transliterateMap = new HashMap<Character, String>(){
         {
+            //extended ASCII characters
+            put('æ', "ae"); put('œ', "oe"); put('ß', "B");
+
             //russian chars
             put('а', "a"); put('б', "b"); put('в', "v");  put('г', "g"); put('д', "d"); put('е', "e"); put('ё', "jo"); put('ж', "zh");
             put('з', "z"); put('и', "i"); put('й', "jj"); put('к', "k"); put('л', "l"); put('м', "m"); put('н', "n");  put('о', "o");
@@ -41,7 +44,7 @@ public class LanguageUtils {
             message.append(transliterate(c));
         }
 
-        return message.toString();
+        return flattenToAscii(message.toString());
     }
 
     //replace unsupported symbol to english analog text
@@ -60,5 +63,17 @@ public class LanguageUtils {
         }
 
         return String.valueOf(c);
+    }
+
+    //convert diacritic
+    private static String flattenToAscii(String string) {
+        char[] out = new char[string.length()];
+        string = Normalizer.normalize(string, Normalizer.Form.NFD);
+        int j = 0;
+        for (int i = 0, n = string.length(); i < n; ++i) {
+            char c = string.charAt(i);
+            if (c <= '\u007F') out[j++] = c;
+        }
+        return new String(out);
     }
 }
