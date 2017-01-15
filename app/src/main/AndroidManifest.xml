@@ -220,7 +220,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activities.WeatherNotificationConfig"
+        <activity android:name=".externalevents.WeatherNotificationConfig"
             android:label="mockup">
             <intent-filter>
                 <action android:name="ru.gelin.android.weather.notification.ACTION_WEATHER_SKIN_PREFERENCES"/>

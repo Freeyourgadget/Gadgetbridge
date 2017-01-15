@@ -1,10 +1,11 @@
-package nodomain.freeyourgadget.gadgetbridge.activities;
+package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.widget.TextView;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.GBActivity;
 
 public class WeatherNotificationConfig extends GBActivity {
     @Override
