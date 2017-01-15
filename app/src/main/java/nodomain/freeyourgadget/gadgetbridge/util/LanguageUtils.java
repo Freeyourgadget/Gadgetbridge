@@ -10,7 +10,7 @@ public class LanguageUtils {
     private static Map<Character, String> transliterateMap = new HashMap<Character, String>(){
         {
             //extended ASCII characters
-            put('æ', "ae"); put('œ', "oe"); put('ß', "B");
+            put('æ', "ae"); put('œ', "oe"); put('ß', "B"); put('ª', "a"); put('º', "o");
 
             //russian chars
             put('а', "a"); put('б', "b"); put('в', "v");  put('г', "g"); put('д', "d"); put('е', "e"); put('ё', "jo"); put('ж', "zh");
@@ -67,13 +67,7 @@ public class LanguageUtils {
 
     //convert diacritic
     private static String flattenToAscii(String string) {
-        char[] out = new char[string.length()];
         string = Normalizer.normalize(string, Normalizer.Form.NFD);
-        int j = 0;
-        for (int i = 0, n = string.length(); i < n; ++i) {
-            char c = string.charAt(i);
-            if (c <= '\u007F') out[j++] = c;
-        }
-        return new String(out);
+        return string.replaceAll("\\p{M}", "");
     }
 }

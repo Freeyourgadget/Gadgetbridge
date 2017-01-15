@@ -2,7 +2,7 @@
 <changelog>
     <release version="0.17.0" versioncode="81">
         <change>Add weather support through "Weather Notification" app</change>
-	    <change>Various fixes for K9 mail when using the generic notification receiver</change>
+        <change>Various fixes for K9 mail when using the generic notification receiver</change>
         <change>Added transliteration option for notifications in the settings screen</change>
         <change>Add a preference to hide the notification icon of Gadgetbridge</change>
 
