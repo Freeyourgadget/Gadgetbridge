@@ -22,8 +22,13 @@
   <string name="appmananger_app_delete">Cancella</string>
   <string name="appmananger_app_delete_cache">Cancella e rimuovi dalla cache</string>
   <string name="appmananger_app_reinstall">Re-installazione</string>
+  <string name="appmanager_app_openinstore">Cerca nell\'appstore di Pebble</string>
   <string name="appmanager_health_activate">Attiva</string>
   <string name="appmanager_health_deactivate">Disattiva</string>
+  <string name="appmanager_hrm_activate">Attiva il monitor del battito cardiaco</string>
+  <string name="appmanager_hrm_deactivate">Disattiva il monitor del battito cardiaco</string>
+  <string name="appmanager_weather_activate">Attiva l\'applicazione meteo</string>
+  <string name="appmanager_weather_deactivate">Disattiva l\'applicazione meteo</string>
   <string name="app_configure">Configura</string>
   <string name="app_move_to_top">Sposta in cima</string>
   <!--Strings related to AppBlacklist-->
@@ -49,6 +54,9 @@
   <string name="pref_theme_light">Chiaro</string>
   <string name="pref_theme_dark">Scuro</string>
   <string name="pref_title_language">Lingua</string>
+  <string name="pref_title_minimize_priority">Nascondi la notifica di gadgetbridge</string>
+  <string name="pref_summary_minimize_priority_off">L\'icona nella barra di stato e la notifica nella schermata di blocco vengono mostrate</string>
+  <string name="pref_summary_minimize_priority_on">L\'icona nella barra di stato e la notifica nella schermata di blocco non vengono mostrate</string>
   <string name="pref_header_notifications">Notifiche</string>
   <string name="pref_title_notifications_repetitions">Ripetizioni</string>
   <string name="pref_title_notifications_call">Chiamate telefoniche</string>
@@ -77,6 +85,8 @@
   <string name="pref_title_pebble_sync_health">Sincronizza Pebble Health</string>
   <string name="pref_title_pebble_sync_misfit">Sincronizza Misfit</string>
   <string name="pref_title_pebble_sync_morpheuz">Sincronizza Morpheuz</string>
+  <string name="pref_title_enable_outgoing_call">Mostra le chiamate in uscita</string>
+  <string name="pref_summary_enable_outgoing_call">Disabilitando questa funzionalità impedirá la vibrazione del Pebble 2 quando si effettua una chiamata</string>
   <string name="pref_title_enable_pebblekit">Consenti accesso ad altre applicazioni</string>
   <string name="pref_summary_enable_pebblekit">Attiva l\'accesso sperimentale ad applicazioni Android che usano PebbleKit</string>
   <string name="pref_title_sunrise_sunset">Alba e tramonto</string>
@@ -85,12 +95,20 @@
   <string name="pref_title_location_aquire">Acquisisci posizione</string>
   <string name="pref_title_location_latitude">Latitudine</string>
   <string name="pref_title_location_longitude">Longitudine</string>
+  <string name="pref_title_location_keep_uptodate">Mantieni aggiornata la posizion</string>
+  <string name="pref_summary_location_keep_uptodate">Cerca di ottenere la posizione aggiornata durante l\'utilizzo, usa quella memorizzata come backup</string>
   <string name="toast_enable_networklocationprovider">Per cortesia abilita la localizzazione utilizzando la rete</string>
   <string name="toast_aqurired_networklocation">posizione acquisita</string>
   <string name="pref_title_pebble_forceprotocol">Forza protocollo delle notifiche</string>
   <string name="pref_summary_pebble_forceprotocol">Questa opzione forza l\'utilizzo della versione più recente delle notifiche in dipendenza del firmware del tuo dispositivo. ABILITALO SOLO SE SAI COSA STAI FACENDO!</string>
   <string name="pref_title_pebble_forceuntested">Abilita funzionalità non testate</string>
   <string name="pref_summary_pebble_forceuntested">Abilita funzionalità non testate. ABILITARE SOLO SE SI SA QUELLO CHE SI STA FACENDO!</string>
+  <string name="pref_title_pebble_forcele">Usa sempre BLE</string>
+  <string name="pref_summary_pebble_forcele">Utilizza il supporto sperimentale Pebble BLE per tutti i Pebble. Si devei effettuare il \"pairing\" nuovamente se si dovesse utilizzare di nuovo il BT classico</string>
+  <string name="pref_title_pebble_mtu_limit">Limita la MTU del Pebble 2/LE</string>
+  <string name="pref_summary_pebble_mtu_limit">Se il tuo Pebble 2/LE non funziona come dovrebbe, prova a impostare un limite alla MTU (range valido 20-512)</string>
+  <string name="pref_title_pebble_enable_applogs">Abilita il log delle applicazioni che girano su Pebble</string>
+  <string name="pref_summary_pebble_enable_applogs">Il log delle applicazioni che girano su Pebble verrà aggiunto a quello di Gadgetbridge (richiede riconessione)</string>
   <string name="pref_title_pebble_reconnect_attempts">Tentativi di riconessione</string>
   <string name="not_connected">non connesso</string>
   <string name="connecting">in collegamento</string>
@@ -163,6 +181,9 @@
   <string name="pref_screen_notification_profile_generic">Notifiche generiche</string>
   <string name="pref_screen_notification_profile_email">Notifiche Email</string>
   <string name="pref_screen_notification_profile_incoming_call">Notifiche chiamata in arrivo</string>
+  <string name="pref_screen_notification_profile_generic_chat">Cha</string>
+  <string name="pref_screen_notification_profile_generic_navigation">Navigazione</string>
+  <string name="pref_screen_notification_profile_generic_social">Social Network</string>
   <string name="control_center_find_lost_device">Trova dispositivo smarrito</string>
   <string name="control_center_cancel_to_stop_vibration">Annulla per fermare la vibrazione</string>
   <string name="title_activity_charts">Le tue attività</string>
@@ -236,6 +257,8 @@
   <string name="miband_prefs_reserve_alarm_calendar">Sveglie da riservare per i prossimi eventi del calendario</string>
   <string name="miband_prefs_hr_sleep_detection">Utilizza il sensore del battito cardiaco per migliorare il riconoscimento del sonno</string>
   <string name="miband_prefs_device_time_offset_hours">Sfasamento dell\'orario per il device (per consentire il rilevamento del sonno per chi lavora a turni)</string>
+  <string name="miband2_prefs_dateformat">Mi2: formato della data</string>
+  <string name="dateformat_time">Ora</string>
   <string name="waiting_for_reconnect">in attesa di riconnessione</string>
   <string name="activity_prefs_about_you">Informazioni sull\'utilizzatore</string>
   <string name="activity_prefs_year_birth">Anno di nascita</string>

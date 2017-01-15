@@ -29,6 +29,7 @@
   <string name="appmanager_hrm_deactivate">Desactivar Monitor de Ritmo Cardíaco</string>
   <string name="appmanager_weather_activate">Activar la aplicación del tiempo del sistema</string>
   <string name="appmanager_weather_deactivate">Desactivar la aplicación del tiempo del sistema</string>
+  <string name="appmanager_weather_install_provider">Instalar la aplicación de notificación del tiempo</string>
   <string name="app_configure">Configurar</string>
   <string name="app_move_to_top">Mover a la parte de arriba</string>
   <!--Strings related to AppBlacklist-->
@@ -54,6 +55,9 @@
   <string name="pref_theme_light">Claro</string>
   <string name="pref_theme_dark">Oscuro</string>
   <string name="pref_title_language">Idioma</string>
+  <string name="pref_title_minimize_priority">Ocultar la notificación de Gadgetbridge</string>
+  <string name="pref_summary_minimize_priority_off">El icono en la barra de estado y la notificación en la pantalla de bloqueo están activos</string>
+  <string name="pref_summary_minimize_priority_on">El icono en la barra de estado y la notificación en la pantalla de bloqueo están ocultos</string>
   <string name="pref_header_notifications">Notificaciones</string>
   <string name="pref_title_notifications_repetitions">Repeticiones</string>
   <string name="pref_title_notifications_call">Llamadas telefónicas</string>
@@ -82,10 +86,14 @@
   <string name="pref_title_pebble_sync_health">Sincronizar con Pebble Health</string>
   <string name="pref_title_pebble_sync_misfit">Sincronizar con Misfit</string>
   <string name="pref_title_pebble_sync_morpheuz">Sincronizar con Morpheuz</string>
+  <string name="pref_title_enable_outgoing_call">Soporte para llamadas salientes</string>
+  <string name="pref_summary_enable_outgoing_call">Desactivar esto evitará que el Pebble 2/LE vibre en llamadas salientes</string>
   <string name="pref_title_enable_pebblekit">Permitir el acceso a aplicaciones Android de terceros</string>
   <string name="pref_summary_enable_pebblekit">Permitir el soporte experimental para aplicaciones Android que usan PebbleKit</string>
   <string name="pref_title_sunrise_sunset">Salida y puesta de Sol</string>
   <string name="pref_summary_sunrise_sunset">Enviar las horas de salida y puesta de Sol basándose en la localización a la línea cronológica del Pebble</string>
+  <string name="pref_title_autoremove_notifications">Eliminar automáticamente las notificaciones rechazadas</string>
+  <string name="pref_summary_autoremove_notifications">Las notificaciones se borran automáticamente de Pebble cuando son rechazadas en Android</string>
   <string name="pref_header_location">Localización</string>
   <string name="pref_title_location_aquire">Buscar localización</string>
   <string name="pref_title_location_latitude">Latitud</string>
@@ -327,4 +335,5 @@ Por favor, ten en cuenta que puedes importar datos desde Mi Band, Pebble Health 
   <!--Strings related to Pebble Pairing Activity-->
   <string name="title_activity_pebble_pairing">Emparejando con Pebble</string>
   <string name="pebble_pairing_hint">En su dispositivo Android va a aparecer un mensaje para emparejarse. Si no apareciera, mira en el cajón de notificaciones y acepta la propuesta de emparejamiento. Después acepta también en tu Pebble.</string>
+  <string name="weather_notification_label">Asegúrate de que este tema esté activado en la aplicación de notificación del tiempo para obtener la información en tu Pebble.\n\nNo se requiere configuración.\n\nPuedes activar la aplicación del tiempo del sistema desde la configuración de la app.\n\nLas watchfaces soportadas mostrarán la información del tiempo automáticamente.</string>
 </resources>

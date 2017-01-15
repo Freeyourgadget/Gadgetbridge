@@ -29,6 +29,7 @@
   <string name="appmanager_hrm_deactivate">HRM を非アクティベート</string>
   <string name="appmanager_weather_activate">システムの天気アプリを有効にする</string>
   <string name="appmanager_weather_deactivate">システムの天気アプリを無効にする</string>
+  <string name="appmanager_weather_install_provider">天気予報アプリをインストール</string>
   <string name="app_configure">設定</string>
   <string name="app_move_to_top">先頭に移動</string>
   <!--Strings related to AppBlacklist-->
@@ -54,6 +55,9 @@
   <string name="pref_theme_light">ライト</string>
   <string name="pref_theme_dark">ダーク</string>
   <string name="pref_title_language">言語</string>
+  <string name="pref_title_minimize_priority">ガジェットブリッジの通知を非表示</string>
+  <string name="pref_summary_minimize_priority_off">ステータスバーのアイコンとロック画面の通知が表示されます</string>
+  <string name="pref_summary_minimize_priority_on">ステータスバーのアイコンとロック画面の通知は非表示です</string>
   <string name="pref_header_notifications">通知</string>
   <string name="pref_title_notifications_repetitions">繰り返し</string>
   <string name="pref_title_notifications_call">電話通知</string>
@@ -82,10 +86,14 @@
   <string name="pref_title_pebble_sync_health">Pebble Health 同期</string>
   <string name="pref_title_pebble_sync_misfit">Misfit 同期</string>
   <string name="pref_title_pebble_sync_morpheuz">Morpheuz 同期</string>
+  <string name="pref_title_enable_outgoing_call">発信のサポート</string>
+  <string name="pref_summary_enable_outgoing_call">これを無効にすると、Pebble 2/LE は発信時に振動しなくなります</string>
   <string name="pref_title_enable_pebblekit">第三者のアンドロイドアップにアクセス権利を与える</string>
   <string name="pref_summary_enable_pebblekit">PebbleKitを使用してAndroidアプリ用の実験的なサポートを有効にします</string>
   <string name="pref_title_sunrise_sunset">日の出と日の入り</string>
   <string name="pref_summary_sunrise_sunset">場所に基づいて、Pebble のタイムラインに日の出・日の入りの時間を送ります</string>
+  <string name="pref_title_autoremove_notifications">消去した通知を自動削除</string>
+  <string name="pref_summary_autoremove_notifications">通知は、Androidデバイスから削除されたときに、Pebbleから自動的に削除されます</string>
   <string name="pref_header_location">場所</string>
   <string name="pref_title_location_aquire">場所の取得</string>
   <string name="pref_title_location_latitude">緯度</string>
@@ -327,4 +335,5 @@ Mi Band、Pebble Health、Morpheuz からデータをインポートすること
   <!--Strings related to Pebble Pairing Activity-->
   <string name="title_activity_pebble_pairing">Pebbleペアリング</string>
   <string name="pebble_pairing_hint">お使いのAndroidデバイスでペアリングのダイアログがポップアップすると思います。 起こらない場合は、通知ドロワーを調べて、ペアリング要求を受け入れます。 その後、Pebbleでペアリング要求を受け入れます</string>
+  <string name="weather_notification_label">天気予報アプリでこのスキンが有効になっていることを確認してください。\n\nここで必要な設定はありません。\n\nアプリ管理からPebbleのシステム天気アプリを有効にすることができます。\n\nサポートされているウォッチフェイスが自動的に天気を表示します。</string>
 </resources>
