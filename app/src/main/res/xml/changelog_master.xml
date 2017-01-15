@@ -2,7 +2,8 @@
 <changelog>
     <release version="0.17.0" versioncode="81">
         <change>Add weather support through "Weather Notification" app</change>
-	<change>Various fixes for K9 mail when using the generic notification receiver</change>
+	    <change>Various fixes for K9 mail when using the generic notification receiver</change>
+        <change>Added transliteration option for notifications in the settings screen</change>
         <change>Pebble: Support for build-in weather system app (FW 4.x)</change>
         <change>Pebble: Add weather support for various watchfaces</change>
         <change>Pebble: Delete notifications that got dismissed on the phone</change>

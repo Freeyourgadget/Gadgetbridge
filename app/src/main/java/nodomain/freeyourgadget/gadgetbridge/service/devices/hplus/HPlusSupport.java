@@ -14,8 +14,6 @@ import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
-import com.google.common.collect.ImmutableMap;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +21,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Map;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusConstants;
@@ -41,10 +38,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.AbstractBleProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.LanguageUtils;
 
 
 public class HPlusSupport extends AbstractBTLEDeviceSupport {
@@ -649,7 +646,10 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     private void showIncomingCall(String name, String number) {
         try {
             TransactionBuilder builder = performInitialized("incomingCallIcon");
-            name = transliterate(name);
+
+            if (LanguageUtils.transliterate()) {
+                name = LanguageUtils.transliterate(name);
+            }
 
             //Enable call notifications
             builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_ACTION_INCOMING_CALL, 1});
@@ -707,8 +707,11 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         LOG.debug("Show Notification: "+title+" --> "+body);
         try {
             TransactionBuilder builder = performInitialized("notification");
-            title = transliterate(title);
-            body = transliterate(body);
+
+            if (LanguageUtils.transliterate()) {
+                title = LanguageUtils.transliterate(title);
+                body = LanguageUtils.transliterate(body);
+            }
 
             byte[] msg = new byte[20];
             for (int i = 0; i < msg.length; i++)
@@ -781,54 +784,6 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             syncHelper.quit();
             syncHelper = null;
         }
-    }
-
-    //replace unsupported symbols to english analog
-    private String transliterate(String txt){
-        if (txt == null || txt.isEmpty()) {
-            return txt;
-        }
-
-        StringBuilder message = new StringBuilder();
-
-        char[] chars = txt.toCharArray();
-
-        for (char c : chars)
-        {
-            message.append(transliterate(c));
-        }
-
-        return message.toString();
-    }
-
-    //replace unsupported symbol to english analog text
-    private String transliterate(char c){
-        Map<Character, String> map = ImmutableMap.<Character, String>builder()
-                .put('а', "a").put('б', "b").put('в', "v").put('г', "g")
-                .put('д', "d").put('е', "e").put('ё', "jo").put('ж', "zh")
-                .put('з', "z").put('и', "i").put('й', "jj").put('к', "k")
-                .put('л', "l").put('м', "m").put('н', "n").put('о', "o")
-                .put('п', "p").put('р', "r").put('с', "s").put('т', "t")
-                .put('у', "u").put('ф', "f").put('х', "kh").put('ц', "c")
-                .put('ч', "ch").put('ш', "sh").put('щ', "shh").put('ъ', "\"")
-                .put('ы', "y").put('ь', "'").put('э', "eh").put('ю', "ju")
-                .put('я', "ja")
-                .build();
-
-        char lowerChar = Character.toLowerCase(c);
-
-        if (map.containsKey(lowerChar)) {
-            String replace = map.get(lowerChar);
-
-            if (lowerChar != c)
-            {
-                return replace.toUpperCase();
-            }
-
-            return replace;
-        }
-
-        return String.valueOf(c);
     }
 
     @Override

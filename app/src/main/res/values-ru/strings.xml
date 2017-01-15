@@ -52,6 +52,8 @@
   <string name="pref_title_whenscreenon">… даже когда экран включён</string>
   <string name="pref_title_notification_filter">Не беспокоить</string>
   <string name="pref_summary_notification_filter">Предотвращать отправку нежелательных уведомлений в режиме \"Не беспокоить\"</string>
+  <string name="pref_title_transliteration">Транслитерация</string>
+  <string name="pref_summary_transliteration">Используйте, если устройство не может работать с вашим языком</string>
   <string name="always">всегда</string>
   <string name="when_screen_off">когда экран выключен</string>
   <string name="never">никогда</string>
