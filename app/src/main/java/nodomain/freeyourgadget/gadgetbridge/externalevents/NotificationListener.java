@@ -410,9 +410,12 @@ public class NotificationListener extends NotificationListenerService {
             return;
         }
 
-        LOG.info("notification removed, will ask device to delete it");
+        Prefs prefs = GBApplication.getPrefs();
+        if (prefs.getBoolean("autoremove_notifications", false)) {
+            LOG.info("notification removed, will ask device to delete it");
 
-        GBApplication.deviceService().onDeleteNotification((int) sbn.getPostTime()); //FIMXE: a truly unique id would be better
+            GBApplication.deviceService().onDeleteNotification((int) sbn.getPostTime()); //FIMXE: a truly unique id would be better
+        }
     }
 
     private void dumpExtras(Bundle bundle) {
