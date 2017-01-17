@@ -3,7 +3,8 @@
     <release version="0.17.0" versioncode="81">
         <change>Add weather support through "Weather Notification" app</change>
         <change>Various fixes for K9 mail when using the generic notification receiver</change>
-        <change>Added transliteration option for notifications in the settings screen</change>
+        <change>Added transliteration support for Russian characters into English</change>
+        <change>Added transliteration option in the settings screen</change>
         <change>Add a preference to hide the notification icon of Gadgetbridge</change>
 
         <change>Pebble: Support for build-in weather system app (FW 4.x)</change>
@@ -19,7 +20,6 @@
         <change>HPlus: Near real time Heart rate measurement</change>
         <change>HPlus: Experimental synchronization of activity data (only sleep, steps and intensity)</change>
         <change>HPlus: Fix some disconnection issues</change>
-        <change>HPlus: Transliterate unsupported Russian characters into English</change>
     </release>
     <release version="0.16.0" versioncode="80">
         <change>New devices: HPlus (e.g. Zeblaze ZeBand), contributed by João Paulo Barraca</change>
