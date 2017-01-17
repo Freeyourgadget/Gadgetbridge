@@ -51,6 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
+import nodomain.freeyourgadget.gadgetbridge.util.LanguageUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ADD_CALENDAREVENT;
@@ -322,21 +323,23 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 break;
             case ACTION_NOTIFICATION: {
                 NotificationSpec notificationSpec = new NotificationSpec();
-                notificationSpec.phoneNumber = intent.getStringExtra(EXTRA_NOTIFICATION_PHONENUMBER);
-                notificationSpec.sender = intent.getStringExtra(EXTRA_NOTIFICATION_SENDER);
-                notificationSpec.subject = intent.getStringExtra(EXTRA_NOTIFICATION_SUBJECT);
-                notificationSpec.title = intent.getStringExtra(EXTRA_NOTIFICATION_TITLE);
-                notificationSpec.body = intent.getStringExtra(EXTRA_NOTIFICATION_BODY);
+                notificationSpec.phoneNumber = getStringExtra(intent, EXTRA_NOTIFICATION_PHONENUMBER);
+                notificationSpec.sender = getStringExtra(intent, EXTRA_NOTIFICATION_SENDER);
+                notificationSpec.subject = getStringExtra(intent, EXTRA_NOTIFICATION_SUBJECT);
+                notificationSpec.title = getStringExtra(intent, EXTRA_NOTIFICATION_TITLE);
+                notificationSpec.body = getStringExtra(intent, EXTRA_NOTIFICATION_BODY);
+                notificationSpec.sourceName = getStringExtra(intent, EXTRA_NOTIFICATION_SOURCENAME);
                 notificationSpec.type = (NotificationType) intent.getSerializableExtra(EXTRA_NOTIFICATION_TYPE);
                 notificationSpec.id = intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1);
                 notificationSpec.flags = intent.getIntExtra(EXTRA_NOTIFICATION_FLAGS, 0);
-                notificationSpec.sourceName = intent.getStringExtra(EXTRA_NOTIFICATION_SOURCENAME);
+
                 if (notificationSpec.type == NotificationType.GENERIC_SMS && notificationSpec.phoneNumber != null) {
                     notificationSpec.sender = getContactDisplayNameByNumber(notificationSpec.phoneNumber);
 
                     notificationSpec.id = mRandom.nextInt(); // FIXME: add this in external SMS Receiver?
                     GBApplication.getIDSenderLookup().add(notificationSpec.id, notificationSpec.phoneNumber);
                 }
+
                 if (((notificationSpec.flags & NotificationSpec.FLAG_WEARABLE_REPLY) > 0)
                         || (notificationSpec.type == NotificationType.GENERIC_SMS && notificationSpec.phoneNumber != null)) {
                     // NOTE: maybe not where it belongs
@@ -353,6 +356,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                         notificationSpec.cannedReplies = replies.toArray(new String[replies.size()]);
                     }
                 }
+
                 mDeviceSupport.onNotification(notificationSpec);
                 break;
             }
@@ -366,8 +370,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 calendarEventSpec.type = intent.getByteExtra(EXTRA_CALENDAREVENT_TYPE, (byte) -1);
                 calendarEventSpec.timestamp = intent.getIntExtra(EXTRA_CALENDAREVENT_TIMESTAMP, -1);
                 calendarEventSpec.durationInSeconds = intent.getIntExtra(EXTRA_CALENDAREVENT_DURATION, -1);
-                calendarEventSpec.title = intent.getStringExtra(EXTRA_CALENDAREVENT_TITLE);
-                calendarEventSpec.description = intent.getStringExtra(EXTRA_CALENDAREVENT_DESCRIPTION);
+                calendarEventSpec.title = getStringExtra(intent, EXTRA_CALENDAREVENT_TITLE);
+                calendarEventSpec.description = getStringExtra(intent, EXTRA_CALENDAREVENT_DESCRIPTION);
                 mDeviceSupport.onAddCalendarEvent(calendarEventSpec);
                 break;
             }
@@ -412,7 +416,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             case ACTION_CALLSTATE:
                 int command = intent.getIntExtra(EXTRA_CALL_COMMAND, CallSpec.CALL_UNDEFINED);
 
-                String phoneNumber = intent.getStringExtra(EXTRA_CALL_PHONENUMBER);
+                String phoneNumber = getStringExtra(intent, EXTRA_CALL_PHONENUMBER);
                 String callerName = null;
                 if (phoneNumber != null) {
                     callerName = getContactDisplayNameByNumber(phoneNumber);
@@ -438,9 +442,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 break;
             case ACTION_SETMUSICINFO:
                 MusicSpec musicSpec = new MusicSpec();
-                musicSpec.artist = intent.getStringExtra(EXTRA_MUSIC_ARTIST);
-                musicSpec.album = intent.getStringExtra(EXTRA_MUSIC_ALBUM);
-                musicSpec.track = intent.getStringExtra(EXTRA_MUSIC_TRACK);
+                musicSpec.artist = getStringExtra(intent, EXTRA_MUSIC_ARTIST);
+                musicSpec.album = getStringExtra(intent, EXTRA_MUSIC_ALBUM);
+                musicSpec.track = getStringExtra(intent, EXTRA_MUSIC_TRACK);
                 musicSpec.duration = intent.getIntExtra(EXTRA_MUSIC_DURATION, 0);
                 musicSpec.trackCount = intent.getIntExtra(EXTRA_MUSIC_TRACKCOUNT, 0);
                 musicSpec.trackNr = intent.getIntExtra(EXTRA_MUSIC_TRACKNR, 0);
@@ -703,7 +707,18 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             // ignore, just return name below
         }
 
-        return name;
+        return LanguageUtils.transliterate()
+                    ? LanguageUtils.transliterate(name)
+                    : name;
+    }
+
+    //Standard method with transliteration
+    private String getStringExtra(Intent intent, String event){
+        String extra = intent.getStringExtra(event);
+
+        return LanguageUtils.transliterate()
+                    ? LanguageUtils.transliterate(extra)
+                    : extra;
     }
 
     @Override

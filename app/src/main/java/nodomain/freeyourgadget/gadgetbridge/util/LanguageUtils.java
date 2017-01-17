@@ -10,7 +10,7 @@ public class LanguageUtils {
     private static Map<Character, String> transliterateMap = new HashMap<Character, String>(){
         {
             //extended ASCII characters
-            put('æ', "ae"); put('œ', "oe"); put('ß', "B"); put('ª', "a"); put('º', "o");
+            put('æ', "ae"); put('œ', "oe"); put('ß', "B"); put('ª', "a"); put('º', "o"); put('«',"\""); put('»',"\"");
 
             //russian chars
             put('а', "a"); put('б', "b"); put('в', "v");  put('г', "g"); put('д', "d"); put('е', "e"); put('ё', "jo"); put('ж', "zh");

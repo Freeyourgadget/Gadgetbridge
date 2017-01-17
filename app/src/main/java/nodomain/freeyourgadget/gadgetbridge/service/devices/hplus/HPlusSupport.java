@@ -41,7 +41,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.util.LanguageUtils;
 
 
 public class HPlusSupport extends AbstractBTLEDeviceSupport {
@@ -647,10 +646,6 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         try {
             TransactionBuilder builder = performInitialized("incomingCallIcon");
 
-            if (LanguageUtils.transliterate()) {
-                name = LanguageUtils.transliterate(name);
-            }
-
             //Enable call notifications
             builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_ACTION_INCOMING_CALL, 1});
 
@@ -707,11 +702,6 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         LOG.debug("Show Notification: "+title+" --> "+body);
         try {
             TransactionBuilder builder = performInitialized("notification");
-
-            if (LanguageUtils.transliterate()) {
-                title = LanguageUtils.transliterate(title);
-                body = LanguageUtils.transliterate(body);
-            }
 
             byte[] msg = new byte[20];
             for (int i = 0; i < msg.length; i++)
