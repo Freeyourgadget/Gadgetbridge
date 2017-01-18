@@ -1,5 +1,10 @@
 ###Changelog
 
+####Version 0.17.1
+* Pebble: Fix installation of some watchapps
+* Pebble: Try to improve PebbleKit compatibility
+* HPlus: Fix bug setting current date
+
 ####Version 0.17.0
 * Add weather support through "Weather Notification" app
 * Various fixes for K9 mail when using the generic notification receiver

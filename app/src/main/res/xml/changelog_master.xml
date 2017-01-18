@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.17.1" versioncode="82">
+        <change>Pebble: Fix installation of some watchapps</change>
+        <change>Pebble: Try to improve PebbleKit compatibility</change>
+        <change>HPlus: Fix bug setting current date</change>
+    </release>
     <release version="0.17.0" versioncode="81">
         <change>Add weather support through "Weather Notification" app</change>
         <change>Various fixes for K9 mail when using the generic notification receiver</change>
