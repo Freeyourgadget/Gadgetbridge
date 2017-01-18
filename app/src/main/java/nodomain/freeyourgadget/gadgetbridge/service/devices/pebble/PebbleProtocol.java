@@ -1910,8 +1910,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
             try {
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
                 String type = (String) jsonObject.get("type");
-                int key = (int) jsonObject.get("key");
-                int length = (int) jsonObject.get("length");
+                int key = jsonObject.getInt("key");
+                int length = jsonObject.getInt("length");
                 switch (type) {
                     case "uint":
                     case "int":
