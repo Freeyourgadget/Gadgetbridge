@@ -145,8 +145,11 @@ public class PBWReader {
 
                 } else if (fileName.equals("appinfo.json")) {
                     long bytes = ze.getSize();
-                    if (bytes > 65536) // that should be too much
+                    if (bytes > 500000) {
+                        LOG.warn(fileName + " exeeds maximum of 500000 bytes");
+                        // that should be too much
                         break;
+                    }
 
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     while ((count = zis.read(buffer)) != -1) {
