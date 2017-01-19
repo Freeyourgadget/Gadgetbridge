@@ -8,7 +8,10 @@
     <release version="0.17.0" versioncode="81">
         <change>Add weather support through "Weather Notification" app</change>
         <change>Various fixes for K9 mail when using the generic notification receiver</change>
+        <change>Added transliteration support for Russian characters into English</change>
+        <change>Added transliteration option in the settings screen</change>
         <change>Add a preference to hide the notification icon of Gadgetbridge</change>
+
         <change>Pebble: Support for build-in weather system app (FW 4.x)</change>
         <change>Pebble: Add weather support for various watchfaces</change>
         <change>Pebble: Add option to automatically delete notifications that got dismissed on the phone</change>

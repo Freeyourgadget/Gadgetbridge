@@ -93,6 +93,13 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="transliteration"
+            android:summary="@string/pref_summary_transliteration"
+            android:title="@string/pref_title_transliteration"
+            />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="notification_filter"
             android:summary="@string/pref_summary_notification_filter"
             android:title="@string/pref_title_notification_filter" />
