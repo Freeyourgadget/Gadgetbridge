@@ -26,7 +26,7 @@ public class LanguageUtils {
     //check transliterate option status
     public static boolean transliterate()
     {
-        return GBApplication.getPrefs().getBoolean("transliteration", true);
+        return GBApplication.getPrefs().getBoolean("transliteration", false);
     }
 
     //replace unsupported symbols to english analog
