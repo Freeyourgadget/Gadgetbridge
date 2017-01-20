@@ -1,5 +1,8 @@
 ###Changelog
 
+####Version next
+* Pebble: Fix temperature unit in Timestyle Pebble watchface
+
 ####Version 0.17.1
 * Pebble: Fix installation of some watchapps
 * Pebble: Try to improve PebbleKit compatibility

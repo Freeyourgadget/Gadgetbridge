@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="next">
+        <change>Pebble: Fix temperature unit in Timestyle Pebble watchface</change>
+    </release>
     <release version="0.17.1" versioncode="82">
         <change>Pebble: Fix installation of some watchapps</change>
         <change>Pebble: Try to improve PebbleKit compatibility</change>

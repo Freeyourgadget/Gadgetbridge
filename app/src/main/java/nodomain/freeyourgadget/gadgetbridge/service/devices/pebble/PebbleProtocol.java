@@ -1874,6 +1874,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         buf.order(ByteOrder.LITTLE_ENDIAN);
         for (Pair<Integer, Object> pair : pairs) {
+            if (pair.first == null || pair.second == null)
+                continue;
             buf.putInt(pair.first);
             if (pair.second instanceof Integer) {
                 buf.put(TYPE_INT);
