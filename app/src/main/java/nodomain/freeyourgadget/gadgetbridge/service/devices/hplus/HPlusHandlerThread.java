@@ -391,6 +391,8 @@ class HPlusHandlerThread extends GBDeviceIoThread {
             sample.setRawHPlusHealthData(record.getRawData());
             sample.setProvider(provider);
 
+            provider.addGBActivitySample(sample);
+
             sample.setSteps(sample.getSteps() - prevRealTimeRecord.steps);
 
             Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
@@ -398,7 +400,6 @@ class HPlusHandlerThread extends GBDeviceIoThread {
                     .putExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
             LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
 
-            provider.addGBActivitySample(sample);
 
             //TODO: Handle Active Time. With Overlay?
         } catch (GBException ex) {
