@@ -1,7 +1,8 @@
 ###Changelog
 
-####Version next
+####Version 0.17.2
 * Pebble: Fix temperature unit in Timestyle Pebble watchface
+* Add optional Cyrillic transliteration (for devices lacking the font)
 
 ####Version 0.17.1
 * Pebble: Fix installation of some watchapps

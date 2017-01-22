@@ -178,6 +178,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             String action = intent.getAction();
             if (action.equals(GBDevice.ACTION_DEVICE_CHANGED)) {
                 GBDevice device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
+                // FIXME: mGBDevice was null here once
                 if (mGBDevice.equals(device)) {
                     mGBDevice = device;
                     boolean enableReceivers = mDeviceSupport != null && (mDeviceSupport.useAutoConnect() || mGBDevice.isInitialized());
