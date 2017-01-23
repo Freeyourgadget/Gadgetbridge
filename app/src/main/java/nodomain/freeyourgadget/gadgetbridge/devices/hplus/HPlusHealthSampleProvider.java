@@ -141,30 +141,46 @@ public class HPlusHealthSampleProvider extends AbstractSampleProvider<HPlusHealt
         today.set(Calendar.SECOND, 0);
         today.set(Calendar.MILLISECOND, 0);
 
-        int stepsToday = 0;
+        int stepsTodayMax = 0;
+        int stepsTodayCount = 0;
+        HPlusHealthActivitySample lastSample = null;
+
         for(HPlusHealthActivitySample sample: samples){
             if(sample.getTimestamp() >= today.getTimeInMillis() / 1000){
-                //Only consider these for the current day as a single message is enough for steps
-                //HR and Overlays will still benefit from the full set of samples
+
+                /**Strategy is:
+                 * Calculate max steps from realtime messages
+                 * Calculate sum of steps from day 10 minute slot summaries
+                 */
+
                  if(sample.getRawKind() == HPlusDataRecord.TYPE_REALTIME) {
-                    int aux = sample.getSteps();
-                    sample.setSteps(sample.getSteps() - stepsToday);
-                    stepsToday = aux;
-                }else
-                    sample.setSteps(ActivitySample.NOT_MEASURED);
+                    stepsTodayMax = Math.max(stepsTodayMax, sample.getSteps());
+                 }else if(sample.getRawKind() == HPlusDataRecord.TYPE_DAY_SLOT) {
+                     stepsTodayCount += sample.getSteps();
+                 }
+
+                sample.setSteps(ActivitySample.NOT_MEASURED);
+                lastSample = sample;
             }else{
                 if (sample.getRawKind() != HPlusDataRecord.TYPE_DAY_SUMMARY) {
-                    sample.setSteps(ActivityKind.TYPE_NOT_MEASURED);
+                    sample.setSteps(ActivitySample.NOT_MEASURED);
                 }
             }
         }
+
+        if(lastSample != null)
+            lastSample.setSteps(Math.max(stepsTodayCount, stepsTodayMax));
 
         for (HPlusHealthActivityOverlay overlay : overlayRecords) {
 
             //Create fake events to improve activity counters if there are no events around the overlay
             //timestamp boundaries
+            //Insert one before, one at the beginning, one at the end, and one 1s after.
+            insertVirtualItem(samples, Math.max(overlay.getTimestampFrom() - 1, timestamp_from), overlay.getDeviceId(), overlay.getUserId());
             insertVirtualItem(samples, Math.max(overlay.getTimestampFrom(), timestamp_from), overlay.getDeviceId(), overlay.getUserId());
             insertVirtualItem(samples, Math.min(overlay.getTimestampTo() - 1, timestamp_to - 1), overlay.getDeviceId(), overlay.getUserId());
+            insertVirtualItem(samples, Math.min(overlay.getTimestampTo(), timestamp_to), overlay.getDeviceId(), overlay.getUserId());
+
             for (HPlusHealthActivitySample sample : samples) {
 
                 if (sample.getTimestamp() >= overlay.getTimestampFrom() && sample.getTimestamp() < overlay.getTimestampTo()) {
@@ -191,7 +207,7 @@ public class HPlusHealthSampleProvider extends AbstractSampleProvider<HPlusHealt
                 userId,          // User id
                 null,                         // Raw Data
                 ActivityKind.TYPE_UNKNOWN,
-                0, // Intensity
+                1, // Intensity
                 ActivitySample.NOT_MEASURED, // Steps
                 ActivitySample.NOT_MEASURED, // HR
                 ActivitySample.NOT_MEASURED, // Distance

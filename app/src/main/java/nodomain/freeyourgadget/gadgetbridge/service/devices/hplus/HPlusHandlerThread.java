@@ -8,7 +8,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.hplus;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +18,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
@@ -52,8 +49,6 @@ class HPlusHandlerThread extends GBDeviceIoThread {
     private int DAY_SUMMARY_SYNC_PERIOD = 24 * 60 * 60;
     private int DAY_SUMMARY_SYNC_RETRY_PERIOD = 30;
 
-    private int HELLO_INTERVAL = 60;
-
     private boolean mQuit = false;
     private HPlusSupport mHPlusSupport;
 
@@ -61,7 +56,6 @@ class HPlusHandlerThread extends GBDeviceIoThread {
     private int mLastSlotRequested = 0;
 
     private Calendar mLastSleepDayReceived = GregorianCalendar.getInstance();
-    private Calendar mHelloTime = GregorianCalendar.getInstance();
     private Calendar mGetDaySlotsTime = GregorianCalendar.getInstance();
     private Calendar mGetSleepTime = GregorianCalendar.getInstance();
     private Calendar mGetDaySummaryTime = GregorianCalendar.getInstance();
@@ -72,7 +66,9 @@ class HPlusHandlerThread extends GBDeviceIoThread {
 
     private final Object waitObject = new Object();
 
-    List<HPlusDataRecordDaySlot> mDaySlotSamples = new ArrayList<>();
+    List<HPlusDataRecordDaySlot> mDaySlotRecords = new ArrayList<>();
+
+    private HPlusDataRecordDaySlot mCurrentDaySlot = null;
 
     public HPlusHandlerThread(GBDevice gbDevice, Context context, HPlusSupport hplusSupport) {
         super(gbDevice, context);
@@ -113,10 +109,6 @@ class HPlusHandlerThread extends GBDeviceIoThread {
 
             Calendar now = GregorianCalendar.getInstance();
 
-            if (now.compareTo(mHelloTime) > 0) {
-                sendHello();
-            }
-
             if (now.compareTo(mGetDaySlotsTime) > 0) {
                 requestNextDaySlots();
             }
@@ -130,7 +122,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
             }
 
             now = GregorianCalendar.getInstance();
-            waitTime = Math.min(mGetDaySummaryTime.getTimeInMillis(), Math.min(Math.min(mGetDaySlotsTime.getTimeInMillis(), mGetSleepTime.getTimeInMillis()), mHelloTime.getTimeInMillis())) - now.getTimeInMillis();
+            waitTime = Math.min(mGetDaySummaryTime.getTimeInMillis(), Math.min(mGetDaySlotsTime.getTimeInMillis(), mGetSleepTime.getTimeInMillis())) - now.getTimeInMillis();
         }
 
     }
@@ -152,52 +144,20 @@ class HPlusHandlerThread extends GBDeviceIoThread {
         mSlotsInitialSync = true;
         mLastSlotReceived = -1;
         mLastSlotRequested = 0;
+        mCurrentDaySlot = null;
+        mDaySlotRecords.clear();
 
         TransactionBuilder builder = new TransactionBuilder("startSyncDayStats");
 
         builder.write(mHPlusSupport.ctrlCharacteristic, new byte[]{HPlusConstants.CMD_GET_DEVICE_ID});
-        builder.wait(400);
         builder.write(mHPlusSupport.ctrlCharacteristic, new byte[]{HPlusConstants.CMD_GET_VERSION});
-        builder.wait(400);
-
-        builder.write(mHPlusSupport.ctrlCharacteristic, new byte[]{HPlusConstants.CMD_GET_SLEEP});
-        builder.wait(400);
-        builder.write(mHPlusSupport.ctrlCharacteristic, new byte[]{HPlusConstants.CMD_GET_DAY_DATA});
-        builder.wait(400);
-        builder.write(mHPlusSupport.ctrlCharacteristic, new byte[]{HPlusConstants.CMD_GET_ACTIVE_DAY});
-        builder.wait(400);
         builder.write(mHPlusSupport.ctrlCharacteristic, new byte[]{HPlusConstants.CMD_GET_CURR_DATA});
 
         builder.queue(mHPlusSupport.getQueue());
-        scheduleHello();
 
         synchronized (waitObject) {
             waitObject.notify();
         }
-    }
-
-    /**
-     * Send an Hello/Null Packet to keep connection
-     */
-    private void sendHello() {
-        TransactionBuilder builder = new TransactionBuilder("hello");
-
-        builder.write(mHPlusSupport.ctrlCharacteristic, HPlusConstants.CMD_ACTION_HELLO);
-        builder.queue(mHPlusSupport.getQueue());
-
-        scheduleHello();
-
-        synchronized (waitObject) {
-            waitObject.notify();
-        }
-    }
-
-    /**
-     * Schedule an Hello Packet in the future
-     */
-    public void scheduleHello(){
-        mHelloTime = GregorianCalendar.getInstance();
-        mHelloTime.add(Calendar.SECOND, HELLO_INTERVAL);
     }
 
     /**
@@ -218,32 +178,56 @@ class HPlusHandlerThread extends GBDeviceIoThread {
             return false;
         }
 
-        //Ignore real time messages as they are still not understood
-        if(!mSlotsInitialSync){
-            mGetDaySlotsTime.set(Calendar.SECOND, CURRENT_DAY_SYNC_PERIOD);
-            return true;
-        }
-
         Calendar now = GregorianCalendar.getInstance();
         int nowSlot = now.get(Calendar.HOUR_OF_DAY) * 6 + (now.get(Calendar.MINUTE) / 10);
-
-        //If the slot is in the future, actually it is from the previous day
-        //Subtract a day of seconds
-        if(record.slot >= nowSlot){
-            record.timestamp -= 3600 * 24;
+        if(record.slot == nowSlot){
+            if(mCurrentDaySlot != null && mCurrentDaySlot != record){
+                mCurrentDaySlot.accumulate(record);
+                mDaySlotRecords.add(mCurrentDaySlot);
+                mCurrentDaySlot = null;
+            }else{
+                //Store it to a temp variable as this is an intermediate value
+                mCurrentDaySlot = record;
+                if(!mSlotsInitialSync)
+                    return true;
+            }
         }
 
-        //Ignore out of order messages
-        if(record.slot == mLastSlotReceived + 1) {
-            mLastSlotReceived = record.slot;
+        if(mSlotsInitialSync) {
+
+            //If the slot is in the future, actually it is from the previous day
+            //Subtract a day of seconds
+            if(record.slot > nowSlot){
+                record.timestamp -= 3600 * 24;
+            }
+
+            if (record.slot == mLastSlotReceived + 1) {
+                mLastSlotReceived = record.slot;
+            }
+
+            //Ignore the current slot as it is incomplete
+            if(record.slot != nowSlot)
+                mDaySlotRecords.add(record);
+
+            //Still fetching ring buffer. Request the next slots
+            if (record.slot == mLastSlotRequested) {
+                mGetDaySlotsTime.clear();
+                synchronized (waitObject) {
+                    waitObject.notify();
+                }
+            }
+
+            //Keep buffering
+            if(record.slot != 143)
+                return true;
+        }  else {
+            mGetDaySlotsTime = GregorianCalendar.getInstance();
+            mGetDaySlotsTime.add(Calendar.DAY_OF_MONTH, 1);
         }
 
-        if(record.slot < 143){
-            mDaySlotSamples.add(record);
-        }else {
-
+        if(mDaySlotRecords.size() > 0) {
             //Sort the samples
-            Collections.sort(mDaySlotSamples, new Comparator<HPlusDataRecordDaySlot>() {
+            Collections.sort(mDaySlotRecords, new Comparator<HPlusDataRecordDaySlot>() {
                 public int compare(HPlusDataRecordDaySlot one, HPlusDataRecordDaySlot other) {
                     return one.timestamp - other.timestamp;
                 }
@@ -253,32 +237,25 @@ class HPlusHandlerThread extends GBDeviceIoThread {
                 HPlusHealthSampleProvider provider = new HPlusHealthSampleProvider(getDevice(), dbHandler.getDaoSession());
                 List<HPlusHealthActivitySample> samples = new ArrayList<>();
 
-                for(HPlusDataRecordDaySlot storedRecord : mDaySlotSamples) {
+                for (HPlusDataRecordDaySlot storedRecord : mDaySlotRecords) {
                     HPlusHealthActivitySample sample = createSample(dbHandler, storedRecord.timestamp);
 
-                    sample.setRawHPlusHealthData(record.getRawData());
-                    sample.setSteps(record.steps);
-                    sample.setHeartRate(record.heartRate);
-                    sample.setRawKind(record.type);
+                    sample.setRawHPlusHealthData(storedRecord.getRawData());
+                    sample.setSteps(storedRecord.steps);
+                    sample.setHeartRate(storedRecord.heartRate);
+                    sample.setRawKind(storedRecord.type);
 
                     sample.setProvider(provider);
                     samples.add(sample);
                 }
 
                 provider.getSampleDao().insertOrReplaceInTx(samples);
-                mDaySlotSamples.clear();
+                mDaySlotRecords.clear();
 
             } catch (GBException ex) {
                 LOG.debug((ex.getMessage()));
             } catch (Exception ex) {
                 LOG.debug(ex.getMessage());
-            }
-        }
-        //Still fetching ring buffer. Request the next slots
-        if (record.slot == mLastSlotRequested) {
-            mGetDaySlotsTime.clear();
-            synchronized (waitObject) {
-                waitObject.notify();
             }
         }
 
@@ -357,6 +334,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
             LOG.debug((e.getMessage()));
             return false;
         }
+
         //Skip duplicated messages as the device seems to send the same record multiple times
         //This can be used to detect the user is moving (not sleeping)
         if(prevRealTimeRecord != null && record.same(prevRealTimeRecord))
@@ -490,7 +468,6 @@ class HPlusHandlerThread extends GBDeviceIoThread {
      * Messages will be provided every 10 minutes after they are available
      */
     private void requestNextDaySlots() {
-
         Calendar now = GregorianCalendar.getInstance();
         int currentSlot = now.get(Calendar.HOUR_OF_DAY) * 6 + now.get(Calendar.MINUTE) / 10;
 

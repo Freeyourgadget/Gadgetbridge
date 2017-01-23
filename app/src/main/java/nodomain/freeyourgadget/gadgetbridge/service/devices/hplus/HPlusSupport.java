@@ -33,6 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -54,6 +55,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     public BluetoothGattCharacteristic measureCharacteristic = null;
 
     private HPlusHandlerThread syncHelper;
+    private DeviceType deviceType = DeviceType.UNKNOWN;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -65,8 +67,11 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         }
     };
 
-    public HPlusSupport() {
+    public HPlusSupport(DeviceType type) {
         super(LOG);
+
+        deviceType = type;
+
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ACCESS);
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ATTRIBUTE);
         addSupportedService(HPlusConstants.UUID_SERVICE_HP);
@@ -75,7 +80,6 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         IntentFilter intentFilter = new IntentFilter();
 
         broadcastManager.registerReceiver(mReceiver, intentFilter);
-
     }
 
     @Override
@@ -107,7 +111,9 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         sendUserInfo(builder); //Sync preferences
         setSIT(builder);          //Sync SIT Interval
         setCurrentDate(builder);  // Sync Current Date
+        setDayOfWeek(builder);
         setCurrentTime(builder);  // Sync Current Time
+        setLanguage(builder);
 
         requestDeviceInfo(builder);
 
@@ -133,51 +139,69 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HPlusSupport syncPreferences(TransactionBuilder transaction) {
-        byte gender = HPlusCoordinator.getUserGender(getDevice().getAddress());
-        byte age = HPlusCoordinator.getUserAge(getDevice().getAddress());
-        byte bodyHeight = HPlusCoordinator.getUserHeight(getDevice().getAddress());
-        byte bodyWeight = HPlusCoordinator.getUserWeight(getDevice().getAddress());
-        int goal = HPlusCoordinator.getGoal(getDevice().getAddress());
-        byte displayTime = HPlusCoordinator.getScreenTime(getDevice().getAddress());
-        byte country = HPlusCoordinator.getCountry(getDevice().getAddress());
-        byte social = HPlusCoordinator.getSocial(getDevice().getAddress()); // ??
-        byte allDayHeart = HPlusCoordinator.getAllDayHR(getDevice().getAddress());
-        byte wrist = HPlusCoordinator.getUserWrist(getDevice().getAddress());
-        byte alertTimeHour = 0;
-        byte alertTimeMinute = 0;
 
-        if (HPlusCoordinator.getSWAlertTime(getDevice().getAddress())) {
-            int t = HPlusCoordinator.getAlertTime(getDevice().getAddress());
+        if(deviceType == DeviceType.HPLUS) {
+            byte gender = HPlusCoordinator.getUserGender(getDevice().getAddress());
+            byte age = HPlusCoordinator.getUserAge(getDevice().getAddress());
+            byte bodyHeight = HPlusCoordinator.getUserHeight(getDevice().getAddress());
+            byte bodyWeight = HPlusCoordinator.getUserWeight(getDevice().getAddress());
+            int goal = HPlusCoordinator.getGoal(getDevice().getAddress());
+            byte displayTime = HPlusCoordinator.getScreenTime(getDevice().getAddress());
+            byte country = HPlusCoordinator.getLanguage(getDevice().getAddress());
+            byte social = HPlusCoordinator.getSocial(getDevice().getAddress()); // ??
+            byte allDayHeart = HPlusCoordinator.getAllDayHR(getDevice().getAddress());
+            byte wrist = HPlusCoordinator.getUserWrist(getDevice().getAddress());
+            byte alertTimeHour = 0;
+            byte alertTimeMinute = 0;
 
-            alertTimeHour = (byte) ((t / 256) & 0xff);
-            alertTimeMinute = (byte) (t % 256);
+            if (HPlusCoordinator.getSWAlertTime(getDevice().getAddress())) {
+                int t = HPlusCoordinator.getAlertTime(getDevice().getAddress());
+
+                alertTimeHour = (byte) ((t / 256) & 0xff);
+                alertTimeMinute = (byte) (t % 256);
+            }
+
+            byte unit = HPlusCoordinator.getUnit(getDevice().getAddress());
+            byte timemode = HPlusCoordinator.getTimeMode((getDevice().getAddress()));
+
+            transaction.write(ctrlCharacteristic, new byte[]{
+                    HPlusConstants.CMD_SET_PREFS,
+                    gender,
+                    age,
+                    bodyHeight,
+                    bodyWeight,
+                    0,
+                    0,
+                    (byte) ((goal / 256) & 0xff),
+                    (byte) (goal % 256),
+                    displayTime,
+                    country,
+                    0,
+                    social,
+                    allDayHeart,
+                    wrist,
+                    0,
+                    alertTimeHour,
+                    alertTimeMinute,
+                    unit,
+                    timemode
+            });
+
+        }else if(deviceType == DeviceType.MAKIBESF68){
+            //Makibes doesn't support setting everything at once.
+
+            setGender(transaction);
+            setAge(transaction);
+            setWeight(transaction);
+            setHeight(transaction);
+            setGoal(transaction);
+            setLanguage(transaction);
+            setScreenTime(transaction);
+            //setAlarm(transaction, t);
+            setUnit(transaction);
+            setTimeMode(transaction);
         }
 
-        byte unit = HPlusCoordinator.getUnit(getDevice().getAddress());
-        byte timemode = HPlusCoordinator.getTimeMode((getDevice().getAddress()));
-
-        transaction.write(ctrlCharacteristic, new byte[]{
-                HPlusConstants.CMD_SET_PREFS,
-                gender,
-                age,
-                bodyHeight,
-                bodyWeight,
-                0,
-                0,
-                (byte) ((goal / 256) & 0xff),
-                (byte) (goal % 256),
-                displayTime,
-                country,
-                0,
-                social,
-                allDayHeart,
-                wrist,
-                0,
-                alertTimeHour,
-                alertTimeMinute,
-                unit,
-                timemode
-        });
 
         setAllDayHeart(transaction);
 
@@ -185,7 +209,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HPlusSupport setLanguage(TransactionBuilder transaction) {
-        byte value = HPlusCoordinator.getCountry(getDevice().getAddress());
+        byte value = HPlusCoordinator.getLanguage(getDevice().getAddress());
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_SET_LANGUAGE,
                 value
@@ -248,13 +272,20 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_SET_WEEK,
-                (byte) c.get(Calendar.DAY_OF_WEEK)
+                (byte) (c.get(Calendar.DAY_OF_WEEK) - 1)
         });
         return this;
     }
 
 
     private HPlusSupport setSIT(TransactionBuilder transaction) {
+
+        //Makibes F68 doesn't like this command.
+        //Just ignore.
+        if(deviceType == DeviceType.MAKIBESF68){
+            return this;
+        }
+
         int startTime = HPlusCoordinator.getSITStartTime(getDevice().getAddress());
         int endTime = HPlusCoordinator.getSITEndTime(getDevice().getAddress());
 
@@ -646,8 +677,17 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
 
-    private void showIncomingCall(String name, String number) {
+    private void showIncomingCall(String name, String rawNumber) {
         try {
+            StringBuilder number = new StringBuilder();
+
+            //Clean up number as the device only accepts digits
+            for(char c : rawNumber.toCharArray()){
+                if(Character.isDigit(c)){
+                    number.append(c);
+                }
+            }
+
             TransactionBuilder builder = performInitialized("incomingCall");
 
             //Enable call notifications

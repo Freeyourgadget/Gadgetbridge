@@ -60,8 +60,8 @@ class HPlusDataRecordRealtime extends HPlusDataRecord {
         timestamp = (int) (GregorianCalendar.getInstance().getTimeInMillis() / 1000);
         distance = 10 * ((data[4] & 0xFF) * 256 + (data[3] & 0xFF)); // meters
         steps = (data[2] & 0xFF) * 256 + (data[1] & 0xFF);
-        int x = (data[6] & 0xFF) * 256 + data[5] & 0xFF;
-        int y = (data[8] & 0xFF) * 256 + data[7] & 0xFF;
+        int x = (data[6] & 0xFF) * 256 + (data[5] & 0xFF);
+        int y = (data[8] & 0xFF) * 256 + (data[7] & 0xFF);
 
         battery = data[9];
 

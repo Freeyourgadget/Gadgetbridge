@@ -8,7 +8,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 
 public class HPlusDataRecordDaySlot extends HPlusDataRecord {
@@ -47,9 +47,9 @@ public class HPlusDataRecordDaySlot extends HPlusDataRecord {
         heartRate = data[1] & 0xFF;
 
         if(heartRate == 255 || heartRate == 0)
-            heartRate = ActivityKind.TYPE_NOT_MEASURED;
+            heartRate = ActivitySample.NOT_MEASURED;
 
-        steps = (data[2] & 0xFF) * 256 + data[3] & 0xFF;
+        steps = (data[2] & 0xFF) * 256 + (data[3] & 0xFF);
 
         //?? data[6]; atemp?? always 0
         secondsInactive = data[7] & 0xFF; // ?
@@ -69,16 +69,21 @@ public class HPlusDataRecordDaySlot extends HPlusDataRecord {
         return String.format(Locale.US, "Slot: %d, Time: %s, Steps: %d, InactiveSeconds: %d, HeartRate: %d", slot, slotTime.getTime(), steps, secondsInactive, heartRate);
     }
 
-    public void add(HPlusDataRecordDaySlot other){
+    public void accumulate(HPlusDataRecordDaySlot other){
         if(other == null)
             return;
 
-        steps += other.steps;
-        secondsInactive += other.secondsInactive;
-        if(heartRate == -1)
+        if(steps == ActivitySample.NOT_MEASURED)
+            steps = other.steps;
+        else if(other.steps != ActivitySample.NOT_MEASURED)
+            steps += other.steps;
+
+        if(heartRate == ActivitySample.NOT_MEASURED)
             heartRate = other.heartRate;
-        else if(other.heartRate != -1) {
+        else if(other.heartRate != ActivitySample.NOT_MEASURED) {
             heartRate = (heartRate + other.heartRate) / 2;
         }
+
+        secondsInactive += other.secondsInactive;
     }
 }
