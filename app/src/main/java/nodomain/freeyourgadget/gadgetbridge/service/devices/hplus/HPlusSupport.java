@@ -44,7 +44,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.util.LanguageUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 
@@ -677,10 +676,6 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             for (int i = 0; i < msg.length; i++)
                 msg[i] = ' ';
 
-            if(LanguageUtils.transliterate()) {
-                name = LanguageUtils.transliterate(name);
-            }
-
             byte[] nameBytes = encodeStringToDevice(name);
             for (int i = 0; i < nameBytes.length && i < (msg.length - 1); i++)
                 msg[i + 1] = nameBytes[i];
@@ -706,18 +701,10 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             String message = "";
 
             if (title != null && title.length() > 0) {
-
-                if(LanguageUtils.transliterate()){
-                    title = LanguageUtils.transliterate(title);
-                }
                 message = StringUtils.pad(StringUtils.truncate(title, 16), 16); //Limit title to top row
             }
 
             if(body != null) {
-                if(LanguageUtils.transliterate()){
-                    body = LanguageUtils.transliterate(body);
-                }
-
                 message += body;
             }
 
