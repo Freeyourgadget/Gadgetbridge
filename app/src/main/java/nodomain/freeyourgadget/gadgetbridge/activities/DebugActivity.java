@@ -180,9 +180,10 @@ public class DebugActivity extends GBActivity {
             @Override
             public void onClick(View v) {
                 MusicSpec musicSpec = new MusicSpec();
-                musicSpec.artist = editContent.getText().toString() + "(artist)";
-                musicSpec.album = editContent.getText().toString() + "(album)";
-                musicSpec.track = editContent.getText().toString() + "(track)";
+                String testString = editContent.getText().toString();
+                musicSpec.artist = testString + "(artist)";
+                musicSpec.album = testString + "(album)";
+                musicSpec.track = testString + "(track)";
                 musicSpec.duration = 10;
                 musicSpec.trackCount = 5;
                 musicSpec.trackNr = 2;
