@@ -1846,6 +1846,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
     byte[] encodeApplicationMessagePush(short endpoint, UUID uuid, ArrayList<Pair<Integer, Object>> pairs) {
         int length = LENGTH_UUID + 3; // UUID + (PUSH + id + length of dict)
         for (Pair<Integer, Object> pair : pairs) {
+            if (pair.first == null || pair.second == null)
+                continue;
             length += 7; // key + type + length
             if (pair.second instanceof Integer) {
                 length += 4;
