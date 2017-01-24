@@ -1,7 +1,12 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 
 import android.util.Pair;
+import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -10,26 +15,28 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 class AppMessageHandlerSquare extends AppMessageHandler {
-    // "CfgKeyCelsiusTemperature":10001,
-    // CfgKeyConditions":10002,
-    //"CfgKeyWeatherError":10003,
-    // "CfgKeyWeatherMode":10004,
-    // "CfgKeyUseCelsius":10005,"
-    // CfgKeyWeatherLocation":10006,"
-    // "CfgKeyTemperature":10000,
-    //
-    //
-    private static final int KEY_TEMP = 10001; //celsius
-    private static final int KEY_WEATHER = 10002;
-    private static final int KEY_WEATHER_MODE = 10004;
-    private static final int KEY_USE_CELSIUS = 10005; //celsius
-    private static final int KEY_LOCATION = 10006;
-    private static final int KEY_TEMP_F = 10000; //fahrenheit
+    private int CfgKeyCelsiusTemperature;
+    private int CfgKeyConditions;
+    private int CfgKeyWeatherMode;
+    private int CfgKeyUseCelsius;
+    private int CfgKeyWeatherLocation;
 
     AppMessageHandlerSquare(UUID uuid, PebbleProtocol pebbleProtocol) {
         super(uuid, pebbleProtocol);
+
+        try {
+            JSONObject appKeys = getAppKeys();
+            CfgKeyCelsiusTemperature = appKeys.getInt("CfgKeyCelsiusTemperature");
+            CfgKeyConditions = appKeys.getInt("CfgKeyConditions");
+            CfgKeyWeatherMode = appKeys.getInt("CfgKeyWeatherMode");
+            CfgKeyUseCelsius = appKeys.getInt("CfgKeyUseCelsius");
+            CfgKeyWeatherLocation = appKeys.getInt("CfgKeyWeatherLocation");
+        } catch (IOException | JSONException e) {
+            GB.toast("There was an error accessing the watchface configuration.", Toast.LENGTH_LONG, GB.ERROR);
+        }
     }
 
     private byte[] encodeSquareWeatherMessage(WeatherSpec weatherSpec) {
@@ -38,11 +45,11 @@ class AppMessageHandlerSquare extends AppMessageHandler {
         }
 
         ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>(2);
-        pairs.add(new Pair<>(KEY_WEATHER_MODE, (Object) 1));
-        pairs.add(new Pair<>(KEY_WEATHER, (Object) weatherSpec.currentCondition));
-        pairs.add(new Pair<>(KEY_USE_CELSIUS, (Object) 1));
-        pairs.add(new Pair<>(KEY_TEMP, (Object) (weatherSpec.currentTemp - 273)));
-        pairs.add(new Pair<>(KEY_LOCATION, (Object) (weatherSpec.location)));
+        pairs.add(new Pair<>(CfgKeyWeatherMode, (Object) 1));
+        pairs.add(new Pair<>(CfgKeyConditions, (Object) weatherSpec.currentCondition));
+        pairs.add(new Pair<>(CfgKeyUseCelsius, (Object) 1));
+        pairs.add(new Pair<>(CfgKeyCelsiusTemperature, (Object) (weatherSpec.currentTemp - 273)));
+        pairs.add(new Pair<>(CfgKeyWeatherLocation, (Object) (weatherSpec.location)));
         byte[] weatherMessage = mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs);
 
         ByteBuffer buf = ByteBuffer.allocate(weatherMessage.length);

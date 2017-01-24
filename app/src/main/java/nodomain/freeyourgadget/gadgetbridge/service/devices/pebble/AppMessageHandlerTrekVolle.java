@@ -8,7 +8,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
@@ -28,7 +27,6 @@ class AppMessageHandlerTrekVolle extends AppMessageHandler {
     AppMessageHandlerTrekVolle(UUID uuid, PebbleProtocol pebbleProtocol) {
         super(uuid, pebbleProtocol);
 
-        messageKeys = new HashMap<>();
         try {
             JSONObject appKeys = getAppKeys();
             MESSAGE_KEY_WEATHER_TEMPERATURE = appKeys.getInt("WEATHER_TEMPERATURE");

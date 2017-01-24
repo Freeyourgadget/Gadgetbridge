@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
@@ -25,7 +24,6 @@ class AppMessageHandlerHealthify extends AppMessageHandler {
     AppMessageHandlerHealthify(UUID uuid, PebbleProtocol pebbleProtocol) {
         super(uuid, pebbleProtocol);
 
-        messageKeys = new HashMap<>();
         try {
             JSONObject appKeys = getAppKeys();
             KEY_TEMPERATURE = appKeys.getInt("TEMPERATURE");

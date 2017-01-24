@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Objects;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
@@ -59,7 +58,6 @@ class AppMessageHandlerMorpheuz extends AppMessageHandler {
     public AppMessageHandlerMorpheuz(UUID uuid, PebbleProtocol pebbleProtocol) {
         super(uuid, pebbleProtocol);
 
-        messageKeys = new HashMap<>();
         try {
             JSONObject appKeys = getAppKeys();
             keyPoint = appKeys.getInt("keyPoint");
