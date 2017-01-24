@@ -14,13 +14,16 @@ import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusConstants;
@@ -41,6 +44,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.LanguageUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 
 public class HPlusSupport extends AbstractBTLEDeviceSupport {
@@ -644,7 +649,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     private void showIncomingCall(String name, String number) {
         try {
-            TransactionBuilder builder = performInitialized("incomingCallIcon");
+            TransactionBuilder builder = performInitialized("incomingCall");
 
             //Enable call notifications
             builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_ACTION_INCOMING_CALL, 1});
@@ -652,12 +657,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             //Show Call Icon
             builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SET_INCOMING_CALL, HPlusConstants.ARG_INCOMING_CALL});
 
-            builder.queue(getQueue());
-
             byte[] msg = new byte[13];
-
-            builder = performInitialized("incomingCallNumber");
-            builder.wait(200);
 
             //Show call number
             for (int i = 0; i < msg.length; i++)
@@ -666,27 +666,27 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             for (int i = 0; i < number.length() && i < (msg.length - 1); i++)
                 msg[i + 1] = (byte) number.charAt(i);
 
-
             msg[0] = HPlusConstants.CMD_SET_INCOMING_CALL_NUMBER;
 
             builder.write(ctrlCharacteristic, msg);
-            builder.queue(getQueue());
-
-            builder = performInitialized("incomingCallText");
             builder.wait(200);
+            msg = msg.clone();
 
             //Show call name
-            //Must call twice, otherwise nothing happens
+
             for (int i = 0; i < msg.length; i++)
                 msg[i] = ' ';
 
-            for (int i = 0; i < name.length() && i < (msg.length - 1); i++)
-                msg[i + 1] = (byte) name.charAt(i);
+            if(LanguageUtils.transliterate()) {
+                name = LanguageUtils.transliterate(name);
+            }
+
+            byte[] nameBytes = encodeStringToDevice(name);
+            for (int i = 0; i < nameBytes.length && i < (msg.length - 1); i++)
+                msg[i + 1] = nameBytes[i];
 
             msg[0] = HPlusConstants.CMD_ACTION_DISPLAY_TEXT_NAME;
             builder.write(ctrlCharacteristic, msg);
-
-            builder.wait(200);
 
             msg[0] = HPlusConstants.CMD_ACTION_DISPLAY_TEXT_NAME_CN;
             builder.write(ctrlCharacteristic, msg);
@@ -703,45 +703,44 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         try {
             TransactionBuilder builder = performInitialized("notification");
 
-            byte[] msg = new byte[20];
-            for (int i = 0; i < msg.length; i++)
-                msg[i] = ' ';
-
-            msg[0] = HPlusConstants.CMD_ACTION_DISPLAY_TEXT;
-
             String message = "";
 
-            //TODO: Create StringUtils.pad and StringUtils.truncate
-            if (title != null) {
-                if (title.length() > 17) {
-                    message = title.substring(0, 17);
-                } else {
-                    message = title;
-                    for (int i = message.length(); i < 17; i++)
-                        message += " ";
+            if (title != null && title.length() > 0) {
+
+                if(LanguageUtils.transliterate()){
+                    title = LanguageUtils.transliterate(title);
                 }
+                message = StringUtils.pad(StringUtils.truncate(title, 16), 16); //Limit title to top row
             }
-            message += body;
 
-            int length = message.length() / 17;
+            if(body != null) {
+                if(LanguageUtils.transliterate()){
+                    body = LanguageUtils.transliterate(body);
+                }
 
-            builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_ACTION_INCOMING_SOCIAL, (byte) 255});
+                message += body;
+            }
+
+            byte[] messageBytes = encodeStringToDevice(message);
+
+            int length = messageBytes.length / 17;
 
             builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SET_INCOMING_MESSAGE, HPlusConstants.ARG_INCOMING_MESSAGE});
 
-            int remaining;
+            int remaining = Math.min(255, (messageBytes.length % 17 > 0) ? length + 1 : length);
 
-            if (message.length() % 17 > 0)
-                remaining = length + 1;
-            else
-                remaining = length;
-
+            byte[] msg = new byte[20];
+            msg[0] = HPlusConstants.CMD_ACTION_DISPLAY_TEXT;
             msg[1] = (byte) remaining;
+
+            for (int i = 2; i < msg.length; i++)
+                msg[i] = ' ';
+
             int message_index = 0;
             int i = 3;
 
-            for (int j = 0; j < message.length(); j++) {
-                msg[i++] = (byte) message.charAt(j);
+            for (int j = 0; j < messageBytes.length; j++) {
+                msg[i++] = messageBytes[j];
 
                 if (i == msg.length) {
                     message_index++;
@@ -774,6 +773,39 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             syncHelper.quit();
             syncHelper = null;
         }
+    }
+
+    /**
+     * HPlus devices accept a subset of GB2312 with some modifications.
+     * This function will apply a custom transliteration.
+     * While related to the methods implemented in LanguageUtils. These are specific for HPLUS
+     *
+     * @param s The String to transliterate
+     * @return An array of bytes ready to be sent to the device
+     */
+    private byte[] encodeStringToDevice(String s){
+
+        List<Byte> outBytes = new ArrayList<Byte>();
+
+        for(int i = 0; i < s.length(); i++){
+                Character c = s.charAt(i);
+                byte[] cs;
+
+                if(HPlusConstants.transliterateMap.containsKey(c)){
+                    cs = new byte[] {HPlusConstants.transliterateMap.get(c)};
+                }else {
+                    try {
+                        cs = c.toString().getBytes("GB2312");
+                    } catch (UnsupportedEncodingException e) {
+                        //Fallback. Result string may be strange, but better than nothing
+                        cs = c.toString().getBytes();
+                    }
+                }
+                for(int j = 0; j < cs.length; j++)
+                    outBytes.add(cs[j]);
+        }
+
+        return ArrayUtils.toPrimitive(outBytes.toArray(new Byte[outBytes.size()]));
     }
 
     @Override
