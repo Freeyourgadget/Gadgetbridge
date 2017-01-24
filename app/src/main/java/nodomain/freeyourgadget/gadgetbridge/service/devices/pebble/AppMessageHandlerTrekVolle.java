@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
@@ -32,31 +31,12 @@ class AppMessageHandlerTrekVolle extends AppMessageHandler {
         messageKeys = new HashMap<>();
         try {
             JSONObject appKeys = getAppKeys();
-            Iterator<String> appKeysIterator = appKeys.keys();
-            while (appKeysIterator.hasNext()) {
-                String current = appKeysIterator.next();
-                int appKey = appKeys.getInt(current);
-                switch (current) {
-                    case "WEATHER_TEMPERATURE":
-                        MESSAGE_KEY_WEATHER_TEMPERATURE = appKey;
-                        break;
-                    case "WEATHER_CONDITIONS":
-                        MESSAGE_KEY_WEATHER_CONDITIONS = appKey;
-                        break;
-                    case "WEATHER_ICON":
-                        MESSAGE_KEY_WEATHER_ICON = appKey;
-                        break;
-                    case "WEATHER_TEMPERATURE_MIN":
-                        MESSAGE_KEY_WEATHER_TEMPERATURE_MIN = appKey;
-                        break;
-                    case "WEATHER_TEMPERATURE_MAX":
-                        MESSAGE_KEY_WEATHER_TEMPERATURE_MAX = appKey;
-                        break;
-                    case "WEATHER_LOCATION":
-                        MESSAGE_KEY_WEATHER_LOCATION = appKey;
-                        break;
-                }
-            }
+            MESSAGE_KEY_WEATHER_TEMPERATURE = appKeys.getInt("WEATHER_TEMPERATURE");
+            MESSAGE_KEY_WEATHER_CONDITIONS = appKeys.getInt("WEATHER_CONDITIONS");
+            MESSAGE_KEY_WEATHER_ICON = appKeys.getInt("WEATHER_ICON");
+            MESSAGE_KEY_WEATHER_TEMPERATURE_MIN = appKeys.getInt("WEATHER_TEMPERATURE_MIN");
+            MESSAGE_KEY_WEATHER_TEMPERATURE_MAX = appKeys.getInt("WEATHER_TEMPERATURE_MAX");
+            MESSAGE_KEY_WEATHER_LOCATION = appKeys.getInt("WEATHER_LOCATION");
         } catch (IOException | JSONException e) {
             GB.toast("There was an error accessing the watchface configuration.", Toast.LENGTH_LONG, GB.ERROR);
         }

@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Objects;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
@@ -63,46 +62,17 @@ class AppMessageHandlerMorpheuz extends AppMessageHandler {
         messageKeys = new HashMap<>();
         try {
             JSONObject appKeys = getAppKeys();
-            Iterator<String> appKeysIterator = appKeys.keys();
-            while (appKeysIterator.hasNext()) {
-                String current = appKeysIterator.next();
-                int appKey = appKeys.getInt(current);
-                switch (current) {
-                    case "keyPoint":
-                        keyPoint = appKey;
-                        break;
-                    case "keyCtrl":
-                        keyCtrl = appKey;
-                        break;
-                    case "keyFrom":
-                        keyFrom = appKey;
-                        break;
-                    case "keyTo":
-                        keyTo = appKey;
-                        break;
-                    case "keyBase":
-                        keyBase = appKey;
-                        break;
-                    case "keyVersion":
-                        keyVersion = appKey;
-                        break;
-                    case "keyGoneoff":
-                        keyGoneoff = appKey;
-                        break;
-                    case "keyTransmit":
-                        keyTransmit = appKey;
-                        break;
-                    case "keyAutoReset":
-                        keyAutoReset = appKey;
-                        break;
-                    case "keySnoozes":
-                        keySnoozes = appKey;
-                        break;
-                    case "keyFault":
-                        keyFault = appKey;
-                        break;
-                }
-            }
+            keyPoint = appKeys.getInt("keyPoint");
+            keyCtrl = appKeys.getInt("keyCtrl");
+            keyFrom = appKeys.getInt("keyFrom");
+            keyTo = appKeys.getInt("keyTo");
+            keyBase = appKeys.getInt("keyBase");
+            keyVersion = appKeys.getInt("keyVersion");
+            keyGoneoff = appKeys.getInt("keyGoneoff");
+            keyTransmit = appKeys.getInt("keyTransmit");
+            keyAutoReset = appKeys.getInt("keyAutoReset");
+            keySnoozes = appKeys.getInt("keySnoozes");
+            keyFault = appKeys.getInt("keyFault");
         } catch (IOException | JSONException e) {
             GB.toast("There was an error accessing the watchface configuration.", Toast.LENGTH_LONG, GB.ERROR);
         }
