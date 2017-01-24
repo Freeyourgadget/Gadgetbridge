@@ -46,7 +46,7 @@ public class HPlusDataRecordDaySlot extends HPlusDataRecord {
         slot = a;
         heartRate = data[1] & 0xFF;
 
-        if(heartRate == 255)
+        if(heartRate == 255 || heartRate == 0)
             heartRate = ActivityKind.TYPE_NOT_MEASURED;
 
         steps = (data[2] & 0xFF) * 256 + data[3] & 0xFF;
