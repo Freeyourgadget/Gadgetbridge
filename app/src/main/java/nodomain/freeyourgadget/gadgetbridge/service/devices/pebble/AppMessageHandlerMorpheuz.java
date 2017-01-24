@@ -71,8 +71,9 @@ class AppMessageHandlerMorpheuz extends AppMessageHandler {
             keyAutoReset = appKeys.getInt("keyAutoReset");
             keySnoozes = appKeys.getInt("keySnoozes");
             keyFault = appKeys.getInt("keyFault");
-        } catch (IOException | JSONException e) {
-            GB.toast("There was an error accessing the watchface configuration.", Toast.LENGTH_LONG, GB.ERROR);
+        } catch (JSONException e) {
+            GB.toast("There was an error accessing the morpheuz watchapp configuration.", Toast.LENGTH_LONG, GB.ERROR);
+        } catch (IOException ignore) {
         }
     }
 

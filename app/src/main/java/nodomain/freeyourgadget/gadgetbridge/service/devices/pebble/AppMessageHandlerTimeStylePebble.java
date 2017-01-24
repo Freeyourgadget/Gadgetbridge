@@ -53,8 +53,9 @@ class AppMessageHandlerTimeStylePebble extends AppMessageHandler {
                         break;
                 }
             }
-        } catch (IOException | JSONException e) {
-            GB.toast("There was an error accessing the watchface configuration.", Toast.LENGTH_LONG, GB.ERROR);
+        } catch (JSONException e) {
+            GB.toast("There was an error accessing the timestyle watchface configuration.", Toast.LENGTH_LONG, GB.ERROR);
+        } catch (IOException ignore) {
         }
     }
 
