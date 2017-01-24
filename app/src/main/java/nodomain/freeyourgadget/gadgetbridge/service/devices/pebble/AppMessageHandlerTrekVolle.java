@@ -1,25 +1,65 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 
 import android.util.Pair;
+import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 class AppMessageHandlerTrekVolle extends AppMessageHandler {
-    private static final int MESSAGE_KEY_WEATHER_TEMPERATURE = 10000;
-    private static final int MESSAGE_KEY_WEATHER_CONDITIONS = 10001;
-    private static final int MESSAGE_KEY_WEATHER_ICON = 10002;
-    private static final int MESSAGE_KEY_WEATHER_TEMPERATURE_MIN = 10024;
-    private static final int MESSAGE_KEY_WEATHER_TEMPERATURE_MAX = 10025;
-    private static final int MESSAGE_KEY_WEATHER_LOCATION = 10030;
+    private Integer MESSAGE_KEY_WEATHER_TEMPERATURE;
+    private Integer MESSAGE_KEY_WEATHER_CONDITIONS;
+    private Integer MESSAGE_KEY_WEATHER_ICON;
+    private Integer MESSAGE_KEY_WEATHER_TEMPERATURE_MIN;
+    private Integer MESSAGE_KEY_WEATHER_TEMPERATURE_MAX;
+    private Integer MESSAGE_KEY_WEATHER_LOCATION;
 
     AppMessageHandlerTrekVolle(UUID uuid, PebbleProtocol pebbleProtocol) {
         super(uuid, pebbleProtocol);
+
+        messageKeys = new HashMap<>();
+        try {
+            JSONObject appKeys = getAppKeys();
+            Iterator<String> appKeysIterator = appKeys.keys();
+            while (appKeysIterator.hasNext()) {
+                String current = appKeysIterator.next();
+                int appKey = appKeys.getInt(current);
+                switch (current) {
+                    case "WEATHER_TEMPERATURE":
+                        MESSAGE_KEY_WEATHER_TEMPERATURE = appKey;
+                        break;
+                    case "WEATHER_CONDITIONS":
+                        MESSAGE_KEY_WEATHER_CONDITIONS = appKey;
+                        break;
+                    case "WEATHER_ICON":
+                        MESSAGE_KEY_WEATHER_ICON = appKey;
+                        break;
+                    case "WEATHER_TEMPERATURE_MIN":
+                        MESSAGE_KEY_WEATHER_TEMPERATURE_MIN = appKey;
+                        break;
+                    case "WEATHER_TEMPERATURE_MAX":
+                        MESSAGE_KEY_WEATHER_TEMPERATURE_MAX = appKey;
+                        break;
+                    case "WEATHER_LOCATION":
+                        MESSAGE_KEY_WEATHER_LOCATION = appKey;
+                        break;
+                }
+            }
+        } catch (IOException | JSONException e) {
+            GB.toast("There was an error accessing the watchface configuration.", Toast.LENGTH_LONG, GB.ERROR);
+        }
     }
 
     private int getIconForConditionCode(int conditionCode, boolean isNight) {

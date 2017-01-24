@@ -21,7 +21,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 class AppMessageHandler {
     final PebbleProtocol mPebbleProtocol;
     final UUID mUUID;
-    protected Map<String, Integer> messageKeys;
+    Map<String, Integer> messageKeys;
 
     AppMessageHandler(UUID uuid, PebbleProtocol pebbleProtocol) {
         mUUID = uuid;
@@ -55,7 +55,7 @@ class AppMessageHandler {
         return mPebbleProtocol.getDevice();
     }
 
-    protected JSONObject getAppKeys() throws IOException, JSONException {
+    JSONObject getAppKeys() throws IOException, JSONException {
         File destDir = new File(FileUtils.getExternalFilesDir() + "/pbw-cache");
         File configurationFile = new File(destDir, mUUID.toString() + ".json");
         if (configurationFile.exists()) {
