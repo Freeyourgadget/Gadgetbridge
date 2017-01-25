@@ -57,7 +57,7 @@ public class GBDeviceCandidate implements Parcelable {
         dest.writeParcelable(device, 0);
         dest.writeInt(rssi);
         dest.writeString(deviceType.name());
-        dest.writeArray(serviceUuds);
+        dest.writeParcelableArray(serviceUuds, 0);
     }
 
     public static final Creator<GBDeviceCandidate> CREATOR = new Creator<GBDeviceCandidate>() {
