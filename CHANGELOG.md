@@ -1,5 +1,11 @@
 ###Changelog
 
+####Version 0.17.3 (next)
+* HPlus: Improve display of new messages and phone calls
+* HPlus: Fix bug related to steps and heart rate
+* Pebble: Support dynamic keys for natively supported watchfaces and watchapps (more stability accross versions)
+* Pebble: Fix error Toast being displayed when TimeStyle watchface is not installed
+
 ####Version 0.17.2
 * Pebble: Fix temperature unit in Timestyle Pebble watchface
 * Add optional Cyrillic transliteration (for devices lacking the font)
