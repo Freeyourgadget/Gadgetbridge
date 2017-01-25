@@ -5,6 +5,7 @@
 * HPlus: Fix bug related to steps and heart rate
 * Pebble: Support dynamic keys for natively supported watchfaces and watchapps (more stability accross versions)
 * Pebble: Fix error Toast being displayed when TimeStyle watchface is not installed
+* Mi Band 1+2: Support for connecting wihout BT pairing (workaround for certain connection problems)
 
 ####Version 0.17.2
 * Pebble: Fix temperature unit in Timestyle Pebble watchface
