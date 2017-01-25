@@ -275,6 +275,11 @@
     <PreferenceCategory
         android:key="pref_key_development"
         android:title="@string/pref_header_development">
+        <CheckBoxPreference
+            android:key="mi_setup_bt_pairing"
+            android:title="@string/pref_title_setup_bt_pairing"
+            android:summary="@string/pref_summary_setup_bt_pairing"
+            android:defaultValue="true" />
         <EditTextPreference
             android:digits="0123456789ABCDEF:"
             android:key="development_miaddr"

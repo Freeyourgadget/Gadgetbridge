@@ -159,20 +159,33 @@ public class MiBandPairingActivity extends GBActivity {
     }
 
     private void startPairing() {
+        BluetoothDevice device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(macAddress);
+        if (device == null) {
+            GB.toast(this, "No such Bluetooth Device: " + macAddress, Toast.LENGTH_LONG, GB.ERROR);
+            return;
+        }
+
         isPairing = true;
         message.setText(getString(R.string.pairing, macAddress));
+
+        if (!shouldSetupBTLevelPairing()) {
+            // there are connection problems on certain Galaxy S devices at least;
+            // try to connect without BT pairing (bonding)
+            attemptToConnect();
+            return;
+        }
 
         IntentFilter filter = new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED);
         LocalBroadcastManager.getInstance(this).registerReceiver(mPairingReceiver, filter);
         filter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         registerReceiver(mBondingReceiver, filter);
 
-        BluetoothDevice device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(macAddress);
-        if (device != null) {
-            performBluetoothPair(device);
-        } else {
-            GB.toast(this, "No such Bluetooth Device: " + macAddress, Toast.LENGTH_LONG, GB.ERROR);
-        }
+        performBluetoothPair(device);
+    }
+
+    private boolean shouldSetupBTLevelPairing() {
+        Prefs prefs = GBApplication.getPrefs();
+        return prefs.getPreferences().getBoolean(MiBandConst.PREF_MIBAND_SETUP_BT_PAIRING, true);
     }
 
     private void pairingFinished(boolean pairedSuccessfully, String macAddress) {
