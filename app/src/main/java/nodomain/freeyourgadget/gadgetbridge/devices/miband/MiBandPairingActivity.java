@@ -86,7 +86,7 @@ public class MiBandPairingActivity extends GBActivity {
         new Handler(mainLooper).postDelayed(new Runnable() {
             @Override
             public void run() {
-                performPair();
+                performApplicationLevelPair();
             }
         }, DELAY_AFTER_BONDING);
     }
@@ -210,7 +210,7 @@ public class MiBandPairingActivity extends GBActivity {
         int bondState = device.getBondState();
         if (bondState == BluetoothDevice.BOND_BONDED) {
             GB.toast(getString(R.string.pairing_already_bonded, device.getName(), device.getAddress()), Toast.LENGTH_SHORT, GB.INFO);
-            performPair();
+            performApplicationLevelPair();
             return;
         }
 
@@ -226,7 +226,7 @@ public class MiBandPairingActivity extends GBActivity {
         }
     }
 
-    private void performPair() {
+    private void performApplicationLevelPair() {
         GBApplication.deviceService().disconnect(); // just to make sure...
         GBApplication.deviceService().connect(macAddress, true);
     }
