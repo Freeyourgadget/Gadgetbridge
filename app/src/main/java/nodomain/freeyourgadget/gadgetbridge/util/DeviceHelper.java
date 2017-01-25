@@ -123,7 +123,10 @@ public class DeviceHelper {
 
     public GBDevice toSupportedDevice(BluetoothDevice device) {
         GBDeviceCandidate candidate = new GBDeviceCandidate(device, GBDevice.RSSI_UNKNOWN, device.getUuids());
+        return toSupportedDevice(candidate);
+    }
 
+    public GBDevice toSupportedDevice(GBDeviceCandidate candidate) {
         for (DeviceCoordinator coordinator : getAllCoordinators()) {
             if (coordinator.supports(candidate)) {
                 return coordinator.createDevice(candidate);

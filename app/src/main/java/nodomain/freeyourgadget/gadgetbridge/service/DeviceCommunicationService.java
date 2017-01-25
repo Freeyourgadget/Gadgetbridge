@@ -102,7 +102,6 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CAL
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CANNEDMESSAGES;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CANNEDMESSAGES_TYPE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CONFIG;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_DEVICE_ADDRESS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_FIND_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_ALBUM;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_ARTIST;
@@ -278,12 +277,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 GBDevice gbDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                 String btDeviceAddress = null;
                 if (gbDevice == null) {
-                    btDeviceAddress = intent.getStringExtra(EXTRA_DEVICE_ADDRESS);
-                    if (btDeviceAddress == null && prefs != null) { // may be null in test cases
+                    if (prefs != null) { // may be null in test cases
                         btDeviceAddress = prefs.getString("last_device_address", null);
-                    }
-                    if (btDeviceAddress != null) {
-                        gbDevice = DeviceHelper.getInstance().findAvailableDevice(btDeviceAddress, this);
+                        if (btDeviceAddress != null) {
+                            gbDevice = DeviceHelper.getInstance().findAvailableDevice(btDeviceAddress, this);
+                        }
                     }
                 } else {
                     btDeviceAddress = gbDevice.getAddress();

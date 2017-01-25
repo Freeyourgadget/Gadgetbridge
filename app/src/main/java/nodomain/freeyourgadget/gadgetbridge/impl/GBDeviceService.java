@@ -53,21 +53,14 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void connect(GBDevice device) {
-        Intent intent = createIntent().setAction(ACTION_CONNECT)
-                .putExtra(GBDevice.EXTRA_DEVICE, device);
-        invokeService(intent);
+    public void connect(@Nullable GBDevice device) {
+        connect(device, false);
     }
 
-    @Override
-    public void connect(@Nullable String deviceAddress) {
-        connect(deviceAddress, false);
-    }
-
-    @Override
-    public void connect(@Nullable String deviceAddress, boolean performPair) {
+        @Override
+    public void connect(@Nullable GBDevice device, boolean performPair) {
         Intent intent = createIntent().setAction(ACTION_CONNECT)
-                .putExtra(EXTRA_DEVICE_ADDRESS, deviceAddress)
+                .putExtra(GBDevice.EXTRA_DEVICE, device)
                 .putExtra(EXTRA_PERFORM_PAIR, performPair);
         invokeService(intent);
     }

@@ -27,7 +27,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
  * the given device.
  */
 public interface DeviceCoordinator {
-    String EXTRA_DEVICE_MAC_ADDRESS = "nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate.EXTRA_MAC_ADDRESS";
+    String EXTRA_DEVICE_CANDIDATE = "nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate.EXTRA_DEVICE_CANDIDATE";
 
     /**
      * Checks whether this coordinator handles the given candidate.
