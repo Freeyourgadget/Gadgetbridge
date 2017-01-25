@@ -69,6 +69,8 @@
   <string name="pref_title_whenscreenon">… también con pantalla encendida</string>
   <string name="pref_title_notification_filter">No Molestar</string>
   <string name="pref_summary_notification_filter">Dejar de enviar notificaciones no deseadas basándose en el modo No Molestar</string>
+  <string name="pref_title_transliteration">Transcripción</string>
+  <string name="pref_summary_transliteration">Utilizar en caso de que tu dispositivo no soporte la fuente de tu idioma (de momento solo el Cirílico)</string>
   <string name="always">siempre</string>
   <string name="when_screen_off">cuando la pantalla está apagada</string>
   <string name="never">nunca</string>

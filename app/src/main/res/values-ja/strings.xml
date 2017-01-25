@@ -69,6 +69,8 @@
   <string name="pref_title_whenscreenon">… スクリーンがオンのときにも</string>
   <string name="pref_title_notification_filter">サイレント</string>
   <string name="pref_summary_notification_filter">サイレントモードに基づいて、送信される不要な通知を停止します。</string>
+  <string name="pref_title_transliteration">音訳</string>
+  <string name="pref_summary_transliteration">デバイスでお使いの言語のフォントがサポートされていない場合に、使用してください (現在はキリル文字のみ)</string>
   <string name="always">いつも</string>
   <string name="when_screen_off">スクリーンがオフのとき</string>
   <string name="never">なし</string>
