@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.AppNotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
@@ -268,6 +269,13 @@ public class NotificationListener extends NotificationListenerService {
 
         dissectNotificationTo(notification, notificationSpec, preferBigText);
         notificationSpec.id = (int) sbn.getPostTime(); //FIMXE: a truly unique id would be better
+
+        // ignore Gadgetbridge's very own notifications, except for those from the debug screen
+        if (getApplicationContext().getPackageName().equals(source)) {
+            if (!getApplicationContext().getString(R.string.test_notification).equals(notificationSpec.title)) {
+                return;
+            }
+        }
 
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender(notification);
         List<NotificationCompat.Action> actions = wearableExtender.getActions();
