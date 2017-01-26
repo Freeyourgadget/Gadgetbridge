@@ -29,7 +29,7 @@ class TestDeviceService extends GBDeviceService {
         // calling though to the service natively does not work with robolectric,
         // we have to use the ServiceController to do that
         service.onStartCommand(intent, Service.START_FLAG_REDELIVERY, (int) (Math.random() * 10000));
-//        super.invokeService(intent);
+        super.invokeService(intent);
     }
 
     @Override
