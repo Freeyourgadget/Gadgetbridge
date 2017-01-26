@@ -66,7 +66,7 @@
 
     <string name="pref_title_language">Language</string>
 
-    <string name="pref_title_minimize_priority">Hide the gadgetbridge notification</string>
+    <string name="pref_title_minimize_priority">Hide the Gadgetbridge notification</string>
     <string name="pref_summary_minimize_priority_off">The icon in the status bar and the notification in the lockscreen are shown</string>
     <string name="pref_summary_minimize_priority_on">The icon in the status bar and the notification in the lockscreen are hidden</string>
 
@@ -82,7 +82,7 @@
     <string name="pref_title_notification_filter">Do Not Disturb</string>
     <string name="pref_summary_notification_filter">Stop unwanted Notifications from being sent based on the Do Not Disturb mode.</string>
     <string name="pref_title_transliteration">Transliteration</string>
-    <string name="pref_summary_transliteration">Use, if you device has no support for your language\'s font (Currently Cyrillic only)</string>
+    <string name="pref_summary_transliteration">Enable this if your device has no support for your language\'s font (Currently Cyrillic only)</string>
 
     <string name="always">always</string>
     <string name="when_screen_off">when screen is off</string>
