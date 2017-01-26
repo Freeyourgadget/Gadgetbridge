@@ -1,6 +1,6 @@
 ###Changelog
 
-####Version 0.17.3 (next)
+####Version 0.17.3
 * HPlus: Improve display of new messages and phone calls
 * HPlus: Fix bug related to steps and heart rate
 * Pebble: Support dynamic keys for natively supported watchfaces and watchapps (more stability accross versions)
