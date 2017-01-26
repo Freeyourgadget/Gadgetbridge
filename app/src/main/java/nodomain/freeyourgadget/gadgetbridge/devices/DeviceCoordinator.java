@@ -155,6 +155,12 @@ public interface DeviceCoordinator {
     boolean supportsAlarmConfiguration();
 
     /**
+     * Returns true if this device/coordinator supports alarms with smart wakeup
+     * @return
+     */
+    boolean supportsSmartWakeup(GBDevice device);
+
+    /**
      * Returns true if the given device supports heart rate measurements.
      * @return
      */

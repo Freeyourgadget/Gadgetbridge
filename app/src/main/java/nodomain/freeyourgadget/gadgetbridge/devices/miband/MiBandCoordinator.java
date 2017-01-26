@@ -125,6 +125,11 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsSmartWakeup(GBDevice device) {
+        return true;
+    }
+
+    @Override
     public boolean supportsActivityTracking() {
         return true;
     }

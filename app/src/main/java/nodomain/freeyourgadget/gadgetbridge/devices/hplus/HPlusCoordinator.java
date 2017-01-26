@@ -107,6 +107,11 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsSmartWakeup(GBDevice device) {
+        return false;
+    }
+
+    @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
         return true;
     }

@@ -1,15 +1,19 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CheckBox;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
 public class AlarmDetails extends GBActivity {
 
@@ -23,16 +27,19 @@ public class AlarmDetails extends GBActivity {
     private CheckBox cbFriday;
     private CheckBox cbSaturday;
     private CheckBox cbSunday;
+    private GBDevice device;
+    private TextView smartAlarmLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_details);
 
-        Parcelable p = getIntent().getExtras().getParcelable("alarm");
-        alarm = (GBAlarm) p;
+        alarm = getIntent().getParcelableExtra("alarm");
+        device = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
 
         timePicker = (TimePicker) findViewById(R.id.alarm_time_picker);
+        smartAlarmLabel = (TextView) findViewById(R.id.alarm_label_smart_wakeup);
         cbSmartWakeup = (CheckBox) findViewById(R.id.alarm_cb_smart_wakeup);
         cbMonday = (CheckBox) findViewById(R.id.alarm_cb_mon);
         cbTuesday = (CheckBox) findViewById(R.id.alarm_cb_tue);
@@ -47,6 +54,9 @@ public class AlarmDetails extends GBActivity {
         timePicker.setCurrentMinute(alarm.getMinute());
 
         cbSmartWakeup.setChecked(alarm.isSmartWakeup());
+        int smartAlarmVisibility = supportsSmartWakeup() ? View.VISIBLE : View.GONE;
+        cbSmartWakeup.setVisibility(smartAlarmVisibility);
+        smartAlarmLabel.setVisibility(smartAlarmVisibility);
 
         cbMonday.setChecked(alarm.getRepetition(GBAlarm.ALARM_MON));
         cbTuesday.setChecked(alarm.getRepetition(GBAlarm.ALARM_TUE));
@@ -56,6 +66,14 @@ public class AlarmDetails extends GBActivity {
         cbSaturday.setChecked(alarm.getRepetition(GBAlarm.ALARM_SAT));
         cbSunday.setChecked(alarm.getRepetition(GBAlarm.ALARM_SUN));
 
+    }
+
+    private boolean supportsSmartWakeup() {
+        if (device != null) {
+            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+            return coordinator.supportsSmartWakeup(device);
+        }
+        return false;
     }
 
     @Override
