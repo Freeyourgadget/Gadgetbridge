@@ -14,6 +14,7 @@ public enum DeviceType {
     VIBRATISSIMO(20),
     LIVEVIEW(30),
     HPLUS(40),
+    MAKIBESF68(50),
     TEST(1000);
 
     private final int key;

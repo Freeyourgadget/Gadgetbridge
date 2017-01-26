@@ -38,8 +38,8 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class HPlusCoordinator extends AbstractDeviceCoordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(HPlusCoordinator.class);
-    private static Prefs prefs  = GBApplication.getPrefs();
+    protected static final Logger LOG = LoggerFactory.getLogger(HPlusCoordinator.class);
+    protected static Prefs prefs  = GBApplication.getPrefs();
 
     @NonNull
     @Override
@@ -144,8 +144,8 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
         return activityUser.getStepsGoal();
     }
 
-    public static byte getCountry(String address) {
-        return (byte) prefs.getInt(HPlusConstants.PREF_HPLUS_COUNTRY + "_" + address, 10);
+    public static byte getLanguage(String address) {
+        return (byte) prefs.getInt(HPlusConstants.PREF_HPLUS_LANGUAGE + "_" + address, HPlusConstants.ARG_LANGUAGE_EN);
 
     }
 
