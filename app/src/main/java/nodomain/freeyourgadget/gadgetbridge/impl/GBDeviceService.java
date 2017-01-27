@@ -3,7 +3,9 @@ package nodomain.freeyourgadget.gadgetbridge.impl;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
@@ -21,6 +23,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.LanguageUtils;
 
+import static nodomain.freeyourgadget.gadgetbridge.util.JavaExtensions.coalesce;
+
 public class GBDeviceService implements DeviceService {
     protected final Context mContext;
     private final Class<? extends Service> mServiceClass;
@@ -32,6 +36,7 @@ public class GBDeviceService implements DeviceService {
             EXTRA_NOTIFICATION_BODY,
             EXTRA_NOTIFICATION_SOURCENAME,
             EXTRA_CALL_PHONENUMBER,
+            EXTRA_CALL_DISPLAYNAME,
             EXTRA_MUSIC_ARTIST,
             EXTRA_MUSIC_ALBUM,
             EXTRA_MUSIC_TRACK,
@@ -111,7 +116,7 @@ public class GBDeviceService implements DeviceService {
         Intent intent = createIntent().setAction(ACTION_NOTIFICATION)
                 .putExtra(EXTRA_NOTIFICATION_FLAGS, notificationSpec.flags)
                 .putExtra(EXTRA_NOTIFICATION_PHONENUMBER, notificationSpec.phoneNumber)
-                .putExtra(EXTRA_NOTIFICATION_SENDER, notificationSpec.sender)
+                .putExtra(EXTRA_NOTIFICATION_SENDER, coalesce(notificationSpec.sender, getContactDisplayNameByNumber(notificationSpec.phoneNumber)))
                 .putExtra(EXTRA_NOTIFICATION_SUBJECT, notificationSpec.subject)
                 .putExtra(EXTRA_NOTIFICATION_TITLE, notificationSpec.title)
                 .putExtra(EXTRA_NOTIFICATION_BODY, notificationSpec.body)
@@ -144,9 +149,9 @@ public class GBDeviceService implements DeviceService {
 
     @Override
     public void onSetCallState(CallSpec callSpec) {
-        // name is actually ignored and provided by the service itself...
         Intent intent = createIntent().setAction(ACTION_CALLSTATE)
                 .putExtra(EXTRA_CALL_PHONENUMBER, callSpec.number)
+                .putExtra(EXTRA_CALL_DISPLAYNAME, coalesce(callSpec.name, getContactDisplayNameByNumber(callSpec.number)))
                 .putExtra(EXTRA_CALL_COMMAND, callSpec.command);
         invokeService(intent);
     }
@@ -331,5 +336,30 @@ public class GBDeviceService implements DeviceService {
                 .putExtra(EXTRA_WEATHER_TOMORROWMINTEMP, weatherSpec.tomorrowMinTemp)
                 .putExtra(EXTRA_WEATHER_TOMORROWCONDITIONCODE, weatherSpec.tomorrowConditionCode);
         invokeService(intent);
+    }
+
+    /**
+     * Returns contact DisplayName by call number
+     * @param number contact number
+     * @return contact DisplayName, if found it
+     */
+    private String getContactDisplayNameByNumber(String number) {
+        Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
+        String name = number;
+
+        if (number == null || number.equals("")) {
+            return name;
+        }
+
+        try (Cursor contactLookup = mContext.getContentResolver().query(uri, null, null, null, null)) {
+            if (contactLookup != null && contactLookup.getCount() > 0) {
+                contactLookup.moveToNext();
+                name = contactLookup.getString(contactLookup.getColumnIndex(ContactsContract.Data.DISPLAY_NAME));
+            }
+        } catch (SecurityException e) {
+            // ignore, just return name below
+        }
+
+        return name;
     }
 }

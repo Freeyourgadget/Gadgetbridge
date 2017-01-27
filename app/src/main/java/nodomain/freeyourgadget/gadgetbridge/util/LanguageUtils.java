@@ -23,13 +23,20 @@ public class LanguageUtils {
         }
     };
 
-    //check transliterate option status
+    /**
+     * Checks the status of transliteration option
+     * @return true if transliterate option is On, and false, if Off or not exist
+     */
     public static boolean transliterate()
     {
         return GBApplication.getPrefs().getBoolean("transliteration", false);
     }
 
-    //replace unsupported symbols to english analog
+    /**
+     * Replaces unsupported symbols to english
+     * @param txt input text
+     * @return transliterated text
+     */
     public static String transliterate(String txt){
         if (txt == null || txt.isEmpty()) {
             return txt;
@@ -47,7 +54,11 @@ public class LanguageUtils {
         return flattenToAscii(message.toString());
     }
 
-    //replace unsupported symbol to english analog text
+    /**
+     * Replaces unsupported symbol to english by {@code transliterateMap}
+     * @param c input char
+     * @return replacement text
+     */
     private static String transliterate(char c){
         char lowerChar = Character.toLowerCase(c);
 
@@ -65,7 +76,11 @@ public class LanguageUtils {
         return String.valueOf(c);
     }
 
-    //convert diacritic
+    /**
+     * Converts the diacritics
+     * @param string input text
+     * @return converted text
+     */
     private static String flattenToAscii(String string) {
         string = Normalizer.normalize(string, Normalizer.Form.NFD);
         return string.replaceAll("\\p{M}", "");
