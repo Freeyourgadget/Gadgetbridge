@@ -1,17 +1,21 @@
 package nodomain.freeyourgadget.gadgetbridge.service;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 
 import org.junit.Test;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.test.TestBase;
 
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_BODY;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -97,4 +101,17 @@ public class DeviceCommunicationServiceTestCase extends TestBase {
         inOrder.verifyNoMoreInteractions();
     }
 
+    @Test
+    public void testTransliterationSupport() {
+        SharedPreferences settings = GBApplication.getPrefs().getPreferences();
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("transliteration", true);
+        editor.commit();
+
+        Intent intent = mDeviceService.createIntent().putExtra(EXTRA_NOTIFICATION_BODY, "Прõсто текčт");
+        mDeviceService.invokeService(intent);
+        String result = intent.getStringExtra(EXTRA_NOTIFICATION_BODY);
+
+        assertTrue("Transliteration support fail!", result.equals("Prosto tekct"));
+    }
 }

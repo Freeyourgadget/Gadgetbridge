@@ -1,5 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.17.3" versioncode="84">
+        <change>HPlus: Improve display of new messages and phone calls</change>
+        <change>HPlus: Fix bug related to steps and heart rate</change>
+        <change>Pebble: Support dynamic keys for natively supported watchfaces and watchapps (more stability accross versions)</change>
+        <change>Pebble: Fix error Toast being displayed when TimeStyle watchface is not installed</change>
+        <change>Mi Band 1+2: Support for connecting wihout BT pairing (workaround for certain connection problems)</change>
+    </release>
+    <release version="0.17.2" versioncode="83">
+        <change>Pebble: Fix temperature unit in Timestyle Pebble watchface</change>
+        <change>Add optional Cyrillic transliteration (for devices lacking the font)</change>
+    </release>
+    <release version="0.17.1" versioncode="82">
+        <change>Pebble: Fix installation of some watchapps</change>
+        <change>Pebble: Try to improve PebbleKit compatibility</change>
+        <change>HPlus: Fix bug setting current date</change>
+    </release>
+    <release version="0.17.0" versioncode="81">
+        <change>Add weather support through "Weather Notification" app</change>
+        <change>Various fixes for K9 mail when using the generic notification receiver</change>
+        <change>Add a preference to hide the notification icon of Gadgetbridge</change>
+        <change>Pebble: Support for build-in weather system app (FW 4.x)</change>
+        <change>Pebble: Add weather support for various watchfaces</change>
+        <change>Pebble: Add option to automatically delete notifications that got dismissed on the phone</change>
+        <change>Pebble: Add option to disable call display</change>
+        <change>Pebble: Bugfix for some PebbleKit enabled 3rd party apps (TCW and maybe other)</change>
+        <change>Pebble 2/LE: Improve reliablitly and transfer speed</change>
+        <change>HPlus: Improved discovery and pairing</change>
+        <change>HPlus: Improved notifications (display + vibration)</change>
+        <change>HPlus: Synchronize time and date</change>
+        <change>HPlus: Display firmware version and battery charge</change>
+        <change>HPlus: Near real time Heart rate measurement</change>
+        <change>HPlus: Experimental synchronization of activity data (only sleep, steps and intensity)</change>
+        <change>HPlus: Fix some disconnection issues</change>
+    </release>
     <release version="0.16.0" versioncode="80">
         <change>New devices: HPlus (e.g. Zeblaze ZeBand), contributed by João Paulo Barraca</change>
         <change>ZeBand: Initial support: notifications, heart rate, sleep monitoring, user configuration, date+time</change>

@@ -278,6 +278,7 @@ public class ControlCenter extends GBActivity {
                 if (selectedDevice != null) {
                     Intent startIntent;
                     startIntent = new Intent(ControlCenter.this, ConfigureAlarms.class);
+                    startIntent.putExtra(GBDevice.EXTRA_DEVICE, selectedDevice);
                     startActivity(startIntent);
                 }
                 return true;

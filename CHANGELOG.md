@@ -1,5 +1,39 @@
 ###Changelog
 
+####Version 0.17.3
+* HPlus: Improve display of new messages and phone calls
+* HPlus: Fix bug related to steps and heart rate
+* Pebble: Support dynamic keys for natively supported watchfaces and watchapps (more stability accross versions)
+* Pebble: Fix error Toast being displayed when TimeStyle watchface is not installed
+* Mi Band 1+2: Support for connecting wihout BT pairing (workaround for certain connection problems)
+
+####Version 0.17.2
+* Pebble: Fix temperature unit in Timestyle Pebble watchface
+* Add optional Cyrillic transliteration (for devices lacking the font)
+
+####Version 0.17.1
+* Pebble: Fix installation of some watchapps
+* Pebble: Try to improve PebbleKit compatibility
+* HPlus: Fix bug setting current date
+
+####Version 0.17.0
+* Add weather support through "Weather Notification" app
+* Various fixes for K9 mail when using the generic notification receiver
+* Add a preference to hide the persistent notification icon of Gadgetbridge
+* Pebble: Support for build-in weather system app (FW 4.x)
+* Pebble: Add weather support for various watchfaces
+* Pebble: Add option to disable call display
+* Pebble: Add option to automatically delete notifications that got dismissed on the phone
+* Pebble: Bugfix for some PebbleKit enabled 3rd party apps (TCW and maybe other)
+* Pebble 2/LE: Improve reliablitly and transfer speed
+* HPlus: Improved discovery and pairing
+* HPlus: Improved notifications (display + vibration)
+* HPlus: Synchronize time and date
+* HPlus: Display firmware version and battery charge
+* HPlus: Near real time Heart rate measurement
+* HPlus: Experimental synchronization of activity data (only sleep, steps and intensity)
+* HPlus: Fix some disconnection issues
+
 ####Version 0.16.0
 * New devices: HPlus (e.g. Zeblaze ZeBand), contributed by João Paulo Barraca
 * ZeBand: Initial support: notifications, heart rate, sleep monitoring, user configuration, date+time

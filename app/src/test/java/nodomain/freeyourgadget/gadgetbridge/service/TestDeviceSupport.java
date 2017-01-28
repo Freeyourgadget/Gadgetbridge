@@ -55,6 +55,11 @@ class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
+    public void onDeleteNotification(int id) {
+
+    }
+
+    @Override
     public void onSetTime() {
 
     }

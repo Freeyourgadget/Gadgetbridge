@@ -21,6 +21,10 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
+    public byte[] encodeDeleteNotification(int id) {
+        return null;
+    }
+
     public byte[] encodeSetTime() {
         return null;
     }

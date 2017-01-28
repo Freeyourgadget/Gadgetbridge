@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.ParcelUuid;
 import android.support.annotation.NonNull;
 
+import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -20,9 +21,9 @@ import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.UserInfo;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.HPlusHealthActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -37,27 +38,22 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class HPlusCoordinator extends AbstractDeviceCoordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(HPlusCoordinator.class);
-    private static Prefs prefs  = GBApplication.getPrefs();
+    protected static final Logger LOG = LoggerFactory.getLogger(HPlusCoordinator.class);
+    protected static Prefs prefs  = GBApplication.getPrefs();
 
     @NonNull
     @Override
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public Collection<? extends ScanFilter> createBLEScanFilters() {
-        ParcelUuid mi2Service = new ParcelUuid(HPlusConstants.UUID_SERVICE_HP);
-        ScanFilter filter = new ScanFilter.Builder().setServiceUuid(mi2Service).build();
+        ParcelUuid hpService = new ParcelUuid(HPlusConstants.UUID_SERVICE_HP);
+        ScanFilter filter = new ScanFilter.Builder().setServiceUuid(hpService).build();
         return Collections.singletonList(filter);
     }
 
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        if (candidate.supportsService(HPlusConstants.UUID_SERVICE_HP)) {
-            return DeviceType.HPLUS;
-        }
-
         String name = candidate.getDevice().getName();
-        LOG.debug("Looking for: " + name);
         if (name != null && name.startsWith("HPLUS")) {
             return DeviceType.HPLUS;
         }
@@ -97,7 +93,7 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
-        return new HPlusSampleProvider(device, session);
+        return new HPlusHealthSampleProvider(device, session);
     }
 
     @Override
@@ -108,6 +104,11 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supportsAlarmConfiguration() {
         return true;
+    }
+
+    @Override
+    public boolean supportsSmartWakeup(GBDevice device) {
+        return false;
     }
 
     @Override
@@ -137,7 +138,9 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
-        // nothing to delete, yet
+        Long deviceId = device.getId();
+        QueryBuilder<?> qb = session.getHPlusHealthActivitySampleDao().queryBuilder();
+        qb.where(HPlusHealthActivitySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
     }
 
     public static int getFitnessGoal(String address) throws IllegalArgumentException {
@@ -146,8 +149,8 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
         return activityUser.getStepsGoal();
     }
 
-    public static byte getCountry(String address) {
-        return (byte) prefs.getInt(HPlusConstants.PREF_HPLUS_COUNTRY + "_" + address, 10);
+    public static byte getLanguage(String address) {
+        return (byte) prefs.getInt(HPlusConstants.PREF_HPLUS_LANGUAGE + "_" + address, HPlusConstants.ARG_LANGUAGE_EN);
 
     }
 
@@ -177,10 +180,13 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
         return (byte) (activityUser.getAge() & 0xFF);
     }
 
-    public static byte getUserSex(String address) {
+    public static byte getUserGender(String address) {
         ActivityUser activityUser = new ActivityUser();
 
-        return (byte) (activityUser.getGender() & 0xFF);
+        if (activityUser.getGender() == ActivityUser.GENDER_MALE)
+            return HPlusConstants.ARG_GENDER_MALE;
+
+        return HPlusConstants.ARG_GENDER_FEMALE;
     }
 
     public static int getGoal(String address) {
@@ -194,7 +200,11 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static byte getAllDayHR(String address) {
-        return (byte) (prefs.getInt(HPlusConstants.PREF_HPLUS_ALLDAYHR + "_" + address, 10) & 0xFF);
+        return (byte) (prefs.getInt(HPlusConstants.PREF_HPLUS_ALLDAYHR + "_" + address, HPlusConstants.ARG_HEARTRATE_ALLDAY_ON) & 0xFF);
+    }
+
+    public static byte getHRState(String address) {
+        return (byte) (prefs.getInt(HPlusConstants.PREF_HPLUS_HR + "_" + address, HPlusConstants.ARG_HEARTRATE_MEASURE_ON) & 0xFF);
     }
 
     public static byte getSocial(String address) {

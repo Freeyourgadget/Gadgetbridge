@@ -106,4 +106,9 @@ public class MiBand2Coordinator extends MiBandCoordinator {
         MiBand2FWInstallHandler handler = new MiBand2FWInstallHandler(uri, context);
         return handler.isValid() ? handler : null;
     }
+
+    @Override
+    public boolean supportsSmartWakeup(GBDevice device) {
+        return false;
+    }
 }

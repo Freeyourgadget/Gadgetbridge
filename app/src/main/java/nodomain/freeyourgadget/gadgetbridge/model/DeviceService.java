@@ -16,6 +16,7 @@ public interface DeviceService extends EventHandler {
     String ACTION_START = PREFIX + ".action.start";
     String ACTION_CONNECT = PREFIX + ".action.connect";
     String ACTION_NOTIFICATION = PREFIX + ".action.notification";
+    String ACTION_DELETE_NOTIFICATION = PREFIX + ".action.delete_notification";
     String ACTION_CALLSTATE = PREFIX + ".action.callstate";
     String ACTION_SETCANNEDMESSAGES = PREFIX + ".action.setcannedmessages";
     String ACTION_SETTIME = PREFIX + ".action.settime";
@@ -46,7 +47,6 @@ public interface DeviceService extends EventHandler {
     String ACTION_SEND_CONFIGURATION = PREFIX + ".action.send_configuration";
     String ACTION_SEND_WEATHER = PREFIX + ".action.send_weather";
     String ACTION_TEST_NEW_FUNCTION = PREFIX + ".action.test_new_function";
-    String EXTRA_DEVICE_ADDRESS = "device_address";
     String EXTRA_NOTIFICATION_BODY = "notification_body";
     String EXTRA_NOTIFICATION_FLAGS = "notification_flags";
     String EXTRA_NOTIFICATION_ID = "notification_id";
@@ -111,17 +111,14 @@ public interface DeviceService extends EventHandler {
     String EXTRA_CALENDAREVENT_DURATION = "calendarevent_duration";
     String EXTRA_CALENDAREVENT_TITLE = "calendarevent_title";
     String EXTRA_CALENDAREVENT_DESCRIPTION = "calendarevent_description";
-    String EXTRA_MIBAND2_AUTH_BYTE = "miband2_auth_byte";
 
     void start();
 
     void connect();
 
-    void connect(GBDevice device);
+    void connect(@Nullable GBDevice device);
 
-    void connect(@Nullable String deviceAddress);
-
-    void connect(@Nullable String deviceAddress, boolean performPair);
+    void connect(@Nullable GBDevice device, boolean performPair);
 
     void disconnect();
 

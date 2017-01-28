@@ -1,7 +1,12 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 
 import android.util.Pair;
+import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -9,17 +14,31 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 class AppMessageHandlerTrekVolle extends AppMessageHandler {
-    private static final int MESSAGE_KEY_WEATHER_TEMPERATURE = 10000;
-    private static final int MESSAGE_KEY_WEATHER_CONDITIONS = 10001;
-    private static final int MESSAGE_KEY_WEATHER_ICON = 10002;
-    private static final int MESSAGE_KEY_WEATHER_TEMPERATURE_MIN = 10024;
-    private static final int MESSAGE_KEY_WEATHER_TEMPERATURE_MAX = 10025;
-    private static final int MESSAGE_KEY_WEATHER_LOCATION = 10030;
+    private Integer MESSAGE_KEY_WEATHER_TEMPERATURE;
+    private Integer MESSAGE_KEY_WEATHER_CONDITIONS;
+    private Integer MESSAGE_KEY_WEATHER_ICON;
+    private Integer MESSAGE_KEY_WEATHER_TEMPERATURE_MIN;
+    private Integer MESSAGE_KEY_WEATHER_TEMPERATURE_MAX;
+    private Integer MESSAGE_KEY_WEATHER_LOCATION;
 
     AppMessageHandlerTrekVolle(UUID uuid, PebbleProtocol pebbleProtocol) {
         super(uuid, pebbleProtocol);
+
+        try {
+            JSONObject appKeys = getAppKeys();
+            MESSAGE_KEY_WEATHER_TEMPERATURE = appKeys.getInt("WEATHER_TEMPERATURE");
+            MESSAGE_KEY_WEATHER_CONDITIONS = appKeys.getInt("WEATHER_CONDITIONS");
+            MESSAGE_KEY_WEATHER_ICON = appKeys.getInt("WEATHER_ICON");
+            MESSAGE_KEY_WEATHER_TEMPERATURE_MIN = appKeys.getInt("WEATHER_TEMPERATURE_MIN");
+            MESSAGE_KEY_WEATHER_TEMPERATURE_MAX = appKeys.getInt("WEATHER_TEMPERATURE_MAX");
+            MESSAGE_KEY_WEATHER_LOCATION = appKeys.getInt("WEATHER_LOCATION");
+        } catch (JSONException e) {
+            GB.toast("There was an error accessing the TrekVolle watchface configuration.", Toast.LENGTH_LONG, GB.ERROR);
+        } catch (IOException ignore) {
+        }
     }
 
     private int getIconForConditionCode(int conditionCode, boolean isNight) {
@@ -57,14 +76,6 @@ class AppMessageHandlerTrekVolle extends AppMessageHandler {
 
 
         return mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs);
-    }
-
-    @Override
-    public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
-        // Just ACK
-        GBDeviceEventSendBytes sendBytesAck = new GBDeviceEventSendBytes();
-        sendBytesAck.encodedBytes = mPebbleProtocol.encodeApplicationMessageAck(mUUID, mPebbleProtocol.last_id);
-        return new GBDeviceEvent[]{sendBytesAck};
     }
 
     @Override

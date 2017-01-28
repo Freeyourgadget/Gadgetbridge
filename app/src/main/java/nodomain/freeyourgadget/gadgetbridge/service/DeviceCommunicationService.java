@@ -60,6 +60,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CA
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CONNECT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DELETEAPP;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DELETE_CALENDAREVENT;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DELETE_NOTIFICATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DISCONNECT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ENABLE_HEARTRATE_SLEEP_SUPPORT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT;
@@ -100,7 +101,6 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CAL
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CANNEDMESSAGES;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CANNEDMESSAGES_TYPE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CONFIG;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_DEVICE_ADDRESS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_FIND_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_ALBUM;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_ARTIST;
@@ -176,6 +176,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             String action = intent.getAction();
             if (action.equals(GBDevice.ACTION_DEVICE_CHANGED)) {
                 GBDevice device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
+                // FIXME: mGBDevice was null here once
                 if (mGBDevice.equals(device)) {
                     mGBDevice = device;
                     boolean enableReceivers = mDeviceSupport != null && (mDeviceSupport.useAutoConnect() || mGBDevice.isInitialized());
@@ -275,12 +276,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 GBDevice gbDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                 String btDeviceAddress = null;
                 if (gbDevice == null) {
-                    btDeviceAddress = intent.getStringExtra(EXTRA_DEVICE_ADDRESS);
-                    if (btDeviceAddress == null && prefs != null) { // may be null in test cases
+                    if (prefs != null) { // may be null in test cases
                         btDeviceAddress = prefs.getString("last_device_address", null);
-                    }
-                    if (btDeviceAddress != null) {
-                        gbDevice = DeviceHelper.getInstance().findAvailableDevice(btDeviceAddress, this);
+                        if (btDeviceAddress != null) {
+                            gbDevice = DeviceHelper.getInstance().findAvailableDevice(btDeviceAddress, this);
+                        }
                     }
                 } else {
                     btDeviceAddress = gbDevice.getAddress();
@@ -326,16 +326,18 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 notificationSpec.subject = intent.getStringExtra(EXTRA_NOTIFICATION_SUBJECT);
                 notificationSpec.title = intent.getStringExtra(EXTRA_NOTIFICATION_TITLE);
                 notificationSpec.body = intent.getStringExtra(EXTRA_NOTIFICATION_BODY);
+                notificationSpec.sourceName = intent.getStringExtra(EXTRA_NOTIFICATION_SOURCENAME);
                 notificationSpec.type = (NotificationType) intent.getSerializableExtra(EXTRA_NOTIFICATION_TYPE);
                 notificationSpec.id = intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1);
                 notificationSpec.flags = intent.getIntExtra(EXTRA_NOTIFICATION_FLAGS, 0);
-                notificationSpec.sourceName = intent.getStringExtra(EXTRA_NOTIFICATION_SOURCENAME);
+
                 if (notificationSpec.type == NotificationType.GENERIC_SMS && notificationSpec.phoneNumber != null) {
                     notificationSpec.sender = getContactDisplayNameByNumber(notificationSpec.phoneNumber);
 
                     notificationSpec.id = mRandom.nextInt(); // FIXME: add this in external SMS Receiver?
                     GBApplication.getIDSenderLookup().add(notificationSpec.id, notificationSpec.phoneNumber);
                 }
+
                 if (((notificationSpec.flags & NotificationSpec.FLAG_WEARABLE_REPLY) > 0)
                         || (notificationSpec.type == NotificationType.GENERIC_SMS && notificationSpec.phoneNumber != null)) {
                     // NOTE: maybe not where it belongs
@@ -352,7 +354,12 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                         notificationSpec.cannedReplies = replies.toArray(new String[replies.size()]);
                     }
                 }
+
                 mDeviceSupport.onNotification(notificationSpec);
+                break;
+            }
+            case ACTION_DELETE_NOTIFICATION: {
+                mDeviceSupport.onDeleteNotification(intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1));
                 break;
             }
             case ACTION_ADD_CALENDAREVENT: {

@@ -1,17 +1,10 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AbstractAppManagerFragment">
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent">
-
         <com.woxthebox.draglistview.DragListView
             android:id="@+id/appListView"
             android:layout_width="match_parent"
             android:layout_height="fill_parent" />
-    </FrameLayout>
-
-</FrameLayout>
+</RelativeLayout>

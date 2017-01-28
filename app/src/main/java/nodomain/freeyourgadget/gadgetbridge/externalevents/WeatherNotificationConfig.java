@@ -1,9 +1,14 @@
 package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
-import android.app.Activity;
+import android.os.Bundle;
 
-public class WeatherNotificationConfig extends Activity {
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.GBActivity;
 
-    //TODO: we just need the user to enable us in the weather notification settings. There must be a better way
-
+public class WeatherNotificationConfig extends GBActivity {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_weather_notification);
+    }
 }

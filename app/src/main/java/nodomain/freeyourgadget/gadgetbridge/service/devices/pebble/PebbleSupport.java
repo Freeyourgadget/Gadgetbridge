@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -120,7 +121,9 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
     @Override
     public void onSetCallState(CallSpec callSpec) {
         if (reconnect()) {
-            super.onSetCallState(callSpec);
+            if ((callSpec.command != CallSpec.CALL_OUTGOING) || GBApplication.getPrefs().getBoolean("pebble_enable_outgoing_call", true)) {
+                super.onSetCallState(callSpec);
+            }
         }
     }
 

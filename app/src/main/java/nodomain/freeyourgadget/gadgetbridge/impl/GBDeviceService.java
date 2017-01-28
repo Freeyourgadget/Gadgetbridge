@@ -19,10 +19,25 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.util.LanguageUtils;
 
 public class GBDeviceService implements DeviceService {
     protected final Context mContext;
     private final Class<? extends Service> mServiceClass;
+    private final String[] transliterationExtras = new String[]{
+            EXTRA_NOTIFICATION_PHONENUMBER,
+            EXTRA_NOTIFICATION_SENDER,
+            EXTRA_NOTIFICATION_SUBJECT,
+            EXTRA_NOTIFICATION_TITLE,
+            EXTRA_NOTIFICATION_BODY,
+            EXTRA_NOTIFICATION_SOURCENAME,
+            EXTRA_CALL_PHONENUMBER,
+            EXTRA_MUSIC_ARTIST,
+            EXTRA_MUSIC_ALBUM,
+            EXTRA_MUSIC_TRACK,
+            EXTRA_CALENDAREVENT_TITLE,
+            EXTRA_CALENDAREVENT_DESCRIPTION
+    };
 
     public GBDeviceService(Context context) {
         mContext = context;
@@ -34,6 +49,14 @@ public class GBDeviceService implements DeviceService {
     }
 
     protected void invokeService(Intent intent) {
+        if(LanguageUtils.transliterate()){
+            for (String extra: transliterationExtras) {
+                if (intent.hasExtra(extra)){
+                    intent.putExtra(extra, LanguageUtils.transliterate(intent.getStringExtra(extra)));
+                }
+            }
+        }
+
         mContext.startService(intent);
     }
 
@@ -53,21 +76,14 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void connect(GBDevice device) {
-        Intent intent = createIntent().setAction(ACTION_CONNECT)
-                .putExtra(GBDevice.EXTRA_DEVICE, device);
-        invokeService(intent);
+    public void connect(@Nullable GBDevice device) {
+        connect(device, false);
     }
 
-    @Override
-    public void connect(@Nullable String deviceAddress) {
-        connect(deviceAddress, false);
-    }
-
-    @Override
-    public void connect(@Nullable String deviceAddress, boolean performPair) {
+        @Override
+    public void connect(@Nullable GBDevice device, boolean performPair) {
         Intent intent = createIntent().setAction(ACTION_CONNECT)
-                .putExtra(EXTRA_DEVICE_ADDRESS, deviceAddress)
+                .putExtra(GBDevice.EXTRA_DEVICE, device)
                 .putExtra(EXTRA_PERFORM_PAIR, performPair);
         invokeService(intent);
     }
@@ -103,6 +119,14 @@ public class GBDeviceService implements DeviceService {
                 .putExtra(EXTRA_NOTIFICATION_TYPE, notificationSpec.type)
                 .putExtra(EXTRA_NOTIFICATION_SOURCENAME, notificationSpec.sourceName);
         invokeService(intent);
+    }
+
+    @Override
+    public void onDeleteNotification(int id) {
+        Intent intent = createIntent().setAction(ACTION_DELETE_NOTIFICATION)
+                .putExtra(EXTRA_NOTIFICATION_ID, id);
+        invokeService(intent);
+
     }
 
     @Override

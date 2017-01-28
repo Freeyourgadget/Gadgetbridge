@@ -354,6 +354,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
     public static final UUID UUID_PEBBLE_HEALTH = UUID.fromString("36d8c6ed-4c83-4fa1-a9e2-8f12dc941f8c"); // FIXME: store somewhere else, this is also accessed by other code
     public static final UUID UUID_WORKOUT = UUID.fromString("fef82c82-7176-4e22-88de-35a3fc18d43f"); // FIXME: store somewhere else, this is also accessed by other code
     public static final UUID UUID_WEATHER = UUID.fromString("61b22bc8-1e29-460d-a236-3fe409a439ff"); // FIXME: store somewhere else, this is also accessed by other code
+    public static final UUID UUID_NOTIFICATIONS = UUID.fromString("b2cae818-10f8-46df-ad2b-98ad2254a3c1");
+
     private static final UUID UUID_GBPEBBLE = UUID.fromString("61476764-7465-7262-6469-656775527a6c");
     private static final UUID UUID_MORPHEUZ = UUID.fromString("5be44f1d-d262-4ea6-aa30-ddbec1e3cab2");
     private static final UUID UUID_MISFIT = UUID.fromString("0b73b76a-cd65-4dc2-9585-aaa213320858");
@@ -362,6 +364,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private static final UUID UUID_MARIOTIME = UUID.fromString("43caa750-2896-4f46-94dc-1adbd4bc1ff3");
     private static final UUID UUID_HELTHIFY = UUID.fromString("7ee97b2c-95e8-4720-b94e-70fccd905d98");
     private static final UUID UUID_TREKVOLLE = UUID.fromString("2da02267-7a19-4e49-9ed1-439d25db14e4");
+    private static final UUID UUID_SQUARE = UUID.fromString("cb332373-4ee5-4c5c-8912-4f62af2d756c");
+    private static final UUID UUID_ZALEWSZCZAK_CROWEX = UUID.fromString("a88b3151-2426-43c6-b1d0-9b288b3ec47e");
+    private static final UUID UUID_ZALEWSZCZAK_FANCY = UUID.fromString("014e17bf-5878-4781-8be1-8ef998cee1ba");
+    private static final UUID UUID_ZALEWSZCZAK_TALLY = UUID.fromString("abb51965-52e2-440a-b93c-843eeacb697d");
 
     private static final UUID UUID_ZERO = new UUID(0, 0);
 
@@ -380,6 +386,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
         mAppMessageHandlers.put(UUID_MARIOTIME, new AppMessageHandlerMarioTime(UUID_MARIOTIME, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_HELTHIFY, new AppMessageHandlerHealthify(UUID_HELTHIFY, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_TREKVOLLE, new AppMessageHandlerTrekVolle(UUID_TREKVOLLE, PebbleProtocol.this));
+        mAppMessageHandlers.put(UUID_SQUARE, new AppMessageHandlerSquare(UUID_SQUARE, PebbleProtocol.this));
+        mAppMessageHandlers.put(UUID_ZALEWSZCZAK_CROWEX, new AppMessageHandlerZalewszczak(UUID_ZALEWSZCZAK_CROWEX, PebbleProtocol.this));
+        mAppMessageHandlers.put(UUID_ZALEWSZCZAK_FANCY, new AppMessageHandlerZalewszczak(UUID_ZALEWSZCZAK_FANCY, PebbleProtocol.this));
+        mAppMessageHandlers.put(UUID_ZALEWSZCZAK_TALLY, new AppMessageHandlerZalewszczak(UUID_ZALEWSZCZAK_TALLY, PebbleProtocol.this));
     }
 
     private final HashMap<Byte, DatalogSession> mDatalogSessions = new HashMap<>();
@@ -471,6 +481,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
             // be aware that type is at this point always NOTIFICATION_EMAIL
             return encodeMessage(ENDPOINT_NOTIFICATION, NOTIFICATION_EMAIL, 0, parts);
         }
+    }
+
+    @Override
+    public byte[] encodeDeleteNotification(int id) {
+        return encodeBlobdb(new UUID(GB_UUID_MASK, id), BLOBDB_DELETE, BLOBDB_NOTIFICATION, null);
     }
 
     @Override
@@ -907,19 +922,16 @@ public class PebbleProtocol extends GBDeviceProtocol {
             }
         }
 
-        UUID uuid = UUID.randomUUID();
         short pin_length = (short) (NOTIFICATION_PIN_LENGTH + attributes_length);
 
         ByteBuffer buf = ByteBuffer.allocate(pin_length);
 
         // pin - 46 bytes
         buf.order(ByteOrder.BIG_ENDIAN);
-        buf.putLong(uuid.getMostSignificantBits());
-        buf.putInt((int) (uuid.getLeastSignificantBits() >>> 32));
-        buf.putInt(id);
-        buf.putLong(uuid.getMostSignificantBits());
-        buf.putInt((int) (uuid.getLeastSignificantBits() >>> 32));
-        buf.putInt(id);
+        buf.putLong(GB_UUID_MASK);
+        buf.putLong(id);
+        buf.putLong(UUID_NOTIFICATIONS.getMostSignificantBits());
+        buf.putLong(UUID_NOTIFICATIONS.getLeastSignificantBits());
         buf.order(ByteOrder.LITTLE_ENDIAN);
         buf.putInt(timestamp); // 32-bit timestamp
         buf.putShort((short) 0); // duration
@@ -1686,6 +1698,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     byte[] encodeApplicationMessageAck(UUID uuid, byte id) {
+        if (uuid == null) {
+            uuid = currentRunningApp;
+        }
         ByteBuffer buf = ByteBuffer.allocate(LENGTH_PREFIX + 18); // +ACK
 
         buf.order(ByteOrder.BIG_ENDIAN);
@@ -1694,7 +1709,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put(APPLICATIONMESSAGE_ACK);
         buf.put(id);
         buf.putLong(uuid.getMostSignificantBits());
-        buf.putLong(uuid.getMostSignificantBits());
+        buf.putLong(uuid.getLeastSignificantBits());
 
         return buf.array();
     }
@@ -1771,6 +1786,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
             byte type = buf.get();
             short length = buf.getShort();
             jsonObject.put("key", key);
+            if (type == TYPE_CSTRING) {
+                length--;
+            }
             jsonObject.put("length", length);
             switch (type) {
                 case TYPE_UINT:
@@ -1799,10 +1817,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
                     buf.get(bytes);
                     if (type == TYPE_BYTEARRAY) {
                         jsonObject.put("type", "bytes");
-                        jsonObject.put("value", Base64.encode(bytes, Base64.NO_WRAP));
+                        jsonObject.put("value", new String(Base64.encode(bytes, Base64.NO_WRAP)));
                     } else {
                         jsonObject.put("type", "string");
                         jsonObject.put("value", new String(bytes));
+                        buf.get(); // skip null-termination;
                     }
                     break;
                 default:
@@ -1813,19 +1832,22 @@ public class PebbleProtocol extends GBDeviceProtocol {
         }
 
         // this is a hack we send an ack to the Pebble immediately because we cannot map the transaction_id from the intent back to a uuid yet
+        /*
         GBDeviceEventSendBytes sendBytesAck = new GBDeviceEventSendBytes();
         sendBytesAck.encodedBytes = encodeApplicationMessageAck(uuid, last_id);
-
+        */
         GBDeviceEventAppMessage appMessage = new GBDeviceEventAppMessage();
         appMessage.appUUID = uuid;
         appMessage.id = last_id & 0xff;
         appMessage.message = jsonArray.toString();
-        return new GBDeviceEvent[]{appMessage, sendBytesAck};
+        return new GBDeviceEvent[]{appMessage};
     }
 
     byte[] encodeApplicationMessagePush(short endpoint, UUID uuid, ArrayList<Pair<Integer, Object>> pairs) {
         int length = LENGTH_UUID + 3; // UUID + (PUSH + id + length of dict)
         for (Pair<Integer, Object> pair : pairs) {
+            if (pair.first == null || pair.second == null)
+                continue;
             length += 7; // key + type + length
             if (pair.second instanceof Integer) {
                 length += 4;
@@ -1854,6 +1876,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         buf.order(ByteOrder.LITTLE_ENDIAN);
         for (Pair<Integer, Object> pair : pairs) {
+            if (pair.first == null || pair.second == null)
+                continue;
             buf.putInt(pair.first);
             if (pair.second instanceof Integer) {
                 buf.put(TYPE_INT);
@@ -1890,8 +1914,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
             try {
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
                 String type = (String) jsonObject.get("type");
-                int key = (int) jsonObject.get("key");
-                int length = (int) jsonObject.get("length");
+                int key = jsonObject.getInt("key");
+                int length = jsonObject.getInt("length");
                 switch (type) {
                     case "uint":
                     case "int":

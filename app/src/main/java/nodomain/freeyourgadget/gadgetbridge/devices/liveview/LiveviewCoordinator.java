@@ -73,6 +73,11 @@ public class LiveviewCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsSmartWakeup(GBDevice device) {
+        return false;
+    }
+
+    @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
         return false;
     }

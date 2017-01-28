@@ -32,6 +32,7 @@
     <string name="appmanager_hrm_deactivate">Deactivate HRM</string>
     <string name="appmanager_weather_activate">Activate system weather app</string>
     <string name="appmanager_weather_deactivate">Deactivate system weather app</string>
+    <string name="appmanager_weather_install_provider">Install the weather notification app</string>
     <string name="app_configure">Configure</string>
     <string name="app_move_to_top">Move to top</string>
 
@@ -65,6 +66,10 @@
 
     <string name="pref_title_language">Language</string>
 
+    <string name="pref_title_minimize_priority">Hide the Gadgetbridge notification</string>
+    <string name="pref_summary_minimize_priority_off">The icon in the status bar and the notification in the lockscreen are shown</string>
+    <string name="pref_summary_minimize_priority_on">The icon in the status bar and the notification in the lockscreen are hidden</string>
+
     <string name="pref_header_notifications">Notifications</string>
     <string name="pref_title_notifications_repetitions">Repetitions</string>
     <string name="pref_title_notifications_call">Phone Calls</string>
@@ -76,6 +81,8 @@
     <string name="pref_title_whenscreenon">… also when screen is on</string>
     <string name="pref_title_notification_filter">Do Not Disturb</string>
     <string name="pref_summary_notification_filter">Stop unwanted Notifications from being sent based on the Do Not Disturb mode.</string>
+    <string name="pref_title_transliteration">Transliteration</string>
+    <string name="pref_summary_transliteration">Enable this if your device has no support for your language\'s font (Currently Cyrillic only)</string>
 
     <string name="always">always</string>
     <string name="when_screen_off">when screen is off</string>
@@ -100,11 +107,17 @@
     <string name="pref_title_pebble_sync_misfit">Sync Misfit</string>
     <string name="pref_title_pebble_sync_morpheuz">Sync Morpheuz</string>
 
+    <string name="pref_title_enable_outgoing_call">Support outgoing calls</string>
+    <string name="pref_summary_enable_outgoing_call">Disabling this will also stop the Pebble 2/LE to vibrate on outgoing calls</string>
+
     <string name="pref_title_enable_pebblekit">Allow 3rd Party Android App Access</string>
     <string name="pref_summary_enable_pebblekit">Enable experimental support for Android Apps using PebbleKit</string>
 
     <string name="pref_title_sunrise_sunset">Sunrise and Sunset</string>
     <string name="pref_summary_sunrise_sunset">Send sunrise and sunset times based on the location to the pebble timeline</string>
+
+    <string name="pref_title_autoremove_notifications">Autoremove dismissed Notifications</string>
+    <string name="pref_summary_autoremove_notifications">Notifications are automatically removed from the Pebble when dismissed from the Android device</string>
 
     <string name="pref_header_location">Location</string>
     <string name="pref_title_location_aquire">Acquire Location</string>
@@ -365,4 +378,8 @@
     <!-- Strings related to Pebble Pairing Activity-->
     <string name="title_activity_pebble_pairing">Pebble Pairing</string>
     <string name="pebble_pairing_hint">A pairing dialog is expected to pop up on your Android device. If that does not happen, look in the notification drawer and accept the pairing request. After that accept the pairing request on your Pebble</string>
+
+    <string name="weather_notification_label">Make sure that this skin is enabled in the Weather Notification app to get weather information on your Pebble.\n\nNo configuration is needed here.\n\nYou can enable the system weather app of your Pebble from the app management.\n\nSupported watchfaces will show the weather automatically.</string>
+    <string name="pref_title_setup_bt_pairing">Enable Bluetooth pairing</string>
+    <string name="pref_summary_setup_bt_pairing">Deactivate this if you have trouble connecting</string>
 </resources>

@@ -23,6 +23,9 @@ import nodomain.freeyourgadget.gadgetbridge.activities.DiscoveryActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.GBActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -34,7 +37,7 @@ public class MiBandPairingActivity extends GBActivity {
     private static final long DELAY_AFTER_BONDING = 1000; // 1s
     private TextView message;
     private boolean isPairing;
-    private String macAddress;
+    private GBDeviceCandidate deviceCandidate;
     private String bondingMacAddress;
 
     private final BroadcastReceiver mPairingReceiver = new BroadcastReceiver() {
@@ -43,9 +46,9 @@ public class MiBandPairingActivity extends GBActivity {
             if (GBDevice.ACTION_DEVICE_CHANGED.equals(intent.getAction())) {
                 GBDevice device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                 LOG.debug("pairing activity: device changed: " + device);
-                if (macAddress.equals(device.getAddress())) {
+                if (deviceCandidate.getMacAddress().equals(device.getAddress())) {
                     if (device.isInitialized()) {
-                        pairingFinished(true, macAddress);
+                        pairingFinished(true, deviceCandidate);
                     } else if (device.isConnecting() || device.isInitializing()) {
                         LOG.info("still connecting/initializing device...");
                     }
@@ -74,7 +77,7 @@ public class MiBandPairingActivity extends GBActivity {
                         attemptToConnect();
                     } else {
                         LOG.warn("Unknown bond state for device " + device.getAddress() + ": " + bondState);
-                        pairingFinished(false, bondingMacAddress);
+                        pairingFinished(false, deviceCandidate);
                     }
                 }
             }
@@ -86,7 +89,7 @@ public class MiBandPairingActivity extends GBActivity {
         new Handler(mainLooper).postDelayed(new Runnable() {
             @Override
             public void run() {
-                performPair();
+                performApplicationLevelPair();
             }
         }, DELAY_AFTER_BONDING);
     }
@@ -98,11 +101,11 @@ public class MiBandPairingActivity extends GBActivity {
 
         message = (TextView) findViewById(R.id.miband_pair_message);
         Intent intent = getIntent();
-        macAddress = intent.getStringExtra(DeviceCoordinator.EXTRA_DEVICE_MAC_ADDRESS);
-        if (macAddress == null && savedInstanceState != null) {
-            macAddress = savedInstanceState.getString(STATE_MIBAND_ADDRESS, null);
+        deviceCandidate = intent.getParcelableExtra(DeviceCoordinator.EXTRA_DEVICE_CANDIDATE);
+        if (deviceCandidate == null && savedInstanceState != null) {
+            deviceCandidate = savedInstanceState.getParcelable(STATE_MIBAND_ADDRESS);
         }
-        if (macAddress == null) {
+        if (deviceCandidate == null) {
             Toast.makeText(this, getString(R.string.message_cannot_pair_no_mac), Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, DiscoveryActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             finish();
@@ -122,13 +125,13 @@ public class MiBandPairingActivity extends GBActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(STATE_MIBAND_ADDRESS, macAddress);
+        outState.putParcelable(STATE_MIBAND_ADDRESS, deviceCandidate);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        macAddress = savedInstanceState.getString(STATE_MIBAND_ADDRESS, macAddress);
+        deviceCandidate = savedInstanceState.getParcelable(STATE_MIBAND_ADDRESS);
     }
 
     @Override
@@ -145,13 +148,9 @@ public class MiBandPairingActivity extends GBActivity {
 
     @Override
     protected void onDestroy() {
-        try {
-            // just to be sure, remove the receivers -- might actually be already unregistered
-            LocalBroadcastManager.getInstance(this).unregisterReceiver(mPairingReceiver);
-            unregisterReceiver(mBondingReceiver);
-        } catch (IllegalArgumentException ex) {
-            // already unregistered, ignore
-        }
+        // just to be sure, remove the receivers -- might actually be already unregistered
+        AndroidUtils.safeUnregisterBroadcastReceiver(LocalBroadcastManager.getInstance(this), mPairingReceiver);
+        AndroidUtils.safeUnregisterBroadcastReceiver(this, mBondingReceiver);
         if (isPairing) {
             stopPairing();
         }
@@ -160,22 +159,30 @@ public class MiBandPairingActivity extends GBActivity {
 
     private void startPairing() {
         isPairing = true;
-        message.setText(getString(R.string.pairing, macAddress));
+        message.setText(getString(R.string.pairing, deviceCandidate));
 
         IntentFilter filter = new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED);
         LocalBroadcastManager.getInstance(this).registerReceiver(mPairingReceiver, filter);
+
+        if (!shouldSetupBTLevelPairing()) {
+            // there are connection problems on certain Galaxy S devices at least;
+            // try to connect without BT pairing (bonding)
+            attemptToConnect();
+            return;
+        }
+
         filter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         registerReceiver(mBondingReceiver, filter);
 
-        BluetoothDevice device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(macAddress);
-        if (device != null) {
-            performBluetoothPair(device);
-        } else {
-            GB.toast(this, "No such Bluetooth Device: " + macAddress, Toast.LENGTH_LONG, GB.ERROR);
-        }
+        performBluetoothPair(deviceCandidate);
     }
 
-    private void pairingFinished(boolean pairedSuccessfully, String macAddress) {
+    private boolean shouldSetupBTLevelPairing() {
+        Prefs prefs = GBApplication.getPrefs();
+        return prefs.getPreferences().getBoolean(MiBandConst.PREF_MIBAND_SETUP_BT_PAIRING, true);
+    }
+
+    private void pairingFinished(boolean pairedSuccessfully, GBDeviceCandidate candidate) {
         LOG.debug("pairingFinished: " + pairedSuccessfully);
         if (!isPairing) {
             // already gone?
@@ -183,13 +190,14 @@ public class MiBandPairingActivity extends GBActivity {
         }
 
         isPairing = false;
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mPairingReceiver);
-        unregisterReceiver(mBondingReceiver);
+        AndroidUtils.safeUnregisterBroadcastReceiver(LocalBroadcastManager.getInstance(this), mPairingReceiver);
+        AndroidUtils.safeUnregisterBroadcastReceiver(this, mBondingReceiver);
 
         if (pairedSuccessfully) {
             // remember the device since we do not necessarily pair... temporary -- we probably need
             // to query the db for available devices in ControlCenter. But only remember un-bonded
             // devices, as bonded devices are displayed anyway.
+            String macAddress = deviceCandidate.getMacAddress();
             BluetoothDevice device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(macAddress);
             if (device != null && device.getBondState() == BluetoothDevice.BOND_NONE) {
                 Prefs prefs = GBApplication.getPrefs();
@@ -206,11 +214,13 @@ public class MiBandPairingActivity extends GBActivity {
         isPairing = false;
     }
 
-    protected void performBluetoothPair(BluetoothDevice device) {
+    protected void performBluetoothPair(GBDeviceCandidate deviceCandidate) {
+        BluetoothDevice device = deviceCandidate.getDevice();
+
         int bondState = device.getBondState();
         if (bondState == BluetoothDevice.BOND_BONDED) {
             GB.toast(getString(R.string.pairing_already_bonded, device.getName(), device.getAddress()), Toast.LENGTH_SHORT, GB.INFO);
-            performPair();
+            performApplicationLevelPair();
             return;
         }
 
@@ -226,8 +236,13 @@ public class MiBandPairingActivity extends GBActivity {
         }
     }
 
-    private void performPair() {
+    private void performApplicationLevelPair() {
         GBApplication.deviceService().disconnect(); // just to make sure...
-        GBApplication.deviceService().connect(macAddress, true);
+        GBDevice device = DeviceHelper.getInstance().toSupportedDevice(deviceCandidate);
+        if (device != null) {
+            GBApplication.deviceService().connect(device, true);
+        } else {
+            GB.toast(this, "Unable to connect, can't recognize the device type: " + deviceCandidate, Toast.LENGTH_LONG, GB.ERROR);
+        }
     }
 }

@@ -509,7 +509,7 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
         Class<? extends Activity> pairingActivity = coordinator.getPairingActivity();
         if (pairingActivity != null) {
             Intent intent = new Intent(this, pairingActivity);
-            intent.putExtra(DeviceCoordinator.EXTRA_DEVICE_MAC_ADDRESS, deviceCandidate.getMacAddress());
+            intent.putExtra(DeviceCoordinator.EXTRA_DEVICE_CANDIDATE, deviceCandidate);
             startActivity(intent);
         } else {
             try {

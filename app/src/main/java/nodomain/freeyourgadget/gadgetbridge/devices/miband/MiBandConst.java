@@ -19,6 +19,7 @@ public final class MiBandConst {
 	public static final String PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS = "mi_device_time_offset_hours";
 	public static final String PREF_MI2_DATEFORMAT = "mi2_dateformat";
 	public static final String PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT = "mi2_activate_display_on_lift_wrist";
+    public static final String PREF_MIBAND_SETUP_BT_PAIRING = "mi_setup_bt_pairing";
 
 
     public static final String ORIGIN_INCOMING_CALL = "incoming_call";

@@ -23,6 +23,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.UnknownDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.hplus.MakibesF68Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.liveview.LiveviewCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
@@ -123,7 +124,10 @@ public class DeviceHelper {
 
     public GBDevice toSupportedDevice(BluetoothDevice device) {
         GBDeviceCandidate candidate = new GBDeviceCandidate(device, GBDevice.RSSI_UNKNOWN, device.getUuids());
+        return toSupportedDevice(candidate);
+    }
 
+    public GBDevice toSupportedDevice(GBDeviceCandidate candidate) {
         for (DeviceCoordinator coordinator : getAllCoordinators()) {
             if (coordinator.supports(candidate)) {
                 return coordinator.createDevice(candidate);
@@ -169,6 +173,8 @@ public class DeviceHelper {
         result.add(new VibratissimoCoordinator());
         result.add(new LiveviewCoordinator());
         result.add(new HPlusCoordinator());
+        result.add(new MakibesF68Coordinator());
+
         return result;
     }
 

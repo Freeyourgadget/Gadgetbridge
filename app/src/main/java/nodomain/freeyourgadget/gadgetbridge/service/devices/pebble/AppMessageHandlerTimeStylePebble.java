@@ -1,23 +1,24 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 
 import android.util.Pair;
+import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 class AppMessageHandlerTimeStylePebble extends AppMessageHandler {
-    private static final int MESSAGE_KEY_WeatherCondition = 10000;
-    private static final int MESSAGE_KEY_WeatherForecastCondition = 10002;
-    private static final int MESSAGE_KEY_WeatherForecastHighTemp = 10003;
-    private static final int MESSAGE_KEY_WeatherForecastLowTemp = 10004;
-    private static final int MESSAGE_KEY_WeatherTemperature = 10001;
-    private static final int MESSAGE_KEY_WeatherUseNightIcon = 10025;
-
 
     private static final int ICON_CLEAR_DAY = 0;
     private static final int ICON_CLEAR_NIGHT = 1;
@@ -34,6 +35,28 @@ class AppMessageHandlerTimeStylePebble extends AppMessageHandler {
 
     AppMessageHandlerTimeStylePebble(UUID uuid, PebbleProtocol pebbleProtocol) {
         super(uuid, pebbleProtocol);
+        messageKeys = new HashMap<>();
+        try {
+            JSONObject appKeys = getAppKeys();
+            Iterator<String> appKeysIterator = appKeys.keys();
+            while (appKeysIterator.hasNext()) {
+                String current = appKeysIterator.next();
+                switch (current) {
+                    case "WeatherCondition":
+                    case "WeatherForecastCondition":
+                    case "WeatherForecastHighTemp":
+                    case "WeatherForecastLowTemp":
+                    case "WeatherTemperature":
+                    case "SettingUseMetric":
+                    case "WeatherUseNightIcon":
+                        messageKeys.put(current, appKeys.getInt(current));
+                        break;
+                }
+            }
+        } catch (JSONException e) {
+            GB.toast("There was an error accessing the timestyle watchface configuration.", Toast.LENGTH_LONG, GB.ERROR);
+        } catch (IOException ignore) {
+        }
     }
 
     /*
@@ -98,23 +121,15 @@ class AppMessageHandlerTimeStylePebble extends AppMessageHandler {
 
         ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>();
         boolean isNight = false;   //TODO: use the night icons when night
-        pairs.add(new Pair<>(MESSAGE_KEY_WeatherUseNightIcon, (Object) (isNight ? 1 : 0)));
-        pairs.add(new Pair<>(MESSAGE_KEY_WeatherTemperature, (Object) (weatherSpec.currentTemp - 273)));
-        pairs.add(new Pair<>(MESSAGE_KEY_WeatherCondition, (Object) (getIconForConditionCode(weatherSpec.currentConditionCode, isNight))));
-        pairs.add(new Pair<>(MESSAGE_KEY_WeatherForecastCondition, (Object) (getIconForConditionCode(weatherSpec.tomorrowConditionCode, isNight))));
-        pairs.add(new Pair<>(MESSAGE_KEY_WeatherForecastHighTemp, (Object) (weatherSpec.todayMaxTemp - 273)));
-
-        pairs.add(new Pair<>(MESSAGE_KEY_WeatherForecastLowTemp, (Object) (weatherSpec.todayMinTemp - 273)));
+        pairs.add(new Pair<>(messageKeys.get("SettingUseMetric"), (Object) 1)); //celsius
+        pairs.add(new Pair<>(messageKeys.get("WeatherUseNightIcon"), (Object) (isNight ? 1 : 0)));
+        pairs.add(new Pair<>(messageKeys.get("WeatherTemperature"), (Object) (weatherSpec.currentTemp - 273)));
+        pairs.add(new Pair<>(messageKeys.get("WeatherCondition"), (Object) (getIconForConditionCode(weatherSpec.currentConditionCode, isNight))));
+        pairs.add(new Pair<>(messageKeys.get("WeatherForecastCondition"), (Object) (getIconForConditionCode(weatherSpec.tomorrowConditionCode, isNight))));
+        pairs.add(new Pair<>(messageKeys.get("WeatherForecastHighTemp"), (Object) (weatherSpec.todayMaxTemp - 273)));
+        pairs.add(new Pair<>(messageKeys.get("WeatherForecastLowTemp"), (Object) (weatherSpec.todayMinTemp - 273)));
 
         return mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs);
-    }
-
-    @Override
-    public GBDeviceEvent[] handleMessage(ArrayList<Pair<Integer, Object>> pairs) {
-        // Just ACK
-        GBDeviceEventSendBytes sendBytesAck = new GBDeviceEventSendBytes();
-        sendBytesAck.encodedBytes = mPebbleProtocol.encodeApplicationMessageAck(mUUID, mPebbleProtocol.last_id);
-        return new GBDeviceEvent[]{sendBytesAck};
     }
 
     @Override

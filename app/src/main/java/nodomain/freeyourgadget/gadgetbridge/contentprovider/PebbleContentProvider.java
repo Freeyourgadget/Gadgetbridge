@@ -63,10 +63,12 @@ public class PebbleContentProvider extends ContentProvider {
             if (prefs.getBoolean("pebble_enable_pebblekit", false)) {
                 appMessage = 1;
             }
+            String fwString = "unknown";
             if (mGBDevice != null && mGBDevice.getType() == DeviceType.PEBBLE && mGBDevice.isInitialized()) {
                 connected = 1;
+                fwString = mGBDevice.getFirmwareVersion();
             }
-            mc.addRow(new Object[]{connected, appMessage, 0, 3, 8, 2, "Gadgetbridge"});
+            mc.addRow(new Object[]{connected, appMessage, 0, 3, 8, 2, fwString});
 
             return mc;
         } else {
