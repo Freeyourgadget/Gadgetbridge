@@ -293,6 +293,7 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
         DeviceType deviceType = DeviceHelper.getInstance().getSupportedType(candidate);
         if (deviceType.isSupported()) {
             candidate.setDeviceType(deviceType);
+            LOG.info("Recognized supported device: " + candidate);
             int index = deviceCandidates.indexOf(candidate);
             if (index >= 0) {
                 deviceCandidates.set(index, candidate); // replace
@@ -506,6 +507,7 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
 
         stopDiscovery();
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(deviceCandidate);
+        LOG.info("Using device candidate " + deviceCandidate + " with coordinator: " + coordinator.getClass());
         Class<? extends Activity> pairingActivity = coordinator.getPairingActivity();
         if (pairingActivity != null) {
             Intent intent = new Intent(this, pairingActivity);
