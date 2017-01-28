@@ -166,7 +166,7 @@ public class DeviceHelper {
     }
 
     private List<DeviceCoordinator> createCoordinators() {
-        List<DeviceCoordinator> result = new ArrayList<>(2);
+        List<DeviceCoordinator> result = new ArrayList<>();
         result.add(new MiBand2Coordinator()); // Note: MiBand2 must come before MiBand because detection is hacky, atm
         result.add(new MiBandCoordinator());
         result.add(new PebbleCoordinator());
