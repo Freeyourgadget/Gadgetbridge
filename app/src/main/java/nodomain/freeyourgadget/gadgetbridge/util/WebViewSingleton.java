@@ -110,6 +110,8 @@ public class WebViewSingleton extends Activity {
 
     public static void appMessage(final String message) {
 
+        if (instance == null)
+            return;
         final String appMessage = jsInterface.parseIncomingAppMessage(message);
         LOG.debug("to WEBVIEW: " + appMessage);
 
