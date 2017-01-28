@@ -8,10 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.IBinder;
-import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
@@ -97,6 +95,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CAL
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_TITLE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_TYPE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_COMMAND;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_DISPLAYNAME;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_PHONENUMBER;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CANNEDMESSAGES;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CANNEDMESSAGES_TYPE;
@@ -332,8 +331,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 notificationSpec.flags = intent.getIntExtra(EXTRA_NOTIFICATION_FLAGS, 0);
 
                 if (notificationSpec.type == NotificationType.GENERIC_SMS && notificationSpec.phoneNumber != null) {
-                    notificationSpec.sender = getContactDisplayNameByNumber(notificationSpec.phoneNumber);
-
                     notificationSpec.id = mRandom.nextInt(); // FIXME: add this in external SMS Receiver?
                     GBApplication.getIDSenderLookup().add(notificationSpec.id, notificationSpec.phoneNumber);
                 }
@@ -412,18 +409,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 break;
             }
             case ACTION_CALLSTATE:
-                int command = intent.getIntExtra(EXTRA_CALL_COMMAND, CallSpec.CALL_UNDEFINED);
-
-                String phoneNumber = intent.getStringExtra(EXTRA_CALL_PHONENUMBER);
-                String callerName = null;
-                if (phoneNumber != null) {
-                    callerName = getContactDisplayNameByNumber(phoneNumber);
-                }
-
                 CallSpec callSpec = new CallSpec();
-                callSpec.command = command;
-                callSpec.number = phoneNumber;
-                callSpec.name = callerName;
+                callSpec.command = intent.getIntExtra(EXTRA_CALL_COMMAND, CallSpec.CALL_UNDEFINED);
+                callSpec.number = intent.getStringExtra(EXTRA_CALL_PHONENUMBER);
+                callSpec.name = intent.getStringExtra(EXTRA_CALL_DISPLAYNAME);
                 mDeviceSupport.onSetCallState(callSpec);
                 break;
             case ACTION_SETCANNEDMESSAGES:
@@ -685,27 +674,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     @Override
     public IBinder onBind(Intent intent) {
         return null;
-    }
-
-
-    private String getContactDisplayNameByNumber(String number) {
-        Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
-        String name = number;
-
-        if (number == null || number.equals("")) {
-            return name;
-        }
-
-        try (Cursor contactLookup = getContentResolver().query(uri, null, null, null, null)) {
-            if (contactLookup != null && contactLookup.getCount() > 0) {
-                contactLookup.moveToNext();
-                name = contactLookup.getString(contactLookup.getColumnIndex(ContactsContract.Data.DISPLAY_NAME));
-            }
-        } catch (SecurityException e) {
-            // ignore, just return name below
-        }
-
-        return name;
     }
 
     @Override
