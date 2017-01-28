@@ -54,12 +54,12 @@ public class MiBand2Coordinator extends MiBandCoordinator {
         // and a heuristic for now
         try {
             BluetoothDevice device = candidate.getDevice();
-            if (isHealthWearable(device)) {
+//            if (isHealthWearable(device)) {
                 String name = device.getName();
                 if (name != null && name.equalsIgnoreCase(MiBandConst.MI_BAND2_NAME)) {
                     return DeviceType.MIBAND2;
                 }
-            }
+//            }
         } catch (Exception ex) {
             LOG.error("unable to check device support", ex);
         }
