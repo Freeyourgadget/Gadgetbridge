@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleIoThread;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class BluetoothStateChangeReceiver extends BroadcastReceiver {
