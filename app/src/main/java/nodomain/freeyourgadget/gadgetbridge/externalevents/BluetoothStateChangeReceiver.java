@@ -6,11 +6,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleIoThread;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class BluetoothStateChangeReceiver extends BroadcastReceiver {
+    private static final Logger LOG = LoggerFactory.getLogger(BluetoothStateChangeReceiver.class);
+
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
@@ -26,6 +32,7 @@ public class BluetoothStateChangeReceiver extends BroadcastReceiver {
                     return;
                 }
 
+                LOG.info("Bluetooth turned on => connecting...");
                 GBApplication.deviceService().connect();
             } else if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF) {
                 GBApplication.quit();
