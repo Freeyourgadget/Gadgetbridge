@@ -26,6 +26,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -109,11 +110,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
         //Initialize device
         sendUserInfo(builder); //Sync preferences
-        setSIT(builder);          //Sync SIT Interval
-        setCurrentDate(builder);  // Sync Current Date
-        setDayOfWeek(builder);
-        setCurrentTime(builder);  // Sync Current Time
-        setLanguage(builder);
+
 
         requestDeviceInfo(builder);
 
@@ -141,68 +138,18 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     private HPlusSupport syncPreferences(TransactionBuilder transaction) {
 
         if(deviceType == DeviceType.HPLUS) {
-            byte gender = HPlusCoordinator.getUserGender(getDevice().getAddress());
-            byte age = HPlusCoordinator.getUserAge(getDevice().getAddress());
-            byte bodyHeight = HPlusCoordinator.getUserHeight(getDevice().getAddress());
-            byte bodyWeight = HPlusCoordinator.getUserWeight(getDevice().getAddress());
-            int goal = HPlusCoordinator.getGoal(getDevice().getAddress());
-            byte displayTime = HPlusCoordinator.getScreenTime(getDevice().getAddress());
-            byte country = HPlusCoordinator.getLanguage(getDevice().getAddress());
-            byte social = HPlusCoordinator.getSocial(getDevice().getAddress()); // ??
-            byte allDayHeart = HPlusCoordinator.getAllDayHR(getDevice().getAddress());
-            byte wrist = HPlusCoordinator.getUserWrist(getDevice().getAddress());
-            byte alertTimeHour = 0;
-            byte alertTimeMinute = 0;
-
-            if (HPlusCoordinator.getSWAlertTime(getDevice().getAddress())) {
-                int t = HPlusCoordinator.getAlertTime(getDevice().getAddress());
-
-                alertTimeHour = (byte) ((t / 256) & 0xff);
-                alertTimeMinute = (byte) (t % 256);
-            }
-
-            byte unit = HPlusCoordinator.getUnit(getDevice().getAddress());
-            byte timemode = HPlusCoordinator.getTimeMode((getDevice().getAddress()));
-
-            transaction.write(ctrlCharacteristic, new byte[]{
-                    HPlusConstants.CMD_SET_PREFS,
-                    gender,
-                    age,
-                    bodyHeight,
-                    bodyWeight,
-                    0,
-                    0,
-                    (byte) ((goal / 256) & 0xff),
-                    (byte) (goal % 256),
-                    displayTime,
-                    country,
-                    0,
-                    social,
-                    allDayHeart,
-                    wrist,
-                    0,
-                    alertTimeHour,
-                    alertTimeMinute,
-                    unit,
-                    timemode
-            });
-
-        }else if(deviceType == DeviceType.MAKIBESF68){
-            //Makibes doesn't support setting everything at once.
-
-            setGender(transaction);
-            setAge(transaction);
-            setWeight(transaction);
-            setHeight(transaction);
-            setGoal(transaction);
-            setLanguage(transaction);
-            setScreenTime(transaction);
-            //setAlarm(transaction, t);
-            setUnit(transaction);
-            setTimeMode(transaction);
+            setSIT(transaction);          //Sync SIT Interval
         }
 
-
+        setGender(transaction);
+        setAge(transaction);
+        setWeight(transaction);
+        setHeight(transaction);
+        setGoal(transaction);
+        setLanguage(transaction);
+        setScreenTime(transaction);
+        setUnit(transaction);
+        setTimeMode(transaction);
         setAllDayHeart(transaction);
 
         return this;
@@ -404,12 +351,8 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     private HPlusSupport setAlarm(TransactionBuilder transaction, Calendar t) {
 
         transaction.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SET_ALARM,
-                (byte) (t.get(Calendar.YEAR) / 256),
-                (byte) (t.get(Calendar.YEAR) % 256),
-                (byte) (t.get(Calendar.MONTH) + 1),
                 (byte) t.get(Calendar.HOUR_OF_DAY),
-                (byte) t.get(Calendar.MINUTE),
-                (byte) t.get(Calendar.SECOND)});
+                (byte) t.get(Calendar.MINUTE)});
 
         return this;
     }
@@ -497,8 +440,11 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             setAlarm(builder, t);
             builder.queue(getQueue());
 
+            GB.toast(getContext(), getContext().getString(R.string.user_feedback_miband_set_alarms_ok), Toast.LENGTH_SHORT, GB.INFO);
+
             return; //Only first alarm
         }
+        GB.toast(getContext(), getContext().getString(R.string.user_feedback_all_alarms_disabled), Toast.LENGTH_SHORT, GB.INFO);
 
     }
 
