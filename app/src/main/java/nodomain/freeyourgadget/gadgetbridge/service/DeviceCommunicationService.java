@@ -599,8 +599,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 mMusicPlaybackReceiver = new MusicPlaybackReceiver();
                 IntentFilter filter = new IntentFilter();
                 filter.addAction("com.android.music.metachanged");
+                filter.addAction("com.android.music.playstatechanged");
+                filter.addAction("com.android.music.playbackcomplete");
                 filter.addAction("net.sourceforge.subsonic.androidapp.EVENT_META_CHANGED");
-                //filter.addAction("com.android.music.playstatechanged");
                 registerReceiver(mMusicPlaybackReceiver, filter);
             }
             if (mTimeChangeReceiver == null) {

@@ -15,6 +15,18 @@ public class MusicStateSpec {
     public byte shuffle;
     public byte repeat;
 
+    public MusicStateSpec() {
+
+    }
+
+    public MusicStateSpec(MusicStateSpec old) {
+        this.state = old.state;
+        this.position = old.position;
+        this.playRate = old.playRate;
+        this.shuffle = old.shuffle;
+        this.repeat = old.repeat;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {

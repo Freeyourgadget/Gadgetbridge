@@ -3,6 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.externalevents;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,17 +27,32 @@ public class MusicPlaybackReceiver extends BroadcastReceiver {
                     value != null ? value.toString() : "null", value != null ? value.getClass().getName() : "no class"));
         }
         */
-        MusicSpec musicSpec = new MusicSpec();
-        musicSpec.artist = intent.getStringExtra("artist");
-        musicSpec.album = intent.getStringExtra("album");
-        if (intent.hasExtra("track")) {
-            musicSpec.track = intent.getStringExtra("track");
-        }
-        else if (intent.hasExtra("title")) {
-            musicSpec.track = intent.getStringExtra("title");
-        }
+        MusicSpec musicSpec = new MusicSpec(lastMusicSpec);
+        MusicStateSpec stateSpec = new MusicStateSpec(lastStatecSpec);
 
-        musicSpec.duration = intent.getIntExtra("duration", 0) / 1000;
+        Bundle incomingBundle = intent.getExtras();
+        for (String key : incomingBundle.keySet()) {
+            Object incoming = incomingBundle.get(key);
+            if (incoming instanceof String && "artist".equals(key)) {
+                musicSpec.artist = (String) incoming;
+            } else if (incoming instanceof String && "album".equals(key)) {
+                musicSpec.album = (String) incoming;
+            } else if (incoming instanceof String && "track".equals(key)) {
+                musicSpec.track = (String) incoming;
+            } else if (incoming instanceof String && "title".equals(key) && musicSpec.track == null) {
+                musicSpec.track = (String) incoming;
+            } else if (incoming instanceof Integer && "duration".equals(key)) {
+                musicSpec.duration = (Integer) incoming / 1000;
+            } else if (incoming instanceof Long && "duration".equals(key)) {
+                musicSpec.duration = ((Long) incoming).intValue() / 1000;
+            } else if (incoming instanceof Integer && "position".equals(key)) {
+                stateSpec.position = (Integer) incoming / 1000;
+            } else if (incoming instanceof Long && "position".equals(key)) {
+                stateSpec.position = ((Long) incoming).intValue() / 1000;
+            } else if (incoming instanceof Boolean && "playing".equals(key)) {
+                stateSpec.state = (byte) (((Boolean) incoming) ? MusicStateSpec.STATE_PLAYING : MusicStateSpec.STATE_PAUSED);
+            }
+        }
 
         if (!lastMusicSpec.equals(musicSpec)) {
             lastMusicSpec = musicSpec;
@@ -47,9 +63,6 @@ public class MusicPlaybackReceiver extends BroadcastReceiver {
         }
 
         if (intent.hasExtra("position") && intent.hasExtra("playing")) {
-            MusicStateSpec stateSpec = new MusicStateSpec();
-            stateSpec.position = intent.getIntExtra("position", 0) / 1000;
-            stateSpec.state = (byte) (intent.getBooleanExtra("playing", true) ? MusicStateSpec.STATE_PLAYING : MusicStateSpec.STATE_PAUSED);
             if (!lastStatecSpec.equals(stateSpec)) {
                 LOG.info("Update Music State: state=" + stateSpec.state + ", position= " + stateSpec.position);
                 GBApplication.deviceService().onSetMusicState(stateSpec);
