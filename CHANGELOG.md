@@ -1,5 +1,8 @@
 ###Changelog
 
+####Version next
+* Better integration with android music players
+
 ####Version 0.17.3
 * HPlus: Improve display of new messages and phone calls
 * HPlus: Fix bug related to steps and heart rate
