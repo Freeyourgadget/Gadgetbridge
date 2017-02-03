@@ -18,8 +18,8 @@ public final class HPlusConstants {
     public static final byte ARG_LANGUAGE_CN = 1;
     public static final byte ARG_LANGUAGE_EN = 2;
 
-    public static final byte ARG_TIMEMODE_24H = 0;
-    public static final byte ARG_TIMEMODE_12H = 1;
+    public static final byte ARG_TIMEMODE_24H = 1;
+    public static final byte ARG_TIMEMODE_12H = 0;
 
     public static final byte ARG_UNIT_METRIC = 0;
     public static final byte ARG_UNIT_IMPERIAL = 1;

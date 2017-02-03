@@ -141,15 +141,20 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             setSIT(transaction);          //Sync SIT Interval
         }
 
+        setCurrentDate(transaction);
+        setCurrentTime(transaction);
+        setDayOfWeek(transaction);
+        setTimeMode(transaction);
+
         setGender(transaction);
         setAge(transaction);
         setWeight(transaction);
         setHeight(transaction);
+
         setGoal(transaction);
         setLanguage(transaction);
         setScreenTime(transaction);
         setUnit(transaction);
-        setTimeMode(transaction);
         setAllDayHeart(transaction);
 
         return this;
