@@ -30,4 +30,10 @@ public class MakibesF68Coordinator extends HPlusCoordinator {
     public DeviceType getDeviceType() {
         return DeviceType.MAKIBESF68;
     }
+
+    @Override
+    public String getManufacturer() {
+        return "Makibes";
+    }
+
 }

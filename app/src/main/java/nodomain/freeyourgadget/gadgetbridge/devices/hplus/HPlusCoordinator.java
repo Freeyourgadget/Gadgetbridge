@@ -143,19 +143,13 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
         qb.where(HPlusHealthActivitySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
     }
 
-    public static int getFitnessGoal(String address) throws IllegalArgumentException {
-        ActivityUser activityUser = new ActivityUser();
-
-        return activityUser.getStepsGoal();
-    }
-
     public static byte getLanguage(String address) {
         return (byte) prefs.getInt(HPlusConstants.PREF_HPLUS_LANGUAGE + "_" + address, HPlusConstants.ARG_LANGUAGE_EN);
 
     }
 
     public static byte getTimeMode(String address) {
-        return (byte) prefs.getInt(HPlusConstants.PREF_HPLUS_TIMEMODE + "_" + address, 0);
+        return (byte) prefs.getInt(HPlusConstants.PREF_HPLUS_TIMEMODE + "_" + address, HPlusConstants.ARG_TIMEMODE_24H);
     }
 
     public static byte getUnit(String address) {
@@ -215,14 +209,6 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
 
     public static byte getUserWrist(String address) {
         return (byte) (prefs.getInt(HPlusConstants.PREF_HPLUS_WRIST + "_" + address, 10) & 0xFF);
-    }
-
-    public static boolean getSWAlertTime(String address) {
-        return prefs.getBoolean(HPlusConstants.PREF_HPLUS_SWALERT + "_" + address, false);
-    }
-
-    public static int getAlertTime(String address) {
-        return prefs.getInt(HPlusConstants.PREF_HPLUS_ALERT_TIME + "_" + address, 0);
     }
 
     public static int getSITStartTime(String address) {
