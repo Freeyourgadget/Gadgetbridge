@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.text.Normalizer;
@@ -67,7 +69,7 @@ public class LanguageUtils {
 
             if (lowerChar != c)
             {
-                return replace.toUpperCase();
+                return WordUtils.capitalize(replace);
             }
 
             return replace;
