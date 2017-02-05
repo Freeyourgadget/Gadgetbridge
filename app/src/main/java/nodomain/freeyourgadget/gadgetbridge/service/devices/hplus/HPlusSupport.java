@@ -432,6 +432,13 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         if (alarms.size() == 0)
             return;
 
+        Calendar t = GregorianCalendar.getInstance();
+        t.set(0, 0, 0, 0, HPlusConstants.ARG_ALARM_DISABLE, HPlusConstants.ARG_ALARM_DISABLE);
+
+        TransactionBuilder builder = new TransactionBuilder("alarm");
+        //Clear all alarms
+        setAlarm(builder, t);
+
         for (Alarm alarm : alarms) {
 
             if (!alarm.isEnabled())
@@ -440,8 +447,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             if (alarm.isSmartWakeup()) //Not available
                 continue;
 
-            Calendar t = alarm.getAlarmCal();
-            TransactionBuilder builder = new TransactionBuilder("alarm");
+            t = alarm.getAlarmCal();
             setAlarm(builder, t);
             builder.queue(getQueue());
 
