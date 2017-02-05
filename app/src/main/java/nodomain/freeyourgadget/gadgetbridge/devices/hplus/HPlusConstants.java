@@ -36,6 +36,8 @@ public final class HPlusConstants {
     public static final byte INCOMING_CALL_STATE_DISABLED_THRESHOLD = 0x7B;
     public static final byte INCOMING_CALL_STATE_ENABLED = (byte) 0xAA;
 
+    public static final byte ARG_ALARM_DISABLE = (byte) -1;
+
     public static final byte[] CMD_SET_PREF_START = new byte[]{0x4f, 0x5a};
     public static final byte[] CMD_SET_PREF_START1 = new byte[]{0x4d};
     //public static final byte CMD_SET_ALARM = 0x4c; Unknown
