@@ -2,6 +2,7 @@
 <changelog>
     <release version="next">
         <change>Better integration with android music players</change>
+        <change>Pebble: Implement notification and incoming call privacy modes</change>
     </release>
 
     <release version="0.17.3" versioncode="84">
