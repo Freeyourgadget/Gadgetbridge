@@ -142,6 +142,13 @@
 
     <string name="pref_title_pebble_reconnect_attempts">Reconnection Attempts</string>
 
+    //HPlus Preferences
+    <string name="pref_title_unit_system">Units</string>
+    <string name="pref_title_timeformat">Time format</string>
+    <string name="pref_title_screentime">Screen on duration</string>
+    <string name="prefs_title_all_day_heart_rate">All day heart rate measurement</string>
+    <string name="preferences_hplus_settings">HPlus/Makibes Settings</string>
+
     <string name="not_connected">not connected</string>
     <string name="connecting">connecting</string>
     <string name="connected">connected</string>
@@ -382,4 +389,11 @@
     <string name="weather_notification_label">Make sure that this skin is enabled in the Weather Notification app to get weather information on your Pebble.\n\nNo configuration is needed here.\n\nYou can enable the system weather app of your Pebble from the app management.\n\nSupported watchfaces will show the weather automatically.</string>
     <string name="pref_title_setup_bt_pairing">Enable Bluetooth pairing</string>
     <string name="pref_summary_setup_bt_pairing">Deactivate this if you have trouble connecting</string>
+
+    <string name="unit_metric">Metric</string>
+    <string name="unit_imperial">Imperial</string>
+
+    <string name="timeformat_24h">24H</string>
+    <string name="timeformat_am_pm">AM/PM</string>
+
 </resources>

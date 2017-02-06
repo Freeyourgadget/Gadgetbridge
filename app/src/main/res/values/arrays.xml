@@ -122,4 +122,24 @@
         <item>@string/p_dateformat_datetime</item>
     </string-array>
 
+    <string-array name="pref_entries_unit_system">
+        <item>@string/unit_metric</item>
+        <item>@string/unit_imperial</item>
+    </string-array>
+
+    <string-array name="pref_values_unit_system">
+        <item>@string/p_unit_metric</item>
+        <item>@string/p_unit_imperial</item>
+    </string-array>
+
+    <string-array name="pref_timeformat_entries">
+        <item>@string/timeformat_24h</item>
+        <item>@string/timeformat_am_pm</item>
+    </string-array>
+
+    <string-array name="pref_timeformat_values">
+        <item>@string/p_timeformat_24h</item>
+        <item>@string/p_timeformat_am_pm</item>
+    </string-array>
+
 </resources>
