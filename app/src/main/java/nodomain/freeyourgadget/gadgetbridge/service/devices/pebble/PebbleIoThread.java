@@ -44,6 +44,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton;
 
 class PebbleIoThread extends GBDeviceIoThread {
     private static final Logger LOG = LoggerFactory.getLogger(PebbleIoThread.class);
@@ -78,6 +79,11 @@ class PebbleIoThread extends GBDeviceIoThread {
     private int mCRC = -1;
     private int mBinarySize = -1;
     private int mBytesWritten = -1;
+
+    private void sendAppMessageJS(GBDeviceEventAppMessage appMessage) {
+        WebViewSingleton.getorInitWebView(getContext(), gbDevice, appMessage.appUUID);
+        WebViewSingleton.appMessage(appMessage.message);
+    }
 
     PebbleIoThread(PebbleSupport pebbleSupport, GBDevice gbDevice, GBDeviceProtocol gbDeviceProtocol, BluetoothAdapter btAdapter, Context context) {
         super(gbDevice, context);
@@ -351,6 +357,9 @@ class PebbleIoThread extends GBDeviceIoThread {
         } else {
             gbDevice.setState(GBDevice.State.WAITING_FOR_RECONNECT);
         }
+
+        WebViewSingleton.disposeWebView();
+
         gbDevice.sendDeviceUpdateIntent(getContext());
     }
 
@@ -475,6 +484,8 @@ class PebbleIoThread extends GBDeviceIoThread {
                     break;
                 case START:
                     LOG.info("got GBDeviceEventAppManagement START event for uuid: " + appMgmt.uuid);
+                    WebViewSingleton.getorInitWebView(getContext(), gbDevice, appMgmt.uuid);
+                    //TODO: the method call above will not work the first time as we need an activity. Either we find a way to have one here, or replace it with a local broadcast
                     break;
                 default:
                     break;
@@ -486,6 +497,7 @@ class PebbleIoThread extends GBDeviceIoThread {
             setInstallSlot(appInfoEvent.freeSlot);
             return false;
         } else if (deviceEvent instanceof GBDeviceEventAppMessage) {
+            sendAppMessageJS((GBDeviceEventAppMessage) deviceEvent);
             if (mEnablePebblekit) {
                 LOG.info("Got AppMessage event");
                 if (mPebbleKitSupport != null) {
