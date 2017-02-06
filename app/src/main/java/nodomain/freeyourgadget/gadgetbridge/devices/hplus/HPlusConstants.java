@@ -27,6 +27,8 @@ public final class HPlusConstants {
     public static final byte ARG_GENDER_MALE = 0;
     public static final byte ARG_GENDER_FEMALE = 1;
 
+    public static final byte ARG_ALARM_DISABLE = (byte) -1;
+
     public static final byte ARG_HEARTRATE_MEASURE_ON = 11;
     public static final byte ARG_HEARTRATE_MEASURE_OFF = 22;
 
