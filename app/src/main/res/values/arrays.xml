@@ -113,6 +113,19 @@
         <item>3</item>
         <item>1</item>
     </string-array>
+
+    <string-array name="pebble_privacymode">
+        <item name="off">@string/pref_pebble_privacy_mode_off</item>
+        <item name="content">@string/pref_pebble_privacy_mode_content</item>
+        <item name="complete">@string/pref_pebble_privacy_mode_complete</item>
+    </string-array>
+
+    <string-array name="pebble_privacymode_values">
+        <item>@string/p_pebble_privacy_mode_off</item>
+        <item>@string/p_pebble_privacy_mode_content</item>
+        <item>@string/p_pebble_privacy_mode_complete</item>
+    </string-array>
+
     <string-array name="mi2_dateformats">
         <item>@string/dateformat_time</item>
         <item>@string/dateformat_date_time</item>

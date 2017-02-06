@@ -2,6 +2,8 @@
 
 ####Version next
 * Better integration with android music players
+* Pebble: Implement notification and incoming call privacy modes
+* Pebble: Support weather for Obisdian watchface
 
 ####Version 0.17.3
 * HPlus: Improve display of new messages and phone calls

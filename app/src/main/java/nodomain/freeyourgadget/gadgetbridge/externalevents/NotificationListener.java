@@ -355,51 +355,51 @@ public class NotificationListener extends NotificationListenerService {
         MediaController c;
         try {
             c = new MediaController(getApplicationContext(), (MediaSession.Token) extras.get(Notification.EXTRA_MEDIA_SESSION));
+
+            PlaybackState s = c.getPlaybackState();
+            stateSpec.position = (int) (s.getPosition() / 1000);
+            stateSpec.playRate = Math.round(100 * s.getPlaybackSpeed());
+            stateSpec.repeat = 1;
+            stateSpec.shuffle = 1;
+            switch (s.getState()) {
+                case PlaybackState.STATE_PLAYING:
+                    stateSpec.state = MusicStateSpec.STATE_PLAYING;
+                    break;
+                case PlaybackState.STATE_STOPPED:
+                    stateSpec.state = MusicStateSpec.STATE_STOPPED;
+                    break;
+                case PlaybackState.STATE_PAUSED:
+                    stateSpec.state = MusicStateSpec.STATE_PAUSED;
+                    break;
+                default:
+                    stateSpec.state = MusicStateSpec.STATE_UNKNOWN;
+                    break;
+            }
+
+            MediaMetadata d = c.getMetadata();
+            if (d == null)
+                return false;
+            if (d.containsKey(MediaMetadata.METADATA_KEY_ARTIST))
+                musicSpec.artist = d.getString(MediaMetadata.METADATA_KEY_ARTIST);
+            if (d.containsKey(MediaMetadata.METADATA_KEY_ALBUM))
+                musicSpec.album = d.getString(MediaMetadata.METADATA_KEY_ALBUM);
+            if (d.containsKey(MediaMetadata.METADATA_KEY_TITLE))
+                musicSpec.track = d.getString(MediaMetadata.METADATA_KEY_TITLE);
+            if (d.containsKey(MediaMetadata.METADATA_KEY_DURATION))
+                musicSpec.duration = (int) d.getLong(MediaMetadata.METADATA_KEY_DURATION) / 1000;
+            if (d.containsKey(MediaMetadata.METADATA_KEY_NUM_TRACKS))
+                musicSpec.trackCount = (int) d.getLong(MediaMetadata.METADATA_KEY_NUM_TRACKS);
+            if (d.containsKey(MediaMetadata.METADATA_KEY_TRACK_NUMBER))
+                musicSpec.trackNr = (int) d.getLong(MediaMetadata.METADATA_KEY_TRACK_NUMBER);
+
+            // finally, tell the device about it
+            GBApplication.deviceService().onSetMusicInfo(musicSpec);
+            GBApplication.deviceService().onSetMusicState(stateSpec);
+
+            return true;
         } catch (NullPointerException e) {
             return false;
         }
-
-        PlaybackState s = c.getPlaybackState();
-        stateSpec.position = (int) (s.getPosition() / 1000);
-        stateSpec.playRate = Math.round(100 * s.getPlaybackSpeed());
-        stateSpec.repeat = 1;
-        stateSpec.shuffle = 1;
-        switch (s.getState()) {
-            case PlaybackState.STATE_PLAYING:
-                stateSpec.state = MusicStateSpec.STATE_PLAYING;
-                break;
-            case PlaybackState.STATE_STOPPED:
-                stateSpec.state = MusicStateSpec.STATE_STOPPED;
-                break;
-            case PlaybackState.STATE_PAUSED:
-                stateSpec.state = MusicStateSpec.STATE_PAUSED;
-                break;
-            default:
-                stateSpec.state = MusicStateSpec.STATE_UNKNOWN;
-                break;
-        }
-
-        MediaMetadata d = c.getMetadata();
-        if (d == null)
-            return false;
-        if (d.containsKey(MediaMetadata.METADATA_KEY_ARTIST))
-            musicSpec.artist = d.getString(MediaMetadata.METADATA_KEY_ARTIST);
-        if (d.containsKey(MediaMetadata.METADATA_KEY_ALBUM))
-            musicSpec.album = d.getString(MediaMetadata.METADATA_KEY_ALBUM);
-        if (d.containsKey(MediaMetadata.METADATA_KEY_TITLE))
-            musicSpec.track = d.getString(MediaMetadata.METADATA_KEY_TITLE);
-        if (d.containsKey(MediaMetadata.METADATA_KEY_DURATION))
-            musicSpec.duration = (int)d.getLong(MediaMetadata.METADATA_KEY_DURATION) / 1000;
-        if (d.containsKey(MediaMetadata.METADATA_KEY_NUM_TRACKS))
-            musicSpec.trackCount = (int)d.getLong(MediaMetadata.METADATA_KEY_NUM_TRACKS);
-        if (d.containsKey(MediaMetadata.METADATA_KEY_TRACK_NUMBER))
-            musicSpec.trackNr = (int)d.getLong(MediaMetadata.METADATA_KEY_TRACK_NUMBER);
-
-        // finally, tell the device about it
-        GBApplication.deviceService().onSetMusicInfo(musicSpec);
-        GBApplication.deviceService().onSetMusicState(stateSpec);
-
-        return true;
     }
 
     @Override

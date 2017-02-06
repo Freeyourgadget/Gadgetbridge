@@ -184,6 +184,13 @@
                     android:key="autoremove_notifications"
                     android:summary="@string/pref_summary_autoremove_notifications"
                     android:title="@string/pref_title_autoremove_notifications" />
+                <ListPreference
+                    android:key="pebble_pref_privacy_mode"
+                    android:title="@string/pref_title_pebble_privacy_mode"
+                    android:entries="@array/pebble_privacymode"
+                    android:entryValues="@array/pebble_privacymode_values"
+                    android:defaultValue="@string/p_pebble_privacy_mode_off"
+                    android:summary="%s" />
             </PreferenceCategory>
             <PreferenceCategory android:title="@string/pref_header_activitytrackers">
                 <ListPreference

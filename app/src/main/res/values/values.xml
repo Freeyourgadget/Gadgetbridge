@@ -18,4 +18,8 @@
     <item name="p_timeformat_24h" type="string">24h</item>
     <item name="p_timeformat_am_pm" type="string">am/pm</item>
 
+    <item name="p_pebble_privacy_mode_off" type="string">off</item>
+    <item name="p_pebble_privacy_mode_content" type="string">content</item>
+    <item name="p_pebble_privacy_mode_complete" type="string">complete</item>
+
 </resources>

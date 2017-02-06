@@ -2,8 +2,9 @@
 <changelog>
     <release version="next">
         <change>Better integration with android music players</change>
+        <change>Pebble: Implement notification and incoming call privacy modes</change>
+        <change>Pebble: Support weather for Obisdian watchface</change>
     </release>
-
     <release version="0.17.3" versioncode="84">
         <change>HPlus: Improve display of new messages and phone calls</change>
         <change>HPlus: Fix bug related to steps and heart rate</change>
