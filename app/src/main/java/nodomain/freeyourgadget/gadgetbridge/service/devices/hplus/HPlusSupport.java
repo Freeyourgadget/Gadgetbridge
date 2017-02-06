@@ -355,9 +355,17 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     private HPlusSupport setAlarm(TransactionBuilder transaction, Calendar t) {
 
+        byte hour = HPlusConstants.ARG_ALARM_DISABLE;
+        byte minute = HPlusConstants.ARG_ALARM_DISABLE;
+
+        if(t != null){
+            hour = (byte) t.get(Calendar.HOUR_OF_DAY);
+            minute = (byte) t.get(Calendar.MINUTE);
+        }
+
         transaction.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SET_ALARM,
-                (byte) t.get(Calendar.HOUR_OF_DAY),
-                (byte) t.get(Calendar.MINUTE)});
+                hour,
+                minute});
 
         return this;
     }
@@ -429,8 +437,8 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
-        if (alarms.size() == 0)
-            return;
+
+        TransactionBuilder builder = new TransactionBuilder("alarm");
 
         for (Alarm alarm : alarms) {
 
@@ -441,7 +449,6 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 continue;
 
             Calendar t = alarm.getAlarmCal();
-            TransactionBuilder builder = new TransactionBuilder("alarm");
             setAlarm(builder, t);
             builder.queue(getQueue());
 
@@ -449,6 +456,10 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
             return; //Only first alarm
         }
+
+        setAlarm(builder, null);
+        builder.queue(getQueue());
+
         GB.toast(getContext(), getContext().getString(R.string.user_feedback_all_alarms_disabled), Toast.LENGTH_SHORT, GB.INFO);
 
     }
