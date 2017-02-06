@@ -395,6 +395,51 @@
                     android:title="Emulator Port" />
             </PreferenceCategory>
         </PreferenceScreen>
+        <PreferenceScreen
+            android:icon="@drawable/ic_device_hplus"
+            android:key="pref_key_hplus"
+            android:title="@string/preferences_hplus_settings">
+            <PreferenceCategory
+                android:key="pref_category_hplus_general"
+                android:title="@string/pref_header_general">
+
+                <ListPreference
+                    android:defaultValue="left"
+                    android:entries="@array/wearside"
+                    android:entryValues="@array/wearside_values"
+                    android:key="hplus_wrist"
+                    android:title="@string/miband_prefs_wearside"
+                    android:summary="%s" />
+
+                <ListPreference
+                    android:defaultValue="24h"
+                    android:entries="@array/pref_timeformat_entries"
+                    android:entryValues="@array/pref_timeformat_values"
+                    android:key="hplus_timeformat"
+                    android:title="@string/pref_title_timeformat"
+                    android:summary="%s" />
+
+                <EditTextPreference
+                    android:defaultValue="5"
+                    android:key="hplus_screentime"
+                    android:title="@string/pref_title_screentime"/>
+
+                <CheckBoxPreference
+                    android:defaultValue="true"
+                    android:key="hplus_alldayhr"
+                    android:title="@string/prefs_title_all_day_heart_rate" />
+
+                <ListPreference
+                    android:defaultValue="metric"
+                    android:entries="@array/pref_entries_unit_system"
+                    android:entryValues="@array/pref_values_unit_system"
+                    android:key="hplus_unit"
+                    android:title="@string/pref_title_unit_system"
+                    android:summary="%s" />
+
+            </PreferenceCategory>
+
+        </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory

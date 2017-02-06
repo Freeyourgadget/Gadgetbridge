@@ -172,6 +172,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     private HPlusSupport setTimeMode(TransactionBuilder transaction) {
         byte value = HPlusCoordinator.getTimeMode(getDevice().getAddress());
+
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_SET_TIMEMODE,
                 value
@@ -333,15 +334,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     private HPlusSupport setAllDayHeart(TransactionBuilder transaction) {
 
-        byte value = HPlusCoordinator.getHRState(getDevice().getAddress());
-
-        transaction.write(ctrlCharacteristic, new byte[]{
-                HPlusConstants.CMD_SET_HEARTRATE_STATE,
-                value
-        });
-
-
-        value = HPlusCoordinator.getAllDayHR(getDevice().getAddress());
+        byte value = HPlusCoordinator.getAllDayHR(getDevice().getAddress());
 
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_SET_ALLDAY_HRM,
@@ -492,7 +485,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onEnableRealtimeSteps(boolean enable) {
-
+        onEnableRealtimeHeartRateMeasurement(enable);
     }
 
     @Override
