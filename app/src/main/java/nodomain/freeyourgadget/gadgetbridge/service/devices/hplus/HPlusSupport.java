@@ -199,8 +199,8 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 HPlusConstants.CMD_SET_DATE,
                 (byte) ((year / 256) & 0xff),
                 (byte) (year % 256),
-                (byte) (month + 1),
-                (byte) (day)
+                (byte) (day),
+                (byte) (month + 1)
 
         });
         return this;
