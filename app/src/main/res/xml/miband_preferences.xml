@@ -18,13 +18,6 @@
             android:summary="%s" />
 
         <EditTextPreference
-            android:defaultValue="10000"
-            android:inputType="number"
-            android:key="mi_fitness_goal"
-            android:maxLength="5"
-            android:title="@string/miband_prefs_fitness_goal" />
-
-        <EditTextPreference
             android:defaultValue="0"
             android:inputType="number"
             android:key="mi_reserve_alarm_calendar"
