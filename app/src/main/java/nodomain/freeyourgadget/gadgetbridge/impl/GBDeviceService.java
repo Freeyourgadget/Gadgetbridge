@@ -11,6 +11,8 @@ import android.support.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -85,7 +87,7 @@ public class GBDeviceService implements DeviceService {
         connect(device, false);
     }
 
-        @Override
+    @Override
     public void connect(@Nullable GBDevice device, boolean performPair) {
         Intent intent = createIntent().setAction(ACTION_CONNECT)
                 .putExtra(GBDevice.EXTRA_DEVICE, device)
@@ -149,9 +151,22 @@ public class GBDeviceService implements DeviceService {
 
     @Override
     public void onSetCallState(CallSpec callSpec) {
+        Context context = GBApplication.getContext();
+        String currentPrivacyMode = GBApplication.getPrefs().getString("pref_call_privacy_mode", GBApplication.getContext().getString(R.string.p_call_privacy_mode_off));
+        if (context.getString(R.string.p_call_privacy_mode_name).equals(currentPrivacyMode)) {
+            callSpec.name = callSpec.number;
+        }
+        else if (context.getString(R.string.p_call_privacy_mode_complete).equals(currentPrivacyMode)) {
+            callSpec.number = null;
+            callSpec.name = null;
+        }
+        else {
+            callSpec.name = coalesce(callSpec.name, getContactDisplayNameByNumber(callSpec.number));
+        }
+
         Intent intent = createIntent().setAction(ACTION_CALLSTATE)
                 .putExtra(EXTRA_CALL_PHONENUMBER, callSpec.number)
-                .putExtra(EXTRA_CALL_DISPLAYNAME, coalesce(callSpec.name, getContactDisplayNameByNumber(callSpec.number)))
+                .putExtra(EXTRA_CALL_DISPLAYNAME, callSpec.name)
                 .putExtra(EXTRA_CALL_COMMAND, callSpec.command);
         invokeService(intent);
     }

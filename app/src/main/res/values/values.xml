@@ -22,4 +22,7 @@
     <item name="p_pebble_privacy_mode_content" type="string">content</item>
     <item name="p_pebble_privacy_mode_complete" type="string">complete</item>
 
+    <item name="p_call_privacy_mode_off" type="string">off</item>
+    <item name="p_call_privacy_mode_name" type="string">name</item>
+    <item name="p_call_privacy_mode_complete" type="string">complete</item>
 </resources>

@@ -36,6 +36,44 @@
             android:summaryOff="@string/pref_summary_minimize_priority_off"
             android:summaryOn="@string/pref_summary_minimize_priority_on"
             android:title="@string/pref_title_minimize_priority" />
+
+        <PreferenceScreen
+            android:key="pref_category_activity_personal"
+            android:title="@string/activity_prefs_about_you">
+
+            <EditTextPreference
+                android:inputType="number"
+                android:key="activity_user_year_of_birth"
+                android:maxLength="4"
+                android:title="@string/activity_prefs_year_birth" />
+
+            <ListPreference
+                android:defaultValue="2"
+                android:entries="@array/gender"
+                android:entryValues="@array/gender_values"
+                android:key="activity_user_gender"
+                android:title="@string/activity_prefs_gender"
+                android:summary="%s" />
+
+            <!--TODO: support localized heights and weights -->
+            <EditTextPreference
+                android:inputType="number"
+                android:key="activity_user_height_cm"
+                android:maxLength="3"
+                android:title="@string/activity_prefs_height_cm" />
+
+            <EditTextPreference
+                android:inputType="number"
+                android:key="activity_user_weight_kg"
+                android:maxLength="3"
+                android:title="@string/activity_prefs_weight_kg" />
+
+            <EditTextPreference
+                android:inputType="number"
+                android:key="activity_user_sleep_duration"
+                android:maxLength="2"
+                android:title="@string/activity_prefs_sleep_duration" />
+        </PreferenceScreen>
     </PreferenceCategory>
     <PreferenceCategory
         android:key="pref_key_datetime"
@@ -109,43 +147,16 @@
             android:title="@string/pref_blacklist" />
     </PreferenceCategory>
 
-    <PreferenceScreen
-        android:key="pref_category_activity_personal"
-        android:title="@string/activity_prefs_about_you">
-
-        <EditTextPreference
-            android:inputType="number"
-            android:key="activity_user_year_of_birth"
-            android:maxLength="4"
-            android:title="@string/activity_prefs_year_birth" />
-
-        <ListPreference
-            android:defaultValue="2"
-            android:entries="@array/gender"
-            android:entryValues="@array/gender_values"
-            android:key="activity_user_gender"
-            android:title="@string/activity_prefs_gender"
-            android:summary="%s" />
-
-        <!--TODO: support localized heights and weights -->
-        <EditTextPreference
-            android:inputType="number"
-            android:key="activity_user_height_cm"
-            android:maxLength="3"
-            android:title="@string/activity_prefs_height_cm" />
-
-        <EditTextPreference
-            android:inputType="number"
-            android:key="activity_user_weight_kg"
-            android:maxLength="3"
-            android:title="@string/activity_prefs_weight_kg" />
-
-        <EditTextPreference
-            android:inputType="number"
-            android:key="activity_user_sleep_duration"
-            android:maxLength="2"
-            android:title="@string/activity_prefs_sleep_duration" />
-    </PreferenceScreen>
+    <PreferenceCategory
+        android:title="@string/pref_header_privacy">
+    <ListPreference
+        android:key="pref_call_privacy_mode"
+        android:title="@string/pref_title_call_privacy_mode"
+        android:entries="@array/pref_call_privacy_mode"
+        android:entryValues="@array/pref_call_privacy_mode_values"
+        android:defaultValue="@string/pref_call_privacy_mode_off"
+        android:summary="%s" />
+    </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/preferences_category_device_specific_settings">

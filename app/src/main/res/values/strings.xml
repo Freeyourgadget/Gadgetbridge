@@ -88,6 +88,12 @@
     <string name="when_screen_off">when screen is off</string>
     <string name="never">never</string>
 
+    <string name="pref_header_privacy">Privacy</string>
+    <string name="pref_title_call_privacy_mode">Call Privacy Mode</string>
+    <string name="pref_call_privacy_mode_off">Display name and number</string>
+    <string name="pref_call_privacy_mode_name">Hide name but display number</string>
+    <string name="pref_call_privacy_mode_complete">Hide name and number</string>
+
     <string name="pref_blacklist">Blacklist Apps</string>
 
     <string name="pref_header_cannned_messages">Canned Messages</string>
@@ -120,9 +126,9 @@
     <string name="pref_summary_autoremove_notifications">Notifications are automatically removed from the Pebble when dismissed from the Android device</string>
 
     <string name="pref_title_pebble_privacy_mode">Privacy mode</string>
-    <string name="pref_pebble_privacy_mode_off">Normal notifications and incoming calls display.</string>
-    <string name="pref_pebble_privacy_mode_content">Shift the notification text off-screen. Hide the caller\'s name on incoming calls.</string>
-    <string name="pref_pebble_privacy_mode_complete">Show only the notification icon. Hide the caller\'s name and number on incoming calls.</string>
+    <string name="pref_pebble_privacy_mode_off">Normal notifications</string>
+    <string name="pref_pebble_privacy_mode_content">Shift the notification text off-screen</string>
+    <string name="pref_pebble_privacy_mode_complete">Show only the notification icon</string>
 
     <string name="pref_header_location">Location</string>
     <string name="pref_title_location_aquire">Acquire Location</string>
