@@ -51,6 +51,8 @@ public class MusicPlaybackReceiver extends BroadcastReceiver {
                 stateSpec.position = ((Long) incoming).intValue() / 1000;
             } else if (incoming instanceof Boolean && "playing".equals(key)) {
                 stateSpec.state = (byte) (((Boolean) incoming) ? MusicStateSpec.STATE_PLAYING : MusicStateSpec.STATE_PAUSED);
+            } else if (incoming instanceof String && "duration".equals(key)){
+                musicSpec.duration = Integer.valueOf((String) incoming) / 1000;
             }
         }
 
