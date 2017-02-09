@@ -70,10 +70,15 @@
   <string name="pref_title_notification_filter">サイレント</string>
   <string name="pref_summary_notification_filter">サイレントモードに基づいて、送信される不要な通知を停止します。</string>
   <string name="pref_title_transliteration">音訳</string>
-  <string name="pref_summary_transliteration">デバイスでお使いの言語のフォントがサポートされていない場合に、使用してください (現在はキリル文字のみ)</string>
+  <string name="pref_summary_transliteration">デバイスでお使いの言語のフォントがサポートされていない場合に、これを有効にしてください (現在はキリル文字のみ)</string>
   <string name="always">いつも</string>
   <string name="when_screen_off">スクリーンがオフのとき</string>
   <string name="never">なし</string>
+  <string name="pref_header_privacy">プライバシー</string>
+  <string name="pref_title_call_privacy_mode">通話プライバシーモード</string>
+  <string name="pref_call_privacy_mode_off">名前と番号を表示</string>
+  <string name="pref_call_privacy_mode_name">名前は非表示、番号は表示</string>
+  <string name="pref_call_privacy_mode_complete">名前と番号を非表示</string>
   <string name="pref_blacklist">アップのブラックリスト</string>
   <string name="pref_header_cannned_messages">定型のメッセージ</string>
   <string name="pref_title_canned_replies">返信</string>
@@ -96,6 +101,10 @@
   <string name="pref_summary_sunrise_sunset">場所に基づいて、Pebble のタイムラインに日の出・日の入りの時間を送ります</string>
   <string name="pref_title_autoremove_notifications">消去した通知を自動削除</string>
   <string name="pref_summary_autoremove_notifications">通知は、Androidデバイスから削除されたときに、Pebbleから自動的に削除されます</string>
+  <string name="pref_title_pebble_privacy_mode">プライバシーモード</string>
+  <string name="pref_pebble_privacy_mode_off">通常の通知</string>
+  <string name="pref_pebble_privacy_mode_content">通知テキストを画面外にシフト</string>
+  <string name="pref_pebble_privacy_mode_complete">通知アイコンのみを表示</string>
   <string name="pref_header_location">場所</string>
   <string name="pref_title_location_aquire">場所の取得</string>
   <string name="pref_title_location_latitude">緯度</string>
@@ -115,6 +124,11 @@
   <string name="pref_title_pebble_enable_applogs">ウォッチアプリのログ記録を有効にする</string>
   <string name="pref_summary_pebble_enable_applogs">Gadgetbridgeがウォッチアプリからログを記録するようにする (再接続が必要です)</string>
   <string name="pref_title_pebble_reconnect_attempts">再接続の試行</string>
+  <string name="pref_title_unit_system">単位</string>
+  <string name="pref_title_timeformat">時刻形式</string>
+  <string name="pref_title_screentime">画面オンの期間</string>
+  <string name="prefs_title_all_day_heart_rate">一日中心拍数測定</string>
+  <string name="preferences_hplus_settings">HPlus/Makibes 設定</string>
   <string name="not_connected">非接続</string>
   <string name="connecting">接続中</string>
   <string name="connected">接続</string>
@@ -338,4 +352,11 @@ Mi Band、Pebble Health、Morpheuz からデータをインポートすること
   <string name="title_activity_pebble_pairing">Pebbleペアリング</string>
   <string name="pebble_pairing_hint">お使いのAndroidデバイスでペアリングのダイアログがポップアップすると思います。 起こらない場合は、通知ドロワーを調べて、ペアリング要求を受け入れます。 その後、Pebbleでペアリング要求を受け入れます</string>
   <string name="weather_notification_label">天気予報アプリでこのスキンが有効になっていることを確認してください。\n\nここで必要な設定はありません。\n\nアプリ管理からPebbleのシステム天気アプリを有効にすることができます。\n\nサポートされているウォッチフェイスが自動的に天気を表示します。</string>
+  <string name="pref_title_setup_bt_pairing">Bluetoothペアリングを有効にする</string>
+  <string name="pref_summary_setup_bt_pairing">接続に問題がある場合は、この機能を無効にしてください</string>
+  <string name="unit_metric">メートル</string>
+  <string name="unit_imperial">ヤード・ポンド</string>
+  <string name="timeformat_24h">24時間</string>
+  <string name="timeformat_am_pm">AM/PM</string>
+  <string name="pref_screen_notification_profile_alarm_clock">アラームクロック</string>
 </resources>

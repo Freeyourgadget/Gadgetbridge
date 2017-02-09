@@ -96,6 +96,7 @@
   <string name="pref_summary_sunrise_sunset">Enviar las horas de salida y puesta de Sol basándose en la localización a la línea cronológica del Pebble</string>
   <string name="pref_title_autoremove_notifications">Eliminar automáticamente las notificaciones rechazadas</string>
   <string name="pref_summary_autoremove_notifications">Las notificaciones se borran automáticamente de Pebble cuando son rechazadas en Android</string>
+  <string name="pref_title_pebble_privacy_mode">Modo privado</string>
   <string name="pref_header_location">Localización</string>
   <string name="pref_title_location_aquire">Buscar localización</string>
   <string name="pref_title_location_latitude">Latitud</string>
@@ -338,4 +339,6 @@ Por favor, ten en cuenta que puedes importar datos desde Mi Band, Pebble Health 
   <string name="title_activity_pebble_pairing">Emparejando con Pebble</string>
   <string name="pebble_pairing_hint">En su dispositivo Android va a aparecer un mensaje para emparejarse. Si no apareciera, mira en el cajón de notificaciones y acepta la propuesta de emparejamiento. Después acepta también en tu Pebble.</string>
   <string name="weather_notification_label">Asegúrate de que este tema esté activado en la aplicación de notificación del tiempo para obtener la información en tu Pebble.\n\nNo se requiere configuración.\n\nPuedes activar la aplicación del tiempo del sistema desde la configuración de la app.\n\nLas watchfaces soportadas mostrarán la información del tiempo automáticamente.</string>
+  <string name="pref_title_setup_bt_pairing">Activar el emparejamiento Bluetooth</string>
+  <string name="pref_summary_setup_bt_pairing">Desactiva esto si tienes problemas de conexión</string>
 </resources>
