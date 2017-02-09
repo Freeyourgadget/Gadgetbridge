@@ -43,4 +43,15 @@ public class MusicStateSpec {
                 this.shuffle == stateSpec.shuffle &&
                 this.repeat == stateSpec.repeat;
     }
+
+    @Override
+    public int hashCode() {
+        int result = (int) state;
+// ignore the position -- it is taken into account in equals()
+//        result = 31 * result + position;
+        result = 31 * result + playRate;
+        result = 31 * result + (int) shuffle;
+        result = 31 * result + (int) repeat;
+        return result;
+    }
 }
