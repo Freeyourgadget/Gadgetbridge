@@ -156,6 +156,15 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
     private Random mRandom = new Random();
 
+    private final String[] mMusicActions = {
+            "com.android.music.metachanged",
+            "com.android.music.playstatechanged",
+            "com.android.music.queuechanged",
+            "com.android.music.playbackcomplete",
+            "net.sourceforge.subsonic.androidapp.EVENT_META_CHANGED",
+            "com.maxmpz.audioplayer.TPOS_SYNC",
+            "com.maxmpz.audioplayer.STATUS_CHANGED",};
+
     /**
      * For testing!
      *
@@ -598,10 +607,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             if (mMusicPlaybackReceiver == null) {
                 mMusicPlaybackReceiver = new MusicPlaybackReceiver();
                 IntentFilter filter = new IntentFilter();
-                filter.addAction("com.android.music.metachanged");
-                filter.addAction("com.android.music.playstatechanged");
-                filter.addAction("com.android.music.playbackcomplete");
-                filter.addAction("net.sourceforge.subsonic.androidapp.EVENT_META_CHANGED");
+                for (String action : mMusicActions){
+                    filter.addAction(action);
+                }
                 registerReceiver(mMusicPlaybackReceiver, filter);
             }
             if (mTimeChangeReceiver == null) {
