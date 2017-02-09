@@ -108,14 +108,6 @@
             android:defaultValue="when_screen_off"
             android:entries="@array/notification_mode"
             android:entryValues="@array/notification_mode_values"
-            android:key="notification_mode_k9mail"
-            android:title="@string/pref_title_notifications_k9mail"
-            android:summary="%s" />
-
-        <ListPreference
-            android:defaultValue="when_screen_off"
-            android:entries="@array/notification_mode"
-            android:entryValues="@array/notification_mode_values"
             android:key="notification_mode_pebblemsg"
             android:summary="@string/pref_summary_notifications_pebblemsg"
             android:title="@string/pref_title_notifications_pebblemsg" />

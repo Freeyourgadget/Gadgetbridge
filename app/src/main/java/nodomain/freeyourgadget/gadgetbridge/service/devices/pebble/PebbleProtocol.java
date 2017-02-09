@@ -457,7 +457,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         String title;
         String subtitle = null;
 
-        // for SMS and EMAIL that came in though SMS or K9 receiver
+        // for SMS that came in though the SMS receiver
         if (notificationSpec.sender != null) {
             title = notificationSpec.sender;
             subtitle = notificationSpec.subject;

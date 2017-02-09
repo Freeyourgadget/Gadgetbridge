@@ -214,12 +214,6 @@ public class NotificationListener extends NotificationListenerService {
             return;
         }
 
-        if (source.equals("com.fsck.k9")) {
-            if (!"never".equals(prefs.getString("notification_mode_k9mail", "when_screen_off"))) {
-                return;
-            }
-        }
-
         if (source.equals("com.moez.QKSMS") ||
                 source.equals("com.android.mms") ||
                 source.equals("com.sonyericsson.conversations") ||
