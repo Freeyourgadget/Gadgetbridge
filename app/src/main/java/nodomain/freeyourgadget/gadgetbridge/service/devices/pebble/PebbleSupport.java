@@ -122,7 +122,13 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
             notificationSpec.title = null;
             notificationSpec.phoneNumber = null;
         } else if (getContext().getString(R.string.p_pebble_privacy_mode_content).equals(currentPrivacyMode)) {
-            notificationSpec.sender = "\n\n\n\n\n" + notificationSpec.sender;
+            if (notificationSpec.sender != null) {if (notificationSpec.sender != null) {
+                notificationSpec.sender = "\n\n\n\n\n" + notificationSpec.sender;
+            } else if (notificationSpec.title != null) {
+                notificationSpec.title = "\n\n\n\n\n" + notificationSpec.title;
+            } else if (notificationSpec.subject != null) {
+                notificationSpec.subject = "\n\n\n\n\n" + notificationSpec.subject;
+            }
         }
         if (reconnect()) {
             super.onNotification(notificationSpec);
