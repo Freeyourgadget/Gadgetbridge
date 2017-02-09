@@ -1,9 +1,14 @@
 ###Changelog
 
-####Version next
+####Version 0.17.4 (next)
 * Better integration with android music players
-* Pebble: Implement notification and incoming call privacy modes
+* Privacy options for calls (hide caller name/number)
+* Pebble: Implement notification privacy modes
 * Pebble: Support weather for Obisdian watchface
+* HPlus: Support alarms
+* HPlus: Fix time and date sync and time format (12/24)
+* HPlus: Add device specific preferences and icon
+* HPlus: Support for Makibes F68
 
 ####Version 0.17.3
 * HPlus: Improve display of new messages and phone calls
