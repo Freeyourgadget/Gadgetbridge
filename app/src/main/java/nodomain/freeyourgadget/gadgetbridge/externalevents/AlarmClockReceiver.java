@@ -49,6 +49,7 @@ public class AlarmClockReceiver extends BroadcastReceiver {
             NotificationSpec spec = new NotificationSpec();
             spec.type = NotificationType.GENERIC_ALARM_CLOCK;
             spec.id = lastId;
+            spec.sourceName = "ALARMCLOCKRECEIVER";
             // can we get the alarm title somehow?
             GBApplication.deviceService().onNotification(spec);
         }

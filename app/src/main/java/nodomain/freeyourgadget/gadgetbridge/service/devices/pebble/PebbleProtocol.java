@@ -574,7 +574,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         byte dismiss_action_id;
 
-        if (hasHandle) {
+        if (hasHandle && !"ALARMCLOCKRECEIVER".equals(sourceName)) {
             actions_count = 3;
             dismiss_string = "Dismiss";
             dismiss_action_id = 0x02;
