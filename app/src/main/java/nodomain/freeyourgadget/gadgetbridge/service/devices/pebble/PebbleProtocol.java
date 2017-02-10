@@ -253,6 +253,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private static final Random mRandom = new Random();
 
     int mFwMajor = 3;
+    boolean mAlwaysACKPebbleKit = false;
     private boolean mForceProtocol = false;
     private GBDeviceEventScreenshot mDevEventScreenshot = null;
     private int mScreenshotRemaining = -1;
@@ -1833,16 +1834,17 @@ public class PebbleProtocol extends GBDeviceProtocol {
             jsonArray.put(jsonObject);
         }
 
-        // this is a hack we send an ack to the Pebble immediately because we cannot map the transaction_id from the intent back to a uuid yet
-        /*
-        GBDeviceEventSendBytes sendBytesAck = new GBDeviceEventSendBytes();
-        sendBytesAck.encodedBytes = encodeApplicationMessageAck(uuid, last_id);
-        */
+        GBDeviceEventSendBytes sendBytesAck = null;
+        if (mAlwaysACKPebbleKit) {
+            // this is a hack we send an ack to the Pebble immediately because somebody said it helps some PebbleKit apps :P
+             sendBytesAck = new GBDeviceEventSendBytes();
+             sendBytesAck.encodedBytes = encodeApplicationMessageAck(uuid, last_id);
+        }
         GBDeviceEventAppMessage appMessage = new GBDeviceEventAppMessage();
         appMessage.appUUID = uuid;
         appMessage.id = last_id & 0xff;
         appMessage.message = jsonArray.toString();
-        return new GBDeviceEvent[]{appMessage};
+        return new GBDeviceEvent[]{appMessage, sendBytesAck};
     }
 
     byte[] encodeApplicationMessagePush(short endpoint, UUID uuid, ArrayList<Pair<Integer, Object>> pairs) {
@@ -2582,6 +2584,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
     void setForceProtocol(boolean force) {
         LOG.info("setting force protocol to " + force);
         mForceProtocol = force;
+    }
+
+    void setAlwaysACKPebbleKit(boolean alwaysACKPebbleKit) {
+        LOG.info("setting always ACK Pebbleit to " + alwaysACKPebbleKit);
+        mAlwaysACKPebbleKit = alwaysACKPebbleKit;
     }
 
     private String getFixedString(ByteBuffer buf, int length) {

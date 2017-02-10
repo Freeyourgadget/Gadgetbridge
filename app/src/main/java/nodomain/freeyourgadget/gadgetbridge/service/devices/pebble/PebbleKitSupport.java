@@ -64,10 +64,12 @@ class PebbleKitSupport {
                     break;
                 case PEBBLEKIT_ACTION_APP_ACK:
                     transaction_id = intent.getIntExtra("transaction_id", -1);
-                    if (transaction_id >= 0 && transaction_id <= 255) {
-                        mPebbleIoThread.write(mPebbleProtocol.encodeApplicationMessageAck(null, (byte) transaction_id));
-                    } else {
-                        LOG.warn("illegal transaction id " + transaction_id);
+                    if (!mPebbleProtocol.mAlwaysACKPebbleKit) {
+                        if (transaction_id >= 0 && transaction_id <= 255) {
+                            mPebbleIoThread.write(mPebbleProtocol.encodeApplicationMessageAck(null, (byte) transaction_id));
+                        } else {
+                            LOG.warn("illegal transaction id " + transaction_id);
+                        }
                     }
                     break;
 
