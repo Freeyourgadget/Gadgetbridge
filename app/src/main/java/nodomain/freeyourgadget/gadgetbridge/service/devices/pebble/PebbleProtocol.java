@@ -654,7 +654,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put(dismiss_string.getBytes());
 
         // open and mute actions
-        if (hasHandle) {
+        if (hasHandle && !"ALARMCLOCKRECEIVER".equals(sourceName)) {
             buf.put((byte) 0x01);
             buf.put((byte) 0x02); // generic
             buf.put((byte) 0x01); // number attributes
@@ -892,7 +892,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         }
 
         byte dismiss_action_id;
-        if (hasHandle) {
+        if (hasHandle && !"ALARMCLOCKRECEIVER".equals(sourceName)) {
             actions_count = 3;
             dismiss_string = "Dismiss";
             dismiss_action_id = 0x02;
@@ -979,7 +979,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put(dismiss_string.getBytes());
 
         // open and mute actions
-        if (hasHandle) {
+        if (hasHandle && !"ALARMCLOCKRECEIVER".equals(sourceName)) {
             buf.put((byte) 0x01);
             buf.put((byte) 0x02); // generic action
             buf.put((byte) 0x01); // number attributes
