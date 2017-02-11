@@ -62,9 +62,15 @@
   <string name="pref_title_whenscreenon">… auch wenn der Bildschirm an ist</string>
   <string name="pref_title_notification_filter">Bitte nicht stören</string>
   <string name="pref_summary_notification_filter">Stoppe unerwünschte Nachrichten, wenn im \"Nicht Stören\"-Modus</string>
+  <string name="pref_title_transliteration">Transliteration</string>
   <string name="always">immer</string>
   <string name="when_screen_off">wenn der Bildschirm aus ist</string>
   <string name="never">niemals</string>
+  <string name="pref_header_privacy">Privatsphäre</string>
+  <string name="pref_title_call_privacy_mode">Privatsphäre-Modus für Anrufe</string>
+  <string name="pref_call_privacy_mode_off">Zeige Name und Telefonnumer</string>
+  <string name="pref_call_privacy_mode_name">Verstecke den Namen aber zeige die Telefonnummer an</string>
+  <string name="pref_call_privacy_mode_complete">Verstecke Name und Telefonnummer</string>
   <string name="pref_blacklist">Sperre für Apps</string>
   <string name="pref_header_cannned_messages">Vorgefertigte Nachrichten</string>
   <string name="pref_title_canned_replies">Antworten</string>
@@ -83,6 +89,10 @@
   <string name="pref_summary_enable_pebblekit">Experimentelle Unterstützung für Android Apps, die PebbleKit benutzen</string>
   <string name="pref_title_sunrise_sunset">Sonnenauf- und -untergang </string>
   <string name="pref_summary_sunrise_sunset">Sende Sonnenauf- und -untergangszeiten abhänging vom Standort auf die Pebble Timeline</string>
+  <string name="pref_title_pebble_privacy_mode">Privatsphäre-Modus</string>
+  <string name="pref_pebble_privacy_mode_off">Normale Benachrichtigungen</string>
+  <string name="pref_pebble_privacy_mode_content">Verschiebe den Benachrichttigungstext außerhalb des Bildschirms</string>
+  <string name="pref_pebble_privacy_mode_complete">Zeige nur das Benachrichtigungs-Symbol</string>
   <string name="pref_header_location">Standort</string>
   <string name="pref_title_location_aquire">Standort Bestimmen</string>
   <string name="pref_title_location_latitude">Breitengrad</string>
@@ -102,6 +112,8 @@
   <string name="pref_title_pebble_enable_applogs">Watch App Logging einschalten</string>
   <string name="pref_summary_pebble_enable_applogs">Schreibt logs von Watch Apps in Gadgetbridge logs (Pebble muss nach Ändern der Option erneut verbunden werden)</string>
   <string name="pref_title_pebble_reconnect_attempts">Neuverbindungsversuche</string>
+  <string name="pref_title_unit_system">Einheiten</string>
+  <string name="pref_title_timeformat">Zeitformat</string>
   <string name="not_connected">nicht verbunden</string>
   <string name="connecting">verbinde</string>
   <string name="connected">verbunden</string>
@@ -308,4 +320,5 @@ Wenn Du schon deine Daten importiert hast und mit dem Ergebnis zufrieden bist, k
   <!--Strings related to Vibration Activity-->
   <string name="title_activity_vibration">Vibration</string>
   <!--Strings related to Pebble Pairing Activity-->
+  <string name="pref_screen_notification_profile_alarm_clock">Wecker</string>
 </resources>
