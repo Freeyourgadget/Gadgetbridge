@@ -15,7 +15,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 public class MusicPlaybackReceiver extends BroadcastReceiver {
     private static final Logger LOG = LoggerFactory.getLogger(MusicPlaybackReceiver.class);
     private static MusicSpec lastMusicSpec = new MusicSpec();
-    private static MusicStateSpec lastStatecSpec = new MusicStateSpec();
+    private static MusicStateSpec lastStateSpec = new MusicStateSpec();
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -28,7 +28,7 @@ public class MusicPlaybackReceiver extends BroadcastReceiver {
         }
         */
         MusicSpec musicSpec = new MusicSpec(lastMusicSpec);
-        MusicStateSpec stateSpec = new MusicStateSpec(lastStatecSpec);
+        MusicStateSpec stateSpec = new MusicStateSpec(lastStateSpec);
 
         Bundle incomingBundle = intent.getExtras();
         for (String key : incomingBundle.keySet()) {
@@ -51,6 +51,14 @@ public class MusicPlaybackReceiver extends BroadcastReceiver {
                 stateSpec.position = ((Long) incoming).intValue() / 1000;
             } else if (incoming instanceof Boolean && "playing".equals(key)) {
                 stateSpec.state = (byte) (((Boolean) incoming) ? MusicStateSpec.STATE_PLAYING : MusicStateSpec.STATE_PAUSED);
+            } else if (incoming instanceof String && "duration".equals(key)) {
+                musicSpec.duration = Integer.valueOf((String) incoming) / 1000;
+            } else if (incoming instanceof String && "trackno".equals(key)) {
+                musicSpec.trackNr = Integer.valueOf((String) incoming);
+            } else if (incoming instanceof String && "totaltrack".equals(key)) {
+                musicSpec.trackCount = Integer.valueOf((String) incoming);
+            } else if (incoming instanceof Integer && "pos".equals(key)) {
+                stateSpec.position = (Integer) incoming;
             }
         }
 
@@ -59,17 +67,15 @@ public class MusicPlaybackReceiver extends BroadcastReceiver {
             LOG.info("Update Music Info: " + musicSpec.artist + " / " + musicSpec.album + " / " + musicSpec.track);
             GBApplication.deviceService().onSetMusicInfo(musicSpec);
         } else {
-            LOG.info("got metadata changed intent, but nothing changed, ignoring.");
+            LOG.info("Got metadata changed intent, but nothing changed, ignoring.");
         }
 
-        if (intent.hasExtra("position") && intent.hasExtra("playing")) {
-            if (!lastStatecSpec.equals(stateSpec)) {
-                LOG.info("Update Music State: state=" + stateSpec.state + ", position= " + stateSpec.position);
-                GBApplication.deviceService().onSetMusicState(stateSpec);
-            } else {
-                LOG.info("got state changed intent, but not enough has changed, ignoring.");
-            }
-            lastStatecSpec = stateSpec;
+        if (!lastStateSpec.equals(stateSpec)) {
+            lastStateSpec = stateSpec;
+            LOG.info("Update Music State: state=" + stateSpec.state + ", position= " + stateSpec.position);
+            GBApplication.deviceService().onSetMusicState(stateSpec);
+        } else {
+            LOG.info("Got state changed intent, but not enough has changed, ignoring.");
         }
     }
 }
