@@ -44,7 +44,6 @@
   <string name="pref_title_notifications_repetitions">반복</string>
   <string name="pref_title_notifications_call">전화</string>
   <string name="pref_title_notifications_sms">SMS</string>
-  <string name="pref_title_notifications_k9mail">K-9 메일</string>
   <string name="pref_title_notifications_pebblemsg">Pebble 메세지</string>
   <string name="pref_title_notifications_generic">일반적인 알림 지원</string>
   <string name="pref_title_whenscreenon">… 화면이 켜져있을 때도</string>

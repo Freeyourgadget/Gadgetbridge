@@ -56,7 +56,6 @@
   <string name="pref_title_notifications_repetitions">Wiederholungen</string>
   <string name="pref_title_notifications_call">Anrufe</string>
   <string name="pref_title_notifications_sms">SMS</string>
-  <string name="pref_title_notifications_k9mail">K9-Mail</string>
   <string name="pref_title_notifications_pebblemsg">Pebble Nachrichten</string>
   <string name="pref_summary_notifications_pebblemsg">Unterstützung für Anwendungen die Benachrichtigungen an die Pebble via PebbleKit senden.</string>
   <string name="pref_title_notifications_generic">Andere Benachrichtigungen</string>

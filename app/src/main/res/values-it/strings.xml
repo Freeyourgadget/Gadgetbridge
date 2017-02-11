@@ -54,14 +54,12 @@
   <string name="pref_theme_light">Chiaro</string>
   <string name="pref_theme_dark">Scuro</string>
   <string name="pref_title_language">Lingua</string>
-  <string name="pref_title_minimize_priority">Nascondi la notifica di gadgetbridge</string>
   <string name="pref_summary_minimize_priority_off">L\'icona nella barra di stato e la notifica nella schermata di blocco vengono mostrate</string>
   <string name="pref_summary_minimize_priority_on">L\'icona nella barra di stato e la notifica nella schermata di blocco non vengono mostrate</string>
   <string name="pref_header_notifications">Notifiche</string>
   <string name="pref_title_notifications_repetitions">Ripetizioni</string>
   <string name="pref_title_notifications_call">Chiamate telefoniche</string>
   <string name="pref_title_notifications_sms">SMS</string>
-  <string name="pref_title_notifications_k9mail">K9-Mail</string>
   <string name="pref_title_notifications_pebblemsg">Messaggi Pebble</string>
   <string name="pref_summary_notifications_pebblemsg">Supporto per applicazioni che inviano le notifiche a Pebble usando PebbleKit.</string>
   <string name="pref_title_notifications_generic">Notifiche generiche</string>
