@@ -1,10 +1,13 @@
 ###Changelog
 
-####Version 0.17.4 (next)
+####Version 0.17.4
 * Better integration with android music players
 * Privacy options for calls (hide caller name/number)
+* Send a notification to the connected if the Android Alarm Clock rings (com.android.deskclock)
+* Fixes for cyrillic transliteration
 * Pebble: Implement notification privacy modes
 * Pebble: Support weather for Obisdian watchface
+* Pebble: add a dev option to always and immediately ACK PebbleKit messages to the watch
 * HPlus: Support alarms
 * HPlus: Fix time and date sync and time format (12/24)
 * HPlus: Add device specific preferences and icon
