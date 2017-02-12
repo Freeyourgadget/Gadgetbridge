@@ -24,7 +24,7 @@ public class PebbleLESupport {
     private int mMTU = 20;
     private int mMTULimit = Integer.MAX_VALUE;
     boolean mIsConnected = false;
-    public CountDownLatch mPPAck;
+    CountDownLatch mPPAck;
 
     public PebbleLESupport(Context context, final BluetoothDevice btDevice, PipedInputStream pipedInputStream, PipedOutputStream pipedOutputStream) throws IOException {
         mBtDevice = btDevice;
