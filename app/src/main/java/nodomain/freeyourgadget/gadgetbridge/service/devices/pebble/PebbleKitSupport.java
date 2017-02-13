@@ -55,9 +55,9 @@ class PebbleKitSupport {
                     try {
                         JSONArray jsonArray = new JSONArray(jsonString);
                         mPebbleIoThread.write(mPebbleProtocol.encodeApplicationMessageFromJSON(uuid, jsonArray));
-                        if (transaction_id >= 0 && transaction_id <= 255) {
-                            sendAppMessageAck(transaction_id);
-                        }
+                        //  if (transaction_id >= 0 && transaction_id <= 255) {
+                        sendAppMessageAck(transaction_id);
+                        //  }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
