@@ -11,7 +11,7 @@ public class MusicStateSpec {
 
     public byte state;
     public int position;
-    public int playRate;
+    public int playRate; // 0 || 100
     public byte shuffle;
     public byte repeat;
 

@@ -642,7 +642,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 mPebbleReceiver = null;
             }
             if (mMusicPlaybackReceiver != null) {
-                mMusicPlaybackReceiver.deleteMusicTimer();
                 unregisterReceiver(mMusicPlaybackReceiver);
                 mMusicPlaybackReceiver = null;
             }
