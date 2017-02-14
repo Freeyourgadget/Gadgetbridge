@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,21 @@ public class MusicPlaybackReceiver extends BroadcastReceiver {
     private static final Logger LOG = LoggerFactory.getLogger(MusicPlaybackReceiver.class);
     private static MusicSpec lastMusicSpec = new MusicSpec();
     private static MusicStateSpec lastStateSpec = new MusicStateSpec();
+    private Handler mMusicStateHandler = new Handler();
+    private Boolean mMusicStopRunnable = false;
+    private Long mMusicDelta = 0L;
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if(!mMusicStopRunnable) {
+                Long delta = System.currentTimeMillis() - mMusicDelta;
+                mMusicDelta = System.currentTimeMillis();
+                lastStateSpec.position += delta / 1000;
+                GBApplication.deviceService().onSetMusicState(lastStateSpec);
+                mMusicStateHandler.postDelayed(this, 1000);
+            }
+        }
+    };
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -59,6 +75,7 @@ public class MusicPlaybackReceiver extends BroadcastReceiver {
                 musicSpec.trackCount = Integer.valueOf((String) incoming);
             } else if (incoming instanceof Integer && "pos".equals(key)) {
                 stateSpec.position = (Integer) incoming;
+                updateMusicTimer();
             } else if (incoming instanceof Integer && "repeat".equals(key)) {
                 if ((Integer) incoming > 0) {
                     stateSpec.repeat = 1;
@@ -85,9 +102,37 @@ public class MusicPlaybackReceiver extends BroadcastReceiver {
         if (!lastStateSpec.equals(stateSpec)) {
             lastStateSpec = stateSpec;
             LOG.info("Update Music State: state=" + stateSpec.state + ", position= " + stateSpec.position);
+            if(stateSpec.state != MusicStateSpec.STATE_PLAYING){
+                deleteMusicTimer();
+            } else{
+                updateMusicTimer();
+            }
             GBApplication.deviceService().onSetMusicState(stateSpec);
         } else {
             LOG.info("Got state changed intent, but not enough has changed, ignoring.");
         }
+    }
+
+    void updateMusicTimer(){
+        mMusicStopRunnable = true;
+        if(mMusicStateHandler != null){
+            mMusicStateHandler.removeCallbacks(runnable);
+        }
+        mMusicStateHandler = null;
+        createMusicTimer();
+    }
+
+    void createMusicTimer(){
+        mMusicStateHandler = null;
+        mMusicStateHandler = new Handler();
+        mMusicStopRunnable = false;
+        mMusicDelta = System.currentTimeMillis();
+        mMusicStateHandler.post(runnable);
+    }
+
+    public void deleteMusicTimer(){
+        mMusicStopRunnable = true;
+        mMusicStateHandler.removeCallbacks(runnable);
+        mMusicStateHandler = null;
     }
 }
