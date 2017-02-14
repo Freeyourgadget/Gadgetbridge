@@ -138,24 +138,6 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEA
 public class DeviceCommunicationService extends Service implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final Logger LOG = LoggerFactory.getLogger(DeviceCommunicationService.class);
     private static DeviceSupportFactory DEVICE_SUPPORT_FACTORY = null;
-
-    private boolean mStarted = false;
-
-    private DeviceSupportFactory mFactory;
-    private GBDevice mGBDevice = null;
-    private DeviceSupport mDeviceSupport;
-
-    private PhoneCallReceiver mPhoneCallReceiver = null;
-    private SMSReceiver mSMSReceiver = null;
-    private PebbleReceiver mPebbleReceiver = null;
-    private MusicPlaybackReceiver mMusicPlaybackReceiver = null;
-    private TimeChangeReceiver mTimeChangeReceiver = null;
-    private BluetoothConnectReceiver mBlueToothConnectReceiver = null;
-    private AlarmClockReceiver mAlarmClockReceiver = null;
-
-    private AlarmReceiver mAlarmReceiver = null;
-    private Random mRandom = new Random();
-
     private final String[] mMusicActions = {
             "com.android.music.metachanged",
             "com.android.music.playstatechanged",
@@ -163,21 +145,20 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             "com.android.music.playbackcomplete",
             "net.sourceforge.subsonic.androidapp.EVENT_META_CHANGED",
             "com.maxmpz.audioplayer.TPOS_SYNC",
-            "com.maxmpz.audioplayer.STATUS_CHANGED",};
-
-    /**
-     * For testing!
-     *
-     * @param factory
-     */
-    public static void setDeviceSupportFactory(DeviceSupportFactory factory) {
-        DEVICE_SUPPORT_FACTORY = factory;
-    }
-
-    public DeviceCommunicationService() {
-
-    }
-
+            "com.maxmpz.audioplayer.STATUS_CHANGED",
+            "com.maxmpz.audioplayer.PLAYING_MODE_CHANGED"};
+    private boolean mStarted = false;
+    private DeviceSupportFactory mFactory;
+    private GBDevice mGBDevice = null;
+    private DeviceSupport mDeviceSupport;
+    private PhoneCallReceiver mPhoneCallReceiver = null;
+    private SMSReceiver mSMSReceiver = null;
+    private PebbleReceiver mPebbleReceiver = null;
+    private MusicPlaybackReceiver mMusicPlaybackReceiver = null;
+    private TimeChangeReceiver mTimeChangeReceiver = null;
+    private BluetoothConnectReceiver mBlueToothConnectReceiver = null;
+    private AlarmClockReceiver mAlarmClockReceiver = null;
+    private AlarmReceiver mAlarmReceiver = null;
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -217,6 +198,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             }
         }
     };
+    private Random mRandom = new Random();
+
+    public DeviceCommunicationService() {
+
+    }
 
     @Override
     public void onCreate() {
@@ -235,6 +221,13 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             return DEVICE_SUPPORT_FACTORY;
         }
         return new DeviceSupportFactory(this);
+    }
+
+    /**
+     * For testing!
+     */
+    public static void setDeviceSupportFactory(DeviceSupportFactory factory) {
+        DEVICE_SUPPORT_FACTORY = factory;
     }
 
     @Override

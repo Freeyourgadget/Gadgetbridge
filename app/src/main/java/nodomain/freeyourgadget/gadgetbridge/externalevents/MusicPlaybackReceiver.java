@@ -59,6 +59,18 @@ public class MusicPlaybackReceiver extends BroadcastReceiver {
                 musicSpec.trackCount = Integer.valueOf((String) incoming);
             } else if (incoming instanceof Integer && "pos".equals(key)) {
                 stateSpec.position = (Integer) incoming;
+            } else if (incoming instanceof Integer && "repeat".equals(key)) {
+                if ((Integer) incoming > 0) {
+                    stateSpec.repeat = 1;
+                } else {
+                    stateSpec.repeat = 0;
+                }
+            } else if (incoming instanceof Integer && "shuffle".equals(key)) {
+                if ((Integer) incoming > 0) {
+                    stateSpec.shuffle = 1;
+                } else {
+                    stateSpec.shuffle = 0;
+                }
             }
         }
 
