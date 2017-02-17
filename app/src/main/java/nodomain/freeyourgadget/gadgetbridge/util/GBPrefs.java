@@ -6,6 +6,8 @@ import java.util.Date;
 public class GBPrefs {
 
     public static final String AUTO_RECONNECT = "general_autocreconnect";
+    private static final String AUTO_START = "general_autostartonboot";
+    private static final boolean AUTO_START_DEFAULT = true;
     public static boolean AUTO_RECONNECT_DEFAULT = true;
 
     public static final String USER_NAME = "mi_user_alias";
@@ -20,6 +22,10 @@ public class GBPrefs {
 
     public boolean getAutoReconnect() {
         return mPrefs.getBoolean(AUTO_RECONNECT, AUTO_RECONNECT_DEFAULT);
+    }
+
+    public boolean getAutoStart() {
+        return mPrefs.getBoolean(AUTO_START, AUTO_START_DEFAULT);
     }
 
     public String getUserName() {
