@@ -33,6 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppManagement;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppMessage;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.pebble.GBDeviceEventDataLogging;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PBWReader;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleInstallable;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -86,6 +87,7 @@ class PebbleIoThread extends GBDeviceIoThread {
         mPebbleSupport = pebbleSupport;
         mEnablePebblekit = prefs.getBoolean("pebble_enable_pebblekit", false);
         mPebbleProtocol.setAlwaysACKPebbleKit(prefs.getBoolean("pebble_always_ack_pebblekit", false));
+        mPebbleProtocol.setEnablePebbleKit(mEnablePebblekit);
     }
 
     private int readWithException(InputStream inputStream, byte[] buffer, int byteOffset, int byteCount) throws IOException {
@@ -491,6 +493,13 @@ class PebbleIoThread extends GBDeviceIoThread {
                 LOG.info("Got AppMessage event");
                 if (mPebbleKitSupport != null) {
                     mPebbleKitSupport.sendAppMessageIntent((GBDeviceEventAppMessage) deviceEvent);
+                }
+            }
+        } else if (deviceEvent instanceof GBDeviceEventDataLogging) {
+            if (mEnablePebblekit) {
+                LOG.info("Got Datalogging event");
+                if (mPebbleKitSupport != null) {
+                    mPebbleKitSupport.sendDataLoggingIntent((GBDeviceEventDataLogging) deviceEvent);
                 }
             }
         }
