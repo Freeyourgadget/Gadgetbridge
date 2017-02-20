@@ -22,8 +22,8 @@ class DatalogSessionHealthOverlayData extends DatalogSessionPebbleHealth {
 
     private static final Logger LOG = LoggerFactory.getLogger(DatalogSessionHealthOverlayData.class);
 
-    public DatalogSessionHealthOverlayData(byte id, UUID uuid, int tag, byte item_type, short item_size, GBDevice device) {
-        super(id, uuid, tag, item_type, item_size, device);
+    DatalogSessionHealthOverlayData(byte id, UUID uuid, int timestamp, int tag, byte item_type, short item_size, GBDevice device) {
+        super(id, uuid, timestamp, tag, item_type, item_size, device);
         taginfo = "(Health - overlay data " + tag + " )";
     }
 

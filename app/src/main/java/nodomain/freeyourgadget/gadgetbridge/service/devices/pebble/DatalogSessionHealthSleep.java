@@ -22,8 +22,8 @@ class DatalogSessionHealthSleep extends DatalogSessionPebbleHealth {
 
     private static final Logger LOG = LoggerFactory.getLogger(DatalogSessionHealthSleep.class);
 
-    public DatalogSessionHealthSleep(byte id, UUID uuid, int tag, byte item_type, short item_size, GBDevice device) {
-        super(id, uuid, tag, item_type, item_size, device);
+    DatalogSessionHealthSleep(byte id, UUID uuid, int timestamp, int tag, byte item_type, short item_size, GBDevice device) {
+        super(id, uuid, timestamp, tag, item_type, item_size, device);
         taginfo = "(Health - sleep " + tag + " )";
     }
 

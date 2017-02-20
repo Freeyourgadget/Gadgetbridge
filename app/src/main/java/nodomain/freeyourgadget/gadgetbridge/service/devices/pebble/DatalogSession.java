@@ -17,12 +17,14 @@ class DatalogSession {
     final UUID uuid;
     final byte itemType;
     final short itemSize;
+    final int timestamp;
     String taginfo = "(unknown)";
 
-    DatalogSession(byte id, UUID uuid, int tag, byte itemType, short itemSize) {
+    DatalogSession(byte id, UUID uuid, int timestamp, int tag, byte itemType, short itemSize) {
         this.id = id;
         this.tag = tag;
         this.uuid = uuid;
+        this.timestamp = timestamp;
         this.itemType = itemType;
         this.itemSize = itemSize;
     }
@@ -62,6 +64,7 @@ class DatalogSession {
 
             dataLogging.command = GBDeviceEventDataLogging.COMMAND_RECEIVE_DATA;
             dataLogging.appUUID = uuid;
+            dataLogging.timestamp = timestamp & 0xffffffffL;
             dataLogging.tag = tag;
             dataLogging.pebbleDataType = itemType;
             gbDeviceEvents[i] = dataLogging;

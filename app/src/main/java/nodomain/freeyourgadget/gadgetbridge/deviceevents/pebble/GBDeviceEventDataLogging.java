@@ -10,6 +10,7 @@ public class GBDeviceEventDataLogging extends GBDeviceEvent {
 
     public int command;
     public UUID appUUID;
+    public long timestamp;
     public long tag;
     public byte pebbleDataType;
     public Object data;

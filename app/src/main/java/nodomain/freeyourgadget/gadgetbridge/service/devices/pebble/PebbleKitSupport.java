@@ -132,7 +132,7 @@ class PebbleKitSupport {
 
     void sendDataLoggingIntent(GBDeviceEventDataLogging dataLogging) {
         Intent intent = new Intent();
-        intent.putExtra("data_log_timestamp", System.currentTimeMillis() / 1000); // is this data really not present in data from watch?!
+        intent.putExtra("data_log_timestamp", dataLogging.timestamp);
         intent.putExtra("uuid", dataLogging.appUUID);
         intent.putExtra("data_log_uuid", dataLogging.appUUID); // Is that really the same?
         intent.putExtra("data_log_tag", dataLogging.tag);
