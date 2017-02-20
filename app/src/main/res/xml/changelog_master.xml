@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.17.5" versioncode="86">
+        <change>Automatically start the service on boot (can be turned off)</change>
+        <change>Pebble: PebbleKit compatibility improvements (Datalogging)</change>
+        <change>Pebble: Display music shuffle and repeat states for some players</change>
+        <change>Pebble 2/LE: Speed up data transfer</change>
+    </release>
     <release version="0.17.4" versioncode="85">
         <change>Better integration with android music players</change>
         <change>Privacy options for calls (hide caller name/number)</change>

@@ -1,5 +1,11 @@
 ###Changelog
 
+####Version 0.17.5
+* Automatically start the service on boot (can be turned off)
+* Pebble: PebbleKit compatibility improvements (Datalogging)
+* Pebble: Display music shuffle and repeat states for some players
+* Pebble 2/LE: Speed up data transfer
+
 ####Version 0.17.4
 * Better integration with android music players
 * Privacy options for calls (hide caller name/number)
