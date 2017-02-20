@@ -13,5 +13,5 @@ public class GBDeviceEventDataLogging extends GBDeviceEvent {
     public long timestamp;
     public long tag;
     public byte pebbleDataType;
-    public Object data;
+    public Object[] data;
 }

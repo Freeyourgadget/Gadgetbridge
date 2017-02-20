@@ -2218,7 +2218,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         boolean ack = true;
         byte command = buf.get();
         byte id = buf.get();
-        GBDeviceEvent[] devEvts = new GBDeviceEvent[1];
+        GBDeviceEventDataLogging devEvtDataLogging = null;
         switch (command) {
             case DATALOG_TIMEOUT:
                 LOG.info("DATALOG TIMEOUT. id=" + (id & 0xff) + " - ignoring");
@@ -2232,7 +2232,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 if (datalogSession != null) {
                     LOG.info("DATALOG UUID=" + datalogSession.uuid + ", tag=" + datalogSession.tag + datalogSession.getTaginfo() + ", itemSize=" + datalogSession.itemSize + ", itemType=" + datalogSession.itemType);
                     if (!datalogSession.uuid.equals(UUID_ZERO) && datalogSession.getClass().equals(DatalogSession.class) && mEnablePebbleKit) {
-                        devEvts = datalogSession.handleMessageForPebbleKit(buf, length - 10);
+                        devEvtDataLogging = datalogSession.handleMessageForPebbleKit(buf, length - 10);
+                        if (devEvtDataLogging == null) {
+                            ack = false;
+                        }
                     } else {
                         ack = datalogSession.handleMessage(buf, length - 10);
                     }
@@ -2269,7 +2272,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         dataLogging.command = GBDeviceEventDataLogging.COMMAND_FINISH_SESSION;
                         dataLogging.appUUID = datalogSession.uuid;
                         dataLogging.tag = datalogSession.tag;
-                        devEvts = new GBDeviceEvent[]{dataLogging, null};
+                        devEvtDataLogging = dataLogging;
                     }
                     mDatalogSessions.remove(id);
                 }
@@ -2287,8 +2290,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             sendBytes.encodedBytes = encodeDatalog(id, DATALOG_NACK);
         }
         // append ack/nack
-        devEvts[devEvts.length - 1] = sendBytes;
-        return devEvts;
+        return new GBDeviceEvent[]{devEvtDataLogging, sendBytes};
     }
 
     private GBDeviceEvent decodeAppReorder(ByteBuffer buf) {

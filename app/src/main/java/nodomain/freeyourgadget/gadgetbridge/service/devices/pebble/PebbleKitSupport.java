@@ -140,30 +140,31 @@ class PebbleKitSupport {
         switch (dataLogging.command) {
             case GBDeviceEventDataLogging.COMMAND_RECEIVE_DATA:
                 intent.setAction(PEBBLEKIT_ACTION_DL_RECEIVE_DATA_NEW);
-                intent.putExtra("pbl_data_id", dataLogTransactionId++);
                 intent.putExtra("pbl_data_type", dataLogging.pebbleDataType);
-                switch (dataLogging.pebbleDataType) {
-                    case PebbleProtocol.TYPE_BYTEARRAY:
-                        intent.putExtra("pbl_data_object", Base64.encodeToString((byte[]) dataLogging.data, Base64.NO_WRAP));
-                        break;
-                    case PebbleProtocol.TYPE_UINT:
-                        intent.putExtra("pbl_data_object", (Long) dataLogging.data);
-                        break;
-                    case PebbleProtocol.TYPE_INT:
-                        intent.putExtra("pbl_data_object", (Integer) dataLogging.data);
-                        break;
+                for (Object dataObject : dataLogging.data) {
+                    intent.putExtra("pbl_data_id", dataLogTransactionId++);
+                    switch (dataLogging.pebbleDataType) {
+                        case PebbleProtocol.TYPE_BYTEARRAY:
+                            intent.putExtra("pbl_data_object", Base64.encodeToString((byte[]) dataObject, Base64.NO_WRAP));
+                            break;
+                        case PebbleProtocol.TYPE_UINT:
+                            intent.putExtra("pbl_data_object", (Long) dataObject);
+                            break;
+                        case PebbleProtocol.TYPE_INT:
+                            intent.putExtra("pbl_data_object", (Integer) dataObject);
+                            break;
+                    }
+                    LOG.info("broadcasting datalogging to uuid " + dataLogging.appUUID + " tag: " + dataLogging.tag + "transaction id: " + dataLogTransactionId + " type: " + dataLogging.pebbleDataType);
+                    mContext.sendBroadcast(intent);
                 }
-                LOG.info("broadcasting datalogging to uuid " + dataLogging.appUUID + " tag: " + dataLogging.tag + "transaction id: " + dataLogTransactionId + " type: " + dataLogging.pebbleDataType);
                 break;
             case GBDeviceEventDataLogging.COMMAND_FINISH_SESSION:
                 intent.setAction(PEBBLEKIT_ACTION_DL_FINISH_SESSION);
                 LOG.info("broadcasting datalogging finish session to uuid " + dataLogging.appUUID + " tag: " + dataLogging.tag);
-
+                mContext.sendBroadcast(intent);
                 break;
             default:
                 LOG.warn("invalid datalog command");
-                return;
         }
-        mContext.sendBroadcast(intent);
     }
 }
