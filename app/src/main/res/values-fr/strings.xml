@@ -45,6 +45,7 @@
   <string name="title_activity_settings">Paramètres</string>
   <string name="pref_header_general">Paramètres généraux</string>
   <string name="pref_title_general_autoconnectonbluetooth">Connecter votre appareil quand le Bluetooth est mis en marche</string>
+  <string name="pref_title_general_autostartonboot">Démarrer automatiquement</string>
   <string name="pref_title_general_autocreonnect">Reconnexion automatique </string>
   <string name="pref_title_audo_player">Lecteur audio préféré</string>
   <string name="pref_default">Par défaut</string>
@@ -122,6 +123,8 @@
   <string name="pref_summary_pebble_mtu_limit">Si votre Pebble 2/LE ne fonctionne pas correctement, essayez d\'activer cette option pour limiter le MTU (plage valide 20-512)</string>
   <string name="pref_title_pebble_enable_applogs">Activer les logs des Watch App</string>
   <string name="pref_summary_pebble_enable_applogs">Ceci permettra à Gadgetbridge de conserver les logs des Watch App (requiert une reconnexion)</string>
+  <string name="pref_title_pebble_always_ack_pebblekit">ACK à l\'avance du PebbleKit</string>
+  <string name="pref_summary_pebble_always_ack_pebblekit">Ceci permettra aux messages envoyés à des apps tierces d\'être toujours reconnus immédiatement</string>
   <string name="pref_title_pebble_reconnect_attempts">Tentatives de reconnexion</string>
   <string name="pref_title_unit_system">Unités</string>
   <string name="pref_title_timeformat">Format de l\'heure</string>
