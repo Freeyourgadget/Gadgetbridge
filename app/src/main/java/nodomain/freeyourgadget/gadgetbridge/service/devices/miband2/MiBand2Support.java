@@ -273,6 +273,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 //                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_SENSOR_DATA), enable);
         builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), enable);
         builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_6_BATTERY_INFO), enable);
+        builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_10_BUTTON), enable);
         BluetoothGattCharacteristic heartrateCharacteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT);
         if (heartrateCharacteristic != null) {
             builder.notify(heartrateCharacteristic, enable);
@@ -858,11 +859,19 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             LOG.info("AUTHENTICATION?? " + characteristicUUID);
             logMessageContent(characteristic.getValue());
             return true;
+        } else if (MiBand2Service.UUID_CHARACTERISTIC_10_BUTTON.equals(characteristicUUID)) {
+            handleButtonPressed(characteristic.getValue());
+            return true;
         } else {
             LOG.info("Unhandled characteristic changed: " + characteristicUUID);
             logMessageContent(characteristic.getValue());
         }
         return false;
+    }
+
+    private void handleButtonPressed(byte[] value) {
+        LOG.info("Button pressed: " + value);
+        logMessageContent(value);
     }
 
     private void handleUnknownCharacteristic(byte[] value) {
@@ -886,6 +895,9 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             return true;
         } else if (MiBandService.UUID_CHARACTERISTIC_DATE_TIME.equals(characteristicUUID)) {
             logDate(characteristic.getValue(), status);
+            return true;
+        } else if (MiBand2Service.UUID_CHARACTERISTIC_10_BUTTON.equals(characteristicUUID)) {
+            handleButtonPressed(characteristic.getValue());
             return true;
         } else {
             LOG.info("Unhandled characteristic read: " + characteristicUUID);
@@ -1260,6 +1272,13 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onTestNewFunction() {
+        try {
+            performInitialized("read characteristic 10")
+                    .read(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_10_BUTTON))
+                    .queue(getQueue());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
