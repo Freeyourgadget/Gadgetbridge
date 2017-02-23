@@ -18,6 +18,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,7 +91,8 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         }
 
         BarDataSet set = new BarDataSet(entries, "");
-        set.setColor(akActivity.color);
+        set.setColor(getMainColor());
+        set.setValueFormatter(getFormatter());
 
         BarData barData = new BarData(set);
         barData.setValueTextColor(Color.GRAY); //prevent tearing other graph elements with the black text. Another approach would be to hide the values cmpletely with data.setDrawValues(false);
@@ -112,7 +114,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         List<Integer> colors = new ArrayList<>();
 
         entries.add(new PieEntry(totalValue, "")); //we don't want labels on the pie chart
-        colors.add(akActivity.color);
+        colors.add(getMainColor());
 
         if (totalValue < mTargetValue) {
             entries.add(new PieEntry((mTargetValue - totalValue))); //we don't want labels on the pie chart
@@ -120,6 +122,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         }
 
         PieDataSet set = new PieDataSet(entries, "");
+        set.setValueFormatter(getFormatter());
         set.setColors(colors);
         data.setDataSet(set);
         //this hides the values (numeric) added to the set. These would be shown aside the strings set with addXValue above
@@ -260,4 +263,9 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
     abstract int getGoal();
 
     abstract int getTotalForSamples(List<? extends ActivitySample> activitySamples);
+
+    abstract IValueFormatter getFormatter();
+
+    abstract Integer getMainColor();
 }
+

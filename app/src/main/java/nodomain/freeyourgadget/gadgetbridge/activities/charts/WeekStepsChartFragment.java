@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
+import com.github.mikephil.charting.formatter.IValueFormatter;
+
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -26,5 +28,15 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
     int getTotalForSamples(List<? extends ActivitySample> activitySamples) {
         ActivityAnalysis analysis = new ActivityAnalysis();
         return analysis.calculateTotalSteps(activitySamples);
+    }
+
+    @Override
+    IValueFormatter getFormatter() {
+        return null;
+    }
+
+    @Override
+    Integer getMainColor() {
+        return akActivity.color;
     }
 }
