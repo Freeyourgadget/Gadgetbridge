@@ -27,7 +27,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import nodomain.freeyourgadget.gadgetbridge.database.DBConstants;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
@@ -335,11 +334,7 @@ public class GBApplication extends Application {
         if (lockHandler != null) {
             lockHandler.closeDb();
         }
-        DBHelper dbHelper = new DBHelper(context);
-        boolean result = true;
-        if (dbHelper.existsDB(DBConstants.DATABASE_NAME)) {
-            result = getContext().deleteDatabase(DBConstants.DATABASE_NAME);
-        }
+        boolean result = deleteOldActivityDatabase(context);
         result &= getContext().deleteDatabase(DATABASE_NAME);
         return result;
     }
@@ -352,8 +347,8 @@ public class GBApplication extends Application {
     public static synchronized boolean deleteOldActivityDatabase(Context context) {
         DBHelper dbHelper = new DBHelper(context);
         boolean result = true;
-        if (dbHelper.existsDB(DBConstants.DATABASE_NAME)) {
-            result = getContext().deleteDatabase(DBConstants.DATABASE_NAME);
+        if (dbHelper.existsDB("ActivityDatabase")) {
+            result = getContext().deleteDatabase("ActivityDatabase");
         }
         return result;
     }

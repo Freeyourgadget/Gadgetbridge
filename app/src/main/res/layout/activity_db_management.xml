@@ -31,7 +31,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
 
-                    android:singleLine="false"
                     android:text="Export DB" />
 
                 <Button
@@ -65,27 +64,12 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/accent" />
 
-            <TextView
-                android:id="@+id/mergeOldActivityDataText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/activity_db_management_merge_old_explanation"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="fill_horizontal"
                 android:orientation="horizontal"
                 android:weightSum="2">
-
-                <Button
-                    android:id="@+id/mergeOldActivityData"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="fill_horizontal"
-                    android:layout_weight="1"
-                    android:text="Import old activity data" />
 
                 <Button
                     android:id="@+id/deleteOldActivityDB"
