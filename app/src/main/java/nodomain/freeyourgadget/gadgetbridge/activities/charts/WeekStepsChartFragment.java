@@ -31,6 +31,11 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
+    protected String formatPieValue(int value) {
+        return String.valueOf(value);
+    }
+
+    @Override
     IValueFormatter getFormatter() {
         return null;
     }

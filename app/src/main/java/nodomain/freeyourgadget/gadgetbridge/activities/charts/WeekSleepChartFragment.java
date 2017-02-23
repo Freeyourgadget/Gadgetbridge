@@ -39,11 +39,16 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
+    protected String formatPieValue(int value) {
+        return DateTimeUtils.formatDurationHoursMinutes((long) value, TimeUnit.MINUTES);
+    }
+
+    @Override
     IValueFormatter getFormatter() {
         return new IValueFormatter() {
             @Override
             public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-                return DateTimeUtils.formatDurationHoursMinutes((long) value, TimeUnit.MINUTES);
+                return formatPieValue((int) value);
             }
         };
     }

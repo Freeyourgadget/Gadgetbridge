@@ -23,7 +23,6 @@ import com.github.mikephil.charting.formatter.IValueFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -60,7 +59,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         MyChartsData mcd = (MyChartsData) chartsData;
 
 //        setupLegend(mWeekChart);
-        mTodayPieChart.setCenterText(NumberFormat.getNumberInstance(mLocale).format(mcd.getDayData().totalValue));
+        mTodayPieChart.setCenterText(mcd.getDayData().centerText);
         mTodayPieChart.setData(mcd.getDayData().data);
 
         mWeekChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
@@ -128,8 +127,10 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         //this hides the values (numeric) added to the set. These would be shown aside the strings set with addXValue above
         data.setDrawValues(false);
 
-        return new DayData(data, totalValue);
+        return new DayData(data, formatPieValue(totalValue));
     }
+
+    protected abstract String formatPieValue(int value);
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -234,11 +235,11 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
 
     private static class DayData {
         private final PieData data;
-        private final int totalValue;
+        private final CharSequence centerText;
 
-        DayData(PieData data, int totalValue) {
+        DayData(PieData data, String centerText) {
             this.data = data;
-            this.totalValue = totalValue;
+            this.centerText = centerText;
         }
     }
 
