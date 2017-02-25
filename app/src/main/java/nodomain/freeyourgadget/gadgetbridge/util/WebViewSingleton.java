@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.webkit.ConsoleMessage;
 import android.webkit.JavascriptInterface;
@@ -58,63 +59,50 @@ public class WebViewSingleton extends Activity {
     private WebViewSingleton() {
     }
 
-    public static WebView getorInitWebView(Context context, final GBDevice device, final UUID uuid) {
+    public static synchronized WebView createWebView(Context context) {
+        if (instance == null) {
+            contextWrapper = new MutableContextWrapper(context);
+            instance = new WebView(contextWrapper);
+            instance.setWillNotDraw(true);
+            instance.clearCache(true);
+            instance.setWebViewClient(new GBWebClient());
+            instance.setWebChromeClient(new GBChromeClient());
+            instance.setWebContentsDebuggingEnabled(true);
+            WebSettings webSettings = instance.getSettings();
+            webSettings.setJavaScriptEnabled(true);
+            //needed to access the DOM
+            webSettings.setDomStorageEnabled(true);
+            //needed for localstorage
+            webSettings.setDatabaseEnabled(true);
+        }
+        return instance;
+    }
 
-        if (jsInterface == null || (jsInterface != null && (!device.equals(jsInterface.device) || !uuid.equals(jsInterface.mUuid)))) {
+    public static void updateActivityContext(Context context) {
+        if (context instanceof Activity) {
+            contextWrapper.setBaseContext(context);
+        }
+    }
+
+    @NonNull
+    public static WebView getWebView() {
+        return instance;
+    }
+
+    public static void runJavascriptInterface(final GBDevice device, final UUID uuid) {
+        if (jsInterface == null || !device.equals(jsInterface.device) || !uuid.equals(jsInterface.mUuid)) {
             jsInterface = new JSInterface(device, uuid);
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    if (instance != null) {
-                        instance.removeJavascriptInterface("GBjs");
-                        instance.addJavascriptInterface(jsInterface, "GBjs");
-                        instance.loadUrl("file:///android_asset/app_config/configure.html");
-                    }
+                    instance.removeJavascriptInterface("GBjs");
+                    instance.addJavascriptInterface(jsInterface, "GBjs");
+                    instance.loadUrl("file:///android_asset/app_config/configure.html");
                 }
             });
         } else {
             LOG.debug("Not replacing the JS in the webview. JS uuid " + jsInterface.mUuid.toString());
         }
-
-        if (context instanceof Activity) {
-            if (contextWrapper != null) {
-                contextWrapper.setBaseContext(context);
-            } else {
-                contextWrapper = new MutableContextWrapper(context);
-            }
-
-            if (instance == null) {
-                LOG.debug("WEBV: creating webview");
-
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        instance = new WebView(contextWrapper);
-                        instance.setWillNotDraw(true);
-                        instance.clearCache(true);
-                        instance.setWebViewClient(new GBWebClient());
-                        instance.setWebChromeClient(new GBChromeClient());
-                        instance.setWebContentsDebuggingEnabled(true);
-                        WebSettings webSettings = instance.getSettings();
-                        webSettings.setJavaScriptEnabled(true);
-                        //needed to access the DOM
-                        webSettings.setDomStorageEnabled(true);
-                        //needed for localstorage
-                        webSettings.setDatabaseEnabled(true);
-                        if (jsInterface != null) {
-                            LOG.debug("Attaching the existing jsInterface to the new webview instance");
-                            instance.addJavascriptInterface(jsInterface, "GBjs");
-                            instance.loadUrl("file:///android_asset/app_config/configure.html");
-                        }
-                    }
-                });
-            }
-
-        } else {
-            LOG.debug("WEBV: not using the passed context, as it is not an activity");
-        }
-
-        return instance;
     }
 
     public static void appMessage(final String message) {

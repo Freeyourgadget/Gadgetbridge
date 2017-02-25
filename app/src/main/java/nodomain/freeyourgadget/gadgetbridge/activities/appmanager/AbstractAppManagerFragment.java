@@ -338,8 +338,6 @@ public abstract class AbstractAppManagerFragment extends Fragment {
 
         view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
         popupMenu.show();
-        //TODO: replace with local broadcast on app start
-        WebViewSingleton.getorInitWebView(getActivity(), mGBDevice, selectedApp.getUUID());
         return true;
     }
 

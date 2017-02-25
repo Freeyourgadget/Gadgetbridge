@@ -48,8 +48,8 @@ public class ExternalPebbleJSActivity extends GBActivity {
 
         setContentView(R.layout.activity_external_pebble_js);
 
-        myWebView = WebViewSingleton.getorInitWebView(this, mGBDevice, appUuid);
-        myWebView.setWillNotDraw(false);
+        WebViewSingleton.updateActivityContext(this);
+        myWebView = WebViewSingleton.getWebView();
         myWebView.addJavascriptInterface(new ActivityJSInterface(ExternalPebbleJSActivity.this), "GBActivity");
         FrameLayout fl = (FrameLayout) findViewById(R.id.webview_placeholder);
         fl.addView(myWebView);

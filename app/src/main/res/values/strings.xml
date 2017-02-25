@@ -393,4 +393,5 @@
     <string name="timeformat_24h">24H</string>
     <string name="timeformat_am_pm">AM/PM</string>
     <string name="pref_screen_notification_profile_alarm_clock">Alarm Clock</string>
+    <string name="activity_web_view">Web View Activity</string>
 </resources>

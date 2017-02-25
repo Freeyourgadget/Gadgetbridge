@@ -27,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import nodomain.freeyourgadget.gadgetbridge.activities.BackgroundWebViewActivity;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
@@ -124,12 +125,18 @@ public class GBApplication extends Application {
 
         deviceManager = new DeviceManager(this);
 
+        createWebViewActivity();
+
         deviceService = createDeviceService();
         loadBlackList();
 
         if (isRunningMarshmallowOrLater()) {
             notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         }
+    }
+
+    private void createWebViewActivity() {
+        startActivity(new Intent(getContext(), BackgroundWebViewActivity.class));
     }
 
     @Override

@@ -82,7 +82,7 @@ class PebbleIoThread extends GBDeviceIoThread {
     private int mBytesWritten = -1;
 
     private void sendAppMessageJS(GBDeviceEventAppMessage appMessage) {
-        WebViewSingleton.getorInitWebView(getContext(), gbDevice, appMessage.appUUID);
+//        WebViewSingleton.runJavascriptInterface(gbDevice, appMessage.appUUID);
         WebViewSingleton.appMessage(appMessage.message);
     }
 
@@ -487,8 +487,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                     break;
                 case START:
                     LOG.info("got GBDeviceEventAppManagement START event for uuid: " + appMgmt.uuid);
-                    WebViewSingleton.getorInitWebView(getContext(), gbDevice, appMgmt.uuid);
-                    //TODO: the method call above will not work the first time as we need an activity. Either we find a way to have one here, or replace it with a local broadcast
+                    WebViewSingleton.runJavascriptInterface(gbDevice, appMgmt.uuid);
                     break;
                 default:
                     break;
