@@ -283,6 +283,7 @@
             android:parentActivityName=".activities.ControlCenter" />
         <activity
             android:name=".activities.BackgroundWebViewActivity"
+            android:theme="@android:style/Theme.Translucent"
             android:label="@string/activity_web_view"/>
         <activity
             android:name=".activities.AndroidPairingActivity"
