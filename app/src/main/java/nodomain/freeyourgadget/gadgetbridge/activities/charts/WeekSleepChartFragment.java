@@ -4,14 +4,12 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmount;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmounts;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 public class WeekSleepChartFragment extends AbstractWeekChartFragment {
@@ -26,11 +24,9 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
-    int getTotalForSamples(List<? extends ActivitySample> activitySamples) {
-        ActivityAnalysis analysis = new ActivityAnalysis();
-        ActivityAmounts amounts = analysis.calculateActivityAmounts(activitySamples);
+    int getTotalForActivityAmounts(ActivityAmounts activityAmounts) {
         long totalSeconds = 0;
-        for (ActivityAmount amount : amounts.getAmounts()) {
+        for (ActivityAmount amount : activityAmounts.getAmounts()) {
             if ((amount.getActivityKind() & ActivityKind.TYPE_SLEEP) != 0) {
                 totalSeconds += amount.getTotalSeconds();
             }

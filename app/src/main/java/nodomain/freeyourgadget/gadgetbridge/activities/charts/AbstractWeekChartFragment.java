@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -31,7 +32,9 @@ import java.util.Locale;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmounts;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 
 
 public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
@@ -75,16 +78,15 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
     }
 
     private DefaultChartsData<BarData> refreshWeekBeforeData(DBHandler db, BarChart barChart, Calendar day, GBDevice device) {
-
-        ActivityAnalysis analysis = new ActivityAnalysis();
-
         day = (Calendar) day.clone(); // do not modify the caller's argument
         day.add(Calendar.DATE, -7);
         List<BarEntry> entries = new ArrayList<>();
         ArrayList<String> labels = new ArrayList<String>();
 
         for (int counter = 0; counter < 7; counter++) {
-            entries.add(new BarEntry(counter, getTotalForSamples(getSamplesOfDay(db, day, device))));
+            ActivityAmounts amounts = getActivityAmountsForDay(db, day, device);
+
+            entries.add(new BarEntry(counter, getTotalForActivityAmounts(amounts)));
             labels.add(day.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, mLocale));
             day.add(Calendar.DATE, 1);
         }
@@ -103,10 +105,9 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         return new DefaultChartsData(barData, new PreformattedXIndexLabelFormatter(labels));
     }
 
-
     private DayData refreshDayPie(DBHandler db, Calendar day, GBDevice device) {
-
-        int totalValue = getTotalForSamples(getSamplesOfDay(db, day, device));
+        ActivityAmounts amounts = getActivityAmountsForDay(db, day, device);
+        int totalValue = getTotalForActivityAmounts(amounts);
 
         PieData data = new PieData();
         List<PieEntry> entries = new ArrayList<>();
@@ -261,12 +262,33 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         }
     }
 
+    private ActivityAmounts getActivityAmountsForDay(DBHandler db, Calendar day, GBDevice device) {
+
+        LimitedQueue activityAmountCache = null;
+        ActivityAmounts amounts = null;
+
+        Activity activity = getActivity();
+        if (activity != null) {
+            activityAmountCache = ((ChartsActivity) activity).mActivityAmountCache;
+            amounts = (ActivityAmounts) (activityAmountCache.lookup(day.hashCode()));
+        }
+
+        if (amounts == null) {
+            ActivityAnalysis analysis = new ActivityAnalysis();
+            amounts = analysis.calculateActivityAmounts(getSamplesOfDay(db, day, device));
+            if (activityAmountCache != null) {
+                activityAmountCache.add(day.hashCode(), amounts);
+            }
+        }
+
+        return amounts;
+    }
+
     abstract int getGoal();
 
-    abstract int getTotalForSamples(List<? extends ActivitySample> activitySamples);
+    abstract int getTotalForActivityAmounts(ActivityAmounts activityAmounts);
 
     abstract IValueFormatter getFormatter();
 
     abstract Integer getMainColor();
 }
-

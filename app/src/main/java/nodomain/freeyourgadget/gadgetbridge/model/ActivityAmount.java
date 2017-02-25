@@ -8,6 +8,7 @@ public class ActivityAmount {
     private final int activityKind;
     private short percent;
     private long totalSeconds;
+    private long totalSteps;
 
     public ActivityAmount(int activityKind) {
         this.activityKind = activityKind;
@@ -17,8 +18,16 @@ public class ActivityAmount {
         totalSeconds += seconds;
     }
 
+    public void addSteps(long steps) {
+        totalSteps += steps;
+    }
+
     public long getTotalSeconds() {
         return totalSeconds;
+    }
+
+    public long getTotalSteps() {
+        return totalSteps;
     }
 
     public int getActivityKind() {
