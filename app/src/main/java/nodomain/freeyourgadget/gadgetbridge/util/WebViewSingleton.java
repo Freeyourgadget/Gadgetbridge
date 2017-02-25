@@ -1,13 +1,19 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.MutableContextWrapper;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.app.ActivityCompat;
 import android.webkit.ConsoleMessage;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
@@ -52,7 +58,24 @@ public class WebViewSingleton extends Activity {
     private WebViewSingleton() {
     }
 
-    public static WebView getorInitWebView(Context context, GBDevice device, UUID uuid) {
+    public static WebView getorInitWebView(Context context, final GBDevice device, final UUID uuid) {
+
+        if (jsInterface == null || (jsInterface != null && (!device.equals(jsInterface.device) || !uuid.equals(jsInterface.mUuid)))) {
+            jsInterface = new JSInterface(device, uuid);
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    if (instance != null) {
+                        instance.removeJavascriptInterface("GBjs");
+                        instance.addJavascriptInterface(jsInterface, "GBjs");
+                        instance.loadUrl("file:///android_asset/app_config/configure.html");
+                    }
+                }
+            });
+        } else {
+            LOG.debug("Not replacing the JS in the webview. JS uuid " + jsInterface.mUuid.toString());
+        }
+
         if (context instanceof Activity) {
             if (contextWrapper != null) {
                 contextWrapper.setBaseContext(context);
@@ -61,10 +84,12 @@ public class WebViewSingleton extends Activity {
             }
 
             if (instance == null) {
-                instance = new WebView(contextWrapper);
+                LOG.debug("WEBV: creating webview");
+
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
+                        instance = new WebView(contextWrapper);
                         instance.setWillNotDraw(true);
                         instance.clearCache(true);
                         instance.setWebViewClient(new GBWebClient());
@@ -87,22 +112,6 @@ public class WebViewSingleton extends Activity {
 
         } else {
             LOG.debug("WEBV: not using the passed context, as it is not an activity");
-        }
-
-        if (jsInterface == null || (jsInterface != null && (!device.equals(jsInterface.device) || !uuid.equals(jsInterface.mUuid)))) {
-            jsInterface = new JSInterface(device, uuid);
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    if (instance != null) {
-                        instance.removeJavascriptInterface("GBjs");
-                        instance.addJavascriptInterface(jsInterface, "GBjs");
-                        instance.loadUrl("file:///android_asset/app_config/configure.html");
-                    }
-                }
-            });
-        } else {
-            LOG.debug("Not replacing the JS in the webview. JS uuid " + jsInterface.mUuid.toString());
         }
 
         return instance;
@@ -259,6 +268,11 @@ public class WebViewSingleton extends Activity {
             return jsAppMessage.toString();
         }
 
+
+        private boolean isLocationEnabledForWatchApp() {
+            return true; //as long as we don't give watchapp internet access it's not a problem
+        }
+
         @JavascriptInterface
         public void gbLog(String msg) {
             LOG.debug("WEBVIEW", msg);
@@ -400,6 +414,51 @@ public class WebViewSingleton extends Activity {
         public String getWatchToken() {
             //specification says: A string that is guaranteed to be identical for each Pebble device for the same app across different mobile devices. The token is unique to your app and cannot be used to track Pebble devices across applications. see https://developer.pebble.com/docs/js/Pebble/
             return "gb" + this.mUuid.toString();
+        }
+
+
+        @JavascriptInterface
+        public String getCurrentPosition() {
+            if (!isLocationEnabledForWatchApp()) {
+                return "";
+            }
+            //we need to override this because the coarse location is not enough for the android webview, we should add the permission for fine location.
+            JSONObject geoPosition = new JSONObject();
+            JSONObject coords = new JSONObject();
+            try {
+
+                Prefs prefs = GBApplication.getPrefs();
+
+                geoPosition.put("timestamp", (System.currentTimeMillis() / 1000) - 86400); //let JS know this value is really old
+
+                coords.put("latitude", prefs.getFloat("location_latitude", 0));
+                coords.put("longitude", prefs.getFloat("location_longitude", 0));
+
+                if (ActivityCompat.checkSelfPermission(contextWrapper, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                        prefs.getBoolean("use_updated_location_if_available", false)) {
+                    LocationManager locationManager = (LocationManager) contextWrapper.getSystemService(Context.LOCATION_SERVICE);
+                    Criteria criteria = new Criteria();
+                    String provider = locationManager.getBestProvider(criteria, false);
+                    if (provider != null) {
+                        Location lastKnownLocation = locationManager.getLastKnownLocation(provider);
+                        if (lastKnownLocation != null) {
+                            geoPosition.put("timestamp", lastKnownLocation.getTime());
+
+                            coords.put("latitude", (float) lastKnownLocation.getLatitude());
+                            coords.put("longitude", (float) lastKnownLocation.getLongitude());
+                            coords.put("accuracy", lastKnownLocation.getAccuracy());
+                            coords.put("altitude", lastKnownLocation.getAltitude());
+                            coords.put("speed", lastKnownLocation.getSpeed());
+                        }
+                    }
+                }
+
+                geoPosition.put("coords", coords);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return geoPosition.toString();
         }
 
     }
