@@ -1,3 +1,9 @@
+navigator.geolocation.getCurrentPosition = function(success, failure) { //override because default implementation requires GPS permission
+    success(JSON.parse(GBjs.getCurrentPosition()));
+    							failure({ code: 2, message: "POSITION_UNAVAILABLE"});
+
+}
+
 if (window.Storage){
     var prefix = GBjs.getAppLocalstoragePrefix();
     GBjs.gbLog("redefining local storage with prefix: " + prefix);

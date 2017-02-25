@@ -24,6 +24,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton;
+import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class ExternalPebbleJSActivity extends GBActivity {
 
