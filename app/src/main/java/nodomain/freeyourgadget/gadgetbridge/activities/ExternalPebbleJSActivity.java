@@ -1,9 +1,15 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -39,6 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class ExternalPebbleJSActivity extends GBActivity {
 
@@ -120,6 +127,10 @@ public class ExternalPebbleJSActivity extends GBActivity {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private boolean isLocationEnabledForWatchApp() {
+        return true; //as long as we don't give watchapp internet access it's not a problem
     }
 
     private class GBChromeClient extends WebChromeClient {
@@ -305,6 +316,51 @@ public class ExternalPebbleJSActivity extends GBActivity {
         @JavascriptInterface
         public void closeActivity() {
             NavUtils.navigateUpFromSameTask((ExternalPebbleJSActivity) mContext);
+        }
+
+
+        @JavascriptInterface
+        public String getCurrentPosition() {
+            if (!isLocationEnabledForWatchApp()) {
+                return "";
+            }
+            //we need to override this because the coarse location is not enough for the android webview, we should add the permission for fine location.
+            JSONObject geoPosition = new JSONObject();
+            JSONObject coords = new JSONObject();
+            try {
+
+                Prefs prefs = GBApplication.getPrefs();
+
+                geoPosition.put("timestamp", (System.currentTimeMillis() / 1000) - 86400); //let JS know this value is really old
+
+                coords.put("latitude", prefs.getFloat("location_latitude", 0));
+                coords.put("longitude", prefs.getFloat("location_longitude", 0));
+
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                        prefs.getBoolean("use_updated_location_if_available", false)) {
+                    LocationManager locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+                    Criteria criteria = new Criteria();
+                    String provider = locationManager.getBestProvider(criteria, false);
+                    if (provider != null) {
+                        Location lastKnownLocation = locationManager.getLastKnownLocation(provider);
+                        if (lastKnownLocation != null) {
+                            geoPosition.put("timestamp", lastKnownLocation.getTime());
+
+                            coords.put("latitude", (float) lastKnownLocation.getLatitude());
+                            coords.put("longitude", (float) lastKnownLocation.getLongitude());
+                            coords.put("accuracy", lastKnownLocation.getAccuracy());
+                            coords.put("altitude", lastKnownLocation.getAltitude());
+                            coords.put("speed", lastKnownLocation.getSpeed());
+                        }
+                    }
+                }
+
+                geoPosition.put("coords", coords);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return geoPosition.toString();
         }
     }
 
