@@ -50,6 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
@@ -102,6 +103,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
     private RealtimeSamplesSupport realtimeSamplesSupport;
+    private boolean alarmClockRining;
+    private boolean alarmClockRinging;
 
     public MiBandSupport() {
         super(LOG);
@@ -541,13 +544,29 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
+        if (notificationSpec.type == NotificationType.GENERIC_ALARM_CLOCK) {
+            onAlarmClock(notificationSpec);
+            return;
+        }
+
         String origin = notificationSpec.type.getGenericType();
         performPreferredNotification(origin + " received", origin, null);
     }
 
+    private void onAlarmClock(NotificationSpec notificationSpec) {
+        alarmClockRining = true;
+        AbortTransactionAction abortAction = new AbortTransactionAction() {
+            @Override
+            protected boolean shouldAbort() {
+                return !isAlarmClockRinging();
+            }
+        };
+        performPreferredNotification("alarm clock ringing", MiBandConst.ORIGIN_ALARM_CLOCK, abortAction);
+    }
+
     @Override
     public void onDeleteNotification(int id) {
-
+        alarmClockRining = false; // we should have the notificationtype at least to check
     }
 
     @Override
@@ -616,6 +635,10 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
     }
 
+    private boolean isAlarmClockRinging() {
+        // don't synchronize, this is not really important
+        return alarmClockRinging;
+    }
     private boolean isTelephoneRinging() {
         // don't synchronize, this is not really important
         return telephoneRinging;

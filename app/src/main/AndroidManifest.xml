@@ -15,9 +15,9 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="com.fsck.k9.permission.READ_MESSAGES" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <uses-feature
         android:name="android.hardware.bluetooth"
@@ -225,6 +225,14 @@
                 <action android:name="ru.gelin.android.weather.notification.ACTION_WEATHER_SKIN_PREFERENCES"/>
             </intent-filter>
         </activity>
+
+        <receiver android:name=".externalevents.AutoStartReceiver"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
 
         <receiver
             android:name=".externalevents.BluetoothStateChangeReceiver"

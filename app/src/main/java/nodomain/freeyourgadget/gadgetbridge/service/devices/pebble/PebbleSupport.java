@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -113,6 +114,22 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
+        String currentPrivacyMode = GBApplication.getPrefs().getString("pebble_pref_privacy_mode", getContext().getString(R.string.p_pebble_privacy_mode_off));
+        if (getContext().getString(R.string.p_pebble_privacy_mode_complete).equals(currentPrivacyMode)) {
+            notificationSpec.body = null;
+            notificationSpec.sender = null;
+            notificationSpec.subject = null;
+            notificationSpec.title = null;
+            notificationSpec.phoneNumber = null;
+        } else if (getContext().getString(R.string.p_pebble_privacy_mode_content).equals(currentPrivacyMode)) {
+            if (notificationSpec.sender != null) {
+                notificationSpec.sender = "\n\n\n\n\n" + notificationSpec.sender;
+            } else if (notificationSpec.title != null) {
+                notificationSpec.title = "\n\n\n\n\n" + notificationSpec.title;
+            } else if (notificationSpec.subject != null) {
+                notificationSpec.subject = "\n\n\n\n\n" + notificationSpec.subject;
+            }
+        }
         if (reconnect()) {
             super.onNotification(notificationSpec);
         }

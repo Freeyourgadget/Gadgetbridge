@@ -17,7 +17,8 @@ public enum NotificationType {
     SIGNAL(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.BlueMoon),
     TWITTER(PebbleIconID.NOTIFICATION_TWITTER, PebbleColor.BlueMoon),
     TELEGRAM(PebbleIconID.NOTIFICATION_TELEGRAM, PebbleColor.PictonBlue),
-    WHATSAPP(PebbleIconID.NOTIFICATION_WHATSAPP, PebbleColor.MayGreen);
+    WHATSAPP(PebbleIconID.NOTIFICATION_WHATSAPP, PebbleColor.MayGreen),
+    GENERIC_ALARM_CLOCK(PebbleIconID.ALARM_CLOCK, PebbleColor.Red);
 
     public int icon;
     public byte color;
@@ -41,6 +42,7 @@ public enum NotificationType {
             case GENERIC_EMAIL:
             case GENERIC_NAVIGATION:
             case GENERIC_SMS:
+            case GENERIC_ALARM_CLOCK:
                 return getFixedValue();
             case FACEBOOK:
             case TWITTER:

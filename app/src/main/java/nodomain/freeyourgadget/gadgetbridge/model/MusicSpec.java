@@ -17,6 +17,19 @@ public class MusicSpec {
     public int trackCount;
     public int trackNr;
 
+    public MusicSpec() {
+
+    }
+
+    public MusicSpec(MusicSpec old) {
+        this.duration = old.duration;
+        this.trackCount = old.trackCount;
+        this.trackNr = old.trackNr;
+        this.track = old.track;
+        this.album = old.album;
+        this.artist = old.artist;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {

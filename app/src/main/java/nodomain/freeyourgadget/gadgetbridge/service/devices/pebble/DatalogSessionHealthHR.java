@@ -13,8 +13,8 @@ class DatalogSessionHealthHR extends DatalogSessionPebbleHealth {
 
     private static final Logger LOG = LoggerFactory.getLogger(DatalogSessionHealthHR.class);
 
-    DatalogSessionHealthHR(byte id, UUID uuid, int tag, byte item_type, short item_size, GBDevice device) {
-        super(id, uuid, tag, item_type, item_size, device);
+    DatalogSessionHealthHR(byte id, UUID uuid, int timestamp, int tag, byte item_type, short item_size, GBDevice device) {
+        super(id, uuid, timestamp, tag, item_type, item_size, device);
         taginfo = "(Health - HR " + tag + " )";
     }
 

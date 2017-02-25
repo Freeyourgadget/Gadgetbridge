@@ -33,7 +33,7 @@ public class MiBandPairingActivity extends GBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandPairingActivity.class);
 
     private static final int REQ_CODE_USER_SETTINGS = 52;
-    private static final String STATE_MIBAND_ADDRESS = "mibandMacAddress";
+    private static final String STATE_DEVICE_CANDIDATE = "stateDeviceCandidate";
     private static final long DELAY_AFTER_BONDING = 1000; // 1s
     private TextView message;
     private boolean isPairing;
@@ -103,7 +103,7 @@ public class MiBandPairingActivity extends GBActivity {
         Intent intent = getIntent();
         deviceCandidate = intent.getParcelableExtra(DeviceCoordinator.EXTRA_DEVICE_CANDIDATE);
         if (deviceCandidate == null && savedInstanceState != null) {
-            deviceCandidate = savedInstanceState.getParcelable(STATE_MIBAND_ADDRESS);
+            deviceCandidate = savedInstanceState.getParcelable(STATE_DEVICE_CANDIDATE);
         }
         if (deviceCandidate == null) {
             Toast.makeText(this, getString(R.string.message_cannot_pair_no_mac), Toast.LENGTH_SHORT).show();
@@ -125,13 +125,13 @@ public class MiBandPairingActivity extends GBActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(STATE_MIBAND_ADDRESS, deviceCandidate);
+        outState.putParcelable(STATE_DEVICE_CANDIDATE, deviceCandidate);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        deviceCandidate = savedInstanceState.getParcelable(STATE_MIBAND_ADDRESS);
+        deviceCandidate = savedInstanceState.getParcelable(STATE_DEVICE_CANDIDATE);
     }
 
     @Override

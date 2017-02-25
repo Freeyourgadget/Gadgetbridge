@@ -45,8 +45,8 @@ public class PebbleHealthSampleProvider extends AbstractSampleProvider<PebbleHea
         QueryBuilder<PebbleHealthActivityOverlay> qb = getSession().getPebbleHealthActivityOverlayDao().queryBuilder();
 
         // I assume it returns the records by id ascending ... (last overlay is dominant)
-        qb.where(PebbleHealthActivityOverlayDao.Properties.DeviceId.eq(dbDevice.getId()), PebbleHealthActivityOverlayDao.Properties.TimestampFrom.ge(timestamp_from))
-                .where(PebbleHealthActivityOverlayDao.Properties.TimestampTo.le(timestamp_to));
+        qb.where(PebbleHealthActivityOverlayDao.Properties.DeviceId.eq(dbDevice.getId()), PebbleHealthActivityOverlayDao.Properties.TimestampTo.ge(timestamp_from))
+                .where(PebbleHealthActivityOverlayDao.Properties.TimestampFrom.le(timestamp_to));
         List<PebbleHealthActivityOverlay> overlayRecords = qb.build().list();
 
         for (PebbleHealthActivityOverlay overlay : overlayRecords) {

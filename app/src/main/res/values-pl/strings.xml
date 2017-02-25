@@ -55,7 +55,6 @@
   <string name="pref_title_notifications_repetitions">Powtórzenia</string>
   <string name="pref_title_notifications_call">Połączenia</string>
   <string name="pref_title_notifications_sms">SMS</string>
-  <string name="pref_title_notifications_k9mail">K9-Mail</string>
   <string name="pref_title_notifications_pebblemsg">Wiadomości Pebble</string>
   <string name="pref_title_notifications_generic">Obsługa ogólnych powiadomień</string>
   <string name="pref_title_whenscreenon">... także gdy ekran jest włączony</string>

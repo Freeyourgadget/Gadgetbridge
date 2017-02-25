@@ -65,11 +65,6 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
         writeCharacteristics.setValue(new byte[]{(byte) (((serial << 3) | 1) & 0xff)});
 
         mBluetoothGattServer.notifyCharacteristicChanged(mBtDevice, writeCharacteristics, false);
-
-        try {
-            Thread.sleep(100); // FIXME: bad bad, I mean BAAAD
-        } catch (InterruptedException ignore) {
-        }
     }
 
     public void onCharacteristicReadRequest(BluetoothDevice device, int requestId, int offset, BluetoothGattCharacteristic characteristic) {

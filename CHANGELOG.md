@@ -1,5 +1,24 @@
 ###Changelog
 
+####Version 0.17.5
+* Automatically start the service on boot (can be turned off)
+* Pebble: PebbleKit compatibility improvements (Datalogging)
+* Pebble: Display music shuffle and repeat states for some players
+* Pebble 2/LE: Speed up data transfer
+
+####Version 0.17.4
+* Better integration with android music players
+* Privacy options for calls (hide caller name/number)
+* Send a notification to the connected if the Android Alarm Clock rings (com.android.deskclock)
+* Fixes for cyrillic transliteration
+* Pebble: Implement notification privacy modes
+* Pebble: Support weather for Obisdian watchface
+* Pebble: add a dev option to always and immediately ACK PebbleKit messages to the watch
+* HPlus: Support alarms
+* HPlus: Fix time and date sync and time format (12/24)
+* HPlus: Add device specific preferences and icon
+* HPlus: Support for Makibes F68
+
 ####Version 0.17.3
 * HPlus: Improve display of new messages and phone calls
 * HPlus: Fix bug related to steps and heart rate

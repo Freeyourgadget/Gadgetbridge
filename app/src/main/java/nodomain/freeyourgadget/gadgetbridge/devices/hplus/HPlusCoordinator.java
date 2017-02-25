@@ -36,6 +36,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Locale;
+
+import static nodomain.freeyourgadget.gadgetbridge.GBApplication.getContext;
 
 public class HPlusCoordinator extends AbstractDeviceCoordinator {
     protected static final Logger LOG = LoggerFactory.getLogger(HPlusCoordinator.class);
@@ -143,23 +146,42 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
         qb.where(HPlusHealthActivitySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
     }
 
-    public static int getFitnessGoal(String address) throws IllegalArgumentException {
-        ActivityUser activityUser = new ActivityUser();
-
-        return activityUser.getStepsGoal();
-    }
-
     public static byte getLanguage(String address) {
-        return (byte) prefs.getInt(HPlusConstants.PREF_HPLUS_LANGUAGE + "_" + address, HPlusConstants.ARG_LANGUAGE_EN);
+        String language = prefs.getString("language", "default");
+        Locale locale;
 
+        if (language.equals("default")) {
+            locale = Locale.getDefault();
+        } else {
+            locale = new Locale(language);
+        }
+
+        if (locale.getLanguage().equals(new Locale("cn").getLanguage())){
+            return HPlusConstants.ARG_LANGUAGE_CN;
+        }else{
+            return HPlusConstants.ARG_LANGUAGE_EN;
+        }
     }
 
     public static byte getTimeMode(String address) {
-        return (byte) prefs.getInt(HPlusConstants.PREF_HPLUS_TIMEMODE + "_" + address, 0);
+        String tmode = prefs.getString(HPlusConstants.PREF_HPLUS_TIMEFORMAT, getContext().getString(R.string.p_timeformat_24h));
+
+        if(tmode.equals(getContext().getString(R.string.p_timeformat_24h))) {
+            return HPlusConstants.ARG_TIMEMODE_24H;
+        }else{
+            return HPlusConstants.ARG_TIMEMODE_12H;
+        }
+
     }
 
     public static byte getUnit(String address) {
-        return (byte) prefs.getInt(HPlusConstants.PREF_HPLUS_UNIT + "_" + address, 0);
+        String units = prefs.getString(HPlusConstants.PREF_HPLUS_UNIT, getContext().getString(R.string.p_unit_metric));
+
+        if(units.equals(getContext().getString(R.string.p_unit_metric))){
+            return HPlusConstants.ARG_UNIT_METRIC;
+        }else{
+            return HPlusConstants.ARG_UNIT_IMPERIAL;
+        }
     }
 
     public static byte getUserWeight(String address) {
@@ -196,15 +218,17 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static byte getScreenTime(String address) {
-        return (byte) (prefs.getInt(HPlusConstants.PREF_HPLUS_SCREENTIME + "_" + address, 5) & 0xFF);
+        return (byte) (prefs.getInt(HPlusConstants.PREF_HPLUS_SCREENTIME, 5) & 0xFF);
     }
 
     public static byte getAllDayHR(String address) {
-        return (byte) (prefs.getInt(HPlusConstants.PREF_HPLUS_ALLDAYHR + "_" + address, HPlusConstants.ARG_HEARTRATE_ALLDAY_ON) & 0xFF);
-    }
+        Boolean value = (prefs.getBoolean(HPlusConstants.PREF_HPLUS_ALLDAYHR, true));
 
-    public static byte getHRState(String address) {
-        return (byte) (prefs.getInt(HPlusConstants.PREF_HPLUS_HR + "_" + address, HPlusConstants.ARG_HEARTRATE_MEASURE_ON) & 0xFF);
+        if(value){
+            return HPlusConstants.ARG_HEARTRATE_ALLDAY_ON;
+        }else{
+            return HPlusConstants.ARG_HEARTRATE_ALLDAY_OFF;
+        }
     }
 
     public static byte getSocial(String address) {
@@ -214,23 +238,21 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static byte getUserWrist(String address) {
-        return (byte) (prefs.getInt(HPlusConstants.PREF_HPLUS_WRIST + "_" + address, 10) & 0xFF);
-    }
+        String value = prefs.getString(HPlusConstants.PREF_HPLUS_WRIST, getContext().getString(R.string.left));
 
-    public static boolean getSWAlertTime(String address) {
-        return prefs.getBoolean(HPlusConstants.PREF_HPLUS_SWALERT + "_" + address, false);
-    }
-
-    public static int getAlertTime(String address) {
-        return prefs.getInt(HPlusConstants.PREF_HPLUS_ALERT_TIME + "_" + address, 0);
+        if(value.equals(getContext().getString(R.string.left))){
+            return HPlusConstants.ARG_WRIST_LEFT;
+        }else{
+            return HPlusConstants.ARG_WRIST_RIGHT;
+        }
     }
 
     public static int getSITStartTime(String address) {
-        return prefs.getInt(HPlusConstants.PREF_HPLUS_SIT_START_TIME + "_" + address, 0);
+        return prefs.getInt(HPlusConstants.PREF_HPLUS_SIT_START_TIME, 0);
     }
 
     public static int getSITEndTime(String address) {
-        return prefs.getInt(HPlusConstants.PREF_HPLUS_SIT_END_TIME + "_" + address, 0);
+        return prefs.getInt(HPlusConstants.PREF_HPLUS_SIT_END_TIME, 0);
     }
 
 }

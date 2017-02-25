@@ -10,8 +10,8 @@ abstract class DatalogSessionPebbleHealth extends DatalogSession {
 
     private final GBDevice mDevice;
 
-    DatalogSessionPebbleHealth(byte id, UUID uuid, int tag, byte itemType, short itemSize, GBDevice device) {
-        super(id, uuid, tag, itemType, itemSize);
+    DatalogSessionPebbleHealth(byte id, UUID uuid, int timestamp, int tag, byte itemType, short itemSize, GBDevice device) {
+        super(id, uuid, timestamp, tag, itemType, itemSize);
         mDevice = device;
     }
 

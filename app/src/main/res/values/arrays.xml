@@ -113,6 +113,19 @@
         <item>3</item>
         <item>1</item>
     </string-array>
+
+    <string-array name="pebble_privacymode">
+        <item name="off">@string/pref_pebble_privacy_mode_off</item>
+        <item name="content">@string/pref_pebble_privacy_mode_content</item>
+        <item name="complete">@string/pref_pebble_privacy_mode_complete</item>
+    </string-array>
+
+    <string-array name="pebble_privacymode_values">
+        <item>@string/p_pebble_privacy_mode_off</item>
+        <item>@string/p_pebble_privacy_mode_content</item>
+        <item>@string/p_pebble_privacy_mode_complete</item>
+    </string-array>
+
     <string-array name="mi2_dateformats">
         <item>@string/dateformat_time</item>
         <item>@string/dateformat_date_time</item>
@@ -120,6 +133,38 @@
     <string-array name="mi2_dateformats_values">
         <item>@string/p_dateformat_time</item>
         <item>@string/p_dateformat_datetime</item>
+    </string-array>
+
+    <string-array name="pref_entries_unit_system">
+        <item>@string/unit_metric</item>
+        <item>@string/unit_imperial</item>
+    </string-array>
+
+    <string-array name="pref_values_unit_system">
+        <item>@string/p_unit_metric</item>
+        <item>@string/p_unit_imperial</item>
+    </string-array>
+
+    <string-array name="pref_timeformat_entries">
+        <item>@string/timeformat_24h</item>
+        <item>@string/timeformat_am_pm</item>
+    </string-array>
+
+    <string-array name="pref_timeformat_values">
+        <item>@string/p_timeformat_24h</item>
+        <item>@string/p_timeformat_am_pm</item>
+    </string-array>
+
+    <string-array name="pref_call_privacy_mode">
+        <item name="off">@string/pref_call_privacy_mode_off</item>
+        <item name="name">@string/pref_call_privacy_mode_name</item>
+        <item name="complete">@string/pref_call_privacy_mode_complete</item>
+    </string-array>
+
+    <string-array name="pref_call_privacy_mode_values">
+        <item>@string/p_call_privacy_mode_off</item>
+        <item>@string/p_call_privacy_mode_name</item>
+        <item>@string/p_call_privacy_mode_complete</item>
     </string-array>
 
 </resources>

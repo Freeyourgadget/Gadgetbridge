@@ -45,6 +45,7 @@
   <string name="title_activity_settings">Ajustes</string>
   <string name="pref_header_general">Ajustes generales</string>
   <string name="pref_title_general_autoconnectonbluetooth">Conectarse al dispositivo cuando el Bluetooth esté activado</string>
+  <string name="pref_title_general_autostartonboot">Iniciar automáticamente</string>
   <string name="pref_title_general_autocreonnect">Reconectar automáticamente</string>
   <string name="pref_title_audo_player">Reproductor de audio favorito</string>
   <string name="pref_default">Predeterminado</string>
@@ -62,7 +63,6 @@
   <string name="pref_title_notifications_repetitions">Repeticiones</string>
   <string name="pref_title_notifications_call">Llamadas telefónicas</string>
   <string name="pref_title_notifications_sms">SMS</string>
-  <string name="pref_title_notifications_k9mail">K9-Mail</string>
   <string name="pref_title_notifications_pebblemsg">Mensajes de Pebble</string>
   <string name="pref_summary_notifications_pebblemsg">Soporte para aplicaciones que envían notificaciones a Pebble a través de PebbleKit.</string>
   <string name="pref_title_notifications_generic">Soporte para notificaciones genéricas</string>
@@ -74,6 +74,11 @@
   <string name="always">siempre</string>
   <string name="when_screen_off">cuando la pantalla está apagada</string>
   <string name="never">nunca</string>
+  <string name="pref_header_privacy">Privacidad</string>
+  <string name="pref_title_call_privacy_mode">Modo de privacidad de llamada</string>
+  <string name="pref_call_privacy_mode_off">Mostrar nombre y número</string>
+  <string name="pref_call_privacy_mode_name">Ocultar nombre pero mostrar número</string>
+  <string name="pref_call_privacy_mode_complete">Ocultar nombre y número</string>
   <string name="pref_blacklist">Excluir aplicaciones</string>
   <string name="pref_header_cannned_messages">Mensajes predeterminados</string>
   <string name="pref_title_canned_replies">Respuestas</string>
@@ -96,6 +101,10 @@
   <string name="pref_summary_sunrise_sunset">Enviar las horas de salida y puesta de Sol basándose en la localización a la línea cronológica del Pebble</string>
   <string name="pref_title_autoremove_notifications">Eliminar automáticamente las notificaciones rechazadas</string>
   <string name="pref_summary_autoremove_notifications">Las notificaciones se borran automáticamente de Pebble cuando son rechazadas en Android</string>
+  <string name="pref_title_pebble_privacy_mode">Modo privado</string>
+  <string name="pref_pebble_privacy_mode_off">Notificación normal</string>
+  <string name="pref_pebble_privacy_mode_content">Desplaza la notificación fuera de la pantalla</string>
+  <string name="pref_pebble_privacy_mode_complete">Muestra solo el icono de notificación</string>
   <string name="pref_header_location">Localización</string>
   <string name="pref_title_location_aquire">Buscar localización</string>
   <string name="pref_title_location_latitude">Latitud</string>
@@ -114,7 +123,14 @@
   <string name="pref_summary_pebble_mtu_limit">Si tu Pebble 2/Pebble LE no funciona correctamente, prueba esta opción para limitar el MTU (rango válido 20–512)</string>
   <string name="pref_title_pebble_enable_applogs">Activar crear registros de la App del Reloj</string>
   <string name="pref_summary_pebble_enable_applogs">Producirá registros de las apps del reloj que Gadgetbridge guardará (necesita reconexión)</string>
+  <string name="pref_title_pebble_always_ack_pebblekit">ACK antes de tiempo de PebbleKit</string>
+  <string name="pref_summary_pebble_always_ack_pebblekit">Permitirá a los mensajes enviados a apps de terceros ser reconocidos siempre e inmediatamente</string>
   <string name="pref_title_pebble_reconnect_attempts">Intentos de reconexión</string>
+  <string name="pref_title_unit_system">Unidades</string>
+  <string name="pref_title_timeformat">Formato de hora</string>
+  <string name="pref_title_screentime">Tiempo de pantalla encendida</string>
+  <string name="prefs_title_all_day_heart_rate">Medición del ritmo cardíaco todo el día</string>
+  <string name="preferences_hplus_settings">Ajustes de HPlus/Makibes</string>
   <string name="not_connected">no conectado</string>
   <string name="connecting">conectando</string>
   <string name="connected">conectado</string>
@@ -338,4 +354,11 @@ Por favor, ten en cuenta que puedes importar datos desde Mi Band, Pebble Health 
   <string name="title_activity_pebble_pairing">Emparejando con Pebble</string>
   <string name="pebble_pairing_hint">En su dispositivo Android va a aparecer un mensaje para emparejarse. Si no apareciera, mira en el cajón de notificaciones y acepta la propuesta de emparejamiento. Después acepta también en tu Pebble.</string>
   <string name="weather_notification_label">Asegúrate de que este tema esté activado en la aplicación de notificación del tiempo para obtener la información en tu Pebble.\n\nNo se requiere configuración.\n\nPuedes activar la aplicación del tiempo del sistema desde la configuración de la app.\n\nLas watchfaces soportadas mostrarán la información del tiempo automáticamente.</string>
+  <string name="pref_title_setup_bt_pairing">Activar el emparejamiento Bluetooth</string>
+  <string name="pref_summary_setup_bt_pairing">Desactiva esto si tienes problemas de conexión</string>
+  <string name="unit_metric">Métrica</string>
+  <string name="unit_imperial">Imperial</string>
+  <string name="timeformat_24h">24H</string>
+  <string name="timeformat_am_pm">AM/PM</string>
+  <string name="pref_screen_notification_profile_alarm_clock">Despertador</string>
 </resources>

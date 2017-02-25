@@ -10,10 +10,22 @@ public class MusicStateSpec {
     public static final int STATE_UNKNOWN = 3;
 
     public byte state;
-    public int position;
-    public int playRate;
+    public int position; // Position of the current media in seconds
+    public int playRate; // Speed of playback, usually 0 or 100 (full speed)
     public byte shuffle;
     public byte repeat;
+
+    public MusicStateSpec() {
+
+    }
+
+    public MusicStateSpec(MusicStateSpec old) {
+        this.state = old.state;
+        this.position = old.position;
+        this.playRate = old.playRate;
+        this.shuffle = old.shuffle;
+        this.repeat = old.repeat;
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -30,5 +42,16 @@ public class MusicStateSpec {
                 this.playRate == stateSpec.playRate &&
                 this.shuffle == stateSpec.shuffle &&
                 this.repeat == stateSpec.repeat;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) state;
+//ignore the position -- it is taken into account in equals()
+//result = 31 * result + position;
+        result = 31 * result + playRate;
+        result = 31 * result + (int) shuffle;
+        result = 31 * result + (int) repeat;
+        return result;
     }
 }

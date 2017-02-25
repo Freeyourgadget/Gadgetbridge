@@ -28,6 +28,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificati
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.pebble.GBDeviceEventDataLogging;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleIconID;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
@@ -224,10 +225,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private static final byte PHONEVERSION_REMOTE_OS_LINUX = 4;
     private static final byte PHONEVERSION_REMOTE_OS_WINDOWS = 5;
 
-    private static final byte TYPE_BYTEARRAY = 0;
+    static final byte TYPE_BYTEARRAY = 0;
     private static final byte TYPE_CSTRING = 1;
-    private static final byte TYPE_UINT = 2;
-    private static final byte TYPE_INT = 3;
+    static final byte TYPE_UINT = 2;
+    static final byte TYPE_INT = 3;
 
     private final short LENGTH_PREFIX = 4;
 
@@ -253,6 +254,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private static final Random mRandom = new Random();
 
     int mFwMajor = 3;
+    boolean mEnablePebbleKit = false;
+    boolean mAlwaysACKPebbleKit = false;
     private boolean mForceProtocol = false;
     private GBDeviceEventScreenshot mDevEventScreenshot = null;
     private int mScreenshotRemaining = -1;
@@ -368,6 +371,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private static final UUID UUID_ZALEWSZCZAK_CROWEX = UUID.fromString("a88b3151-2426-43c6-b1d0-9b288b3ec47e");
     private static final UUID UUID_ZALEWSZCZAK_FANCY = UUID.fromString("014e17bf-5878-4781-8be1-8ef998cee1ba");
     private static final UUID UUID_ZALEWSZCZAK_TALLY = UUID.fromString("abb51965-52e2-440a-b93c-843eeacb697d");
+    private static final UUID UUID_OBSIDIAN = UUID.fromString("ef42caba-0c65-4879-ab23-edd2bde68824");
 
     private static final UUID UUID_ZERO = new UUID(0, 0);
 
@@ -390,6 +394,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         mAppMessageHandlers.put(UUID_ZALEWSZCZAK_CROWEX, new AppMessageHandlerZalewszczak(UUID_ZALEWSZCZAK_CROWEX, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_ZALEWSZCZAK_FANCY, new AppMessageHandlerZalewszczak(UUID_ZALEWSZCZAK_FANCY, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_ZALEWSZCZAK_TALLY, new AppMessageHandlerZalewszczak(UUID_ZALEWSZCZAK_TALLY, PebbleProtocol.this));
+        mAppMessageHandlers.put(UUID_OBSIDIAN, new AppMessageHandlerObsidian(UUID_OBSIDIAN, PebbleProtocol.this));
     }
 
     private final HashMap<Byte, DatalogSession> mDatalogSessions = new HashMap<>();
@@ -455,7 +460,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         String title;
         String subtitle = null;
 
-        // for SMS and EMAIL that came in though SMS or K9 receiver
+        // for SMS that came in though the SMS receiver
         if (notificationSpec.sender != null) {
             title = notificationSpec.sender;
             subtitle = notificationSpec.subject;
@@ -571,7 +576,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         byte dismiss_action_id;
 
-        if (hasHandle) {
+        if (hasHandle && !"ALARMCLOCKRECEIVER".equals(sourceName)) {
             actions_count = 3;
             dismiss_string = "Dismiss";
             dismiss_action_id = 0x02;
@@ -651,7 +656,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put(dismiss_string.getBytes());
 
         // open and mute actions
-        if (hasHandle) {
+        if (hasHandle && !"ALARMCLOCKRECEIVER".equals(sourceName)) {
             buf.put((byte) 0x01);
             buf.put((byte) 0x02); // generic
             buf.put((byte) 0x01); // number attributes
@@ -889,7 +894,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         }
 
         byte dismiss_action_id;
-        if (hasHandle) {
+        if (hasHandle && !"ALARMCLOCKRECEIVER".equals(sourceName)) {
             actions_count = 3;
             dismiss_string = "Dismiss";
             dismiss_action_id = 0x02;
@@ -976,7 +981,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put(dismiss_string.getBytes());
 
         // open and mute actions
-        if (hasHandle) {
+        if (hasHandle && !"ALARMCLOCKRECEIVER".equals(sourceName)) {
             buf.put((byte) 0x01);
             buf.put((byte) 0x02); // generic action
             buf.put((byte) 0x01); // number attributes
@@ -1831,16 +1836,17 @@ public class PebbleProtocol extends GBDeviceProtocol {
             jsonArray.put(jsonObject);
         }
 
-        // this is a hack we send an ack to the Pebble immediately because we cannot map the transaction_id from the intent back to a uuid yet
-        /*
-        GBDeviceEventSendBytes sendBytesAck = new GBDeviceEventSendBytes();
-        sendBytesAck.encodedBytes = encodeApplicationMessageAck(uuid, last_id);
-        */
+        GBDeviceEventSendBytes sendBytesAck = null;
+        if (mAlwaysACKPebbleKit) {
+            // this is a hack we send an ack to the Pebble immediately because somebody said it helps some PebbleKit apps :P
+             sendBytesAck = new GBDeviceEventSendBytes();
+             sendBytesAck.encodedBytes = encodeApplicationMessageAck(uuid, last_id);
+        }
         GBDeviceEventAppMessage appMessage = new GBDeviceEventAppMessage();
         appMessage.appUUID = uuid;
         appMessage.id = last_id & 0xff;
         appMessage.message = jsonArray.toString();
-        return new GBDeviceEvent[]{appMessage};
+        return new GBDeviceEvent[]{appMessage, sendBytesAck};
     }
 
     byte[] encodeApplicationMessagePush(short endpoint, UUID uuid, ArrayList<Pair<Integer, Object>> pairs) {
@@ -2208,10 +2214,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return null;
     }
 
-    private GBDeviceEventSendBytes decodeDatalog(ByteBuffer buf, short length) {
+    private GBDeviceEvent[] decodeDatalog(ByteBuffer buf, short length) {
         boolean ack = true;
         byte command = buf.get();
         byte id = buf.get();
+        GBDeviceEventDataLogging devEvtDataLogging = null;
         switch (command) {
             case DATALOG_TIMEOUT:
                 LOG.info("DATALOG TIMEOUT. id=" + (id & 0xff) + " - ignoring");
@@ -2224,7 +2231,14 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 LOG.info("DATALOG SENDDATA. id=" + (id & 0xff) + ", items_left=" + items_left + ", total length=" + (length - 10));
                 if (datalogSession != null) {
                     LOG.info("DATALOG UUID=" + datalogSession.uuid + ", tag=" + datalogSession.tag + datalogSession.getTaginfo() + ", itemSize=" + datalogSession.itemSize + ", itemType=" + datalogSession.itemType);
-                    ack = datalogSession.handleMessage(buf, length - 10);
+                    if (!datalogSession.uuid.equals(UUID_ZERO) && datalogSession.getClass().equals(DatalogSession.class) && mEnablePebbleKit) {
+                        devEvtDataLogging = datalogSession.handleMessageForPebbleKit(buf, length - 10);
+                        if (devEvtDataLogging == null) {
+                            ack = false;
+                        }
+                    } else {
+                        ack = datalogSession.handleMessage(buf, length - 10);
+                    }
                 }
                 break;
             case DATALOG_OPENSESSION:
@@ -2237,21 +2251,29 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 LOG.info("DATALOG OPENSESSION. id=" + (id & 0xff) + ", App UUID=" + uuid.toString() + ", log_tag=" + log_tag + ", item_type=" + item_type + ", itemSize=" + item_size);
                 if (!mDatalogSessions.containsKey(id)) {
                     if (uuid.equals(UUID_ZERO) && log_tag == 81) {
-                        mDatalogSessions.put(id, new DatalogSessionHealthSteps(id, uuid, log_tag, item_type, item_size, getDevice()));
+                        mDatalogSessions.put(id, new DatalogSessionHealthSteps(id, uuid, timestamp, log_tag, item_type, item_size, getDevice()));
                     } else if (uuid.equals(UUID_ZERO) && log_tag == 83) {
-                        mDatalogSessions.put(id, new DatalogSessionHealthSleep(id, uuid, log_tag, item_type, item_size, getDevice()));
+                        mDatalogSessions.put(id, new DatalogSessionHealthSleep(id, uuid, timestamp, log_tag, item_type, item_size, getDevice()));
                     } else if (uuid.equals(UUID_ZERO) && log_tag == 84) {
-                        mDatalogSessions.put(id, new DatalogSessionHealthOverlayData(id, uuid, log_tag, item_type, item_size, getDevice()));
+                        mDatalogSessions.put(id, new DatalogSessionHealthOverlayData(id, uuid, timestamp, log_tag, item_type, item_size, getDevice()));
                     } else if (uuid.equals(UUID_ZERO) && log_tag == 85) {
-                        mDatalogSessions.put(id, new DatalogSessionHealthHR(id, uuid, log_tag, item_type, item_size, getDevice()));
+                        mDatalogSessions.put(id, new DatalogSessionHealthHR(id, uuid, timestamp, log_tag, item_type, item_size, getDevice()));
                     } else {
-                        mDatalogSessions.put(id, new DatalogSession(id, uuid, log_tag, item_type, item_size));
+                        mDatalogSessions.put(id, new DatalogSession(id, uuid, timestamp, log_tag, item_type, item_size));
                     }
                 }
                 break;
             case DATALOG_CLOSE:
                 LOG.info("DATALOG_CLOSE. id=" + (id & 0xff));
-                if (mDatalogSessions.containsKey(id)) {
+                datalogSession = mDatalogSessions.get(id);
+                if (datalogSession != null) {
+                    if (!datalogSession.uuid.equals(UUID_ZERO) && datalogSession.getClass().equals(DatalogSession.class) && mEnablePebbleKit) {
+                        GBDeviceEventDataLogging dataLogging = new GBDeviceEventDataLogging();
+                        dataLogging.command = GBDeviceEventDataLogging.COMMAND_FINISH_SESSION;
+                        dataLogging.appUUID = datalogSession.uuid;
+                        dataLogging.tag = datalogSession.tag;
+                        devEvtDataLogging = dataLogging;
+                    }
                     mDatalogSessions.remove(id);
                 }
                 break;
@@ -2267,7 +2289,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
             LOG.info("sending NACK (0x86)");
             sendBytes.encodedBytes = encodeDatalog(id, DATALOG_NACK);
         }
-        return sendBytes;
+        // append ack/nack
+        return new GBDeviceEvent[]{devEvtDataLogging, sendBytes};
     }
 
     private GBDeviceEvent decodeAppReorder(ByteBuffer buf) {
@@ -2535,7 +2558,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 }
                 break;
             case ENDPOINT_DATALOG:
-                devEvts = new GBDeviceEvent[]{decodeDatalog(buf, length)};
+                devEvts = decodeDatalog(buf, length);
                 break;
             case ENDPOINT_SCREENSHOT:
                 devEvts = new GBDeviceEvent[]{decodeScreenshot(buf, length)};
@@ -2580,6 +2603,16 @@ public class PebbleProtocol extends GBDeviceProtocol {
     void setForceProtocol(boolean force) {
         LOG.info("setting force protocol to " + force);
         mForceProtocol = force;
+    }
+
+    void setAlwaysACKPebbleKit(boolean alwaysACKPebbleKit) {
+        LOG.info("setting always ACK PebbleKit to " + alwaysACKPebbleKit);
+        mAlwaysACKPebbleKit = alwaysACKPebbleKit;
+    }
+
+    void setEnablePebbleKit(boolean enablePebbleKit) {
+        LOG.info("setting enable PebbleKit support to " + enablePebbleKit);
+        mEnablePebbleKit = enablePebbleKit;
     }
 
     private String getFixedString(ByteBuffer buf, int length) {

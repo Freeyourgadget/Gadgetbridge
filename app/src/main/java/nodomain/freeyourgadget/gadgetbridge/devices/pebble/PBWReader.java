@@ -204,6 +204,9 @@ public class PBWReader {
                 }
                 app = new GBDeviceApp(appUUID, appName, appCreator, appVersion, appType);
             }
+            else if (!isFirmware) {
+                isValid = false;
+            }
         }
     }
 

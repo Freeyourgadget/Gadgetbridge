@@ -8,10 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.IBinder;
-import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
@@ -25,13 +23,12 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.OnboardingActivity;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmClockReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.K9Receiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.MusicPlaybackReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PebbleReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PhoneCallReceiver;
@@ -42,7 +39,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -97,6 +93,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CAL
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_TITLE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_TYPE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_COMMAND;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_DISPLAYNAME;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_PHONENUMBER;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CANNEDMESSAGES;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CANNEDMESSAGES_TYPE;
@@ -148,14 +145,24 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
     private PhoneCallReceiver mPhoneCallReceiver = null;
     private SMSReceiver mSMSReceiver = null;
-    private K9Receiver mK9Receiver = null;
     private PebbleReceiver mPebbleReceiver = null;
     private MusicPlaybackReceiver mMusicPlaybackReceiver = null;
     private TimeChangeReceiver mTimeChangeReceiver = null;
     private BluetoothConnectReceiver mBlueToothConnectReceiver = null;
-    private AlarmReceiver mAlarmReceiver = null;
+    private AlarmClockReceiver mAlarmClockReceiver = null;
 
+    private AlarmReceiver mAlarmReceiver = null;
     private Random mRandom = new Random();
+
+    private final String[] mMusicActions = {
+            "com.android.music.metachanged",
+            "com.android.music.playstatechanged",
+            "com.android.music.queuechanged",
+            "com.android.music.playbackcomplete",
+            "net.sourceforge.subsonic.androidapp.EVENT_META_CHANGED",
+            "com.maxmpz.audioplayer.TPOS_SYNC",
+            "com.maxmpz.audioplayer.STATUS_CHANGED",
+            "com.maxmpz.audioplayer.PLAYING_MODE_CHANGED"};
 
     /**
      * For testing!
@@ -186,20 +193,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     if (device.isInitialized()) {
                         try (DBHandler dbHandler = GBApplication.acquireDB()) {
                             DaoSession session = dbHandler.getDaoSession();
-                            boolean askForDBMigration = false;
-                            if (DBHelper.findDevice(device, session) == null && device.getType() != DeviceType.VIBRATISSIMO && (device.getType() != DeviceType.LIVEVIEW)) {
-                                askForDBMigration = true;
-                            }
                             DBHelper.getDevice(device, session); // implicitly creates the device in database if not present, and updates device attributes
-                            if (askForDBMigration) {
-                                DBHelper dbHelper = new DBHelper(context);
-                                if (dbHelper.getOldActivityDatabaseHandler() != null) {
-                                    Intent startIntent = new Intent(context, OnboardingActivity.class);
-                                    startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
-                                    startActivity(startIntent);
-                                }
-                            }
                         } catch (Exception ignore) {
                         }
                     }
@@ -332,8 +326,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 notificationSpec.flags = intent.getIntExtra(EXTRA_NOTIFICATION_FLAGS, 0);
 
                 if (notificationSpec.type == NotificationType.GENERIC_SMS && notificationSpec.phoneNumber != null) {
-                    notificationSpec.sender = getContactDisplayNameByNumber(notificationSpec.phoneNumber);
-
                     notificationSpec.id = mRandom.nextInt(); // FIXME: add this in external SMS Receiver?
                     GBApplication.getIDSenderLookup().add(notificationSpec.id, notificationSpec.phoneNumber);
                 }
@@ -412,18 +404,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 break;
             }
             case ACTION_CALLSTATE:
-                int command = intent.getIntExtra(EXTRA_CALL_COMMAND, CallSpec.CALL_UNDEFINED);
-
-                String phoneNumber = intent.getStringExtra(EXTRA_CALL_PHONENUMBER);
-                String callerName = null;
-                if (phoneNumber != null) {
-                    callerName = getContactDisplayNameByNumber(phoneNumber);
-                }
-
                 CallSpec callSpec = new CallSpec();
-                callSpec.command = command;
-                callSpec.number = phoneNumber;
-                callSpec.name = callerName;
+                callSpec.command = intent.getIntExtra(EXTRA_CALL_COMMAND, CallSpec.CALL_UNDEFINED);
+                callSpec.number = intent.getStringExtra(EXTRA_CALL_PHONENUMBER);
+                callSpec.name = intent.getStringExtra(EXTRA_CALL_DISPLAYNAME);
                 mDeviceSupport.onSetCallState(callSpec);
                 break;
             case ACTION_SETCANNEDMESSAGES:
@@ -595,13 +579,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 mSMSReceiver = new SMSReceiver();
                 registerReceiver(mSMSReceiver, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
             }
-            if (mK9Receiver == null) {
-                mK9Receiver = new K9Receiver();
-                IntentFilter filter = new IntentFilter();
-                filter.addDataScheme("email");
-                filter.addAction("com.fsck.k9.intent.action.EMAIL_RECEIVED");
-                registerReceiver(mK9Receiver, filter);
-            }
             if (mPebbleReceiver == null) {
                 mPebbleReceiver = new PebbleReceiver();
                 registerReceiver(mPebbleReceiver, new IntentFilter("com.getpebble.action.SEND_NOTIFICATION"));
@@ -609,9 +586,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             if (mMusicPlaybackReceiver == null) {
                 mMusicPlaybackReceiver = new MusicPlaybackReceiver();
                 IntentFilter filter = new IntentFilter();
-                filter.addAction("com.android.music.metachanged");
-                filter.addAction("net.sourceforge.subsonic.androidapp.EVENT_META_CHANGED");
-                //filter.addAction("com.android.music.playstatechanged");
+                for (String action : mMusicActions){
+                    filter.addAction(action);
+                }
                 registerReceiver(mMusicPlaybackReceiver, filter);
             }
             if (mTimeChangeReceiver == null) {
@@ -629,6 +606,13 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 mAlarmReceiver = new AlarmReceiver();
                 registerReceiver(mAlarmReceiver, new IntentFilter("DAILY_ALARM"));
             }
+            if (mAlarmClockReceiver == null) {
+                mAlarmClockReceiver = new AlarmClockReceiver();
+                IntentFilter filter = new IntentFilter();
+                filter.addAction(AlarmClockReceiver.ALARM_ALERT_ACTION);
+                filter.addAction(AlarmClockReceiver.ALARM_DONE_ACTION);
+                registerReceiver(mAlarmClockReceiver, filter);
+            }
         } else {
             if (mPhoneCallReceiver != null) {
                 unregisterReceiver(mPhoneCallReceiver);
@@ -637,10 +621,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             if (mSMSReceiver != null) {
                 unregisterReceiver(mSMSReceiver);
                 mSMSReceiver = null;
-            }
-            if (mK9Receiver != null) {
-                unregisterReceiver(mK9Receiver);
-                mK9Receiver = null;
             }
             if (mPebbleReceiver != null) {
                 unregisterReceiver(mPebbleReceiver);
@@ -661,6 +641,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             if (mAlarmReceiver != null) {
                 unregisterReceiver(mAlarmReceiver);
                 mAlarmReceiver = null;
+            }
+            if (mAlarmClockReceiver != null) {
+                unregisterReceiver(mAlarmClockReceiver);
+                mAlarmClockReceiver = null;
             }
         }
     }
@@ -685,27 +669,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     @Override
     public IBinder onBind(Intent intent) {
         return null;
-    }
-
-
-    private String getContactDisplayNameByNumber(String number) {
-        Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
-        String name = number;
-
-        if (number == null || number.equals("")) {
-            return name;
-        }
-
-        try (Cursor contactLookup = getContentResolver().query(uri, null, null, null, null)) {
-            if (contactLookup != null && contactLookup.getCount() > 0) {
-                contactLookup.moveToNext();
-                name = contactLookup.getString(contactLookup.getColumnIndex(ContactsContract.Data.DISPLAY_NAME));
-            }
-        } catch (SecurityException e) {
-            // ignore, just return name below
-        }
-
-        return name;
     }
 
     @Override

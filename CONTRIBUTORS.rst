@@ -25,8 +25,9 @@
 * Andreas Shimokawa <shimokawa@fsfe.org>
 * Carsten Pfeiffer <cpfeiffer@users.noreply.github.com>
 * Daniele Gobbetti <daniele+github@gobbetti.name>
-* Julien Pivotto <roidelapluie@inuits.eu>
 * João Paulo Barraca <jpbarraca@gmail.com>
+* ivanovlev <lion.ivanov@gmal.com>
+* Julien Pivotto <roidelapluie@inuits.eu>
 * Steffen Liebergeld <perl@gmx.org>
 * Lem Dulfo <lemuel.dulfo@gmail.com>
 * Sergey Trofimov <sarg@sarg.org.ru>
@@ -35,9 +36,11 @@
 * 0nse <0nse@users.noreply.github.com>
 * Gergely Peidl <gergely@peidl.net>
 * Christian Fischer <sw-dev@computerlyrik.de>
-* Normano64 <per.bergqwist@gmail.com>
 * 6arms1leg <m.brnsfld@googlemail.com>
+* Normano64 <per.bergqwist@gmail.com>
+* Avamander <Avamander@users.noreply.github.com>
 * Ⲇⲁⲛⲓ Φi <daniphii@outlook.com>
+* Yar <yaroslav.isakov@gmail.com>
 * xzovy <caleb@caleb-cooper.net>
 * xphnx <xphnx@users.noreply.github.com>
 * Tarik Sekmen <tarik@ilixi.org>
@@ -51,6 +54,7 @@
 * Kevin Richter <me@kevinrichter.nl>
 * Kasha <kasha_malaga@hotmail.com>
 * Ivan <ivan_tizhanin@mail.ru>
+* Hasan Ammar <ammarh@gmail.com>
 * Gilles MOREL <contact@gilles-morel.fr>
 * Gilles Émilien MOREL <Almtesh@users.noreply.github.com>
 * Chris Perelstein <chris.perelstein@gmail.com>

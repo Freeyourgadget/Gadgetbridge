@@ -44,7 +44,6 @@
   <string name="pref_title_notifications_repetitions">Повтори</string>
   <string name="pref_title_notifications_call">Виклики</string>
   <string name="pref_title_notifications_sms">SMS—повідомлення</string>
-  <string name="pref_title_notifications_k9mail">K9-Mail</string>
   <string name="pref_title_notifications_pebblemsg">Повідомлення Pebble</string>
   <string name="pref_title_notifications_generic">Підтримка звичайних сповіщень</string>
   <string name="pref_title_whenscreenon">… навіть коли екран увімкнено</string>

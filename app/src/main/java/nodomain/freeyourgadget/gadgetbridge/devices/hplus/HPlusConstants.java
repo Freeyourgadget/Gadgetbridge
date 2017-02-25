@@ -14,12 +14,14 @@ public final class HPlusConstants {
     public static final UUID UUID_CHARACTERISTIC_MEASURE = UUID.fromString("14702853-620a-3973-7c78-9cfff0876abd");
     public static final UUID UUID_SERVICE_HP = UUID.fromString("14701820-620a-3973-7c78-9cfff0876abd");
 
+    public static final byte ARG_WRIST_LEFT = 0; //Guess...
+    public static final byte ARG_WRIST_RIGHT = 1; //Guess...
 
     public static final byte ARG_LANGUAGE_CN = 1;
     public static final byte ARG_LANGUAGE_EN = 2;
 
-    public static final byte ARG_TIMEMODE_24H = 0;
-    public static final byte ARG_TIMEMODE_12H = 1;
+    public static final byte ARG_TIMEMODE_24H = 1;
+    public static final byte ARG_TIMEMODE_12H = 0;
 
     public static final byte ARG_UNIT_METRIC = 0;
     public static final byte ARG_UNIT_IMPERIAL = 1;
@@ -36,9 +38,12 @@ public final class HPlusConstants {
     public static final byte INCOMING_CALL_STATE_DISABLED_THRESHOLD = 0x7B;
     public static final byte INCOMING_CALL_STATE_ENABLED = (byte) 0xAA;
 
+    public static final byte ARG_ALARM_DISABLE = (byte) -1;
+
     public static final byte[] CMD_SET_PREF_START = new byte[]{0x4f, 0x5a};
     public static final byte[] CMD_SET_PREF_START1 = new byte[]{0x4d};
-    public static final byte CMD_SET_ALARM = 0x4c;
+    //public static final byte CMD_SET_ALARM = 0x4c; Unknown
+    public static final byte CMD_SET_ALARM = 0x0c;
     public static final byte CMD_SET_LANGUAGE = 0x22;
     public static final byte CMD_SET_TIMEMODE = 0x47;
     public static final byte CMD_SET_UNITS = 0x48;
@@ -103,15 +108,11 @@ public final class HPlusConstants {
 
     public static final String PREF_HPLUS_SCREENTIME = "hplus_screentime";
     public static final String PREF_HPLUS_ALLDAYHR = "hplus_alldayhr";
-    public static final String PREF_HPLUS_HR = "hplus_hr_enable";
     public static final String PREF_HPLUS_UNIT = "hplus_unit";
-    public static final String PREF_HPLUS_TIMEMODE = "hplus_timemode";
+    public static final String PREF_HPLUS_TIMEFORMAT = "hplus_timeformat";
     public static final String PREF_HPLUS_WRIST = "hplus_wrist";
-    public static final String PREF_HPLUS_SWALERT = "hplus_sw_alert";
-    public static final String PREF_HPLUS_ALERT_TIME = "hplus_alert_time";
     public static final String PREF_HPLUS_SIT_START_TIME = "hplus_sit_start_time";
     public static final String PREF_HPLUS_SIT_END_TIME = "hplus_sit_end_time";
-    public static final String PREF_HPLUS_LANGUAGE = "hplus_language";
 
     public static final Map<Character, Byte> transliterateMap = new HashMap<Character, Byte>(){
         {
