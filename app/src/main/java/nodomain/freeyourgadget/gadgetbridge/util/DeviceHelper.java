@@ -255,4 +255,20 @@ public class DeviceHelper {
         }
         return false;
     }
+
+    /**
+     * Returns true if the background webview for executing javascript is needed
+     * for any of the known/available devices.
+     * @param context
+     */
+    public boolean needsBackgroundWebView(Context context) {
+        Set<GBDevice> availableDevices = getAvailableDevices(context);
+        for (GBDevice device : availableDevices) {
+            DeviceCoordinator coordinator = getCoordinator(device);
+            if (coordinator.needsBackgroundWebView(device)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
