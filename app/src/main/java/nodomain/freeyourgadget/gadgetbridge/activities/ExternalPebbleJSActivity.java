@@ -50,6 +50,8 @@ public class ExternalPebbleJSActivity extends GBActivity {
 
         WebViewSingleton.updateActivityContext(this);
         myWebView = WebViewSingleton.getWebView();
+        myWebView.setWillNotDraw(false);
+        myWebView.removeJavascriptInterface("GBActivity");
         myWebView.addJavascriptInterface(new ActivityJSInterface(ExternalPebbleJSActivity.this), "GBActivity");
         FrameLayout fl = (FrameLayout) findViewById(R.id.webview_placeholder);
         fl.addView(myWebView);
@@ -104,7 +106,6 @@ public class ExternalPebbleJSActivity extends GBActivity {
                 fl.removeAllViews();
             }
         });
-
     }
 
     @Override

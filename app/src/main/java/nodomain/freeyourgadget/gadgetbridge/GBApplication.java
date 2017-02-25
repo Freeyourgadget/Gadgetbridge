@@ -136,7 +136,9 @@ public class GBApplication extends Application {
     }
 
     private void createWebViewActivity() {
-        startActivity(new Intent(getContext(), BackgroundWebViewActivity.class));
+        Intent intent = new Intent(getContext(), BackgroundWebViewActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override

@@ -48,7 +48,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
-public class WebViewSingleton extends Activity {
+public class WebViewSingleton {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebViewSingleton.class);
 
@@ -154,12 +154,20 @@ public class WebViewSingleton extends Activity {
         @Override
         public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
             if (ConsoleMessage.MessageLevel.ERROR.equals(consoleMessage.messageLevel())) {
-                GB.toast(consoleMessage.message(), Toast.LENGTH_LONG, GB.ERROR);
+                GB.toast(formatConsoleMessage(consoleMessage), Toast.LENGTH_LONG, GB.ERROR);
                 //TODO: show error page
             }
             return super.onConsoleMessage(consoleMessage);
         }
 
+    }
+
+    private static String formatConsoleMessage(ConsoleMessage message) {
+        String sourceId = message.sourceId();
+        if (sourceId == null || sourceId.length() == 0) {
+            sourceId = "unknown";
+        }
+        return String.format("%s (at %s: %d)", message.message(), sourceId, message.lineNumber());
     }
 
     private static class GBWebClient extends WebViewClient {

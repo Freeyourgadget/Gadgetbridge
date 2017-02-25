@@ -283,8 +283,7 @@
             android:parentActivityName=".activities.ControlCenter" />
         <activity
             android:name=".activities.BackgroundWebViewActivity"
-            android:label="@string/activity_web_view"
-            android:parentActivityName=".activities.ControlCenter" />
+            android:label="@string/activity_web_view"/>
         <activity
             android:name=".activities.AndroidPairingActivity"
             android:label="@string/title_activity_android_pairing" />
