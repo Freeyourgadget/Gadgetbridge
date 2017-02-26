@@ -13,14 +13,14 @@ public class LimitedQueue {
         this.limit = limit;
     }
 
-    public void add(int id, Object obj) {
+    synchronized public void add(int id, Object obj) {
         if (list.size() > limit - 1) {
             list.removeFirst();
         }
         list.add(new Pair<>(id, obj));
     }
 
-    public void remove(int id) {
+    synchronized public void remove(int id) {
         for (Iterator<Pair> iter = list.iterator(); iter.hasNext(); ) {
             Pair pair = iter.next();
             if ((Integer) pair.first == id) {
@@ -29,7 +29,7 @@ public class LimitedQueue {
         }
     }
 
-    public Object lookup(int id) {
+    synchronized public Object lookup(int id) {
         for (Pair entry : list) {
             if (id == (Integer) entry.first) {
                 return entry.second;

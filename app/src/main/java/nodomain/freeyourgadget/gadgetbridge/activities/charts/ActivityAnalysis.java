@@ -34,6 +34,11 @@ class ActivityAnalysis {
                     break;
             }
 
+            int steps = sample.getSteps();
+            if (steps > 0) {
+                amount.addSteps(sample.getSteps());
+            }
+
             if (previousSample != null) {
                 long timeDifference = sample.getTimestamp() - previousSample.getTimestamp();
                 if (previousSample.getRawKind() == sample.getRawKind()) {
