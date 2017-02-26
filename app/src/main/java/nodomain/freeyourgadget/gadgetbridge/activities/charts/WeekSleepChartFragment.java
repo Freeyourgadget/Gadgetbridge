@@ -24,14 +24,17 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
-    int getTotalForActivityAmounts(ActivityAmounts activityAmounts) {
-        long totalSeconds = 0;
+    float[] getTotalsForActivityAmounts(ActivityAmounts activityAmounts) {
+        long totalSecondsDeepSleep = 0;
+        long totalSecondsLightSleep = 0;
         for (ActivityAmount amount : activityAmounts.getAmounts()) {
-            if ((amount.getActivityKind() & ActivityKind.TYPE_SLEEP) != 0) {
-                totalSeconds += amount.getTotalSeconds();
+            if (amount.getActivityKind() == ActivityKind.TYPE_DEEP_SLEEP) {
+                totalSecondsDeepSleep += amount.getTotalSeconds();
+            } else if (amount.getActivityKind() == ActivityKind.TYPE_LIGHT_SLEEP) {
+                totalSecondsLightSleep += amount.getTotalSeconds();
             }
         }
-        return (int) (totalSeconds / 60);
+        return new float[]{(int) (totalSecondsDeepSleep / 60), (int) (totalSecondsLightSleep / 60)};
     }
 
     @Override
@@ -50,7 +53,7 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
-    Integer getMainColor() {
-        return akLightSleep.color;
+    int[] getColors() {
+        return new int[]{akDeepSleep.color, akLightSleep.color};
     }
 }
