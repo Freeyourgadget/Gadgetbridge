@@ -111,43 +111,10 @@ public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {
             batteryStatusLabel.setText("");
         }
 
-        switch (device.getType()) {
-            case PEBBLE:
-                if (device.isConnected()) {
-                    deviceImageView.setImageResource(R.drawable.ic_device_pebble);
-                } else {
-                    deviceImageView.setImageResource(R.drawable.ic_device_pebble_disabled);
-                }
-                break;
-            case MIBAND:
-            case MIBAND2:
-                if (device.isConnected()) {
-                    deviceImageView.setImageResource(R.drawable.ic_device_miband);
-                } else {
-                    deviceImageView.setImageResource(R.drawable.ic_device_miband_disabled);
-                }
-                break;
-            case VIBRATISSIMO:
-                if (device.isConnected()) {
-                    deviceImageView.setImageResource(R.drawable.ic_device_lovetoy);
-                } else {
-                    deviceImageView.setImageResource(R.drawable.ic_device_lovetoy_disabled);
-                }
-                break;
-            case HPLUS:
-            case MAKIBESF68:
-                if( device.isConnected()) {
-                    deviceImageView.setImageResource(R.drawable.ic_device_hplus);
-                } else {
-                    deviceImageView.setImageResource(R.drawable.ic_device_hplus_disabled);
-                }
-                break;
-            default:
-                if (device.isConnected()) {
-                    deviceImageView.setImageResource(R.drawable.ic_launcher);
-                } else {
-                    deviceImageView.setImageResource(R.drawable.ic_device_default_disabled);
-                }
+        if (device.isConnected()) {
+            deviceImageView.setImageResource(device.getType().getIcon());
+        } else {
+            deviceImageView.setImageResource(device.getType().getDisabledIcon());
         }
 
         return view;
