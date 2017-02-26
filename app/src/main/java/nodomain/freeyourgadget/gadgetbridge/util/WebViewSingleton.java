@@ -105,10 +105,11 @@ public class WebViewSingleton {
         }
     }
 
-    public static void appMessage(final String message) {
+    public static void appMessage(String message) {
 
         if (instance == null)
             return;
+
         final String appMessage = jsInterface.parseIncomingAppMessage(message);
         LOG.debug("to WEBVIEW: " + appMessage);
 
@@ -119,7 +120,8 @@ public class WebViewSingleton {
                     instance.evaluateJavascript("Pebble.evaluate('appmessage',[" + appMessage + "]);", new ValueCallback<String>() {
                         @Override
                         public void onReceiveValue(String s) {
-                            LOG.debug("Callback from showConfiguration", s);
+                            //TODO: the message should be acked here instead of in PebbleIoThread
+                            LOG.debug("Callback from appmessage", s);
                         }
                     });
                 } else {
@@ -141,9 +143,9 @@ public class WebViewSingleton {
                     instance.loadUrl("about:blank");
                     instance.freeMemory();
                     instance.pauseTimers();
-                    instance.destroy();
-                    instance = null;
-                    contextWrapper = null;
+//                    instance.destroy();
+//                    instance = null;
+//                    contextWrapper = null;
                     jsInterface = null;
                 }
             }
@@ -257,6 +259,13 @@ public class WebViewSingleton {
                     }
                 }
                 jsAppMessage.put("payload", outgoing);
+
+                //ack message to pebble
+
+                /*
+             sendBytesAck = new GBDeviceEventSendBytes();
+             sendBytesAck.encodedBytes = encodeApplicationMessageAck(uuid, last_id);
+                 */
 
             } catch (JSONException e) {
                 e.printStackTrace();
