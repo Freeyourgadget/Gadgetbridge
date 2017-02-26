@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.AppNotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
@@ -190,19 +191,13 @@ public class NotificationListener extends NotificationListenerService {
         if (!prefs.getBoolean("notifications_generic_whenscreenon", false)) {
             PowerManager powermanager = (PowerManager) getSystemService(POWER_SERVICE);
             if (powermanager.isScreenOn()) {
-                LOG.info("Not forwarding notification, screen seems to be on and settings do not allow this");
+//                LOG.info("Not forwarding notification, screen seems to be on and settings do not allow this");
                 return;
             }
         }
 
-        //don't forward group summary notifications to the wearable, they are meant for the android device only
-        if ((notification.flags & Notification.FLAG_GROUP_SUMMARY) == Notification.FLAG_GROUP_SUMMARY) {
-            LOG.info("Not forwarding notification, FLAG_GROUP_SUMMARY is set");
-            return;
-        }
-
         if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
-            LOG.info("Not forwarding notification, FLAG_ONGOING_EVENT is set");
+//            LOG.info("Not forwarding notification, FLAG_ONGOING_EVENT is set. Notification flags: " + notification.flags);
             return;
         }
 
@@ -217,12 +212,6 @@ public class NotificationListener extends NotificationListenerService {
                 source.equals("com.cyanogenmod.eleven")) {
             LOG.info("Not forwarding notification, is a system event");
             return;
-        }
-
-        if (source.equals("com.fsck.k9")) {
-            if (!"never".equals(prefs.getString("notification_mode_k9mail", "when_screen_off"))) {
-                return;
-            }
         }
 
         if (source.equals("com.moez.QKSMS") ||
@@ -258,16 +247,36 @@ public class NotificationListener extends NotificationListenerService {
 
         notificationSpec.type = AppNotificationType.getInstance().get(source);
 
-        LOG.info("Processing notification from source " + source);
+        if (source.equals("com.fsck.k9")) {
+            // we dont want group summaries at all for k9
+            if ((notification.flags & Notification.FLAG_GROUP_SUMMARY) == Notification.FLAG_GROUP_SUMMARY) {
+                return;
+            }
+            preferBigText = true;
+        }
+
+        if (notificationSpec.type == null) {
+            notificationSpec.type = NotificationType.UNKNOWN;
+        }
+
+        LOG.info("Processing notification from source " + source + " with flags: " + notification.flags);
 
         dissectNotificationTo(notification, notificationSpec, preferBigText);
         notificationSpec.id = (int) sbn.getPostTime(); //FIMXE: a truly unique id would be better
 
+        // ignore Gadgetbridge's very own notifications, except for those from the debug screen
+        if (getApplicationContext().getPackageName().equals(source)) {
+            if (!getApplicationContext().getString(R.string.test_notification).equals(notificationSpec.title)) {
+                return;
+            }
+        }
+
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender(notification);
         List<NotificationCompat.Action> actions = wearableExtender.getActions();
 
-        if (actions.isEmpty() && notificationSpec.type == NotificationType.TELEGRAM) {
-            return; // workaround for duplicate telegram message
+        if (actions.isEmpty() && (notification.flags & Notification.FLAG_GROUP_SUMMARY) == Notification.FLAG_GROUP_SUMMARY) { //this could cause #395 to come back
+            LOG.info("Not forwarding notification, FLAG_GROUP_SUMMARY is set and no wearable action present. Notification flags: " + notification.flags);
+            return;
         }
 
         for (NotificationCompat.Action act : actions) {
@@ -340,56 +349,75 @@ public class NotificationListener extends NotificationListenerService {
         MediaController c;
         try {
             c = new MediaController(getApplicationContext(), (MediaSession.Token) extras.get(Notification.EXTRA_MEDIA_SESSION));
+
+            PlaybackState s = c.getPlaybackState();
+            stateSpec.position = (int) (s.getPosition() / 1000);
+            stateSpec.playRate = Math.round(100 * s.getPlaybackSpeed());
+            stateSpec.repeat = 1;
+            stateSpec.shuffle = 1;
+            switch (s.getState()) {
+                case PlaybackState.STATE_PLAYING:
+                    stateSpec.state = MusicStateSpec.STATE_PLAYING;
+                    break;
+                case PlaybackState.STATE_STOPPED:
+                    stateSpec.state = MusicStateSpec.STATE_STOPPED;
+                    break;
+                case PlaybackState.STATE_PAUSED:
+                    stateSpec.state = MusicStateSpec.STATE_PAUSED;
+                    break;
+                default:
+                    stateSpec.state = MusicStateSpec.STATE_UNKNOWN;
+                    break;
+            }
+
+            MediaMetadata d = c.getMetadata();
+            if (d == null)
+                return false;
+            if (d.containsKey(MediaMetadata.METADATA_KEY_ARTIST))
+                musicSpec.artist = d.getString(MediaMetadata.METADATA_KEY_ARTIST);
+            if (d.containsKey(MediaMetadata.METADATA_KEY_ALBUM))
+                musicSpec.album = d.getString(MediaMetadata.METADATA_KEY_ALBUM);
+            if (d.containsKey(MediaMetadata.METADATA_KEY_TITLE))
+                musicSpec.track = d.getString(MediaMetadata.METADATA_KEY_TITLE);
+            if (d.containsKey(MediaMetadata.METADATA_KEY_DURATION))
+                musicSpec.duration = (int) d.getLong(MediaMetadata.METADATA_KEY_DURATION) / 1000;
+            if (d.containsKey(MediaMetadata.METADATA_KEY_NUM_TRACKS))
+                musicSpec.trackCount = (int) d.getLong(MediaMetadata.METADATA_KEY_NUM_TRACKS);
+            if (d.containsKey(MediaMetadata.METADATA_KEY_TRACK_NUMBER))
+                musicSpec.trackNr = (int) d.getLong(MediaMetadata.METADATA_KEY_TRACK_NUMBER);
+
+            // finally, tell the device about it
+            GBApplication.deviceService().onSetMusicInfo(musicSpec);
+            GBApplication.deviceService().onSetMusicState(stateSpec);
+
+            return true;
         } catch (NullPointerException e) {
             return false;
         }
-
-        PlaybackState s = c.getPlaybackState();
-        stateSpec.position = (int) (s.getPosition() / 1000);
-        stateSpec.playRate = Math.round(100 * s.getPlaybackSpeed());
-        stateSpec.repeat = 1;
-        stateSpec.shuffle = 1;
-        switch (s.getState()) {
-            case PlaybackState.STATE_PLAYING:
-                stateSpec.state = MusicStateSpec.STATE_PLAYING;
-                break;
-            case PlaybackState.STATE_STOPPED:
-                stateSpec.state = MusicStateSpec.STATE_STOPPED;
-                break;
-            case PlaybackState.STATE_PAUSED:
-                stateSpec.state = MusicStateSpec.STATE_PAUSED;
-                break;
-            default:
-                stateSpec.state = MusicStateSpec.STATE_UNKNOWN;
-                break;
-        }
-
-        MediaMetadata d = c.getMetadata();
-        if (d == null)
-            return false;
-        if (d.containsKey(MediaMetadata.METADATA_KEY_ARTIST))
-            musicSpec.artist = d.getString(MediaMetadata.METADATA_KEY_ARTIST);
-        if (d.containsKey(MediaMetadata.METADATA_KEY_ALBUM))
-            musicSpec.album = d.getString(MediaMetadata.METADATA_KEY_ALBUM);
-        if (d.containsKey(MediaMetadata.METADATA_KEY_TITLE))
-            musicSpec.track = d.getString(MediaMetadata.METADATA_KEY_TITLE);
-        if (d.containsKey(MediaMetadata.METADATA_KEY_DURATION))
-            musicSpec.duration = (int)d.getLong(MediaMetadata.METADATA_KEY_DURATION) / 1000;
-        if (d.containsKey(MediaMetadata.METADATA_KEY_NUM_TRACKS))
-            musicSpec.trackCount = (int)d.getLong(MediaMetadata.METADATA_KEY_NUM_TRACKS);
-        if (d.containsKey(MediaMetadata.METADATA_KEY_TRACK_NUMBER))
-            musicSpec.trackNr = (int)d.getLong(MediaMetadata.METADATA_KEY_TRACK_NUMBER);
-
-        // finally, tell the device about it
-        GBApplication.deviceService().onSetMusicInfo(musicSpec);
-        GBApplication.deviceService().onSetMusicState(stateSpec);
-
-        return true;
     }
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
+        //FIXME: deduplicate code
+        String source = sbn.getPackageName();
+        Notification notification = sbn.getNotification();
+        if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
+            return;
+        }
 
+        if (source.equals("android") ||
+                source.equals("com.android.systemui") ||
+                source.equals("com.android.dialer") ||
+                source.equals("com.cyanogenmod.eleven")) {
+            return;
+        }
+
+        Prefs prefs = GBApplication.getPrefs();
+        if (prefs.getBoolean("autoremove_notifications", false)) {
+            LOG.info("notification removed, will ask device to delete it");
+
+            GBApplication.deviceService().onDeleteNotification((int) sbn.getPostTime()); //FIMXE: a truly unique id would be better
+        }
     }
 
     private void dumpExtras(Bundle bundle) {

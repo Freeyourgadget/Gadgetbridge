@@ -60,6 +60,8 @@ public class GBDaoGenerator {
         addPebbleHealthActivityKindOverlay(schema, user, device);
         addPebbleMisfitActivitySample(schema, user, device);
         addPebbleMorpheuzActivitySample(schema, user, device);
+        addHPlusHealthActivityKindOverlay(schema, user, device);
+        addHPlusHealthActivitySample(schema, user, device);
 
         new DaoGenerator().generateAll(schema, "app/src/main/java");
     }
@@ -219,6 +221,36 @@ public class GBDaoGenerator {
         addCommonActivitySampleProperties("AbstractPebbleMorpheuzActivitySample", activitySample, user, device);
         activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         return activitySample;
+    }
+
+    private static Entity addHPlusHealthActivitySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "HPlusHealthActivitySample");
+        activitySample.implementsSerializable();
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        activitySample.addByteArrayProperty("rawHPlusHealthData");
+        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().primaryKey();
+        activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        addHeartRateProperties(activitySample);
+        activitySample.addIntProperty("distance");
+        activitySample.addIntProperty("calories");
+
+        return activitySample;
+    }
+
+    private static Entity addHPlusHealthActivityKindOverlay(Schema schema, Entity user, Entity device) {
+        Entity activityOverlay = addEntity(schema, "HPlusHealthActivityOverlay");
+
+        activityOverlay.addIntProperty(TIMESTAMP_FROM).notNull().primaryKey();
+        activityOverlay.addIntProperty(TIMESTAMP_TO).notNull().primaryKey();
+        activityOverlay.addIntProperty(SAMPLE_RAW_KIND).notNull().primaryKey();
+        Property deviceId = activityOverlay.addLongProperty("deviceId").primaryKey().notNull().getProperty();
+        activityOverlay.addToOne(device, deviceId);
+
+        Property userId = activityOverlay.addLongProperty("userId").notNull().getProperty();
+        activityOverlay.addToOne(user, userId);
+        activityOverlay.addByteArrayProperty("rawHPlusHealthData");
+        return activityOverlay;
     }
 
     private static void addCommonActivitySampleProperties(String superClass, Entity activitySample, Entity user, Entity device) {

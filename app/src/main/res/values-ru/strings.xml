@@ -46,12 +46,13 @@
   <string name="pref_title_notifications_repetitions">Повторы</string>
   <string name="pref_title_notifications_call">Вызовы</string>
   <string name="pref_title_notifications_sms">СМС-сообщения</string>
-  <string name="pref_title_notifications_k9mail">K9-Mail</string>
   <string name="pref_title_notifications_pebblemsg">Сообщения Pebble</string>
   <string name="pref_title_notifications_generic">Поддержка обычных уведомлений</string>
   <string name="pref_title_whenscreenon">… даже когда экран включён</string>
   <string name="pref_title_notification_filter">Не беспокоить</string>
   <string name="pref_summary_notification_filter">Предотвращать отправку нежелательных уведомлений в режиме \"Не беспокоить\"</string>
+  <string name="pref_title_transliteration">Транслитерация</string>
+  <string name="pref_summary_transliteration">Используйте, если устройство не может работать с вашим языком</string>
   <string name="always">всегда</string>
   <string name="when_screen_off">когда экран выключен</string>
   <string name="never">никогда</string>
@@ -99,7 +100,6 @@
   <string name="title_activity_android_pairing">Сопряжение устройств</string>
   <string name="android_pairing_hint">Для сопряжения устройств используйте диалог Android.</string>
   <string name="title_activity_mi_band_pairing">Сопряжение вашего Mi Band</string>
-  <string name="pairing">Сопряжение с %s…</string>
   <string name="message_cannot_pair_no_mac">MAC-адрес не был передан, сопряжение не удалось.</string>
   <string name="preferences_category_device_specific_settings">Настройки устройства</string>
   <string name="preferences_miband_settings">Настройки Mi Band</string>
@@ -133,8 +133,6 @@
   <string name="pref_screen_notification_profile_sms">SMS-уведомление</string>
   <string name="pref_header_vibration_settings">Настройки вибро</string>
   <string name="pref_screen_notification_profile_generic">Общие уведомления</string>
-  <string name="pref_screen_notification_profile_pebblemsg">Уведомления Pebble</string>
-  <string name="pref_screen_notification_profile_email">Уведомления почты</string>
   <string name="pref_screen_notification_profile_incoming_call">Уведомления о входящем звонке</string>
   <string name="control_center_find_lost_device">Найти потерянное устройство</string>
   <string name="control_center_cancel_to_stop_vibration">Отмените, чтобы остановить вибро</string>
@@ -223,4 +221,6 @@
   <string name="updatefirmwareoperation_update_in_progress">Обновление прошивки в процессе</string>
   <!--Strings related to Onboading Activity-->
   <string name="Delete">Удалить</string>
+  <!--Strings related to Vibration Activity-->
+  <!--Strings related to Pebble Pairing Activity-->
 </resources>

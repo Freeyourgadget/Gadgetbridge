@@ -56,7 +56,6 @@
   <string name="pref_title_notifications_repetitions">Ismétlések</string>
   <string name="pref_title_notifications_call">Telefonhívások</string>
   <string name="pref_title_notifications_sms">SMS</string>
-  <string name="pref_title_notifications_k9mail">K9-Mail</string>
   <string name="pref_title_notifications_pebblemsg">Pebble üzenetek</string>
   <string name="pref_summary_notifications_pebblemsg">Támogatás az alkalmazásoknak, amik értesítéseket küldenek a Pebble-nek a PebbleKit-en keresztül.</string>
   <string name="pref_title_notifications_generic">Általános értesítési támogatás</string>

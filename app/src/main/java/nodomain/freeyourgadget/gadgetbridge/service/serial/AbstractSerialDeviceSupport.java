@@ -11,6 +11,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
 
 /**
@@ -27,7 +28,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
  * to create the device specific message for the respective events and sends them to the device via {@link #sendToDevice(byte[])}.
  */
 public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport {
-    protected GBDeviceProtocol gbDeviceProtocol;
+    private GBDeviceProtocol gbDeviceProtocol;
     protected GBDeviceIoThread gbDeviceIOThread;
 
     /**
@@ -59,7 +60,7 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     /**
      * Lazily creates and returns the GBDeviceProtocol instance to be used.
      */
-    public synchronized GBDeviceProtocol getDeviceProtocol() {
+    protected synchronized GBDeviceProtocol getDeviceProtocol() {
         if (gbDeviceProtocol == null) {
             gbDeviceProtocol = createDeviceProtocol();
         }
@@ -82,13 +83,13 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
      *
      * @param bytes the message to send to the device
      */
-    protected void sendToDevice(byte[] bytes) {
+    private void sendToDevice(byte[] bytes) {
         if (bytes != null && gbDeviceIOThread != null) {
             gbDeviceIOThread.write(bytes);
         }
     }
 
-    public void handleGBDeviceEvent(GBDeviceEventSendBytes sendBytes) {
+    private void handleGBDeviceEvent(GBDeviceEventSendBytes sendBytes) {
         sendToDevice(sendBytes.encodedBytes);
     }
 
@@ -104,6 +105,12 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
         byte[] bytes = gbDeviceProtocol.encodeNotification(notificationSpec);
+        sendToDevice(bytes);
+    }
+
+    @Override
+    public void onDeleteNotification(int id) {
+        byte[] bytes = gbDeviceProtocol.encodeDeleteNotification(id);
         sendToDevice(bytes);
     }
 
@@ -224,6 +231,12 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     @Override
     public void onTestNewFunction() {
         byte[] bytes = gbDeviceProtocol.encodeTestNewFunction();
+        sendToDevice(bytes);
+    }
+
+    @Override
+    public void onSendWeather(WeatherSpec weatherSpec) {
+        byte[] bytes = gbDeviceProtocol.encodeSendWeather(weatherSpec);
         sendToDevice(bytes);
     }
 }

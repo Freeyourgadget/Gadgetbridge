@@ -16,6 +16,7 @@ public interface DeviceService extends EventHandler {
     String ACTION_START = PREFIX + ".action.start";
     String ACTION_CONNECT = PREFIX + ".action.connect";
     String ACTION_NOTIFICATION = PREFIX + ".action.notification";
+    String ACTION_DELETE_NOTIFICATION = PREFIX + ".action.delete_notification";
     String ACTION_CALLSTATE = PREFIX + ".action.callstate";
     String ACTION_SETCANNEDMESSAGES = PREFIX + ".action.setcannedmessages";
     String ACTION_SETTIME = PREFIX + ".action.settime";
@@ -38,19 +39,14 @@ public interface DeviceService extends EventHandler {
     String ACTION_SET_ALARMS = PREFIX + ".action.set_alarms";
     String ACTION_ENABLE_REALTIME_STEPS = PREFIX + ".action.enable_realtime_steps";
     String ACTION_REALTIME_SAMPLES = PREFIX + ".action.realtime_samples";
-    /**
-     * Use EXTRA_REALTIME_SAMPLE instead
-     */
-    @Deprecated
-    String ACTION_REALTIME_STEPS = PREFIX + ".action.realtime_steps";
     String ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT = PREFIX + ".action.realtime_hr_measurement";
     String ACTION_ENABLE_HEARTRATE_SLEEP_SUPPORT = PREFIX + ".action.enable_heartrate_sleep_support";
     String ACTION_HEARTRATE_MEASUREMENT = PREFIX + ".action.hr_measurement";
     String ACTION_ADD_CALENDAREVENT = PREFIX + ".action.add_calendarevent";
     String ACTION_DELETE_CALENDAREVENT = PREFIX + ".action.delete_calendarevent";
     String ACTION_SEND_CONFIGURATION = PREFIX + ".action.send_configuration";
+    String ACTION_SEND_WEATHER = PREFIX + ".action.send_weather";
     String ACTION_TEST_NEW_FUNCTION = PREFIX + ".action.test_new_function";
-    String EXTRA_DEVICE_ADDRESS = "device_address";
     String EXTRA_NOTIFICATION_BODY = "notification_body";
     String EXTRA_NOTIFICATION_FLAGS = "notification_flags";
     String EXTRA_NOTIFICATION_ID = "notification_id";
@@ -64,6 +60,7 @@ public interface DeviceService extends EventHandler {
     String EXTRA_VIBRATION_INTENSITY = "vibration_intensity";
     String EXTRA_CALL_COMMAND = "call_command";
     String EXTRA_CALL_PHONENUMBER = "call_phonenumber";
+    String EXTRA_CALL_DISPLAYNAME = "call_displayname";
     String EXTRA_CANNEDMESSAGES = "cannedmessages";
     String EXTRA_CANNEDMESSAGES_TYPE = "cannedmessages_type";
     String EXTRA_MUSIC_ARTIST = "music_artist";
@@ -85,6 +82,18 @@ public interface DeviceService extends EventHandler {
     String EXTRA_ALARMS = "alarms";
     String EXTRA_PERFORM_PAIR = "perform_pair";
     String EXTRA_BOOLEAN_ENABLE = "enable_realtime_steps";
+
+    String EXTRA_WEATHER_TIMESTAMP = "weather_timestamp";
+    String EXTRA_WEATHER_LOCATION = "weather_location";
+    String EXTRA_WEATHER_CURRENTTEMP = "weather_currenttemp";
+    String EXTRA_WEATHER_CURRENTCONDITIONCODE = "weather_currentconditioncode";
+    String EXTRA_WEATHER_CURRENTCONDITION = "currentcondition";
+    String EXTRA_WEATHER_TODAYMAXTEMP = "weather_todaymaxtemp";
+    String EXTRA_WEATHER_TODAYMINTEMP = "weather_todaymintemp";
+    String EXTRA_WEATHER_TOMORROWMAXTEMP = "weather_tomorrowmaxtemp";
+    String EXTRA_WEATHER_TOMORROWMINTEMP = "weather_tomorrowmintemp";
+    String EXTRA_WEATHER_TOMORROWCONDITIONCODE = "weather_tomorrowconditioncode";
+
     /**
      * Use EXTRA_REALTIME_SAMPLE instead
      */
@@ -103,17 +112,14 @@ public interface DeviceService extends EventHandler {
     String EXTRA_CALENDAREVENT_DURATION = "calendarevent_duration";
     String EXTRA_CALENDAREVENT_TITLE = "calendarevent_title";
     String EXTRA_CALENDAREVENT_DESCRIPTION = "calendarevent_description";
-    String EXTRA_MIBAND2_AUTH_BYTE = "miband2_auth_byte";
 
     void start();
 
     void connect();
 
-    void connect(GBDevice device);
+    void connect(@Nullable GBDevice device);
 
-    void connect(@Nullable String deviceAddress);
-
-    void connect(@Nullable String deviceAddress, boolean performPair);
+    void connect(@Nullable GBDevice device, boolean performPair);
 
     void disconnect();
 

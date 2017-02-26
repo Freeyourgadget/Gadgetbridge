@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.util.concurrent.CountDownLatch;
+
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 public class PebbleLESupport {
     private static final Logger LOG = LoggerFactory.getLogger(PebbleLESupport.class);
@@ -19,7 +22,9 @@ public class PebbleLESupport {
     private PipedInputStream mPipedInputStream;
     private PipedOutputStream mPipedOutputStream;
     private int mMTU = 20;
+    private int mMTULimit = Integer.MAX_VALUE;
     boolean mIsConnected = false;
+    CountDownLatch mPPAck;
 
     public PebbleLESupport(Context context, final BluetoothDevice btDevice, PipedInputStream pipedInputStream, PipedOutputStream pipedOutputStream) throws IOException {
         mBtDevice = btDevice;
@@ -31,6 +36,9 @@ public class PebbleLESupport {
         } catch (IOException e) {
             LOG.warn("could not connect input stream");
         }
+        mMTULimit = GBApplication.getPrefs().getInt("pebble_mtu_limit", 512);
+        mMTULimit = Math.max(mMTULimit, 20);
+        mMTULimit = Math.min(mMTULimit, 512);
 
         mPebbleGATTServer = new PebbleGATTServer(this, context, mBtDevice);
         if (mPebbleGATTServer.initialize()) {
@@ -99,7 +107,7 @@ public class PebbleLESupport {
     }
 
     void setMTU(int mtu) {
-        mMTU = mtu;
+        mMTU = Math.min(mtu, mMTULimit);
     }
 
     private class PipeReader extends Thread {
@@ -129,6 +137,7 @@ public class PebbleLESupport {
 
                     int payloadToSend = bytesRead + 4;
                     int srcPos = 0;
+                    mPPAck = new CountDownLatch(1);
                     while (payloadToSend > 0) {
                         int chunkSize = (payloadToSend < (mMTU - 4)) ? payloadToSend : mMTU - 4;
                         byte[] outBuf = new byte[chunkSize + 1];
@@ -139,7 +148,9 @@ public class PebbleLESupport {
                         payloadToSend -= chunkSize;
                     }
 
-                    Thread.sleep(500); // FIXME ugly wait 0.5s after each pebble package send to the pebble (we do not wait for the GATT chunks)
+                    mPPAck.await();
+                    mPPAck = null;
+
                 } catch (IOException | InterruptedException e) {
                     LOG.info(e.getMessage());
                     Thread.currentThread().interrupt();

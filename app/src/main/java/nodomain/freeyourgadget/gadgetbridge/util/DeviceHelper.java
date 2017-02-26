@@ -22,6 +22,8 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.UnknownDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.hplus.MakibesF68Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.liveview.LiveviewCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
@@ -122,7 +124,10 @@ public class DeviceHelper {
 
     public GBDevice toSupportedDevice(BluetoothDevice device) {
         GBDeviceCandidate candidate = new GBDeviceCandidate(device, GBDevice.RSSI_UNKNOWN, device.getUuids());
+        return toSupportedDevice(candidate);
+    }
 
+    public GBDevice toSupportedDevice(GBDeviceCandidate candidate) {
         for (DeviceCoordinator coordinator : getAllCoordinators()) {
             if (coordinator.supports(candidate)) {
                 return coordinator.createDevice(candidate);
@@ -161,12 +166,15 @@ public class DeviceHelper {
     }
 
     private List<DeviceCoordinator> createCoordinators() {
-        List<DeviceCoordinator> result = new ArrayList<>(2);
+        List<DeviceCoordinator> result = new ArrayList<>();
         result.add(new MiBand2Coordinator()); // Note: MiBand2 must come before MiBand because detection is hacky, atm
         result.add(new MiBandCoordinator());
         result.add(new PebbleCoordinator());
         result.add(new VibratissimoCoordinator());
         result.add(new LiveviewCoordinator());
+        result.add(new HPlusCoordinator());
+        result.add(new MakibesF68Coordinator());
+
         return result;
     }
 

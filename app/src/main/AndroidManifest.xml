@@ -15,9 +15,9 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="com.fsck.k9.permission.READ_MESSAGES" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <uses-feature
         android:name="android.hardware.bluetooth"
@@ -191,6 +191,15 @@
                 <data android:mimeType="application/zip" />
                 <data android:mimeType="application/x-zip-compressed" />
             </intent-filter>
+            <!-- to receive files from the "share" intent -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="*/*" />
+
+            </intent-filter>
         </activity>
 
         <service
@@ -202,6 +211,28 @@
             </intent-filter>
         </service>
         <service android:name=".service.DeviceCommunicationService" />
+
+        <receiver
+            android:name=".externalevents.WeatherNotificationReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="ru.gelin.android.weather.notification.ACTION_WEATHER_UPDATE_2" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".externalevents.WeatherNotificationConfig">
+            <intent-filter>
+                <action android:name="ru.gelin.android.weather.notification.ACTION_WEATHER_SKIN_PREFERENCES"/>
+            </intent-filter>
+        </activity>
+
+        <receiver android:name=".externalevents.AutoStartReceiver"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
 
         <receiver
             android:name=".externalevents.BluetoothStateChangeReceiver"
@@ -241,11 +272,6 @@
             android:parentActivityName=".activities.ControlCenter"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activities.OnboardingActivity"
-            android:label="@string/title_activity_onboarding"
-            android:parentActivityName=".activities.ControlCenter"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.DiscoveryActivity"
             android:label="@string/title_activity_discovery"

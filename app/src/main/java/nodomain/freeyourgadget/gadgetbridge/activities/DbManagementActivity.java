@@ -1,11 +1,9 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
@@ -18,16 +16,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapter;
-import nodomain.freeyourgadget.gadgetbridge.database.ActivityDatabaseHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -37,7 +30,6 @@ public class DbManagementActivity extends GBActivity {
 
     private Button exportDBButton;
     private Button importDBButton;
-    private Button importOldActivityDataButton;
     private Button deleteOldActivityDBButton;
     private Button deleteDBButton;
     private TextView dbPath;
@@ -68,22 +60,7 @@ public class DbManagementActivity extends GBActivity {
             }
         });
 
-        boolean hasOldDB = hasOldActivityDatabase();
-        int oldDBVisibility = hasOldDB ? View.VISIBLE : View.GONE;
-
-        View oldDBTitle = findViewById(R.id.mergeOldActivityDataTitle);
-        oldDBTitle.setVisibility(oldDBVisibility);
-        View oldDBText = findViewById(R.id.mergeOldActivityDataText);
-        oldDBText.setVisibility(oldDBVisibility);
-
-        importOldActivityDataButton = (Button) findViewById(R.id.mergeOldActivityData);
-        importOldActivityDataButton.setVisibility(oldDBVisibility);
-        importOldActivityDataButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mergeOldActivityDbContents();
-            }
-        });
+        int oldDBVisibility = hasOldActivityDatabase() ? View.VISIBLE : View.GONE;
 
         deleteOldActivityDBButton = (Button) findViewById(R.id.deleteOldActivityDB);
         deleteOldActivityDBButton.setVisibility(oldDBVisibility);
@@ -104,7 +81,7 @@ public class DbManagementActivity extends GBActivity {
     }
 
     private boolean hasOldActivityDatabase() {
-        return new DBHelper(this).getOldActivityDatabaseHandler() != null;
+        return new DBHelper(this).existsDB("ActivityDatabase");
     }
 
     private String getExternalPath() {
@@ -151,67 +128,6 @@ public class DbManagementActivity extends GBActivity {
                 .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
-                .show();
-    }
-
-    private void mergeOldActivityDbContents() {
-        final DBHelper helper = new DBHelper(getBaseContext());
-        final ActivityDatabaseHandler oldHandler = helper.getOldActivityDatabaseHandler();
-        if (oldHandler == null) {
-            GB.toast(this, getString(R.string.dbmanagementactivity_no_old_activitydatabase_found), Toast.LENGTH_LONG, GB.ERROR);
-            return;
-        }
-        selectDeviceForMergingActivityDatabaseInto(new DeviceSelectionCallback() {
-            @Override
-            public void invoke(final GBDevice device) {
-                if (device == null) {
-                    GB.toast(DbManagementActivity.this, getString(R.string.dbmanagementactivity_no_connected_device), Toast.LENGTH_LONG, GB.ERROR);
-                    return;
-                }
-                try (DBHandler targetHandler = GBApplication.acquireDB()) {
-                    final ProgressDialog progress = ProgressDialog.show(DbManagementActivity.this, getString(R.string.dbmanagementactivity_merging_activity_data_title), getString(R.string.dbmanagementactivity_please_wait_while_merging), true, false);
-                    new AsyncTask<Object, ProgressDialog, Object>() {
-                        @Override
-                        protected Object doInBackground(Object[] params) {
-                            helper.importOldDb(oldHandler, device, targetHandler);
-                            if (!isFinishing() && !isDestroyed()) {
-                                progress.dismiss();
-                            }
-                            return null;
-                        }
-                    }.execute((Object[]) null);
-                } catch (Exception ex) {
-                    GB.toast(DbManagementActivity.this, getString(R.string.dbmanagementactivity_error_importing_old_activity_data), Toast.LENGTH_LONG, GB.ERROR, ex);
-                }
-            }
-        });
-    }
-
-    private void selectDeviceForMergingActivityDatabaseInto(final DeviceSelectionCallback callback) {
-        GBDevice connectedDevice = ((GBApplication)getApplication()).getDeviceManager().getSelectedDevice();
-        if (connectedDevice == null) {
-            callback.invoke(null);
-            return;
-        }
-        final List<GBDevice> availableDevices = Collections.singletonList(connectedDevice);
-        GBDeviceAdapter adapter = new GBDeviceAdapter(getBaseContext(), availableDevices);
-
-        new AlertDialog.Builder(this)
-                .setCancelable(true)
-                .setTitle(R.string.dbmanagementactivity_associate_old_data_with_device)
-                .setAdapter(adapter, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        GBDevice device = availableDevices.get(which);
-                        callback.invoke(device);
-                    }
-                })
-                .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // ignore, just return
                     }
                 })
                 .show();
@@ -270,9 +186,5 @@ public class DbManagementActivity extends GBActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public interface DeviceSelectionCallback {
-        void invoke(GBDevice device);
     }
 }

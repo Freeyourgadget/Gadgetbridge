@@ -278,6 +278,7 @@ public class ControlCenter extends GBActivity {
                 if (selectedDevice != null) {
                     Intent startIntent;
                     startIntent = new Intent(ControlCenter.this, ConfigureAlarms.class);
+                    startIntent.putExtra(GBDevice.EXTRA_DEVICE, selectedDevice);
                     startActivity(startIntent);
                 }
                 return true;
@@ -424,8 +425,6 @@ public class ControlCenter extends GBActivity {
             wantedPermissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED)
             wantedPermissions.add(Manifest.permission.READ_CALENDAR);
-        if (ContextCompat.checkSelfPermission(this, "com.fsck.k9.permission.READ_MESSAGES") == PackageManager.PERMISSION_DENIED)
-            wantedPermissions.add("com.fsck.k9.permission.READ_MESSAGES");
 
         if (!wantedPermissions.isEmpty())
             ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[wantedPermissions.size()]), 0);

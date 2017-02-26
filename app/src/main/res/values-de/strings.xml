@@ -22,8 +22,11 @@
   <string name="appmananger_app_delete">Löschen</string>
   <string name="appmananger_app_delete_cache">Löschen und aus dem Zwischenspeicher entfernen</string>
   <string name="appmananger_app_reinstall">Erneut installieren</string>
+  <string name="appmanager_app_openinstore">Im Pebble Appstore suchen</string>
   <string name="appmanager_health_activate">aktivieren</string>
   <string name="appmanager_health_deactivate">deaktivieren</string>
+  <string name="appmanager_hrm_activate">HRM aktivieren</string>
+  <string name="appmanager_hrm_deactivate">HRM deaktivieren</string>
   <string name="app_configure">Konfigurieren</string>
   <string name="app_move_to_top">Nach oben</string>
   <!--Strings related to AppBlacklist-->
@@ -39,6 +42,7 @@
   <string name="title_activity_settings">Einstellungen</string>
   <string name="pref_header_general">Allgemeine Einstellungen</string>
   <string name="pref_title_general_autoconnectonbluetooth">Verbinde, wenn Bluetooth eingeschaltet wird</string>
+  <string name="pref_title_general_autostartonboot">Automatisch starten</string>
   <string name="pref_title_general_autocreonnect">Verbindungen automatisch wiederherstellen</string>
   <string name="pref_title_audo_player">Bevorzugter Audioplayer</string>
   <string name="pref_default">Standard</string>
@@ -53,16 +57,21 @@
   <string name="pref_title_notifications_repetitions">Wiederholungen</string>
   <string name="pref_title_notifications_call">Anrufe</string>
   <string name="pref_title_notifications_sms">SMS</string>
-  <string name="pref_title_notifications_k9mail">K9-Mail</string>
   <string name="pref_title_notifications_pebblemsg">Pebble Nachrichten</string>
   <string name="pref_summary_notifications_pebblemsg">Unterstützung für Anwendungen die Benachrichtigungen an die Pebble via PebbleKit senden.</string>
   <string name="pref_title_notifications_generic">Andere Benachrichtigungen</string>
   <string name="pref_title_whenscreenon">… auch wenn der Bildschirm an ist</string>
   <string name="pref_title_notification_filter">Bitte nicht stören</string>
   <string name="pref_summary_notification_filter">Stoppe unerwünschte Nachrichten, wenn im \"Nicht Stören\"-Modus</string>
+  <string name="pref_title_transliteration">Transliteration</string>
   <string name="always">immer</string>
   <string name="when_screen_off">wenn der Bildschirm aus ist</string>
   <string name="never">niemals</string>
+  <string name="pref_header_privacy">Privatsphäre</string>
+  <string name="pref_title_call_privacy_mode">Privatsphäre-Modus für Anrufe</string>
+  <string name="pref_call_privacy_mode_off">Zeige Name und Telefonnumer</string>
+  <string name="pref_call_privacy_mode_name">Verstecke den Namen aber zeige die Telefonnummer an</string>
+  <string name="pref_call_privacy_mode_complete">Verstecke Name und Telefonnummer</string>
   <string name="pref_blacklist">Sperre für Apps</string>
   <string name="pref_header_cannned_messages">Vorgefertigte Nachrichten</string>
   <string name="pref_title_canned_replies">Antworten</string>
@@ -77,21 +86,36 @@
   <string name="pref_title_pebble_sync_health">Pebble Health synchronisieren</string>
   <string name="pref_title_pebble_sync_misfit">Misfit synchronisieren</string>
   <string name="pref_title_pebble_sync_morpheuz">Morpheuz synchronisieren</string>
+  <string name="pref_title_enable_outgoing_call">Unterstützung für ausgehende Anrufe</string>
   <string name="pref_title_enable_pebblekit">Erlaube Zugriff von anderen Android Apps</string>
   <string name="pref_summary_enable_pebblekit">Experimentelle Unterstützung für Android Apps, die PebbleKit benutzen</string>
   <string name="pref_title_sunrise_sunset">Sonnenauf- und -untergang </string>
   <string name="pref_summary_sunrise_sunset">Sende Sonnenauf- und -untergangszeiten abhänging vom Standort auf die Pebble Timeline</string>
+  <string name="pref_title_pebble_privacy_mode">Privatsphäre-Modus</string>
+  <string name="pref_pebble_privacy_mode_off">Normale Benachrichtigungen</string>
+  <string name="pref_pebble_privacy_mode_content">Verschiebe den Benachrichttigungstext außerhalb des Bildschirms</string>
+  <string name="pref_pebble_privacy_mode_complete">Zeige nur das Benachrichtigungs-Symbol</string>
   <string name="pref_header_location">Standort</string>
   <string name="pref_title_location_aquire">Standort Bestimmen</string>
   <string name="pref_title_location_latitude">Breitengrad</string>
   <string name="pref_title_location_longitude">Längengrad</string>
+  <string name="pref_title_location_keep_uptodate">Automatisch Standort aktualisieren</string>
+  <string name="pref_summary_location_keep_uptodate">Versuche den aktuellen Standort zur Laufzeit abzufragen und nutze die gespeicherten Standort falls das fehlschlägt</string>
   <string name="toast_enable_networklocationprovider">Bitte ungefähre Standortbestimmung einschalten</string>
   <string name="toast_aqurired_networklocation">Standort wurde bestimmt</string>
   <string name="pref_title_pebble_forceprotocol">Benachrichtigungsprotokoll erzwingen</string>
   <string name="pref_summary_pebble_forceprotocol">Diese Option erzwingt das neuste Benachrichtigungsprotokoll abhängig von der Firmwareversion. NUR EINSCHALTEN, WENN DU WEISST WAS DU TUST!</string>
   <string name="pref_title_pebble_forceuntested">Ungetestete Features freischalten</string>
   <string name="pref_summary_pebble_forceuntested">Schaltet ungetetestete Features frei. TU DIES NUR, WENN DU WEIßT, WAS DU TUST!</string>
+  <string name="pref_title_pebble_forcele">BLE immer bevorzugen</string>
+  <string name="pref_summary_pebble_forcele">Nutze den experimentellen LE support für alle Pebbles anstelle von BT classic. Setzt voraus, dass die \"Pebble LE\" gepaart wird, nachdem die nicht-LE Pebble einmal verbunden war.</string>
+  <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU Limit</string>
+  <string name="pref_summary_pebble_mtu_limit">Wenn deine Pebble 2/Pebble LE nicht so wie erwartet funktioniert, versuche die MTU zu begrenzen (erlaubte Werte zwischen 20–512)</string>
+  <string name="pref_title_pebble_enable_applogs">Watch App Logging einschalten</string>
+  <string name="pref_summary_pebble_enable_applogs">Schreibt logs von Watch Apps in Gadgetbridge logs (Pebble muss nach Ändern der Option erneut verbunden werden)</string>
   <string name="pref_title_pebble_reconnect_attempts">Neuverbindungsversuche</string>
+  <string name="pref_title_unit_system">Einheiten</string>
+  <string name="pref_title_timeformat">Zeitformat</string>
   <string name="not_connected">nicht verbunden</string>
   <string name="connecting">verbinde</string>
   <string name="connected">verbunden</string>
@@ -126,7 +150,7 @@
   <string name="title_activity_android_pairing">Gerät paaren</string>
   <string name="android_pairing_hint">Verwende den Android Bluetooth Paaren-Dialog um Dein Gerät zu paaren.</string>
   <string name="title_activity_mi_band_pairing">Paare Dein Mi Band</string>
-  <string name="pairing">Paarung mit %s…</string>
+  <string name="pairing">Pairing mit %s…</string>
   <string name="message_cannot_pair_no_mac">Kein MAC Adresse bekommen, kann nicht paaren.</string>
   <string name="preferences_category_device_specific_settings">Gerätespezifische Einstellungen</string>
   <string name="preferences_miband_settings">Mi Band Einstellungen</string>
@@ -297,4 +321,6 @@ Wenn Du schon deine Daten importiert hast und mit dem Ergebnis zufrieden bist, k
   <string name="Delete">Löschen</string>
   <!--Strings related to Vibration Activity-->
   <string name="title_activity_vibration">Vibration</string>
+  <!--Strings related to Pebble Pairing Activity-->
+  <string name="pref_screen_notification_profile_alarm_clock">Wecker</string>
 </resources>

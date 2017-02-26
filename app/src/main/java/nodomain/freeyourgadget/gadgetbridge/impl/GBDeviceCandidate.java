@@ -57,7 +57,7 @@ public class GBDeviceCandidate implements Parcelable {
         dest.writeParcelable(device, 0);
         dest.writeInt(rssi);
         dest.writeString(deviceType.name());
-        dest.writeArray(serviceUuds);
+        dest.writeParcelableArray(serviceUuds, 0);
     }
 
     public static final Creator<GBDeviceCandidate> CREATOR = new Creator<GBDeviceCandidate>() {
@@ -127,7 +127,7 @@ public class GBDeviceCandidate implements Parcelable {
                 deviceName = (String) method.invoke(device);
             }
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ignore) {
-            LOG.info("Could not get device alias for " + deviceName);
+            LOG.info("Could not get device alias for " + device.getName());
         }
         if (deviceName == null || deviceName.length() == 0) {
             deviceName = device.getName();
@@ -167,6 +167,6 @@ public class GBDeviceCandidate implements Parcelable {
 
     @Override
     public String toString() {
-        return getName() + ": " + getMacAddress();
+        return getName() + ": " + getMacAddress() + " (" + getDeviceType() + ")";
     }
 }

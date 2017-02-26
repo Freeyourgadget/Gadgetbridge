@@ -1,16 +1,19 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.appmanager;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
+import android.view.View;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +31,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractFragmentPagerAdapter;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBFragmentActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.FwAppInstallerActivity;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
@@ -35,6 +39,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 public class AppManagerActivity extends AbstractGBFragmentActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractAppManagerFragment.class);
+    private int READ_REQUEST_CODE = 42;
 
     private GBDevice mGBDevice = null;
 
@@ -68,6 +73,18 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
             throw new IllegalArgumentException("Must provide a device when invoking this activity");
         }
 
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        assert fab != null;
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("*/*");
+                startActivityForResult(intent, READ_REQUEST_CODE);
+            }
+        });
+
         IntentFilter filterLocal = new IntentFilter();
         filterLocal.addAction(GBApplication.ACTION_QUIT);
         filterLocal.addAction(GBDevice.ACTION_DEVICE_CHANGED);
@@ -93,7 +110,7 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
 
     public class SectionsPagerAdapter extends AbstractFragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -177,6 +194,16 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
             LOG.warn("could not read sort file");
         }
         return uuids;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Intent startIntent = new Intent(AppManagerActivity.this, FwAppInstallerActivity.class);
+            startIntent.setAction(Intent.ACTION_VIEW);
+            startIntent.setDataAndType(resultData.getData(), null);
+            startActivity(startIntent);
+        }
     }
 
     @Override

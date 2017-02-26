@@ -14,6 +14,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBAlarmListAdapter;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_ALARMS;
@@ -26,12 +27,15 @@ public class ConfigureAlarms extends GBActivity {
     private GBAlarmListAdapter mGBAlarmListAdapter;
     private Set<String> preferencesAlarmListSet;
     private boolean avoidSendAlarmsToDevice;
+    private GBDevice device;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_configure_alarms);
+
+        device = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
 
         Prefs prefs = GBApplication.getPrefs();
         preferencesAlarmListSet = prefs.getStringSet(PREF_MIBAND_ALARMS, new HashSet<String>());
@@ -86,10 +90,14 @@ public class ConfigureAlarms extends GBActivity {
 
     public void configureAlarm(GBAlarm alarm) {
         avoidSendAlarmsToDevice = true;
-        Intent startIntent;
-        startIntent = new Intent(getApplicationContext(), AlarmDetails.class);
+        Intent startIntent = new Intent(getApplicationContext(), AlarmDetails.class);
         startIntent.putExtra("alarm", alarm);
+        startIntent.putExtra(GBDevice.EXTRA_DEVICE, getDevice());
         startActivityForResult(startIntent, REQ_CONFIGURE_ALARM);
+    }
+
+    private GBDevice getDevice() {
+        return device;
     }
 
     private void sendAlarmsToDevice() {

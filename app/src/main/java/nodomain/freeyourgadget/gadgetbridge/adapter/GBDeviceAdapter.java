@@ -134,6 +134,14 @@ public class GBDeviceAdapter extends ArrayAdapter<GBDevice> {
                     deviceImageView.setImageResource(R.drawable.ic_device_lovetoy_disabled);
                 }
                 break;
+            case HPLUS:
+            case MAKIBESF68:
+                if( device.isConnected()) {
+                    deviceImageView.setImageResource(R.drawable.ic_device_hplus);
+                } else {
+                    deviceImageView.setImageResource(R.drawable.ic_device_hplus_disabled);
+                }
+                break;
             default:
                 if (device.isConnected()) {
                     deviceImageView.setImageResource(R.drawable.ic_launcher);

@@ -3,12 +3,16 @@ package nodomain.freeyourgadget.gadgetbridge.impl;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -17,13 +21,30 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.util.LanguageUtils;
 
-//import java.util.UUID;
+import static nodomain.freeyourgadget.gadgetbridge.util.JavaExtensions.coalesce;
 
 public class GBDeviceService implements DeviceService {
     protected final Context mContext;
-    protected final Class<? extends Service> mServiceClass;
+    private final Class<? extends Service> mServiceClass;
+    private final String[] transliterationExtras = new String[]{
+            EXTRA_NOTIFICATION_PHONENUMBER,
+            EXTRA_NOTIFICATION_SENDER,
+            EXTRA_NOTIFICATION_SUBJECT,
+            EXTRA_NOTIFICATION_TITLE,
+            EXTRA_NOTIFICATION_BODY,
+            EXTRA_NOTIFICATION_SOURCENAME,
+            EXTRA_CALL_PHONENUMBER,
+            EXTRA_CALL_DISPLAYNAME,
+            EXTRA_MUSIC_ARTIST,
+            EXTRA_MUSIC_ALBUM,
+            EXTRA_MUSIC_TRACK,
+            EXTRA_CALENDAREVENT_TITLE,
+            EXTRA_CALENDAREVENT_DESCRIPTION
+    };
 
     public GBDeviceService(Context context) {
         mContext = context;
@@ -35,6 +56,14 @@ public class GBDeviceService implements DeviceService {
     }
 
     protected void invokeService(Intent intent) {
+        if(LanguageUtils.transliterate()){
+            for (String extra: transliterationExtras) {
+                if (intent.hasExtra(extra)){
+                    intent.putExtra(extra, LanguageUtils.transliterate(intent.getStringExtra(extra)));
+                }
+            }
+        }
+
         mContext.startService(intent);
     }
 
@@ -54,21 +83,14 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void connect(GBDevice device) {
-        Intent intent = createIntent().setAction(ACTION_CONNECT)
-                .putExtra(GBDevice.EXTRA_DEVICE, device);
-        invokeService(intent);
+    public void connect(@Nullable GBDevice device) {
+        connect(device, false);
     }
 
     @Override
-    public void connect(@Nullable String deviceAddress) {
-        connect(deviceAddress, false);
-    }
-
-    @Override
-    public void connect(@Nullable String deviceAddress, boolean performPair) {
+    public void connect(@Nullable GBDevice device, boolean performPair) {
         Intent intent = createIntent().setAction(ACTION_CONNECT)
-                .putExtra(EXTRA_DEVICE_ADDRESS, deviceAddress)
+                .putExtra(GBDevice.EXTRA_DEVICE, device)
                 .putExtra(EXTRA_PERFORM_PAIR, performPair);
         invokeService(intent);
     }
@@ -96,7 +118,7 @@ public class GBDeviceService implements DeviceService {
         Intent intent = createIntent().setAction(ACTION_NOTIFICATION)
                 .putExtra(EXTRA_NOTIFICATION_FLAGS, notificationSpec.flags)
                 .putExtra(EXTRA_NOTIFICATION_PHONENUMBER, notificationSpec.phoneNumber)
-                .putExtra(EXTRA_NOTIFICATION_SENDER, notificationSpec.sender)
+                .putExtra(EXTRA_NOTIFICATION_SENDER, coalesce(notificationSpec.sender, getContactDisplayNameByNumber(notificationSpec.phoneNumber)))
                 .putExtra(EXTRA_NOTIFICATION_SUBJECT, notificationSpec.subject)
                 .putExtra(EXTRA_NOTIFICATION_TITLE, notificationSpec.title)
                 .putExtra(EXTRA_NOTIFICATION_BODY, notificationSpec.body)
@@ -104,6 +126,14 @@ public class GBDeviceService implements DeviceService {
                 .putExtra(EXTRA_NOTIFICATION_TYPE, notificationSpec.type)
                 .putExtra(EXTRA_NOTIFICATION_SOURCENAME, notificationSpec.sourceName);
         invokeService(intent);
+    }
+
+    @Override
+    public void onDeleteNotification(int id) {
+        Intent intent = createIntent().setAction(ACTION_DELETE_NOTIFICATION)
+                .putExtra(EXTRA_NOTIFICATION_ID, id);
+        invokeService(intent);
+
     }
 
     @Override
@@ -121,9 +151,22 @@ public class GBDeviceService implements DeviceService {
 
     @Override
     public void onSetCallState(CallSpec callSpec) {
-        // name is actually ignored and provided by the service itself...
+        Context context = GBApplication.getContext();
+        String currentPrivacyMode = GBApplication.getPrefs().getString("pref_call_privacy_mode", GBApplication.getContext().getString(R.string.p_call_privacy_mode_off));
+        if (context.getString(R.string.p_call_privacy_mode_name).equals(currentPrivacyMode)) {
+            callSpec.name = callSpec.number;
+        }
+        else if (context.getString(R.string.p_call_privacy_mode_complete).equals(currentPrivacyMode)) {
+            callSpec.number = null;
+            callSpec.name = null;
+        }
+        else {
+            callSpec.name = coalesce(callSpec.name, getContactDisplayNameByNumber(callSpec.number));
+        }
+
         Intent intent = createIntent().setAction(ACTION_CALLSTATE)
                 .putExtra(EXTRA_CALL_PHONENUMBER, callSpec.number)
+                .putExtra(EXTRA_CALL_DISPLAYNAME, callSpec.name)
                 .putExtra(EXTRA_CALL_COMMAND, callSpec.command);
         invokeService(intent);
     }
@@ -292,5 +335,46 @@ public class GBDeviceService implements DeviceService {
     public void onTestNewFunction() {
         Intent intent = createIntent().setAction(ACTION_TEST_NEW_FUNCTION);
         invokeService(intent);
+    }
+
+    @Override
+    public void onSendWeather(WeatherSpec weatherSpec) {
+        Intent intent = createIntent().setAction(ACTION_SEND_WEATHER)
+                .putExtra(EXTRA_WEATHER_TIMESTAMP, weatherSpec.timestamp)
+                .putExtra(EXTRA_WEATHER_LOCATION, weatherSpec.location)
+                .putExtra(EXTRA_WEATHER_CURRENTTEMP, weatherSpec.currentTemp)
+                .putExtra(EXTRA_WEATHER_CURRENTCONDITIONCODE, weatherSpec.currentConditionCode)
+                .putExtra(EXTRA_WEATHER_CURRENTCONDITION, weatherSpec.currentCondition)
+                .putExtra(EXTRA_WEATHER_TODAYMAXTEMP, weatherSpec.todayMaxTemp)
+                .putExtra(EXTRA_WEATHER_TODAYMINTEMP, weatherSpec.todayMinTemp)
+                .putExtra(EXTRA_WEATHER_TOMORROWMAXTEMP, weatherSpec.tomorrowMaxTemp)
+                .putExtra(EXTRA_WEATHER_TOMORROWMINTEMP, weatherSpec.tomorrowMinTemp)
+                .putExtra(EXTRA_WEATHER_TOMORROWCONDITIONCODE, weatherSpec.tomorrowConditionCode);
+        invokeService(intent);
+    }
+
+    /**
+     * Returns contact DisplayName by call number
+     * @param number contact number
+     * @return contact DisplayName, if found it
+     */
+    private String getContactDisplayNameByNumber(String number) {
+        Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
+        String name = number;
+
+        if (number == null || number.equals("")) {
+            return name;
+        }
+
+        try (Cursor contactLookup = mContext.getContentResolver().query(uri, null, null, null, null)) {
+            if (contactLookup != null && contactLookup.getCount() > 0) {
+                contactLookup.moveToNext();
+                name = contactLookup.getString(contactLookup.getColumnIndex(ContactsContract.Data.DISPLAY_NAME));
+            }
+        } catch (SecurityException e) {
+            // ignore, just return name below
+        }
+
+        return name;
     }
 }

@@ -1,7 +1,10 @@
 package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.util.Log;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -178,69 +181,53 @@ public class GattCharacteristic {
     public static final UUID UUID_CHARACTERISTIC_WIND_CHILL = UUID.fromString((String.format(AbstractBTLEDeviceSupport.BASE_UUID, "2A79")));
 
 
-    //do we need this?
+    private static Map<UUID, String> GATTCHARACTERISTIC_DEBUG;
 
-    private static final Map<UUID, String> GATTCHARACTERISTIC_DEBUG;
-
-    static {
-        GATTCHARACTERISTIC_DEBUG = new HashMap<>();
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_ALERT_CATEGORY_ID, "Alert AlertCategory ID");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_ALERT_CATEGORY_ID_BIT_MASK, "Alert AlertCategory ID Bit Mask");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_ALERT_LEVEL, "Alert Level");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_ALERT_NOTIFICATION_CONTROL_POINT, "Alert Notification Control Point");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_ALERT_STATUS, "Alert Status");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_GAP_APPEARANCE, "Appearance");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_BLOOD_PRESSURE_FEATURE, "Blood Pressure Feature");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_BLOOD_PRESSURE_MEASUREMENT, "Blood Pressure Measurement");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_BODY_SENSOR_LOCATION, "Body Sensor Location");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_CURRENT_TIME, "Current Time");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_DATE_TIME, "Date Time");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_DAY_DATE_TIME, "Day Date Time");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_DAY_OF_WEEK, "Day of Week");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_GAP_DEVICE_NAME, "Device Name");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_DST_OFFSET, "DST Offset");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_EXACT_TIME_256, "Exact Time 256");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_FIRMWARE_REVISION_STRING, "Firmware Revision String");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_HARDWARE_REVISION_STRING, "Hardware Revision String");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT, "Heart Rate Control Point");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT, "Heart Rate Measurement");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_IEEE_11073_20601_REGULATORY_CERTIFICATION_DATA_LIST, "IEEE 11073-20601 Regulatory");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_INTERMEDIATE_BLOOD_PRESSURE, "Intermediate Cuff Pressure");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_INTERMEDIATE_TEMPERATURE, "Intermediate Temperature");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_LOCAL_TIME_INFORMATION, "Local Time Information");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_MANUFACTURER_NAME_STRING, "Manufacturer Name String");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_MEASUREMENT_INTERVAL, "Measurement Interval");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_MODEL_NUMBER_STRING, "Model Number String");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_NEW_ALERT, "New Alert");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_GAP_PERIPHERAL_PREFERRED_CONNECTION_PARAMETERS, "Peripheral Preferred Connection Parameters");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_GAP_PERIPHERAL_PRIVACY_FLAG, "Peripheral Privacy Flag");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_GAP_RECONNECTION_ADDRESS, "Reconnection Address");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_REFERENCE_TIME_INFORMATION, "Reference Time Information");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_RINGER_CONTROL_POINT, "Ringer Control Point");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_RINGER_SETTING, "Ringer Setting");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_SERIAL_NUMBER_STRING, "Serial Number String");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_GATT_SERVICE_CHANGED, "Service Changed");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_SOFTWARE_REVISION_STRING, "Software Revision String");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_SUPPORTED_NEW_ALERT_CATEGORY, "Supported New Alert AlertCategory");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_SUPPORTED_UNREAD_ALERT_CATEGORY, "Supported Unread Alert AlertCategory");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_SYSTEM_ID, "System ID");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_TEMPERATURE_MEASUREMENT, "Temperature Measurement");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_TEMPERATURE_TYPE, "Temperature DeviceType");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_TIME_ACCURACY, "Time Accuracy");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_TIME_SOURCE, "Time Source");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_TIME_UPDATE_CONTROL_POINT, "Time Update Control Point");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_TIME_UPDATE_STATE, "Time Update State");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_TIME_WITH_DST, "Time with DST");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_TIME_ZONE, "Time Zone");
-        GATTCHARACTERISTIC_DEBUG.put(UUID_CHARACTERISTIC_TX_POWER_LEVEL, "Tx Power Level");
-    }
-
-    public static String lookup(UUID uuid, String fallback) {
+    public static synchronized String lookup(UUID uuid, String fallback) {
+        if (GATTCHARACTERISTIC_DEBUG == null) {
+            GATTCHARACTERISTIC_DEBUG = initDebugMap();
+        }
         String name = GATTCHARACTERISTIC_DEBUG.get(uuid);
         if (name == null) {
             name = fallback;
         }
         return name;
+    }
+
+    private static Map<UUID, String> initDebugMap() {
+        Map<UUID,String> map = new HashMap<>();
+
+        try {
+            for (Field field : GattCharacteristic.class.getDeclaredFields()) {
+                if ((field.getModifiers() & Modifier.STATIC) != 0 && field.getType() == UUID.class) {
+                    UUID uuid = (UUID) field.get(null);
+                    if (uuid != null) {
+                        map.put(uuid, toPrettyName(field.getName()));
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            Log.w(GattCharacteristic.class.getName(), "Error reading UUID fields by reflection: " + ex.getMessage(), ex);
+        }
+        return map;
+    }
+
+    private static String toPrettyName(String fieldName) {
+        String[] words = fieldName.split("_");
+        if (words.length <= 1) {
+            return fieldName.toLowerCase();
+        }
+        StringBuilder builder = new StringBuilder(fieldName.length());
+        for (String word : words) {
+            if (word.length() == 0 || "UUID".equals(word) || "CHARACTERISTIC".equals(word)) {
+                continue;
+            }
+            if (builder.length() > 0) {
+                builder.append(" ");
+            }
+            builder.append(word.toLowerCase());
+        }
+        return builder.toString();
     }
 
     public static String toString(BluetoothGattCharacteristic characteristic) {

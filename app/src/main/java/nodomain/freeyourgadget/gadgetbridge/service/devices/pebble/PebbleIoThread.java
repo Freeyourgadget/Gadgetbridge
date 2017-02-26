@@ -3,16 +3,12 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.ParcelUuid;
 import android.support.v4.content.LocalBroadcastManager;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +23,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -38,6 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppManagement;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppMessage;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.pebble.GBDeviceEventDataLogging;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PBWReader;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleInstallable;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -53,21 +49,11 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 class PebbleIoThread extends GBDeviceIoThread {
     private static final Logger LOG = LoggerFactory.getLogger(PebbleIoThread.class);
 
-    public static final String PEBBLEKIT_ACTION_PEBBLE_CONNECTED = "com.getpebble.action.PEBBLE_CONNECTED";
-    public static final String PEBBLEKIT_ACTION_PEBBLE_DISCONNECTED = "com.getpebble.action.PEBBLE_DISCONNECTED";
-    public static final String PEBBLEKIT_ACTION_APP_ACK = "com.getpebble.action.app.ACK";
-    public static final String PEBBLEKIT_ACTION_APP_NACK = "com.getpebble.action.app.NACK";
-    public static final String PEBBLEKIT_ACTION_APP_RECEIVE = "com.getpebble.action.app.RECEIVE";
-    public static final String PEBBLEKIT_ACTION_APP_RECEIVE_ACK = "com.getpebble.action.app.RECEIVE_ACK";
-    public static final String PEBBLEKIT_ACTION_APP_RECEIVE_NACK = "com.getpebble.action.app.RECEIVE_NACK";
-    public static final String PEBBLEKIT_ACTION_APP_SEND = "com.getpebble.action.app.SEND";
-    public static final String PEBBLEKIT_ACTION_APP_START = "com.getpebble.action.app.START";
-    public static final String PEBBLEKIT_ACTION_APP_STOP = "com.getpebble.action.app.STOP";
-
     private final Prefs prefs = GBApplication.getPrefs();
 
     private final PebbleProtocol mPebbleProtocol;
     private final PebbleSupport mPebbleSupport;
+    private PebbleKitSupport mPebbleKitSupport;
     private final boolean mEnablePebblekit;
 
     private boolean mIsTCP = false;
@@ -94,67 +80,14 @@ class PebbleIoThread extends GBDeviceIoThread {
     private int mBinarySize = -1;
     private int mBytesWritten = -1;
 
-    private final BroadcastReceiver mPebbleKitReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            LOG.info("Got action: " + action);
-            UUID uuid;
-            switch (action) {
-                case PEBBLEKIT_ACTION_APP_START:
-                case PEBBLEKIT_ACTION_APP_STOP:
-                    uuid = (UUID) intent.getSerializableExtra("uuid");
-                    if (uuid != null) {
-                        write(mPebbleProtocol.encodeAppStart(uuid, action.equals(PEBBLEKIT_ACTION_APP_START)));
-                    }
-                    break;
-                case PEBBLEKIT_ACTION_APP_SEND:
-                    int transaction_id = intent.getIntExtra("transaction_id", -1);
-                    uuid = (UUID) intent.getSerializableExtra("uuid");
-                    String jsonString = intent.getStringExtra("msg_data");
-                    LOG.info("json string: " + jsonString);
-
-                    try {
-                        JSONArray jsonArray = new JSONArray(jsonString);
-                        write(mPebbleProtocol.encodeApplicationMessageFromJSON(uuid, jsonArray));
-                        sendAppMessageAck(transaction_id);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case PEBBLEKIT_ACTION_APP_ACK:
-                    // we do not get a uuid and cannot map a transaction id to it, so we ack in PebbleProtocol early
-                    /*
-                    uuid = (UUID) intent.getSerializableExtra("uuid");
-                    int transaction_id = intent.getIntExtra("transaction_id", -1);
-                    if (transaction_id >= 0 && transaction_id <= 255) {
-                        write(mPebbleProtocol.encodeApplicationMessageAck(uuid, (byte) transaction_id));
-                    } else {
-                        LOG.warn("illegal transacktion id " + transaction_id);
-                    }
-                    */
-                    break;
-            }
-        }
-    };
-
-    private void sendAppMessageIntent(GBDeviceEventAppMessage appMessage) {
-        Intent intent = new Intent();
-        intent.setAction(PEBBLEKIT_ACTION_APP_RECEIVE);
-        intent.putExtra("uuid", appMessage.appUUID);
-        intent.putExtra("msg_data", appMessage.message);
-        intent.putExtra("transaction_id", appMessage.id);
-        LOG.info("broadcasting to uuid " + appMessage.appUUID + " transaction id: " + appMessage.id + " JSON: " + appMessage.message);
-        getContext().sendBroadcast(intent);
-    }
-
     PebbleIoThread(PebbleSupport pebbleSupport, GBDevice gbDevice, GBDeviceProtocol gbDeviceProtocol, BluetoothAdapter btAdapter, Context context) {
         super(gbDevice, context);
         mPebbleProtocol = (PebbleProtocol) gbDeviceProtocol;
         mBtAdapter = btAdapter;
         mPebbleSupport = pebbleSupport;
         mEnablePebblekit = prefs.getBoolean("pebble_enable_pebblekit", false);
+        mPebbleProtocol.setAlwaysACKPebbleKit(prefs.getBoolean("pebble_always_ack_pebblekit", false));
+        mPebbleProtocol.setEnablePebbleKit(mEnablePebblekit);
     }
 
     private int readWithException(InputStream inputStream, byte[] buffer, int byteOffset, int byteCount) throws IOException {
@@ -163,14 +96,6 @@ class PebbleIoThread extends GBDeviceIoThread {
             throw new IOException("broken pipe");
         }
         return ret;
-    }
-
-    private void sendAppMessageAck(int transactionId) {
-        Intent intent = new Intent();
-        intent.setAction(PEBBLEKIT_ACTION_APP_RECEIVE_ACK);
-        intent.putExtra("transaction_id", transactionId);
-        LOG.info("broadcasting ACK (transaction id " + transactionId + ")");
-        getContext().sendBroadcast(intent);
     }
 
     @Override
@@ -246,7 +171,7 @@ class PebbleIoThread extends GBDeviceIoThread {
         }
 
         byte[] buffer = new byte[8192];
-        enablePebbleKitReceiver(true);
+        enablePebbleKitSupport(true);
         mQuit = false;
         while (!mQuit) {
             try {
@@ -422,7 +347,7 @@ class PebbleIoThread extends GBDeviceIoThread {
             mBtSocket = null;
         }
 
-        enablePebbleKitReceiver(false);
+        enablePebbleKitSupport(false);
 
         if (mQuit) {
             gbDevice.setState(GBDevice.State.NOT_CONNECTED);
@@ -432,25 +357,13 @@ class PebbleIoThread extends GBDeviceIoThread {
         gbDevice.sendDeviceUpdateIntent(getContext());
     }
 
-    private void enablePebbleKitReceiver(boolean enable) {
-
+    private void enablePebbleKitSupport(boolean enable) {
         if (enable && mEnablePebblekit) {
-            IntentFilter intentFilter = new IntentFilter();
-            intentFilter.addAction(PEBBLEKIT_ACTION_APP_ACK);
-            intentFilter.addAction(PEBBLEKIT_ACTION_APP_NACK);
-            intentFilter.addAction(PEBBLEKIT_ACTION_APP_SEND);
-            intentFilter.addAction(PEBBLEKIT_ACTION_APP_START);
-            intentFilter.addAction(PEBBLEKIT_ACTION_APP_STOP);
-            try {
-                getContext().registerReceiver(mPebbleKitReceiver, intentFilter);
-            } catch (IllegalArgumentException e) {
-                // ignore
-            }
+            mPebbleKitSupport = new PebbleKitSupport(getContext(), PebbleIoThread.this, mPebbleProtocol);
         } else {
-            try {
-                getContext().unregisterReceiver(mPebbleKitReceiver);
-            } catch (IllegalArgumentException e) {
-                // ignore
+            if (mPebbleKitSupport != null) {
+                mPebbleKitSupport.close();
+                mPebbleKitSupport = null;
             }
         }
     }
@@ -486,10 +399,11 @@ class PebbleIoThread extends GBDeviceIoThread {
         if (bytes == null) {
             return;
         }
-        // block writes if app installation in in progress
-        if (mIsConnected && (!mIsInstalling || mInstallState == PebbleAppInstallState.WAIT_SLOT)) {
-            write_real(bytes);
+        // on FW < 3.0 block writes if app installation in in progress
+        if (!mIsConnected || (mPebbleProtocol.mFwMajor < 3 && mIsInstalling && mInstallState != PebbleAppInstallState.WAIT_SLOT)) {
+            return;
         }
+        write_real(bytes);
     }
 
     // FIXME: parts are supporsed to be generic code
@@ -500,7 +414,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                 LOG.info("syncing time");
                 write(mPebbleProtocol.encodeSetTime());
             }
-            write(mPebbleProtocol.encodeEnableAppLogs(prefs.getBoolean("pebble_enable_applogs",false)));
+            write(mPebbleProtocol.encodeEnableAppLogs(prefs.getBoolean("pebble_enable_applogs", false)));
             write(mPebbleProtocol.encodeReportDataLogSessions());
             gbDevice.setState(GBDevice.State.INITIALIZED);
             return false;
@@ -577,7 +491,16 @@ class PebbleIoThread extends GBDeviceIoThread {
         } else if (deviceEvent instanceof GBDeviceEventAppMessage) {
             if (mEnablePebblekit) {
                 LOG.info("Got AppMessage event");
-                sendAppMessageIntent((GBDeviceEventAppMessage) deviceEvent);
+                if (mPebbleKitSupport != null) {
+                    mPebbleKitSupport.sendAppMessageIntent((GBDeviceEventAppMessage) deviceEvent);
+                }
+            }
+        } else if (deviceEvent instanceof GBDeviceEventDataLogging) {
+            if (mEnablePebblekit) {
+                LOG.info("Got Datalogging event");
+                if (mPebbleKitSupport != null) {
+                    mPebbleKitSupport.sendDataLoggingIntent((GBDeviceEventDataLogging) deviceEvent);
+                }
             }
         }
 
@@ -594,7 +517,7 @@ class PebbleIoThread extends GBDeviceIoThread {
         }
     }
 
-    private void writeInstallApp(byte[] bytes) {
+    synchronized private void writeInstallApp(byte[] bytes) {
         if (!mIsInstalling) {
             return;
         }
@@ -603,10 +526,6 @@ class PebbleIoThread extends GBDeviceIoThread {
     }
 
     void installApp(Uri uri, int appId) {
-        if (mIsInstalling) {
-            return;
-        }
-
         if (uri.equals(Uri.parse("fake://health"))) {
             write(mPebbleProtocol.encodeActivateHealth(true));
             write(mPebbleProtocol.encodeSetSaneDistanceUnit(true));
@@ -616,13 +535,24 @@ class PebbleIoThread extends GBDeviceIoThread {
             write(mPebbleProtocol.encodeActivateHRM(true));
             return;
         }
+        if (uri.equals(Uri.parse("fake://weather"))) {
+            write(mPebbleProtocol.encodeActivateWeather(true));
+            return;
+        }
+
+        if (mIsInstalling) {
+            return;
+        }
 
         String platformName = PebbleUtils.getPlatformName(gbDevice.getModel());
 
         try {
             mPBWReader = new PBWReader(uri, getContext(), platformName);
         } catch (FileNotFoundException e) {
-            LOG.warn("file not found!");
+            LOG.warn("file not found: " + e.getMessage(), e);
+            return;
+        } catch (IOException e) {
+            LOG.warn("unable to read file: " + e.getMessage(), e);
             return;
         }
 

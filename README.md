@@ -20,6 +20,7 @@ need to create an account and transmit any of your data to the vendor's servers.
 * Mi Band 2
 * Vibratissimo (experimental)
 * Liveview
+* HPlus Devices (e.g. ZeBand)
 
 ## Features (Pebble)
 
@@ -107,25 +108,32 @@ For more information read [this wiki article](https://github.com/Freeyourgadget/
 3. Tap the Mi Band item to connect if you're not connected yet
 4. To test, chose "Debug" from the menu and play around
 
-Known Issues:
+**Known Issues:**
 
 * The initial connection to a Mi Band sometimes takes a little patience. Try to connect a few times, wait, 
   and try connecting again. This only happens until you have "bonded" with the Mi Band, i.e. until it 
   knows your MAC address. This behavior may also only occur with older firmware versions.
 * If you use other apps like Mi Fit, and "bonding" with Gadgetbridge does not work, please
   try to unpair the band in the other app and try again with Gadgetbridge.
-
+* While all Mi Band devices are supported, some firmware versions might work better than others.
+  You can consult the [projects wiki pages](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band) 
+  to check if your firmware version is fully supported or if an upgrade/downgrade might be beneficial.
 
 ## Features (Liveview)
 
 * set time (automatically upon connection)
 * display notifications and vibrate
 
-## Authors (in order of first code contribution)
+## Authors
+### Core Team (in order of first code contribution)
 
 * Andreas Shimokawa
 * Carsten Pfeiffer
 * Daniele Gobbetti
+
+### Additional device support
+
+* João Paulo Barraca (HPlus)
 
 ## Contribute
 

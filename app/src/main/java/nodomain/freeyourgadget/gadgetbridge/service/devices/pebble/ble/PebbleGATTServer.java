@@ -65,11 +65,6 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
         writeCharacteristics.setValue(new byte[]{(byte) (((serial << 3) | 1) & 0xff)});
 
         mBluetoothGattServer.notifyCharacteristicChanged(mBtDevice, writeCharacteristics, false);
-
-        try {
-            Thread.sleep(100); // FIXME: bad bad, I mean BAAAD
-        } catch (InterruptedException ignore) {
-        }
     }
 
     public void onCharacteristicReadRequest(BluetoothDevice device, int requestId, int offset, BluetoothGattCharacteristic characteristic) {
@@ -111,6 +106,11 @@ class PebbleGATTServer extends BluetoothGattServerCallback {
         int serial = header >> 3;
         if (command == 0x01) {
             LOG.info("got ACK for serial = " + serial);
+            if (mPebbleLESupport.mPPAck != null) {
+                mPebbleLESupport.mPPAck.countDown();
+            } else {
+                LOG.warn("mPPAck countdownlatch is not present but it probably should");
+            }
         }
         if (command == 0x02) { // some request?
             LOG.info("got command 0x02");

@@ -212,6 +212,36 @@
 
         <PreferenceScreen
             android:key="vibration_profile_key"
+            android:title="@string/pref_screen_notification_profile_alarm_clock"
+            android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory
+                android:title="@string/pref_screen_notification_profile_alarm_clock"
+                />
+
+            <ListPreference
+                android:defaultValue="@string/p_alarm_clock"
+                android:entries="@array/vibration_profile"
+                android:entryValues="@array/vibration_profile_values"
+                android:key="mi_vibration_profile_alarm_clock"
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
+
+            <EditTextPreference
+                android:defaultValue="3"
+                android:inputType="number"
+                android:key="mi_vibration_count_alarm_clock"
+                android:maxLength="2"
+                android:title="@string/pref_title_notifications_repetitions" />
+            <Preference
+                android:key="mi_try_generic_alarm_clock"
+                android:persistent="false"
+                android:title="@string/vibration_try"/>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="vibration_profile_key"
             android:title="@string/pref_screen_notification_profile_generic_navigation"
             android:persistent="false">
 
@@ -275,6 +305,11 @@
     <PreferenceCategory
         android:key="pref_key_development"
         android:title="@string/pref_header_development">
+        <CheckBoxPreference
+            android:key="mi_setup_bt_pairing"
+            android:title="@string/pref_title_setup_bt_pairing"
+            android:summary="@string/pref_summary_setup_bt_pairing"
+            android:defaultValue="true" />
         <EditTextPreference
             android:digits="0123456789ABCDEF:"
             android:key="development_miaddr"

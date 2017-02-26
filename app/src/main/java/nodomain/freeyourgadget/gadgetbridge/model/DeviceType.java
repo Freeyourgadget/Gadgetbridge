@@ -13,6 +13,8 @@ public enum DeviceType {
     MIBAND2(11),
     VIBRATISSIMO(20),
     LIVEVIEW(30),
+    HPLUS(40),
+    MAKIBESF68(41),
     TEST(1000);
 
     private final int key;

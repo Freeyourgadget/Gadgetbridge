@@ -19,6 +19,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
 /**
  * Wraps another device support instance and supports busy-checking and throttling of events.
@@ -132,6 +133,11 @@ public class ServiceDeviceSupport implements DeviceSupport {
             return;
         }
         delegate.onNotification(notificationSpec);
+    }
+
+    @Override
+    public void onDeleteNotification(int id) {
+        delegate.onDeleteNotification(id);
     }
 
     @Override
@@ -334,5 +340,13 @@ public class ServiceDeviceSupport implements DeviceSupport {
             return;
         }
         delegate.onTestNewFunction();
+    }
+
+    @Override
+    public void onSendWeather(WeatherSpec weatherSpec) {
+        if (checkBusy("send weather event")) {
+            return;
+        }
+        delegate.onSendWeather(weatherSpec);
     }
 }

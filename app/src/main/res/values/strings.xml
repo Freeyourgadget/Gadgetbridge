@@ -37,6 +37,9 @@
     <string name="appmanager_health_deactivate">Deactivate</string>
     <string name="appmanager_hrm_activate">Activate HRM</string>
     <string name="appmanager_hrm_deactivate">Deactivate HRM</string>
+    <string name="appmanager_weather_activate">Activate system weather app</string>
+    <string name="appmanager_weather_deactivate">Deactivate system weather app</string>
+    <string name="appmanager_weather_install_provider">Install the weather notification app</string>
     <string name="app_configure">Configure</string>
     <string name="app_move_to_top">Move to top</string>
 
@@ -56,6 +59,7 @@
 
     <string name="pref_header_general">General Settings</string>
     <string name="pref_title_general_autoconnectonbluetooth">Connect to device when Bluetooth turned on</string>
+    <string name="pref_title_general_autostartonboot">Start automatically</string>
     <string name="pref_title_general_autocreonnect">Reconnect automatically</string>
     <string name="pref_title_audo_player">Preferred Audioplayer</string>
     <string name="pref_default">Default</string>
@@ -70,21 +74,32 @@
 
     <string name="pref_title_language">Language</string>
 
+    <string name="pref_title_minimize_priority">Hide the Gadgetbridge notification</string>
+    <string name="pref_summary_minimize_priority_off">The icon in the status bar and the notification in the lockscreen are shown</string>
+    <string name="pref_summary_minimize_priority_on">The icon in the status bar and the notification in the lockscreen are hidden</string>
+
     <string name="pref_header_notifications">Notifications</string>
     <string name="pref_title_notifications_repetitions">Repetitions</string>
     <string name="pref_title_notifications_call">Phone Calls</string>
     <string name="pref_title_notifications_sms">SMS</string>
-    <string name="pref_title_notifications_k9mail">K9-Mail</string>
     <string name="pref_title_notifications_pebblemsg">Pebble Messages</string>
     <string name="pref_summary_notifications_pebblemsg">Support for applications which send Notifications to the Pebble via PebbleKit.</string>
     <string name="pref_title_notifications_generic">Generic notification support</string>
     <string name="pref_title_whenscreenon">… also when screen is on</string>
     <string name="pref_title_notification_filter">Do Not Disturb</string>
     <string name="pref_summary_notification_filter">Stop unwanted Notifications from being sent based on the Do Not Disturb mode.</string>
+    <string name="pref_title_transliteration">Transliteration</string>
+    <string name="pref_summary_transliteration">Enable this if your device has no support for your language\'s font (Currently Cyrillic only)</string>
 
     <string name="always">always</string>
     <string name="when_screen_off">when screen is off</string>
     <string name="never">never</string>
+
+    <string name="pref_header_privacy">Privacy</string>
+    <string name="pref_title_call_privacy_mode">Call Privacy Mode</string>
+    <string name="pref_call_privacy_mode_off">Display name and number</string>
+    <string name="pref_call_privacy_mode_name">Hide name but display number</string>
+    <string name="pref_call_privacy_mode_complete">Hide name and number</string>
 
     <string name="pref_blacklist">Blacklist Apps</string>
 
@@ -105,11 +120,22 @@
     <string name="pref_title_pebble_sync_misfit">Sync Misfit</string>
     <string name="pref_title_pebble_sync_morpheuz">Sync Morpheuz</string>
 
+    <string name="pref_title_enable_outgoing_call">Support outgoing calls</string>
+    <string name="pref_summary_enable_outgoing_call">Disabling this will also stop the Pebble 2/LE to vibrate on outgoing calls</string>
+
     <string name="pref_title_enable_pebblekit">Allow 3rd Party Android App Access</string>
     <string name="pref_summary_enable_pebblekit">Enable experimental support for Android Apps using PebbleKit</string>
 
     <string name="pref_title_sunrise_sunset">Sunrise and Sunset</string>
     <string name="pref_summary_sunrise_sunset">Send sunrise and sunset times based on the location to the pebble timeline</string>
+
+    <string name="pref_title_autoremove_notifications">Autoremove dismissed Notifications</string>
+    <string name="pref_summary_autoremove_notifications">Notifications are automatically removed from the Pebble when dismissed from the Android device</string>
+
+    <string name="pref_title_pebble_privacy_mode">Privacy mode</string>
+    <string name="pref_pebble_privacy_mode_off">Normal notifications</string>
+    <string name="pref_pebble_privacy_mode_content">Shift the notification text off-screen</string>
+    <string name="pref_pebble_privacy_mode_complete">Show only the notification icon</string>
 
     <string name="pref_header_location">Location</string>
     <string name="pref_title_location_aquire">Acquire Location</string>
@@ -127,10 +153,21 @@
     <string name="pref_summary_pebble_forceuntested">Enable features that are untested. ENABLE ONLY IF YOU KNOW WHAT YOU ARE DOING!</string>
     <string name="pref_title_pebble_forcele">Always prefer BLE</string>
     <string name="pref_summary_pebble_forcele">Use experimental Pebble LE support for all Pebbles instead of BT classic, requires paring a "Pebble LE" after non LE had been connected once</string>
+    <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU limit</string>
+    <string name="pref_summary_pebble_mtu_limit">If your Pebble 2/Pebble LE does not work as expected, try this setting to limit the MTU (valid range 20–512)</string>
     <string name="pref_title_pebble_enable_applogs">Enable Watch App Logging</string>
     <string name="pref_summary_pebble_enable_applogs">Will cause logs from watch apps to be logged by Gadgetbridge (requires reconnect)</string>
+    <string name="pref_title_pebble_always_ack_pebblekit">Prematurely ACK PebbleKit</string>
+    <string name="pref_summary_pebble_always_ack_pebblekit">Will cause messages that are sent to external 3rd party apps to be acknowledged always and immediately</string>
 
     <string name="pref_title_pebble_reconnect_attempts">Reconnection Attempts</string>
+
+    //HPlus Preferences
+    <string name="pref_title_unit_system">Units</string>
+    <string name="pref_title_timeformat">Time format</string>
+    <string name="pref_title_screentime">Screen on duration</string>
+    <string name="prefs_title_all_day_heart_rate">All day heart rate measurement</string>
+    <string name="preferences_hplus_settings">HPlus/Makibes Settings</string>
 
     <string name="not_connected">not connected</string>
     <string name="connecting">connecting</string>
@@ -247,6 +284,7 @@
     <string name="notif_battery_low_bigtext_last_charge_time">Last charge: %s \n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Number of charges: %s</string>
     <string name="sleepchart_your_sleep">Your Sleep</string>
+    <string name="weeksleepchart_sleep_a_week">Sleep a week</string>
     <string name="weekstepschart_steps_a_week">Steps a week</string>
     <string name="activity_sleepchart_activity_and_sleep">Your Activity and Sleep</string>
     <string name="updating_firmware">Updating Firmware…</string>
@@ -320,23 +358,12 @@
     <string name="charts_legend_heartrate">Heart Rate</string>
     <string name="live_activity_heart_rate">Heart Rate</string>
 
-    <!-- Strings related to Onboading Activity -->
-    <string name="title_activity_onboarding">Database Import</string>
-    <string name="import_old_db_buttonlabel">Import old activity data</string>
-    <string name="import_old_db_information">Since Gadgetbridge 0.12.0 we use a new database format.
-        You are able to import old activity data and associate it with the device you are connecting to (%1$s).\n
-        \n
-        If you do not import old activity data now, you can still do it later by tapping the "MERGE OLD ACTIVITY DATA" button in the Database Management Activity"\n
-        \n
-        Please note that you can import data from Mi Band, Pebble Health and Morpheuz but NOT from Pebble Misfit.
-    </string>
     <string name="pref_title_pebble_health_store_raw">Store raw record in the database</string>
     <string name="pref_summary_pebble_health_store_raw">If checked the data is stored \"as is\" and is available for later interpretation. NB: the database will be bigger in this case!</string>
     <string name="action_db_management">Database Management</string>
     <string name="title_activity_db_management">Database Management</string>
     <string name="activity_db_management_import_export_explanation">The database operations use the following path on your device. \nThis path is accessible to other Android applications and your computer. \nExpect to find your exported database (or place the database you want to import) there:</string>
-    <string name="activity_db_management_merge_old_explanation">The activity data recorded with Gadgetbridge versions prior to 0.12 must be converted to a new format. \nYou can do this using the button below. Be aware that you must be connected to the device you want to associate the old activity data with! \nIf you already imported your data and are happy with the result, you may delete the old database.</string>
-    <string name="activity_db_management_merge_old_title">Legacy Database Import / Delete</string>
+    <string name="activity_db_management_merge_old_title">Legacy Database Delete</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Cannot access export path. Please contact the developers.</string>
     <string name="dbmanagementactivity_exported_to">Exported to: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_db">"Error exporting DB: %1$s"</string>
@@ -344,12 +371,6 @@
     <string name="dbmanagementactivity_overwrite_database_confirmation">Really overwrite the current database? All your current activity data (if any) will be lost.</string>
     <string name="dbmanagementactivity_import_successful">Import successful.</string>
     <string name="dbmanagementactivity_error_importing_db">"Error importing DB: %1$s"</string>
-    <string name="dbmanagementactivity_no_old_activitydatabase_found">No old activity database found, nothing to import.</string>
-    <string name="dbmanagementactivity_no_connected_device">No connected device to associate old activity data with.</string>
-    <string name="dbmanagementactivity_merging_activity_data_title">Merging Activity Data</string>
-    <string name="dbmanagementactivity_please_wait_while_merging">Please wait while merging your activity data…</string>
-    <string name="dbmanagementactivity_error_importing_old_activity_data">Error importing old activity data into new database.</string>
-    <string name="dbmanagementactivity_associate_old_data_with_device">Associate old Data with Device</string>
     <string name="dbmanagementactivity_delete_activity_data_title">Delete Activity Data?</string>
     <string name="dbmanagementactivity_really_delete_entire_db">Really delete the entire database? All your activity data and information about your devices will be lost.</string>
     <string name="dbmanagementactivity_database_successfully_deleted">Data successfully deleted.</string>
@@ -368,4 +389,15 @@
     <!-- Strings related to Pebble Pairing Activity-->
     <string name="title_activity_pebble_pairing">Pebble Pairing</string>
     <string name="pebble_pairing_hint">A pairing dialog is expected to pop up on your Android device. If that does not happen, look in the notification drawer and accept the pairing request. After that accept the pairing request on your Pebble</string>
+
+    <string name="weather_notification_label">Make sure that this skin is enabled in the Weather Notification app to get weather information on your Pebble.\n\nNo configuration is needed here.\n\nYou can enable the system weather app of your Pebble from the app management.\n\nSupported watchfaces will show the weather automatically.</string>
+    <string name="pref_title_setup_bt_pairing">Enable Bluetooth pairing</string>
+    <string name="pref_summary_setup_bt_pairing">Deactivate this if you have trouble connecting</string>
+
+    <string name="unit_metric">Metric</string>
+    <string name="unit_imperial">Imperial</string>
+
+    <string name="timeformat_24h">24H</string>
+    <string name="timeformat_am_pm">AM/PM</string>
+    <string name="pref_screen_notification_profile_alarm_clock">Alarm Clock</string>
 </resources>

@@ -54,12 +54,12 @@ public class MiBand2Coordinator extends MiBandCoordinator {
         // and a heuristic for now
         try {
             BluetoothDevice device = candidate.getDevice();
-            if (isHealthWearable(device)) {
+//            if (isHealthWearable(device)) {
                 String name = device.getName();
                 if (name != null && name.equalsIgnoreCase(MiBandConst.MI_BAND2_NAME)) {
                     return DeviceType.MIBAND2;
                 }
-            }
+//            }
         } catch (Exception ex) {
             LOG.error("unable to check device support", ex);
         }
@@ -105,5 +105,10 @@ public class MiBand2Coordinator extends MiBandCoordinator {
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         MiBand2FWInstallHandler handler = new MiBand2FWInstallHandler(uri, context);
         return handler.isValid() ? handler : null;
+    }
+
+    @Override
+    public boolean supportsSmartWakeup(GBDevice device) {
+        return false;
     }
 }
