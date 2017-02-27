@@ -24,13 +24,13 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
-    int getTotalForActivityAmounts(ActivityAmounts activityAmounts) {
+    float[] getTotalsForActivityAmounts(ActivityAmounts activityAmounts) {
         int totalSteps = 0;
         for (ActivityAmount amount : activityAmounts.getAmounts()) {
             totalSteps += amount.getTotalSteps();
             amount.getTotalSteps();
         }
-        return totalSteps;
+        return new float[]{totalSteps};
     }
 
     @Override
@@ -44,7 +44,7 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
-    Integer getMainColor() {
-        return akActivity.color;
+    int[] getColors() {
+        return new int[]{akActivity.color};
     }
 }

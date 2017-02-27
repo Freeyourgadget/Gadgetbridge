@@ -261,6 +261,35 @@ public class Weather {
         }
     }
 
+    public static String mapToOpenWeatherMapIcon(int openWeatherMapCondition) {
+        //see https://openweathermap.org/weather-conditions
+        String condition = "02d"; //generic "variable" icon
+
+        if (openWeatherMapCondition >= 200 && openWeatherMapCondition < 300) {
+            condition = "11d";
+        } else if (openWeatherMapCondition >= 300 && openWeatherMapCondition < 500) {
+            condition = "09d";
+        } else if (openWeatherMapCondition >= 500 && openWeatherMapCondition < 510) {
+            condition = "10d";
+        } else if (openWeatherMapCondition >= 511 && openWeatherMapCondition < 600) {
+            condition = "09d";
+        } else if (openWeatherMapCondition >= 600 && openWeatherMapCondition < 700) {
+            condition = "13d";
+        } else if (openWeatherMapCondition >= 700 && openWeatherMapCondition < 800) {
+            condition = "50d";
+        } else if (openWeatherMapCondition == 800) {
+            condition = "01d"; //TODO: night?
+        } else if (openWeatherMapCondition == 801) {
+            condition = "02d"; //TODO: night?
+        } else if (openWeatherMapCondition == 802) {
+            condition = "03d"; //TODO: night?
+        } else if (openWeatherMapCondition == 803 || openWeatherMapCondition == 804) {
+            condition = "04d"; //TODO: night?
+        }
+
+        return condition;
+    }
+
     public static int mapToOpenWeatherMapCondition(int yahooCondition) {
         switch (yahooCondition) {
 //yahoo weather conditions:

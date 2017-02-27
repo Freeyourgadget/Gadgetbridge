@@ -86,13 +86,13 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         for (int counter = 0; counter < 7; counter++) {
             ActivityAmounts amounts = getActivityAmountsForDay(db, day, device);
 
-            entries.add(new BarEntry(counter, getTotalForActivityAmounts(amounts)));
+            entries.add(new BarEntry(counter, getTotalsForActivityAmounts(amounts)));
             labels.add(day.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, mLocale));
             day.add(Calendar.DATE, 1);
         }
 
         BarDataSet set = new BarDataSet(entries, "");
-        set.setColor(getMainColor());
+        set.setColors(getColors());
         set.setValueFormatter(getFormatter());
 
         BarData barData = new BarData(set);
@@ -106,29 +106,32 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
     }
 
     private DayData refreshDayPie(DBHandler db, Calendar day, GBDevice device) {
-        ActivityAmounts amounts = getActivityAmountsForDay(db, day, device);
-        int totalValue = getTotalForActivityAmounts(amounts);
 
         PieData data = new PieData();
         List<PieEntry> entries = new ArrayList<>();
-        List<Integer> colors = new ArrayList<>();
+        PieDataSet set = new PieDataSet(entries, "");
 
-        entries.add(new PieEntry(totalValue, "")); //we don't want labels on the pie chart
-        colors.add(getMainColor());
-
-        if (totalValue < mTargetValue) {
-            entries.add(new PieEntry((mTargetValue - totalValue))); //we don't want labels on the pie chart
-            colors.add(Color.GRAY);
+        ActivityAmounts amounts = getActivityAmountsForDay(db, day, device);
+        float totalValues[] = getTotalsForActivityAmounts(amounts);
+        float totalValue = 0;
+        for (float value : totalValues) {
+            totalValue += value;
+            entries.add(new PieEntry(value));
         }
 
-        PieDataSet set = new PieDataSet(entries, "");
         set.setValueFormatter(getFormatter());
-        set.setColors(colors);
+        set.setColors(getColors());
+
+        if (totalValue < mTargetValue) {
+            entries.add(new PieEntry((mTargetValue - totalValue)));
+            set.addColor(Color.GRAY);
+        }
+
         data.setDataSet(set);
         //this hides the values (numeric) added to the set. These would be shown aside the strings set with addXValue above
         data.setDrawValues(false);
 
-        return new DayData(data, formatPieValue(totalValue));
+        return new DayData(data, formatPieValue((int) totalValue));
     }
 
     protected abstract String formatPieValue(int value);
@@ -286,9 +289,9 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
 
     abstract int getGoal();
 
-    abstract int getTotalForActivityAmounts(ActivityAmounts activityAmounts);
+    abstract float[] getTotalsForActivityAmounts(ActivityAmounts activityAmounts);
 
     abstract IValueFormatter getFormatter();
 
-    abstract Integer getMainColor();
+    abstract int[] getColors();
 }
