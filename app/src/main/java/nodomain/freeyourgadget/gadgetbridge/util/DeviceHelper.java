@@ -29,6 +29,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.polarm400.PolarM400Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.vibratissimo.VibratissimoCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributes;
@@ -174,6 +175,7 @@ public class DeviceHelper {
         result.add(new LiveviewCoordinator());
         result.add(new HPlusCoordinator());
         result.add(new MakibesF68Coordinator());
+        result.add(new PolarM400Coordinator());
 
         return result;
     }
