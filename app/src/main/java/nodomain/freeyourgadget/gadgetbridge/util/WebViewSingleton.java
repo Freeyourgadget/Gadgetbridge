@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +27,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import net.e175.klaus.solarpositioning.DeltaT;
+import net.e175.klaus.solarpositioning.SPA;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,6 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -40,6 +45,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -47,6 +53,8 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.Weather;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
 public class WebViewSingleton {
 
@@ -152,6 +160,101 @@ public class WebViewSingleton {
         });
     }
 
+    private static class CurrentPosition {
+        long timestamp;
+        double altitude;
+        float latitude, longitude, accuracy, speed;
+
+        public CurrentPosition() {
+            Prefs prefs = GBApplication.getPrefs();
+            this.latitude = prefs.getFloat("location_latitude", 0);
+            this.longitude = prefs.getFloat("location_longitude", 0);
+            LOG.info("got longitude/latitude from preferences: " + latitude + "/" + longitude);
+
+            this.timestamp = (System.currentTimeMillis() / 1000) - 86400; //let accessor know this value is really old
+
+            if (ActivityCompat.checkSelfPermission(contextWrapper, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                    prefs.getBoolean("use_updated_location_if_available", false)) {
+                LocationManager locationManager = (LocationManager) contextWrapper.getSystemService(Context.LOCATION_SERVICE);
+                Criteria criteria = new Criteria();
+                String provider = locationManager.getBestProvider(criteria, false);
+                if (provider != null) {
+                    Location lastKnownLocation = locationManager.getLastKnownLocation(provider);
+                    if (lastKnownLocation != null) {
+                        this.timestamp = lastKnownLocation.getTime();
+
+                        this.latitude = (float) lastKnownLocation.getLatitude();
+                        this.longitude = (float) lastKnownLocation.getLongitude();
+                        this.accuracy = (float) lastKnownLocation.getAccuracy();
+                        this.altitude = (float) lastKnownLocation.getAltitude();
+                        this.speed = (float) lastKnownLocation.getSpeed();
+
+                    }
+                }
+            }
+
+
+        }
+    }
+
+
+    private static WebResourceResponse mimicOpenWeatherMapResponse() {
+        WeatherSpec weatherSpec = Weather.getInstance().getWeatherSpec();
+
+        if (weatherSpec == null) return null;
+        //location block
+
+        CurrentPosition currentPosition = new CurrentPosition();
+        GregorianCalendar[] sunrise = SPA.calculateSunriseTransitSet(new GregorianCalendar(), currentPosition.latitude, currentPosition.longitude, DeltaT.estimate(new GregorianCalendar()));
+
+        JSONObject resp = new JSONObject();
+        JSONObject coord = new JSONObject();
+        JSONObject sys = new JSONObject();
+        JSONArray weather = new JSONArray();
+        JSONObject currCond = new JSONObject();
+        JSONObject main = new JSONObject();
+        try {
+            coord.put("lat", currentPosition.latitude);
+            coord.put("lon", currentPosition.longitude);
+
+            sys.put("country", "World");
+            sys.put("sunrise", (sunrise[0].getTimeInMillis() / 1000));
+            sys.put("sunset", (sunrise[2].getTimeInMillis() / 1000));
+
+            currCond.put("id", weatherSpec.currentConditionCode);
+            currCond.put("main", weatherSpec.currentCondition);
+            weather.put(currCond);
+
+            main.put("temp", weatherSpec.currentTemp);
+            main.put("temp_min", weatherSpec.todayMinTemp);
+            main.put("temp_max", weatherSpec.todayMaxTemp);
+            main.put("name", weatherSpec.location);
+
+            resp.put("coord", coord);
+            resp.put("sys", sys);
+            resp.put("weather", weather);
+            resp.put("main", main);
+
+            LOG.info("WEBVIEW - mimic openweather response" + resp.toString());
+            HashMap headers = new HashMap<>();
+            headers.put("Access-Control-Allow-Origin", "*");
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                return new WebResourceResponse("application/json", "utf-8", 200, "OK",
+                        headers,
+                        new ByteArrayInputStream(resp.toString().getBytes())
+                );
+            } else {
+                return new WebResourceResponse("application/json", "utf-8", new ByteArrayInputStream(resp.toString().getBytes()));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
+    }
+
     private static class GBChromeClient extends WebChromeClient {
         @Override
         public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
@@ -173,13 +276,27 @@ public class WebViewSingleton {
     }
 
     private static class GBWebClient extends WebViewClient {
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         @Override
         public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                LOG.debug("WEBVIEW shouldInterceptRequest URL" + request.getUrl());
+            LOG.debug("WEBVIEW shouldInterceptRequest URL" + request.getUrl());
+            if (request.getUrl().toString().startsWith("http://api.openweathermap.org") || request.getUrl().toString().startsWith("https://api.openweathermap.org")) {
+                return mimicOpenWeatherMapResponse();
+            } else {
+                LOG.debug("WEBVIEW request:" + request.getUrl().toString() + " denied");
             }
-            LOG.debug("WEBVIEW request:" + request.toString());
             return super.shouldInterceptRequest(view, request);
+        }
+
+        @Override
+        public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+            LOG.debug("WEBVIEW shouldInterceptRequest URL" + url);
+            if (url.startsWith("http://api.openweathermap.org") || url.startsWith("https://api.openweathermap.org")) {
+                return mimicOpenWeatherMapResponse();
+            } else {
+                LOG.debug("WEBVIEW request:" + url + " denied");
+            }
+            return super.shouldInterceptRequest(view, url);
         }
 
         @Override
@@ -259,13 +376,6 @@ public class WebViewSingleton {
                     }
                 }
                 jsAppMessage.put("payload", outgoing);
-
-                //ack message to pebble
-
-                /*
-             sendBytesAck = new GBDeviceEventSendBytes();
-             sendBytesAck.encodedBytes = encodeApplicationMessageAck(uuid, last_id);
-                 */
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -432,37 +542,22 @@ public class WebViewSingleton {
             JSONObject coords = new JSONObject();
             try {
 
-                Prefs prefs = GBApplication.getPrefs();
+                CurrentPosition currentPosition = new CurrentPosition();
 
-                geoPosition.put("timestamp", (System.currentTimeMillis() / 1000) - 86400); //let JS know this value is really old
+                geoPosition.put("timestamp", currentPosition.timestamp);
 
-                coords.put("latitude", prefs.getFloat("location_latitude", 0));
-                coords.put("longitude", prefs.getFloat("location_longitude", 0));
-
-                if (ActivityCompat.checkSelfPermission(contextWrapper, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                        prefs.getBoolean("use_updated_location_if_available", false)) {
-                    LocationManager locationManager = (LocationManager) contextWrapper.getSystemService(Context.LOCATION_SERVICE);
-                    Criteria criteria = new Criteria();
-                    String provider = locationManager.getBestProvider(criteria, false);
-                    if (provider != null) {
-                        Location lastKnownLocation = locationManager.getLastKnownLocation(provider);
-                        if (lastKnownLocation != null) {
-                            geoPosition.put("timestamp", lastKnownLocation.getTime());
-
-                            coords.put("latitude", (float) lastKnownLocation.getLatitude());
-                            coords.put("longitude", (float) lastKnownLocation.getLongitude());
-                            coords.put("accuracy", lastKnownLocation.getAccuracy());
-                            coords.put("altitude", lastKnownLocation.getAltitude());
-                            coords.put("speed", lastKnownLocation.getSpeed());
-                        }
-                    }
-                }
+                coords.put("latitude", currentPosition.latitude);
+                coords.put("longitude", currentPosition.longitude);
+                coords.put("accuracy", currentPosition.accuracy);
+                coords.put("altitude", currentPosition.altitude);
+                coords.put("speed", currentPosition.speed);
 
                 geoPosition.put("coords", coords);
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            LOG.info("WEBVIEW - geo position" + geoPosition.toString());
             return geoPosition.toString();
         }
 
