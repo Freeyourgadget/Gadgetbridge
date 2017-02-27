@@ -387,7 +387,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         mAppMessageHandlers.put(UUID_MISFIT, new AppMessageHandlerMisfit(UUID_MISFIT, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_PEBBLE_TIMESTYLE, new AppMessageHandlerTimeStylePebble(UUID_PEBBLE_TIMESTYLE, PebbleProtocol.this));
         //mAppMessageHandlers.put(UUID_PEBSTYLE, new AppMessageHandlerPebStyle(UUID_PEBSTYLE, PebbleProtocol.this));
-        mAppMessageHandlers.put(UUID_MARIOTIME, new AppMessageHandlerMarioTime(UUID_MARIOTIME, PebbleProtocol.this));
+        //mAppMessageHandlers.put(UUID_MARIOTIME, new AppMessageHandlerMarioTime(UUID_MARIOTIME, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_HELTHIFY, new AppMessageHandlerHealthify(UUID_HELTHIFY, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_TREKVOLLE, new AppMessageHandlerTrekVolle(UUID_TREKVOLLE, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_SQUARE, new AppMessageHandlerSquare(UUID_SQUARE, PebbleProtocol.this));

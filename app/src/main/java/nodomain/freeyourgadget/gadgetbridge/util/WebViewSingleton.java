@@ -223,6 +223,7 @@ public class WebViewSingleton {
 
             currCond.put("id", weatherSpec.currentConditionCode);
             currCond.put("main", weatherSpec.currentCondition);
+            currCond.put("icon", Weather.mapToOpenWeatherMapIcon(weatherSpec.currentConditionCode));
             weather.put(currCond);
 
             main.put("temp", weatherSpec.currentTemp);
@@ -234,7 +235,6 @@ public class WebViewSingleton {
             resp.put("sys", sys);
             resp.put("weather", weather);
             resp.put("main", main);
-
             LOG.info("WEBVIEW - mimic openweather response" + resp.toString());
             HashMap headers = new HashMap<>();
             headers.put("Access-Control-Allow-Origin", "*");
