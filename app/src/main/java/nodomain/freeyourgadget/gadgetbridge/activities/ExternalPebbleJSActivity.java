@@ -3,7 +3,6 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
@@ -61,41 +60,14 @@ public class ExternalPebbleJSActivity extends GBActivity {
             @Override
             public void onViewAttachedToWindow(View v) {
 
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    // chromium, enable hardware acceleration
-                    v.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-                } else {
-                    // older android version, disable hardware acceleration
-                    v.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                }
-
-
-                String queryString = "";
-                if (confUri != null) {
-                    //getting back with configuration data
-                    try {
-                        appUuid = UUID.fromString(confUri.getHost());
-                        queryString = confUri.getEncodedQuery();
-                    } catch (IllegalArgumentException e) {
-                        GB.toast("returned uri: " + confUri.toString(), Toast.LENGTH_LONG, GB.ERROR);
-                    }
-                    ((WebView) v).loadUrl("file:///android_asset/app_config/configure.html?" + queryString);
-                } else {
+                v.setLayerType(View.LAYER_TYPE_HARDWARE, null);
                     //show configuration
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                        myWebView.evaluateJavascript("Pebble.evaluate('showConfiguration');", new ValueCallback<String>() {
-                            @Override
-                            public void onReceiveValue(String s) {
-                                LOG.debug("Callback from showConfiguration", s);
-                            }
-                        });
-                    } else {
-                        ((WebView) v).loadUrl("javascript:Pebble.evaluate('showConfiguration');");
+                myWebView.evaluateJavascript("Pebble.evaluate('showConfiguration');", new ValueCallback<String>() {
+                    @Override
+                    public void onReceiveValue(String s) {
+                        LOG.debug("Callback from showConfiguration: " + s);
                     }
-                }
-
-
+                });
             }
 
             @Override
@@ -108,6 +80,22 @@ public class ExternalPebbleJSActivity extends GBActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String queryString = "";
+        if (confUri != null) {
+            //getting back with configuration data
+            LOG.debug("WEBVIEW returned config: " + confUri.toString());
+            try {
+                appUuid = UUID.fromString(confUri.getHost());
+                queryString = confUri.getEncodedQuery();
+            } catch (IllegalArgumentException e) {
+                GB.toast("returned uri: " + confUri.toString(), Toast.LENGTH_LONG, GB.ERROR);
+            }
+            myWebView.loadUrl("file:///android_asset/app_config/configure.html?" + queryString);
+        }
+    }
     @Override
     protected void onNewIntent(Intent incoming) {
         incoming.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

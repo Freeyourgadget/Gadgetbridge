@@ -82,8 +82,7 @@ class PebbleIoThread extends GBDeviceIoThread {
     private int mBytesWritten = -1;
 
     private void sendAppMessageJS(GBDeviceEventAppMessage appMessage) {
-//        WebViewSingleton.runJavascriptInterface(gbDevice, appMessage.appUUID);
-        WebViewSingleton.appMessage(appMessage.message);
+        WebViewSingleton.appMessage(appMessage);
         write(mPebbleProtocol.encodeApplicationMessageAck(appMessage.appUUID, (byte) appMessage.id));
     }
 

@@ -1,19 +1,15 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.MutableContextWrapper;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.webkit.ConsoleMessage;
@@ -52,6 +48,7 @@ import java.util.Scanner;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppMessage;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
@@ -61,16 +58,16 @@ public class WebViewSingleton {
     private static final Logger LOG = LoggerFactory.getLogger(WebViewSingleton.class);
 
     private static WebView instance = null;
-    private static JSInterface jsInterface;
-    private static MutableContextWrapper contextWrapper = null;
+    private Activity contextWrapper;
+    private static WebViewSingleton webViewSingleton = new WebViewSingleton();
 
     private WebViewSingleton() {
     }
 
-    public static synchronized WebView createWebView(Context context) {
+    public static synchronized WebView createWebView(Activity context) {
         if (instance == null) {
-            contextWrapper = new MutableContextWrapper(context);
-            instance = new WebView(contextWrapper);
+            webViewSingleton.contextWrapper = context;
+            instance = new WebView(context);
             instance.setWillNotDraw(true);
             instance.clearCache(true);
             instance.setWebViewClient(new GBWebClient());
@@ -86,9 +83,9 @@ public class WebViewSingleton {
         return instance;
     }
 
-    public static void updateActivityContext(Context context) {
+    public static void updateActivityContext(Activity context) {
         if (context instanceof Activity) {
-            contextWrapper.setBaseContext(context);
+            webViewSingleton.contextWrapper = context;
         }
     }
 
@@ -97,50 +94,46 @@ public class WebViewSingleton {
         return instance;
     }
 
-    public static void runJavascriptInterface(final GBDevice device, final UUID uuid) {
-        if (jsInterface == null || !device.equals(jsInterface.device) || !uuid.equals(jsInterface.mUuid)) {
-            jsInterface = new JSInterface(device, uuid);
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    instance.removeJavascriptInterface("GBjs");
-                    instance.addJavascriptInterface(jsInterface, "GBjs");
-                    instance.loadUrl("file:///android_asset/app_config/configure.html");
-                }
-            });
-        } else {
-            LOG.debug("Not replacing the JS in the webview. JS uuid " + jsInterface.mUuid.toString());
-        }
-    }
+    public static void runJavascriptInterface(GBDevice device, UUID uuid) {
 
-    public static void appMessage(String message) {
+        final JSInterface jsInterface = new JSInterface(device, uuid);
 
-        if (instance == null)
-            return;
-
-        final String appMessage = jsInterface.parseIncomingAppMessage(message);
-        LOG.debug("to WEBVIEW: " + appMessage);
-
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
+        webViewSingleton.contextWrapper.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    instance.evaluateJavascript("Pebble.evaluate('appmessage',[" + appMessage + "]);", new ValueCallback<String>() {
-                        @Override
-                        public void onReceiveValue(String s) {
-                            //TODO: the message should be acked here instead of in PebbleIoThread
-                            LOG.debug("Callback from appmessage", s);
-                        }
-                    });
-                } else {
-                    instance.loadUrl("javascript:Pebble.evaluate('appmessage',[" + appMessage + "]);");
-                }
+                instance.removeJavascriptInterface("GBjs");
+                instance.addJavascriptInterface(jsInterface, "GBjs");
+                instance.loadUrl("file:///android_asset/app_config/configure.html?rand=" + Math.random() * 500);
+            }
+        });
+    }
+
+    public static void appMessage(GBDeviceEventAppMessage message) {
+
+        if (instance == null) {
+            LOG.warn("WEBVIEW is not initialized, cannot send appMessages to it");
+            return;
+        }
+
+        final String appMessage = parseIncomingAppMessage(message.message, message.appUUID);
+        LOG.debug("to WEBVIEW: " + appMessage);
+
+        webViewSingleton.contextWrapper.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                instance.evaluateJavascript("Pebble.evaluate('appmessage',[" + appMessage + "]);", new ValueCallback<String>() {
+                    @Override
+                    public void onReceiveValue(String s) {
+                        //TODO: the message should be acked here instead of in PebbleIoThread
+                        LOG.debug("Callback from appmessage: " + s);
+                    }
+                });
             }
         });
     }
 
     public static void disposeWebView() {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
+        webViewSingleton.contextWrapper.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (instance != null) {
@@ -154,7 +147,7 @@ public class WebViewSingleton {
 //                    instance.destroy();
 //                    instance = null;
 //                    contextWrapper = null;
-                    jsInterface = null;
+//                    jsInterface = null;
                 }
             }
         });
@@ -173,9 +166,9 @@ public class WebViewSingleton {
 
             this.timestamp = (System.currentTimeMillis() / 1000) - 86400; //let accessor know this value is really old
 
-            if (ActivityCompat.checkSelfPermission(contextWrapper, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+            if (ActivityCompat.checkSelfPermission(webViewSingleton.contextWrapper, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                     prefs.getBoolean("use_updated_location_if_available", false)) {
-                LocationManager locationManager = (LocationManager) contextWrapper.getSystemService(Context.LOCATION_SERVICE);
+                LocationManager locationManager = (LocationManager) webViewSingleton.contextWrapper.getSystemService(Context.LOCATION_SERVICE);
                 Criteria criteria = new Criteria();
                 String provider = locationManager.getBestProvider(criteria, false);
                 if (provider != null) {
@@ -197,11 +190,18 @@ public class WebViewSingleton {
         }
     }
 
+    private static WebResourceResponse mimicKiezelPayResponse() {
+        return null;
+    }
+
 
     private static WebResourceResponse mimicOpenWeatherMapResponse() {
         WeatherSpec weatherSpec = Weather.getInstance().getWeatherSpec();
 
-        if (weatherSpec == null) return null;
+        if (weatherSpec == null) {
+            LOG.warn("WEBVIEW - Weather instance is null, cannot update weather");
+            return null;
+        }
         //location block
 
         CurrentPosition currentPosition = new CurrentPosition();
@@ -276,25 +276,26 @@ public class WebViewSingleton {
     }
 
     private static class GBWebClient extends WebViewClient {
-        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         @Override
         public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-            LOG.debug("WEBVIEW shouldInterceptRequest URL" + request.getUrl());
-            if (request.getUrl().toString().startsWith("http://api.openweathermap.org") || request.getUrl().toString().startsWith("https://api.openweathermap.org")) {
-                return mimicOpenWeatherMapResponse();
-            } else {
-                LOG.debug("WEBVIEW request:" + request.getUrl().toString() + " denied");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                LOG.debug("WEBVIEW shouldInterceptRequest URL" + request.getUrl());
+                if (request.getUrl().toString().startsWith("http://api.openweathermap.org") || request.getUrl().toString().startsWith("https://api.openweathermap.org")) {
+                    return mimicOpenWeatherMapResponse();
+                } else {
+                    LOG.debug("WEBVIEW request:" + request.getUrl().toString() + " not intercepted");
+                }
             }
             return super.shouldInterceptRequest(view, request);
         }
 
         @Override
         public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-            LOG.debug("WEBVIEW shouldInterceptRequest URL" + url);
+            LOG.debug("WEBVIEW shouldInterceptRequest URL (legacy)" + url);
             if (url.startsWith("http://api.openweathermap.org") || url.startsWith("https://api.openweathermap.org")) {
                 return mimicOpenWeatherMapResponse();
             } else {
-                LOG.debug("WEBVIEW request:" + url + " denied");
+                LOG.debug("WEBVIEW request:" + url + " not intercepted");
             }
             return super.shouldInterceptRequest(view, url);
         }
@@ -304,7 +305,7 @@ public class WebViewSingleton {
             if (url.startsWith("http://") || url.startsWith("https://")) {
                 Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                contextWrapper.startActivity(i);
+                webViewSingleton.contextWrapper.startActivity(i);
             } else {
                 url = url.replaceFirst("^pebblejs://close#", "file:///android_asset/app_config/configure.html?config=true&json=");
                 view.loadUrl(url);
@@ -313,7 +314,6 @@ public class WebViewSingleton {
             return true;
         }
     }
-
 
     private static JSONObject getAppConfigurationKeys(UUID uuid) {
         try {
@@ -330,6 +330,48 @@ public class WebViewSingleton {
         return null;
     }
 
+    public static String parseIncomingAppMessage(String msg, UUID uuid) {
+        JSONObject jsAppMessage = new JSONObject();
+
+        JSONObject knownKeys = getAppConfigurationKeys(uuid);
+        HashMap<Integer, String> appKeysMap = new HashMap<Integer, String>();
+
+        String inKey, outKey;
+        //knownKeys contains "name"->"index", we need to reverse that
+        for (Iterator<String> key = knownKeys.keys(); key.hasNext(); ) {
+            inKey = key.next();
+            appKeysMap.put(knownKeys.optInt(inKey), inKey);
+        }
+
+        try {
+            JSONArray incoming = new JSONArray(msg);
+            JSONObject outgoing = new JSONObject();
+            for (int i = 0; i < incoming.length(); i++) {
+                JSONObject in = incoming.getJSONObject(i);
+                outKey = null;
+                Object outValue = null;
+                for (Iterator<String> key = in.keys(); key.hasNext(); ) {
+                    inKey = key.next();
+                    switch (inKey) {
+                        case "key":
+                            outKey = appKeysMap.get(in.optInt(inKey));
+                            break;
+                        case "value":
+                            outValue = in.get(inKey);
+                    }
+                }
+                if (outKey != null && outValue != null) {
+                    outgoing.put(outKey, outValue);
+                }
+            }
+            jsAppMessage.put("payload", outgoing);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsAppMessage.toString();
+    }
+
     private static class JSInterface {
 
         UUID mUuid;
@@ -341,48 +383,6 @@ public class WebViewSingleton {
             this.mUuid = mUuid;
         }
 
-        public String parseIncomingAppMessage(String msg) {
-            JSONObject jsAppMessage = new JSONObject();
-
-            JSONObject knownKeys = getAppConfigurationKeys(this.mUuid);
-            HashMap<Integer, String> appKeysMap = new HashMap<Integer, String>();
-
-            String inKey, outKey;
-            //knownKeys contains "name"->"index", we need to reverse that
-            for (Iterator<String> key = knownKeys.keys(); key.hasNext(); ) {
-                inKey = key.next();
-                appKeysMap.put(knownKeys.optInt(inKey), inKey);
-            }
-
-            try {
-                JSONArray incoming = new JSONArray(msg);
-                JSONObject outgoing = new JSONObject();
-                for (int i = 0; i < incoming.length(); i++) {
-                    JSONObject in = incoming.getJSONObject(i);
-                    outKey = null;
-                    Object outValue = null;
-                    for (Iterator<String> key = in.keys(); key.hasNext(); ) {
-                        inKey = key.next();
-                        switch (inKey) {
-                            case "key":
-                                outKey = appKeysMap.get(in.optInt(inKey));
-                                break;
-                            case "value":
-                                outValue = in.get(inKey);
-                        }
-                    }
-                    if (outKey != null && outValue != null) {
-                        outgoing.put(outKey, outValue);
-                    }
-                }
-                jsAppMessage.put("payload", outgoing);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return jsAppMessage.toString();
-        }
-
 
         private boolean isLocationEnabledForWatchApp() {
             return true; //as long as we don't give watchapp internet access it's not a problem
@@ -390,7 +390,7 @@ public class WebViewSingleton {
 
         @JavascriptInterface
         public void gbLog(String msg) {
-            LOG.debug("WEBVIEW", msg);
+            LOG.debug("WEBVIEW webpage log", msg);
         }
 
         @JavascriptInterface
@@ -457,6 +457,7 @@ public class WebViewSingleton {
 
         @JavascriptInterface
         public String getAppConfigurationFile() {
+            LOG.debug("WEBVIEW loading config file of " + this.mUuid.toString());
             try {
                 File destDir = new File(FileUtils.getExternalFilesDir() + "/pbw-cache");
                 File configurationFile = new File(destDir, this.mUuid.toString() + "_config.js");
