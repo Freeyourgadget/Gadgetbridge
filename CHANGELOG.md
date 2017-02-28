@@ -1,5 +1,9 @@
 ###Changelog
 
+###Version 0.18.0
+* Added Portuguese pt_PT and pt_BR translations
+* Consistently display device specific icons already during discovery
+
 ####Version 0.17.5
 * Automatically start the service on boot (can be turned off)
 * Pebble: PebbleKit compatibility improvements (Datalogging)
