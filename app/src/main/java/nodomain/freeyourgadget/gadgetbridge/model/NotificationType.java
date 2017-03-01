@@ -5,6 +5,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleIconID;
 
 public enum NotificationType {
 
+    // TODO: this this pebbleism needs to be moved somewhere else
     UNKNOWN(PebbleIconID.NOTIFICATION_GENERIC, PebbleColor.Red),
 
     CONVERSATIONS(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.Inchworm),
@@ -19,6 +20,7 @@ public enum NotificationType {
     TELEGRAM(PebbleIconID.NOTIFICATION_TELEGRAM, PebbleColor.PictonBlue),
     WHATSAPP(PebbleIconID.NOTIFICATION_WHATSAPP, PebbleColor.MayGreen),
     GENERIC_ALARM_CLOCK(PebbleIconID.ALARM_CLOCK, PebbleColor.Red);
+    // Note: if you add any more constants, update all clients as well
 
     public int icon;
     public byte color;

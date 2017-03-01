@@ -1,10 +1,13 @@
 package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
 
 /**
  * Provides methods to convert standard BLE units to byte sequences and vice versa.
@@ -232,5 +235,34 @@ public class BLETypeConversions {
             return fromUint8(255); // unknown
         }
         return 0;
+    }
+
+    public static byte[] toUtf8s(String message) {
+        return message.getBytes(StandardCharsets.UTF_8);
+    }
+
+    public static AlertCategory toAlertCategory(NotificationType type) {
+        switch (type) {
+            case GENERIC_ALARM_CLOCK:
+                return AlertCategory.HighPriorityAlert;
+            case GENERIC_SMS:
+                return AlertCategory.SMS;
+            case GENERIC_EMAIL:
+                return AlertCategory.Email;
+            case GENERIC_NAVIGATION:
+                return AlertCategory.Simple;
+            case RIOT:
+            case SIGNAL:
+            case TELEGRAM:
+            case WHATSAPP:
+            case CONVERSATIONS:
+            case FACEBOOK:
+            case FACEBOOK_MESSENGER:
+            case TWITTER:
+                return AlertCategory.InstantMessage;
+            case UNKNOWN:
+                return AlertCategory.Simple;
+        }
+        return AlertCategory.Simple;
     }
 }
