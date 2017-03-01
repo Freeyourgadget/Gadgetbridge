@@ -28,7 +28,7 @@ public class LanguageUtilsTest extends TestBase {
 
         String input = "בדיקה עברית";
         String output = LanguageUtils.transliterate(input);
-        String result = "bdykh 'bryt";
+        String result = "bdykh 'bryth";
 
         assertTrue(String.format("Transliteration fail! Expected '%s', but found '%s'}", result, output), output.equals(result));
     }
