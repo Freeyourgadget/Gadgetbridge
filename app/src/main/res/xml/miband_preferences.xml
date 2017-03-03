@@ -56,15 +56,6 @@
             android:title="@string/miband2_prefs_dateformat"
             android:summary="%s" />
 
-        <ListPreference
-            android:defaultValue="@string/p_timeformat_24h"
-            android:entries="@array/mi2_timeformats"
-            android:entryValues="@array/mi2_timeformat_values"
-            android:key="mi2_timeformat"
-            android:title="@string/miband2_prefs_timeformat"
-            android:summary="%s" />
-
-
     </PreferenceCategory>
 
     <PreferenceCategory

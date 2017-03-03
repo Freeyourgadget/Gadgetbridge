@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.format.DateFormat;
 import android.widget.Toast;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -38,7 +39,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandDateConverter;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.TimeFormat;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -1261,15 +1261,12 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendConfiguration(String config) {
-        TransactionBuilder builder = null;
+        TransactionBuilder builder;
         try {
             builder = performInitialized("Sending configuration for option: " + config);
             switch (config) {
                 case MiBandConst.PREF_MI2_DATEFORMAT:
                     setDateDisplay(builder);
-                    break;
-                case MiBandConst.PREF_MI2_TIMEFORMAT:
-                    setTimeFormat(builder);
                     break;
                 case MiBandConst.PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT:
                     setActivateDisplayOnLiftWrist(builder);
@@ -1315,15 +1312,12 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     private MiBand2Support setTimeFormat(TransactionBuilder builder) {
-        TimeFormat timeFormat = MiBand2Coordinator.getTimeFormat(getContext());
-        LOG.info("Setting time format to " + timeFormat);
-        switch (timeFormat) {
-            case FORMAT_12_HOURS:
-                builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.DATEFORMAT_TIME_12_HOURS);
-                break;
-            case FORMAT_24_HOURS:
-                builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.DATEFORMAT_TIME_24_HOURS);
-                break;
+        boolean is24Format = DateFormat.is24HourFormat(getContext());
+        LOG.info("Setting 24h time format to " + is24Format);
+        if (is24Format) {
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.DATEFORMAT_TIME_24_HOURS);
+        } else {
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.DATEFORMAT_TIME_12_HOURS);
         }
         return this;
     }
