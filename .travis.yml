@@ -30,4 +30,4 @@ android:
     #- sys-img-armeabi-v7a-android-19
     #- sys-img-x86-android-17
 
-script: ./gradlew build connectedCheck --info --stacktrace
+script: ./gradlew build connectedCheck --stacktrace
