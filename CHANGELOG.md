@@ -1,8 +1,9 @@
 ###Changelog
 
-###Version 0.18.0
+###Version 0.18.0 (next)
 * Added Portuguese pt_PT and pt_BR translations
 * Consistently display device specific icons already during discovery
+* Add sleep chart diplaying the last week of sleep
 
 ####Version 0.17.5
 * Automatically start the service on boot (can be turned off)
