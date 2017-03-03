@@ -96,6 +96,15 @@ public class MiBand2Coordinator extends MiBandCoordinator {
         return DateTimeDisplay.DATE_TIME;
     }
 
+    public static TimeFormat getTimeFormat(Context context) throws IllegalArgumentException {
+        Prefs prefs = GBApplication.getPrefs();
+        String timeFormat = context.getString(R.string.p_timeformat_am_pm);
+        if (timeFormat.equals(prefs.getString(MiBandConst.PREF_MI2_TIMEFORMAT, timeFormat))) {
+            return TimeFormat.FORMAT_12_HOURS;
+        }
+        return TimeFormat.FORMAT_24_HOURS;
+    }
+
     public static boolean getActivateDisplayOnLiftWrist() {
         Prefs prefs = GBApplication.getPrefs();
         return prefs.getBoolean(MiBandConst.PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT, true);
