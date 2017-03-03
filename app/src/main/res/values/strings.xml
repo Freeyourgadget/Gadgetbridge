@@ -278,6 +278,7 @@
     <string name="notif_battery_low_bigtext_number_of_charges">Number of charges: %s</string>
     <string name="sleepchart_your_sleep">Your Sleep</string>
     <string name="weeksleepchart_sleep_a_week">Sleep a week</string>
+    <string name="weeksleepchart_today_sleep_description">Sleep today, target: %1$s</string>
     <string name="weekstepschart_steps_a_week">Steps a week</string>
     <string name="activity_sleepchart_activity_and_sleep">Your Activity and Sleep</string>
     <string name="updating_firmware">Updating Firmware…</string>

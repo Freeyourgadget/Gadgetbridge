@@ -19,6 +19,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 
 import org.slf4j.Logger;
@@ -93,7 +94,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
 
         BarDataSet set = new BarDataSet(entries, "");
         set.setColors(getColors());
-        set.setValueFormatter(getFormatter());
+        set.setValueFormatter(getBarValueFormatter());
 
         BarData barData = new BarData(set);
         barData.setValueTextColor(Color.GRAY); //prevent tearing other graph elements with the black text. Another approach would be to hide the values cmpletely with data.setDrawValues(false);
@@ -119,7 +120,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
             entries.add(new PieEntry(value));
         }
 
-        set.setValueFormatter(getFormatter());
+        set.setValueFormatter(getPieValueFormatter());
         set.setColors(getColors());
 
         if (totalValue < mTargetValue) {
@@ -133,8 +134,6 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
 
         return new DayData(data, formatPieValue((int) totalValue));
     }
-
-    protected abstract String formatPieValue(int value);
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -163,7 +162,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
     private void setupTodayPieChart() {
         mTodayPieChart.setBackgroundColor(BACKGROUND_COLOR);
         mTodayPieChart.getDescription().setTextColor(DESCRIPTION_COLOR);
-        mTodayPieChart.getDescription().setText(getContext().getString(R.string.weeksteps_today_steps_description, String.valueOf(mTargetValue)));
+        mTodayPieChart.getDescription().setText(getPieDescription(mTargetValue));
 //        mTodayPieChart.setNoDataTextDescription("");
         mTodayPieChart.setNoDataText("");
         mTodayPieChart.getLegend().setEnabled(false);
@@ -193,7 +192,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         y.setDrawZeroLine(true);
         y.setSpaceBottom(0);
         y.setAxisMinimum(0);
-
+        y.setValueFormatter(getYAxisFormatter());
         y.setEnabled(true);
 
         YAxis yAxisRight = mWeekChart.getAxisRight();
@@ -291,7 +290,15 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
 
     abstract float[] getTotalsForActivityAmounts(ActivityAmounts activityAmounts);
 
-    abstract IValueFormatter getFormatter();
+    abstract String formatPieValue(int value);
+
+    abstract IValueFormatter getPieValueFormatter();
+
+    abstract IValueFormatter getBarValueFormatter();
+
+    abstract IAxisValueFormatter getYAxisFormatter();
 
     abstract int[] getColors();
+
+    abstract String getPieDescription(int targetValue);
 }

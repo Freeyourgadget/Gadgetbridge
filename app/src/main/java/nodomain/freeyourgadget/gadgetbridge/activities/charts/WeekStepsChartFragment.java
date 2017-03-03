@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -12,6 +13,11 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
     @Override
     public String getTitle() {
         return getString(R.string.weekstepschart_steps_a_week);
+    }
+
+    @Override
+    String getPieDescription(int targetValue) {
+        return getString(R.string.weeksteps_today_steps_description, String.valueOf(targetValue));
     }
 
     @Override
@@ -39,7 +45,17 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
-    IValueFormatter getFormatter() {
+    IValueFormatter getPieValueFormatter() {
+        return null;
+    }
+
+    @Override
+    IValueFormatter getBarValueFormatter() {
+        return null;
+    }
+
+    @Override
+    IAxisValueFormatter getYAxisFormatter() {
         return null;
     }
 

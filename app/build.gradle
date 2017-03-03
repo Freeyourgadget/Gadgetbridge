@@ -18,7 +18,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
     compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
         applicationId "nodomain.freeyourgadget.gadgetbridge"
@@ -26,8 +26,8 @@ android {
         targetSdkVersion 23
 
         // note: always bump BOTH versionCode and versionName!
-        versionName "0.17.5"
-        versionCode 86
+        versionName "0.18.0"
+        versionCode 87
     }
     buildTypes {
         release {
