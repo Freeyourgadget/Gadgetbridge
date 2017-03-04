@@ -25,7 +25,7 @@ public class LanguageUtilsTest extends TestBase {
     }
     
     @Test
-    public void testStringTransliterateCyrillic() throws Exception {
+    public void testStringTransliterateHebrew() throws Exception {
         //input with cyrillic and diacritic letters
         String input = "בדיקה עברית";
         String output = LanguageUtils.transliterate(input);
@@ -41,7 +41,7 @@ public class LanguageUtilsTest extends TestBase {
         SharedPreferences settings = GBApplication.getPrefs().getPreferences();
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean("transliteration", true);
-        editor.commit();
+        editor.apply();
 
         assertTrue("Transliteration option fail! Expected 'On', but result is 'Off'", LanguageUtils.transliterate());
     }
