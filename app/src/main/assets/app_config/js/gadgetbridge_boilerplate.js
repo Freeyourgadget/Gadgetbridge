@@ -109,6 +109,7 @@ function gbPebble() {
 
     this.actuallySendData = function() {
         GBjs.sendAppMessage(self.configurationValues);
+        showStep("step1");
         GBActivity.closeActivity();
     }
 
@@ -209,6 +210,7 @@ if (jsConfigFile != null) {
             Pebble.evaluate('showConfiguration');
         } else {
             window.onfocus = function () {
+                showStep("step1");
                 GBjs.gbLog("window focused!!!");
                 Pebble.evaluate('showConfiguration');
             };

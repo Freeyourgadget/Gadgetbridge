@@ -4,12 +4,15 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.MutableContextWrapper;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.webkit.ConsoleMessage;
@@ -58,7 +61,8 @@ public class WebViewSingleton {
     private static final Logger LOG = LoggerFactory.getLogger(WebViewSingleton.class);
 
     private static WebView instance = null;
-    private Activity contextWrapper;
+    private MutableContextWrapper contextWrapper;
+    private Looper mainLooper;
     private static WebViewSingleton webViewSingleton = new WebViewSingleton();
     private static UUID currentRunningUUID;
 
@@ -67,8 +71,9 @@ public class WebViewSingleton {
 
     public static synchronized WebView createWebView(Activity context) {
         if (instance == null) {
-            webViewSingleton.contextWrapper = context;
-            instance = new WebView(context);
+            webViewSingleton.contextWrapper = new MutableContextWrapper(context);
+            webViewSingleton.mainLooper = context.getMainLooper();
+            instance = new WebView(webViewSingleton.contextWrapper);
             instance.setWillNotDraw(true);
             instance.clearCache(true);
             instance.setWebViewClient(new GBWebClient());
@@ -86,7 +91,7 @@ public class WebViewSingleton {
 
     public static void updateActivityContext(Activity context) {
         if (context instanceof Activity) {
-            webViewSingleton.contextWrapper = context;
+            webViewSingleton.contextWrapper.setBaseContext(context);
         }
     }
 
@@ -104,7 +109,7 @@ public class WebViewSingleton {
         } else {
             LOG.debug("WEBVIEW uuid changed, restarting");
             currentRunningUUID = uuid;
-            webViewSingleton.contextWrapper.runOnUiThread(new Runnable() {
+            new Handler(webViewSingleton.mainLooper).post(new Runnable() {
                 @Override
                 public void run() {
                     instance.removeJavascriptInterface("GBjs");
@@ -125,8 +130,7 @@ public class WebViewSingleton {
 
         final String appMessage = parseIncomingAppMessage(message.message, message.appUUID);
         LOG.debug("to WEBVIEW: " + appMessage);
-
-        webViewSingleton.contextWrapper.runOnUiThread(new Runnable() {
+        new Handler(webViewSingleton.mainLooper).post(new Runnable() {
             @Override
             public void run() {
                 instance.evaluateJavascript("Pebble.evaluate('appmessage',[" + appMessage + "]);", new ValueCallback<String>() {
@@ -141,7 +145,7 @@ public class WebViewSingleton {
     }
 
     public static void disposeWebView() {
-        webViewSingleton.contextWrapper.runOnUiThread(new Runnable() {
+        new Handler(webViewSingleton.mainLooper).post(new Runnable() {
             @Override
             public void run() {
                 if (instance != null) {
