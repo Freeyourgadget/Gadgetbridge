@@ -15,11 +15,21 @@ import static org.junit.Assert.assertTrue;
  */
 public class LanguageUtilsTest extends TestBase {
     @Test
-    public void testStringTransliterate() throws Exception {
+    public void testStringTransliterateCyrillic() throws Exception {
         //input with cyrillic and diacritic letters
         String input = "Прõсто текčт";
         String output = LanguageUtils.transliterate(input);
         String result = "Prosto tekct";
+
+        assertTrue(String.format("Transliteration fail! Expected '%s', but found '%s'}", result, output), output.equals(result));
+    }
+    
+    @Test
+    public void testStringTransliterateCyrillic() throws Exception {
+        //input with cyrillic and diacritic letters
+        String input = "בדיקה עברית";
+        String output = LanguageUtils.transliterate(input);
+        String result = "bdykh 'brith";
 
         assertTrue(String.format("Transliteration fail! Expected '%s', but found '%s'}", result, output), output.equals(result));
     }
