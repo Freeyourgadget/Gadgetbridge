@@ -88,10 +88,11 @@
     <string name="when_screen_off">when screen is off</string>
     <string name="never">never</string>
 
-    <string name="pref_header_privacy">Privacy</string>
+ <string name="pref_header_privacy">Privacy</string>
     <string name="pref_title_call_privacy_mode">Call Privacy Mode</string>
     <string name="pref_call_privacy_mode_off">Display name and number</string>
     <string name="pref_call_privacy_mode_name">Hide name but display number</string>
+    <string name="pref_call_privacy_mode_number">Hide number but display name</string>
     <string name="pref_call_privacy_mode_complete">Hide name and number</string>
 
     <string name="pref_blacklist">Blacklist Apps</string>
