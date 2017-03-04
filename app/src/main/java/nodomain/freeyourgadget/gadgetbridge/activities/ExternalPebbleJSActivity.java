@@ -8,7 +8,6 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.JavascriptInterface;
-import android.webkit.ValueCallback;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -28,9 +27,7 @@ public class ExternalPebbleJSActivity extends GBActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(ExternalPebbleJSActivity.class);
 
-    private UUID appUuid;
     private Uri confUri;
-    private GBDevice mGBDevice = null;
     private WebView myWebView;
 
     @Override
@@ -39,8 +36,7 @@ public class ExternalPebbleJSActivity extends GBActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            mGBDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
-            appUuid = (UUID) extras.getSerializable(DeviceService.EXTRA_APP_UUID);
+            WebViewSingleton.runJavascriptInterface((GBDevice) extras.getParcelable(GBDevice.EXTRA_DEVICE), (UUID) extras.getSerializable(DeviceService.EXTRA_APP_UUID));
         } else {
             throw new IllegalArgumentException("Must provide a device when invoking this activity");
         }
@@ -61,13 +57,13 @@ public class ExternalPebbleJSActivity extends GBActivity {
             public void onViewAttachedToWindow(View v) {
 
                 v.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-                    //show configuration
-                myWebView.evaluateJavascript("Pebble.evaluate('showConfiguration');", new ValueCallback<String>() {
-                    @Override
-                    public void onReceiveValue(String s) {
-                        LOG.debug("Callback from showConfiguration: " + s);
-                    }
-                });
+                //show configuration - moved to JS
+//                myWebView.evaluateJavascript("Pebble.evaluate('showConfiguration');", new ValueCallback<String>() {
+//                    @Override
+//                    public void onReceiveValue(String s) {
+//                        LOG.debug("Callback from showConfiguration: " + s);
+//                    }
+//                });
             }
 
             @Override
@@ -88,7 +84,6 @@ public class ExternalPebbleJSActivity extends GBActivity {
             //getting back with configuration data
             LOG.debug("WEBVIEW returned config: " + confUri.toString());
             try {
-                appUuid = UUID.fromString(confUri.getHost());
                 queryString = confUri.getEncodedQuery();
             } catch (IllegalArgumentException e) {
                 GB.toast("returned uri: " + confUri.toString(), Toast.LENGTH_LONG, GB.ERROR);

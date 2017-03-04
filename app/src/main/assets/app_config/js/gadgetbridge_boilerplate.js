@@ -99,6 +99,7 @@ function gbPebble() {
         for (var i = 0; i < l; i++) {
             evs[i].apply(null, args);
         }
+        GBjs.eventFinished(name);
     }
 
     this.actuallyOpenURL = function() {
@@ -204,6 +205,14 @@ document.addEventListener('DOMContentLoaded', function(){
 if (jsConfigFile != null) {
     loadScript(jsConfigFile, function() {
         Pebble.evaluate('ready');
+        if(document.hasFocus() && !(getURLVariable('config') == 'true')) {
+            Pebble.evaluate('showConfiguration');
+        } else {
+            window.onfocus = function () {
+                GBjs.gbLog("window focused!!!");
+                Pebble.evaluate('showConfiguration');
+            };
+        }
         if (getURLVariable('config') == 'true') {
             showStep("step2");
             var json_string = getURLVariable('json');

@@ -60,6 +60,7 @@ public class WebViewSingleton {
     private static WebView instance = null;
     private Activity contextWrapper;
     private static WebViewSingleton webViewSingleton = new WebViewSingleton();
+    private static UUID currentRunningUUID;
 
     private WebViewSingleton() {
     }
@@ -98,14 +99,21 @@ public class WebViewSingleton {
 
         final JSInterface jsInterface = new JSInterface(device, uuid);
 
-        webViewSingleton.contextWrapper.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                instance.removeJavascriptInterface("GBjs");
-                instance.addJavascriptInterface(jsInterface, "GBjs");
-                instance.loadUrl("file:///android_asset/app_config/configure.html?rand=" + Math.random() * 500);
-            }
-        });
+        if (uuid.equals(currentRunningUUID)) {
+            LOG.debug("WEBVIEW uuid not changed keeping the old context");
+        } else {
+            LOG.debug("WEBVIEW uuid changed, restarting");
+            currentRunningUUID = uuid;
+            webViewSingleton.contextWrapper.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    instance.removeJavascriptInterface("GBjs");
+                    instance.addJavascriptInterface(jsInterface, "GBjs");
+                    instance.loadUrl("file:///android_asset/app_config/configure.html?rand=" + Math.random() * 500);
+                }
+            });
+        }
+
     }
 
     public static void appMessage(GBDeviceEventAppMessage message) {
@@ -390,7 +398,7 @@ public class WebViewSingleton {
 
         @JavascriptInterface
         public void gbLog(String msg) {
-            LOG.debug("WEBVIEW webpage log", msg);
+            LOG.debug("WEBVIEW webpage log: " + msg);
         }
 
         @JavascriptInterface
@@ -562,6 +570,10 @@ public class WebViewSingleton {
             return geoPosition.toString();
         }
 
+        @JavascriptInterface
+        public void eventFinished(String event) {
+            LOG.debug("WEBVIEW event finished: " + event);
+        }
     }
 
 }
