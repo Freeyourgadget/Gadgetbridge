@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.format.DateFormat;
 import android.widget.Toast;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -67,8 +68,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.AbortTransactionAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WriteAction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.heartrate.HeartRateProfile;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotification;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.CheckAuthenticationNeededAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
@@ -79,6 +82,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.I
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.UpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_FLASH_COLOUR;
@@ -301,19 +305,19 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return mDeviceInfo;
     }
 
-    private MiBand2Support sendDefaultNotification(TransactionBuilder builder, short repeat, BtLEAction extraAction) {
+    private MiBand2Support sendDefaultNotification(TransactionBuilder builder, SimpleNotification simpleNotification, short repeat, BtLEAction extraAction) {
         LOG.info("Sending notification to MiBand: (" + repeat + " times)");
         NotificationStrategy strategy = getNotificationStrategy();
         for (short i = 0; i < repeat; i++) {
-            strategy.sendDefaultNotification(builder, extraAction);
+            strategy.sendDefaultNotification(builder, simpleNotification, extraAction);
         }
         return this;
     }
 
     /**
      * Adds a custom notification to the given transaction builder
-     *
      * @param vibrationProfile specifies how and how often the Band shall vibrate.
+     * @param simpleNotification
      * @param flashTimes
      * @param flashColour
      * @param originalColour
@@ -321,8 +325,8 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
      * @param extraAction      an extra action to be executed after every vibration and flash sequence. Allows to abort the repetition, for example.
      * @param builder
      */
-    private MiBand2Support sendCustomNotification(VibrationProfile vibrationProfile, int flashTimes, int flashColour, int originalColour, long flashDuration, BtLEAction extraAction, TransactionBuilder builder) {
-        getNotificationStrategy().sendCustomNotification(vibrationProfile, flashTimes, flashColour, originalColour, flashDuration, extraAction, builder);
+    private MiBand2Support sendCustomNotification(VibrationProfile vibrationProfile, SimpleNotification simpleNotification, int flashTimes, int flashColour, int originalColour, long flashDuration, BtLEAction extraAction, TransactionBuilder builder) {
+        getNotificationStrategy().sendCustomNotification(vibrationProfile, simpleNotification, flashTimes, flashColour, originalColour, flashDuration, extraAction, builder);
         LOG.info("Sending notification to MiBand");
         return this;
     }
@@ -500,17 +504,17 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    private void performDefaultNotification(String task, short repeat, BtLEAction extraAction) {
+    private void performDefaultNotification(String task, SimpleNotification simpleNotification, short repeat, BtLEAction extraAction) {
         try {
             TransactionBuilder builder = performInitialized(task);
-            sendDefaultNotification(builder, repeat, extraAction);
+            sendDefaultNotification(builder, simpleNotification, repeat, extraAction);
             builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to send notification to MI device", ex);
         }
     }
 
-    private void performPreferredNotification(String task, String notificationOrigin, int alertLevel, BtLEAction extraAction) {
+    private void performPreferredNotification(String task, String notificationOrigin, SimpleNotification simpleNotification, int alertLevel, BtLEAction extraAction) {
         try {
             TransactionBuilder builder = performInitialized(task);
             Prefs prefs = GBApplication.getPrefs();
@@ -525,7 +529,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             int originalColour = getPreferredOriginalColour(notificationOrigin, prefs);
             int flashDuration = getPreferredFlashDuration(notificationOrigin, prefs);
 
-            sendCustomNotification(profile, flashTimes, flashColour, originalColour, flashDuration, extraAction, builder);
+            sendCustomNotification(profile, simpleNotification, flashTimes, flashColour, originalColour, flashDuration, extraAction, builder);
 //            sendCustomNotification(vibrateDuration, vibrateTimes, vibratePause, flashTimes, flashColour, originalColour, flashDuration, builder);
             builder.queue(getQueue());
         } catch (IOException ex) {
@@ -597,8 +601,10 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         if (notificationSpec.type == NotificationType.UNKNOWN) {
             alertLevel = MiBand2Service.ALERT_LEVEL_VIBRATE_ONLY;
         }
+        String message = NotificationUtils.getPreferredTextFor(notificationSpec, 40, 40, getContext()).trim();
         String origin = notificationSpec.type.getGenericType();
-        performPreferredNotification(origin + " received", origin, alertLevel, null);
+        SimpleNotification simpleNotification = new SimpleNotification(message, BLETypeConversions.toAlertCategory(notificationSpec.type));
+        performPreferredNotification(origin + " received", origin, simpleNotification, alertLevel, null);
     }
 
     private void onAlarmClock(NotificationSpec notificationSpec) {
@@ -609,7 +615,9 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 return !isAlarmClockRinging();
             }
         };
-        performPreferredNotification("alarm clock ringing", MiBandConst.ORIGIN_ALARM_CLOCK, MiBand2Service.ALERT_LEVEL_VIBRATE_ONLY, abortAction);
+        String message = NotificationUtils.getPreferredTextFor(notificationSpec, 40, 40, getContext());
+        SimpleNotification simpleNotification = new SimpleNotification(message, AlertCategory.HighPriorityAlert);
+        performPreferredNotification("alarm clock ringing", MiBandConst.ORIGIN_ALARM_CLOCK, simpleNotification, MiBand2Service.ALERT_LEVEL_VIBRATE_ONLY, abortAction);
     }
 
     @Override
@@ -640,7 +648,9 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                     return !isTelephoneRinging();
                 }
             };
-            performPreferredNotification("incoming call", MiBandConst.ORIGIN_INCOMING_CALL, MiBand2Service.ALERT_LEVEL_PHONE_CALL, abortAction);
+            String message = NotificationUtils.getPreferredTextFor(callSpec);
+            SimpleNotification simpleNotification = new SimpleNotification(message, AlertCategory.IncomingCall);
+            performPreferredNotification("incoming call", MiBandConst.ORIGIN_INCOMING_CALL, simpleNotification, MiBand2Service.ALERT_LEVEL_PHONE_CALL, abortAction);
         } else if ((callSpec.command == CallSpec.CALL_START) || (callSpec.command == CallSpec.CALL_END)) {
             telephoneRinging = false;
         }
@@ -722,7 +732,8 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                     return !isLocatingDevice;
                 }
             };
-            performDefaultNotification("locating device", (short) 255, abortAction);
+            SimpleNotification simpleNotification = new SimpleNotification(getContext().getString(R.string.find_device_you_found_it), AlertCategory.HighPriorityAlert.HighPriorityAlert);
+            performDefaultNotification("locating device", simpleNotification, (short) 255, abortAction);
         }
     }
 
@@ -1250,7 +1261,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendConfiguration(String config) {
-        TransactionBuilder builder = null;
+        TransactionBuilder builder;
         try {
             builder = performInitialized("Sending configuration for option: " + config);
             switch (config) {
@@ -1300,6 +1311,17 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return this;
     }
 
+    private MiBand2Support setTimeFormat(TransactionBuilder builder) {
+        boolean is24Format = DateFormat.is24HourFormat(getContext());
+        LOG.info("Setting 24h time format to " + is24Format);
+        if (is24Format) {
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.DATEFORMAT_TIME_24_HOURS);
+        } else {
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.DATEFORMAT_TIME_12_HOURS);
+        }
+        return this;
+    }
+
     private MiBand2Support setActivateDisplayOnLiftWrist(TransactionBuilder builder) {
         boolean enable = MiBand2Coordinator.getActivateDisplayOnLiftWrist();
         LOG.info("Setting activate display on lift wrist to " + enable);
@@ -1316,6 +1338,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         enableFurtherNotifications(builder, true);
         requestBatteryInfo(builder);
         setDateDisplay(builder);
+        setTimeFormat(builder);
         setWearLocation(builder);
         setFitnessGoal(builder);
         setActivateDisplayOnLiftWrist(builder);

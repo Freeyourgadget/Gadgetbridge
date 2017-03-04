@@ -1,6 +1,8 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
@@ -19,8 +21,18 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
+    String getPieDescription(int targetValue) {
+        return getString(R.string.weeksleepchart_today_sleep_description, DateTimeUtils.minutesToHHMM(targetValue));
+    }
+
+    @Override
     int getGoal() {
         return 8 * 60; // FIXME
+    }
+
+    @Override
+    int getOffsetHours() {
+        return -12;
     }
 
     @Override
@@ -43,11 +55,31 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
-    IValueFormatter getFormatter() {
+    IValueFormatter getPieValueFormatter() {
         return new IValueFormatter() {
             @Override
             public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
                 return formatPieValue((int) value);
+            }
+        };
+    }
+
+    @Override
+    IValueFormatter getBarValueFormatter() {
+        return new IValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                return DateTimeUtils.minutesToHHMM((int) value);
+            }
+        };
+    }
+
+    @Override
+    IAxisValueFormatter getYAxisFormatter() {
+        return new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return DateTimeUtils.minutesToHHMM((int) value);
             }
         };
     }

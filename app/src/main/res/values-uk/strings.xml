@@ -10,19 +10,28 @@
   <string name="controlcenter_find_device">Знайти загублений пристрій…</string>
   <string name="controlcenter_take_screenshot">Зробити знімок екрану</string>
   <string name="controlcenter_disconnect">Від\'єднатися</string>
+  <string name="controlcenter_delete_device">Вилучити пристрій</string>
+  <string name="controlcenter_delete_device_name">Вилучити %1$s</string>
+  <string name="controlcenter_delete_device_dialogmessage">Це вилучить пристрій та всі пов\'язані з ним дані!</string>
   <string name="title_activity_debug">Зневадження</string>
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">App Manager</string>
+  <string name="appmanager_installed_watchapps">Встановлені додатки</string>
   <string name="appmananger_app_delete">Вилучити</string>
+  <string name="appmananger_app_delete_cache">Вилучити та очистити з кешу</string>
   <string name="appmananger_app_reinstall">Перевстановити</string>
+  <string name="appmanager_app_openinstore">Пошук в Pebble Appstore</string>
   <string name="appmanager_health_activate">Увімкнути</string>
   <string name="appmanager_health_deactivate">Вимкнути</string>
+  <string name="appmanager_hrm_activate">Увімкнути HRM</string>
+  <string name="appmanager_hrm_deactivate">Вимкнути HRM</string>
   <string name="app_configure">Конфігурація</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Перелік заблокованих сповіщень</string>
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">Встановлення мікропрограми</string>
   <string name="fw_upgrade_notice">Ви збираєтесь встановити мікропрограму %s на заміну поточній Вашого Mi–Band</string>
+  <string name="fw_multi_upgrade_notice">Ви збираєтесь встановити мікропрограми %1$s та %2$s на заміну поточній Вашого Mi–Band</string>
   <string name="miband_firmware_known">Ця мікропрограма була перевірена на сумісність із Gadgetbridge</string>
   <string name="miband_firmware_unknown_warning">Ця мікропрограма не перевірялася і може бути не сумісною із Gadgetbridge.\n\nНе рекомендується встановлювати її на Ваш Mi–Band</string>
   <string name="miband_firmware_suggest_whitelist">Якщо ж Ви вирішили продовжити та все працює, будь ласка, повідомте про це розробникам, аби відмітити цю версію мікропрограми сумісною: %s</string>
@@ -30,6 +39,7 @@
   <string name="title_activity_settings">Параметри</string>
   <string name="pref_header_general">Загальні параметри</string>
   <string name="pref_title_general_autoconnectonbluetooth">З\'єднання із пристроєм при активації Bluetooth</string>
+  <string name="pref_title_general_autostartonboot">Запускатися автоматично</string>
   <string name="pref_title_general_autocreonnect">Перепід\'єднуватись автоматично</string>
   <string name="pref_title_audo_player">Переважний музичний програвач</string>
   <string name="pref_default">Типовий</string>
@@ -51,6 +61,7 @@
   <string name="always">завжди</string>
   <string name="when_screen_off">коли екран вимкнуто</string>
   <string name="never">ніколи</string>
+  <string name="pref_header_privacy">Приавтність</string>
   <string name="pref_blacklist">Перелік заблокованих додатків</string>
   <string name="pref_title_canned_replies">Відповіді</string>
   <string name="pref_title_canned_reply_suffix">Загальний суфікс</string>
@@ -74,6 +85,7 @@
   <string name="pref_title_pebble_forceuntested">Увімкнути не перевірені можливості</string>
   <string name="pref_summary_pebble_forceuntested">Увімкнути функції, які ще не перевірені. ВМИКАЙТЕ НА СВІЙ СТРАХ ТА РИЗИК!</string>
   <string name="pref_title_pebble_reconnect_attempts">Спроби повторного з\'єднання</string>
+  <string name="pref_title_timeformat">Формат часу</string>
   <string name="not_connected">немає з\'єднання</string>
   <string name="connecting">з\'єднання…</string>
   <string name="connected">з\'єднано</string>
@@ -137,6 +149,9 @@
   <string name="pref_header_vibration_settings">Параметри вібро</string>
   <string name="pref_screen_notification_profile_generic">Загальні сповіщення</string>
   <string name="pref_screen_notification_profile_incoming_call">Сповіщення під час вхідного дзвінку</string>
+  <string name="pref_screen_notification_profile_generic_chat">Чат</string>
+  <string name="pref_screen_notification_profile_generic_navigation">Навігація</string>
+  <string name="pref_screen_notification_profile_generic_social">Соціальні мережі</string>
   <string name="control_center_find_lost_device">Знайти загублений пристрій</string>
   <string name="control_center_cancel_to_stop_vibration">Скасуйте, аби зупинити вібро</string>
   <string name="title_activity_charts">Ваша активність</string>
@@ -214,8 +229,11 @@
   <string name="add_widget">Додати віджет</string>
   <string name="device_hw">Пристрій: %1$s</string>
   <string name="device_fw">ПЗ: %1$s</string>
-  <!--Strings related to Onboading Activity-->
+  <string name="Cancel">Скасувати</string>
   <string name="Delete">Вилучити</string>
   <!--Strings related to Vibration Activity-->
+  <string name="title_activity_vibration">Вібрація</string>
   <!--Strings related to Pebble Pairing Activity-->
+  <string name="timeformat_24h">24г</string>
+  <string name="timeformat_am_pm">ДП/ПП</string>
 </resources>

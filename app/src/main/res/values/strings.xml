@@ -278,6 +278,7 @@
     <string name="notif_battery_low_bigtext_number_of_charges">Number of charges: %s</string>
     <string name="sleepchart_your_sleep">Your Sleep</string>
     <string name="weeksleepchart_sleep_a_week">Sleep a week</string>
+    <string name="weeksleepchart_today_sleep_description">Sleep today, target: %1$s</string>
     <string name="weekstepschart_steps_a_week">Steps a week</string>
     <string name="activity_sleepchart_activity_and_sleep">Your Activity and Sleep</string>
     <string name="updating_firmware">Updating Firmware…</string>
@@ -393,4 +394,7 @@
     <string name="timeformat_24h">24H</string>
     <string name="timeformat_am_pm">AM/PM</string>
     <string name="pref_screen_notification_profile_alarm_clock">Alarm Clock</string>
+    <string name="StringUtils_sender"> (%1$s)</string>
+    <string name="find_device_you_found_it">You found it!</string>
+    <string name="miband2_prefs_timeformat">Mi2: Time Format</string>
 </resources>
