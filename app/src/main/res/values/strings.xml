@@ -399,4 +399,5 @@
 
     <string name="StringUtils_sender"> (%1$s)</string>
     <string name="find_device_you_found_it">You found it!</string>
+    <string name="miband2_prefs_timeformat">Mi2: Time Format</string>
 </resources>

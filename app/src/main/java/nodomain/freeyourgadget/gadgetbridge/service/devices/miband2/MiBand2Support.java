@@ -7,8 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.format.DateFormat;
 import android.widget.Toast;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -84,7 +84,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
-import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_FLASH_COLOUR;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_FLASH_COUNT;
@@ -1262,7 +1261,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendConfiguration(String config) {
-        TransactionBuilder builder = null;
+        TransactionBuilder builder;
         try {
             builder = performInitialized("Sending configuration for option: " + config);
             switch (config) {
@@ -1312,6 +1311,17 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return this;
     }
 
+    private MiBand2Support setTimeFormat(TransactionBuilder builder) {
+        boolean is24Format = DateFormat.is24HourFormat(getContext());
+        LOG.info("Setting 24h time format to " + is24Format);
+        if (is24Format) {
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.DATEFORMAT_TIME_24_HOURS);
+        } else {
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.DATEFORMAT_TIME_12_HOURS);
+        }
+        return this;
+    }
+
     private MiBand2Support setActivateDisplayOnLiftWrist(TransactionBuilder builder) {
         boolean enable = MiBand2Coordinator.getActivateDisplayOnLiftWrist();
         LOG.info("Setting activate display on lift wrist to " + enable);
@@ -1328,6 +1338,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         enableFurtherNotifications(builder, true);
         requestBatteryInfo(builder);
         setDateDisplay(builder);
+        setTimeFormat(builder);
         setWearLocation(builder);
         setFitnessGoal(builder);
         setActivateDisplayOnLiftWrist(builder);
