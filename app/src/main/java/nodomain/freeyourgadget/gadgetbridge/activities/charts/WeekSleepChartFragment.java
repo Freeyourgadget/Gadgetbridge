@@ -31,6 +31,11 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
+    int getOffsetHours() {
+        return -12;
+    }
+
+    @Override
     float[] getTotalsForActivityAmounts(ActivityAmounts activityAmounts) {
         long totalSecondsDeepSleep = 0;
         long totalSecondsLightSleep = 0;

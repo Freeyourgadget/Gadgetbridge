@@ -47,6 +47,8 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
     private PieChart mTodayPieChart;
     private BarChart mWeekChart;
 
+    private int mOffsetHours = getOffsetHours();
+
     @Override
     protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
         Calendar day = Calendar.getInstance();
@@ -213,7 +215,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
 //        chart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
     }
 
-    private List<? extends ActivitySample> getSamplesOfDay(DBHandler db, Calendar day, GBDevice device) {
+    private List<? extends ActivitySample> getSamplesOfDay(DBHandler db, Calendar day, int offsetHours, GBDevice device) {
         int startTs;
         int endTs;
 
@@ -221,12 +223,10 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         day.set(Calendar.HOUR_OF_DAY, 0);
         day.set(Calendar.MINUTE, 0);
         day.set(Calendar.SECOND, 0);
-        startTs = (int) (day.getTimeInMillis() / 1000);
+        day.add(Calendar.HOUR, offsetHours);
 
-        day.set(Calendar.HOUR_OF_DAY, 23);
-        day.set(Calendar.MINUTE, 59);
-        day.set(Calendar.SECOND, 59);
-        endTs = (int) (day.getTimeInMillis() / 1000);
+        startTs = (int) (day.getTimeInMillis() / 1000);
+        endTs = startTs + 24 * 60 * 60 - 1;
 
         return getSamples(db, device, startTs, endTs);
     }
@@ -272,14 +272,14 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         Activity activity = getActivity();
         if (activity != null) {
             activityAmountCache = ((ChartsActivity) activity).mActivityAmountCache;
-            amounts = (ActivityAmounts) (activityAmountCache.lookup(day.hashCode()));
+            amounts = (ActivityAmounts) (activityAmountCache.lookup(day.hashCode() ^ mOffsetHours));
         }
 
         if (amounts == null) {
             ActivityAnalysis analysis = new ActivityAnalysis();
-            amounts = analysis.calculateActivityAmounts(getSamplesOfDay(db, day, device));
+            amounts = analysis.calculateActivityAmounts(getSamplesOfDay(db, day, mOffsetHours, device));
             if (activityAmountCache != null) {
-                activityAmountCache.add(day.hashCode(), amounts);
+                activityAmountCache.add(day.hashCode() ^ mOffsetHours, amounts);
             }
         }
 
@@ -287,6 +287,8 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
     }
 
     abstract int getGoal();
+
+    abstract int getOffsetHours();
 
     abstract float[] getTotalsForActivityAmounts(ActivityAmounts activityAmounts);
 

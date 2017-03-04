@@ -128,6 +128,8 @@ public class MiBand2Service {
     public static final byte[] COMMAND_ENABLE_DISPLAY_ON_LIFT_WRIST = new byte[]{0x06, 0x05, 0x00, 0x01};
     public static final byte[] COMMAND_DISABLE_DISPLAY_ON_LIFT_WRIST = new byte[]{0x06, 0x05, 0x00, 0x00};
 
+    public static final byte[] COMMAND_TEXT_NOTIFICATION = new byte[] {0x05, 0x01};
+    public static final byte[] COMMAND_TEXT_NOTIFICATION_CONTINUATION = new byte[] {(byte) 0xfa, 0x01, 0x00};
 
     static {
         MIBAND_DEBUG = new HashMap<>();

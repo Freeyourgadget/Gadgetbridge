@@ -2,6 +2,7 @@
 
 ###Version 0.18.0 (next)
 * Added Portuguese pt_PT and pt_BR translations
+* Added Hebrew translation
 * Consistently display device specific icons already during discovery
 * Add sleep chart diplaying the last week of sleep
 

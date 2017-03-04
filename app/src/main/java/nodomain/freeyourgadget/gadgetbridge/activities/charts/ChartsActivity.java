@@ -53,7 +53,7 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
     private PagerTabStrip mPagerTabStrip;
     private ViewPager viewPager;
 
-    LimitedQueue mActivityAmountCache = new LimitedQueue(32);
+    LimitedQueue mActivityAmountCache = new LimitedQueue(60);
 
     private static class ShowDurationDialog extends Dialog {
         private final String mDuration;

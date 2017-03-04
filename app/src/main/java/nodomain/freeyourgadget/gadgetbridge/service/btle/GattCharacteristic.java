@@ -21,6 +21,7 @@ public class GattCharacteristic {
     public static final UUID UUID_CHARACTERISTIC_ALERT_CATEGORY_ID = UUID.fromString((String.format(AbstractBTLEDeviceSupport.BASE_UUID, "2A43")));
     public static final UUID UUID_CHARACTERISTIC_ALERT_CATEGORY_ID_BIT_MASK = UUID.fromString((String.format(AbstractBTLEDeviceSupport.BASE_UUID, "2A42")));
     public static final UUID UUID_CHARACTERISTIC_ALERT_LEVEL = UUID.fromString((String.format(AbstractBTLEDeviceSupport.BASE_UUID, "2A06")));
+    public static final UUID UUID_CHARACTERISTIC_CLIENT_CHARACTERISTIC_CONFIG = UUID.fromString((String.format(AbstractBTLEDeviceSupport.BASE_UUID, "2902")));
 
     public static final byte NO_ALERT = 0x0;
     public static final byte MILD_ALERT = 0x1;

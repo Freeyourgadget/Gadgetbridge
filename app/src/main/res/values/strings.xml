@@ -394,5 +394,9 @@
     <string name="timeformat_24h">24H</string>
     <string name="timeformat_am_pm">AM/PM</string>
     <string name="pref_screen_notification_profile_alarm_clock">Alarm Clock</string>
+
     <string name="activity_web_view">Web View Activity</string>
+
+    <string name="StringUtils_sender"> (%1$s)</string>
+    <string name="find_device_you_found_it">You found it!</string>
 </resources>

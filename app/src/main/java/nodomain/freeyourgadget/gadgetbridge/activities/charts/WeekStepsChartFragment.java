@@ -30,6 +30,11 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
+    int getOffsetHours() {
+        return 0;
+    }
+
+    @Override
     float[] getTotalsForActivityAmounts(ActivityAmounts activityAmounts) {
         int totalSteps = 0;
         for (ActivityAmount amount : activityAmounts.getAmounts()) {
