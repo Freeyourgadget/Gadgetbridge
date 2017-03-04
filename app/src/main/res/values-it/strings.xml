@@ -69,6 +69,14 @@
   <string name="always">sempre</string>
   <string name="when_screen_off">se lo schermo è spento</string>
   <string name="never">mai</string>
+  
+  <string name="pref_header_privacy">Privacy</string>
+  <string name="pref_title_call_privacy_mode">Motalità Chiamata</string>
+  <string name="pref_call_privacy_mode_off">Mostra nome e numero</string>
+  <string name="pref_call_privacy_mode_name">Mostra solo il numero</string>
+  <string name="pref_call_privacy_mode_number">Mostra solo il nome</string>
+  <string name="pref_call_privacy_mode_complete">Nascondi nome e numero</string>
+  
   <string name="pref_blacklist">Blocca applicazioni</string>
   <string name="pref_header_cannned_messages">Messaggi preimpostati</string>
   <string name="pref_title_canned_replies">Risposte</string>
