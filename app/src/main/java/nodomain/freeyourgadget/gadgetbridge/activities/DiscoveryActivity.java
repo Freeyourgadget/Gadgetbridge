@@ -109,14 +109,18 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
                     if (device != null && device.getAddress().equals(bondingAddress)) {
                         int bondState = intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE, BluetoothDevice.BOND_NONE);
                         if (bondState == BluetoothDevice.BOND_BONDED) {
-                            GB.toast(DiscoveryActivity.this, "Successfully bonded with: " + bondingAddress, Toast.LENGTH_SHORT, GB.INFO);
-                            finish();
+                            handleDeviceBonded();
                         }
                     }
                 }
             }
         }
     };
+
+    private void handleDeviceBonded() {
+        GB.toast(DiscoveryActivity.this, "Successfully bonded with: " + bondingAddress, Toast.LENGTH_SHORT, GB.INFO);
+        finish();
+    }
 
     private final BluetoothAdapter.LeScanCallback leScanCallback = new BluetoothAdapter.LeScanCallback() {
         @Override
@@ -516,9 +520,21 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
         } else {
             try {
                 BluetoothDevice btDevice = adapter.getRemoteDevice(deviceCandidate.getMacAddress());
-                if (btDevice.createBond()) {
-                    // async, wait for bonding event to finish this activity
-                    bondingAddress = btDevice.getAddress();
+                switch (btDevice.getBondState()) {
+                    case BluetoothDevice.BOND_NONE: {
+                        if (btDevice.createBond()) {
+                            // async, wait for bonding event to finish this activity
+                            bondingAddress = btDevice.getAddress();
+                        }
+                        break;
+                    }
+                    case BluetoothDevice.BOND_BONDING:
+                        // async, wait for bonding event to finish this activity
+                        bondingAddress = btDevice.getAddress();
+                        break;
+                    case BluetoothDevice.BOND_BONDED:
+                        handleDeviceBonded();
+                        break;
                 }
             } catch (Exception e) {
                 LOG.error("Error pairing device: " + deviceCandidate.getMacAddress());
