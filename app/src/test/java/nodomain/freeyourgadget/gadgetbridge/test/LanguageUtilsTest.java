@@ -29,7 +29,7 @@ public class LanguageUtilsTest extends TestBase {
         //input with cyrillic and diacritic letters
         String input = "בדיקה עברית";
         String output = LanguageUtils.transliterate(input);
-        String result = "bdykh 'brith";
+        String result = "bdykh 'bryth";
 
         assertTrue(String.format("Transliteration fail! Expected '%s', but found '%s'}", result, output), output.equals(result));
     }
