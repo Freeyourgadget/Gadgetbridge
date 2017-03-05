@@ -138,24 +138,6 @@ public class MiBand2Service {
         MIBAND_DEBUG = new HashMap<>();
         MIBAND_DEBUG.put(UUID_SERVICE_MIBAND_SERVICE, "MiBand Service");
         MIBAND_DEBUG.put(UUID_SERVICE_HEART_RATE, "MiBand HR Service");
-
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_DEVICE_INFO, "Device Info");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_DEVICE_NAME, "Device Name");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_NOTIFICATION, "Notification");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_USER_INFO, "User Info");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_CONTROL_POINT, "Control Point");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_REALTIME_STEPS, "Realtime Steps");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_ACTIVITY_DATA, "Activity Data");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_FIRMWARE_DATA, "Firmware Data");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_LE_PARAMS, "LE Params");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_DATE_TIME, "Date/Time");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_STATISTICS, "Statistics");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_BATTERY, "Battery");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_TEST, "Test");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_SENSOR_DATA, "Sensor Data");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_PAIR, "Pair");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT, "Heart Rate Control Point");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT, "Heart Rate Measure");
     }
 
     public static String lookup(UUID uuid, String fallback) {
