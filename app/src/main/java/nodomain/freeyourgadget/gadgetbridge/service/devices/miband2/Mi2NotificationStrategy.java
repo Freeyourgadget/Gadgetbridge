@@ -41,7 +41,7 @@ public class Mi2NotificationStrategy extends V2NotificationStrategy {
             }
         }
 
-
+        sendAlert(simpleNotification, builder);
     }
 
     @Override
