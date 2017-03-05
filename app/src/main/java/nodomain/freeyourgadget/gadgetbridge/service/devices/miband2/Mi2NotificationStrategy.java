@@ -45,7 +45,7 @@ public class Mi2NotificationStrategy extends V2NotificationStrategy {
 //        }
 
         BluetoothGattCharacteristic config = getSupport().getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION);
-        builder.write(config, new byte[] {MiBand2Service.ENDPOINT_DISPLAY, 0x10, 0x00, 0x01, 0x01});
+        builder.write(config, new byte[] {MiBand2Service.ENDPOINT_DISPLAY, 0x10, 0x01, 0x01, 0x01});
         builder.wait(500);
         // end for testing
 
