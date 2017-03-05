@@ -7,6 +7,7 @@ import org.junit.Test;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.util.LanguageUtils;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -21,7 +22,7 @@ public class LanguageUtilsTest extends TestBase {
         String output = LanguageUtils.transliterate(input);
         String result = "Prosto tekct";
 
-        assertTrue(String.format("Transliteration fail! Expected '%s', but found '%s'}", result, output), output.equals(result));
+        assertEquals("Transliteration failed", result, output);
     }
     
     @Test
@@ -29,9 +30,9 @@ public class LanguageUtilsTest extends TestBase {
         //input with cyrillic and diacritic letters
         String input = "בדיקה עברית";
         String output = LanguageUtils.transliterate(input);
-        String result = "bdykh 'brith";
+        String result = "bdykh 'bryth";
 
-        assertTrue(String.format("Transliteration fail! Expected '%s', but found '%s'}", result, output), output.equals(result));
+        assertEquals("Transliteration failed", result, output);
     }
 
     @Test

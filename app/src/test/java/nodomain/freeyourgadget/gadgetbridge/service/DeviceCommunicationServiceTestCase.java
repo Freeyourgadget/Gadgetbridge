@@ -102,7 +102,7 @@ public class DeviceCommunicationServiceTestCase extends TestBase {
     }
 
     @Test
-    public void testTransliterationSupportCyrillic() {
+    public void testTransliterationSupport() {
         SharedPreferences settings = GBApplication.getPrefs().getPreferences();
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean("transliteration", true);
@@ -112,20 +112,6 @@ public class DeviceCommunicationServiceTestCase extends TestBase {
         mDeviceService.invokeService(intent);
         String result = intent.getStringExtra(EXTRA_NOTIFICATION_BODY);
 
-        assertTrue("Transliteration support fail!", result.equals("Prosto tekct"));
-    }
-    
-    @Test
-    public void testTransliterationSupportHebrew() {
-        SharedPreferences settings = GBApplication.getPrefs().getPreferences();
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putBoolean("transliteration", true);
-        editor.commit();
-
-        Intent intent = mDeviceService.createIntent().putExtra(EXTRA_NOTIFICATION_BODY, "בדיקה עברית");
-        mDeviceService.invokeService(intent);
-        String result = intent.getStringExtra(EXTRA_NOTIFICATION_BODY);
-
-        assertTrue("Transliteration support fail!", result.equals("bdykh 'vrith"));
+        assertEquals("Transliteration support fail!", "Prosto tekct", result);
     }
 }
