@@ -116,7 +116,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
                         sendApplyReboot(getFirmwareInfo());
                         break;
                     }
-                    case MiBand2Service.COMMAND_FIRMWARE_APPLY_REBOOT: {
+                    case MiBand2Service.COMMAND_FIRMWARE_REBOOT: {
                         GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_update_complete), false, 100, getContext());
 //                    getSupport().onReboot();
                         done();
@@ -238,8 +238,8 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
     }
 
     private void sendApplyReboot(Mi2FirmwareInfo firmwareInfo) throws IOException {
-        TransactionBuilder builder = performInitialized("send firmware apply/reboot");
-        builder.write(fwCControlChar, new byte[] { MiBand2Service.COMMAND_FIRMWARE_APPLY_REBOOT });
+        TransactionBuilder builder = performInitialized("send firmware reboot");
+        builder.write(fwCControlChar, new byte[] { MiBand2Service.COMMAND_FIRMWARE_REBOOT});
         builder.queue(getQueue());
     }
 

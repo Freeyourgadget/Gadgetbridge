@@ -335,8 +335,6 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return new Mi2NotificationStrategy(this);
     }
 
-    static final byte[] reboot = new byte[]{MiBandService.COMMAND_REBOOT};
-
     static final byte[] startHeartMeasurementManual = new byte[]{0x15, MiBandService.COMMAND_SET_HR_MANUAL, 1};
     static final byte[] stopHeartMeasurementManual = new byte[]{0x15, MiBandService.COMMAND_SET_HR_MANUAL, 0};
     static final byte[] startHeartMeasurementContinuous = new byte[]{0x15, MiBandService.COMMAND_SET__HR_CONTINUOUS, 1};
@@ -684,7 +682,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     public void onReboot() {
         try {
             TransactionBuilder builder = performInitialized("Reboot");
-            builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), reboot);
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_FIRMWARE), new byte[] { MiBand2Service.COMMAND_FIRMWARE_REBOOT});
             builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to reboot MI", ex);
