@@ -17,14 +17,14 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband2.MiBand2FWHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.AbstractMiBand2Operation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.Mi2FirmwareInfo;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband2.MiBand2FWHelper;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Support;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -176,7 +176,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
      *
      * @param info
      * @return whether the transfer succeeded or not. Only a BT layer exception will cause the transmission to fail.
-     * @see MiBand2Support#handleNotificationNotif
+     * @see #handleNotificationNotif
      */
     private boolean sendFirmwareData(Mi2FirmwareInfo info) {
         byte[] fwbytes = info.getBytes();
@@ -245,13 +245,5 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
 
     private Mi2FirmwareInfo getFirmwareInfo() {
         return firmwareInfo;
-    }
-
-    enum State {
-        INITIAL,
-        SEND_FW2,
-        SEND_FW1,
-        FINISHED,
-        UNKNOWN
     }
 }
