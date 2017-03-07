@@ -52,4 +52,14 @@ public class ArrayUtils {
         }
         return result;
     }
+
+    /**
+     * Returns true if the given byte array starts with the given values
+     * @param array the array to check
+     * @param values the values which the other array is checked to start with
+     * @return
+     */
+    public static boolean startsWith(byte[] array, byte[] values) {
+        return equals(array, values, 0);
+    }
 }

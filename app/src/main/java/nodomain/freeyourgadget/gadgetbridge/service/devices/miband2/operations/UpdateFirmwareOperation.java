@@ -23,6 +23,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.AbstractMiBand2Operation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.FirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.Mi2FirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Support;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -113,7 +114,12 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
                         break;
                     }
                     case MiBand2Service.COMMAND_FIRMWARE_CHECKSUM: {
-                        sendApplyReboot(getFirmwareInfo());
+                        if (getFirmwareInfo().getFirmwareType() == FirmwareType.FIRMWARE) {
+                            getSupport().onReboot();
+                        } else {
+                            GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_update_complete), false, 100, getContext());
+                            done();
+                        }
                         break;
                     }
                     case MiBand2Service.COMMAND_FIRMWARE_REBOOT: {
@@ -152,12 +158,20 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
             builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.updating_firmware), getContext()));
             int fwSize = getFirmwareInfo().getSize();
             byte[] sizeBytes = BLETypeConversions.fromUint24(fwSize);
-            byte[] bytes = new byte[]{
-                    MiBand2Service.COMMAND_FIRMWARE_INIT,
-                    sizeBytes[0],
-                    sizeBytes[1],
-                    sizeBytes[2],
-            };
+            int arraySize = 4;
+            boolean isFirmwareCode = getFirmwareInfo().getFirmwareType() == FirmwareType.FIRMWARE;
+            if (!isFirmwareCode) {
+                arraySize++;
+            }
+            byte[] bytes = new byte[arraySize];
+            int i = 0;
+            bytes[i++] = MiBand2Service.COMMAND_FIRMWARE_INIT;
+            bytes[i++] = sizeBytes[0];
+            bytes[i++] = sizeBytes[1];
+            bytes[i++] = sizeBytes[2];
+            if (!isFirmwareCode) {
+                bytes[i++] = getFirmwareInfo().getFirmwareType().getValue();
+            }
 
             builder.write(fwCControlChar, bytes);
             builder.queue(getQueue());
@@ -234,12 +248,6 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
                 bytes[0],
                 bytes[1],
         });
-        builder.queue(getQueue());
-    }
-
-    private void sendApplyReboot(Mi2FirmwareInfo firmwareInfo) throws IOException {
-        TransactionBuilder builder = performInitialized("send firmware reboot");
-        builder.write(fwCControlChar, new byte[] { MiBand2Service.COMMAND_FIRMWARE_REBOOT});
         builder.queue(getQueue());
     }
 

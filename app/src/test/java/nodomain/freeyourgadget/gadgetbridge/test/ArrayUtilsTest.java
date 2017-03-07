@@ -111,6 +111,46 @@ public class ArrayUtilsTest extends TestBase {
         assertFalse(ArrayUtils.equals(DATA_5, new byte[] {3, 4, 6}, 2));
     }
 
+    @Test
+    public void testStartsWith1() throws Exception {
+        assertTrue(ArrayUtils.startsWith(DATA_5, new byte[] {1}));
+    }
+
+    @Test
+    public void testStartsWith2() throws Exception {
+        assertTrue(ArrayUtils.startsWith(DATA_5, new byte[] {1, 2}));
+    }
+
+    @Test
+    public void testStartsWithAll() throws Exception {
+        assertTrue(ArrayUtils.startsWith(DATA_5, DATA_5.clone()));
+    }
+
+    @Test
+    public void testStartsWithEmpty() throws Exception {
+        assertTrue(ArrayUtils.startsWith(DATA_5, EMPTY));
+    }
+
+    @Test
+    public void testStartsWithFail1() throws Exception {
+        try {
+            ArrayUtils.startsWith(DATA_5, null);
+            fail("should have thrown an exception");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+    }
+
+    @Test
+    public void testStartsWithFail3() throws Exception {
+        assertFalse(ArrayUtils.startsWith(DATA_5, new byte[] {2, 3}));
+    }
+
+    @Test
+    public void testStartsWithFail4() throws Exception {
+        assertFalse(ArrayUtils.startsWith(DATA_5, new byte[] {1, 2, 3, 4, 5, 6}));
+    }
+
     private byte[] b(int b) {
         return new byte[] {(byte) b};
     }
