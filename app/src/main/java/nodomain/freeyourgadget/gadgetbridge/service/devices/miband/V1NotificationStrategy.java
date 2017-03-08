@@ -10,6 +10,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotification;
 
 public class V1NotificationStrategy implements NotificationStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(V1NotificationStrategy.class);
@@ -24,7 +25,7 @@ public class V1NotificationStrategy implements NotificationStrategy {
     }
 
     @Override
-    public void sendDefaultNotification(TransactionBuilder builder, BtLEAction extraAction) {
+    public void sendDefaultNotification(TransactionBuilder builder, SimpleNotification simpleNotification, BtLEAction extraAction) {
         BluetoothGattCharacteristic characteristic = support.getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
         builder.write(characteristic, getDefaultNotification());
         builder.add(extraAction);
@@ -53,8 +54,8 @@ public class V1NotificationStrategy implements NotificationStrategy {
 
     /**
      * Adds a custom notification to the given transaction builder
-     *
      * @param vibrationProfile specifies how and how often the Band shall vibrate.
+     * @param simpleNotification
      * @param flashTimes
      * @param flashColour
      * @param originalColour
@@ -63,7 +64,7 @@ public class V1NotificationStrategy implements NotificationStrategy {
      * @param builder
      */
     @Override
-    public void sendCustomNotification(VibrationProfile vibrationProfile, int flashTimes, int flashColour, int originalColour, long flashDuration, BtLEAction extraAction, TransactionBuilder builder) {
+    public void sendCustomNotification(VibrationProfile vibrationProfile, SimpleNotification simpleNotification, int flashTimes, int flashColour, int originalColour, long flashDuration, BtLEAction extraAction, TransactionBuilder builder) {
         BluetoothGattCharacteristic controlPoint = support.getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
         for (short i = 0; i < vibrationProfile.getRepeat(); i++) {
             int[] onOffSequence = vibrationProfile.getOnOffSequence();

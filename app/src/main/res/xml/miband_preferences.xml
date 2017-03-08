@@ -56,7 +56,6 @@
             android:title="@string/miband2_prefs_dateformat"
             android:summary="%s" />
 
-
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -45,18 +45,7 @@ public class DeviceCandidateAdapter extends ArrayAdapter<GBDeviceCandidate> {
         String name = formatDeviceCandidate(device);
         deviceNameLabel.setText(name);
         deviceAddressLabel.setText(device.getMacAddress());
-
-        switch (device.getDeviceType()) {
-            case PEBBLE:
-                deviceImageView.setImageResource(R.drawable.ic_device_pebble);
-                break;
-            case MIBAND:
-            case MIBAND2:
-                deviceImageView.setImageResource(R.drawable.ic_device_miband);
-                break;
-            default:
-                deviceImageView.setImageResource(R.drawable.ic_launcher);
-        }
+        deviceImageView.setImageResource(device.getDeviceType().getIcon());
 
         return view;
     }

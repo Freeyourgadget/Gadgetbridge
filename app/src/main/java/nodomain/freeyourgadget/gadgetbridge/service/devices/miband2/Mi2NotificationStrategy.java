@@ -7,6 +7,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotification;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.V2NotificationStrategy;
 
 public class Mi2NotificationStrategy extends V2NotificationStrategy {
@@ -16,7 +18,7 @@ public class Mi2NotificationStrategy extends V2NotificationStrategy {
     }
 
     @Override
-    protected void sendCustomNotification(VibrationProfile vibrationProfile, BtLEAction extraAction, TransactionBuilder builder) {
+    protected void sendCustomNotification(VibrationProfile vibrationProfile, SimpleNotification simpleNotification, BtLEAction extraAction, TransactionBuilder builder) {
         //use the new alert characteristic
         BluetoothGattCharacteristic alert = getSupport().getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL);
         for (short i = 0; i < vibrationProfile.getRepeat(); i++) {
@@ -38,11 +40,13 @@ public class Mi2NotificationStrategy extends V2NotificationStrategy {
                 }
             }
         }
+
+        sendAlert(simpleNotification, builder);
     }
 
     @Override
-    public void sendCustomNotification(VibrationProfile vibrationProfile, int flashTimes, int flashColour, int originalColour, long flashDuration, BtLEAction extraAction, TransactionBuilder builder) {
+    public void sendCustomNotification(VibrationProfile vibrationProfile, SimpleNotification simpleNotification, int flashTimes, int flashColour, int originalColour, long flashDuration, BtLEAction extraAction, TransactionBuilder builder) {
         // all other parameters are unfortunately not supported anymore ;-(
-        sendCustomNotification(vibrationProfile, extraAction, builder);
+        sendCustomNotification(vibrationProfile, simpleNotification, extraAction, builder);
     }
 }

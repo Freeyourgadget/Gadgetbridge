@@ -26,6 +26,13 @@ import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 import static org.junit.Assert.assertNotNull;
 
+/**
+ * Base class for all testcases in Gadgetbridge that are supposed to run locally
+ * with robolectric.
+ *
+ * Important: To run them, create a run configuration and execute them in the Gadgetbridge/app/
+ * directory.
+ */
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 19)
 // need sdk 19 because "WITHOUT ROWID" is not supported in robolectric/sqlite4java

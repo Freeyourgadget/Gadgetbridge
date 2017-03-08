@@ -19,6 +19,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 
 import org.slf4j.Logger;
@@ -45,6 +46,8 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
 
     private PieChart mTodayPieChart;
     private BarChart mWeekChart;
+
+    private int mOffsetHours = getOffsetHours();
 
     @Override
     protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
@@ -86,14 +89,14 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         for (int counter = 0; counter < 7; counter++) {
             ActivityAmounts amounts = getActivityAmountsForDay(db, day, device);
 
-            entries.add(new BarEntry(counter, getTotalForActivityAmounts(amounts)));
+            entries.add(new BarEntry(counter, getTotalsForActivityAmounts(amounts)));
             labels.add(day.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, mLocale));
             day.add(Calendar.DATE, 1);
         }
 
         BarDataSet set = new BarDataSet(entries, "");
-        set.setColor(getMainColor());
-        set.setValueFormatter(getFormatter());
+        set.setColors(getColors());
+        set.setValueFormatter(getBarValueFormatter());
 
         BarData barData = new BarData(set);
         barData.setValueTextColor(Color.GRAY); //prevent tearing other graph elements with the black text. Another approach would be to hide the values cmpletely with data.setDrawValues(false);
@@ -106,32 +109,33 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
     }
 
     private DayData refreshDayPie(DBHandler db, Calendar day, GBDevice device) {
-        ActivityAmounts amounts = getActivityAmountsForDay(db, day, device);
-        int totalValue = getTotalForActivityAmounts(amounts);
 
         PieData data = new PieData();
         List<PieEntry> entries = new ArrayList<>();
-        List<Integer> colors = new ArrayList<>();
+        PieDataSet set = new PieDataSet(entries, "");
 
-        entries.add(new PieEntry(totalValue, "")); //we don't want labels on the pie chart
-        colors.add(getMainColor());
-
-        if (totalValue < mTargetValue) {
-            entries.add(new PieEntry((mTargetValue - totalValue))); //we don't want labels on the pie chart
-            colors.add(Color.GRAY);
+        ActivityAmounts amounts = getActivityAmountsForDay(db, day, device);
+        float totalValues[] = getTotalsForActivityAmounts(amounts);
+        float totalValue = 0;
+        for (float value : totalValues) {
+            totalValue += value;
+            entries.add(new PieEntry(value));
         }
 
-        PieDataSet set = new PieDataSet(entries, "");
-        set.setValueFormatter(getFormatter());
-        set.setColors(colors);
+        set.setValueFormatter(getPieValueFormatter());
+        set.setColors(getColors());
+
+        if (totalValue < mTargetValue) {
+            entries.add(new PieEntry((mTargetValue - totalValue)));
+            set.addColor(Color.GRAY);
+        }
+
         data.setDataSet(set);
         //this hides the values (numeric) added to the set. These would be shown aside the strings set with addXValue above
         data.setDrawValues(false);
 
-        return new DayData(data, formatPieValue(totalValue));
+        return new DayData(data, formatPieValue((int) totalValue));
     }
-
-    protected abstract String formatPieValue(int value);
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -160,7 +164,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
     private void setupTodayPieChart() {
         mTodayPieChart.setBackgroundColor(BACKGROUND_COLOR);
         mTodayPieChart.getDescription().setTextColor(DESCRIPTION_COLOR);
-        mTodayPieChart.getDescription().setText(getContext().getString(R.string.weeksteps_today_steps_description, String.valueOf(mTargetValue)));
+        mTodayPieChart.getDescription().setText(getPieDescription(mTargetValue));
 //        mTodayPieChart.setNoDataTextDescription("");
         mTodayPieChart.setNoDataText("");
         mTodayPieChart.getLegend().setEnabled(false);
@@ -190,7 +194,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         y.setDrawZeroLine(true);
         y.setSpaceBottom(0);
         y.setAxisMinimum(0);
-
+        y.setValueFormatter(getYAxisFormatter());
         y.setEnabled(true);
 
         YAxis yAxisRight = mWeekChart.getAxisRight();
@@ -211,7 +215,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
 //        chart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
     }
 
-    private List<? extends ActivitySample> getSamplesOfDay(DBHandler db, Calendar day, GBDevice device) {
+    private List<? extends ActivitySample> getSamplesOfDay(DBHandler db, Calendar day, int offsetHours, GBDevice device) {
         int startTs;
         int endTs;
 
@@ -219,12 +223,10 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         day.set(Calendar.HOUR_OF_DAY, 0);
         day.set(Calendar.MINUTE, 0);
         day.set(Calendar.SECOND, 0);
-        startTs = (int) (day.getTimeInMillis() / 1000);
+        day.add(Calendar.HOUR, offsetHours);
 
-        day.set(Calendar.HOUR_OF_DAY, 23);
-        day.set(Calendar.MINUTE, 59);
-        day.set(Calendar.SECOND, 59);
-        endTs = (int) (day.getTimeInMillis() / 1000);
+        startTs = (int) (day.getTimeInMillis() / 1000);
+        endTs = startTs + 24 * 60 * 60 - 1;
 
         return getSamples(db, device, startTs, endTs);
     }
@@ -270,14 +272,14 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         Activity activity = getActivity();
         if (activity != null) {
             activityAmountCache = ((ChartsActivity) activity).mActivityAmountCache;
-            amounts = (ActivityAmounts) (activityAmountCache.lookup(day.hashCode()));
+            amounts = (ActivityAmounts) (activityAmountCache.lookup(day.hashCode() ^ mOffsetHours));
         }
 
         if (amounts == null) {
             ActivityAnalysis analysis = new ActivityAnalysis();
-            amounts = analysis.calculateActivityAmounts(getSamplesOfDay(db, day, device));
+            amounts = analysis.calculateActivityAmounts(getSamplesOfDay(db, day, mOffsetHours, device));
             if (activityAmountCache != null) {
-                activityAmountCache.add(day.hashCode(), amounts);
+                activityAmountCache.add(day.hashCode() ^ mOffsetHours, amounts);
             }
         }
 
@@ -286,9 +288,19 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
 
     abstract int getGoal();
 
-    abstract int getTotalForActivityAmounts(ActivityAmounts activityAmounts);
+    abstract int getOffsetHours();
 
-    abstract IValueFormatter getFormatter();
+    abstract float[] getTotalsForActivityAmounts(ActivityAmounts activityAmounts);
 
-    abstract Integer getMainColor();
+    abstract String formatPieValue(int value);
+
+    abstract IValueFormatter getPieValueFormatter();
+
+    abstract IValueFormatter getBarValueFormatter();
+
+    abstract IAxisValueFormatter getYAxisFormatter();
+
+    abstract int[] getColors();
+
+    abstract String getPieDescription(int targetValue);
 }

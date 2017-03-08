@@ -17,17 +17,17 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
         applicationId "nodomain.freeyourgadget.gadgetbridge"
         minSdkVersion 19
-        targetSdkVersion 23
+        targetSdkVersion 25
 
         // note: always bump BOTH versionCode and versionName!
-        versionName "0.17.5"
-        versionCode 86
+        versionName "0.18.0"
+        versionCode 87
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -61,14 +61,20 @@ dependencies {
 //    testCompile 'ch.qos.logback:logback-core:1.1.3'
     testCompile 'junit:junit:4.12'
     testCompile "org.mockito:mockito-core:1.9.5"
-    testCompile "org.robolectric:robolectric:3.1.2"
+    testCompile "org.robolectric:robolectric:3.2.2"
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
+<<<<<<< HEAD
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:cardview-v7:23.4.0'
     compile 'com.android.support:recyclerview-v7:23.4.0'
     compile 'com.android.support:support-v4:23.4.0'
     compile 'com.android.support:design:23.4.0'
+=======
+    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:support-v4:25.2.0'
+    compile 'com.android.support:design:25.2.0'
+>>>>>>> master
     compile 'com.github.tony19:logback-android-classic:1.1.1-4'
     compile 'org.slf4j:slf4j-api:1.7.7'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'

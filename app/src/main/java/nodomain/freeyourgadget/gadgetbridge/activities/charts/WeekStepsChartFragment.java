@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -15,6 +16,11 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
+    String getPieDescription(int targetValue) {
+        return getString(R.string.weeksteps_today_steps_description, String.valueOf(targetValue));
+    }
+
+    @Override
     int getGoal() {
         GBDevice device = getChartsHost().getDevice();
         if (device != null) {
@@ -24,13 +30,18 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
-    int getTotalForActivityAmounts(ActivityAmounts activityAmounts) {
+    int getOffsetHours() {
+        return 0;
+    }
+
+    @Override
+    float[] getTotalsForActivityAmounts(ActivityAmounts activityAmounts) {
         int totalSteps = 0;
         for (ActivityAmount amount : activityAmounts.getAmounts()) {
             totalSteps += amount.getTotalSteps();
             amount.getTotalSteps();
         }
-        return totalSteps;
+        return new float[]{totalSteps};
     }
 
     @Override
@@ -39,12 +50,22 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
-    IValueFormatter getFormatter() {
+    IValueFormatter getPieValueFormatter() {
         return null;
     }
 
     @Override
-    Integer getMainColor() {
-        return akActivity.color;
+    IValueFormatter getBarValueFormatter() {
+        return null;
+    }
+
+    @Override
+    IAxisValueFormatter getYAxisFormatter() {
+        return null;
+    }
+
+    @Override
+    int[] getColors() {
+        return new int[]{akActivity.color};
     }
 }

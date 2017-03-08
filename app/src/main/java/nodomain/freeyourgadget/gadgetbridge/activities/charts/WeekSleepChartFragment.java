@@ -1,6 +1,8 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
@@ -19,19 +21,32 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
+    String getPieDescription(int targetValue) {
+        return getString(R.string.weeksleepchart_today_sleep_description, DateTimeUtils.minutesToHHMM(targetValue));
+    }
+
+    @Override
     int getGoal() {
         return 8 * 60; // FIXME
     }
 
     @Override
-    int getTotalForActivityAmounts(ActivityAmounts activityAmounts) {
-        long totalSeconds = 0;
+    int getOffsetHours() {
+        return -12;
+    }
+
+    @Override
+    float[] getTotalsForActivityAmounts(ActivityAmounts activityAmounts) {
+        long totalSecondsDeepSleep = 0;
+        long totalSecondsLightSleep = 0;
         for (ActivityAmount amount : activityAmounts.getAmounts()) {
-            if ((amount.getActivityKind() & ActivityKind.TYPE_SLEEP) != 0) {
-                totalSeconds += amount.getTotalSeconds();
+            if (amount.getActivityKind() == ActivityKind.TYPE_DEEP_SLEEP) {
+                totalSecondsDeepSleep += amount.getTotalSeconds();
+            } else if (amount.getActivityKind() == ActivityKind.TYPE_LIGHT_SLEEP) {
+                totalSecondsLightSleep += amount.getTotalSeconds();
             }
         }
-        return (int) (totalSeconds / 60);
+        return new float[]{(int) (totalSecondsDeepSleep / 60), (int) (totalSecondsLightSleep / 60)};
     }
 
     @Override
@@ -40,7 +55,7 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
-    IValueFormatter getFormatter() {
+    IValueFormatter getPieValueFormatter() {
         return new IValueFormatter() {
             @Override
             public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
@@ -50,7 +65,27 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
-    Integer getMainColor() {
-        return akLightSleep.color;
+    IValueFormatter getBarValueFormatter() {
+        return new IValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                return DateTimeUtils.minutesToHHMM((int) value);
+            }
+        };
+    }
+
+    @Override
+    IAxisValueFormatter getYAxisFormatter() {
+        return new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return DateTimeUtils.minutesToHHMM((int) value);
+            }
+        };
+    }
+
+    @Override
+    int[] getColors() {
+        return new int[]{akDeepSleep.color, akLightSleep.color};
     }
 }

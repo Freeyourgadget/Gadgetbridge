@@ -27,12 +27,22 @@ public class Mi2FirmwareInfo {
             (byte) 0xf3,
             (byte) 0xe7,
     };
+
     private static final int FW_HEADER_OFFSET = 0x150;
+
+    private static final byte[] FT_HEADER = new byte[] { // HMZK font file (*.ft, *.ft.xx)
+            0x48,
+            0x4d,
+            0x5a,
+            0x4b
+    };
 
     private static Map<Integer,String> crcToVersion = new HashMap<>();
     static {
         crcToVersion.put(41899, "1.0.0.39");
     }
+
+    private FirmwareType firmwareType = FirmwareType.FIRMWARE;
 
     public static String toVersion(int crc16) {
         return crcToVersion.get(crc16);
@@ -51,6 +61,18 @@ public class Mi2FirmwareInfo {
         this.bytes = bytes;
         crc16 = CheckSums.getCRC16(bytes);
         firmwareVersion = crcToVersion.get(crc16);
+        firmwareType = determineFirmwareType(bytes);
+    }
+
+    private FirmwareType determineFirmwareType(byte[] bytes) {
+        if (ArrayUtils.startsWith(bytes, FT_HEADER)) {
+            return FirmwareType.FONT;
+        }
+        if (ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET)) {
+            // TODO: this is certainly not a correct validation, but it works for now
+            return FirmwareType.FIRMWARE;
+        }
+        return FirmwareType.INVALID;
     }
 
     public boolean isGenerallyCompatibleWith(GBDevice device) {
@@ -58,8 +80,7 @@ public class Mi2FirmwareInfo {
     }
 
     public boolean isHeaderValid() {
-        // TODO: this is certainly not a correct validation, but it works for now
-        return ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET);
+        return getFirmwareType() != FirmwareType.INVALID;
     }
 
     public void checkValid() throws IllegalArgumentException {
@@ -83,5 +104,9 @@ public class Mi2FirmwareInfo {
 
     public int getFirmwareVersion() {
         return getCrc16(); // HACK until we know how to determine the version from the fw bytes
+    }
+
+    public FirmwareType getFirmwareType() {
+        return firmwareType;
     }
 }

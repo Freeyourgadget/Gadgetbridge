@@ -6,7 +6,9 @@ import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.Collection;
 
@@ -83,18 +85,20 @@ public interface DeviceCoordinator {
 
     /**
      * Returns the Activity class to be started in order to perform a pairing of a
-     * given device.
+     * given device after its discovery.
      *
-     * @return
+     * @return the activity class for pairing/initial authentication, or null if none
      */
+    @Nullable
     Class<? extends Activity> getPairingActivity();
 
     /**
      * Returns the Activity class that will be used as the primary activity
      * for the given device.
      *
-     * @return
+     * @return the primary activity class, or null if none
      */
+    @Nullable
     Class<? extends Activity> getPrimaryActivity();
 
     /**

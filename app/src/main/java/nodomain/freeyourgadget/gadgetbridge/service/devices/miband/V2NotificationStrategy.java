@@ -7,6 +7,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.NewAlert;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.OverflowStrategy;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotification;
 
 public class V2NotificationStrategy implements NotificationStrategy {
     private final AbstractBTLEDeviceSupport support;
@@ -20,12 +24,12 @@ public class V2NotificationStrategy implements NotificationStrategy {
     }
 
     @Override
-    public void sendDefaultNotification(TransactionBuilder builder, BtLEAction extraAction) {
+    public void sendDefaultNotification(TransactionBuilder builder, SimpleNotification simpleNotification, BtLEAction extraAction) {
         VibrationProfile profile = VibrationProfile.getProfile(VibrationProfile.ID_MEDIUM, (short) 3);
-        sendCustomNotification(profile, extraAction, builder);
+        sendCustomNotification(profile, simpleNotification, extraAction, builder);
     }
 
-    protected void sendCustomNotification(VibrationProfile vibrationProfile, BtLEAction extraAction, TransactionBuilder builder) {
+    protected void sendCustomNotification(VibrationProfile vibrationProfile, SimpleNotification simpleNotification, BtLEAction extraAction, TransactionBuilder builder) {
         //use the new alert characteristic
         BluetoothGattCharacteristic alert = support.getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL);
         for (short i = 0; i < vibrationProfile.getRepeat(); i++) {
@@ -49,11 +53,18 @@ public class V2NotificationStrategy implements NotificationStrategy {
                 }
             }
         }
+//        sendAlert(simpleNotification, builder);
+    }
+
+    protected void sendAlert(SimpleNotification simpleNotification, TransactionBuilder builder) {
+        AlertNotificationProfile<?> profile = new AlertNotificationProfile<>(getSupport());
+        NewAlert alert = new NewAlert(simpleNotification.getAlertCategory(), 1, simpleNotification.getMessage());
+        profile.newAlert(builder, alert, OverflowStrategy.MAKE_MULTIPLE);
     }
 
     @Override
-    public void sendCustomNotification(VibrationProfile vibrationProfile, int flashTimes, int flashColour, int originalColour, long flashDuration, BtLEAction extraAction, TransactionBuilder builder) {
+    public void sendCustomNotification(VibrationProfile vibrationProfile, SimpleNotification simpleNotification, int flashTimes, int flashColour, int originalColour, long flashDuration, BtLEAction extraAction, TransactionBuilder builder) {
         // all other parameters are unfortunately not supported anymore ;-(
-        sendCustomNotification(vibrationProfile, extraAction, builder);
+        sendCustomNotification(vibrationProfile, simpleNotification, extraAction, builder);
     }
 }

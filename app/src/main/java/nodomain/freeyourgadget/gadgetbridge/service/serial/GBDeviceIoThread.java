@@ -25,6 +25,7 @@ public abstract class GBDeviceIoThread extends Thread {
         return false;
     }
 
+    @Override
     public void run() {
     }
 

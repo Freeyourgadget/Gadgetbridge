@@ -220,7 +220,7 @@
     <string name="miband_pairing_using_dummy_userdata">No valid user data given, using dummy user data for now.</string>
     <string name="miband_pairing_tap_hint">When your Mi Band vibrates and blinks, tap it a few times in a row.</string>
     <string name="appinstaller_install">Install</string>
-    <string name="discovery_connected_devices_hint">Make your device discoverable. Currently connected devices will likely not be discovered. On Android 6 or later, you need to activate location (e.g. GPS). If your device does not show up after two minutes, try again after rebooting your mobile device.</string>
+    <string name="discovery_connected_devices_hint">Make your device discoverable. Currently connected devices will likely not be discovered. Activate location (e.g. GPS) on Android 6+. Disable Privacy Guard for Gadgetbridge, because it may crash and reboot your phone. If no device is found after a few minutes, try again after rebooting your mobile device.</string>
     <string name="discovery_note">Note:</string>
     <string name="candidate_item_device_image">Device Image</string>
     <string name="miband_prefs_alias">Name/Alias</string>
@@ -285,6 +285,7 @@
     <string name="notif_battery_low_bigtext_number_of_charges">Number of charges: %s</string>
     <string name="sleepchart_your_sleep">Your Sleep</string>
     <string name="weeksleepchart_sleep_a_week">Sleep a week</string>
+    <string name="weeksleepchart_today_sleep_description">Sleep today, target: %1$s</string>
     <string name="weekstepschart_steps_a_week">Steps a week</string>
     <string name="activity_sleepchart_activity_and_sleep">Your Activity and Sleep</string>
     <string name="updating_firmware">Updating Firmware…</string>
@@ -400,4 +401,7 @@
     <string name="timeformat_24h">24H</string>
     <string name="timeformat_am_pm">AM/PM</string>
     <string name="pref_screen_notification_profile_alarm_clock">Alarm Clock</string>
+    <string name="StringUtils_sender"> (%1$s)</string>
+    <string name="find_device_you_found_it">You found it!</string>
+    <string name="miband2_prefs_timeformat">Mi2: Time Format</string>
 </resources>

@@ -112,6 +112,6 @@ public class DeviceCommunicationServiceTestCase extends TestBase {
         mDeviceService.invokeService(intent);
         String result = intent.getStringExtra(EXTRA_NOTIFICATION_BODY);
 
-        assertTrue("Transliteration support fail!", result.equals("Prosto tekct"));
+        assertEquals("Transliteration support fail!", "Prosto tekct", result);
     }
 }
