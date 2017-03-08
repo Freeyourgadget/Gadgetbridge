@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+</change>
+    <release version="0.18.0" versioncode="87">
+        <change>Add Portuguese pt_PT and pt_BR translations</change>
+        <change>Add Hebrew translation and transliteration</change>
+        <change>Consistently display device specific icons already during discovery</change>
+        <change>Add sleep chart diplaying the last week of sleep</change>
+        <change>Huge speedup for weekly charts when changing days</change>
+        <change>Drop support for pre Gadgetbride 0.12.0 database</change>
+    </release>
     <release version="0.17.5" versioncode="86">
         <change>Automatically start the service on boot (can be turned off)</change>
         <change>Pebble: PebbleKit compatibility improvements (Datalogging)</change>
