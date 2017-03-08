@@ -53,7 +53,7 @@ public class V2NotificationStrategy implements NotificationStrategy {
                 }
             }
         }
-        sendAlert(simpleNotification, builder);
+//        sendAlert(simpleNotification, builder);
     }
 
     protected void sendAlert(SimpleNotification simpleNotification, TransactionBuilder builder) {

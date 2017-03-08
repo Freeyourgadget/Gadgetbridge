@@ -94,12 +94,16 @@ public class MiBand2Service {
     public static final byte[] COMMAND_SET_FITNESS_GOAL_END = new byte[] { 0, 0 };
 
 
-    public static byte COMMAND_DATEFORMAT = 0x06;
+    public static byte ENDPOINT_DISPLAY = 0x06;
 
-    public static final byte[] DATEFORMAT_DATE_TIME = new byte[] { COMMAND_DATEFORMAT, 0x0a, 0x0, 0x03 };
-    public static final byte[] DATEFORMAT_TIME = new byte[] { COMMAND_DATEFORMAT, 0x0a, 0x0, 0x0 };
-    public static final byte[] DATEFORMAT_TIME_12_HOURS = new byte[] { COMMAND_DATEFORMAT, 0x02, 0x0, 0x0 };
-    public static final byte[] DATEFORMAT_TIME_24_HOURS = new byte[] { COMMAND_DATEFORMAT, 0x02, 0x0, 0x1 };
+    public static final byte[] DATEFORMAT_DATE_TIME = new byte[] {ENDPOINT_DISPLAY, 0x0a, 0x0, 0x03 };
+    public static final byte[] DATEFORMAT_TIME = new byte[] {ENDPOINT_DISPLAY, 0x0a, 0x0, 0x0 };
+    public static final byte[] DATEFORMAT_TIME_12_HOURS = new byte[] {ENDPOINT_DISPLAY, 0x02, 0x0, 0x0 };
+    public static final byte[] DATEFORMAT_TIME_24_HOURS = new byte[] {ENDPOINT_DISPLAY, 0x02, 0x0, 0x1 };
+    public static final byte[] COMMAND_ENABLE_DISPLAY_ON_LIFT_WRIST = new byte[]{ENDPOINT_DISPLAY, 0x05, 0x00, 0x01};
+    public static final byte[] COMMAND_DISABLE_DISPLAY_ON_LIFT_WRIST = new byte[]{ENDPOINT_DISPLAY, 0x05, 0x00, 0x00};
+    public static final byte[] DISPLAY_XXX = new byte[] {ENDPOINT_DISPLAY, 0x03, 0x0, 0x0 };
+    public static final byte[] DISPLAY_YYY = new byte[] {ENDPOINT_DISPLAY, 0x10, 0x0, 0x1, 0x0 };
 
     public static final byte RESPONSE = 0x10;
 
@@ -111,14 +115,14 @@ public class MiBand2Service {
     public static final byte COMMAND_FIRMWARE_START_DATA = 0x03; // to UUID_CHARACTERISTIC_FIRMWARE
     public static final byte COMMAND_FIRMWARE_UPDATE_SYNC = 0x00; // to UUID_CHARACTERISTIC_FIRMWARE
     public static final byte COMMAND_FIRMWARE_CHECKSUM = 0x04; // to UUID_CHARACTERISTIC_FIRMWARE
-    public static final byte COMMAND_FIRMWARE_APPLY_REBOOT = 0x05; // or is it REBOOT? to UUID_CHARACTERISTIC_FIRMWARE
+    public static final byte COMMAND_FIRMWARE_REBOOT = 0x05; // to UUID_CHARACTERISTIC_FIRMWARE
 
     public static final byte[] RESPONSE_FINISH_SUCCESS = new byte[] {RESPONSE, 2, SUCCESS };
     public static final byte[] RESPONSE_FIRMWARE_DATA_SUCCESS = new byte[] {RESPONSE, COMMAND_FIRMWARE_START_DATA, SUCCESS };
     /**
      * Received in response to any dateformat configuration request (byte 0 in the byte[] value.
      */
-    public static final byte[] RESPONSE_DATEFORMAT_SUCCESS = new byte[] { RESPONSE, COMMAND_DATEFORMAT, 0x0a, 0x0, 0x01 };
+    public static final byte[] RESPONSE_DATEFORMAT_SUCCESS = new byte[] { RESPONSE, ENDPOINT_DISPLAY, 0x0a, 0x0, 0x01 };
     public static final byte[] RESPONSE_ACTIVITY_DATA_START_DATE_SUCCESS = new byte[] { RESPONSE, COMMAND_ACTIVITY_DATA_START_DATE, SUCCESS};
 
     public static final byte[] WEAR_LOCATION_LEFT_WRIST = new byte[] { 0x20, 0x00, 0x00, 0x02 };
@@ -127,34 +131,13 @@ public class MiBand2Service {
     public static final byte[] COMMAND_ENABLE_HR_SLEEP_MEASUREMENT = new byte[]{0x15, 0x00, 0x01};
     public static final byte[] COMMAND_DISABLE_HR_SLEEP_MEASUREMENT = new byte[]{0x15, 0x00, 0x00};
 
-    public static final byte[] COMMAND_ENABLE_DISPLAY_ON_LIFT_WRIST = new byte[]{0x06, 0x05, 0x00, 0x01};
-    public static final byte[] COMMAND_DISABLE_DISPLAY_ON_LIFT_WRIST = new byte[]{0x06, 0x05, 0x00, 0x00};
-
     public static final byte[] COMMAND_TEXT_NOTIFICATION = new byte[] {0x05, 0x01};
-    public static final byte[] COMMAND_TEXT_NOTIFICATION_CONTINUATION = new byte[] {(byte) 0xfa, 0x01, 0x00};
+    public static final byte COMMAND_ALERT_CATEGORY_CHAT = (byte) 0xfa;
 
     static {
         MIBAND_DEBUG = new HashMap<>();
         MIBAND_DEBUG.put(UUID_SERVICE_MIBAND_SERVICE, "MiBand Service");
         MIBAND_DEBUG.put(UUID_SERVICE_HEART_RATE, "MiBand HR Service");
-
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_DEVICE_INFO, "Device Info");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_DEVICE_NAME, "Device Name");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_NOTIFICATION, "Notification");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_USER_INFO, "User Info");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_CONTROL_POINT, "Control Point");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_REALTIME_STEPS, "Realtime Steps");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_ACTIVITY_DATA, "Activity Data");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_FIRMWARE_DATA, "Firmware Data");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_LE_PARAMS, "LE Params");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_DATE_TIME, "Date/Time");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_STATISTICS, "Statistics");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_BATTERY, "Battery");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_TEST, "Test");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_SENSOR_DATA, "Sensor Data");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_PAIR, "Pair");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT, "Heart Rate Control Point");
-//        MIBAND_DEBUG.put(UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT, "Heart Rate Measure");
     }
 
     public static String lookup(UUID uuid, String fallback) {

@@ -17,14 +17,15 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband2.MiBand2FWHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.AbstractMiBand2Operation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.FirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.Mi2FirmwareInfo;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband2.MiBand2FWHelper;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Support;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -113,10 +114,15 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
                         break;
                     }
                     case MiBand2Service.COMMAND_FIRMWARE_CHECKSUM: {
-                        sendApplyReboot(getFirmwareInfo());
+                        if (getFirmwareInfo().getFirmwareType() == FirmwareType.FIRMWARE) {
+                            getSupport().onReboot();
+                        } else {
+                            GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_update_complete), false, 100, getContext());
+                            done();
+                        }
                         break;
                     }
-                    case MiBand2Service.COMMAND_FIRMWARE_APPLY_REBOOT: {
+                    case MiBand2Service.COMMAND_FIRMWARE_REBOOT: {
                         GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_update_complete), false, 100, getContext());
 //                    getSupport().onReboot();
                         done();
@@ -152,12 +158,20 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
             builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.updating_firmware), getContext()));
             int fwSize = getFirmwareInfo().getSize();
             byte[] sizeBytes = BLETypeConversions.fromUint24(fwSize);
-            byte[] bytes = new byte[]{
-                    MiBand2Service.COMMAND_FIRMWARE_INIT,
-                    sizeBytes[0],
-                    sizeBytes[1],
-                    sizeBytes[2],
-            };
+            int arraySize = 4;
+            boolean isFirmwareCode = getFirmwareInfo().getFirmwareType() == FirmwareType.FIRMWARE;
+            if (!isFirmwareCode) {
+                arraySize++;
+            }
+            byte[] bytes = new byte[arraySize];
+            int i = 0;
+            bytes[i++] = MiBand2Service.COMMAND_FIRMWARE_INIT;
+            bytes[i++] = sizeBytes[0];
+            bytes[i++] = sizeBytes[1];
+            bytes[i++] = sizeBytes[2];
+            if (!isFirmwareCode) {
+                bytes[i++] = getFirmwareInfo().getFirmwareType().getValue();
+            }
 
             builder.write(fwCControlChar, bytes);
             builder.queue(getQueue());
@@ -176,7 +190,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
      *
      * @param info
      * @return whether the transfer succeeded or not. Only a BT layer exception will cause the transmission to fail.
-     * @see MiBand2Support#handleNotificationNotif
+     * @see #handleNotificationNotif
      */
     private boolean sendFirmwareData(Mi2FirmwareInfo info) {
         byte[] fwbytes = info.getBytes();
@@ -237,21 +251,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
         builder.queue(getQueue());
     }
 
-    private void sendApplyReboot(Mi2FirmwareInfo firmwareInfo) throws IOException {
-        TransactionBuilder builder = performInitialized("send firmware apply/reboot");
-        builder.write(fwCControlChar, new byte[] { MiBand2Service.COMMAND_FIRMWARE_APPLY_REBOOT });
-        builder.queue(getQueue());
-    }
-
     private Mi2FirmwareInfo getFirmwareInfo() {
         return firmwareInfo;
-    }
-
-    enum State {
-        INITIAL,
-        SEND_FW2,
-        SEND_FW1,
-        FINISHED,
-        UNKNOWN
     }
 }

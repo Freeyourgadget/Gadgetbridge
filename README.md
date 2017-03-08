@@ -152,6 +152,7 @@ Feel free to open an issue on our issue tracker, but please:
 
 ## Having problems?
 
+0. Phone crashing during device discovery? Disable Privacy Guard (or similarly named functionality) during discovery.
 1. Open Gadgetbridge's settings and check the option to write log files
 2. Reproduce the problem you encountered
 3. Check the logfile at /sdcard/Android/data/nodomain.freeyourgadget.gadgetbridge/files/gadgetbridge.log
