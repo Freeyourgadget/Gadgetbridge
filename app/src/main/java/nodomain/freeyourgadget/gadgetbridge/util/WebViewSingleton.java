@@ -243,6 +243,7 @@ public class WebViewSingleton {
             main.put("temp_max", weatherSpec.todayMaxTemp);
             main.put("name", weatherSpec.location);
 
+            resp.put("cod", 200);
             resp.put("coord", coord);
             resp.put("sys", sys);
             resp.put("weather", weather);
