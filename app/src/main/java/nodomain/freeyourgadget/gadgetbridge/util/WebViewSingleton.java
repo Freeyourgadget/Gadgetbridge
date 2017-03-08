@@ -207,7 +207,7 @@ public class WebViewSingleton {
     }
 
 
-    private static WebResourceResponse mimicOpenWeatherMapResponse() {
+    private static WebResourceResponse mimicOpenWeatherMapResponse(String origialRequestURL) {
         WeatherSpec weatherSpec = Weather.getInstance().getWeatherSpec();
 
         if (weatherSpec == null) {
@@ -238,9 +238,19 @@ public class WebViewSingleton {
             currCond.put("icon", Weather.mapToOpenWeatherMapIcon(weatherSpec.currentConditionCode));
             weather.put(currCond);
 
-            main.put("temp", weatherSpec.currentTemp);
-            main.put("temp_min", weatherSpec.todayMinTemp);
-            main.put("temp_max", weatherSpec.todayMaxTemp);
+            int currentTemp = weatherSpec.currentTemp;
+            int todayMinTemp = weatherSpec.todayMinTemp;
+            int todayMaxTemp = weatherSpec.todayMaxTemp;
+
+            if (origialRequestURL.contains("units=metric")) { // not nice but WebResourceRequest is not in KitKat
+                currentTemp -= 273;
+                todayMinTemp -= 273;
+                todayMaxTemp -= 273;
+            }
+
+            main.put("temp", currentTemp);
+            main.put("temp_min", todayMinTemp);
+            main.put("temp_max", todayMaxTemp);
             main.put("name", weatherSpec.location);
 
             resp.put("cod", 200);
@@ -294,7 +304,7 @@ public class WebViewSingleton {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 LOG.debug("WEBVIEW shouldInterceptRequest URL" + request.getUrl());
                 if (request.getUrl().toString().startsWith("http://api.openweathermap.org") || request.getUrl().toString().startsWith("https://api.openweathermap.org")) {
-                    return mimicOpenWeatherMapResponse();
+                    return mimicOpenWeatherMapResponse(request.getUrl().toString());
                 } else {
                     LOG.debug("WEBVIEW request:" + request.getUrl().toString() + " not intercepted");
                 }
@@ -306,7 +316,7 @@ public class WebViewSingleton {
         public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
             LOG.debug("WEBVIEW shouldInterceptRequest URL (legacy)" + url);
             if (url.startsWith("http://api.openweathermap.org") || url.startsWith("https://api.openweathermap.org")) {
-                return mimicOpenWeatherMapResponse();
+                return mimicOpenWeatherMapResponse(url);
             } else {
                 LOG.debug("WEBVIEW request:" + url + " not intercepted");
             }
