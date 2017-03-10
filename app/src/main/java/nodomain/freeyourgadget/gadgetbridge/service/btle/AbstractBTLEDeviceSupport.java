@@ -1,3 +1,20 @@
+/*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, JohnnySun
+
+    This file is part of Gadgetbridge.
+
+    Gadgetbridge is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Gadgetbridge is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
 import android.bluetooth.BluetoothGatt;
@@ -12,10 +29,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.Logging;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.CheckInitializedAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.AbstractBleProfile;
@@ -33,12 +53,13 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.AbstractBlePro
  */
 public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport implements GattCallback {
     private BtLEQueue mQueue;
-    private HashMap<UUID, BluetoothGattCharacteristic> mAvailableCharacteristics;
+    private Map<UUID, BluetoothGattCharacteristic> mAvailableCharacteristics;
     private final Set<UUID> mSupportedServices = new HashSet<>(4);
     private Logger logger;
 
     private final List<AbstractBleProfile<?>> mSupportedProfiles = new ArrayList<>();
     public static final String BASE_UUID = "0000%s-0000-1000-8000-00805f9b34fb"; //this is common for all BTLE devices. see http://stackoverflow.com/questions/18699251/finding-out-android-bluetooth-le-gatt-profiles
+    private final Object characteristicsMonitor = new Object();
 
     public AbstractBTLEDeviceSupport(Logger logger) {
         this.logger = logger;
@@ -166,10 +187,12 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
      * @see #addSupportedService(UUID)
      */
     public BluetoothGattCharacteristic getCharacteristic(UUID uuid) {
-        if (mAvailableCharacteristics == null) {
-            return null;
+        synchronized (characteristicsMonitor) {
+            if (mAvailableCharacteristics == null) {
+                return null;
+            }
+            return mAvailableCharacteristics.get(uuid);
         }
-        return mAvailableCharacteristics.get(uuid);
     }
 
     private void gattServicesDiscovered(List<BluetoothGattService> discoveredGattServices) {
@@ -178,7 +201,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
             return;
         }
         Set<UUID> supportedServices = getSupportedServices();
-        mAvailableCharacteristics = new HashMap<>();
+        Map<UUID, BluetoothGattCharacteristic> newCharacteristics = new HashMap<>();
         for (BluetoothGattService service : discoveredGattServices) {
             if (supportedServices.contains(service.getUuid())) {
                 logger.debug("discovered supported service: " + BleNamesResolver.resolveServiceName(service.getUuid().toString()) + ": " + service.getUuid());
@@ -192,7 +215,11 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
                     intmAvailableCharacteristics.put(characteristic.getUuid(), characteristic);
                     logger.info("    characteristic: " + BleNamesResolver.resolveCharacteristicName(characteristic.getUuid().toString()) + ": " + characteristic.getUuid());
                 }
-                mAvailableCharacteristics.putAll(intmAvailableCharacteristics);
+                newCharacteristics.putAll(intmAvailableCharacteristics);
+
+                synchronized (characteristicsMonitor) {
+                    mAvailableCharacteristics = newCharacteristics;
+                }
             } else {
                 logger.debug("discovered unsupported service: " + BleNamesResolver.resolveServiceName(service.getUuid().toString()) + ": " + service.getUuid());
             }
@@ -224,6 +251,11 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     @Override
     public void onServicesDiscovered(BluetoothGatt gatt) {
         gattServicesDiscovered(gatt.getServices());
+
+        if (getDevice().getState().compareTo(GBDevice.State.INITIALIZING) >= 0) {
+            logger.warn("Services discovered, but device state is already " + getDevice().getState() + " for device: " + getDevice() + ", so ignoring");
+            return;
+        }
         initializeDevice(createTransactionBuilder("Initializing device")).queue(getQueue());
     }
 

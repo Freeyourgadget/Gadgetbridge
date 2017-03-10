@@ -351,6 +351,16 @@
             android:authorities="com.getpebble.android.provider"
             android:exported="true" />
 
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.screenshot_provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/screenshot_provider_paths"/>
+        </provider>
+
         <receiver android:name=".SleepAlarmWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

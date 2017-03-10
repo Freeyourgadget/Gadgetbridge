@@ -1,10 +1,12 @@
 ###Changelog
 
 ###Version 0.18.0 (next)
-* Added Portuguese pt_PT and pt_BR translations
-* Added Hebrew translation
+* Add Portuguese pt_PT and pt_BR translations
+* Add Hebrew translation and transliteration
 * Consistently display device specific icons already during discovery
 * Add sleep chart diplaying the last week of sleep
+* Huge speedup for weekly charts when changing days
+* Drop support for pre Gadgetbride 0.12.0 database
 
 ####Version 0.17.5
 * Automatically start the service on boot (can be turned off)
