@@ -190,7 +190,6 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                                      }
         );
 
-        //Info icon is last in the row
         ItemWithDetailsAdapter infoAdapter = new ItemWithDetailsAdapter(context, device.getDeviceInfos());
         infoAdapter.setHorizontalAlignment(true);
         holder.deviceInfoList.setAdapter(infoAdapter);
@@ -213,7 +212,6 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
 
         );
 
-        //find lost device, hidden under details
         holder.findDevice.setVisibility(device.isInitialized() ? View.VISIBLE : View.GONE);
         holder.findDevice.setOnClickListener(new View.OnClickListener()
 
