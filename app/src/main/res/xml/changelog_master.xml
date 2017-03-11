@@ -2,6 +2,7 @@
 <changelog>
     <release version="0.18.0" versioncode="87">
         <change>Add Portuguese pt_PT and pt_BR translations</change>
+        <change>Add Czech translation</change>
         <change>Add Hebrew translation and transliteration</change>
         <change>Consistently display device specific icons already during discovery</change>
         <change>Add sleep chart diplaying the last week of sleep</change>
