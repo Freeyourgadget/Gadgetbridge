@@ -33,6 +33,7 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
     private AppNotificationType() {
         // Generic Email
         put("com.fsck.k9", NotificationType.GENERIC_EMAIL);
+        put("com.imaeses.squeaky", NotificationType.GENERIC_EMAIL);
         put("com.android.email", NotificationType.GENERIC_EMAIL);
 
         // Generic SMS
