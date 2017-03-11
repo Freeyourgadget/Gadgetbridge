@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:checkableBehavior="single"
+        android:id="@+id/applicaction_options">
         <item android:id="@+id/action_settings"
             android:title="@string/action_settings"
             android:icon="@drawable/ic_settings" />
@@ -16,9 +18,11 @@
             android:icon="@drawable/ic_quit" />
     </group>
 
-    <group android:checkableBehavior="single">
+    <group
+        android:checkableBehavior="single"
+        android:id="@+id/further_options">
         <item
             android:id="@+id/external_changelog"
-            android:title="@string/changelog_title" />
+            android:title="@string/changelog_full_title" />
     </group>
 </menu>

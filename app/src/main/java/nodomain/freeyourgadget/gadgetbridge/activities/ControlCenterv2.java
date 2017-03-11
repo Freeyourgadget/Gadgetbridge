@@ -217,6 +217,10 @@ public class ControlCenterv2 extends AppCompatActivity
             case R.id.action_quit:
                 GBApplication.quit();
                 return true;
+            case R.id.external_changelog:
+                ChangeLog cl = new ChangeLog(this);
+                cl.getFullLogDialog().show();
+                return true;
         }
 
         return true;
