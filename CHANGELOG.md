@@ -1,6 +1,6 @@
 ###Changelog
 
-###Version 0.18.0 (next)
+###Version 0.18.0
 * Add Portuguese pt_PT and pt_BR translations
 * Add Czech translation
 * Add Hebrew translation and transliteration
