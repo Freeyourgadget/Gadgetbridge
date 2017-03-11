@@ -1,7 +1,7 @@
 <resources>
 
     <style name="GadgetbridgeTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:textColor">@color/primarytext_light</item>
+        <item name="android:textColorPrimary">@color/primarytext_light</item>
         <item name="android:textColorSecondary">@color/secondarytext</item>
         <item name="colorPrimary">@color/primary_light</item>
         <item name="colorPrimaryDark">@color/primarydark_light</item>
@@ -21,7 +21,7 @@
 
     <!-- dark theme -->
     <style name="GadgetbridgeThemeDark" parent="Theme.AppCompat">
-        <item name="android:textColor">@color/primarytext_dark</item>
+        <item name="android:textColorPrimary">@color/primarytext_dark</item>
         <item name="android:textColorSecondary">@color/secondarytext</item>
         <item name="colorPrimary">@color/primary_dark</item>
         <item name="colorPrimaryDark">@color/primarydark_dark</item>
