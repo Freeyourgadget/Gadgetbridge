@@ -1,6 +1,7 @@
 ###Changelog
 
-###Version 0.18.0 (next)
+###Version 0.18.0
+* All new GUI for the control center
 * Add Portuguese pt_PT and pt_BR translations
 * Add Czech translation
 * Add Hebrew translation and transliteration

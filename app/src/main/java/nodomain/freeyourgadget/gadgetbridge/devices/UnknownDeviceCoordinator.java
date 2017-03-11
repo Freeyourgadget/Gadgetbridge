@@ -26,7 +26,7 @@ import android.support.annotation.Nullable;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBException;
-import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
+import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -114,7 +114,7 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public Class<? extends Activity> getPairingActivity() {
-        return ControlCenter.class;
+        return ControlCenterv2.class;
     }
 
     @Override

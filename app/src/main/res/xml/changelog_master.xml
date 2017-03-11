@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release version="0.18.0" versioncode="87">
+        <change>All new GUI for the control center</change>
         <change>Add Portuguese pt_PT and pt_BR translations</change>
         <change>Add Czech translation</change>
         <change>Add Hebrew translation and transliteration</change>
