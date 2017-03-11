@@ -64,17 +64,11 @@ dependencies {
     testCompile "org.robolectric:robolectric:3.2.2"
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
-<<<<<<< HEAD
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:cardview-v7:23.4.0'
-    compile 'com.android.support:recyclerview-v7:23.4.0'
-    compile 'com.android.support:support-v4:23.4.0'
-    compile 'com.android.support:design:23.4.0'
-=======
     compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:cardview-v7:25.2.0'
+    compile 'com.android.support:recyclerview-v7:25.2.0'
     compile 'com.android.support:support-v4:25.2.0'
     compile 'com.android.support:design:25.2.0'
->>>>>>> master
     compile 'com.github.tony19:logback-android-classic:1.1.1-4'
     compile 'org.slf4j:slf4j-api:1.7.7'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
@@ -86,6 +80,7 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.4'
 
 //    compile project(":DaoCore")
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
 
 preBuild.dependsOn(":GBDaoGenerator:genSources")
