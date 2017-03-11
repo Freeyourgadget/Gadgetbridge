@@ -195,6 +195,7 @@
                 android:layout_height="48dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:padding="2dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:contentDescription="@string/title_activity_appmanager"
