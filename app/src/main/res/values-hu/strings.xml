@@ -150,7 +150,6 @@
   <string name="miband_pairing_using_dummy_userdata">Nem helyes felhasználói adatok vannak megadva, alapértelmezett adatokat fogok használni.</string>
   <string name="miband_pairing_tap_hint">Amikor vibrálni kezd a Mi Band-ed, érintsd meg párszor egymás után.</string>
   <string name="appinstaller_install">Telepítés</string>
-  <string name="discovery_connected_devices_hint">Tedd felfedezhetővé az eszközöd. A jelenleg csatlakoztatott eszközök valóüszínűleg nem fognak megjelenni. 6-os és frissebb Androidon engedélyezni kell a helymeghatározást (GPS). Ha az eszköz két perc után sem jelenik meg, próbáld újra a mobileszközöd újraindítása után.</string>
   <string name="discovery_note">Megjegyzés:</string>
   <string name="candidate_item_device_image">Eszköz kép</string>
   <string name="miband_prefs_alias">Név/Alias</string>
@@ -277,17 +276,11 @@
   <string name="updatefirmwareoperation_firmware_not_sent">Nem küldött Firmware </string>
   <string name="charts_legend_heartrate">Pulzus</string>
   <string name="live_activity_heart_rate">Pulzus</string>
-  <!--Strings related to Onboading Activity-->
-  <string name="title_activity_onboarding">Adatbázis importálása</string>
-  <string name="import_old_db_buttonlabel">Régi aktivitásadatok importálása</string>
-  <string name="import_old_db_information">A Gadgetbridge 0.12.0 verziója óta új adatbázis-formátumot használ.          Lehetőség van a régi adatok importálására és azok párosítására a jelenleg csatlakozott eszközödhöz (%1$s)            Kérlek, vedd figyelembe, hogy tudsz importálni a Mi Band, Pebble Health és Morpheuz eszközökből, de NEM tudsz a Pebble Misfit-ből.       </string>
   <string name="pref_title_pebble_health_store_raw">Nyers adatok tárolása az adatbázisban</string>
   <string name="pref_summary_pebble_health_store_raw">Ha bejelölöd, az adatok eredeti formában lesznek tárolva későbbi értelmezéshez. Megj.: az adatbázis ebben az esetben nagyobb lesz!</string>
   <string name="action_db_management">Adatbáziskezelés</string>
   <string name="title_activity_db_management">Adatbáziskezelés</string>
   <string name="activity_db_management_import_export_explanation">Az adatbázisművelet ezt a helyet fogja használni. Ez a hely elérhető másik Android-alkalmazások és a számítógép számára. Itt keresd az exportált adatbázist is, illetve ide rakd az importálni kívánt adatbázist is.</string>
-  <string name="activity_db_management_merge_old_explanation">Az aktivitásadatok egy régebbi Gadgetbridge verzióval készültek, muszáj átkonvertálni az új formátumba. Ezt megteheted az alábbi gombbal. Tartsd figyelembe, hogy csatlakoztatva kell lennie a készülékednek, amihez szeretnéd párosítani az adatokat. Ha már importáltad azadataid és boldog vagy az eredménnyel, letörölheted a régi adatbázist. </string>
-  <string name="activity_db_management_merge_old_title">Régi/hagyaték adatok importálása / törlése</string>
   <string name="dbmanagementactivvity_cannot_access_export_path">Nem elérhető az elérési út. Kérlek vedd fel a kapcsolatot a fejlesztőkkel.</string>
   <string name="dbmanagementactivity_exported_to">%1$s exportálva</string>
   <string name="dbmanagementactivity_error_exporting_db">Hiba az exportálás során: %1$s</string>
@@ -295,12 +288,6 @@
   <string name="dbmanagementactivity_overwrite_database_confirmation">Biztosan felül akarod írni a jelenlegi adatbázist? Az összes jelenlegi aktivitás adatod (ha van) elfog veszni.</string>
   <string name="dbmanagementactivity_import_successful">Sikeres importálás.</string>
   <string name="dbmanagementactivity_error_importing_db">Hiba az importálás során: %1$s</string>
-  <string name="dbmanagementactivity_no_old_activitydatabase_found">Nem található régi aktivitás-adatbázis, nincs mit importálni.</string>
-  <string name="dbmanagementactivity_no_connected_device">Nincs csatlakoztatva az adatokhoz rendelt eszköz.</string>
-  <string name="dbmanagementactivity_merging_activity_data_title">Aktivitásadatok összefésülése</string>
-  <string name="dbmanagementactivity_please_wait_while_merging">Kérlek várj, aktivitásadatok összefésülése…</string>
-  <string name="dbmanagementactivity_error_importing_old_activity_data">Hiba a régi aktivitásadatok importálása során az új adatbázisba.</string>
-  <string name="dbmanagementactivity_associate_old_data_with_device">Régi adatok összecsatolása az eszközzel</string>
   <string name="dbmanagementactivity_delete_activity_data_title">Törlöd az aktivitásadatokat?</string>
   <string name="dbmanagementactivity_really_delete_entire_db">Tényleg törölni akarod az egész adatbázist? Minden aktivitásadatod és rólad tárolt információ elfog veszni.</string>
   <string name="dbmanagementactivity_database_successfully_deleted">Az adatok sikeresen törölve lettek.</string>

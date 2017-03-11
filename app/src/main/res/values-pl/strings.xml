@@ -249,18 +249,13 @@
   <string name="updatefirmwareoperation_update_in_progress">Trwa aktualizacja firmware</string>
   <string name="charts_legend_heartrate">Puls</string>
   <string name="live_activity_heart_rate">Puls</string>
-  <!--Strings related to Onboading Activity-->
-  <string name="title_activity_onboarding">Import bazydanych</string>
-  <string name="import_old_db_buttonlabel">Import starszych danych aktywności</string>
   <string name="action_db_management">Zarządzanie bazą danych</string>
   <string name="title_activity_db_management">Zarządzanie bazą danych</string>
-  <string name="activity_db_management_merge_old_title">Importuj / Usuń starą bazę danych</string>
   <string name="dbmanagementactivity_exported_to">Wyeksportowano do: %1$s</string>
   <string name="dbmanagementactivity_error_exporting_db">Błąd eksportu bazy: %1$s</string>
   <string name="dbmanagementactivity_import_data_title">Zaimportować?</string>
   <string name="dbmanagementactivity_overwrite_database_confirmation">Naprawdę chcesz napisać bazę? Wszystkie Twoje dane zostaną zastąpione.</string>
   <string name="dbmanagementactivity_error_importing_db">Błąd importu bazy: %1$s</string>
-  <string name="dbmanagementactivity_no_old_activitydatabase_found">Nie znaleziono aktywności, nic do importu.</string>
   <string name="dbmanagementactivity_overwrite">Nadpisz</string>
   <string name="Cancel">Anuluj</string>
   <string name="Delete">Usuń</string>

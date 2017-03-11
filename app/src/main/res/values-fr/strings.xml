@@ -181,7 +181,7 @@
   <string name="miband_pairing_using_dummy_userdata">Aucune donnée utilisateur valide fournie,  utilisation de données fictives pour le moment</string>
   <string name="miband_pairing_tap_hint">Quand votre Mi Band vibre et clignote, appuyez dessus plusieurs fois d\'affilée.</string>
   <string name="appinstaller_install">Installer</string>
-  <string name="discovery_connected_devices_hint">Mettez votre appareil en mode visible. Les appareils déjà connectés ne sont pas visibles. Sur Android 6 ou supérieur, vous devez activer la localisation (ex. GPS). Si votre appareil n\'est pas visible après 2 minutes, réessayez après avoir redémarré votre téléphone.</string>
+  <string name="discovery_connected_devices_hint">Mettez votre appareil en mode visible. Les appareils déjà connectés ne seront pas visibles. Sur Android 6 ou supérieur, vous devez activer la localisation (ex. GPS). Désactivez Privacy Guard pour Gadgetbridge, il pourrait stopper et redémarrer votre téléphone. Si votre appareil n\'est pas visible après 2 minutes, réessayez après avoir redémarré votre téléphone.</string>
   <string name="discovery_note">Note:</string>
   <string name="candidate_item_device_image">Image de l\'appareil</string>
   <string name="miband_prefs_alias">Nom/Pseudo</string>
@@ -242,6 +242,7 @@
   <string name="notif_battery_low_bigtext_number_of_charges">Nombre de charges: %s</string>
   <string name="sleepchart_your_sleep">Votre sommeil</string>
   <string name="weeksleepchart_sleep_a_week">Dormir une semaine</string>
+  <string name="weeksleepchart_today_sleep_description">Sommeil aujourd\'hui, objectif: %1$s</string>
   <string name="weekstepschart_steps_a_week">Pas de la semaine</string>
   <string name="activity_sleepchart_activity_and_sleep">Votre activité et sommeil</string>
   <string name="updating_firmware">Mise à jour du micrologiciel...</string>
@@ -347,4 +348,7 @@ NOTE: la base de données sera bien évidement plus grande !</string>
   <string name="timeformat_24h">24H</string>
   <string name="timeformat_am_pm">AM/PM</string>
   <string name="pref_screen_notification_profile_alarm_clock">Réveil</string>
+  <string name="StringUtils_sender">(%1$s)</string>
+  <string name="find_device_you_found_it">Vous l\'avez trouvé!</string>
+  <string name="miband2_prefs_timeformat">Mi2: format de l\'heure</string>
 </resources>

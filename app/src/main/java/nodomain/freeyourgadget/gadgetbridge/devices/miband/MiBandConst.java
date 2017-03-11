@@ -1,3 +1,20 @@
+/*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Christian
+    Fischer, Daniele Gobbetti, Szymon Tomasz Stefanek
+
+    This file is part of Gadgetbridge.
+
+    Gadgetbridge is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Gadgetbridge is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
 import org.slf4j.Logger;
@@ -12,7 +29,6 @@ public final class MiBandConst {
     public static final String PREF_MIBAND_WEARSIDE = "mi_wearside";
     public static final String PREF_MIBAND_ADDRESS = "development_miaddr";  // FIXME: should be prefixed mi_
     public static final String PREF_MIBAND_ALARMS = "mi_alarms";
-    public static final String PREF_MIBAND_FITNESS_GOAL = "mi_fitness_goal";
     public static final String PREF_MIBAND_DONT_ACK_TRANSFER = "mi_dont_ack_transfer";
     public static final String PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR = "mi_reserve_alarm_calendar";
     public static final String PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION = "mi_hr_sleep_detection";

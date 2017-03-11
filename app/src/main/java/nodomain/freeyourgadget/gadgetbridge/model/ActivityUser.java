@@ -1,3 +1,20 @@
+/*  Copyright (C) 2016-2017 0nse, Andreas Shimokawa, Carsten Pfeiffer,
+    Daniele Gobbetti
+
+    This file is part of Gadgetbridge.
+
+    Gadgetbridge is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Gadgetbridge is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
 import java.util.Calendar;
@@ -5,7 +22,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -41,7 +57,7 @@ public class ActivityUser {
     public static final String PREF_USER_HEIGHT_CM = "activity_user_height_cm";
     public static final String PREF_USER_WEIGHT_KG = "activity_user_weight_kg";
     public static final String PREF_USER_SLEEP_DURATION = "activity_user_sleep_duration";
-    public static final String PREF_USER_STEPS_GOAL = MiBandConst.PREF_MIBAND_FITNESS_GOAL;
+    public static final String PREF_USER_STEPS_GOAL = "mi_fitness_goal"; // FIXME: for compatibility
 
     public ActivityUser() {
         fetchPreferences();

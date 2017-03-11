@@ -25,8 +25,8 @@
   <string name="appmanager_app_openinstore">חיפוש בחנות היישומונים של Pebble</string>
   <string name="appmanager_health_activate">הפעלה</string>
   <string name="appmanager_health_deactivate">נטרול</string>
-  <string name="appmanager_hrm_activate">הפעלת </string>
-  <string name="appmanager_hrm_deactivate">נטרול </string>
+  <string name="appmanager_hrm_activate">הפעלת מעקב דופק</string>
+  <string name="appmanager_hrm_deactivate">נטרול מעקב דופק</string>
   <string name="appmanager_weather_activate">הפעלת יישומון מזג האוויר של המערכת</string>
   <string name="appmanager_weather_deactivate">נטרול יישומון מזג האוויר של המערכת</string>
   <string name="appmanager_weather_install_provider">התקנת יישומון דיווח מזג האוויר</string>
@@ -63,7 +63,7 @@
   <string name="pref_title_notifications_repetitions">חזרות</string>
   <string name="pref_title_notifications_call">שיחות טלפון</string>
   <string name="pref_title_notifications_sms">מסרונים</string>
-  <string name="pref_title_notifications_pebblemsg">הודעות </string>
+  <string name="pref_title_notifications_pebblemsg">הודעות Pebble</string>
   <string name="pref_summary_notifications_pebblemsg">תמיכה ביישומונים ששולחים דיווחים ל־Pebble באמצעות PebbleKit.</string>
   <string name="pref_title_notifications_generic">תמיכה בדיווחים גנריים</string>
   <string name="pref_title_whenscreenon">…גם כאשר המסך פעיל</string>
@@ -176,12 +176,11 @@
   <string name="male">זכר</string>
   <string name="female">נקבה</string>
   <string name="other">אחר</string>
-  <string name="left">שמא</string>
+  <string name="left">שמאל</string>
   <string name="right">ימין</string>
   <string name="miband_pairing_using_dummy_userdata">לא ניתנו נתוני משתמש, נעשה שימוש בנתוני דמה לבינתיים.</string>
   <string name="miband_pairing_tap_hint">כאשר ה־Mi Band שלך רוטט ומהבהב, יש לגעת בו מספר פעמים ברצף.</string>
   <string name="appinstaller_install">התקנה</string>
-  <string name="discovery_connected_devices_hint">נא לוודא שההתקן שלך פתוח לגילוי. התקנים שכבר חוברו לא יופיעו ברשימה. באנדרואיד 6 ומעלה, עליך להפעיל את המיקום (למשל GPS). אם ההתקן שלך לא מופיע לאחר למעלה משתי דקות, יש לנסות שוב לאחר הפעלה מחדש של הטלפון שלך.</string>
   <string name="discovery_note">לתשומת לבך:</string>
   <string name="candidate_item_device_image">תמונת ההתקן</string>
   <string name="miband_prefs_alias">שם/כינוי</string>
@@ -242,6 +241,7 @@
   <string name="notif_battery_low_bigtext_number_of_charges">מספר טעינות: %s</string>
   <string name="sleepchart_your_sleep">השינה שלך</string>
   <string name="weeksleepchart_sleep_a_week">שינה של שבוע</string>
+  <string name="weeksleepchart_today_sleep_description">שינה היום, יעד: %1$s</string>
   <string name="weekstepschart_steps_a_week">צעדים של שבוע</string>
   <string name="activity_sleepchart_activity_and_sleep">הפעילות והשינה שלך</string>
   <string name="updating_firmware">הקושחה מתעדכנת…</string>
@@ -346,4 +346,7 @@
   <string name="timeformat_24h">24ש׳</string>
   <string name="timeformat_am_pm">AM/PM</string>
   <string name="pref_screen_notification_profile_alarm_clock">שעון מעורר</string>
+  <string name="StringUtils_sender"> (%1$s)</string>
+  <string name="find_device_you_found_it">מצאת את זה!</string>
+  <string name="miband2_prefs_timeformat">Mi2: תבנית זמן</string>
 </resources>

@@ -181,7 +181,7 @@
   <string name="miband_pairing_using_dummy_userdata">No se han proporcionado datos de usuario válidos, se usarán datos de usuario por defecto.</string>
   <string name="miband_pairing_tap_hint">Cuando tu MiBand vibre y parpadee, púlsala repetidas veces.</string>
   <string name="appinstaller_install">Instalar</string>
-  <string name="discovery_connected_devices_hint">Haga su dispositivo detectable. Los dispositivos conectados no serán detectables. En Android 6 o superior, necesita activar la localización (ej. GPS). Si su dispositivo no aparece en dos minutos, vuelva a intentarlo tras reiniciar su teléfono.</string>
+  <string name="discovery_connected_devices_hint">Haga su dispositivo detectable. Los dispositivos conectados no serán detectables. En Android 6 o superior, necesita activar la localización (ej. GPS). Desactive Privacy Guard para Gadgetbridge, debido a que podría detener y reiniciar su teléfono. Si su dispositivo no aparece en dos minutos, vuelva a intentarlo tras reiniciar su teléfono.</string>
   <string name="discovery_note">Nota:</string>
   <string name="candidate_item_device_image">Imagen del dispositivo</string>
   <string name="miband_prefs_alias">Nombre/Apodo</string>
@@ -242,6 +242,7 @@
   <string name="notif_battery_low_bigtext_number_of_charges">Número de cargas: %s</string>
   <string name="sleepchart_your_sleep">Tu sueño</string>
   <string name="weeksleepchart_sleep_a_week">Dormir una semana</string>
+  <string name="weeksleepchart_today_sleep_description">Sueño hoy, objetivo: %1$s</string>
   <string name="weekstepschart_steps_a_week">Pasos por semana</string>
   <string name="activity_sleepchart_activity_and_sleep">Tu actividad y sueño</string>
   <string name="updating_firmware">Actualizando firmware...</string>
@@ -346,4 +347,7 @@
   <string name="timeformat_24h">24H</string>
   <string name="timeformat_am_pm">AM/PM</string>
   <string name="pref_screen_notification_profile_alarm_clock">Despertador</string>
+  <string name="StringUtils_sender">(%1$s)</string>
+  <string name="find_device_you_found_it">¡Lo ha encontrado!</string>
+  <string name="miband2_prefs_timeformat">Mi2: formato de hora</string>
 </resources>
