@@ -219,7 +219,6 @@
   <string name="device_fw"> Версия ПО: %1$s</string>
   <string name="error_creating_directory_for_logfiles">Ошибка создания каталога для лог-файлов: %1$s</string>
   <string name="updatefirmwareoperation_update_in_progress">Обновление прошивки в процессе</string>
-  <!--Strings related to Onboading Activity-->
   <string name="Delete">Удалить</string>
   <!--Strings related to Vibration Activity-->
   <!--Strings related to Pebble Pairing Activity-->

@@ -181,8 +181,6 @@
   <string name="miband_pairing_using_dummy_userdata">Keine gültigen Benutzerinformationen angegeben, verwende Dummy-Daten für\'s Erste.</string>
   <string name="miband_pairing_tap_hint">Wenn Dein Mi Band vibriert und blinkt, tippe ein paar Mal schnell hintereinander darauf.</string>
   <string name="appinstaller_install">Installieren</string>
-  <string name="discovery_connected_devices_hint">Mach Dein Gerät auffindbar. Derzeit verbundene Geräte sind in der Regel nicht auffindbar. Android 6 oder neuer braucht dafür Standortbestimmung (z.B. GPS). Wenn Dein Gerät nach zwei Minuten nicht
- angezeigt wird, versuche es nach einem Neustart Deines Telefons noch einmal.</string>
   <string name="discovery_note">Tipp:</string>
   <string name="candidate_item_device_image">Bild des Geräts</string>
   <string name="miband_prefs_alias">Name/Alias</string>
@@ -243,6 +241,7 @@
   <string name="notif_battery_low_bigtext_number_of_charges">Anzahl Ladungen: %s</string>
   <string name="sleepchart_your_sleep">Dein Schlaf</string>
   <string name="weeksleepchart_sleep_a_week">Schlaf pro Woche</string>
+  <string name="weeksleepchart_today_sleep_description">Heutiger Schlaf, Ziel: %1$s</string>
   <string name="weekstepschart_steps_a_week">Schritte pro Woche</string>
   <string name="activity_sleepchart_activity_and_sleep">Deine Aktivität und Schlaf</string>
   <string name="updating_firmware">Firmware wird aktualisiert…</string>
@@ -339,6 +338,7 @@
   <!--Strings related to Pebble Pairing Activity-->
   <string name="title_activity_pebble_pairing">Pebble-Kopplung</string>
   <string name="pebble_pairing_hint">Ein Kopplungsdialog sollte auf dem Android-Gerät aufpoppen. Falls das nicht passiert, schau in die Benachrichtigungen und akzeptiere die Kopplungsanfrage. Akzeptiere danach die Kopplungsanfrage auf Deiner Pebble.</string>
+  <string name="weather_notification_label">Stelle sicher, dass dieses Skin in der Wetter-App aktiviert ist, damit du Wetterdaten auf deine Pebble erhältst. \n\nKeine Konfiguration nötig. \n\nDu kannst die System-Wetter-App deiner Pebble im App-Management aktivieren. \n\nUnterstützte Watchfaces werden die Wetterdaten automatisch anzeigen.</string>
   <string name="pref_title_setup_bt_pairing">Bluetooth-Kopplung aktivieren</string>
   <string name="pref_summary_setup_bt_pairing">Deaktiviere dies falls Du Probleme beim verbinden hast</string>
   <string name="unit_metric">Metrisch</string>
@@ -346,4 +346,7 @@
   <string name="timeformat_24h">24h</string>
   <string name="timeformat_am_pm">AM/PM</string>
   <string name="pref_screen_notification_profile_alarm_clock">Wecker</string>
+  <string name="StringUtils_sender"> (%1$s)</string>
+  <string name="find_device_you_found_it">Gefunden!</string>
+  <string name="miband2_prefs_timeformat">Mi2: Uhrzeit-Format</string>
 </resources>
