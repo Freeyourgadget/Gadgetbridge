@@ -181,7 +181,6 @@
   <string name="miband_pairing_using_dummy_userdata">Nenhum dado válido informado, usando dados fictícios por enquanto.</string>
   <string name="miband_pairing_tap_hint">Quando a sua Mi Band vibra e pisca, toque nele algumas vezes seguidas.</string>
   <string name="appinstaller_install">Instalar</string>
-  <string name="discovery_connected_devices_hint">Torne o dispositivo detectável. Os dispositivos atualmente conectados provavelmente não serão descobertos. No Android 6 ou posterior, é necessário ativar o local (por exemplo, GPS). Se o dispositivo não aparecer após dois minutos, tente novamente após reiniciar o dispositivo móvel.</string>
   <string name="discovery_note">Nota:</string>
   <string name="candidate_item_device_image">Imagem do Dispositivo</string>
   <string name="miband_prefs_alias">Nome/Apelido</string>

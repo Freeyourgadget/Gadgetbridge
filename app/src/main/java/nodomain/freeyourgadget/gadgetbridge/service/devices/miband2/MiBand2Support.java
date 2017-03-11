@@ -63,6 +63,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEvents;
@@ -332,7 +333,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         LOG.info("Attempting to set Fitness Goal...");
         BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC8);
         if (characteristic != null) {
-            int fitnessGoal = MiBandCoordinator.getFitnessGoal(getDevice().getAddress());
+            int fitnessGoal = GBApplication.getPrefs().getInt(ActivityUser.PREF_USER_STEPS_GOAL, 10000);
             byte[] bytes = ArrayUtils.addAll(
                     MiBand2Service.COMMAND_SET_FITNESS_GOAL_START,
                     BLETypeConversions.fromUint16(fitnessGoal));
@@ -1030,7 +1031,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 case MiBandConst.PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT:
                     setActivateDisplayOnLiftWrist(builder);
                     break;
-                case MiBandConst.PREF_MIBAND_FITNESS_GOAL:
+                case ActivityUser.PREF_USER_STEPS_GOAL:
                     setFitnessGoal(builder);
                     break;
             }

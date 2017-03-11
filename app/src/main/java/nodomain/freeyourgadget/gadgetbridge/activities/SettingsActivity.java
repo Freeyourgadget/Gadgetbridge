@@ -54,6 +54,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_HEIGHT_CM;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_SLEEP_DURATION;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_STEPS_GOAL;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_WEIGHT_KG;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_YEAR_OF_BIRTH;
 
@@ -283,6 +284,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 PREF_USER_HEIGHT_CM,
                 PREF_USER_WEIGHT_KG,
                 PREF_USER_SLEEP_DURATION,
+                PREF_USER_STEPS_GOAL,
         };
     }
 
