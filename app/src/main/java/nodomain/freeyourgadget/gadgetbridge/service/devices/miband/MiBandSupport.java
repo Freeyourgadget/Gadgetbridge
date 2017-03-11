@@ -59,6 +59,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEvents;
@@ -386,7 +387,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         LOG.info("Attempting to set Fitness Goal...");
         BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT);
         if (characteristic != null) {
-            int fitnessGoal = MiBandCoordinator.getFitnessGoal(getDevice().getAddress());
+            int fitnessGoal = GBApplication.getPrefs().getInt(ActivityUser.PREF_USER_STEPS_GOAL, 10000);
             transaction.write(characteristic, new byte[]{
                     MiBandService.COMMAND_SET_FITNESS_GOAL,
                     0,

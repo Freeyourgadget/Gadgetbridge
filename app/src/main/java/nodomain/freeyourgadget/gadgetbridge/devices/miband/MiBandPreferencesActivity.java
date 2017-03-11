@@ -30,6 +30,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -40,7 +41,6 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PR
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DATEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_ADDRESS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_FITNESS_GOAL;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_USER_ALIAS;
@@ -93,14 +93,14 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
             }
         });
 
-        final Preference fitnessGoal = findPreference(PREF_MIBAND_FITNESS_GOAL);
+        final Preference fitnessGoal = findPreference(ActivityUser.PREF_USER_STEPS_GOAL);
         fitnessGoal.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newVal) {
                 invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        GBApplication.deviceService().onSendConfiguration(PREF_MIBAND_FITNESS_GOAL);
+                        GBApplication.deviceService().onSendConfiguration(ActivityUser.PREF_USER_STEPS_GOAL);
                     }
                 });
                 return true;
@@ -160,7 +160,7 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
         Set<String> prefKeys = new HashSet<>();
         prefKeys.add(PREF_USER_ALIAS);
         prefKeys.add(PREF_MIBAND_ADDRESS);
-        prefKeys.add(PREF_MIBAND_FITNESS_GOAL);
+        prefKeys.add(ActivityUser.PREF_USER_STEPS_GOAL);
         prefKeys.add(PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR);
         prefKeys.add(PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS);
         prefKeys.add(getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_ALARM_CLOCK));

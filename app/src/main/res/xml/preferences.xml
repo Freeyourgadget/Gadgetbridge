@@ -73,6 +73,13 @@
                 android:title="@string/activity_prefs_weight_kg" />
 
             <EditTextPreference
+                android:defaultValue="10000"
+                android:inputType="number"
+                android:key="mi_fitness_goal"
+                android:maxLength="5"
+                android:title="@string/miband_prefs_fitness_goal" />
+
+            <EditTextPreference
                 android:inputType="number"
                 android:key="activity_user_sleep_duration"
                 android:maxLength="2"

@@ -24,10 +24,12 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.util.concurrent.TimeUnit;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmount;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmounts;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 public class WeekSleepChartFragment extends AbstractWeekChartFragment {
@@ -43,7 +45,7 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
 
     @Override
     int getGoal() {
-        return 8 * 60; // FIXME
+        return GBApplication.getPrefs().getInt(ActivityUser.PREF_USER_SLEEP_DURATION, 8) * 60;
     }
 
     @Override
