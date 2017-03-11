@@ -33,9 +33,10 @@ public enum AlertCategory {
     VoiceMail(6),
     Schedule(7),
     HighPriorityAlert(8),
-    InstantMessage(9);
+    InstantMessage(9),
     // 10-250 reserved for future use
     // 251-255 defined by service specification
+    Any(255);
 
     private final int id;
 
@@ -91,5 +92,4 @@ public enum AlertCategory {
 
         return null;
     }
-
 }

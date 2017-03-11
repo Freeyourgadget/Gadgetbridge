@@ -39,6 +39,20 @@ public class AlertNotificationProfile<T extends AbstractBTLEDeviceSupport> exten
         super(support);
     }
 
+    public void configure(TransactionBuilder builder, AlertNotificationControl control) {
+        BluetoothGattCharacteristic characteristic = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_ALERT_NOTIFICATION_CONTROL_POINT);
+        if (characteristic != null) {
+            builder.write(characteristic, control.getControlMessage());
+        }
+    }
+
+    public void updateAlertLevel(TransactionBuilder builder, AlertLevel level) {
+        BluetoothGattCharacteristic characteristic = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL);
+        if (characteristic != null) {
+            builder.write(characteristic, new byte[] {BLETypeConversions.fromUint8(level.getId())});
+        }
+    }
+
     public void newAlert(TransactionBuilder builder, NewAlert alert, OverflowStrategy strategy) {
         BluetoothGattCharacteristic characteristic = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_NEW_ALERT);
         if (characteristic != null) {
@@ -52,14 +66,20 @@ public class AlertNotificationProfile<T extends AbstractBTLEDeviceSupport> exten
                 numChunks++;
             }
 
+            boolean hasAlerted = false;
             for (int i = 0; i < numChunks; i++) {
                 int offset = i * MAX_MSG_LENGTH;
                 int restLength = message.length() - offset;
                 message = message.substring(offset, offset + Math.min(MAX_MSG_LENGTH, restLength));
-                if (message.length() == 0) {
+                if (hasAlerted && message.length() == 0) {
+                    // no need to do it again when there is no text content
                     break;
                 }
                 writeAlertMessage(builder, characteristic, alert, message, i);
+                hasAlerted = true;
+            }
+            if (!hasAlerted) {
+                writeAlertMessage(builder, characteristic, alert, "", 1);
             }
         } else {
             LOG.warn("NEW_ALERT characteristic not available");
@@ -69,13 +89,18 @@ public class AlertNotificationProfile<T extends AbstractBTLEDeviceSupport> exten
     protected void writeAlertMessage(TransactionBuilder builder, BluetoothGattCharacteristic characteristic, NewAlert alert, String message, int chunk) {
         try {
             ByteArrayOutputStream stream = new ByteArrayOutputStream(100);
-            stream.write(alert.getCategory().getId());
-            stream.write(alert.getNumAlerts());
-            stream.write(BLETypeConversions.toUtf8s(message));
+            stream.write(BLETypeConversions.fromUint8(alert.getCategory().getId()));
+            stream.write(BLETypeConversions.fromUint8(alert.getNumAlerts()));
 
+            if (message.length() > 0) {
+                stream.write(BLETypeConversions.toUtf8s(message));
+            } else {
+                // some write a null byte instead of leaving out this optional value
+//                stream.write(new byte[] {0});
+            }
             builder.write(characteristic, stream.toByteArray());
         } catch (IOException ex) {
-            // aint gonna happen
+            // ain't gonna happen
             LOG.error("Error writing alert message to ByteArrayOutputStream");
         }
     }
