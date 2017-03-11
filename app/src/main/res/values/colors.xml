@@ -10,6 +10,8 @@
     <color name="primarytext_light" type="color">#000000</color>
     <color name="primarytext_dark" type="color">#ffffff</color>
     <color name="secondarytext" type="color">#ff808080</color>
+    <color name="tertiarytext_light" type="color">#ffd0d0d0</color>
+    <color name="tertiarytext_dark" type="color">#ff606060</color>
     <color name="divider" type="color">#1f000000</color>
 
     <color name="chart_heartrate" type="color">#ffab40</color>

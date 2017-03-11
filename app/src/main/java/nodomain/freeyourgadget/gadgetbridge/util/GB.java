@@ -43,7 +43,7 @@ import java.nio.ByteOrder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBEnvironment;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter;
+import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 
 public class GB {
@@ -66,7 +66,7 @@ public class GB {
         if (env().isLocalTest()) {
             return null;
         }
-        Intent notificationIntent = new Intent(context, ControlCenter.class);
+        Intent notificationIntent = new Intent(context, ControlCenterv2.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
@@ -265,7 +265,7 @@ public class GB {
 
     private static Notification createTransferNotification(String text, boolean ongoing,
                                                            int percentage, Context context) {
-        Intent notificationIntent = new Intent(context, ControlCenter.class);
+        Intent notificationIntent = new Intent(context, ControlCenterv2.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
@@ -306,7 +306,7 @@ public class GB {
 
     private static Notification createInstallNotification(String text, boolean ongoing,
                                                           int percentage, Context context) {
-        Intent notificationIntent = new Intent(context, ControlCenter.class);
+        Intent notificationIntent = new Intent(context, ControlCenterv2.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
@@ -336,7 +336,7 @@ public class GB {
     }
 
     private static Notification createBatteryNotification(String text, String bigText, Context context) {
-        Intent notificationIntent = new Intent(context, ControlCenter.class);
+        Intent notificationIntent = new Intent(context, ControlCenterv2.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,

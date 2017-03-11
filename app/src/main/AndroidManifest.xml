@@ -37,18 +37,19 @@
         android:label="@string/app_name"
         android:theme="@style/GadgetbridgeTheme">
         <activity
-            android:name=".activities.ControlCenter"
-            android:label="@string/title_activity_controlcenter">
+            android:name=".activities.ControlCenterv2"
+            android:label="@string/title_activity_controlcenter"
+            android:theme="@style/GadgetbridgeTheme.NoActionBar">
             <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".activities.ControlCenter" />
+            android:parentActivityName=".activities.ControlCenterv2" />
         <activity
             android:name=".devices.miband.MiBandPreferencesActivity"
             android:label="@string/preferences_miband_settings"
@@ -57,7 +58,7 @@
             android:launchMode="singleTop"
             android:name=".activities.appmanager.AppManagerActivity"
             android:label="@string/title_activity_appmanager"
-            android:parentActivityName=".activities.ControlCenter" />
+            android:parentActivityName=".activities.ControlCenterv2" />
         <activity
             android:name=".activities.AppBlacklistActivity"
             android:label="@string/title_activity_appblacklist"
@@ -65,7 +66,7 @@
         <activity
             android:name=".activities.FwAppInstallerActivity"
             android:label="@string/title_activity_fw_app_insaller"
-            android:parentActivityName=".activities.ControlCenter">
+            android:parentActivityName=".activities.ControlCenterv2">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -303,19 +304,19 @@
         <activity
             android:name=".activities.DebugActivity"
             android:label="@string/title_activity_debug"
-            android:parentActivityName=".activities.ControlCenter"
+            android:parentActivityName=".activities.ControlCenterv2"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.DbManagementActivity"
             android:label="@string/title_activity_db_management"
-            android:parentActivityName=".activities.ControlCenter"
+            android:parentActivityName=".activities.ControlCenterv2"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.DiscoveryActivity"
             android:label="@string/title_activity_discovery"
-            android:parentActivityName=".activities.ControlCenter" />
+            android:parentActivityName=".activities.ControlCenterv2" />
         <activity
             android:name=".activities.BackgroundWebViewActivity"
             android:theme="@android:style/Theme.Translucent"
@@ -332,7 +333,7 @@
         <activity
             android:name=".activities.charts.ChartsActivity"
             android:label="@string/title_activity_charts"
-            android:parentActivityName=".activities.ControlCenter" />
+            android:parentActivityName=".activities.ControlCenterv2" />
         <activity
             android:name=".activities.ConfigureAlarms"
             android:label="@string/title_activity_set_alarm"
@@ -344,7 +345,7 @@
         <activity
             android:name=".activities.VibrationActivity"
             android:label="@string/title_activity_vibration"
-            android:parentActivityName=".activities.ControlCenter" />
+            android:parentActivityName=".activities.ControlCenterv2" />
 
         <provider
             android:name=".contentprovider.PebbleContentProvider"
@@ -381,7 +382,7 @@
             android:parentActivityName=".activities.appmanager.AppManagerActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="nodomain.freeyourgadget.gadgetbridge.activities.ControlCenter" />
+                android:value="nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2" />
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>

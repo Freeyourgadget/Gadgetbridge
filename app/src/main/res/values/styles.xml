@@ -1,9 +1,11 @@
 <resources>
 
     <style name="GadgetbridgeTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:textColor">@color/primarytext_light</item>
+        <item name="android:textColorPrimary">@color/primarytext_light</item>
+        <item name="android:textColorSecondary">@color/secondarytext</item>
         <item name="colorPrimary">@color/primary_light</item>
         <item name="colorPrimaryDark">@color/primarydark_light</item>
+        <item name="android:textColorTertiary">@color/tertiarytext_light</item>
         <item name="colorAccent">@color/accent</item>
 
         <item name="chart_deep_sleep">@color/chart_deep_sleep_light</item>
@@ -11,10 +13,19 @@
         <item name="chart_activity">@color/chart_activity_light</item>
         <item name="chart_not_worn">@color/chart_not_worn_light</item>
     </style>
+
+    <style name="GadgetbridgeTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!-- dark theme -->
     <style name="GadgetbridgeThemeDark" parent="Theme.AppCompat">
-        <item name="android:textColor">@color/primarytext_dark</item>
+        <item name="android:textColorPrimary">@color/primarytext_dark</item>
+        <item name="android:textColorSecondary">@color/secondarytext</item>
         <item name="colorPrimary">@color/primary_dark</item>
         <item name="colorPrimaryDark">@color/primarydark_dark</item>
+        <item name="android:textColorTertiary">@color/tertiarytext_dark</item>
         <item name="colorAccent">@color/accent</item>
 
         <item name="chart_deep_sleep">@color/chart_deep_sleep_dark</item>
@@ -22,4 +33,13 @@
         <item name="chart_activity">@color/chart_activity_dark</item>
         <item name="chart_not_worn">@color/chart_not_worn_dark</item>
     </style>
+
+    <style name="GadgetbridgeThemeDark.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="GadgetbridgeTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="GadgetbridgeTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

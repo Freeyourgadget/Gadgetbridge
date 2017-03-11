@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:maxLevel="99" android:drawable="@drawable/ic_device_default_disabled" />
+    <item android:maxLevel="101" android:drawable="@drawable/ic_device_pebble_disabled" />
+    <item android:maxLevel="110" android:drawable="@drawable/ic_device_miband_disabled" />
+    <item android:maxLevel="111" android:drawable="@drawable/ic_device_miband_disabled" />
+    <item android:maxLevel="120" android:drawable="@drawable/ic_device_lovetoy_disabled" />
+
+    <item android:maxLevel="199" android:drawable="@drawable/ic_launcher" />
+    <item android:maxLevel="201" android:drawable="@drawable/ic_device_pebble" />
+    <item android:maxLevel="210" android:drawable="@drawable/ic_device_miband" />
+    <item android:maxLevel="211" android:drawable="@drawable/ic_device_miband" />
+    <item android:maxLevel="220" android:drawable="@drawable/ic_device_lovetoy" />
+</level-list>
