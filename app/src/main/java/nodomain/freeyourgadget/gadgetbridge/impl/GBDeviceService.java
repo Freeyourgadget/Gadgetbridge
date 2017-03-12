@@ -160,7 +160,9 @@ public class GBDeviceService implements DeviceService {
             callSpec.name = null;
         } else if (context.getString(R.string.pref_call_privacy_mode_number).equals(currentPrivacyMode)) {
             callSpec.name = coalesce(callSpec.name, getContactDisplayNameByNumber(callSpec.number));
-            if (!callSpec.name.equals(callSpec.number)) {
+            if (callSpec.name.equals(callSpec.number)) {
+                callSpec.name = callSpec.number;
+            } else {
                 callSpec.number = null;
             }
         } else {
