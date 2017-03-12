@@ -119,4 +119,9 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
         }
         return false;
     }
+
+    @Override
+    public boolean needsBackgroundWebView(GBDevice device) {
+        return false;
+    }
 }
