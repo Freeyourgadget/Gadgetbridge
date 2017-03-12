@@ -80,7 +80,6 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.4'
 
 //    compile project(":DaoCore")
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
 
 preBuild.dependsOn(":GBDaoGenerator:genSources")
