@@ -154,4 +154,9 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     public Class<? extends Activity> getAppsManagementActivity() {
         return AppManagerActivity.class;
     }
+
+    @Override
+    public boolean needsBackgroundWebView(GBDevice device) {
+        return true;
+    }
 }
