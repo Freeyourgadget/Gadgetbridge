@@ -39,4 +39,9 @@ public class NoNotificationStrategy implements NotificationStrategy {
     public void sendCustomNotification(VibrationProfile vibrationProfile, SimpleNotification simpleNotification, int flashTimes, int flashColour, int originalColour, long flashDuration, BtLEAction extraAction, TransactionBuilder builder) {
         LOG.info("dummy notification stragegy: custom notification: " + simpleNotification);
     }
+
+    @Override
+    public void stopCurrentNotification(TransactionBuilder builder) {
+        LOG.info("dummy notification stragegy: stop notification");
+    }
 }

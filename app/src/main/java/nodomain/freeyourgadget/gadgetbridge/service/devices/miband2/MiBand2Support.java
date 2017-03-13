@@ -84,6 +84,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.AbortTransactionAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.NewAlert;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.OverflowStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.heartrate.HeartRateProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotification;
@@ -301,7 +304,8 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     private NotificationStrategy getNotificationStrategy() {
-        return new Mi2NotificationStrategy(this);
+//        return new Mi2NotificationStrategy(this);
+        return new Mi2TextNotificationStrategy(this);
     }
 
     private static final byte[] startHeartMeasurementManual = new byte[]{0x15, MiBandService.COMMAND_SET_HR_MANUAL, 1};
@@ -440,6 +444,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             int flashDuration = getPreferredFlashDuration(notificationOrigin, prefs);
 
             sendCustomNotification(profile, simpleNotification, flashTimes, flashColour, originalColour, flashDuration, extraAction, builder);
+
 //            sendCustomNotification(vibrateDuration, vibrateTimes, vibratePause, flashTimes, flashColour, originalColour, flashDuration, builder);
             builder.queue(getQueue());
         } catch (IOException ex) {
@@ -563,6 +568,17 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             performPreferredNotification("incoming call", MiBandConst.ORIGIN_INCOMING_CALL, simpleNotification, MiBand2Service.ALERT_LEVEL_PHONE_CALL, abortAction);
         } else if ((callSpec.command == CallSpec.CALL_START) || (callSpec.command == CallSpec.CALL_END)) {
             telephoneRinging = false;
+            stopCurrentNotification();
+        }
+    }
+
+    private void stopCurrentNotification() {
+        try {
+            TransactionBuilder builder = performInitialized("stop notification");
+            getNotificationStrategy().stopCurrentNotification(builder);
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            LOG.error("Error stopping notification");
         }
     }
 
@@ -642,7 +658,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                     return !isLocatingDevice;
                 }
             };
-            SimpleNotification simpleNotification = new SimpleNotification(getContext().getString(R.string.find_device_you_found_it), AlertCategory.HighPriorityAlert.HighPriorityAlert);
+            SimpleNotification simpleNotification = new SimpleNotification(getContext().getString(R.string.find_device_you_found_it), AlertCategory.HighPriorityAlert);
             performDefaultNotification("locating device", simpleNotification, (short) 255, abortAction);
         }
     }
@@ -1044,11 +1060,12 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     @Override
     public void onTestNewFunction() {
         try {
-            performInitialized("read characteristic 10")
-                    .read(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_10_BUTTON))
-                    .queue(getQueue());
+            TransactionBuilder builder = performInitialized("incoming call from peter");
+            NewAlert alert = new NewAlert(AlertCategory.Custom, 1, new String(new byte[] {0x19}));
+            AlertNotificationProfile<MiBand2Support> profile = new AlertNotificationProfile<>(this);
+            profile.newAlert(builder, alert, OverflowStrategy.MAKE_MULTIPLE);
+            builder.queue(getQueue());
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 

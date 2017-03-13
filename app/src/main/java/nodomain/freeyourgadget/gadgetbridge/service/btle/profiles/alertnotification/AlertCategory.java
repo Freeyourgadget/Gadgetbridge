@@ -36,7 +36,8 @@ public enum AlertCategory {
     InstantMessage(9),
     // 10-250 reserved for future use
     // 251-255 defined by service specification
-    Any(255);
+    Any(255),
+    Custom(-1);
 
     private final int id;
 

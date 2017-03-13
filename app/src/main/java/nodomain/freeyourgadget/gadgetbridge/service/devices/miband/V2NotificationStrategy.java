@@ -17,25 +17,23 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.miband;
 
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.support.annotation.Nullable;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.NewAlert;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.OverflowStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotification;
 
-public class V2NotificationStrategy implements NotificationStrategy {
-    private final AbstractBTLEDeviceSupport support;
+public class V2NotificationStrategy<T extends AbstractBTLEDeviceSupport> implements NotificationStrategy {
+    private final T support;
 
-    public V2NotificationStrategy(AbstractBTLEDeviceSupport support) {
+    public V2NotificationStrategy(T support) {
         this.support = support;
     }
 
-    protected AbstractBTLEDeviceSupport getSupport() {
+    protected T getSupport() {
         return support;
     }
 
@@ -45,7 +43,7 @@ public class V2NotificationStrategy implements NotificationStrategy {
         sendCustomNotification(profile, simpleNotification, extraAction, builder);
     }
 
-    protected void sendCustomNotification(VibrationProfile vibrationProfile, SimpleNotification simpleNotification, BtLEAction extraAction, TransactionBuilder builder) {
+    protected void sendCustomNotification(VibrationProfile vibrationProfile, @Nullable SimpleNotification simpleNotification, BtLEAction extraAction, TransactionBuilder builder) {
         //use the new alert characteristic
         BluetoothGattCharacteristic alert = support.getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL);
         for (short i = 0; i < vibrationProfile.getRepeat(); i++) {
@@ -69,18 +67,17 @@ public class V2NotificationStrategy implements NotificationStrategy {
                 }
             }
         }
-//        sendAlert(simpleNotification, builder);
-    }
-
-    protected void sendAlert(SimpleNotification simpleNotification, TransactionBuilder builder) {
-        AlertNotificationProfile<?> profile = new AlertNotificationProfile<>(getSupport());
-        NewAlert alert = new NewAlert(simpleNotification.getAlertCategory(), 1, simpleNotification.getMessage());
-        profile.newAlert(builder, alert, OverflowStrategy.MAKE_MULTIPLE);
     }
 
     @Override
     public void sendCustomNotification(VibrationProfile vibrationProfile, SimpleNotification simpleNotification, int flashTimes, int flashColour, int originalColour, long flashDuration, BtLEAction extraAction, TransactionBuilder builder) {
         // all other parameters are unfortunately not supported anymore ;-(
         sendCustomNotification(vibrationProfile, simpleNotification, extraAction, builder);
+    }
+
+    @Override
+    public void stopCurrentNotification(TransactionBuilder builder) {
+        BluetoothGattCharacteristic alert = support.getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL);
+        builder.write(alert, new byte[]{GattCharacteristic.NO_ALERT});
     }
 }
