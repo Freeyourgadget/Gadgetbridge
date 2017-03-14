@@ -16,6 +16,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
 public class CheckSums {
     public static int getCRC8(byte[] seq) {
         int len = seq.length;
@@ -50,5 +57,32 @@ public class CheckSums {
         }
         crc &= 0xffff;
         return crc;
+    }
+
+    public static void main(String[] args) throws IOException {
+        if (args == null || args.length == 0) {
+            throw new IllegalArgumentException("Pass the files to be checksummed as arguments");
+        }
+        for (String name : args) {
+            try (FileInputStream in = new FileInputStream(name)) {
+                byte[] bytes = readAll(in, 1000 * 1000);
+                System.out.println(name + " : " + getCRC16(bytes));
+            }
+        }
+    }
+
+    public static byte[] readAll(InputStream in, long maxLen) throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream(Math.max(8192, in.available()));
+        byte[] buf = new byte[8192];
+        int read = 0;
+        long totalRead = 0;
+        while ((read = in.read(buf)) > 0) {
+            out.write(buf, 0, read);
+            totalRead += read;
+            if (totalRead > maxLen) {
+                throw new IOException("Too much data to read into memory. Got already " + totalRead + buf);
+            }
+        }
+        return out.toByteArray();
     }
 }
