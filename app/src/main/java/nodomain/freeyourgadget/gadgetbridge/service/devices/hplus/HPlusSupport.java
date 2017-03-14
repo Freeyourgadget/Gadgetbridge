@@ -669,18 +669,6 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
             byte[] msg = new byte[13];
 
-            //Show call number
-            for (int i = 0; i < msg.length; i++)
-                msg[i] = ' ';
-
-            for (int i = 0; i < number.length() && i < (msg.length - 1); i++)
-                msg[i + 1] = (byte) number.charAt(i);
-
-            msg[0] = HPlusConstants.CMD_SET_INCOMING_CALL_NUMBER;
-
-            builder.write(ctrlCharacteristic, msg);
-            builder.wait(200);
-            msg = msg.clone();
 
             //Show call name
 
@@ -695,6 +683,20 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             builder.write(ctrlCharacteristic, msg);
 
             msg[0] = HPlusConstants.CMD_ACTION_DISPLAY_TEXT_NAME_CN;
+            builder.write(ctrlCharacteristic, msg);
+
+            builder.wait(200);
+            msg = msg.clone();
+
+            //Show call number
+            for (int i = 0; i < msg.length; i++)
+                msg[i] = ' ';
+
+            for (int i = 0; i < number.length() && i < (msg.length - 1); i++)
+                msg[i + 1] = (byte) number.charAt(i);
+
+            msg[0] = HPlusConstants.CMD_SET_INCOMING_CALL_NUMBER;
+
             builder.write(ctrlCharacteristic, msg);
 
             builder.queue(getQueue());

@@ -73,9 +73,9 @@ public class GBDeviceService implements DeviceService {
     }
 
     protected void invokeService(Intent intent) {
-        if(LanguageUtils.transliterate()){
-            for (String extra: transliterationExtras) {
-                if (intent.hasExtra(extra)){
+        if (LanguageUtils.transliterate()) {
+            for (String extra : transliterationExtras) {
+                if (intent.hasExtra(extra)) {
                     intent.putExtra(extra, LanguageUtils.transliterate(intent.getStringExtra(extra)));
                 }
             }
@@ -172,12 +172,15 @@ public class GBDeviceService implements DeviceService {
         String currentPrivacyMode = GBApplication.getPrefs().getString("pref_call_privacy_mode", GBApplication.getContext().getString(R.string.p_call_privacy_mode_off));
         if (context.getString(R.string.p_call_privacy_mode_name).equals(currentPrivacyMode)) {
             callSpec.name = callSpec.number;
-        }
-        else if (context.getString(R.string.p_call_privacy_mode_complete).equals(currentPrivacyMode)) {
+        } else if (context.getString(R.string.p_call_privacy_mode_complete).equals(currentPrivacyMode)) {
             callSpec.number = null;
             callSpec.name = null;
-        }
-        else {
+        } else if (context.getString(R.string.pref_call_privacy_mode_number).equals(currentPrivacyMode)) {
+            callSpec.name = coalesce(callSpec.name, getContactDisplayNameByNumber(callSpec.number));
+            if (!callSpec.name.equals(callSpec.number)) {
+                callSpec.number = null;
+            }
+        } else {
             callSpec.name = coalesce(callSpec.name, getContactDisplayNameByNumber(callSpec.number));
         }
 
@@ -372,6 +375,7 @@ public class GBDeviceService implements DeviceService {
 
     /**
      * Returns contact DisplayName by call number
+     *
      * @param number contact number
      * @return contact DisplayName, if found it
      */
