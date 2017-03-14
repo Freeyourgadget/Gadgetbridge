@@ -28,6 +28,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.InstallActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.AbstractMiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.AbstractMiBandFWInstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.FirmwareType;
@@ -63,7 +64,7 @@ public class MiBand2FWInstallHandler extends AbstractMiBandFWInstallHandler {
 
         Version deviceVersion = getFirmwareVersionOf(device);
         if (deviceVersion != null) {
-            Version v53 = new Version("1.0.0.53");
+            Version v53 = MiBandConst.MI2_FW_VERSION_INTERMEDIATE_UPGRADE_53;
             if (deviceVersion.compareTo(v53) < 0) {
                 String vInstall = getHelper().format(getHelper().getFirmwareVersion());
                 if (vInstall == null || new Version(vInstall).compareTo(v53) > 0) {

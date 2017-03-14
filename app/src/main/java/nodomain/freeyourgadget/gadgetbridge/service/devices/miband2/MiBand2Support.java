@@ -99,6 +99,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.U
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_FLASH_COLOUR;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_FLASH_COUNT;
@@ -304,8 +305,17 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     private NotificationStrategy getNotificationStrategy() {
-//        return new Mi2NotificationStrategy(this);
-        return new Mi2TextNotificationStrategy(this);
+        String firmwareVersion = getDevice().getFirmwareVersion();
+        if (firmwareVersion != null) {
+            Version ver = new Version(firmwareVersion);
+            if (MiBandConst.MI2_FW_VERSION_MIN_TEXT_NOTIFICATIONS.compareTo(ver) > 0) {
+                return new Mi2NotificationStrategy(this);
+            }
+        }
+        if (GBApplication.getPrefs().getBoolean(MiBandConst.PREF_MI2_ENABLE_TEXT_NOTIFICATIONS, true)) {
+            return new Mi2TextNotificationStrategy(this);
+        }
+        return new Mi2NotificationStrategy(this);
     }
 
     private static final byte[] startHeartMeasurementManual = new byte[]{0x15, MiBandService.COMMAND_SET_HR_MANUAL, 1};
@@ -990,6 +1000,9 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         versionCmd.hwVersion = info.getHardwareRevision();
 //        versionCmd.fwVersion = info.getFirmwareRevision(); // always null
         versionCmd.fwVersion = info.getSoftwareRevision();
+        if (versionCmd.fwVersion != null && versionCmd.fwVersion.length() > 0 && versionCmd.fwVersion.charAt(0) == 'V') {
+            versionCmd.fwVersion = versionCmd.fwVersion.substring(1);
+        }
         handleGBDeviceEvent(versionCmd);
     }
 

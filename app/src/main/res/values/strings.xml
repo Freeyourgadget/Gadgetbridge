@@ -407,4 +407,7 @@
     <string name="find_device_you_found_it">You found it!</string>
     <string name="miband2_prefs_timeformat">Mi2: Time Format</string>
     <string name="mi2_fw_installhandler_fw53_hint">You need to install version %1$s before installing this firmware!</string>
+    <string name="mi2_enable_text_notifications">Text notifications</string>
+    <string name="mi2_enable_text_notifications_summary"><![CDATA[Needs firmware >= 1.0.1.28 and Mili_pro.ft* installed.]]></string>
+    <string name="off">off</string>
 </resources>

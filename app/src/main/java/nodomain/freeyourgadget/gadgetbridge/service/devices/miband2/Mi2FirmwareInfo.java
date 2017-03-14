@@ -58,6 +58,7 @@ public class Mi2FirmwareInfo {
         // firmware
         crcToVersion.put(41899, "1.0.0.39");
         crcToVersion.put(49197, "1.0.0.53");
+        crcToVersion.put(32450, "1.0.1.28");
         crcToVersion.put(51770, "1.0.1.34");
         crcToVersion.put(3929, "1.0.1.39");
 
