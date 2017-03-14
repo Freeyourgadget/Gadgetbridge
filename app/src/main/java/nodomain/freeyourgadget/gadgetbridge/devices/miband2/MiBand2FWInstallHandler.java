@@ -44,6 +44,15 @@ public class MiBand2FWInstallHandler extends AbstractMiBandFWInstallHandler {
     public void validateInstallation(InstallActivity installActivity, GBDevice device) {
         super.validateInstallation(installActivity, device);
         maybeAddFw53Hint(installActivity, device);
+        maybeAddFontHint(installActivity);
+    }
+
+    private void maybeAddFontHint(InstallActivity installActivity) {
+        FirmwareType type = getFirmwareType();
+        if (type == FirmwareType.FIRMWARE) {
+            String newInfoText = installActivity.getInfoText() + "\n\n" + "Note: you may install Mili_pro.ft or Mili_pro.ft.en to enable text notifications.";
+            installActivity.setInfoText(newInfoText);
+        }
     }
 
     private void maybeAddFw53Hint(InstallActivity installActivity, GBDevice device) {
