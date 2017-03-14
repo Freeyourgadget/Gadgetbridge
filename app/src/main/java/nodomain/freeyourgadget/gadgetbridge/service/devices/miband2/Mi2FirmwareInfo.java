@@ -55,7 +55,15 @@ public class Mi2FirmwareInfo {
 
     private static Map<Integer,String> crcToVersion = new HashMap<>();
     static {
+        // firmware
         crcToVersion.put(41899, "1.0.0.39");
+        crcToVersion.put(49197, "1.0.0.53");
+        crcToVersion.put(51770, "1.0.1.34");
+        crcToVersion.put(3929, "1.0.1.39");
+
+        // fonts
+        crcToVersion.put(45624, "Font");
+        crcToVersion.put(6377, "Font (En)");
     }
 
     private FirmwareType firmwareType = FirmwareType.FIRMWARE;
