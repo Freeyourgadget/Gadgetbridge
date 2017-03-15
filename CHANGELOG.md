@@ -6,10 +6,15 @@
 * Add Czech translation
 * Add Hebrew translation and transliteration
 * Consistently display device specific icons already during discovery
-* Add sleep chart diplaying the last week of sleep
+* Add sleep chart displaying the last week of sleep
 * Huge speedup for weekly charts when changing days
-* Drop support for pre Gadgetbride 0.12.0 database
-* Pebble: allow configuration webpages (clay) to access device location
+* Drop support for importing pre Gadgetbridge 0.12.0 database
+* Pebble: allow configuration web pages (clay) to access device location
+* Mi2: Initial support for text notifications, caller ID, and icons (requires font installation) (#560)
+* Mi2: Support for flashing Mili_pro.ft* font files
+* Mi2: Improved firmware/font updated
+* Mi2: Set 12h/24h time format, following the Android configuration (#573)
+* Improved BLE discovery and connectivity
 
 ####Version 0.17.5
 * Automatically start the service on boot (can be turned off)
