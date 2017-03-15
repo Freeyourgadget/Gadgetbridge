@@ -13,6 +13,12 @@
   <string name="controlcenter_delete_device">デバイスを削除</string>
   <string name="controlcenter_delete_device_name">%1$s を削除</string>
   <string name="controlcenter_delete_device_dialogmessage">これにより、デバイスと関連するデータを削除します!</string>
+  <string name="controlcenter_navigation_drawer_open">ナビゲーションドロワーを開く</string>
+  <string name="controlcenter_navigation_drawer_close">ナビゲーションドロワーを閉じる</string>
+  <string name="controlcenter_snackbar_need_longpress">カードを長押しすると切断します</string>
+  <string name="controlcenter_snackbar_disconnecting">切断中</string>
+  <string name="controlcenter_snackbar_connecting">接続中</string>
+  <string name="controlcenter_snackbar_requested_screenshot">デバイスのスクリーンショットを取得中</string>
   <string name="title_activity_debug">デバッグ</string>
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">アプリ管理画面</string>

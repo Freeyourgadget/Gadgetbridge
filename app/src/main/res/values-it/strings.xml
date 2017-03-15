@@ -13,6 +13,8 @@
   <string name="controlcenter_delete_device">Rimuovi dispositivo</string>
   <string name="controlcenter_delete_device_name">Rimuovi %1$s</string>
   <string name="controlcenter_delete_device_dialogmessage">Il dispositivo verrà rimosso e tutti i dati ad esso associati verranno cancellati!</string>
+  <string name="controlcenter_snackbar_disconnecting">Disconnessione</string>
+  <string name="controlcenter_snackbar_connecting">Connessione</string>
   <string name="title_activity_debug">Debug</string>
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">Gestione app</string>
