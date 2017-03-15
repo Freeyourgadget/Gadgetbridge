@@ -3,8 +3,10 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -23,10 +26,13 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.ImportExportSharedPreferences;
 
 
 public class DbManagementActivity extends GBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(DbManagementActivity.class);
+    private static SharedPreferences sharedPrefs;
+    private ImportExportSharedPreferences shared_file = new ImportExportSharedPreferences();
 
     private Button exportDBButton;
     private Button importDBButton;
@@ -78,6 +84,8 @@ public class DbManagementActivity extends GBActivity {
                 deleteActivityDatabase();
             }
         });
+
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     private boolean hasOldActivityDatabase() {
@@ -93,8 +101,33 @@ public class DbManagementActivity extends GBActivity {
         return getString(R.string.dbmanagementactivvity_cannot_access_export_path);
     }
 
+    private void exportShared() {
+        // BEGIN EXAMPLE
+        File myPath = null;
+        try {
+            myPath = FileUtils.getExternalFilesDir();
+            File myFile = new File(myPath, "Export_preference");
+            shared_file.exportToFile(sharedPrefs,myFile,null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void importShared() {
+        // BEGIN EXAMPLE
+        File myPath = null;
+        try {
+            myPath = FileUtils.getExternalFilesDir();
+            File myFile = new File(myPath, "Export_preference");
+            shared_file.importFromFile(sharedPrefs,myFile );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void exportDB() {
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            exportShared();
             DBHelper helper = new DBHelper(this);
             File dir = FileUtils.getExternalFilesDir();
             File destFile = helper.exportDB(dbHandler, dir);
@@ -113,6 +146,7 @@ public class DbManagementActivity extends GBActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                            importShared();
                             DBHelper helper = new DBHelper(DbManagementActivity.this);
                             File dir = FileUtils.getExternalFilesDir();
                             SQLiteOpenHelper sqLiteOpenHelper = dbHandler.getHelper();
