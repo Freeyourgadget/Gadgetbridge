@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -196,7 +197,7 @@ public class ControlCenterv2 extends AppCompatActivity
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -274,8 +275,6 @@ public class ControlCenterv2 extends AppCompatActivity
             wantedPermissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED)
             wantedPermissions.add(Manifest.permission.READ_CALENDAR);
-        if (ContextCompat.checkSelfPermission(this, "com.fsck.k9.permission.READ_MESSAGES") == PackageManager.PERMISSION_DENIED)
-            wantedPermissions.add("com.fsck.k9.permission.READ_MESSAGES");
 
         if (!wantedPermissions.isEmpty())
             ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[wantedPermissions.size()]), 0);
