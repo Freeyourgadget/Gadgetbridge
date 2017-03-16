@@ -53,6 +53,7 @@ public class MiBand2Service {
     public static final int ALERT_LEVEL_MESSAGE = 1;
     public static final int ALERT_LEVEL_PHONE_CALL = 2;
     public static final int ALERT_LEVEL_VIBRATE_ONLY = 3;
+    public static final int ALERT_LEVEL_CUSTOM = 0xfa; // followed by another uin8 to select the actual icon
 
     // set metric distance
     // set 12 hour time mode
@@ -109,6 +110,41 @@ public class MiBand2Service {
     public static final byte[] COMMAND_SET_FITNESS_GOAL_START = new byte[] { 0x10, 0x0, 0x0 };
     public static final byte[] COMMAND_SET_FITNESS_GOAL_END = new byte[] { 0, 0 };
 
+    public static final byte ICON_CHAT = 0x00;
+    public static final byte ICON_PENGUIN = 0x01;
+    public static final byte ICON_CHAT_MI = 0x02;
+    public static final byte ICON_FB = 0x03;
+    public static final byte ICON_TWITTER = 0x04;
+    public static final byte ICON_MIBAND = 0x05;
+    public static final byte ICON_SNAPCHAT = 0x06;
+    public static final byte ICON_WHATSAPP = 0x07;
+    public static final byte ICON_MANTA = 0x08;
+    public static final byte ICON_XX0 = 0x09;
+    public static final byte ICON_ALARM = 0x10;
+    public static final byte ICON_SHATTERED_GLASS = 0x11;
+    public static final byte ICON_INSTAGRAM = 0x12;
+    public static final byte ICON_CHAT_GHOST = 0x13;
+    public static final byte ICON_COW = 0x14;
+    public static final byte ICON_XX2 = 0x15;
+    public static final byte ICON_XX3 = 0x16;
+    public static final byte ICON_XX4 = 0x17;
+    public static final byte ICON_XX5 = 0x18;
+    public static final byte ICON_XX6 = 0x19;
+    public static final byte ICON_EGALE = 0x1a;
+    public static final byte ICON_CALENDAR = 0x1b;
+    public static final byte ICON_XX7 = 0x1c;
+    public static final byte ICON_PHONE_CALL = 0x1d;
+    public static final byte ICON_CHAT_LINE = 0x1e;
+    public static final byte ICON_TELEGRAM = 0x1f;
+    public static final byte ICON_CHAT_TALK = 0x20;
+    public static final byte ICON_SKYPE = 0x21;
+    public static final byte ICON_VK = 0x22;
+    public static final byte ICON_CIRCLES = 0x23;
+    public static final byte ICON_HANGOUTS = 0x24;
+    public static final byte ICON_MI = 0x25;
+
+    public static final byte ICON_HIGH_PRIORITY = 0x7;
+
 
     public static byte ENDPOINT_DISPLAY = 0x06;
 
@@ -119,7 +155,7 @@ public class MiBand2Service {
     public static final byte[] COMMAND_ENABLE_DISPLAY_ON_LIFT_WRIST = new byte[]{ENDPOINT_DISPLAY, 0x05, 0x00, 0x01};
     public static final byte[] COMMAND_DISABLE_DISPLAY_ON_LIFT_WRIST = new byte[]{ENDPOINT_DISPLAY, 0x05, 0x00, 0x00};
     public static final byte[] DISPLAY_XXX = new byte[] {ENDPOINT_DISPLAY, 0x03, 0x0, 0x0 };
-    public static final byte[] DISPLAY_YYY = new byte[] {ENDPOINT_DISPLAY, 0x10, 0x0, 0x1, 0x0 };
+    public static final byte[] DISPLAY_YYY = new byte[] {ENDPOINT_DISPLAY, 0x10, 0x0, 0x1, 0x1 };
 
     public static final byte RESPONSE = 0x10;
 
@@ -148,7 +184,6 @@ public class MiBand2Service {
     public static final byte[] COMMAND_DISABLE_HR_SLEEP_MEASUREMENT = new byte[]{0x15, 0x00, 0x00};
 
     public static final byte[] COMMAND_TEXT_NOTIFICATION = new byte[] {0x05, 0x01};
-    public static final byte COMMAND_ALERT_CATEGORY_CHAT = (byte) 0xfa;
 
     static {
         MIBAND_DEBUG = new HashMap<>();

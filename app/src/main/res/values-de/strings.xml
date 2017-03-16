@@ -13,6 +13,12 @@
   <string name="controlcenter_delete_device">Gerät löschen</string>
   <string name="controlcenter_delete_device_name">%1$s löschen</string>
   <string name="controlcenter_delete_device_dialogmessage">Das wird das Gerät und alle zugehörigen Daten löschen!</string>
+  <string name="controlcenter_navigation_drawer_open">Navigations-Menü öffnen</string>
+  <string name="controlcenter_navigation_drawer_close">Navigations-Menü schließen</string>
+  <string name="controlcenter_snackbar_need_longpress">Halte die Karte lange gedrückt, um die Verbindung zu trennen.</string>
+  <string name="controlcenter_snackbar_disconnecting">Trenne ...</string>
+  <string name="controlcenter_snackbar_connecting">Verbinde ...</string>
+  <string name="controlcenter_snackbar_requested_screenshot">Screenshot des Gerätes wird erstellt.</string>
   <string name="title_activity_debug">Debug</string>
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">App Manager</string>
@@ -181,6 +187,7 @@
   <string name="miband_pairing_using_dummy_userdata">Keine gültigen Benutzerinformationen angegeben, verwende Dummy-Daten für\'s Erste.</string>
   <string name="miband_pairing_tap_hint">Wenn Dein Mi Band vibriert und blinkt, tippe ein paar Mal schnell hintereinander darauf.</string>
   <string name="appinstaller_install">Installieren</string>
+  <string name="discovery_connected_devices_hint">Mache dein Gerät auffindbar. Derzeit verbundene Geräte werden wahrscheinlich nicht erkannt. Aktiviere die Standortbestimmung (zum Beispiel GPS) in Android 6+. Deaktiviere den Privatsphäreschutz für Gadgetbridge, da er zu Abstürzen und Neustarts deines Telefons führen kann. Wenn nach einigen Minuten kein Gerät erkannt wird, versuche es nach einem Neustart deines Telefons erneut.</string>
   <string name="discovery_note">Tipp:</string>
   <string name="candidate_item_device_image">Bild des Geräts</string>
   <string name="miband_prefs_alias">Name/Alias</string>

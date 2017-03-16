@@ -13,6 +13,12 @@
   <string name="controlcenter_delete_device">Borrar Dispositivo</string>
   <string name="controlcenter_delete_device_name">Borrar %1$s</string>
   <string name="controlcenter_delete_device_dialogmessage">¡Esta acción borrará el dispositivo y toda su información asociada!</string>
+  <string name="controlcenter_navigation_drawer_open">Abrir el cajón de navegación</string>
+  <string name="controlcenter_navigation_drawer_close">Cerrar el cajón de navegación</string>
+  <string name="controlcenter_snackbar_need_longpress">Mantener pulsado el icono para desconectar</string>
+  <string name="controlcenter_snackbar_disconnecting">Desconectando</string>
+  <string name="controlcenter_snackbar_connecting">Conectando</string>
+  <string name="controlcenter_snackbar_requested_screenshot">Captura de pantalla del dispositivo</string>
   <string name="title_activity_debug">Depuración</string>
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">Gestor de app</string>

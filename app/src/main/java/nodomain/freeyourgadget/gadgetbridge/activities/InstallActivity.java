@@ -19,6 +19,8 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 import nodomain.freeyourgadget.gadgetbridge.model.ItemWithDetails;
 
 public interface InstallActivity {
+    CharSequence getInfoText();
+
     void setInfoText(String text);
 
     void setInstallEnabled(boolean enable);
@@ -26,4 +28,5 @@ public interface InstallActivity {
     void clearInstallItems();
 
     void setInstallItem(ItemWithDetails item);
+
 }

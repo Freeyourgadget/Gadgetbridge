@@ -48,6 +48,13 @@
             android:key="mi2_activate_display_on_lift_wrist"
             android:title="@string/mi2_prefs_activate_display_on_lift" />
 
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="mi2_enable_text_notifications"
+            android:summaryOn="@string/mi2_enable_text_notifications_summary"
+            android:summaryOff="@string/off"
+            android:title="@string/mi2_enable_text_notifications" />
+
         <ListPreference
             android:defaultValue="@string/p_dateformat_time"
             android:entries="@array/mi2_dateformats"

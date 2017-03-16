@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 
@@ -47,13 +48,22 @@ public class NotificationUtils {
     }
 
     @NonNull
-    public static String formatText(String sender, String subject, String body, int lengthBody, int lengthSubject, Context context) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(StringUtils.truncate(body, lengthBody));
-        builder.append(StringUtils.truncate(subject, lengthSubject));
-        builder.append(StringUtils.formatSender(sender, context));
+    public static String formatSender(String sender, Context context) {
+        if (sender == null || sender.length() == 0) {
+            return "";
+        }
+        return context.getString(R.string.StringUtils_sender, sender);
+    }
 
-        return builder.toString();
+
+    @NonNull
+    public static String formatText(String sender, String subject, String body, int lengthBody, int lengthSubject, Context context) {
+        String fBody = StringUtils.truncate(body, lengthBody);
+        String fSubject = StringUtils.truncate(subject, lengthSubject);
+        String fSender = formatSender(sender, context);
+
+        StringBuilder builder = StringUtils.join(" ", fBody, fSubject, fSender);
+        return builder.toString().trim();
     }
 
     public static String getPreferredTextFor(CallSpec callSpec) {

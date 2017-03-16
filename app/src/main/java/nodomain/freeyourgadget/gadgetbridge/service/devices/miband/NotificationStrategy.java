@@ -16,6 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.miband;
 
+import android.support.annotation.Nullable;
+
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -27,7 +29,7 @@ public interface NotificationStrategy {
     /**
      * Adds a custom notification to the given transaction builder
      * @param vibrationProfile specifies how and how often the Band shall vibrate.
-     * @param simpleNotification
+     * @param simpleNotification an optional notification containing a type and text message
      * @param flashTimes
      * @param flashColour
      * @param originalColour
@@ -35,5 +37,11 @@ public interface NotificationStrategy {
      * @param extraAction      an extra action to be executed after every vibration and flash sequence. Allows to abort the repetition, for example.
      * @param builder
      */
-    void sendCustomNotification(VibrationProfile vibrationProfile, SimpleNotification simpleNotification, int flashTimes, int flashColour, int originalColour, long flashDuration, BtLEAction extraAction, TransactionBuilder builder);
+    void sendCustomNotification(VibrationProfile vibrationProfile, @Nullable SimpleNotification simpleNotification, int flashTimes, int flashColour, int originalColour, long flashDuration, BtLEAction extraAction, TransactionBuilder builder);
+
+    /**
+     * Stops any current notification.
+     * @param builder
+     */
+    void stopCurrentNotification(TransactionBuilder builder);
 }

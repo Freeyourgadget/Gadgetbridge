@@ -39,10 +39,24 @@ public class AlertNotificationProfile<T extends AbstractBTLEDeviceSupport> exten
         super(support);
     }
 
+    public void configure(TransactionBuilder builder, AlertNotificationControl control) {
+        BluetoothGattCharacteristic characteristic = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_ALERT_NOTIFICATION_CONTROL_POINT);
+        if (characteristic != null) {
+            builder.write(characteristic, control.getControlMessage());
+        }
+    }
+
+    public void updateAlertLevel(TransactionBuilder builder, AlertLevel level) {
+        BluetoothGattCharacteristic characteristic = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL);
+        if (characteristic != null) {
+            builder.write(characteristic, new byte[] {BLETypeConversions.fromUint8(level.getId())});
+        }
+    }
+
     public void newAlert(TransactionBuilder builder, NewAlert alert, OverflowStrategy strategy) {
         BluetoothGattCharacteristic characteristic = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_NEW_ALERT);
         if (characteristic != null) {
-            String message = alert.getMessage();
+            String message = StringUtils.ensureNotNull(alert.getMessage());
             if (message.length() > MAX_MSG_LENGTH && strategy == OverflowStrategy.TRUNCATE) {
                 message = StringUtils.truncate(message, MAX_MSG_LENGTH);
             }
@@ -52,31 +66,42 @@ public class AlertNotificationProfile<T extends AbstractBTLEDeviceSupport> exten
                 numChunks++;
             }
 
-            for (int i = 0; i < numChunks; i++) {
-                int offset = i * MAX_MSG_LENGTH;
-                int restLength = message.length() - offset;
-                message = message.substring(offset, offset + Math.min(MAX_MSG_LENGTH, restLength));
-                if (message.length() == 0) {
-                    break;
+            try {
+                boolean hasAlerted = false;
+                for (int i = 0; i < numChunks; i++) {
+                    int offset = i * MAX_MSG_LENGTH;
+                    int restLength = message.length() - offset;
+                    message = message.substring(offset, offset + Math.min(MAX_MSG_LENGTH, restLength));
+                    if (hasAlerted && message.length() == 0) {
+                        // no need to do it again when there is no text content
+                        break;
+                    }
+                    builder.write(characteristic, getAlertMessage(alert, message, 1));
+                    hasAlerted = true;
                 }
-                writeAlertMessage(builder, characteristic, alert, message, i);
+                if (!hasAlerted) {
+                    builder.write(characteristic, getAlertMessage(alert, "", 1));
+                }
+            } catch (IOException ex) {
+                // ain't gonna happen
+                LOG.error("Error writing alert message to ByteArrayOutputStream");
             }
         } else {
             LOG.warn("NEW_ALERT characteristic not available");
         }
     }
 
-    protected void writeAlertMessage(TransactionBuilder builder, BluetoothGattCharacteristic characteristic, NewAlert alert, String message, int chunk) {
-        try {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream(100);
-            stream.write(alert.getCategory().getId());
-            stream.write(alert.getNumAlerts());
-            stream.write(BLETypeConversions.toUtf8s(message));
+    protected byte[] getAlertMessage(NewAlert alert, String message, int chunk) throws IOException {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream(100);
+        stream.write(BLETypeConversions.fromUint8(alert.getCategory().getId()));
+        stream.write(BLETypeConversions.fromUint8(alert.getNumAlerts()));
 
-            builder.write(characteristic, stream.toByteArray());
-        } catch (IOException ex) {
-            // aint gonna happen
-            LOG.error("Error writing alert message to ByteArrayOutputStream");
+        if (message.length() > 0) {
+            stream.write(BLETypeConversions.toUtf8s(message));
+        } else {
+            // some write a null byte instead of leaving out this optional value
+//                stream.write(new byte[] {0});
         }
+        return stream.toByteArray();
     }
 }

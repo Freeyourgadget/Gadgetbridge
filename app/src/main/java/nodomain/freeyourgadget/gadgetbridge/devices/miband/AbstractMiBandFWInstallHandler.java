@@ -48,6 +48,14 @@ public abstract class AbstractMiBandFWInstallHandler implements InstallHandler {
         }
     }
 
+    public Context getContext() {
+        return mContext;
+    }
+
+    public AbstractMiBandFWHelper getHelper() {
+        return helper;
+    }
+
     protected abstract AbstractMiBandFWHelper createHelper(Uri uri, Context context) throws IOException;
 
 

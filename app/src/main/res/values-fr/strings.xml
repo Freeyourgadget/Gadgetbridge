@@ -13,6 +13,12 @@
   <string name="controlcenter_delete_device">Supprimer l’appareil</string>
   <string name="controlcenter_delete_device_name">Supprimer %1$s</string>
   <string name="controlcenter_delete_device_dialogmessage">Ceci va supprimer l’appareil et toutes les données associées !</string>
+  <string name="controlcenter_navigation_drawer_open">Ouvrir le tiroir de navigation</string>
+  <string name="controlcenter_navigation_drawer_close">Fermer le tiroir de navigation</string>
+  <string name="controlcenter_snackbar_need_longpress">Presser longuement l\'icône pour déconnecter</string>
+  <string name="controlcenter_snackbar_disconnecting">Déconnexion</string>
+  <string name="controlcenter_snackbar_connecting">Connexion</string>
+  <string name="controlcenter_snackbar_requested_screenshot">Capture d\'écran de l\'appareil</string>
   <string name="title_activity_debug">Déboguer</string>
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">Gestionnaire d\'application</string>

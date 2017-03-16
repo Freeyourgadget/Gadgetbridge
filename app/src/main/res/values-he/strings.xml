@@ -181,6 +181,7 @@
   <string name="miband_pairing_using_dummy_userdata">לא ניתנו נתוני משתמש, נעשה שימוש בנתוני דמה לבינתיים.</string>
   <string name="miband_pairing_tap_hint">כאשר ה־Mi Band שלך רוטט ומהבהב, יש לגעת בו מספר פעמים ברצף.</string>
   <string name="appinstaller_install">התקנה</string>
+  <string name="discovery_connected_devices_hint">יש להפעיל את האפשרות לאיתור ההתקן שלך. התקנים שכבר מחוברים כעת לא יתגלו. יש להפעיל מיקום (GPS) באנדרואיד 6+. יש לנטרל את שומר הפרטיות עבור Gadgetbridge כיוון שתכונה זו עשויה להקריס ולהפעיל מחדש את הטלפון שלך. אם לא נמצא אף התקן לאחר מספר דקות יש לנסות שוב לאחר הפעלת הטלפון הנייד שלך מחדש. </string>
   <string name="discovery_note">לתשומת לבך:</string>
   <string name="candidate_item_device_image">תמונת ההתקן</string>
   <string name="miband_prefs_alias">שם/כינוי</string>
