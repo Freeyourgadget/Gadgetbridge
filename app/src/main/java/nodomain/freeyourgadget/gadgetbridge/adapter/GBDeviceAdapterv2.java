@@ -44,11 +44,13 @@ import java.util.List;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
+import nodomain.freeyourgadget.gadgetbridge.activities.VibrationActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -78,7 +80,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final GBDevice device = deviceList.get(position);
-        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
 
         holder.container.setOnClickListener(new View.OnClickListener() {
 
@@ -235,6 +237,13 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                              {
                                                  @Override
                                                  public void onClick(View v) {
+                                                     if (device.getType() == DeviceType.VIBRATISSIMO) {
+                                                         Intent startIntent;
+                                                         startIntent = new Intent(context, VibrationActivity.class);
+                                                         startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                                                         context.startActivity(startIntent);
+                                                         return;
+                                                     }
                                                      GBApplication.deviceService().onFindDevice(true);
                                                      //TODO: extract string resource if we like this solution.
                                                      Snackbar.make(parent, R.string.control_center_find_lost_device, Snackbar.LENGTH_INDEFINITE).setAction("Found it!", new View.OnClickListener() {
