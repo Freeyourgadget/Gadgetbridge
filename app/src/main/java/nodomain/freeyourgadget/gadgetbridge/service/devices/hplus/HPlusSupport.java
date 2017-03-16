@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2017 Andreas Shimokawa, ivanovlev, João Paulo Barraca
+/*  Copyright (C) 2016-2017 Alberto, Andreas Shimokawa, ivanovlev, João
+    Paulo Barraca
 
     This file is part of Gadgetbridge.
 

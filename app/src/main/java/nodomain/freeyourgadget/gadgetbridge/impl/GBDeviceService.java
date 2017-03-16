@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, ivanovlev,
-    Julien Pivotto, Kasha, Steffen Liebergeld
+/*  Copyright (C) 2015-2017 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
+    ivanovlev, Julien Pivotto, Kasha, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 
