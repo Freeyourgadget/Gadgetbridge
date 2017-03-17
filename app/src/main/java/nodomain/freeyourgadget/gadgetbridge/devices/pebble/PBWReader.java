@@ -97,9 +97,13 @@ public class PBWReader {
             return;
         }
 
-        String platformDir = determinePlatformDir(uriHelper, platform);
-        if (platform.equals("chalk") && platformDir.equals("")) {
-            return;
+        String platformDir = "";
+        if (!uriHelper.getFileName().endsWith(".pbz")) {
+            platformDir = determinePlatformDir(uriHelper, platform);
+
+            if (platform.equals("chalk") && platformDir.equals("")) {
+                return;
+            }
         }
 
         LOG.info("using platformdir: '" + platformDir + "'");
@@ -237,9 +241,6 @@ public class PBWReader {
     private String determinePlatformDir(UriHelper uriHelper, String platform) throws IOException {
         String platformDir = "";
 
-        if (uriHelper.getFileName().endsWith(".pbz")) {
-            return platformDir;
-        }
         /*
          * for aplite and basalt it is possible to install 2.x apps which have no subfolder
          * we still prefer the subfolders if present.
