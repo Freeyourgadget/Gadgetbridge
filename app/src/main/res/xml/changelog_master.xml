@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.18.1" versioncode="88">
+        <change>Pebble: Fix Firmware insstallation on Pebble Time Round (broken since 0.16.0)</change>
+        <change>Start VibrationActivity when using "find device" button with Vibratissimo</change>
+        <change>Support material fork of K9</change>
+    </release>
     <release version="0.18.0" versioncode="87">
         <change>All new GUI for the control center</change>
         <change>Add Portuguese pt_PT and pt_BR translations</change>
