@@ -287,16 +287,17 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         ActivityAmounts amounts = null;
 
         Activity activity = getActivity();
+        int key = (int) (day.getTimeInMillis() / 1000) + (mOffsetHours * 3600);
         if (activity != null) {
             activityAmountCache = ((ChartsActivity) activity).mActivityAmountCache;
-            amounts = (ActivityAmounts) (activityAmountCache.lookup(day.hashCode() ^ mOffsetHours));
+            amounts = (ActivityAmounts) (activityAmountCache.lookup(key));
         }
 
         if (amounts == null) {
             ActivityAnalysis analysis = new ActivityAnalysis();
             amounts = analysis.calculateActivityAmounts(getSamplesOfDay(db, day, mOffsetHours, device));
             if (activityAmountCache != null) {
-                activityAmountCache.add(day.hashCode() ^ mOffsetHours, amounts);
+                activityAmountCache.add(key, amounts);
             }
         }
 
