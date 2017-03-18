@@ -1,7 +1,10 @@
 ###Changelog
 
-###Version 0.18.1
-* Mi2: Fix crash on "chat" or "social network" text notification #603
+###Version 0.18.3
+* Fix bug that caused the same value in weekly charts for every day on Android 6 and older
+
+###Version 0.18.2
+* Mi2: Fix crash on "chat" or "social network" text notification (#603)
 
 ###Version 0.18.1
 * Pebble: Fix Firmware insstallation on Pebble Time Round (broken since 0.16.0)
