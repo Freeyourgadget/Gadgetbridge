@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.18.2" versioncode="89">
+        <change>Mi2: Fix crash on "chat" or "social network" text notification #603</change>
+    </release>
     <release version="0.18.1" versioncode="88">
         <change>Pebble: Fix Firmware insstallation on Pebble Time Round (broken since 0.16.0)</change>
         <change>Start VibrationActivity when using "find device" button with Vibratissimo</change>
