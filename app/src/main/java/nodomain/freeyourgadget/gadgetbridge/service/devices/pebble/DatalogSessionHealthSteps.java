@@ -67,7 +67,7 @@ class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
 
             recordVersion = datalogMessage.getShort();
 
-            if ((recordVersion != 5) && (recordVersion != 6) && (recordVersion != 7) && (recordVersion != 12) && (recordVersion != 13))
+            if ((recordVersion != 5) && (recordVersion != 6) && (recordVersion != 7) && (recordVersion != 8) && (recordVersion != 12) && (recordVersion != 13))
                 return false; //we don't know how to deal with the data TODO: this is not ideal because we will get the same message again and again since we NACK it
 
             timestamp = datalogMessage.getInt();
@@ -119,14 +119,22 @@ class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
     }
 
     private class StepsRecord {
-        byte[] knownVersions = {5, 6, 7, 12, 13};
         short version;
         int timestamp;
         int steps;
-        int orientation;
+        short orientation;
         int intensity;
-        int light_intensity;
-        int heart_rate;
+        short light_intensity;
+        boolean plugged_in;
+        boolean active;
+
+        // depending on the FW version these can be null
+        Integer resting_cal;
+        Integer active_cal;
+        Integer distance_cm;
+        Short heart_rate;
+        Integer heart_rate_weight;
+        Short heart_rate_zone;
 
         byte[] rawData;
 
@@ -137,18 +145,28 @@ class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
             record.order(ByteOrder.LITTLE_ENDIAN);
 
             this.version = version;
-            //TODO: check supported versions?
 
             this.steps = record.get() & 0xff;
-            this.orientation = record.get() & 0xff;
+            this.orientation = (short) (record.get() & 0xff);
             this.intensity = record.getShort() & 0xffff;
-            this.light_intensity = record.get() & 0xff;
+            this.light_intensity = (short) (record.get() & 0xff);
+            byte flags = record.get();
+            this.plugged_in = ((flags & 1) > 0);
+            this.active = ((flags & 2) > 0);
+
+            if (version >= 6) {
+                this.resting_cal = record.getShort() & 0xffff;
+                this.active_cal = record.getShort() & 0xffff;
+                this.distance_cm = record.getShort() & 0xffff;
+            }
             if (version >= 7) {
-                // skip 7 bytes
-                record.getInt();
-                record.getShort();
-                record.get();
-                this.heart_rate = record.get() & 0xff;
+                this.heart_rate = (short) (record.get() & 0xff);
+            }
+            if (version >= 8) {
+                this.heart_rate_weight = record.getShort() & 0xffff;
+            }
+            if (version >= 13) {
+                this.heart_rate_zone = (short) (record.get() & 0xff);
             }
         }
 

@@ -193,6 +193,25 @@ public class GBDaoGenerator {
         return activitySample;
     }
 
+    private static Entity addPebbleHealthActivitySampleV2(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "PebbleHealthActivitySample");
+        addCommonActivitySampleProperties("AbstractPebbleHealthActivitySample", activitySample, user, device);
+        activitySample.addShortProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addShortProperty("orientation");
+        activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addShortProperty("lightIntensity");
+        activitySample.addBooleanProperty("pluggedIn");
+        activitySample.addBooleanProperty("active");
+        activitySample.addIntProperty("restingCal");
+        activitySample.addIntProperty("activeCal");
+        activitySample.addIntProperty("distanceCm");
+        activitySample.addShortProperty(SAMPLE_HEART_RATE).codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty("heartRateWeight");
+        activitySample.addShortProperty("heartRateZone");
+
+        return activitySample;
+    }
+
     private static Entity addPebbleHealthActivityKindOverlay(Schema schema, Entity user, Entity device) {
         Entity activityOverlay = addEntity(schema, "PebbleHealthActivityOverlay");
 
