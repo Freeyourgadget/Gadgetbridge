@@ -84,6 +84,7 @@
   <string name="pref_title_call_privacy_mode">Mode de confidentialité d\'appel</string>
   <string name="pref_call_privacy_mode_off">Afficher le nom et le numéro</string>
   <string name="pref_call_privacy_mode_name">Masquer le nom mais afficher le numéro</string>
+  <string name="pref_call_privacy_mode_number">Masquer le numéro mais afficher le nom</string>
   <string name="pref_call_privacy_mode_complete">Masquer le nom et le numéro</string>
   <string name="pref_blacklist">Applications bloquées</string>
   <string name="pref_header_cannned_messages">Modèles de messages</string>
@@ -247,7 +248,7 @@
   <string name="notif_battery_low_bigtext_last_charge_time">Dernière charge: %s \n</string>
   <string name="notif_battery_low_bigtext_number_of_charges">Nombre de charges: %s</string>
   <string name="sleepchart_your_sleep">Votre sommeil</string>
-  <string name="weeksleepchart_sleep_a_week">Dormir une semaine</string>
+  <string name="weeksleepchart_sleep_a_week">Sommeil cette semaine</string>
   <string name="weeksleepchart_today_sleep_description">Sommeil aujourd\'hui, objectif: %1$s</string>
   <string name="weekstepschart_steps_a_week">Pas de la semaine</string>
   <string name="activity_sleepchart_activity_and_sleep">Votre activité et sommeil</string>
@@ -306,7 +307,8 @@
   <string name="authentication_required">authentification requise</string>
   <string name="appwidget_text">ZzZz</string>
   <string name="add_widget">Ajouter un widget</string>
-  <string name="activity_prefs_sleep_duration">Préférer le mode heure pendant le sommeil</string>
+  <string name="activity_prefs_sleep_duration">
+Temps de sommeil péféré en heures</string>
   <string name="appwidget_alarms_set">Une alarme a été enregistré pour %1$02d:%2$02d</string>
   <string name="device_hw">Modèle: %1$s</string>
   <string name="device_fw">Micrologiciel: %1$s</string>
@@ -357,4 +359,8 @@ NOTE: la base de données sera bien évidement plus grande !</string>
   <string name="StringUtils_sender">(%1$s)</string>
   <string name="find_device_you_found_it">Vous l\'avez trouvé!</string>
   <string name="miband2_prefs_timeformat">Mi2: format de l\'heure</string>
+  <string name="mi2_fw_installhandler_fw53_hint">Vous devez installer la version %1$s avant d\'installer ce micrologiciel!</string>
+  <string name="mi2_enable_text_notifications">Notifications textuelles</string>
+  <string name="mi2_enable_text_notifications_summary"><![CDATA[Needs firmware >= 1.0.1.28 and Mili_pro.ft* installed.]]></string>
+  <string name="off">off</string>
 </resources>

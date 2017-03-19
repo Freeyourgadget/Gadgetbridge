@@ -84,6 +84,7 @@
   <string name="pref_title_call_privacy_mode">Modo de privacidad de llamada</string>
   <string name="pref_call_privacy_mode_off">Mostrar nombre y número</string>
   <string name="pref_call_privacy_mode_name">Ocultar nombre pero mostrar número</string>
+  <string name="pref_call_privacy_mode_number">Ocultar el número pero mostrar el nombre</string>
   <string name="pref_call_privacy_mode_complete">Ocultar nombre y número</string>
   <string name="pref_blacklist">Excluir aplicaciones</string>
   <string name="pref_header_cannned_messages">Mensajes predeterminados</string>
@@ -247,7 +248,7 @@
   <string name="notif_battery_low_bigtext_last_charge_time">Última carga: %s \n</string>
   <string name="notif_battery_low_bigtext_number_of_charges">Número de cargas: %s</string>
   <string name="sleepchart_your_sleep">Tu sueño</string>
-  <string name="weeksleepchart_sleep_a_week">Dormir una semana</string>
+  <string name="weeksleepchart_sleep_a_week">Sueño esta semana</string>
   <string name="weeksleepchart_today_sleep_description">Sueño hoy, objetivo: %1$s</string>
   <string name="weekstepschart_steps_a_week">Pasos por semana</string>
   <string name="activity_sleepchart_activity_and_sleep">Tu actividad y sueño</string>
@@ -356,4 +357,8 @@
   <string name="StringUtils_sender">(%1$s)</string>
   <string name="find_device_you_found_it">¡Lo ha encontrado!</string>
   <string name="miband2_prefs_timeformat">Mi2: formato de hora</string>
+  <string name="mi2_fw_installhandler_fw53_hint">¡Debes instalar la versión %1$s antes de instalar este firmware!</string>
+  <string name="mi2_enable_text_notifications">Notificaciones textuales</string>
+  <string name="mi2_enable_text_notifications_summary"><![CDATA[Needs firmware >= 1.0.1.28 and Mili_pro.ft* installed.]]></string>
+  <string name="off">off</string>
 </resources>
