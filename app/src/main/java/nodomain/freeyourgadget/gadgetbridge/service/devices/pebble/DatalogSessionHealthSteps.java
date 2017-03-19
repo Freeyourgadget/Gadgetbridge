@@ -132,7 +132,7 @@ class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
         Integer resting_cal;
         Integer active_cal;
         Integer distance_cm;
-        Short heart_rate;
+        Short heart_rate = 0; // TODO: remove initialization once new db schema is in place, right now this prevents a NPE on old firmwares
         Integer heart_rate_weight;
         Short heart_rate_zone;
 
