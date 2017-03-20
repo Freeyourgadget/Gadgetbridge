@@ -87,11 +87,6 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
         public AbstractActivitySample getLatestActivitySample() {
             return null;
         }
-
-        @Override
-        public int getID() {
-            return PROVIDER_UNKNOWN;
-        }
     }
 
     public UnknownDeviceCoordinator() {
