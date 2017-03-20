@@ -42,6 +42,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -84,9 +85,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.AbortTransactionAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.NewAlert;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.OverflowStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.heartrate.HeartRateProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotification;
@@ -689,6 +687,17 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onEnableRealtimeSteps(boolean enable) {
+        try {
+            TransactionBuilder builder = performInitialized(enable ? "Enabling realtime steps notifications" : "Disabling realtime steps notifications");
+            if (enable) {
+                builder.read(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_7_REALTIME_STEPS));
+            }
+            builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_7_REALTIME_STEPS), enable);
+            builder.queue(getQueue());
+            enableRealtimeSamplesTimer(enable);
+        } catch (IOException e) {
+            LOG.error("Unable to change realtime steps notification to: " + enable, e);
+        }
     }
 
     private byte[] getHighLatency() {
@@ -783,15 +792,15 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         } else if (GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT.equals(characteristicUUID)) {
             handleHeartrate(characteristic.getValue());
             return true;
-//        } else if (MiBand2Service.UUID_UNKNOQN_CHARACTERISTIC0.equals(characteristicUUID)) {
-//            handleUnknownCharacteristic(characteristic.getValue());
-//            return true;
         } else if (MiBand2Service.UUID_CHARACTERISTIC_AUTH.equals(characteristicUUID)) {
             LOG.info("AUTHENTICATION?? " + characteristicUUID);
             logMessageContent(characteristic.getValue());
             return true;
         } else if (MiBand2Service.UUID_CHARACTERISTIC_10_BUTTON.equals(characteristicUUID)) {
             handleButtonPressed(characteristic.getValue());
+            return true;
+        } else if (MiBand2Service.UUID_CHARACTERISTIC_7_REALTIME_STEPS.equals(characteristicUUID)) {
+            handleRealtimeSteps(characteristic.getValue());
             return true;
         } else {
             LOG.info("Unhandled characteristic changed: " + characteristicUUID);
@@ -823,6 +832,9 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             return true;
         } else if (GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT.equals(characteristicUUID)) {
             logHeartrate(characteristic.getValue(), status);
+            return true;
+        } else if (MiBand2Service.UUID_CHARACTERISTIC_7_REALTIME_STEPS.equals(characteristicUUID)) {
+            handleRealtimeSteps(characteristic.getValue());
             return true;
         } else if (MiBand2Service.UUID_CHARACTERISTIC_10_BUTTON.equals(characteristicUUID)) {
             handleButtonPressed(characteristic.getValue());
@@ -874,11 +886,21 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     private void handleRealtimeSteps(byte[] value) {
-        int steps = 0xff & value[0] | (0xff & value[1]) << 8;
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("realtime steps: " + steps);
+        if (value == null) {
+            LOG.error("realtime steps: value is null");
+            return;
         }
-        getRealtimeSamplesSupport().setSteps(steps);
+
+        if (value.length == 13) {
+            byte[] stepsValue = new byte[] {value[1], value[2]};
+            int steps = BLETypeConversions.toUint16(stepsValue);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("realtime steps: " + steps);
+            }
+            getRealtimeSamplesSupport().setSteps(steps);
+        } else {
+            LOG.warn("Unrecognized realtime steps value: " + Logging.formatBytes(value));
+        }
     }
 
     private void enableRealtimeSamplesTimer(boolean enable) {
@@ -1073,10 +1095,8 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     @Override
     public void onTestNewFunction() {
         try {
-            TransactionBuilder builder = performInitialized("incoming call from peter");
-            NewAlert alert = new NewAlert(AlertCategory.Custom, 1, new String(new byte[] {0x19}));
-            AlertNotificationProfile<MiBand2Support> profile = new AlertNotificationProfile<>(this);
-            profile.newAlert(builder, alert, OverflowStrategy.MAKE_MULTIPLE);
+            TransactionBuilder builder = performInitialized("test realtime steps");
+            builder.read(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_7_REALTIME_STEPS));
             builder.queue(getQueue());
         } catch (IOException e) {
         }

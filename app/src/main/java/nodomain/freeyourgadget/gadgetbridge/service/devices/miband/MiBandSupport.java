@@ -73,6 +73,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
@@ -965,7 +966,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void handleRealtimeSteps(byte[] value) {
-        int steps = 0xff & value[0] | (0xff & value[1]) << 8;
+        int steps = BLETypeConversions.toUint16(value);
         if (LOG.isDebugEnabled()) {
             LOG.debug("realtime steps: " + steps);
         }
