@@ -29,7 +29,9 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleHealthSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleHealthSampleProviderV2;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivitySampleV2;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -95,7 +97,9 @@ class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
 
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             PebbleHealthSampleProvider sampleProvider = new PebbleHealthSampleProvider(getDevice(), dbHandler.getDaoSession());
+            PebbleHealthSampleProviderV2 sampleProviderV2 = new PebbleHealthSampleProviderV2(getDevice(), dbHandler.getDaoSession());
             PebbleHealthActivitySample[] samples = new PebbleHealthActivitySample[stepsRecords.length];
+            PebbleHealthActivitySampleV2[] samplesV2 = new PebbleHealthActivitySampleV2[stepsRecords.length];
             // TODO: user and device
             Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
             Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
@@ -107,12 +111,31 @@ class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
                         stepsRecord.getRawData(),
                         stepsRecord.intensity,
                         stepsRecord.steps,
-                        stepsRecord.heart_rate
+                        stepsRecord.heart_rate == null ? 0 : stepsRecord.heart_rate // for not avoid null in the old database
                 );
+
                 samples[j].setProvider(sampleProvider);
+
+                samplesV2[j] = new PebbleHealthActivitySampleV2(
+                        stepsRecord.timestamp,
+                        deviceId, userId,
+                        stepsRecord.steps,
+                        stepsRecord.orientation,
+                        stepsRecord.intensity,
+                        stepsRecord.light_intensity,
+                        stepsRecord.plugged_in,
+                        stepsRecord.active,
+                        stepsRecord.resting_cal,
+                        stepsRecord.active_cal,
+                        stepsRecord.distance_cm,
+                        stepsRecord.heart_rate,
+                        stepsRecord.heart_rate_weight,
+                        stepsRecord.heart_rate_zone);
+                samplesV2[j].setProvider(sampleProviderV2);
             }
 
             sampleProvider.addGBActivitySamples(samples);
+            sampleProviderV2.addGBActivitySamples(samplesV2);
         } catch (Exception ex) {
             LOG.debug(ex.getMessage());
         }
@@ -122,19 +145,18 @@ class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
         short version;
         int timestamp;
         int steps;
-        short orientation;
+        Integer orientation;
         int intensity;
-        short light_intensity;
-        boolean plugged_in;
-        boolean active;
+        Integer light_intensity;
+        Boolean plugged_in;
+        Boolean active;
 
-        // depending on the FW version these can be null
         Integer resting_cal;
         Integer active_cal;
         Integer distance_cm;
-        Short heart_rate = 0; // TODO: remove initialization once new db schema is in place, right now this prevents a NPE on old firmwares
+        Integer heart_rate;
         Integer heart_rate_weight;
-        Short heart_rate_zone;
+        Integer heart_rate_zone;
 
         byte[] rawData;
 
@@ -147,9 +169,9 @@ class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
             this.version = version;
 
             this.steps = record.get() & 0xff;
-            this.orientation = (short) (record.get() & 0xff);
+            this.orientation = record.get() & 0xff;
             this.intensity = record.getShort() & 0xffff;
-            this.light_intensity = (short) (record.get() & 0xff);
+            this.light_intensity = record.get() & 0xff;
             byte flags = record.get();
             this.plugged_in = ((flags & 1) > 0);
             this.active = ((flags & 2) > 0);
@@ -160,13 +182,13 @@ class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
                 this.distance_cm = record.getShort() & 0xffff;
             }
             if (version >= 7) {
-                this.heart_rate = (short) (record.get() & 0xff);
+                this.heart_rate = record.get() & 0xff;
             }
             if (version >= 8) {
                 this.heart_rate_weight = record.getShort() & 0xffff;
             }
             if (version >= 13) {
-                this.heart_rate_zone = (short) (record.get() & 0xff);
+                this.heart_rate_zone = record.get() & 0xff;
             }
         }
 

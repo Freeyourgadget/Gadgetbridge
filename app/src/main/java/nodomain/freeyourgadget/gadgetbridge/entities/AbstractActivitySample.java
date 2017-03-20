@@ -64,12 +64,12 @@ public abstract class AbstractActivitySample implements ActivitySample {
     public abstract void setUserId(long userId);
 
     @Override
-    public void setHeartRate(int heartRate) {
+    public void setHeartRate(Integer heartRate) {
     }
 
     @Override
-    public int getHeartRate() {
-        return NOT_MEASURED;
+    public Integer getHeartRate() {
+        return null;
     }
 
     public abstract void setDeviceId(long deviceId);

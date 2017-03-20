@@ -18,8 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.entities;
 
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
-public abstract class AbstractPebbleHealthActivitySample extends AbstractActivitySample {
-    abstract public byte[] getRawPebbleHealthData();
+abstract class AbstractPebbleHealthActivitySample extends AbstractActivitySample {
 
     private transient int rawActivityKind = ActivityKind.TYPE_UNKNOWN;
 
@@ -31,5 +30,9 @@ public abstract class AbstractPebbleHealthActivitySample extends AbstractActivit
     @Override
     public void setRawKind(int kind) {
         this.rawActivityKind = kind;
+    }
+
+    public byte[] getRawPebbleHealthData() {
+        return null;
     }
 }

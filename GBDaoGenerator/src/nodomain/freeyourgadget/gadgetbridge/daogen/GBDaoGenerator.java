@@ -36,6 +36,7 @@ public class GBDaoGenerator {
     private static final String SAMPLE_STEPS = "steps";
     private static final String SAMPLE_RAW_KIND = "rawKind";
     private static final String SAMPLE_HEART_RATE = "heartRate";
+    private static final String SAMPLE_DISTANCE = "distance";
     private static final String TIMESTAMP_FROM = "timestampFrom";
     private static final String TIMESTAMP_TO = "timestampTo";
 
@@ -57,6 +58,7 @@ public class GBDaoGenerator {
 
         addMiBandActivitySample(schema, user, device);
         addPebbleHealthActivitySample(schema, user, device);
+        addPebbleHealthActivitySampleV2(schema, user, device);
         addPebbleHealthActivityKindOverlay(schema, user, device);
         addPebbleMisfitActivitySample(schema, user, device);
         addPebbleMorpheuzActivitySample(schema, user, device);
@@ -180,7 +182,11 @@ public class GBDaoGenerator {
     }
 
     private static void addHeartRateProperties(Entity activitySample) {
-        activitySample.addIntProperty(SAMPLE_HEART_RATE).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_HEART_RATE).codeBeforeGetterAndSetter(OVERRIDE);
+    }
+
+    private static void addDistanceProperty(Entity activitySample) {
+        activitySample.addIntProperty(SAMPLE_DISTANCE);
     }
 
     private static Entity addPebbleHealthActivitySample(Schema schema, Entity user, Entity device) {
@@ -194,20 +200,20 @@ public class GBDaoGenerator {
     }
 
     private static Entity addPebbleHealthActivitySampleV2(Schema schema, Entity user, Entity device) {
-        Entity activitySample = addEntity(schema, "PebbleHealthActivitySample");
+        Entity activitySample = addEntity(schema, "PebbleHealthActivitySampleV2");
         addCommonActivitySampleProperties("AbstractPebbleHealthActivitySample", activitySample, user, device);
-        activitySample.addShortProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
-        activitySample.addShortProperty("orientation");
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty("orientation");
         activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
-        activitySample.addShortProperty("lightIntensity");
+        activitySample.addIntProperty("lightIntensity");
         activitySample.addBooleanProperty("pluggedIn");
         activitySample.addBooleanProperty("active");
         activitySample.addIntProperty("restingCal");
         activitySample.addIntProperty("activeCal");
-        activitySample.addIntProperty("distanceCm");
-        activitySample.addShortProperty(SAMPLE_HEART_RATE).codeBeforeGetterAndSetter(OVERRIDE);
+        addDistanceProperty(activitySample);
+        addHeartRateProperties(activitySample);
         activitySample.addIntProperty("heartRateWeight");
-        activitySample.addShortProperty("heartRateZone");
+        activitySample.addIntProperty("heartRateZone");
 
         return activitySample;
     }
@@ -251,7 +257,7 @@ public class GBDaoGenerator {
         activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         addHeartRateProperties(activitySample);
-        activitySample.addIntProperty("distance");
+        addDistanceProperty(activitySample);
         activitySample.addIntProperty("calories");
 
         return activitySample;

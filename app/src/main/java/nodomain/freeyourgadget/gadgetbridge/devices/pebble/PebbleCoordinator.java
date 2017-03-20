@@ -34,6 +34,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivityOverlayDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivitySampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivitySampleV2;
+import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivitySampleV2Dao;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMisfitSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMorpheuzSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -75,6 +77,8 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
         Long deviceId = device.getId();
         QueryBuilder<?> qb = session.getPebbleHealthActivitySampleDao().queryBuilder();
         qb.where(PebbleHealthActivitySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
+        qb = session.getPebbleHealthActivitySampleV2Dao().queryBuilder();
+        qb.where(PebbleHealthActivitySampleV2Dao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
         qb = session.getPebbleHealthActivityOverlayDao().queryBuilder();
         qb.where(PebbleHealthActivityOverlayDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
         qb = session.getPebbleMisfitSampleDao().queryBuilder();
@@ -89,7 +93,8 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
         int activityTracker = prefs.getInt("pebble_activitytracker", SampleProvider.PROVIDER_PEBBLE_HEALTH);
         switch (activityTracker) {
             case SampleProvider.PROVIDER_PEBBLE_HEALTH:
-                return new PebbleHealthSampleProvider(device, session);
+                //return new PebbleHealthSampleProvider(device, session);
+                return new PebbleHealthSampleProviderV2(device, session);
             case SampleProvider.PROVIDER_PEBBLE_MISFIT:
                 return new PebbleMisfitSampleProvider(device, session);
             case SampleProvider.PROVIDER_PEBBLE_MORPHEUZ:
