@@ -21,7 +21,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.hplus;
 */
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import java.util.Calendar;
 import java.util.Collections;
@@ -34,7 +33,6 @@ import de.greenrobot.dao.Property;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.HPlusHealthActivityOverlay;
@@ -56,11 +54,6 @@ public class HPlusHealthSampleProvider extends AbstractSampleProvider<HPlusHealt
 
         mSession = session;
         mDevice = device;
-    }
-
-    public int getID() {
-
-        return SampleProvider.PROVIDER_HPLUS;
     }
 
     public int normalizeType(int rawType) {

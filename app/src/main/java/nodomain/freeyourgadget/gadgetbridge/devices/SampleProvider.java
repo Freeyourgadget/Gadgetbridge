@@ -34,24 +34,10 @@ import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
  * @param <T> the device/provider specific sample type (must extend AbstractActivitySample)
  */
 public interface SampleProvider<T extends AbstractActivitySample> {
-    // TODO: these constants can all be removed
-    int PROVIDER_MIBAND = 0;
+    // These are only used for SharedPreferences
     int PROVIDER_PEBBLE_MORPHEUZ = 1;
-    int PROVIDER_PEBBLE_GADGETBRIDGE = 2; // removed
     int PROVIDER_PEBBLE_MISFIT = 3;
     int PROVIDER_PEBBLE_HEALTH = 4;
-    int PROVIDER_MIBAND2 = 5;
-    int PROVIDER_HPLUS = 6;
-
-    int PROVIDER_UNKNOWN = 100;
-    // TODO: can also be removed
-
-    /**
-     * Returns the "id" of this sample provider, as used in Gadgetbridge versions < 0.12.0.
-     * Only used for importing old samples.
-     * @deprecated
-     */
-    int getID();
 
     int normalizeType(int rawType);
 

@@ -19,7 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMorpheuzSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMorpheuzSampleDao;
@@ -62,11 +61,6 @@ public class PebbleMorpheuzSampleProvider extends AbstractSampleProvider<PebbleM
     @Override
     public float normalizeIntensity(int rawIntensity) {
         return rawIntensity / movementDivisor;
-    }
-
-    @Override
-    public int getID() {
-        return SampleProvider.PROVIDER_PEBBLE_MORPHEUZ;
     }
 
     @Override
