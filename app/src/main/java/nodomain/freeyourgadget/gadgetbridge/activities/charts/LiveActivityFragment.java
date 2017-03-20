@@ -282,13 +282,14 @@ public class LiveActivityFragment extends AbstractChartFragment {
 
     @Override
     public void onPause() {
+        enableRealtimeTracking(false);
         super.onPause();
-        stopActivityPulse();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        enableRealtimeTracking(true);
     }
 
     private ScheduledExecutorService startActivityPulse() {
@@ -345,23 +346,34 @@ public class LiveActivityFragment extends AbstractChartFragment {
 
     @Override
     protected void onMadeVisibleInActivity() {
-        GBApplication.deviceService().onEnableRealtimeSteps(true);
-        GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(true);
         super.onMadeVisibleInActivity();
-        if (getActivity() != null) {
-            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        enableRealtimeTracking(true);
+    }
+
+    private void enableRealtimeTracking(boolean enable) {
+        if (enable && pulseScheduler != null) {
+            // already running
+            return;
         }
-        pulseScheduler = startActivityPulse();
+
+        GBApplication.deviceService().onEnableRealtimeSteps(enable);
+        GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(enable);
+        if (enable) {
+            if (getActivity() != null) {
+                getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            }
+            pulseScheduler = startActivityPulse();
+        } else {
+            stopActivityPulse();
+            if (getActivity() != null) {
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            }
+        }
     }
 
     @Override
     protected void onMadeInvisibleInActivity() {
-        stopActivityPulse();
-        GBApplication.deviceService().onEnableRealtimeSteps(false);
-        GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(false);
-        if (getActivity() != null) {
-            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        }
+        enableRealtimeTracking(false);
         super.onMadeInvisibleInActivity();
     }
 
