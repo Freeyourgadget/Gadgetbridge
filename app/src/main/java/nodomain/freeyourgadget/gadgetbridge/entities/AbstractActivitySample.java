@@ -69,7 +69,7 @@ public abstract class AbstractActivitySample implements ActivitySample {
 
     @Override
     public Integer getHeartRate() {
-        return null;
+        return NOT_MEASURED;
     }
 
     public abstract void setDeviceId(long deviceId);

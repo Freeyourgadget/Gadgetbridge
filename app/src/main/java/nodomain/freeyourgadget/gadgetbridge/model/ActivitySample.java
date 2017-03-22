@@ -77,7 +77,7 @@ public interface ActivitySample extends TimeStamped {
      * The value is returned in heart beats per minute, in the range from
      * 0-255, where 255 is an illegal value (e.g. due to a bad measurement)
      *
-     * @return the heart rate value in beats per minute, or null if none
+     * @return the heart rate value in beats per minute, or -1 if none
      */
     Integer getHeartRate();
 
