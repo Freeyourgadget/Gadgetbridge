@@ -105,7 +105,7 @@ public class AlarmDetails extends GBActivity {
     }
 
     private void updateAlarm() {
-        alarm.setSmartWakeup(cbSmartWakeup.isChecked());
+        alarm.setSmartWakeup(supportsSmartWakeup() && cbSmartWakeup.isChecked());
         alarm.setRepetition(cbMonday.isChecked(), cbTuesday.isChecked(), cbWednesday.isChecked(), cbThursday.isChecked(), cbFriday.isChecked(), cbSaturday.isChecked(), cbSunday.isChecked());
         alarm.setHour(timePicker.getCurrentHour());
         alarm.setMinute(timePicker.getCurrentMinute());
