@@ -77,6 +77,10 @@ public class GBDevice implements Parcelable {
     private short mRssi = RSSI_UNKNOWN;
     private String mBusyTask;
     private List<ItemWithDetails> mDeviceInfos;
+    private int mStep = 0;
+    private int mCalory = 0;
+    private int mHeart = 0;
+    private int mDistance = 0;
 
     public GBDevice(String address, String name, DeviceType deviceType) {
         this(address, null, name, deviceType);
@@ -133,6 +137,38 @@ public class GBDevice implements Parcelable {
         }
     }
 
+    public int getStep() {
+        return mStep;
+    }
+
+    public void setStep(int Step) {
+        mStep = Step;
+    }
+
+    public int getCalory() {
+        return mCalory;
+    }
+
+    public void setCalory(int Calory) {
+        mCalory = Calory;
+    }
+
+    public int getHeart() {
+        return mHeart;
+    }
+
+    public void setHeart(int Heart) {
+        mHeart = Heart;
+    }
+
+    public int getDistance() {
+        return mDistance;
+    }
+
+    public void setDistance(int Distance) {
+        mDistance = Distance;
+    }
+
     public String getName() {
         return mName;
     }
@@ -156,6 +192,7 @@ public class GBDevice implements Parcelable {
     public String getFirmwareVersion() {
         return mFirmwareVersion;
     }
+
     public String getFirmwareVersion2() {
         return mFirmwareVersion2;
     }
@@ -166,6 +203,7 @@ public class GBDevice implements Parcelable {
 
     /**
      * Sets the second firmware version, typically the heart rate firmware version
+     *
      * @param firmwareVersion2
      */
     public void setFirmwareVersion2(String firmwareVersion2) {
@@ -179,6 +217,7 @@ public class GBDevice implements Parcelable {
     /**
      * Returns the specific model/hardware revision of this device.
      * This information is not always available, typically only when the device is initialized
+     *
      * @return the model/hardware revision of this device
      * @see #getType()
      */
@@ -273,6 +312,22 @@ public class GBDevice implements Parcelable {
         return getStateString(true);
     }
 
+    public String getStateString(DeviceType type) {
+        if (mState == State.INITIALIZED || mState == State.CONNECTED) {
+            switch (type) {
+                case HPLUS:
+                    return getStateString(true) + "\n" + GBApplication.getContext().getString(R.string.chart_steps) + ":" + mStep +
+                            "   " + GBApplication.getContext().getString(R.string.distance) + ":" + mDistance + " m" +
+                            "   " + GBApplication.getContext().getString(R.string.calories) + ":" + mCalory +
+                            "   " + "HR:" + mHeart + "\n";
+                default:
+                    return getStateString(true);
+            }
+        } else {
+            return getStateString(true);
+        }
+    }
+
     /**
      * for simplicity the user won't see all internal states, just connecting -> connected
      * instead of connecting->connected->initializing->initialized
@@ -312,6 +367,7 @@ public class GBDevice implements Parcelable {
     /**
      * Returns the general type of this device. For more detailed information,
      * soo #getModel()
+     *
      * @return the general type of this device
      */
     @NonNull
