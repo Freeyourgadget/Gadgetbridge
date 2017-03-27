@@ -111,17 +111,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/device_image"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginStart="4dp"
                 android:layout_marginEnd="0dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
+                android:padding="4dp"
                 android:minWidth="48dp"
                 android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/device_battery_status"
                     android:layout_width="48dp"
-                    android:layout_height="36dp"
+                    android:layout_height="40dp"
                     android:tint="@color/secondarytext"
                     card_view:srcCompat="@drawable/level_list_battery" />
 
@@ -142,7 +143,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/device_image"
-                android:layout_margin="8dp"
+                android:layout_margin="4dp"
+                android:padding="4dp"
                 android:layout_toEndOf="@id/device_battery_status_box"
                 android:gravity="center_vertical"
                 android:minWidth="36dp"
@@ -150,8 +152,8 @@
 
                 <ImageView
                     android:id="@+id/device_action_fetch_activity"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:clickable="true"
                     android:contentDescription="@string/controlcenter_fetch_activity_data"
                     android:tint="@color/secondarytext"
@@ -171,10 +173,11 @@
 
             <ImageView
                 android:id="@+id/device_action_take_screenshot"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_below="@id/device_image"
-                android:layout_margin="8dp"
+                android:layout_margin="4dp"
+                android:padding="4dp"
                 android:layout_toEndOf="@id/device_action_fetch_activity_box"
                 android:clickable="true"
                 android:contentDescription="@string/controlcenter_take_screenshot"
@@ -184,10 +187,11 @@
 
             <ImageView
                 android:id="@+id/device_action_manage_apps"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_below="@id/device_image"
-                android:layout_margin="8dp"
+                android:layout_margin="4dp"
+                android:padding="4dp"
                 android:layout_toEndOf="@id/device_action_take_screenshot"
                 android:clickable="true"
                 android:contentDescription="@string/title_activity_appmanager"
@@ -197,10 +201,11 @@
 
             <ImageView
                 android:id="@+id/device_action_set_alarms"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_below="@id/device_image"
-                android:layout_margin="8dp"
+                android:layout_margin="4dp"
+                android:padding="4dp"
                 android:layout_toEndOf="@id/device_action_manage_apps"
                 android:clickable="true"
                 android:contentDescription="@string/controlcenter_start_configure_alarms"
@@ -210,10 +215,11 @@
 
             <ImageView
                 android:id="@+id/device_action_show_activity_graphs"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_below="@id/device_image"
-                android:layout_margin="8dp"
+                android:layout_margin="4dp"
+                android:padding="4dp"
                 android:layout_toEndOf="@id/device_action_set_alarms"
                 android:clickable="true"
                 android:tint="@color/secondarytext"
@@ -223,10 +229,11 @@
 
             <ImageView
                 android:id="@+id/device_action_find"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_below="@id/device_image"
-                android:layout_margin="8dp"
+                android:layout_margin="4dp"
+                android:padding="4dp"
                 android:layout_toEndOf="@id/device_action_show_activity_graphs"
                 android:clickable="true"
                 android:contentDescription="@string/controlcenter_find_device"
