@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="next">
+    <release version="0.18.4" versioncode="91">
+        <change>Mi Band 2: Display realtime steps in Live Activity</change>
+        <change>Mi Band: Attempt to recognize Mi Band model with hwVersion = 8</change>
+        <change>Make Buttons in the main activity easier to hit</change>
         <change>Alarms activity improvements and fixes</change>
     </release>
     <release version="0.18.3" versioncode="90">
