@@ -77,6 +77,11 @@ public class GBDevice implements Parcelable {
     private short mRssi = RSSI_UNKNOWN;
     private String mBusyTask;
     private List<ItemWithDetails> mDeviceInfos;
+
+    private static final String DEVINFO_STEP = GBApplication.getContext().getString(R.string.chart_steps) + ": ";
+    private static final String DEVINFO_DISTANCE = GBApplication.getContext().getString(R.string.distance) + ": ";
+    private static final String DEVINFO_CALORY = GBApplication.getContext().getString(R.string.calories) + ": ";
+    private static final String DEVINFO_HEART = "HR: ";
     private int mStep = 0;
     private int mCalory = 0;
     private int mHeart = 0;
@@ -110,6 +115,10 @@ public class GBDevice implements Parcelable {
         mBusyTask = in.readString();
         mDeviceInfos = in.readArrayList(getClass().getClassLoader());
 
+        mStep = in.readInt();
+        mDistance = in.readInt();
+        mCalory = in.readInt();
+        mHeart = in.readInt();
         validate();
     }
 
@@ -129,6 +138,12 @@ public class GBDevice implements Parcelable {
         dest.writeInt(mRssi);
         dest.writeString(mBusyTask);
         dest.writeList(mDeviceInfos);
+
+        dest.writeInt(mStep);
+        dest.writeInt(mDistance);
+        dest.writeInt(mCalory);
+        dest.writeInt(mHeart);
+
     }
 
     private void validate() {
@@ -312,21 +327,6 @@ public class GBDevice implements Parcelable {
         return getStateString(true);
     }
 
-    public String getStateString(DeviceType type) {
-        if (mState == State.INITIALIZED || mState == State.CONNECTED) {
-            switch (type) {
-                case HPLUS:
-                    return getStateString(true) + "\n" + GBApplication.getContext().getString(R.string.chart_steps) + ":" + mStep +
-                            "   " + GBApplication.getContext().getString(R.string.distance) + ":" + mDistance + " m" +
-                            "   " + GBApplication.getContext().getString(R.string.calories) + ":" + mCalory +
-                            "   " + "HR:" + mHeart + "\n";
-                default:
-                    return getStateString(true);
-            }
-        } else {
-            return getStateString(true);
-        }
-    }
 
     /**
      * for simplicity the user won't see all internal states, just connecting -> connected
@@ -491,6 +491,8 @@ public class GBDevice implements Parcelable {
 
     public List<ItemWithDetails> getDeviceInfos() {
         List<ItemWithDetails> result = new ArrayList<>();
+
+
         if (mDeviceInfos != null) {
             result.addAll(mDeviceInfos);
         }
@@ -500,15 +502,37 @@ public class GBDevice implements Parcelable {
         if (mFirmwareVersion != null) {
             result.add(new GenericItem(DEVINFO_FW_VER, mFirmwareVersion));
         }
-        if (mFirmwareVersion2 != null) {
-            result.add(new GenericItem(DEVINFO_HR_VER, mFirmwareVersion2));
-        }
         if (mAddress != null) {
             result.add(new GenericItem(DEVINFO_ADDR, mAddress));
         }
         if (mVolatileAddress != null) {
             result.add(new GenericItem(DEVINFO_ADDR2, mVolatileAddress));
         }
+
+        String info = "";
+        if (mStep != 0) {
+            info +=DEVINFO_STEP + String.valueOf(mStep) + "   ";
+        }
+        if (mDistance != 0) {
+            info +=DEVINFO_DISTANCE + String.valueOf(mDistance) + "   ";
+        }
+        if (mCalory != 0) {
+            info +=DEVINFO_CALORY + String.valueOf(mCalory) + "   ";
+        }
+        if (mHeart != 0) {
+            info +=DEVINFO_HEART + String.valueOf(mHeart) + "   ";
+        }
+
+        if (!info.equals("")) {
+            result.add(new GenericItem("", info));
+        }
+
+        if (mFirmwareVersion2 != null) {
+            result.add(new GenericItem(DEVINFO_HR_VER, mFirmwareVersion2));
+        }
+
+
+
         Collections.sort(result);
         return result;
     }

@@ -96,7 +96,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             holder.deviceStatusLabel.setText(device.getBusyTask());
             holder.busyIndicator.setVisibility(View.VISIBLE);
         } else {
-            holder.deviceStatusLabel.setText(device.getStateString(device.getType()));
+            holder.deviceStatusLabel.setText(device.getStateString());
             holder.busyIndicator.setVisibility(View.INVISIBLE);
         }
 
