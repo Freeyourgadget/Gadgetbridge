@@ -1,5 +1,8 @@
 ###Changelog
 
+###Version next
+* Alarms activity improvements and fixes
+
 ###Version 0.18.3
 * Fix bug that caused the same value in weekly charts for every day on Android 6 and older
 

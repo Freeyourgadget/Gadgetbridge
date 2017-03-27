@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="next">
+        <change>Alarms activity improvements and fixes</change>
+    </release>
     <release version="0.18.3" versioncode="90">
         <change>Fix bug that caused the same value in weekly charts for every day on Android 6 and older</change>
     </release>
