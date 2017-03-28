@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.pebble.GBDeviceEventDataLogging;
 
 class DatalogSession {
@@ -44,15 +45,15 @@ class DatalogSession {
         this.itemSize = itemSize;
     }
 
-    boolean handleMessage(ByteBuffer buf, int length) {
-        return true;
+    GBDeviceEvent[] handleMessage(ByteBuffer buf, int length) {
+        return new GBDeviceEvent[]{null};
     }
 
     String getTaginfo() {
         return taginfo;
     }
 
-    GBDeviceEventDataLogging handleMessageForPebbleKit(ByteBuffer buf, int length) {
+    GBDeviceEvent[] handleMessageForPebbleKit(ByteBuffer buf, int length) {
         if (0 != (length % itemSize)) {
             LOG.warn("invalid length");
             return null;
@@ -89,6 +90,6 @@ class DatalogSession {
                     break;
             }
         }
-        return dataLogging;
+        return new GBDeviceEvent[]{dataLogging, null};
     }
 }

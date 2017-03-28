@@ -2232,10 +2232,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     private GBDeviceEvent[] decodeDatalog(ByteBuffer buf, short length) {
-        boolean ack = true;
         byte command = buf.get();
         byte id = buf.get();
-        GBDeviceEventDataLogging devEvtDataLogging = null;
+        GBDeviceEvent[] devEvtsDataLogging = null;
         switch (command) {
             case DATALOG_TIMEOUT:
                 LOG.info("DATALOG TIMEOUT. id=" + (id & 0xff) + " - ignoring");
@@ -2249,12 +2248,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 if (datalogSession != null) {
                     LOG.info("DATALOG UUID=" + datalogSession.uuid + ", tag=" + datalogSession.tag + datalogSession.getTaginfo() + ", itemSize=" + datalogSession.itemSize + ", itemType=" + datalogSession.itemType);
                     if (!datalogSession.uuid.equals(UUID_ZERO) && datalogSession.getClass().equals(DatalogSession.class) && mEnablePebbleKit) {
-                        devEvtDataLogging = datalogSession.handleMessageForPebbleKit(buf, length - 10);
-                        if (devEvtDataLogging == null) {
-                            ack = false;
-                        }
+                        devEvtsDataLogging = datalogSession.handleMessageForPebbleKit(buf, length - 10);
                     } else {
-                        ack = datalogSession.handleMessage(buf, length - 10);
+                        devEvtsDataLogging = datalogSession.handleMessage(buf, length - 10);
                     }
                 }
                 break;
@@ -2289,7 +2285,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         dataLogging.command = GBDeviceEventDataLogging.COMMAND_FINISH_SESSION;
                         dataLogging.appUUID = datalogSession.uuid;
                         dataLogging.tag = datalogSession.tag;
-                        devEvtDataLogging = dataLogging;
+                        devEvtsDataLogging = new GBDeviceEvent[]{dataLogging, null};
                     }
                     mDatalogSessions.remove(id);
                 }
@@ -2299,15 +2295,18 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 break;
         }
         GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
-        if (ack) {
+
+        if (devEvtsDataLogging != null) {
+            // append ack
             LOG.info("sending ACK (0x85)");
             sendBytes.encodedBytes = encodeDatalog(id, DATALOG_ACK);
+            devEvtsDataLogging[devEvtsDataLogging.length - 1] = sendBytes;
         } else {
             LOG.info("sending NACK (0x86)");
             sendBytes.encodedBytes = encodeDatalog(id, DATALOG_NACK);
+            devEvtsDataLogging = new GBDeviceEvent[]{sendBytes};
         }
-        // append ack/nack
-        return new GBDeviceEvent[]{devEvtDataLogging, sendBytes};
+        return devEvtsDataLogging;
     }
 
     private GBDeviceEvent decodeAppReorder(ByteBuffer buf) {

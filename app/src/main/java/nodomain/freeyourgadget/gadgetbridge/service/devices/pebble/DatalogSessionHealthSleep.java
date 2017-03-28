@@ -29,6 +29,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivityOverlay;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivityOverlayDao;
@@ -45,11 +46,11 @@ class DatalogSessionHealthSleep extends DatalogSessionPebbleHealth {
     }
 
     @Override
-    public boolean handleMessage(ByteBuffer datalogMessage, int length) {
+    public GBDeviceEvent[] handleMessage(ByteBuffer datalogMessage, int length) {
         LOG.info("DATALOG " + taginfo + GB.hexdump(datalogMessage.array(), datalogMessage.position(), length));
 
         if (!isPebbleHealthEnabled()) {
-            return false;
+            return null;
         }
 
         int initialPosition = datalogMessage.position();
@@ -57,7 +58,7 @@ class DatalogSessionHealthSleep extends DatalogSessionPebbleHealth {
         short recordVersion; //probably
 
         if (0 != (length % itemSize))
-            return false;//malformed message?
+            return null;//malformed message?
 
         int recordCount = length / itemSize;
         SleepRecord[] sleepRecords = new SleepRecord[recordCount];
@@ -72,7 +73,7 @@ class DatalogSessionHealthSleep extends DatalogSessionPebbleHealth {
         }
 
         store(sleepRecords);
-        return true;
+        return new GBDeviceEvent[]{null};
     }
 
     private void store(SleepRecord[] sleepRecords) {
