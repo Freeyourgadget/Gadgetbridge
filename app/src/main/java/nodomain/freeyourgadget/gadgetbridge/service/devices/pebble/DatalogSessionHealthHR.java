@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -35,9 +36,9 @@ class DatalogSessionHealthHR extends DatalogSessionPebbleHealth {
     }
 
     @Override
-    public boolean handleMessage(ByteBuffer datalogMessage, int length) {
+    public GBDeviceEvent[] handleMessage(ByteBuffer datalogMessage, int length) {
         LOG.info("DATALOG " + taginfo + GB.hexdump(datalogMessage.array(), datalogMessage.position(), length));
 
-        return isPebbleHealthEnabled();
+        return isPebbleHealthEnabled() ? new GBDeviceEvent[]{null} : null;
     }
 }

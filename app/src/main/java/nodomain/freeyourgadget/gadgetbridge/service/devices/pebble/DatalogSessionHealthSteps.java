@@ -28,6 +28,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleHealthSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -43,11 +44,11 @@ class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
     }
 
     @Override
-    public boolean handleMessage(ByteBuffer datalogMessage, int length) {
+    public GBDeviceEvent[] handleMessage(ByteBuffer datalogMessage, int length) {
         LOG.info("DATALOG " + taginfo + GB.hexdump(datalogMessage.array(), datalogMessage.position(), length));
 
         if (!isPebbleHealthEnabled()) {
-            return false;
+            return null;
         }
 
         int timestamp;
@@ -57,7 +58,7 @@ class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
 
         int initialPosition = datalogMessage.position();
         if (0 != (length % itemSize))
-            return false;//malformed message?
+            return null;//malformed message?
 
         int packetCount = length / itemSize;
 
@@ -68,7 +69,7 @@ class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
             recordVersion = datalogMessage.getShort();
 
             if ((recordVersion != 5) && (recordVersion != 6) && (recordVersion != 7) && (recordVersion != 12) && (recordVersion != 13))
-                return false; //we don't know how to deal with the data TODO: this is not ideal because we will get the same message again and again since we NACK it
+                return null; //we don't know how to deal with the data TODO: this is not ideal because we will get the same message again and again since we NACK it
 
             timestamp = datalogMessage.getInt();
             datalogMessage.get(); //unknown, throw away
@@ -88,7 +89,7 @@ class DatalogSessionHealthSteps extends DatalogSessionPebbleHealth {
 
             store(stepsRecords);
         }
-        return true;//ACK by default
+        return new GBDeviceEvent[]{null};//ACK by default
     }
 
     private void store(StepsRecord[] stepsRecords) {
