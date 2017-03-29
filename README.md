@@ -14,13 +14,13 @@ need to create an account and transmit any of your data to the vendor's servers.
 [List of changes](CHANGELOG.md)
 
 ## Supported Devices
-* Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round
-* Pebble 2, Pebble Time 2 (experimental, PAIR WITHIN GADGETBRIDGE)
-* Mi Band, Mi Band 1A, Mi Band 1S
-* Mi Band 2
+* Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round [Wiki section about this device](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble)
+* Pebble 2, Pebble Time 2 (experimental, PAIR WITHIN GADGETBRIDGE) [Wiki section about pebble](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble), most parts apply to Pebble 2 as well
+* Mi Band, Mi Band 1A, Mi Band 1S [Wiki section about this device](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band)
+* Mi Band 2 [Wiki section about mi band](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band), some parts apply to mi band 2 as well
 * Vibratissimo (experimental)
 * Liveview
-* HPlus Devices (e.g. ZeBand)
+* HPlus Devices (e.g. ZeBand) [Wiki section about this device](https://github.com/Freeyourgadget/Gadgetbridge/wiki/HPlus)
 
 ## Features (Pebble)
 
