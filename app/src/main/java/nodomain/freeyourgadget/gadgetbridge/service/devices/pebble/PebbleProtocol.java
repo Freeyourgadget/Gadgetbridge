@@ -2263,7 +2263,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 short item_size = buf.getShort();
                 LOG.info("DATALOG OPENSESSION. id=" + (id & 0xff) + ", App UUID=" + uuid.toString() + ", log_tag=" + log_tag + ", item_type=" + item_type + ", itemSize=" + item_size);
                 if (!mDatalogSessions.containsKey(id)) {
-                    if (uuid.equals(UUID_ZERO) && log_tag == 81) {
+                    if (uuid.equals(UUID_ZERO) && log_tag == 78) {
+                        mDatalogSessions.put(id, new DatalogSessionAnalytics(id, uuid, timestamp, log_tag, item_type, item_size, getDevice()));
+                    } else if (uuid.equals(UUID_ZERO) && log_tag == 81) {
                         mDatalogSessions.put(id, new DatalogSessionHealthSteps(id, uuid, timestamp, log_tag, item_type, item_size, getDevice()));
                     } else if (uuid.equals(UUID_ZERO) && log_tag == 83) {
                         mDatalogSessions.put(id, new DatalogSessionHealthSleep(id, uuid, timestamp, log_tag, item_type, item_size, getDevice()));
