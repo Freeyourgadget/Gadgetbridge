@@ -2275,6 +2275,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         mDatalogSessions.put(id, new DatalogSession(id, uuid, timestamp, log_tag, item_type, item_size));
                     }
                 }
+                devEvtsDataLogging = new GBDeviceEvent[]{null};
                 break;
             case DATALOG_CLOSE:
                 LOG.info("DATALOG_CLOSE. id=" + (id & 0xff));
