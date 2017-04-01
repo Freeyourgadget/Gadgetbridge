@@ -27,7 +27,7 @@ import android.support.v4.app.Fragment;
  * @see AbstractGBFragmentActivity
  */
 public abstract class AbstractGBFragment extends Fragment {
-    private boolean mVisibleInactivity;
+    private boolean mVisibleInActivity;
 
     /**
      * Called when this fragment has been fully scrolled into the activity.
@@ -45,7 +45,7 @@ public abstract class AbstractGBFragment extends Fragment {
      * @see #onMadeVisibleInActivity()
      */
     protected void onMadeInvisibleInActivity() {
-        mVisibleInactivity = false;
+        mVisibleInActivity = false;
     }
 
     /**
@@ -53,7 +53,7 @@ public abstract class AbstractGBFragment extends Fragment {
      * activity, not taking into account whether the screen is enabled at all.
      */
     public boolean isVisibleInActivity() {
-        return mVisibleInactivity;
+        return mVisibleInActivity;
     }
 
     @Nullable
@@ -65,7 +65,7 @@ public abstract class AbstractGBFragment extends Fragment {
      * @hide
      */
     public void onMadeVisibleInActivityInternal() {
-        mVisibleInactivity = true;
+        mVisibleInActivity = true;
         if (isVisible()) {
             onMadeVisibleInActivity();
         }
