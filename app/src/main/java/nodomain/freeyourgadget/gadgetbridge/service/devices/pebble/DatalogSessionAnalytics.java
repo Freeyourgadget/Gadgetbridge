@@ -76,7 +76,7 @@ class DatalogSessionAnalytics extends DatalogSession {
             return 90;
         } else if (batteryMilliVolts > 4000) { //guessed
             return 80;
-        } else if (batteryMilliVolts > 3880) { //confirmed
+        } else if (batteryMilliVolts > 3890) { //3890 was already 60
             return 70;
         } else if (batteryMilliVolts > 3855) { //probably
             return 60;
