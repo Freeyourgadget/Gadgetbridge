@@ -417,6 +417,10 @@ public class NotificationListener extends NotificationListenerService {
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
         //FIXME: deduplicate code
+        if (!isServiceRunning() || sbn == null) {
+            return;
+        }
+
         String source = sbn.getPackageName();
         Notification notification = sbn.getNotification();
         if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
