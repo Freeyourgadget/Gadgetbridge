@@ -1,56 +1,59 @@
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_swipe_layout"
-    tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity"
-    android:paddingLeft="0px"
-    android:paddingRight="0px"
-    android:paddingTop="0px"
-    android:paddingBottom="0px"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-<LinearLayout android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/charts_main_layout"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity">
 
     <LinearLayout
-        android:id="@+id/charts_date_bar"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/charts_previous"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="&lt;" />
-        <TextView
-            android:id="@+id/charts_text_date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:text="Today"
-            />
+        android:id="@+id/charts_main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/charts_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=">" />
-
-    </LinearLayout>
-
-    <android.support.v4.view.ViewPager android:id="@+id/charts_pager"
-        android:layout_width="match_parent" android:layout_height="match_parent"
-        tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity">
-        <android.support.v4.view.PagerTabStrip
-            android:id="@+id/charts_pagerTabStrip"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/charts_pager"
             android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity">
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/charts_pagerTabStrip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                app:tabMode="scrollable" />
+        </android.support.v4.view.ViewPager>
+
+        <LinearLayout
+            android:id="@+id/charts_date_bar"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom" />
-    </android.support.v4.view.ViewPager>
+            android:gravity="fill_horizontal"
+            android:orientation="horizontal">
 
+            <Button
+                android:id="@+id/charts_previous"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="&lt;" />
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/charts_text_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_weight="1"
+                android:text="Today" />
 
+            <Button
+                android:id="@+id/charts_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=">" />
+
+        </LinearLayout>
+    </LinearLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

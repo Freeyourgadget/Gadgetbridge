@@ -1,5 +1,8 @@
 ###Changelog
 
+###Version next
+* Applied some material design guidelines to Charts and (pebble) app management
+
 ###Version 0.18.4
 * Mi Band 2: Display realtime steps in Live Activity
 * Mi Band: Attempt to recognize Mi Band model with hwVersion = 8

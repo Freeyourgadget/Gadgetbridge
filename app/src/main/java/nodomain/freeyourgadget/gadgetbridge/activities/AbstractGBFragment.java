@@ -18,7 +18,6 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 
 /**
  * Abstract base class for fragments. Provides hooks that are called when
@@ -37,7 +36,6 @@ public abstract class AbstractGBFragment extends Fragment {
      * @see #onMadeInvisibleInActivity()
      */
     protected void onMadeVisibleInActivity() {
-        updateActivityTitle();
     }
 
     /**
@@ -56,15 +54,6 @@ public abstract class AbstractGBFragment extends Fragment {
      */
     public boolean isVisibleInActivity() {
         return mVisibleInactivity;
-    }
-
-    protected void updateActivityTitle() {
-        FragmentActivity activity = getActivity();
-        if (activity != null && !activity.isFinishing() && !activity.isDestroyed()) {
-            if (getTitle() != null) {
-                activity.setTitle(getTitle());
-            }
-        }
     }
 
     @Nullable
