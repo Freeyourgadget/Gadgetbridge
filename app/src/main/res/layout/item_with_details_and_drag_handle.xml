@@ -43,6 +43,7 @@
 
     <ImageView
         android:id="@+id/drag_handle"
+        android:tint="@color/secondarytext"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_alignParentEnd="true"
