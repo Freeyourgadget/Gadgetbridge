@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -72,6 +73,8 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     public BluetoothGattCharacteristic ctrlCharacteristic = null;
     public BluetoothGattCharacteristic measureCharacteristic = null;
 
+    private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
+
     private HPlusHandlerThread syncHelper;
     private DeviceType deviceType = DeviceType.UNKNOWN;
 
@@ -98,6 +101,21 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         IntentFilter intentFilter = new IntentFilter();
 
         broadcastManager.registerReceiver(mReceiver, intentFilter);
+    }
+
+    private void handleBatteryInfo(byte[] data) {
+        HPlusDataRecordRealtime record;
+        try {
+            record = new HPlusDataRecordRealtime(data);
+            if (batteryCmd.level != (short) record.battery) {
+                batteryCmd.level = (short) record.battery;
+                handleGBDeviceEvent(batteryCmd);
+            }
+        } catch (IllegalArgumentException e) {
+            LOG.debug((e.getMessage()));
+        }
+
+
     }
 
     @Override
@@ -826,6 +844,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 return syncHelper.processVersion(data);
 
             case HPlusConstants.DATA_STATS:
+                handleBatteryInfo(data);
                 return syncHelper.processRealtimeStats(data);
 
             case HPlusConstants.DATA_SLEEP:

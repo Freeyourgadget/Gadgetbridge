@@ -78,6 +78,15 @@ public class GBDevice implements Parcelable {
     private String mBusyTask;
     private List<ItemWithDetails> mDeviceInfos;
 
+    private int mStep = 0;
+    private int mCalory = 0;
+    private int mHeart = 0;
+    private int mDistance = 0;
+    private static final String DEVINFO_STEP = GBApplication.getContext().getString(R.string.chart_steps) + ": ";
+    private static final String DEVINFO_DISTANCE = GBApplication.getContext().getString(R.string.distance) + ": ";
+    private static final String DEVINFO_CALORY = GBApplication.getContext().getString(R.string.calories) + ": ";
+    private static final String DEVINFO_HEART = "HR: ";
+
     public GBDevice(String address, String name, DeviceType deviceType) {
         this(address, null, name, deviceType);
     }
@@ -106,6 +115,11 @@ public class GBDevice implements Parcelable {
         mBusyTask = in.readString();
         mDeviceInfos = in.readArrayList(getClass().getClassLoader());
 
+        mStep = in.readInt();
+        mDistance = in.readInt();
+        mCalory = in.readInt();
+        mHeart = in.readInt();
+
         validate();
     }
 
@@ -125,6 +139,11 @@ public class GBDevice implements Parcelable {
         dest.writeInt(mRssi);
         dest.writeString(mBusyTask);
         dest.writeList(mDeviceInfos);
+
+        dest.writeInt(mStep);
+        dest.writeInt(mDistance);
+        dest.writeInt(mCalory);
+        dest.writeInt(mHeart);
     }
 
     private void validate() {
@@ -156,6 +175,7 @@ public class GBDevice implements Parcelable {
     public String getFirmwareVersion() {
         return mFirmwareVersion;
     }
+
     public String getFirmwareVersion2() {
         return mFirmwareVersion2;
     }
@@ -166,6 +186,7 @@ public class GBDevice implements Parcelable {
 
     /**
      * Sets the second firmware version, typically the heart rate firmware version
+     *
      * @param firmwareVersion2
      */
     public void setFirmwareVersion2(String firmwareVersion2) {
@@ -179,6 +200,7 @@ public class GBDevice implements Parcelable {
     /**
      * Returns the specific model/hardware revision of this device.
      * This information is not always available, typically only when the device is initialized
+     *
      * @return the model/hardware revision of this device
      * @see #getType()
      */
@@ -247,6 +269,39 @@ public class GBDevice implements Parcelable {
         mBusyTask = null;
     }
 
+    public int getStep() {
+        return mStep;
+    }
+
+    public void setStep(int Step) {
+        mStep = Step;
+    }
+
+    public int getCalory() {
+        return mCalory;
+    }
+
+    public void setCalory(int Calory) {
+        mCalory = Calory;
+    }
+
+    public int getHeart() {
+        return mHeart;
+    }
+
+    public void setHeart(int Heart) {
+        mHeart = Heart;
+    }
+
+    public int getDistance() {
+        return mDistance;
+    }
+
+    public void setDistance(int Distance) {
+        mDistance = Distance;
+    }
+
+
     public State getState() {
         return mState;
     }
@@ -312,6 +367,7 @@ public class GBDevice implements Parcelable {
     /**
      * Returns the general type of this device. For more detailed information,
      * soo #getModel()
+     *
      * @return the general type of this device
      */
     @NonNull
@@ -453,6 +509,28 @@ public class GBDevice implements Parcelable {
         if (mVolatileAddress != null) {
             result.add(new GenericItem(DEVINFO_ADDR2, mVolatileAddress));
         }
+
+        String info = "";
+        if (mStep != 0) {
+            info += DEVINFO_STEP + String.valueOf(mStep) + "   ";
+        }
+        if (mDistance != 0) {
+            info += DEVINFO_DISTANCE + String.valueOf(mDistance) + "   ";
+        }
+        if (mCalory != 0) {
+            info += DEVINFO_CALORY + String.valueOf(mCalory) + "   ";
+        }
+        if (mHeart != 0) {
+            info += DEVINFO_HEART + String.valueOf(mHeart) + "   ";
+        }
+
+        if (!info.equals("")) {
+            result.add(new GenericItem("", info));
+        }
+
+
+
+
         Collections.sort(result);
         return result;
     }
