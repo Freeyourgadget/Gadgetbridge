@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -52,6 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -71,6 +73,8 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     public BluetoothGattCharacteristic ctrlCharacteristic = null;
     public BluetoothGattCharacteristic measureCharacteristic = null;
+
+    private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
 
     private HPlusHandlerThread syncHelper;
     private DeviceType deviceType = DeviceType.UNKNOWN;
@@ -154,7 +158,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     private HPlusSupport syncPreferences(TransactionBuilder transaction) {
 
-        if(deviceType == DeviceType.HPLUS) {
+        if (deviceType == DeviceType.HPLUS) {
             setSIT(transaction);          //Sync SIT Interval
         }
 
@@ -252,7 +256,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
         //Makibes F68 doesn't like this command.
         //Just ignore.
-        if(deviceType == DeviceType.MAKIBESF68){
+        if (deviceType == DeviceType.MAKIBESF68) {
             return this;
         }
 
@@ -368,7 +372,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         byte hour = HPlusConstants.ARG_ALARM_DISABLE;
         byte minute = HPlusConstants.ARG_ALARM_DISABLE;
 
-        if(t != null){
+        if (t != null) {
             hour = (byte) t.get(Calendar.HOUR_OF_DAY);
             minute = (byte) t.get(Calendar.MINUTE);
         }
@@ -654,8 +658,8 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             StringBuilder number = new StringBuilder();
 
             //Clean up number as the device only accepts digits
-            for(char c : rawNumber.toCharArray()){
-                if(Character.isDigit(c)){
+            for (char c : rawNumber.toCharArray()) {
+                if (Character.isDigit(c)) {
                     number.append(c);
                 }
             }
@@ -708,7 +712,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void showText(String title, String body) {
-        LOG.debug("Show Notification: "+title+" --> "+body);
+        LOG.debug("Show Notification: " + title + " --> " + body);
         try {
             TransactionBuilder builder = performInitialized("notification");
 
@@ -718,7 +722,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 message = StringUtils.pad(StringUtils.truncate(title, 16), 16); //Limit title to top row
             }
 
-            if(body != null) {
+            if (body != null) {
                 message += body;
             }
 
@@ -784,26 +788,26 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
      * @param s The String to transliterate
      * @return An array of bytes ready to be sent to the device
      */
-    private byte[] encodeStringToDevice(String s){
+    private byte[] encodeStringToDevice(String s) {
 
         List<Byte> outBytes = new ArrayList<Byte>();
 
-        for(int i = 0; i < s.length(); i++){
-                Character c = s.charAt(i);
-                byte[] cs;
+        for (int i = 0; i < s.length(); i++) {
+            Character c = s.charAt(i);
+            byte[] cs;
 
-                if(HPlusConstants.transliterateMap.containsKey(c)){
-                    cs = new byte[] {HPlusConstants.transliterateMap.get(c)};
-                }else {
-                    try {
-                        cs = c.toString().getBytes("GB2312");
-                    } catch (UnsupportedEncodingException e) {
-                        //Fallback. Result string may be strange, but better than nothing
-                        cs = c.toString().getBytes();
-                    }
+            if (HPlusConstants.transliterateMap.containsKey(c)) {
+                cs = new byte[]{HPlusConstants.transliterateMap.get(c)};
+            } else {
+                try {
+                    cs = c.toString().getBytes("GB2312");
+                } catch (UnsupportedEncodingException e) {
+                    //Fallback. Result string may be strange, but better than nothing
+                    cs = c.toString().getBytes();
                 }
-                for(int j = 0; j < cs.length; j++)
-                    outBytes.add(cs[j]);
+            }
+            for (int j = 0; j < cs.length; j++)
+                outBytes.add(cs[j]);
         }
 
         return ArrayUtils.toPrimitive(outBytes.toArray(new Byte[outBytes.size()]));
@@ -826,7 +830,11 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 return syncHelper.processVersion(data);
 
             case HPlusConstants.DATA_STATS:
-                return syncHelper.processRealtimeStats(data);
+                Boolean result = syncHelper.processRealtimeStats(data);
+                if (result) {
+                    Extra_info(data);
+                }
+                return result;
 
             case HPlusConstants.DATA_SLEEP:
                 return syncHelper.processIncomingSleepData(data);
@@ -842,6 +850,48 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 LOG.debug("Unhandled characteristic changed: " + characteristicUUID);
                 return true;
         }
+    }
+
+    private void Extra_info(byte[] data) {
+        HPlusDataRecordRealtime record;
+
+        try {
+            record = new HPlusDataRecordRealtime(data);
+
+            handleBatteryInfo(record.battery);
+
+            String DEVINFO_STEP = getContext().getString(R.string.chart_steps) + ": ";
+            String DEVINFO_DISTANCE = getContext().getString(R.string.distance) + ": ";
+            String DEVINFO_CALORY = getContext().getString(R.string.calories) + ": ";
+            String DEVINFO_HEART = "HR: ";
+
+            String info = "";
+            if (record.steps > 0) {
+                info += DEVINFO_STEP + String.valueOf(record.steps) + "   ";
+            }
+            if (record.distance > 0) {
+                info += DEVINFO_DISTANCE + String.valueOf(record.distance) + "   ";
+            }
+            if (record.calories > 0) {
+                info += DEVINFO_CALORY + String.valueOf(record.calories) + "   ";
+            }
+            if (record.heartRate > 0) {
+                info += DEVINFO_HEART + String.valueOf(record.heartRate) + "   ";
+            }
+
+            if (!info.equals("")) {
+                getDevice().addDeviceInfo(new GenericItem("", info));
+            }
+        } catch (IllegalArgumentException e) {
+            LOG.debug((e.getMessage()));
+        }
+    }
+
+    private void handleBatteryInfo(byte data) {
+            if (batteryCmd.level != (short) data) {
+                batteryCmd.level = (short) data;
+                handleGBDeviceEvent(batteryCmd);
+            }
     }
 
 }
