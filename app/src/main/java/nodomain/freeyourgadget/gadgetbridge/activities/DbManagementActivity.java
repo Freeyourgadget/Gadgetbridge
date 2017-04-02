@@ -1,3 +1,20 @@
+/*  Copyright (C) 2016-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti
+
+    This file is part of Gadgetbridge.
+
+    Gadgetbridge is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Gadgetbridge is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.app.AlertDialog;
@@ -108,8 +125,8 @@ public class DbManagementActivity extends GBActivity {
             myPath = FileUtils.getExternalFilesDir();
             File myFile = new File(myPath, "Export_preference");
             shared_file.exportToFile(sharedPrefs,myFile,null);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            GB.toast(this, getString(R.string.dbmanagementactivity_error_exporting_shared, ex.getMessage()), Toast.LENGTH_LONG, GB.ERROR, ex);
         }
     }
 
@@ -120,8 +137,8 @@ public class DbManagementActivity extends GBActivity {
             myPath = FileUtils.getExternalFilesDir();
             File myFile = new File(myPath, "Export_preference");
             shared_file.importFromFile(sharedPrefs,myFile );
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            GB.toast(DbManagementActivity.this, getString(R.string.dbmanagementactivity_error_importing_db, ex.getMessage()), Toast.LENGTH_LONG, GB.ERROR, ex);
         }
     }
 

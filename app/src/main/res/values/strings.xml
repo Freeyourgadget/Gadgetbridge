@@ -370,10 +370,12 @@
     <string name="dbmanagementactivvity_cannot_access_export_path">Cannot access export path. Please contact the developers.</string>
     <string name="dbmanagementactivity_exported_to">Exported to: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_db">"Error exporting DB: %1$s"</string>
+    <string name="dbmanagementactivity_error_exporting_shared">"Error exporting preference: %1$s"</string>
     <string name="dbmanagementactivity_import_data_title">Import Data?</string>
     <string name="dbmanagementactivity_overwrite_database_confirmation">Really overwrite the current database? All your current activity data (if any) will be lost.</string>
     <string name="dbmanagementactivity_import_successful">Import successful.</string>
     <string name="dbmanagementactivity_error_importing_db">"Error importing DB: %1$s"</string>
+    <string name="dbmanagementactivity_error_importing_shared">"Error importing preference: %1$s"</string>
     <string name="dbmanagementactivity_delete_activity_data_title">Delete Activity Data?</string>
     <string name="dbmanagementactivity_really_delete_entire_db">Really delete the entire database? All your activity data and information about your devices will be lost.</string>
     <string name="dbmanagementactivity_database_successfully_deleted">Data successfully deleted.</string>
