@@ -307,8 +307,6 @@
     <string name="updatefirmwareoperation_write_failed">Firmware write failed</string>
     <string name="chart_steps">Steps</string>
     <string name="liveactivity_live_activity">Live Activity</string>
-    <string name="calories">Calories</string>
-    <string name="distance">Distance</string>
     <string name="weeksteps_today_steps_description">Steps today, target: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Do not ack activity data transfer</string>
     <string name="pref_summary_dont_ack_transfers">If the activity data are not acked to the band, they will not be cleared. Useful if GB is used together with other apps.</string>
