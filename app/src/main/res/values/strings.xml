@@ -95,7 +95,7 @@
     <string name="when_screen_off">when screen is off</string>
     <string name="never">never</string>
 
-    <string name="pref_header_privacy">Privacy</string>
+ <string name="pref_header_privacy">Privacy</string>
     <string name="pref_title_call_privacy_mode">Call Privacy Mode</string>
     <string name="pref_call_privacy_mode_off">Display name and number</string>
     <string name="pref_call_privacy_mode_name">Hide name but display number</string>
@@ -403,6 +403,9 @@
     <string name="timeformat_24h">24H</string>
     <string name="timeformat_am_pm">AM/PM</string>
     <string name="pref_screen_notification_profile_alarm_clock">Alarm Clock</string>
+
+    <string name="activity_web_view">Web View Activity</string>
+
     <string name="StringUtils_sender"> (%1$s)</string>
     <string name="find_device_you_found_it">You found it!</string>
     <string name="miband2_prefs_timeformat">Mi2: Time Format</string>
