@@ -832,7 +832,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             case HPlusConstants.DATA_STATS:
                 Boolean result = syncHelper.processRealtimeStats(data);
                 if (result) {
-                    Extra_info(data);
+                    processExtraInfo (data);
                 }
                 return result;
 
@@ -852,7 +852,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void Extra_info(byte[] data) {
+    private void  processExtraInfo (byte[] data) {
         HPlusDataRecordRealtime record;
 
         try {
