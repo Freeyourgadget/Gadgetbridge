@@ -1,7 +1,5 @@
 navigator.geolocation.getCurrentPosition = function(success, failure) { //override because default implementation requires GPS permission
-    success(JSON.parse(GBjs.getCurrentPosition()));
-    							failure({ code: 2, message: "POSITION_UNAVAILABLE"});
-
+    success(JSON.parse(GBjs.getCurrentPosition()))
 }
 
 if (window.Storage){
@@ -101,6 +99,7 @@ function gbPebble() {
         for (var i = 0; i < l; i++) {
             evs[i].apply(null, args);
         }
+        GBjs.eventFinished(name);
     }
 
     this.actuallyOpenURL = function() {
@@ -110,7 +109,7 @@ function gbPebble() {
 
     this.actuallySendData = function() {
         GBjs.sendAppMessage(self.configurationValues);
-        GBjs.closeActivity();
+        GBActivity.closeActivity();
     }
 
     this.savePreset = function() {
@@ -147,7 +146,11 @@ function gbPebble() {
     this.sendAppMessage = function (dict, callbackAck, callbackNack){
         try {
             self.configurationValues = JSON.stringify(dict);
-            document.getElementById("jsondata").innerHTML=self.configurationValues;
+            if (document.getElementById("step2").style.display == 'block') { //intercept the values
+                document.getElementById("jsondata").innerHTML=self.configurationValues;
+            } else { //pass them silently
+                GBjs.sendAppMessage(JSON.stringify(dict));
+            }
             return callbackAck;
         }
         catch (e) {
@@ -175,7 +178,7 @@ function gbPebble() {
 
     this.showConfiguration = function() {
         console.error("This watchapp doesn't support configuration");
-        GBjs.closeActivity();
+        GBActivity.closeActivity();
     }
 
     this.parseReturnedPebbleJS = function() {
@@ -185,8 +188,8 @@ function gbPebble() {
         if (str.split(needle)[1] !== undefined) {
             var t = new Object();
             t.response = decodeURIComponent(str.split(needle)[1]);
-            self.evaluate('webviewclosed',[t]);
             showStep("step2");
+            self.evaluate('webviewclosed',[t]);
         } else {
             console.error("No valid configuration found in the entered string.");
         }
@@ -202,6 +205,14 @@ document.addEventListener('DOMContentLoaded', function(){
 if (jsConfigFile != null) {
     loadScript(jsConfigFile, function() {
         Pebble.evaluate('ready');
+        if(document.hasFocus() && !(getURLVariable('config') == 'true')) {
+            Pebble.evaluate('showConfiguration');
+        } else {
+            window.onfocus = function () {
+                GBjs.gbLog("window focused!!!");
+                Pebble.evaluate('showConfiguration');
+            };
+        }
         if (getURLVariable('config') == 'true') {
             showStep("step2");
             var json_string = getURLVariable('json');
@@ -210,7 +221,6 @@ if (jsConfigFile != null) {
             if (json_string != '') {
                 Pebble.evaluate('webviewclosed',[t]);
             }
-
         } else {
             if (storedPreset === undefined) {
                 var presetElements = document.getElementsByClassName("load_presets");
@@ -218,7 +228,6 @@ if (jsConfigFile != null) {
                         presetElements[i].style.display = 'none';
                     }
             }
-            Pebble.evaluate('showConfiguration');
         }
     });
 }

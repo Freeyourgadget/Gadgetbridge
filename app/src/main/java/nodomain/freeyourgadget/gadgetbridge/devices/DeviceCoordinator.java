@@ -207,4 +207,12 @@ public interface DeviceCoordinator {
      * @return
      */
     Class<? extends Activity> getAppsManagementActivity();
+
+    /**
+     * Returns true if the given device needs a background webview for
+     * executing javascript or configuration, for example.
+     *
+     * @param device
+     */
+    boolean needsBackgroundWebView(GBDevice device);
 }

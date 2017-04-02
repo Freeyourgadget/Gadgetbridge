@@ -155,7 +155,7 @@
         <item>@string/p_timeformat_am_pm</item>
     </string-array>
 
-    <string-array name="pref_call_privacy_mode">
+  <string-array name="pref_call_privacy_mode">
         <item name="off">@string/pref_call_privacy_mode_off</item>
         <item name="name">@string/pref_call_privacy_mode_name</item>
         <item name="number">@string/pref_call_privacy_mode_number</item>
