@@ -6,7 +6,7 @@
     tools:context=".activities.appmanager.AppManagerActivity">
 
     <LinearLayout
-        android:id="@+id/charts_main_layout"
+        android:id="@+id/appmanager_main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
