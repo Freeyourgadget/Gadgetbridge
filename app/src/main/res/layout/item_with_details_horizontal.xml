@@ -37,8 +37,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/secondarytext"
             android:textSize="12sp"
-            android:text="Item Description"
-            />
+            android:text="Item Description" />
     </LinearLayout>
 
 </RelativeLayout>
