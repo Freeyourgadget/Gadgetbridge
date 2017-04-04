@@ -141,6 +141,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         }
 
         set.setValueTextColor(Color.WHITE);
+        set.setValueTextSize(15f);
         set.setValueFormatter(getPieValueFormatter());
         set.setColors(getColors());
 

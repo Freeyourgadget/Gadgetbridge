@@ -107,6 +107,7 @@ public class SleepChartFragment extends AbstractChartFragment {
             }
         });
         set.setColors(colors);
+        set.setValueTextSize(15f);
         set.setValueTextColor(Color.WHITE);
         data.setDataSet(set);
 
