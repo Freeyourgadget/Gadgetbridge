@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -139,6 +140,8 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
             entries.add(new PieEntry(value, pieLabels[i]));
         }
 
+        set.setValueTextColor(Color.WHITE);
+        set.setValueTextSize(15f);
         set.setValueFormatter(getPieValueFormatter());
         set.setColors(getColors());
 
@@ -189,7 +192,21 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         mTodayPieChart.getDescription().setText(getPieDescription(mTargetValue));
 //        mTodayPieChart.setNoDataTextDescription("");
         mTodayPieChart.setNoDataText("");
-        mTodayPieChart.getLegend().setEnabled(false);
+
+        mTodayPieChart.setDrawEntryLabels(false);
+        Legend l = mTodayPieChart.getLegend();
+        l.setEnabled(true);
+        l.setTextSize(10f);
+        l.setFormSize(10f); // set the size of the legend forms/shapes
+        l.setForm(Legend.LegendForm.CIRCLE); // set what type of form/shape should be used
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        l.setDrawInside(false);
+        l.setXEntrySpace(5f); // set the space between the legend entries on the x-axis
+        l.setYEntrySpace(3f); // set the space between the legend entries on the y-axis
+        l.setYOffset(0f);
+        // mSleepAmountChart.getLegend().setEnabled(false);
     }
 
     private void setupWeekChart() {

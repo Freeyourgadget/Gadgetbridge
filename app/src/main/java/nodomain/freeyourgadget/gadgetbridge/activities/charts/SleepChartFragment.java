@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -105,6 +107,8 @@ public class SleepChartFragment extends AbstractChartFragment {
             }
         });
         set.setColors(colors);
+        set.setValueTextSize(15f);
+        set.setValueTextColor(Color.WHITE);
         data.setDataSet(set);
 
         //setupLegend(pieChart);
@@ -160,12 +164,26 @@ public class SleepChartFragment extends AbstractChartFragment {
     }
 
     private void setupSleepAmountChart() {
+        mSleepAmountChart.setDrawEntryLabels(false);
         mSleepAmountChart.setBackgroundColor(BACKGROUND_COLOR);
         mSleepAmountChart.getDescription().setTextColor(DESCRIPTION_COLOR);
         mSleepAmountChart.getDescription().setText("");
 //        mSleepAmountChart.getDescription().setNoDataTextDescription("");
         mSleepAmountChart.setNoDataText("");
-        mSleepAmountChart.getLegend().setEnabled(false);
+
+        Legend l = mSleepAmountChart.getLegend();
+        l.setEnabled(true);
+        l.setTextSize(10f);
+        l.setFormSize(10f); // set the size of the legend forms/shapes
+        l.setForm(Legend.LegendForm.CIRCLE); // set what type of form/shape should be used
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        l.setDrawInside(false);
+        l.setXEntrySpace(5f); // set the space between the legend entries on the x-axis
+        l.setYEntrySpace(3f); // set the space between the legend entries on the y-axis
+        l.setYOffset(0f);
+       // mSleepAmountChart.getLegend().setEnabled(false);
     }
 
     private void setupActivityChart() {
