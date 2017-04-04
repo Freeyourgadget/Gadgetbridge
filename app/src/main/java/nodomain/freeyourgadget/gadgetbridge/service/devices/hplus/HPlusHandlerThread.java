@@ -371,6 +371,11 @@ class HPlusHandlerThread extends GBDeviceIoThread {
             getDevice().sendDeviceUpdateIntent(getContext());
         }
 
+        getDevice().setHeart(record.heartRate);
+        getDevice().setDistance(record.distance);
+        getDevice().setCalory(record.calories);
+        getDevice().setStep(record.steps);
+
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             HPlusHealthSampleProvider provider = new HPlusHealthSampleProvider(getDevice(), dbHandler.getDaoSession());
 
