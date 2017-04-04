@@ -105,6 +105,10 @@ public class SleepChartFragment extends AbstractChartFragment {
             }
         });
         set.setColors(colors);
+        set.setValueTextColor(DESCRIPTION_COLOR);
+        set.setValueTextSize(13f);
+        set.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+        set.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         data.setDataSet(set);
 
         //setupLegend(pieChart);

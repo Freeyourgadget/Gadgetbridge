@@ -139,6 +139,9 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
             entries.add(new PieEntry(value, pieLabels[i]));
         }
 
+        set.setValueTextColor(DESCRIPTION_COLOR);
+        set.setValueTextSize(13f);
+        set.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         set.setValueFormatter(getPieValueFormatter());
         set.setColors(getColors());
 
