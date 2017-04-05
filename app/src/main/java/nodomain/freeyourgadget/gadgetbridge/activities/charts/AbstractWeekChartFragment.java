@@ -139,13 +139,8 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
             entries.add(new PieEntry(value, pieLabels[i]));
         }
 
-        set.setValueTextColor(DESCRIPTION_COLOR);
-        set.setValueTextSize(13f);
-        set.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
-        set.setValueFormatter(getPieValueFormatter());
         set.setColors(getColors());
 
-        //this hides the values (numeric) added to the set. These would be shown aside the strings set with addXValue above
         if (totalValues.length < 2) {
             if (totalValue < mTargetValue) {
                 entries.add(new PieEntry((mTargetValue - totalValue)));
@@ -157,6 +152,13 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
 
         if (totalValues.length < 2) {
             data.setDrawValues(false);
+        }
+        else {
+            set.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+            set.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+            set.setValueTextColor(DESCRIPTION_COLOR);
+            set.setValueTextSize(13f);
+            set.setValueFormatter(getPieValueFormatter());
         }
 
         return new DayData(data, formatPieValue((int) totalValue));
