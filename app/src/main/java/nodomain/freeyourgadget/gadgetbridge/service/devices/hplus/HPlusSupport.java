@@ -27,7 +27,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
@@ -44,7 +43,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusConstants;
@@ -834,7 +832,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             case HPlusConstants.DATA_STATS:
                 Boolean result = syncHelper.processRealtimeStats(data);
                 if (result) {
-                    processExtraInfo(data);
+                    processExtraInfo (data);
                 }
                 return result;
 
@@ -854,7 +852,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void processExtraInfo(byte[] data) {
+    private void  processExtraInfo (byte[] data) {
         HPlusDataRecordRealtime record;
 
         try {
@@ -881,8 +879,6 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 info += DEVINFO_HEART + String.valueOf(record.heartRate) + "   ";
             }
 
-            info += getLastCharge(record.battery) + "   ";
-
             if (!info.equals("")) {
                 getDevice().addDeviceInfo(new GenericItem("", info));
             }
@@ -892,56 +888,10 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void handleBatteryInfo(byte data) {
-        if (batteryCmd.level != (short) data) {
-            batteryCmd.level = (short) data;
-            handleGBDeviceEvent(batteryCmd);
-        }
-    }
-
-    private String getLastCharge(byte data) {
-
-        SharedPreferences settings = GBApplication.getPrefs().getPreferences();
-        int lastBatteryLevel = settings.getInt("lastBatteryLevel", 0);
-        if (lastBatteryLevel != (int) data) {
-            SharedPreferences.Editor editor = settings.edit();
-
-            if ((int) data > lastBatteryLevel) {
-                editor.putLong("lastBatteryCharge", Calendar.getInstance().getTimeInMillis());
+            if (batteryCmd.level != (short) data) {
+                batteryCmd.level = (short) data;
+                handleGBDeviceEvent(batteryCmd);
             }
-            editor.putInt("lastBatteryLevel", (int) data);
-            editor.commit();
-        }
-
-        Long c1, c2;
-
-        c1 = settings.getLong("lastBatteryCharge", Calendar.getInstance().getTimeInMillis());
-        c2 = Calendar.getInstance().getTimeInMillis();
-        long different = c2 - c1;
-
-        long secondsInMilli = 1000;
-        long minutesInMilli = secondsInMilli * 60;
-        long hoursInMilli = minutesInMilli * 60;
-        long daysInMilli = hoursInMilli * 24;
-
-        long elapsedDays = different / daysInMilli;
-        different = different % daysInMilli;
-
-        long elapsedHours = different / hoursInMilli;
-        different = different % hoursInMilli;
-
-        long elapsedMinutes = different / minutesInMilli;
-        different = different % minutesInMilli;
-
-        long elapsedSeconds = different / secondsInMilli;
-
-        if (elapsedDays != 0 && elapsedHours != 0) {
-            return getContext().getString(R.string.hplus_battery_last_charge_time) + ": " +  elapsedDays + getContext().getString(R.string.days) + " " + elapsedHours + getContext().getString(R.string.hours);
-        } else if (elapsedMinutes != 0) {
-            return getContext().getString(R.string.hplus_battery_last_charge_time) + ": " + elapsedMinutes + getContext().getString(R.string.minutes);
-        } else {
-            return "";
-        }
-
-
     }
+
 }
