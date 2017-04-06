@@ -830,7 +830,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 return syncHelper.processVersion(data);
 
             case HPlusConstants.DATA_STATS:
-                Boolean result = syncHelper.processRealtimeStats(data);
+                boolean result = syncHelper.processRealtimeStats(data);
                 if (result) {
                     processExtraInfo (data);
                 }
@@ -853,10 +853,8 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void  processExtraInfo (byte[] data) {
-        HPlusDataRecordRealtime record;
-
         try {
-            record = new HPlusDataRecordRealtime(data);
+            HPlusDataRecordRealtime record = new HPlusDataRecordRealtime(data);
 
             handleBatteryInfo(record.battery);
 
