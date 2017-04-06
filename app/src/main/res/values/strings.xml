@@ -412,4 +412,13 @@
     <string name="mi2_enable_text_notifications">Text notifications</string>
     <string name="mi2_enable_text_notifications_summary"><![CDATA[Needs firmware >= 1.0.1.28 and Mili_pro.ft* installed.]]></string>
     <string name="off">off</string>
+    <string name="discovery_attempting_to_pair">Attempting to pair with %1$s</string>
+    <string name="discovery_bonding_failed_immediately">Bonding with %1$s failed immediately.</string>
+    <string name="discovery_trying_to_connect_to">Trying to connect to: %1$s</string>
+    <string name="discovery_enable_bluetooth">Enable Bluetooth to discover devices.</string>
+    <string name="discovery_successfully_bonded">Successfully bonded with %1$s.</string>
+    <string name="discovery_pair_title">Pair with %1$s?</string>
+    <string name="discovery_pair_question">Select Pair to pair your devices. If this fails, try again without pairing.</string>
+    <string name="discovery_yes_pair">Pair</string>
+    <string name="discovery_dont_pair">Don\'t Pair</string>
 </resources>

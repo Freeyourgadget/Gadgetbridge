@@ -47,6 +47,21 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
  */
 public interface DeviceCoordinator {
     String EXTRA_DEVICE_CANDIDATE = "nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate.EXTRA_DEVICE_CANDIDATE";
+    /**
+     * Do not attempt to bond after discovery.
+     */
+    int BONDING_STYLE_NONE = 0;
+    /**
+     * Bond after discovery.
+     * This is not recommended, as there are mobile devices on which bonding does not work.
+     * Prefer to use #BONDING_STYLE_ASK instead.
+     */
+    int BONDING_STYLE_BOND = 1;
+    /**
+     * Let the user decide whether to bond or not after discovery.
+     * Prefer this over #BONDING_STYLE_BOND
+     */
+    int BONDING_STYLE_ASK = 2;
 
     /**
      * Checks whether this coordinator handles the given candidate.
@@ -207,4 +222,10 @@ public interface DeviceCoordinator {
      * @return
      */
     Class<? extends Activity> getAppsManagementActivity();
+
+    /**
+     * Returns how/if the given device should be bonded before connecting to it.
+     * @param deviceCandidate
+     */
+    int getBondingStyle(GBDeviceCandidate deviceCandidate);
 }

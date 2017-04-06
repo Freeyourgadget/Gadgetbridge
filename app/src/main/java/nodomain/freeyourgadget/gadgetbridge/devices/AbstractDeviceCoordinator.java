@@ -119,4 +119,9 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
         }
         return false;
     }
+
+    @Override
+    public int getBondingStyle(GBDeviceCandidate deviceCandidate) {
+        return BONDING_STYLE_ASK;
+    }
 }
