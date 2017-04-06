@@ -47,6 +47,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmClockReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.CalendarReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.MusicPlaybackReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PebbleReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PhoneCallReceiver;
@@ -170,6 +171,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private AlarmClockReceiver mAlarmClockReceiver = null;
 
     private AlarmReceiver mAlarmReceiver = null;
+    private CalendarReceiver mCalendarReceiver = null;
     private Random mRandom = new Random();
 
     private final String[] mMusicActions = {
@@ -624,6 +626,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 mAlarmReceiver = new AlarmReceiver();
                 registerReceiver(mAlarmReceiver, new IntentFilter("DAILY_ALARM"));
             }
+            if (mCalendarReceiver == null) {
+                mCalendarReceiver = new CalendarReceiver();
+                registerReceiver(mCalendarReceiver, new IntentFilter("CALENDAR_SYNC"));
+            }
             if (mAlarmClockReceiver == null) {
                 mAlarmClockReceiver = new AlarmClockReceiver();
                 IntentFilter filter = new IntentFilter();
@@ -659,6 +665,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             if (mAlarmReceiver != null) {
                 unregisterReceiver(mAlarmReceiver);
                 mAlarmReceiver = null;
+            }
+            if (mCalendarReceiver != null) {
+                unregisterReceiver(mCalendarReceiver);
+                mCalendarReceiver = null;
             }
             if (mAlarmClockReceiver != null) {
                 unregisterReceiver(mAlarmClockReceiver);
