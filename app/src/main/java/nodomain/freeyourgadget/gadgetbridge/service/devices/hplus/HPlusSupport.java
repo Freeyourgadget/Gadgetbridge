@@ -906,7 +906,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
         if (batteryCmd.level != (short) data) {
             SharedPreferences.Editor editor = settings.edit();
-            if ((short) data > batteryCmd.level) {
+            if ((short) data - batteryCmd.level>=5) {
                 batteryCmd.lastChargeTime.setTimeInMillis(Calendar.getInstance().getTimeInMillis());
                 editor.putLong("lastChargeTime", batteryCmd.lastChargeTime.getTimeInMillis());
             }
