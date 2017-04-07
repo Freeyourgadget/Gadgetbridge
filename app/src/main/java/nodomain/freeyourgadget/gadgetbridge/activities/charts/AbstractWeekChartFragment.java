@@ -195,6 +195,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
 //        mTodayPieChart.setNoDataTextDescription("");
         mTodayPieChart.setNoDataText("");
         mTodayPieChart.getLegend().setEnabled(false);
+        mTodayPieChart.setDrawEntryLabels(false);
     }
 
     private void setupWeekChart() {

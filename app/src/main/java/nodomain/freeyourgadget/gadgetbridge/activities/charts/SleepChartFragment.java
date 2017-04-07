@@ -170,6 +170,7 @@ public class SleepChartFragment extends AbstractChartFragment {
 //        mSleepAmountChart.getDescription().setNoDataTextDescription("");
         mSleepAmountChart.setNoDataText("");
         mSleepAmountChart.getLegend().setEnabled(false);
+        mSleepAmountChart.setDrawEntryLabels(false);
     }
 
     private void setupActivityChart() {
