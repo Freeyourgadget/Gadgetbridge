@@ -27,6 +27,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
@@ -42,7 +43,9 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusConstants;
@@ -64,6 +67,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -856,14 +860,13 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         try {
             HPlusDataRecordRealtime record = new HPlusDataRecordRealtime(data);
 
-            handleBatteryInfo(record.battery);
-
             String DEVINFO_STEP = getContext().getString(R.string.chart_steps) + ": ";
             String DEVINFO_DISTANCE = getContext().getString(R.string.distance) + ": ";
             String DEVINFO_CALORY = getContext().getString(R.string.calories) + ": ";
             String DEVINFO_HEART = "HR: ";
 
-            String info = "";
+            String info =String.format(getContext().getString(R.string.notif_battery_low_bigtext_last_charge_time),getLastCharge(record.battery)) ;
+
             if (record.steps > 0) {
                 info += DEVINFO_STEP + String.valueOf(record.steps) + "   ";
             }
@@ -874,7 +877,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 info += DEVINFO_CALORY + String.valueOf(record.calories) + "   ";
             }
             if (record.heartRate > 0) {
-                info += DEVINFO_HEART + String.valueOf(record.heartRate) + "   ";
+                info += "\n" + DEVINFO_HEART + String.valueOf(record.heartRate);
             }
 
             if (!info.equals("")) {
@@ -892,4 +895,28 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             }
     }
 
+    private String getLastCharge(byte data) {
+        SharedPreferences settings = GBApplication.getPrefs().getPreferences();
+        if (batteryCmd.lastChargeTime == null) {
+            batteryCmd.lastChargeTime = new GregorianCalendar();
+            batteryCmd.lastChargeTime.setTimeInMillis(settings.getLong("lastChargeTime", Calendar.getInstance().getTimeInMillis()));
+            batteryCmd.level = (short) settings.getInt("lastBatteryLevel", 0);
+        }
+
+        if (batteryCmd.level != (short) data) {
+            SharedPreferences.Editor editor = settings.edit();
+            if ((short) data > batteryCmd.level) {
+                batteryCmd.lastChargeTime.setTimeInMillis(Calendar.getInstance().getTimeInMillis());
+                editor.putLong("lastChargeTime", batteryCmd.lastChargeTime.getTimeInMillis());
+            }
+            editor.putInt("lastBatteryLevel", (int) data);
+            editor.apply();
+
+            handleBatteryInfo(data);
+        }
+
+        long difference=Calendar.getInstance().getTimeInMillis() - batteryCmd.lastChargeTime.getTimeInMillis();
+
+        return DateTimeUtils.formatDurationHoursMinutes(difference, TimeUnit.MILLISECONDS);
+    }
 }
