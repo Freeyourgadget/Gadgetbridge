@@ -154,10 +154,10 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         mIntentFilterActions = new HashSet<>();
         if (intentFilterActions != null) {
             mIntentFilterActions.addAll(Arrays.asList(intentFilterActions));
-            mIntentFilterActions.add(ChartsHost.DATE_NEXT);
-            mIntentFilterActions.add(ChartsHost.DATE_PREV);
-            mIntentFilterActions.add(ChartsHost.REFRESH);
         }
+        mIntentFilterActions.add(ChartsHost.DATE_NEXT);
+        mIntentFilterActions.add(ChartsHost.DATE_PREV);
+        mIntentFilterActions.add(ChartsHost.REFRESH);
     }
 
     @Override
