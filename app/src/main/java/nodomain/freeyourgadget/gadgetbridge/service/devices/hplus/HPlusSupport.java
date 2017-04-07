@@ -51,6 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInf
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -876,7 +877,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             if (record.calories > 0) {
                 info += DEVINFO_CALORY + String.valueOf(record.calories) + "   ";
             }
-            if (record.heartRate > 0) {
+            if (record.heartRate > 0 && record.heartRate != ActivityKind.TYPE_NOT_MEASURED) {
                 info += "\n" + DEVINFO_HEART + String.valueOf(record.heartRate);
             }
 
