@@ -2,6 +2,7 @@
 
 ###Version next
 * Applied some material design guidelines to Charts and (pebble) app management
+* Pebble: improve compatiblity with watchapp configuration pages
 
 ###Version 0.18.4
 * Mi Band 2: Display realtime steps in Live Activity
