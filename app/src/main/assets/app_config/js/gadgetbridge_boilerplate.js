@@ -4,7 +4,7 @@ navigator.geolocation.getCurrentPosition = function(success, failure, options) {
     if(options && options.maximumAge && geoposition.timestamp < Date.now() - options.maximumAge) {
     	failure({ code: 2, message: "POSITION_UNAVAILABLE"});
     } else {
-        success();
+        success(geoposition);
     }
 }
 
