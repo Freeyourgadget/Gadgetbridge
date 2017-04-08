@@ -22,7 +22,7 @@
             <RelativeLayout
                 android:id="@+id/device_item_infos_box"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginBottom="8dp"
