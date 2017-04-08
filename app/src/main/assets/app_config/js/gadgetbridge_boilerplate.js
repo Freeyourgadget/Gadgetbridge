@@ -205,7 +205,7 @@ var storedPreset = GBjs.getAppStoredPreset();
 document.addEventListener('DOMContentLoaded', function(){
 if (jsConfigFile != null) {
     loadScript(jsConfigFile, function() {
-        Pebble.evaluate('ready');
+        Pebble.evaluate('ready', [{'type': "ready"}]); //callback object apparently needed by some watchfaces
         if (getURLVariable('config') == 'true') {
             showStep("step2");
             var json_string = getURLVariable('json');
