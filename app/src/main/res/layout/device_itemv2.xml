@@ -22,7 +22,7 @@
             <RelativeLayout
                 android:id="@+id/device_item_infos_box"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginBottom="8dp"
@@ -48,7 +48,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:contentDescription="@string/controlcenter_delete_device"
-                    android:tint="?android:textColorTertiary"
+                    android:tint="?attr/textColorTertiary"
                     card_view:srcCompat="@drawable/ic_remove_device" />
             </RelativeLayout>
 
@@ -62,7 +62,7 @@
                 android:clickable="true"
                 android:longClickable="true"
                 android:background="?android:attr/selectableItemBackground"
-                tools:src="@drawable/ic_device_pebble"
+                android:src="@drawable/ic_device_pebble"
                 android:layout_marginTop="8dp" />
 
             <TextView

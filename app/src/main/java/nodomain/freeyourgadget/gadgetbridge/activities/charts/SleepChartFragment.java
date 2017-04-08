@@ -166,6 +166,7 @@ public class SleepChartFragment extends AbstractChartFragment {
     private void setupSleepAmountChart() {
         mSleepAmountChart.setBackgroundColor(BACKGROUND_COLOR);
         mSleepAmountChart.getDescription().setTextColor(DESCRIPTION_COLOR);
+        mSleepAmountChart.setEntryLabelColor(DESCRIPTION_COLOR);
         mSleepAmountChart.getDescription().setText("");
 //        mSleepAmountChart.getDescription().setNoDataTextDescription("");
         mSleepAmountChart.setNoDataText("");
