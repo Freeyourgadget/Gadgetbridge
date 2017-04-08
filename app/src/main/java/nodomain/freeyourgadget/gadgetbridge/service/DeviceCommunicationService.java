@@ -41,9 +41,6 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
-import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
-import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmClockReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
@@ -207,14 +204,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     boolean enableReceivers = mDeviceSupport != null && (mDeviceSupport.useAutoConnect() || mGBDevice.isInitialized());
                     setReceiversEnableState(enableReceivers);
                     GB.updateNotification(mGBDevice.getName() + " " + mGBDevice.getStateString(), mGBDevice.isInitialized(), context);
-
-                    if (device.isInitialized()) {
-                        try (DBHandler dbHandler = GBApplication.acquireDB()) {
-                            DaoSession session = dbHandler.getDaoSession();
-                            DBHelper.getDevice(device, session); // implicitly creates the device in database if not present, and updates device attributes
-                        } catch (Exception ignore) {
-                        }
-                    }
                 } else {
                     LOG.error("Got ACTION_DEVICE_CHANGED from unexpected device: " + mGBDevice);
                 }
