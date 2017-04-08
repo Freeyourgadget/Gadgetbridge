@@ -191,6 +191,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
     private void setupTodayPieChart() {
         mTodayPieChart.setBackgroundColor(BACKGROUND_COLOR);
         mTodayPieChart.getDescription().setTextColor(DESCRIPTION_COLOR);
+        mTodayPieChart.setEntryLabelColor(DESCRIPTION_COLOR);
         mTodayPieChart.getDescription().setText(getPieDescription(mTargetValue));
 //        mTodayPieChart.setNoDataTextDescription("");
         mTodayPieChart.setNoDataText("");
