@@ -53,6 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
@@ -902,6 +903,8 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             batteryCmd.lastChargeTime = new GregorianCalendar();
             batteryCmd.lastChargeTime.setTimeInMillis(settings.getLong("lastChargeTime", Calendar.getInstance().getTimeInMillis()));
             batteryCmd.level = (short) settings.getInt("lastBatteryLevel", 0);
+            batteryCmd.state= BatteryState.BATTERY_NORMAL;
+            batteryCmd.numCharges=0;
         }
 
         if (batteryCmd.level != (short) data) {
