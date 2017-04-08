@@ -2,7 +2,12 @@
 
 ###Version next
 * Applied some material design guidelines to Charts and (pebble) app management
-* Pebble: improve compatiblity with watchapp configuration pages
+* Changed colours: deep sleep is now dark blue, light sleep is now light blue
+* Support for exporting and importing of preferences in addition to the database
+* Visual improvements of the pie charts
+* Pebble: improve compatibility with watch app configuration pages
+* HPlus: users can now decide whether they want to pair the device or not, hopefully fixing some connection problems (#642)
+* HPlus: display battery state and warn on low battery
 
 ###Version 0.18.4
 * Mi Band 2: Display realtime steps in Live Activity
