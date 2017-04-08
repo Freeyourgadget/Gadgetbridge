@@ -298,6 +298,10 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         gbDevice.setBatteryLevel(deviceEvent.level);
         gbDevice.setBatteryState(deviceEvent.state);
 
+        Prefs prefs = GBApplication.getPrefs();
+        gbDevice.setBatteryThresholdPercent((short) prefs.getInt("battery_percent", 10));
+
+
         //show the notification if the battery level is below threshold and only if not connected to charger
         if (deviceEvent.level <= gbDevice.getBatteryThresholdPercent() &&
                 (BatteryState.BATTERY_LOW.equals(deviceEvent.state) ||

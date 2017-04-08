@@ -109,6 +109,16 @@ public class SettingsActivity extends AbstractSettingsActivity {
 
         });
 
+        pref = findPreference("battery_percent");
+        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                preference.setSummary(newVal.toString());
+                return true;
+            }
+
+        });
+
         pref = findPreference("pebble_emu_port");
         pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -285,6 +295,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 PREF_USER_WEIGHT_KG,
                 PREF_USER_SLEEP_DURATION,
                 PREF_USER_STEPS_GOAL,
+                "battery_percent",
         };
     }
 
