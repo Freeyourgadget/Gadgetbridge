@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="textColorPrimary" format="color" />
+    <attr name="textColorSecondary" format="color" />
+    <attr name="textColorTertiary" format="color" />
+
     <attr name="chart_deep_sleep" format="color" />
     <attr name="chart_light_sleep" format="color" />
     <attr name="chart_activity" format="color" />
