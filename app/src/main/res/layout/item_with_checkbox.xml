@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/activatedBackgroundIndicator"
-    android:padding="8dp">
+    android:minHeight="60dp">
 
 
     <CheckBox
@@ -12,6 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:clickable="false"
         android:focusable="false" />
 
@@ -19,7 +21,12 @@
         android:id="@+id/item_image"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_toRightOf="@+id/item_checkbox" />
+        android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@+id/item_checkbox"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -27,21 +34,20 @@
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/item_image"
         android:orientation="vertical"
-        android:paddingEnd="8dp"
-        android:paddingStart="8dp">
+        android:padding="8dp">
 
         <TextView
             android:id="@+id/item_name"
-            style="@style/Base.TextAppearance.AppCompat.SearchResult.Title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scrollHorizontally="false"
-            android:singleLine="true"
+            android:maxLines="1"
             android:text="Item Name" />
 
         <TextView
             android:id="@+id/item_details"
-            style="@style/Base.TextAppearance.AppCompat.SearchResult"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Item Description" />
