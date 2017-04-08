@@ -39,8 +39,8 @@ public enum NotificationType {
     GENERIC_ALARM_CLOCK(PebbleIconID.ALARM_CLOCK, PebbleColor.Red);
     // Note: if you add any more constants, update all clients as well
 
-    public int icon;
-    public byte color;
+    public final int icon;
+    public final byte color;
 
     NotificationType(int icon, byte color) {
         this.icon = icon;

@@ -199,8 +199,7 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
 
     static synchronized ArrayList<UUID> getUuidsFromFile(String filename) {
         ArrayList<UUID> uuids = new ArrayList<>();
-        try {
-            FileReader fileReader = new FileReader(FileUtils.getExternalFilesDir() + "/" + filename);
+        try (FileReader fileReader = new FileReader(FileUtils.getExternalFilesDir() + "/" + filename)) {
             BufferedReader in = new BufferedReader(fileReader);
             String line;
             while ((line = in.readLine()) != null) {

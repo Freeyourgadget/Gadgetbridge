@@ -810,7 +810,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     private void handleButtonPressed(byte[] value) {
-        LOG.info("Button pressed: " + value);
+        LOG.info("Button pressed");
         logMessageContent(value);
     }
 

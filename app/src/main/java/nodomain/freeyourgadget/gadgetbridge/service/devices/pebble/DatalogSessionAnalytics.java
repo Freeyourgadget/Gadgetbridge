@@ -31,15 +31,9 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 class DatalogSessionAnalytics extends DatalogSession {
     private static final Logger LOG = LoggerFactory.getLogger(DatalogSessionAnalytics.class);
     private GBDeviceEventBatteryInfo mGBDeviceEventBatteryInfo = new GBDeviceEventBatteryInfo();
-    private GBDevice mGBDevice;
 
     DatalogSessionAnalytics(byte id, UUID uuid, int timestamp, int tag, byte itemType, short itemSize, GBDevice device) {
         super(id, uuid, timestamp, tag, itemType, itemSize);
-        if (mGBDevice == null || !device.equals(mGBDevice)) { //prevent showing information of other pebble watches when switching devices
-            mGBDevice = device;
-            mGBDeviceEventBatteryInfo.state = BatteryState.UNKNOWN;
-        }
-
         // The default notification should not be too bad (one per hour) but we can override this if needed
         //mGBDevice.setBatteryThresholdPercent((short) 5);
 

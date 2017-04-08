@@ -30,7 +30,7 @@ public class ValueDecoder {
         int percent = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
         if (percent > 100 || percent < 0) {
             LOG.warn("Unexpected percent value: " + percent + ": " + GattCharacteristic.toString(characteristic));
-            percent = Math.max(100, Math.min(0, percent));
+            percent = Math.min(100, Math.max(0, percent));
         }
         return percent;
     }

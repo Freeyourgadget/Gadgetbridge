@@ -54,7 +54,9 @@ public class FileUtils {
         if (!sourceFile.exists()) {
             throw new IOException("Does not exist: " + sourceFile.getAbsolutePath());
         }
-        copyFile(new FileInputStream(sourceFile), new FileOutputStream(destFile));
+        try (FileInputStream in = new FileInputStream(sourceFile); FileOutputStream out = new FileOutputStream(destFile)) {
+            copyFile(in, out);
+        }
     }
 
     private static void copyFile(FileInputStream sourceStream, FileOutputStream destStream) throws IOException {
@@ -229,13 +231,13 @@ public class FileUtils {
     public static byte[] readAll(InputStream in, long maxLen) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream(Math.max(8192, in.available()));
         byte[] buf = new byte[8192];
-        int read = 0;
+        int read;
         long totalRead = 0;
         while ((read = in.read(buf)) > 0) {
             out.write(buf, 0, read);
             totalRead += read;
             if (totalRead > maxLen) {
-                throw new IOException("Too much data to read into memory. Got already " + totalRead + buf);
+                throw new IOException("Too much data to read into memory. Got already " + totalRead);
             }
         }
         return out.toByteArray();

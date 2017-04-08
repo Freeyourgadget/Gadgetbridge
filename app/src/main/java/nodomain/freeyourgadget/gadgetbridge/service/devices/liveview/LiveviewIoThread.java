@@ -197,8 +197,6 @@ public class LiveviewIoThread extends GBDeviceIoThread {
                     break;
                 case HEADER_LEN:
                     int headerSize = 0xff & incoming[0];
-                    if (headerSize < 0)
-                        throw new IOException();
                     state = ReaderState.HEADER;
                     incoming = new byte[headerSize];
                     break;
