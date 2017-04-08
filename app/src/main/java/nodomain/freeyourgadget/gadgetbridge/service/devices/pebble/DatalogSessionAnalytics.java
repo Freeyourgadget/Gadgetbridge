@@ -58,8 +58,8 @@ class DatalogSessionAnalytics extends DatalogSession {
 
         LOG.info("Battery reading for TS " + messageTS + " is: " + reportedMilliVolts + " milliVolts, mapped to percentage: " + milliVoltstoPercentage(reportedMilliVolts));
 
-        if (messageTS > 0 && reportedMilliVolts < 5000) { //some safety checks
-//            mGBDeviceEventBatteryInfo.state = BatteryState.BATTERY_NORMAL; //uncoomment this to show the battery status in the control center
+        if (false && (messageTS > 0 && reportedMilliVolts < 5000)) { //some safety checks, always disabled for now
+            mGBDeviceEventBatteryInfo.state = BatteryState.BATTERY_NORMAL;
             mGBDeviceEventBatteryInfo.level = milliVoltstoPercentage(reportedMilliVolts);
 
             return new GBDeviceEvent[]{mGBDeviceEventBatteryInfo, null};
