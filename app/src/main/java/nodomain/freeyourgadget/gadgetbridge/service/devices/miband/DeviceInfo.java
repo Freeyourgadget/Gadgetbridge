@@ -117,7 +117,7 @@ public class DeviceInfo extends AbstractInfo {
     }
 
     public boolean isMili1() {
-        return hwVersion == 2;
+        return hwVersion == 2 || (feature == 0 && appearance == 0 && hwVersion == 8 && fw2Version == -1);
     }
 
     public boolean isMili1A() {

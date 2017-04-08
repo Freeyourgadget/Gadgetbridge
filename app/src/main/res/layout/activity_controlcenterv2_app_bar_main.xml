@@ -34,7 +34,7 @@
         app:elevation="6dp"
         app:pressedTranslationZ="12dp"
         android:layout_marginBottom="30dp"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginEnd="10dp" />
 
 
 </android.support.design.widget.CoordinatorLayout>

@@ -3,14 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingBottom="0px"
-    android:paddingLeft="0px"
-    android:paddingRight="0px"
-    android:paddingTop="0px"
     tools:context=".activities.appmanager.AppManagerActivity">
 
     <LinearLayout
-        android:id="@+id/charts_main_layout"
+        android:id="@+id/appmanager_main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -21,14 +17,15 @@
             android:layout_height="match_parent"
             tools:context=".activities.appmanager.AppManagerActivity">
 
-            <android.support.v4.view.PagerTabStrip
+            <android.support.design.widget.TabLayout
                 android:id="@+id/charts_pagerTabStrip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom" />
+                android:layout_gravity="top" />
         </android.support.v4.view.ViewPager>
 
     </LinearLayout>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -39,7 +36,7 @@
         android:src="@drawable/ic_add_white"
         app:elevation="6dp"
         app:pressedTranslationZ="12dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp" />
+        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="10dp" />
 
 </android.widget.RelativeLayout>

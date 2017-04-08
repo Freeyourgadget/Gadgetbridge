@@ -1,5 +1,14 @@
-navigator.geolocation.getCurrentPosition = function(success, failure) { //override because default implementation requires GPS permission
-    success(JSON.parse(GBjs.getCurrentPosition()))
+var reportedPositionFailures = 0;
+navigator.geolocation.getCurrentPosition = function(success, failure, options) { //override because default implementation requires GPS permission
+    geoposition = JSON.parse(GBjs.getCurrentPosition());
+
+    if(options && options.maximumAge && (geoposition.timestamp < Date.now() - options.maximumAge) && reportedPositionFailures <= 10 ) {
+        reportedPositionFailures++;
+    	failure({ code: 2, message: "POSITION_UNAVAILABLE"});
+    } else {
+        reportedPositionFailures = 0;
+        success(geoposition);
+    }
 }
 
 if (window.Storage){
@@ -205,7 +214,7 @@ var storedPreset = GBjs.getAppStoredPreset();
 document.addEventListener('DOMContentLoaded', function(){
 if (jsConfigFile != null) {
     loadScript(jsConfigFile, function() {
-        Pebble.evaluate('ready');
+        Pebble.evaluate('ready', [{'type': "ready"}]); //callback object apparently needed by some watchfaces
         if(document.hasFocus() && !(getURLVariable('config') == 'true')) {
             Pebble.evaluate('showConfiguration');
         } else {

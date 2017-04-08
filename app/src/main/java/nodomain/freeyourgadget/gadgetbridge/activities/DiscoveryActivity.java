@@ -20,6 +20,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
@@ -30,6 +31,7 @@ import android.bluetooth.le.ScanResult;
 import android.bluetooth.le.ScanSettings;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -123,7 +125,7 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
                 }
                 case BluetoothDevice.ACTION_BOND_STATE_CHANGED: {
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                    if (device != null && device.getAddress().equals(bondingAddress)) {
+                    if (device != null && bondingDevice != null && device.getAddress().equals(bondingDevice.getMacAddress())) {
                         int bondState = intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE, BluetoothDevice.BOND_NONE);
                         if (bondState == BluetoothDevice.BOND_BONDED) {
                             handleDeviceBonded();
@@ -134,9 +136,55 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
         }
     };
 
-    private void handleDeviceBonded() {
-        GB.toast(DiscoveryActivity.this, "Successfully bonded with: " + bondingAddress, Toast.LENGTH_SHORT, GB.INFO);
+    private void connectAndFinish(GBDevice device) {
+        GB.toast(DiscoveryActivity.this, getString(R.string.discovery_trying_to_connect_to, device.getName()), Toast.LENGTH_SHORT, GB.INFO);
+        GBApplication.deviceService().connect(device, true);
         finish();
+    }
+
+    private void createBond(final GBDeviceCandidate deviceCandidate, int bondingStyle) {
+        if (bondingStyle == DeviceCoordinator.BONDING_STYLE_NONE) {
+            return;
+        }
+        if (bondingStyle == DeviceCoordinator.BONDING_STYLE_ASK) {
+            new AlertDialog.Builder(this)
+                    .setCancelable(true)
+                    .setTitle(DiscoveryActivity.this.getString(R.string.discovery_pair_title, deviceCandidate.getName()))
+                    .setMessage(DiscoveryActivity.this.getString(R.string.discovery_pair_question))
+                    .setPositiveButton(DiscoveryActivity.this.getString(R.string.discovery_yes_pair), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            doCreatePair(deviceCandidate);
+                        }
+                    })
+                    .setNegativeButton(R.string.discovery_dont_pair, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            GBDevice device = DeviceHelper.getInstance().toSupportedDevice(deviceCandidate);
+                            connectAndFinish(device);
+                        }
+                    })
+                    .show();
+        } else {
+            doCreatePair(deviceCandidate);
+        }
+    }
+
+    private void doCreatePair(GBDeviceCandidate deviceCandidate) {
+        GB.toast(DiscoveryActivity.this, getString(R.string.discovery_attempting_to_pair, deviceCandidate.getName()), Toast.LENGTH_SHORT, GB.INFO);
+        if (deviceCandidate.getDevice().createBond()) {
+            // async, wait for bonding event to finish this activity
+            LOG.info("Bonding in progress...");
+            bondingDevice = deviceCandidate;
+        } else {
+            GB.toast(DiscoveryActivity.this, getString(R.string.discovery_bonding_failed_immediately, deviceCandidate.getName()), Toast.LENGTH_SHORT, GB.ERROR);
+        }
+    }
+
+    private void handleDeviceBonded() {
+        GB.toast(DiscoveryActivity.this, getString(R.string.discovery_successfully_bonded, bondingDevice.getName()), Toast.LENGTH_SHORT, GB.INFO);
+        GBDevice device = DeviceHelper.getInstance().toSupportedDevice(bondingDevice);
+        connectAndFinish(device);
     }
 
     private final BluetoothAdapter.LeScanCallback leScanCallback = new BluetoothAdapter.LeScanCallback() {
@@ -203,7 +251,7 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
     private DeviceCandidateAdapter cadidateListAdapter;
     private Button startButton;
     private Scanning isScanning = Scanning.SCANNING_OFF;
-    private String bondingAddress;
+    private GBDeviceCandidate bondingDevice;
 
     private enum Scanning {
         SCANNING_BT,
@@ -358,7 +406,7 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
             }
         } else {
             discoveryFinished();
-            Toast.makeText(this, "Enable Bluetooth to discover devices.", Toast.LENGTH_LONG).show();
+            GB.toast(DiscoveryActivity.this, getString(R.string.discovery_enable_bluetooth), Toast.LENGTH_SHORT, GB.ERROR);
         }
     }
 
@@ -535,19 +583,24 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
             intent.putExtra(DeviceCoordinator.EXTRA_DEVICE_CANDIDATE, deviceCandidate);
             startActivity(intent);
         } else {
+            GBDevice device = DeviceHelper.getInstance().toSupportedDevice(deviceCandidate);
+            int bondingStyle = coordinator.getBondingStyle(deviceCandidate);
+            if (bondingStyle == DeviceCoordinator.BONDING_STYLE_NONE) {
+                LOG.info("No bonding needed, according to coordinator, so connecting right away");
+                connectAndFinish(device);
+                return;
+            }
+
             try {
                 BluetoothDevice btDevice = adapter.getRemoteDevice(deviceCandidate.getMacAddress());
                 switch (btDevice.getBondState()) {
                     case BluetoothDevice.BOND_NONE: {
-                        if (btDevice.createBond()) {
-                            // async, wait for bonding event to finish this activity
-                            bondingAddress = btDevice.getAddress();
-                        }
+                        createBond(deviceCandidate, bondingStyle);
                         break;
                     }
                     case BluetoothDevice.BOND_BONDING:
                         // async, wait for bonding event to finish this activity
-                        bondingAddress = btDevice.getAddress();
+                        bondingDevice = deviceCandidate;
                         break;
                     case BluetoothDevice.BOND_BONDED:
                         handleDeviceBonded();

@@ -18,7 +18,6 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 
 /**
  * Abstract base class for fragments. Provides hooks that are called when
@@ -28,7 +27,7 @@ import android.support.v4.app.FragmentActivity;
  * @see AbstractGBFragmentActivity
  */
 public abstract class AbstractGBFragment extends Fragment {
-    private boolean mVisibleInactivity;
+    private boolean mVisibleInActivity;
 
     /**
      * Called when this fragment has been fully scrolled into the activity.
@@ -37,7 +36,6 @@ public abstract class AbstractGBFragment extends Fragment {
      * @see #onMadeInvisibleInActivity()
      */
     protected void onMadeVisibleInActivity() {
-        updateActivityTitle();
     }
 
     /**
@@ -47,7 +45,7 @@ public abstract class AbstractGBFragment extends Fragment {
      * @see #onMadeVisibleInActivity()
      */
     protected void onMadeInvisibleInActivity() {
-        mVisibleInactivity = false;
+        mVisibleInActivity = false;
     }
 
     /**
@@ -55,16 +53,7 @@ public abstract class AbstractGBFragment extends Fragment {
      * activity, not taking into account whether the screen is enabled at all.
      */
     public boolean isVisibleInActivity() {
-        return mVisibleInactivity;
-    }
-
-    protected void updateActivityTitle() {
-        FragmentActivity activity = getActivity();
-        if (activity != null && !activity.isFinishing() && !activity.isDestroyed()) {
-            if (getTitle() != null) {
-                activity.setTitle(getTitle());
-            }
-        }
+        return mVisibleInActivity;
     }
 
     @Nullable
@@ -76,7 +65,7 @@ public abstract class AbstractGBFragment extends Fragment {
      * @hide
      */
     public void onMadeVisibleInActivityInternal() {
-        mVisibleInactivity = true;
+        mVisibleInActivity = true;
         if (isVisible()) {
             onMadeVisibleInActivity();
         }

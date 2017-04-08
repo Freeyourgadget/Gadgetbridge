@@ -25,7 +25,6 @@ import de.greenrobot.dao.Property;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivityOverlay;
@@ -138,10 +137,5 @@ public class PebbleHealthSampleProvider extends AbstractSampleProvider<PebbleHea
     @Override
     public float normalizeIntensity(int rawIntensity) {
         return rawIntensity / movementDivisor;
-    }
-
-    @Override
-    public int getID() {
-        return SampleProvider.PROVIDER_PEBBLE_HEALTH;
     }
 }

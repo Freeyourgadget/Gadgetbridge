@@ -17,7 +17,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
@@ -40,11 +39,6 @@ public class MiBandSampleProvider extends AbstractMiBandSampleProvider {
 
     public MiBandSampleProvider(GBDevice device, DaoSession session) {
         super(device, session);
-    }
-
-    @Override
-    public int getID() {
-        return SampleProvider.PROVIDER_MIBAND;
     }
 
     @Override

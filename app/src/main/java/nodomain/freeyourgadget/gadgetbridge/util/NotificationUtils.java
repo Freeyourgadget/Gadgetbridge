@@ -42,7 +42,7 @@ public class NotificationUtils {
             case CONVERSATIONS:
             case FACEBOOK:
             case FACEBOOK_MESSENGER:
-                return notificationSpec.body;
+                return StringUtils.ensureNotNull(notificationSpec.body);
         }
         return "";
     }

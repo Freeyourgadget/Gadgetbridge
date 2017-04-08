@@ -17,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 
@@ -63,6 +64,11 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
+    String[] getPieLabels() {
+        return new String[]{""};
+    }
+
+    @Override
     IValueFormatter getPieValueFormatter() {
         return null;
     }
@@ -80,5 +86,11 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
     @Override
     int[] getColors() {
         return new int[]{akActivity.color};
+    }
+
+    @Override
+    protected void setupLegend(Chart chart) {
+        // no legend here, it is all about the steps here
+        chart.getLegend().setEnabled(false);
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="fill_parent"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
     <LinearLayout
@@ -13,15 +14,13 @@
             android:id="@+id/livechart_steps_per_minute_current"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="20">
-        </nodomain.freeyourgadget.gadgetbridge.activities.charts.CustomBarChart>
+            android:layout_weight="20"></nodomain.freeyourgadget.gadgetbridge.activities.charts.CustomBarChart>
 
         <nodomain.freeyourgadget.gadgetbridge.activities.charts.CustomBarChart
             android:id="@+id/livechart_steps_total"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="20">
-        </nodomain.freeyourgadget.gadgetbridge.activities.charts.CustomBarChart>
+            android:layout_weight="20"></nodomain.freeyourgadget.gadgetbridge.activities.charts.CustomBarChart>
 
         <!--
         <com.github.mikephil.charting.charts.PieChart
@@ -44,8 +43,7 @@
         android:id="@+id/livechart_steps_per_minute_history"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="20">
-    </com.github.mikephil.charting.charts.LineChart>
+        android:layout_weight="20"></com.github.mikephil.charting.charts.LineChart>
 
 
 </LinearLayout>

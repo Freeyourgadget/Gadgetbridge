@@ -341,6 +341,7 @@
         <activity
             android:name=".activities.AlarmDetails"
             android:label="@string/title_activity_alarm_details"
+            android:screenOrientation="portrait"
             android:parentActivityName=".activities.ConfigureAlarms" />
         <activity
             android:name=".activities.VibrationActivity"

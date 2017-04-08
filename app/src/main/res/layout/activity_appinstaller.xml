@@ -14,8 +14,7 @@
         android:id="@+id/itemListView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="false">
-    </ListView>
+        android:layout_alignParentEnd="false"></ListView>
 
     <TextView
         android:id="@+id/infoTextView"
@@ -67,8 +66,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/installButton"
-        android:layout_alignParentEnd="false">
-    </ListView>
+        android:layout_alignParentEnd="false"></ListView>
 
     <android.widget.Space
         android:layout_width="wrap_content"

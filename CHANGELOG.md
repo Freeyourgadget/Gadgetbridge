@@ -1,5 +1,26 @@
 ###Changelog
 
+###Version next
+* Applied some material design guidelines to Charts and (pebble) app management
+* Pebble: improve compatiblity with watchapp configuration pages
+
+###Version 0.18.4
+* Mi Band 2: Display realtime steps in Live Activity
+* Mi Band: Attempt to recognize Mi Band model with hwVersion = 8
+* Alarms activity improvements and fixes
+* Make Buttons in the main activity easier to hit
+
+###Version 0.18.3
+* Fix bug that caused the same value in weekly charts for every day on Android 6 and older
+
+###Version 0.18.2
+* Mi Band 2: Fix crash on "chat" or "social network" text notification (#603)
+
+###Version 0.18.1
+* Pebble: Fix Firmware insstallation on Pebble Time Round (broken since 0.16.0)
+* Start VibrationActivity when using "find device" button with Vibratissimo
+* Support material fork of K9
+
 ###Version 0.18.0
 * All new GUI for the control center
 * Add Portuguese pt_PT and pt_BR translations
@@ -10,10 +31,10 @@
 * Huge speedup for weekly charts when changing days
 * Drop support for importing pre Gadgetbridge 0.12.0 database
 * Pebble: allow configuration web pages (clay) to access device location
-* Mi2: Initial support for text notifications, caller ID, and icons (requires font installation) (#560)
-* Mi2: Support for flashing Mili_pro.ft* font files
-* Mi2: Improved firmware/font updated
-* Mi2: Set 12h/24h time format, following the Android configuration (#573)
+* Mi Band 2: Initial support for text notifications, caller ID, and icons (requires font installation) (#560)
+* Mi Band 2: Support for flashing Mili_pro.ft* font files
+* Mi Band 2: Improved firmware/font updated
+* Mi Band 2: Set 12h/24h time format, following the Android configuration (#573)
 * Improved BLE discovery and connectivity
 
 ####Version 0.17.5

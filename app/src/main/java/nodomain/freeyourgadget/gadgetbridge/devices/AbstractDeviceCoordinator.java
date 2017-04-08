@@ -124,4 +124,9 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     public boolean needsBackgroundWebView(GBDevice device) {
         return false;
     }
+
+    @Override
+    public int getBondingStyle(GBDeviceCandidate deviceCandidate) {
+        return BONDING_STYLE_ASK;
+    }
 }

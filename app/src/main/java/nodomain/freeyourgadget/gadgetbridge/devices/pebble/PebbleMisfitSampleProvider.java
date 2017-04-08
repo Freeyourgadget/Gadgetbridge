@@ -19,7 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMisfitSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMisfitSampleDao;
@@ -51,11 +50,6 @@ public class PebbleMisfitSampleProvider extends AbstractSampleProvider<PebbleMis
     @Override
     public PebbleMisfitSample createActivitySample() {
         return new PebbleMisfitSample();
-    }
-
-    @Override
-    public int getID() {
-        return SampleProvider.PROVIDER_PEBBLE_MISFIT;
     }
 
     @Override

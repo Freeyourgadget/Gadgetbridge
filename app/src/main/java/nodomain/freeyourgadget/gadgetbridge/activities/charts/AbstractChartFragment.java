@@ -154,10 +154,10 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         mIntentFilterActions = new HashSet<>();
         if (intentFilterActions != null) {
             mIntentFilterActions.addAll(Arrays.asList(intentFilterActions));
-            mIntentFilterActions.add(ChartsHost.DATE_NEXT);
-            mIntentFilterActions.add(ChartsHost.DATE_PREV);
-            mIntentFilterActions.add(ChartsHost.REFRESH);
         }
+        mIntentFilterActions.add(ChartsHost.DATE_NEXT);
+        mIntentFilterActions.add(ChartsHost.DATE_PREV);
+        mIntentFilterActions.add(ChartsHost.REFRESH);
     }
 
     @Override
@@ -182,9 +182,9 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         HEARTRATE_FILL_COLOR = ContextCompat.getColor(getContext(), R.color.chart_heartrate_fill);
         getContext().getTheme().resolveAttribute(R.attr.chart_activity, runningColor, true);
         AK_ACTIVITY_COLOR = runningColor.data;
-        getContext().getTheme().resolveAttribute(R.attr.chart_light_sleep, runningColor, true);
-        AK_DEEP_SLEEP_COLOR = runningColor.data;
         getContext().getTheme().resolveAttribute(R.attr.chart_deep_sleep, runningColor, true);
+        AK_DEEP_SLEEP_COLOR = runningColor.data;
+        getContext().getTheme().resolveAttribute(R.attr.chart_light_sleep, runningColor, true);
         AK_LIGHT_SLEEP_COLOR = runningColor.data;
         getContext().getTheme().resolveAttribute(R.attr.chart_not_worn, runningColor, true);
         AK_NOT_WORN_COLOR = runningColor.data;
@@ -234,7 +234,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     protected void showDateBar(boolean show) {
-        getChartsHost().getDateBar().setVisibility(show ? View.VISIBLE : View.GONE);
+        getChartsHost().getDateBar().setVisibility(show ? View.VISIBLE : View.INVISIBLE);
     }
 
     @Override

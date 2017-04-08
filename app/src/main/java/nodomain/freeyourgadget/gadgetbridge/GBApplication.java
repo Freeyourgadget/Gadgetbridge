@@ -445,7 +445,7 @@ public class GBApplication extends Application {
     public static int getTextColor(Context context) {
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = context.getTheme();
-        theme.resolveAttribute(android.R.attr.textColorPrimary, typedValue, true);
+        theme.resolveAttribute(R.attr.textColorPrimary, typedValue, true);
         return typedValue.data;
     }
 

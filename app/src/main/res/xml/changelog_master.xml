@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="next">
+        <change>Applied some material design guidelines to Charts and (pebble) app management
+        </change>
+        <change>Pebble: improve compatiblity with watchapp configuration pages</change>
+    </release>
+
+    <release version="0.18.4" versioncode="91">
+        <change>Mi Band 2: Display realtime steps in Live Activity</change>
+        <change>Mi Band: Attempt to recognize Mi Band model with hwVersion = 8</change>
+        <change>Make Buttons in the main activity easier to hit</change>
+        <change>Alarms activity improvements and fixes</change>
+    </release>
+    <release version="0.18.3" versioncode="90">
+        <change>Fix bug that caused the same value in weekly charts for every day on Android 6 and older</change>
+    </release>
+    <release version="0.18.2" versioncode="89">
+        <change>Mi2: Fix crash on "chat" or "social network" text notification (#603)</change>
+    </release>
+    <release version="0.18.1" versioncode="88">
+        <change>Pebble: Fix Firmware insstallation on Pebble Time Round (broken since 0.16.0)</change>
+        <change>Start VibrationActivity when using "find device" button with Vibratissimo</change>
+        <change>Support material fork of K9</change>
+    </release>
     <release version="0.18.0" versioncode="87">
         <change>All new GUI for the control center</change>
         <change>Add Portuguese pt_PT and pt_BR translations</change>

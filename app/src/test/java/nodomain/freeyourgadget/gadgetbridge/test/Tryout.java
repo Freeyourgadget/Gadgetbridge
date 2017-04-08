@@ -8,6 +8,7 @@ import java.util.GregorianCalendar;
 
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandDateConverter;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 /**
