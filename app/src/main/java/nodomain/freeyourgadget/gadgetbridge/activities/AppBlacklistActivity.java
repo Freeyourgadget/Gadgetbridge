@@ -27,6 +27,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.MenuItem;
 
 import org.slf4j.Logger;
@@ -66,6 +67,22 @@ public class AppBlacklistActivity extends GBActivity {
         appBlacklistAdapter = new AppBlacklistAdapter(R.layout.item_with_checkbox, this);
 
         appListView.setAdapter(appBlacklistAdapter);
+
+        SearchView searchView = (SearchView) findViewById(R.id.appListViewSearch);
+        searchView.setIconifiedByDefault(false);
+        searchView.setIconified(false);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                appBlacklistAdapter.getFilter().filter(newText);
+                return true;
+            }
+        });
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(GBApplication.ACTION_QUIT);

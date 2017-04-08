@@ -4,11 +4,21 @@
     android:layout_height="match_parent"
     tools:context="nodomain.freeyourgadget.gadgetbridge.activities.AppBlacklistActivity">
 
+    <android.support.v7.widget.SearchView
+        android:id="@+id/appListViewSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp">
+
+    </android.support.v7.widget.SearchView>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/appListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/appListViewSearch"
         android:layout_centerHorizontal="true"
         android:divider="@null" />
 

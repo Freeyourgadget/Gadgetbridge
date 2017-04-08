@@ -8,9 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.IdentityHashMap;
@@ -19,14 +22,15 @@ import java.util.List;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
-public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapter.AppBLViewHolder> {
+public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapter.AppBLViewHolder> implements Filterable {
 
-    private final List<ApplicationInfo> applicationInfoList;
+    private List<ApplicationInfo> applicationInfoList;
     private final int mLayoutId;
     private final Context mContext;
     private final PackageManager mPm;
     private final IdentityHashMap<ApplicationInfo, String> mNameMap;
 
+    private ApplicationFilter applicationFilter;
 
     public AppBlacklistAdapter(int layoutId, Context context) {
         mLayoutId = layoutId;
@@ -96,6 +100,13 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
         return applicationInfoList.size();
     }
 
+    @Override
+    public Filter getFilter() {
+        if (applicationFilter == null)
+            applicationFilter = new ApplicationFilter(this, applicationInfoList);
+        return applicationFilter;
+    }
+
     public class AppBLViewHolder extends RecyclerView.ViewHolder {
 
         final CheckBox checkbox;
@@ -112,6 +123,51 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
             deviceAppNameLabel = (TextView) itemView.findViewById(R.id.item_name);
         }
 
+    }
+
+    private class ApplicationFilter extends Filter {
+
+        private final AppBlacklistAdapter adapter;
+        private final List<ApplicationInfo> originalList;
+        private final List<ApplicationInfo> filteredList;
+
+        private ApplicationFilter(AppBlacklistAdapter adapter, List<ApplicationInfo> originalList) {
+            super();
+            this.originalList = new ArrayList<>(originalList);
+            this.filteredList = new ArrayList<>();
+            this.adapter = adapter;
+        }
+
+        @Override
+        protected Filter.FilterResults performFiltering(CharSequence filter) {
+            filteredList.clear();
+            final Filter.FilterResults results = new Filter.FilterResults();
+
+            if (filter == null || filter.length() == 0)
+                filteredList.addAll(originalList);
+            else {
+                final String filterPattern = filter.toString().toLowerCase().trim();
+
+                for (ApplicationInfo ai : originalList) {
+                    CharSequence name = mPm.getApplicationLabel(ai);
+                    if (((String) name).contains(filterPattern) ||
+                            (ai.packageName.contains(filterPattern))) {
+                        filteredList.add(ai);
+                    }
+                }
+            }
+
+            results.values = filteredList;
+            results.count = filteredList.size();
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, Filter.FilterResults filterResults) {
+            adapter.applicationInfoList.clear();
+            adapter.applicationInfoList.addAll((List<ApplicationInfo>) filterResults.values);
+            adapter.notifyDataSetChanged();
+        }
     }
 
 }

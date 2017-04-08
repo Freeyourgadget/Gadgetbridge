@@ -47,10 +47,10 @@
 
         <TextView
             android:id="@+id/item_details"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Item Description" />
+            android:text="Item Description"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
     </LinearLayout>
 
 </RelativeLayout>

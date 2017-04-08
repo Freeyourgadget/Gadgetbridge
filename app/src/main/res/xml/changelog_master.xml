@@ -5,6 +5,7 @@
         <change>Changed colours: deep sleep is now dark blue, light sleep is now light blue</change>
         <change>Support for exporting and importing of preferences in addition to the database</change>
         <change>Visual improvements of the pie charts</change>
+        <change>Add filter by name in the App blacklist activity</change>
         <change>Pebble: improve compatibility with watch app configuration pages</change>
         <change>HPlus: users can now decide whether they want to pair the device or not, hopefully fixing some connection problems (#642)</change>
         <change>HPlus: display battery state and warn on low battery</change>
