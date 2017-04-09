@@ -84,6 +84,7 @@
   <string name="pref_title_call_privacy_mode">Privatsphäre-Modus für Anrufe</string>
   <string name="pref_call_privacy_mode_off">Zeige Name und Telefonnumer</string>
   <string name="pref_call_privacy_mode_name">Verstecke den Namen aber zeige die Telefonnummer an</string>
+  <string name="pref_call_privacy_mode_number">Zeige den Namen an aber verstecke die Telefonnummer</string>
   <string name="pref_call_privacy_mode_complete">Verstecke Name und Telefonnummer</string>
   <string name="pref_blacklist">App-Benachrichtigungen blockieren</string>
   <string name="pref_header_cannned_messages">Vorgefertigte Nachrichten</string>
@@ -356,4 +357,7 @@
   <string name="StringUtils_sender"> (%1$s)</string>
   <string name="find_device_you_found_it">Gefunden!</string>
   <string name="miband2_prefs_timeformat">Mi2: Uhrzeit-Format</string>
+  <string name="mi2_fw_installhandler_fw53_hint">Installiere Version %1$s vor dem Installieren der Firmware!</string>
+  <string name="mi2_enable_text_notifications">Text Benachrichtigung</string>
+  <string name="off">aus</string>
 </resources>

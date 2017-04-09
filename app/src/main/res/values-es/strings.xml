@@ -268,6 +268,8 @@
   <string name="updatefirmwareoperation_update_complete_rebooting">Instalación del firmware completa, reiniciando dispositivo...</string>
   <string name="updatefirmwareoperation_write_failed">Falló la escritura del firmware</string>
   <string name="chart_steps">Pasos</string>
+  <string name="calories">Calorías</string>
+  <string name="distance">Distancia</string>
   <string name="liveactivity_live_activity">Actividad</string>
   <string name="weeksteps_today_steps_description">Pasos hoy, objetivo: %1$s</string>
   <string name="pref_title_dont_ack_transfer">No confirmar transferencia</string>
@@ -325,11 +327,13 @@
   <string name="activity_db_management_merge_old_title">Borrar la base de datos antigua</string>
   <string name="dbmanagementactivvity_cannot_access_export_path">No se puede acceder a la ruta para exportar . Por favor, contacta con los desarrolladores.</string>
   <string name="dbmanagementactivity_exported_to">Exportado a: %1$s</string>
-  <string name="dbmanagementactivity_error_exporting_db">Error exportando DB: %1$s</string>
+  <string name="dbmanagementactivity_error_exporting_db">Error de exportación de la base de datos: %1$s</string>
+  <string name="dbmanagementactivity_error_exporting_shared">Error de exportación de las preferencias: %1$s</string>
   <string name="dbmanagementactivity_import_data_title">¿Importar Datos?</string>
   <string name="dbmanagementactivity_overwrite_database_confirmation">¿Quiere sobreescribir la base de datos actual? Todos sus datos actuales (si los hay) se borrarán.</string>
   <string name="dbmanagementactivity_import_successful">Importado con éxito.</string>
-  <string name="dbmanagementactivity_error_importing_db">Error importando DB: %1$s</string>
+  <string name="dbmanagementactivity_error_importing_db">Error de importación de la base de datos: %1$s</string>
+  <string name="dbmanagementactivity_error_importing_shared">Error de importación de las preferencias: %1$s</string>
   <string name="dbmanagementactivity_delete_activity_data_title">¿Quieres borrar los datos de actividad?</string>
   <string name="dbmanagementactivity_really_delete_entire_db">¿Quieres borrar la base de datos? Todos tus datos de actividad y la información sobre tus dispositivos se borrarán.</string>
   <string name="dbmanagementactivity_database_successfully_deleted">Datos borrados.</string>
@@ -361,4 +365,13 @@
   <string name="mi2_enable_text_notifications">Notificaciones textuales</string>
   <string name="mi2_enable_text_notifications_summary"><![CDATA[Needs firmware >= 1.0.1.28 and Mili_pro.ft* installed.]]></string>
   <string name="off">off</string>
+  <string name="discovery_attempting_to_pair">Intento de emparejamiento con %1$s</string>
+  <string name="discovery_bonding_failed_immediately">El enlace con %1$s falló instantáneamente</string>
+  <string name="discovery_trying_to_connect_to">Intentando conectar con: %1$s</string>
+  <string name="discovery_enable_bluetooth">Activa el Bluetooth para encontrar dispositivos.</string>
+  <string name="discovery_successfully_bonded">Correctamente conectado con %1$s</string>
+  <string name="discovery_pair_title">Emparejar con %1$s?</string>
+  <string name="discovery_pair_question">Selecciona Emparejar para emparejar tus dispositivos. Si esto falla, prueba de nuevo sin emparejar.</string>
+  <string name="discovery_yes_pair">Emparejar</string>
+  <string name="discovery_dont_pair">No emparejar</string>
 </resources>
