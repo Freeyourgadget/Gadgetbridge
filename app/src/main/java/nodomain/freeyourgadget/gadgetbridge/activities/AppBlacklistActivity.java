@@ -64,7 +64,7 @@ public class AppBlacklistActivity extends GBActivity {
         RecyclerView appListView = (RecyclerView) findViewById(R.id.appListView);
         appListView.setLayoutManager(new LinearLayoutManager(this));
 
-        appBlacklistAdapter = new AppBlacklistAdapter(R.layout.item_with_checkbox, this);
+        appBlacklistAdapter = new AppBlacklistAdapter(R.layout.item_app_blacklist, this);
 
         appListView.setAdapter(appBlacklistAdapter);
 

@@ -276,7 +276,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             }
         });
         appListView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mGBDeviceAppAdapter = new GBDeviceAppAdapter(appList, R.layout.item_with_details_and_drag_handle, this);
+        mGBDeviceAppAdapter = new GBDeviceAppAdapter(appList, R.layout.item_pebble_watchapp, this);
         appListView.setAdapter(mGBDeviceAppAdapter);
 
         ItemTouchHelper.Callback appItemTouchHelperCallback = new AppItemTouchHelperCallback(mGBDeviceAppAdapter);
