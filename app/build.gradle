@@ -75,7 +75,9 @@ dependencies {
     compile 'com.github.pfichtner:durationformatter:0.1.1'
     compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
     compile 'net.e175.klaus:solarpositioning:0.0.9'
-    compile 'com.github.freeyourgadget:greendao:1998d7cd2d21f662c6044f6ccf3b3a251bbad341'
+    // use pristine greendao instead of our custom version, since our custom jitpack-packaged
+    // version contains way too much and our custom patches are in the generator only.
+    compile 'org.greenrobot:greendao:2.2.1'
     compile 'org.apache.commons:commons-lang3:3.5'
 
 //    compile project(":DaoCore")
