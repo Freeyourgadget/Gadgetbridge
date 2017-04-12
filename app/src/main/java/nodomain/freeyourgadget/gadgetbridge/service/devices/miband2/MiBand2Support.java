@@ -267,13 +267,9 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void pair() {
+    public boolean connectFirstTime() {
         needsAuth = true;
-        for (int i = 0; i < 5; i++) {
-            if (connect()) {
-                return;
-            }
-        }
+        return super.connect();
     }
 
     private MiBand2Support sendDefaultNotification(TransactionBuilder builder, SimpleNotification simpleNotification, short repeat, BtLEAction extraAction) {

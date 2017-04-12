@@ -217,12 +217,13 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void pair() {
+    public boolean connectFirstTime() {
         for (int i = 0; i < 5; i++) {
             if (connect()) {
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     public DeviceInfo getDeviceInfo() {

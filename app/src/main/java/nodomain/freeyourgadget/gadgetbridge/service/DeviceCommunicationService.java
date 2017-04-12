@@ -134,7 +134,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOT
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_SUBJECT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_TITLE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_TYPE;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_PERFORM_PAIR;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CONNECT_FIRST_TIME;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_URI;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_VIBRATION_INTENSITY;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER_CURRENTCONDITION;
@@ -239,7 +239,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         }
 
         String action = intent.getAction();
-        boolean pair = intent.getBooleanExtra(EXTRA_PERFORM_PAIR, false);
+        boolean firstTime = intent.getBooleanExtra(EXTRA_CONNECT_FIRST_TIME, false);
 
         if (action == null) {
             LOG.info("no action");
@@ -299,8 +299,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                         DeviceSupport deviceSupport = mFactory.createDeviceSupport(gbDevice);
                         if (deviceSupport != null) {
                             setDeviceSupport(deviceSupport);
-                            if (pair) {
-                                deviceSupport.pair();
+                            if (firstTime) {
+                                deviceSupport.connectFirstTime();
                             } else {
                                 deviceSupport.setAutoReconnect(autoReconnect);
                                 deviceSupport.connect();

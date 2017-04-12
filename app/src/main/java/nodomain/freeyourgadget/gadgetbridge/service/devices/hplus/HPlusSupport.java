@@ -417,12 +417,6 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         return true;
     }
 
-    @Override
-    public void pair() {
-
-        LOG.debug("Pair");
-    }
-
     private void handleDeviceInfo(DeviceInfo info) {
         LOG.warn("Device info: " + info);
     }

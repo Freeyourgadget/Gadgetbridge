@@ -97,7 +97,7 @@ public interface DeviceService extends EventHandler {
     String EXTRA_URI = "uri";
     String EXTRA_CONFIG = "config";
     String EXTRA_ALARMS = "alarms";
-    String EXTRA_PERFORM_PAIR = "perform_pair";
+    String EXTRA_CONNECT_FIRST_TIME = "connect_first_time";
     String EXTRA_BOOLEAN_ENABLE = "enable_realtime_steps";
 
     String EXTRA_WEATHER_TIMESTAMP = "weather_timestamp";

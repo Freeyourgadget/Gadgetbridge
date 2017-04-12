@@ -68,12 +68,6 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
         }
     }
 
-    @Override
-    public void pair() {
-        // Default implementation does no manual pairing, use the Android
-        // pairing dialog instead.
-    }
-
     /**
      * Lazily creates and returns the GBDeviceProtocol instance to be used.
      */

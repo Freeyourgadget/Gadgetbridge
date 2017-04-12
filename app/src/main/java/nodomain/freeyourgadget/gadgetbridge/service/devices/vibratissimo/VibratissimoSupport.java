@@ -124,11 +124,6 @@ public class VibratissimoSupport extends AbstractBTLEDeviceSupport {
         return true;
     }
 
-    @Override
-    public void pair() {
-
-    }
-
     private void handleDeviceInfo(nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo info) {
         LOG.warn("Device info: " + info);
         versionCmd.hwVersion = info.getHardwareRevision();

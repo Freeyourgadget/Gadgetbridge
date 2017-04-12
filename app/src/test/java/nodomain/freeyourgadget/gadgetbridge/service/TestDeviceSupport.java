@@ -45,11 +45,6 @@ class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
-    public void pair() {
-
-    }
-
-    @Override
     public void onNotification(NotificationSpec notificationSpec) {
 
     }

@@ -88,6 +88,14 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         this.context = context;
     }
 
+    /**
+     * Default implementation just calls #connect()
+     */
+    @Override
+    public boolean connectFirstTime() {
+        return connect();
+    }
+
     @Override
     public boolean isConnected() {
         return gbDevice.isConnected();
