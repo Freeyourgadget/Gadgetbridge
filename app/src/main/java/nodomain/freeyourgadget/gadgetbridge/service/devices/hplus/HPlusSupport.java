@@ -800,7 +800,10 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 cs = new byte[]{HPlusConstants.transliterateMap.get(c)};
             } else {
                 try {
-                    cs = c.toString().getBytes("GB2312");
+                    if (HPlusCoordinator.getLanguage(this.gbDevice.getAddress()) == HPlusConstants.ARG_LANGUAGE_CN)
+                        cs = c.toString().getBytes("GB2312");
+                    else
+                        cs = c.toString().getBytes("UTF-8");
                 } catch (UnsupportedEncodingException e) {
                     //Fallback. Result string may be strange, but better than nothing
                     cs = c.toString().getBytes();
