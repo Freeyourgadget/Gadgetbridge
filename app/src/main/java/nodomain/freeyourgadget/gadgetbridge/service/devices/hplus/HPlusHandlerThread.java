@@ -363,13 +363,14 @@ class HPlusHandlerThread extends GBDeviceIoThread {
         //Skip when measuring heart rate
         //Calories and Distance are updated and these values will be lost.
         //Because a message with a valid Heart Rate will be provided, this loss very limited
-        if(record.heartRate == ActivityKind.TYPE_NOT_MEASURED) {
+        getDevice().setFirmwareVersion2(null);
+      /*  if(record.heartRate == ActivityKind.TYPE_NOT_MEASURED) {
             getDevice().setFirmwareVersion2("---");
             getDevice().sendDeviceUpdateIntent(getContext());
         }else {
             getDevice().setFirmwareVersion2("" + record.heartRate);
             getDevice().sendDeviceUpdateIntent(getContext());
-        }
+        }*/
 
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             HPlusHealthSampleProvider provider = new HPlusHealthSampleProvider(getDevice(), dbHandler.getDaoSession());
