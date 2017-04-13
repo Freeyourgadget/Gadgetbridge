@@ -94,8 +94,6 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
         deviceType = type;
 
-        addSupportedService(GattService.UUID_SERVICE_GENERIC_ACCESS);
-        addSupportedService(GattService.UUID_SERVICE_GENERIC_ATTRIBUTE);
         addSupportedService(HPlusConstants.UUID_SERVICE_HP);
 
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getContext());
