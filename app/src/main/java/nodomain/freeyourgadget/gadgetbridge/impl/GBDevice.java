@@ -38,6 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.model.ItemWithDetails;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class GBDevice implements Parcelable {
     public static final String ACTION_DEVICE_CHANGED
@@ -87,6 +88,10 @@ public class GBDevice implements Parcelable {
         mVolatileAddress = address2;
         mName = (name != null) ? name : mAddress;
         mDeviceType = deviceType;
+        //Alberto soglia
+        Prefs prefs = GBApplication.getPrefs();
+        mBatteryThresholdPercent = (short) prefs.getInt(mAddress + "_battery_percent", mBatteryThresholdPercent);
+        //Alberto soglia
         validate();
     }
 

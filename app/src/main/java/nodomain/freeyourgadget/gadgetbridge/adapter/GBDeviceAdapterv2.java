@@ -22,15 +22,19 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -134,6 +138,45 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                 holder.batteryIcon.setImageLevel(device.getBatteryLevel());
             }
         }
+        //Alberto soglia
+        holder.batteryStatusBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final SharedPreferences prefs = GBApplication.getPrefs().getPreferences();
+                final EditText input = new EditText(context);
+                float dpi = context.getResources().getDisplayMetrics().density;
+                FrameLayout container = new FrameLayout(context);
+
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                alertDialog.setTitle(context.getString(R.string.pref_title_battery_percent));
+
+                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.leftMargin = (int) (20 * dpi);
+                params.rightMargin = (int) (20 * dpi);
+
+                input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                input.setText(String.valueOf(prefs.getInt(device.getAddress() + "_battery_percent", device.getBatteryThresholdPercent())));
+                input.setLayoutParams(params);
+
+                container.addView(input);
+
+                alertDialog.setView(container); // uncomment this line
+                alertDialog.setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                int level = Integer.valueOf(input.getText().toString());
+
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putInt(device.getAddress() + "_battery_percent", level);
+                                editor.apply();
+                                device.setBatteryThresholdPercent((short) level);
+                            }
+                        });
+                alertDialog.show();
+
+            }
+        });
+        //Alberto soglia
 
         //fetch activity data
         holder.fetchActivityDataBox.setVisibility((device.isInitialized() && coordinator.supportsActivityDataFetching()) ? View.VISIBLE : View.GONE);
