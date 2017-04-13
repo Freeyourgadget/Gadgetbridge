@@ -104,7 +104,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void dispose() {
-        LOG.debug("Dispose");
+        LOG.info("Dispose");
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getContext());
         broadcastManager.unregisterReceiver(mReceiver);
 
@@ -115,7 +115,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
-        LOG.debug("Initializing");
+        LOG.info("Initializing");
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
 
@@ -422,7 +422,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
         //TODO: Show different notifications according to source as Band supports this
-        //LOG.debug("OnNotification: Title: "+notificationSpec.title+" Body: "+notificationSpec.body+" Source: "+notificationSpec.sourceName+" Sender: "+notificationSpec.sender+" Subject: "+notificationSpec.subject);
+        //LOG.info("OnNotification: Title: "+notificationSpec.title+" Body: "+notificationSpec.body+" Source: "+notificationSpec.sourceName+" Sender: "+notificationSpec.sender+" Subject: "+notificationSpec.subject);
         showText(notificationSpec.title, notificationSpec.body);
     }
 
@@ -433,40 +433,46 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetTime() {
-        TransactionBuilder builder = new TransactionBuilder("time");
+        try {
+            TransactionBuilder builder = performInitialized("time");
 
-        setCurrentDate(builder);
-        setCurrentTime(builder);
+            setCurrentDate(builder);
+            setCurrentTime(builder);
 
-        builder.queue(getQueue());
+            builder.queue(getQueue());
+        }catch(IOException e){
+
+        }
     }
 
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
+        try {
+            TransactionBuilder builder = performInitialized("alarm");
 
-        TransactionBuilder builder = new TransactionBuilder("alarm");
+            for (Alarm alarm : alarms) {
 
-        for (Alarm alarm : alarms) {
+                if (!alarm.isEnabled())
+                    continue;
 
-            if (!alarm.isEnabled())
-                continue;
+                if (alarm.isSmartWakeup()) //Not available
+                    continue;
 
-            if (alarm.isSmartWakeup()) //Not available
-                continue;
+                Calendar t = alarm.getAlarmCal();
+                setAlarm(builder, t);
+                builder.queue(getQueue());
 
-            Calendar t = alarm.getAlarmCal();
-            setAlarm(builder, t);
+                GB.toast(getContext(), getContext().getString(R.string.user_feedback_miband_set_alarms_ok), Toast.LENGTH_SHORT, GB.INFO);
+
+                return; //Only first alarm
+            }
+
+            setAlarm(builder, null);
             builder.queue(getQueue());
 
-            GB.toast(getContext(), getContext().getString(R.string.user_feedback_miband_set_alarms_ok), Toast.LENGTH_SHORT, GB.INFO);
+            GB.toast(getContext(), getContext().getString(R.string.user_feedback_all_alarms_disabled), Toast.LENGTH_SHORT, GB.INFO);
+        }catch(Exception e){}
 
-            return; //Only first alarm
-        }
-
-        setAlarm(builder, null);
-        builder.queue(getQueue());
-
-        GB.toast(getContext(), getContext().getString(R.string.user_feedback_all_alarms_disabled), Toast.LENGTH_SHORT, GB.INFO);
 
     }
 
@@ -483,7 +489,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
-        LOG.debug("Canned Messages: " + cannedMessagesSpec);
+        LOG.info("Canned Messages: " + cannedMessagesSpec);
     }
 
     @Override
@@ -539,39 +545,47 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onReboot() {
-        getQueue().clear();
+        try {
+            getQueue().clear();
 
-        TransactionBuilder builder = new TransactionBuilder("Shutdown");
-        builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SHUTDOWN, HPlusConstants.ARG_SHUTDOWN_EN});
-        builder.queue(getQueue());
+            TransactionBuilder builder = performInitialized("Shutdown");
+            builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SHUTDOWN, HPlusConstants.ARG_SHUTDOWN_EN});
+            builder.queue(getQueue());
+        }catch(Exception e){
 
+        }
     }
 
     @Override
     public void onHeartRateTest() {
         getQueue().clear();
+        try{
+            TransactionBuilder builder = performInitialized("HeartRateTest");
 
-        TransactionBuilder builder = new TransactionBuilder("HeartRateTest");
+            builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SET_HEARTRATE_STATE, HPlusConstants.ARG_HEARTRATE_MEASURE_ON}); //Set Real Time... ?
+            builder.queue(getQueue());
+        }catch(Exception e){
 
-        builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SET_HEARTRATE_STATE, HPlusConstants.ARG_HEARTRATE_MEASURE_ON}); //Set Real Time... ?
-        builder.queue(getQueue());
+        }
     }
 
     @Override
     public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
         getQueue().clear();
+        try {
+            TransactionBuilder builder = performInitialized("realTimeHeartMeasurement");
+            byte state;
 
-        TransactionBuilder builder = new TransactionBuilder("realTimeHeartMeasurement");
-        byte state;
+            if (enable)
+                state = HPlusConstants.ARG_HEARTRATE_ALLDAY_ON;
+            else
+                state = HPlusConstants.ARG_HEARTRATE_ALLDAY_OFF;
 
-        if (enable)
-            state = HPlusConstants.ARG_HEARTRATE_ALLDAY_ON;
-        else
-            state = HPlusConstants.ARG_HEARTRATE_ALLDAY_OFF;
+            builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SET_ALLDAY_HRM, state});
+            builder.queue(getQueue());
+        }catch(Exception e){
 
-        builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SET_ALLDAY_HRM, state});
-        builder.queue(getQueue());
-
+        }
     }
 
     @Override
@@ -630,13 +644,13 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendConfiguration(String config) {
-        LOG.debug("Send Configuration: " + config);
+        LOG.info("Send Configuration: " + config);
 
     }
 
     @Override
     public void onTestNewFunction() {
-        LOG.debug("Test New Function");
+        LOG.info("Test New Function");
     }
 
     @Override
@@ -704,7 +718,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void showText(String title, String body) {
-        LOG.debug("Show Notification: " + title + " --> " + body);
+
         try {
             TransactionBuilder builder = performInitialized("notification");
 
@@ -842,7 +856,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 return syncHelper.processIncomingDaySlotData(data);
 
             default:
-                LOG.debug("Unhandled characteristic changed: " + characteristicUUID);
+                LOG.info("Unhandled characteristic change: " + characteristicUUID + " code: " + data[0]);
                 return true;
         }
     }
@@ -876,7 +890,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 getDevice().addDeviceInfo(new GenericItem("", info));
             }
         } catch (IllegalArgumentException e) {
-            LOG.debug((e.getMessage()));
+            LOG.info((e.getMessage()));
         }
     }
 
