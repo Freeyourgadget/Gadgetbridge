@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Objects;
 
 public class CalendarEvents {
 
@@ -155,5 +156,19 @@ public class CalendarEvents {
             return calName;
         }
 
+        @Override public boolean equals(Object other) {
+            if (other instanceof CalendarEvent) {
+                CalendarEvent e = (CalendarEvent) other;
+                return (this.getId() == e.getId()) &&
+                        Objects.equals(this.getTitle(), e.getTitle()) &&
+                        (this.getBegin() == e.getBegin()) &&
+                        Objects.equals(this.getLocation(), e.getLocation()) &&
+                        Objects.equals(this.getDescription(), e.getDescription()) &&
+                        (this.getEnd() == e.getEnd()) &&
+                        Objects.equals(this.getCalName(), e.getCalName());
+            } else {
+                return false;
+            }
+        }
     }
 }
