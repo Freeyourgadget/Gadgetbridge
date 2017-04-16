@@ -273,6 +273,7 @@ public class GBDaoGenerator {
 
     private static void addCalendarSyncState(Schema schema, Entity device) {
         Entity calendarSyncState = addEntity(schema, "CalendarSyncState");
+        calendarSyncState.addIdProperty();
         Property deviceId = calendarSyncState.addLongProperty("deviceId").notNull().getProperty();
         Property calendarEntryId = calendarSyncState.addLongProperty("calendarEntryId").notNull().getProperty();
         Index indexUnique = new Index();

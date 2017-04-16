@@ -183,11 +183,13 @@ public class CalendarReceiver extends BroadcastReceiver {
             EventSyncState es = eventState.get(i);
             int syncState = es.getState();
             if (syncState == EventState.NOT_SYNCED || syncState == EventState.NEEDS_UPDATE) {
+                CalendarEvents.CalendarEvent calendarEvent = es.getEvent();
                 CalendarEventSpec calendarEventSpec = new CalendarEventSpec();
-                calendarEventSpec.title = es.getEvent().getTitle();
                 calendarEventSpec.id = i;
-                calendarEventSpec.timestamp = es.getEvent().getBeginSeconds();
-                calendarEventSpec.description = es.getEvent().getDescription();
+                calendarEventSpec.title = calendarEvent.getTitle();
+                calendarEventSpec.timestamp = calendarEvent.getBeginSeconds();
+                //calendarEventSpec.durationInSeconds = calendarEvent.getDurationSeconds(); //FIXME: leads to problems right now
+                calendarEventSpec.description = calendarEvent.getDescription();
                 calendarEventSpec.type = CalendarEventSpec.TYPE_UNKNOWN;
                 if (syncState == EventState.NEEDS_UPDATE) {
                     GBApplication.deviceService().onDeleteCalendarEvent(CalendarEventSpec.TYPE_UNKNOWN, i);
@@ -196,7 +198,7 @@ public class CalendarReceiver extends BroadcastReceiver {
                 es.setState(EventState.SYNCED);
                 eventState.put(i, es);
                 // update db
-                session.insertOrReplace(new CalendarSyncState(deviceId, i, EventState.SYNCED));
+                session.insertOrReplace(new CalendarSyncState(null, deviceId, i, EventState.SYNCED));
             } else if (syncState == EventState.NEEDS_DELETE) {
                 GBApplication.deviceService().onDeleteCalendarEvent(CalendarEventSpec.TYPE_UNKNOWN, i);
                 eventState.remove(i);
