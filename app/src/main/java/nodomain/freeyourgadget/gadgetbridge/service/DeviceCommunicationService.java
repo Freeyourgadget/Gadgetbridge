@@ -204,7 +204,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 if (mGBDevice.equals(device)) {
                     mGBDevice = device;
                     boolean enableReceivers = mDeviceSupport != null && (mDeviceSupport.useAutoConnect() || mGBDevice.isInitialized());
-                    setReceiversEnableState(enableReceivers);
+                    setReceiversEnableState(enableReceivers, mGBDevice.isInitialized());
                     GB.updateNotification(mGBDevice.getName() + " " + mGBDevice.getStateString(), mGBDevice.isInitialized(), context);
                 } else {
                     LOG.error("Got ACTION_DEVICE_CHANGED from unexpected device: " + mGBDevice);
@@ -395,7 +395,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             case ACTION_DISCONNECT: {
                 mDeviceSupport.dispose();
                 if (mGBDevice != null && mGBDevice.getState() == GBDevice.State.WAITING_FOR_RECONNECT) {
-                    setReceiversEnableState(false);
+                    setReceiversEnableState(false, false);
                     mGBDevice.setState(GBDevice.State.NOT_CONNECTED);
                     mGBDevice.sendDeviceUpdateIntent(this);
                 }
@@ -573,8 +573,22 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     }
 
 
-    private void setReceiversEnableState(boolean enable) {
+    private void setReceiversEnableState(boolean enable, boolean initialized) {
         LOG.info("Setting broadcast receivers to: " + enable);
+
+        if (enable && initialized) {
+            if (mCalendarReceiver == null) {
+                IntentFilter calendarIntentFilter = new IntentFilter();
+                calendarIntentFilter.addAction("android.intent.action.PROVIDER_CHANGED");
+                calendarIntentFilter.addDataScheme("content");
+                calendarIntentFilter.addDataAuthority("com.android.calendar", null);
+                mCalendarReceiver = new CalendarReceiver(mGBDevice);
+                registerReceiver(mCalendarReceiver, calendarIntentFilter);
+            }
+        } else if (mCalendarReceiver != null) {
+            unregisterReceiver(mCalendarReceiver);
+            mCalendarReceiver = null;
+        }
 
         if (enable) {
             if (mPhoneCallReceiver == null) {
@@ -615,14 +629,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 mAlarmReceiver = new AlarmReceiver();
                 registerReceiver(mAlarmReceiver, new IntentFilter("DAILY_ALARM"));
             }
-            if (mCalendarReceiver == null) {
-                IntentFilter calendarIntentFilter = new IntentFilter();
-                calendarIntentFilter.addAction("android.intent.action.PROVIDER_CHANGED");
-                calendarIntentFilter.addDataScheme("content");
-                calendarIntentFilter.addDataAuthority("com.android.calendar", null);
-                mCalendarReceiver = new CalendarReceiver(mGBDevice);
-                registerReceiver(mCalendarReceiver, calendarIntentFilter);
-            }
             if (mAlarmClockReceiver == null) {
                 mAlarmClockReceiver = new AlarmClockReceiver();
                 IntentFilter filter = new IntentFilter();
@@ -659,10 +665,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 unregisterReceiver(mAlarmReceiver);
                 mAlarmReceiver = null;
             }
-            if (mCalendarReceiver != null) {
-                unregisterReceiver(mCalendarReceiver);
-                mCalendarReceiver = null;
-            }
             if (mAlarmClockReceiver != null) {
                 unregisterReceiver(mAlarmClockReceiver);
                 mAlarmClockReceiver = null;
@@ -680,7 +682,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         super.onDestroy();
 
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
-        setReceiversEnableState(false); // disable BroadcastReceivers
+        setReceiversEnableState(false, false); // disable BroadcastReceivers
 
         setDeviceSupport(null);
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

@@ -83,10 +83,12 @@ public class CalendarReceiver extends BroadcastReceiver {
     public CalendarReceiver(GBDevice gbDevice) {
         LOG.info("Created calendar receiver.");
         mGBDevice = gbDevice;
+        syncCalendar();
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        LOG.info("got calendar changed broadcast");
         syncCalendar();
     }
 
