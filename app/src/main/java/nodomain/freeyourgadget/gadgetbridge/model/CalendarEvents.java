@@ -156,7 +156,8 @@ public class CalendarEvents {
             return calName;
         }
 
-        @Override public boolean equals(Object other) {
+        @Override
+        public boolean equals(Object other) {
             if (other instanceof CalendarEvent) {
                 CalendarEvent e = (CalendarEvent) other;
                 return (this.getId() == e.getId()) &&
@@ -169,6 +170,18 @@ public class CalendarEvents {
             } else {
                 return false;
             }
+        }
+
+        @Override
+        public int hashCode() {
+            int result = (int) id;
+            result = 31 * result + title.hashCode();
+            result = 31 * result + Long.valueOf(begin).hashCode();
+            result = 31 * result + location.hashCode();
+            result = 31 * result + description.hashCode();
+            result = 31 * result + Long.valueOf(end).hashCode();
+            result = 31 * result + calName.hashCode();
+            return result;
         }
     }
 }
