@@ -20,7 +20,6 @@ package nodomain.freeyourgadget.gadgetbridge.externalevents;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -84,20 +83,6 @@ public class CalendarReceiver extends BroadcastReceiver {
     public CalendarReceiver(GBDevice gbDevice) {
         LOG.info("Created calendar receiver.");
         mGBDevice = gbDevice;
-        Context context = GBApplication.getContext();
-
-        IntentFilter calendarIntentFilter = new IntentFilter();
-        calendarIntentFilter.addAction("android.intent.action.PROVIDER_CHANGED");
-        calendarIntentFilter.addDataScheme("content");
-        calendarIntentFilter.addDataAuthority("com.android.calendar", null);
-
-        BroadcastReceiver receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                syncCalendar();
-            }
-        };
-        context.registerReceiver(receiver, calendarIntentFilter);
     }
 
     @Override

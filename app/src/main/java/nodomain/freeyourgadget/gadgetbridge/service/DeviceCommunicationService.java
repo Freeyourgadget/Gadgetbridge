@@ -616,8 +616,12 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 registerReceiver(mAlarmReceiver, new IntentFilter("DAILY_ALARM"));
             }
             if (mCalendarReceiver == null) {
+                IntentFilter calendarIntentFilter = new IntentFilter();
+                calendarIntentFilter.addAction("android.intent.action.PROVIDER_CHANGED");
+                calendarIntentFilter.addDataScheme("content");
+                calendarIntentFilter.addDataAuthority("com.android.calendar", null);
                 mCalendarReceiver = new CalendarReceiver(mGBDevice);
-                registerReceiver(mCalendarReceiver, new IntentFilter("CALENDAR_SYNC"));
+                registerReceiver(mCalendarReceiver, calendarIntentFilter);
             }
             if (mAlarmClockReceiver == null) {
                 mAlarmClockReceiver = new AlarmClockReceiver();
