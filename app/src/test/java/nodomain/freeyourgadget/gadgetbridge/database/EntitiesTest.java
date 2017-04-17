@@ -178,6 +178,8 @@ public class EntitiesTest extends TestBase {
     public void testDeviceAttributes() throws Exception {
         GBDevice dummyGBDevice = createDummyGDevice("00:00:00:00:02");
         dummyGBDevice.setFirmwareVersion("1.0");
+        dummyGBDevice.setState(GBDevice.State.INITIALIZED);
+
         Device deviceOld = DBHelper.getDevice(dummyGBDevice, daoSession);
         assertNotNull(deviceOld);
 
