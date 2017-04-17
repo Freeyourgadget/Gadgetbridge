@@ -17,17 +17,15 @@
 package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
@@ -87,15 +85,19 @@ public class CalendarReceiver extends BroadcastReceiver {
         LOG.info("Created calendar receiver.");
         mGBDevice = gbDevice;
         Context context = GBApplication.getContext();
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, new Intent("CALENDAR_SYNC"), 0);
-        AlarmManager am = (AlarmManager) (context.getSystemService(Context.ALARM_SERVICE));
 
+        IntentFilter calendarIntentFilter = new IntentFilter();
+        calendarIntentFilter.addAction("android.intent.action.PROVIDER_CHANGED");
+        calendarIntentFilter.addDataScheme("content");
+        calendarIntentFilter.addDataAuthority("com.android.calendar", null);
 
-        //FIXME: 30 sec interval is only for debugging
-        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + 10000, 30000, pendingIntent);
-
-        //am.setInexactRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + 10000, AlarmManager.INTERVAL_HALF_HOUR, pendingIntent);
-        //syncCalendar(); - does not work here (device not yet initialized)
+        BroadcastReceiver receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                syncCalendar();
+            }
+        };
+        context.registerReceiver(receiver, calendarIntentFilter);
     }
 
     @Override
