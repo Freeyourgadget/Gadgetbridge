@@ -82,6 +82,7 @@ public class EntitiesTest extends TestBase {
     @Test
     public void testDBHelper() {
         GBDevice dummyGBDevice = createDummyGDevice("00:00:00:00:01");
+        dummyGBDevice.setState(GBDevice.State.INITIALIZED);
         Device device = DBHelper.getDevice(dummyGBDevice, daoSession);
         assertNotNull(device);
         assertEquals("00:00:00:00:01", device.getIdentifier());
