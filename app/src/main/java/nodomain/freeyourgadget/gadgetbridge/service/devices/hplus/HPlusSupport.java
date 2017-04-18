@@ -870,7 +870,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             String DEVINFO_STEP = getContext().getString(R.string.chart_steps) + ": ";
             String DEVINFO_DISTANCE = getContext().getString(R.string.distance) + ": ";
             String DEVINFO_CALORY = getContext().getString(R.string.calories) + ": ";
-            String DEVINFO_HEART = "HR: ";
+            String DEVINFO_HEART = getContext().getString(R.string.charts_legend_heartrate);
 
             String info = "";
             if (record.steps > 0) {
