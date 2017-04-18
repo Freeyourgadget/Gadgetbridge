@@ -893,8 +893,8 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         SharedPreferences settings = GBApplication.getPrefs().getPreferences();
         if (batteryCmd.lastChargeTime == null) {
             batteryCmd.lastChargeTime = new GregorianCalendar();
-            batteryCmd.lastChargeTime.setTimeInMillis(settings.getLong("lastChargeTime", Calendar.getInstance().getTimeInMillis()));
-            batteryCmd.level = (short) settings.getInt("lastBatteryLevel", 0);
+            batteryCmd.lastChargeTime.setTimeInMillis(settings.getLong(getDevice().getAddress() + "_lastChargeTime", Calendar.getInstance().getTimeInMillis()));
+            batteryCmd.level = (short) settings.getInt(getDevice().getAddress() + "_lastBatteryLevel", 0);
             batteryCmd.state = BatteryState.BATTERY_NORMAL;
             batteryCmd.numCharges = 0;
         }
@@ -904,10 +904,10 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             SharedPreferences.Editor editor = settings.edit();
             if (level > batteryCmd.level) {
                 batteryCmd.lastChargeTime.setTimeInMillis(Calendar.getInstance().getTimeInMillis());
-                editor.putLong("lastChargeTime", batteryCmd.lastChargeTime.getTimeInMillis());
+                editor.putLong(getDevice().getAddress() + "_lastChargeTime", batteryCmd.lastChargeTime.getTimeInMillis());
             }
             batteryCmd.level = level;
-            editor.putInt("lastBatteryLevel", (int) batteryCmd.level);
+            editor.putInt(getDevice().getAddress() + "_lastBatteryLevel", (int) batteryCmd.level);
             editor.apply();
 
             handleGBDeviceEvent(batteryCmd);
