@@ -584,7 +584,7 @@ public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemC
             startActivity(intent);
         } else {
             GBDevice device = DeviceHelper.getInstance().toSupportedDevice(deviceCandidate);
-            int bondingStyle = coordinator.getBondingStyle(deviceCandidate);
+            int bondingStyle = coordinator.getBondingStyle(device);
             if (bondingStyle == DeviceCoordinator.BONDING_STYLE_NONE) {
                 LOG.info("No bonding needed, according to coordinator, so connecting right away");
                 connectAndFinish(device);
