@@ -81,7 +81,7 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public int getBondingStyle(GBDeviceCandidate deviceCandidate){
+    public int getBondingStyle(GBDevice deviceCandidate){
         return BONDING_STYLE_NONE;
     }
 

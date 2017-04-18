@@ -60,13 +60,13 @@ public class BluetoothPairingRequestReceiver extends BroadcastReceiver {
             return;
 
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
-        GBDeviceCandidate candidate = new GBDeviceCandidate(device, gbDevice.getRssi(), device.getUuids());
         try {
-            if (coordinator.getBondingStyle(candidate) == DeviceCoordinator.BONDING_STYLE_NONE) {
+            if (coordinator.getBondingStyle(gbDevice) == DeviceCoordinator.BONDING_STYLE_NONE) {
                 LOG.info("Aborting unwanted pairing request");
                 abortBroadcast();
             }
         } catch (Exception e) {
+            LOG.warn("Could not abort pairing request process");
 
         }
     }
