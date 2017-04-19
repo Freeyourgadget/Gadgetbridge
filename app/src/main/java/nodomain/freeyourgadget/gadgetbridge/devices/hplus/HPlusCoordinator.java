@@ -81,6 +81,11 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public int getBondingStyle(GBDevice deviceCandidate){
+        return BONDING_STYLE_NONE;
+    }
+
+    @Override
     public DeviceType getDeviceType() {
         return DeviceType.HPLUS;
     }

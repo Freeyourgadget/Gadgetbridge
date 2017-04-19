@@ -45,6 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmClockReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.CalendarReceiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothPairingRequestReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.MusicPlaybackReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PebbleReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PhoneCallReceiver;
@@ -165,6 +166,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private MusicPlaybackReceiver mMusicPlaybackReceiver = null;
     private TimeChangeReceiver mTimeChangeReceiver = null;
     private BluetoothConnectReceiver mBlueToothConnectReceiver = null;
+    private BluetoothPairingRequestReceiver mBlueToothPairingRequestReceiver = null;
     private AlarmClockReceiver mAlarmClockReceiver = null;
 
     private AlarmReceiver mAlarmReceiver = null;
@@ -625,6 +627,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 mBlueToothConnectReceiver = new BluetoothConnectReceiver(this);
                 registerReceiver(mBlueToothConnectReceiver, new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED));
             }
+            if (mBlueToothPairingRequestReceiver == null) {
+                mBlueToothPairingRequestReceiver = new BluetoothPairingRequestReceiver(this);
+                registerReceiver(mBlueToothPairingRequestReceiver, new IntentFilter(BluetoothDevice.ACTION_PAIRING_REQUEST));
+            }
+
             if (mAlarmReceiver == null) {
                 mAlarmReceiver = new AlarmReceiver();
                 registerReceiver(mAlarmReceiver, new IntentFilter("DAILY_ALARM"));
@@ -661,6 +668,12 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 unregisterReceiver(mBlueToothConnectReceiver);
                 mBlueToothConnectReceiver = null;
             }
+
+            if (mBlueToothPairingRequestReceiver != null) {
+                unregisterReceiver(mBlueToothPairingRequestReceiver);
+                mBlueToothPairingRequestReceiver = null;
+            }
+
             if (mAlarmReceiver != null) {
                 unregisterReceiver(mAlarmReceiver);
                 mAlarmReceiver = null;

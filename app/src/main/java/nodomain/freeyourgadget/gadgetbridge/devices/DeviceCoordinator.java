@@ -23,7 +23,6 @@ import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -225,7 +224,7 @@ public interface DeviceCoordinator {
 
     /**
      * Returns how/if the given device should be bonded before connecting to it.
-     * @param deviceCandidate
+     * @param device
      */
-    int getBondingStyle(GBDeviceCandidate deviceCandidate);
+    int getBondingStyle(GBDevice device);
 }
