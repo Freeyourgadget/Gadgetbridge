@@ -227,4 +227,11 @@ public interface DeviceCoordinator {
      * @param device
      */
     int getBondingStyle(GBDevice device);
+
+    /**
+     * Indicates whether the device has some kind of calender we can sync to.
+     * Also used for generated sunrise/sunset events
+     */
+    boolean supportsCalendarEvents();
+
 }
