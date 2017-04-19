@@ -25,7 +25,9 @@ import android.widget.Toast;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Calendar;
 import java.util.Enumeration;
+import java.util.GregorianCalendar;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -173,9 +175,19 @@ public class CalendarReceiver extends BroadcastReceiver {
                 CalendarEventSpec calendarEventSpec = new CalendarEventSpec();
                 calendarEventSpec.id = i;
                 calendarEventSpec.title = calendarEvent.getTitle();
+                calendarEventSpec.allDay = calendarEvent.isAllDay();
                 calendarEventSpec.timestamp = calendarEvent.getBeginSeconds();
                 //calendarEventSpec.durationInSeconds = calendarEvent.getDurationSeconds(); //FIXME: leads to problems right now
+                if (calendarEvent.isAllDay()) {
+                    //force the all day events to begin at midnight and last a whole day
+                    Calendar c = GregorianCalendar.getInstance();
+                    c.setTimeInMillis(calendarEvent.getBegin());
+                    c.set(Calendar.HOUR, 0);
+                    calendarEventSpec.timestamp = (int) (c.getTimeInMillis() / 1000);
+                    //calendarEventSpec.durationInSeconds = 24 * 60 *60; //TODO: commented because it is commented above
+                }
                 calendarEventSpec.description = calendarEvent.getDescription();
+                calendarEventSpec.location = calendarEvent.getLocation();
                 calendarEventSpec.type = CalendarEventSpec.TYPE_UNKNOWN;
                 if (syncState == EventState.NEEDS_UPDATE) {
                     GBApplication.deviceService().onDeleteCalendarEvent(CalendarEventSpec.TYPE_UNKNOWN, i);

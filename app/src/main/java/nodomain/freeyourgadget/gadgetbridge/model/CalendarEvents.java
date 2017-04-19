@@ -21,7 +21,6 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.CalendarContract;
 import android.provider.CalendarContract.Instances;
 
 import java.util.ArrayList;
@@ -48,7 +47,8 @@ public class CalendarEvents {
             Instances.TITLE,
             Instances.DESCRIPTION,
             Instances.EVENT_LOCATION,
-            Instances.CALENDAR_DISPLAY_NAME
+            Instances.CALENDAR_DISPLAY_NAME,
+            Instances.ALL_DAY
     };
 
     private static final int lookahead_days = 7;
@@ -63,16 +63,16 @@ public class CalendarEvents {
     private boolean fetchSystemEvents(Context mContext) {
 
         Calendar cal = GregorianCalendar.getInstance();
-        Long dtStart = cal.getTime().getTime();
+        Long dtStart = cal.getTimeInMillis();
         cal.add(Calendar.DATE, lookahead_days);
-        Long dtEnd = cal.getTime().getTime();
+        Long dtEnd = cal.getTimeInMillis();
 
-        Uri.Builder eventsUriBuilder = CalendarContract.Instances.CONTENT_URI.buildUpon();
+        Uri.Builder eventsUriBuilder = Instances.CONTENT_URI.buildUpon();
         ContentUris.appendId(eventsUriBuilder, dtStart);
         ContentUris.appendId(eventsUriBuilder, dtEnd);
         Uri eventsUri = eventsUriBuilder.build();
 
-        try (Cursor evtCursor = mContext.getContentResolver().query(eventsUri, EVENT_INSTANCE_PROJECTION, null, null, CalendarContract.Instances.BEGIN + " ASC")) {
+        try (Cursor evtCursor = mContext.getContentResolver().query(eventsUri, EVENT_INSTANCE_PROJECTION, null, null, Instances.BEGIN + " ASC")) {
             if (evtCursor == null || evtCursor.getCount() == 0) {
                 return false;
             }
@@ -84,7 +84,8 @@ public class CalendarEvents {
                         evtCursor.getString(4),
                         evtCursor.getString(5),
                         evtCursor.getString(6),
-                        evtCursor.getString(7)
+                        evtCursor.getString(7),
+                        !evtCursor.getString(8).equals("0")
                 );
                 calendarEventList.add(calEvent);
             }
@@ -100,8 +101,9 @@ public class CalendarEvents {
         private String description;
         private String location;
         private String calName;
+        private boolean allDay;
 
-        public CalendarEvent(long begin, long end, long id, String title, String description, String location, String calName) {
+        public CalendarEvent(long begin, long end, long id, String title, String description, String location, String calName, boolean allDay) {
             this.begin = begin;
             this.end = end;
             this.id = id;
@@ -109,6 +111,7 @@ public class CalendarEvents {
             this.description = description;
             this.location = location;
             this.calName = calName;
+            this.allDay = allDay;
         }
 
         public long getBegin() {
@@ -156,6 +159,10 @@ public class CalendarEvents {
             return calName;
         }
 
+        public boolean isAllDay() {
+            return allDay;
+        }
+
         @Override
         public boolean equals(Object other) {
             if (other instanceof CalendarEvent) {
@@ -166,7 +173,8 @@ public class CalendarEvents {
                         Objects.equals(this.getLocation(), e.getLocation()) &&
                         Objects.equals(this.getDescription(), e.getDescription()) &&
                         (this.getEnd() == e.getEnd()) &&
-                        Objects.equals(this.getCalName(), e.getCalName());
+                        Objects.equals(this.getCalName(), e.getCalName()) &&
+                        (this.isAllDay() == e.isAllDay());
             } else {
                 return false;
             }
@@ -175,12 +183,13 @@ public class CalendarEvents {
         @Override
         public int hashCode() {
             int result = (int) id;
-            result = 31 * result + title.hashCode();
+            result = 31 * result + Objects.hash(title);
             result = 31 * result + Long.valueOf(begin).hashCode();
-            result = 31 * result + location.hashCode();
-            result = 31 * result + description.hashCode();
+            result = 31 * result + Objects.hash(location);
+            result = 31 * result + Objects.hash(description);
             result = 31 * result + Long.valueOf(end).hashCode();
-            result = 31 * result + calName.hashCode();
+            result = 31 * result + Objects.hash(calName);
+            result = 31 * result + Boolean.valueOf(allDay).hashCode();
             return result;
         }
     }
