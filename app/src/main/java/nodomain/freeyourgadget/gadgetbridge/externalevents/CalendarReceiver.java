@@ -113,8 +113,11 @@ public class CalendarReceiver extends BroadcastReceiver {
                             .build().unique();
                     if (calendarSyncState == null) {
                         eventState.put(e.getId(), new EventSyncState(e, EventState.NOT_SYNCED));
-                    } else {
-                        eventState.put(e.getId(), new EventSyncState(e, calendarSyncState.getSyncState()));
+                    } else if (calendarSyncState.getHash() ==  e.hashCode()) {
+                        eventState.put(e.getId(), new EventSyncState(e, EventState.NEEDS_UPDATE));
+                    }
+                    else {
+                        eventState.put(e.getId(), new EventSyncState(e, EventState.SYNCED));
                     }
                 }
             }
@@ -123,7 +126,7 @@ public class CalendarReceiver extends BroadcastReceiver {
             List<CalendarSyncState> CalendarSyncStateList = qb.where(CalendarSyncStateDao.Properties.DeviceId.eq(deviceId)).build().list();
             for (CalendarSyncState CalendarSyncState : CalendarSyncStateList) {
                 if (!eventState.containsKey(CalendarSyncState.getCalendarEntryId())) {
-                    eventState.put(CalendarSyncState.getCalendarEntryId(), new EventSyncState(null, CalendarSyncState.getSyncState()));
+                    eventState.put(CalendarSyncState.getCalendarEntryId(), new EventSyncState(null, EventState.NEEDS_DELETE));
                     LOG.info("insert null event for orphanded calendar id=" + CalendarSyncState.getCalendarEntryId() + " for device=" + mGBDevice.getName());
                 }
             }
@@ -137,12 +140,6 @@ public class CalendarReceiver extends BroadcastReceiver {
                     if (es.getState() == EventState.SYNCED) {
                         if (!es.getEvent().equals(eventTable.get(i))) {
                             eventState.put(i, new EventSyncState(eventTable.get(i), EventState.NEEDS_UPDATE));
-                            // update sync status of that Calendar entry in DB for all devices
-                            CalendarSyncStateList = qb.where(CalendarSyncStateDao.Properties.CalendarEntryId.eq(i)).build().list();
-                            for (CalendarSyncState CalendarSyncState : CalendarSyncStateList) {
-                                CalendarSyncState.setSyncState(EventState.NEEDS_UPDATE);
-                                CalendarSyncState.update();
-                            }
                         }
                     }
                 } else {
@@ -160,7 +157,7 @@ public class CalendarReceiver extends BroadcastReceiver {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            GB.toast("Datebase Error while syncing Calendar", Toast.LENGTH_SHORT, GB.ERROR);
+            GB.toast("Database Error while syncing Calendar", Toast.LENGTH_SHORT, GB.ERROR);
         }
 
     }
@@ -187,7 +184,7 @@ public class CalendarReceiver extends BroadcastReceiver {
                 es.setState(EventState.SYNCED);
                 eventState.put(i, es);
                 // update db
-                session.insertOrReplace(new CalendarSyncState(null, deviceId, i, EventState.SYNCED));
+                session.insertOrReplace(new CalendarSyncState(null, deviceId, i, es.event.hashCode()));
             } else if (syncState == EventState.NEEDS_DELETE) {
                 GBApplication.deviceService().onDeleteCalendarEvent(CalendarEventSpec.TYPE_UNKNOWN, i);
                 eventState.remove(i);

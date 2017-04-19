@@ -282,7 +282,7 @@ public class GBDaoGenerator {
         indexUnique.makeUnique();
         calendarSyncState.addIndex(indexUnique);
         calendarSyncState.addToOne(device, deviceId);
-        calendarSyncState.addIntProperty("syncState").notNull();
+        calendarSyncState.addIntProperty("hash").notNull();
     }
 
     private static Property findProperty(Entity entity, String propertyName) {
