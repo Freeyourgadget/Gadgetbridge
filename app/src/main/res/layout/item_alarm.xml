@@ -25,7 +25,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:layout_margin="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="0dp"
                 android:text="00:00"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -43,7 +46,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true" />
+                android:layout_alignParentTop="true"
+                android:layout_margin="8dp" />
 
             <LinearLayout
                 android:id="@+id/dowSelector"
@@ -59,8 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_weight="1"
-                    android:checked="false"
-                    android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+                    android:textColor="@color/alarm_dow"
                     android:gravity="center"
                     android:text="@string/alarm_mon_short"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -71,8 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_weight="1"
-                    android:checked="false"
-                    android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+                    android:textColor="@color/alarm_dow"
                     android:gravity="center"
                     android:text="@string/alarm_tue_short"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -83,8 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_weight="1"
-                    android:checked="false"
-                    android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+                    android:textColor="@color/alarm_dow"
                     android:gravity="center"
                     android:text="@string/alarm_wed_short"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -95,8 +96,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_weight="1"
-                    android:checked="false"
-                    android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+                    android:textColor="@color/alarm_dow"
                     android:gravity="center"
                     android:text="@string/alarm_thu_short"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -107,8 +107,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_weight="1"
-                    android:checked="false"
-                    android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+                    android:textColor="@color/alarm_dow"
                     android:gravity="center"
                     android:text="@string/alarm_fri_short"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -119,8 +118,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_weight="1"
-                    android:checked="false"
-                    android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+                    android:textColor="@color/alarm_dow"
                     android:gravity="center"
                     android:text="@string/alarm_sat_short"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -131,8 +129,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_weight="1"
-                    android:checked="false"
-                    android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+                    android:textColor="@color/alarm_dow"
                     android:gravity="center"
                     android:text="@string/alarm_sun_short"
                     android:textAppearance="?android:attr/textAppearanceSmall" />

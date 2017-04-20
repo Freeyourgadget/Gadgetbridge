@@ -93,7 +93,7 @@ public class GBAlarmListAdapter extends RecyclerView.Adapter<GBAlarmListAdapter.
 
     @Override
     public GBAlarmListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.alarm_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_alarm, parent, false);
         ViewHolder vh = new ViewHolder(view);
         return vh;
     }

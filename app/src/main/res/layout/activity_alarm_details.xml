@@ -9,32 +9,21 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="nodomain.freeyourgadget.gadgetbridge.activities.AlarmDetails">
 
-
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <android.support.v7.widget.AppCompatCheckedTextView
+        android:id="@+id/alarm_cb_smart_wakeup"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal">
-
-        <CheckBox
-            android:id="@+id/alarm_cb_smart_wakeup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/alarm_label_smart_wakeup"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:labelFor="@id/alarm_cb_smart_wakeup"
-            android:text="@string/alarm_smart_wakeup" />
-    </LinearLayout>
+        android:layout_marginStart="4dp"
+        android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
+        android:gravity="center"
+        android:text="@string/alarm_smart_wakeup"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TimePicker
         android:id="@+id/alarm_time_picker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:timePickerMode="clock" />
+        android:layout_marginBottom="20dp" />
 
     <LinearLayout
         android:id="@+id/dowSelector"
@@ -43,174 +32,83 @@
         android:baselineAligned="false"
         android:orientation="horizontal">
 
-        <LinearLayout
+        <android.support.v7.widget.AppCompatCheckedTextView
+            android:id="@+id/alarm_cb_monday"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <CheckBox
-                android:id="@+id/alarm_cb_mon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal|bottom" />
-
-            <TextView
-                android:id="@+id/alarm_label_cb_mon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal|top"
-                android:labelFor="@id/alarm_cb_mon"
-                android:text="@string/alarm_mon_short" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+            android:gravity="center"
+            android:text="@string/alarm_mon_short"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <CheckBox
-                android:id="@+id/alarm_cb_tue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal|bottom" />
-
-            <TextView
-                android:id="@+id/alarm_label_cb_tue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal|top"
-                android:labelFor="@id/alarm_cb_tue"
-                android:text="@string/alarm_tue_short" />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <android.support.v7.widget.AppCompatCheckedTextView
+            android:id="@+id/alarm_cb_tuesday"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+            android:gravity="center"
+            android:text="@string/alarm_tue_short"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <CheckBox
-                android:id="@+id/alarm_cb_wed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal|bottom" />
-
-            <TextView
-                android:id="@+id/alarm_label_cb_wed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal|top"
-                android:labelFor="@id/alarm_cb_wed"
-                android:text="@string/alarm_wed_short" />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <android.support.v7.widget.AppCompatCheckedTextView
+            android:id="@+id/alarm_cb_wednesday"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+            android:gravity="center"
+            android:text="@string/alarm_wed_short"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <CheckBox
-                android:id="@+id/alarm_cb_thu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal|bottom" />
-
-            <TextView
-                android:id="@+id/alarm_label_cb_thu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal|top"
-                android:labelFor="@id/alarm_cb_thu"
-                android:text="@string/alarm_thu_short" />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <android.support.v7.widget.AppCompatCheckedTextView
+            android:id="@+id/alarm_cb_thursday"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+            android:gravity="center"
+            android:text="@string/alarm_thu_short"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <CheckBox
-                android:id="@+id/alarm_cb_fri"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal|bottom" />
-
-            <TextView
-                android:id="@+id/alarm_label_cb_fri"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal|top"
-                android:labelFor="@id/alarm_cb_fri"
-                android:text="@string/alarm_fri_short" />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <android.support.v7.widget.AppCompatCheckedTextView
+            android:id="@+id/alarm_cb_friday"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+            android:gravity="center"
+            android:text="@string/alarm_fri_short"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <CheckBox
-                android:id="@+id/alarm_cb_sat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal|bottom" />
-
-            <TextView
-                android:id="@+id/alarm_label_cb_sat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal|top"
-                android:labelFor="@id/alarm_cb_sat"
-                android:text="@string/alarm_sat_short" />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <android.support.v7.widget.AppCompatCheckedTextView
+            android:id="@+id/alarm_cb_saturday"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+            android:gravity="center"
+            android:text="@string/alarm_sat_short"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <CheckBox
-                android:id="@+id/alarm_cb_sun"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal" />
-
-            <TextView
-                android:id="@+id/alarm_label_cb_sun"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal|top"
-                android:labelFor="@id/alarm_cb_sun"
-                android:text="@string/alarm_sun_short" />
-
-        </LinearLayout>
-
+        <android.support.v7.widget.AppCompatCheckedTextView
+            android:id="@+id/alarm_cb_sunday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_weight="1"
+            android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
+            android:gravity="center"
+            android:text="@string/alarm_sun_short"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
     </LinearLayout>
-
 
 </LinearLayout>

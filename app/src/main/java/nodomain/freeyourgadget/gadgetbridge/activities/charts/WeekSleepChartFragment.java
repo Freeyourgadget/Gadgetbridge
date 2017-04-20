@@ -44,7 +44,7 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
 
     @Override
     String getPieDescription(int targetValue) {
-        return getString(R.string.weeksleepchart_today_sleep_description, DateTimeUtils.minutesToHHMM(targetValue));
+        return getString(R.string.weeksleepchart_today_sleep_description, DateTimeUtils.formatDurationHoursMinutes(targetValue, TimeUnit.MINUTES));
     }
 
     @Override

@@ -525,7 +525,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 iconId = PebbleIconID.TIMELINE_CALENDAR;
         }
 
-        return encodeTimelinePin(new UUID(GB_UUID_MASK | calendarEventSpec.type, id), calendarEventSpec.timestamp, (short) calendarEventSpec.durationInSeconds, iconId, calendarEventSpec.title, calendarEventSpec.description);
+        return encodeTimelinePin(new UUID(GB_UUID_MASK | calendarEventSpec.type, id), calendarEventSpec.timestamp, (short) (calendarEventSpec.durationInSeconds / 60), iconId, calendarEventSpec.title, calendarEventSpec.description);
     }
 
     @Override
@@ -841,6 +841,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private byte[] encodeTimelinePin(UUID uuid, int timestamp, short duration, int icon_id, String title, String subtitle) {
         final short TIMELINE_PIN_LENGTH = 46;
 
+        //FIXME: dont depend layout on icon :P
+        byte layout_id = 0x01;
+        if (icon_id == PebbleIconID.TIMELINE_CALENDAR) {
+            layout_id = 0x02;
+        }
         icon_id |= 0x80000000;
         byte attributes_count = 2;
         byte actions_count = 0;
@@ -865,8 +870,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putShort(duration);
         buf.put((byte) 0x02); // type (0x02 = pin)
         buf.putShort((short) 0x0001); // flags 0x0001 = ?
-        buf.put((byte) 0x01); // layout was (0x02 = pin?), 0x01 needed for subtitle but seems to do no harm if there isn't one
-
+        buf.put(layout_id); // layout was (0x02 = pin?), 0x01 needed for subtitle but seems to do no harm if there isn't one
         buf.putShort((short) attributes_length); // total length of all attributes and actions in bytes
         buf.put(attributes_count);
         buf.put(actions_count);

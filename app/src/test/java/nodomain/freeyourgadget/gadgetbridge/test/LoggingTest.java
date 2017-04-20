@@ -32,6 +32,7 @@ public class LoggingTest extends TestBase {
         }
     };
 
+    @Override
     @After
     public void tearDown() {
         assertTrue(FileUtils.deleteRecursively(getLogFilesDir()));

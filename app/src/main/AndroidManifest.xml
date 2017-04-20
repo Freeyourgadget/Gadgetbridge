@@ -251,6 +251,7 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+        <service android:name=".service.NotificationCollectorMonitorService" />
         <service android:name=".service.DeviceCommunicationService" />
 
         <receiver

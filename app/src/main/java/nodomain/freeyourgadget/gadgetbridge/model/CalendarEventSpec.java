@@ -27,4 +27,6 @@ public class CalendarEventSpec {
     public int durationInSeconds;
     public String title;
     public String description;
+    public String location;
+    public boolean allDay;
 }

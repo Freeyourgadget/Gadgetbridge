@@ -17,9 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -71,16 +69,17 @@ public class CheckSums {
         }
     }
 
-    public static byte[] readAll(InputStream in, long maxLen) throws IOException {
+    // copy&paste of FileUtils.readAll() to have it free from Android dependencies
+    private static byte[] readAll(InputStream in, long maxLen) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream(Math.max(8192, in.available()));
         byte[] buf = new byte[8192];
-        int read = 0;
+        int read;
         long totalRead = 0;
         while ((read = in.read(buf)) > 0) {
             out.write(buf, 0, read);
             totalRead += read;
             if (totalRead > maxLen) {
-                throw new IOException("Too much data to read into memory. Got already " + totalRead + buf);
+                throw new IOException("Too much data to read into memory. Got already " + totalRead);
             }
         }
         return out.toByteArray();

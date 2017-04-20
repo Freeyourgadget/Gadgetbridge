@@ -93,7 +93,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
  * shift the date by one day.
  */
 public abstract class AbstractChartFragment extends AbstractGBFragment {
-    protected final int ANIM_TIME = 350;
+    protected final int ANIM_TIME = 250;
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractChartFragment.class);
 

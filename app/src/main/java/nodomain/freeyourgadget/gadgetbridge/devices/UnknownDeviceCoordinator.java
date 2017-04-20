@@ -176,4 +176,9 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     public Class<? extends Activity> getAppsManagementActivity() {
         return null;
     }
+
+    @Override
+    public boolean supportsCalendarEvents() {
+        return false;
+    }
 }
