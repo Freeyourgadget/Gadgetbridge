@@ -527,6 +527,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             default:
                 iconId = PebbleIconID.TIMELINE_CALENDAR;
                 attributes.add(new Pair<>(3, (Object) calendarEventSpec.description));
+                attributes.add(new Pair<>(11, (Object) calendarEventSpec.location));
         }
 
         return encodeTimelinePin(new UUID(GB_UUID_MASK | calendarEventSpec.type, id), calendarEventSpec.timestamp, (short) (calendarEventSpec.durationInSeconds / 60), iconId, attributes);
@@ -851,13 +852,14 @@ public class PebbleProtocol extends GBDeviceProtocol {
             layout_id = 0x02;
         }
         icon_id |= 0x80000000;
-        byte attributes_count = 2;
+        byte attributes_count = 1;
         byte actions_count = 0;
 
-        int attributes_length = 10;
+        int attributes_length = 7;
         for (Pair<Integer, Object> pair : attributes) {
             if (pair.first == null || pair.second == null)
                 continue;
+            attributes_count++;
             if (pair.second instanceof Integer) {
                 attributes_length += 7;
             } else if (pair.second instanceof Byte) {
