@@ -30,6 +30,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.SimpleTimeZone;
@@ -514,6 +515,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
     public byte[] encodeAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
         long id = calendarEventSpec.id != -1 ? calendarEventSpec.id : mRandom.nextLong();
         int iconId;
+        ArrayList<Pair<Integer, Object>> attributes = new ArrayList<>();
+        attributes.add(new Pair<>(1, (Object) calendarEventSpec.title));
         switch (calendarEventSpec.type) {
             case CalendarEventSpec.TYPE_SUNRISE:
                 iconId = PebbleIconID.SUNRISE;
@@ -523,9 +526,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 break;
             default:
                 iconId = PebbleIconID.TIMELINE_CALENDAR;
+                attributes.add(new Pair<>(3, (Object) calendarEventSpec.description));
         }
 
-        return encodeTimelinePin(new UUID(GB_UUID_MASK | calendarEventSpec.type, id), calendarEventSpec.timestamp, (short) (calendarEventSpec.durationInSeconds / 60), iconId, calendarEventSpec.title, calendarEventSpec.description);
+        return encodeTimelinePin(new UUID(GB_UUID_MASK | calendarEventSpec.type, id), calendarEventSpec.timestamp, (short) (calendarEventSpec.durationInSeconds / 60), iconId, attributes);
     }
 
     @Override
@@ -838,7 +842,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    private byte[] encodeTimelinePin(UUID uuid, int timestamp, short duration, int icon_id, String title, String subtitle) {
+    private byte[] encodeTimelinePin(UUID uuid, int timestamp, short duration, int icon_id, List<Pair<Integer, Object>> attributes) {
         final short TIMELINE_PIN_LENGTH = 46;
 
         //FIXME: dont depend layout on icon :P
@@ -850,10 +854,21 @@ public class PebbleProtocol extends GBDeviceProtocol {
         byte attributes_count = 2;
         byte actions_count = 0;
 
-        int attributes_length = 10 + title.getBytes().length;
-        if (subtitle != null && !subtitle.isEmpty()) {
-            attributes_length += 3 + subtitle.getBytes().length;
-            attributes_count += 1;
+        int attributes_length = 10;
+        for (Pair<Integer, Object> pair : attributes) {
+            if (pair.first == null || pair.second == null)
+                continue;
+            if (pair.second instanceof Integer) {
+                attributes_length += 7;
+            } else if (pair.second instanceof Byte) {
+                attributes_length += 4;
+            } else if (pair.second instanceof String) {
+                attributes_length += ((String) pair.second).getBytes().length + 3;
+            } else if (pair.second instanceof byte[]) {
+                attributes_length += ((byte[]) pair.second).length + 3;
+            } else {
+                LOG.warn("unsupported type for timeline attributes: " + pair.second.getClass().toString());
+            }
         }
 
         int pin_length = TIMELINE_PIN_LENGTH + attributes_length;
@@ -878,13 +893,24 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put((byte) 4); // icon
         buf.putShort((short) 4); // length of int
         buf.putInt(icon_id);
-        buf.put((byte) 1); // title
-        buf.putShort((short) title.getBytes().length);
-        buf.put(title.getBytes());
-        if (subtitle != null && !subtitle.isEmpty()) {
-            buf.put((byte) 2); //subtitle
-            buf.putShort((short) subtitle.getBytes().length);
-            buf.put(subtitle.getBytes());
+
+        for (Pair<Integer, Object> pair : attributes) {
+            if (pair.first == null || pair.second == null)
+                continue;
+            buf.put(pair.first.byteValue());
+            if (pair.second instanceof Integer) {
+                buf.putShort((short) 4);
+                buf.putInt(((Integer) pair.second));
+            } else if (pair.second instanceof Byte) {
+                buf.putShort((short) 1);
+                buf.put((Byte) pair.second);
+            } else if (pair.second instanceof String) {
+                buf.putShort((short) ((String) pair.second).getBytes().length);
+                buf.put(((String) pair.second).getBytes());
+            } else if (pair.second instanceof byte[]) {
+                buf.putShort((short) ((byte[]) pair.second).length);
+                buf.put((byte[]) pair.second);
+            }
         }
 
         return encodeBlobdb(uuid, BLOBDB_INSERT, BLOBDB_PIN, buf.array());
