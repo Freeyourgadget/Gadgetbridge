@@ -107,19 +107,23 @@ public class CalendarReceiver extends BroadcastReceiver {
 
 
             for (CalendarEvents.CalendarEvent e : eventList) {
-                eventTable.put(e.getId(), e);
+                long id = e.getId();
+                eventTable.put(id, e);
                 if (!eventState.containsKey(e.getId())) {
                     qb = session.getCalendarSyncStateDao().queryBuilder();
 
-                    CalendarSyncState calendarSyncState = qb.where(qb.and(CalendarSyncStateDao.Properties.DeviceId.eq(deviceId), CalendarSyncStateDao.Properties.CalendarEntryId.eq(e.getId())))
+                    CalendarSyncState calendarSyncState = qb.where(qb.and(CalendarSyncStateDao.Properties.DeviceId.eq(deviceId), CalendarSyncStateDao.Properties.CalendarEntryId.eq(id)))
                             .build().unique();
                     if (calendarSyncState == null) {
-                        eventState.put(e.getId(), new EventSyncState(e, EventState.NOT_SYNCED));
-                    } else if (calendarSyncState.getHash() ==  e.hashCode()) {
-                        eventState.put(e.getId(), new EventSyncState(e, EventState.NEEDS_UPDATE));
+                        eventState.put(id, new EventSyncState(e, EventState.NOT_SYNCED));
+                        LOG.info("event id=" + id + " is yet unknown to device id=" + deviceId);
+                    } else if (calendarSyncState.getHash() == e.hashCode()) {
+                        eventState.put(id, new EventSyncState(e, EventState.SYNCED));
+                        LOG.info("event id=" + id + " is up to date on device id=" + deviceId);
                     }
                     else {
-                        eventState.put(e.getId(), new EventSyncState(e, EventState.SYNCED));
+                        eventState.put(id, new EventSyncState(e, EventState.NEEDS_UPDATE));
+                        LOG.info("event id=" + id + " is not up to date on device id=" + deviceId);
                     }
                 }
             }
