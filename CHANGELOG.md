@@ -1,5 +1,10 @@
 ###Changelog
 
+###Version (next)
+* Pebble: allow calendar sync with Timeline (Title, Location, Description)
+* Pebble: display calendar icon for reminders from AOSP Calendar
+* Improve generic notification reliablity by trying to restart notification listener when stale/crashed
+
 ###Version 0.18.5
 * Applied some material design guidelines to Charts and (pebble) app management
 * Changed colours: deep sleep is now dark blue, light sleep is now light blue
