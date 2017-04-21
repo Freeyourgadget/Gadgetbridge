@@ -332,7 +332,8 @@ public class GBDeviceService implements DeviceService {
                 .putExtra(EXTRA_CALENDAREVENT_TIMESTAMP, calendarEventSpec.timestamp)
                 .putExtra(EXTRA_CALENDAREVENT_DURATION, calendarEventSpec.durationInSeconds)
                 .putExtra(EXTRA_CALENDAREVENT_TITLE, calendarEventSpec.title)
-                .putExtra(EXTRA_CALENDAREVENT_DESCRIPTION, calendarEventSpec.description);
+                .putExtra(EXTRA_CALENDAREVENT_DESCRIPTION, calendarEventSpec.description)
+                .putExtra(EXTRA_CALENDAREVENT_LOCATION, calendarEventSpec.location);
         invokeService(intent);
     }
 

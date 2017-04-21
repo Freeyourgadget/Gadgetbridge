@@ -188,7 +188,7 @@ public class CalendarReceiver extends BroadcastReceiver {
                     c.setTimeInMillis(calendarEvent.getBegin());
                     c.set(Calendar.HOUR, 0);
                     calendarEventSpec.timestamp = (int) (c.getTimeInMillis() / 1000);
-                    calendarEventSpec.durationInSeconds = 24 * 60 * 60; //TODO: commented because it is commented above
+                    calendarEventSpec.durationInSeconds = 24 * 60 * 60;
                 }
                 calendarEventSpec.description = calendarEvent.getDescription();
                 calendarEventSpec.location = calendarEvent.getLocation();

@@ -108,6 +108,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_BOO
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_DESCRIPTION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_ID;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_LOCATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_TIMESTAMP;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_TITLE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_TYPE;
@@ -375,6 +376,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 calendarEventSpec.durationInSeconds = intent.getIntExtra(EXTRA_CALENDAREVENT_DURATION, -1);
                 calendarEventSpec.title = intent.getStringExtra(EXTRA_CALENDAREVENT_TITLE);
                 calendarEventSpec.description = intent.getStringExtra(EXTRA_CALENDAREVENT_DESCRIPTION);
+                calendarEventSpec.location = intent.getStringExtra(EXTRA_CALENDAREVENT_LOCATION);
                 mDeviceSupport.onAddCalendarEvent(calendarEventSpec);
                 break;
             }

@@ -129,6 +129,7 @@ public interface DeviceService extends EventHandler {
     String EXTRA_CALENDAREVENT_DURATION = "calendarevent_duration";
     String EXTRA_CALENDAREVENT_TITLE = "calendarevent_title";
     String EXTRA_CALENDAREVENT_DESCRIPTION = "calendarevent_description";
+    String EXTRA_CALENDAREVENT_LOCATION = "calendarevent_location";
 
     void start();
 
