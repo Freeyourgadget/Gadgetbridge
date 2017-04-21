@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import org.robolectric.Robolectric;
-import org.robolectric.util.ServiceController;
+import org.robolectric.android.controller.ServiceController;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
 
