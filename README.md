@@ -26,7 +26,7 @@ need to create an account and transmit any of your data to the vendor's servers.
 
 * Incoming calls notification and display
 * Outgoing call display
-* Reject/hangup calls
+* Reject calls (optionally with predefined texts) / hangup calls
 * SMS notification
 * Support for generic notifications
 * Support for up to 16 predefined replies for SMS and Android Wear compatible notifications (experimental, tested with Signal and Conversations)
