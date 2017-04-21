@@ -18,6 +18,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service;
 
+import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.bluetooth.BluetoothDevice;
@@ -155,6 +156,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEA
 
 public class DeviceCommunicationService extends Service implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final Logger LOG = LoggerFactory.getLogger(DeviceCommunicationService.class);
+    @SuppressLint("StaticFieldLeak") // only used for test cases
     private static DeviceSupportFactory DEVICE_SUPPORT_FACTORY = null;
 
     private boolean mStarted = false;
