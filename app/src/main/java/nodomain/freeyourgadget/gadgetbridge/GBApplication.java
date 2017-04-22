@@ -40,6 +40,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -313,10 +314,23 @@ public class GBApplication extends Application {
         return NotificationManager.INTERRUPTION_FILTER_ALL;
     }
 
-    public static HashSet<String> blacklist = null;
+    private static HashSet<String> blacklist = null;
+
+    public static boolean isBlacklisted(String packageName) {
+        return blacklist != null && blacklist.contains(packageName);
+    }
+
+    public static void setBlackList(Set<String> packageNames) {
+        if (packageNames == null) {
+            blacklist = new HashSet<>();
+        } else {
+            blacklist = new HashSet<>(packageNames);
+        }
+        saveBlackList();
+    }
 
     private static void loadBlackList() {
-        blacklist = (HashSet<String>) sharedPrefs.getStringSet("package_blacklist", null);
+        blacklist = (HashSet<String>) sharedPrefs.getStringSet(GBPrefs.PACKAGE_BLACKLIST, null);
         if (blacklist == null) {
             blacklist = new HashSet<>();
         }
@@ -325,16 +339,15 @@ public class GBApplication extends Application {
     private static void saveBlackList() {
         SharedPreferences.Editor editor = sharedPrefs.edit();
         if (blacklist.isEmpty()) {
-            editor.putStringSet("package_blacklist", null);
+            editor.putStringSet(GBPrefs.PACKAGE_BLACKLIST, null);
         } else {
-            editor.putStringSet("package_blacklist", blacklist);
+            editor.putStringSet(GBPrefs.PACKAGE_BLACKLIST, blacklist);
         }
         editor.apply();
     }
 
     public static void addToBlacklist(String packageName) {
-        if (!blacklist.contains(packageName)) {
-            blacklist.add(packageName);
+        if (blacklist.add(packageName)) {
             saveBlackList();
         }
     }

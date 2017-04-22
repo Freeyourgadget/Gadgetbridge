@@ -21,7 +21,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
@@ -32,8 +31,6 @@ import android.view.MenuItem;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.IdentityHashMap;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -54,8 +51,6 @@ public class AppBlacklistActivity extends GBActivity {
             }
         }
     };
-
-    private IdentityHashMap<ApplicationInfo, String> nameMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

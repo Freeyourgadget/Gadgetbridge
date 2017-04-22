@@ -242,7 +242,7 @@ public class NotificationListener extends NotificationListenerService {
             }
         }
 
-        if (GBApplication.blacklist != null && GBApplication.blacklist.contains(source)) {
+        if (GBApplication.isBlacklisted(source)) {
             LOG.info("Not forwarding notification, application is blacklisted");
             return;
         }

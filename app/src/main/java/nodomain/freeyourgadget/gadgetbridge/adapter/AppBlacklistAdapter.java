@@ -40,13 +40,13 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
         applicationInfoList = mPm.getInstalledApplications(PackageManager.GET_META_DATA);
 
         // sort the package list by label and blacklist status
-        mNameMap = new IdentityHashMap<ApplicationInfo, String>(applicationInfoList.size());
+        mNameMap = new IdentityHashMap<>(applicationInfoList.size());
         for (ApplicationInfo ai : applicationInfoList) {
             CharSequence name = mPm.getApplicationLabel(ai);
             if (name == null) {
                 name = ai.packageName;
             }
-            if (GBApplication.blacklist.contains(ai.packageName)) {
+            if (GBApplication.isBlacklisted(ai.packageName)) {
                 // sort blacklisted first by prefixing with a '!'
                 name = "!" + name;
             }
@@ -78,7 +78,7 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
         holder.deviceAppNameLabel.setText(mNameMap.get(appInfo));
         holder.deviceImageView.setImageDrawable(appInfo.loadIcon(mPm));
 
-        holder.checkbox.setChecked(GBApplication.blacklist.contains(appInfo.packageName));
+        holder.checkbox.setChecked(GBApplication.isBlacklisted(appInfo.packageName));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
