@@ -201,8 +201,6 @@ public interface DeviceCoordinator {
      */
     boolean supportsHeartRateMeasurement(GBDevice device);
 
-    int getTapString();
-
     /**
      * Returns the readable name of the manufacturer.
      */
