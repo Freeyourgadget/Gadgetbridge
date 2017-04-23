@@ -28,7 +28,7 @@ public class AutoStartReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (GBApplication.getGBPrefs().getAutoStart()) {
+        if (GBApplication.getGBPrefs().getAutoStart() && Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
             Log.i(TAG, "Boot completed, starting Gadgetbridge");
             GBApplication.deviceService().start();
         }
