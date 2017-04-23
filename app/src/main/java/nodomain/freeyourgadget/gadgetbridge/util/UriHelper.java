@@ -79,6 +79,7 @@ public class UriHelper {
      * Opens a stream to read the contents of the uri.
      * Note: the caller has to close the stream after usage.
      * Every invocation of this method will open a new stream.
+     * FIXME: make sure that every caller actually closes the returned stream!
      * @throws FileNotFoundException
      */
     @NonNull
@@ -127,27 +128,31 @@ public class UriHelper {
             if (cursor == null) {
                 throw new IOException("Unable to query metadata for: " + uri);
             }
-            if (cursor.moveToFirst()) {
-                int name_index = cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME);
-                if (name_index == -1) {
-                    throw new IOException("Unable to retrieve name for: " + uri);
-                }
-                int size_index = cursor.getColumnIndex(MediaStore.MediaColumns.SIZE);
-                if (size_index == -1) {
-                    throw new IOException("Unable to retrieve size for: " + uri);
-                }
-                try {
-                    fileName = cursor.getString(name_index);
-                    if (fileName == null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    int name_index = cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME);
+                    if (name_index == -1) {
                         throw new IOException("Unable to retrieve name for: " + uri);
                     }
-                    fileSize = cursor.getLong(size_index);
-                    if (fileSize < 0) {
+                    int size_index = cursor.getColumnIndex(MediaStore.MediaColumns.SIZE);
+                    if (size_index == -1) {
                         throw new IOException("Unable to retrieve size for: " + uri);
                     }
-                } catch (Exception ex) {
-                    throw new IOException("Unable to retrieve metadata for: " + uri + ": " + ex.getMessage());
+                    try {
+                        fileName = cursor.getString(name_index);
+                        if (fileName == null) {
+                            throw new IOException("Unable to retrieve name for: " + uri);
+                        }
+                        fileSize = cursor.getLong(size_index);
+                        if (fileSize < 0) {
+                            throw new IOException("Unable to retrieve size for: " + uri);
+                        }
+                    } catch (Exception ex) {
+                        throw new IOException("Unable to retrieve metadata for: " + uri + ": " + ex.getMessage());
+                    }
                 }
+            } finally {
+                cursor.close();
             }
         } else if (ContentResolver.SCHEME_FILE.equals(uriScheme)) {
             file = new File(uri.getPath());
