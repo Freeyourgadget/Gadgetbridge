@@ -85,18 +85,18 @@ public class CalendarReceiver extends BroadcastReceiver {
     public CalendarReceiver(GBDevice gbDevice) {
         LOG.info("Created calendar receiver.");
         mGBDevice = gbDevice;
-        syncCalendar();
+        onReceive(GBApplication.getContext(), new Intent());
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
         LOG.info("got calendar changed broadcast");
-        syncCalendar();
+        List<CalendarEvents.CalendarEvent> eventList = (new CalendarEvents()).getCalendarEventList(GBApplication.getContext());
+        syncCalendar(eventList);
     }
 
-    public void syncCalendar() {
+    public void syncCalendar(List<CalendarEvents.CalendarEvent> eventList) {
         LOG.info("Syncing with calendar.");
-        List<CalendarEvents.CalendarEvent> eventList = (new CalendarEvents()).getCalendarEventList(GBApplication.getContext());
         Hashtable<Long, CalendarEvents.CalendarEvent> eventTable = new Hashtable<>();
 
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
