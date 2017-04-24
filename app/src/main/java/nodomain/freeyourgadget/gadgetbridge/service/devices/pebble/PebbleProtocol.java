@@ -2373,11 +2373,28 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
         if (command == 0x01) { //session setup
-            sendBytes.encodedBytes = null;
-        } else if (command == 0x02) { //dictation result
+            int replLenght = 7;
+            byte replStatus = 5; // 5 = disabled,  change to 0 to send success
+            ByteBuffer repl = ByteBuffer.allocate(LENGTH_PREFIX + replLenght);
+            repl.order(ByteOrder.BIG_ENDIAN);
+            repl.putShort((short) replLenght);
+            repl.putShort(ENDPOINT_VOICECONTROL);
+            repl.put(command);
+            repl.putInt(flags);
+            repl.put(session_type);
+            repl.put(replStatus);
+
+            sendBytes.encodedBytes = repl.array();
+
+        } else if (command == 0x02) { //dictation result (possibly it is something we send, not something we receive)
             sendBytes.encodedBytes = null;
         }
         return sendBytes;
+    }
+
+    private GBDeviceEvent decodeAudioStream(ByteBuffer buf) {
+
+        return null;
     }
 
     @Override
@@ -2639,11 +2656,13 @@ public class PebbleProtocol extends GBDeviceProtocol {
             case ENDPOINT_APPLOGS:
                 decodeAppLogs(buf);
                 break;
-//            case ENDPOINT_VOICECONTROL:
-//                devEvts = new GBDeviceEvent[]{decodeVoiceControl(buf)};
-//            case ENDPOINT_AUDIOSTREAM:
-//                LOG.debug(GB.hexdump(responseData, 0, responseData.length));
-//                break;
+            case ENDPOINT_VOICECONTROL:
+                devEvts = new GBDeviceEvent[]{decodeVoiceControl(buf)};
+                break;
+            case ENDPOINT_AUDIOSTREAM:
+                devEvts = new GBDeviceEvent[]{decodeAudioStream(buf)};
+//                LOG.debug("AUDIOSTREAM DATA: " + GB.hexdump(responseData, 4, length));
+                break;
             default:
                 break;
         }
