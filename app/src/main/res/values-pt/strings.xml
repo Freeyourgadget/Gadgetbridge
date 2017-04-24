@@ -31,8 +31,8 @@
   <string name="appmanager_app_openinstore">Buscar na loja Pebble</string>
   <string name="appmanager_health_activate">Ativar</string>
   <string name="appmanager_health_deactivate">Desativar</string>
-  <string name="appmanager_hrm_activate">Ativar HRM</string>
-  <string name="appmanager_hrm_deactivate">Desativar HRM</string>
+  <string name="appmanager_hrm_activate">Ativar Mon. Ritmo Cardíaco</string>
+  <string name="appmanager_hrm_deactivate">Desativar Mon. Ritmo Cardíaco</string>
   <string name="appmanager_weather_activate">Ativas app de clima do sistema</string>
   <string name="appmanager_weather_deactivate">Desativar app de clima do sistema</string>
   <string name="appmanager_weather_install_provider">Instalar notificações do app de clima</string>
@@ -143,7 +143,7 @@
   <string name="connected">ligado</string>
   <string name="unknown_state">estado desconhecido</string>
   <string name="connectionstate_hw_fw">HW: %1$s FW: %2$s</string>
-  <string name="connectionstate_fw">FW: %1$s</string>
+  <string name="connectionstate_fw">Versão FW: %1$s</string>
   <string name="_unknown_">(desconhecido)</string>
   <string name="test">Teste</string>
   <string name="test_notification">Teste de notificação</string>
@@ -248,7 +248,7 @@
   <string name="notif_battery_low_bigtext_last_charge_time">Última carga: %s \n</string>
   <string name="notif_battery_low_bigtext_number_of_charges">Número de cargas: %s</string>
   <string name="sleepchart_your_sleep">O Seu Sono</string>
-  <string name="weeksleepchart_sleep_a_week">Sono durante a semana</string>
+  <string name="weeksleepchart_sleep_a_week">Sono na semana</string>
   <string name="weeksleepchart_today_sleep_description">Sono hoje, objetivo: %1$s</string>
   <string name="weekstepschart_steps_a_week">Passos na semana</string>
   <string name="activity_sleepchart_activity_and_sleep">A Sua Atividade e Sono</string>
@@ -268,6 +268,8 @@
   <string name="updatefirmwareoperation_update_complete_rebooting">Instalação do Firmware completa, reiniciando o dispositivo...</string>
   <string name="updatefirmwareoperation_write_failed">Falha ao instalar o Firmware</string>
   <string name="chart_steps">Passos</string>
+  <string name="calories">Calorias</string>
+  <string name="distance">Distância</string>
   <string name="liveactivity_live_activity">Atividade em tempo real</string>
   <string name="weeksteps_today_steps_description">Passos hoje, objetivo: %1$s</string>
   <string name="pref_title_dont_ack_transfer">Não confirmar a transferência de dados de atividade</string>
@@ -279,7 +281,7 @@
   <string name="live_activity_current_steps_per_minute">Passos/min atuais</string>
   <string name="live_activity_total_steps">Total de passos</string>
   <string name="live_activity_steps_per_minute_history">Histórico de passos por minuto</string>
-  <string name="live_activity_start_your_activity">Iniciar sua atividade</string>
+  <string name="live_activity_start_your_activity">Inicie a sua atividade</string>
   <string name="abstract_chart_fragment_kind_activity">Atividade</string>
   <string name="abstract_chart_fragment_kind_light_sleep">Sono leve</string>
   <string name="abstract_chart_fragment_kind_deep_sleep">Sono profundo</string>
@@ -310,9 +312,9 @@
   <string name="activity_prefs_sleep_duration">Preferir duração de sono em horas</string>
   <string name="appwidget_alarms_set">Alarme definido para as %1$02d:%2$02d</string>
   <string name="device_hw">HW: %1$s</string>
-  <string name="device_fw">FW: %1$s</string>
+  <string name="device_fw">Versão FW: %1$s</string>
   <string name="error_creating_directory_for_logfiles">Erro ao criar o diretório para os ficheiros de registo: %1$s</string>
-  <string name="DEVINFO_HR_VER">RH:</string>
+  <string name="DEVINFO_HR_VER">Versão HW:</string>
   <string name="updatefirmwareoperation_update_in_progress">Atualização de Firmware em curso</string>
   <string name="updatefirmwareoperation_firmware_not_sent">Firmware não enviado</string>
   <string name="charts_legend_heartrate">Ritmo Cardíaco</string>
@@ -361,4 +363,9 @@
   <string name="mi2_enable_text_notifications">Notificações de texto</string>
   <string name="mi2_enable_text_notifications_summary"><![CDATA[Necessita de firmware >= 1.0.1.28 e Mili_pro.ft* instalado.]]></string>
   <string name="off">desligado</string>
+  <string name="discovery_attempting_to_pair">A tentar emparelhar com %1$s</string>
+  <string name="discovery_enable_bluetooth">Ative o Bluetooth para encontrar os dispositivos.</string>
+  <string name="discovery_pair_title">Emparelhar com %1$s?</string>
+  <string name="discovery_yes_pair">Emparelhar</string>
+  <string name="discovery_dont_pair">Não emparelhar</string>
 </resources>
