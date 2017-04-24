@@ -43,12 +43,11 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmClockReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.CalendarReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothPairingRequestReceiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.CalendarReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.MusicPlaybackReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PebbleReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PhoneCallReceiver;
@@ -584,7 +583,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         LOG.info("Setting broadcast receivers to: " + enable);
 
         if (enable && initialized && coordinator != null && coordinator.supportsCalendarEvents()) {
-            if (mCalendarReceiver == null) {
+            if (mCalendarReceiver == null  && getPrefs().getBoolean("enable_calendar_sync", true)) {
                 IntentFilter calendarIntentFilter = new IntentFilter();
                 calendarIntentFilter.addAction("android.intent.action.PROVIDER_CHANGED");
                 calendarIntentFilter.addDataScheme("content");
