@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.19.0" versioncode="93">
+        <change>Pebble: allow calendar sync with Timeline (Title, Location, Description)</change>
+        <change>Pebble: display calendar icon for reminders from AOSP Calendar</change>
+        <change>HPlus: try to fix latin characters showing as random chinese text</change>
+        <change>Improve generic notification reliablity by trying to restart notification listener when stale/crashed</change>
+    </release>
     <release version="0.18.5" versioncode="92">
         <change>Applied some material design guidelines to Charts and (pebble) app management</change>
         <change>Changed colours: deep sleep is now dark blue, light sleep is now light blue</change>
@@ -11,7 +17,6 @@
         <change>HPlus: users can now decide whether they want to pair the device or not, hopefully fixing some connection problems (#642)</change>
         <change>HPlus: display battery state and warn on low battery</change>
     </release>
-
     <release version="0.18.4" versioncode="91">
         <change>Mi Band 2: Display realtime steps in Live Activity</change>
         <change>Mi Band: Attempt to recognize Mi Band model with hwVersion = 8</change>
