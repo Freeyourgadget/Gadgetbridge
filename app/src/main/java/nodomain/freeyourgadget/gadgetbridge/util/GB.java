@@ -365,6 +365,10 @@ public class GB {
         updateNotification(notification, NOTIFICATION_ID_LOW_BATTERY, context);
     }
 
+    public static void removeBatteryNotification(Context context) {
+        removeNotification(NOTIFICATION_ID_LOW_BATTERY, context);
+    }
+
     public static GBEnvironment env() {
         return environment;
     }
