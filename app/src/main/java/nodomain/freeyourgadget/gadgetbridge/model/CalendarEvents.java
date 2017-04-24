@@ -93,7 +93,7 @@ public class CalendarEvents {
         }
     }
 
-    public class CalendarEvent {
+    public static class CalendarEvent {
         private long begin;
         private long end;
         private long id;
