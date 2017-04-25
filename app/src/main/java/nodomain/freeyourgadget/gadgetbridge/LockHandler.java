@@ -20,7 +20,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
-import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 
@@ -36,7 +35,7 @@ public class LockHandler implements DBHandler {
     public LockHandler() {
     }
 
-    public void init(DaoMaster daoMaster, DBOpenHelper helper) {
+    public void init(DaoMaster daoMaster, DaoMaster.OpenHelper helper) {
         if (isValid()) {
             throw new IllegalStateException("DB must be closed before initializing it again");
         }
@@ -82,7 +81,7 @@ public class LockHandler implements DBHandler {
             throw new IllegalStateException("session must be null");
         }
         // this will create completely new db instances and in turn update this handler through #init()
-        GBApplication.setupDatabase(GBApplication.getContext());
+        GBApplication.app().setupDatabase();
     }
 
     @Override
