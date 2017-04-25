@@ -104,8 +104,11 @@
   <string name="pref_summary_enable_outgoing_call">Désactiver ceci empêchera la Pebble 2/LE de vibrer lors des appels sortants</string>
   <string name="pref_title_enable_pebblekit">Permettre l\'accès aux applications tierces Android</string>
   <string name="pref_summary_enable_pebblekit">Activer le support expérimental pour les applications Android utilisant PebbleKit</string>
+  <string name="pref_header_pebble_timeline">Timeline Pebble</string>
   <string name="pref_title_sunrise_sunset">Lever et coucher de soleil</string>
   <string name="pref_summary_sunrise_sunset">Envoyer les heures de lever et coucher du soleil dans l’historique Pebble en fonction de l\'emplacement</string>
+  <string name="pref_title_enable_calendar_sync">Synchroniser le calendrier</string>
+  <string name="pref_summary_enable_calendar_sync">Envoyer les événements du calendrier sur la timeline</string>
   <string name="pref_title_autoremove_notifications">Effacer automatiquement les notifications rejetées</string>
   <string name="pref_summary_autoremove_notifications">Les notifications sont automatiquement effacées de la Pebble lorsqu\'elles sont rejetées sur l\'appareil Android</string>
   <string name="pref_title_pebble_privacy_mode">Mode privé</string>
@@ -296,7 +299,7 @@
   <string name="miband_prefs_device_time_offset_hours">La compensation de temps en heure (pour travailleurs en rotation, par exemple)</string>
   <string name="miband2_prefs_dateformat">Mi2 : Format de la date</string>
   <string name="dateformat_time">Heure</string>
-  <string name="dateformat_date_time"><![CDATA[Time & Date]]></string>
+  <string name="dateformat_date_time"><![CDATA[Date et heure]]></string>
   <string name="mi2_prefs_activate_display_on_lift">Allumer l\'écran lors d\'un mouvement</string>
   <string name="FetchActivityOperation_about_to_transfer_since">Sur le point de transférer des données depuis %1$s</string>
   <string name="waiting_for_reconnect">en attente de reconnexion</string>
@@ -325,7 +328,7 @@ Temps de sommeil péféré en heures</string>
 NOTE: la base de données sera bien évidement plus grande !</string>
   <string name="action_db_management">Gestion de base de données</string>
   <string name="title_activity_db_management">Gestion de base de données</string>
-  <string name="activity_db_management_import_export_explanation">Les opérations sur la base de donnée ont utilisé le chemin suivant sur votre appareil.\n Ce chemin n\'est pas accessible par d\'autres applications Android ou par votre ordinateur./nVous trouverez votre base de données (ou celle que vous souhaitez importer) ici:</string>
+  <string name="activity_db_management_import_export_explanation">Les opérations sur la base de donnée ont utilisé le chemin suivant sur votre appareil.\nCe chemin n\'est pas accessible par d\'autres applications Android ou par votre ordinateur.\nVous trouverez votre base de données (ou celle que vous souhaitez importer) ici:</string>
   <string name="activity_db_management_merge_old_title">Effacer l\'ancienne base de données</string>
   <string name="dbmanagementactivvity_cannot_access_export_path">Impossible d\'accéder au fichier d\'export. Merci de contacter les développeurs.</string>
   <string name="dbmanagementactivity_exported_to">Exporter vers : %1$s</string>
