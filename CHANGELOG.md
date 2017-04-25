@@ -3,8 +3,10 @@
 ###Version 0.19.0
 * Pebble: allow calendar sync with Timeline (Title, Location, Description)
 * Pebble: display calendar icon for reminders from AOSP Calendar
-* HPlus: try to fix latin characters showing as random chinese text
-* Improve generic notification reliablity by trying to restart notification listener when stale/crashed
+* HPlus: try to fix latin characters showing as random Chinese text
+* Improve reconnection with BLE devices
+* Improve generic notification reliability by trying to restart the notification listener when stale/crashed
+* Other small bugfixes
 
 ###Version 0.18.5
 * Applied some material design guidelines to Charts and (pebble) app management
