@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2017 João Paulo Barraca
+/*  Copyright (C) 2016-2017 Carsten Pfeiffer, João Paulo Barraca
 
     This file is part of Gadgetbridge.
 
