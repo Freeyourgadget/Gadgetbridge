@@ -22,13 +22,23 @@
 - 0000ff0c-0000-1000-8000-00805f9b34fb:Battery
 - 0000ff0d-0000-1000-8000-00805f9b34fb:Test
 - 0000ff0e-0000-1000-8000-00805f9b34fb:Sensor Data
+- 0000ff0f-0000-1000-8000-00805f9b34fb:Unknown characteristic
+- 0000ff10-0000-1000-8000-00805f9b34fb:Unknown characteristic
+- 0000fec9-0000-1000-8000-00805f9b34fb:Unknown characteristic
 
 0000fee1-0000-1000-8000-00805f9b34fb:Unknown service
 - 0000fedd-0000-1000-8000-00805f9b34fb:Unknown characteristic
 - 0000fede-0000-1000-8000-00805f9b34fb:Unknown characteristic
 - 0000fedf-0000-1000-8000-00805f9b34fb:Unknown characteristic
+- 0000fed0-0000-1000-8000-00805f9b34fb:Unknown characteristic
+- 0000fed1-0000-1000-8000-00805f9b34fb:Unknown characteristic
+- 0000fed2-0000-1000-8000-00805f9b34fb:Unknown characteristic
+- 0000fed3-0000-1000-8000-00805f9b34fb:Unknown characteristic
 
 0000fee7-0000-1000-8000-00805f9b34fb:Unknown service
 - 0000fec7-0000-1000-8000-00805f9b34fb:Unknown characteristic
 - 0000fec8-0000-1000-8000-00805f9b34fb:Unknown characteristic
 - 0000fec9-0000-1000-8000-00805f9b34fb:Unknown characteristic
+
+00001802-0000-1000-8000-00805f9b34fb:Immediate Alert
+- 00002a06-0000-1000-8000-00805f9b34fb:Unknown characteristic
