@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -59,9 +60,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -91,7 +90,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     public HPlusSupport(DeviceType type) {
         super(LOG);
-
+        LOG.info("HPlusSupport Instance Created");
         deviceType = type;
 
         addSupportedService(HPlusConstants.UUID_SERVICE_HP);
@@ -117,26 +116,26 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         LOG.info("Initializing");
 
-        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
+        gbDevice.setState(GBDevice.State.INITIALIZING);
+        gbDevice.sendDeviceUpdateIntent(getContext());
 
         measureCharacteristic = getCharacteristic(HPlusConstants.UUID_CHARACTERISTIC_MEASURE);
         ctrlCharacteristic = getCharacteristic(HPlusConstants.UUID_CHARACTERISTIC_CONTROL);
 
-        //Initialize device
-        sendUserInfo(builder); //Sync preferences
 
         builder.notify(getCharacteristic(HPlusConstants.UUID_CHARACTERISTIC_MEASURE), true);
         builder.setGattCallback(this);
         builder.notify(measureCharacteristic, true);
-        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
+        //Initialize device
+        sendUserInfo(builder); //Sync preferences
 
-        if(syncHelper != null){
-            syncHelper.setHPlusSupport(this);
-        }else {
+        gbDevice.setState(GBDevice.State.INITIALIZED);
+        gbDevice.sendDeviceUpdateIntent(getContext());
+
+        if(syncHelper == null) {
             syncHelper = new HPlusHandlerThread(getDevice(), getContext(), this);
             syncHelper.start();
         }
-
         syncHelper.sync();
 
         getDevice().setFirmwareVersion("N/A");

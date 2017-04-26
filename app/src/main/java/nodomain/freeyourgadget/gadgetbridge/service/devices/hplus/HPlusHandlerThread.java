@@ -123,6 +123,10 @@ class HPlusHandlerThread extends GBDeviceIoThread {
                 break;
             }
 
+            if(gbDevice.getState() == GBDevice.State.NOT_CONNECTED){
+                quit();
+            }
+
             Calendar now = GregorianCalendar.getInstance();
 
             if (now.compareTo(mGetDaySlotsTime) > 0) {
@@ -138,7 +142,6 @@ class HPlusHandlerThread extends GBDeviceIoThread {
             }
 
             if(now.compareTo(mHelloTime) > 0){
-                LOG.info("Sending hello");
                 sendHello();
             }
 
@@ -154,10 +157,6 @@ class HPlusHandlerThread extends GBDeviceIoThread {
         mQuit = true;
         synchronized (waitObject) {
             waitObject.notify();
-        }
-        StackTraceElement l[] = Thread.currentThread().getStackTrace();
-        for(StackTraceElement e: l){
-            LOG.warn(e.toString());
         }
     }
 
