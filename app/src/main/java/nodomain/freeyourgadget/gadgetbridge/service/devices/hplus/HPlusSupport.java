@@ -806,7 +806,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             byte[] cs;
 
             if (HPlusConstants.transliterateMap.containsKey(c)) {
-                cs = new byte[]{HPlusConstants.transliterateMap.get(c)};
+                cs = HPlusConstants.transliterateMap.get(c);
             } else {
                 try {
                     if (HPlusCoordinator.getLanguage(this.gbDevice.getAddress()) == HPlusConstants.ARG_LANGUAGE_CN)
