@@ -66,7 +66,7 @@ class HPlusDataRecordRealtime extends HPlusDataRecord {
      */
     public int intensity;
 
-    public HPlusDataRecordRealtime(byte[] data) {
+    public HPlusDataRecordRealtime(byte[] data, int age) {
         super(data, TYPE_REALTIME);
 
         if (data.length < 15) {
@@ -91,7 +91,7 @@ class HPlusDataRecordRealtime extends HPlusDataRecord {
             heartRate = ActivitySample.NOT_MEASURED;
         }
         else {
-            intensity = (int) (100 * Math.max(0, Math.min((heartRate - 60) / 120.0, 1))); // TODO: Calculate a proper value
+            intensity = (int) ((100*heartRate)/(208-0.7*age));
             activityKind = ActivityKind.TYPE_UNKNOWN;
         }
     }

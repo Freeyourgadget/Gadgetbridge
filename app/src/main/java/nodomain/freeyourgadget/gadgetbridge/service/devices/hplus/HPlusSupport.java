@@ -292,7 +292,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HPlusSupport setWeight(TransactionBuilder transaction) {
-        byte value = HPlusCoordinator.getUserWeight(getDevice().getAddress());
+        byte value = HPlusCoordinator.getUserWeight();
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_SET_WEIGHT,
                 value
@@ -302,7 +302,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HPlusSupport setHeight(TransactionBuilder transaction) {
-        byte value = HPlusCoordinator.getUserHeight(getDevice().getAddress());
+        byte value = HPlusCoordinator.getUserHeight();
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_HEIGHT,
                 value
@@ -313,7 +313,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
 
     private HPlusSupport setAge(TransactionBuilder transaction) {
-        byte value = HPlusCoordinator.getUserAge(getDevice().getAddress());
+        byte value = HPlusCoordinator.getUserAge();
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_SET_AGE,
                 value
@@ -323,7 +323,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HPlusSupport setGender(TransactionBuilder transaction) {
-        byte value = HPlusCoordinator.getUserGender(getDevice().getAddress());
+        byte value = HPlusCoordinator.getUserGender();
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_SET_GENDER,
                 value
@@ -334,7 +334,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
 
     private HPlusSupport setGoal(TransactionBuilder transaction) {
-        int value = HPlusCoordinator.getGoal(getDevice().getAddress());
+        int value = HPlusCoordinator.getGoal();
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_SET_GOAL,
                 (byte) ((value / 256) & 0xff),
@@ -842,7 +842,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 return syncHelper.processVersion(data);
 
             case HPlusConstants.DATA_STATS:
-                boolean result = syncHelper.processRealtimeStats(data);
+                boolean result = syncHelper.processRealtimeStats(data, HPlusCoordinator.getUserAge());
                 if (result) {
                     processExtraInfo (data);
                 }
@@ -856,7 +856,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
             case HPlusConstants.DATA_DAY_SUMMARY:
             case HPlusConstants.DATA_DAY_SUMMARY_ALT:
-                return syncHelper.processIncomingDaySlotData(data);
+                return syncHelper.processIncomingDaySlotData(data, HPlusCoordinator.getUserAge());
             case HPlusConstants.DATA_UNKNOWN:
                 return true;
             default:
@@ -868,7 +868,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     private void  processExtraInfo (byte[] data) {
         try {
-            HPlusDataRecordRealtime record = new HPlusDataRecordRealtime(data);
+            HPlusDataRecordRealtime record = new HPlusDataRecordRealtime(data, HPlusCoordinator.getUserAge());
 
             handleBatteryInfo(record.battery);
 

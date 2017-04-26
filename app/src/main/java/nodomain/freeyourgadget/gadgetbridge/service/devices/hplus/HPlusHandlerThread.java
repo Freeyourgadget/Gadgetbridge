@@ -220,12 +220,12 @@ class HPlusHandlerThread extends GBDeviceIoThread {
      * @param data the message from the device
      * @return boolean indicating success or fail
      */
-    public boolean processIncomingDaySlotData(byte[] data) {
+    public boolean processIncomingDaySlotData(byte[] data, int age) {
 
         HPlusDataRecordDaySlot record;
 
         try{
-            record = new HPlusDataRecordDaySlot(data);
+            record = new HPlusDataRecordDaySlot(data, age);
         } catch(IllegalArgumentException e){
             LOG.info((e.getMessage()));
             return false;
@@ -302,7 +302,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
                     sample.setSteps(storedRecord.steps);
                     sample.setHeartRate(storedRecord.heartRate);
                     sample.setRawKind(storedRecord.type);
-
+                    sample.setRawIntensity(record.intensity);
                     sample.setProvider(provider);
                     samples.add(sample);
                 }
@@ -383,11 +383,11 @@ class HPlusHandlerThread extends GBDeviceIoThread {
      * @param data the message from the device
      * @return boolean indicating success or fail
      */
-    public boolean processRealtimeStats(byte[] data) {
+    public boolean processRealtimeStats(byte[] data, int age) {
         HPlusDataRecordRealtime record;
 
         try{
-            record = new HPlusDataRecordRealtime(data);
+            record = new HPlusDataRecordRealtime(data, age);
         } catch(IllegalArgumentException e){
             LOG.info((e.getMessage()));
             return false;

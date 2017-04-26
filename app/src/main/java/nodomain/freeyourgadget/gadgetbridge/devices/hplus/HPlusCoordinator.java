@@ -198,7 +198,6 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
         }else{
             return HPlusConstants.ARG_TIMEMODE_12H;
         }
-
     }
 
     public static byte getUnit(String address) {
@@ -211,25 +210,25 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
         }
     }
 
-    public static byte getUserWeight(String address) {
+    public static byte getUserWeight() {
         ActivityUser activityUser = new ActivityUser();
 
         return (byte) (activityUser.getWeightKg() & 0xFF);
     }
 
-    public static byte getUserHeight(String address) {
+    public static byte getUserHeight() {
         ActivityUser activityUser = new ActivityUser();
 
         return (byte) (activityUser.getHeightCm() & 0xFF);
     }
 
-    public static byte getUserAge(String address) {
+    public static byte getUserAge() {
         ActivityUser activityUser = new ActivityUser();
 
         return (byte) (activityUser.getAge() & 0xFF);
     }
 
-    public static byte getUserGender(String address) {
+    public static byte getUserGender() {
         ActivityUser activityUser = new ActivityUser();
 
         if (activityUser.getGender() == ActivityUser.GENDER_MALE)
@@ -238,7 +237,7 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
         return HPlusConstants.ARG_GENDER_FEMALE;
     }
 
-    public static int getGoal(String address) {
+    public static int getGoal() {
         ActivityUser activityUser = new ActivityUser();
 
         return activityUser.getStepsGoal();
