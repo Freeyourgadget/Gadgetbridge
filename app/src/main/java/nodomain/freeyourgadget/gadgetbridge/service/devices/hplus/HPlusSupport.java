@@ -838,6 +838,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
         switch (data[0]) {
             case HPlusConstants.DATA_VERSION:
+            case HPlusConstants.DATA_VERSION1:
                 return syncHelper.processVersion(data);
 
             case HPlusConstants.DATA_STATS:
@@ -856,9 +857,11 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             case HPlusConstants.DATA_DAY_SUMMARY:
             case HPlusConstants.DATA_DAY_SUMMARY_ALT:
                 return syncHelper.processIncomingDaySlotData(data);
-
+            case HPlusConstants.DATA_UNKNOWN:
+                return true;
             default:
-                LOG.info("Unhandled characteristic change: " + characteristicUUID + " code: " + data[0]);
+
+                LOG.info("Unhandled characteristic change: " + characteristicUUID + " code: " + Arrays.toString(data));
                 return true;
         }
     }

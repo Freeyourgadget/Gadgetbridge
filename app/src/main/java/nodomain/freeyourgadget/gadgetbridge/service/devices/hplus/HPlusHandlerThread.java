@@ -496,8 +496,15 @@ class HPlusHandlerThread extends GBDeviceIoThread {
      * @return boolean indicating success or fail
      */
     public boolean processVersion(byte[] data) {
-        int major = data[2] & 0xFF;
-        int minor = data[1] & 0xFF;
+        int major, minor;
+
+        if(data.length == 11){
+            major = data[10] & 0xFF;
+            minor = data[9] & 0xFF;
+        }else {
+            major = data[2] & 0xFF;
+            minor = data[1] & 0xFF;
+        }
 
         getDevice().setFirmwareVersion(major + "." + minor);
 

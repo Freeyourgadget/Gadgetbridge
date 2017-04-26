@@ -121,6 +121,9 @@ public final class HPlusConstants {
     public static final byte DATA_DAY_SUMMARY_ALT = 0x39;
     public static final byte DATA_SLEEP = 0x1A;
     public static final byte DATA_VERSION = 0x18;
+    public static final byte DATA_VERSION1 = 0x2E;
+
+    public static final byte DATA_UNKNOWN = 0x4d;
 
     public static final String PREF_HPLUS_SCREENTIME = "hplus_screentime";
     public static final String PREF_HPLUS_ALLDAYHR = "hplus_alldayhr";
