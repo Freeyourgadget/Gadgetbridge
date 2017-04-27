@@ -34,7 +34,7 @@ public class CalendarEventTest extends TestBase {
         assertNotEquals(c2.hashCode(), c3.hashCode());
     }
 
-    @Ignore
+
     @Test
     public void testSync() {
         List<CalendarEvents.CalendarEvent> eventList = new ArrayList<>();
