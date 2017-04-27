@@ -38,7 +38,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.GBEnvironment;
 
 public class FileUtils {
     // Don't use slf4j here -- would be a bootstrapping problem
@@ -210,11 +209,9 @@ public class FileUtils {
 
             // the first directory is also the primary external storage, i.e. the same as Environment.getExternalFilesDir()
             // TODO: check the mount state of *all* dirs when switching to later API level
-            if (!GBEnvironment.env().isLocalTest()) { // don't do this with robolectric
-                if (i == 0 && !Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-                    GB.log("ignoring unmounted external storage dir: " + dir, GB.INFO, null);
-                    continue;
-                }
+            if (i == 0 && !Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+                GB.log("ignoring unmounted external storage dir: " + dir, GB.INFO, null);
+                continue;
             }
             result.add(dir); // add last
         }

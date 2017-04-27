@@ -20,10 +20,6 @@ package nodomain.freeyourgadget.gadgetbridge;
  * Some more or less useful utility methods to aid local (non-device) testing.
  */
 public class GBEnvironment {
-// DO NOT USE A LOGGER HERE. Will break LoggingTest!
-//    private static final Logger LOG = LoggerFactory.getLogger(GBEnvironment.class);
-
-    private static GBEnvironment environment;
     private boolean localTest;
     private boolean deviceTest;
 
@@ -45,15 +41,4 @@ public class GBEnvironment {
         return localTest;
     }
 
-    public static synchronized GBEnvironment env() {
-        return environment;
-    }
-
-    static synchronized boolean isEnvironmentSetup() {
-        return environment != null;
-    }
-
-    public synchronized static void setupEnvironment(GBEnvironment env) {
-        environment = env;
-    }
 }

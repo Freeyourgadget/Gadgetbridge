@@ -88,18 +88,11 @@ public class GBApplication extends Application {
 
     public static final String ACTION_QUIT
             = "nodomain.freeyourgadget.gadgetbridge.gbapplication.action.quit";
-
-    private static GBApplication app;
-
     private static Logging logging = new Logging() {
         @Override
         protected String createLogDirectory() throws IOException {
-            if (GBEnvironment.env().isLocalTest()) {
-                return System.getProperty(Logging.PROP_LOGFILES_DIR);
-            } else {
-                File dir = FileUtils.getExternalFilesDir();
-                return dir.getAbsolutePath();
-            }
+            File dir = FileUtils.getExternalFilesDir();
+            return dir.getAbsolutePath();
         }
     };
 
@@ -117,17 +110,12 @@ public class GBApplication extends Application {
         // don't do anything here, add it to onCreate instead
     }
 
-    public static Logging getLogging() {
-        return logging;
-    }
-
     protected DeviceService createDeviceService() {
         return new GBDeviceService(this);
     }
 
     @Override
     public void onCreate() {
-        app = this;
         super.onCreate();
 
         if (lockHandler != null) {
@@ -149,12 +137,9 @@ public class GBApplication extends Application {
 
         setupExceptionHandler();
 
-        if (!GBEnvironment.isEnvironmentSetup()) {
-            GBEnvironment.setupEnvironment(GBEnvironment.createDeviceEnvironment());
-            // setup db after the environment is set up, but don't do it in test mode
-            // in test mode, it's done individually, see TestBase
-            setupDatabase();
-        }
+        GB.environment = GBEnvironment.createDeviceEnvironment();
+
+        setupDatabase(this);
 
         deviceManager = new DeviceManager(this);
 
@@ -210,14 +195,8 @@ public class GBApplication extends Application {
         return prefs.getBoolean("minimize_priority", false);
     }
 
-    public void setupDatabase() {
-        DaoMaster.OpenHelper helper;
-        GBEnvironment env = GBEnvironment.env();
-        if (env.isTest()) {
-            helper = new DaoMaster.DevOpenHelper(this, null, null);
-        } else {
-            helper = new DBOpenHelper(this, DATABASE_NAME, null);
-        }
+    static void setupDatabase(Context context) {
+        DBOpenHelper helper = new DBOpenHelper(context, DATABASE_NAME, null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
         if (lockHandler == null) {
@@ -491,9 +470,5 @@ public class GBApplication extends Application {
 
     public DeviceManager getDeviceManager() {
         return deviceManager;
-    }
-
-    public static GBApplication app() {
-        return app;
     }
 }
