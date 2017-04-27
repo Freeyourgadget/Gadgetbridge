@@ -62,9 +62,6 @@ public class GB {
     public static final String DISPLAY_MESSAGE_SEVERITY = "severity";
 
     public static Notification createNotification(String text, boolean connected, Context context) {
-        if (GBEnvironment.env().isLocalTest()) {
-            return null;
-        }
         Intent notificationIntent = new Intent(context, ControlCenterv2.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
