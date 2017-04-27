@@ -900,6 +900,12 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         }
         short level = bNormalize.getLevelNormalize((int) data,batteryCmd);
 
+        LOG.debug("Count:" + String.valueOf(bNormalize.getCounter()) +
+                " Mid:" + String.valueOf((int) level) +
+                " Band:" + String.valueOf((int) data) +
+                " Fix:" + String.valueOf(batteryCmd.level) +
+                " Time:" + String.valueOf(batteryCmd.lastChargeTime.getTimeInMillis()));
+
         if (batteryCmd.level != level) {
             SharedPreferences.Editor editor = settings.edit();
             if (level > batteryCmd.level) {
