@@ -60,10 +60,9 @@ public class GB {
     public static final String DISPLAY_MESSAGE_MESSAGE = "message";
     public static final String DISPLAY_MESSAGE_DURATION = "duration";
     public static final String DISPLAY_MESSAGE_SEVERITY = "severity";
-    public static GBEnvironment environment;
 
     public static Notification createNotification(String text, boolean connected, Context context) {
-        if (env().isLocalTest()) {
+        if (GBEnvironment.env().isLocalTest()) {
             return null;
         }
         Intent notificationIntent = new Intent(context, ControlCenterv2.class);
@@ -227,7 +226,7 @@ public class GB {
      */
     public static void toast(final Context context, final String message, final int displayTime, final int severity, final Throwable ex) {
         log(message, severity, ex); // log immediately, not delayed
-        if (env().isLocalTest()) {
+        if (GBEnvironment.env().isLocalTest()) {
             return;
         }
         Looper mainLooper = Looper.getMainLooper();
@@ -358,7 +357,7 @@ public class GB {
     }
 
     public static void updateBatteryNotification(String text, String bigText, Context context) {
-        if (env().isLocalTest()) {
+        if (GBEnvironment.env().isLocalTest()) {
             return;
         }
         Notification notification = createBatteryNotification(text, bigText, context);
@@ -367,10 +366,6 @@ public class GB {
 
     public static void removeBatteryNotification(Context context) {
         removeNotification(NOTIFICATION_ID_LOW_BATTERY, context);
-    }
-
-    public static GBEnvironment env() {
-        return environment;
     }
 
     public static void assertThat(boolean condition, String errorMessage) {

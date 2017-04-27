@@ -34,6 +34,7 @@ import java.util.List;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.entities.CalendarSyncState;
@@ -97,76 +98,76 @@ public class CalendarReceiver extends BroadcastReceiver {
     }
 
     public void syncCalendar(List<CalendarEvents.CalendarEvent> eventList) {
-        LOG.info("Syncing with calendar.");
-        Hashtable<Long, CalendarEvents.CalendarEvent> eventTable = new Hashtable<>();
-
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             DaoSession session = dbHandler.getDaoSession();
-            Long deviceId = DBHelper.getDevice(mGBDevice, session).getId();
-
-            QueryBuilder<CalendarSyncState> qb = session.getCalendarSyncStateDao().queryBuilder();
-
-
-            for (CalendarEvents.CalendarEvent e : eventList) {
-                long id = e.getId();
-                eventTable.put(id, e);
-                if (!eventState.containsKey(e.getId())) {
-                    qb = session.getCalendarSyncStateDao().queryBuilder();
-
-                    CalendarSyncState calendarSyncState = qb.where(qb.and(CalendarSyncStateDao.Properties.DeviceId.eq(deviceId), CalendarSyncStateDao.Properties.CalendarEntryId.eq(id)))
-                            .build().unique();
-                    if (calendarSyncState == null) {
-                        eventState.put(id, new EventSyncState(e, EventState.NOT_SYNCED));
-                        LOG.info("event id=" + id + " is yet unknown to device id=" + deviceId);
-                    } else if (calendarSyncState.getHash() == e.hashCode()) {
-                        eventState.put(id, new EventSyncState(e, EventState.SYNCED));
-                        LOG.info("event id=" + id + " is up to date on device id=" + deviceId);
-                    }
-                    else {
-                        eventState.put(id, new EventSyncState(e, EventState.NEEDS_UPDATE));
-                        LOG.info("event id=" + id + " is not up to date on device id=" + deviceId);
-                    }
-                }
-            }
-
-            // add all missing calendar ids on the device to sync status (so that they are deleted later)
-            List<CalendarSyncState> CalendarSyncStateList = qb.where(CalendarSyncStateDao.Properties.DeviceId.eq(deviceId)).build().list();
-            for (CalendarSyncState CalendarSyncState : CalendarSyncStateList) {
-                if (!eventState.containsKey(CalendarSyncState.getCalendarEntryId())) {
-                    eventState.put(CalendarSyncState.getCalendarEntryId(), new EventSyncState(null, EventState.NEEDS_DELETE));
-                    LOG.info("insert null event for orphanded calendar id=" + CalendarSyncState.getCalendarEntryId() + " for device=" + mGBDevice.getName());
-                }
-            }
-
-            Enumeration<Long> ids = eventState.keys();
-            while (ids.hasMoreElements()) {
-                qb = session.getCalendarSyncStateDao().queryBuilder();
-                Long i = ids.nextElement();
-                EventSyncState es = eventState.get(i);
-                if (eventTable.containsKey(i)) {
-                    if (es.getState() == EventState.SYNCED) {
-                        if (!es.getEvent().equals(eventTable.get(i))) {
-                            eventState.put(i, new EventSyncState(eventTable.get(i), EventState.NEEDS_UPDATE));
-                        }
-                    }
-                } else {
-                    if (es.getState() == EventState.NOT_SYNCED) {
-                        // delete for current device only
-                        qb.where(qb.and(CalendarSyncStateDao.Properties.DeviceId.eq(deviceId), CalendarSyncStateDao.Properties.CalendarEntryId.eq(i)))
-                                .buildDelete().executeDeleteWithoutDetachingEntities();
-                        eventState.remove(i);
-                    } else {
-                        es.setState(EventState.NEEDS_DELETE);
-                        eventState.put(i, es);
-                    }
-                }
-                updateEvents(deviceId, session);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            syncCalendar(eventList, session);
+        } catch (Exception e1) {
             GB.toast("Database Error while syncing Calendar", Toast.LENGTH_SHORT, GB.ERROR);
         }
+    }
 
+    public void syncCalendar(List<CalendarEvents.CalendarEvent> eventList, DaoSession session) {
+        LOG.info("Syncing with calendar.");
+        Hashtable<Long, CalendarEvents.CalendarEvent> eventTable = new Hashtable<>();
+        Long deviceId = DBHelper.getDevice(mGBDevice, session).getId();
+        QueryBuilder<CalendarSyncState> qb = session.getCalendarSyncStateDao().queryBuilder();
+
+
+        for (CalendarEvents.CalendarEvent e : eventList) {
+            long id = e.getId();
+            eventTable.put(id, e);
+            if (!eventState.containsKey(e.getId())) {
+                qb = session.getCalendarSyncStateDao().queryBuilder();
+
+                CalendarSyncState calendarSyncState = qb.where(qb.and(CalendarSyncStateDao.Properties.DeviceId.eq(deviceId), CalendarSyncStateDao.Properties.CalendarEntryId.eq(id)))
+                        .build().unique();
+                if (calendarSyncState == null) {
+                    eventState.put(id, new EventSyncState(e, EventState.NOT_SYNCED));
+                    LOG.info("event id=" + id + " is yet unknown to device id=" + deviceId);
+                } else if (calendarSyncState.getHash() == e.hashCode()) {
+                    eventState.put(id, new EventSyncState(e, EventState.SYNCED));
+                    LOG.info("event id=" + id + " is up to date on device id=" + deviceId);
+                }
+                else {
+                    eventState.put(id, new EventSyncState(e, EventState.NEEDS_UPDATE));
+                    LOG.info("event id=" + id + " is not up to date on device id=" + deviceId);
+                }
+            }
+        }
+
+        // add all missing calendar ids on the device to sync status (so that they are deleted later)
+        List<CalendarSyncState> CalendarSyncStateList = qb.where(CalendarSyncStateDao.Properties.DeviceId.eq(deviceId)).build().list();
+        for (CalendarSyncState CalendarSyncState : CalendarSyncStateList) {
+            if (!eventState.containsKey(CalendarSyncState.getCalendarEntryId())) {
+                eventState.put(CalendarSyncState.getCalendarEntryId(), new EventSyncState(null, EventState.NEEDS_DELETE));
+                LOG.info("insert null event for orphanded calendar id=" + CalendarSyncState.getCalendarEntryId() + " for device=" + mGBDevice.getName());
+            }
+        }
+
+        Enumeration<Long> ids = eventState.keys();
+        while (ids.hasMoreElements()) {
+            qb = session.getCalendarSyncStateDao().queryBuilder();
+            Long i = ids.nextElement();
+            EventSyncState es = eventState.get(i);
+            if (eventTable.containsKey(i)) {
+                if (es.getState() == EventState.SYNCED) {
+                    if (!es.getEvent().equals(eventTable.get(i))) {
+                        eventState.put(i, new EventSyncState(eventTable.get(i), EventState.NEEDS_UPDATE));
+                    }
+                }
+            } else {
+                if (es.getState() == EventState.NOT_SYNCED) {
+                    // delete for current device only
+                    qb.where(qb.and(CalendarSyncStateDao.Properties.DeviceId.eq(deviceId), CalendarSyncStateDao.Properties.CalendarEntryId.eq(i)))
+                            .buildDelete().executeDeleteWithoutDetachingEntities();
+                    eventState.remove(i);
+                } else {
+                    es.setState(EventState.NEEDS_DELETE);
+                    eventState.put(i, es);
+                }
+            }
+            updateEvents(deviceId, session);
+        }
     }
 
     private void updateEvents(Long deviceId, DaoSession session) {
