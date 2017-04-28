@@ -139,6 +139,13 @@ public class GBApplication extends Application {
         prefs = new Prefs(sharedPrefs);
         gbPrefs = new GBPrefs(prefs);
 
+        if (!GBEnvironment.isEnvironmentSetup()) {
+            GBEnvironment.setupEnvironment(GBEnvironment.createDeviceEnvironment());
+            // setup db after the environment is set up, but don't do it in test mode
+            // in test mode, it's done individually, see TestBase
+            setupDatabase();
+        }
+
         // don't do anything here before we set up logging, otherwise
         // slf4j may be implicitly initialized before we properly configured it.
         setupLogging(isFileLoggingEnabled());
@@ -148,13 +155,6 @@ public class GBApplication extends Application {
         }
 
         setupExceptionHandler();
-
-        if (!GBEnvironment.isEnvironmentSetup()) {
-            GBEnvironment.setupEnvironment(GBEnvironment.createDeviceEnvironment());
-            // setup db after the environment is set up, but don't do it in test mode
-            // in test mode, it's done individually, see TestBase
-            setupDatabase();
-        }
 
         deviceManager = new DeviceManager(this);
 
