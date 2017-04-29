@@ -31,6 +31,7 @@ import android.content.pm.PackageManager;
 import android.media.MediaMetadata;
 import android.media.session.PlaybackState;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.os.PowerManager;
 import android.os.RemoteException;
 import android.service.notification.NotificationListenerService;
@@ -260,10 +261,32 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         CharSequence contentCS = null;
-        if (preferBigText && extras.containsKey(Notification.EXTRA_BIG_TEXT)) {
-            contentCS = extras.getCharSequence(NotificationCompat.EXTRA_BIG_TEXT);
-        } else if (extras.containsKey(Notification.EXTRA_TEXT)) {
-            contentCS = extras.getCharSequence(NotificationCompat.EXTRA_TEXT);
+        if (extras.containsKey(Notification.EXTRA_MESSAGES)) {
+            Parcelable[] parcelables = extras.getParcelableArray(NotificationCompat.EXTRA_MESSAGES);
+            String contentBuilder = "";
+            CharSequence sender;
+            CharSequence prevSender = "";
+            CharSequence message;
+            for (Parcelable p : parcelables) {
+                if (!(p instanceof Bundle))
+                    continue;
+                sender = ((Bundle) p).getCharSequence("sender");
+                message = ((Bundle) p).getCharSequence("text");
+                if (sender == null || message == null)
+                    continue;
+                if (!sender.equals(prevSender) && !sender.equals(notificationSpec.title)) {
+                    contentBuilder += sender.toString() + ": ";
+                    prevSender = sender;
+                }
+                contentBuilder += message.toString() + "\n";
+            }
+            contentCS = contentBuilder;
+        } else {
+            if (preferBigText && extras.containsKey(Notification.EXTRA_BIG_TEXT)) {
+                contentCS = extras.getCharSequence(NotificationCompat.EXTRA_BIG_TEXT);
+            } else if (extras.containsKey(Notification.EXTRA_TEXT)) {
+                contentCS = extras.getCharSequence(NotificationCompat.EXTRA_TEXT);
+            }
         }
         if (contentCS != null) {
             notificationSpec.body = contentCS.toString();
