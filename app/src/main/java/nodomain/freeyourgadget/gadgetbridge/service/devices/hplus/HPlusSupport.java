@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -59,9 +60,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -91,7 +90,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     public HPlusSupport(DeviceType type) {
         super(LOG);
-
+        LOG.info("HPlusSupport Instance Created");
         deviceType = type;
 
         addSupportedService(HPlusConstants.UUID_SERVICE_HP);
@@ -117,26 +116,26 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         LOG.info("Initializing");
 
-        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
+        gbDevice.setState(GBDevice.State.INITIALIZING);
+        gbDevice.sendDeviceUpdateIntent(getContext());
 
         measureCharacteristic = getCharacteristic(HPlusConstants.UUID_CHARACTERISTIC_MEASURE);
         ctrlCharacteristic = getCharacteristic(HPlusConstants.UUID_CHARACTERISTIC_CONTROL);
 
-        //Initialize device
-        sendUserInfo(builder); //Sync preferences
 
         builder.notify(getCharacteristic(HPlusConstants.UUID_CHARACTERISTIC_MEASURE), true);
         builder.setGattCallback(this);
         builder.notify(measureCharacteristic, true);
-        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
+        //Initialize device
+        sendUserInfo(builder); //Sync preferences
 
-        if(syncHelper != null){
-            syncHelper.setHPlusSupport(this);
-        }else {
+        gbDevice.setState(GBDevice.State.INITIALIZED);
+        gbDevice.sendDeviceUpdateIntent(getContext());
+
+        if(syncHelper == null) {
             syncHelper = new HPlusHandlerThread(getDevice(), getContext(), this);
             syncHelper.start();
         }
-
         syncHelper.sync();
 
         getDevice().setFirmwareVersion("N/A");
@@ -293,7 +292,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HPlusSupport setWeight(TransactionBuilder transaction) {
-        byte value = HPlusCoordinator.getUserWeight(getDevice().getAddress());
+        byte value = HPlusCoordinator.getUserWeight();
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_SET_WEIGHT,
                 value
@@ -303,7 +302,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HPlusSupport setHeight(TransactionBuilder transaction) {
-        byte value = HPlusCoordinator.getUserHeight(getDevice().getAddress());
+        byte value = HPlusCoordinator.getUserHeight();
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_HEIGHT,
                 value
@@ -314,7 +313,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
 
     private HPlusSupport setAge(TransactionBuilder transaction) {
-        byte value = HPlusCoordinator.getUserAge(getDevice().getAddress());
+        byte value = HPlusCoordinator.getUserAge();
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_SET_AGE,
                 value
@@ -324,7 +323,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HPlusSupport setGender(TransactionBuilder transaction) {
-        byte value = HPlusCoordinator.getUserGender(getDevice().getAddress());
+        byte value = HPlusCoordinator.getUserGender();
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_SET_GENDER,
                 value
@@ -335,7 +334,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
 
     private HPlusSupport setGoal(TransactionBuilder transaction) {
-        int value = HPlusCoordinator.getGoal(getDevice().getAddress());
+        int value = HPlusCoordinator.getGoal();
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_SET_GOAL,
                 (byte) ((value / 256) & 0xff),
@@ -806,7 +805,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             byte[] cs;
 
             if (HPlusConstants.transliterateMap.containsKey(c)) {
-                cs = new byte[]{HPlusConstants.transliterateMap.get(c)};
+                cs = HPlusConstants.transliterateMap.get(c);
             } else {
                 try {
                     if (HPlusCoordinator.getLanguage(this.gbDevice.getAddress()) == HPlusConstants.ARG_LANGUAGE_CN)
@@ -839,10 +838,11 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
         switch (data[0]) {
             case HPlusConstants.DATA_VERSION:
+            case HPlusConstants.DATA_VERSION1:
                 return syncHelper.processVersion(data);
 
             case HPlusConstants.DATA_STATS:
-                boolean result = syncHelper.processRealtimeStats(data);
+                boolean result = syncHelper.processRealtimeStats(data, HPlusCoordinator.getUserAge());
                 if (result) {
                     processExtraInfo (data);
                 }
@@ -856,17 +856,19 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
             case HPlusConstants.DATA_DAY_SUMMARY:
             case HPlusConstants.DATA_DAY_SUMMARY_ALT:
-                return syncHelper.processIncomingDaySlotData(data);
-
+                return syncHelper.processIncomingDaySlotData(data, HPlusCoordinator.getUserAge());
+            case HPlusConstants.DATA_UNKNOWN:
+                return true;
             default:
-                LOG.info("Unhandled characteristic change: " + characteristicUUID + " code: " + data[0]);
+
+                LOG.info("Unhandled characteristic change: " + characteristicUUID + " code: " + Arrays.toString(data));
                 return true;
         }
     }
 
     private void  processExtraInfo (byte[] data) {
         try {
-            HPlusDataRecordRealtime record = new HPlusDataRecordRealtime(data);
+            HPlusDataRecordRealtime record = new HPlusDataRecordRealtime(data, HPlusCoordinator.getUserAge());
 
             handleBatteryInfo(record.battery);
 

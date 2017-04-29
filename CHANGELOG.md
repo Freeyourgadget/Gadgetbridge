@@ -1,5 +1,10 @@
 ###Changelog
 
+###Version 0.19.1
+* Fix crash at startup
+* HPlus: Improve reconnection to device
+* Improve transliteration
+
 ###Version 0.19.0
 * Pebble: allow calendar sync with Timeline (Title, Location, Description)
 * Pebble: display calendar icon for reminders from AOSP Calendar

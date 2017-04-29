@@ -123,6 +123,10 @@ class HPlusHandlerThread extends GBDeviceIoThread {
                 break;
             }
 
+            if(gbDevice.getState() == GBDevice.State.NOT_CONNECTED){
+                quit();
+            }
+
             Calendar now = GregorianCalendar.getInstance();
 
             if (now.compareTo(mGetDaySlotsTime) > 0) {
@@ -138,7 +142,6 @@ class HPlusHandlerThread extends GBDeviceIoThread {
             }
 
             if(now.compareTo(mHelloTime) > 0){
-                LOG.info("Sending hello");
                 sendHello();
             }
 
@@ -154,10 +157,6 @@ class HPlusHandlerThread extends GBDeviceIoThread {
         mQuit = true;
         synchronized (waitObject) {
             waitObject.notify();
-        }
-        StackTraceElement l[] = Thread.currentThread().getStackTrace();
-        for(StackTraceElement e: l){
-            LOG.warn(e.toString());
         }
     }
 
@@ -221,12 +220,12 @@ class HPlusHandlerThread extends GBDeviceIoThread {
      * @param data the message from the device
      * @return boolean indicating success or fail
      */
-    public boolean processIncomingDaySlotData(byte[] data) {
+    public boolean processIncomingDaySlotData(byte[] data, int age) {
 
         HPlusDataRecordDaySlot record;
 
         try{
-            record = new HPlusDataRecordDaySlot(data);
+            record = new HPlusDataRecordDaySlot(data, age);
         } catch(IllegalArgumentException e){
             LOG.info((e.getMessage()));
             return false;
@@ -303,7 +302,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
                     sample.setSteps(storedRecord.steps);
                     sample.setHeartRate(storedRecord.heartRate);
                     sample.setRawKind(storedRecord.type);
-
+                    sample.setRawIntensity(record.intensity);
                     sample.setProvider(provider);
                     samples.add(sample);
                 }
@@ -384,11 +383,11 @@ class HPlusHandlerThread extends GBDeviceIoThread {
      * @param data the message from the device
      * @return boolean indicating success or fail
      */
-    public boolean processRealtimeStats(byte[] data) {
+    public boolean processRealtimeStats(byte[] data, int age) {
         HPlusDataRecordRealtime record;
 
         try{
-            record = new HPlusDataRecordRealtime(data);
+            record = new HPlusDataRecordRealtime(data, age);
         } catch(IllegalArgumentException e){
             LOG.info((e.getMessage()));
             return false;
@@ -497,8 +496,15 @@ class HPlusHandlerThread extends GBDeviceIoThread {
      * @return boolean indicating success or fail
      */
     public boolean processVersion(byte[] data) {
-        int major = data[2] & 0xFF;
-        int minor = data[1] & 0xFF;
+        int major, minor;
+
+        if(data.length == 11){
+            major = data[10] & 0xFF;
+            minor = data[9] & 0xFF;
+        }else {
+            major = data[2] & 0xFF;
+            minor = data[1] & 0xFF;
+        }
 
         getDevice().setFirmwareVersion(major + "." + minor);
 
