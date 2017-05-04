@@ -22,6 +22,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract.Instances;
+import android.text.format.Time;
+import android.util.Log;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,6 +35,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class CalendarEvents {
+    private static final Logger LOG = LoggerFactory.getLogger(CalendarEvents.class);
 
     // needed for pebble: time, duration, layout, reminders, actions
     // layout: type, title, subtitle, body (max 512), tinyIcon, smallIcon, largeIcon
@@ -41,9 +47,10 @@ public class CalendarEvents {
 
     private static final String[] EVENT_INSTANCE_PROJECTION = new String[]{
             Instances._ID,
+
             Instances.BEGIN,
             Instances.END,
-            Instances.EVENT_ID,
+            Instances.DURATION,
             Instances.TITLE,
             Instances.DESCRIPTION,
             Instances.EVENT_LOCATION,
@@ -77,10 +84,18 @@ public class CalendarEvents {
                 return false;
             }
             while (evtCursor.moveToNext()) {
+                long start = evtCursor.getLong(1);
+                long end = evtCursor.getLong(2);
+                if (end == 0) {
+                    LOG.info("no end time, will parse duration string");
+                    Time time = new Time(); //FIXME: deprecated FTW
+                    time.parse(evtCursor.getString(3));
+                    end = start + time.toMillis(false);
+                }
                 CalendarEvent calEvent = new CalendarEvent(
-                        evtCursor.getLong(1),
-                        evtCursor.getLong(2),
-                        evtCursor.getLong(3),
+                        start,
+                        end,
+                        evtCursor.getLong(0),
                         evtCursor.getString(4),
                         evtCursor.getString(5),
                         evtCursor.getString(6),
