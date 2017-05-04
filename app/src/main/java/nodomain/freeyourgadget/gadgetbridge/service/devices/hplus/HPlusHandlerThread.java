@@ -498,7 +498,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
     public boolean processVersion(byte[] data) {
         int major, minor;
 
-        if(data.length == 11){
+        if(data.length >= 11){
             major = data[10] & 0xFF;
             minor = data[9] & 0xFF;
         }else {
