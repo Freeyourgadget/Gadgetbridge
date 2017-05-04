@@ -25,6 +25,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelUuid;
@@ -281,4 +282,13 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
         return prefs.getInt(HPlusConstants.PREF_HPLUS_SIT_END_TIME, 0);
     }
 
+    public static void setUnicodeSupport(String address, boolean state){
+        SharedPreferences.Editor editor = prefs.getPreferences().edit();
+        editor.putBoolean(HPlusConstants.PREF_HPLUS_UNICODE + "_" + address, state);
+        editor.commit();
+    }
+
+    public static boolean getUnicodeSupport(String address){
+        return (prefs.getBoolean(HPlusConstants.PREF_HPLUS_UNICODE, false));
+    }
 }

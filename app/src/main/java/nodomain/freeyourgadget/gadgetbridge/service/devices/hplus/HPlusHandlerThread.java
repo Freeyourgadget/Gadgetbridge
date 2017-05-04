@@ -501,13 +501,18 @@ class HPlusHandlerThread extends GBDeviceIoThread {
         if(data.length >= 11){
             major = data[10] & 0xFF;
             minor = data[9] & 0xFF;
+
+            int hwMajor = data[2] & 0xFF;
+            int hwMinor = data[1] & 0xFF;
+
+            getDevice().setFirmwareVersion2(hwMajor + "." + hwMinor);
+            mHPlusSupport.setUnicodeSupport((data[3] != 0));
         }else {
             major = data[2] & 0xFF;
             minor = data[1] & 0xFF;
         }
 
         getDevice().setFirmwareVersion(major + "." + minor);
-
         getDevice().sendDeviceUpdateIntent(getContext());
 
         return true;

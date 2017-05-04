@@ -132,6 +132,7 @@ public final class HPlusConstants {
     public static final String PREF_HPLUS_WRIST = "hplus_wrist";
     public static final String PREF_HPLUS_SIT_START_TIME = "hplus_sit_start_time";
     public static final String PREF_HPLUS_SIT_END_TIME = "hplus_sit_end_time";
+    public static final String PREF_HPLUS_UNICODE = "hplus_unicode";
 
     public static final Map<Character, byte[]> transliterateMap = new HashMap<Character, byte[]>(){
         {

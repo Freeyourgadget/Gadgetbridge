@@ -660,6 +660,10 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     }
 
+    public void setUnicodeSupport(boolean support){
+        HPlusCoordinator.setUnicodeSupport(gbDevice.getAddress(), support);
+    }
+
 
     private void showIncomingCall(String name, String rawNumber) {
         try {
@@ -737,6 +741,8 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
             int length = messageBytes.length / 17;
 
+            length = length > 5 ? 5 : length;
+
             builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SET_INCOMING_MESSAGE, HPlusConstants.ARG_INCOMING_MESSAGE});
 
             int remaining = Math.min(255, (messageBytes.length % 17 > 0) ? length + 1 : length);
@@ -808,10 +814,10 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 cs = HPlusConstants.transliterateMap.get(c);
             } else {
                 try {
-                    if (HPlusCoordinator.getLanguage(this.gbDevice.getAddress()) == HPlusConstants.ARG_LANGUAGE_CN)
-                        cs = c.toString().getBytes("GB2312");
+                    if(HPlusCoordinator.getUnicodeSupport(this.gbDevice.getAddress()))
+                        cs = c.toString().getBytes("Unicode");
                     else
-                        cs = c.toString().getBytes("UTF-8");
+                        cs = c.toString().getBytes("GB2312");
                 } catch (UnsupportedEncodingException e) {
                     //Fallback. Result string may be strange, but better than nothing
                     cs = c.toString().getBytes();
