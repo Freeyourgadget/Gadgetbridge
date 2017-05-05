@@ -667,14 +667,6 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     private void showIncomingCall(String name, String rawNumber) {
         try {
-            StringBuilder number = new StringBuilder();
-
-            //Clean up number as the device only accepts digits
-            for (char c : rawNumber.toCharArray()) {
-                if (Character.isDigit(c)) {
-                    number.append(c);
-                }
-            }
 
             TransactionBuilder builder = performInitialized("incomingCall");
 
@@ -684,37 +676,48 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             //Show Call Icon
             builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SET_INCOMING_CALL, HPlusConstants.ARG_INCOMING_CALL});
 
-            byte[] msg = new byte[13];
+            if(name != null) {
+                byte[] msg = new byte[13];
 
+                //Show call name
+                for (int i = 0; i < msg.length; i++)
+                    msg[i] = ' ';
 
-            //Show call name
+                byte[] nameBytes = encodeStringToDevice(name);
+                for (int i = 0; i < nameBytes.length && i < (msg.length - 1); i++)
+                    msg[i + 1] = nameBytes[i];
 
-            for (int i = 0; i < msg.length; i++)
-                msg[i] = ' ';
+                msg[0] = HPlusConstants.CMD_ACTION_DISPLAY_TEXT_NAME;
+                builder.write(ctrlCharacteristic, msg);
 
-            byte[] nameBytes = encodeStringToDevice(name);
-            for (int i = 0; i < nameBytes.length && i < (msg.length - 1); i++)
-                msg[i + 1] = nameBytes[i];
+                msg[0] = HPlusConstants.CMD_ACTION_DISPLAY_TEXT_NAME_CN;
+                builder.write(ctrlCharacteristic, msg);
+            }
 
-            msg[0] = HPlusConstants.CMD_ACTION_DISPLAY_TEXT_NAME;
-            builder.write(ctrlCharacteristic, msg);
+            if(rawNumber != null) {
+                StringBuilder number = new StringBuilder();
 
-            msg[0] = HPlusConstants.CMD_ACTION_DISPLAY_TEXT_NAME_CN;
-            builder.write(ctrlCharacteristic, msg);
+                //Clean up number as the device only accepts digits
+                for (char c : rawNumber.toCharArray()) {
+                    if (Character.isDigit(c)) {
+                        number.append(c);
+                    }
+                }
 
-            builder.wait(200);
-            msg = msg.clone();
+                byte[] msg = new byte[13];
 
-            //Show call number
-            for (int i = 0; i < msg.length; i++)
-                msg[i] = ' ';
+                //Show call number
+                for (int i = 0; i < msg.length; i++)
+                    msg[i] = ' ';
 
-            for (int i = 0; i < number.length() && i < (msg.length - 1); i++)
-                msg[i + 1] = (byte) number.charAt(i);
+                for (int i = 0; i < number.length() && i < (msg.length - 1); i++)
+                    msg[i + 1] = (byte) number.charAt(i);
 
-            msg[0] = HPlusConstants.CMD_SET_INCOMING_CALL_NUMBER;
+                msg[0] = HPlusConstants.CMD_SET_INCOMING_CALL_NUMBER;
 
-            builder.write(ctrlCharacteristic, msg);
+                builder.wait(200);
+                builder.write(ctrlCharacteristic, msg);
+            }
 
             performConnected(builder.getTransaction());
         } catch (IOException e) {
