@@ -1,5 +1,11 @@
 ###Changelog
 
+###Version 0.19.2
+* Pebble: Fix recurring calendar events only appearing once per week
+* HPlus: Fix crash when receiving calls without phone number
+* HPlus: Detect unicode support on Zeband Plus
+* No longer quit Gadgetbridge when bluetooth gets turned off
+
 ###Version 0.19.1
 * Fix crash at startup
 * HPlus: Improve reconnection to device
