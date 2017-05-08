@@ -217,6 +217,7 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
             startIntent.setAction(Intent.ACTION_VIEW);
             ClipData clipData = resultData.getClipData();
             if (clipData != null) {
+                //If there is more than one app to install
                 int appsCount = clipData.getItemCount();
                 for (int i = 0; i < appsCount; i++) {
                     startIntent.setDataAndType(clipData.getItemAt(i).getUri(), null);
@@ -225,6 +226,7 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
                     startActivity(startIntent);
                 }
             } else {
+                //If there is one app to install
                 startIntent.setDataAndType(resultData.getData(), null);
                 startActivity(startIntent);
             }

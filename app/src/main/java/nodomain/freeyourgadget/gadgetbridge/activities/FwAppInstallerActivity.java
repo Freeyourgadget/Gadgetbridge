@@ -77,6 +77,7 @@ public class FwAppInstallerActivity extends GBActivity implements InstallActivit
     private final BroadcastReceiver installationResultReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            //Receive installation fail/success intent
             if (mProgressBar != null)
                 mProgressBar.setVisibility(View.INVISIBLE);
             if (installButton != null) {
@@ -203,8 +204,11 @@ public class FwAppInstallerActivity extends GBActivity implements InstallActivit
             uri = getIntent().getParcelableExtra(Intent.EXTRA_STREAM);
         }
 
+        //Get apps count and app index from calling intent
         int appsCount = getIntent().getIntExtra("APPS_COUNT", 1);
         int currentAppIndex = getIntent().getIntExtra("APP_INDEX", 1);
+
+        //Set up the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         toolbar.setTitle(getResources().getString(R.string.installation_d_d, currentAppIndex, appsCount));
