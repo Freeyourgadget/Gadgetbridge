@@ -216,14 +216,15 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
             Intent startIntent = new Intent(AppManagerActivity.this, FwAppInstallerActivity.class);
             startIntent.setAction(Intent.ACTION_VIEW);
             ClipData clipData = resultData.getClipData();
-            if (clipData != null)
-                for (int i = clipData.getItemCount() - 1; i >= 0; i--) {
+            if (clipData != null) {
+                int appsCount = clipData.getItemCount();
+                for (int i = 0; i < appsCount; i++) {
                     startIntent.setDataAndType(clipData.getItemAt(i).getUri(), null);
-                    startIntent.putExtra("APPS_COUNT", clipData.getItemCount());
-                    startIntent.putExtra("APP_INDEX", i + 1);
+                    startIntent.putExtra("APPS_COUNT", appsCount);
+                    startIntent.putExtra("APP_INDEX", Math.abs(i - appsCount));
                     startActivity(startIntent);
                 }
-            else {
+            } else {
                 startIntent.setDataAndType(resultData.getData(), null);
                 startActivity(startIntent);
             }

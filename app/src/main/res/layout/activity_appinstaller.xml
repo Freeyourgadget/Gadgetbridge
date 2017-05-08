@@ -11,9 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        android:title="@string/app_name"
-        android:elevation="4dp"
-        android:popupTheme="@style/ThemeOverlay.AppCompat"/>
+        android:title="@string/app_name" />
 
     <LinearLayout
         android:layout_width="match_parent"

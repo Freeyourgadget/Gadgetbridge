@@ -193,6 +193,7 @@
     <string name="cannot_connect_bt_address_invalid_">Cannot connect. BT address invalid?</string>
     <string name="gadgetbridge_running">Gadgetbridge running</string>
     <string name="installing_binary_d_d">installing binary %1$d/%2$d</string>
+    <string name="installation_d_d">Installation (%1$d/%2$d)</string>
     <string name="installation_failed_">installation failed!</string>
     <string name="installation_successful">installation successful</string>
     <string name="firmware_install_warning">YOU ARE TRYING TO INSTALL A FIRMWARE, PROCEED AT YOUR OWN RISK.\n\n\n This firmware is for HW Revision: %s</string>
