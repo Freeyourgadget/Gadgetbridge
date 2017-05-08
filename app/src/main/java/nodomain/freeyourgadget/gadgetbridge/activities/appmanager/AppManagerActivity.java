@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities.appmanager;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -97,6 +98,7 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 intent.setType("*/*");
                 startActivityForResult(intent, READ_REQUEST_CODE);
             }
@@ -213,8 +215,18 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Intent startIntent = new Intent(AppManagerActivity.this, FwAppInstallerActivity.class);
             startIntent.setAction(Intent.ACTION_VIEW);
-            startIntent.setDataAndType(resultData.getData(), null);
-            startActivity(startIntent);
+            ClipData clipData = resultData.getClipData();
+            if (clipData != null)
+                for (int i = clipData.getItemCount() - 1; i >= 0; i--) {
+                    startIntent.setDataAndType(clipData.getItemAt(i).getUri(), null);
+                    startIntent.putExtra("APPS_COUNT", clipData.getItemCount());
+                    startIntent.putExtra("APP_INDEX", i + 1);
+                    startActivity(startIntent);
+                }
+            else {
+                startIntent.setDataAndType(resultData.getData(), null);
+                startActivity(startIntent);
+            }
         }
     }
 

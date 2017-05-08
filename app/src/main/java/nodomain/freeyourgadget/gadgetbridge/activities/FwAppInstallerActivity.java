@@ -24,7 +24,9 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -55,17 +57,15 @@ public class FwAppInstallerActivity extends GBActivity implements InstallActivit
 
     private static final Logger LOG = LoggerFactory.getLogger(FwAppInstallerActivity.class);
     private static final String ITEM_DETAILS = "details";
-
+    private final List<ItemWithDetails> mItems = new ArrayList<>();
     private TextView fwAppInstallTextView;
     private Button installButton;
     private Uri uri;
     private GBDevice device;
     private InstallHandler installHandler;
     private boolean mayConnect;
-
     private ProgressBar mProgressBar;
     private ListView itemListView;
-    private final List<ItemWithDetails> mItems = new ArrayList<>();
     private ItemWithDetailsAdapter mItemAdapter;
 
     private ListView detailsListView;
@@ -128,6 +128,12 @@ public class FwAppInstallerActivity extends GBActivity implements InstallActivit
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (GBApplication.isDarkThemeEnabled()) {
+            setTheme(R.style.GadgetbridgeThemeDark_NoActionBar);
+        } else {
+            setTheme(R.style.GadgetbridgeTheme_NoActionBar);
+        }
+
         setContentView(R.layout.activity_appinstaller);
 
         GBDevice dev = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
@@ -172,6 +178,13 @@ public class FwAppInstallerActivity extends GBActivity implements InstallActivit
         if (uri == null) { //for "share" intent
             uri = getIntent().getParcelableExtra(Intent.EXTRA_STREAM);
         }
+
+        int appsCount = getIntent().getIntExtra("APPS_COUNT", 1);
+        int currentAppIndex = getIntent().getIntExtra("APP_INDEX", 1);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
+        toolbar.setTitle("(" + currentAppIndex + "/" + appsCount + ")");
+
         installHandler = findInstallHandlerFor(uri);
         if (installHandler == null) {
             setInfoText(getString(R.string.installer_activity_unable_to_find_handler));
@@ -220,13 +233,13 @@ public class FwAppInstallerActivity extends GBActivity implements InstallActivit
     }
 
     @Override
-    public void setInfoText(String text) {
-        fwAppInstallTextView.setText(text);
+    public CharSequence getInfoText() {
+        return fwAppInstallTextView.getText();
     }
 
     @Override
-    public CharSequence getInfoText() {
-        return fwAppInstallTextView.getText();
+    public void setInfoText(String text) {
+        fwAppInstallTextView.setText(text);
     }
 
     @Override

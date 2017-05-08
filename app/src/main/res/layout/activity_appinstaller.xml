@@ -1,77 +1,71 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
     android:animateLayoutChanges="true"
+    android:orientation="vertical"
     tools:context="nodomain.freeyourgadget.gadgetbridge.activities.FwAppInstallerActivity">
 
-    <ListView
-        android:id="@+id/itemListView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="false"></ListView>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:title="@string/app_name"
+        android:elevation="4dp"
+        android:popupTheme="@style/ThemeOverlay.AppCompat"/>
 
-    <TextView
-        android:id="@+id/infoTextView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_alignParentTop="false"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentStart="false"
-        android:layout_below="@+id/itemListView" />
-
-    <ImageView
-        android:id="@+id/fwappStatusIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="Status Icon"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="false"
-        android:layout_alignParentLeft="false"
-        android:layout_below="@+id/infoTextView" />
-
-    <ProgressBar
-        android:id="@+id/installProgressBar"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:indeterminate="true"
-        android:layout_gravity="center_horizontal"
-        android:visibility="gone"
-        android:layout_below="@+id/fwappStatusIcon"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/appinstaller_install"
-        android:id="@+id/installButton"
-        android:layout_gravity="center_horizontal"
-        android:enabled="false"
-        android:layout_alignParentBottom="false"
-        android:layout_alignWithParentIfMissing="false"
-        android:layout_alignParentTop="false"
-        android:layout_alignParentLeft="false"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/installProgressBar"
-        android:layout_marginTop="10dp" />
-
-    <ListView
-        android:id="@+id/detailsListView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/installButton"
-        android:layout_alignParentEnd="false"></ListView>
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
 
-    <android.widget.Space
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        <ListView
+            android:id="@+id/itemListView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/infoTextView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
+
+        <ImageView
+            android:id="@+id/fwappStatusIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
+
+        <ProgressBar
+            android:id="@+id/installProgressBar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:indeterminate="true"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/installButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:enabled="false"
+            android:text="@string/appinstaller_install" />
+
+        <ListView
+            android:id="@+id/detailsListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <android.widget.Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</LinearLayout>
