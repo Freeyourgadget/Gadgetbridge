@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/activatedBackgroundIndicator"
-    android:padding="8dp" >
+    android:padding="8dp">
 
     <ImageView
         android:id="@+id/item_image"
@@ -28,15 +28,14 @@
             android:scrollHorizontally="false"
             style="@style/Base.TextAppearance.AppCompat.SearchResult.Title"
             android:text="Item Name"
-            android:maxLines="1"/>
+            android:maxLines="1" />
 
         <TextView
             android:id="@+id/item_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/Base.TextAppearance.AppCompat.SearchResult"
-            android:text="Item Description"
-            />
+            android:text="Item Description" />
     </LinearLayout>
 
 </RelativeLayout>

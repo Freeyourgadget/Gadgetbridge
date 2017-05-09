@@ -105,10 +105,10 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void connect(@Nullable GBDevice device, boolean performPair) {
+    public void connect(@Nullable GBDevice device, boolean firstTime) {
         Intent intent = createIntent().setAction(ACTION_CONNECT)
                 .putExtra(GBDevice.EXTRA_DEVICE, device)
-                .putExtra(EXTRA_PERFORM_PAIR, performPair);
+                .putExtra(EXTRA_CONNECT_FIRST_TIME, firstTime);
         invokeService(intent);
     }
 
@@ -332,7 +332,8 @@ public class GBDeviceService implements DeviceService {
                 .putExtra(EXTRA_CALENDAREVENT_TIMESTAMP, calendarEventSpec.timestamp)
                 .putExtra(EXTRA_CALENDAREVENT_DURATION, calendarEventSpec.durationInSeconds)
                 .putExtra(EXTRA_CALENDAREVENT_TITLE, calendarEventSpec.title)
-                .putExtra(EXTRA_CALENDAREVENT_DESCRIPTION, calendarEventSpec.description);
+                .putExtra(EXTRA_CALENDAREVENT_DESCRIPTION, calendarEventSpec.description)
+                .putExtra(EXTRA_CALENDAREVENT_LOCATION, calendarEventSpec.location);
         invokeService(intent);
     }
 

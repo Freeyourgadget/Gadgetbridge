@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2017 Andreas Shimokawa, Daniele Gobbetti
+/*  Copyright (C) 2016-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -62,6 +63,16 @@ public class MusicSpec {
                 this.duration == musicSpec.duration &&
                 this.trackCount == musicSpec.trackCount &&
                 this.trackNr == musicSpec.trackNr;
+    }
 
+    @Override
+    public int hashCode() {
+        int result = artist != null ? artist.hashCode() : 0;
+        result = 31 * result + (album != null ? album.hashCode() : 0);
+        result = 31 * result + (track != null ? track.hashCode() : 0);
+        result = 31 * result + duration;
+        result = 31 * result + trackCount;
+        result = 31 * result + trackNr;
+        return result;
     }
 }

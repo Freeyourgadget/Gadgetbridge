@@ -250,15 +250,6 @@ public class ControlCenterv2 extends AppCompatActivity
 
     private void refreshPairedDevices() {
         List<GBDevice> deviceList = deviceManager.getDevices();
-        GBDevice connectedDevice = null;
-
-        for (GBDevice device : deviceList) {
-            if (device.isConnected() || device.isConnecting()) {
-                connectedDevice = device;
-                break;
-            }
-        }
-
         if (deviceList.isEmpty()) {
             background.setVisibility(View.VISIBLE);
         } else {

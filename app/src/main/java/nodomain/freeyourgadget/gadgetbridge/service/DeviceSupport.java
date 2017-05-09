@@ -53,6 +53,27 @@ public interface DeviceSupport extends EventHandler {
     boolean isConnected();
 
     /**
+     * Attempts an initial connection to the device, typically after the user "discovered"
+     * and connects to it for the first time. Some implementations may perform an additional
+     * initialization or application-level pairing compared to the regular {@link #connect()}.
+     * <p/>
+     * Implementations may perform the connection in a synchronous or asynchronous way.
+     * Returns true if a connection attempt was made. If the implementation is synchronous
+     * it may also return true if the connection was successfully established, however
+     * callers shall not rely on that.
+     * <p/>
+     * The actual connection state change (successful or not) will be reported via the
+     * #getDevice device as a device change Intent.
+     *
+     * Note: the default implementation {@link AbstractDeviceSupport#connectFirstTime()} just
+     * calls {@link #connect()}
+     *
+     * @see #connect()
+     * @see GBDevice#ACTION_DEVICE_CHANGED
+     */
+    boolean connectFirstTime();
+
+    /**
      * Attempts to establish a connection to the device. Implementations may perform
      * the connection in a synchronous or asynchronous way.
      * Returns true if a connection attempt was made. If the implementation is synchronous
@@ -62,6 +83,7 @@ public interface DeviceSupport extends EventHandler {
      * The actual connection state change (successful or not) will be reported via the
      * #getDevice device as a device change Intent.
      *
+     * @see #connectFirstTime()
      * @see GBDevice#ACTION_DEVICE_CHANGED
      */
     boolean connect();
@@ -91,14 +113,6 @@ public interface DeviceSupport extends EventHandler {
      * connection loss.
      */
     boolean getAutoReconnect();
-
-    /**
-     * Attempts to pair and connect this device with the gadget device. Success
-     * will be reported via a device change Intent.
-     *
-     * @see GBDevice#ACTION_DEVICE_CHANGED
-     */
-    void pair();
 
     /**
      * Returns the associated device this instance communicates with.

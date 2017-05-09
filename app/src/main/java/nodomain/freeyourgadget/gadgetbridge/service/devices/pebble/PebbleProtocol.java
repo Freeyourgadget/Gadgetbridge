@@ -30,6 +30,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.SimpleTimeZone;
@@ -514,6 +515,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
     public byte[] encodeAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
         long id = calendarEventSpec.id != -1 ? calendarEventSpec.id : mRandom.nextLong();
         int iconId;
+        ArrayList<Pair<Integer, Object>> attributes = new ArrayList<>();
+        attributes.add(new Pair<>(1, (Object) calendarEventSpec.title));
         switch (calendarEventSpec.type) {
             case CalendarEventSpec.TYPE_SUNRISE:
                 iconId = PebbleIconID.SUNRISE;
@@ -523,9 +526,11 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 break;
             default:
                 iconId = PebbleIconID.TIMELINE_CALENDAR;
+                attributes.add(new Pair<>(3, (Object) calendarEventSpec.description));
+                attributes.add(new Pair<>(11, (Object) calendarEventSpec.location));
         }
 
-        return encodeTimelinePin(new UUID(GB_UUID_MASK | calendarEventSpec.type, id), calendarEventSpec.timestamp, (short) calendarEventSpec.durationInSeconds, iconId, calendarEventSpec.title, calendarEventSpec.description);
+        return encodeTimelinePin(new UUID(GB_UUID_MASK | calendarEventSpec.type, id), calendarEventSpec.timestamp, (short) (calendarEventSpec.durationInSeconds / 60), iconId, attributes);
     }
 
     @Override
@@ -838,17 +843,34 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return buf.array();
     }
 
-    private byte[] encodeTimelinePin(UUID uuid, int timestamp, short duration, int icon_id, String title, String subtitle) {
+    private byte[] encodeTimelinePin(UUID uuid, int timestamp, short duration, int icon_id, List<Pair<Integer, Object>> attributes) {
         final short TIMELINE_PIN_LENGTH = 46;
 
+        //FIXME: dont depend layout on icon :P
+        byte layout_id = 0x01;
+        if (icon_id == PebbleIconID.TIMELINE_CALENDAR) {
+            layout_id = 0x02;
+        }
         icon_id |= 0x80000000;
-        byte attributes_count = 2;
+        byte attributes_count = 1;
         byte actions_count = 0;
 
-        int attributes_length = 10 + title.getBytes().length;
-        if (subtitle != null && !subtitle.isEmpty()) {
-            attributes_length += 3 + subtitle.getBytes().length;
-            attributes_count += 1;
+        int attributes_length = 7;
+        for (Pair<Integer, Object> pair : attributes) {
+            if (pair.first == null || pair.second == null)
+                continue;
+            attributes_count++;
+            if (pair.second instanceof Integer) {
+                attributes_length += 7;
+            } else if (pair.second instanceof Byte) {
+                attributes_length += 4;
+            } else if (pair.second instanceof String) {
+                attributes_length += ((String) pair.second).getBytes().length + 3;
+            } else if (pair.second instanceof byte[]) {
+                attributes_length += ((byte[]) pair.second).length + 3;
+            } else {
+                LOG.warn("unsupported type for timeline attributes: " + pair.second.getClass().toString());
+            }
         }
 
         int pin_length = TIMELINE_PIN_LENGTH + attributes_length;
@@ -865,8 +887,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.putShort(duration);
         buf.put((byte) 0x02); // type (0x02 = pin)
         buf.putShort((short) 0x0001); // flags 0x0001 = ?
-        buf.put((byte) 0x01); // layout was (0x02 = pin?), 0x01 needed for subtitle but seems to do no harm if there isn't one
-
+        buf.put(layout_id); // layout was (0x02 = pin?), 0x01 needed for subtitle but seems to do no harm if there isn't one
         buf.putShort((short) attributes_length); // total length of all attributes and actions in bytes
         buf.put(attributes_count);
         buf.put(actions_count);
@@ -874,13 +895,24 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put((byte) 4); // icon
         buf.putShort((short) 4); // length of int
         buf.putInt(icon_id);
-        buf.put((byte) 1); // title
-        buf.putShort((short) title.getBytes().length);
-        buf.put(title.getBytes());
-        if (subtitle != null && !subtitle.isEmpty()) {
-            buf.put((byte) 2); //subtitle
-            buf.putShort((short) subtitle.getBytes().length);
-            buf.put(subtitle.getBytes());
+
+        for (Pair<Integer, Object> pair : attributes) {
+            if (pair.first == null || pair.second == null)
+                continue;
+            buf.put(pair.first.byteValue());
+            if (pair.second instanceof Integer) {
+                buf.putShort((short) 4);
+                buf.putInt(((Integer) pair.second));
+            } else if (pair.second instanceof Byte) {
+                buf.putShort((short) 1);
+                buf.put((Byte) pair.second);
+            } else if (pair.second instanceof String) {
+                buf.putShort((short) ((String) pair.second).getBytes().length);
+                buf.put(((String) pair.second).getBytes());
+            } else if (pair.second instanceof byte[]) {
+                buf.putShort((short) ((byte[]) pair.second).length);
+                buf.put((byte[]) pair.second);
+            }
         }
 
         return encodeBlobdb(uuid, BLOBDB_INSERT, BLOBDB_PIN, buf.array());
@@ -2341,11 +2373,28 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         GBDeviceEventSendBytes sendBytes = new GBDeviceEventSendBytes();
         if (command == 0x01) { //session setup
-            sendBytes.encodedBytes = null;
-        } else if (command == 0x02) { //dictation result
+            int replLenght = 7;
+            byte replStatus = 5; // 5 = disabled,  change to 0 to send success
+            ByteBuffer repl = ByteBuffer.allocate(LENGTH_PREFIX + replLenght);
+            repl.order(ByteOrder.BIG_ENDIAN);
+            repl.putShort((short) replLenght);
+            repl.putShort(ENDPOINT_VOICECONTROL);
+            repl.put(command);
+            repl.putInt(flags);
+            repl.put(session_type);
+            repl.put(replStatus);
+
+            sendBytes.encodedBytes = repl.array();
+
+        } else if (command == 0x02) { //dictation result (possibly it is something we send, not something we receive)
             sendBytes.encodedBytes = null;
         }
         return sendBytes;
+    }
+
+    private GBDeviceEvent decodeAudioStream(ByteBuffer buf) {
+
+        return null;
     }
 
     @Override
@@ -2607,11 +2656,13 @@ public class PebbleProtocol extends GBDeviceProtocol {
             case ENDPOINT_APPLOGS:
                 decodeAppLogs(buf);
                 break;
-//            case ENDPOINT_VOICECONTROL:
-//                devEvts = new GBDeviceEvent[]{decodeVoiceControl(buf)};
-//            case ENDPOINT_AUDIOSTREAM:
-//                LOG.debug(GB.hexdump(responseData, 0, responseData.length));
-//                break;
+            case ENDPOINT_VOICECONTROL:
+                devEvts = new GBDeviceEvent[]{decodeVoiceControl(buf)};
+                break;
+            case ENDPOINT_AUDIOSTREAM:
+                devEvts = new GBDeviceEvent[]{decodeAudioStream(buf)};
+//                LOG.debug("AUDIOSTREAM DATA: " + GB.hexdump(responseData, 4, length));
+                break;
             default:
                 break;
         }

@@ -104,8 +104,11 @@
   <string name="pref_summary_enable_outgoing_call">Desactivar esto evitará que el Pebble 2/LE vibre en llamadas salientes</string>
   <string name="pref_title_enable_pebblekit">Permitir el acceso a aplicaciones Android de terceros</string>
   <string name="pref_summary_enable_pebblekit">Permitir el soporte experimental para aplicaciones Android que usan PebbleKit</string>
+  <string name="pref_header_pebble_timeline">Timeline Pebble</string>
   <string name="pref_title_sunrise_sunset">Salida y puesta de Sol</string>
   <string name="pref_summary_sunrise_sunset">Enviar las horas de salida y puesta de Sol basándose en la localización a la línea cronológica del Pebble</string>
+  <string name="pref_title_enable_calendar_sync">Sincronizar calendario</string>
+  <string name="pref_summary_enable_calendar_sync">Enviar los eventos del calendario a la timeline</string>
   <string name="pref_title_autoremove_notifications">Eliminar automáticamente las notificaciones rechazadas</string>
   <string name="pref_summary_autoremove_notifications">Las notificaciones se borran automáticamente de Pebble cuando son rechazadas en Android</string>
   <string name="pref_title_pebble_privacy_mode">Modo privado</string>
@@ -268,6 +271,8 @@
   <string name="updatefirmwareoperation_update_complete_rebooting">Instalación del firmware completa, reiniciando dispositivo...</string>
   <string name="updatefirmwareoperation_write_failed">Falló la escritura del firmware</string>
   <string name="chart_steps">Pasos</string>
+  <string name="calories">Calorías</string>
+  <string name="distance">Distancia</string>
   <string name="liveactivity_live_activity">Actividad</string>
   <string name="weeksteps_today_steps_description">Pasos hoy, objetivo: %1$s</string>
   <string name="pref_title_dont_ack_transfer">No confirmar transferencia</string>
@@ -294,7 +299,7 @@
   <string name="miband_prefs_device_time_offset_hours">Compensación de la hora del dispositivo en horas (para detectar el sueño de trabajadores a turnos)</string>
   <string name="miband2_prefs_dateformat">Mi2: Formato de fecha</string>
   <string name="dateformat_time">Tiempo</string>
-  <string name="dateformat_date_time"><![CDATA[Time & Date]]></string>
+  <string name="dateformat_date_time"><![CDATA[Fecha y hora]]></string>
   <string name="mi2_prefs_activate_display_on_lift">Activar pantalla al levantar</string>
   <string name="FetchActivityOperation_about_to_transfer_since">A punto de transferir datos desde %1$s</string>
   <string name="waiting_for_reconnect">esperando reconexión</string>
@@ -321,15 +326,17 @@
   <string name="pref_summary_pebble_health_store_raw">Seleccionado, los datos archivados se guardan en bruto y están disponibles para ser interpretados más tarde. La base de datos será más grande. </string>
   <string name="action_db_management">Administración de Bases de Datos</string>
   <string name="title_activity_db_management">Administración de Bases de Datos</string>
-  <string name="activity_db_management_import_export_explanation">La base de datos usa la siguiente ubicación en su dispositivo. \nEsta ubicación está accesible para otras aplicaciones Android y para su ordenador. \nEncontrará sus bases de datos exportadas (o la que quiere importar) aquí:</string>
+  <string name="activity_db_management_import_export_explanation">La base de datos usa la siguiente ubicación en su dispositivo.\nEsta ubicación está accesible para otras aplicaciones Android y para su ordenador.\nEncontrará sus bases de datos exportadas (o la que quiere importar) aquí:</string>
   <string name="activity_db_management_merge_old_title">Borrar la base de datos antigua</string>
   <string name="dbmanagementactivvity_cannot_access_export_path">No se puede acceder a la ruta para exportar . Por favor, contacta con los desarrolladores.</string>
   <string name="dbmanagementactivity_exported_to">Exportado a: %1$s</string>
-  <string name="dbmanagementactivity_error_exporting_db">Error exportando DB: %1$s</string>
+  <string name="dbmanagementactivity_error_exporting_db">Error de exportación de la base de datos: %1$s</string>
+  <string name="dbmanagementactivity_error_exporting_shared">Error de exportación de las preferencias: %1$s</string>
   <string name="dbmanagementactivity_import_data_title">¿Importar Datos?</string>
   <string name="dbmanagementactivity_overwrite_database_confirmation">¿Quiere sobreescribir la base de datos actual? Todos sus datos actuales (si los hay) se borrarán.</string>
   <string name="dbmanagementactivity_import_successful">Importado con éxito.</string>
-  <string name="dbmanagementactivity_error_importing_db">Error importando DB: %1$s</string>
+  <string name="dbmanagementactivity_error_importing_db">Error de importación de la base de datos: %1$s</string>
+  <string name="dbmanagementactivity_error_importing_shared">Error de importación de las preferencias: %1$s</string>
   <string name="dbmanagementactivity_delete_activity_data_title">¿Quieres borrar los datos de actividad?</string>
   <string name="dbmanagementactivity_really_delete_entire_db">¿Quieres borrar la base de datos? Todos tus datos de actividad y la información sobre tus dispositivos se borrarán.</string>
   <string name="dbmanagementactivity_database_successfully_deleted">Datos borrados.</string>
@@ -361,4 +368,13 @@
   <string name="mi2_enable_text_notifications">Notificaciones textuales</string>
   <string name="mi2_enable_text_notifications_summary"><![CDATA[Needs firmware >= 1.0.1.28 and Mili_pro.ft* installed.]]></string>
   <string name="off">off</string>
+  <string name="discovery_attempting_to_pair">Intento de emparejamiento con %1$s</string>
+  <string name="discovery_bonding_failed_immediately">El enlace con %1$s falló instantáneamente</string>
+  <string name="discovery_trying_to_connect_to">Intentando conectar con: %1$s</string>
+  <string name="discovery_enable_bluetooth">Activa el Bluetooth para encontrar dispositivos.</string>
+  <string name="discovery_successfully_bonded">Correctamente conectado con %1$s</string>
+  <string name="discovery_pair_title">Emparejar con %1$s?</string>
+  <string name="discovery_pair_question">Selecciona Emparejar para emparejar tus dispositivos. Si esto falla, prueba de nuevo sin emparejar.</string>
+  <string name="discovery_yes_pair">Emparejar</string>
+  <string name="discovery_dont_pair">No emparejar</string>
 </resources>

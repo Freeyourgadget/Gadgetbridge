@@ -20,6 +20,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -48,6 +49,7 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     public PebbleCoordinator() {
     }
 
+    @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String name = candidate.getDevice().getName();
@@ -73,7 +75,7 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    protected void deleteDevice(GBDevice gbDevice, Device device, DaoSession session) throws GBException {
+    protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
         Long deviceId = device.getId();
         QueryBuilder<?> qb = session.getPebbleHealthActivitySampleDao().queryBuilder();
         qb.where(PebbleHealthActivitySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
@@ -158,5 +160,10 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     @Override
     public Class<? extends Activity> getAppsManagementActivity() {
         return AppManagerActivity.class;
+    }
+
+    @Override
+    public boolean supportsCalendarEvents() {
+        return true;
     }
 }

@@ -23,7 +23,6 @@ import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -47,6 +46,21 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
  */
 public interface DeviceCoordinator {
     String EXTRA_DEVICE_CANDIDATE = "nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate.EXTRA_DEVICE_CANDIDATE";
+    /**
+     * Do not attempt to bond after discovery.
+     */
+    int BONDING_STYLE_NONE = 0;
+    /**
+     * Bond after discovery.
+     * This is not recommended, as there are mobile devices on which bonding does not work.
+     * Prefer to use #BONDING_STYLE_ASK instead.
+     */
+    int BONDING_STYLE_BOND = 1;
+    /**
+     * Let the user decide whether to bond or not after discovery.
+     * Prefer this over #BONDING_STYLE_BOND
+     */
+    int BONDING_STYLE_ASK = 2;
 
     /**
      * Checks whether this coordinator handles the given candidate.
@@ -207,4 +221,17 @@ public interface DeviceCoordinator {
      * @return
      */
     Class<? extends Activity> getAppsManagementActivity();
+
+    /**
+     * Returns how/if the given device should be bonded before connecting to it.
+     * @param device
+     */
+    int getBondingStyle(GBDevice device);
+
+    /**
+     * Indicates whether the device has some kind of calender we can sync to.
+     * Also used for generated sunrise/sunset events
+     */
+    boolean supportsCalendarEvents();
+
 }

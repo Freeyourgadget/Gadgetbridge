@@ -23,14 +23,24 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertLevel;
 
 public class VibrationProfile {
-    public static final Context CONTEXT = GBApplication.getContext();
-    public static final String ID_STACCATO = CONTEXT.getString(R.string.p_staccato);
-    public static final String ID_SHORT = CONTEXT.getString(R.string.p_short);
-    public static final String ID_MEDIUM = CONTEXT.getString(R.string.p_medium);
-    public static final String ID_LONG = CONTEXT.getString(R.string.p_long);
-    public static final String ID_WATERDROP = CONTEXT.getString(R.string.p_waterdrop);
-    public static final String ID_RING = CONTEXT.getString(R.string.p_ring);
-    public static final String ID_ALARM_CLOCK = CONTEXT.getString(R.string.p_alarm_clock);
+    public static final String ID_STACCATO;
+    public static final String ID_SHORT;
+    public static final String ID_MEDIUM;
+    public static final String ID_LONG;
+    public static final String ID_WATERDROP;
+    public static final String ID_RING;
+    public static final String ID_ALARM_CLOCK;
+
+    static {
+        Context CONTEXT = GBApplication.getContext();
+        ID_STACCATO = CONTEXT.getString(R.string.p_staccato);
+        ID_SHORT = CONTEXT.getString(R.string.p_short);
+        ID_MEDIUM = CONTEXT.getString(R.string.p_medium);
+        ID_LONG = CONTEXT.getString(R.string.p_long);
+        ID_WATERDROP = CONTEXT.getString(R.string.p_waterdrop);
+        ID_RING = CONTEXT.getString(R.string.p_ring);
+        ID_ALARM_CLOCK = CONTEXT.getString(R.string.p_alarm_clock);
+    }
 
     public static VibrationProfile getProfile(String id, short repeat) {
         if (ID_STACCATO.equals(id)) {

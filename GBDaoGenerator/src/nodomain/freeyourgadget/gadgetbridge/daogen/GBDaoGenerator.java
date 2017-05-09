@@ -17,6 +17,7 @@ package nodomain.freeyourgadget.gadgetbridge.daogen;
 
 import de.greenrobot.daogenerator.DaoGenerator;
 import de.greenrobot.daogenerator.Entity;
+import de.greenrobot.daogenerator.Index;
 import de.greenrobot.daogenerator.Property;
 import de.greenrobot.daogenerator.Schema;
 
@@ -39,6 +40,7 @@ public class GBDaoGenerator {
     private static final String SAMPLE_DISTANCE = "distance";
     private static final String TIMESTAMP_FROM = "timestampFrom";
     private static final String TIMESTAMP_TO = "timestampTo";
+
 
     public static void main(String[] args) throws Exception {
         Schema schema = new Schema(16, MAIN_PACKAGE + ".entities");
@@ -64,6 +66,8 @@ public class GBDaoGenerator {
         addPebbleMorpheuzActivitySample(schema, user, device);
         addHPlusHealthActivityKindOverlay(schema, user, device);
         addHPlusHealthActivitySample(schema, user, device);
+
+        addCalendarSyncState(schema, device);
 
         new DaoGenerator().generateAll(schema, "app/src/main/java");
     }
@@ -290,6 +294,20 @@ public class GBDaoGenerator {
         activitySample.addToOne(device, deviceId);
         Property userId = activitySample.addLongProperty("userId").notNull().codeBeforeGetterAndSetter(OVERRIDE).getProperty();
         activitySample.addToOne(user, userId);
+    }
+
+    private static void addCalendarSyncState(Schema schema, Entity device) {
+        Entity calendarSyncState = addEntity(schema, "CalendarSyncState");
+        calendarSyncState.addIdProperty();
+        Property deviceId = calendarSyncState.addLongProperty("deviceId").notNull().getProperty();
+        Property calendarEntryId = calendarSyncState.addLongProperty("calendarEntryId").notNull().getProperty();
+        Index indexUnique = new Index();
+        indexUnique.addProperty(deviceId);
+        indexUnique.addProperty(calendarEntryId);
+        indexUnique.makeUnique();
+        calendarSyncState.addIndex(indexUnique);
+        calendarSyncState.addToOne(device, deviceId);
+        calendarSyncState.addIntProperty("hash").notNull();
     }
 
     private static Property findProperty(Entity entity, String propertyName) {

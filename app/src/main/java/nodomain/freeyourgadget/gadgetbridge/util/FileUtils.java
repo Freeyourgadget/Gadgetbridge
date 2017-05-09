@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.GBEnvironment;
 
 public class FileUtils {
     // Don't use slf4j here -- would be a bootstrapping problem
@@ -54,7 +55,9 @@ public class FileUtils {
         if (!sourceFile.exists()) {
             throw new IOException("Does not exist: " + sourceFile.getAbsolutePath());
         }
-        copyFile(new FileInputStream(sourceFile), new FileOutputStream(destFile));
+        try (FileInputStream in = new FileInputStream(sourceFile); FileOutputStream out = new FileOutputStream(destFile)) {
+            copyFile(in, out);
+        }
     }
 
     private static void copyFile(FileInputStream sourceStream, FileOutputStream destStream) throws IOException {
@@ -207,9 +210,11 @@ public class FileUtils {
 
             // the first directory is also the primary external storage, i.e. the same as Environment.getExternalFilesDir()
             // TODO: check the mount state of *all* dirs when switching to later API level
-            if (i == 0 && !Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-                GB.log("ignoring unmounted external storage dir: " + dir, GB.INFO, null);
-                continue;
+            if (!GBEnvironment.env().isLocalTest()) { // don't do this with robolectric
+                if (i == 0 && !Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+                    GB.log("ignoring unmounted external storage dir: " + dir, GB.INFO, null);
+                    continue;
+                }
             }
             result.add(dir); // add last
         }
@@ -229,13 +234,13 @@ public class FileUtils {
     public static byte[] readAll(InputStream in, long maxLen) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream(Math.max(8192, in.available()));
         byte[] buf = new byte[8192];
-        int read = 0;
+        int read;
         long totalRead = 0;
         while ((read = in.read(buf)) > 0) {
             out.write(buf, 0, read);
             totalRead += read;
             if (totalRead > maxLen) {
-                throw new IOException("Too much data to read into memory. Got already " + totalRead + buf);
+                throw new IOException("Too much data to read into memory. Got already " + totalRead);
             }
         }
         return out.toByteArray();

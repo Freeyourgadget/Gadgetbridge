@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2017 Daniele Gobbetti
+/*  Copyright (C) 2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -31,15 +31,9 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 class DatalogSessionAnalytics extends DatalogSession {
     private static final Logger LOG = LoggerFactory.getLogger(DatalogSessionAnalytics.class);
     private GBDeviceEventBatteryInfo mGBDeviceEventBatteryInfo = new GBDeviceEventBatteryInfo();
-    private GBDevice mGBDevice;
 
     DatalogSessionAnalytics(byte id, UUID uuid, int timestamp, int tag, byte itemType, short itemSize, GBDevice device) {
         super(id, uuid, timestamp, tag, itemType, itemSize);
-        if (mGBDevice == null || !device.equals(mGBDevice)) { //prevent showing information of other pebble watches when switching devices
-            mGBDevice = device;
-            mGBDeviceEventBatteryInfo.state = BatteryState.UNKNOWN;
-        }
-
         // The default notification should not be too bad (one per hour) but we can override this if needed
         //mGBDevice.setBatteryThresholdPercent((short) 5);
 
@@ -56,42 +50,18 @@ class DatalogSessionAnalytics extends DatalogSession {
         datalogMessage.position(datalogMessage.position() + 12);
         short reportedMilliVolts = datalogMessage.getShort();
 
-        LOG.info("Battery reading for TS " + messageTS + " is: " + reportedMilliVolts + " milliVolts, mapped to percentage: " + milliVoltstoPercentage(reportedMilliVolts));
+        datalogMessage.position(datalogMessage.position() + 2);
+        byte reportedPercentage = datalogMessage.get();
 
+        LOG.info("Battery reading for TS " + messageTS + " is: " + reportedMilliVolts + " milliVolts, percentage: " + reportedPercentage);
         if (messageTS > 0 && reportedMilliVolts < 5000) { //some safety checks
             mGBDeviceEventBatteryInfo.state = BatteryState.BATTERY_NORMAL;
-            mGBDeviceEventBatteryInfo.level = milliVoltstoPercentage(reportedMilliVolts);
+            mGBDeviceEventBatteryInfo.level = reportedPercentage;
 
             return new GBDeviceEvent[]{mGBDeviceEventBatteryInfo, null};
         } else { //invalid data, but we ack nevertheless
             return new GBDeviceEvent[]{null};
         }
 
-    }
-
-    private short milliVoltstoPercentage(short batteryMilliVolts) {
-        if (batteryMilliVolts > 4145) {        //(4146 is still 100, next reported value is already 90)
-            return 100;
-        } else if (batteryMilliVolts > 4053) { //(4054 is still 90, next reported value is already 80)
-            return 90;
-        } else if (batteryMilliVolts > 4000) { //guessed
-            return 80;
-        } else if (batteryMilliVolts > 3880) { //confirmed
-            return 70;
-        } else if (batteryMilliVolts > 3855) { //probably
-            return 60;
-        } else if (batteryMilliVolts > 3780) { //3781 is still 50, next reading is 3776 but percentage on pebble unknown
-            return 50;
-        } else if (batteryMilliVolts >= 3750) { //3750 is still 40, next reported value is 3746 and already 30
-            return 40;
-        } else if (batteryMilliVolts > 3720) { //3723 is still 30, next reported value is 3719 and already 20
-            return 30;
-        } else if (batteryMilliVolts > 3680) { //3683 is still 20, next reported value is 3675 and already 10
-            return 20;
-        } else if (batteryMilliVolts > 3650) { //3657 is still 10
-            return 10;
-        } else {
-            return 0; //or -1 for invalid?
-        }
     }
 }

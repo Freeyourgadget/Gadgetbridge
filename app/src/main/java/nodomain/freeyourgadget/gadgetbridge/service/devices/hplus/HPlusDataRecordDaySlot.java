@@ -51,7 +51,13 @@ public class HPlusDataRecordDaySlot extends HPlusDataRecord {
      */
     public int heartRate;
 
-    public HPlusDataRecordDaySlot(byte[] data) {
+    private int age = 0;
+    /**
+     * Raw intensity calculated from calories
+     */
+    public int intensity;
+
+    public HPlusDataRecordDaySlot(byte[] data, int age) {
         super(data, TYPE_DAY_SLOT);
 
         int a = (data[4] & 0xFF) * 256 + (data[5] & 0xFF);
@@ -77,6 +83,8 @@ public class HPlusDataRecordDaySlot extends HPlusDataRecord {
         slotTime.set(Calendar.SECOND, 0);
 
         timestamp = (int) (slotTime.getTimeInMillis() / 1000L);
+
+        this.age = age;
     }
 
     public String toString(){
@@ -101,5 +109,12 @@ public class HPlusDataRecordDaySlot extends HPlusDataRecord {
         }
 
         secondsInactive += other.secondsInactive;
+
+        intensity = (int) ((100*heartRate)/(208-0.7*age));
+
+    }
+
+    public boolean isValid(){
+        return steps != 0 || secondsInactive != 0 || heartRate != -1;
     }
 }

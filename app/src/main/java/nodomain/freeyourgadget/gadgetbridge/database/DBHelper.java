@@ -384,7 +384,9 @@ public class DBHelper {
         } else {
             ensureDeviceUpToDate(device, gbDevice, session);
         }
-        ensureDeviceAttributes(device, gbDevice, session);
+        if (gbDevice.isInitialized()) {
+            ensureDeviceAttributes(device, gbDevice, session);
+        }
 
         return device;
     }

@@ -16,12 +16,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -40,7 +44,7 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
 
     @Override
     String getPieDescription(int targetValue) {
-        return getString(R.string.weeksleepchart_today_sleep_description, DateTimeUtils.minutesToHHMM(targetValue));
+        return getString(R.string.weeksleepchart_today_sleep_description, DateTimeUtils.formatDurationHoursMinutes(targetValue, TimeUnit.MINUTES));
     }
 
     @Override
@@ -70,6 +74,11 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     @Override
     protected String formatPieValue(int value) {
         return DateTimeUtils.formatDurationHoursMinutes((long) value, TimeUnit.MINUTES);
+    }
+
+    @Override
+    String[] getPieLabels() {
+        return new String[]{getString(R.string.abstract_chart_fragment_kind_deep_sleep), getString(R.string.abstract_chart_fragment_kind_light_sleep)};
     }
 
     @Override
@@ -105,5 +114,23 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     @Override
     int[] getColors() {
         return new int[]{akDeepSleep.color, akLightSleep.color};
+    }
+
+    @Override
+    protected void setupLegend(Chart chart) {
+        List<LegendEntry> legendEntries = new ArrayList<>(2);
+
+        LegendEntry lightSleepEntry = new LegendEntry();
+        lightSleepEntry.label = akLightSleep.label;
+        lightSleepEntry.formColor = akLightSleep.color;
+        legendEntries.add(lightSleepEntry);
+
+        LegendEntry deepSleepEntry = new LegendEntry();
+        deepSleepEntry.label = akDeepSleep.label;
+        deepSleepEntry.formColor = akDeepSleep.color;
+        legendEntries.add(deepSleepEntry);
+
+        chart.getLegend().setCustom(legendEntries);
+        chart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
     }
 }

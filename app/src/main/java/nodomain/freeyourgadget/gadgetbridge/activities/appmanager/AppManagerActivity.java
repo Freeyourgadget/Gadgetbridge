@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2017 Andreas Shimokawa, Daniele Gobbetti
+/*  Copyright (C) 2016-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -176,14 +177,11 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
 
 
     static synchronized void rewriteAppOrderFile(String filename, List<UUID> uuids) {
-        try {
-            FileWriter fileWriter = new FileWriter(FileUtils.getExternalFilesDir() + "/" + filename);
-            BufferedWriter out = new BufferedWriter(fileWriter);
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(FileUtils.getExternalFilesDir() + "/" + filename))) {
             for (UUID uuid : uuids) {
                 out.write(uuid.toString());
                 out.newLine();
             }
-            out.close();
         } catch (IOException e) {
             LOG.warn("can't write app order to file!");
         }
@@ -199,9 +197,7 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
 
     static synchronized ArrayList<UUID> getUuidsFromFile(String filename) {
         ArrayList<UUID> uuids = new ArrayList<>();
-        try {
-            FileReader fileReader = new FileReader(FileUtils.getExternalFilesDir() + "/" + filename);
-            BufferedReader in = new BufferedReader(fileReader);
+        try (BufferedReader in = new BufferedReader(new FileReader(FileUtils.getExternalFilesDir() + "/" + filename))) {
             String line;
             while ((line = in.readLine()) != null) {
                 uuids.add(UUID.fromString(line));

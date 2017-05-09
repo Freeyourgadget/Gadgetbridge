@@ -216,7 +216,7 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
         int len = value.length;
 
         if (len % 4 != 1) {
-            throw new AssertionError("Unexpected activity array size: " + value);
+            throw new AssertionError("Unexpected activity array size: " + len);
         }
 
         for (int i = 1; i < len; i+=4) {

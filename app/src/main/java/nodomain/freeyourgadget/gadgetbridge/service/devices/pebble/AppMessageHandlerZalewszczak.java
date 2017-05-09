@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2017 Andreas Shimokawa, Daniele Gobbetti
+/*  Copyright (C) 2016-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -69,8 +70,8 @@ class AppMessageHandlerZalewszczak extends AppMessageHandler {
         }
 
         ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>(2);
-        pairs.add(new Pair<>(KEY_TEMP, (Object) (Math.round(weatherSpec.currentTemp - 273) + "C")));
-        pairs.add(new Pair<>(KEY_ICON, (Object) (getIconForConditionCode(weatherSpec.currentConditionCode))));
+        pairs.add(new Pair<Integer, Object>(KEY_TEMP, weatherSpec.currentTemp - 273 + "C"));
+        pairs.add(new Pair<Integer, Object>(KEY_ICON, getIconForConditionCode(weatherSpec.currentConditionCode)));
         byte[] weatherMessage = mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs);
 
         ByteBuffer buf = ByteBuffer.allocate(weatherMessage.length);

@@ -54,7 +54,7 @@ public class DateTimeUtils {
         DurationFormatter df = DurationFormatter.Builder.SYMBOLS
                 .maximum(TimeUnit.DAYS)
                 .minimum(TimeUnit.MINUTES)
-                .suppressZeros(DurationFormatter.SuppressZeros.LEADING)
+                .suppressZeros(DurationFormatter.SuppressZeros.LEADING, DurationFormatter.SuppressZeros.TRAILING)
                 .maximumAmountOfUnitsToShow(2)
                 .build();
         return df.format(duration, unit);

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2017 Andreas Shimokawa
+/*  Copyright (C) 2016-2017 Andreas Shimokawa, Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -27,4 +27,6 @@ public class CalendarEventSpec {
     public int durationInSeconds;
     public String title;
     public String description;
+    public String location;
+    public boolean allDay;
 }

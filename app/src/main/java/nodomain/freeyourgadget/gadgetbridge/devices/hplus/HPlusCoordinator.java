@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2017 Carsten Pfeiffer, João Paulo Barraca
+/*  Copyright (C) 2016-2017 Andreas Shimokawa, Carsten Pfeiffer, João
+    Paulo Barraca
 
     This file is part of Gadgetbridge.
 
@@ -24,6 +25,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelUuid;
@@ -78,6 +80,16 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
         }
 
         return DeviceType.UNKNOWN;
+    }
+
+    @Override
+    public int getBondingStyle(GBDevice deviceCandidate){
+        return BONDING_STYLE_NONE;
+    }
+
+    @Override
+    public boolean supportsCalendarEvents() {
+        return false;
     }
 
     @Override
@@ -187,7 +199,6 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
         }else{
             return HPlusConstants.ARG_TIMEMODE_12H;
         }
-
     }
 
     public static byte getUnit(String address) {
@@ -200,25 +211,25 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
         }
     }
 
-    public static byte getUserWeight(String address) {
+    public static byte getUserWeight() {
         ActivityUser activityUser = new ActivityUser();
 
         return (byte) (activityUser.getWeightKg() & 0xFF);
     }
 
-    public static byte getUserHeight(String address) {
+    public static byte getUserHeight() {
         ActivityUser activityUser = new ActivityUser();
 
         return (byte) (activityUser.getHeightCm() & 0xFF);
     }
 
-    public static byte getUserAge(String address) {
+    public static byte getUserAge() {
         ActivityUser activityUser = new ActivityUser();
 
         return (byte) (activityUser.getAge() & 0xFF);
     }
 
-    public static byte getUserGender(String address) {
+    public static byte getUserGender() {
         ActivityUser activityUser = new ActivityUser();
 
         if (activityUser.getGender() == ActivityUser.GENDER_MALE)
@@ -227,7 +238,7 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
         return HPlusConstants.ARG_GENDER_FEMALE;
     }
 
-    public static int getGoal(String address) {
+    public static int getGoal() {
         ActivityUser activityUser = new ActivityUser();
 
         return activityUser.getStepsGoal();
@@ -271,4 +282,13 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
         return prefs.getInt(HPlusConstants.PREF_HPLUS_SIT_END_TIME, 0);
     }
 
+    public static void setUnicodeSupport(String address, boolean state){
+        SharedPreferences.Editor editor = prefs.getPreferences().edit();
+        editor.putBoolean(HPlusConstants.PREF_HPLUS_UNICODE + "_" + address, state);
+        editor.commit();
+    }
+
+    public static boolean getUnicodeSupport(String address){
+        return (prefs.getBoolean(HPlusConstants.PREF_HPLUS_UNICODE, false));
+    }
 }

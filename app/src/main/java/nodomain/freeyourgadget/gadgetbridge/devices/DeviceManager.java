@@ -34,6 +34,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
@@ -87,6 +90,12 @@ public class DeviceManager {
                             deviceList.set(index, dev);
                         } else {
                             deviceList.add(dev);
+                        }
+                        if (dev.isInitialized()) {
+                            try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                                DBHelper.getDevice(dev, dbHandler.getDaoSession()); // implicitly creates the device in database if not present, and updates device attributes
+                            } catch (Exception ignore) {
+                            }
                         }
                     }
                     updateSelectedDevice(dev);

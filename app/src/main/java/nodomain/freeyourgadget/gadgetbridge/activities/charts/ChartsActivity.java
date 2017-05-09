@@ -27,7 +27,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
@@ -67,7 +66,6 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
     private Date mStartDate;
     private Date mEndDate;
     private SwipeRefreshLayout swipeLayout;
-    private PagerTabStrip mPagerTabStrip;
     private ViewPager viewPager;
 
     LimitedQueue mActivityAmountCache = new LimitedQueue(60);
@@ -200,7 +198,6 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
                 handleNextButtonClicked();
             }
         });
-        mPagerTabStrip = (PagerTabStrip) findViewById(R.id.charts_pagerTabStrip);
 
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.charts_main_layout);
     }
