@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.19.2" versioncode="95">
+        <change>Pebble: Fix recurring calendar events only appearing once per week</change>
+        <change>HPlus: Fix crash when receiving calls without phone number</change>
+        <change>HPlus: Detect unicode support on Zeband Plus</change>
+        <change>No longer quit Gadgetbridge when bluetooth gets turned off</change>
+    </release>
     <release version="0.19.1" versioncode="94">
         <change>Fix crash at startup</change>
         <change>Improve reconnection to device</change>
-*       <change>Improve transliteration</change>
+        <change>Improve transliteration</change>
     </release>
     <release version="0.19.0" versioncode="93">
         <change>Pebble: allow calendar sync with Timeline (Title, Location, Description)</change>

@@ -1,11 +1,17 @@
 ### Changelog
 
-### Version 0.19.1
+#### Version 0.19.2
+* Pebble: Fix recurring calendar events only appearing once per week
+* HPlus: Fix crash when receiving calls without phone number
+* HPlus: Detect unicode support on Zeband Plus
+* No longer quit Gadgetbridge when bluetooth gets turned off
+
+#### Version 0.19.1
 * Fix crash at startup
 * HPlus: Improve reconnection to device
 * Improve transliteration
 
-### Version 0.19.0
+#### Version 0.19.0
 * Pebble: allow calendar sync with Timeline (Title, Location, Description)
 * Pebble: display calendar icon for reminders from AOSP Calendar
 * HPlus: try to fix latin characters showing as random Chinese text
@@ -13,7 +19,7 @@
 * Improve generic notification reliability by trying to restart the notification listener when stale/crashed
 * Other small bugfixes
 
-### Version 0.18.5
+#### Version 0.18.5
 * Applied some material design guidelines to Charts and (pebble) app management
 * Changed colours: deep sleep is now dark blue, light sleep is now light blue
 * Support for exporting and importing of preferences in addition to the database
@@ -24,24 +30,24 @@
 * HPlus: users can now decide whether they want to pair the device or not, hopefully fixing some connection problems (#642)
 * HPlus: display battery state and warn on low battery
 
-### Version 0.18.4
+#### Version 0.18.4
 * Mi Band 2: Display realtime steps in Live Activity
 * Mi Band: Attempt to recognize Mi Band model with hwVersion = 8
 * Alarms activity improvements and fixes
 * Make Buttons in the main activity easier to hit
 
-### Version 0.18.3
+#### Version 0.18.3
 * Fix bug that caused the same value in weekly charts for every day on Android 6 and older
 
-### Version 0.18.2
+#### Version 0.18.2
 * Mi Band 2: Fix crash on "chat" or "social network" text notification (#603)
 
-### Version 0.18.1
+#### Version 0.18.1
 * Pebble: Fix Firmware insstallation on Pebble Time Round (broken since 0.16.0)
 * Start VibrationActivity when using "find device" button with Vibratissimo
 * Support material fork of K9
 
-### Version 0.18.0
+#### Version 0.18.0
 * All new GUI for the control center
 * Add Portuguese pt_PT and pt_BR translations
 * Add Czech translation

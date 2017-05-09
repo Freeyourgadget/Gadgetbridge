@@ -368,7 +368,7 @@ NOTE: la base de données sera bien évidement plus grande !</string>
   <string name="miband2_prefs_timeformat">Mi2: format de l\'heure</string>
   <string name="mi2_fw_installhandler_fw53_hint">Vous devez installer la version %1$s avant d\'installer ce micrologiciel!</string>
   <string name="mi2_enable_text_notifications">Notifications textuelles</string>
-  <string name="mi2_enable_text_notifications_summary"><![CDATA[Needs firmware >= 1.0.1.28 and Mili_pro.ft* installed.]]></string>
+  <string name="mi2_enable_text_notifications_summary"><![CDATA[Requis: micrologiciel version 1.0.1.28 ou plus, fichier Mili_pro.ft* installé.]]></string>
   <string name="off">off</string>
   <string name="discovery_attempting_to_pair">Tentative d\'appairage avec %1$s</string>
   <string name="discovery_bonding_failed_immediately">Le lien avec %1$s a échoué instantanément</string>
