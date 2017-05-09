@@ -1,5 +1,5 @@
-/*  Copyright (C) 2016-2017 Alberto, Andreas Shimokawa, ivanovlev, João
-    Paulo Barraca
+/*  Copyright (C) 2016-2017 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
+    ivanovlev, João Paulo Barraca
 
     This file is part of Gadgetbridge.
 
@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -60,7 +61,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -90,7 +90,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     public HPlusSupport(DeviceType type) {
         super(LOG);
-
+        LOG.info("HPlusSupport Instance Created");
         deviceType = type;
 
         addSupportedService(HPlusConstants.UUID_SERVICE_HP);
@@ -116,29 +116,34 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         LOG.info("Initializing");
 
-        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
+        gbDevice.setState(GBDevice.State.INITIALIZING);
+        gbDevice.sendDeviceUpdateIntent(getContext());
 
         measureCharacteristic = getCharacteristic(HPlusConstants.UUID_CHARACTERISTIC_MEASURE);
         ctrlCharacteristic = getCharacteristic(HPlusConstants.UUID_CHARACTERISTIC_CONTROL);
 
-        getDevice().setFirmwareVersion("N/A");
-        getDevice().setFirmwareVersion2("N/A");
-
-        syncHelper = new HPlusHandlerThread(getDevice(), getContext(), this);
-
-        //Initialize device
-        sendUserInfo(builder); //Sync preferences
-
-
-        requestDeviceInfo(builder);
-
-        setInitialized(builder);
-
-        syncHelper.start();
 
         builder.notify(getCharacteristic(HPlusConstants.UUID_CHARACTERISTIC_MEASURE), true);
         builder.setGattCallback(this);
         builder.notify(measureCharacteristic, true);
+        //Initialize device
+        sendUserInfo(builder); //Sync preferences
+
+        gbDevice.setState(GBDevice.State.INITIALIZED);
+        gbDevice.sendDeviceUpdateIntent(getContext());
+
+        if(syncHelper == null) {
+            syncHelper = new HPlusHandlerThread(getDevice(), getContext(), this);
+            syncHelper.start();
+        }
+        syncHelper.sync();
+
+        getDevice().setFirmwareVersion("N/A");
+        getDevice().setFirmwareVersion2("N/A");
+
+        requestDeviceInfo(builder);
+
+        LOG.info("Initialization Done");
 
         return builder;
     }
@@ -287,7 +292,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HPlusSupport setWeight(TransactionBuilder transaction) {
-        byte value = HPlusCoordinator.getUserWeight(getDevice().getAddress());
+        byte value = HPlusCoordinator.getUserWeight();
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_SET_WEIGHT,
                 value
@@ -297,7 +302,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HPlusSupport setHeight(TransactionBuilder transaction) {
-        byte value = HPlusCoordinator.getUserHeight(getDevice().getAddress());
+        byte value = HPlusCoordinator.getUserHeight();
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_HEIGHT,
                 value
@@ -308,7 +313,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
 
     private HPlusSupport setAge(TransactionBuilder transaction) {
-        byte value = HPlusCoordinator.getUserAge(getDevice().getAddress());
+        byte value = HPlusCoordinator.getUserAge();
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_SET_AGE,
                 value
@@ -318,7 +323,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HPlusSupport setGender(TransactionBuilder transaction) {
-        byte value = HPlusCoordinator.getUserGender(getDevice().getAddress());
+        byte value = HPlusCoordinator.getUserGender();
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_SET_GENDER,
                 value
@@ -329,7 +334,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
 
     private HPlusSupport setGoal(TransactionBuilder transaction) {
-        int value = HPlusCoordinator.getGoal(getDevice().getAddress());
+        int value = HPlusCoordinator.getGoal();
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_SET_GOAL,
                 (byte) ((value / 256) & 0xff),
@@ -404,11 +409,6 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    private void setInitialized(TransactionBuilder builder) {
-        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
-    }
-
-
     @Override
     public boolean useAutoConnect() {
         return true;
@@ -432,20 +432,22 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetTime() {
+
         try {
             TransactionBuilder builder = performInitialized("time");
 
             setCurrentDate(builder);
             setCurrentTime(builder);
-
-            builder.queue(getQueue());
-        } catch (IOException e) {
+            performConnected(builder.getTransaction());
+        }catch(IOException e){
 
         }
     }
 
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
+
+
         try {
             TransactionBuilder builder = performInitialized("alarm");
 
@@ -467,11 +469,10 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             }
 
             setAlarm(builder, null);
-            builder.queue(getQueue());
+            performConnected(builder.getTransaction());
 
             GB.toast(getContext(), getContext().getString(R.string.user_feedback_all_alarms_disabled), Toast.LENGTH_SHORT, GB.INFO);
-        } catch (Exception e) {
-        }
+        }catch(Exception e){}
 
 
     }
@@ -494,7 +495,6 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetMusicState(MusicStateSpec stateSpec) {
-
     }
 
     @Override
@@ -539,8 +539,13 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFetchActivityData() {
-        if (syncHelper != null)
-            syncHelper.sync();
+
+        if (syncHelper == null){
+            syncHelper = new HPlusHandlerThread(gbDevice, getContext(), this);
+            syncHelper.start();
+        }
+
+        syncHelper.sync();
     }
 
     @Override
@@ -550,8 +555,8 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
             TransactionBuilder builder = performInitialized("Shutdown");
             builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SHUTDOWN, HPlusConstants.ARG_SHUTDOWN_EN});
-            builder.queue(getQueue());
-        } catch (Exception e) {
+            performConnected(builder.getTransaction());
+        }catch(Exception e){
 
         }
     }
@@ -559,19 +564,18 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onHeartRateTest() {
         getQueue().clear();
-        try {
+        try{
             TransactionBuilder builder = performInitialized("HeartRateTest");
 
             builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SET_HEARTRATE_STATE, HPlusConstants.ARG_HEARTRATE_MEASURE_ON}); //Set Real Time... ?
-            builder.queue(getQueue());
-        } catch (Exception e) {
+            performConnected(builder.getTransaction());
+        }catch(Exception e){
 
         }
     }
 
     @Override
     public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
-        getQueue().clear();
         try {
             TransactionBuilder builder = performInitialized("realTimeHeartMeasurement");
             byte state;
@@ -582,8 +586,8 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 state = HPlusConstants.ARG_HEARTRATE_ALLDAY_OFF;
 
             builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SET_ALLDAY_HRM, state});
-            builder.queue(getQueue());
-        } catch (Exception e) {
+            performConnected(builder.getTransaction());
+        }catch(Exception e){
 
         }
     }
@@ -594,7 +598,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             TransactionBuilder builder = performInitialized("findMe");
 
             setFindMe(builder, start);
-            builder.queue(getQueue());
+            performConnected(builder.getTransaction());
         } catch (IOException e) {
             GB.toast(getContext(), "Error toggling Find Me: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
@@ -603,8 +607,6 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetConstantVibration(int intensity) {
-        getQueue().clear();
-
         try {
             TransactionBuilder builder = performInitialized("vibration");
 
@@ -615,7 +617,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 msg[i + 1] = (byte) "GadgetBridge".charAt(i);
 
             builder.write(ctrlCharacteristic, msg);
-            builder.queue(getQueue());
+            performConnected(builder.getTransaction());
         } catch (IOException e) {
             GB.toast(getContext(), "Error setting Vibration: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
@@ -658,17 +660,13 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     }
 
+    public void setUnicodeSupport(boolean support){
+        HPlusCoordinator.setUnicodeSupport(gbDevice.getAddress(), support);
+    }
+
 
     private void showIncomingCall(String name, String rawNumber) {
         try {
-            StringBuilder number = new StringBuilder();
-
-            //Clean up number as the device only accepts digits
-            for (char c : rawNumber.toCharArray()) {
-                if (Character.isDigit(c)) {
-                    number.append(c);
-                }
-            }
 
             TransactionBuilder builder = performInitialized("incomingCall");
 
@@ -678,39 +676,50 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             //Show Call Icon
             builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SET_INCOMING_CALL, HPlusConstants.ARG_INCOMING_CALL});
 
-            byte[] msg = new byte[13];
+            if(name != null) {
+                byte[] msg = new byte[13];
 
+                //Show call name
+                for (int i = 0; i < msg.length; i++)
+                    msg[i] = ' ';
 
-            //Show call name
+                byte[] nameBytes = encodeStringToDevice(name);
+                for (int i = 0; i < nameBytes.length && i < (msg.length - 1); i++)
+                    msg[i + 1] = nameBytes[i];
 
-            for (int i = 0; i < msg.length; i++)
-                msg[i] = ' ';
+                msg[0] = HPlusConstants.CMD_ACTION_DISPLAY_TEXT_NAME;
+                builder.write(ctrlCharacteristic, msg);
 
-            byte[] nameBytes = encodeStringToDevice(name);
-            for (int i = 0; i < nameBytes.length && i < (msg.length - 1); i++)
-                msg[i + 1] = nameBytes[i];
+                msg[0] = HPlusConstants.CMD_ACTION_DISPLAY_TEXT_NAME_CN;
+                builder.write(ctrlCharacteristic, msg);
+            }
 
-            msg[0] = HPlusConstants.CMD_ACTION_DISPLAY_TEXT_NAME;
-            builder.write(ctrlCharacteristic, msg);
+            if(rawNumber != null) {
+                StringBuilder number = new StringBuilder();
 
-            msg[0] = HPlusConstants.CMD_ACTION_DISPLAY_TEXT_NAME_CN;
-            builder.write(ctrlCharacteristic, msg);
+                //Clean up number as the device only accepts digits
+                for (char c : rawNumber.toCharArray()) {
+                    if (Character.isDigit(c)) {
+                        number.append(c);
+                    }
+                }
 
-            builder.wait(200);
-            msg = msg.clone();
+                byte[] msg = new byte[13];
 
-            //Show call number
-            for (int i = 0; i < msg.length; i++)
-                msg[i] = ' ';
+                //Show call number
+                for (int i = 0; i < msg.length; i++)
+                    msg[i] = ' ';
 
-            for (int i = 0; i < number.length() && i < (msg.length - 1); i++)
-                msg[i + 1] = (byte) number.charAt(i);
+                for (int i = 0; i < number.length() && i < (msg.length - 1); i++)
+                    msg[i + 1] = (byte) number.charAt(i);
 
-            msg[0] = HPlusConstants.CMD_SET_INCOMING_CALL_NUMBER;
+                msg[0] = HPlusConstants.CMD_SET_INCOMING_CALL_NUMBER;
 
-            builder.write(ctrlCharacteristic, msg);
+                builder.wait(200);
+                builder.write(ctrlCharacteristic, msg);
+            }
 
-            builder.queue(getQueue());
+            performConnected(builder.getTransaction());
         } catch (IOException e) {
             GB.toast(getContext(), "Error showing incoming call: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
 
@@ -718,7 +727,6 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void showText(String title, String body) {
-
         try {
             TransactionBuilder builder = performInitialized("notification");
 
@@ -735,6 +743,8 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             byte[] messageBytes = encodeStringToDevice(message);
 
             int length = messageBytes.length / 17;
+
+            length = length > 5 ? 5 : length;
 
             builder.write(ctrlCharacteristic, new byte[]{HPlusConstants.CMD_SET_INCOMING_MESSAGE, HPlusConstants.ARG_INCOMING_MESSAGE});
 
@@ -772,7 +782,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             msg[2] = (byte) remaining;
 
             builder.write(ctrlCharacteristic, msg);
-            builder.queue(getQueue());
+            performConnected(builder.getTransaction());
         } catch (IOException e) {
             GB.toast(getContext(), "Error showing device Notification: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
 
@@ -782,6 +792,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     private void close() {
         if (syncHelper != null) {
             syncHelper.quit();
+            syncHelper.interrupt();
             syncHelper = null;
         }
     }
@@ -803,13 +814,13 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             byte[] cs;
 
             if (HPlusConstants.transliterateMap.containsKey(c)) {
-                cs = new byte[]{HPlusConstants.transliterateMap.get(c)};
+                cs = HPlusConstants.transliterateMap.get(c);
             } else {
                 try {
-                    if (HPlusCoordinator.getLanguage(this.gbDevice.getAddress()) == HPlusConstants.ARG_LANGUAGE_CN)
-                        cs = c.toString().getBytes("GB2312");
+                    if(HPlusCoordinator.getUnicodeSupport(this.gbDevice.getAddress()))
+                        cs = c.toString().getBytes("Unicode");
                     else
-                        cs = c.toString().getBytes("UTF-8");
+                        cs = c.toString().getBytes("GB2312");
                 } catch (UnsupportedEncodingException e) {
                     //Fallback. Result string may be strange, but better than nothing
                     cs = c.toString().getBytes();
@@ -836,10 +847,11 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
         switch (data[0]) {
             case HPlusConstants.DATA_VERSION:
+            case HPlusConstants.DATA_VERSION1:
                 return syncHelper.processVersion(data);
 
             case HPlusConstants.DATA_STATS:
-                boolean result = syncHelper.processRealtimeStats(data);
+                boolean result = syncHelper.processRealtimeStats(data, HPlusCoordinator.getUserAge());
                 if (result) {
                     processExtraInfo (data);
                 }
@@ -853,17 +865,19 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
             case HPlusConstants.DATA_DAY_SUMMARY:
             case HPlusConstants.DATA_DAY_SUMMARY_ALT:
-                return syncHelper.processIncomingDaySlotData(data);
-
+                return syncHelper.processIncomingDaySlotData(data, HPlusCoordinator.getUserAge());
+            case HPlusConstants.DATA_UNKNOWN:
+                return true;
             default:
-                LOG.info("Unhandled characteristic change: " + characteristicUUID + " code: " + data[0]);
+
+                LOG.info("Unhandled characteristic change: " + characteristicUUID + " code: " + Arrays.toString(data));
                 return true;
         }
     }
 
     private void  processExtraInfo (byte[] data) {
         try {
-            HPlusDataRecordRealtime record = new HPlusDataRecordRealtime(data);
+            HPlusDataRecordRealtime record = new HPlusDataRecordRealtime(data, HPlusCoordinator.getUserAge());
 
             handleBatteryInfo(record.battery);
 

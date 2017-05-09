@@ -190,10 +190,6 @@
                     android:maxLength="4"
                     android:title="@string/pref_title_pebble_reconnect_attempts" />
                 <CheckBoxPreference
-                    android:title="@string/pref_title_sunrise_sunset"
-                    android:summary="@string/pref_summary_sunrise_sunset"
-                    android:key="send_sunrise_sunset" />
-                <CheckBoxPreference
                     android:defaultValue="false"
                     android:key="autoremove_notifications"
                     android:summary="@string/pref_summary_autoremove_notifications"
@@ -205,6 +201,17 @@
                     android:entryValues="@array/pebble_privacymode_values"
                     android:defaultValue="@string/p_pebble_privacy_mode_off"
                     android:summary="%s" />
+            </PreferenceCategory>
+            <PreferenceCategory android:title="@string/pref_header_pebble_timeline">
+                <CheckBoxPreference
+                    android:defaultValue="true"
+                    android:key="enable_calendar_sync"
+                    android:summary="@string/pref_summary_enable_calendar_sync"
+                    android:title="@string/pref_title_enable_calendar_sync" />
+                <CheckBoxPreference
+                    android:key="send_sunrise_sunset"
+                    android:summary="@string/pref_summary_sunrise_sunset"
+                    android:title="@string/pref_title_sunrise_sunset" />
             </PreferenceCategory>
             <PreferenceCategory android:title="@string/pref_header_activitytrackers">
                 <ListPreference

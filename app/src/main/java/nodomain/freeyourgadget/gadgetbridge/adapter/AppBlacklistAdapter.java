@@ -1,3 +1,19 @@
+/*  Copyright (C) 2017 Carsten Pfeiffer, Daniele Gobbetti
+
+    This file is part of Gadgetbridge.
+
+    Gadgetbridge is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Gadgetbridge is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 import android.content.Context;
@@ -40,13 +56,13 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
         applicationInfoList = mPm.getInstalledApplications(PackageManager.GET_META_DATA);
 
         // sort the package list by label and blacklist status
-        mNameMap = new IdentityHashMap<ApplicationInfo, String>(applicationInfoList.size());
+        mNameMap = new IdentityHashMap<>(applicationInfoList.size());
         for (ApplicationInfo ai : applicationInfoList) {
             CharSequence name = mPm.getApplicationLabel(ai);
             if (name == null) {
                 name = ai.packageName;
             }
-            if (GBApplication.blacklist.contains(ai.packageName)) {
+            if (GBApplication.isBlacklisted(ai.packageName)) {
                 // sort blacklisted first by prefixing with a '!'
                 name = "!" + name;
             }
@@ -78,7 +94,7 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
         holder.deviceAppNameLabel.setText(mNameMap.get(appInfo));
         holder.deviceImageView.setImageDrawable(appInfo.loadIcon(mPm));
 
-        holder.checkbox.setChecked(GBApplication.blacklist.contains(appInfo.packageName));
+        holder.checkbox.setChecked(GBApplication.isBlacklisted(appInfo.packageName));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,7 +166,7 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
 
                 for (ApplicationInfo ai : originalList) {
                     CharSequence name = mPm.getApplicationLabel(ai);
-                    if (((String) name).contains(filterPattern) ||
+                    if (name.toString().contains(filterPattern) ||
                             (ai.packageName.contains(filterPattern))) {
                         filteredList.add(ai);
                     }

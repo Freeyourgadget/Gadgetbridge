@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2017 Carsten Pfeiffer, JohnnySun
+/*  Copyright (C) 2016-2017 Carsten Pfeiffer, João Paulo Barraca, JohnnySun
 
     This file is part of Gadgetbridge.
 

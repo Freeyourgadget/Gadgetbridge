@@ -24,6 +24,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.hplus;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,7 +66,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
     private int DAY_SUMMARY_SYNC_PERIOD = 24 * 60 * 60;
     private int DAY_SUMMARY_SYNC_RETRY_PERIOD = 30;
 
-    private int HELLO_PERIOD = 60;
+    private int HELLO_PERIOD = 60 * 2;
 
     private boolean mQuit = false;
     private HPlusSupport mHPlusSupport;
@@ -122,9 +123,8 @@ class HPlusHandlerThread extends GBDeviceIoThread {
                 break;
             }
 
-            if(!mHPlusSupport.getDevice().isConnected()){
+            if(gbDevice.getState() == GBDevice.State.NOT_CONNECTED){
                 quit();
-                break;
             }
 
             Calendar now = GregorianCalendar.getInstance();
@@ -141,23 +141,25 @@ class HPlusHandlerThread extends GBDeviceIoThread {
                 requestDaySummaryData();
             }
 
-            if (now.compareTo(mHelloTime) > 0) {
+            if(now.compareTo(mHelloTime) > 0){
                 sendHello();
             }
 
             now = GregorianCalendar.getInstance();
-            waitTime = Math.min(mGetDaySummaryTime.getTimeInMillis(), Math.min(mGetDaySlotsTime.getTimeInMillis(), mGetSleepTime.getTimeInMillis())) - now.getTimeInMillis();
+            waitTime = Math.min(mGetDaySummaryTime.getTimeInMillis(), Math.min(mGetDaySlotsTime.getTimeInMillis(), Math.min(mHelloTime.getTimeInMillis(), mGetSleepTime.getTimeInMillis()))) - now.getTimeInMillis();
         }
 
     }
 
     @Override
     public void quit() {
+        LOG.info("HPlus: Quit Handler Thread");
         mQuit = true;
         synchronized (waitObject) {
             waitObject.notify();
         }
     }
+
 
     public void sync() {
         LOG.info("HPlus: Starting data synchronization");
@@ -176,7 +178,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
         mDaySlotRecords.clear();
 
         try {
-            if (!mHPlusSupport.isConnected())
+            if(!mHPlusSupport.isConnected())
                 mHPlusSupport.connect();
 
             TransactionBuilder builder = new TransactionBuilder("startSyncDayStats");
@@ -185,9 +187,9 @@ class HPlusHandlerThread extends GBDeviceIoThread {
             builder.write(mHPlusSupport.ctrlCharacteristic, new byte[]{HPlusConstants.CMD_GET_VERSION});
             builder.write(mHPlusSupport.ctrlCharacteristic, new byte[]{HPlusConstants.CMD_GET_CURR_DATA});
 
-            builder.queue(mHPlusSupport.getQueue());
-        } catch (Exception e) {
-
+            mHPlusSupport.performConnected(builder.getTransaction());
+        }catch(Exception e){
+            LOG.warn("HPlus: Synchronization exception: " + e);
         }
 
         synchronized (waitObject) {
@@ -195,20 +197,21 @@ class HPlusHandlerThread extends GBDeviceIoThread {
         }
     }
 
-    public void sendHello() {
+    public void sendHello(){
         try {
-            if (!mHPlusSupport.isConnected())
-                mHPlusSupport.connect();
-
             TransactionBuilder builder = new TransactionBuilder("hello");
             builder.write(mHPlusSupport.ctrlCharacteristic, HPlusConstants.CMD_ACTION_HELLO);
-            builder.queue(mHPlusSupport.getQueue());
-        } catch (Exception e) {
+            mHPlusSupport.performConnected(builder.getTransaction());
+
+        }catch(Exception e){
 
         }
         mHelloTime = GregorianCalendar.getInstance();
         mHelloTime.add(Calendar.SECOND, HELLO_PERIOD);
 
+        synchronized (waitObject) {
+            waitObject.notify();
+        }
     }
     /**
      * Process a message containing information regarding a day slot
@@ -217,12 +220,12 @@ class HPlusHandlerThread extends GBDeviceIoThread {
      * @param data the message from the device
      * @return boolean indicating success or fail
      */
-    public boolean processIncomingDaySlotData(byte[] data) {
+    public boolean processIncomingDaySlotData(byte[] data, int age) {
 
         HPlusDataRecordDaySlot record;
 
         try{
-            record = new HPlusDataRecordDaySlot(data);
+            record = new HPlusDataRecordDaySlot(data, age);
         } catch(IllegalArgumentException e){
             LOG.info((e.getMessage()));
             return false;
@@ -290,7 +293,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
                 for (HPlusDataRecordDaySlot storedRecord : mDaySlotRecords) {
 
                     //Invalid records (no data) will be ignored
-                    if (!storedRecord.isValid())
+                    if(!storedRecord.isValid())
                         continue;
 
                     HPlusHealthActivitySample sample = createSample(dbHandler, storedRecord.timestamp);
@@ -299,7 +302,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
                     sample.setSteps(storedRecord.steps);
                     sample.setHeartRate(storedRecord.heartRate);
                     sample.setRawKind(storedRecord.type);
-
+                    sample.setRawIntensity(record.intensity);
                     sample.setProvider(provider);
                     samples.add(sample);
                 }
@@ -380,11 +383,11 @@ class HPlusHandlerThread extends GBDeviceIoThread {
      * @param data the message from the device
      * @return boolean indicating success or fail
      */
-    public boolean processRealtimeStats(byte[] data) {
+    public boolean processRealtimeStats(byte[] data, int age) {
         HPlusDataRecordRealtime record;
 
         try{
-            record = new HPlusDataRecordRealtime(data);
+            record = new HPlusDataRecordRealtime(data, age);
         } catch(IllegalArgumentException e){
             LOG.info((e.getMessage()));
             return false;
@@ -493,11 +496,23 @@ class HPlusHandlerThread extends GBDeviceIoThread {
      * @return boolean indicating success or fail
      */
     public boolean processVersion(byte[] data) {
-        int major = data[2] & 0xFF;
-        int minor = data[1] & 0xFF;
+        int major, minor;
+
+        if(data.length >= 11){
+            major = data[10] & 0xFF;
+            minor = data[9] & 0xFF;
+
+            int hwMajor = data[2] & 0xFF;
+            int hwMinor = data[1] & 0xFF;
+
+            getDevice().setFirmwareVersion2(hwMajor + "." + hwMinor);
+            mHPlusSupport.setUnicodeSupport((data[3] != 0));
+        }else {
+            major = data[2] & 0xFF;
+            minor = data[1] & 0xFF;
+        }
 
         getDevice().setFirmwareVersion(major + "." + minor);
-
         getDevice().sendDeviceUpdateIntent(getContext());
 
         return true;
@@ -508,13 +523,10 @@ class HPlusHandlerThread extends GBDeviceIoThread {
      */
     private void requestNextSleepData() {
         try {
-            if (!mHPlusSupport.isConnected())
-                mHPlusSupport.connect();
-
             TransactionBuilder builder = new TransactionBuilder("requestSleepStats");
             builder.write(mHPlusSupport.ctrlCharacteristic, new byte[]{HPlusConstants.CMD_GET_SLEEP});
-            builder.queue(mHPlusSupport.getQueue());
-        } catch (Exception e) {
+            mHPlusSupport.performConnected(builder.getTransaction());
+        }catch(Exception e){
 
         }
 
@@ -565,13 +577,11 @@ class HPlusHandlerThread extends GBDeviceIoThread {
 
         byte[] msg = new byte[]{HPlusConstants.CMD_GET_ACTIVE_DAY, hour, minute, nextHour, nextMinute};
         try {
-            if (!mHPlusSupport.isConnected())
-                mHPlusSupport.connect();
 
             TransactionBuilder builder = new TransactionBuilder("getNextDaySlot");
             builder.write(mHPlusSupport.ctrlCharacteristic, msg);
-            builder.queue(mHPlusSupport.getQueue());
-        } catch (Exception e) {
+            mHPlusSupport.performConnected(builder.getTransaction());
+        }catch(Exception e){
 
         }
     }
@@ -580,13 +590,10 @@ class HPlusHandlerThread extends GBDeviceIoThread {
      */
     public void requestDaySummaryData(){
         try {
-            if (!mHPlusSupport.isConnected())
-                mHPlusSupport.connect();
-
             TransactionBuilder builder = new TransactionBuilder("startSyncDaySummary");
             builder.write(mHPlusSupport.ctrlCharacteristic, new byte[]{HPlusConstants.CMD_GET_DAY_DATA});
-            builder.queue(mHPlusSupport.getQueue());
-        } catch (Exception e) {
+            mHPlusSupport.performConnected(builder.getTransaction());
+        }catch(Exception e){
 
         }
         mGetDaySummaryTime = GregorianCalendar.getInstance();
@@ -617,4 +624,8 @@ class HPlusHandlerThread extends GBDeviceIoThread {
         return sample;
     }
 
+    public void setHPlusSupport(HPlusSupport HPlusSupport) {
+        LOG.info("Updating HPlusSupport object");
+        this.mHPlusSupport = HPlusSupport;
+    }
 }

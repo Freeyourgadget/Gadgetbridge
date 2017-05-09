@@ -225,7 +225,7 @@ public final class BtLEQueue {
         // alive (we do not close() it). Unfortunately we sometimes have problems
         // reconnecting automatically, so we try to fix this by re-creating mBluetoothGatt.
         // Not sure if this actually works without re-initializing the device...
-        if (status != 0) {
+        if (mBluetoothGatt != null) {
             if (!wasInitialized || !maybeReconnect()) {
                 disconnect(); // ensure that we start over cleanly next time
             }

@@ -1,3 +1,19 @@
+/*  Copyright (C) 2017 Alberto, Carsten Pfeiffer
+
+    This file is part of Gadgetbridge.
+
+    Gadgetbridge is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Gadgetbridge is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
 
@@ -17,7 +33,7 @@ import org.xmlpull.v1.XmlSerializer;
 import android.content.SharedPreferences;
 import android.util.Xml;
 
-import static nodomain.freeyourgadget.gadgetbridge.GBApplication.blacklist;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 public class ImportExportSharedPreferences {
 
@@ -26,7 +42,7 @@ public class ImportExportSharedPreferences {
     private static final String INTEGER = Integer.class.getSimpleName();
     private static final String LONG = Long.class.getSimpleName();
     private static final String STRING = String.class.getSimpleName();
-    private static final String HASTSET = HashSet.class.getSimpleName();
+    private static final String HASHSET = HashSet.class.getSimpleName();
 
     private static final String NAME = "name";
     private static final String PREFERENCES = "preferences";
@@ -107,14 +123,14 @@ public class ImportExportSharedPreferences {
                         editor.putLong(key, Long.parseLong(text));
                     } else if (STRING.equals(name)) {
                         editor.putString(key, text);
-                    } else if (HASTSET.equals(name)) {
-                        if (key.equals("package_blacklist")) {
-                            blacklist.clear();
+                    } else if (HASHSET.equals(name)) {
+                        if (key.equals(GBPrefs.PACKAGE_BLACKLIST)) {
+                            Set<String> blacklist = new HashSet<>();
                             text=text.replace("[","").replace("]","");
                             for (int z=0;z<text.split(",").length;z++){
                                 blacklist.add(text.split(",")[z].trim());
                             }
-                            editor.putStringSet(key, blacklist);
+                            GBApplication.setBlackList(blacklist);
                         }
                     } else if (!PREFERENCES.equals(name)) {
                         throw new Exception("Unkown type " + name);

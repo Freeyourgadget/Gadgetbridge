@@ -26,13 +26,12 @@ need to create an account and transmit any of your data to the vendor's servers.
 
 * Incoming calls notification and display
 * Outgoing call display
-* Reject/hangup calls
+* Reject calls (optionally with predefined texts) / hangup calls
 * SMS notification
-* K-9 Mail notification support
-* Support for generic notifications (above filtered out)
-* Support for up to 16 predefined replies for SMS and Android Wear compatible notifications (experimental, tested with Signal)
+* Support for generic notifications
+* Support for up to 16 predefined replies for SMS and Android Wear compatible notifications (experimental, tested with Signal and Conversations)
 * Dismiss individual notifications, mute or open corresponding app on phone from the action menu (generic notifications)
-* Dismiss all notifications from the action menu (non-generic notifications) 
+* Dismiss all notifications from the action menu (SMS and PebbleKit notifications)
 * Music playback info (artist, album, track)
 * Music control: play/pause, next track, previous track, volume up, volume down
 * List and remove installed apps/watchfaces
@@ -41,7 +40,8 @@ need to create an account and transmit any of your data to the vendor's servers.
 * Install language files (.pbl)
 * Take and share screenshots from the Pebble's screen
 * PebbleKit support for 3rd Party Android Apps (experimental)
-* Fetch activity data from Pebble Health, Misfit and Morpheuz (experimental)
+* Fetch activity data from Pebble Health
+* Build-in support for Misfit and Morpheuz (experimental)
 * Configure watchfaces / apps (limited compatibility, experimental)
 
 ## Notes about Firmware >=3.0 (Pebble Time, updated OG)

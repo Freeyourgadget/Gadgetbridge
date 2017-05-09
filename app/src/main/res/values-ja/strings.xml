@@ -104,8 +104,11 @@
   <string name="pref_summary_enable_outgoing_call">これを無効にすると、Pebble 2/LE は発信時に振動しなくなります</string>
   <string name="pref_title_enable_pebblekit">第三者のアンドロイドアップにアクセス権利を与える</string>
   <string name="pref_summary_enable_pebblekit">PebbleKitを使用してAndroidアプリ用の実験的なサポートを有効にします</string>
+  <string name="pref_header_pebble_timeline">Pebbleタイムライン</string>
   <string name="pref_title_sunrise_sunset">日の出と日の入り</string>
   <string name="pref_summary_sunrise_sunset">場所に基づいて、Pebble のタイムラインに日の出・日の入りの時間を送ります</string>
+  <string name="pref_title_enable_calendar_sync">カレンダーを同期</string>
+  <string name="pref_summary_enable_calendar_sync">カレンダーのイベントをタイムラインに送信します</string>
   <string name="pref_title_autoremove_notifications">消去した通知を自動削除</string>
   <string name="pref_summary_autoremove_notifications">通知は、Androidデバイスから削除されたときに、Pebbleから自動的に削除されます</string>
   <string name="pref_title_pebble_privacy_mode">プライバシーモード</string>

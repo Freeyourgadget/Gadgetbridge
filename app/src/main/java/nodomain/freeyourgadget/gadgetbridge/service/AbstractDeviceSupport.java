@@ -318,6 +318,8 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                                     context.getString(R.string.notif_battery_low_bigtext_number_of_charges, String.valueOf(deviceEvent.numCharges))
                             : ""
                     , context);
+        } else {
+            GB.removeBatteryNotification(context);
         }
 
         gbDevice.sendDeviceUpdateIntent(context);

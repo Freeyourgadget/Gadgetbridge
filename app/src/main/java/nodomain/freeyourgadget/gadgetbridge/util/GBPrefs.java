@@ -20,7 +20,7 @@ import java.text.ParseException;
 import java.util.Date;
 
 public class GBPrefs {
-
+    public static final String PACKAGE_BLACKLIST = "package_blacklist";
     public static final String AUTO_RECONNECT = "general_autocreconnect";
     private static final String AUTO_START = "general_autostartonboot";
     private static final boolean AUTO_START_DEFAULT = true;
@@ -61,7 +61,7 @@ public class GBPrefs {
         }
     }
 
-    public int getUserSex() {
+    public int getUserGender() {
         return 0;
     }
 }

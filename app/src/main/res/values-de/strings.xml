@@ -104,8 +104,11 @@
   <string name="pref_summary_enable_outgoing_call">Falls dies deaktiviert wird, vibriert die Pebble 2/LE nicht bei ausgehenden Anrufen</string>
   <string name="pref_title_enable_pebblekit">Erlaube Zugriff von anderen Android Apps</string>
   <string name="pref_summary_enable_pebblekit">Experimentelle Unterstützung für Android Apps, die PebbleKit benutzen</string>
+  <string name="pref_header_pebble_timeline">Pebble Zeitstrang</string>
   <string name="pref_title_sunrise_sunset">Sonnenauf- und -untergang </string>
   <string name="pref_summary_sunrise_sunset">Sende Sonnenauf- und -untergangszeiten abhänging vom Standort auf die Pebble Timeline</string>
+  <string name="pref_title_enable_calendar_sync">Synchronisiere Kalender </string>
+  <string name="pref_summary_enable_calendar_sync">Sende Termine an den Zeitstrang</string>
   <string name="pref_title_autoremove_notifications">Verworfene Benachrichtigungen automatisch entfernen</string>
   <string name="pref_summary_autoremove_notifications">Benachrichtigungen werden automatisch von der Pebble entfernt, wenn sie auf dem Android-Gerät verworfen werden</string>
   <string name="pref_title_pebble_privacy_mode">Privatsphäre-Modus</string>
@@ -268,6 +271,8 @@
   <string name="updatefirmwareoperation_update_complete_rebooting">Firmware-Installation erfolgreich beendet, Gerät wird neu gestartet…</string>
   <string name="updatefirmwareoperation_write_failed">Schreiben der Firmware fehlgeschlagen</string>
   <string name="chart_steps">Schritte</string>
+  <string name="calories">Kalorien </string>
+  <string name="distance">Distanz </string>
   <string name="liveactivity_live_activity">Live Aktivität</string>
   <string name="weeksteps_today_steps_description">Schritte heute, Ziel: %1$s</string>
   <string name="pref_title_dont_ack_transfer">Transfer von Aktivitätsdaten nicht bestätigen</string>
@@ -326,10 +331,12 @@
   <string name="dbmanagementactivvity_cannot_access_export_path">Kann nicht auf den Exportpfad zugreifen. Bitte die Entwickler kontaktieren.</string>
   <string name="dbmanagementactivity_exported_to">Exportiert nach: %1$s</string>
   <string name="dbmanagementactivity_error_exporting_db">Fehler beim Exportieren der DB: %1$s</string>
+  <string name="dbmanagementactivity_error_exporting_shared">Fehler beim Exlortieren der Einstellungen: %1$s</string>
   <string name="dbmanagementactivity_import_data_title">Daten importieren?</string>
   <string name="dbmanagementactivity_overwrite_database_confirmation">Wirklich die aktuelle Datenbank überschreiben? Alle aktuellen Aktivitätsdaten (sofern vorhanden) gehen verloren!</string>
   <string name="dbmanagementactivity_import_successful">Import erfolgreich.</string>
   <string name="dbmanagementactivity_error_importing_db">Fehler beim Importieren der DB: %1$s</string>
+  <string name="dbmanagementactivity_error_importing_shared">Fehler beim Importieren der Einstellungen: %1$s</string>
   <string name="dbmanagementactivity_delete_activity_data_title">Aktivitätsdaten löschen?</string>
   <string name="dbmanagementactivity_really_delete_entire_db">Wirklich die komplette Datenbank löschen? Alle Aktivitätsdaten und Informationen über Deine Geräte gehen verloren!</string>
   <string name="dbmanagementactivity_database_successfully_deleted">Daten erfolgreich gelöscht.</string>

@@ -1,6 +1,6 @@
 /*  Copyright (C) 2015-2017 Andreas Shimokawa, Avamander, Carsten Pfeiffer,
-    Daniele Gobbetti, ivanovlev, Julien Pivotto, Kasha, Sergey Trofimov, Steffen
-    Liebergeld, Uwe Hermann
+    Daniele Gobbetti, Daniel Hauck, ivanovlev, João Paulo Barraca, Julien
+    Pivotto, Kasha, Sergey Trofimov, Steffen Liebergeld, Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -18,6 +18,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.bluetooth.BluetoothDevice;
@@ -26,9 +28,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
@@ -107,6 +111,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_BOO
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_DESCRIPTION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_ID;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_LOCATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_TIMESTAMP;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_TITLE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_TYPE;
@@ -153,6 +158,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEA
 
 public class DeviceCommunicationService extends Service implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final Logger LOG = LoggerFactory.getLogger(DeviceCommunicationService.class);
+    @SuppressLint("StaticFieldLeak") // only used for test cases
     private static DeviceSupportFactory DEVICE_SUPPORT_FACTORY = null;
 
     private boolean mStarted = false;
@@ -203,14 +209,13 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             String action = intent.getAction();
             if (action.equals(GBDevice.ACTION_DEVICE_CHANGED)) {
                 GBDevice device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
-                // FIXME: mGBDevice was null here once
-                if (mGBDevice.equals(device)) {
+                if (mGBDevice != null && mGBDevice.equals(device)) {
                     mGBDevice = device;
                     boolean enableReceivers = mDeviceSupport != null && (mDeviceSupport.useAutoConnect() || mGBDevice.isInitialized());
                     setReceiversEnableState(enableReceivers, mGBDevice.isInitialized(), DeviceHelper.getInstance().getCoordinator(device));
                     GB.updateNotification(mGBDevice.getName() + " " + mGBDevice.getStateString(), mGBDevice.isInitialized(), context);
                 } else {
-                    LOG.error("Got ACTION_DEVICE_CHANGED from unexpected device: " + mGBDevice);
+                    LOG.error("Got ACTION_DEVICE_CHANGED from unexpected device: " + device);
                 }
             }
         }
@@ -374,6 +379,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 calendarEventSpec.durationInSeconds = intent.getIntExtra(EXTRA_CALENDAREVENT_DURATION, -1);
                 calendarEventSpec.title = intent.getStringExtra(EXTRA_CALENDAREVENT_TITLE);
                 calendarEventSpec.description = intent.getStringExtra(EXTRA_CALENDAREVENT_DESCRIPTION);
+                calendarEventSpec.location = intent.getStringExtra(EXTRA_CALENDAREVENT_LOCATION);
                 mDeviceSupport.onAddCalendarEvent(calendarEventSpec);
                 break;
             }
@@ -580,13 +586,15 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         LOG.info("Setting broadcast receivers to: " + enable);
 
         if (enable && initialized && coordinator != null && coordinator.supportsCalendarEvents()) {
-            if (mCalendarReceiver == null) {
-                IntentFilter calendarIntentFilter = new IntentFilter();
-                calendarIntentFilter.addAction("android.intent.action.PROVIDER_CHANGED");
-                calendarIntentFilter.addDataScheme("content");
-                calendarIntentFilter.addDataAuthority("com.android.calendar", null);
-                mCalendarReceiver = new CalendarReceiver(mGBDevice);
-                registerReceiver(mCalendarReceiver, calendarIntentFilter);
+            if (mCalendarReceiver == null  && getPrefs().getBoolean("enable_calendar_sync", true)) {
+                if (!(GBApplication.isRunningMarshmallowOrLater() && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED)) {
+                    IntentFilter calendarIntentFilter = new IntentFilter();
+                    calendarIntentFilter.addAction("android.intent.action.PROVIDER_CHANGED");
+                    calendarIntentFilter.addDataScheme("content");
+                    calendarIntentFilter.addDataAuthority("com.android.calendar", null);
+                    mCalendarReceiver = new CalendarReceiver(mGBDevice);
+                    registerReceiver(mCalendarReceiver, calendarIntentFilter);
+                }
             }
             if (mAlarmReceiver == null) {
                 mAlarmReceiver = new AlarmReceiver();

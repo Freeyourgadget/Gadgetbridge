@@ -40,6 +40,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -89,11 +90,18 @@ public class GBApplication extends Application {
 
     public static final String ACTION_QUIT
             = "nodomain.freeyourgadget.gadgetbridge.gbapplication.action.quit";
+
+    private static GBApplication app;
+
     private static Logging logging = new Logging() {
         @Override
         protected String createLogDirectory() throws IOException {
-            File dir = FileUtils.getExternalFilesDir();
-            return dir.getAbsolutePath();
+            if (GBEnvironment.env().isLocalTest()) {
+                return System.getProperty(Logging.PROP_LOGFILES_DIR);
+            } else {
+                File dir = FileUtils.getExternalFilesDir();
+                return dir.getAbsolutePath();
+            }
         }
     };
 
@@ -111,12 +119,17 @@ public class GBApplication extends Application {
         // don't do anything here, add it to onCreate instead
     }
 
+    public static Logging getLogging() {
+        return logging;
+    }
+
     protected DeviceService createDeviceService() {
         return new GBDeviceService(this);
     }
 
     @Override
     public void onCreate() {
+        app = this;
         super.onCreate();
 
         if (lockHandler != null) {
@@ -128,6 +141,13 @@ public class GBApplication extends Application {
         prefs = new Prefs(sharedPrefs);
         gbPrefs = new GBPrefs(prefs);
 
+        if (!GBEnvironment.isEnvironmentSetup()) {
+            GBEnvironment.setupEnvironment(GBEnvironment.createDeviceEnvironment());
+            // setup db after the environment is set up, but don't do it in test mode
+            // in test mode, it's done individually, see TestBase
+            setupDatabase();
+        }
+
         // don't do anything here before we set up logging, otherwise
         // slf4j may be implicitly initialized before we properly configured it.
         setupLogging(isFileLoggingEnabled());
@@ -137,10 +157,6 @@ public class GBApplication extends Application {
         }
 
         setupExceptionHandler();
-
-        GB.environment = GBEnvironment.createDeviceEnvironment();
-
-        setupDatabase(this);
 
         deviceManager = new DeviceManager(this);
 
@@ -206,8 +222,14 @@ public class GBApplication extends Application {
         return prefs.getBoolean("minimize_priority", false);
     }
 
-    static void setupDatabase(Context context) {
-        DBOpenHelper helper = new DBOpenHelper(context, DATABASE_NAME, null);
+    public void setupDatabase() {
+        DaoMaster.OpenHelper helper;
+        GBEnvironment env = GBEnvironment.env();
+        if (env.isTest()) {
+            helper = new DaoMaster.DevOpenHelper(this, null, null);
+        } else {
+            helper = new DBOpenHelper(this, DATABASE_NAME, null);
+        }
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
         if (lockHandler == null) {
@@ -325,10 +347,23 @@ public class GBApplication extends Application {
         return NotificationManager.INTERRUPTION_FILTER_ALL;
     }
 
-    public static HashSet<String> blacklist = null;
+    private static HashSet<String> blacklist = null;
+
+    public static boolean isBlacklisted(String packageName) {
+        return blacklist != null && blacklist.contains(packageName);
+    }
+
+    public static void setBlackList(Set<String> packageNames) {
+        if (packageNames == null) {
+            blacklist = new HashSet<>();
+        } else {
+            blacklist = new HashSet<>(packageNames);
+        }
+        saveBlackList();
+    }
 
     private static void loadBlackList() {
-        blacklist = (HashSet<String>) sharedPrefs.getStringSet("package_blacklist", null);
+        blacklist = (HashSet<String>) sharedPrefs.getStringSet(GBPrefs.PACKAGE_BLACKLIST, null);
         if (blacklist == null) {
             blacklist = new HashSet<>();
         }
@@ -337,16 +372,15 @@ public class GBApplication extends Application {
     private static void saveBlackList() {
         SharedPreferences.Editor editor = sharedPrefs.edit();
         if (blacklist.isEmpty()) {
-            editor.putStringSet("package_blacklist", null);
+            editor.putStringSet(GBPrefs.PACKAGE_BLACKLIST, null);
         } else {
-            editor.putStringSet("package_blacklist", blacklist);
+            editor.putStringSet(GBPrefs.PACKAGE_BLACKLIST, blacklist);
         }
         editor.apply();
     }
 
     public static void addToBlacklist(String packageName) {
-        if (!blacklist.contains(packageName)) {
-            blacklist.add(packageName);
+        if (blacklist.add(packageName)) {
             saveBlackList();
         }
     }
@@ -469,5 +503,9 @@ public class GBApplication extends Application {
 
     public DeviceManager getDeviceManager() {
         return deviceManager;
+    }
+
+    public static GBApplication app() {
+        return app;
     }
 }

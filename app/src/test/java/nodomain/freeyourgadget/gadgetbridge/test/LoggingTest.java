@@ -6,8 +6,8 @@ import org.junit.After;
 import org.junit.Test;
 
 import java.io.File;
-import java.io.IOException;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
@@ -25,16 +25,12 @@ public class LoggingTest extends TestBase {
     public LoggingTest() throws Exception {
     }
 
-    private Logging logging = new Logging() {
-        @Override
-        protected String createLogDirectory() throws IOException {
-            return logFilesDir.getAbsolutePath();
-        }
-    };
+    private Logging logging = GBApplication.getLogging();
 
     @Override
     @After
-    public void tearDown() {
+    public void tearDown() throws Exception {
+        super.tearDown();
         assertTrue(FileUtils.deleteRecursively(getLogFilesDir()));
     }
 

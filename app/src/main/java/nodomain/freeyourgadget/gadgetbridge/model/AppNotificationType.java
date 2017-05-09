@@ -44,6 +44,9 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
         put("com.sonyericsson.conversations", NotificationType.GENERIC_SMS);
         put("org.smssecure.smssecure", NotificationType.GENERIC_SMS);
 
+        // Generic Calendar
+        put("com.android.calendar", NotificationType.GENERIC_CALENDAR);
+
         // Conversations
         put("eu.siacs.conversations", NotificationType.CONVERSATIONS);
 

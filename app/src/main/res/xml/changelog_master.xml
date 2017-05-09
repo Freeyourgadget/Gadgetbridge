@@ -1,23 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release
-        version="0.18.5"
-        versioncode="92">
-        <change>Applied some material design guidelines to Charts and (pebble) app management
-        </change>
+    <release version="0.19.2" versioncode="95">
+        <change>Pebble: Fix recurring calendar events only appearing once per week</change>
+        <change>HPlus: Fix crash when receiving calls without phone number</change>
+        <change>HPlus: Detect unicode support on Zeband Plus</change>
+        <change>No longer quit Gadgetbridge when bluetooth gets turned off</change>
+    </release>
+    <release version="0.19.1" versioncode="94">
+        <change>Fix crash at startup</change>
+        <change>Improve reconnection to device</change>
+        <change>Improve transliteration</change>
+    </release>
+    <release version="0.19.0" versioncode="93">
+        <change>Pebble: allow calendar sync with Timeline (Title, Location, Description)</change>
+        <change>Pebble: display calendar icon for reminders from AOSP Calendar</change>
+        <change>HPlus: try to fix latin characters showing as random chinese text</change>
+        <change>Improve reconnection with BLE devices</change>
+        <change>Improve generic notification reliability by trying to restart notification listener when stale/crashed</change>
+        <change>Other small bugfixes</change>
+    </release>
+    <release version="0.18.5" versioncode="92">
+        <change>Applied some material design guidelines to Charts and (pebble) app management</change>
         <change>Changed colours: deep sleep is now dark blue, light sleep is now light blue</change>
-        <change>Support for exporting and importing of preferences in addition to the database
-        </change>
+        <change>Support for exporting and importing of preferences in addition to the database</change>
         <change>Visual improvements of the pie charts</change>
         <change>Add filter by name in the App blacklist activity</change>
         <change>Pebble: improve compatibility with watch app configuration pages</change>
         <change>Pebble: display battery percentage (will only update once an hour)</change>
-        <change>HPlus: users can now decide whether they want to pair the device or not, hopefully
-            fixing some connection problems (#642)
-        </change>
+        <change>HPlus: users can now decide whether they want to pair the device or not, hopefully fixing some connection problems (#642)</change>
         <change>HPlus: display battery state and warn on low battery</change>
     </release>
-
     <release version="0.18.4" versioncode="91">
         <change>Mi Band 2: Display realtime steps in Live Activity</change>
         <change>Mi Band: Attempt to recognize Mi Band model with hwVersion = 8</change>
