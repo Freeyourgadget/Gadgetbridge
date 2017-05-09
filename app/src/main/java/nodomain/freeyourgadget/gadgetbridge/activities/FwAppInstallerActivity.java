@@ -149,11 +149,8 @@ public class FwAppInstallerActivity extends AppCompatActivity implements Install
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (GBApplication.isDarkThemeEnabled()) {
+        if (GBApplication.isDarkThemeEnabled())
             setTheme(R.style.GadgetbridgeThemeDark_NoActionBar);
-        } else {
-            setTheme(R.style.GadgetbridgeTheme_NoActionBar);
-        }
 
         setContentView(R.layout.activity_appinstaller);
 
