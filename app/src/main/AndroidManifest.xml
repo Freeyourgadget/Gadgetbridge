@@ -65,6 +65,7 @@
             android:parentActivityName=".activities.SettingsActivity" />
         <activity
             android:name=".activities.FwAppInstallerActivity"
+            android:theme="@style/GadgetbridgeTheme.NoActionBar"
             android:label="@string/title_activity_fw_app_insaller">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

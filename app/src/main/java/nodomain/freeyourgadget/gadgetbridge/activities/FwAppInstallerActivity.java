@@ -28,6 +28,7 @@ import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,7 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 
-public class FwAppInstallerActivity extends GBActivity implements InstallActivity {
+public class FwAppInstallerActivity extends AppCompatActivity implements InstallActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(FwAppInstallerActivity.class);
     private static final String ITEM_DETAILS = "details";
@@ -210,7 +211,6 @@ public class FwAppInstallerActivity extends GBActivity implements InstallActivit
 
         //Set up the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         toolbar.setTitle(getResources().getString(R.string.installation_d_d, currentAppIndex, appsCount));
         toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_arrow_back, null));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -221,6 +221,7 @@ public class FwAppInstallerActivity extends GBActivity implements InstallActivit
                 finish();
             }
         });
+        setSupportActionBar(toolbar);
 
         installHandler = findInstallHandlerFor(uri);
         if (installHandler == null) {
