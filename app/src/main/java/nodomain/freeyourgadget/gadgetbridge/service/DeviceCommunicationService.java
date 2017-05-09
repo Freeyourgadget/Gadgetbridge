@@ -18,6 +18,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.app.Service;
@@ -27,9 +28,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
@@ -584,12 +587,14 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
         if (enable && initialized && coordinator != null && coordinator.supportsCalendarEvents()) {
             if (mCalendarReceiver == null  && getPrefs().getBoolean("enable_calendar_sync", true)) {
-                IntentFilter calendarIntentFilter = new IntentFilter();
-                calendarIntentFilter.addAction("android.intent.action.PROVIDER_CHANGED");
-                calendarIntentFilter.addDataScheme("content");
-                calendarIntentFilter.addDataAuthority("com.android.calendar", null);
-                mCalendarReceiver = new CalendarReceiver(mGBDevice);
-                registerReceiver(mCalendarReceiver, calendarIntentFilter);
+                if (!(GBApplication.isRunningMarshmallowOrLater() && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED)) {
+                    IntentFilter calendarIntentFilter = new IntentFilter();
+                    calendarIntentFilter.addAction("android.intent.action.PROVIDER_CHANGED");
+                    calendarIntentFilter.addDataScheme("content");
+                    calendarIntentFilter.addDataAuthority("com.android.calendar", null);
+                    mCalendarReceiver = new CalendarReceiver(mGBDevice);
+                    registerReceiver(mCalendarReceiver, calendarIntentFilter);
+                }
             }
             if (mAlarmReceiver == null) {
                 mAlarmReceiver = new AlarmReceiver();
