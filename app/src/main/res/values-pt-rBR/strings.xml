@@ -289,7 +289,7 @@
   <string name="FetchActivityOperation_about_to_transfer_since">Sobre para transferir dados desde %1$s</string>
   <string name="waiting_for_reconnect">aguarde para reconectar</string>
   <string name="activity_prefs_about_you">Sobre você</string>
-    <string name="activity_prefs_year_birth">Ano de anoversário</string>
+  <string name="activity_prefs_year_birth">Ano de anoversário</string>
   <string name="activity_prefs_gender">Gênero</string>
   <string name="activity_prefs_height_cm">Altura em cm</string>
   <string name="activity_prefs_weight_kg">Peso em kg</string>

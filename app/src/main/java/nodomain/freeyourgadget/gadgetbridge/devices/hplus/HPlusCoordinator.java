@@ -31,13 +31,6 @@ import android.os.Build;
 import android.os.ParcelUuid;
 import android.support.annotation.NonNull;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Locale;
-
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
@@ -55,6 +48,13 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Locale;
 
 import static nodomain.freeyourgadget.gadgetbridge.GBApplication.getContext;
 
@@ -83,7 +83,7 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public int getBondingStyle(GBDevice deviceCandidate) {
+    public int getBondingStyle(GBDevice deviceCandidate){
         return BONDING_STYLE_NONE;
     }
 

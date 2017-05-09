@@ -84,7 +84,7 @@
   <string name="pref_title_call_privacy_mode">通話プライバシーモード</string>
   <string name="pref_call_privacy_mode_off">名前と番号を表示</string>
   <string name="pref_call_privacy_mode_name">名前は非表示、番号は表示</string>
-    <string name="pref_call_privacy_mode_number">番号は非表示、名前は表示</string>
+  <string name="pref_call_privacy_mode_number">番号は非表示、名前は表示</string>
   <string name="pref_call_privacy_mode_complete">名前と番号を非表示</string>
   <string name="pref_blacklist">アップのブラックリスト</string>
   <string name="pref_header_cannned_messages">定型のメッセージ</string>
@@ -271,8 +271,8 @@
   <string name="updatefirmwareoperation_update_complete_rebooting">ファームウェアのインストールが完了しました。デバイスを再起動します…</string>
   <string name="updatefirmwareoperation_write_failed">ファームウェアの書き込みに失敗しました</string>
   <string name="chart_steps">歩数</string>
-    <string name="calories">カロリー</string>
-    <string name="distance">距離</string>
+  <string name="calories">カロリー</string>
+  <string name="distance">距離</string>
   <string name="liveactivity_live_activity">生活活動</string>
   <string name="weeksteps_today_steps_description">今日の歩数、目標: %1$s</string>
   <string name="pref_title_dont_ack_transfer">活動データ転送に応答しない</string>
@@ -331,12 +331,12 @@
   <string name="dbmanagementactivvity_cannot_access_export_path">エクスポート パスにアクセスできません。開発者にご連絡ください。</string>
   <string name="dbmanagementactivity_exported_to">エクスポートしました: %1$s</string>
   <string name="dbmanagementactivity_error_exporting_db">DB のエクスポート時にエラー: %1$s</string>
-    <string name="dbmanagementactivity_error_exporting_shared">設定のエクスポート時にエラー: %1$s</string>
+  <string name="dbmanagementactivity_error_exporting_shared">設定のエクスポート時にエラー: %1$s</string>
   <string name="dbmanagementactivity_import_data_title">データをインポートしますか?</string>
   <string name="dbmanagementactivity_overwrite_database_confirmation">現在のデータベースを上書きしてもよろしいですか? 現在の活動データは (もしあれば) すべて失われます。</string>
   <string name="dbmanagementactivity_import_successful">インポートに成功しました。</string>
   <string name="dbmanagementactivity_error_importing_db">DB のインポート時にエラー: %1$s</string>
-    <string name="dbmanagementactivity_error_importing_shared">設定のインポート時にエラー: %1$s</string>
+  <string name="dbmanagementactivity_error_importing_shared">設定のインポート時にエラー: %1$s</string>
   <string name="dbmanagementactivity_delete_activity_data_title">活動データを削除しますか?</string>
   <string name="dbmanagementactivity_really_delete_entire_db">データベース全体を削除してもよろしいですか? 活動データとお使いのデバイスに関する情報がすべて失われます。</string>
   <string name="dbmanagementactivity_database_successfully_deleted">データを正常に削除しました。</string>
@@ -364,17 +364,17 @@
   <string name="StringUtils_sender"> (%1$s)</string>
   <string name="find_device_you_found_it">見つかりました!</string>
   <string name="miband2_prefs_timeformat">Mi2: 時刻形式</string>
-    <string name="mi2_fw_installhandler_fw53_hint">このファームウェアをインストールする前に、バージョン %1$s をインストールする必要があります!</string>
-    <string name="mi2_enable_text_notifications">テキスト通知</string>
-    <string name="mi2_enable_text_notifications_summary"><![CDATA[ファームウェア >= 1.0.1.28 と Mili_pro.ft* をインストールしていることが必要です。]]></string>
-    <string name="off">オフ</string>
-    <string name="discovery_attempting_to_pair">%1$s とペアを試みています</string>
-    <string name="discovery_bonding_failed_immediately">%1$s との接続がすぐに失敗しました。</string>
-    <string name="discovery_trying_to_connect_to">接続の試行中: %1$s</string>
-    <string name="discovery_enable_bluetooth">デバイスを見つけるため Bluetooth を有効にします。</string>
-    <string name="discovery_successfully_bonded">%1$s と接続しました。</string>
-    <string name="discovery_pair_title">%1$sとペアにしますか?</string>
-    <string name="discovery_pair_question">お使いのデバイスとペアにする相手を選択します。 これに失敗した場合は、ペア設定をせずに再試行してください。</string>
-    <string name="discovery_yes_pair">ペア</string>
-    <string name="discovery_dont_pair">ペアにしない</string>
+  <string name="mi2_fw_installhandler_fw53_hint">このファームウェアをインストールする前に、バージョン %1$s をインストールする必要があります!</string>
+  <string name="mi2_enable_text_notifications">テキスト通知</string>
+  <string name="mi2_enable_text_notifications_summary"><![CDATA[ファームウェア >= 1.0.1.28 と Mili_pro.ft* をインストールしていることが必要です。]]></string>
+  <string name="off">オフ</string>
+  <string name="discovery_attempting_to_pair">%1$s とペアを試みています</string>
+  <string name="discovery_bonding_failed_immediately">%1$s との接続がすぐに失敗しました。</string>
+  <string name="discovery_trying_to_connect_to">接続の試行中: %1$s</string>
+  <string name="discovery_enable_bluetooth">デバイスを見つけるため Bluetooth を有効にします。</string>
+  <string name="discovery_successfully_bonded">%1$s と接続しました。</string>
+  <string name="discovery_pair_title">%1$sとペアにしますか?</string>
+  <string name="discovery_pair_question">お使いのデバイスとペアにする相手を選択します。 これに失敗した場合は、ペア設定をせずに再試行してください。</string>
+  <string name="discovery_yes_pair">ペア</string>
+  <string name="discovery_dont_pair">ペアにしない</string>
 </resources>

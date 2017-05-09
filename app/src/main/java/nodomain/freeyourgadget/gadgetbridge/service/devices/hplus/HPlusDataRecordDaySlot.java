@@ -114,7 +114,7 @@ public class HPlusDataRecordDaySlot extends HPlusDataRecord {
 
     }
 
-    public boolean isValid() {
+    public boolean isValid(){
         return steps != 0 || secondsInactive != 0 || heartRate != -1;
     }
 }

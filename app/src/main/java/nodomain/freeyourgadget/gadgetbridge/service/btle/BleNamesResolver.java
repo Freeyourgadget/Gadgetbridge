@@ -101,7 +101,7 @@ public class BleNamesResolver {
 		mServices.put("00001804-0000-1000-8000-00805f9b34fb", "Tx Power");
 		mServices.put("0000fee0-0000-3512-2118-0009af100700", "(Propr: Xiaomi MiLi Service)");
 		mServices.put("00001530-0000-3512-2118-0009af100700", "(Propr: Xiaomi Weight Service)");
-        mServices.put("14701820-620a-3973-7c78-9cfff0876abd", "(Propr: HPLUS Service)");
+		mServices.put("14701820-620a-3973-7c78-9cfff0876abd", "(Propr: HPLUS Service)");
 
 		
 		mCharacteristics.put("00002a43-0000-1000-8000-00805f9b34fb", "Alert AlertCategory ID");
@@ -185,10 +185,10 @@ public class BleNamesResolver {
 		mCharacteristics.put("00002a0e-0000-1000-8000-00805f9b34fb", "Time Zone");
 		mCharacteristics.put("00002a07-0000-1000-8000-00805f9b34fb", "Tx Power Level");
 		mCharacteristics.put("00002a45-0000-1000-8000-00805f9b34fb", "Unread Alert Status");
-
-        mCharacteristics.put("14702856-620a-3973-7c78-9cfff0876abd", "(Propr: HPLUS Control)");
-        mCharacteristics.put("14702853-620a-3973-7c78-9cfff0876abd", "(Propr: HPLUS Measurements)");
-        mValueFormats.put(Integer.valueOf(52), "32bit float");
+		
+		mCharacteristics.put("14702856-620a-3973-7c78-9cfff0876abd", "(Propr: HPLUS Control)");
+		mCharacteristics.put("14702853-620a-3973-7c78-9cfff0876abd", "(Propr: HPLUS Measurements)");
+		mValueFormats.put(Integer.valueOf(52), "32bit float");
 		mValueFormats.put(Integer.valueOf(50), "16bit float");
 		mValueFormats.put(Integer.valueOf(34), "16bit signed int");
 		mValueFormats.put(Integer.valueOf(36), "32bit signed int");
