@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2017 0nse, Andreas Shimokawa, Carsten Pfeiffer,
-    Daniele Gobbetti
+    Daniele Gobbetti, Vebryn
 
     This file is part of Gadgetbridge.
 

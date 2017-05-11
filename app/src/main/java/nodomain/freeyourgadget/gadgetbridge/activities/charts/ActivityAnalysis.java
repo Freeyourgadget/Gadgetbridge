@@ -90,7 +90,7 @@ class ActivityAnalysis {
 
                     if (!stats.containsKey(steps)) {
                         //System.out.println("Adding: " + steps);
-                        stats.put(steps, (long) 60);
+                        stats.put(steps, timeDifference);
                     } else {
                         long time = stats.get(steps);
                         //System.out.println("Updating: " + steps + " " + timeDifference + time);
