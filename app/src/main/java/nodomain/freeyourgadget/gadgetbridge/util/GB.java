@@ -76,7 +76,7 @@ public class GB {
                 .setContentIntent(pendingIntent)
                 .setOngoing(true);
         if (GBApplication.isRunningLollipopOrLater()) {
-            builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+            builder.setVisibility(Notification.VISIBILITY_PUBLIC);
         }
         if (GBApplication.minimizeNotification()) {
             builder.setPriority(Notification.PRIORITY_MIN);
@@ -268,7 +268,7 @@ public class GB {
                 notificationIntent, 0);
 
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setVisibility(Notification.VISIBILITY_PUBLIC)
                 .setContentTitle(context.getString(R.string.app_name))
                 .setContentText(text)
                 .setContentIntent(pendingIntent)

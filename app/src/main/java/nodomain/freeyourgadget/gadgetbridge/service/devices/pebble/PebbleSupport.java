@@ -148,7 +148,6 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
             }
         }
         if (reconnect()) {
-            super.onDeleteNotification(notificationSpec.id); //update notification hack
             super.onNotification(notificationSpec);
         }
     }
