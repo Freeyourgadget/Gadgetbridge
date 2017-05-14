@@ -1,0 +1,39 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity$PlaceholderFragment">
+
+    <com.github.mikephil.charting.charts.HorizontalBarChart
+        android:id="@+id/statschart"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="20"
+        android:layout_below="@+id/statsXAxisText"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/statsYAxisText"></com.github.mikephil.charting.charts.HorizontalBarChart>
+
+    <TextView
+        android:id="@+id/statsXAxisText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:paddingLeft="10dp"
+        android:text="@string/stats_x_axis_label" />
+
+    <TextView
+        android:id="@+id/statsYAxisText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="-95dp"
+        android:elegantTextHeight="false"
+        android:rotation="90"
+        android:singleLine="true"
+        android:text="@string/stats_y_axis_label"
+        android:translationX="40dp" />
+
+</RelativeLayout>

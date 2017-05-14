@@ -17,7 +17,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmount;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmounts;
@@ -25,6 +27,20 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 class ActivityAnalysis {
+    // store raw steps and duration
+    protected HashMap<Integer, Long> stats = new HashMap<Integer, Long>();
+    // normalize steps
+    protected HashMap<Float, Float> statsQuantified = new HashMap<Float, Float>();
+    // store maxSpeed / resolution
+    protected float maxSpeedQuantifier;
+    // store an average of round precision
+    protected float roundPrecision = 0f;
+
+    // max speed determined from samples
+    private int maxSpeed = 0;
+    // number of bars on stats chart
+    private int resolution = 5;
+
     ActivityAmounts calculateActivityAmounts(List<? extends ActivitySample> samples) {
         ActivityAmount deepSleep = new ActivityAmount(ActivityKind.TYPE_DEEP_SLEEP);
         ActivityAmount lightSleep = new ActivityAmount(ActivityKind.TYPE_LIGHT_SLEEP);
@@ -53,7 +69,7 @@ class ActivityAnalysis {
 
             int steps = sample.getSteps();
             if (steps > 0) {
-                amount.addSteps(sample.getSteps());
+                amount.addSteps(steps);
             }
 
             if (previousSample != null) {
@@ -65,10 +81,54 @@ class ActivityAnalysis {
                     previousAmount.addSeconds(sharedTimeDifference);
                     amount.addSeconds(sharedTimeDifference);
                 }
+
+                // add time
+                if (steps > 0 && sample.getKind() == ActivityKind.TYPE_ACTIVITY) {
+                    if (steps > maxSpeed) {
+                        maxSpeed = steps;
+                    }
+
+                    if (!stats.containsKey(steps)) {
+                        //System.out.println("Adding: " + steps);
+                        stats.put(steps, timeDifference);
+                    } else {
+                        long time = stats.get(steps);
+                        //System.out.println("Updating: " + steps + " " + timeDifference + time);
+                        stats.put(steps, timeDifference + time);
+                    }
+                }
             }
 
             previousAmount = amount;
             previousSample = sample;
+        }
+
+        maxSpeedQuantifier = maxSpeed / resolution;
+        for (Map.Entry<Integer, Long> entry : stats.entrySet()) {
+            // 0.1 precision
+            //float keyQuantified = Math.round(entry.getKey() / maxSpeedQuantifier * 10f) / 10f;
+
+            // 1 precision
+            float keyQuantified = entry.getKey() / maxSpeedQuantifier;
+            float keyQuantifiedRounded = Math.round(entry.getKey() / maxSpeedQuantifier);
+            float keyQuantifiedPrecision = keyQuantifiedRounded - keyQuantified;
+            roundPrecision = (roundPrecision + Math.abs(keyQuantifiedPrecision)) / 2;
+            //System.out.println("Precision: " + roundPrecision);
+
+            // no scale
+            //keyQuantified = entry.getKey();
+
+            // scaling to minutes
+            float timeMinutes = entry.getValue() / 60;
+
+            if (!statsQuantified.containsKey(keyQuantifiedRounded)) {
+                //System.out.println("Adding: " + keyQuantified + "/" + timeMinutes);
+                statsQuantified.put(keyQuantifiedRounded, timeMinutes);
+            } else {
+                float previousTime = statsQuantified.get(keyQuantifiedRounded);
+                //System.out.println("Updating: " + keyQuantified + "/" + (timeMinutes + previousTime));
+                statsQuantified.put(keyQuantifiedRounded, (timeMinutes + previousTime));
+            }
         }
 
         ActivityAmounts result = new ActivityAmounts();
