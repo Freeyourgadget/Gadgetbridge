@@ -185,8 +185,8 @@ public class GBDeviceService implements DeviceService {
         }
 
         Intent intent = createIntent().setAction(ACTION_CALLSTATE)
-                .putExtra(EXTRA_CALL_PHONENUMBER, callSpec.number)
                 .putExtra(EXTRA_CALL_DISPLAYNAME, callSpec.name)
+                .putExtra(EXTRA_CALL_PHONENUMBER, callSpec.number)
                 .putExtra(EXTRA_CALL_COMMAND, callSpec.command);
         invokeService(intent);
     }
