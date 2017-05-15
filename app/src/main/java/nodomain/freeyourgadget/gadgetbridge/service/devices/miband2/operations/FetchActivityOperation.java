@@ -68,7 +68,7 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
 
     private List<MiBandActivitySample> samples = new ArrayList<>(60*24); // 1day per default
 
-    private byte lastPacketCounter = -1;
+    private byte lastPacketCounter;
     private Calendar startTimestamp;
     private int fetchCount;
 
@@ -90,6 +90,9 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
     }
 
     private void startFetching() throws IOException {
+        samples.clear();
+        lastPacketCounter = -1;
+
         TransactionBuilder builder = performInitialized("fetching activity data");
         getSupport().setLowLatency(builder);
         if (fetchCount == 0) {
