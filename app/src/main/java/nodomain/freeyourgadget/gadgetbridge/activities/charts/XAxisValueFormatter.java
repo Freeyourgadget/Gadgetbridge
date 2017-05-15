@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
+
 /**
- * Created by nhu on 30/04/17.
+ * Created by Vebryn on 30/04/17.
  */
 
 public class XAxisValueFormatter implements IAxisValueFormatter {
@@ -24,6 +26,7 @@ public class XAxisValueFormatter implements IAxisValueFormatter {
 
     public void sort() {
         //System.out.println("Sorting " + mValues);
+        GB.log("Sorting " + mValues, GB.INFO, null);
         Collections.sort(mValues);
     }
 
@@ -34,8 +37,10 @@ public class XAxisValueFormatter implements IAxisValueFormatter {
         try {
             returnString = mValues.get((int) value).toString();
             //System.out.println("Asking " + value + ", returning " + returnString);
+            GB.log("Asking " + value + ", returning " + returnString, GB.INFO, null);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
+            GB.log(e.getMessage(), GB.ERROR, null);
         }
         return returnString;
     }
