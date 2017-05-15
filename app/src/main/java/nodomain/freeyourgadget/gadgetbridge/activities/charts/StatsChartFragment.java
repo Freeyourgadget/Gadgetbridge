@@ -17,24 +17,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.CombinedData;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.IValueFormatter;
-import com.github.mikephil.charting.utils.ViewPortHandler;
-import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -43,43 +34,31 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmount;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmounts;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 
 public class StatsChartFragment extends AbstractChartFragment {
-    protected static final Logger LOG = LoggerFactory.getLogger(ActivitySleepChartFragment.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(StatsChartFragment.class);
 
     private HorizontalBarChart mStatsChart;
-
-    private int mSmartAlarmFrom = -1;
-    private int mSmartAlarmTo = -1;
-    private int mTimestampFrom = -1;
-    private int mSmartAlarmGoneOff = -1;
 
     @Override
     protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
         List<? extends ActivitySample> samples = getSamples(db, device);
 
-        MySleepChartsData mySleepChartsData = refreshSleepAmounts(device, samples);
-        DefaultChartsData chartsData = refresh(device, samples);
+        MySpeedZonesData mySpeedZonesData = refreshSleepAmounts(samples);
 
-        return new MyChartsData(mySleepChartsData, chartsData);
+        return new MyChartsData(mySpeedZonesData);
     }
 
-    private MySleepChartsData refreshSleepAmounts(GBDevice mGBDevice, List<? extends ActivitySample> samples) {
+    private MySpeedZonesData refreshSleepAmounts(List<? extends ActivitySample> samples) {
         ActivityAnalysis analysis = new ActivityAnalysis();
         analysis.calculateActivityAmounts(samples);
         BarData data = new BarData();
@@ -107,13 +86,13 @@ public class StatsChartFragment extends AbstractChartFragment {
         // display precision
         //mStatsChart.getDescription().setText(Math.round(analysis.roundPrecision * 100) + "%");
 
-        return new MySleepChartsData("", data);
+        return new MySpeedZonesData(data);
     }
 
     @Override
     protected void updateChartsnUIThread(ChartsData chartsData) {
         MyChartsData mcd = (MyChartsData) chartsData;
-        mStatsChart.setData(mcd.getPieData().getPieData());
+        mStatsChart.setData(mcd.getChartsData().getBarData());
     }
 
     @Override
@@ -169,8 +148,6 @@ public class StatsChartFragment extends AbstractChartFragment {
 
     @Override
     protected List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-// temporary fix for totally wrong sleep amounts
-//        return super.getSleepSamples(db, device, tsFrom, tsTo);
         return super.getAllSamples(db, device, tsFrom, tsTo);
     }
 
@@ -179,38 +156,26 @@ public class StatsChartFragment extends AbstractChartFragment {
         mStatsChart.invalidate();
     }
 
-    private static class MySleepChartsData extends ChartsData {
-        private String totalSleep;
-        private final BarData pieData;
+    private static class MySpeedZonesData extends ChartsData {
+        private final BarData barData;
 
-        public MySleepChartsData(String totalSleep, BarData pieData) {
-            this.totalSleep = totalSleep;
-            this.pieData = pieData;
+        MySpeedZonesData(BarData barData) {
+            this.barData = barData;
         }
 
-        public BarData getPieData() {
-            return pieData;
-        }
-
-        public CharSequence getTotalSleep() {
-            return totalSleep;
+        BarData getBarData() {
+            return barData;
         }
     }
 
     private static class MyChartsData extends ChartsData {
-        private final DefaultChartsData<CombinedData> chartsData;
-        private final MySleepChartsData pieData;
+        private final MySpeedZonesData chartsData;
 
-        public MyChartsData(MySleepChartsData pieData, DefaultChartsData<CombinedData> chartsData) {
-            this.pieData = pieData;
+        MyChartsData(MySpeedZonesData chartsData) {
             this.chartsData = chartsData;
         }
 
-        public MySleepChartsData getPieData() {
-            return pieData;
-        }
-
-        public DefaultChartsData<CombinedData> getChartsData() {
+        MySpeedZonesData getChartsData() {
             return chartsData;
         }
     }
