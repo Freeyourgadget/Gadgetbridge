@@ -151,7 +151,7 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
     private void handleActivityFetchFinish() {
         LOG.info("Fetching activity data has finished round " + fetchCount);
         GregorianCalendar lastSyncTimestamp = saveSamples();
-        if (needsAnotherFetch(lastSyncTimestamp)) {
+        if (lastSyncTimestamp != null && needsAnotherFetch(lastSyncTimestamp)) {
             try {
                 startFetching();
                 return;
