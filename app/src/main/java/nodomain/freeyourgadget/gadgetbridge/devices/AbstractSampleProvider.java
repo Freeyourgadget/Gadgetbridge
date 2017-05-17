@@ -19,6 +19,13 @@ package nodomain.freeyourgadget.gadgetbridge.devices;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,6 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
  * Base class for all sample providers. A Sample provider is device specific and provides
@@ -40,6 +48,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
  * @param <T> the sample type
  */
 public abstract class AbstractSampleProvider<T extends AbstractActivitySample> implements SampleProvider<T> {
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractSampleProvider.class);
+
     private static final WhereCondition[] NO_CONDITIONS = new WhereCondition[0];
     private final DaoSession mSession;
     private final GBDevice mDevice;
@@ -88,6 +98,29 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
     @Override
     public void addGBActivitySamples(T[] activitySamples) {
         getSampleDao().insertOrReplaceInTx(activitySamples);
+    }
+
+    @Override
+    public void exportToCSV(T[] activitySamples, File outFile) {
+        String separator = ",";
+
+        LOG.info("Exporting samples into csv file: " + outFile.getName());
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(outFile));
+
+            for (T sample : activitySamples){
+                String line = sample.getTimestamp() + separator + sample.getDeviceId() + separator + sample.getUserId() + separator + sample.getRawIntensity() + separator + sample.getSteps() + separator + sample.getRawKind() + separator + sample.getHeartRate();
+
+                //LOG.debug("Adding line into buffer: " + line);
+                bw.write(line);
+                bw.newLine();
+            }
+
+            bw.flush();
+            bw.close();
+        } catch (IOException e) {
+            GB.log(e.getMessage(), GB.ERROR, null);
+        }
     }
 
     @Nullable
