@@ -40,7 +40,6 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
  * Base class for all sample providers. A Sample provider is device specific and provides
@@ -119,7 +118,7 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
             bw.flush();
             bw.close();
         } catch (IOException e) {
-            GB.log(e.getMessage(), GB.ERROR, null);
+            LOG.error(e.getMessage());
         }
     }
 
