@@ -21,14 +21,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmount;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmounts;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
-
 class ActivityAnalysis {
+    private static final Logger LOG = LoggerFactory.getLogger(ActivityAnalysis.class);
+
     // store raw steps and duration
     protected HashMap<Integer, Long> stats = new HashMap<Integer, Long>();
     // normalize steps
@@ -91,13 +94,11 @@ class ActivityAnalysis {
                     }
 
                     if (!stats.containsKey(steps)) {
-                        //System.out.println("Adding: " + steps);
-                        GB.log("Adding: " + steps, GB.INFO, null);
+                        LOG.info("Adding: " + steps);
                         stats.put(steps, timeDifference);
                     } else {
                         long time = stats.get(steps);
-                        //System.out.println("Updating: " + steps + " " + timeDifference + time);
-                        GB.log("Updating: " + steps + " " + timeDifference + time, GB.INFO, null);
+                        LOG.info("Updating: " + steps + " " + timeDifference + time);
                         stats.put(steps, timeDifference + time);
                     }
                 }
