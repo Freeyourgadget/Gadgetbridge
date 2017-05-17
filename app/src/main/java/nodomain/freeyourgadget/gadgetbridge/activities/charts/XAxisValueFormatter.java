@@ -3,17 +3,19 @@ package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
  * Created by Vebryn on 30/04/17.
  */
 
 public class XAxisValueFormatter implements IAxisValueFormatter {
+    private static final Logger LOG = LoggerFactory.getLogger(XAxisValueFormatter.class);
     private List<String> mValues = new ArrayList<>();
 
     public XAxisValueFormatter() {
@@ -25,8 +27,7 @@ public class XAxisValueFormatter implements IAxisValueFormatter {
     }
 
     public void sort() {
-        //System.out.println("Sorting " + mValues);
-        GB.log("Sorting " + mValues, GB.INFO, null);
+        LOG.info("Sorting " + mValues);
         Collections.sort(mValues);
     }
 
@@ -36,11 +37,9 @@ public class XAxisValueFormatter implements IAxisValueFormatter {
 
         try {
             returnString = mValues.get((int) value).toString();
-            //System.out.println("Asking " + value + ", returning " + returnString);
-            GB.log("Asking " + value + ", returning " + returnString, GB.INFO, null);
+            LOG.info("Asking " + value + ", returning " + returnString);
         } catch (Exception e) {
-            //System.out.println(e.getMessage());
-            GB.log(e.getMessage(), GB.ERROR, null);
+            LOG.error(e.getMessage());
         }
         return returnString;
     }
