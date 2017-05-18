@@ -74,6 +74,7 @@ public class GB {
                 .setContentText(text)
                 .setSmallIcon(connected ? R.drawable.ic_notification : R.drawable.ic_notification_disconnected)
                 .setContentIntent(pendingIntent)
+                .setPriority(Notification.PRIORITY_MIN)
                 .setOngoing(true);
         if (GBApplication.isRunningLollipopOrLater()) {
             builder.setVisibility(Notification.VISIBILITY_PUBLIC);
