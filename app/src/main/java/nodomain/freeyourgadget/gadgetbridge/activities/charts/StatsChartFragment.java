@@ -26,6 +26,7 @@ import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -43,6 +44,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
+import static android.R.attr.x;
+
 
 public class StatsChartFragment extends AbstractChartFragment {
     protected static final Logger LOG = LoggerFactory.getLogger(StatsChartFragment.class);
@@ -53,15 +56,16 @@ public class StatsChartFragment extends AbstractChartFragment {
     protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
         List<? extends ActivitySample> samples = getSamples(db, device);
 
-        MySpeedZonesData mySpeedZonesData = refreshSleepAmounts(samples);
+        MySpeedZonesData mySpeedZonesData = refreshStats(samples);
 
         return new MyChartsData(mySpeedZonesData);
     }
 
-    private MySpeedZonesData refreshSleepAmounts(List<? extends ActivitySample> samples) {
+    private MySpeedZonesData refreshStats(List<? extends ActivitySample> samples) {
         ActivityAnalysis analysis = new ActivityAnalysis();
         analysis.calculateActivityAmounts(samples);
         BarData data = new BarData();
+        data.setValueTextColor(CHART_TEXT_COLOR);
         List<BarEntry> entries = new ArrayList<>();
         XAxisValueFormatter customXAxis = new XAxisValueFormatter();
 
@@ -73,6 +77,7 @@ public class StatsChartFragment extends AbstractChartFragment {
         }
 
         BarDataSet set = new BarDataSet(entries, "");
+        set.setValueTextColor(CHART_TEXT_COLOR);
         set.setColors(getColorFor(ActivityKind.TYPE_ACTIVITY));
         //set.setDrawValues(false);
         //data.setBarWidth(0.1f);
@@ -121,6 +126,12 @@ public class StatsChartFragment extends AbstractChartFragment {
         mStatsChart.getLegend().setEnabled(false);
         mStatsChart.setTouchEnabled(false);
         mStatsChart.getDescription().setText("");
+
+        XAxis x = mStatsChart.getXAxis();
+        x.setTextColor(CHART_TEXT_COLOR);
+
+        YAxis yr = mStatsChart.getAxisRight();
+        yr.setTextColor(CHART_TEXT_COLOR);
     }
 
     @Override
