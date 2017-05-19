@@ -101,11 +101,6 @@ public class VibratissimoCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public int getTapString() {
-        return R.string.tap_connected_device_for_vibration;
-    }
-
-    @Override
     public String getManufacturer() {
         return "Amor AG";
     }
