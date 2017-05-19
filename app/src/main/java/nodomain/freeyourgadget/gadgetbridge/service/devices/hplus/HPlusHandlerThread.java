@@ -41,6 +41,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusConstants;
+import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusHealthSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.HPlusHealthActivityOverlay;
@@ -300,9 +301,9 @@ class HPlusHandlerThread extends GBDeviceIoThread {
 
                     sample.setRawHPlusHealthData(storedRecord.getRawData());
                     sample.setSteps(storedRecord.steps);
+                    sample.setRawIntensity(storedRecord.intensity);
                     sample.setHeartRate(storedRecord.heartRate);
                     sample.setRawKind(storedRecord.type);
-                    sample.setRawIntensity(record.intensity);
                     sample.setProvider(provider);
                     samples.add(sample);
                 }

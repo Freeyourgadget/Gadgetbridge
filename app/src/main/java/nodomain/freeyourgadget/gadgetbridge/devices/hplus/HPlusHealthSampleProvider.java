@@ -141,6 +141,51 @@ public class HPlusHealthSampleProvider extends AbstractSampleProvider<HPlusHealt
 
         List<HPlusHealthActivityOverlay> overlayRecords = qb.build().list();
 
+
+
+        //Apply Overlays
+        for (HPlusHealthActivityOverlay overlay : overlayRecords) {
+
+            //Create fake events to improve activity counters if there are no events around the overlay
+            //timestamp boundaries
+            //Insert one before, one at the beginning, one at the end, and one 1s after.
+            insertVirtualItem(samples, Math.max(overlay.getTimestampFrom() - 1, timestamp_from), overlay.getDeviceId(), overlay.getUserId());
+            insertVirtualItem(samples, Math.max(overlay.getTimestampFrom(), timestamp_from), overlay.getDeviceId(), overlay.getUserId());
+            insertVirtualItem(samples, Math.min(overlay.getTimestampTo() - 1, timestamp_to - 1), overlay.getDeviceId(), overlay.getUserId());
+            insertVirtualItem(samples, Math.min(overlay.getTimestampTo(), timestamp_to), overlay.getDeviceId(), overlay.getUserId());
+        }
+
+        Collections.sort(samples, new Comparator<HPlusHealthActivitySample>() {
+            public int compare(HPlusHealthActivitySample one, HPlusHealthActivitySample other) {
+                return one.getTimestamp() - other.getTimestamp();
+            }
+        });
+
+        //Apply Overlays
+        for (HPlusHealthActivityOverlay overlay : overlayRecords) {
+
+            long nonSleepTimeEnd = 0;
+            for (HPlusHealthActivitySample sample : samples) {
+
+                if (sample.getTimestamp() >= overlay.getTimestampFrom() && sample.getTimestamp() < overlay.getTimestampTo()) {
+                    if(overlay.getRawKind() == ActivityKind.TYPE_LIGHT_SLEEP || overlay.getRawKind() == ActivityKind.TYPE_DEEP_SLEEP) {
+                        if(sample.getRawKind() == HPlusDataRecord.TYPE_DAY_SLOT && sample.getSteps() > 0){
+                            nonSleepTimeEnd = sample.getTimestamp() + 10 * 60; // 10 minutes
+                            continue;
+                        }else if(sample.getRawKind() == HPlusDataRecord.TYPE_REALTIME && sample.getTimestamp() <= nonSleepTimeEnd){
+                            continue;
+                        }
+
+                        sample.setRawKind(overlay.getRawKind());
+                        sample.setRawIntensity(10);
+                    }
+                }
+            }
+        }
+
+
+
+        //Fix Step counters
         //Todays sample steps will come from the Day Slots messages
         //Historical steps will be provided by Day Summaries messages
         //This will allow both week and current day results to be consistent
@@ -180,34 +225,7 @@ public class HPlusHealthSampleProvider extends AbstractSampleProvider<HPlusHealt
         if(lastSample != null)
             lastSample.setSteps(Math.max(stepsTodayCount, stepsTodayMax));
 
-        for (HPlusHealthActivityOverlay overlay : overlayRecords) {
-
-            //Create fake events to improve activity counters if there are no events around the overlay
-            //timestamp boundaries
-            //Insert one before, one at the beginning, one at the end, and one 1s after.
-            insertVirtualItem(samples, Math.max(overlay.getTimestampFrom() - 1, timestamp_from), overlay.getDeviceId(), overlay.getUserId());
-            insertVirtualItem(samples, Math.max(overlay.getTimestampFrom(), timestamp_from), overlay.getDeviceId(), overlay.getUserId());
-            insertVirtualItem(samples, Math.min(overlay.getTimestampTo() - 1, timestamp_to - 1), overlay.getDeviceId(), overlay.getUserId());
-            insertVirtualItem(samples, Math.min(overlay.getTimestampTo(), timestamp_to), overlay.getDeviceId(), overlay.getUserId());
-
-            for (HPlusHealthActivitySample sample : samples) {
-
-                if (sample.getTimestamp() >= overlay.getTimestampFrom() && sample.getTimestamp() < overlay.getTimestampTo()) {
-                    if(overlay.getRawKind() == ActivityKind.TYPE_LIGHT_SLEEP || overlay.getRawKind() == ActivityKind.TYPE_DEEP_SLEEP)
-                        sample.setRawIntensity(10);
-
-                    sample.setRawKind(overlay.getRawKind());
-                }
-            }
-        }
-
         detachFromSession();
-
-        Collections.sort(samples, new Comparator<HPlusHealthActivitySample>() {
-            public int compare(HPlusHealthActivitySample one, HPlusHealthActivitySample other) {
-                return one.getTimestamp() - other.getTimestamp();
-            }
-        });
 
         return samples;
     }
