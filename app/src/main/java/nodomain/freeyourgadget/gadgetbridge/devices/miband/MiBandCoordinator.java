@@ -152,11 +152,6 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public int getTapString() {
-        return R.string.tap_connected_device_for_activity;
-    }
-
-    @Override
     public String getManufacturer() {
         return "Xiaomi";
     }
