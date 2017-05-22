@@ -232,8 +232,6 @@ class HPlusHandlerThread extends GBDeviceIoThread {
             return false;
         }
 
-        LOG.info("SLOT: " + record);
-
         Calendar now = GregorianCalendar.getInstance();
         int nowSlot = now.get(Calendar.HOUR_OF_DAY) * 6 + (now.get(Calendar.MINUTE) / 10);
         if (record.slot == nowSlot){
@@ -250,7 +248,6 @@ class HPlusHandlerThread extends GBDeviceIoThread {
         }
 
         if (mSlotsInitialSync) {
-
             //If the slot is in the future, actually it is from the previous day
             //Subtract a day of seconds
             if (record.slot > nowSlot) {
@@ -436,7 +433,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
             LOG.info((e.getMessage()));
             return false;
         }
-        LOG.info("RealTime: " + record);
+
         //Skip duplicated messages as the device seems to send the same record multiple times
         //This can be used to detect the user is moving (not sleeping)
         if (prevRealTimeRecord != null && record.same(prevRealTimeRecord))
