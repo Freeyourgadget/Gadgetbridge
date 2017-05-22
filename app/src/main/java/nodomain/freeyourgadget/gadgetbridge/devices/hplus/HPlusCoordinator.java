@@ -289,6 +289,6 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static boolean getUnicodeSupport(String address){
-        return (prefs.getBoolean(HPlusConstants.PREF_HPLUS_UNICODE, false));
+        return (prefs.getBoolean(HPlusConstants.PREF_HPLUS_UNICODE + "_" + address, false));
     }
 }
