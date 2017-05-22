@@ -819,7 +819,6 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 cs = HPlusConstants.transliterateMap.get(c);
             } else {
                 try {
-                    if(HPlusCoordinator.getUnicodeSupport(this.gbDevice.getAddress()))
                     if(unicode)
                         cs = c.toString().getBytes("Unicode");
                     else
