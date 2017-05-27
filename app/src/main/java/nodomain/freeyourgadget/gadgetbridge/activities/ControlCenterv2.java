@@ -204,6 +204,13 @@ public class ControlCenterv2 extends AppCompatActivity
     }
 
     @Override
+    protected void onDestroy() {
+        unregisterForContextMenu(deviceListView);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+        super.onDestroy();
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
