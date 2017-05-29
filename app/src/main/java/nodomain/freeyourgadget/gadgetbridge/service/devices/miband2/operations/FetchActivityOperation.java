@@ -60,6 +60,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.CSVExport;
 
 /**
  * An operation that fetches activity data. For every fetch, a new operation must
@@ -214,7 +215,7 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
                 File myPath = null;
                 myPath = FileUtils.getExternalFilesDir();
                 File myFile = new File(myPath, startTimestamp.getTimeInMillis() / 1000 + ".csv");
-                sampleProvider.exportToCSV(samples.toArray(new MiBandActivitySample[0]), myFile);
+                CSVExport.exportToCSV(samples.toArray(new MiBandActivitySample[0]), myFile);
 
                 // store samples on fetching
                 sampleProvider.addGBActivitySamples(samples.toArray(new MiBandActivitySample[0]));
