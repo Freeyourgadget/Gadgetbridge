@@ -90,6 +90,12 @@ public interface SampleProvider<T extends AbstractActivitySample> {
     void addGBActivitySamples(T[] activitySamples);
 
     /**
+     * Exports samples into a CSV file
+     * @param activitySamples the samples to export
+     */
+    void exportToCSV(T[] activitySamples, File outFile);
+
+    /**
      * Factory method to creates an empty sample of the correct type for this sample provider
      * @return the newly created "empty" sample
      */

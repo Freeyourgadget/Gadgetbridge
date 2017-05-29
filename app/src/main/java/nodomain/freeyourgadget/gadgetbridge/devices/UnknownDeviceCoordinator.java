@@ -75,6 +75,10 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
         }
 
         @Override
+        public void exportToCSV(AbstractActivitySample[] activitySamples, File outFile) {
+        }
+
+        @Override
         public void addGBActivitySamples(AbstractActivitySample[] activitySamples) {
         }
 
