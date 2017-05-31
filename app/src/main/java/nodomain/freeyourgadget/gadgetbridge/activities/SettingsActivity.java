@@ -47,6 +47,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -60,6 +61,8 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_
 
 public class SettingsActivity extends AbstractSettingsActivity {
     private static final Logger LOG = LoggerFactory.getLogger(SettingsActivity.class);
+
+    public static final String PREF_SETTINGS_BATTERY_PERCENT = "battery_percent";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +106,17 @@ public class SettingsActivity extends AbstractSettingsActivity {
             public boolean onPreferenceChange(Preference preference, Object newVal) {
                 Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
                 LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(refreshIntent);
+                preference.setSummary(newVal.toString());
+                return true;
+            }
+
+        });
+
+        pref = findPreference(PREF_SETTINGS_BATTERY_PERCENT);
+        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                GBApplication.deviceService().disconnect();
                 preference.setSummary(newVal.toString());
                 return true;
             }
@@ -285,6 +299,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 PREF_USER_WEIGHT_KG,
                 PREF_USER_SLEEP_DURATION,
                 PREF_USER_STEPS_GOAL,
+                PREF_SETTINGS_BATTERY_PERCENT,
         };
     }
 

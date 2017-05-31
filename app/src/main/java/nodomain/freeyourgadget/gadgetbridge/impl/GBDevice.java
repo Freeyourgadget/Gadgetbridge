@@ -34,10 +34,12 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.model.ItemWithDetails;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class GBDevice implements Parcelable {
     public static final String ACTION_DEVICE_CHANGED
@@ -111,6 +113,7 @@ public class GBDevice implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        checkSettingBatteryPercent();
         dest.writeString(mName);
         dest.writeString(mAddress);
         dest.writeString(mVolatileAddress);
@@ -125,6 +128,11 @@ public class GBDevice implements Parcelable {
         dest.writeInt(mRssi);
         dest.writeString(mBusyTask);
         dest.writeList(mDeviceInfos);
+    }
+
+    public void checkSettingBatteryPercent() {
+        Prefs prefs = GBApplication.getPrefs();
+        setBatteryThresholdPercent((short) prefs.getInt(SettingsActivity.PREF_SETTINGS_BATTERY_PERCENT,BATTERY_THRESHOLD_PERCENT));
     }
 
     private void validate() {

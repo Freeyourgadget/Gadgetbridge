@@ -148,6 +148,13 @@
         <Preference
             android:key="pref_key_blacklist"
             android:title="@string/pref_blacklist" />
+
+        <EditTextPreference
+            android:defaultValue="10"
+            android:inputType="number"
+            android:maxLength="2"
+            android:key="battery_percent"
+            android:title="@string/pref_title_battery_percent"/>
     </PreferenceCategory>
 
     <PreferenceCategory
