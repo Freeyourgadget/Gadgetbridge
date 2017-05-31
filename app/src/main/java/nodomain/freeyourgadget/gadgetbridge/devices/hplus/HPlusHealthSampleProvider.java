@@ -167,6 +167,8 @@ public class HPlusHealthSampleProvider extends AbstractSampleProvider<HPlusHealt
 
             long nonSleepTimeEnd = 0;
             for (HPlusHealthActivitySample sample : samples) {
+                if (sample.getRawKind() == ActivityKind.TYPE_NOT_WORN)
+                    continue;
 
                 if (sample.getTimestamp() >= overlay.getTimestampFrom() && sample.getTimestamp() < overlay.getTimestampTo()) {
                     if (overlay.getRawKind() == ActivityKind.TYPE_NOT_WORN || overlay.getRawKind() == ActivityKind.TYPE_LIGHT_SLEEP || overlay.getRawKind() == ActivityKind.TYPE_DEEP_SLEEP) {
