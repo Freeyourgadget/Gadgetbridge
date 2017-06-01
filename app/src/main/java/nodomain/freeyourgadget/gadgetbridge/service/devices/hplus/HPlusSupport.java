@@ -50,6 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
@@ -912,10 +913,11 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void handleBatteryInfo(byte data) {
-            if (batteryCmd.level != (short) data) {
-                batteryCmd.level = (short) data;
-                handleGBDeviceEvent(batteryCmd);
-            }
+        if (batteryCmd.level != (short) data) {
+            batteryCmd.level = (short) data;
+            batteryCmd.state = BatteryState.BATTERY_NORMAL;
+            handleGBDeviceEvent(batteryCmd);
+        }
     }
 
 }

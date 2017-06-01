@@ -141,6 +141,7 @@
     <string name="pref_pebble_privacy_mode_off">Normal notifications</string>
     <string name="pref_pebble_privacy_mode_content">Shift the notification text off-screen</string>
     <string name="pref_pebble_privacy_mode_complete">Show only the notification icon</string>
+    <string name="pref_title_battery_percent">Threshold battery notification discharge</string>
 
     <string name="pref_header_location">Location</string>
     <string name="pref_title_location_aquire">Acquire Location</string>
