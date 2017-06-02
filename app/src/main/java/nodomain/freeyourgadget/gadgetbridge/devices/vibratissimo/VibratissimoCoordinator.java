@@ -121,6 +121,11 @@ public class VibratissimoCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsRealtimeData() {
+        return false; // hmmm well, it has a temperature sensor :D
+    }
+
+    @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
         // nothing to delete, yet
     }

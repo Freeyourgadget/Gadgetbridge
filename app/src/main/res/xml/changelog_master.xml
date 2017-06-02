@@ -8,6 +8,7 @@
         <change>HPlus: Fix Unicode handling</change>
         <change>HPlus: Initial not work detection</change>
         <change>Fix memory leak</change>
+        <change>Only show Realtime Chart on devices supporting it</change>
     </release>    
     <release version="0.19.2" versioncode="95">
         <change>Pebble: Fix recurring calendar events only appearing once per week</change>

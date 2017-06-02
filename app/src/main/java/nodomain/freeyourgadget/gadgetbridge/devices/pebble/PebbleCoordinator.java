@@ -156,4 +156,9 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     public boolean supportsCalendarEvents() {
         return true;
     }
+
+    @Override
+    public boolean supportsRealtimeData() {
+        return false;
+    }
 }

@@ -120,6 +120,11 @@ public class LiveviewCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsRealtimeData() {
+        return false;
+    }
+
+    @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
         // nothing to delete, yet
     }

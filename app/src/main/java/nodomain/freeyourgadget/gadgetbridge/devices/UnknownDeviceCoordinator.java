@@ -176,4 +176,9 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     public boolean supportsCalendarEvents() {
         return false;
     }
+
+    @Override
+    public boolean supportsRealtimeData() {
+        return false;
+    }
 }

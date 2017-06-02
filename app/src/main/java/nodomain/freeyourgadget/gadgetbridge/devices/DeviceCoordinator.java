@@ -232,4 +232,9 @@ public interface DeviceCoordinator {
      */
     boolean supportsCalendarEvents();
 
+    /**
+     * Indicates whether the device supports getting a stream of live data.
+     * This can be live HR, steps etc.
+     */
+    boolean supportsRealtimeData();
 }
