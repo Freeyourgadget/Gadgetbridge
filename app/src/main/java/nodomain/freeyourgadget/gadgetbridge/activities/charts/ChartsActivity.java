@@ -343,7 +343,7 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         @Override
         public int getCount() {
             // Show 5 total pages.
-            return 6;
+            return 5; // hide "Speed Zones" for now
         }
 
         @Override
