@@ -221,7 +221,7 @@
   <string name="pref_screen_notification_profile_generic_navigation">Navigation</string>
   <string name="pref_screen_notification_profile_generic_social">Réseau social</string>
   <string name="stats_title">Zones de vitesse</string>
-  <string name="stats_x_axis_label">Total de minutes</string>
+  <string name="stats_x_axis_label">Minutes</string>
   <string name="stats_y_axis_label">Pas par minute</string>
   <string name="control_center_find_lost_device">Trouver l\'appareil perdu</string>
   <string name="control_center_cancel_to_stop_vibration">Annuler pour arrêter les vibrations</string>

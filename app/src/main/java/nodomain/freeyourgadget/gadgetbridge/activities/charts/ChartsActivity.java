@@ -345,7 +345,7 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
             // Show 4 or 5 total pages. (always hide speed zones)
             DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(mGBDevice);
             if (coordinator.supportsRealtimeData()) {
-                return 5;
+                return 6;
             }
             return 4;
         }

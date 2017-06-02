@@ -34,17 +34,8 @@ class ActivityAnalysis {
 
     // store raw steps and duration
     protected HashMap<Integer, Long> stats = new HashMap<Integer, Long>();
-    // normalize steps
-    protected HashMap<Float, Float> statsQuantified = new HashMap<Float, Float>();
-    // store maxSpeed / resolution
-    protected float maxSpeedQuantifier;
-    // store an average of round precision
-    protected float roundPrecision = 0f;
-
     // max speed determined from samples
     private int maxSpeed = 0;
-    // number of bars on stats chart
-    private int resolution = 5;
 
     ActivityAmounts calculateActivityAmounts(List<? extends ActivitySample> samples) {
         ActivityAmount deepSleep = new ActivityAmount(ActivityKind.TYPE_DEEP_SLEEP);
@@ -106,34 +97,6 @@ class ActivityAnalysis {
 
             previousAmount = amount;
             previousSample = sample;
-        }
-
-        maxSpeedQuantifier = maxSpeed / resolution;
-        for (Map.Entry<Integer, Long> entry : stats.entrySet()) {
-            // 0.1 precision
-            //float keyQuantified = Math.round(entry.getKey() / maxSpeedQuantifier * 10f) / 10f;
-
-            // 1 precision
-            float keyQuantified = entry.getKey() / maxSpeedQuantifier;
-            float keyQuantifiedRounded = Math.round(entry.getKey() / maxSpeedQuantifier);
-            float keyQuantifiedPrecision = keyQuantifiedRounded - keyQuantified;
-            roundPrecision = (roundPrecision + Math.abs(keyQuantifiedPrecision)) / 2;
-            //System.out.println("Precision: " + roundPrecision);
-
-            // no scale
-            //keyQuantified = entry.getKey();
-
-            // scaling to minutes
-            float timeMinutes = entry.getValue() / 60;
-
-            if (!statsQuantified.containsKey(keyQuantifiedRounded)) {
-                //System.out.println("Adding: " + keyQuantified + "/" + timeMinutes);
-                statsQuantified.put(keyQuantifiedRounded, timeMinutes);
-            } else {
-                float previousTime = statsQuantified.get(keyQuantifiedRounded);
-                //System.out.println("Updating: " + keyQuantified + "/" + (timeMinutes + previousTime));
-                statsQuantified.put(keyQuantifiedRounded, (timeMinutes + previousTime));
-            }
         }
 
         ActivityAmounts result = new ActivityAmounts();

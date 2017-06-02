@@ -30,6 +30,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
  */
 public class ActivityUser {
 
+    public static final double GENDER_FEMALE_DISTANCE_FACTOR = 0.413;
+    public static final double GENDER_MALE_DISTANCE_FACTOR = 0.415;
     public static final int GENDER_FEMALE = 0;
     public static final int GENDER_MALE = 1;
     public static final int GENDER_OTHER = 2;
