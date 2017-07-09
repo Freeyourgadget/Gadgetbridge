@@ -298,6 +298,7 @@
   <string name="dateformat_time">Hora</string>
   <string name="dateformat_date_time"><![CDATA[Hora & Data]]></string>
   <string name="mi2_prefs_activate_display_on_lift">Ativar ecrã do dispositivo quando o levantar</string>
+  <string name="mi2_prefs_rotate_wrist_to_switch_info">Rodar o pulso para mudar de ecrã</string>
   <string name="FetchActivityOperation_about_to_transfer_since">Prestes a transferir dados desde %1$s</string>
   <string name="waiting_for_reconnect">aguarde para tornar a ligar</string>
   <string name="activity_prefs_about_you">Sobre você</string>

@@ -1078,6 +1078,9 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 case MiBandConst.PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT:
                     setActivateDisplayOnLiftWrist(builder);
                     break;
+                case MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO:
+                    setRotateWristToSwitchInfo(builder);
+                    break;
                 case ActivityUser.PREF_USER_STEPS_GOAL:
                     setFitnessGoal(builder);
                     break;
@@ -1139,6 +1142,17 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return this;
     }
 
+    private MiBand2Support setRotateWristToSwitchInfo(TransactionBuilder builder) {
+        boolean enable = MiBand2Coordinator.getRotateWristToSwitchInfo();
+        LOG.info("Setting rotate wrist to cycle info to " + enable);
+        if (enable) {
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_ENABLE_ROTATE_WRIST_TO_SWITCH_INFO);
+        } else {
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_DISABLE_ROTATE_WRIST_TO_SWITCH_INFO);
+        }
+        return this;
+    }
+
     public void phase2Initialize(TransactionBuilder builder) {
         LOG.info("phase2Initialize...");
         enableFurtherNotifications(builder, true);
@@ -1147,6 +1161,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         setTimeFormat(builder);
         setWearLocation(builder);
         setFitnessGoal(builder);
+        setRotateWristToSwitchInfo(builder);
         setActivateDisplayOnLiftWrist(builder);
         setHeartrateSleepSupport(builder);
     }
