@@ -117,6 +117,11 @@ public class MiBand2Coordinator extends MiBandCoordinator {
         return prefs.getBoolean(MiBandConst.PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT, true);
     }
 
+    public static boolean getRotateWristToSwitchInfo() {
+        Prefs prefs = GBApplication.getPrefs();
+        return prefs.getBoolean(MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO, false);
+    }
+
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         MiBand2FWInstallHandler handler = new MiBand2FWInstallHandler(uri, context);
