@@ -135,6 +135,28 @@
         <item>@string/p_dateformat_datetime</item>
     </string-array>
 
+    <string-array name="pref_mi2_display_items">
+        <item>@string/chart_steps</item>
+        <item>@string/distance</item>
+        <item>@string/calories</item>
+        <item>@string/heart_rate</item>
+        <item>@string/battery</item>
+    </string-array>
+    <string-array name="pref_mi2_display_items_values">
+        <item>@string/p_steps</item>
+        <item>@string/p_distance</item>
+        <item>@string/p_calories</item>
+        <item>@string/p_heart_rate</item>
+        <item>@string/p_battery</item>
+    </string-array>
+    <string-array name="pref_mi2_display_items_default">
+        <item>@string/p_steps</item>
+        <item>@string/p_distance</item>
+        <item>@string/p_calories</item>
+        <item>@string/p_heart_rate</item>
+        <item>@string/p_battery</item>
+    </string-array>
+
     <string-array name="pref_entries_unit_system">
         <item>@string/unit_metric</item>
         <item>@string/unit_imperial</item>

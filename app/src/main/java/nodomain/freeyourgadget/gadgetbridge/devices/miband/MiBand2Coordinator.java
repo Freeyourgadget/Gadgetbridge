@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -115,6 +116,11 @@ public class MiBand2Coordinator extends MiBandCoordinator {
     public static boolean getActivateDisplayOnLiftWrist() {
         Prefs prefs = GBApplication.getPrefs();
         return prefs.getBoolean(MiBandConst.PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT, true);
+    }
+
+    public static Set<String> getDisplayItems() {
+        Prefs prefs = GBApplication.getPrefs();
+        return prefs.getStringSet(MiBandConst.PREF_MI2_DISPLAY_ITEMS, null);
     }
 
     @Override

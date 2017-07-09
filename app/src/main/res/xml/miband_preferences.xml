@@ -43,6 +43,15 @@
 			android:maxLength="2"
 			android:title="@string/miband_prefs_device_time_offset_hours" />
 
+        <MultiSelectListPreference
+            android:dialogTitle="@string/mi2_prefs_display_items"
+            android:defaultValue="@array/pref_mi2_display_items_default"
+            android:entries="@array/pref_mi2_display_items"
+            android:entryValues="@array/pref_mi2_display_items_values"
+            android:key="mi2_display_items"
+            android:summary="@string/mi2_prefs_display_items_summary"
+            android:title="@string/mi2_prefs_display_items"/>
+
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="mi2_activate_display_on_lift_wrist"

@@ -270,6 +270,9 @@
   <string name="chart_steps">Passos</string>
   <string name="calories">Calorias</string>
   <string name="distance">Distância</string>
+  <string name="clock">Relógio</string>
+  <string name="heart_rate">Ritmo Cardíaco</string>
+  <string name="battery">Bateria</string>
   <string name="liveactivity_live_activity">Atividade em tempo real</string>
   <string name="weeksteps_today_steps_description">Passos hoje, objetivo: %1$s</string>
   <string name="pref_title_dont_ack_transfer">Não confirmar a transferência de dados de atividade</string>
@@ -297,6 +300,8 @@
   <string name="miband2_prefs_dateformat">Mi2: Formato da Data</string>
   <string name="dateformat_time">Hora</string>
   <string name="dateformat_date_time"><![CDATA[Hora & Data]]></string>
+  <string name="mi2_prefs_display_items">Items do ecrã</string>
+  <string name="mi2_prefs_display_items_summary">Escolher os items a mostrar no ecrã</string>
   <string name="mi2_prefs_activate_display_on_lift">Ativar ecrã do dispositivo quando o levantar</string>
   <string name="FetchActivityOperation_about_to_transfer_since">Prestes a transferir dados desde %1$s</string>
   <string name="waiting_for_reconnect">aguarde para tornar a ligar</string>

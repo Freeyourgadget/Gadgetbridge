@@ -12,6 +12,13 @@
     <item name="p_dateformat_time" type="string">dateformat_time</item>
     <item name="p_dateformat_datetime" type="string">dateformat_datetime</item>
 
+    <item name="p_clock" type="string">clock</item>
+    <item name="p_steps" type="string">steps</item>
+    <item name="p_distance" type="string">distance</item>
+    <item name="p_calories" type="string">calories</item>
+    <item name="p_heart_rate" type="string">heart_rate</item>
+    <item name="p_battery" type="string">battery</item>
+
     <item name="p_unit_metric" type="string">metric</item>
     <item name="p_unit_imperial" type="string">imperial</item>
 

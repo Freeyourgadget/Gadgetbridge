@@ -35,6 +35,13 @@ public final class MiBandConst {
     public static final String PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION = "mi_hr_sleep_detection";
 	public static final String PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS = "mi_device_time_offset_hours";
 	public static final String PREF_MI2_DATEFORMAT = "mi2_dateformat";
+	public static final String PREF_MI2_DISPLAY_ITEMS = "mi2_display_items";
+	public static final String PREF_MI2_DISPLAY_ITEM_CLOCK = "clock";
+	public static final String PREF_MI2_DISPLAY_ITEM_STEPS = "steps";
+	public static final String PREF_MI2_DISPLAY_ITEM_DISTANCE = "distance";
+	public static final String PREF_MI2_DISPLAY_ITEM_CALORIES = "calories";
+	public static final String PREF_MI2_DISPLAY_ITEM_HEART_RATE = "heart_rate";
+	public static final String PREF_MI2_DISPLAY_ITEM_BATTERY = "battery";
 	public static final String PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT = "mi2_activate_display_on_lift_wrist";
 	public static final String PREF_MI2_ENABLE_TEXT_NOTIFICATIONS = "mi2_enable_text_notifications";
     public static final String PREF_MIBAND_SETUP_BT_PAIRING = "mi_setup_bt_pairing";
