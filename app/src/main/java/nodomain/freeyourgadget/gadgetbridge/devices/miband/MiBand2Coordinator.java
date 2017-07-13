@@ -122,6 +122,11 @@ public class MiBand2Coordinator extends MiBandCoordinator {
         Prefs prefs = GBApplication.getPrefs();
         return prefs.getStringSet(MiBandConst.PREF_MI2_DISPLAY_ITEMS, null);
     }
+    
+    public static boolean getRotateWristToSwitchInfo() {
+        Prefs prefs = GBApplication.getPrefs();
+        return prefs.getBoolean(MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO, false);
+    }
 
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {

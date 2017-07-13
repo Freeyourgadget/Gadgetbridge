@@ -58,6 +58,12 @@
             android:title="@string/mi2_prefs_activate_display_on_lift" />
 
         <CheckBoxPreference
+            android:defaultValue="false"
+            android:dependency="mi2_activate_display_on_lift_wrist"
+            android:key="mi2_rotate_wrist_to_switch_info"
+            android:title="@string/mi2_prefs_rotate_wrist_to_switch_info" />
+
+        <CheckBoxPreference
             android:defaultValue="true"
             android:key="mi2_enable_text_notifications"
             android:summaryOn="@string/mi2_enable_text_notifications_summary"

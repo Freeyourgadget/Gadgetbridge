@@ -349,6 +349,7 @@
     <string name="mi2_prefs_display_items">Display items</string>
     <string name="mi2_prefs_display_items_summary">Choose the items displayed on the band screen</string>
     <string name="mi2_prefs_activate_display_on_lift">Activate display upon lift</string>
+    <string name="mi2_prefs_rotate_wrist_to_switch_info">Rotate wrist to switch info</string>
     <string name="FetchActivityOperation_about_to_transfer_since">About to transfer data since %1$s</string>
 
     <string name="waiting_for_reconnect">waiting for reconnect</string>
