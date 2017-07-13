@@ -145,6 +145,19 @@ public class MiBand2Service {
 
     public static final byte ICON_HIGH_PRIORITY = 0x7;
 
+    public static byte ENDPOINT_DISPLAY_ITEMS = 0x0a;
+
+    public static byte DISPLAY_ITEM_BIT_CLOCK = 0x01;
+    public static byte DISPLAY_ITEM_BIT_STEPS = 0x02;
+    public static byte DISPLAY_ITEM_BIT_DISTANCE = 0x04;
+    public static byte DISPLAY_ITEM_BIT_CALORIES= 0x08;
+    public static byte DISPLAY_ITEM_BIT_HEART_RATE = 0x10;
+    public static byte DISPLAY_ITEM_BIT_BATTERY = 0x20;
+
+    // Second byte must be a bitwise OR combination of the above
+    // The clock can't be disabled
+    public static int SCREEN_CHANGE_BYTE = 1;
+    public static final byte[] COMMAND_CHANGE_SCREENS = new byte[]{ENDPOINT_DISPLAY_ITEMS, DISPLAY_ITEM_BIT_CLOCK, 0x00, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05};
 
     public static byte ENDPOINT_DISPLAY = 0x06;
 

@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -1078,6 +1079,9 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 case MiBandConst.PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT:
                     setActivateDisplayOnLiftWrist(builder);
                     break;
+                case MiBandConst.PREF_MI2_DISPLAY_ITEMS:
+                    setDisplayItems(builder);
+                    break;
                 case MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO:
                     setRotateWristToSwitchInfo(builder);
                     break;
@@ -1142,6 +1146,34 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return this;
     }
 
+    private MiBand2Support setDisplayItems(TransactionBuilder builder) {
+        Set<String> pages = MiBand2Coordinator.getDisplayItems();
+        LOG.info("Setting display items to " + (pages == null ? "none" : pages));
+
+        byte[] data = MiBand2Service.COMMAND_CHANGE_SCREENS.clone();
+
+        if (pages != null) {
+            if (pages.contains(MiBandConst.PREF_MI2_DISPLAY_ITEM_STEPS)) {
+                data[MiBand2Service.SCREEN_CHANGE_BYTE] |= MiBand2Service.DISPLAY_ITEM_BIT_STEPS;
+            }
+            if (pages.contains(MiBandConst.PREF_MI2_DISPLAY_ITEM_DISTANCE)) {
+                data[MiBand2Service.SCREEN_CHANGE_BYTE] |= MiBand2Service.DISPLAY_ITEM_BIT_DISTANCE;
+            }
+            if (pages.contains(MiBandConst.PREF_MI2_DISPLAY_ITEM_CALORIES)) {
+                data[MiBand2Service.SCREEN_CHANGE_BYTE] |= MiBand2Service.DISPLAY_ITEM_BIT_CALORIES;
+            }
+            if (pages.contains(MiBandConst.PREF_MI2_DISPLAY_ITEM_HEART_RATE)) {
+                data[MiBand2Service.SCREEN_CHANGE_BYTE] |= MiBand2Service.DISPLAY_ITEM_BIT_HEART_RATE;
+            }
+            if (pages.contains(MiBandConst.PREF_MI2_DISPLAY_ITEM_BATTERY)) {
+                data[MiBand2Service.SCREEN_CHANGE_BYTE] |= MiBand2Service.DISPLAY_ITEM_BIT_BATTERY;
+            }
+        }
+
+        builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), data);
+        return this;
+    }
+
     private MiBand2Support setRotateWristToSwitchInfo(TransactionBuilder builder) {
         boolean enable = MiBand2Coordinator.getRotateWristToSwitchInfo();
         LOG.info("Setting rotate wrist to cycle info to " + enable);
@@ -1161,6 +1193,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         setTimeFormat(builder);
         setWearLocation(builder);
         setFitnessGoal(builder);
+        setDisplayItems(builder);
         setRotateWristToSwitchInfo(builder);
         setActivateDisplayOnLiftWrist(builder);
         setHeartrateSleepSupport(builder);
