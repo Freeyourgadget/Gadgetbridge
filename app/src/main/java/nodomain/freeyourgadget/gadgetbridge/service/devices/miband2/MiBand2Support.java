@@ -1076,6 +1076,9 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 case MiBandConst.PREF_MI2_DATEFORMAT:
                     setDateDisplay(builder);
                     break;
+                case MiBandConst.PREF_MI2_GOAL_NOTIFICATION:
+                    setGoalNotification(builder);
+                    break;
                 case MiBandConst.PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT:
                     setActivateDisplayOnLiftWrist(builder);
                     break;
@@ -1131,6 +1134,17 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.DATEFORMAT_TIME_24_HOURS);
         } else {
             builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.DATEFORMAT_TIME_12_HOURS);
+        }
+        return this;
+    }
+
+    private MiBand2Support setGoalNotification(TransactionBuilder builder) {
+        boolean enable = MiBand2Coordinator.getGoalNotification();
+        LOG.info("Setting goal notification to " + enable);
+        if (enable) {
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_ENABLE_GOAL_NOTIFICATION);
+        } else {
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_DISABLE_GOAL_NOTIFICATION);
         }
         return this;
     }

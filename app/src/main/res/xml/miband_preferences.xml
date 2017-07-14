@@ -24,6 +24,12 @@
             android:maxLength="5"
             android:title="@string/miband_prefs_fitness_goal" />
 
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="mi2_goal_notification"
+            android:summary="@string/mi2_prefs_goal_notification_summary"
+            android:title="@string/mi2_prefs_goal_notification" />
+
         <EditTextPreference
             android:defaultValue="0"
             android:inputType="number"

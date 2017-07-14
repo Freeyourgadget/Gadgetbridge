@@ -346,6 +346,8 @@
     <string name="miband2_prefs_dateformat">Mi2: Date Format</string>
     <string name="dateformat_time">Time</string>
     <string name="dateformat_date_time"><![CDATA[Time & Date]]></string>
+    <string name="mi2_prefs_goal_notification">Goal notification</string>
+    <string name="mi2_prefs_goal_notification_summary">The band will vibrate when the daily steps goal is reached</string>
     <string name="mi2_prefs_display_items">Display items</string>
     <string name="mi2_prefs_display_items_summary">Choose the items displayed on the band screen</string>
     <string name="mi2_prefs_activate_display_on_lift">Activate display upon lift</string>
