@@ -41,6 +41,7 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PR
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DATEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DISPLAY_ITEMS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_ENABLE_TEXT_NOTIFICATIONS;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_GOAL_NOTIFICATION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_ADDRESS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS;
@@ -64,6 +65,20 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newVal) {
                 GBApplication.deviceService().onEnableHeartRateSleepSupport(Boolean.TRUE.equals(newVal));
+                return true;
+            }
+        });
+
+        final Preference goalNotification = findPreference(PREF_MI2_GOAL_NOTIFICATION);
+        goalNotification.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_GOAL_NOTIFICATION);
+                    }
+                });
                 return true;
             }
         });
