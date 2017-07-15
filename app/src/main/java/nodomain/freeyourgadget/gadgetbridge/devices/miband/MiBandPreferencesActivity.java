@@ -48,6 +48,13 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PR
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_START;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_ENABLE_TEXT_NOTIFICATIONS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_GOAL_NOTIFICATION;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_INACTIVITY_WARNINGS;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND_END;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND_START;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_END;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_START;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_ADDRESS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS;
@@ -141,6 +148,104 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
                     @Override
                     public void run() {
                         GBApplication.deviceService().onSendConfiguration(PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference inactivityWarnings = findPreference(PREF_MI2_INACTIVITY_WARNINGS);
+        inactivityWarnings.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_INACTIVITY_WARNINGS);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference inactivityWarningsThreshold = findPreference(PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD);
+        inactivityWarningsThreshold.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference inactivityWarningsStart = findPreference(PREF_MI2_INACTIVITY_WARNINGS_START);
+        inactivityWarningsStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_INACTIVITY_WARNINGS_START);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference inactivityWarningsEnd = findPreference(PREF_MI2_INACTIVITY_WARNINGS_END);
+        inactivityWarningsEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_INACTIVITY_WARNINGS_END);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference inactivityWarningsDnd = findPreference(PREF_MI2_INACTIVITY_WARNINGS_DND);
+        inactivityWarningsDnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_INACTIVITY_WARNINGS_DND);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference inactivityWarningsDndStart = findPreference(PREF_MI2_INACTIVITY_WARNINGS_DND_START);
+        inactivityWarningsDndStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_INACTIVITY_WARNINGS_DND_START);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference inactivityWarningsDndEnd = findPreference(PREF_MI2_INACTIVITY_WARNINGS_DND_END);
+        inactivityWarningsDndEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_INACTIVITY_WARNINGS_DND_END);
                     }
                 });
                 return true;
@@ -270,6 +375,7 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
         prefKeys.add(PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR);
         prefKeys.add(PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS);
         prefKeys.add(PREF_MI2_ENABLE_TEXT_NOTIFICATIONS);
+        prefKeys.add(PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD);
         prefKeys.add(getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_ALARM_CLOCK));
         prefKeys.add(getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_INCOMING_CALL));
 

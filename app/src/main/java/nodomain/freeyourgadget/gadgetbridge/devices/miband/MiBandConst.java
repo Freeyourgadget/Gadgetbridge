@@ -52,6 +52,13 @@ public final class MiBandConst {
     public static final String PREF_MI2_DO_NOT_DISTURB_SCHEDULED = "scheduled";
     public static final String PREF_MI2_DO_NOT_DISTURB_START = "mi2_do_not_disturb_start";
     public static final String PREF_MI2_DO_NOT_DISTURB_END = "mi2_do_not_disturb_end";
+    public static final String PREF_MI2_INACTIVITY_WARNINGS = "mi2_inactivity_warnings";
+    public static final String PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD = "mi2_inactivity_warnings_threshold";
+    public static final String PREF_MI2_INACTIVITY_WARNINGS_START = "mi2_inactivity_warnings_start";
+    public static final String PREF_MI2_INACTIVITY_WARNINGS_END = "mi2_inactivity_warnings_end";
+    public static final String PREF_MI2_INACTIVITY_WARNINGS_DND = "mi2_inactivity_warnings_dnd";
+    public static final String PREF_MI2_INACTIVITY_WARNINGS_DND_START = "mi2_inactivity_warnings_dnd_start";
+    public static final String PREF_MI2_INACTIVITY_WARNINGS_DND_END = "mi2_inactivity_warnings_dnd_end";
     public static final String PREF_MIBAND_SETUP_BT_PAIRING = "mi_setup_bt_pairing";
 
 
