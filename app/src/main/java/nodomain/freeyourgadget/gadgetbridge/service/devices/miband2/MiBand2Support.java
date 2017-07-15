@@ -1097,6 +1097,16 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 case MiBandConst.PREF_MI2_DO_NOT_DISTURB_START:
                 case MiBandConst.PREF_MI2_DO_NOT_DISTURB_END:
                     setDoNotDisturb(builder);
+                    break;
+                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS:
+                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD:
+                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_START:
+                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_END:
+                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND:
+                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND_START:
+                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND_END:
+                    setInactivityWarnings(builder);
+                    break;
             }
             builder.queue(getQueue());
         } catch (IOException e) {
@@ -1238,6 +1248,60 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return this;
     }
 
+    private MiBand2Support setInactivityWarnings(TransactionBuilder builder) {
+        boolean enable = MiBand2Coordinator.getInactivityWarnings();
+        LOG.info("Setting inactivity warnings to " + enable);
+
+        if (enable) {
+            byte[] data = MiBand2Service.COMMAND_ENABLE_INACTIVITY_WARNINGS.clone();
+
+            int threshold = MiBand2Coordinator.getInactivityWarningsThreshold();
+            data[MiBand2Service.INACTIVITY_WARNINGS_THRESHOLD] = (byte) threshold;
+
+            Calendar calendar = GregorianCalendar.getInstance();
+
+            boolean enableDnd = MiBand2Coordinator.getInactivityWarningsDnd();
+
+            Date intervalStart = MiBand2Coordinator.getInactivityWarningsStart();
+            Date intervalEnd = MiBand2Coordinator.getInactivityWarningsEnd();
+            Date dndStart = MiBand2Coordinator.getInactivityWarningsDndStart();
+            Date dndEnd = MiBand2Coordinator.getInactivityWarningsDndEnd();
+
+            // The first interval always starts when the warnings interval starts
+            calendar.setTime(intervalStart);
+            data[MiBand2Service.INACTIVITY_WARNINGS_INTERVAL_1_START_HOURS] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
+            data[MiBand2Service.INACTIVITY_WARNINGS_INTERVAL_1_START_MINUTES] = (byte) calendar.get(Calendar.MINUTE);
+
+            if(enableDnd) {
+                // The first interval ends when the dnd interval starts
+                calendar.setTime(dndStart);
+                data[MiBand2Service.INACTIVITY_WARNINGS_INTERVAL_1_END_HOURS] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
+                data[MiBand2Service.INACTIVITY_WARNINGS_INTERVAL_1_END_MINUTES] = (byte) calendar.get(Calendar.MINUTE);
+
+                // The second interval starts when the dnd interval ends
+                calendar.setTime(dndEnd);
+                data[MiBand2Service.INACTIVITY_WARNINGS_INTERVAL_2_START_HOURS] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
+                data[MiBand2Service.INACTIVITY_WARNINGS_INTERVAL_2_START_MINUTES] = (byte) calendar.get(Calendar.MINUTE);
+
+                // ... and it ends when the warnings interval ends
+                calendar.setTime(intervalEnd);
+                data[MiBand2Service.INACTIVITY_WARNINGS_INTERVAL_2_END_HOURS] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
+                data[MiBand2Service.INACTIVITY_WARNINGS_INTERVAL_2_END_MINUTES] = (byte) calendar.get(Calendar.MINUTE);
+            } else {
+                // No Dnd, use the first interval
+                calendar.setTime(intervalEnd);
+                data[MiBand2Service.INACTIVITY_WARNINGS_INTERVAL_1_END_HOURS] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
+                data[MiBand2Service.INACTIVITY_WARNINGS_INTERVAL_1_END_MINUTES] = (byte) calendar.get(Calendar.MINUTE);
+            }
+
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), data);
+        } else {
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_DISABLE_INACTIVITY_WARNINGS);
+        }
+
+        return this;
+    }
+
     public void phase2Initialize(TransactionBuilder builder) {
         LOG.info("phase2Initialize...");
         enableFurtherNotifications(builder, true);
@@ -1251,6 +1315,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         setRotateWristToSwitchInfo(builder);
         setActivateDisplayOnLiftWrist(builder);
         setGoalNotification(builder);
+        setInactivityWarnings(builder);
         setHeartrateSleepSupport(builder);
     }
 }

@@ -47,9 +47,6 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_END;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_START;
-
 public class MiBand2Coordinator extends MiBandCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MiBand2Coordinator.class);
 
@@ -139,27 +136,54 @@ public class MiBand2Coordinator extends MiBandCoordinator {
         return prefs.getBoolean(MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO, false);
     }
 
-    public static Date getDoNotDisturbStart() {
+    public static boolean getInactivityWarnings() {
         Prefs prefs = GBApplication.getPrefs();
-        String time = prefs.getString(PREF_MI2_DO_NOT_DISTURB_START, "01:00");
+        return prefs.getBoolean(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS, false);
+    }
 
-        DateFormat df = new SimpleDateFormat("HH:mm");
-        try {
-            return df.parse(time);
-        } catch(Exception e) {
-        }
+    public static int getInactivityWarningsThreshold() {
+        Prefs prefs = GBApplication.getPrefs();
+        return prefs.getInt(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD, 60);
+    }
 
-        return new Date();
+    public static boolean getInactivityWarningsDnd() {
+        Prefs prefs = GBApplication.getPrefs();
+        return prefs.getBoolean(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND, false);
+    }
+
+    public static Date getInactivityWarningsStart() {
+        return getTimePreference(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_START, "06:00");
+    }
+
+    public static Date getInactivityWarningsEnd() {
+        return getTimePreference(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_END, "22:00");
+    }
+
+    public static Date getInactivityWarningsDndStart() {
+        return getTimePreference(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND_START, "12:00");
+    }
+
+    public static Date getInactivityWarningsDndEnd() {
+        return getTimePreference(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND_END, "14:00");
+    }
+
+    public static Date getDoNotDisturbStart() {
+        return getTimePreference(MiBandConst.PREF_MI2_DO_NOT_DISTURB_START, "01:00");
     }
 
     public static Date getDoNotDisturbEnd() {
+        return getTimePreference(MiBandConst.PREF_MI2_DO_NOT_DISTURB_END, "06:00");
+    }
+
+    public static Date getTimePreference(String key, String defaultValue) {
         Prefs prefs = GBApplication.getPrefs();
-        String time = prefs.getString(PREF_MI2_DO_NOT_DISTURB_END, "06:00");
+        String time = prefs.getString(key, defaultValue);
 
         DateFormat df = new SimpleDateFormat("HH:mm");
         try {
             return df.parse(time);
         } catch(Exception e) {
+            LOG.error("Unexpected exception in MiBand2Coordinator.getTime: " + e.getMessage());
         }
 
         return new Date();
