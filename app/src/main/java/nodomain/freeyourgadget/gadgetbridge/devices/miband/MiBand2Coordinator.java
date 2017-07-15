@@ -113,6 +113,11 @@ public class MiBand2Coordinator extends MiBandCoordinator {
         return DateTimeDisplay.DATE_TIME;
     }
 
+    public static boolean getBluetoothVisibility() {
+        Prefs prefs = GBApplication.getPrefs();
+        return prefs.getBoolean(MiBandConst.PREF_MI2_BLUETOOTH_VISIBILITY, true);
+    }
+
     public static boolean getActivateDisplayOnLiftWrist() {
         Prefs prefs = GBApplication.getPrefs();
         return prefs.getBoolean(MiBandConst.PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT, true);

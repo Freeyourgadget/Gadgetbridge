@@ -1085,6 +1085,9 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 case MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO:
                     setRotateWristToSwitchInfo(builder);
                     break;
+                case MiBandConst.PREF_MI2_BLUETOOTH_VISIBILITY:
+                    setBluetoothVisibility(builder);
+                    break;
                 case ActivityUser.PREF_USER_STEPS_GOAL:
                     setFitnessGoal(builder);
                     break;
@@ -1185,6 +1188,17 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return this;
     }
 
+    private MiBand2Support setBluetoothVisibility(TransactionBuilder builder) {
+        boolean enable = MiBand2Coordinator.getBluetoothVisibility();
+        LOG.info("Setting bluetooth visibility to " + enable);
+        if (enable) {
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_ENABLE_BLUETOOTH_VISIBILITY);
+        } else {
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_DISABLE_BLUETOOTH_VISIBILITY);
+        }
+        return this;
+    }
+
     public void phase2Initialize(TransactionBuilder builder) {
         LOG.info("phase2Initialize...");
         enableFurtherNotifications(builder, true);
@@ -1196,6 +1210,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         setDisplayItems(builder);
         setRotateWristToSwitchInfo(builder);
         setActivateDisplayOnLiftWrist(builder);
+        setBluetoothVisibility(builder);
         setHeartrateSleepSupport(builder);
     }
 }

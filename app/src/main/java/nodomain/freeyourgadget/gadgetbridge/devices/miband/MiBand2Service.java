@@ -163,6 +163,8 @@ public class MiBand2Service {
 
     public static final byte[] DATEFORMAT_DATE_TIME = new byte[] {ENDPOINT_DISPLAY, 0x0a, 0x0, 0x03 };
     public static final byte[] DATEFORMAT_TIME = new byte[] {ENDPOINT_DISPLAY, 0x0a, 0x0, 0x0 };
+    public static final byte[] COMMAND_ENABLE_BLUETOOTH_VISIBILITY = new byte[] { ENDPOINT_DISPLAY, 0x01, 0x0, 0x0 };
+    public static final byte[] COMMAND_DISABLE_BLUETOOTH_VISIBILITY = new byte[] { ENDPOINT_DISPLAY, 0x01, 0x0, 0x1 };
     public static final byte[] DATEFORMAT_TIME_12_HOURS = new byte[] {ENDPOINT_DISPLAY, 0x02, 0x0, 0x0 };
     public static final byte[] DATEFORMAT_TIME_24_HOURS = new byte[] {ENDPOINT_DISPLAY, 0x02, 0x0, 0x1 };
     public static final byte[] COMMAND_ENABLE_DISPLAY_ON_LIFT_WRIST = new byte[]{ENDPOINT_DISPLAY, 0x05, 0x00, 0x01};

@@ -78,6 +78,11 @@
             android:title="@string/miband2_prefs_dateformat"
             android:summary="%s" />
 
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="mi2_bluetooth_visibility"
+            android:summary="@string/mi2_prefs_bluetooth_visibility_summary"
+            android:title="@string/mi2_prefs_bluetooth_visibility" />
     </PreferenceCategory>
 
     <PreferenceCategory
