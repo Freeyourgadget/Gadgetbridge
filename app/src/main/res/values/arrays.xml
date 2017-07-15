@@ -135,6 +135,17 @@
         <item>@string/p_dateformat_datetime</item>
     </string-array>
 
+    <string-array name="mi2_do_not_disturb">
+        <item>@string/mi2_dnd_off</item>
+        <item>@string/mi2_dnd_automatic</item>
+        <item>@string/mi2_dnd_scheduled</item>
+    </string-array>
+    <string-array name="mi2_do_not_disturb_values">
+        <item>@string/p_off</item>
+        <item>@string/p_automatic</item>
+        <item>@string/p_scheduled</item>
+    </string-array>
+
     <string-array name="pref_mi2_display_items">
         <item>@string/chart_steps</item>
         <item>@string/distance</item>

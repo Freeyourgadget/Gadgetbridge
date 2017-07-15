@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
@@ -51,6 +52,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInf
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.DateTimeDisplay;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.DoNotDisturb;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
@@ -1091,6 +1093,10 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 case ActivityUser.PREF_USER_STEPS_GOAL:
                     setFitnessGoal(builder);
                     break;
+                case MiBandConst.PREF_MI2_DO_NOT_DISTURB:
+                case MiBandConst.PREF_MI2_DO_NOT_DISTURB_START:
+                case MiBandConst.PREF_MI2_DO_NOT_DISTURB_END:
+                    setDoNotDisturb(builder);
             }
             builder.queue(getQueue());
         } catch (IOException e) {
@@ -1199,6 +1205,39 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return this;
     }
 
+    private MiBand2Support setDoNotDisturb(TransactionBuilder builder) {
+        DoNotDisturb doNotDisturb = MiBand2Coordinator.getDoNotDisturb(getContext());
+        LOG.info("Setting do not disturb to " + doNotDisturb);
+        switch (doNotDisturb) {
+            case OFF:
+                builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_DO_NOT_DISTURB_OFF);
+                break;
+            case AUTOMATIC:
+                builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_DO_NOT_DISTURB_AUTOMATIC);
+                break;
+            case SCHEDULED:
+                byte[] data = MiBand2Service.COMMAND_DO_NOT_DISTURB_SCHEDULED.clone();
+
+                Calendar calendar = GregorianCalendar.getInstance();
+
+                Date start = MiBand2Coordinator.getDoNotDisturbStart();
+                calendar.setTime(start);
+                data[MiBand2Service.DND_BYTE_START_HOURS] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
+                data[MiBand2Service.DND_BYTE_START_MINUTES] = (byte) calendar.get(Calendar.MINUTE);
+
+                Date end = MiBand2Coordinator.getDoNotDisturbEnd();
+                calendar.setTime(end);
+                data[MiBand2Service.DND_BYTE_END_HOURS] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
+                data[MiBand2Service.DND_BYTE_END_MINUTES] = (byte) calendar.get(Calendar.MINUTE);
+
+                builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), data);
+
+                break;
+        }
+
+        return this;
+    }
+
     public void phase2Initialize(TransactionBuilder builder) {
         LOG.info("phase2Initialize...");
         enableFurtherNotifications(builder, true);
@@ -1208,6 +1247,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         setWearLocation(builder);
         setFitnessGoal(builder);
         setDisplayItems(builder);
+        setDoNotDisturb(builder);
         setRotateWristToSwitchInfo(builder);
         setActivateDisplayOnLiftWrist(builder);
         setGoalNotification(builder);
