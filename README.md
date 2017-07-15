@@ -2,8 +2,13 @@ Gadgetbridge
 ============
 
 Gadgetbridge is an Android (4.4+) application which will allow you to use your
-Pebble or Mi Band without the vendor's closed source application and without the
-need to create an account and transmit any of your data to the vendor's servers.
+Pebble or Mi Band or HPlus device without the vendor's closed source application 
+and without the need to create an account and transmit any of your data to the 
+vendor's servers.
+
+[Homepage](https://gadgetbridge.org)
+
+[Blog](https://blog.gadgetbridge.org)
 
 [![Build](https://travis-ci.org/Freeyourgadget/Gadgetbridge.svg?branch=master)](https://travis-ci.org/Freeyourgadget/Gadgetbridge)
 
@@ -11,16 +16,16 @@ need to create an account and transmit any of your data to the vendor's servers.
 
 [![Gadgetbridge on F-Droid](/Get_it_on_F-Droid.svg.png?raw=true "Download from F-Droid")](https://f-droid.org/repository/browse/?fdid=nodomain.freeyourgadget.gadgetbridge)
 
-[List of changes](CHANGELOG.md)
+[List of changes](https://github.com/Freeyourgadget/Gadgetbridge/blob/master/CHANGELOG.md)
 
 ## Supported Devices
 * Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round [Wiki section about this device](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble)
 * Pebble 2 (add the device from within Gadgetbridge!) [Wiki section about pebble](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble), most parts apply to Pebble 2 as well
 * Mi Band, Mi Band 1A, Mi Band 1S [Wiki section about this device](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band)
 * Mi Band 2 [Wiki section about mi band](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band), some parts apply to mi band 2 as well
-* Vibratissimo (experimental)
-* Liveview
 * HPlus Devices (e.g. ZeBand) [Wiki section about this device](https://github.com/Freeyourgadget/Gadgetbridge/wiki/HPlus)
+* Liveview
+* Vibratissimo (experimental)
 
 ## Features (Pebble)
 

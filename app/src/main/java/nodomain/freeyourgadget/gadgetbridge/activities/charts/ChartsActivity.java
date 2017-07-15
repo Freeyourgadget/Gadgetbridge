@@ -333,6 +333,8 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
                     return new WeekStepsChartFragment();
                 case 4:
                     return new LiveActivityFragment();
+                case 5:
+                    return new StatsChartFragment();
 
             }
             return null;
@@ -340,8 +342,12 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
 
         @Override
         public int getCount() {
-            // Show 5 total pages.
-            return 5;
+            // Show 4 or 5 total pages. (always hide speed zones)
+            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(mGBDevice);
+            if (coordinator.supportsRealtimeData()) {
+                return 5;
+            }
+            return 4;
         }
 
         @Override
@@ -357,6 +363,8 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
                     return getString(R.string.weekstepschart_steps_a_week);
                 case 4:
                     return getString(R.string.liveactivity_live_activity);
+                case 5:
+                    return getString(R.string.stats_title);
             }
             return super.getPageTitle(position);
         }

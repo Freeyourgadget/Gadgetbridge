@@ -24,6 +24,12 @@
             android:maxLength="5"
             android:title="@string/miband_prefs_fitness_goal" />
 
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="mi2_goal_notification"
+            android:summary="@string/mi2_prefs_goal_notification_summary"
+            android:title="@string/mi2_prefs_goal_notification" />
+
         <EditTextPreference
             android:defaultValue="0"
             android:inputType="number"
@@ -43,10 +49,25 @@
 			android:maxLength="2"
 			android:title="@string/miband_prefs_device_time_offset_hours" />
 
+        <MultiSelectListPreference
+            android:dialogTitle="@string/mi2_prefs_display_items"
+            android:defaultValue="@array/pref_mi2_display_items_default"
+            android:entries="@array/pref_mi2_display_items"
+            android:entryValues="@array/pref_mi2_display_items_values"
+            android:key="mi2_display_items"
+            android:summary="@string/mi2_prefs_display_items_summary"
+            android:title="@string/mi2_prefs_display_items"/>
+
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="mi2_activate_display_on_lift_wrist"
             android:title="@string/mi2_prefs_activate_display_on_lift" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:dependency="mi2_activate_display_on_lift_wrist"
+            android:key="mi2_rotate_wrist_to_switch_info"
+            android:title="@string/mi2_prefs_rotate_wrist_to_switch_info" />
 
         <CheckBoxPreference
             android:defaultValue="true"
@@ -64,6 +85,37 @@
             android:summary="%s" />
 
     </PreferenceCategory>
+
+    <PreferenceScreen
+        android:key="mi2_do_not_disturb_key"
+        android:title="@string/mi2_prefs_do_not_disturb"
+        android:persistent="false"
+        android:summary="@string/mi2_prefs_do_not_disturb_summary">
+
+        <!-- workaround for missing toolbar -->
+        <PreferenceCategory
+            android:title="@string/mi2_prefs_do_not_disturb"
+            />
+
+        <ListPreference
+            android:defaultValue="@string/p_off"
+            android:entries="@array/mi2_do_not_disturb"
+            android:entryValues="@array/mi2_do_not_disturb_values"
+            android:key="mi2_do_not_disturb"
+            android:title="@string/mi2_prefs_do_not_disturb"
+            android:summary="%s" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
+            android:defaultValue="01:00"
+            android:key="mi2_do_not_disturb_start"
+            android:title="@string/mi2_prefs_do_not_disturb_start" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
+            android:defaultValue="06:00"
+            android:key="mi2_do_not_disturb_end"
+            android:title="@string/mi2_prefs_do_not_disturb_end" />
+
+    </PreferenceScreen>
 
     <PreferenceCategory
         android:key="pref_category_miband_notification"

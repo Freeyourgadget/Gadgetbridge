@@ -145,6 +145,19 @@ public class MiBand2Service {
 
     public static final byte ICON_HIGH_PRIORITY = 0x7;
 
+    public static byte ENDPOINT_DISPLAY_ITEMS = 0x0a;
+
+    public static byte DISPLAY_ITEM_BIT_CLOCK = 0x01;
+    public static byte DISPLAY_ITEM_BIT_STEPS = 0x02;
+    public static byte DISPLAY_ITEM_BIT_DISTANCE = 0x04;
+    public static byte DISPLAY_ITEM_BIT_CALORIES= 0x08;
+    public static byte DISPLAY_ITEM_BIT_HEART_RATE = 0x10;
+    public static byte DISPLAY_ITEM_BIT_BATTERY = 0x20;
+
+    // Second byte must be a bitwise OR combination of the above
+    // The clock can't be disabled
+    public static int SCREEN_CHANGE_BYTE = 1;
+    public static final byte[] COMMAND_CHANGE_SCREENS = new byte[]{ENDPOINT_DISPLAY_ITEMS, DISPLAY_ITEM_BIT_CLOCK, 0x00, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05};
 
     public static byte ENDPOINT_DISPLAY = 0x06;
 
@@ -154,8 +167,23 @@ public class MiBand2Service {
     public static final byte[] DATEFORMAT_TIME_24_HOURS = new byte[] {ENDPOINT_DISPLAY, 0x02, 0x0, 0x1 };
     public static final byte[] COMMAND_ENABLE_DISPLAY_ON_LIFT_WRIST = new byte[]{ENDPOINT_DISPLAY, 0x05, 0x00, 0x01};
     public static final byte[] COMMAND_DISABLE_DISPLAY_ON_LIFT_WRIST = new byte[]{ENDPOINT_DISPLAY, 0x05, 0x00, 0x00};
+    public static final byte[] COMMAND_ENABLE_GOAL_NOTIFICATION = new byte[]{ENDPOINT_DISPLAY, 0x06, 0x00, 0x01};
+    public static final byte[] COMMAND_DISABLE_GOAL_NOTIFICATION = new byte[]{ENDPOINT_DISPLAY, 0x06, 0x00, 0x00};
+    public static final byte[] COMMAND_ENABLE_ROTATE_WRIST_TO_SWITCH_INFO = new byte[]{ENDPOINT_DISPLAY, 0x0d, 0x00, 0x01};
+    public static final byte[] COMMAND_DISABLE_ROTATE_WRIST_TO_SWITCH_INFO = new byte[]{ENDPOINT_DISPLAY, 0x0d, 0x00, 0x00};
     public static final byte[] DISPLAY_XXX = new byte[] {ENDPOINT_DISPLAY, 0x03, 0x0, 0x0 };
     public static final byte[] DISPLAY_YYY = new byte[] {ENDPOINT_DISPLAY, 0x10, 0x0, 0x1, 0x1 };
+
+    public static byte ENDPOINT_DND = 0x09;
+
+    public static final byte[] COMMAND_DO_NOT_DISTURB_AUTOMATIC = new byte[] { ENDPOINT_DND, (byte) 0x83 };
+    public static final byte[] COMMAND_DO_NOT_DISTURB_OFF = new byte[] { ENDPOINT_DND, (byte) 0x82 };
+    public static final byte[] COMMAND_DO_NOT_DISTURB_SCHEDULED = new byte[] { ENDPOINT_DND, (byte) 0x81, 0x01, 0x00, 0x06, 0x00 };
+    // The 4 last bytes set the start and end time in 24h format
+    public static byte DND_BYTE_START_HOURS = 2;
+    public static byte DND_BYTE_START_MINUTES = 3;
+    public static byte DND_BYTE_END_HOURS = 4;
+    public static byte DND_BYTE_END_MINUTES = 5;
 
     public static final byte RESPONSE = 0x10;
 

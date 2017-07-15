@@ -138,11 +138,6 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public int getTapString() {
-        return R.string.tap_connected_device_for_app_mananger;
-    }
-
-    @Override
     public String getManufacturer() {
         return "Pebble";
     }
@@ -165,5 +160,10 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean needsBackgroundWebView(GBDevice device) {
         return true;
+    }
+
+    @Override
+    public boolean supportsRealtimeData() {
+        return false;
     }
 }

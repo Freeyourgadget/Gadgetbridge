@@ -1,5 +1,15 @@
 ### Changelog
 
+#### Version 0.19.3
+* Pebble: Fix crash when calendar access permission has been denied
+* Pebble: Fix wrong timestamps with Morpheuz running on Firmware >=3
+* Mi Band 2: Improve reliability when fetching activity data
+* HPlus: Fix intensity calculation without continuous connectivity
+* HPlus: Fix Unicode handling
+* HPlus: Initial not work detection
+* Fix memory leak
+* Only show Realtime Chart on devices supporting it
+
 #### Version 0.19.2
 * Pebble: Fix recurring calendar events only appearing once per week
 * HPlus: Fix crash when receiving calls without phone number

@@ -20,6 +20,8 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.v4.util.TimeUtils;
+import android.text.format.DateUtils;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -66,8 +68,9 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
 
     private List<MiBandActivitySample> samples = new ArrayList<>(60*24); // 1day per default
 
-    private byte lastPacketCounter = -1;
+    private byte lastPacketCounter;
     private Calendar startTimestamp;
+    private int fetchCount;
 
     public FetchActivityOperation(MiBand2Support support) {
         super(support);
@@ -83,12 +86,25 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
 
     @Override
     protected void doPerform() throws IOException {
+        startFetching();
+    }
+
+    private void startFetching() throws IOException {
+        samples.clear();
+        lastPacketCounter = -1;
+
         TransactionBuilder builder = performInitialized("fetching activity data");
         getSupport().setLowLatency(builder);
-        builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.busy_task_fetch_activity_data), getContext()));
+        if (fetchCount == 0) {
+            builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.busy_task_fetch_activity_data), getContext()));
+        }
+        fetchCount++;
+
+        BluetoothGattCharacteristic characteristicActivityData = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_5_ACTIVITY_DATA);
+        builder.notify(characteristicActivityData, false);
+
         BluetoothGattCharacteristic characteristicFetch = getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC4);
         builder.notify(characteristicFetch, true);
-        BluetoothGattCharacteristic characteristicActivityData = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_5_ACTIVITY_DATA);
 
         GregorianCalendar sinceWhen = getLastSuccessfulSyncTime();
         builder.write(characteristicFetch, BLETypeConversions.join(new byte[] { MiBand2Service.COMMAND_ACTIVITY_DATA_START_DATE, 0x01 }, getSupport().getTimeBytes(sinceWhen, TimeUnit.MINUTES)));
@@ -136,13 +152,40 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
     }
 
     private void handleActivityFetchFinish() {
-        LOG.info("Fetching activity data has finished.");
-        saveSamples();
+        LOG.info("Fetching activity data has finished round " + fetchCount);
+        GregorianCalendar lastSyncTimestamp = saveSamples();
+        if (lastSyncTimestamp != null && needsAnotherFetch(lastSyncTimestamp)) {
+            try {
+                startFetching();
+                return;
+            } catch (IOException ex) {
+                LOG.error("Error starting another round of fetching activity data", ex);
+            }
+        }
+
         operationFinished();
         unsetBusy();
     }
 
-    private void saveSamples() {
+    private boolean needsAnotherFetch(GregorianCalendar lastSyncTimestamp) {
+        if (fetchCount > 5) {
+            LOG.warn("Already jave 5 fetch rounds, not doing another one.");
+            return false;
+        }
+
+        if (DateUtils.isToday(lastSyncTimestamp.getTimeInMillis())) {
+            LOG.info("Hopefully no further fetch needed, last synced timestamp is from today.");
+            return false;
+        }
+        if (lastSyncTimestamp.getTimeInMillis() > System.currentTimeMillis()) {
+            LOG.warn("Not doing another fetch since last synced timestamp is in the future: " + DateTimeUtils.formatDateTime(lastSyncTimestamp.getTime()));
+            return false;
+        }
+        LOG.info("Doing another fetch since last sync timestamp is still too old: " + DateTimeUtils.formatDateTime(lastSyncTimestamp.getTime()));
+        return true;
+    }
+
+    private GregorianCalendar saveSamples() {
         if (samples.size() > 0) {
             // save all the samples that we got
             try (DBHandler handler = GBApplication.acquireDB()) {
@@ -168,6 +211,7 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
 
                 saveLastSyncTimestamp(timestamp);
                 LOG.info("Mi2 activity data: last sample timestamp: " + DateTimeUtils.formatDateTime(timestamp.getTime()));
+                return timestamp;
 
             } catch (Exception ex) {
                 GB.toast(getContext(), "Error saving activity samples", Toast.LENGTH_LONG, GB.ERROR);
@@ -175,6 +219,7 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
                 samples.clear();
             }
         }
+        return null;
     }
 
     /**

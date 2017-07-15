@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.19.3" versioncode="96">
+        <change>Pebble: Fix crash when calendar access permission has been denied</change>
+        <change>Pebble: Fix wrong timestamps with Morpheuz running on Firmware >=3</change>
+        <change>Mi Band 2: Improve reliability when fetching activity data</change>
+        <change>HPlus: Fix intensity calculation without continuous connectivity</change>
+        <change>HPlus: Fix Unicode handling</change>
+        <change>HPlus: Initial not work detection</change>
+        <change>Fix memory leak</change>
+        <change>Only show Realtime Chart on devices supporting it</change>
+    </release>    
     <release version="0.19.2" versioncode="95">
         <change>Pebble: Fix recurring calendar events only appearing once per week</change>
         <change>HPlus: Fix crash when receiving calls without phone number</change>

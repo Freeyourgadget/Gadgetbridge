@@ -100,12 +100,6 @@ public class LiveviewCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public int getTapString() {
-        //TODO: changeme
-        return R.string.tap_connected_device_for_activity;
-    }
-
-    @Override
     public String getManufacturer() {
         return "Sony Ericsson";
     }
@@ -122,6 +116,11 @@ public class LiveviewCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsCalendarEvents() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsRealtimeData() {
         return false;
     }
 

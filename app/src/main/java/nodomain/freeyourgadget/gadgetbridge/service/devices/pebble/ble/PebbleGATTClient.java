@@ -164,7 +164,14 @@ class PebbleGATTClient extends BluetoothGattCallback {
             if (doPairing) {
                 BluetoothGattCharacteristic characteristic = gatt.getService(SERVICE_UUID).getCharacteristic(PAIRING_TRIGGER_CHARACTERISTIC);
                 if ((characteristic.getProperties() & PROPERTY_WRITE) != 0) {
-                    characteristic.setValue(new byte[]{1});
+                    LOG.info("This seems to be a >=4.0 FW Pebble, writing to pairing trigger");
+                    // flags:
+                    // 0 - always 1
+                    // 1 - unknown
+                    // 2 - always 0
+                    // 3 - unknown, set on kitkat (seems to help to get a "better" pairing)
+                    // 4 - unknown, set on some phones
+                    characteristic.setValue(new byte[]{9});
                     gatt.writeCharacteristic(characteristic);
                 } else {
                     LOG.info("This seems to be some <4.0 FW Pebble, reading pairing trigger");

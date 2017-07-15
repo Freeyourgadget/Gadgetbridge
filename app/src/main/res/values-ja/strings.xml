@@ -220,6 +220,9 @@
   <string name="pref_screen_notification_profile_generic_chat">チャット</string>
   <string name="pref_screen_notification_profile_generic_navigation">ナビゲーション</string>
   <string name="pref_screen_notification_profile_generic_social">ソーシャルネットワーク</string>
+  <string name="stats_title">スピードゾーン</string>
+  <string name="stats_x_axis_label">合計分数</string>
+  <string name="stats_y_axis_label">毎分の歩数</string>
   <string name="control_center_find_lost_device">なくしたデバイスを探す</string>
   <string name="control_center_cancel_to_stop_vibration">キャンセルで振動を停止します。</string>
   <string name="title_activity_charts">あなたの活動</string>

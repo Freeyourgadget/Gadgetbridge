@@ -24,6 +24,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.hplus;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmount;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
@@ -80,19 +81,24 @@ class HPlusDataRecordRealtime extends HPlusDataRecord {
         int y = (data[8] & 0xFF) * 256 + (data[7] & 0xFF);
 
         battery = data[9];
-
         calories = x + y; // KCal
-
-        heartRate = data[11] & 0xFF; // BPM
         activeTime = (data[14] & 0xFF * 256) + (data[13] & 0xFF);
-        if(heartRate == 255) {
-            intensity = 0;
-            activityKind = ActivityKind.TYPE_NOT_MEASURED;
+
+        if (battery == 255) {
+            battery = ActivitySample.NOT_MEASURED;
             heartRate = ActivitySample.NOT_MEASURED;
-        }
-        else {
-            intensity = (int) ((100*heartRate)/(208-0.7*age));
-            activityKind = ActivityKind.TYPE_UNKNOWN;
+            intensity = 0;
+            activityKind = ActivityKind.TYPE_NOT_WORN;
+        } else {
+            heartRate = data[11] & 0xFF; // BPM
+            if (heartRate == 255) {
+                intensity = 0;
+                activityKind = ActivityKind.TYPE_NOT_MEASURED;
+                heartRate = ActivitySample.NOT_MEASURED;
+            } else {
+                intensity = (int) ((100 * heartRate) / (208 - 0.7 * age));
+                activityKind = HPlusDataRecord.TYPE_REALTIME;
+            }
         }
     }
 

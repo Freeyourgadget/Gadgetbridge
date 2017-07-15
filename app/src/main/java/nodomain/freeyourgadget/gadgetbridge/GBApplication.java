@@ -350,26 +350,34 @@ public class GBApplication extends Application {
     private static HashSet<String> blacklist = null;
 
     public static boolean isBlacklisted(String packageName) {
+        if (blacklist == null) {
+            GB.log("isBlacklisted: blacklisti is null!", GB.INFO, null);
+        }
         return blacklist != null && blacklist.contains(packageName);
     }
 
     public static void setBlackList(Set<String> packageNames) {
         if (packageNames == null) {
+            GB.log("Set null blacklist", GB.INFO, null);
             blacklist = new HashSet<>();
         } else {
             blacklist = new HashSet<>(packageNames);
         }
+        GB.log("New blacklist has " + blacklist.size() + " entries", GB.INFO, null);
         saveBlackList();
     }
 
     private static void loadBlackList() {
+        GB.log("Loading blacklist", GB.INFO, null);
         blacklist = (HashSet<String>) sharedPrefs.getStringSet(GBPrefs.PACKAGE_BLACKLIST, null);
         if (blacklist == null) {
             blacklist = new HashSet<>();
         }
+        GB.log("Loaded blacklist has " + blacklist.size() + " entries", GB.INFO, null);
     }
 
     private static void saveBlackList() {
+        GB.log("Saving blacklist with " + blacklist.size() + " entries", GB.INFO, null);
         SharedPreferences.Editor editor = sharedPrefs.edit();
         if (blacklist.isEmpty()) {
             editor.putStringSet(GBPrefs.PACKAGE_BLACKLIST, null);
@@ -386,6 +394,7 @@ public class GBApplication extends Application {
     }
 
     public static synchronized void removeFromBlacklist(String packageName) {
+        GB.log("Removing from blacklist: " + packageName, GB.INFO, null);
         blacklist.remove(packageName);
         saveBlackList();
     }

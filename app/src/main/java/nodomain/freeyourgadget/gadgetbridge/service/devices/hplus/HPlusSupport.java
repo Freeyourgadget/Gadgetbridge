@@ -808,6 +808,8 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     private byte[] encodeStringToDevice(String s) {
 
         List<Byte> outBytes = new ArrayList<Byte>();
+        Boolean unicode = HPlusCoordinator.getUnicodeSupport(this.gbDevice.getAddress());
+        LOG.info("Encode String: Unicode=" + unicode);
 
         for (int i = 0; i < s.length(); i++) {
             Character c = s.charAt(i);
@@ -817,13 +819,14 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                 cs = HPlusConstants.transliterateMap.get(c);
             } else {
                 try {
-                    if(HPlusCoordinator.getUnicodeSupport(this.gbDevice.getAddress()))
+                    if(unicode)
                         cs = c.toString().getBytes("Unicode");
                     else
                         cs = c.toString().getBytes("GB2312");
                 } catch (UnsupportedEncodingException e) {
                     //Fallback. Result string may be strange, but better than nothing
                     cs = c.toString().getBytes();
+                    LOG.error("Could not convert String to Bytes: " + e.getMessage());
                 }
             }
             for (int j = 0; j < cs.length; j++)
@@ -884,7 +887,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
             String DEVINFO_STEP = getContext().getString(R.string.chart_steps) + ": ";
             String DEVINFO_DISTANCE = getContext().getString(R.string.distance) + ": ";
             String DEVINFO_CALORY = getContext().getString(R.string.calories) + ": ";
-            String DEVINFO_HEART = getContext().getString(R.string.charts_legend_heartrate);
+            String DEVINFO_HEART = getContext().getString(R.string.charts_legend_heartrate) + ": ";
 
             String info = "";
             if (record.steps > 0) {

@@ -12,13 +12,13 @@
   <string name="controlcenter_disconnect">Trennen</string>
   <string name="controlcenter_delete_device">Gerät löschen</string>
   <string name="controlcenter_delete_device_name">%1$s löschen</string>
-  <string name="controlcenter_delete_device_dialogmessage">Das wird das Gerät und alle zugehörigen Daten löschen!</string>
-  <string name="controlcenter_navigation_drawer_open">Navigations-Menü öffnen</string>
-  <string name="controlcenter_navigation_drawer_close">Navigations-Menü schließen</string>
-  <string name="controlcenter_snackbar_need_longpress">Halte die Karte lange gedrückt, um die Verbindung zu trennen.</string>
-  <string name="controlcenter_snackbar_disconnecting">Trenne ...</string>
-  <string name="controlcenter_snackbar_connecting">Verbinde ...</string>
-  <string name="controlcenter_snackbar_requested_screenshot">Screenshot des Gerätes wird erstellt.</string>
+  <string name="controlcenter_delete_device_dialogmessage">Dies wird das Gerät und alle zugehörigen Daten löschen!</string>
+  <string name="controlcenter_navigation_drawer_open">Navigationsmenü öffnen</string>
+  <string name="controlcenter_navigation_drawer_close">Navigationsmenü schließen</string>
+  <string name="controlcenter_snackbar_need_longpress">Halte die Karte lange gedrückt, um die Verbindung zu trennen</string>
+  <string name="controlcenter_snackbar_disconnecting">Trenne</string>
+  <string name="controlcenter_snackbar_connecting">Verbinde</string>
+  <string name="controlcenter_snackbar_requested_screenshot">Erstelle Screenshot des Gerätes</string>
   <string name="title_activity_debug">Debug</string>
   <!--Strings related to AppManager-->
   <string name="title_activity_appmanager">App Manager</string>
@@ -33,8 +33,8 @@
   <string name="appmanager_health_deactivate">deaktivieren</string>
   <string name="appmanager_hrm_activate">HRM aktivieren</string>
   <string name="appmanager_hrm_deactivate">HRM deaktivieren</string>
-  <string name="appmanager_weather_activate">System Wetter-App aktivieren</string>
-  <string name="appmanager_weather_deactivate">System Wetter-App deaktivieren</string>
+  <string name="appmanager_weather_activate">Wetter-App des Systems aktivieren</string>
+  <string name="appmanager_weather_deactivate">Wetter-App des Systems deaktivieren</string>
   <string name="appmanager_weather_install_provider">Installiere die Wetter-Benachrichtigungs-App</string>
   <string name="app_configure">Konfigurieren</string>
   <string name="app_move_to_top">Nach oben</string>
@@ -42,11 +42,11 @@
   <string name="title_activity_appblacklist">Sperre für Benachrichtigungen</string>
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">FW/App Installer</string>
-  <string name="fw_upgrade_notice">Es soll die Firmware %s anstelle der aktuell installierten Version aufs Mi Band gespielt werden.</string>
-  <string name="fw_multi_upgrade_notice">Es sollen die Firmwares %1$s und %2$s anstelle der aktuell installierten Versionen aufs Mi Band gespielt werden.</string>
+  <string name="fw_upgrade_notice">Es soll die Firmware %s anstelle der aktuell installierten Version auf das Mi Band gespielt werden.</string>
+  <string name="fw_multi_upgrade_notice">Es sollen die Firmwares %1$s und %2$s anstelle der aktuell installierten Versionen auf das Mi Band gespielt werden.</string>
   <string name="miband_firmware_known">Diese Firmware ist getestet worden und ist zu Gadgetbridge kompatibel.</string>
-  <string name="miband_firmware_unknown_warning">Diese Firmware ist nicht getestet und könnte inkompatibel mit Gadgetbridge sein.\n\nEs wird nicht empfohlen sie zu installieren!</string>
-  <string name="miband_firmware_suggest_whitelist">Falls die Firmware trotzdem installiert werden soll und nachher alles korrekt funktioniert, melde bitte den Gadgetbridge Entwicklern, dass die Firmware %s tauglich ist.</string>
+  <string name="miband_firmware_unknown_warning">Diese Firmware ist nicht getestet und könnte inkompatibel mit Gadgetbridge sein.\n\nEs wird nicht empfohlen sie auf dem Mi Band zu installieren!</string>
+  <string name="miband_firmware_suggest_whitelist">Falls die Firmware trotzdem installiert werden soll und nachher alles korrekt funktioniert, melde bitte den Gadgetbridge Entwicklern, dass die Firmware %s funktioniert.</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Einstellungen</string>
   <string name="pref_header_general">Allgemeine Einstellungen</string>
@@ -70,7 +70,7 @@
   <string name="pref_title_notifications_call">Anrufe</string>
   <string name="pref_title_notifications_sms">SMS</string>
   <string name="pref_title_notifications_pebblemsg">Pebble Nachrichten</string>
-  <string name="pref_summary_notifications_pebblemsg">Unterstützung für Anwendungen, die Benachrichtigungen an die Pebble via PebbleKit senden.</string>
+  <string name="pref_summary_notifications_pebblemsg">Unterstützung für Anwendungen, die Benachrichtigungen an die Pebble mit dem PebbleKit senden.</string>
   <string name="pref_title_notifications_generic">Andere Benachrichtigungen</string>
   <string name="pref_title_whenscreenon">… auch wenn der Bildschirm an ist</string>
   <string name="pref_title_notification_filter">Bitte nicht stören</string>
@@ -104,11 +104,11 @@
   <string name="pref_summary_enable_outgoing_call">Falls dies deaktiviert wird, vibriert die Pebble 2/LE nicht bei ausgehenden Anrufen</string>
   <string name="pref_title_enable_pebblekit">Erlaube Zugriff von anderen Android Apps</string>
   <string name="pref_summary_enable_pebblekit">Experimentelle Unterstützung für Android Apps, die PebbleKit benutzen</string>
-  <string name="pref_header_pebble_timeline">Pebble Zeitstrang</string>
+  <string name="pref_header_pebble_timeline">Pebble Timeline</string>
   <string name="pref_title_sunrise_sunset">Sonnenauf- und -untergang </string>
   <string name="pref_summary_sunrise_sunset">Sende Sonnenauf- und -untergangszeiten abhänging vom Standort auf die Pebble Timeline</string>
-  <string name="pref_title_enable_calendar_sync">Synchronisiere Kalender </string>
-  <string name="pref_summary_enable_calendar_sync">Sende Termine an den Zeitstrang</string>
+  <string name="pref_title_enable_calendar_sync">Synchronisiere Kalender</string>
+  <string name="pref_summary_enable_calendar_sync">Sende Termine an die Timeline</string>
   <string name="pref_title_autoremove_notifications">Verworfene Benachrichtigungen automatisch entfernen</string>
   <string name="pref_summary_autoremove_notifications">Benachrichtigungen werden automatisch von der Pebble entfernt, wenn sie auf dem Android-Gerät verworfen werden</string>
   <string name="pref_title_pebble_privacy_mode">Privatsphäre-Modus</string>
@@ -177,7 +177,7 @@
   <string name="title_activity_mi_band_pairing">Kopple Dein Mi Band</string>
   <string name="pairing">Koppeln mit %s…</string>
   <string name="pairing_creating_bond_with">Bindung mit %1$s (%2$s) herstellen</string>
-  <string name="pairing_unable_to_pair_with">Kann nicht mit %1$s (%2$s) koppeln</string>
+  <string name="pairing_unable_to_pair_with">Kann mit %1$s (%2$s) nicht koppeln</string>
   <string name="pairing_in_progress">Bindung findet statt: %1$s (%2$s)</string>
   <string name="pairing_already_bonded">Bereits mit %1$s (%2$s) gebunden, stelle Verbindung her......</string>
   <string name="message_cannot_pair_no_mac">Keine MAC Adresse erhalten, kann nicht koppeln.</string>
@@ -271,8 +271,8 @@
   <string name="updatefirmwareoperation_update_complete_rebooting">Firmware-Installation erfolgreich beendet, Gerät wird neu gestartet…</string>
   <string name="updatefirmwareoperation_write_failed">Schreiben der Firmware fehlgeschlagen</string>
   <string name="chart_steps">Schritte</string>
-  <string name="calories">Kalorien </string>
-  <string name="distance">Distanz </string>
+  <string name="calories">Kalorien</string>
+  <string name="distance">Distanz</string>
   <string name="liveactivity_live_activity">Live Aktivität</string>
   <string name="weeksteps_today_steps_description">Schritte heute, Ziel: %1$s</string>
   <string name="pref_title_dont_ack_transfer">Transfer von Aktivitätsdaten nicht bestätigen</string>
@@ -367,4 +367,13 @@
   <string name="mi2_fw_installhandler_fw53_hint">Installiere Version %1$s vor dem Installieren der Firmware!</string>
   <string name="mi2_enable_text_notifications">Text Benachrichtigung</string>
   <string name="off">aus</string>
+  <string name="discovery_attempting_to_pair">Versuche zu koppeln mit %1$s</string>
+  <string name="discovery_bonding_failed_immediately">Kopplung mit %1$s soeben fehlgeschlagen.</string>
+  <string name="discovery_trying_to_connect_to">Versuche zu verbinden mit: %1$s</string>
+  <string name="discovery_enable_bluetooth">Aktiviere Bluetooth um Geräte zu finden.</string>
+  <string name="discovery_successfully_bonded">Erfolgreich gekoppelt mit %1$s.</string>
+  <string name="discovery_pair_title">Koppeln mit %1$s?</string>
+  <string name="discovery_pair_question">Wähle Koppeln um dein Gerät zu koppeln. Falls dies fehlschlägt, versuche es erneut ohne Kopplung.</string>
+  <string name="discovery_yes_pair">Koppeln</string>
+  <string name="discovery_dont_pair">Nicht koppeln</string>
 </resources>

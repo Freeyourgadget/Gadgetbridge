@@ -93,6 +93,11 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsRealtimeData() {
+        return true;
+    }
+
+    @Override
     public DeviceType getDeviceType() {
         return DeviceType.HPLUS;
     }
@@ -145,11 +150,6 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
         return true;
-    }
-
-    @Override
-    public int getTapString() {
-        return R.string.tap_connected_device_for_activity;
     }
 
     @Override
@@ -289,6 +289,6 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static boolean getUnicodeSupport(String address){
-        return (prefs.getBoolean(HPlusConstants.PREF_HPLUS_UNICODE, false));
+        return (prefs.getBoolean(HPlusConstants.PREF_HPLUS_UNICODE + "_" + address, false));
     }
 }
