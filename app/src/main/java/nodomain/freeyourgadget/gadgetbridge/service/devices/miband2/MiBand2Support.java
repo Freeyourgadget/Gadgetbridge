@@ -1210,6 +1210,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         setDisplayItems(builder);
         setRotateWristToSwitchInfo(builder);
         setActivateDisplayOnLiftWrist(builder);
+        setGoalNotification(builder);
         setHeartrateSleepSupport(builder);
     }
 }
