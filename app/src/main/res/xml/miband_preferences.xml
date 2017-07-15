@@ -80,6 +80,37 @@
 
     </PreferenceCategory>
 
+    <PreferenceScreen
+        android:key="mi2_do_not_disturb_key"
+        android:title="@string/mi2_prefs_do_not_disturb"
+        android:persistent="false"
+        android:summary="@string/mi2_prefs_do_not_disturb_summary">
+
+        <!-- workaround for missing toolbar -->
+        <PreferenceCategory
+            android:title="@string/mi2_prefs_do_not_disturb"
+            />
+
+        <ListPreference
+            android:defaultValue="@string/p_off"
+            android:entries="@array/mi2_do_not_disturb"
+            android:entryValues="@array/mi2_do_not_disturb_values"
+            android:key="mi2_do_not_disturb"
+            android:title="@string/mi2_prefs_do_not_disturb"
+            android:summary="%s" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
+            android:defaultValue="01:00"
+            android:key="mi2_do_not_disturb_start"
+            android:title="@string/mi2_prefs_do_not_disturb_start" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
+            android:defaultValue="06:00"
+            android:key="mi2_do_not_disturb_end"
+            android:title="@string/mi2_prefs_do_not_disturb_end" />
+
+    </PreferenceScreen>
+
     <PreferenceCategory
         android:key="pref_category_miband_notification"
         android:title="@string/pref_header_vibration_settings">

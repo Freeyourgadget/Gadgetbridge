@@ -172,6 +172,17 @@ public class MiBand2Service {
     public static final byte[] DISPLAY_XXX = new byte[] {ENDPOINT_DISPLAY, 0x03, 0x0, 0x0 };
     public static final byte[] DISPLAY_YYY = new byte[] {ENDPOINT_DISPLAY, 0x10, 0x0, 0x1, 0x1 };
 
+    public static byte ENDPOINT_DND = 0x09;
+
+    public static final byte[] COMMAND_DO_NOT_DISTURB_AUTOMATIC = new byte[] { ENDPOINT_DND, (byte) 0x83 };
+    public static final byte[] COMMAND_DO_NOT_DISTURB_OFF = new byte[] { ENDPOINT_DND, (byte) 0x82 };
+    public static final byte[] COMMAND_DO_NOT_DISTURB_SCHEDULED = new byte[] { ENDPOINT_DND, (byte) 0x81, 0x01, 0x00, 0x06, 0x00 };
+    // The 4 last bytes set the start and end time in 24h format
+    public static byte DND_BYTE_START_HOURS = 2;
+    public static byte DND_BYTE_START_MINUTES = 3;
+    public static byte DND_BYTE_END_HOURS = 4;
+    public static byte DND_BYTE_END_MINUTES = 5;
+
     public static final byte RESPONSE = 0x10;
 
     public static final byte SUCCESS = 0x01;

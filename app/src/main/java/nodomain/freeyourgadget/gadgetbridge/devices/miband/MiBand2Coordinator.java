@@ -28,8 +28,11 @@ import android.support.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -43,6 +46,9 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_END;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_START;
 
 public class MiBand2Coordinator extends MiBandCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MiBand2Coordinator.class);
@@ -126,6 +132,50 @@ public class MiBand2Coordinator extends MiBandCoordinator {
     public static boolean getRotateWristToSwitchInfo() {
         Prefs prefs = GBApplication.getPrefs();
         return prefs.getBoolean(MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO, false);
+    }
+
+    public static Date getDoNotDisturbStart() {
+        Prefs prefs = GBApplication.getPrefs();
+        String time = prefs.getString(PREF_MI2_DO_NOT_DISTURB_START, "01:00");
+
+        DateFormat df = new SimpleDateFormat("HH:mm");
+        try {
+            return df.parse(time);
+        } catch(Exception e) {
+        }
+
+        return new Date();
+    }
+
+    public static Date getDoNotDisturbEnd() {
+        Prefs prefs = GBApplication.getPrefs();
+        String time = prefs.getString(PREF_MI2_DO_NOT_DISTURB_END, "06:00");
+
+        DateFormat df = new SimpleDateFormat("HH:mm");
+        try {
+            return df.parse(time);
+        } catch(Exception e) {
+        }
+
+        return new Date();
+    }
+
+    public static DoNotDisturb getDoNotDisturb(Context context) {
+        Prefs prefs = GBApplication.getPrefs();
+
+        String dndOff = context.getString(R.string.p_off);
+        String dndAutomatic = context.getString(R.string.p_automatic);
+        String dndScheduled = context.getString(R.string.p_scheduled);
+
+        String pref = prefs.getString(MiBandConst.PREF_MI2_DO_NOT_DISTURB, dndOff);
+
+        if (dndAutomatic.equals(pref)) {
+            return DoNotDisturb.AUTOMATIC;
+        } else if (dndScheduled.equals(pref)) {
+            return DoNotDisturb.SCHEDULED;
+        }
+
+        return DoNotDisturb.OFF;
     }
 
     @Override
