@@ -16,6 +16,8 @@ vendor's servers.
 
 [![Gadgetbridge on F-Droid](/Get_it_on_F-Droid.svg.png?raw=true "Download from F-Droid")](https://f-droid.org/repository/browse/?fdid=nodomain.freeyourgadget.gadgetbridge)
 
+[Direct Gadgetbrdige 0.19.3 apk download](https://f-droid.org/repo/nodomain.freeyourgadget.gadgetbridge_96.apk)
+
 [List of changes](https://github.com/Freeyourgadget/Gadgetbridge/blob/master/CHANGELOG.md)
 
 ## Supported Devices
