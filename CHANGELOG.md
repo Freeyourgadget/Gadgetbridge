@@ -1,4 +1,11 @@
 ### Changelog
+#### Version 0.19.4
+* Replace or relicense CC-NC licensed icons to satisfy F-Droid
+* Mi Band 2: Make infos to display on the Band configurable
+* Mi Band 2: Support wrist rotation to switch info setting
+* Mi Band 2: Support goal notification setting
+* Mi Band 2: Support do not disturb setting
+* Mi Band 2: Support inactivity warning setting 
 
 #### Version 0.19.3
 * Pebble: Fix crash when calendar access permission has been denied

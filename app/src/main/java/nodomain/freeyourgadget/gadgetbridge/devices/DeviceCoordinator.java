@@ -237,4 +237,5 @@ public interface DeviceCoordinator {
      * This can be live HR, steps etc.
      */
     boolean supportsRealtimeData();
+    
 }
