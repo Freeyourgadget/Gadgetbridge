@@ -1,4 +1,3 @@
-#### Version 0.19.3
 * Pebble: Fix crash when calendar access permission has been denied
 * Pebble: Fix wrong timestamps with Morpheuz running on Firmware >=3
 * Mi Band 2: Improve reliability when fetching activity data

@@ -1,4 +1,3 @@
-#### Version 0.19.4
 * Replace or relicense CC-NC licensed icons to satisfy F-Droid
 * Mi Band 2: Make infos to display on the Band configurable
 * Mi Band 2: Support wrist rotation to switch info setting
