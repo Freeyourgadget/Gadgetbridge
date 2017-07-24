@@ -9,7 +9,7 @@ public class BackgroundWebViewActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        WebViewSingleton.createWebView(this);
+        WebViewSingleton.getInstance(this);
         finish();
     }
 }

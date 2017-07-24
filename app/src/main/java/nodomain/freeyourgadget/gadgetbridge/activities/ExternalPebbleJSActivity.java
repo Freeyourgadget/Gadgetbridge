@@ -25,7 +25,6 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.JavascriptInterface;
-import android.webkit.ValueCallback;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -69,31 +68,15 @@ public class ExternalPebbleJSActivity extends GBActivity {
         FrameLayout fl = (FrameLayout) findViewById(R.id.webview_placeholder);
         fl.addView(myWebView);
 
-
         myWebView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View v) {
-
                 v.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-                //show configuration - moved to JS
-//                myWebView.evaluateJavascript("Pebble.evaluate('showConfiguration');", new ValueCallback<String>() {
-//                    @Override
-//                    public void onReceiveValue(String s) {
-//                        LOG.debug("Callback from showConfiguration: " + s);
-//                    }
-//                });
             }
 
             @Override
             public void onViewDetachedFromWindow(View v) {
-                myWebView.removeJavascriptInterface("GBActivity");
-                myWebView.setWillNotDraw(true);
-                myWebView.evaluateJavascript("showStep('step1')", new ValueCallback<String>() {
-                    @Override
-                    public void onReceiveValue(String s) {
-                        LOG.debug("Callback from window detach: " + s);
-                    }
-                });
+                v.removeOnAttachStateChangeListener(this);
                 FrameLayout fl = (FrameLayout) findViewById(R.id.webview_placeholder);
                 fl.removeAllViews();
             }

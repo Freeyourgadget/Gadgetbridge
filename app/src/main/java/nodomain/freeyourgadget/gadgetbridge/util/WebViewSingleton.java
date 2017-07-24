@@ -69,7 +69,7 @@ public class WebViewSingleton {
     private WebViewSingleton() {
     }
 
-    public static synchronized WebView createWebView(Activity context) {
+    public static synchronized WebView getInstance(Activity context) {
         if (instance == null) {
             webViewSingleton.contextWrapper = new MutableContextWrapper(context);
             webViewSingleton.mainLooper = context.getMainLooper();
@@ -90,7 +90,7 @@ public class WebViewSingleton {
     }
 
     public static void updateActivityContext(Activity context) {
-        if (context instanceof Activity) {
+        if (context != null) {
             webViewSingleton.contextWrapper.setBaseContext(context);
         }
     }
@@ -101,12 +101,10 @@ public class WebViewSingleton {
     }
 
     public static void runJavascriptInterface(GBDevice device, UUID uuid) {
-
-        final JSInterface jsInterface = new JSInterface(device, uuid);
-
         if (uuid.equals(currentRunningUUID)) {
             LOG.debug("WEBVIEW uuid not changed keeping the old context");
         } else {
+            final JSInterface jsInterface = new JSInterface(device, uuid);
             LOG.debug("WEBVIEW uuid changed, restarting");
             currentRunningUUID = uuid;
             new Handler(webViewSingleton.mainLooper).post(new Runnable() {
@@ -178,9 +176,9 @@ public class WebViewSingleton {
 
             this.timestamp = (System.currentTimeMillis() / 1000) - 86400; //let accessor know this value is really old
 
-            if (ActivityCompat.checkSelfPermission(webViewSingleton.contextWrapper, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+            if (ActivityCompat.checkSelfPermission(GBApplication.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                     prefs.getBoolean("use_updated_location_if_available", false)) {
-                LocationManager locationManager = (LocationManager) webViewSingleton.contextWrapper.getSystemService(Context.LOCATION_SERVICE);
+                LocationManager locationManager = (LocationManager) GBApplication.getContext().getSystemService(Context.LOCATION_SERVICE);
                 Criteria criteria = new Criteria();
                 String provider = locationManager.getBestProvider(criteria, false);
                 if (provider != null) {
@@ -328,7 +326,7 @@ public class WebViewSingleton {
             if (url.startsWith("http://") || url.startsWith("https://")) {
                 Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                webViewSingleton.contextWrapper.startActivity(i);
+                GBApplication.getContext().startActivity(i);
             } else {
                 url = url.replaceFirst("^pebblejs://close#", "file:///android_asset/app_config/configure.html?config=true&json=");
                 view.loadUrl(url);
