@@ -310,6 +310,10 @@
   <string name="mi2_prefs_do_not_disturb_summary">A pulseira não recebe notificações enquanto activo</string>
   <string name="mi2_prefs_do_not_disturb_start">Hora de início</string>
   <string name="mi2_prefs_do_not_disturb_end">Hora de fim</string>
+  <string name="mi2_prefs_inactivity_warnings">Avisos de inactividade</string>
+  <string name="mi2_prefs_inactivity_warnings_summary">A pulseira irá vibrar quando estiver inactivo durante algum tempo</string>
+  <string name="mi2_prefs_inactivity_warnings_threshold">Limite de inactividade (em minutos)</string>
+  <string name="mi2_prefs_inactivity_warnings_dnd_summary">Desactivar os avisos de inactividade durante um intervalo de tempo</string>
   <string name="FetchActivityOperation_about_to_transfer_since">Prestes a transferir dados desde %1$s</string>
   <string name="waiting_for_reconnect">aguarde para tornar a ligar</string>
   <string name="activity_prefs_about_you">Sobre você</string>

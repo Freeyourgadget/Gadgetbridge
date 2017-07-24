@@ -354,6 +354,10 @@
     <string name="mi2_prefs_rotate_wrist_to_switch_info">Rotate wrist to switch info</string>
     <string name="mi2_prefs_do_not_disturb">Do Not Disturb</string>
     <string name="mi2_prefs_do_not_disturb_summary">The band won\'t receive notifications while active</string>
+    <string name="mi2_prefs_inactivity_warnings">Inactivity warnings</string>
+    <string name="mi2_prefs_inactivity_warnings_summary">The band will vibrate when you have been inactive for a while</string>
+    <string name="mi2_prefs_inactivity_warnings_threshold">Inactivity threshold (in minutes)</string>
+    <string name="mi2_prefs_inactivity_warnings_dnd_summary">Disable the inactivity warnings for a time interval</string>
     <string name="mi2_prefs_do_not_disturb_start">Start time</string>
     <string name="mi2_prefs_do_not_disturb_end">End time</string>
     <string name="FetchActivityOperation_about_to_transfer_since">About to transfer data since %1$s</string>

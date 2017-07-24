@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.19.4" versioncode="97">
+        <change>Replace or relicense CC-NC licensed icons to satisfy F-Droid</change>
+        <change>Mi Band 2: Make infos to display on the Band configurable</change>
+        <change>Mi Band 2: Support wrist rotation to switch info setting</change>
+        <change>Mi Band 2: Support goal notification setting</change>
+        <change>Mi Band 2: Support do not disturb setting</change>
+        <change>Mi Band 2: Support inactivity warning setting </change>
+    </release>    
     <release version="0.19.3" versioncode="96">
         <change>Pebble: Fix crash when calendar access permission has been denied</change>
         <change>Pebble: Fix wrong timestamps with Morpheuz running on Firmware >=3</change>

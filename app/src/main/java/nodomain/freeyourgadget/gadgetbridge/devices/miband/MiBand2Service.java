@@ -174,6 +174,22 @@ public class MiBand2Service {
     public static final byte[] DISPLAY_XXX = new byte[] {ENDPOINT_DISPLAY, 0x03, 0x0, 0x0 };
     public static final byte[] DISPLAY_YYY = new byte[] {ENDPOINT_DISPLAY, 0x10, 0x0, 0x1, 0x1 };
 
+    // The third byte controls the threshold, in minutes
+    // The last 8 bytes represent 2 separate time intervals for the inactivity warnings
+    // If there is no do not disturb interval, the last 4 bytes (the second interval) are 0
+    // and only the first interval of the command is used
+    public static int INACTIVITY_WARNINGS_THRESHOLD = 2;
+    public static int INACTIVITY_WARNINGS_INTERVAL_1_START_HOURS = 4;
+    public static int INACTIVITY_WARNINGS_INTERVAL_1_START_MINUTES = 5;
+    public static int INACTIVITY_WARNINGS_INTERVAL_1_END_HOURS = 6;
+    public static int INACTIVITY_WARNINGS_INTERVAL_1_END_MINUTES = 7;
+    public static int INACTIVITY_WARNINGS_INTERVAL_2_START_HOURS = 8;
+    public static int INACTIVITY_WARNINGS_INTERVAL_2_START_MINUTES = 9;
+    public static int INACTIVITY_WARNINGS_INTERVAL_2_END_HOURS = 10;
+    public static int INACTIVITY_WARNINGS_INTERVAL_2_END_MINUTES = 11;
+    public static final byte[] COMMAND_ENABLE_INACTIVITY_WARNINGS = new byte[] { 0x08, 0x01, 0x3c, 0x00, 0x04, 0x00, 0x15, 0x00, 0x00, 0x00, 0x00, 0x00 };
+    public static final byte[] COMMAND_DISABLE_INACTIVITY_WARNINGS = new byte[] { 0x08, 0x00, 0x3c, 0x00, 0x04, 0x00, 0x15, 0x00, 0x00, 0x00, 0x00, 0x00 };
+
     public static byte ENDPOINT_DND = 0x09;
 
     public static final byte[] COMMAND_DO_NOT_DISTURB_AUTOMATIC = new byte[] { ENDPOINT_DND, (byte) 0x83 };
