@@ -296,7 +296,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 if (!mBluetoothAdapter.isEnabled()) {
                     mBluetoothAdapter.enable();
                     try {
-                        Thread.sleep(3000);  // this is to ensure bt working
+                        Thread.sleep(2000);  // this is to ensure bt working
                     } catch (Exception e) {
                         break;
                     }
