@@ -22,6 +22,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.app.Service;
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -280,9 +281,27 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         Prefs prefs = getPrefs();
         switch (action) {
             case ACTION_START:
+                // Autoconnect if bt is enabled on start
+                BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+                if (mBluetoothAdapter.isEnabled()) {
+                    intent.setAction(ACTION_CONNECT);
+                    onStartCommand(intent,flags,startId);
+                    break;
+                }
                 start();
                 break;
             case ACTION_CONNECT:
+                // try to enable bluetooth if disabled, otherwise no point connecting
+                mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+                if (!mBluetoothAdapter.isEnabled()) {
+                    mBluetoothAdapter.enable();
+                    try {
+                        Thread.sleep(2000);  // this is to ensure bt working
+                    } catch (Exception e) {
+                        break;
+                    }
+                }
                 start(); // ensure started
                 GBDevice gbDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                 String btDeviceAddress = null;
