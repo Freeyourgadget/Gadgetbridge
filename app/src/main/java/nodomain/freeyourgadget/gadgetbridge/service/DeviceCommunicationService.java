@@ -302,7 +302,12 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                         break;
                     }
                 }
+<<<<<<< HEAD
                 if (!mBluetoothAdapter.isEnabled()) break; // if for ex. bt enable denied by user don't continue 
+=======
+                if (!mBluetoothAdapter.isEnabled()) break; // if still not enabled ex. denied break
+
+>>>>>>> master
                 start(); // ensure started
                 GBDevice gbDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                 String btDeviceAddress = null;
