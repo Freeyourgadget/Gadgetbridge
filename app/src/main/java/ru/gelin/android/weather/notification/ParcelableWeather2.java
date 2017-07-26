@@ -20,8 +20,13 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 
 public class ParcelableWeather2 implements Parcelable {
     private static final Logger LOG = LoggerFactory.getLogger(ParcelableWeather2.class);
@@ -35,15 +40,17 @@ public class ParcelableWeather2 implements Parcelable {
     public int currentTemp = 0;
     public String currentCondition = "";
 
-    String[] currentConditionType = null;
+    private String[] currentConditionType = null;
     public int currentConditionCode = 3200;
-    String[] forecastConditionType = null;
+    private String[] forecastConditionType = null;
     public int forecastConditionCode = 3200;
     public int todayLowTemp = 0;
     public int todayHighTemp = 0;
     public int forecastLowTemp = 0;
     public int forecastHighTemp = 0;
 
+    public JSONObject reconstructedWeather = null;
+    public JSONObject reconstructedForecast = null;
 
     private ParcelableWeather2(Parcel in) {
         int version = in.readInt();
@@ -59,6 +66,11 @@ public class ParcelableWeather2 implements Parcelable {
         int conditions = bundle.getInt("weather_conditions");
         if (conditions > 0) {
             Bundle conditionBundle = in.readBundle();
+            reconstructedWeather = new JSONObject();
+            JSONArray weather = new JSONArray();
+            JSONObject condition = new JSONObject();
+            JSONObject main = new JSONObject();
+
             currentCondition = conditionBundle.getString("weather_condition_text");
             conditionBundle.getStringArray("weather_condition_types");
             currentTemp = conditionBundle.getInt("weather_current_temp");
@@ -67,21 +79,104 @@ public class ParcelableWeather2 implements Parcelable {
             currentConditionCode = weatherConditionTypesToOpenWeatherMapIds(currentConditionType[0]);
             todayLowTemp = conditionBundle.getInt("weather_low_temp");
             todayHighTemp = conditionBundle.getInt("weather_high_temp");
+            try {
+                condition.put("id", currentConditionCode);
+                condition.put("main", currentCondition);
+                condition.put("icon", Weather.mapToOpenWeatherMapIcon(currentConditionCode));
+                weather.put(condition);
+
+                main.put("temp", currentTemp);
+                main.put("humidity", conditionBundle.getInt("weather_humidity_value"));
+                main.put("temp_min", todayLowTemp);
+                main.put("temp_max", todayHighTemp);
+                main.put("name", location);
+
+                reconstructedWeather.put("weather", weather);
+                reconstructedWeather.put("main", main);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            LOG.debug("Weather JSON for WEBVIEW: " + reconstructedWeather.toString());
             //fetch immediate next forecast
             if (--conditions > 0) {
+                int timeOffset = 86400000; //manually determined
+                reconstructedForecast = new JSONObject();
+                JSONArray list = new JSONArray();
+                JSONObject city = new JSONObject();
+                JSONObject item = new JSONObject();
+                condition = new JSONObject();
+                main = new JSONObject();
+                weather = new JSONArray();
                 Bundle forecastBundle = in.readBundle();
                 forecastConditionType = forecastBundle.getStringArray("weather_condition_types");
                 forecastConditionCode = weatherConditionTypesToOpenWeatherMapIds(forecastConditionType[0]);
                 forecastLowTemp = forecastBundle.getInt("weather_low_temp");
                 forecastHighTemp = forecastBundle.getInt("weather_high_temp");
+                try {
+                    condition.put("id", forecastConditionCode);
+                    condition.put("main", forecastBundle.getString("weather_condition_text"));
+                    condition.put("icon", Weather.mapToOpenWeatherMapIcon(forecastConditionCode));
+                    weather.put(condition);
+
+                    main.put("temp", forecastBundle.getInt("weather_current_temp"));
+                    main.put("humidity", forecastBundle.getInt("weather_humidity_value"));
+                    main.put("temp_min", forecastLowTemp);
+                    main.put("temp_max", forecastHighTemp);
+
+                    //forecast
+                    //"city":{"id":3181913,"name":"Bolzano","coord":{"lat":46.4927,"lon":11.3336},"country":"IT"}
+                    city.put("name", location);
+                    city.put("country", "World");
+                    reconstructedForecast.put("city", city);
+
+                    item.put("dt", (time / 1000) + timeOffset);
+                    item.put("main", main);
+                    item.put("weather", weather);
+                    list.put(item);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                // get the rest
+                while (--conditions > 0) {
+                    conditionBundle = in.readBundle();
+                    conditionBundle.getString("weather_condition_text");
+                    weatherConditionTypesToOpenWeatherMapIds(conditionBundle.getStringArray("weather_condition_types")[0]);
+                    conditionBundle.getInt("weather_current_temp");
+                    item = new JSONObject();
+                    condition = new JSONObject();
+                    main = new JSONObject();
+                    weather = new JSONArray();
+                    timeOffset += 86400000;
+                    try {
+                        condition.put("id", weatherConditionTypesToOpenWeatherMapIds(conditionBundle.getStringArray("weather_condition_types")[0]));
+                        condition.put("main", conditionBundle.getString("weather_condition_text"));
+                        condition.put("icon", Weather.mapToOpenWeatherMapIcon(weatherConditionTypesToOpenWeatherMapIds(conditionBundle.getStringArray("weather_condition_types")[0])));
+                        weather.put(condition);
+
+                        main.put("temp", conditionBundle.getInt("weather_current_temp"));
+                        main.put("humidity", conditionBundle.getInt("weather_humidity_value"));
+                        main.put("temp_min", conditionBundle.getInt("weather_low_temp"));
+                        main.put("temp_max", conditionBundle.getInt("weather_high_temp"));
+
+                        item.put("dt", (time / 1000) + timeOffset);
+                        item.put("main", main);
+                        item.put("weather", weather);
+                        list.put(item);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                try {
+                    reconstructedForecast.put("cnt", list.length());
+                    reconstructedForecast.put("list", list);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                LOG.debug("Forecast JSON for WEBVIEW: " + reconstructedForecast.toString());
             }
-        }
-        // get the rest
-        while (--conditions > 0) {
-            Bundle conditionBundle = in.readBundle();
-            conditionBundle.getString("weather_condition_text");
-            conditionBundle.getStringArray("weather_condition_types");
-            conditionBundle.getInt("weather_current_temp");
         }
     }
 
