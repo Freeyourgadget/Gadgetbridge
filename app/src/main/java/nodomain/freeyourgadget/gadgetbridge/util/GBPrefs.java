@@ -22,6 +22,8 @@ import java.util.Date;
 public class GBPrefs {
     public static final String PACKAGE_BLACKLIST = "package_blacklist";
     public static final String AUTO_RECONNECT = "general_autocreconnect";
+    public static final String ENABLEBLUETOOTH_ONCONNECT = "general_enablebluetoothonconnect";
+    public static final boolean ENABLEBLUETOOTH_ONCONNECT_DEFAULT = false;
     private static final String AUTO_START = "general_autostartonboot";
     private static final boolean AUTO_START_DEFAULT = true;
     public static boolean AUTO_RECONNECT_DEFAULT = true;
@@ -44,6 +46,7 @@ public class GBPrefs {
         return mPrefs.getBoolean(AUTO_START, AUTO_START_DEFAULT);
     }
 
+    public boolean getEnableBtOnConnect() { return mPrefs.getBoolean(ENABLEBLUETOOTH_ONCONNECT, ENABLEBLUETOOTH_ONCONNECT_DEFAULT); }
     public String getUserName() {
         return mPrefs.getString(USER_NAME, USER_NAME_DEFAULT);
     }
