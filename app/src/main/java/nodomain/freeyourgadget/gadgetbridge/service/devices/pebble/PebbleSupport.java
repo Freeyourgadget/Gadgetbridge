@@ -87,6 +87,8 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
                         byteArray[i] = ((Integer) jsonArray.get(i)).byteValue();
                     }
                     object = byteArray;
+                } else if (object instanceof Boolean) {
+                    object = (short) (((Boolean) object) ? 1 : 0);
                 }
                 pairs.add(new Pair<>(Integer.parseInt(keyStr), object));
             }
