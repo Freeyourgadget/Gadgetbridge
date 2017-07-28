@@ -176,7 +176,7 @@ public class WebViewSingleton {
             this.longitude = prefs.getFloat("location_longitude", 0);
             LOG.info("got longitude/latitude from preferences: " + latitude + "/" + longitude);
 
-            this.timestamp = (System.currentTimeMillis() / 1000) - 86400; //let accessor know this value is really old
+            this.timestamp = System.currentTimeMillis() - 86400000; //let accessor know this value is really old
 
             if (ActivityCompat.checkSelfPermission(GBApplication.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                     prefs.getBoolean("use_updated_location_if_available", false)) {
@@ -245,7 +245,7 @@ public class WebViewSingleton {
         try {
             JSONObject resp;
 
-            if ("weather".equals(type) && Weather.getInstance().getWeather2().reconstructedWeather != null) {
+            if ("/data/2.5/weather".equals(type) && Weather.getInstance().getWeather2().reconstructedWeather != null) {
                 resp = new JSONObject(Weather.getInstance().getWeather2().reconstructedWeather.toString());
 
                 JSONObject main = resp.getJSONObject("main");
@@ -255,7 +255,7 @@ public class WebViewSingleton {
                 resp.put("cod", 200);
                 resp.put("coord", coordObject(currentPosition));
                 resp.put("sys", sysObject(currentPosition));
-            } else if ("forecast".equals(type) && Weather.getInstance().getWeather2().reconstructedForecast != null) {
+            } else if ("/data/2.5/forecast".equals(type) && Weather.getInstance().getWeather2().reconstructedForecast != null) { //this is wrong, as we only have daily data. Unfortunately it looks like daily forecasts cannot be reconstructed
                 resp = new JSONObject(Weather.getInstance().getWeather2().reconstructedForecast.toString());
 
                 JSONObject city = resp.getJSONObject("city");
@@ -337,9 +337,9 @@ public class WebViewSingleton {
         }
 
         private WebResourceResponse mimicReply(Uri requestedUri) {
-            if (requestedUri.getHost().contains("openweathermap.org")) {
-                LOG.debug("WEBVIEW request to openweathermap.org detected of type: " + requestedUri.getLastPathSegment() + " params: " + requestedUri.getQuery());
-                return mimicOpenWeatherMapResponse(requestedUri.getLastPathSegment(), requestedUri.getQueryParameter("units"));
+            if (requestedUri.getHost() != null && requestedUri.getHost().contains("openweathermap.org")) {
+                LOG.debug("WEBVIEW request to openweathermap.org detected of type: " + requestedUri.getPath() + " params: " + requestedUri.getQuery());
+                return mimicOpenWeatherMapResponse(requestedUri.getPath(), requestedUri.getQueryParameter("units"));
             } else {
                 LOG.debug("WEBVIEW request:" + requestedUri.toString() + " not intercepted");
             }
@@ -357,8 +357,10 @@ public class WebViewSingleton {
             } else if (parsedUri.getScheme().startsWith("pebblejs")) {
                 url = url.replaceFirst("^pebblejs://close#", "file:///android_asset/app_config/configure.html?config=true&json=");
                 view.loadUrl(url);
+            } else if (parsedUri.getScheme().equals("data")) { //clay
+                view.loadUrl(url);
             } else {
-                LOG.debug("WEBVIEW Ignoring unhandled scheme: " + parsedUri.getScheme());
+                    LOG.debug("WEBVIEW Ignoring unhandled scheme: " + parsedUri.getScheme());
             }
 
             return true;
@@ -481,7 +483,7 @@ public class WebViewSingleton {
                     }
 
                 }
-                LOG.info("WEBV:" + out.toString());
+                LOG.info("WEBVIEW message to pebble: " + out.toString());
                 GBApplication.deviceService().onAppConfiguration(this.mUuid, out.toString());
 
             } catch (JSONException e) {
