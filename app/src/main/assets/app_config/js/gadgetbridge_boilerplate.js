@@ -155,11 +155,15 @@ function gbPebble() {
         try {
             self.configurationValues = JSON.stringify(dict);
             document.getElementById("jsondata").innerHTML=self.configurationValues;
-            return callbackAck;
+            if (callbackAck != undefined) {
+                callbackAck();
+            }
         }
         catch (e) {
             GBjs.gbLog("sendAppMessage failed");
-            return callbackNack;
+            if (callbackNack != undefined) {
+                callbackNack();
+            }
         }
     }
 
