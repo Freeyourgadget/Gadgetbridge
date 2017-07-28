@@ -176,6 +176,10 @@ public final class BtLEQueue {
         BluetoothDevice remoteDevice = mBluetoothAdapter.getRemoteDevice(mGbDevice.getAddress());
         synchronized (mGattMonitor) {
             // connectGatt with true doesn't really work ;( too often connection problems
+            if (remoteDevice.getName().toString() == "Mi Band 2") {
+                BluetoothGatt mBluetoothGatt = remoteDevice.connectGatt(mContext, false, new BluetoothGattCallback() { });
+                mBluetoothGatt.disconnect();
+            }
             mBluetoothGatt = remoteDevice.connectGatt(mContext, false, internalGattCallback);
         }
         boolean result = mBluetoothGatt != null;
