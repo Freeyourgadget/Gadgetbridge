@@ -161,11 +161,15 @@ function gbPebble() {
             } else { //pass them silently
                 GBjs.sendAppMessage(JSON.stringify(dict));
             }
-            return callbackAck;
+            if (callbackAck != undefined) {
+                callbackAck();
+            }
         }
         catch (e) {
             GBjs.gbLog("sendAppMessage failed");
-            return callbackNack;
+            if (callbackNack != undefined) {
+                callbackNack();
+            }
         }
     }
 
