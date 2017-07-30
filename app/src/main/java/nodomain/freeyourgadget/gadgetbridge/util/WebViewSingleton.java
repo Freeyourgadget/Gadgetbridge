@@ -474,9 +474,6 @@ public class WebViewSingleton {
 
                     if (passKey) {
                         Object obj = in.get(inKey);
-                        if (obj instanceof Boolean) {
-                            obj = ((Boolean) obj) ? "true" : "false";
-                        }
                         out.put(outKey, obj);
                     } else {
                         GB.toast("Discarded key " + inKey + ", not found in the local configuration and is not an integer key.", Toast.LENGTH_SHORT, GB.WARN);
