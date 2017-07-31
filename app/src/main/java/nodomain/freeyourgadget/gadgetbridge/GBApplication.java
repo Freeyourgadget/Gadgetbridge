@@ -33,7 +33,6 @@ import android.os.Build;
 import android.os.Build.VERSION;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract.PhoneLookup;
-import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.util.TypedValue;
@@ -377,7 +376,7 @@ public class GBApplication extends Application {
         if (blacklist.isEmpty()) {
             editor.putStringSet(GBPrefs.PACKAGE_BLACKLIST, null);
         } else {
-            editor.putStringSet(GBPrefs.PACKAGE_BLACKLIST, blacklist);
+            Prefs.putStringSet(editor, GBPrefs.PACKAGE_BLACKLIST, blacklist);
         }
         editor.apply();
     }
