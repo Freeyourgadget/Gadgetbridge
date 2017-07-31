@@ -232,11 +232,11 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
-    public void onAppConfiguration(UUID uuid, String config) {
+    public void onAppConfiguration(UUID uuid, String config, Integer id) {
         if (checkBusy("app configuration")) {
             return;
         }
-        delegate.onAppConfiguration(uuid, config);
+        delegate.onAppConfiguration(uuid, config, id);
     }
 
     @Override

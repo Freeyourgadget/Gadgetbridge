@@ -100,7 +100,9 @@ class PebbleIoThread extends GBDeviceIoThread {
 
     private void sendAppMessageJS(GBDeviceEventAppMessage appMessage) {
         WebViewSingleton.appMessage(appMessage);
-        write(mPebbleProtocol.encodeApplicationMessageAck(appMessage.appUUID, (byte) appMessage.id));
+        if (appMessage.type == GBDeviceEventAppMessage.TYPE_APPMESSAGE) {
+            write(mPebbleProtocol.encodeApplicationMessageAck(appMessage.appUUID, (byte) appMessage.id));
+        }
     }
 
     PebbleIoThread(PebbleSupport pebbleSupport, GBDevice gbDevice, GBDeviceProtocol gbDeviceProtocol, BluetoothAdapter btAdapter, Context context) {
@@ -519,7 +521,7 @@ class PebbleIoThread extends GBDeviceIoThread {
             sendAppMessageJS((GBDeviceEventAppMessage) deviceEvent);
             if (mEnablePebblekit) {
                 LOG.info("Got AppMessage event");
-                if (mPebbleKitSupport != null) {
+                if (mPebbleKitSupport != null && ((GBDeviceEventAppMessage) deviceEvent).type == GBDeviceEventAppMessage.TYPE_APPMESSAGE) {
                     mPebbleKitSupport.sendAppMessageIntent((GBDeviceEventAppMessage) deviceEvent);
                 }
             }

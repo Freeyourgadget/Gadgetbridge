@@ -105,6 +105,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ST
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_TEST_NEW_FUNCTION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_ALARMS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_CONFIG;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_CONFIG_ID;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_UUID;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_BOOLEAN_ENABLE;
@@ -479,7 +480,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             case ACTION_APP_CONFIGURE: {
                 UUID uuid = (UUID) intent.getSerializableExtra(EXTRA_APP_UUID);
                 String config = intent.getStringExtra(EXTRA_APP_CONFIG);
-                mDeviceSupport.onAppConfiguration(uuid, config);
+                Integer id = null;
+                if (intent.hasExtra(EXTRA_APP_CONFIG_ID)) {
+                    id = intent.getIntExtra(EXTRA_APP_CONFIG_ID, 0);
+                }
+                mDeviceSupport.onAppConfiguration(uuid, config, id);
                 break;
             }
             case ACTION_APP_REORDER: {

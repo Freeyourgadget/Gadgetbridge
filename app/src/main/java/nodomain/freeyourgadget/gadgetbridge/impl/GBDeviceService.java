@@ -251,10 +251,14 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void onAppConfiguration(UUID uuid, String config) {
+    public void onAppConfiguration(UUID uuid, String config, Integer id) {
         Intent intent = createIntent().setAction(ACTION_APP_CONFIGURE)
                 .putExtra(EXTRA_APP_UUID, uuid)
                 .putExtra(EXTRA_APP_CONFIG, config);
+
+        if (id != null) {
+            intent.putExtra(EXTRA_APP_CONFIG_ID, id);
+        }
         invokeService(intent);
     }
 

@@ -96,7 +96,7 @@ class AppMessageHandlerMorpheuz extends AppMessageHandler {
         ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>();
         pairs.add(new Pair<Integer, Object>(key, value));
 
-        return mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs);
+        return mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs, null);
     }
 
     @Override

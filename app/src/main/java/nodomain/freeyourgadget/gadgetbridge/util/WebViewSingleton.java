@@ -128,6 +128,11 @@ public class WebViewSingleton {
             return;
         }
 
+        // TODO: handle ACK and NACK types with ids
+        if (message.type != GBDeviceEventAppMessage.TYPE_APPMESSAGE) {
+            return;
+        }
+
         final String appMessage = parseIncomingAppMessage(message.message, message.appUUID);
         LOG.debug("to WEBVIEW: " + appMessage);
         new Handler(webViewSingleton.mainLooper).post(new Runnable() {
@@ -481,7 +486,7 @@ public class WebViewSingleton {
 
                 }
                 LOG.info("WEBVIEW message to pebble: " + out.toString());
-                GBApplication.deviceService().onAppConfiguration(this.mUuid, out.toString());
+                GBApplication.deviceService().onAppConfiguration(this.mUuid, out.toString(), null); // TODO: insert local id for transaction
 
             } catch (JSONException e) {
                 LOG.warn(e.getMessage());

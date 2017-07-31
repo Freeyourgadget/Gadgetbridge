@@ -60,7 +60,7 @@ public class LiveviewSupport extends AbstractSerialDeviceSupport {
     }
 
     @Override
-    public void onAppConfiguration(UUID uuid, String config) {
+    public void onAppConfiguration(UUID uuid, String config, Integer id) {
         //nothing to do ATM
     }
 

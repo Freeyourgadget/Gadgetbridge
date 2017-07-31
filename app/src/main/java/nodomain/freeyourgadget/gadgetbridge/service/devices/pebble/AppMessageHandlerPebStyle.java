@@ -100,7 +100,7 @@ class AppMessageHandlerPebStyle extends AppMessageHandler {
             pairs.add(new Pair<>(KEY_WEATHER_TEMP, (Object) (weather.currentTemp - 273)));
         }
 
-        byte[] testMessage = mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs);
+        byte[] testMessage = mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs, null);
 
 
         ByteBuffer buf = ByteBuffer.allocate(testMessage.length);
