@@ -163,7 +163,7 @@ public class GBApplication extends Application {
 
         deviceManager = new DeviceManager(this);
         String language = prefs.getString("language", "default");
-        setLanguage(language, null);
+        setLanguage(language);
 
         deviceService = createDeviceService();
         loadBlackList();
@@ -475,9 +475,9 @@ public class GBApplication extends Application {
         editor.apply();
     }
 
-    public static void setLanguage(String lang, @Nullable Context baseContext) {
+    public static void setLanguage(String lang) {
         if (lang.equals("default")) {
-            language = Locale.getDefault();
+            language = Resources.getSystem().getConfiguration().locale;
         } else {
             language = new Locale(lang);
         }
@@ -486,9 +486,7 @@ public class GBApplication extends Application {
 
         // FIXME: I have no idea what I am doing
         context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
-        if (baseContext != null) {
-            baseContext.getResources().updateConfiguration(config, baseContext.getResources().getDisplayMetrics());
-        }
+
         Intent intent = new Intent();
         intent.setAction(ACTION_LANGUAGE_CHANGE);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
