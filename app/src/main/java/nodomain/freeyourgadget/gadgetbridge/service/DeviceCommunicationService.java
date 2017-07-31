@@ -281,8 +281,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         Prefs prefs = getPrefs();
         switch (action) {
             case ACTION_START:
+                boolean autoReconnect = getGBPrefs().getAutoReconnect();
                 BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-                if (mBluetoothAdapter.isEnabled()) {
+                if ((mBluetoothAdapter.isEnabled())&&(autoReconnect == true)) {
                     intent.setAction(ACTION_CONNECT);        // if bt is enabled go to connect so after reboot we autoconnect wihout prompts
                     onStartCommand(intent,flags,startId);
                     break;
@@ -324,7 +325,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     btDeviceAddress = gbDevice.getAddress();
                 }
 
-                boolean autoReconnect = GBPrefs.AUTO_RECONNECT_DEFAULT;
+                autoReconnect = GBPrefs.AUTO_RECONNECT_DEFAULT;
                 if (prefs != null && prefs.getPreferences() != null) {
                     prefs.getPreferences().edit().putString("last_device_address", btDeviceAddress).apply();
                     autoReconnect = getGBPrefs().getAutoReconnect();
