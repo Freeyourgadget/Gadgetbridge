@@ -102,9 +102,6 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             switch (action) {
-                case GBApplication.ACTION_QUIT:
-                    finish();
-                    break;
                 case GBDevice.ACTION_DEVICE_CHANGED:
                     GBDevice dev = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                     refreshBusyState(dev);
@@ -136,7 +133,6 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         initDates();
 
         IntentFilter filterLocal = new IntentFilter();
-        filterLocal.addAction(GBApplication.ACTION_QUIT);
         filterLocal.addAction(GBDevice.ACTION_DEVICE_CHANGED);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
 

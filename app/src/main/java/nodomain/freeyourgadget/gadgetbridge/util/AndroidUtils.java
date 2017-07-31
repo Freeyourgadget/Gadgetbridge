@@ -16,11 +16,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.ParcelUuid;
 import android.os.Parcelable;
 import android.support.v4.content.LocalBroadcastManager;
+
+import java.util.Locale;
 
 public class AndroidUtils {
     public static ParcelUuid[] toParcelUUids(Parcelable[] uuids) {
@@ -60,5 +64,14 @@ public class AndroidUtils {
         } catch (IllegalArgumentException ex) {
             return false;
         }
+    }
+
+    public static void setLanguage(Activity activity, Locale language) {
+        Configuration config = new Configuration();
+        config.setLocale(language);
+
+        // FIXME: I have no idea what I am doing
+        activity.getBaseContext().getResources().updateConfiguration(config, activity.getBaseContext().getResources().getDisplayMetrics());
+        activity.recreate();
     }
 }

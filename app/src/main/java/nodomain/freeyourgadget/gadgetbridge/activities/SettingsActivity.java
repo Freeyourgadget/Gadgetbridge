@@ -143,6 +143,26 @@ public class SettingsActivity extends AbstractSettingsActivity {
 
         });
 
+        pref = findPreference("language");
+        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                String newLang = newVal.toString();
+                try {
+                    GBApplication.setLanguage(newLang, getBaseContext());
+//                    recreate();
+                } catch (Exception ex) {
+                    GB.toast(getApplicationContext(),
+                            "Error setting language: " + ex.getLocalizedMessage(),
+                            Toast.LENGTH_LONG,
+                            GB.ERROR,
+                            ex);
+                }
+                return true;
+            }
+
+        });
+
         if (!GBApplication.isRunningMarshmallowOrLater()) {
             pref = findPreference("notification_filter");
             PreferenceCategory category = (PreferenceCategory) findPreference("pref_key_notifications");

@@ -49,6 +49,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import de.cketti.library.changelog.ChangeLog;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -56,6 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapterv2;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -80,6 +82,9 @@ public class ControlCenterv2 extends AppCompatActivity
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             switch (action) {
+                case GBApplication.ACTION_LANGUAGE_CHANGE:
+                    setLanguage(GBApplication.getLanguage());
+                    break;
                 case GBApplication.ACTION_QUIT:
                     finish();
                     break;
@@ -170,6 +175,7 @@ public class ControlCenterv2 extends AppCompatActivity
         registerForContextMenu(deviceListView);
 
         IntentFilter filterLocal = new IntentFilter();
+        filterLocal.addAction(GBApplication.ACTION_LANGUAGE_CHANGE);
         filterLocal.addAction(GBApplication.ACTION_QUIT);
         filterLocal.addAction(DeviceManager.ACTION_DEVICES_CHANGED);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
@@ -295,4 +301,7 @@ public class ControlCenterv2 extends AppCompatActivity
             ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[wantedPermissions.size()]), 0);
     }
 
+    private void setLanguage(Locale language) {
+        AndroidUtils.setLanguage(this, language);
+    }
 }
