@@ -24,6 +24,7 @@ import android.app.NotificationManager.Policy;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -40,6 +41,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
@@ -90,6 +92,7 @@ public class GBApplication extends Application {
 
     public static final String ACTION_QUIT
             = "nodomain.freeyourgadget.gadgetbridge.gbapplication.action.quit";
+    public static final String ACTION_LANGUAGE_CHANGE = "nodomain.freeyourgadget.gadgetbridge.gbapplication.action.language_change";
 
     private static GBApplication app;
 
@@ -104,6 +107,7 @@ public class GBApplication extends Application {
             }
         }
     };
+    private static Locale language;
 
     private DeviceManager deviceManager;
 
@@ -159,6 +163,8 @@ public class GBApplication extends Application {
         setupExceptionHandler();
 
         deviceManager = new DeviceManager(this);
+        String language = prefs.getString("language", "default");
+        setLanguage(language);
 
         createWebViewActivity();
 
@@ -382,7 +388,7 @@ public class GBApplication extends Application {
         if (blacklist.isEmpty()) {
             editor.putStringSet(GBPrefs.PACKAGE_BLACKLIST, null);
         } else {
-            editor.putStringSet(GBPrefs.PACKAGE_BLACKLIST, blacklist);
+            Prefs.putStringSet(editor, GBPrefs.PACKAGE_BLACKLIST, blacklist);
         }
         editor.apply();
     }
@@ -480,6 +486,23 @@ public class GBApplication extends Application {
         editor.apply();
     }
 
+    public static void setLanguage(String lang) {
+        if (lang.equals("default")) {
+            language = Resources.getSystem().getConfiguration().locale;
+        } else {
+            language = new Locale(lang);
+        }
+        Configuration config = new Configuration();
+        config.setLocale(language);
+
+        // FIXME: I have no idea what I am doing
+        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
+
+        Intent intent = new Intent();
+        intent.setAction(ACTION_LANGUAGE_CHANGE);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+    }
+
     public static LimitedQueue getIDSenderLookup() {
         return mIDSenderLookup;
     }
@@ -516,5 +539,9 @@ public class GBApplication extends Application {
 
     public static GBApplication app() {
         return app;
+    }
+
+    public static Locale getLanguage() {
+        return language;
     }
 }
