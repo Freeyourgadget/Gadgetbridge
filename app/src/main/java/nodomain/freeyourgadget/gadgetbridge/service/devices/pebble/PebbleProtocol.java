@@ -2608,7 +2608,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                             LOG.info("got APPLICATIONMESSAGE/LAUNCHER (EP " + endpoint + ") NACK");
                         }
                         GBDeviceEventAppMessage evtAppMessage = null;
-                        if (idLookup[last_id] != null) {
+                        if (endpoint == ENDPOINT_APPLICATIONMESSAGE && idLookup[last_id] != null) {
                             evtAppMessage = new GBDeviceEventAppMessage();
                             if (pebbleCmd == APPLICATIONMESSAGE_ACK) {
                                 evtAppMessage.type = GBDeviceEventAppMessage.TYPE_ACK;
@@ -2616,7 +2616,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                                 evtAppMessage.type = GBDeviceEventAppMessage.TYPE_NACK;
                             }
                             evtAppMessage.id = idLookup[last_id];
-                            evtAppMessage.appUUID = uuid;
+                            evtAppMessage.appUUID = currentRunningApp;
                         }
                         devEvts = new GBDeviceEvent[]{evtAppMessage};
                         break;

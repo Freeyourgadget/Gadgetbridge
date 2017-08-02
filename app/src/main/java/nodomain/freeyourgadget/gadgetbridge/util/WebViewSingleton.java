@@ -131,7 +131,7 @@ public class WebViewSingleton {
 
         if (!message.appUUID.equals(currentRunningUUID)) {
             LOG.info("WEBVIEW ignoring message for app that is not currently running: " + message.appUUID + " message: " + message.message + " type: " + message.type);
-//            return; //TODO: ignoring would be the right thing to do here, but sometimes appUUID is apparently wrong
+            return;
         }
 
         // TODO: handle ACK and NACK types with ids
