@@ -117,7 +117,7 @@ function gbPebble() {
     }
 
     this.actuallySendData = function() {
-        GBjs.sendAppMessage(self.configurationValues);
+        GBjs.sendAppMessage(self.configurationValues, false );
         showStep("step1");
         GBActivity.closeActivity();
     }
