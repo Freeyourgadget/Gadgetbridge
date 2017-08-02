@@ -123,22 +123,31 @@ public class WebViewSingleton {
 
     public static void appMessage(GBDeviceEventAppMessage message) {
 
+        final String jsEvent;
         if (webViewSingleton.instance == null) {
             LOG.warn("WEBVIEW is not initialized, cannot send appMessages to it");
             return;
         }
 
+        if (!message.appUUID.equals(currentRunningUUID)) {
+            LOG.info("WEBVIEW ignoring message for app that is not currently running: " + message.appUUID + " message: " + message.message + " type: " + message.type);
+//            return; //TODO: ignoring would be the right thing to do here, but sometimes appUUID is apparently wrong
+        }
+
         // TODO: handle ACK and NACK types with ids
         if (message.type != GBDeviceEventAppMessage.TYPE_APPMESSAGE) {
-            return;
+            jsEvent = (GBDeviceEventAppMessage.TYPE_NACK == GBDeviceEventAppMessage.TYPE_APPMESSAGE) ? "NACK" + message.id : "ACK" + message.id;
+            LOG.debug("WEBVIEW received ACK/NACK:" + message.message + " for uuid: " + message.appUUID + " ID: " + message.id);
+        } else {
+            jsEvent = "appmessage";
         }
 
         final String appMessage = parseIncomingAppMessage(message.message, message.appUUID);
-        LOG.debug("to WEBVIEW: " + appMessage);
+        LOG.debug("to WEBVIEW: event: " + jsEvent + " message: " + appMessage);
         new Handler(webViewSingleton.mainLooper).post(new Runnable() {
             @Override
             public void run() {
-                webViewSingleton.instance.evaluateJavascript("Pebble.evaluate('appmessage',[" + appMessage + "]);", new ValueCallback<String>() {
+                webViewSingleton.instance.evaluateJavascript("Pebble.evaluate('" + jsEvent + "',[" + appMessage + "]);", new ValueCallback<String>() {
                     @Override
                     public void onReceiveValue(String s) {
                         //TODO: the message should be acked here instead of in PebbleIoThread
@@ -192,6 +201,7 @@ public class WebViewSingleton {
                     Location lastKnownLocation = locationManager.getLastKnownLocation(provider);
                     if (lastKnownLocation != null) {
                         this.timestamp = lastKnownLocation.getTime();
+                        this.timestamp = System.currentTimeMillis() - 1000; //TODO: request updating the location and don't fake its age
 
                         this.latitude = (float) lastKnownLocation.getLatitude();
                         this.longitude = (float) lastKnownLocation.getLongitude();
@@ -260,20 +270,20 @@ public class WebViewSingleton {
                 resp.put("cod", 200);
                 resp.put("coord", coordObject(currentPosition));
                 resp.put("sys", sysObject(currentPosition));
-            } else if ("/data/2.5/forecast".equals(type) && Weather.getInstance().getWeather2().reconstructedForecast != null) { //this is wrong, as we only have daily data. Unfortunately it looks like daily forecasts cannot be reconstructed
-                resp = new JSONObject(Weather.getInstance().getWeather2().reconstructedForecast.toString());
-
-                JSONObject city = resp.getJSONObject("city");
-                city.put("coord", coordObject(currentPosition));
-
-                JSONArray list = resp.getJSONArray("list");
-                for (int i = 0, size = list.length(); i < size; i++) {
-                    JSONObject item = list.getJSONObject(i);
-                    JSONObject main = item.getJSONObject("main");
-                    convertTemps(main, units); //caller might want different units
-                }
-
-                resp.put("cod", 200);
+//            } else if ("/data/2.5/forecast".equals(type) && Weather.getInstance().getWeather2().reconstructedForecast != null) { //this is wrong, as we only have daily data. Unfortunately it looks like daily forecasts cannot be reconstructed
+//                resp = new JSONObject(Weather.getInstance().getWeather2().reconstructedForecast.toString());
+//
+//                JSONObject city = resp.getJSONObject("city");
+//                city.put("coord", coordObject(currentPosition));
+//
+//                JSONArray list = resp.getJSONArray("list");
+//                for (int i = 0, size = list.length(); i < size; i++) {
+//                    JSONObject item = list.getJSONObject(i);
+//                    JSONObject main = item.getJSONObject("main");
+//                    convertTemps(main, units); //caller might want different units
+//                }
+//
+//                resp.put("cod", 200);
             } else {
                 LOG.warn("WEBVIEW - cannot mimick request of type " + type + " (unsupported or lack of data)");
                 return null;
@@ -393,6 +403,10 @@ public class WebViewSingleton {
         JSONObject knownKeys = getAppConfigurationKeys(uuid);
         SparseArray<String> appKeysMap = new SparseArray<>();
 
+        if (knownKeys == null) {
+            return "{}";
+        }
+
         String inKey, outKey;
         //knownKeys contains "name"->"index", we need to reverse that
         for (Iterator<String> key = knownKeys.keys(); key.hasNext(); ) {
@@ -423,7 +437,7 @@ public class WebViewSingleton {
             }
             jsAppMessage.put("payload", outgoing);
 
-        } catch (JSONException e) {
+        } catch (Exception e) {
             LOG.warn(e.getMessage());
         }
         return jsAppMessage.toString();
@@ -433,11 +447,13 @@ public class WebViewSingleton {
 
         UUID mUuid;
         GBDevice device;
+        Integer lastTransaction;
 
         private JSInterface(GBDevice device, UUID mUuid) {
             LOG.debug("Creating JS interface for UUID: " + mUuid.toString());
             this.device = device;
             this.mUuid = mUuid;
+            this.lastTransaction = 0;
         }
 
 
@@ -451,8 +467,9 @@ public class WebViewSingleton {
         }
 
         @JavascriptInterface
-        public void sendAppMessage(String msg) {
-            LOG.debug("from WEBVIEW: " + msg);
+        public String sendAppMessage(String msg, String needsTransactionMsg) {
+            boolean needsTransaction = "true".equals(needsTransactionMsg);
+            LOG.debug("from WEBVIEW: " + msg + " needs a transaction: " + needsTransaction);
             JSONObject knownKeys = getAppConfigurationKeys(this.mUuid);
 
             try {
@@ -486,11 +503,18 @@ public class WebViewSingleton {
 
                 }
                 LOG.info("WEBVIEW message to pebble: " + out.toString());
-                GBApplication.deviceService().onAppConfiguration(this.mUuid, out.toString(), null); // TODO: insert local id for transaction
+                if (needsTransaction) {
+                    this.lastTransaction++;
+                    GBApplication.deviceService().onAppConfiguration(this.mUuid, out.toString(), this.lastTransaction);
+                    return this.lastTransaction.toString();
+                } else {
+                    GBApplication.deviceService().onAppConfiguration(this.mUuid, out.toString(), null);
+                }
 
             } catch (JSONException e) {
                 LOG.warn(e.getMessage());
             }
+            return null;
         }
 
         @JavascriptInterface

@@ -159,17 +159,33 @@ function gbPebble() {
             if (document.getElementById("step2").style.display == 'block') { //intercept the values
                 document.getElementById("jsondata").innerHTML=self.configurationValues;
             } else { //pass them silently
-                GBjs.sendAppMessage(JSON.stringify(dict));
-            }
-            if (callbackAck != undefined) {
-                callbackAck();
+                var needsTransaction = false;
+                if (callbackAck != undefined || callbackNack != undefined) {
+                    needsTransaction = true;
+                }
+                var transactionId = GBjs.sendAppMessage(JSON.stringify(dict), needsTransaction);
+                if (needsTransaction) {
+                    if (callbackAck != undefined) {
+                        this.addEventListener("ACK"+transactionId, function(e) {
+//                            console.log("ACK FOR " + JSON.stringify(e));
+                            callbackAck(e);
+                            self.removeEventListener("ACK"+transactionId);
+                            self.removeEventListener("NACK"+transactionId);
+                        });
+                    }
+                    if (callbackNack != undefined) {
+                        this.addEventListener("NACK"+transactionId, function(e) {
+//                            console.log("NACK FOR " + JSON.stringify(e));
+                            callbackNack(e);
+                            self.removeEventListener("ACK"+transactionId);
+                            self.removeEventListener("NACK"+transactionId);
+                        });
+                    }
+                }
             }
         }
         catch (e) {
             GBjs.gbLog("sendAppMessage failed");
-            if (callbackNack != undefined) {
-                callbackNack();
-            }
         }
     }
 
