@@ -3,17 +3,24 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.MutableContextWrapper;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Looper;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.SparseArray;
@@ -52,6 +59,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppMessage;
@@ -67,6 +75,11 @@ public class WebViewSingleton {
     private Looper mainLooper;
     private static WebViewSingleton webViewSingleton = new WebViewSingleton();
     private static UUID currentRunningUUID;
+    private static Messenger internetHelper = null;
+    private static boolean internetHelperBound;
+    private static CountDownLatch latch;
+    private static WebResourceResponse internetResponse;
+    final static Messenger internetHelperListener = new Messenger(new IncomingHandler());
 
     private WebViewSingleton() {
     }
@@ -87,8 +100,46 @@ public class WebViewSingleton {
             webSettings.setDomStorageEnabled(true);
             //needed for localstorage
             webSettings.setDatabaseEnabled(true);
+            Intent intent = new Intent();
+            intent.setComponent(new ComponentName("nodomain.freeyourgadget.internethelper", "nodomain.freeyourgadget.internethelper.MyService"));
+            context.getApplicationContext().bindService(intent, internetHelperConnection, Context.BIND_AUTO_CREATE);
         }
         return webViewSingleton.instance;
+    }
+
+    //Internet helper outgoing connection
+    private static ServiceConnection internetHelperConnection = new ServiceConnection() {
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            internetHelperBound = true;
+            internetHelper = new Messenger(service);
+        }
+
+        public void onServiceDisconnected(ComponentName className) {
+            internetHelper = null;
+            internetHelperBound = false;
+        }
+    };
+
+    //Internet helper inbound (responses) handler
+    static class IncomingHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            Bundle data = msg.getData();
+            LOG.debug("WEBVIEW: internet helper returned: " + data.getString("response"));
+            Map<String, String> headers = new HashMap<>();
+            headers.put("Access-Control-Allow-Origin", "*");
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                internetResponse = new WebResourceResponse(data.getString("content-type"), data.getString("content-encoding"), 200, "OK",
+                        headers,
+                        new ByteArrayInputStream(data.getString("response").getBytes())
+                );
+            } else {
+                internetResponse = new WebResourceResponse(data.getString("content-type"), data.getString("content-encoding"), new ByteArrayInputStream(data.getString("response").getBytes()));
+            }
+
+            latch.countDown();
+        }
     }
 
     public static void updateActivityContext(Activity context) {
@@ -159,6 +210,10 @@ public class WebViewSingleton {
     }
 
     public static void disposeWebView() {
+        if (internetHelperBound) {
+            LOG.debug("WEBVIEW: will unbind the internet helper");
+            webViewSingleton.contextWrapper.getApplicationContext().unbindService(internetHelperConnection);
+        }
         new Handler(webViewSingleton.mainLooper).post(new Runnable() {
             @Override
             public void run() {
@@ -353,8 +408,27 @@ public class WebViewSingleton {
 
         private WebResourceResponse mimicReply(Uri requestedUri) {
             if (requestedUri.getHost() != null && requestedUri.getHost().contains("openweathermap.org")) {
-                LOG.debug("WEBVIEW request to openweathermap.org detected of type: " + requestedUri.getPath() + " params: " + requestedUri.getQuery());
-                return mimicOpenWeatherMapResponse(requestedUri.getPath(), requestedUri.getQueryParameter("units"));
+                if (internetHelperBound) {
+                    LOG.debug("WEBVIEW forwarding request to the internet helper");
+                    Bundle bundle = new Bundle();
+                    bundle.putString("URL", requestedUri.toString());
+                    Message webRequest = Message.obtain();
+                    webRequest.replyTo = internetHelperListener;
+                    webRequest.setData(bundle);
+                    try {
+                        latch = new CountDownLatch(1); //the messenger should run on a single thread, hence we don't need to be worried about concurrency. This approach however is certainly not ideal.
+                        internetHelper.send(webRequest);
+                        latch.await();
+                        return internetResponse;
+
+                    } catch (RemoteException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    LOG.debug("WEBVIEW request to openweathermap.org detected of type: " + requestedUri.getPath() + " params: " + requestedUri.getQuery());
+                    return mimicOpenWeatherMapResponse(requestedUri.getPath(), requestedUri.getQueryParameter("units"));
+                }
             } else {
                 LOG.debug("WEBVIEW request:" + requestedUri.toString() + " not intercepted");
             }
