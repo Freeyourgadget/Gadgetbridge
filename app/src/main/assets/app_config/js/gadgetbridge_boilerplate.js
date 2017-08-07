@@ -79,6 +79,21 @@ function gbPebble() {
     this.configurationURL = null;
     this.configurationValues = null;
     var self = this;
+
+    appMessageCallbackACK = {};
+    appMessageCallbackNACK = {};
+
+    function appMessageCallbackProcessed(transactionId) {
+    if (appMessageCallbackACK[transactionId]) {
+        self.removeEventListener("ACK"+transactionId, self.appMessageCallbackACK[transactionId]);
+        appMessageCallbackACK[transactionId] = undefined;
+    }
+    if (appMessageCallbackNACK[transactionId]) {
+        self.removeEventListener("NACK"+transactionId, self.appMessageCallbackNACK[transactionId]);
+        appMessageCallbackNACK[transactionId] = undefined;
+    }
+
+    }
     self.events = {};
     //events processing: see http://stackoverflow.com/questions/10978311/implementing-events-in-my-own-object
     self.addEventListener = function(name, handler) {
@@ -166,20 +181,23 @@ function gbPebble() {
                 var transactionId = GBjs.sendAppMessage(JSON.stringify(dict), needsTransaction);
                 if (needsTransaction) {
                     if (callbackAck != undefined) {
-                        this.addEventListener("ACK"+transactionId, function(e) {
+                        self.appMessageCallbackACK[transactionId] = function(e) {
 //                            console.log("ACK FOR " + JSON.stringify(e));
                             callbackAck(e);
-                            self.removeEventListener("ACK"+transactionId);
-                            self.removeEventListener("NACK"+transactionId);
-                        });
+                            self.appMessageCallbackProcessed(transactionId);
+                        };
+
+                        this.addEventListener("ACK"+transactionId, self.appMessageCallbackACK[transactionId]);
+
                     }
                     if (callbackNack != undefined) {
-                        this.addEventListener("NACK"+transactionId, function(e) {
+                        self.appMessageCallbackNACK[transactionId] = function(e) {
 //                            console.log("NACK FOR " + JSON.stringify(e));
                             callbackNack(e);
-                            self.removeEventListener("ACK"+transactionId);
-                            self.removeEventListener("NACK"+transactionId);
-                        });
+                            self.appMessageCallbackProcessed(transactionId);
+                        };
+
+                        this.addEventListener("NACK"+transactionId, self.appMessageCallbackNACK[transactionId]);
                     }
                 }
             }
