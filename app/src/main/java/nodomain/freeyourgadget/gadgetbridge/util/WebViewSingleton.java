@@ -79,7 +79,7 @@ public class WebViewSingleton {
     private static boolean internetHelperBound;
     private static CountDownLatch latch;
     private static WebResourceResponse internetResponse;
-    final static Messenger internetHelperListener = new Messenger(new IncomingHandler());
+    private final static Messenger internetHelperListener = new Messenger(new IncomingHandler());
 
     private WebViewSingleton() {
     }
@@ -110,11 +110,13 @@ public class WebViewSingleton {
     //Internet helper outgoing connection
     private static ServiceConnection internetHelperConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
+            LOG.info("internet helper service bound");
             internetHelperBound = true;
             internetHelper = new Messenger(service);
         }
 
         public void onServiceDisconnected(ComponentName className) {
+            LOG.info("internet helper service unbound");
             internetHelper = null;
             internetHelperBound = false;
         }
@@ -407,7 +409,7 @@ public class WebViewSingleton {
         }
 
         private WebResourceResponse mimicReply(Uri requestedUri) {
-            if (requestedUri.getHost() != null && requestedUri.getHost().contains("openweathermap.org")) {
+            if (requestedUri.getHost() != null && (requestedUri.getHost().contains("openweathermap.org") || requestedUri.getHost().contains("tagesschau.de") )) {
                 if (internetHelperBound) {
                     LOG.debug("WEBVIEW forwarding request to the internet helper");
                     Bundle bundle = new Bundle();
