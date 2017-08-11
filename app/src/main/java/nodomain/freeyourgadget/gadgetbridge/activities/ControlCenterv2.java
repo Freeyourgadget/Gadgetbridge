@@ -195,7 +195,7 @@ public class ControlCenterv2 extends AppCompatActivity
             checkAndRequestPermissions();
         }
 
-        ChangeLog cl = new ChangeLog(this);
+        ChangeLog cl = new ChangeLog(this, GBApplication.isDarkThemeEnabled() ? "body { color: #ffffff; background-color: #282828; }" : "");
         if (cl.isFirstRun()) {
             cl.getLogDialog().show();
         }
@@ -249,7 +249,7 @@ public class ControlCenterv2 extends AppCompatActivity
                 GBApplication.quit();
                 return true;
             case R.id.external_changelog:
-                ChangeLog cl = new ChangeLog(this);
+                ChangeLog cl = new ChangeLog(this, GBApplication.isDarkThemeEnabled() ? "body { color: #ffffff; background-color: #282828; }" : "");
                 cl.getFullLogDialog().show();
                 return true;
         }
