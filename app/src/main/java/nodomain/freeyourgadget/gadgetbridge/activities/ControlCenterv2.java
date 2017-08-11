@@ -251,7 +251,7 @@ public class ControlCenterv2 extends AppCompatActivity
                 GBApplication.quit();
                 return true;
             case R.id.external_changelog:
-                ChangeLog cl = new ChangeLog(this, GBApplication.isDarkThemeEnabled() ? "body { color: #ffffff; background-color: #282828; }" : "");
+                ChangeLog cl = new ChangeLog(this, (GBApplication.isDarkThemeEnabled() ? "body { color: #ffffff; background-color: #282828; }\n" : "") + DEFAULT_CSS);
                 cl.getFullLogDialog().show();
                 return true;
         }
