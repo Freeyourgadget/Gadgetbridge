@@ -61,6 +61,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
+import static de.cketti.library.changelog.ChangeLog.DEFAULT_CSS;
+
 //TODO: extend GBActivity, but it requires actionbar that is not available
 public class ControlCenterv2 extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -195,7 +197,7 @@ public class ControlCenterv2 extends AppCompatActivity
             checkAndRequestPermissions();
         }
 
-        ChangeLog cl = new ChangeLog(this, GBApplication.isDarkThemeEnabled() ? "body { color: #ffffff; background-color: #282828; }" : "");
+        ChangeLog cl = new ChangeLog(this, (GBApplication.isDarkThemeEnabled() ? "body { color: #ffffff; background-color: #282828; }\n" : "") + DEFAULT_CSS);
         if (cl.isFirstRun()) {
             cl.getLogDialog().show();
         }
