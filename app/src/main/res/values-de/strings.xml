@@ -29,8 +29,8 @@
   <string name="appmananger_app_delete_cache">Löschen und aus dem Zwischenspeicher entfernen</string>
   <string name="appmananger_app_reinstall">Erneut installieren</string>
   <string name="appmanager_app_openinstore">Im Pebble Appstore suchen</string>
-  <string name="appmanager_health_activate">aktivieren</string>
-  <string name="appmanager_health_deactivate">deaktivieren</string>
+  <string name="appmanager_health_activate">Aktivieren</string>
+  <string name="appmanager_health_deactivate">Deaktivieren</string>
   <string name="appmanager_hrm_activate">HRM aktivieren</string>
   <string name="appmanager_hrm_deactivate">HRM deaktivieren</string>
   <string name="appmanager_weather_activate">Wetter-App des Systems aktivieren</string>
@@ -58,7 +58,7 @@
   <string name="pref_header_datetime">Datum und Zeit</string>
   <string name="pref_title_datetime_syctimeonconnect">Uhrzeit synchronisieren</string>
   <string name="pref_summary_datetime_syctimeonconnect">Synchronisiere die Uhrzeit mit dem Gerät bei Verbindungsaufbau und wenn die Zeit oder Zeitzone auf dem Android Gerät geändert wird</string>
-  <string name="pref_title_theme">Theme</string>
+  <string name="pref_title_theme">Thema</string>
   <string name="pref_theme_light">Hell</string>
   <string name="pref_theme_dark">Dunkel</string>
   <string name="pref_title_language">Sprache</string>
@@ -76,7 +76,6 @@
   <string name="pref_title_notification_filter">Bitte nicht stören</string>
   <string name="pref_summary_notification_filter">Benachrichtigungen nicht senden, wenn im \"Nicht Stören\"-Modus</string>
   <string name="pref_title_transliteration">Transkription</string>
-  <string name="pref_summary_transliteration">Aktiviere dies, falls dein Gerät keine Unterstützung für den Zeichensatz deiner Sprache hat (momentan nur Kyrillisch)</string>
   <string name="always">immer</string>
   <string name="when_screen_off">wenn der Bildschirm aus ist</string>
   <string name="never">niemals</string>
@@ -220,6 +219,8 @@
   <string name="pref_screen_notification_profile_generic_chat">Chat</string>
   <string name="pref_screen_notification_profile_generic_navigation">Navigation</string>
   <string name="pref_screen_notification_profile_generic_social">Soziales Netzwerk</string>
+  <string name="stats_x_axis_label">Minuten insgesamt</string>
+  <string name="stats_y_axis_label">Schritte pro Minute</string>
   <string name="control_center_find_lost_device">Verlegtes Gerät suchen</string>
   <string name="control_center_cancel_to_stop_vibration">Abbrechen, um die Vibration zu stoppen.</string>
   <string name="title_activity_charts">Deine Aktivität</string>
@@ -273,6 +274,9 @@
   <string name="chart_steps">Schritte</string>
   <string name="calories">Kalorien</string>
   <string name="distance">Distanz</string>
+  <string name="clock">Uhrzeit</string>
+  <string name="heart_rate">Puls</string>
+  <string name="battery">Batterie</string>
   <string name="liveactivity_live_activity">Live Aktivität</string>
   <string name="weeksteps_today_steps_description">Schritte heute, Ziel: %1$s</string>
   <string name="pref_title_dont_ack_transfer">Transfer von Aktivitätsdaten nicht bestätigen</string>
@@ -300,7 +304,17 @@
   <string name="miband2_prefs_dateformat">Mi2: Datumsformat</string>
   <string name="dateformat_time">Zeit</string>
   <string name="dateformat_date_time"><![CDATA[Time & Date]]></string>
+  <string name="mi2_prefs_goal_notification">Benachrichtigungen bei Schrittziel</string>
+  <string name="mi2_prefs_goal_notification_summary">Das Band wird vibrieren, wenn das tägliche Schrittziel erreicht ist.</string>
+  <string name="mi2_prefs_display_items">Angezeigte Items</string>
+  <string name="mi2_prefs_display_items_summary">Wähle aus, welche Items auf dem Band angezeigt werden sollen</string>
   <string name="mi2_prefs_activate_display_on_lift">Display beim Anheben aktivieren</string>
+  <string name="mi2_prefs_do_not_disturb">Bitte nicht stören</string>
+  <string name="mi2_prefs_inactivity_warnings">Inaktivitätswarnungen</string>
+  <string name="mi2_prefs_inactivity_warnings_summary">Das Band wird vibrieren, wenn du für eine Weile inaktiv warst</string>
+  <string name="mi2_prefs_inactivity_warnings_dnd_summary">Deaktiviere Inaktivitätswarnungen zu einer bestimmten Zeit</string>
+  <string name="mi2_prefs_do_not_disturb_start">Startzeit</string>
+  <string name="mi2_prefs_do_not_disturb_end">Endzeit</string>
   <string name="FetchActivityOperation_about_to_transfer_since">Werde Daten ab %1$s übertragen.</string>
   <string name="waiting_for_reconnect">warte auf Verbindung</string>
   <string name="activity_prefs_about_you">Über Dich</string>
@@ -366,7 +380,10 @@
   <string name="miband2_prefs_timeformat">Mi2: Uhrzeit-Format</string>
   <string name="mi2_fw_installhandler_fw53_hint">Installiere Version %1$s vor dem Installieren der Firmware!</string>
   <string name="mi2_enable_text_notifications">Text Benachrichtigung</string>
+  <string name="mi2_enable_text_notifications_summary"><![CDATA[Firmware >= 1.0.1.28 und installiertes Mili_pro.ft* benötigt.]]></string>
   <string name="off">aus</string>
+  <string name="mi2_dnd_off">Aus</string>
+  <string name="mi2_dnd_automatic">Automatisch (Schlaferkennung)</string>
   <string name="discovery_attempting_to_pair">Versuche zu koppeln mit %1$s</string>
   <string name="discovery_bonding_failed_immediately">Kopplung mit %1$s soeben fehlgeschlagen.</string>
   <string name="discovery_trying_to_connect_to">Versuche zu verbinden mit: %1$s</string>
