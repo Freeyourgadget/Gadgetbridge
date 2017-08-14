@@ -76,6 +76,7 @@
   <string name="pref_title_notification_filter">Ne zavarj mód</string>
   <string name="pref_summary_notification_filter">Értesítések tiltása a Ne zavarj üzemmód használatakor.</string>
   <string name="pref_title_transliteration">Transzliteráció</string>
+  <string name="pref_summary_transliteration">Engedélyezd ezt, ha a nyelvedet nem támogatja a betűtípus</string>
   <string name="always">mindig</string>
   <string name="when_screen_off">amikor a kijelző ki van kapcsolva</string>
   <string name="never">soha</string>
@@ -275,6 +276,9 @@
   <string name="chart_steps">Lépések</string>
   <string name="calories">Kalória</string>
   <string name="distance">Távolság</string>
+  <string name="clock">Óra</string>
+  <string name="heart_rate">Pulzus</string>
+  <string name="battery">Akkumulátor</string>
   <string name="liveactivity_live_activity">Aktuális aktivitás</string>
   <string name="weeksteps_today_steps_description">Lépések ma, cél: %1$s</string>
   <string name="pref_title_dont_ack_transfer">Ne erősítse meg az aktivitásadatok átvitelét</string>
@@ -302,7 +306,20 @@
   <string name="miband2_prefs_dateformat">Mi2: dátumformátum</string>
   <string name="dateformat_time">Idő</string>
   <string name="dateformat_date_time"><![CDATA[Time & Date]]></string>
+  <string name="mi2_prefs_goal_notification">Cél értesítés</string>
+  <string name="mi2_prefs_goal_notification_summary">A karkötő vibrálni fog amikor elérted a napi lépés célod</string>
+  <string name="mi2_prefs_display_items">Megjelenítendő elemek</string>
+  <string name="mi2_prefs_display_items_summary">Válaszd ki milyen elemek jelenjenek meg a karkötő kijelzőjén</string>
   <string name="mi2_prefs_activate_display_on_lift">Kijelző aktiválása felemeléskor</string>
+  <string name="mi2_prefs_rotate_wrist_to_switch_info">Forgasd el a karkötőt információ váltáshoz</string>
+  <string name="mi2_prefs_do_not_disturb">Ne zavarj mód</string>
+  <string name="mi2_prefs_do_not_disturb_summary">A karkötő nem fog értesítéseket jelezni amíg ez aktív</string>
+  <string name="mi2_prefs_inactivity_warnings">Inaktivitás figyelmeztetés</string>
+  <string name="mi2_prefs_inactivity_warnings_summary">A karkötő rezegni fog amikor inaktív  vagy már egy ideje</string>
+  <string name="mi2_prefs_inactivity_warnings_threshold">Inaktivitás határ (percben)</string>
+  <string name="mi2_prefs_inactivity_warnings_dnd_summary">Inaktivitás figyelmeztetések tiltása adott időre</string>
+  <string name="mi2_prefs_do_not_disturb_start">Kezdete</string>
+  <string name="mi2_prefs_do_not_disturb_end">Vége</string>
   <string name="FetchActivityOperation_about_to_transfer_since">Adatok átvitele %1$s óta</string>
   <string name="waiting_for_reconnect">várakozás az újracsatlakozásra</string>
   <string name="activity_prefs_about_you">Rólad</string>
@@ -370,6 +387,9 @@
   <string name="mi2_enable_text_notifications">Szöveges értesítés</string>
   <string name="mi2_enable_text_notifications_summary"><![CDATA[Needs firmware >= 1.0.1.28 és Mili_pro.ft* telepítve.]]></string>
   <string name="off">ki</string>
+  <string name="mi2_dnd_off">Ki</string>
+  <string name="mi2_dnd_automatic">Automatikus (alvás érzékelés)</string>
+  <string name="mi2_dnd_scheduled">Időzített (idő intervallum)</string>
   <string name="discovery_attempting_to_pair">Csatlakozási kísérlet az eszközhöz: %1$s</string>
   <string name="discovery_bonding_failed_immediately">A csatlakozás azonnal megszkadt: %1$s</string>
   <string name="discovery_trying_to_connect_to">Csatlakozási kísérlet: %1$s</string>

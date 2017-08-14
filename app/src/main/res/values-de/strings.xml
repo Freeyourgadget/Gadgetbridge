@@ -76,6 +76,7 @@
   <string name="pref_title_notification_filter">Bitte nicht stören</string>
   <string name="pref_summary_notification_filter">Benachrichtigungen nicht senden, wenn im \"Nicht Stören\"-Modus</string>
   <string name="pref_title_transliteration">Transkription</string>
+  <string name="pref_summary_transliteration">Aktiviere dies, falls dein Gerät keine Unterstützung für den Zeichensatz deiner Sprache hat</string>
   <string name="always">immer</string>
   <string name="when_screen_off">wenn der Bildschirm aus ist</string>
   <string name="never">niemals</string>
