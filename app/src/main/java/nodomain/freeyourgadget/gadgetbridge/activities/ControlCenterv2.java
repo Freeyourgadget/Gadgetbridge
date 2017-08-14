@@ -197,7 +197,7 @@ public class ControlCenterv2 extends AppCompatActivity
             checkAndRequestPermissions();
         }
 
-        ChangeLog cl = new ChangeLog(this, (GBApplication.isDarkThemeEnabled() ? "body { color: #ffffff; background-color: #282828; }\n" : "") + DEFAULT_CSS);
+        ChangeLog cl = createChangeLog();
         if (cl.isFirstRun()) {
             cl.getLogDialog().show();
         }
@@ -251,7 +251,7 @@ public class ControlCenterv2 extends AppCompatActivity
                 GBApplication.quit();
                 return true;
             case R.id.external_changelog:
-                ChangeLog cl = new ChangeLog(this, (GBApplication.isDarkThemeEnabled() ? "body { color: #ffffff; background-color: #282828; }\n" : "") + DEFAULT_CSS);
+                ChangeLog cl = createChangeLog();
                 cl.getFullLogDialog().show();
                 return true;
         }
@@ -259,6 +259,14 @@ public class ControlCenterv2 extends AppCompatActivity
         return true;
     }
 
+    private ChangeLog createChangeLog() {
+        String css = ChangeLog.DEFAULT_CSS;
+        css += "body { "
+                + "color: " + AndroidUtils.getTextColorHex(getBaseContext()) + "; "
+                + "background-color: " + AndroidUtils.getBackgroundColorHex(getBaseContext()) + ";" +
+                "}";
+        return new ChangeLog(this, css);
+}
     private void launchDiscoveryActivity() {
         startActivity(new Intent(this, DiscoveryActivity.class));
     }
