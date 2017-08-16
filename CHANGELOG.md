@@ -6,6 +6,7 @@
 * Add workaround for blacklist not properly persisting
 * Handle resetting language to default properly
 * Pebble: Pass booleans from Javascript Appmessage correctly
+* Pebble: Use iframe for clay configuration webpages
 * Add greek transliteration support
 * Various visual improvements to charts
 
