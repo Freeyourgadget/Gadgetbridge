@@ -16,10 +16,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip;
 
+import android.support.annotation.NonNull;
+
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.NewAlert;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.OverflowStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotification;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.Mi2TextNotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Support;
@@ -33,14 +38,27 @@ class AmazfitBipTextNotificationStrategy extends Mi2TextNotificationStrategy {
 
     @Override
     protected void sendCustomNotification(VibrationProfile vibrationProfile, SimpleNotification simpleNotification, BtLEAction extraAction, TransactionBuilder builder) {
-        if (simpleNotification != null && simpleNotification.getAlertCategory() == AlertCategory.IncomingCall) {
-            // incoming calls are notified solely via NewAlert including caller ID
-            sendAlert(simpleNotification, builder);
-            return;
-        }
-
         if (simpleNotification != null && !StringUtils.isEmpty(simpleNotification.getMessage())) {
             sendAlert(simpleNotification, builder);
         }
+    }
+
+    @Override
+    protected void sendAlert(@NonNull SimpleNotification simpleNotification, TransactionBuilder builder) {
+        AlertNotificationProfile<?> profile = new AlertNotificationProfile<>(getSupport());
+
+        AlertCategory category = simpleNotification.getAlertCategory();
+        switch (simpleNotification.getAlertCategory()) {
+            // only these are confirmed working so far on Amazfit Bip
+            case Email:
+            case IncomingCall:
+            case SMS:
+                break;
+            // default to SMS for non working categories
+            default:
+                category = AlertCategory.SMS;
+        }
+        NewAlert alert = new NewAlert(category, 1, simpleNotification.getMessage());
+        profile.newAlert(builder, alert, OverflowStrategy.MAKE_MULTIPLE);
     }
 }
