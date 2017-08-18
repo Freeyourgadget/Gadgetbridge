@@ -7,6 +7,7 @@
 * Handle resetting language to default properly
 * Pebble: Pass booleans from Javascript Appmessage correctly
 * Pebble: Make local configuration pages work on most recent webview implementation
+* Pebble: Allow to blacklist calendars
 * Add greek transliteration support
 * Various visual improvements to charts
 
