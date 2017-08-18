@@ -23,7 +23,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract.Instances;
 import android.text.format.Time;
-import android.util.Log;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +32,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
+
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 public class CalendarEvents {
     private static final Logger LOG = LoggerFactory.getLogger(CalendarEvents.class);
@@ -102,7 +103,11 @@ public class CalendarEvents {
                         evtCursor.getString(7),
                         !evtCursor.getString(8).equals("0")
                 );
-                calendarEventList.add(calEvent);
+                if (!GBApplication.calendarIsBlacklisted(calEvent.getCalName())) {
+                    calendarEventList.add(calEvent);
+                } else {
+                    LOG.debug("calendar " + calEvent.getCalName() + " skipped because it's blacklisted");
+                }
             }
             return true;
         }

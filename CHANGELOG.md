@@ -1,4 +1,16 @@
 ### Changelog
+
+#### Version 0.20.0 (next)
+* Inital Amazfit Bip support (WIP)
+* Various theming fixes
+* Add workaround for blacklist not properly persisting
+* Handle resetting language to default properly
+* Pebble: Pass booleans from Javascript Appmessage correctly
+* Pebble: Make local configuration pages work on most recent webview implementation
+* Pebble: Allow to blacklist calendars
+* Add greek transliteration support
+* Various visual improvements to charts
+
 #### Version 0.19.4
 * Replace or relicense CC-NC licensed icons to satisfy F-Droid
 * Mi Band 2: Make infos to display on the Band configurable

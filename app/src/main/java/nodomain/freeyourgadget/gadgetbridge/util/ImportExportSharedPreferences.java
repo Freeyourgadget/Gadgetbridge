@@ -17,6 +17,12 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
 
+import android.content.SharedPreferences;
+import android.util.Xml;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlSerializer;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -26,12 +32,6 @@ import java.io.Writer;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlSerializer;
-
-import android.content.SharedPreferences;
-import android.util.Xml;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
@@ -125,12 +125,19 @@ public class ImportExportSharedPreferences {
                         editor.putString(key, text);
                     } else if (HASHSET.equals(name)) {
                         if (key.equals(GBPrefs.PACKAGE_BLACKLIST)) {
-                            Set<String> blacklist = new HashSet<>();
+                            Set<String> apps_blacklist = new HashSet<>();
                             text=text.replace("[","").replace("]","");
                             for (int z=0;z<text.split(",").length;z++){
-                                blacklist.add(text.split(",")[z].trim());
+                                apps_blacklist.add(text.split(",")[z].trim());
                             }
-                            GBApplication.setBlackList(blacklist);
+                            GBApplication.setAppsBlackList(apps_blacklist);
+                        } else if (key.equals(GBPrefs.CALENDAR_BLACKLIST)) { //TODO: untested
+                            Set<String> calendars_blacklist = new HashSet<>();
+                            text = text.replace("[", "").replace("]", "");
+                            for (int z = 0; z < text.split(",").length; z++) {
+                                calendars_blacklist.add(text.split(",")[z].trim());
+                            }
+                            GBApplication.setCalendarsBlackList(calendars_blacklist);
                         }
                     } else if (!PREFERENCES.equals(name)) {
                         throw new Exception("Unkown type " + name);

@@ -39,6 +39,7 @@ public class GBCallControlReceiver extends BroadcastReceiver {
         GBDeviceEventCallControl.Event callCmd = GBDeviceEventCallControl.Event.values()[intent.getIntExtra("event", 0)];
         switch (callCmd) {
             case END:
+            case REJECT:
             case START:
                 try {
                     TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
@@ -46,7 +47,7 @@ public class GBCallControlReceiver extends BroadcastReceiver {
                     Method method = clazz.getDeclaredMethod("getITelephony");
                     method.setAccessible(true);
                     ITelephony telephonyService = (ITelephony) method.invoke(telephonyManager);
-                    if (callCmd == GBDeviceEventCallControl.Event.END) {
+                    if (callCmd == GBDeviceEventCallControl.Event.END || callCmd == GBDeviceEventCallControl.Event.REJECT) {
                         telephonyService.endCall();
                     } else {
                         telephonyService.answerRingingCall();

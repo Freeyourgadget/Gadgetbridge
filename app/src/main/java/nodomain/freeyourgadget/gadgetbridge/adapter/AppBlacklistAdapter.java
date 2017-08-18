@@ -62,7 +62,7 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
             if (name == null) {
                 name = ai.packageName;
             }
-            if (GBApplication.isBlacklisted(ai.packageName)) {
+            if (GBApplication.appIsBlacklisted(ai.packageName)) {
                 // sort blacklisted first by prefixing with a '!'
                 name = "!" + name;
             }
@@ -94,7 +94,7 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
         holder.deviceAppNameLabel.setText(mNameMap.get(appInfo));
         holder.deviceImageView.setImageDrawable(appInfo.loadIcon(mPm));
 
-        holder.checkbox.setChecked(GBApplication.isBlacklisted(appInfo.packageName));
+        holder.checkbox.setChecked(GBApplication.appIsBlacklisted(appInfo.packageName));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,9 +102,9 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
                 CheckBox checkBox = ((CheckBox) v.findViewById(R.id.item_checkbox));
                 checkBox.toggle();
                 if (checkBox.isChecked()) {
-                    GBApplication.addToBlacklist(appInfo.packageName);
+                    GBApplication.addAppToBlacklist(appInfo.packageName);
                 } else {
-                    GBApplication.removeFromBlacklist(appInfo.packageName);
+                    GBApplication.removeFromAppsBlacklist(appInfo.packageName);
                 }
             }
         });

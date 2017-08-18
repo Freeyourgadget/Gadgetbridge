@@ -46,6 +46,9 @@
     <!-- Strings related to AppBlacklist -->
     <string name="title_activity_appblacklist">Notification Blacklist</string>
 
+    <!-- Strings related to CalBlacklist -->
+    <string name="title_activity_calblacklist">Blacklisted Calendars</string>
+
     <!-- Strings related to FwAppInstaller -->
     <string name="title_activity_fw_app_insaller">FW/App installer</string>
     <string name="fw_upgrade_notice">You are about to install firmware %s instead of the one currently on your Mi Band.</string>
@@ -89,7 +92,7 @@
     <string name="pref_title_notification_filter">Do Not Disturb</string>
     <string name="pref_summary_notification_filter">Stop unwanted Notifications from being sent based on the Do Not Disturb mode.</string>
     <string name="pref_title_transliteration">Transliteration</string>
-    <string name="pref_summary_transliteration">Enable this if your device has no support for your language\'s font (Currently Cyrillic only)</string>
+    <string name="pref_summary_transliteration">Enable this if your device has no support for your language\'s font</string>
 
     <string name="always">always</string>
     <string name="when_screen_off">when screen is off</string>
@@ -104,6 +107,7 @@
 
 
     <string name="pref_blacklist">Blacklist Apps</string>
+    <string name="pref_blacklist_calendars">Blacklist Calendars</string>
 
     <string name="pref_header_cannned_messages">Canned Messages</string>
     <string name="pref_title_canned_replies">Replies</string>

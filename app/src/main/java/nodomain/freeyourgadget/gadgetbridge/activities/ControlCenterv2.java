@@ -61,6 +61,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
+import static de.cketti.library.changelog.ChangeLog.DEFAULT_CSS;
+
 //TODO: extend GBActivity, but it requires actionbar that is not available
 public class ControlCenterv2 extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -195,7 +197,7 @@ public class ControlCenterv2 extends AppCompatActivity
             checkAndRequestPermissions();
         }
 
-        ChangeLog cl = new ChangeLog(this);
+        ChangeLog cl = createChangeLog();
         if (cl.isFirstRun()) {
             cl.getLogDialog().show();
         }
@@ -249,7 +251,7 @@ public class ControlCenterv2 extends AppCompatActivity
                 GBApplication.quit();
                 return true;
             case R.id.external_changelog:
-                ChangeLog cl = new ChangeLog(this);
+                ChangeLog cl = createChangeLog();
                 cl.getFullLogDialog().show();
                 return true;
         }
@@ -257,6 +259,14 @@ public class ControlCenterv2 extends AppCompatActivity
         return true;
     }
 
+    private ChangeLog createChangeLog() {
+        String css = ChangeLog.DEFAULT_CSS;
+        css += "body { "
+                + "color: " + AndroidUtils.getTextColorHex(getBaseContext()) + "; "
+                + "background-color: " + AndroidUtils.getBackgroundColorHex(getBaseContext()) + ";" +
+                "}";
+        return new ChangeLog(this, css);
+}
     private void launchDiscoveryActivity() {
         startActivity(new Intent(this, DiscoveryActivity.class));
     }

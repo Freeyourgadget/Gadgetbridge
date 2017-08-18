@@ -4,6 +4,7 @@
     <item android:maxLevel="101" android:drawable="@drawable/ic_device_pebble_disabled" />
     <item android:maxLevel="110" android:drawable="@drawable/ic_device_miband_disabled" />
     <item android:maxLevel="111" android:drawable="@drawable/ic_device_miband_disabled" />
+    <item android:maxLevel="112" android:drawable="@drawable/ic_device_hplus_disabled" />
     <item android:maxLevel="120" android:drawable="@drawable/ic_device_lovetoy_disabled" />
     <item android:maxLevel="130" android:drawable="@drawable/ic_device_default_disabled" />
     <item android:maxLevel="140" android:drawable="@drawable/ic_device_hplus_disabled" />
@@ -13,6 +14,7 @@
     <item android:maxLevel="201" android:drawable="@drawable/ic_device_pebble" />
     <item android:maxLevel="210" android:drawable="@drawable/ic_device_miband" />
     <item android:maxLevel="211" android:drawable="@drawable/ic_device_miband" />
+    <item android:maxLevel="212" android:drawable="@drawable/ic_device_hplus" />
     <item android:maxLevel="220" android:drawable="@drawable/ic_device_lovetoy" />
     <item android:maxLevel="230" android:drawable="@drawable/ic_launcher" />
     <item android:maxLevel="240" android:drawable="@drawable/ic_device_hplus" />

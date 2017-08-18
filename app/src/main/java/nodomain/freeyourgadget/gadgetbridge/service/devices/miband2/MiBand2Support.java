@@ -301,7 +301,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    private NotificationStrategy getNotificationStrategy() {
+    public NotificationStrategy getNotificationStrategy() {
         String firmwareVersion = getDevice().getFirmwareVersion();
         if (firmwareVersion != null) {
             Version ver = new Version(firmwareVersion);
@@ -808,7 +808,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return false;
     }
 
-    private void handleButtonPressed(byte[] value) {
+    public void handleButtonPressed(byte[] value) {
         LOG.info("Button pressed");
         logMessageContent(value);
     }
