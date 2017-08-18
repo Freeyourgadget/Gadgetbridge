@@ -10,7 +10,7 @@
         <change>Pebble: Pass booleans from Javascript Appmessage correctly</change>
         <change>Pebble: Make local configuration pages work on most recent webview implementation</change>
         <change>Pebble: Allow to blacklist calendars</change>
-        <change>Add greek transliteration support</change>
+        <change>Add Greek and German transliteration support</change>
         <change>Various visual improvements to charts</change>
     </release>
     <release version="0.19.4" versioncode="97">
