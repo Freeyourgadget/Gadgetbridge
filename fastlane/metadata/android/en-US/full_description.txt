@@ -1,4 +1,4 @@
-Use your Pebble/Mi Band/Amazfit/Hplus device without the vendor's closed source application and without the need to create an account and transmit any of your data to the vendor's servers.
+Use your Pebble/Mi Band/Amazfit Bip/Hplus device without the vendor's closed source application and without the need to create an account and transmit any of your data to the vendor's servers.
 
 You can get notifications on your wrist and (depending on the device):
 
