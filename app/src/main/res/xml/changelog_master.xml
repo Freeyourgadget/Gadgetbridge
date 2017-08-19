@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release
-        version="0.20.0"
-        versioncode="98">
+    <release version="0.20.0" versioncode="98">
         <change>Inital Amazfit Bip support (WIP)</change>
         <change>Various theming fixes</change>
         <change>Add workaround for blacklist not properly persisting</change>

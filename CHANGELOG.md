@@ -1,6 +1,6 @@
 ### Changelog
 
-#### Version 0.20.0 (next)
+#### Version 0.20.0
 * Inital Amazfit Bip support (WIP)
 * Various theming fixes
 * Add workaround for blacklist not properly persisting
