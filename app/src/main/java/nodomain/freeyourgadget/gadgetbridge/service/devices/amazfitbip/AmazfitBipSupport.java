@@ -16,12 +16,19 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip;
 
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
+import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotification;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Support;
@@ -75,5 +82,34 @@ public class AmazfitBipSupport extends MiBand2Support {
             return;
         }
         evaluateGBDeviceEvent(callCmd);
+    }
+
+    @Override
+    public void onSendWeather(WeatherSpec weatherSpec) {
+        try {
+            TransactionBuilder builder = performInitialized("Sending weather forecast");
+            final byte NR_DAYS = 2;
+            ByteBuffer buf = ByteBuffer.allocate(7 + 4 * NR_DAYS);
+            buf.order(ByteOrder.LITTLE_ENDIAN);
+            buf.put((byte) 1);
+            buf.putInt(weatherSpec.timestamp);
+            buf.put((byte) 0);
+
+            buf.put(NR_DAYS);
+
+            buf.put((byte) 0);
+            buf.put((byte) 0);
+            buf.put((byte) (weatherSpec.todayMaxTemp - 273));
+            buf.put((byte) (weatherSpec.todayMinTemp - 273));
+
+            buf.put((byte) 0);
+            buf.put((byte) 0);
+            buf.put((byte) (weatherSpec.tomorrowMaxTemp - 273));
+            buf.put((byte) (weatherSpec.tomorrowMinTemp - 273));
+
+            builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
+            builder.queue(getQueue());
+        } catch (IOException ignore) {
+        }
     }
 }
