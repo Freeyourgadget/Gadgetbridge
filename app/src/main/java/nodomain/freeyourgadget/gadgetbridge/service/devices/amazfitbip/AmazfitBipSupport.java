@@ -22,6 +22,7 @@ import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipService;
+import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipWeatherConditions;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -97,13 +98,16 @@ public class AmazfitBipSupport extends MiBand2Support {
 
             buf.put(NR_DAYS);
 
-            buf.put((byte) 0);
-            buf.put((byte) 0);
+            byte condition = AmazfitBipWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.currentConditionCode);
+            buf.put(condition);
+            buf.put(condition);
             buf.put((byte) (weatherSpec.todayMaxTemp - 273));
             buf.put((byte) (weatherSpec.todayMinTemp - 273));
 
-            buf.put((byte) 0);
-            buf.put((byte) 0);
+            condition = AmazfitBipWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.tomorrowConditionCode);
+
+            buf.put(condition);
+            buf.put(condition);
             buf.put((byte) (weatherSpec.tomorrowMaxTemp - 273));
             buf.put((byte) (weatherSpec.tomorrowMinTemp - 273));
 
