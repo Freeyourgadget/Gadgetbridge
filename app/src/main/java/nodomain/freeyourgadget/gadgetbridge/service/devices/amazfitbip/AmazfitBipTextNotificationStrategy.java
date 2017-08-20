@@ -46,6 +46,7 @@ class AmazfitBipTextNotificationStrategy extends Mi2TextNotificationStrategy {
     @Override
     protected void sendAlert(@NonNull SimpleNotification simpleNotification, TransactionBuilder builder) {
         AlertNotificationProfile<?> profile = new AlertNotificationProfile<>(getSupport());
+        profile.setMaxLength(255); // TODO: find out real limit, certainly it is more than 18 which is default
 
         AlertCategory category = simpleNotification.getAlertCategory();
         switch (simpleNotification.getAlertCategory()) {
@@ -59,6 +60,6 @@ class AmazfitBipTextNotificationStrategy extends Mi2TextNotificationStrategy {
                 category = AlertCategory.SMS;
         }
         NewAlert alert = new NewAlert(category, 1, simpleNotification.getMessage());
-        profile.newAlert(builder, alert, OverflowStrategy.MAKE_MULTIPLE);
+        profile.newAlert(builder, alert, OverflowStrategy.TRUNCATE);
     }
 }

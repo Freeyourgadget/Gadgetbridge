@@ -33,7 +33,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotification;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Support;
-import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class AmazfitBipSupport extends MiBand2Support {
@@ -48,13 +47,17 @@ public class AmazfitBipSupport extends MiBand2Support {
             onAlarmClock(notificationSpec);
             return;
         }
-        String message = NotificationUtils.getPreferredTextFor(notificationSpec, 40, 40, getContext()).trim();
 
-        // Fixup purging notification text in getPreferredTextFor() in case of UNKNOWN
-        if (notificationSpec.type == NotificationType.UNKNOWN) {
-            message = StringUtils.getFirstOf(notificationSpec.title, notificationSpec.body);
+        String senderOrTiltle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
+        String message = StringUtils.truncate(senderOrTiltle, 32) + "\0";
 
+        if (notificationSpec.subject != null) {
+            message += StringUtils.truncate(notificationSpec.subject, 128) + "\n\n";
         }
+        if (notificationSpec.body != null) {
+            message += StringUtils.truncate(notificationSpec.body, 128);
+        }
+
         String origin = notificationSpec.type.getGenericType();
         SimpleNotification simpleNotification = new SimpleNotification(message, BLETypeConversions.toAlertCategory(notificationSpec.type));
         performPreferredNotification(origin + " received", origin, simpleNotification, MiBand2Service.ALERT_LEVEL_MESSAGE, null);

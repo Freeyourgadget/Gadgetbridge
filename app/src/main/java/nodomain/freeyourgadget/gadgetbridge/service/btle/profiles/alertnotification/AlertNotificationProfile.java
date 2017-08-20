@@ -33,10 +33,14 @@ import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class AlertNotificationProfile<T extends AbstractBTLEDeviceSupport> extends AbstractBleProfile<T> {
     private static final Logger LOG = LoggerFactory.getLogger(AlertNotificationProfile.class);
-    private static final int MAX_MSG_LENGTH = 18;
+    private int maxLength = 18; // Mi2-ism?
 
     public AlertNotificationProfile(T support) {
         super(support);
+    }
+
+    public void setMaxLength(int maxLength) {
+        this.maxLength = maxLength;
     }
 
     public void configure(TransactionBuilder builder, AlertNotificationControl control) {
@@ -57,21 +61,21 @@ public class AlertNotificationProfile<T extends AbstractBTLEDeviceSupport> exten
         BluetoothGattCharacteristic characteristic = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_NEW_ALERT);
         if (characteristic != null) {
             String message = StringUtils.ensureNotNull(alert.getMessage());
-            if (message.length() > MAX_MSG_LENGTH && strategy == OverflowStrategy.TRUNCATE) {
-                message = StringUtils.truncate(message, MAX_MSG_LENGTH);
+            if (message.length() > maxLength && strategy == OverflowStrategy.TRUNCATE) {
+                message = StringUtils.truncate(message, maxLength);
             }
 
-            int numChunks = message.length() / MAX_MSG_LENGTH;
-            if (message.length() % MAX_MSG_LENGTH > 0) {
+            int numChunks = message.length() / maxLength;
+            if (message.length() % maxLength > 0) {
                 numChunks++;
             }
 
             try {
                 boolean hasAlerted = false;
                 for (int i = 0; i < numChunks; i++) {
-                    int offset = i * MAX_MSG_LENGTH;
+                    int offset = i * maxLength;
                     int restLength = message.length() - offset;
-                    message = message.substring(offset, offset + Math.min(MAX_MSG_LENGTH, restLength));
+                    message = message.substring(offset, offset + Math.min(maxLength, restLength));
                     if (hasAlerted && message.length() == 0) {
                         // no need to do it again when there is no text content
                         break;
