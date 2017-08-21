@@ -95,10 +95,17 @@ public class AlertNotificationProfile<T extends AbstractBTLEDeviceSupport> exten
         }
     }
 
+    public void newAlert(TransactionBuilder builder, NewAlert alert) {
+        newAlert(builder, alert, OverflowStrategy.TRUNCATE);
+    }
+
     protected byte[] getAlertMessage(NewAlert alert, String message, int chunk) throws IOException {
         ByteArrayOutputStream stream = new ByteArrayOutputStream(100);
         stream.write(BLETypeConversions.fromUint8(alert.getCategory().getId()));
         stream.write(BLETypeConversions.fromUint8(alert.getNumAlerts()));
+        if (alert.getCategory() == AlertCategory.CustomAmazfitBip) {
+            stream.write(BLETypeConversions.fromUint8(alert.getCustomIcon()));
+        }
 
         if (message.length() > 0) {
             stream.write(BLETypeConversions.toUtf8s(message));

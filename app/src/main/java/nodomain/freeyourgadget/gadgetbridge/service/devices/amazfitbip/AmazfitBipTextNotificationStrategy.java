@@ -30,6 +30,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.Mi2TextNotif
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Support;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
+
+// This class in no longer in use except for incoming calls
 class AmazfitBipTextNotificationStrategy extends Mi2TextNotificationStrategy {
 
     AmazfitBipTextNotificationStrategy(MiBand2Support support) {
