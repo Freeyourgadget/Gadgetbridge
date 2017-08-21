@@ -2,6 +2,7 @@
 <changelog>
     <release version="0.20.1" versioncode="99">
         <change>Amazfit Bip: Support icons and text body for notifications</change>
+        <change>Mi Band: Fix setting smart alarms</change>
     </release>
     <release version="0.20.0" versioncode="98">
         <change>Inital Amazfit Bip support (WIP)</change>
