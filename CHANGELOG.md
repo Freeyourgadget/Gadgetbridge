@@ -1,5 +1,8 @@
 ### Changelog
 
+#### Version 0.20.1
+* Amazfit Bip: Support icons and text body for notifications
+
 #### Version 0.20.0
 * Inital Amazfit Bip support (WIP)
 * Various theming fixes
