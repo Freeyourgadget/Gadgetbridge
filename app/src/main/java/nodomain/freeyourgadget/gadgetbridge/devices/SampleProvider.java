@@ -20,6 +20,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.io.File;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
@@ -87,6 +88,12 @@ public interface SampleProvider<T extends AbstractActivitySample> {
      * @param activitySamples the samples to add
      */
     void addGBActivitySamples(T[] activitySamples);
+
+    /**
+     * Exports samples into a CSV file
+     * @param activitySamples the samples to export
+     */
+    void exportToCSV(T[] activitySamples, File outFile);
 
     /**
      * Factory method to creates an empty sample of the correct type for this sample provider

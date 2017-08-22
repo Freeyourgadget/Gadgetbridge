@@ -27,6 +27,7 @@ import android.widget.Toast;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -57,7 +58,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Suppo
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.AbstractMiBand2Operation;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.CSVExport;
 
 /**
  * An operation that fetches activity data. For every fetch, a new operation must
@@ -207,6 +210,14 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
 
                     timestamp.add(Calendar.MINUTE, 1);
                 }
+
+                // export csv on fetching
+                File myPath = null;
+                myPath = FileUtils.getExternalFilesDir();
+                File myFile = new File(myPath, startTimestamp.getTimeInMillis() / 1000 + ".csv");
+                CSVExport.exportToCSV(samples.toArray(new MiBandActivitySample[0]), myFile);
+
+                // store samples on fetching
                 sampleProvider.addGBActivitySamples(samples.toArray(new MiBandActivitySample[0]));
 
                 saveLastSyncTimestamp(timestamp);
