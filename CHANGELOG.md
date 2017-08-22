@@ -1,6 +1,10 @@
 ### Changelog
 
-#### Version 0.20.0 (next)
+#### Version 0.20.1
+* Amazfit Bip: Support icons and text body for notifications
+* Mi Band: Fix setting smart alarms
+
+#### Version 0.20.0
 * Inital Amazfit Bip support (WIP)
 * Various theming fixes
 * Add workaround for blacklist not properly persisting
@@ -8,7 +12,7 @@
 * Pebble: Pass booleans from Javascript Appmessage correctly
 * Pebble: Make local configuration pages work on most recent webview implementation
 * Pebble: Allow to blacklist calendars
-* Add greek transliteration support
+* Add Greek and German transliteration support
 * Various visual improvements to charts
 
 #### Version 0.19.4

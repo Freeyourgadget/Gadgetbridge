@@ -435,7 +435,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void performPreferredNotification(String task, String notificationOrigin, SimpleNotification simpleNotification, int alertLevel, BtLEAction extraAction) {
+    protected void performPreferredNotification(String task, String notificationOrigin, SimpleNotification simpleNotification, int alertLevel, BtLEAction extraAction) {
         try {
             TransactionBuilder builder = performInitialized(task);
             Prefs prefs = GBApplication.getPrefs();
@@ -529,7 +529,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         performPreferredNotification(origin + " received", origin, simpleNotification, alertLevel, null);
     }
 
-    private void onAlarmClock(NotificationSpec notificationSpec) {
+    protected void onAlarmClock(NotificationSpec notificationSpec) {
         alarmClockRinging = true;
         AbortTransactionAction abortAction = new StopNotificationAction(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL)) {
             @Override

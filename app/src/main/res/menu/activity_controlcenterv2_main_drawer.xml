@@ -22,6 +22,10 @@
         android:checkableBehavior="single"
         android:id="@+id/further_options">
         <item
+            android:id="@+id/donation_link"
+            android:title="@string/action_donate"
+            android:icon="@drawable/ic_donate" />
+        <item
             android:id="@+id/external_changelog"
             android:title="@string/changelog_full_title" />
     </group>

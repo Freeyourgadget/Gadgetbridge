@@ -37,7 +37,8 @@ public enum AlertCategory {
     // 10-250 reserved for future use
     // 251-255 defined by service specification
     Any(255),
-    Custom(-1);
+    Custom(-1),
+    CustomAmazfitBip(-6);
 
     private final int id;
 
