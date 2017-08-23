@@ -18,7 +18,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.miband2;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
@@ -67,11 +66,11 @@ public class Mi2TextNotificationStrategy extends Mi2NotificationStrategy {
         if (simpleNotification != null) {
             switch (simpleNotification.getAlertCategory()) {
                 case Email:
-                    return new byte[] { BLETypeConversions.fromUint8(MiBand2Service.ALERT_LEVEL_MESSAGE), BLETypeConversions.fromUint8(numAlerts)};
+                    return new byte[] { BLETypeConversions.fromUint8(AlertCategory.Email.getId()), BLETypeConversions.fromUint8(numAlerts)};
                 case InstantMessage:
-                    return new byte[] { BLETypeConversions.fromUint8(MiBand2Service.ALERT_LEVEL_CUSTOM), BLETypeConversions.fromUint8(numAlerts), MiBand2Service.ICON_CHAT};
+                    return new byte[] { BLETypeConversions.fromUint8(AlertCategory.CustomMband2.getId()), BLETypeConversions.fromUint8(numAlerts), MiBand2Service.ICON_CHAT};
                 case News:
-                    return new byte[] { BLETypeConversions.fromUint8(MiBand2Service.ALERT_LEVEL_CUSTOM), BLETypeConversions.fromUint8(numAlerts), MiBand2Service.ICON_PENGUIN};
+                    return new byte[] { BLETypeConversions.fromUint8(AlertCategory.CustomMband2.getId()), BLETypeConversions.fromUint8(numAlerts), MiBand2Service.ICON_PENGUIN};
             }
         }
         return new byte[] { BLETypeConversions.fromUint8(AlertCategory.SMS.getId()), BLETypeConversions.fromUint8(numAlerts)};
