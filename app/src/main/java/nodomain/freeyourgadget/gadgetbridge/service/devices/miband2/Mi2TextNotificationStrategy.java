@@ -68,9 +68,9 @@ public class Mi2TextNotificationStrategy extends Mi2NotificationStrategy {
                 case Email:
                     return new byte[] { BLETypeConversions.fromUint8(AlertCategory.Email.getId()), BLETypeConversions.fromUint8(numAlerts)};
                 case InstantMessage:
-                    return new byte[] { BLETypeConversions.fromUint8(AlertCategory.CustomMband2.getId()), BLETypeConversions.fromUint8(numAlerts), MiBand2Service.ICON_CHAT};
+                    return new byte[] { BLETypeConversions.fromUint8(AlertCategory.CustomMiBand2.getId()), BLETypeConversions.fromUint8(numAlerts), MiBand2Service.ICON_CHAT};
                 case News:
-                    return new byte[] { BLETypeConversions.fromUint8(AlertCategory.CustomMband2.getId()), BLETypeConversions.fromUint8(numAlerts), MiBand2Service.ICON_PENGUIN};
+                    return new byte[] { BLETypeConversions.fromUint8(AlertCategory.CustomMiBand2.getId()), BLETypeConversions.fromUint8(numAlerts), MiBand2Service.ICON_PENGUIN};
             }
         }
         return new byte[] { BLETypeConversions.fromUint8(AlertCategory.SMS.getId()), BLETypeConversions.fromUint8(numAlerts)};

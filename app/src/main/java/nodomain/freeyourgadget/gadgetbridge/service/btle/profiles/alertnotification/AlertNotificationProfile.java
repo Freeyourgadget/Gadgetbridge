@@ -103,7 +103,7 @@ public class AlertNotificationProfile<T extends AbstractBTLEDeviceSupport> exten
         ByteArrayOutputStream stream = new ByteArrayOutputStream(100);
         stream.write(BLETypeConversions.fromUint8(alert.getCategory().getId()));
         stream.write(BLETypeConversions.fromUint8(alert.getNumAlerts()));
-        if (alert.getCategory() == AlertCategory.CustomMband2) {
+        if (alert.getCategory() == AlertCategory.CustomMiBand2) {
             stream.write(BLETypeConversions.fromUint8(alert.getCustomIcon()));
         }
 

@@ -72,7 +72,7 @@ public class AmazfitBipSupport extends MiBand2Support {
 
             int customIconId = AmazfitBipIcon.mapToIconId(notificationSpec.type);
 
-            AlertCategory alertCategory = AlertCategory.CustomMband2;
+            AlertCategory alertCategory = AlertCategory.CustomMiBand2;
 
             // The SMS icon for AlertCategory.SMS is unique and not available as iconId
             if (notificationSpec.type == NotificationType.GENERIC_SMS) {
