@@ -43,8 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
-
-import static android.R.attr.x;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 
 
 public class StatsChartFragment extends AbstractChartFragment {
@@ -67,13 +66,17 @@ public class StatsChartFragment extends AbstractChartFragment {
         BarData data = new BarData();
         data.setValueTextColor(CHART_TEXT_COLOR);
         List<BarEntry> entries = new ArrayList<>();
-        XAxisValueFormatter customXAxis = new XAxisValueFormatter();
 
-        for (Map.Entry<Float, Float> entry : analysis.statsQuantified.entrySet()) {
-            entries.add(new BarEntry(entry.getKey(), entry.getValue()));
-            /*float realValue = entry.getKey() * analysis.maxSpeedQuantifier;
-            String customLabel = Math.round(realValue * (1 - analysis.roundPrecision) * 10f) / 10f + " - " + Math.round(realValue * (1 + analysis.roundPrecision) * 10f) / 10f;*/
-            customXAxis.add("" + entry.getKey() * analysis.maxSpeedQuantifier);
+        ActivityUser user = new ActivityUser();
+        /*double distanceFactorCm;
+        if (user.getGender() == user.GENDER_MALE){
+            distanceFactorCm = user.getHeightCm() * user.GENDER_MALE_DISTANCE_FACTOR / 1000;
+        } else {
+            distanceFactorCm = user.getHeightCm() * user.GENDER_FEMALE_DISTANCE_FACTOR / 1000;
+        }*/
+
+        for (Map.Entry<Integer, Long> entry : analysis.stats.entrySet()) {
+            entries.add(new BarEntry(entry.getKey(), entry.getValue() / 60));
         }
 
         BarDataSet set = new BarDataSet(entries, "");
@@ -82,14 +85,6 @@ public class StatsChartFragment extends AbstractChartFragment {
         //set.setDrawValues(false);
         //data.setBarWidth(0.1f);
         data.addDataSet(set);
-
-        // set X axis
-        customXAxis.sort();
-        XAxis left = mStatsChart.getXAxis();
-        left.setValueFormatter(customXAxis);
-
-        // display precision
-        //mStatsChart.getDescription().setText(Math.round(analysis.roundPrecision * 100) + "%");
 
         return new MySpeedZonesData(data);
     }
