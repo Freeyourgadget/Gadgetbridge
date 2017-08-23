@@ -23,6 +23,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.io.File;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBException;
@@ -67,6 +68,10 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
         @Override
         public List getSleepSamples(int timestamp_from, int timestamp_to) {
             return null;
+        }
+
+        @Override
+        public void exportToCSV(AbstractActivitySample[] activitySamples, File outFile) {
         }
 
         @Override
