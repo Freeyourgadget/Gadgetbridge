@@ -48,7 +48,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
     private static final Logger LOG = LoggerFactory.getLogger(UpdateFirmwareOperation.class);
 
-    private final Uri uri;
+    protected final Uri uri;
     protected final BluetoothGattCharacteristic fwCControlChar;
     protected final BluetoothGattCharacteristic fwCDataChar;
     protected final Prefs prefs = GBApplication.getPrefs();
@@ -82,7 +82,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
         //the firmware will be sent by the notification listener if the band confirms that the metadata are ok.
     }
 
-    private void done() {
+    protected void done() {
         LOG.info("Operation done.");
         operationFinished();
         unsetBusy();
@@ -163,7 +163,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
             done();
         }
     }
-    private void displayMessage(Context context, String message, int duration, int severity) {
+    protected void displayMessage(Context context, String message, int duration, int severity) {
         getSupport().handleGBDeviceEvent(new GBDeviceEventDisplayMessage(message, duration, severity));
     }
 
