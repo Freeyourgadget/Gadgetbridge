@@ -1215,6 +1215,11 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return this;
     }
 
+    private MiBand2Support setDisplayCaller(TransactionBuilder builder) {
+        builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_ENABLE_DISPLAY_CALLER);
+        return this;
+    }
+
     private MiBand2Support setDoNotDisturb(TransactionBuilder builder) {
         DoNotDisturb doNotDisturb = MiBand2Coordinator.getDoNotDisturb(getContext());
         LOG.info("Setting do not disturb to " + doNotDisturb);
@@ -1314,6 +1319,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         setDoNotDisturb(builder);
         setRotateWristToSwitchInfo(builder);
         setActivateDisplayOnLiftWrist(builder);
+        setDisplayCaller(builder);
         setGoalNotification(builder);
         setInactivityWarnings(builder);
         setHeartrateSleepSupport(builder);
