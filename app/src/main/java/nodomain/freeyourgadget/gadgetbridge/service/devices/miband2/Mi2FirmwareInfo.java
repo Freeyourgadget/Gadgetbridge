@@ -53,7 +53,7 @@ public class Mi2FirmwareInfo {
             0x4b
     };
 
-    private static Map<Integer,String> crcToVersion = new HashMap<>();
+    protected static Map<Integer,String> crcToVersion = new HashMap<>();
     static {
         // firmware
         crcToVersion.put(41899, "1.0.0.39");
@@ -89,7 +89,7 @@ public class Mi2FirmwareInfo {
         firmwareType = determineFirmwareType(bytes);
     }
 
-    private FirmwareType determineFirmwareType(byte[] bytes) {
+    protected FirmwareType determineFirmwareType(byte[] bytes) {
         if (ArrayUtils.startsWith(bytes, FT_HEADER)) {
             return FirmwareType.FONT;
         }

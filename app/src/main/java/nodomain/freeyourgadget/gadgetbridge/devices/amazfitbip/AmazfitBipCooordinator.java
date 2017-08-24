@@ -52,10 +52,9 @@ public class AmazfitBipCooordinator extends MiBand2Coordinator {
         return DeviceType.UNKNOWN;
     }
 
-
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
-        return null; // not supported yet
+        AmazfitBipFWInstallHandler handler = new AmazfitBipFWInstallHandler(uri, context);
+        return handler.isValid() ? handler : null;
     }
-
 }

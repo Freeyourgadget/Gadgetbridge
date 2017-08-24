@@ -49,10 +49,10 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
     private static final Logger LOG = LoggerFactory.getLogger(UpdateFirmwareOperation.class);
 
     private final Uri uri;
-    private final BluetoothGattCharacteristic fwCControlChar;
-    private final BluetoothGattCharacteristic fwCDataChar;
-    final Prefs prefs = GBApplication.getPrefs();
-    private Mi2FirmwareInfo firmwareInfo;
+    protected final BluetoothGattCharacteristic fwCControlChar;
+    protected final BluetoothGattCharacteristic fwCDataChar;
+    protected final Prefs prefs = GBApplication.getPrefs();
+    protected Mi2FirmwareInfo firmwareInfo;
 
     public UpdateFirmwareOperation(Uri uri, MiBand2Support support) {
         super(support);

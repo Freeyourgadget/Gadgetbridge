@@ -16,6 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip;
 
+import android.net.Uri;
+import android.widget.Toast;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,8 +38,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.NewAlert;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip.operations.AmazfitBipUpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Support;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class AmazfitBipSupport extends MiBand2Support {
@@ -113,6 +118,14 @@ public class AmazfitBipSupport extends MiBand2Support {
     }
 
     @Override
+    public void onInstallApp(Uri uri) {
+        try {
+            new AmazfitBipUpdateFirmwareOperation(uri, this).perform();
+        } catch (IOException ex) {
+            GB.toast(getContext(), "Firmware cannot be installed: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
+        }
+    }
+
     public void onSendWeather(WeatherSpec weatherSpec) {
         try {
             TransactionBuilder builder = performInitialized("Sending weather forecast");
