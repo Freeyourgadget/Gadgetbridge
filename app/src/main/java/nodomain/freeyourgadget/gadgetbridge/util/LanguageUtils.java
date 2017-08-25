@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017 ivanovlev, Yaron Shahrabani
+/*  Copyright (C) 2017 Andreas Shimokawa, ivanovlev, lazarosfs, Yaron
+    Shahrabani
 
     This file is part of Gadgetbridge.
 
