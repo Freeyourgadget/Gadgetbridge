@@ -43,6 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationS
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Support;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 public class AmazfitBipSupport extends MiBand2Support {
 
@@ -129,8 +130,23 @@ public class AmazfitBipSupport extends MiBand2Support {
     public void onSendWeather(WeatherSpec weatherSpec) {
         try {
             TransactionBuilder builder = performInitialized("Sending weather forecast");
+            Version version = new Version(gbDevice.getFirmwareVersion());
+
+            boolean supportsConditionString = false;
+            if (version.compareTo(new Version("0.0.8.74")) >= 0) {
+                supportsConditionString = true;
+            }
+
             final byte NR_DAYS = 2;
-            ByteBuffer buf = ByteBuffer.allocate(7 + 4 * NR_DAYS);
+            int bytesPerDay = 4;
+            int conditionsLength = 0;
+            if (supportsConditionString) {
+                bytesPerDay = 5;
+                conditionsLength = weatherSpec.currentCondition.getBytes().length;
+            }
+            int length = 7 + bytesPerDay * NR_DAYS + conditionsLength;
+            ByteBuffer buf = ByteBuffer.allocate(length);
+
             buf.order(ByteOrder.LITTLE_ENDIAN);
             buf.put((byte) 1);
             buf.putInt(weatherSpec.timestamp);
@@ -143,13 +159,19 @@ public class AmazfitBipSupport extends MiBand2Support {
             buf.put(condition);
             buf.put((byte) (weatherSpec.todayMaxTemp - 273));
             buf.put((byte) (weatherSpec.todayMinTemp - 273));
-
+            if (supportsConditionString) {
+                buf.put(weatherSpec.currentCondition.getBytes());
+                buf.put((byte) 0); //
+            }
             condition = AmazfitBipWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.tomorrowConditionCode);
 
             buf.put(condition);
             buf.put(condition);
             buf.put((byte) (weatherSpec.tomorrowMaxTemp - 273));
             buf.put((byte) (weatherSpec.tomorrowMinTemp - 273));
+            if (supportsConditionString) {
+                buf.put((byte) 0); // not yet in weatherspec
+            }
 
             builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
             builder.queue(getQueue());
