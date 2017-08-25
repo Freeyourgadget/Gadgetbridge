@@ -48,6 +48,12 @@ public class MusicPlaybackReceiver extends BroadcastReceiver {
         MusicStateSpec stateSpec = new MusicStateSpec(lastStateSpec);
 
         Bundle incomingBundle = intent.getExtras();
+
+        if (incomingBundle == null) {
+            LOG.warn("Not processing incoming null bundle.");
+            return;
+        }
+
         for (String key : incomingBundle.keySet()) {
             Object incoming = incomingBundle.get(key);
             if (incoming instanceof String && "artist".equals(key)) {
