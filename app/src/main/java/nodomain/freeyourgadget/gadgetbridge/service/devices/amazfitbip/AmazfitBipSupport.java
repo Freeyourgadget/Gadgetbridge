@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.SimpleTimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipIcon;
@@ -127,6 +128,7 @@ public class AmazfitBipSupport extends MiBand2Support {
         }
     }
 
+    @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
         try {
             TransactionBuilder builder = performInitialized("Sending weather forecast");
@@ -150,7 +152,8 @@ public class AmazfitBipSupport extends MiBand2Support {
             buf.order(ByteOrder.LITTLE_ENDIAN);
             buf.put((byte) 1);
             buf.putInt(weatherSpec.timestamp);
-            buf.put((byte) 0);
+            int tz_offset_hours = SimpleTimeZone.getDefault().getOffset(weatherSpec.timestamp * 1000L) / (1000 * 60 * 60);
+            buf.put((byte) (tz_offset_hours * 4));
 
             buf.put(NR_DAYS);
 
