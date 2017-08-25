@@ -23,8 +23,6 @@ import android.content.Intent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.SimpleTimeZone;
-
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
@@ -53,7 +51,7 @@ public class WeatherNotificationReceiver extends BroadcastReceiver {
             LOG.info("weather in " + weather.location + " is " + weather.currentCondition + " (" + (weather.currentTemp - 273) + "°C)");
 
             WeatherSpec weatherSpec = new WeatherSpec();
-            weatherSpec.timestamp = (int) ((weather.queryTime - SimpleTimeZone.getDefault().getOffset(weather.queryTime)) / 1000);
+            weatherSpec.timestamp = (int) (weather.queryTime / 1000);
             weatherSpec.location = weather.location;
             weatherSpec.currentTemp = weather.currentTemp;
             weatherSpec.currentCondition = weather.currentCondition;
