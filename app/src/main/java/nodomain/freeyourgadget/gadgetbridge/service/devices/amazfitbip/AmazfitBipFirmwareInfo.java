@@ -31,11 +31,11 @@ public class AmazfitBipFirmwareInfo extends Mi2FirmwareInfo {
 
     // guessed - at least it is the same accross current versions and different from other devices
     private static final byte[] FW_HEADER = new byte[]{
-            0x3f, 0x34, 0x00, 0x20, 0x27, 0x35, 0x00, 0x20,
-            0x0d, 0x31, 0x03, 0x00, 0x15, 0x35, 0x00, 0x20
+            0x68, 0x46, 0x70, 0x47, 0x68, 0x46, 0x70, 0x47,
+            0x68, 0x46, 0x70, 0x47, 0x68, 0x46, 0x70, 0x47
     };
 
-    private static final int FW_HEADER_OFFSET = 0x40;
+    private static final int FW_HEADER_OFFSET = 0x9330;
 
     private static final byte[] RES_HEADER = new byte[]{ // HMRES resources file (*.res)
             0x48, 0x4d, 0x52, 0x45, 0x53
@@ -47,9 +47,10 @@ public class AmazfitBipFirmwareInfo extends Mi2FirmwareInfo {
         crcToVersion.put(25257, "0.0.8.74");
 
         // resources
-        crcToVersion.put(12586, "0.0.8.74 (RES)");
+        crcToVersion.put(12586, "RES 0.0.8.74");
 
         // gps
+        crcToVersion.put(61520, "GPS 0.0.8.xx");
     }
 
     public AmazfitBipFirmwareInfo(byte[] bytes) {

@@ -82,7 +82,7 @@ public abstract class AbstractMiBandFWInstallHandler implements InstallHandler {
         }
 
         GenericItem fwItem = new GenericItem(mContext.getString(R.string.miband_installhandler_miband_firmware, helper.getHumanFirmwareVersion()));
-        fwItem.setIcon(R.drawable.ic_device_miband);
+        fwItem.setIcon(device.getType().getIcon());
 
         if (!helper.isFirmwareGenerallyCompatibleWith(device)) {
             fwItem.setDetails(mContext.getString(R.string.miband_fwinstaller_incompatible_version));
