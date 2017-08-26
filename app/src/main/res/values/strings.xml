@@ -6,6 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_debug">Debug</string>
     <string name="action_quit">Quit</string>
+    <string name="action_donate">Donate</string>
     <string name="controlcenter_fetch_activity_data">Synchronize</string>
     <string name="controlcenter_start_sleepmonitor">Sleep Monitor (ALPHA)</string>
     <string name="controlcenter_find_device">Find lost Device</string>
@@ -45,6 +46,9 @@
 
     <!-- Strings related to AppBlacklist -->
     <string name="title_activity_appblacklist">Notification blacklist</string>
+
+    <!-- Strings related to CalBlacklist -->
+    <string name="title_activity_calblacklist">Blacklisted Calendars</string>
 
     <!-- Strings related to FwAppInstaller -->
     <string name="title_activity_fw_app_insaller">FW/App installer</string>
@@ -104,6 +108,7 @@
 
 
     <string name="pref_blacklist">Blacklist Apps</string>
+    <string name="pref_blacklist_calendars">Blacklist Calendars</string>
 
     <string name="pref_header_cannned_messages">Canned messages</string>
     <string name="pref_title_canned_replies">Replies</string>
@@ -216,7 +221,7 @@
     <string name="pairing_already_bonded">"Already bonded with %1$s (%2$s), connecting&#x2026;"</string>
     <string name="message_cannot_pair_no_mac">No MAC address passed, cannot pair.</string>
     <string name="preferences_category_device_specific_settings">Device specific settings</string>
-    <string name="preferences_miband_settings">Mi Band settings</string>
+    <string name="preferences_miband_settings">Mi Band / Bip settings</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="other">Other</string>

@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017 ivanovlev, Yaron Shahrabani
+/*  Copyright (C) 2017 Andreas Shimokawa, ivanovlev, lazarosfs, Yaron
+    Shahrabani
 
     This file is part of Gadgetbridge.
 
@@ -28,7 +29,12 @@ public class LanguageUtils {
     private static Map<Character, String> transliterateMap = new HashMap<Character, String>(){
         {
             //extended ASCII characters
-            put('æ', "ae"); put('œ', "oe"); put('ß', "B"); put('ª', "a"); put('º', "o"); put('«',"\""); put('»',"\"");
+            put('æ', "ae"); put('œ', "oe"); put('ª', "a"); put('º', "o"); put('«',"\""); put('»',"\"");
+
+            //german characters
+            put('ä',"ae"); put('ö',"oe"); put('ü',"ue");
+            put('Ä',"Ae"); put('Ö',"Oe"); put('Ü',"Üe");
+            put('ß',"ss"); put('ẞ',"SS");
 
             //russian chars
             put('а', "a"); put('б', "b"); put('в', "v");  put('г', "g"); put('д', "d"); put('е', "e"); put('ё', "jo"); put('ж', "zh");
@@ -42,6 +48,7 @@ public class LanguageUtils {
             put('ט', "t"); put('י', "y"); put('כ', "c"); put('ל', "l"); put('מ', "m"); put('נ', "n"); put('ס', "s");  put('ע', "'");
             put('פ', "p"); put('צ', "ts"); put('ק', "k");  put('ר', "r"); put('ש', "sh"); put('ת', "th"); put('ף', "f"); put('ץ', "ts");
             put('ך', "ch");put('ם', "m");put('ן', "n");
+
             // greek chars
             put('α',"a");put('ά',"a");put('β',"v");put('γ',"g");put('δ',"d");put('ε',"e");put('έ',"e");put('ζ',"z");put('η',"i");
             put('ή',"i");put('θ',"th");put('ι',"i");put('ί',"i");put('ϊ',"i");put('ΐ',"i");put('κ',"k");put('λ',"l");put('μ',"m");
@@ -51,7 +58,9 @@ public class LanguageUtils {
             put('Ή',"I");put('Θ',"TH");put('Ι',"I");put('Ί',"I");put('Ϊ',"I");put('Κ',"K");put('Λ',"L");put('Μ',"M");put('Ν',"N");
             put('Ξ',"KS");put('Ο',"O");put('Ό',"O");put('Π',"P");put('Ρ',"R");put('Σ',"S");put('Τ',"T");put('Υ',"Y");put('Ύ',"Y");
             put('Ϋ',"Y");put('Φ',"F");put('Χ',"CH");put('Ψ',"PS");put('Ω',"O");put('Ώ',"O");
-           //continue for other languages...
+
+            //TODO: these must be configurabe. If someone wants to transliterate cyrillic it does not mean his device has no German umlauts
+            //all or nothing is really bad here
         }
     };
 

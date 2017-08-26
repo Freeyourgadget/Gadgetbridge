@@ -1,6 +1,6 @@
 /*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Christian
-    Fischer, Daniele Gobbetti, JohnnySun, Julien Pivotto, Kasha, Sergey Trofimov,
-    Steffen Liebergeld
+    Fischer, Daniele Gobbetti, JohnnySun, José Rebelo, Julien Pivotto, Kasha,
+    Sergey Trofimov, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 
@@ -301,7 +301,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    private NotificationStrategy getNotificationStrategy() {
+    public NotificationStrategy getNotificationStrategy() {
         String firmwareVersion = getDevice().getFirmwareVersion();
         if (firmwareVersion != null) {
             Version ver = new Version(firmwareVersion);
@@ -435,7 +435,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void performPreferredNotification(String task, String notificationOrigin, SimpleNotification simpleNotification, int alertLevel, BtLEAction extraAction) {
+    protected void performPreferredNotification(String task, String notificationOrigin, SimpleNotification simpleNotification, int alertLevel, BtLEAction extraAction) {
         try {
             TransactionBuilder builder = performInitialized(task);
             Prefs prefs = GBApplication.getPrefs();
@@ -529,7 +529,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         performPreferredNotification(origin + " received", origin, simpleNotification, alertLevel, null);
     }
 
-    private void onAlarmClock(NotificationSpec notificationSpec) {
+    protected void onAlarmClock(NotificationSpec notificationSpec) {
         alarmClockRinging = true;
         AbortTransactionAction abortAction = new StopNotificationAction(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL)) {
             @Override
@@ -808,7 +808,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return false;
     }
 
-    private void handleButtonPressed(byte[] value) {
+    public void handleButtonPressed(byte[] value) {
         LOG.info("Button pressed");
         logMessageContent(value);
     }
@@ -1215,6 +1215,11 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return this;
     }
 
+    private MiBand2Support setDisplayCaller(TransactionBuilder builder) {
+        builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_ENABLE_DISPLAY_CALLER);
+        return this;
+    }
+
     private MiBand2Support setDoNotDisturb(TransactionBuilder builder) {
         DoNotDisturb doNotDisturb = MiBand2Coordinator.getDoNotDisturb(getContext());
         LOG.info("Setting do not disturb to " + doNotDisturb);
@@ -1314,6 +1319,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         setDoNotDisturb(builder);
         setRotateWristToSwitchInfo(builder);
         setActivateDisplayOnLiftWrist(builder);
+        setDisplayCaller(builder);
         setGoalNotification(builder);
         setInactivityWarnings(builder);
         setHeartrateSleepSupport(builder);

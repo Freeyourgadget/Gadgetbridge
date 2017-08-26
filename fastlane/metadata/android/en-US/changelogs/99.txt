@@ -1,0 +1,2 @@
+* Amazfit Bip: Support icons and text body for notifications
+* Mi Band: Fix setting smart alarms

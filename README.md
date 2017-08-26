@@ -2,8 +2,8 @@ Gadgetbridge
 ============
 
 Gadgetbridge is an Android (4.4+) application which will allow you to use your
-Pebble or Mi Band or HPlus device without the vendor's closed source application 
-and without the need to create an account and transmit any of your data to the 
+Pebble, Mi Band, Amazfit Bit and HPlus device (and more) without the vendor's closed source application
+and without the need to create an account and transmit any of your data to the
 vendor's servers.
 
 [Homepage](https://gadgetbridge.org)
@@ -23,6 +23,7 @@ vendor's servers.
 * Pebble 2 (add the device from within Gadgetbridge!) [Wiki section about pebble](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble), most parts apply to Pebble 2 as well
 * Mi Band, Mi Band 1A, Mi Band 1S [Wiki section about this device](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band)
 * Mi Band 2 [Wiki section about mi band](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band), some parts apply to mi band 2 as well
+* Amazfit Bip (WIP) [Wiki section about the Amazfit Bip](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
 * HPlus Devices (e.g. ZeBand) [Wiki section about this device](https://github.com/Freeyourgadget/Gadgetbridge/wiki/HPlus)
 * Liveview
 * Vibratissimo (experimental)
@@ -146,7 +147,7 @@ Contributions are welcome, be it feedback, bugreports, documentation, translatio
 on any of the open [issues](https://github.com/Freeyourgadget/Gadgetbridge/issues?q=is%3Aopen+is%3Aissue);
 just leave a comment that you're working on one to avoid duplicated work.
 
-Translations can be contributed via https://www.transifex.com/projects/p/gadgetbridge/resource/strings/ or manually.
+Translations can be contributed via https://hosted.weblate.org/projects/freeyourgadget/gadgetbridge/
 
 ## Do you have further questions or feedback?
 

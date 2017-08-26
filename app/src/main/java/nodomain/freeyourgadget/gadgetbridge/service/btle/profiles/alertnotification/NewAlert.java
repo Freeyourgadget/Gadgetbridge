@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017 Carsten Pfeiffer
+/*  Copyright (C) 2017 Andreas Shimokawa, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 
@@ -15,6 +15,8 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification;
+
+import android.icu.util.IslamicCalendar;
 
 /**
  * https://www.bluetooth.com/specifications/gatt/viewer?attributeXmlFile=org.bluetooth.characteristic.new_alert.xml&u=org.bluetooth.characteristic.new_alert.xml
@@ -47,11 +49,19 @@ public class NewAlert {
     private final AlertCategory category;
     private final int numAlerts;
     private final String message;
+    private int customIcon = -1;
 
     public NewAlert(AlertCategory category, int /*uint8*/ numAlerts, String /*utf8s*/ message) {
         this.category = category;
         this.numAlerts = numAlerts;
         this.message = message;
+    }
+
+    public NewAlert(AlertCategory category, int /*uint8*/ numAlerts, String /*utf8s*/ message, int customIcon) {
+        this.category = category;
+        this.numAlerts = numAlerts;
+        this.message = message;
+        this.customIcon = customIcon;
     }
 
     public AlertCategory getCategory() {
@@ -64,5 +74,9 @@ public class NewAlert {
 
     public String getMessage() {
         return message;
+    }
+
+    public int getCustomIcon() {
+        return customIcon;
     }
 }

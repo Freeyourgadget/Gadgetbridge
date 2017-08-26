@@ -103,7 +103,7 @@ public class NotificationListener extends NotificationListenerService {
                             } else {
                                 // ACTION_MUTE
                                 LOG.info("going to mute " + sbn.getPackageName());
-                                GBApplication.addToBlacklist(sbn.getPackageName());
+                                GBApplication.addAppToBlacklist(sbn.getPackageName());
                             }
                         }
                     }
@@ -414,7 +414,7 @@ public class NotificationListener extends NotificationListenerService {
             }
         }
 
-        if (GBApplication.isBlacklisted(source)) {
+        if (GBApplication.appIsBlacklisted(source)) {
             LOG.info("Ignoring notification, application is blacklisted");
             return true;
         }

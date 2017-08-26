@@ -1,4 +1,25 @@
 ### Changelog
+
+#### Version 0.20.2 (next)
+* Amazfit Bip: Various fixes regarding weather, add condition string support for FW 0.0.8.74
+* Amazfit Bip: enable caller display in later firmwares
+* Amazfit Bip: initial firmware update support (EXPERIMENTAL, AT YOUR OWN RISK)
+
+#### Version 0.20.1
+* Amazfit Bip: Support icons and text body for notifications
+* Mi Band: Fix setting smart alarms
+
+#### Version 0.20.0
+* Inital Amazfit Bip support (WIP)
+* Various theming fixes
+* Add workaround for blacklist not properly persisting
+* Handle resetting language to default properly
+* Pebble: Pass booleans from Javascript Appmessage correctly
+* Pebble: Make local configuration pages work on most recent webview implementation
+* Pebble: Allow to blacklist calendars
+* Add Greek and German transliteration support
+* Various visual improvements to charts
+
 #### Version 0.19.4
 * Replace or relicense CC-NC licensed icons to satisfy F-Droid
 * Mi Band 2: Make infos to display on the Band configurable

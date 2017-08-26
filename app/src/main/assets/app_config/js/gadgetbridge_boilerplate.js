@@ -75,6 +75,13 @@ function showStep(desiredStep) {
     }
 }
 
+function hideSteps() {
+    var steps = document.getElementsByClassName("step");
+        for (var i = 0; i < steps.length; i ++) {
+            steps[i].style.display = 'none';
+        }
+}
+
 function gbPebble() {
     this.configurationURL = null;
     this.configurationValues = null;
@@ -142,7 +149,18 @@ function gbPebble() {
                     self.configurationURL = new Uri(url).addQueryParam("return_to", "gadgetbridge://"+UUID+"?config=true&json=");
             } else {
                 //TODO: add custom return_to
-                location.href = url;
+                var iframe = document.getElementsByTagName('iframe')[0];
+                var oldbody = document.getElementsByTagName("body")[0];
+                if (iframe === undefined && oldbody !== undefined) {
+                    iframe = document.createElement("iframe");
+                    oldbody.parentNode.replaceChild(iframe,oldbody);
+                } else {
+                    hideSteps();
+                    document.documentElement.appendChild(iframe);
+                }
+
+                iframe.src = url;
+
             }
 
     }

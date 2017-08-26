@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2017 Carsten Pfeiffer, Uwe Hermann
+/*  Copyright (C) 2016-2017 Andreas Shimokawa, Carsten Pfeiffer, Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -37,7 +37,8 @@ public enum AlertCategory {
     // 10-250 reserved for future use
     // 251-255 defined by service specification
     Any(255),
-    Custom(-1);
+    Custom(-1),
+    CustomMiBand2(-6);
 
     private final int id;
 
