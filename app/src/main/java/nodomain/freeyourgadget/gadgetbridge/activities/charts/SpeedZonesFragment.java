@@ -46,8 +46,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 
 
-public class StatsChartFragment extends AbstractChartFragment {
-    protected static final Logger LOG = LoggerFactory.getLogger(StatsChartFragment.class);
+public class SpeedZonesFragment extends AbstractChartFragment {
+    protected static final Logger LOG = LoggerFactory.getLogger(SpeedZonesFragment.class);
 
     private HorizontalBarChart mStatsChart;
 

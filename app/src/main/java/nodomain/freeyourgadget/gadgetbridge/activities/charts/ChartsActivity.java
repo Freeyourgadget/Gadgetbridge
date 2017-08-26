@@ -330,7 +330,7 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
                 case 4:
                     return new LiveActivityFragment();
                 case 5:
-                    return new StatsChartFragment();
+                    return new SpeedZonesFragment();
 
             }
             return null;
