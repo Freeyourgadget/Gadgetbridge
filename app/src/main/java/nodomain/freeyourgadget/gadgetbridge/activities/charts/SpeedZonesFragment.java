@@ -24,7 +24,6 @@ import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
-import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -130,31 +129,14 @@ public class SpeedZonesFragment extends AbstractChartFragment {
     }
 
     @Override
-    protected void setupLegend(Chart chart) {
-        List<LegendEntry> legendEntries = new ArrayList<>(3);
-        LegendEntry lightSleepEntry = new LegendEntry();
-        lightSleepEntry.label = akLightSleep.label;
-        lightSleepEntry.formColor = akLightSleep.color;
-        legendEntries.add(lightSleepEntry);
-
-        LegendEntry deepSleepEntry = new LegendEntry();
-        deepSleepEntry.label = akDeepSleep.label;
-        deepSleepEntry.formColor = akDeepSleep.color;
-        legendEntries.add(deepSleepEntry);
-
-        if (supportsHeartrate(getChartsHost().getDevice())) {
-            LegendEntry hrEntry = new LegendEntry();
-            hrEntry.label = HEARTRATE_LABEL;
-            hrEntry.formColor = HEARTRATE_COLOR;
-            legendEntries.add(hrEntry);
-        }
-        chart.getLegend().setCustom(legendEntries);
-        chart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
+    protected List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+        return super.getAllSamples(db, device, tsFrom, tsTo);
     }
 
     @Override
-    protected List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-        return super.getAllSamples(db, device, tsFrom, tsTo);
+    protected void setupLegend(Chart chart) {
+        // no legend here, it is all about the steps here
+        chart.getLegend().setEnabled(false);
     }
 
     @Override
