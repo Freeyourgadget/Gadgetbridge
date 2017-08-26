@@ -186,7 +186,7 @@
   <string name="pairing_already_bonded">Bereits mit %1$s (%2$s) verbunden, stelle Verbindung her...</string>
   <string name="message_cannot_pair_no_mac">Keine MAC Adresse erhalten, kann nicht koppeln.</string>
   <string name="preferences_category_device_specific_settings">Gerätespezifische Einstellungen</string>
-  <string name="preferences_miband_settings">Mi Band Einstellungen</string>
+  <string name="preferences_miband_settings">Mi Band / Bip Einstellungen</string>
   <string name="male">männlich</string>
   <string name="female">weiblich</string>
   <string name="other">anderes</string>
