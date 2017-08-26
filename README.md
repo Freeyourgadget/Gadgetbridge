@@ -147,7 +147,7 @@ Contributions are welcome, be it feedback, bugreports, documentation, translatio
 on any of the open [issues](https://github.com/Freeyourgadget/Gadgetbridge/issues?q=is%3Aopen+is%3Aissue);
 just leave a comment that you're working on one to avoid duplicated work.
 
-Translations can be contributed via https://www.transifex.com/projects/p/gadgetbridge/resource/strings/ or manually.
+Translations can be contributed via https://hosted.weblate.org/projects/freeyourgadget/gadgetbridge/
 
 ## Do you have further questions or feedback?
 
