@@ -145,10 +145,12 @@
   <string name="pref_title_screentime">Bildschirm-An-Dauer</string>
   <string name="prefs_title_all_day_heart_rate">Den ganzen Tag Herzfrequenz messen</string>
   <string name="preferences_hplus_settings">HPlus/Makibes Einstellungen</string>
-  <string name="not_connected">Nicht verbunden</string>
-  <string name="connecting">Verbinde</string>
-  <string name="connected">Verbunden</string>
-  <string name="unknown_state">Unbekannter Zustand</string>
+  <string name="not_connected">nicht verbunden</string>
+  <string name="connecting">verbinde</string>
+  <string name="connected">verbunden</string>
+  <string name="unknown_state">unbekannter Zustand</string>
+  <string name="connectionstate_hw_fw">HW: %1$s FW: %2$s</string>
+  <string name="connectionstate_fw">FW: %1$s</string>
   <string name="_unknown_">(unbekannt)</string>
   <string name="test">Test</string>
   <string name="test_notification">Test Benachrichtigung</string>
@@ -400,12 +402,5 @@
   <string name="discovery_pair_question">Wähle Koppeln, um dein Gerät zu verbinden. Falls dies fehlschlägt, versuche es erneut ohne Kopplung.</string>
   <string name="discovery_yes_pair">Koppeln</string>
   <string name="discovery_dont_pair">Nicht koppeln</string>
-<string name="stats_title">Geschwindigkeitszonen</string>
-    <string name="fw_upgrade_notice_amazfitbip">Es soll die Firmware %s anstelle der aktuell installierten Version auf die Amazfit Bip gespielt werden.
-\n
-\nBitte stelle sicher, dass Du zuerst die .gps firmware, dann die .res Datei, und zum Schluss die .fw Datei installiert. Deine Uhr wird sich nach der installation der .fw Datei neustarten.
-\n
-\nHinweis: Du musst die .res and .gps Dateien nicht installieren, falls diese genau die gleichen Dateien wie die sind, die Du schon mit einer vorigen .fw Datei zusammen installiert hattest.
-\n
-\nDIES IST EXPERIMENTELL, FAHRE AUF EIGENES RISIKO FORT</string>
+<string name="action_donate">Spenden</string>
     </resources>
