@@ -5,7 +5,7 @@
         <change>Amazfit Bip: enable caller display in later firmwares</change>
         <change>Amazfit Bip: initial firmware update support (EXPERIMENTAL, AT YOUR OWN RISK)</change>
         <change>Re-enable improved speed zones tab</change>
-        <change>Probably fix crash with certain music players<change>
+        <change>Probably fix crash with certain music players</change>
     </release>
     <release version="0.20.1" versioncode="99">
         <change>Amazfit Bip: Support icons and text body for notifications</change>
