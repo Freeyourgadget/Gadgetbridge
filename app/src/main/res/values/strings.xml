@@ -221,7 +221,7 @@
     <string name="pairing_already_bonded">"Already bonded with %1$s (%2$s), connecting…"</string>
     <string name="message_cannot_pair_no_mac">No mac address passed, cannot pair.</string>
     <string name="preferences_category_device_specific_settings">Device Specific Settings</string>
-    <string name="preferences_miband_settings">Mi Band Settings</string>
+    <string name="preferences_miband_settings">Mi Band / Bip Settings</string>
     <string name="male">male</string>
     <string name="female">female</string>
     <string name="other">other</string>
