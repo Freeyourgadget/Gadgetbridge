@@ -9,7 +9,7 @@
     <string name="action_donate">Donate</string>
     <string name="controlcenter_fetch_activity_data">Synchronize</string>
     <string name="controlcenter_start_sleepmonitor">Sleep Monitor (ALPHA)</string>
-    <string name="controlcenter_find_device">Find lost Device…</string>
+    <string name="controlcenter_find_device">Find lost Device</string>
     <string name="controlcenter_take_screenshot">Take Screenshot</string>
     <string name="controlcenter_disconnect">Disconnect</string>
     <string name="controlcenter_delete_device">Delete Device</string>
@@ -45,7 +45,7 @@
     <string name="app_move_to_top">Move to top</string>
 
     <!-- Strings related to AppBlacklist -->
-    <string name="title_activity_appblacklist">Notification Blacklist</string>
+    <string name="title_activity_appblacklist">Notification blacklist</string>
 
     <!-- Strings related to CalBlacklist -->
     <string name="title_activity_calblacklist">Blacklisted Calendars</string>
@@ -61,7 +61,7 @@
     <!-- Strings related to Settings -->
     <string name="title_activity_settings">Settings</string>
 
-    <string name="pref_header_general">General Settings</string>
+    <string name="pref_header_general">General settings</string>
     <string name="pref_title_general_autoconnectonbluetooth">Connect to device when Bluetooth turned on</string>
     <string name="pref_title_general_autostartonboot">Start automatically</string>
     <string name="pref_title_general_autocreonnect">Reconnect automatically</string>
@@ -87,20 +87,20 @@
     <string name="pref_title_notifications_call">Phone Calls</string>
     <string name="pref_title_notifications_sms">SMS</string>
     <string name="pref_title_notifications_pebblemsg">Pebble Messages</string>
-    <string name="pref_summary_notifications_pebblemsg">Support for applications which send Notifications to the Pebble via PebbleKit.</string>
+    <string name="pref_summary_notifications_pebblemsg">Support for applications which send notifications to the Pebble via PebbleKit.</string>
     <string name="pref_title_notifications_generic">Generic notification support</string>
-    <string name="pref_title_whenscreenon">… also when screen is on</string>
+    <string name="pref_title_whenscreenon">…also when screen is on</string>
     <string name="pref_title_notification_filter">Do Not Disturb</string>
     <string name="pref_summary_notification_filter">Stop unwanted Notifications from being sent based on the Do Not Disturb mode.</string>
     <string name="pref_title_transliteration">Transliteration</string>
     <string name="pref_summary_transliteration">Enable this if your device has no support for your language\'s font</string>
 
-    <string name="always">always</string>
-    <string name="when_screen_off">when screen is off</string>
-    <string name="never">never</string>
+    <string name="always">Always</string>
+    <string name="when_screen_off">When screen is off</string>
+    <string name="never">Never</string>
 
     <string name="pref_header_privacy">Privacy</string>
-    <string name="pref_title_call_privacy_mode">Call Privacy Mode</string>
+    <string name="pref_title_call_privacy_mode">Call privacy mode</string>
     <string name="pref_call_privacy_mode_off">Display name and number</string>
     <string name="pref_call_privacy_mode_name">Hide name but display number</string>
     <string name="pref_call_privacy_mode_number">Hide number but display name</string>
@@ -110,19 +110,19 @@
     <string name="pref_blacklist">Blacklist Apps</string>
     <string name="pref_blacklist_calendars">Blacklist Calendars</string>
 
-    <string name="pref_header_cannned_messages">Canned Messages</string>
+    <string name="pref_header_cannned_messages">Canned messages</string>
     <string name="pref_title_canned_replies">Replies</string>
     <string name="pref_title_canned_reply_suffix">Common suffix</string>
     <string name="pref_title_canned_messages_dismisscall">Call Dismissal</string>
     <string name="pref_title_canned_messages_set">Update on Pebble</string>
 
-    <string name="pref_header_development">Developer Options</string>
+    <string name="pref_header_development">Developer options</string>
     <string name="pref_title_development_miaddr">Mi Band address</string>
 
-    <string name="pref_title_pebble_settings">Pebble Settings</string>
+    <string name="pref_title_pebble_settings">Pebble settings</string>
 
-    <string name="pref_header_activitytrackers">Activity Trackers</string>
-    <string name="pref_title_pebble_activitytracker">Preferred Activitytracker</string>
+    <string name="pref_header_activitytrackers">Activity trackers</string>
+    <string name="pref_title_pebble_activitytracker">Preferred activity tracker</string>
     <string name="pref_title_pebble_sync_health">Sync Pebble Health</string>
     <string name="pref_title_pebble_sync_misfit">Sync Misfit</string>
     <string name="pref_title_pebble_sync_morpheuz">Sync Morpheuz</string>
@@ -130,16 +130,16 @@
     <string name="pref_title_enable_outgoing_call">Support outgoing calls</string>
     <string name="pref_summary_enable_outgoing_call">Disabling this will also stop the Pebble 2/LE to vibrate on outgoing calls</string>
 
-    <string name="pref_title_enable_pebblekit">Allow 3rd Party Android App Access</string>
+    <string name="pref_title_enable_pebblekit">Allow 3rd party Android App access</string>
     <string name="pref_summary_enable_pebblekit">Enable experimental support for Android Apps using PebbleKit</string>
 
-    <string name="pref_header_pebble_timeline">Pebble Timeline</string>
-    <string name="pref_title_sunrise_sunset">Sunrise and Sunset</string>
-    <string name="pref_summary_sunrise_sunset">Send sunrise and sunset times based on the location to the pebble timeline</string>
-    <string name="pref_title_enable_calendar_sync">Sync Calendar</string>
+    <string name="pref_header_pebble_timeline">Pebble timeline</string>
+    <string name="pref_title_sunrise_sunset">Sunrise and sunset</string>
+    <string name="pref_summary_sunrise_sunset">Send sunrise and sunset times based on the location to the Pebble timeline</string>
+    <string name="pref_title_enable_calendar_sync">Sync calendar</string>
     <string name="pref_summary_enable_calendar_sync">Send calendar events to the timeline</string>
 
-    <string name="pref_title_autoremove_notifications">Autoremove dismissed Notifications</string>
+    <string name="pref_title_autoremove_notifications">Autoremove dismissed notifications</string>
     <string name="pref_summary_autoremove_notifications">Notifications are automatically removed from the Pebble when dismissed from the Android device</string>
 
     <string name="pref_title_pebble_privacy_mode">Privacy mode</string>
@@ -148,7 +148,7 @@
     <string name="pref_pebble_privacy_mode_complete">Show only the notification icon</string>
 
     <string name="pref_header_location">Location</string>
-    <string name="pref_title_location_aquire">Acquire Location</string>
+    <string name="pref_title_location_aquire">Acquire location</string>
     <string name="pref_title_location_latitude">Latitude</string>
     <string name="pref_title_location_longitude">Longitude</string>
     <string name="pref_title_location_keep_uptodate">Keep location updated</string>
@@ -165,84 +165,84 @@
     <string name="pref_summary_pebble_forcele">Use experimental Pebble LE support for all Pebbles instead of BT classic, requires paring a "Pebble LE" after non LE had been connected once</string>
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU limit</string>
     <string name="pref_summary_pebble_mtu_limit">If your Pebble 2/Pebble LE does not work as expected, try this setting to limit the MTU (valid range 20–512)</string>
-    <string name="pref_title_pebble_enable_applogs">Enable Watch App Logging</string>
+    <string name="pref_title_pebble_enable_applogs">Enable watch App logging</string>
     <string name="pref_summary_pebble_enable_applogs">Will cause logs from watch apps to be logged by Gadgetbridge (requires reconnect)</string>
     <string name="pref_title_pebble_always_ack_pebblekit">Prematurely ACK PebbleKit</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">Will cause messages that are sent to external 3rd party apps to be acknowledged always and immediately</string>
 
-    <string name="pref_title_pebble_reconnect_attempts">Reconnection Attempts</string>
+    <string name="pref_title_pebble_reconnect_attempts">Reconnection attempts</string>
 
-    //HPlus Preferences
+    <!-- HPlus Preferences -->
     <string name="pref_title_unit_system">Units</string>
     <string name="pref_title_timeformat">Time format</string>
     <string name="pref_title_screentime">Screen on duration</string>
     <string name="prefs_title_all_day_heart_rate">All day heart rate measurement</string>
-    <string name="preferences_hplus_settings">HPlus/Makibes Settings</string>
+    <string name="preferences_hplus_settings">HPlus/Makibes settings</string>
 
-    <string name="not_connected">not connected</string>
-    <string name="connecting">connecting</string>
-    <string name="connected">connected</string>
-    <string name="unknown_state">unknown state</string>
+    <string name="not_connected">Not connected</string>
+    <string name="connecting">Connecting</string>
+    <string name="connected">Connected</string>
+    <string name="unknown_state">Unknown state</string>
     <string name="connectionstate_hw_fw">HW: %1$s FW: %2$s</string>
-    <string name="connectionstate_fw">FW: %1$s</string>
+    <string name="connectionstate_fw">Firmware version: %1$s</string>
     <string name="_unknown_">(unknown)</string>
     <string name="test">Test</string>
-    <string name="test_notification">Test Notification</string>
-    <string name="this_is_a_test_notification_from_gadgetbridge">This is a Test Notification from Gadgetbridge</string>
+    <string name="test_notification">Test notification</string>
+    <string name="this_is_a_test_notification_from_gadgetbridge">This is a test notification from Gadgetbridge</string>
     <string name="bluetooth_is_not_supported_">Bluetooth is not supported.</string>
     <string name="bluetooth_is_disabled_">Bluetooth is disabled.</string>
-    <string name="tap_connected_device_for_app_mananger">Tap connected device for App Manager</string>
-    <string name="tap_connected_device_for_activity">Tap connected device for Activity</string>
-    <string name="tap_connected_device_for_vibration">Tap connected device for Vibration</string>
+    <string name="tap_connected_device_for_app_mananger">Tap connected device for App manager</string>
+    <string name="tap_connected_device_for_activity">Tap connected device for activity</string>
+    <string name="tap_connected_device_for_vibration">Tap connected device for vibration</string>
     <string name="tap_a_device_to_connect">Tap a device to connect</string>
-    <string name="cannot_connect_bt_address_invalid_">Cannot connect. BT address invalid?</string>
+    <string name="cannot_connect_bt_address_invalid_">Cannot connect. Bluetooth address invalid?</string>
     <string name="gadgetbridge_running">Gadgetbridge running</string>
-    <string name="installing_binary_d_d">installing binary %1$d/%2$d</string>
-    <string name="installation_failed_">installation failed!</string>
-    <string name="installation_successful">installation successful</string>
+    <string name="installing_binary_d_d">Installing binary %1$d/%2$d</string>
+    <string name="installation_failed_">Installation failed</string>
+    <string name="installation_successful">Installation successful</string>
     <string name="firmware_install_warning">YOU ARE TRYING TO INSTALL A FIRMWARE, PROCEED AT YOUR OWN RISK.\n\n\n This firmware is for HW Revision: %s</string>
     <string name="app_install_info">You are about to install the following app:\n\n\n%1$s Version %2$s by %3$s\n</string>
     <string name="n_a">N/A</string>
     <string name="initialized">initialized</string>
     <string name="appversion_by_creator">%1$s by %2$s</string>
-    <string name="title_activity_discovery">Device Discovery</string>
+    <string name="title_activity_discovery">Device discovery</string>
 
-    <string name="discovery_stop_scanning">Stop Scanning</string>
-    <string name="discovery_start_scanning">Start Discovery</string>
-    <string name="action_discover">Connect new Device</string>
+    <string name="discovery_stop_scanning">Stop scanning</string>
+    <string name="discovery_start_scanning">Start discovery</string>
+    <string name="action_discover">Connect new device</string>
     <string name="device_with_rssi">%1$s (%2$s)</string>
-    <string name="title_activity_android_pairing">Pair Device</string>
-    <string name="android_pairing_hint">Use the Android Bluetooth Pairing dialog to pair the device.</string>
+    <string name="title_activity_android_pairing">Pair device</string>
+    <string name="android_pairing_hint">Use the Android Bluetooth pairing dialog to pair the device.</string>
     <string name="title_activity_mi_band_pairing">Pair your Mi Band</string>
     <string name="pairing">Pairing with %s…</string>
     <string name="pairing_creating_bond_with">"Creating bond with %1$s (%2$s)"</string>
     <string name="pairing_unable_to_pair_with">"Unable to pair with %1$s (%2$s)"</string>
     <string name="pairing_in_progress">Bonding in progress: %1$s (%2$s)</string>
     <string name="pairing_already_bonded">"Already bonded with %1$s (%2$s), connecting…"</string>
-    <string name="message_cannot_pair_no_mac">No mac address passed, cannot pair.</string>
-    <string name="preferences_category_device_specific_settings">Device Specific Settings</string>
-    <string name="preferences_miband_settings">Mi Band / Bip Settings</string>
-    <string name="male">male</string>
-    <string name="female">female</string>
-    <string name="other">other</string>
-    <string name="left">left</string>
-    <string name="right">right</string>
+    <string name="message_cannot_pair_no_mac">No MAC address passed, cannot pair.</string>
+    <string name="preferences_category_device_specific_settings">Device specific settings</string>
+    <string name="preferences_miband_settings">Mi Band / Bip settings</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="other">Other</string>
+    <string name="left">Left</string>
+    <string name="right">Right</string>
     <string name="miband_pairing_using_dummy_userdata">No valid user data given, using dummy user data for now.</string>
     <string name="miband_pairing_tap_hint">When your Mi Band vibrates and blinks, tap it a few times in a row.</string>
     <string name="appinstaller_install">Install</string>
     <string name="discovery_connected_devices_hint">Make your device discoverable. Currently connected devices will likely not be discovered. Activate location (e.g. GPS) on Android 6+. Disable Privacy Guard for Gadgetbridge, because it may crash and reboot your phone. If no device is found after a few minutes, try again after rebooting your mobile device.</string>
     <string name="discovery_note">Note:</string>
-    <string name="candidate_item_device_image">Device Image</string>
+    <string name="candidate_item_device_image">Device image</string>
     <string name="miband_prefs_alias">Name/Alias</string>
-    <string name="pref_header_vibration_count">Vibration Count</string>
+    <string name="pref_header_vibration_count">Vibration count</string>
 
-    <string name="title_activity_sleepmonitor">Sleep Monitor</string>
-    <string name="pref_write_logfiles">Write Log Files</string>
-    <string name="initializing">initializing</string>
-    <string name="busy_task_fetch_activity_data">Fetching Activity Data</string>
+    <string name="title_activity_sleepmonitor">Sleep monitor</string>
+    <string name="pref_write_logfiles">Write log files</string>
+    <string name="initializing">Initializing</string>
+    <string name="busy_task_fetch_activity_data">Fetching activity data</string>
     <string name="sleep_activity_date_range">From %1$s to %2$s</string>
     <string name="miband_prefs_wearside">Wearing left or right?</string>
-    <string name="pref_screen_vibration_profile">Vibration Profile</string>
+    <string name="pref_screen_vibration_profile">Vibration profile</string>
 
     <string name="vibration_profile_staccato">Staccato</string>
     <string name="vibration_profile_short">Short</string>
@@ -250,29 +250,29 @@
     <string name="vibration_profile_long">Long</string>
     <string name="vibration_profile_waterdrop">Waterdrop</string>
     <string name="vibration_profile_ring">Ring</string>
-    <string name="vibration_profile_alarm_clock">Alarm Clock</string>
+    <string name="vibration_profile_alarm_clock">Alarm clock</string>
     <string name="miband_prefs_vibration">Vibration</string>
 
     <string name="vibration_try">Try</string>
-    <string name="pref_screen_notification_profile_sms">SMS Notification</string>
-    <string name="pref_header_vibration_settings">Vibration Settings</string>
-    <string name="pref_screen_notification_profile_generic">Generic Notification</string>
-    <string name="pref_screen_notification_profile_email">Email Notification</string>
-    <string name="pref_screen_notification_profile_incoming_call">Incoming Call Notification</string>
+    <string name="pref_screen_notification_profile_sms">SMS notification</string>
+    <string name="pref_header_vibration_settings">Vibration settings</string>
+    <string name="pref_screen_notification_profile_generic">Generic notification</string>
+    <string name="pref_screen_notification_profile_email">Email notification</string>
+    <string name="pref_screen_notification_profile_incoming_call">Incoming call notification</string>
     <string name="pref_screen_notification_profile_generic_chat">Chat</string>
     <string name="pref_screen_notification_profile_generic_navigation">Navigation</string>
-    <string name="pref_screen_notification_profile_generic_social">Social Network</string>
+    <string name="pref_screen_notification_profile_generic_social">Social network</string>
 
-    <string name="stats_title">Speed Zones</string>
+    <string name="stats_title">Speed zones</string>
     <string name="stats_x_axis_label">Total minutes</string>
     <string name="stats_y_axis_label">Steps per minute</string>
 
-    <string name="control_center_find_lost_device">Find lost Device</string>
+    <string name="control_center_find_lost_device">Find lost device</string>
     <string name="control_center_cancel_to_stop_vibration">Cancel to stop vibration.</string>
-    <string name="title_activity_charts">Your Activity</string>
-    <string name="title_activity_set_alarm">Configure Alarms</string>
+    <string name="title_activity_charts">Your activity</string>
+    <string name="title_activity_set_alarm">Configure alarms</string>
     <string name="controlcenter_start_configure_alarms">Configure alarms</string>
-    <string name="title_activity_alarm_details">Alarm Details</string>
+    <string name="title_activity_alarm_details">Alarm details</string>
     <string name="alarm_sun_short">Sun</string>
     <string name="alarm_mon_short">Mon</string>
     <string name="alarm_tue_short">Tue</string>
@@ -280,14 +280,14 @@
     <string name="alarm_thu_short">Thu</string>
     <string name="alarm_fri_short">Fri</string>
     <string name="alarm_sat_short">Sat</string>
-    <string name="alarm_smart_wakeup">smart wakeup</string>
+    <string name="alarm_smart_wakeup">Smart wakeup</string>
     <string name="user_feedback_miband_set_alarms_failed">There was an error setting the alarms, please try again!</string>
     <string name="user_feedback_miband_set_alarms_ok">Alarms sent to device!</string>
     <string name="chart_no_data_synchronize">No data. Synchronize device?</string>
     <string name="user_feedback_miband_activity_data_transfer">About to transfer %1$s of data starting from %2$s</string>
     <string name="miband_prefs_fitness_goal">Target steps for each day</string>
     <string name="dbaccess_error_executing">Error executing \'%1$s\'</string>
-    <string name="controlcenter_start_activitymonitor">Your Activity (ALPHA)</string>
+    <string name="controlcenter_start_activitymonitor">Your activity (ALPHA)</string>
     <string name="cannot_connect">Cannot connect: %1$s</string>
     <string name="installer_activity_unable_to_find_handler">Unable to find a handler to install this file.</string>
     <string name="pbw_install_handler_unable_to_install">Unable to install the given file: %1$s</string>
@@ -297,11 +297,11 @@
     <string name="notif_battery_low_percent">%1$s battery left: %2$s%%</string>
     <string name="notif_battery_low_bigtext_last_charge_time">Last charge: %s \n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Number of charges: %s</string>
-    <string name="sleepchart_your_sleep">Your Sleep</string>
+    <string name="sleepchart_your_sleep">Your sleep</string>
     <string name="weeksleepchart_sleep_a_week">Sleep a week</string>
     <string name="weeksleepchart_today_sleep_description">Sleep today, target: %1$s</string>
     <string name="weekstepschart_steps_a_week">Steps a week</string>
-    <string name="activity_sleepchart_activity_and_sleep">Your Activity and Sleep</string>
+    <string name="activity_sleepchart_activity_and_sleep">Your activity and sleep</string>
     <string name="updating_firmware">Updating Firmware…</string>
     <string name="fwapp_install_device_not_ready">File cannot be installed, device not ready.</string>
     <string name="miband_installhandler_miband_firmware">Mi Band Firmware %1$s</string>
@@ -321,36 +321,36 @@
     <string name="calories">Calories</string>
     <string name="distance">Distance</string>
     <string name="clock">Clock</string>
-    <string name="heart_rate">Heart Rate</string>
+    <string name="heart_rate">Heart rate</string>
     <string name="battery">Battery</string>
-    <string name="liveactivity_live_activity">Live Activity</string>
+    <string name="liveactivity_live_activity">Live activity</string>
     <string name="weeksteps_today_steps_description">Steps today, target: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Do not ack activity data transfer</string>
     <string name="pref_summary_dont_ack_transfers">If the activity data are not acked to the band, they will not be cleared. Useful if GB is used together with other apps.</string>
     <string name="pref_summary_keep_data_on_device">Will keep activity data on the Mi Band even after synchronization. Useful if GB is used together with other apps.</string>
-    <string name="pref_title_low_latency_fw_update">Use low-latency mode for FW updates</string>
+    <string name="pref_title_low_latency_fw_update">Use low-latency mode for Firmware updates</string>
     <string name="pref_summary_low_latency_fw_update">This might help on devices where firmware updates fail</string>
 
-    <string name="live_activity_steps_history">Steps History</string>
+    <string name="live_activity_steps_history">Steps history</string>
     <string name="live_activity_current_steps_per_minute">Current steps/min</string>
-    <string name="live_activity_total_steps">Total Steps</string>
+    <string name="live_activity_total_steps">Total steps</string>
     <string name="live_activity_steps_per_minute_history">Steps per minute history</string>
     <string name="live_activity_start_your_activity">Start your activity</string>
     <string name="abstract_chart_fragment_kind_activity">Activity</string>
-    <string name="abstract_chart_fragment_kind_light_sleep">Light Sleep</string>
-    <string name="abstract_chart_fragment_kind_deep_sleep">Deep Sleep</string>
-    <string name="abstract_chart_fragment_kind_not_worn">Not Worn</string>
+    <string name="abstract_chart_fragment_kind_light_sleep">Light sleep</string>
+    <string name="abstract_chart_fragment_kind_deep_sleep">Deep sleep</string>
+    <string name="abstract_chart_fragment_kind_not_worn">Not worn</string>
     <string name="device_not_connected">Not connected.</string>
     <string name="user_feedback_all_alarms_disabled">All alarms disabled</string>
     <string name="pref_title_keep_data_on_device">Keep activity data on device</string>
     <string name="miband_fwinstaller_incompatible_version">Incompatible firmware</string>
     <string name="fwinstaller_firmware_not_compatible_to_device">This firmware is not compatible with the device</string>
     <string name="miband_prefs_reserve_alarm_calendar">Alarms to reserve for upcoming events</string>
-    <string name="miband_prefs_hr_sleep_detection">Use Heartrate Sensor to improve sleep detection</string>
+    <string name="miband_prefs_hr_sleep_detection">Use heart rate sensor to improve sleep detection</string>
 	<string name="miband_prefs_device_time_offset_hours">Device time offset in hours (for detecting sleep of shift workers)</string>
-    <string name="miband2_prefs_dateformat">Mi2: Date Format</string>
+    <string name="miband2_prefs_dateformat">Mi2: Date format</string>
     <string name="dateformat_time">Time</string>
-    <string name="dateformat_date_time"><![CDATA[Time & Date]]></string>
+    <string name="dateformat_date_time"><![CDATA[Time & date]]></string>
     <string name="mi2_prefs_goal_notification">Goal notification</string>
     <string name="mi2_prefs_goal_notification_summary">The band will vibrate when the daily steps goal is reached</string>
     <string name="mi2_prefs_display_items">Display items</string>
@@ -367,36 +367,36 @@
     <string name="mi2_prefs_do_not_disturb_end">End time</string>
     <string name="FetchActivityOperation_about_to_transfer_since">About to transfer data since %1$s</string>
 
-    <string name="waiting_for_reconnect">waiting for reconnect</string>
+    <string name="waiting_for_reconnect">Waiting for reconnect</string>
 
-    <string name="activity_prefs_about_you">About You</string>
-    <string name="activity_prefs_year_birth">Year of Birth</string>
+    <string name="activity_prefs_about_you">About you</string>
+    <string name="activity_prefs_year_birth">Year of birth</string>
     <string name="activity_prefs_gender">Gender</string>
     <string name="activity_prefs_height_cm">Height in cm</string>
     <string name="activity_prefs_weight_kg">Weight in kg</string>
 
-    <string name="authenticating">authenticating</string>
-    <string name="authentication_required">authentication required</string>
+    <string name="authenticating">Authenticating</string>
+    <string name="authentication_required">Authentication required</string>
 
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">Add widget</string>
     <string name="activity_prefs_sleep_duration">Preferred sleep duration in hours</string>
     <string name="appwidget_alarms_set">An alarm was set for %1$02d:%2$02d</string>
-    <string name="device_hw">HW: %1$s</string>
-    <string name="device_fw">FW: %1$s</string>
+    <string name="device_hw">Hardware revision: %1$s</string>
+    <string name="device_fw">Firmware version: %1$s</string>
     <string name="error_creating_directory_for_logfiles">Error creating directory for log files: %1$s</string>
     <string name="DEVINFO_HR_VER">"HR: "</string>
     <string name="updatefirmwareoperation_update_in_progress">Firmware update in progress</string>
     <string name="updatefirmwareoperation_firmware_not_sent">Firmware not sent</string>
-    <string name="charts_legend_heartrate">Heart Rate</string>
-    <string name="live_activity_heart_rate">Heart Rate</string>
+    <string name="charts_legend_heartrate">Heart rate</string>
+    <string name="live_activity_heart_rate">Heart rate</string>
 
     <string name="pref_title_pebble_health_store_raw">Store raw record in the database</string>
     <string name="pref_summary_pebble_health_store_raw">If checked the data is stored \"as is\" and is available for later interpretation. NB: the database will be bigger in this case!</string>
-    <string name="action_db_management">Database Management</string>
-    <string name="title_activity_db_management">Database Management</string>
+    <string name="action_db_management">Database management</string>
+    <string name="title_activity_db_management">Database management</string>
     <string name="activity_db_management_import_export_explanation">The database operations use the following path on your device. \nThis path is accessible to other Android applications and your computer. \nExpect to find your exported database (or place the database you want to import) there:</string>
-    <string name="activity_db_management_merge_old_title">Legacy Database Delete</string>
+    <string name="activity_db_management_merge_old_title">Legacy database delete</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Cannot access export path. Please contact the developers.</string>
     <string name="dbmanagementactivity_exported_to">Exported to: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_db">"Error exporting DB: %1$s"</string>
@@ -422,8 +422,8 @@
     <string name="title_activity_vibration">Vibration</string>
 
     <!-- Strings related to Pebble Pairing Activity-->
-    <string name="title_activity_pebble_pairing">Pebble Pairing</string>
-    <string name="pebble_pairing_hint">A pairing dialog is expected to pop up on your Android device. If that does not happen, look in the notification drawer and accept the pairing request. After that accept the pairing request on your Pebble</string>
+    <string name="title_activity_pebble_pairing">Pebble pairing</string>
+    <string name="pebble_pairing_hint">A pairing dialog is expected to pop-up on your Android device. If that does not happen, look in the notification drawer and accept the pairing request. After that accept the pairing request on your Pebble</string>
 
     <string name="weather_notification_label">Make sure that this skin is enabled in the Weather Notification app to get weather information on your Pebble.\n\nNo configuration is needed here.\n\nYou can enable the system weather app of your Pebble from the app management.\n\nSupported watchfaces will show the weather automatically.</string>
     <string name="pref_title_setup_bt_pairing">Enable Bluetooth pairing</string>
@@ -434,14 +434,14 @@
 
     <string name="timeformat_24h">24H</string>
     <string name="timeformat_am_pm">AM/PM</string>
-    <string name="pref_screen_notification_profile_alarm_clock">Alarm Clock</string>
+    <string name="pref_screen_notification_profile_alarm_clock">Alarm clock</string>
     <string name="StringUtils_sender"> (%1$s)</string>
     <string name="find_device_you_found_it">You found it!</string>
-    <string name="miband2_prefs_timeformat">Mi2: Time Format</string>
+    <string name="miband2_prefs_timeformat">Mi2: Time format</string>
     <string name="mi2_fw_installhandler_fw53_hint">You need to install version %1$s before installing this firmware!</string>
     <string name="mi2_enable_text_notifications">Text notifications</string>
     <string name="mi2_enable_text_notifications_summary"><![CDATA[Needs firmware >= 1.0.1.28 and Mili_pro.ft* installed.]]></string>
-    <string name="off">off</string>
+    <string name="off">Off</string>
     <string name="mi2_dnd_off">Off</string>
     <string name="mi2_dnd_automatic">Automatic (sleep detection)</string>
     <string name="mi2_dnd_scheduled">Scheduled (time interval)</string>
