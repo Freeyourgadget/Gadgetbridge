@@ -1,0 +1,8 @@
+Nutze deine Pebble/Mi Band/Amazfit Bip/Hplus, ohne die proprietäre App des Herstellers, ohne ein Benutzerkonto zu erstellen, und ohne irgendwelche Daten an die Server des Herstellers zu senden.
+
+Du kannst Benachrichtigungen an deinem Handgelenk erhalten, sowie (je nach Gerät):
+- Daten der Gerätesensoren sammeln
+- Die Musikwiedergabe auf deinem Android Gerät steuern
+- Wettervorhersagen angezeigt bekommen
+- Navigiert werden
+

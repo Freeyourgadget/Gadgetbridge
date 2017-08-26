@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2017 Andreas Shimokawa
+/*  Copyright (C) 2016-2017 Andreas Shimokawa, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 
@@ -16,12 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.widget.SeekBar;
 
 import org.slf4j.Logger;
@@ -33,28 +28,12 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 
 public class VibrationActivity extends GBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(VibrationActivity.class);
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            switch (intent.getAction()) {
-                case GBApplication.ACTION_QUIT: {
-                    finish();
-                    break;
-                }
-            }
-        }
-    };
     private SeekBar seekBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vibration);
-
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(GBApplication.ACTION_QUIT);
-        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
-        registerReceiver(mReceiver, filter);
 
         seekBar = (SeekBar) findViewById(R.id.vibration_seekbar);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -76,12 +55,5 @@ public class VibrationActivity extends GBActivity {
 
             }
         });
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
-        unregisterReceiver(mReceiver);
     }
 }

@@ -34,6 +34,7 @@
   <string name="app_move_to_top">העברה למעלה</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">חסימת דיווחים</string>
+  <!--Strings related to CalBlacklist-->
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">התקנת קושחה/יישומון</string>
   <string name="fw_upgrade_notice">הקושחה המועמדת להתקנה היא %s במקום זו המותקנת על ה־Mi Band שלך נכון לעכשיו.</string>
@@ -70,7 +71,6 @@
   <string name="pref_title_notification_filter">לא להפריע</string>
   <string name="pref_summary_notification_filter">חסימת שליחה של דיווחים בלתי רצויים בהתבסס על המצב לא להפריע.</string>
   <string name="pref_title_transliteration">תעתיק</string>
-  <string name="pref_summary_transliteration">יש להפעיל זו אם להתקן שלך אין תמיכה בגופן השפה שלך (קירילית ועברית בלבד)</string>
   <string name="always">תמיד</string>
   <string name="when_screen_off">כאשר המסך כבוי</string>
   <string name="never">לעולם לא</string>

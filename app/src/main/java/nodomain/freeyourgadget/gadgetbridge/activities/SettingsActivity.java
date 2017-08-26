@@ -97,6 +97,15 @@ public class SettingsActivity extends AbstractSettingsActivity {
             }
         });
 
+        pref = findPreference("pref_key_blacklist_calendars");
+        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                Intent enableIntent = new Intent(SettingsActivity.this, CalBlacklistActivity.class);
+                startActivity(enableIntent);
+                return true;
+            }
+        });
+
         pref = findPreference("pebble_emu_addr");
         pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -134,6 +143,25 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 } catch (IOException ex) {
                     GB.toast(getApplicationContext(),
                             getString(R.string.error_creating_directory_for_logfiles, ex.getLocalizedMessage()),
+                            Toast.LENGTH_LONG,
+                            GB.ERROR,
+                            ex);
+                }
+                return true;
+            }
+
+        });
+
+        pref = findPreference("language");
+        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                String newLang = newVal.toString();
+                try {
+                    GBApplication.setLanguage(newLang);
+                } catch (Exception ex) {
+                    GB.toast(getApplicationContext(),
+                            "Error setting language: " + ex.getLocalizedMessage(),
                             Toast.LENGTH_LONG,
                             GB.ERROR,
                             ex);

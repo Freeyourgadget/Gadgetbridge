@@ -5,6 +5,7 @@
   <string name="action_settings">Ajustes</string>
   <string name="action_debug">Depuración</string>
   <string name="action_quit">Salir</string>
+  <string name="action_donate">Hacer donación</string>
   <string name="controlcenter_fetch_activity_data">Sincronizar</string>
   <string name="controlcenter_start_sleepmonitor">Monitor de sueño (ALPHA)</string>
   <string name="controlcenter_find_device">Encontrar dispositivo perdido...</string>
@@ -40,6 +41,8 @@
   <string name="app_move_to_top">Mover a la parte de arriba</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Lista negra de notificaciones</string>
+  <!--Strings related to CalBlacklist-->
+  <string name="title_activity_calblacklist">Calendarios en lista negra</string>
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">Instalador de FW/App</string>
   <string name="fw_upgrade_notice">Estás a punto de instalar el firmware %s en lugar del que está en tu MiBand.</string>
@@ -76,7 +79,7 @@
   <string name="pref_title_notification_filter">No Molestar</string>
   <string name="pref_summary_notification_filter">Dejar de enviar notificaciones no deseadas basándose en el modo No Molestar</string>
   <string name="pref_title_transliteration">Transcripción</string>
-  <string name="pref_summary_transliteration">Utilizar en caso de que tu dispositivo no soporte la fuente de tu idioma (de momento solo el Cirílico)</string>
+  <string name="pref_summary_transliteration">Utilizar en caso de que tu dispositivo no soporte la fuente de tu idioma</string>
   <string name="always">siempre</string>
   <string name="when_screen_off">cuando la pantalla está apagada</string>
   <string name="never">nunca</string>
@@ -87,6 +90,7 @@
   <string name="pref_call_privacy_mode_number">Ocultar el número pero mostrar el nombre</string>
   <string name="pref_call_privacy_mode_complete">Ocultar nombre y número</string>
   <string name="pref_blacklist">Excluir aplicaciones</string>
+  <string name="pref_blacklist_calendars">Poner calendarios en lista negra</string>
   <string name="pref_header_cannned_messages">Mensajes predeterminados</string>
   <string name="pref_title_canned_replies">Respuestas</string>
   <string name="pref_title_canned_reply_suffix">Sufijo habitual</string>
@@ -220,6 +224,9 @@
   <string name="pref_screen_notification_profile_generic_chat">Chat</string>
   <string name="pref_screen_notification_profile_generic_navigation">Navegación</string>
   <string name="pref_screen_notification_profile_generic_social">Red Social</string>
+  <string name="stats_title">Zonas de velocidad</string>
+  <string name="stats_x_axis_label">Total de minutos</string>
+  <string name="stats_y_axis_label">Pasos por minuto</string>
   <string name="control_center_find_lost_device">Encuentra un dispositivo perdido</string>
   <string name="control_center_cancel_to_stop_vibration">Cancelar para detener la vibración.</string>
   <string name="title_activity_charts">Tu actividad</string>
@@ -273,6 +280,9 @@
   <string name="chart_steps">Pasos</string>
   <string name="calories">Calorías</string>
   <string name="distance">Distancia</string>
+  <string name="clock">Reloj</string>
+  <string name="heart_rate">Ritmo cardíaco</string>
+  <string name="battery">Batería</string>
   <string name="liveactivity_live_activity">Actividad</string>
   <string name="weeksteps_today_steps_description">Pasos hoy, objetivo: %1$s</string>
   <string name="pref_title_dont_ack_transfer">No confirmar transferencia</string>
@@ -300,7 +310,20 @@
   <string name="miband2_prefs_dateformat">Mi2: Formato de fecha</string>
   <string name="dateformat_time">Tiempo</string>
   <string name="dateformat_date_time"><![CDATA[Fecha y hora]]></string>
+  <string name="mi2_prefs_goal_notification">Notificación de objetivo</string>
+  <string name="mi2_prefs_goal_notification_summary">La pulsera vibrará cuando llegues al objetivo diario de pasos</string>
+  <string name="mi2_prefs_display_items">Elementos que mostrar</string>
+  <string name="mi2_prefs_display_items_summary">Selecciona los elementos que mostrar en la pulsera</string>
   <string name="mi2_prefs_activate_display_on_lift">Activar pantalla al levantar</string>
+  <string name="mi2_prefs_rotate_wrist_to_switch_info">Gira la muñeca para cambiar la información</string>
+  <string name="mi2_prefs_do_not_disturb">No Molestar</string>
+  <string name="mi2_prefs_do_not_disturb_summary">La pulsera no recibirá notificaciones</string>
+  <string name="mi2_prefs_inactivity_warnings">Alerta de inactividad</string>
+  <string name="mi2_prefs_inactivity_warnings_summary">La pulsera vibrará cuando hayas estado inactivo por un tiempo</string>
+  <string name="mi2_prefs_inactivity_warnings_threshold">Umbral de inactividad (en minutos)</string>
+  <string name="mi2_prefs_inactivity_warnings_dnd_summary">Desactivar las alarmas de inactividad por un intervalo de tiempo</string>
+  <string name="mi2_prefs_do_not_disturb_start">Hora de inicio</string>
+  <string name="mi2_prefs_do_not_disturb_end">Hora de fin</string>
   <string name="FetchActivityOperation_about_to_transfer_since">A punto de transferir datos desde %1$s</string>
   <string name="waiting_for_reconnect">esperando reconexión</string>
   <string name="activity_prefs_about_you">Sobre ti</string>
@@ -368,6 +391,9 @@
   <string name="mi2_enable_text_notifications">Notificaciones textuales</string>
   <string name="mi2_enable_text_notifications_summary"><![CDATA[Needs firmware >= 1.0.1.28 and Mili_pro.ft* installed.]]></string>
   <string name="off">off</string>
+  <string name="mi2_dnd_off">Off</string>
+  <string name="mi2_dnd_automatic">Automático (detección de sueño)</string>
+  <string name="mi2_dnd_scheduled">Programado (intervalo de tiempo)</string>
   <string name="discovery_attempting_to_pair">Intento de emparejamiento con %1$s</string>
   <string name="discovery_bonding_failed_immediately">El enlace con %1$s falló instantáneamente</string>
   <string name="discovery_trying_to_connect_to">Intentando conectar con: %1$s</string>

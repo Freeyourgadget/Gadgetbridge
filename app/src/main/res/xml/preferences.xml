@@ -208,6 +208,9 @@
                     android:key="enable_calendar_sync"
                     android:summary="@string/pref_summary_enable_calendar_sync"
                     android:title="@string/pref_title_enable_calendar_sync" />
+                <Preference
+                    android:key="pref_key_blacklist_calendars"
+                    android:title="@string/pref_blacklist_calendars" />
                 <CheckBoxPreference
                     android:key="send_sunrise_sunset"
                     android:summary="@string/pref_summary_sunrise_sunset"

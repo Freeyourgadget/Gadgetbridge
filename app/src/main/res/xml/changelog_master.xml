@@ -1,9 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.20.1" versioncode="99">
+        <change>Amazfit Bip: Support icons and text body for notifications</change>
+        <change>Mi Band: Fix setting smart alarms</change>
+    </release>
+    <release version="0.20.0" versioncode="98">
+        <change>Inital Amazfit Bip support (WIP)</change>
+        <change>Various theming fixes</change>
+        <change>Add workaround for blacklist not properly persisting</change>
+        <change>Handle resetting language to default properly</change>
+        <change>Pebble: Pass booleans from Javascript Appmessage correctly</change>
+        <change>Pebble: Make local configuration pages work on most recent webview implementation</change>
+        <change>Pebble: Allow to blacklist calendars</change>
+        <change>Add Greek and German transliteration support</change>
+        <change>Various visual improvements to charts</change>
+    </release>
+    <release version="0.19.4" versioncode="97">
+        <change>Replace or relicense CC-NC licensed icons to satisfy F-Droid</change>
+        <change>Mi Band 2: Make infos to display on the Band configurable</change>
+        <change>Mi Band 2: Support wrist rotation to switch info setting</change>
+        <change>Mi Band 2: Support goal notification setting</change>
+        <change>Mi Band 2: Support do not disturb setting</change>
+        <change>Mi Band 2: Support inactivity warning setting </change>
+    </release>    
+    <release version="0.19.3" versioncode="96">
+        <change>Pebble: Fix crash when calendar access permission has been denied</change>
+        <change>Pebble: Fix wrong timestamps with Morpheuz running on Firmware >=3</change>
+        <change>Mi Band 2: Improve reliability when fetching activity data</change>
+        <change>HPlus: Fix intensity calculation without continuous connectivity</change>
+        <change>HPlus: Fix Unicode handling</change>
+        <change>HPlus: Initial not work detection</change>
+        <change>Fix memory leak</change>
+        <change>Only show Realtime Chart on devices supporting it</change>
+    </release>    
+    <release version="0.19.2" versioncode="95">
+        <change>Pebble: Fix recurring calendar events only appearing once per week</change>
+        <change>HPlus: Fix crash when receiving calls without phone number</change>
+        <change>HPlus: Detect unicode support on Zeband Plus</change>
+        <change>No longer quit Gadgetbridge when bluetooth gets turned off</change>
+    </release>
     <release version="0.19.1" versioncode="94">
         <change>Fix crash at startup</change>
         <change>Improve reconnection to device</change>
-*       <change>Improve transliteration</change>
+        <change>Improve transliteration</change>
     </release>
     <release version="0.19.0" versioncode="93">
         <change>Pebble: allow calendar sync with Timeline (Title, Location, Description)</change>

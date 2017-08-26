@@ -156,7 +156,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.warn("error while connecting: " + e.getMessage(), e);
             gbDevice.setState(originalState);
             gbDevice.sendDeviceUpdateIntent(getContext());
 

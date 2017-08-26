@@ -40,6 +40,7 @@
   <string name="app_move_to_top">Posunout nahoru</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Zakázané notifikace</string>
+  <!--Strings related to CalBlacklist-->
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">Instalátor FW/App</string>
   <string name="fw_upgrade_notice">Instaluje firmware %s do Mi Band místo stávajícího.</string>
@@ -76,7 +77,7 @@
   <string name="pref_title_notification_filter">Nerušit</string>
   <string name="pref_summary_notification_filter">Neposílat nechtěné notifikace podle režimu Nerušit.</string>
   <string name="pref_title_transliteration">Přepsání</string>
-  <string name="pref_summary_transliteration">Toto zapněte, pokud vaše zařízeníí nepodporuje písma pro vás jazyk (nyní Cyrilice).</string>
+  <string name="pref_summary_transliteration">Toto zapněte, pokud vaše zařízeníí nepodporuje písma pro vás jazyk.</string>
   <string name="always">vždy</string>
   <string name="when_screen_off">pokud je zapnutý displej</string>
   <string name="never">nikdy</string>

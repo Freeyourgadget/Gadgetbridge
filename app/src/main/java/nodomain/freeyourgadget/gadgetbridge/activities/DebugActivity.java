@@ -78,10 +78,6 @@ public class DebugActivity extends GBActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (intent.getAction()) {
-                case GBApplication.ACTION_QUIT: {
-                    finish();
-                    break;
-                }
                 case ACTION_REPLY: {
                     Bundle remoteInput = RemoteInput.getResultsFromIntent(intent);
                     CharSequence reply = remoteInput.getCharSequence(EXTRA_REPLY);
@@ -104,7 +100,6 @@ public class DebugActivity extends GBActivity {
         setContentView(R.layout.activity_debug);
 
         IntentFilter filter = new IntentFilter();
-        filter.addAction(GBApplication.ACTION_QUIT);
         filter.addAction(ACTION_REPLY);
         filter.addAction(DeviceService.ACTION_HEARTRATE_MEASUREMENT);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);

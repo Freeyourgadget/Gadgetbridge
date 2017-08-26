@@ -5,6 +5,7 @@
   <string name="action_settings">Paramètres</string>
   <string name="action_debug">Déboguer</string>
   <string name="action_quit">Quitter</string>
+  <string name="action_donate">Faire un don</string>
   <string name="controlcenter_fetch_activity_data">Synchroniser</string>
   <string name="controlcenter_start_sleepmonitor">Suivi du sommeil (ALPHA)</string>
   <string name="controlcenter_find_device">Retrouver un appareil perdu...</string>
@@ -40,6 +41,8 @@
   <string name="app_move_to_top">Haut de page </string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Liste noire de notifications</string>
+  <!--Strings related to CalBlacklist-->
+  <string name="title_activity_calblacklist">Calendriers sur liste noire</string>
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">Installateur d\'applications/micrologiciel</string>
   <string name="fw_upgrade_notice">Vous êtes sur le point d\'installer le micrologiciel %s à la place de celui qui est actuellement sur votre Mi Band.</string>
@@ -76,7 +79,7 @@
   <string name="pref_title_notification_filter">Ne Pas Déranger</string>
   <string name="pref_summary_notification_filter">Arrêter l’envoi des notifications non-désirées en mode Ne Pas Déranger.</string>
   <string name="pref_title_transliteration">Transcription</string>
-  <string name="pref_summary_transliteration">À utiliser si l\'appareil ne supporte pas la police de caractères (pour l\'instant seulement le Cyrillique)</string>
+  <string name="pref_summary_transliteration">Activez ceci si votre appareil ne supporte pas la police de caractères</string>
   <string name="always">toujours</string>
   <string name="when_screen_off">quand l\'écran est éteint</string>
   <string name="never">jamais</string>
@@ -87,6 +90,7 @@
   <string name="pref_call_privacy_mode_number">Masquer le numéro mais afficher le nom</string>
   <string name="pref_call_privacy_mode_complete">Masquer le nom et le numéro</string>
   <string name="pref_blacklist">Applications bloquées</string>
+  <string name="pref_blacklist_calendars">Mettre des calendriers en liste noire</string>
   <string name="pref_header_cannned_messages">Modèles de messages</string>
   <string name="pref_title_canned_replies">Réponses</string>
   <string name="pref_title_canned_reply_suffix">Suffixe fréquent</string>
@@ -220,6 +224,9 @@
   <string name="pref_screen_notification_profile_generic_chat">Tchat</string>
   <string name="pref_screen_notification_profile_generic_navigation">Navigation</string>
   <string name="pref_screen_notification_profile_generic_social">Réseau social</string>
+  <string name="stats_title">Zones de vitesse</string>
+  <string name="stats_x_axis_label">Total de minutes</string>
+  <string name="stats_y_axis_label">Pas par minute</string>
   <string name="control_center_find_lost_device">Trouver l\'appareil perdu</string>
   <string name="control_center_cancel_to_stop_vibration">Annuler pour arrêter les vibrations</string>
   <string name="title_activity_charts">Votre activité</string>
@@ -273,6 +280,9 @@
   <string name="chart_steps">Pas</string>
   <string name="calories">Calories</string>
   <string name="distance">Distance</string>
+  <string name="clock">Horloge</string>
+  <string name="heart_rate">Fréquence cardiaque</string>
+  <string name="battery">Batterie</string>
   <string name="liveactivity_live_activity">Activité en direct</string>
   <string name="weeksteps_today_steps_description">Nombre de pas aujourd\'hui, objectif: %1$s</string>
   <string name="pref_title_dont_ack_transfer">Ne pas confirmer le transfert de données d\'activités</string>
@@ -300,7 +310,20 @@
   <string name="miband2_prefs_dateformat">Mi2 : Format de la date</string>
   <string name="dateformat_time">Heure</string>
   <string name="dateformat_date_time"><![CDATA[Date et heure]]></string>
+  <string name="mi2_prefs_goal_notification">Notification d\'objectif</string>
+  <string name="mi2_prefs_goal_notification_summary">Le bracelet vibrera lorsque l\'objectif de pas quotidien sera atteint</string>
+  <string name="mi2_prefs_display_items">Éléments à afficher</string>
+  <string name="mi2_prefs_display_items_summary">Choisissez les éléments à afficher sur le bracelet</string>
   <string name="mi2_prefs_activate_display_on_lift">Allumer l\'écran lors d\'un mouvement</string>
+  <string name="mi2_prefs_rotate_wrist_to_switch_info">Tournez votre poignet pour changer d\'élément</string>
+  <string name="mi2_prefs_do_not_disturb">Ne Pas Déranger</string>
+  <string name="mi2_prefs_do_not_disturb_summary">Le bracelet ne recevra pas de notifications si activé</string>
+  <string name="mi2_prefs_inactivity_warnings">Alertes d\'inactivité</string>
+  <string name="mi2_prefs_inactivity_warnings_summary">Le bracelet vibrera si vous n\'êtes pas actif pendant un moment</string>
+  <string name="mi2_prefs_inactivity_warnings_threshold">Seuil d\'inactivité (en minutes)</string>
+  <string name="mi2_prefs_inactivity_warnings_dnd_summary">Désactiver les alertes d\'inactivité pendant un intervalle de temps</string>
+  <string name="mi2_prefs_do_not_disturb_start">Heure de début</string>
+  <string name="mi2_prefs_do_not_disturb_end">Heure de fin</string>
   <string name="FetchActivityOperation_about_to_transfer_since">Sur le point de transférer des données depuis %1$s</string>
   <string name="waiting_for_reconnect">en attente de reconnexion</string>
   <string name="activity_prefs_about_you">À propos de vous</string>
@@ -368,8 +391,11 @@ NOTE: la base de données sera bien évidement plus grande !</string>
   <string name="miband2_prefs_timeformat">Mi2: format de l\'heure</string>
   <string name="mi2_fw_installhandler_fw53_hint">Vous devez installer la version %1$s avant d\'installer ce micrologiciel!</string>
   <string name="mi2_enable_text_notifications">Notifications textuelles</string>
-  <string name="mi2_enable_text_notifications_summary"><![CDATA[Needs firmware >= 1.0.1.28 and Mili_pro.ft* installed.]]></string>
+  <string name="mi2_enable_text_notifications_summary"><![CDATA[Requis: micrologiciel version 1.0.1.28 ou plus, fichier Mili_pro.ft* installé.]]></string>
   <string name="off">off</string>
+  <string name="mi2_dnd_off">Off</string>
+  <string name="mi2_dnd_automatic">Automatique (détection de sommeil)</string>
+  <string name="mi2_dnd_scheduled">Programmé (intervalle de temps)</string>
   <string name="discovery_attempting_to_pair">Tentative d\'appairage avec %1$s</string>
   <string name="discovery_bonding_failed_immediately">Le lien avec %1$s a échoué instantanément</string>
   <string name="discovery_trying_to_connect_to">Tentative de connexion à: %1$s</string>

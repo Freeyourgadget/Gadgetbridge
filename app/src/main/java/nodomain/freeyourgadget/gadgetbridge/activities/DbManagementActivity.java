@@ -19,7 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
@@ -61,9 +60,6 @@ public class DbManagementActivity extends GBActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_db_management);
-
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(GBApplication.ACTION_QUIT);
 
         dbPath = (TextView) findViewById(R.id.activity_db_management_path);
         dbPath.setText(getExternalPath());

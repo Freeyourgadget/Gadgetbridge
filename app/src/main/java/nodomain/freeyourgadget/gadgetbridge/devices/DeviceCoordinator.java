@@ -201,8 +201,6 @@ public interface DeviceCoordinator {
      */
     boolean supportsHeartRateMeasurement(GBDevice device);
 
-    int getTapString();
-
     /**
      * Returns the readable name of the manufacturer.
      */
@@ -234,4 +232,10 @@ public interface DeviceCoordinator {
      */
     boolean supportsCalendarEvents();
 
+    /**
+     * Indicates whether the device supports getting a stream of live data.
+     * This can be live HR, steps etc.
+     */
+    boolean supportsRealtimeData();
+    
 }

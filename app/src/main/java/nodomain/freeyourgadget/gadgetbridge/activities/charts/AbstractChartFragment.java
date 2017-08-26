@@ -487,7 +487,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                 }
                 activityEntries.add(createBarEntry(value, ts));
                 if (hr && isValidHeartRateValue(sample.getHeartRate())) {
-                    if (lastHrSampleIndex > -1 && ts - lastHrSampleIndex > 60*HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
+                    if (lastHrSampleIndex > -1 && ts - lastHrSampleIndex > 1800*HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
                         heartrateEntries.add(createLineEntry(0, lastHrSampleIndex + 1));
                         heartrateEntries.add(createLineEntry(0, ts - 1));
                     }
@@ -530,7 +530,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             List<IBarDataSet> list = new ArrayList<>();
             list.add(activitySet);
             BarData barData = new BarData(list);
-            barData.setBarWidth(100f);
+            barData.setBarWidth(200f);
 //            barData.setGroupSpace(0);
             combinedData.setData(barData);
 
@@ -595,10 +595,10 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
     protected LineDataSet createHeartrateSet(List<Entry> values, String label) {
         LineDataSet set1 = new LineDataSet(values, label);
-        set1.setLineWidth(0.8f);
+        set1.setLineWidth(2.2f);
         set1.setColor(HEARTRATE_COLOR);
 //        set1.setDrawCubic(true);
-        set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        set1.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         set1.setCubicIntensity(0.1f);
         set1.setDrawCircles(false);
 //        set1.setCircleRadius(2f);
