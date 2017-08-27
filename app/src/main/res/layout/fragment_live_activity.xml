@@ -1,28 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+<android.support.v7.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:grid="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    grid:columnCount="2">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="20">
+    <nodomain.freeyourgadget.gadgetbridge.activities.charts.CustomBarChart
+        android:id="@+id/livechart_steps_per_minute_current"
+        grid:layout_columnWeight="1"
+        grid:layout_rowWeight="1"></nodomain.freeyourgadget.gadgetbridge.activities.charts.CustomBarChart>
 
-        <nodomain.freeyourgadget.gadgetbridge.activities.charts.CustomBarChart
-            android:id="@+id/livechart_steps_per_minute_current"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="20"></nodomain.freeyourgadget.gadgetbridge.activities.charts.CustomBarChart>
+    <nodomain.freeyourgadget.gadgetbridge.activities.charts.CustomBarChart
+        android:id="@+id/livechart_steps_total"
+        grid:layout_columnWeight="1"
+        grid:layout_rowWeight="1"></nodomain.freeyourgadget.gadgetbridge.activities.charts.CustomBarChart>
 
-        <nodomain.freeyourgadget.gadgetbridge.activities.charts.CustomBarChart
-            android:id="@+id/livechart_steps_total"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="20"></nodomain.freeyourgadget.gadgetbridge.activities.charts.CustomBarChart>
-
-        <!--
+    <!--
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/livechart_steps_total"
             android:layout_width="fill_parent"
@@ -37,13 +30,12 @@
             android:layout_weight="20">
         </com.github.mikephil.charting.charts.PieChart>
 -->
-    </LinearLayout>
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/livechart_steps_per_minute_history"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="20"></com.github.mikephil.charting.charts.LineChart>
+        grid:layout_columnSpan="2"
+        grid:layout_columnWeight="1"
+        grid:layout_rowWeight="1"></com.github.mikephil.charting.charts.LineChart>
 
 
-</LinearLayout>
+</android.support.v7.widget.GridLayout>
