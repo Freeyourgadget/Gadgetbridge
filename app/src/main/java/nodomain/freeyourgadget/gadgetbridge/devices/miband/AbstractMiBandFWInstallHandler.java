@@ -33,8 +33,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 public abstract class AbstractMiBandFWInstallHandler implements InstallHandler {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractMiBandFWInstallHandler.class);
 
-    private final Context mContext;
-    private AbstractMiBandFWHelper helper;
+    protected final Context mContext;
+    protected AbstractMiBandFWHelper helper;
     private String errorMessage;
 
     public AbstractMiBandFWInstallHandler(Uri uri, Context context) {
@@ -58,6 +58,13 @@ public abstract class AbstractMiBandFWInstallHandler implements InstallHandler {
 
     protected abstract AbstractMiBandFWHelper createHelper(Uri uri, Context context) throws IOException;
 
+    protected GenericItem createInstallItem() {
+        return new GenericItem(mContext.getString(R.string.miband_installhandler_miband_firmware, helper.getHumanFirmwareVersion()));
+    }
+
+    protected String getFwUpgradeNotice() {
+        return mContext.getString(R.string.fw_upgrade_notice, helper.getHumanFirmwareVersion());
+    }
 
     @Override
     public void validateInstallation(InstallActivity installActivity, GBDevice device) {
@@ -81,7 +88,7 @@ public abstract class AbstractMiBandFWInstallHandler implements InstallHandler {
             return;
         }
 
-        GenericItem fwItem = new GenericItem(mContext.getString(R.string.miband_installhandler_miband_firmware, helper.getHumanFirmwareVersion()));
+        GenericItem fwItem = createInstallItem();
         fwItem.setIcon(device.getType().getIcon());
 
         if (!helper.isFirmwareGenerallyCompatibleWith(device)) {
@@ -92,7 +99,8 @@ public abstract class AbstractMiBandFWInstallHandler implements InstallHandler {
         }
         StringBuilder builder = new StringBuilder();
         if (helper.isSingleFirmware()) {
-            builder.append(mContext.getString(R.string.fw_upgrade_notice, helper.getHumanFirmwareVersion()));
+            getFwUpgradeNotice();
+            builder.append(getFwUpgradeNotice());
         } else {
             builder.append(mContext.getString(R.string.fw_multi_upgrade_notice, helper.getHumanFirmwareVersion(), helper.getHumanFirmwareVersion2()));
         }

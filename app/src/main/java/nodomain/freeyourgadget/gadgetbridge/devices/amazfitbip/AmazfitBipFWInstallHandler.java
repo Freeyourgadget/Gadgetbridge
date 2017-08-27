@@ -21,14 +21,26 @@ import android.net.Uri;
 
 import java.io.IOException;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.AbstractMiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.AbstractMiBandFWInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 
 class AmazfitBipFWInstallHandler extends AbstractMiBandFWInstallHandler {
     AmazfitBipFWInstallHandler(Uri uri, Context context) {
         super(uri, context);
+    }
+
+    @Override
+    protected GenericItem createInstallItem() {
+        return new GenericItem(mContext.getString(R.string.amazfitbip_firmware), helper.getHumanFirmwareVersion());
+    }
+
+    @Override
+    protected String getFwUpgradeNotice() {
+        return mContext.getString(R.string.fw_upgrade_notice_amazfitbip, helper.getHumanFirmwareVersion());
     }
 
     @Override
