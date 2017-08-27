@@ -402,5 +402,4 @@
   <string name="discovery_pair_question">Wähle Koppeln, um dein Gerät zu verbinden. Falls dies fehlschlägt, versuche es erneut ohne Kopplung.</string>
   <string name="discovery_yes_pair">Koppeln</string>
   <string name="discovery_dont_pair">Nicht koppeln</string>
-<string name="action_donate">Spenden</string>
-    </resources>
+</resources>
