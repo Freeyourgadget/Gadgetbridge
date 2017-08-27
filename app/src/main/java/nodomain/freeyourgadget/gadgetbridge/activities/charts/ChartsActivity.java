@@ -328,10 +328,9 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
                 case 3:
                     return new WeekStepsChartFragment();
                 case 4:
-                    return new LiveActivityFragment();
-                case 5:
                     return new SpeedZonesFragment();
-
+                case 5:
+                    return new LiveActivityFragment();
             }
             return null;
         }
@@ -358,9 +357,9 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
                 case 3:
                     return getString(R.string.weekstepschart_steps_a_week);
                 case 4:
-                    return getString(R.string.liveactivity_live_activity);
-                case 5:
                     return getString(R.string.stats_title);
+                case 5:
+                    return getString(R.string.liveactivity_live_activity);
             }
             return super.getPageTitle(position);
         }
