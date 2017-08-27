@@ -5,9 +5,10 @@
   <string name="action_settings">設定</string>
   <string name="action_debug">デバッグ</string>
   <string name="action_quit">終了</string>
+  <string name="action_donate">寄付する</string>
   <string name="controlcenter_fetch_activity_data">同期</string>
   <string name="controlcenter_start_sleepmonitor">睡眠観測（アルファ）</string>
-  <string name="controlcenter_find_device">デバイスをバイブさせる</string>
+  <string name="controlcenter_find_device">失くしたデバイスを見つける</string>
   <string name="controlcenter_take_screenshot">スクリーンショットを撮る</string>
   <string name="controlcenter_disconnect">切断</string>
   <string name="controlcenter_delete_device">デバイスを削除</string>
@@ -40,6 +41,8 @@
   <string name="app_move_to_top">先頭に移動</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">ステータス通知ブラックリスト</string>
+  <!--Strings related to CalBlacklist-->
+  <string name="title_activity_calblacklist">ブラックリストにしたカレンダー</string>
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">ファームウェア・アプリのインストール</string>
   <string name="fw_upgrade_notice">お使いのMi Bandに、現在のファームウェアの代わりに%sをインストールしようとしています。</string>
@@ -87,6 +90,7 @@
   <string name="pref_call_privacy_mode_number">番号は非表示、名前は表示</string>
   <string name="pref_call_privacy_mode_complete">名前と番号を非表示</string>
   <string name="pref_blacklist">アップのブラックリスト</string>
+  <string name="pref_blacklist_calendars">ブラックリストのカレンダー</string>
   <string name="pref_header_cannned_messages">定型のメッセージ</string>
   <string name="pref_title_canned_replies">返信</string>
   <string name="pref_title_canned_reply_suffix">共通の接尾語</string>

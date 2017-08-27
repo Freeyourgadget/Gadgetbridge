@@ -5,6 +5,7 @@
   <string name="action_settings">Paramètres</string>
   <string name="action_debug">Déboguer</string>
   <string name="action_quit">Quitter</string>
+  <string name="action_donate">Faire un don</string>
   <string name="controlcenter_fetch_activity_data">Synchroniser</string>
   <string name="controlcenter_start_sleepmonitor">Suivi du sommeil (ALPHA)</string>
   <string name="controlcenter_find_device">Retrouver un appareil perdu...</string>
@@ -40,6 +41,8 @@
   <string name="app_move_to_top">Haut de page </string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Liste noire de notifications</string>
+  <!--Strings related to CalBlacklist-->
+  <string name="title_activity_calblacklist">Calendriers sur liste noire</string>
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">Installateur d\'applications/micrologiciel</string>
   <string name="fw_upgrade_notice">Vous êtes sur le point d\'installer le micrologiciel %s à la place de celui qui est actuellement sur votre Mi Band.</string>
@@ -87,6 +90,7 @@
   <string name="pref_call_privacy_mode_number">Masquer le numéro mais afficher le nom</string>
   <string name="pref_call_privacy_mode_complete">Masquer le nom et le numéro</string>
   <string name="pref_blacklist">Applications bloquées</string>
+  <string name="pref_blacklist_calendars">Mettre des calendriers en liste noire</string>
   <string name="pref_header_cannned_messages">Modèles de messages</string>
   <string name="pref_title_canned_replies">Réponses</string>
   <string name="pref_title_canned_reply_suffix">Suffixe fréquent</string>

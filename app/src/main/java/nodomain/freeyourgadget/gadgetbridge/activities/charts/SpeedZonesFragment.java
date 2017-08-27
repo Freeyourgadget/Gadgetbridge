@@ -24,7 +24,6 @@ import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
-import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -43,12 +42,11 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 
-import static android.R.attr.x;
 
-
-public class StatsChartFragment extends AbstractChartFragment {
-    protected static final Logger LOG = LoggerFactory.getLogger(StatsChartFragment.class);
+public class SpeedZonesFragment extends AbstractChartFragment {
+    protected static final Logger LOG = LoggerFactory.getLogger(SpeedZonesFragment.class);
 
     private HorizontalBarChart mStatsChart;
 
@@ -67,13 +65,17 @@ public class StatsChartFragment extends AbstractChartFragment {
         BarData data = new BarData();
         data.setValueTextColor(CHART_TEXT_COLOR);
         List<BarEntry> entries = new ArrayList<>();
-        XAxisValueFormatter customXAxis = new XAxisValueFormatter();
 
-        for (Map.Entry<Float, Float> entry : analysis.statsQuantified.entrySet()) {
-            entries.add(new BarEntry(entry.getKey(), entry.getValue()));
-            /*float realValue = entry.getKey() * analysis.maxSpeedQuantifier;
-            String customLabel = Math.round(realValue * (1 - analysis.roundPrecision) * 10f) / 10f + " - " + Math.round(realValue * (1 + analysis.roundPrecision) * 10f) / 10f;*/
-            customXAxis.add("" + entry.getKey() * analysis.maxSpeedQuantifier);
+        ActivityUser user = new ActivityUser();
+        /*double distanceFactorCm;
+        if (user.getGender() == user.GENDER_MALE){
+            distanceFactorCm = user.getHeightCm() * user.GENDER_MALE_DISTANCE_FACTOR / 1000;
+        } else {
+            distanceFactorCm = user.getHeightCm() * user.GENDER_FEMALE_DISTANCE_FACTOR / 1000;
+        }*/
+
+        for (Map.Entry<Integer, Long> entry : analysis.stats.entrySet()) {
+            entries.add(new BarEntry(entry.getKey(), entry.getValue() / 60));
         }
 
         BarDataSet set = new BarDataSet(entries, "");
@@ -82,14 +84,6 @@ public class StatsChartFragment extends AbstractChartFragment {
         //set.setDrawValues(false);
         //data.setBarWidth(0.1f);
         data.addDataSet(set);
-
-        // set X axis
-        customXAxis.sort();
-        XAxis left = mStatsChart.getXAxis();
-        left.setValueFormatter(customXAxis);
-
-        // display precision
-        //mStatsChart.getDescription().setText(Math.round(analysis.roundPrecision * 100) + "%");
 
         return new MySpeedZonesData(data);
     }
@@ -127,39 +121,27 @@ public class StatsChartFragment extends AbstractChartFragment {
         mStatsChart.setTouchEnabled(false);
         mStatsChart.getDescription().setText("");
 
-        XAxis x = mStatsChart.getXAxis();
-        x.setTextColor(CHART_TEXT_COLOR);
+        XAxis right = mStatsChart.getXAxis(); //believe it or not, the X axis is vertical for HorizontalBarChart
+        right.setTextColor(CHART_TEXT_COLOR);
 
-        YAxis yr = mStatsChart.getAxisRight();
-        yr.setTextColor(CHART_TEXT_COLOR);
-    }
+        YAxis bottom = mStatsChart.getAxisRight();
+        bottom.setTextColor(CHART_TEXT_COLOR);
+        bottom.setGranularity(1f);
 
-    @Override
-    protected void setupLegend(Chart chart) {
-        List<LegendEntry> legendEntries = new ArrayList<>(3);
-        LegendEntry lightSleepEntry = new LegendEntry();
-        lightSleepEntry.label = akLightSleep.label;
-        lightSleepEntry.formColor = akLightSleep.color;
-        legendEntries.add(lightSleepEntry);
-
-        LegendEntry deepSleepEntry = new LegendEntry();
-        deepSleepEntry.label = akDeepSleep.label;
-        deepSleepEntry.formColor = akDeepSleep.color;
-        legendEntries.add(deepSleepEntry);
-
-        if (supportsHeartrate(getChartsHost().getDevice())) {
-            LegendEntry hrEntry = new LegendEntry();
-            hrEntry.label = HEARTRATE_LABEL;
-            hrEntry.formColor = HEARTRATE_COLOR;
-            legendEntries.add(hrEntry);
-        }
-        chart.getLegend().setCustom(legendEntries);
-        chart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
+        YAxis top = mStatsChart.getAxisLeft();
+        top.setTextColor(CHART_TEXT_COLOR);
+        top.setGranularity(1f);
     }
 
     @Override
     protected List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
         return super.getAllSamples(db, device, tsFrom, tsTo);
+    }
+
+    @Override
+    protected void setupLegend(Chart chart) {
+        // no legend here, it is all about the steps here
+        chart.getLegend().setEnabled(false);
     }
 
     @Override

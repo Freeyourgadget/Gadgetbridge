@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2017 Carsten Pfeiffer, JohnnySun, Uwe Hermann
+/*  Copyright (C) 2016-2017 Andreas Shimokawa, Carsten Pfeiffer, JohnnySun,
+    José Rebelo, Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -53,7 +54,6 @@ public class MiBand2Service {
     public static final int ALERT_LEVEL_MESSAGE = 1;
     public static final int ALERT_LEVEL_PHONE_CALL = 2;
     public static final int ALERT_LEVEL_VIBRATE_ONLY = 3;
-    public static final int ALERT_LEVEL_CUSTOM = 0xfa; // followed by another uin8 to select the actual icon
 
     // set metric distance
     // set 12 hour time mode
@@ -171,6 +171,8 @@ public class MiBand2Service {
     public static final byte[] COMMAND_DISABLE_GOAL_NOTIFICATION = new byte[]{ENDPOINT_DISPLAY, 0x06, 0x00, 0x00};
     public static final byte[] COMMAND_ENABLE_ROTATE_WRIST_TO_SWITCH_INFO = new byte[]{ENDPOINT_DISPLAY, 0x0d, 0x00, 0x01};
     public static final byte[] COMMAND_DISABLE_ROTATE_WRIST_TO_SWITCH_INFO = new byte[]{ENDPOINT_DISPLAY, 0x0d, 0x00, 0x00};
+    public static final byte[] COMMAND_ENABLE_DISPLAY_CALLER = new byte[]{ENDPOINT_DISPLAY, 0x10, 0x00, 0x00, 0x01};
+    public static final byte[] COMMAND_DISABLE_DISPLAY_CALLER = new byte[]{ENDPOINT_DISPLAY, 0x10, 0x00, 0x00, 0x00};
     public static final byte[] DISPLAY_XXX = new byte[] {ENDPOINT_DISPLAY, 0x03, 0x0, 0x0 };
     public static final byte[] DISPLAY_YYY = new byte[] {ENDPOINT_DISPLAY, 0x10, 0x0, 0x1, 0x1 };
 

@@ -5,6 +5,7 @@
   <string name="action_settings">Ajustes</string>
   <string name="action_debug">Depuración</string>
   <string name="action_quit">Salir</string>
+  <string name="action_donate">Hacer donación</string>
   <string name="controlcenter_fetch_activity_data">Sincronizar</string>
   <string name="controlcenter_start_sleepmonitor">Monitor de sueño (ALPHA)</string>
   <string name="controlcenter_find_device">Encontrar dispositivo perdido...</string>
@@ -40,6 +41,8 @@
   <string name="app_move_to_top">Mover a la parte de arriba</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Lista negra de notificaciones</string>
+  <!--Strings related to CalBlacklist-->
+  <string name="title_activity_calblacklist">Calendarios en lista negra</string>
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">Instalador de FW/App</string>
   <string name="fw_upgrade_notice">Estás a punto de instalar el firmware %s en lugar del que está en tu MiBand.</string>
@@ -87,6 +90,7 @@
   <string name="pref_call_privacy_mode_number">Ocultar el número pero mostrar el nombre</string>
   <string name="pref_call_privacy_mode_complete">Ocultar nombre y número</string>
   <string name="pref_blacklist">Excluir aplicaciones</string>
+  <string name="pref_blacklist_calendars">Poner calendarios en lista negra</string>
   <string name="pref_header_cannned_messages">Mensajes predeterminados</string>
   <string name="pref_title_canned_replies">Respuestas</string>
   <string name="pref_title_canned_reply_suffix">Sufijo habitual</string>

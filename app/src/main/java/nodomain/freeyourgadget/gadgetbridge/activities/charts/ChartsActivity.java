@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
+    Gobbetti, Vebryn
 
     This file is part of Gadgetbridge.
 
@@ -328,22 +328,21 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
                 case 3:
                     return new WeekStepsChartFragment();
                 case 4:
-                    return new LiveActivityFragment();
+                    return new SpeedZonesFragment();
                 case 5:
-                    return new StatsChartFragment();
-
+                    return new LiveActivityFragment();
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            // Show 4 or 5 total pages. (always hide speed zones)
+            // Show 5 or 6 total pages.
             DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(mGBDevice);
             if (coordinator.supportsRealtimeData()) {
-                return 5;
+                return 6;
             }
-            return 4;
+            return 5;
         }
 
         @Override
@@ -358,9 +357,9 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
                 case 3:
                     return getString(R.string.weekstepschart_steps_a_week);
                 case 4:
-                    return getString(R.string.liveactivity_live_activity);
-                case 5:
                     return getString(R.string.stats_title);
+                case 5:
+                    return getString(R.string.liveactivity_live_activity);
             }
             return super.getPageTitle(position);
         }

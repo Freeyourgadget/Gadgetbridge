@@ -1,5 +1,5 @@
 /*  Copyright (C) 2016-2017 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
-    ivanovlev, João Paulo Barraca
+    ivanovlev, João Paulo Barraca, Pavel Motyrev
 
     This file is part of Gadgetbridge.
 

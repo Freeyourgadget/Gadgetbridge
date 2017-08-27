@@ -1,5 +1,13 @@
 ### Changelog
 
+#### Version 0.20.2
+* Amazfit Bip: Various fixes regarding weather, add condition string support for FW 0.0.8.74
+* Amazfit Bip: enable caller display in later firmwares
+* Amazfit Bip: initial firmware update support (EXPERIMENTAL, AT YOUR OWN RISK)
+* Re-enable improved speed zones tab
+* Probably fix crash with certain music players
+* Improve theme and add changelog icon
+
 #### Version 0.20.1
 * Amazfit Bip: Support icons and text body for notifications
 * Mi Band: Fix setting smart alarms
