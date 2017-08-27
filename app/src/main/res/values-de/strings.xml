@@ -403,4 +403,11 @@
   <string name="discovery_yes_pair">Koppeln</string>
   <string name="discovery_dont_pair">Nicht koppeln</string>
 <string name="stats_title">Geschwindigkeitszonen</string>
+    <string name="fw_upgrade_notice_amazfitbip">Es soll die Firmware %s anstelle der aktuell installierten Version auf die Amazfit Bip gespielt werden.
+\n
+\nBitte stelle sicher, dass Du zuerst die .gps firmware, dann die .res Datei, und zum Schluss die .fw Datei installiert. Deine Uhr wird sich nach der installation der .fw Datei neustarten.
+\n
+\nHinweis: Du musst die .res and .gps Dateien nicht installieren, falls diese genau die gleichen Dateien wie die sind, die Du schon mit einer vorigen .fw Datei zusammen installiert hattest.
+\n
+\nDIES IST EXPERIMENTELL, FAHRE AUF EIGENES RISIKO FORT</string>
     </resources>
