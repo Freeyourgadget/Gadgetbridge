@@ -22,14 +22,12 @@
 
             <Button
                 android:id="@+id/exportDBButton"
-                style="@style/Widget.AppCompat.Button.Colored"
                 android:text="Export DB"
                 grid:layout_column="0"
                 grid:layout_gravity="center" />
 
             <Button
                 android:id="@+id/importDBButton"
-                style="@style/Widget.AppCompat.Button.Colored"
                 android:text="Import DB"
                 grid:layout_gravity="center"
                 grid:layout_column="1" />
@@ -67,7 +65,6 @@
 
             <Button
                 android:id="@+id/deleteOldActivityDB"
-                style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -85,7 +82,6 @@
 
             <Button
                 android:id="@+id/emptyDBButton"
-                style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Empty DB" />

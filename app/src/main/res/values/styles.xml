@@ -9,6 +9,9 @@
         <item name="colorPrimaryDark">@color/primarydark_light</item>
         <item name="colorAccent">@color/accent</item>
 
+        <item name="android:buttonStyle">@style/Widget.AppCompat.Button.Colored</item>
+        <item name="buttonStyle">@style/Widget.AppCompat.Button.Colored</item>
+
         <item name="chart_deep_sleep">@color/chart_deep_sleep_light</item>
         <item name="chart_light_sleep">@color/chart_light_sleep_light</item>
         <item name="chart_activity">@color/chart_activity_light</item>
@@ -30,10 +33,17 @@
         <item name="colorPrimaryDark">@color/primarydark_dark</item>
         <item name="colorAccent">@color/accent</item>
 
+        <item name="android:buttonStyle">@style/ButtonDark</item>
+        <item name="buttonStyle">@style/ButtonDark</item>
+
         <item name="chart_deep_sleep">@color/chart_deep_sleep_dark</item>
         <item name="chart_light_sleep">@color/chart_light_sleep_dark</item>
         <item name="chart_activity">@color/chart_activity_dark</item>
         <item name="chart_not_worn">@color/chart_not_worn_dark</item>
+    </style>
+
+    <style name="ButtonDark" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textColor">@color/btn_dark</item>
     </style>
 
     <style name="GadgetbridgeThemeDark.NoActionBar">
