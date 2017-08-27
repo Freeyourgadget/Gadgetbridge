@@ -8,7 +8,7 @@
   <string name="action_donate">寄付する</string>
   <string name="controlcenter_fetch_activity_data">同期</string>
   <string name="controlcenter_start_sleepmonitor">睡眠観測（アルファ）</string>
-  <string name="controlcenter_find_device">デバイスをバイブさせる</string>
+  <string name="controlcenter_find_device">失くしたデバイスを見つける</string>
   <string name="controlcenter_take_screenshot">スクリーンショットを撮る</string>
   <string name="controlcenter_disconnect">切断</string>
   <string name="controlcenter_delete_device">デバイスを削除</string>

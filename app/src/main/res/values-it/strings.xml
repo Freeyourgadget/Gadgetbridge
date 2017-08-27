@@ -45,7 +45,9 @@
   <string name="fw_upgrade_notice">Il firmware %s verrà installato al posto di quello attualmente sulla Mi Band.</string>
   <string name="fw_multi_upgrade_notice">Stai per installare i firmware %1$s e %2$s al posto di quelli al momento sulla tua Mi Band.</string>
   <string name="miband_firmware_known">Questo firmware è stato testato ed è compatibile con Gadgetbridge.</string>
-  <string name="miband_firmware_unknown_warning">Questo firmware NON è stato testato e potrebbe non essere compatibile con Gadgetbridge.\n\nInstallarlo a proprio rischio sulla Mi Band.</string>
+  <string name="miband_firmware_unknown_warning">Questo firmware NON è stato testato e potrebbe non essere compatibile con Gadgetbridge.
+\n
+\nNON è raccomandato installarlo sulla Mi Band!</string>
   <string name="miband_firmware_suggest_whitelist">Se hai intenzione di procedere e tutto continua a funzionare ti invitiamo a contattare gli sviluppatori e dire loro di aggiungere il firmware: %s a quelli testati</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Impostazioni</string>
@@ -74,7 +76,7 @@
   <string name="pref_title_notifications_generic">Notifiche generiche</string>
   <string name="pref_title_whenscreenon">… anche se lo schermo è acceso</string>
   <string name="pref_title_notification_filter">Non disturbare</string>
-  <string name="pref_summary_notification_filter">Non inviare notifiche nei periodi configurati come \"non disturbare\"</string>
+  <string name="pref_summary_notification_filter">Non inviare notifiche nei periodi configurati come \"non disturbare\".</string>
   <string name="pref_title_transliteration">Traslitterazione</string>
   <string name="pref_summary_transliteration">Abilita questa opzione se il tuo dispositivo non supporta tutti i caratteri della tua lingua</string>
   <string name="always">sempre</string>
