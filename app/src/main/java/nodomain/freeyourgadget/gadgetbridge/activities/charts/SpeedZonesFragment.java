@@ -121,11 +121,16 @@ public class SpeedZonesFragment extends AbstractChartFragment {
         mStatsChart.setTouchEnabled(false);
         mStatsChart.getDescription().setText("");
 
-        XAxis x = mStatsChart.getXAxis();
-        x.setTextColor(CHART_TEXT_COLOR);
+        XAxis right = mStatsChart.getXAxis(); //believe it or not, the X axis is vertical for HorizontalBarChart
+        right.setTextColor(CHART_TEXT_COLOR);
 
-        YAxis yr = mStatsChart.getAxisRight();
-        yr.setTextColor(CHART_TEXT_COLOR);
+        YAxis bottom = mStatsChart.getAxisRight();
+        bottom.setTextColor(CHART_TEXT_COLOR);
+        bottom.setGranularity(1f);
+
+        YAxis top = mStatsChart.getAxisLeft();
+        top.setTextColor(CHART_TEXT_COLOR);
+        top.setGranularity(1f);
     }
 
     @Override
