@@ -7,7 +7,7 @@
   <string name="action_quit">Esci</string>
   <string name="controlcenter_fetch_activity_data">Sincronizza</string>
   <string name="controlcenter_start_sleepmonitor">Monitoraggio del sonno (ALPHA)</string>
-  <string name="controlcenter_find_device">Trova dispositivo smarrito...</string>
+  <string name="controlcenter_find_device">Trova dispositivo smarrito</string>
   <string name="controlcenter_take_screenshot">Salva uno screenshot</string>
   <string name="controlcenter_disconnect">Disconnetti</string>
   <string name="controlcenter_delete_device">Rimuovi dispositivo</string>
@@ -74,14 +74,14 @@
   <string name="pref_title_notifications_pebblemsg">Messaggi Pebble</string>
   <string name="pref_summary_notifications_pebblemsg">Supporto per applicazioni che inviano le notifiche a Pebble usando PebbleKit.</string>
   <string name="pref_title_notifications_generic">Notifiche generiche</string>
-  <string name="pref_title_whenscreenon">… anche se lo schermo è acceso</string>
+  <string name="pref_title_whenscreenon">…anche se lo schermo è acceso</string>
   <string name="pref_title_notification_filter">Non disturbare</string>
   <string name="pref_summary_notification_filter">Non inviare notifiche nei periodi configurati come \"non disturbare\".</string>
   <string name="pref_title_transliteration">Traslitterazione</string>
   <string name="pref_summary_transliteration">Abilita questa opzione se il tuo dispositivo non supporta tutti i caratteri della tua lingua</string>
   <string name="always">sempre</string>
   <string name="when_screen_off">se lo schermo è spento</string>
-  <string name="never">mai</string>
+  <string name="never">Mai</string>
   <string name="pref_header_privacy">Privacy</string>
   <string name="pref_title_call_privacy_mode">Impostazioni privacy chiamate</string>
   <string name="pref_call_privacy_mode_off">Mostra nome e numero chiamante</string>
@@ -140,24 +140,26 @@
   <string name="pref_title_screentime">Durata dell\'accensione dello schermo</string>
   <string name="prefs_title_all_day_heart_rate">Misura il battito cardiaco continuativamente</string>
   <string name="preferences_hplus_settings">Impostazioni HPlus/Makibes</string>
-  <string name="not_connected">non connesso</string>
-  <string name="connecting">in collegamento</string>
-  <string name="connected">connesso</string>
-  <string name="unknown_state">stato sconosciuto</string>
+  <string name="not_connected">Non connesso</string>
+  <string name="connecting">In collegamento</string>
+  <string name="connected">Connesso</string>
+  <string name="unknown_state">Stato sconosciuto</string>
+  <string name="connectionstate_hw_fw">HW: %1$s FW: %2$s</string>
+  <string name="connectionstate_fw">Versione firmware: %1$s</string>
   <string name="_unknown_">(sconosciuto)</string>
   <string name="test">Test</string>
   <string name="test_notification">Notifica di prova</string>
   <string name="this_is_a_test_notification_from_gadgetbridge">Notifica di prova creata da Gadgetbridge</string>
   <string name="bluetooth_is_not_supported_">Bluetooth non supportato.</string>
   <string name="bluetooth_is_disabled_">Bluetooth disabilitato.</string>
-  <string name="tap_connected_device_for_app_mananger">tocca il dispositivo connesso per gestire le App</string>
+  <string name="tap_connected_device_for_app_mananger">Tocca il dispositivo connesso per gestire le App</string>
   <string name="tap_connected_device_for_activity">Tocca il dispositivo connesso per vedere le tue attività</string>
   <string name="tap_connected_device_for_vibration">Tocca il dispositivo connesso per la vibrazione</string>
   <string name="tap_a_device_to_connect">tocca il dispositivo a cui connettersi</string>
-  <string name="cannot_connect_bt_address_invalid_">Impossibile connettersi. Indirizzo BT non valido?</string>
+  <string name="cannot_connect_bt_address_invalid_">Impossibile connettersi. Indirizzo Bluetooth non valido?</string>
   <string name="gadgetbridge_running">Gadgetbridge in esecuzione</string>
-  <string name="installing_binary_d_d">installazione del binario %1$d/%2$d</string>
-  <string name="installation_failed_">Installazione fallita!</string>
+  <string name="installing_binary_d_d">Installazione del binario %1$d/%2$d</string>
+  <string name="installation_failed_">Installazione fallita</string>
   <string name="installation_successful">installazione conclusa con successo</string>
   <string name="firmware_install_warning">STAI INSTALLANDO UN FIRMWARE, PROCEDI A TUO RISCHIO.\n\n Questo firmware è per la versione HW: %s</string>
   <string name="app_install_info">Si sta per installare la app:\n\n\n%1$s Versione %2$s di %3$s\n</string>
@@ -179,12 +181,12 @@
   <string name="pairing_already_bonded">Bonding già effettuato con %1$s (%2$s), connessione in corso...</string>
   <string name="message_cannot_pair_no_mac">Indirizzo MAC mancante, impossibile completare l\'accoppiamento.</string>
   <string name="preferences_category_device_specific_settings">Impostazioni specifiche dispositivo</string>
-  <string name="preferences_miband_settings">Impostazioni Mi Band</string>
-  <string name="male">uomo</string>
-  <string name="female">donna</string>
-  <string name="other">altro</string>
-  <string name="left">sinistro</string>
-  <string name="right">destro</string>
+  <string name="preferences_miband_settings">Impostazioni Mi Band / Bip</string>
+  <string name="male">Uomo</string>
+  <string name="female">Donna</string>
+  <string name="other">Altro</string>
+  <string name="left">Sinistro</string>
+  <string name="right">Destro</string>
   <string name="miband_pairing_using_dummy_userdata">Dati dell\'utente non inseriti, vengono usati dati d\'esempio.</string>
   <string name="miband_pairing_tap_hint">Quando la Mi Band vibra e lampeggia, dalle qualche leggero colpetto.</string>
   <string name="appinstaller_install">Installa</string>
@@ -195,7 +197,7 @@
   <string name="pref_header_vibration_count">Numero vibrazioni</string>
   <string name="title_activity_sleepmonitor">Monitoraggio del sonno</string>
   <string name="pref_write_logfiles">Salva il log su file</string>
-  <string name="initializing">inizializzazione in corso</string>
+  <string name="initializing">Inizializzazione in corso</string>
   <string name="busy_task_fetch_activity_data">Recupero dati attività</string>
   <string name="sleep_activity_date_range">Da %1$s a %2$s</string>
   <string name="miband_prefs_wearside">Indossato sul braccio sinistro o destro?</string>
@@ -302,14 +304,14 @@
   <string name="activity_prefs_gender">Genere</string>
   <string name="activity_prefs_height_cm">Altezza in cm</string>
   <string name="activity_prefs_weight_kg">Peso in kg</string>
-  <string name="authenticating">in autenticazione</string>
-  <string name="authentication_required">autenticazione necessaria</string>
+  <string name="authenticating">In autenticazione</string>
+  <string name="authentication_required">Autenticazione necessaria</string>
   <string name="appwidget_text">Zzz</string>
   <string name="add_widget">Aggiungi widget</string>
   <string name="activity_prefs_sleep_duration">Ore di sonno preferite</string>
   <string name="appwidget_alarms_set">Impostata sveglia per %1$02d:%2$02d</string>
-  <string name="device_hw">HW: %1$s</string>
-  <string name="device_fw">FW: %1$s</string>
+  <string name="device_hw">Versione Hardware: %1$s</string>
+  <string name="device_fw">Versione Firmware: %1$s</string>
   <string name="error_creating_directory_for_logfiles">Errore durante la creazione della directory per i file di log: %1$s</string>
   <string name="DEVINFO_HR_VER">HR:</string>
   <string name="updatefirmwareoperation_update_in_progress">Aggiornamento firmware in corso</string>
@@ -357,5 +359,26 @@
   <string name="miband2_prefs_timeformat">Mi2: Formato dell\'orario</string>
   <string name="mi2_fw_installhandler_fw53_hint">E\' necessario installare la verione %1$s prima di installare questo firmware!</string>
   <string name="mi2_enable_text_notifications">Notifiche</string>
-  <string name="off">spento</string>
-</resources>
+  <string name="off">Spento</string>
+<string name="action_donate">Dona</string>
+    <string name="title_activity_calblacklist">Calendari con notifiche bloccate</string>
+
+    <string name="pref_blacklist_calendars">Blocca calendari</string>
+
+    <string name="pref_title_enable_calendar_sync">Sincronizza calendari</string>
+    <string name="pref_summary_enable_calendar_sync">Mostra eveti dei calendari sulla timeline</string>
+
+    <string name="stats_x_axis_label">Minuti totali</string>
+    <string name="stats_y_axis_label">Passi al minuto</string>
+
+    <string name="calories">Calorie</string>
+    <string name="distance">Distanza</string>
+    <string name="battery">Batteria</string>
+    <string name="dateformat_date_time">Ora e data</string>
+    <string name="mi2_prefs_goal_notification">Notifica al raggiungimento dell\'obiettivo</string>
+    <string name="mi2_prefs_goal_notification_summary">Il dispositivo vibrerà quando l\'obiettivo giornaliero di passi viene raggiunto</string>
+    <string name="mi2_prefs_do_not_disturb">Non disturbare</string>
+    <string name="dbmanagementactivity_error_exporting_shared">Errore durante l\'export delle preferenze: %1$s</string>
+    <string name="dbmanagementactivity_error_importing_shared">Errore durante l\'importazione delle preferenze: %1$s</string>
+    <string name="mi2_enable_text_notifications_summary">"Devono essere installati un firmware &gt;= 1.0.1.28 e  Mili_pro.ft*."</string>
+    </resources>
