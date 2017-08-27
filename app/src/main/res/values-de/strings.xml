@@ -8,7 +8,7 @@
   <string name="action_donate">Spenden</string>
   <string name="controlcenter_fetch_activity_data">Synchronisieren</string>
   <string name="controlcenter_start_sleepmonitor">Schlafaufzeichnung (ALPHA)</string>
-  <string name="controlcenter_find_device">Suche verlegtes Gerät…</string>
+  <string name="controlcenter_find_device">Suche verlegtes Gerät</string>
   <string name="controlcenter_take_screenshot">Bildschirmfoto machen</string>
   <string name="controlcenter_disconnect">Trennen</string>
   <string name="controlcenter_delete_device">Gerät löschen</string>
@@ -151,7 +151,7 @@
   <string name="unknown_state">unbekannter Zustand</string>
   <string name="connectionstate_hw_fw">HW: %1$s FW: %2$s</string>
   <string name="connectionstate_fw">FW: %1$s</string>
-  <string name="_unknown_">(unknown)</string>
+  <string name="_unknown_">(unbekannt)</string>
   <string name="test">Test</string>
   <string name="test_notification">Test Benachrichtigung</string>
   <string name="this_is_a_test_notification_from_gadgetbridge">Dies ist eine Test Benachrichtigung von Gadgetbridge</string>
@@ -308,7 +308,7 @@
   <string name="miband_prefs_device_time_offset_hours">Zeitausgleich in Stunden (um den Schlaf von Schichtarbeitern zu erkennen)</string>
   <string name="miband2_prefs_dateformat">Mi2: Datumsformat</string>
   <string name="dateformat_time">Zeit</string>
-  <string name="dateformat_date_time"><![CDATA[Time & Date]]></string>
+  <string name="dateformat_date_time">Zeit &amp; Datum</string>
   <string name="mi2_prefs_goal_notification">Benachrichtigungen bei Schrittziel</string>
   <string name="mi2_prefs_goal_notification_summary">Das Band wird vibrieren, wenn das tägliche Schrittziel erreicht ist.</string>
   <string name="mi2_prefs_display_items">Angezeigte Items</string>
@@ -402,4 +402,5 @@
   <string name="discovery_pair_question">Wähle Koppeln, um dein Gerät zu verbinden. Falls dies fehlschlägt, versuche es erneut ohne Kopplung.</string>
   <string name="discovery_yes_pair">Koppeln</string>
   <string name="discovery_dont_pair">Nicht koppeln</string>
-</resources>
+<string name="action_donate">Spenden</string>
+    </resources>

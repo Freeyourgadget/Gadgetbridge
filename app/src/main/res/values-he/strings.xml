@@ -350,4 +350,44 @@
   <string name="StringUtils_sender"> (%1$s)</string>
   <string name="find_device_you_found_it">מצאת את זה!</string>
   <string name="miband2_prefs_timeformat">Mi2: תבנית זמן</string>
-</resources>
+<string name="action_donate">תרומה</string>
+    <string name="controlcenter_navigation_drawer_open">פתיחת מגירת הניווט</string>
+    <string name="controlcenter_navigation_drawer_close">סגירת מגירת הניווט</string>
+    <string name="controlcenter_snackbar_need_longpress">לחיצה ארוכה על הכרטיס כדי לנתק</string>
+    <string name="controlcenter_snackbar_disconnecting">מתבצע ניתוק</string>
+    <string name="controlcenter_snackbar_connecting">מתבצעת התחברות</string>
+    <string name="controlcenter_snackbar_requested_screenshot">מסך ההתקן מצולם</string>
+
+
+    <string name="title_activity_calblacklist">יומנים חסומים</string>
+
+    <string name="pref_call_privacy_mode_number">הסתרת המספר אך הצגת השם</string>
+    <string name="pref_blacklist_calendars">חסימת יומנים</string>
+
+    <string name="pref_header_pebble_timeline">ציר זמן Pebble</string>
+    <string name="pref_title_enable_calendar_sync">סנכרון יומנים</string>
+    <string name="pref_summary_enable_calendar_sync">שליחת אירועים מהיומן לציר הזמן</string>
+
+    <string name="stats_title">אזורי מהירות</string>
+    <string name="stats_x_axis_label">סך כל הדקות</string>
+    <string name="stats_y_axis_label">צעדים לדקה</string>
+
+    <string name="calories">קלוריות</string>
+    <string name="distance">מרחק</string>
+    <string name="clock">שעון</string>
+    <string name="heart_rate">דופק</string>
+    <string name="battery">סוללה</string>
+    <string name="mi2_prefs_goal_notification">התרעת יעד</string>
+    <string name="mi2_prefs_goal_notification_summary">הצמיד ירטוט כאשר הגעת ליעד הצעדים היומי</string>
+    <string name="mi2_prefs_display_items">הצגת פריטים</string>
+    <string name="mi2_prefs_display_items_summary">בחירת הפריטים שיופיעו על מסך הצמיד</string>
+    <string name="mi2_prefs_rotate_wrist_to_switch_info">הטיית היד כדי לעבור למצב נתונים אחר</string>
+    <string name="mi2_prefs_do_not_disturb">לא להפריע</string>
+    <string name="mi2_prefs_do_not_disturb_summary">הצמיד לא יקבל התרעות בזמן הפעילות</string>
+    <string name="mi2_prefs_inactivity_warnings">אזהרות חוסר פעילות</string>
+    <string name="mi2_prefs_inactivity_warnings_summary">הצמיד ירטוט כשלא ביצעת פעילות במשך זמן מה</string>
+    <string name="mi2_prefs_inactivity_warnings_threshold">סף חוסר פעילות (בדקות)</string>
+    <string name="mi2_prefs_inactivity_warnings_dnd_summary">השבתת אזהרות חוסר הפעילות לפרק זמן מסוים</string>
+    <string name="mi2_prefs_do_not_disturb_start">מועד ההתחלה</string>
+    <string name="mi2_prefs_do_not_disturb_end">מועד הסיום</string>
+    </resources>
