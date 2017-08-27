@@ -142,6 +142,8 @@
   <string name="connecting">Připojování</string>
   <string name="connected">Připojeno</string>
   <string name="unknown_state">Neznámý stav</string>
+  <string name="connectionstate_hw_fw">HW: %1$s FW: %2$s</string>
+  <string name="connectionstate_fw">Verze FW: %1$s</string>
   <string name="_unknown_">(neznámé)</string>
   <string name="test">Test</string>
   <string name="test_notification">Test notifikací</string>
