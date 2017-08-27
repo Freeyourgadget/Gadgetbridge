@@ -35,7 +35,7 @@ class AmazfitBipFWInstallHandler extends AbstractMiBandFWInstallHandler {
 
     @Override
     protected GenericItem createInstallItem() {
-        return new GenericItem(mContext.getString(R.string.amazfitbip_firmware), helper.getHumanFirmwareVersion());
+        return new GenericItem(mContext.getString(R.string.amazfitbip_firmware, helper.getHumanFirmwareVersion()));
     }
 
     @Override
