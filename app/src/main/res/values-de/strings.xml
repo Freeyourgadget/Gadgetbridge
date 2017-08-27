@@ -79,7 +79,7 @@
   <string name="pref_title_notification_filter">Bitte nicht stören</string>
   <string name="pref_summary_notification_filter">Benachrichtigungen nicht senden, wenn im \"Nicht Stören\"-Modus</string>
   <string name="pref_title_transliteration">Transliteration</string>
-  <string name="pref_summary_transliteration">Aktiviere dies, falls dein Gerät keine Unterstützung für den Zeichensatz deiner Sprache hat.</string>
+  <string name="pref_summary_transliteration">Aktiviere dies, falls dein Gerät keine Unterstützung für den Zeichensatz deiner Sprache hat</string>
   <string name="always">Immer</string>
   <string name="when_screen_off">Wenn der Bildschirm aus ist</string>
   <string name="never">Niemals</string>
@@ -105,7 +105,7 @@
   <string name="pref_title_pebble_sync_misfit">Misfit synchronisieren</string>
   <string name="pref_title_pebble_sync_morpheuz">Morpheuz synchronisieren</string>
   <string name="pref_title_enable_outgoing_call">Unterstützung für ausgehende Anrufe</string>
-  <string name="pref_summary_enable_outgoing_call">Falls dies deaktiviert wird, vibriert die Pebble 2/LE nicht bei ausgehenden Anrufen.</string>
+  <string name="pref_summary_enable_outgoing_call">Falls dies deaktiviert wird, vibriert die Pebble 2/LE nicht bei ausgehenden Anrufen</string>
   <string name="pref_title_enable_pebblekit">Erlaube Zugriff von anderen Android-Apps</string>
   <string name="pref_summary_enable_pebblekit">Experimentelle Unterstützung für Android Apps, die PebbleKit benutzen</string>
   <string name="pref_header_pebble_timeline">Pebble Timeline</string>
@@ -160,7 +160,7 @@
   <string name="tap_connected_device_for_app_mananger">Tippe auf das verbundene Gerät, um den App-Manager zu starten</string>
   <string name="tap_connected_device_for_activity">Tippe auf das verbundene Gerät, um die Aktivitätsdaten anzuzeigen</string>
   <string name="tap_connected_device_for_vibration">Tippe auf das verbundene Gerät, um es vibrieren zu lassen</string>
-  <string name="tap_a_device_to_connect">Tippe zum Verbinden auf das gewünschte Gerät.</string>
+  <string name="tap_a_device_to_connect">Tippe zum Verbinden auf das gewünschte Gerät</string>
   <string name="cannot_connect_bt_address_invalid_">Verbindung kann nicht aufgebaut werden. Bluetooth-Adresse ungültig?</string>
   <string name="gadgetbridge_running">Gadgetbridge läuft</string>
   <string name="installing_binary_d_d">Installiere Datei %1$d/%2$d</string>
@@ -183,7 +183,7 @@
   <string name="pairing_creating_bond_with">Verbindung mit %1$s (%2$s) herstellen</string>
   <string name="pairing_unable_to_pair_with">Kann mit %1$s (%2$s) nicht koppeln</string>
   <string name="pairing_in_progress">Verbindung wird hergestellt: %1$s (%2$s)</string>
-  <string name="pairing_already_bonded">Bereits mit %1$s (%2$s) verbunden, stelle Verbindung her...</string>
+  <string name="pairing_already_bonded">Bereits mit %1$s (%2$s) verbunden, stelle Verbindung her…</string>
   <string name="message_cannot_pair_no_mac">Keine MAC-Adresse erhalten, koppeln nicht möglich.</string>
   <string name="preferences_category_device_specific_settings">Gerätespezifische Einstellungen</string>
   <string name="preferences_miband_settings">Mi Band / Bip Einstellungen</string>
@@ -402,5 +402,5 @@
   <string name="discovery_pair_question">Wähle Koppeln, um dein Gerät zu verbinden. Falls dies fehlschlägt, versuche es erneut ohne Kopplung.</string>
   <string name="discovery_yes_pair">Koppeln</string>
   <string name="discovery_dont_pair">Nicht koppeln</string>
-<string name="action_donate">Spenden</string>
+<string name="stats_title">Geschwindigkeitszonen</string>
     </resources>
