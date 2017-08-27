@@ -27,6 +27,7 @@
             android:icon="@drawable/ic_donate" />
         <item
             android:id="@+id/external_changelog"
-            android:title="@string/changelog_full_title" />
+            android:title="@string/changelog_full_title"
+            android:icon="@drawable/ic_history_black" />
     </group>
 </menu>
