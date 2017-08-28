@@ -27,6 +27,8 @@ public enum NotificationType {
 
     CONVERSATIONS(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.Inchworm),
     GENERIC_EMAIL(PebbleIconID.GENERIC_EMAIL, PebbleColor.JaegerGreen),
+    GMAIL(PebbleIconID.NOTIFICATION_GMAIL, PebbleColor.Red),
+    GOOGLE_INBOX(PebbleIconID.NOTIFICATION_GOOGLE_INBOX, PebbleColor.Blue),
     GENERIC_NAVIGATION(PebbleIconID.LOCATION, PebbleColor.Orange),
     GENERIC_SMS(PebbleIconID.GENERIC_SMS, PebbleColor.VividViolet),
     GENERIC_CALENDAR(PebbleIconID.TIMELINE_CALENDAR, PebbleColor.Blue),
@@ -74,6 +76,9 @@ public enum NotificationType {
             case TELEGRAM:
             case WHATSAPP:
                 return "generic_chat";
+            case GMAIL:
+            case GOOGLE_INBOX:
+                return "generic_email";
             case UNKNOWN:
             default:
                 return "generic";
