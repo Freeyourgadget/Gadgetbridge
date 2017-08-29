@@ -61,6 +61,7 @@ public class GBDevice implements Parcelable {
     private static final String DEVINFO_HW_VER = "HW: ";
     private static final String DEVINFO_FW_VER = "FW: ";
     private static final String DEVINFO_HR_VER = "HR: ";
+    private static final String DEVINFO_GPS_VER = "GPS: ";
     private static final String DEVINFO_ADDR = "ADDR: ";
     private static final String DEVINFO_ADDR2 = "ADDR2: ";
     private String mName;
@@ -165,7 +166,7 @@ public class GBDevice implements Parcelable {
     }
 
     /**
-     * Sets the second firmware version, typically the heart rate firmware version
+     * Sets the second firmware version (HR or GPS or other component)
      * @param firmwareVersion2
      */
     public void setFirmwareVersion2(String firmwareVersion2) {
@@ -445,7 +446,12 @@ public class GBDevice implements Parcelable {
             result.add(new GenericItem(DEVINFO_FW_VER, mFirmwareVersion));
         }
         if (mFirmwareVersion2 != null) {
-            result.add(new GenericItem(DEVINFO_HR_VER, mFirmwareVersion2));
+            // FIXME: thats ugly
+            if (mDeviceType == DeviceType.AMAZFITBIP) {
+                result.add(new GenericItem(DEVINFO_GPS_VER, mFirmwareVersion2));
+            } else {
+                result.add(new GenericItem(DEVINFO_HR_VER, mFirmwareVersion2));
+            }
         }
         if (mAddress != null) {
             result.add(new GenericItem(DEVINFO_ADDR, mAddress));
