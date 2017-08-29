@@ -149,8 +149,6 @@
   <string name="connecting">接続中</string>
   <string name="connected">接続</string>
   <string name="unknown_state">不明な状態</string>
-  <string name="connectionstate_hw_fw">HW: %1$s FW: %2$s</string>
-  <string name="connectionstate_fw">FW: %1$s</string>
   <string name="_unknown_">(不明)</string>
   <string name="test">テスト</string>
   <string name="test_notification">通知のテスト</string>

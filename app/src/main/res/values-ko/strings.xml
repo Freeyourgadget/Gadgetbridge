@@ -67,8 +67,6 @@
   <string name="connecting">연결 중</string>
   <string name="connected">연결됨</string>
   <string name="unknown_state">알 수 없는 상태</string>
-  <string name="connectionstate_hw_fw">HW: %1$s FW: %2$s</string>
-  <string name="connectionstate_fw">FW: %1$s</string>
   <string name="_unknown_">(알 수 없음)</string>
   <string name="test">테스트</string>
   <string name="test_notification">알림 테스트</string>

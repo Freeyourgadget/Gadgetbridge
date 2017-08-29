@@ -135,8 +135,6 @@
   <string name="connecting">מחובר</string>
   <string name="connected">מתחבר</string>
   <string name="unknown_state">מצב לא ידוע</string>
-  <string name="connectionstate_hw_fw">חומרה: %1$s קושחה: %2$s</string>
-  <string name="connectionstate_fw">קושחה: %1$s</string>
   <string name="_unknown_">(לא ידוע)</string>
   <string name="test">בדיקה</string>
   <string name="test_notification">דיווח לבדיקה</string>

@@ -47,8 +47,6 @@
     <string name="connecting">bağlanıyor</string>
     <string name="connected">bağlandı</string>
     <string name="unknown_state">bilinmeyen durum</string>
-    <string name="connectionstate_hw_fw">HW: %1$s FW: %2$s</string>
-    <string name="connectionstate_fw">FW: %1$s</string>
     <string name="_unknown_">(bilinmeyen)</string>
     <string name="test">Test</string>
     <string name="test_notification">Test bilgilendirmesi</string>
