@@ -47,7 +47,7 @@
   <string name="fw_multi_upgrade_notice">Instaluje firmwary %1$s a %2$s do Mi Band místo stávajícího.</string>
   <string name="miband_firmware_known">Tento firmware byl testován a je kompatibilní s Gadgetbridge.</string>
   <string name="miband_firmware_unknown_warning">Tento firmware nebyl testován a nemusí být kompatibilní s Gadgetbridge.\n\nNedoporučujeme jej nahrávat do Mi Band!</string>
-  <string name="miband_firmware_suggest_whitelist">Pokud budete prokračovat a vše bude fungovat běžně i potom, upozorněte vývojáře Gadgetbridge, aby označili tento firmware: %s jako vyzkoušený.</string>
+  <string name="miband_firmware_suggest_whitelist">Pokud budete prokračovat a vše bude fungovat běžně i potom, upozorněte vývojáře Gadgetbridge, aby označili tento firmware: %s jako vyzkoušený</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Nastavení</string>
   <string name="pref_header_general">Základní nastavení</string>
@@ -407,4 +407,12 @@
     <string name="discovery_pair_question">Vyberte Párování pro spárování s vaším zaříením. Pokud to selže, tak to zkuste bez párování.</string>
     <string name="discovery_yes_pair">Párování</string>
     <string name="discovery_dont_pair">Nepárovat</string>
-</resources>
+<string name="fw_upgrade_notice_amazfitbip">Chystáte se nainstalovat firmware %s namísto toho, který je aktuálně na vašem Amazfit Bipu.
+\n
+\nUjistěte se, že jste nainstalovali firmware .gps, pak soubor .res a nakonec soubor .fw. Hodiny se po instalaci souboru .fw restartují.
+\n
+\nPoznámka: Nemusíte instalovat soubory .res a .gps, pokud jsou tyto soubory přesně stejné jako ty, které byly dříve nainstalovány.
+\n
+\nEXPERIMENTÁLNÍ PROCES, DĚLÁTE NA VAŠE VLASTNÍ RIZIKO</string>
+    <string name="amazfitbip_firmware">"Firmware Amazfit Bipu  %1$s"</string>
+    </resources>
