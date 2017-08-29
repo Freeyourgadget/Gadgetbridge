@@ -90,8 +90,6 @@
   <string name="connecting">з\'єднання…</string>
   <string name="connected">з\'єднано</string>
   <string name="unknown_state">невідомий стан</string>
-  <string name="connectionstate_hw_fw">Пристрій: %1$s. Версія ПЗ: %2$s</string>
-  <string name="connectionstate_fw">ПЗ: %1$s</string>
   <string name="_unknown_">(невідомо)</string>
   <string name="test">Тест</string>
   <string name="test_notification">Тест сповіщень</string>

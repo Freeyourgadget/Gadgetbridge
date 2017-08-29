@@ -98,8 +98,6 @@
   <string name="connecting">łącze</string>
   <string name="connected">połączony</string>
   <string name="unknown_state">nieznany stan</string>
-  <string name="connectionstate_hw_fw">Wersja hardware: %1$s FW: %2$s</string>
-  <string name="connectionstate_fw">Wersja firmware: %1$s</string>
   <string name="_unknown_">(nieznane)</string>
   <string name="test">Test</string>
   <string name="test_notification">Test powiadomień</string>

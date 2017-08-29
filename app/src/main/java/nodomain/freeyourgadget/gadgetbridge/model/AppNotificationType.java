@@ -47,6 +47,12 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
         // Generic Calendar
         put("com.android.calendar", NotificationType.GENERIC_CALENDAR);
 
+        // Google
+        put("com.google.android.gm", NotificationType.GMAIL);
+        put("com.google.android.apps.inbox", NotificationType.GOOGLE_INBOX);
+        put("com.google.android.calendar", NotificationType.GENERIC_CALENDAR);
+        put("com.google.android.apps.messaging", NotificationType.GOOGLE_MESSENGER);
+
         // Conversations
         put("eu.siacs.conversations", NotificationType.CONVERSATIONS);
 

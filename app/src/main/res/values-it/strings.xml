@@ -144,8 +144,6 @@
   <string name="connecting">in collegamento</string>
   <string name="connected">connesso</string>
   <string name="unknown_state">stato sconosciuto</string>
-  <string name="connectionstate_hw_fw">HW: %1$s FW: %2$s</string>
-  <string name="connectionstate_fw">FW: %1$s</string>
   <string name="_unknown_">(sconosciuto)</string>
   <string name="test">Test</string>
   <string name="test_notification">Notifica di prova</string>
