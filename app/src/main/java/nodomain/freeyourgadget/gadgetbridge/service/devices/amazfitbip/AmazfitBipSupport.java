@@ -16,6 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip;
 
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.net.Uri;
 import android.widget.Toast;
 
@@ -26,11 +28,13 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.SimpleTimeZone;
+import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipIcon;
 import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipWeatherConditions;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
@@ -180,5 +184,45 @@ public class AmazfitBipSupport extends MiBand2Support {
             builder.queue(getQueue());
         } catch (IOException ignore) {
         }
+    }
+
+    @Override
+    public boolean onCharacteristicChanged(BluetoothGatt gatt,
+                                           BluetoothGattCharacteristic characteristic) {
+        boolean handled = super.onCharacteristicChanged(gatt, characteristic);
+        if (!handled) {
+            UUID characteristicUUID = characteristic.getUuid();
+            if (MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION.equals(characteristicUUID)) {
+                return handleConfigurationInfo(characteristic.getValue());
+            }
+        }
+        return false;
+    }
+
+    private boolean handleConfigurationInfo(byte[] value) {
+        if (value == null || value.length < 4) {
+            return false;
+        }
+        if (value[0] == 0x10 && value[1] == 0x0e && value[2] == 0x01) {
+            String gpsVersion = new String(value, 3, value.length - 3);
+            LOG.info("got gps version = " + gpsVersion);
+            gbDevice.setFirmwareVersion2(gpsVersion);
+            return true;
+        }
+        return false;
+    }
+
+    // this probably does more than only getting the GPS version...
+    private AmazfitBipSupport requestGPSVersion(TransactionBuilder builder) {
+        LOG.info("Requesting GPS version");
+        builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), AmazfitBipService.COMMAND_REQUEST_GPS_VERSION);
+        return this;
+    }
+
+    @Override
+    public void phase2Initialize(TransactionBuilder builder) {
+        super.phase2Initialize(builder);
+        LOG.info("phase2Initialize...");
+        requestGPSVersion(builder);
     }
 }
