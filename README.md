@@ -6,9 +6,12 @@ Pebble, Mi Band, Amazfit Bit and HPlus device (and more) without the vendor's cl
 and without the need to create an account and transmit any of your data to the
 vendor's servers.
 
+
 [Homepage](https://gadgetbridge.org)
 
 [Blog](https://blog.gadgetbridge.org)
+
+[![Donate](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/Gadgetbridge/donate)
 
 [![Build](https://travis-ci.org/Freeyourgadget/Gadgetbridge.svg?branch=master)](https://travis-ci.org/Freeyourgadget/Gadgetbridge)
 
