@@ -30,14 +30,14 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 
+import static org.apache.commons.lang3.math.NumberUtils.min;
+
 public class No1F1Support extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(No1F1Support.class);
-
-    public BluetoothGattCharacteristic ctrlCharacteristic = null;
-    public BluetoothGattCharacteristic measureCharacteristic = null;
-
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
+    public BluetoothGattCharacteristic ctrlCharacteristic = null;
+    public BluetoothGattCharacteristic measureCharacteristic = null;
 
     public No1F1Support() {
         super(LOG);
@@ -57,28 +57,10 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
         builder.setGattCallback(this);
         builder.notify(measureCharacteristic, true);
 
+        sendSettings(builder);
+
         builder.write(ctrlCharacteristic, new byte[]{No1F1Constants.CMD_FIRMWARE_VERSION});
         builder.write(ctrlCharacteristic, new byte[]{No1F1Constants.CMD_BATTERY});
-
-        ActivityUser activityUser = new ActivityUser();
-        byte[] msg = new byte[]{
-                No1F1Constants.CMD_USER_DATA,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-        };
-        msg[2]=(byte) Math.round(activityUser.getHeightCm() * 0.43); // step length in cm
-        msg[4]=(byte) activityUser.getWeightKg();
-        msg[5]=5; // screen on time
-        msg[8]=(byte) (activityUser.getStepsGoal()/256);
-        msg[9]=(byte) (activityUser.getStepsGoal()%256);
-        msg[10]=1; // unknown
-        msg[11]=(byte)0xff; // unknown
-        msg[13]=(byte) activityUser.getAge();
-        if (activityUser.getGender() == ActivityUser.GENDER_FEMALE)
-            msg[14]=2; // female
-        else
-            msg[14]=1; // male
-
-        builder.write(ctrlCharacteristic, msg);
 
         gbDevice.setState(GBDevice.State.INITIALIZED);
         gbDevice.sendDeviceUpdateIntent(getContext());
@@ -102,7 +84,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
 
         switch (data[0]) {
             case No1F1Constants.CMD_FIRMWARE_VERSION:
-                versionCmd.fwVersion=new String(Arrays.copyOfRange(data,1,data.length));
+                versionCmd.fwVersion = new String(Arrays.copyOfRange(data, 1, data.length));
                 handleGBDeviceEvent(versionCmd);
                 LOG.info("Firmware version is: " + versionCmd.fwVersion);
                 return true;
@@ -112,20 +94,32 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                 LOG.info("Battery level is: " + data[1]);
                 return true;
             case No1F1Constants.CMD_DATETIME:
-                LOG.info("Time is set to: " + (data[1] * 256 + ((int)data[2] & 0xff)) + "-" + data[3] + "-" + data[4] + " " + data[5] + ":" + data[6] + ":" + data[7]);
+                LOG.info("Time is set to: " + (data[1] * 256 + ((int) data[2] & 0xff)) + "-" + data[3] + "-" + data[4] + " " + data[5] + ":" + data[6] + ":" + data[7]);
                 return true;
             case No1F1Constants.CMD_USER_DATA:
                 LOG.info("User data updated");
                 return true;
+            case No1F1Constants.CMD_NOTIFICATION:
+            case No1F1Constants.CMD_ICON:
+                return true;
             default:
-                LOG.info("Unhandled characteristic change: " + characteristicUUID + " code: " + Arrays.toString(data));
+                LOG.warn("Unhandled characteristic change: " + characteristicUUID + " code: " + Arrays.toString(data));
                 return true;
         }
     }
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
-
+        switch (notificationSpec.type) {
+            case GENERIC_SMS:
+                showNotification(No1F1Constants.NOTIFICATION_SMS, notificationSpec.phoneNumber, notificationSpec.body);
+                setVibration(1, 3);
+                break;
+            default:
+                showIcon(No1F1Constants.ICON_WECHAT);
+                setVibration(1, 2);
+                break;
+        }
     }
 
     @Override
@@ -135,25 +129,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetTime() {
-        try {
-            TransactionBuilder builder = performInitialized("time");
-            Calendar c = GregorianCalendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            byte[] msg = new byte[]{
-                    No1F1Constants.CMD_DATETIME,
-                    (byte) ((year / 256) & 0xff),
-                    (byte) (year % 256),
-                    (byte) (c.get(Calendar.MONTH)+1),
-                    (byte) c.get(Calendar.DAY_OF_MONTH),
-                    (byte) c.get(Calendar.HOUR),
-                    (byte) c.get(Calendar.MINUTE),
-                    (byte) c.get(Calendar.SECOND)
-            };
-            builder.write(ctrlCharacteristic, msg);
-            performConnected(builder.getTransaction());
-        }catch(IOException e){
 
-        }
     }
 
     @Override
@@ -163,7 +139,13 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetCallState(CallSpec callSpec) {
-
+        if (callSpec.command == CallSpec.CALL_INCOMING) {
+            showNotification(No1F1Constants.NOTIFICATION_CALL, callSpec.name, callSpec.number);
+            setVibration(3, 5);
+        } else {
+            stopNotification();
+            setVibration(0, 0);
+        }
     }
 
     @Override
@@ -238,18 +220,10 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFindDevice(boolean start) {
-        try {
-            TransactionBuilder builder = performInitialized("findMe");
-            byte[] msg = new byte[]{No1F1Constants.CMD_ALARM, 0, 0, 0, 0, 0, 2, 1};
-            if (start)
-            {
-                msg[4]=1; // vibrate 10 times with duration of 1 second
-                msg[5]=10; // sending zeroes stops vibration immediately
-            }
-            builder.write(ctrlCharacteristic, msg);
-            performConnected(builder.getTransaction());
-        } catch (IOException e) {
-        }
+        if (start)
+            setVibration(3, 10);
+        else
+            setVibration(0, 0);
     }
 
     @Override
@@ -295,5 +269,124 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
     @Override
     public boolean useAutoConnect() {
         return true;
+    }
+
+    private void sendSettings(TransactionBuilder builder) {
+        // TODO Create custom settings page for changing hardcoded values
+
+        // set date and time
+        Calendar c = GregorianCalendar.getInstance();
+        byte[] datetimeBytes = new byte[]{
+                No1F1Constants.CMD_DATETIME,
+                (byte) ((c.get(Calendar.YEAR) / 256) & 0xff),
+                (byte) (c.get(Calendar.YEAR) % 256),
+                (byte) (c.get(Calendar.MONTH) + 1),
+                (byte) c.get(Calendar.DAY_OF_MONTH),
+                (byte) c.get(Calendar.HOUR),
+                (byte) c.get(Calendar.MINUTE),
+                (byte) c.get(Calendar.SECOND)
+        };
+        builder.write(ctrlCharacteristic, datetimeBytes);
+
+        // set user data
+        ActivityUser activityUser = new ActivityUser();
+        byte[] userBytes = new byte[]{
+                No1F1Constants.CMD_USER_DATA,
+                0,
+                (byte) Math.round(activityUser.getHeightCm() * 0.43), // step length in cm
+                0,
+                (byte) activityUser.getWeightKg(),
+                5, // screen on time
+                0,
+                0,
+                (byte) (activityUser.getStepsGoal() / 256),
+                (byte) (activityUser.getStepsGoal() % 256),
+                1, // unknown
+                (byte) 0xff, // unknown
+                0,
+                (byte) activityUser.getAge(),
+                0
+        };
+        if (activityUser.getGender() == ActivityUser.GENDER_FEMALE)
+            userBytes[14] = 2; // female
+        else
+            userBytes[14] = 1; // male
+        builder.write(ctrlCharacteristic, userBytes);
+    }
+
+    private void setVibration(int duration, int count) {
+        try {
+            TransactionBuilder builder = performInitialized("vibrate");
+            byte[] msg = new byte[]{
+                    No1F1Constants.CMD_ALARM,
+                    0,
+                    0,
+                    0,
+                    (byte) duration,
+                    (byte) count,
+                    2,
+                    1
+            };
+            builder.write(ctrlCharacteristic, msg);
+            performConnected(builder.getTransaction());
+        } catch (IOException e) {
+        }
+    }
+
+    private void showIcon(int iconId) {
+        try {
+            TransactionBuilder builder = performInitialized("showIcon");
+            byte[] msg = new byte[]{
+                    No1F1Constants.CMD_ICON,
+                    (byte) iconId
+            };
+            builder.write(ctrlCharacteristic, msg);
+            performConnected(builder.getTransaction());
+        } catch (IOException e) {
+        }
+    }
+
+    private void showNotification(int type, String header, String body) {
+        try {
+            // TODO Add transliteration.
+            TransactionBuilder builder = performInitialized("showNotification");
+            int length;
+            byte[] bytes;
+            byte[] msg;
+
+            // send header
+            bytes = header.toString().getBytes("EUC-JP");
+            length = min(bytes.length, 18);
+            msg = new byte[length + 2];
+            msg[0] = No1F1Constants.CMD_NOTIFICATION;
+            msg[1] = No1F1Constants.NOTIFICATION_HEADER;
+            System.arraycopy(bytes, 0, msg, 2, length);
+            builder.write(ctrlCharacteristic, msg);
+
+            // send body
+            bytes = header.toString().getBytes("EUC-JP");
+            length = min(bytes.length, 18);
+            msg = new byte[length + 2];
+            msg[0] = No1F1Constants.CMD_NOTIFICATION;
+            msg[1] = (byte) type;
+            System.arraycopy(bytes, 0, msg, 2, length);
+            builder.write(ctrlCharacteristic, msg);
+
+            performConnected(builder.getTransaction());
+        } catch (IOException e) {
+        }
+    }
+
+    private void stopNotification() {
+        try {
+            TransactionBuilder builder = performInitialized("clearNotification");
+            byte[] msg = new byte[]{
+                    No1F1Constants.CMD_NOTIFICATION,
+                    No1F1Constants.NOTIFICATION_STOP
+            };
+            builder.write(ctrlCharacteristic, msg);
+            performConnected(builder.getTransaction());
+        } catch (IOException e) {
+        }
     }
 }

@@ -13,5 +13,15 @@ public final class No1F1Constants {
     public static final byte CMD_DATETIME = (byte) 0xa3;
     public static final byte CMD_USER_DATA = (byte) 0xa9;
     public static final byte CMD_ALARM = (byte) 0xab;
+    public static final byte CMD_NOTIFICATION = (byte) 0xc1;
+    public static final byte CMD_ICON = (byte) 0xc3;
 
+    public static final byte NOTIFICATION_HEADER = (byte) 0x01;
+    public static final byte NOTIFICATION_CALL = (byte) 0x02;
+    public static final byte NOTIFICATION_SMS = (byte) 0x03;
+    public static final byte NOTIFICATION_STOP = (byte) 0x04; // to stop showing incoming call
+
+    public static final byte ICON_QQ = (byte) 0x01;
+    public static final byte ICON_WECHAT = (byte) 0x02;
+    public static final byte ICON_ALARM = (byte) 0x04;
 }
