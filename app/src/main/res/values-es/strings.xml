@@ -134,7 +134,7 @@
   <string name="pref_title_pebble_forceuntested">Habilitar características no probadas</string>
   <string name="pref_summary_pebble_forceuntested">Habilita características que no han sido probadas. ¡HABILÍTALO SOLO SI SABES LO QUE ESTÁS HACIENDO!</string>
   <string name="pref_title_pebble_forcele">Preferir siempre BLE</string>
-  <string name="pref_summary_pebble_forcele">Usar el soporte experimental de Pebble LE para todos los Pebble en lugar del bluetooth clásico. Requiere vincular \"Pebble LE\" si un Pebble no-LE ha sido vinculado antes.</string>
+  <string name="pref_summary_pebble_forcele">Usar el soporte experimental de Pebble LE para todos los Pebble en lugar del Bluetooth clásico. Requiere vincular \"Pebble LE\" si un Pebble no-LE ha sido vinculado antes.</string>
   <string name="pref_title_pebble_mtu_limit">Pebble 2/LE límite de GATT MTU</string>
   <string name="pref_summary_pebble_mtu_limit">Si tu Pebble 2/Pebble LE no funciona correctamente, prueba esta opción para limitar el MTU (rango válido 20–512)</string>
   <string name="pref_title_pebble_enable_applogs">Activar los logs de las aplicaciones del reloj</string>
@@ -389,7 +389,7 @@
   <string name="miband2_prefs_timeformat">Mi2: formato de hora</string>
   <string name="mi2_fw_installhandler_fw53_hint">¡Debes instalar la versión %1$s antes de instalar este firmware!</string>
   <string name="mi2_enable_text_notifications">Notificaciones textuales</string>
-  <string name="mi2_enable_text_notifications_summary">Requiere firmware &gt;= 1.0.1.28 y Mili_pro.ft* instalado</string>
+  <string name="mi2_enable_text_notifications_summary">Requiere firmware &gt;= 1.0.1.28 e instalar Mili_pro.ft*</string>
   <string name="off">Apagado</string>
   <string name="mi2_dnd_off">Apagado</string>
   <string name="mi2_dnd_automatic">Automático (detección de sueño)</string>
