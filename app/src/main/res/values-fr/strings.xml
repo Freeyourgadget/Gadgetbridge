@@ -8,7 +8,7 @@
   <string name="action_donate">Faire un don</string>
   <string name="controlcenter_fetch_activity_data">Synchroniser</string>
   <string name="controlcenter_start_sleepmonitor">Suivi du sommeil (ALPHA)</string>
-  <string name="controlcenter_find_device">Retrouver un appareil perdu...</string>
+  <string name="controlcenter_find_device">Retrouver un appareil perdu</string>
   <string name="controlcenter_take_screenshot">Prendre une capture d\'écran</string>
   <string name="controlcenter_disconnect">Déconnexion</string>
   <string name="controlcenter_delete_device">Supprimer l’appareil</string>
@@ -73,16 +73,16 @@
   <string name="pref_title_notifications_call">Appels téléphoniques</string>
   <string name="pref_title_notifications_sms">Textos</string>
   <string name="pref_title_notifications_pebblemsg">Messages Pebble</string>
-  <string name="pref_summary_notifications_pebblemsg">Support des applications qui envoient des notification à Pebble par PebbleKit.</string>
+  <string name="pref_summary_notifications_pebblemsg">Support des applications qui envoient des notification à Pebble via PebbleKit.</string>
   <string name="pref_title_notifications_generic">Support des notifications génériques</string>
-  <string name="pref_title_whenscreenon">... y compris quand l\'écran est allumé</string>
+  <string name="pref_title_whenscreenon">...y compris quand l\'écran est allumé</string>
   <string name="pref_title_notification_filter">Ne Pas Déranger</string>
   <string name="pref_summary_notification_filter">Arrêter l’envoi des notifications non-désirées en mode Ne Pas Déranger.</string>
   <string name="pref_title_transliteration">Transcription</string>
   <string name="pref_summary_transliteration">Activez ceci si votre appareil ne supporte pas la police de caractères</string>
-  <string name="always">toujours</string>
-  <string name="when_screen_off">quand l\'écran est éteint</string>
-  <string name="never">jamais</string>
+  <string name="always">Toujours</string>
+  <string name="when_screen_off">Quand l\'écran est éteint</string>
+  <string name="never">Jamais</string>
   <string name="pref_header_privacy">Confidentialité</string>
   <string name="pref_title_call_privacy_mode">Mode de confidentialité d\'appel</string>
   <string name="pref_call_privacy_mode_off">Afficher le nom et le numéro</string>
@@ -145,10 +145,10 @@
   <string name="pref_title_screentime">Durée d\'écran allumé</string>
   <string name="prefs_title_all_day_heart_rate">Mesure de la fréquence cardiaque toute la journée</string>
   <string name="preferences_hplus_settings">Paramètres HPlus/Makibes</string>
-  <string name="not_connected">non connecté</string>
-  <string name="connecting">connexion en cours</string>
-  <string name="connected">connecté</string>
-  <string name="unknown_state">état inconnu</string>
+  <string name="not_connected">Non connecté</string>
+  <string name="connecting">Connexion en cours</string>
+  <string name="connected">Connecté</string>
+  <string name="unknown_state">État inconnu</string>
   <string name="_unknown_">(inconnu)</string>
   <string name="test">Test</string>
   <string name="test_notification">Notification de test</string>
@@ -161,8 +161,8 @@
   <string name="tap_a_device_to_connect">Tapottez sur le périphérique pour le connecter.</string>
   <string name="cannot_connect_bt_address_invalid_">Connexion impossible. L’adresse Bluetooth est-elle valide? </string>
   <string name="gadgetbridge_running">Gadgetbridge est en fonctionnement</string>
-  <string name="installing_binary_d_d">Installation du fichier %1$d/%2$d</string>
-  <string name="installation_failed_">échec de l\'installation !</string>
+  <string name="installing_binary_d_d">Installation du binaire %1$d/%2$d</string>
+  <string name="installation_failed_">Échec de l\'installation</string>
   <string name="installation_successful">Installation réalisée avec succès</string>
   <string name="firmware_install_warning">VOUS TENTEZ D\'INSTALLER UN MICROLOGICIEL, PROCÉDEZ À VOS RISQUES ET PÉRILS.\n\n\nCe micrologiciel est pour la version de matériel: %s</string>
   <string name="app_install_info">Vous êtes sur le point d\'installer l\'application suivante:\n\n\n%1$s Version %2$s par %3$s\n</string>
@@ -182,7 +182,7 @@
   <string name="pairing_unable_to_pair_with">Impossible se s’appairer avec %1$s (%2$s)</string>
   <string name="pairing_in_progress">Création du lien en cours : %1$s (%2$s)</string>
   <string name="pairing_already_bonded">Déjà lié avec %1$s (%2$s), connexion...</string>
-  <string name="message_cannot_pair_no_mac">Aucune adresse MAC fournie, ne peut être appairé</string>
+  <string name="message_cannot_pair_no_mac">Aucune adresse MAC fournie, ne peut être appairé.</string>
   <string name="preferences_category_device_specific_settings">Paramètres spécifiques à l\'appareil </string>
   <string name="preferences_miband_settings">Paramètres Mi Band</string>
   <string name="male">Homme</string>
@@ -217,7 +217,7 @@
   <string name="pref_screen_notification_profile_sms">Notification Texto</string>
   <string name="pref_header_vibration_settings">Paramètres des vibrations</string>
   <string name="pref_screen_notification_profile_generic">Notification générique</string>
-  <string name="pref_screen_notification_profile_email">Notification des Mails</string>
+  <string name="pref_screen_notification_profile_email">Notification des mails</string>
   <string name="pref_screen_notification_profile_incoming_call">Notification d\'appels entrants</string>
   <string name="pref_screen_notification_profile_generic_chat">Tchat</string>
   <string name="pref_screen_notification_profile_generic_navigation">Navigation</string>
@@ -323,27 +323,27 @@
   <string name="mi2_prefs_do_not_disturb_start">Heure de début</string>
   <string name="mi2_prefs_do_not_disturb_end">Heure de fin</string>
   <string name="FetchActivityOperation_about_to_transfer_since">Sur le point de transférer des données depuis %1$s</string>
-  <string name="waiting_for_reconnect">en attente de reconnexion</string>
+  <string name="waiting_for_reconnect">En attente de reconnexion</string>
   <string name="activity_prefs_about_you">À propos de vous</string>
   <string name="activity_prefs_year_birth">Année de naissance</string>
   <string name="activity_prefs_gender">Genre</string>
   <string name="activity_prefs_height_cm">Taille en cm</string>
   <string name="activity_prefs_weight_kg">Poids en kg</string>
-  <string name="authenticating">authentification</string>
-  <string name="authentication_required">authentification requise</string>
+  <string name="authenticating">Authentification</string>
+  <string name="authentication_required">Authentification requise</string>
   <string name="appwidget_text">ZzZz</string>
   <string name="add_widget">Ajouter un widget</string>
   <string name="activity_prefs_sleep_duration">
 Temps de sommeil péféré en heures</string>
   <string name="appwidget_alarms_set">Une alarme a été enregistré pour %1$02d:%2$02d</string>
-  <string name="device_hw">Modèle: %1$s</string>
-  <string name="device_fw">Micrologiciel: %1$s</string>
+  <string name="device_hw">Révision matérielle: %1$s</string>
+  <string name="device_fw">Version du micrologiciel: %1$s</string>
   <string name="error_creating_directory_for_logfiles">Erreur à la création de votre fichier log : %1$s</string>
   <string name="DEVINFO_HR_VER">HR:</string>
   <string name="updatefirmwareoperation_update_in_progress">Le micrologiciel se met à jour</string>
   <string name="updatefirmwareoperation_firmware_not_sent">Échec lors de l\'écriture du micrologiciel</string>
-  <string name="charts_legend_heartrate">Rythme cardiaque</string>
-  <string name="live_activity_heart_rate">Rythme cardiaque</string>
+  <string name="charts_legend_heartrate">Fréquence cardiaque</string>
+  <string name="live_activity_heart_rate">Fréquence cardiaque</string>
   <string name="pref_title_pebble_health_store_raw">Stockez les enregistrements brut dans la base de données</string>
   <string name="pref_summary_pebble_health_store_raw">Si coché, les données sont stockées \"telles quelles\" et seront disponibles pour une interprétation ultérieure. 
 NOTE: la base de données sera bien évidement plus grande !</string>
@@ -390,7 +390,7 @@ NOTE: la base de données sera bien évidement plus grande !</string>
   <string name="mi2_fw_installhandler_fw53_hint">Vous devez installer la version %1$s avant d\'installer ce micrologiciel!</string>
   <string name="mi2_enable_text_notifications">Notifications textuelles</string>
   <string name="mi2_enable_text_notifications_summary"><![CDATA[Requis: micrologiciel version 1.0.1.28 ou plus, fichier Mili_pro.ft* installé.]]></string>
-  <string name="off">off</string>
+  <string name="off">Éteint</string>
   <string name="mi2_dnd_off">Off</string>
   <string name="mi2_dnd_automatic">Automatique (détection de sommeil)</string>
   <string name="mi2_dnd_scheduled">Programmé (intervalle de temps)</string>
@@ -403,4 +403,12 @@ NOTE: la base de données sera bien évidement plus grande !</string>
   <string name="discovery_pair_question">Sélectionnez Appairer pour appairer vos dispositifs. Si cela échoue, essayez à nouveau sans appairage.</string>
   <string name="discovery_yes_pair">Appairage</string>
   <string name="discovery_dont_pair">Ne pas appairer</string>
-</resources>
+<string name="fw_upgrade_notice_amazfitbip">Vous êtes sur le point d\'installer le firmware %s au lieu de celui actuellement présent sur votre Amazfit Bip.
+\n
+\nVeuillez installer le firmware .gps, ensuite le fichier .res, puis le fichier .fw. Votre montre redémarrera après installation du .fw.
+\n
+\nNote: vous ne devez pas installer .res et .gps si ceux-ci sont identiques à ceux installés précédemment.
+\n
+\nEXPÉRIMENTAL, CONTINUEZ À VOS RISQUES</string>
+    <string name="amazfitbip_firmware">Firmware Amazfit Bip %1$s</string>
+    </resources>
