@@ -101,6 +101,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                 return true;
             case No1F1Constants.CMD_NOTIFICATION:
             case No1F1Constants.CMD_ICON:
+            case No1F1Constants.CMD_DEVICE_SETTINGS:
                 return true;
             default:
                 LOG.warn("Unhandled characteristic change: " + characteristicUUID + " code: " + Arrays.toString(data));
@@ -205,7 +206,15 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onReboot() {
-
+        try {
+            TransactionBuilder builder = performInitialized("clearNotification");
+            byte[] msg = new byte[]{
+                    (byte) 0xad
+            };
+            builder.write(ctrlCharacteristic, msg);
+            performConnected(builder.getTransaction());
+        } catch (IOException e) {
+        }
     }
 
     @Override
@@ -311,7 +320,39 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             userBytes[14] = 2; // female
         else
             userBytes[14] = 1; // male
+
         builder.write(ctrlCharacteristic, userBytes);
+
+        // more settings
+        builder.write(ctrlCharacteristic, new byte[]{
+                No1F1Constants.CMD_DEVICE_SETTINGS,
+                0x00, // 1 - turns on inactivity alarm
+                0x3c,
+                0x02,
+                0x03,
+                0x01,
+                0x00
+        });
+
+        // display settings
+        builder.write(ctrlCharacteristic, new byte[]{
+                No1F1Constants.CMD_DISPLAY_SETTINGS,
+                0x01, // 1 - display distance in kilometers, 2 - in miles
+                0x01 // 1 - display 24-hour clock, 2 - for 12-hour with AM/PM
+        });
+
+        // heart rate measurement mode
+        builder.write(ctrlCharacteristic, new byte[]{
+                No1F1Constants.CMD_HEARTRATE_SETTINGS,
+                0x02, // 1 - static (measure for 15 seconds), 2 - realtime
+        });
+
+        // periodic heart rate measurement
+        builder.write(ctrlCharacteristic, new byte[]{
+                No1F1Constants.CMD_HEARTRATE_SETTINGS,
+                0x01,
+                0x02 // measure heart rate every 2 hours (0 to turn off)
+        });
     }
 
     private void setVibration(int duration, int count) {
