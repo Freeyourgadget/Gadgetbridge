@@ -282,7 +282,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                 (byte) (c.get(Calendar.YEAR) % 256),
                 (byte) (c.get(Calendar.MONTH) + 1),
                 (byte) c.get(Calendar.DAY_OF_MONTH),
-                (byte) c.get(Calendar.HOUR),
+                (byte) c.get(Calendar.HOUR_OF_DAY),
                 (byte) c.get(Calendar.MINUTE),
                 (byte) c.get(Calendar.SECOND)
         };
