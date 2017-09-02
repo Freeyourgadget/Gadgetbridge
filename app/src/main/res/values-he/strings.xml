@@ -52,7 +52,7 @@
   <string name="pref_default">בררת מחדל</string>
   <string name="pref_header_datetime">שעה ותאריך</string>
   <string name="pref_title_datetime_syctimeonconnect">סנכרון השעה</string>
-  <string name="pref_summary_datetime_syctimeonconnect">סנכרון השעה בהתקן בעת ההתחברות וכאשר השעה או אזור הזמן משתנים באנדרואיד.</string>
+  <string name="pref_summary_datetime_syctimeonconnect">סנכרון השעה בהתקן בעת ההתחברות וכאשר השעה או אזור הזמן משתנים באנדרואיד</string>
   <string name="pref_title_theme">ערכת עיצוב</string>
   <string name="pref_theme_light">בהירה</string>
   <string name="pref_theme_dark">כהה</string>
@@ -118,7 +118,7 @@
   <string name="pref_title_pebble_forceuntested">הפעלת תכונות שלא נבדקו</string>
   <string name="pref_summary_pebble_forceuntested">הפעלת תכונות שלא נבדקו. יש להפעיל רק אם ההשלכות ברורות לך לחלוטין!!</string>
   <string name="pref_title_pebble_forcele">תמיד להעדיף BLE</string>
-  <string name="pref_summary_pebble_forcele">שימוש בתמיכה ניסיונית ב־Pebble LE עבור כל סוגי ה־Pebble במקום ה־Bluetooth הקלסי, נדרש צימוד „Pebble LE“ לאחר שנוצר חיבור שאינו LE בעבר.</string>
+  <string name="pref_summary_pebble_forcele">שימוש בתמיכה ניסיונית ב־Pebble LE עבור כל סוגי ה־Pebble במקום ה־Bluetooth הקלסי, נדרש צימוד „Pebble LE“ לאחר שנוצר חיבור שאינו LE בעבר</string>
   <string name="pref_title_pebble_mtu_limit">מגבלת ה־MTU של GATT ל־Pebble 2/LE</string>
   <string name="pref_summary_pebble_mtu_limit">אם ה־Pebble 2/Pebble LE שלך אינו עובד כצפוי, יש לנסות אפשרות זאת כדי להגביל את כמות הנתונים המועברת - MTU (טווח תקני 20–512)</string>
   <string name="pref_title_pebble_enable_applogs">הפעלת מעקב רישום אחר יישומון השעון</string>
