@@ -37,7 +37,6 @@ import org.slf4j.LoggerFactory;
 import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 
 /**
@@ -46,7 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
  * to set that listener in #onCreate, *not* in #onPostCreate, otherwise the value will
  * not be displayed.
  */
-public abstract class AbstractSettingsActivity extends AppCompatPreferenceActivity {
+public abstract class AbstractSettingsActivity extends AppCompatPreferenceActivity implements GBActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractSettingsActivity.class);
 
@@ -56,7 +55,7 @@ public abstract class AbstractSettingsActivity extends AppCompatPreferenceActivi
             String action = intent.getAction();
             switch (action) {
                 case GBApplication.ACTION_LANGUAGE_CHANGE:
-                    setLanguage(GBApplication.getLanguage());
+                    setLanguage(GBApplication.getLanguage(), true);
                     break;
                 case GBApplication.ACTION_QUIT:
                     finish();
@@ -129,11 +128,7 @@ public abstract class AbstractSettingsActivity extends AppCompatPreferenceActivi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (GBApplication.isDarkThemeEnabled()) {
-            setTheme(R.style.GadgetbridgeThemeDark);
-        } else {
-            setTheme(R.style.GadgetbridgeTheme);
-        }
+        AbstractGBActivity.init(this);
 
         IntentFilter filterLocal = new IntentFilter();
         filterLocal.addAction(GBApplication.ACTION_QUIT);
@@ -215,7 +210,7 @@ public abstract class AbstractSettingsActivity extends AppCompatPreferenceActivi
         return super.onOptionsItemSelected(item);
     }
 
-    private void setLanguage(Locale language) {
-        AndroidUtils.setLanguage(this, language);
+    public void setLanguage(Locale language, boolean recreate) {
+        AndroidUtils.setLanguage(this, language, recreate);
     }
 }

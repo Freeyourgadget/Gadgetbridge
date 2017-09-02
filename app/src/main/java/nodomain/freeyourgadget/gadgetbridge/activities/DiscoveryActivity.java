@@ -69,7 +69,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import static android.bluetooth.le.ScanSettings.MATCH_MODE_STICKY;
 import static android.bluetooth.le.ScanSettings.SCAN_MODE_LOW_LATENCY;
 
-public class DiscoveryActivity extends GBActivity implements AdapterView.OnItemClickListener {
+public class DiscoveryActivity extends AbstractGBActivity implements AdapterView.OnItemClickListener {
     private static final Logger LOG = LoggerFactory.getLogger(DiscoveryActivity.class);
     private static final long SCAN_DURATION = 60000; // 60s
 
