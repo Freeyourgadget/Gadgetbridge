@@ -89,6 +89,10 @@ public class AmazfitBipSupport extends MiBand2Support {
             if (notificationSpec.type == NotificationType.GENERIC_SMS) {
                 alertCategory = AlertCategory.SMS;
             }
+            // EMAIL icon does not work in FW 0.0.8.74, it did in 0.0.7.90
+            else if (notificationSpec.type == NotificationType.GENERIC_EMAIL) {
+                alertCategory = AlertCategory.Email;
+            }
 
             NewAlert alert = new NewAlert(alertCategory, 1, message, customIconId);
             profile.newAlert(builder, alert);
