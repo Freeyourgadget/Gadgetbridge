@@ -69,7 +69,7 @@
   <string name="pref_title_notifications_generic">תמיכה בדיווחים גנריים</string>
   <string name="pref_title_whenscreenon">…גם כאשר המסך פעיל</string>
   <string name="pref_title_notification_filter">לא להפריע</string>
-  <string name="pref_summary_notification_filter">חסימת שליחה של דיווחים בלתי רצויים בהתבסס על המצב לא להפריע.</string>
+  <string name="pref_summary_notification_filter">חסימת שליחה של התרעות בלתי רצויות בהתבסס על המצב לא להפריע</string>
   <string name="pref_title_transliteration">תעתיק</string>
   <string name="always">תמיד</string>
   <string name="when_screen_off">כאשר המסך כבוי</string>
