@@ -48,6 +48,7 @@ public abstract class AbstractMiBandOperation<T extends AbstractBTLEDeviceSuppor
             try {
                 TransactionBuilder builder = performInitialized("reenabling disabled notifications");
                 handleFinished(builder);
+                builder.setGattCallback(null); // unset ourselves from being the queue's gatt callback
                 builder.queue(getQueue());
             } catch (IOException ex) {
                 GB.toast(getContext(), "Error enabling Mi Band notifications, you may need to connect and disconnect", Toast.LENGTH_LONG, GB.ERROR, ex);
