@@ -18,7 +18,7 @@
         <item name="chart_not_worn">@color/chart_not_worn_light</item>
     </style>
 
-    <style name="GadgetbridgeTheme.NoActionBar">
+    <style name="GadgetbridgeTheme.NoActionBar" parent="GadgetbridgeTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

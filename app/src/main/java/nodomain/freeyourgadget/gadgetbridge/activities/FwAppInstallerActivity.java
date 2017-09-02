@@ -22,9 +22,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -51,26 +56,42 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 
-public class FwAppInstallerActivity extends GBActivity implements InstallActivity {
+public class FwAppInstallerActivity extends AppCompatActivity implements InstallActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(FwAppInstallerActivity.class);
     private static final String ITEM_DETAILS = "details";
-
+    private final List<ItemWithDetails> mItems = new ArrayList<>();
     private TextView fwAppInstallTextView;
     private Button installButton;
     private Uri uri;
     private GBDevice device;
     private InstallHandler installHandler;
     private boolean mayConnect;
-
     private ProgressBar mProgressBar;
     private ListView itemListView;
-    private final List<ItemWithDetails> mItems = new ArrayList<>();
     private ItemWithDetailsAdapter mItemAdapter;
 
     private ListView detailsListView;
     private ItemWithDetailsAdapter mDetailsItemAdapter;
     private ArrayList<ItemWithDetails> mDetails = new ArrayList<>();
+
+    private final BroadcastReceiver installationResultReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //Receive installation fail/success intent
+            if (mProgressBar != null)
+                mProgressBar.setVisibility(View.INVISIBLE);
+            if (installButton != null) {
+                installButton.setVisibility(View.VISIBLE);
+                installButton.setClickable(false);
+                if (intent.getAction().equals("nodomain.freeyourgadget.gadgetbridge.INSTALLATION_FAILED")) {
+                    installButton.setText(getString(R.string.installation_failed_));
+                } else if (intent.getAction().equals("nodomain.freeyourgadget.gadgetbridge.INSTALLATION_SUCCESS")) {
+                    installButton.setText(getString(R.string.installation_successful));
+                }
+            }
+        }
+    };
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -126,6 +147,12 @@ public class FwAppInstallerActivity extends GBActivity implements InstallActivit
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (GBApplication.isDarkThemeEnabled()) {
+            setTheme(R.style.GadgetbridgeThemeDark_NoActionBar);
+        } else {
+            setTheme(R.style.GadgetbridgeTheme_NoActionBar);
+        }
+
         setContentView(R.layout.activity_appinstaller);
 
         GBDevice dev = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
@@ -162,6 +189,11 @@ public class FwAppInstallerActivity extends GBActivity implements InstallActivit
                 setInstallEnabled(false);
                 installHandler.onStartInstall(device);
                 GBApplication.deviceService().onInstallApp(uri);
+                mProgressBar.setVisibility(View.VISIBLE);
+                IntentFilter intentFilter = new IntentFilter();
+                intentFilter.addAction("nodomain.freeyourgadget.gadgetbridge.INSTALLATION_FAILED");
+                intentFilter.addAction("nodomain.freeyourgadget.gadgetbridge.INSTALLATION_SUCCESS");
+                registerReceiver(installationResultReceiver, intentFilter);
             }
         });
 
@@ -169,6 +201,23 @@ public class FwAppInstallerActivity extends GBActivity implements InstallActivit
         if (uri == null) { //for "share" intent
             uri = getIntent().getParcelableExtra(Intent.EXTRA_STREAM);
         }
+
+        //Get apps count and app index from calling intent
+        int appsCount = getIntent().getIntExtra("APPS_COUNT", 1);
+        int currentAppIndex = getIntent().getIntExtra("APP_INDEX", 1);
+
+        //Set up the toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(getResources().getString(R.string.installation_d_d, currentAppIndex, appsCount));
+        toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_arrow_back, null));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        setSupportActionBar(toolbar);
+
         installHandler = findInstallHandlerFor(uri);
         if (installHandler == null) {
             setInfoText(getString(R.string.installer_activity_unable_to_find_handler));
@@ -217,13 +266,13 @@ public class FwAppInstallerActivity extends GBActivity implements InstallActivit
     }
 
     @Override
-    public void setInfoText(String text) {
-        fwAppInstallTextView.setText(text);
+    public CharSequence getInfoText() {
+        return fwAppInstallTextView.getText();
     }
 
     @Override
-    public CharSequence getInfoText() {
-        return fwAppInstallTextView.getText();
+    public void setInfoText(String text) {
+        fwAppInstallTextView.setText(text);
     }
 
     @Override

@@ -625,12 +625,15 @@ class PebbleIoThread extends GBDeviceIoThread {
     }
 
     private void finishInstall(boolean hadError) {
+        Intent resultIntent;
         if (!mIsInstalling) {
             return;
         }
         if (hadError) {
+            resultIntent = new Intent("nodomain.freeyourgadget.gadgetbridge.INSTALLATION_FAILED");
             GB.updateInstallNotification(getContext().getString(R.string.installation_failed_), false, 0, getContext());
         } else {
+            resultIntent = new Intent("nodomain.freeyourgadget.gadgetbridge.INSTALLATION_SUCCESS");
             GB.updateInstallNotification(getContext().getString(R.string.installation_successful), false, 0, getContext());
             if (mPebbleProtocol.mFwMajor >= 3) {
                 String filenameSuffix;
@@ -646,6 +649,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                 }
             }
         }
+        getContext().sendBroadcast(resultIntent);
         mInstallState = PebbleAppInstallState.UNKNOWN;
 
         if (hadError && mAppInstallToken != -1) {
