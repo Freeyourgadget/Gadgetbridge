@@ -12,12 +12,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.no1f1.No1F1Constants;
+import nodomain.freeyourgadget.gadgetbridge.devices.no1f1.No1F1SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.No1F1ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -29,6 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
 
 import static org.apache.commons.lang3.math.NumberUtils.min;
 
@@ -38,6 +47,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
     public BluetoothGattCharacteristic ctrlCharacteristic = null;
     public BluetoothGattCharacteristic measureCharacteristic = null;
+    private List<No1F1ActivitySample> samples = new ArrayList<>();
 
     public No1F1Support() {
         super(LOG);
@@ -98,6 +108,9 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                 return true;
             case No1F1Constants.CMD_USER_DATA:
                 LOG.info("User data updated");
+                return true;
+            case No1F1Constants.CMD_FETCH_STEPS:
+                handleStepData(data);
                 return true;
             case No1F1Constants.CMD_NOTIFICATION:
             case No1F1Constants.CMD_ICON:
@@ -201,20 +214,22 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFetchActivityData() {
-
-    }
-
-    @Override
-    public void onReboot() {
         try {
-            TransactionBuilder builder = performInitialized("clearNotification");
+            samples.clear();
+            TransactionBuilder builder = performInitialized("fetchSteps");
+            builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.busy_task_fetch_activity_data), getContext()));
             byte[] msg = new byte[]{
-                    (byte) 0xad
+                    No1F1Constants.CMD_FETCH_STEPS,
+                    (byte) 0xfa
             };
             builder.write(ctrlCharacteristic, msg);
             performConnected(builder.getTransaction());
         } catch (IOException e) {
         }
+    }
+
+    @Override
+    public void onReboot() {
     }
 
     @Override
@@ -428,6 +443,50 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             builder.write(ctrlCharacteristic, msg);
             performConnected(builder.getTransaction());
         } catch (IOException e) {
+        }
+    }
+
+    private void handleStepData(byte[] data) {
+        if (data[1] == (byte) 0xfd) {
+            // TODO Check CRC
+            if (samples.size() > 0) {
+                try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                    Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
+                    Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
+                    No1F1SampleProvider provider = new No1F1SampleProvider(getDevice(), dbHandler.getDaoSession());
+                    for (int i = 0; i < samples.size(); i++) {
+                        samples.get(i).setDeviceId(deviceId);
+                        samples.get(i).setUserId(userId);
+                        samples.get(i).setRawKind(ActivityKind.TYPE_ACTIVITY);
+                        provider.addGBActivitySample(samples.get(i));
+                    }
+                    samples.clear();
+                    LOG.info("Steps data saved");
+                    if (getDevice().isBusy()) {
+                        getDevice().unsetBusyTask();
+                        getDevice().sendDeviceUpdateIntent(getContext());
+                    }
+                } catch (Exception ex) {
+                }
+            }
+        } else {
+            No1F1ActivitySample sample = new No1F1ActivitySample();
+
+            Calendar timestamp = GregorianCalendar.getInstance();
+            timestamp.set(Calendar.YEAR, data[1] * 256 + (data[2] & 0xff));
+            timestamp.set(Calendar.MONTH, (data[3] - 1) & 0xff);
+            timestamp.set(Calendar.DAY_OF_MONTH, data[4] & 0xff);
+            timestamp.set(Calendar.HOUR_OF_DAY, data[5] & 0xff);
+            timestamp.set(Calendar.MINUTE, 0);
+            timestamp.set(Calendar.SECOND, 0);
+
+            sample.setTimestamp((int) (timestamp.getTimeInMillis() / 1000L));
+            sample.setSteps(data[6] * 256 + (data[7] & 0xff));
+
+            samples.add(sample);
+            LOG.info("Received steps data for " + String.format("%1$TD %1$TT", timestamp) + ": " +
+                    sample.getSteps() + " steps"
+            );
         }
     }
 }

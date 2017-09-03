@@ -13,12 +13,15 @@ import android.support.annotation.Nullable;
 import java.util.Collection;
 import java.util.Collections;
 
+import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.No1F1ActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -65,22 +68,22 @@ public class No1F1Coordinator extends AbstractDeviceCoordinator {
     @Nullable
     @Override
     public Class<? extends Activity> getPrimaryActivity() {
-        return null;
+        return ChartsActivity.class;
     }
 
     @Override
     public boolean supportsActivityDataFetching() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean supportsActivityTracking() {
-        return false;
+        return true;
     }
 
     @Override
     public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
-        return null;
+        return new No1F1SampleProvider(device, session);
     }
 
     @Override
@@ -135,6 +138,8 @@ public class No1F1Coordinator extends AbstractDeviceCoordinator {
 
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
-
+        Long deviceId = device.getId();
+        QueryBuilder<?> qb = session.getNo1F1ActivitySampleDao().queryBuilder();
+        qb.where(No1F1ActivitySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
     }
 }
