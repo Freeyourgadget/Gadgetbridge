@@ -17,14 +17,11 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.LocaleList;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 
@@ -32,12 +29,10 @@ import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 
-public class AbstractGBActivity extends AppCompatActivity implements GBActivity {
+public abstract class AbstractGBActivity extends AppCompatActivity implements GBActivity {
 
     public static final int NONE = 0;
     public static final int NO_ACTIONBAR = 1;
