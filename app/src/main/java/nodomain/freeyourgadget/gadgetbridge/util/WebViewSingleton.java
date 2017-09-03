@@ -100,9 +100,6 @@ public class WebViewSingleton {
             webSettings.setDomStorageEnabled(true);
             //needed for localstorage
             webSettings.setDatabaseEnabled(true);
-            Intent intent = new Intent();
-            intent.setComponent(new ComponentName("nodomain.freeyourgadget.internethelper", "nodomain.freeyourgadget.internethelper.MyService"));
-            context.getApplicationContext().bindService(intent, internetHelperConnection, Context.BIND_AUTO_CREATE);
         }
         return webViewSingleton.instance;
     }
@@ -165,11 +162,17 @@ public class WebViewSingleton {
             new Handler(webViewSingleton.mainLooper).post(new Runnable() {
                 @Override
                 public void run() {
+                    webViewSingleton.instance.onResume();
                     webViewSingleton.instance.removeJavascriptInterface("GBjs");
                     webViewSingleton.instance.addJavascriptInterface(jsInterface, "GBjs");
                     webViewSingleton.instance.loadUrl("file:///android_asset/app_config/configure.html?rand=" + Math.random() * 500);
                 }
             });
+            if (!internetHelperBound) {
+                Intent intent = new Intent();
+                intent.setComponent(new ComponentName("nodomain.freeyourgadget.internethelper", "nodomain.freeyourgadget.internethelper.MyService"));
+                webViewSingleton.contextWrapper.getApplicationContext().bindService(intent, internetHelperConnection, Context.BIND_AUTO_CREATE);
+            }
         }
 
     }
@@ -215,13 +218,16 @@ public class WebViewSingleton {
         if (internetHelperBound) {
             LOG.debug("WEBVIEW: will unbind the internet helper");
             webViewSingleton.contextWrapper.getApplicationContext().unbindService(internetHelperConnection);
+            internetHelperBound = false;
         }
+        currentRunningUUID = null;
         new Handler(webViewSingleton.mainLooper).post(new Runnable() {
             @Override
             public void run() {
                 if (webViewSingleton.instance != null) {
-                    webViewSingleton.instance.setWebChromeClient(null);
-                    webViewSingleton.instance.setWebViewClient(null);
+                    webViewSingleton.instance.removeJavascriptInterface("GBjs");
+//                    webViewSingleton.instance.setWebChromeClient(null);
+//                    webViewSingleton.instance.setWebViewClient(null);
                     webViewSingleton.instance.clearHistory();
                     webViewSingleton.instance.clearCache(true);
                     webViewSingleton.instance.loadUrl("about:blank");
