@@ -30,6 +30,7 @@ import java.nio.ByteOrder;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipIcon;
 import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipService;
@@ -122,6 +123,7 @@ public class AmazfitBipSupport extends MiBand2Support {
         } else if (value[0] == 0x09) {
             callCmd.event = GBDeviceEventCallControl.Event.ACCEPT;
         } else {
+            LOG.info("Unhandled button press: " + Logging.formatBytes(value));
             return;
         }
         evaluateGBDeviceEvent(callCmd);
@@ -186,7 +188,8 @@ public class AmazfitBipSupport extends MiBand2Support {
 
             builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
             builder.queue(getQueue());
-        } catch (IOException ignore) {
+        } catch (Exception ex) {
+            LOG.error("Error sending weather information to the Bip", ex);
         }
     }
 
