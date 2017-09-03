@@ -64,6 +64,7 @@ public class GBDaoGenerator {
         addPebbleMorpheuzActivitySample(schema, user, device);
         addHPlusHealthActivityKindOverlay(schema, user, device);
         addHPlusHealthActivitySample(schema, user, device);
+        addNo1F1ActivitySample(schema, user, device);
 
         addCalendarSyncState(schema, device);
 
@@ -255,6 +256,15 @@ public class GBDaoGenerator {
         activityOverlay.addToOne(user, userId);
         activityOverlay.addByteArrayProperty("rawHPlusHealthData");
         return activityOverlay;
+    }
+
+    private static Entity addNo1F1ActivitySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "No1F1ActivitySample");
+        activitySample.implementsSerializable();
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        return activitySample;
     }
 
     private static void addCommonActivitySampleProperties(String superClass, Entity activitySample, Entity user, Entity device) {
