@@ -138,8 +138,8 @@ function gbPebble() {
         window.open(self.configurationURL.toString(), "config");
     }
 
-    this.actuallySendData = function() {
-        GBjs.sendAppMessage(self.configurationValues, false );
+    this.sendConfiguration = function() {
+        GBjs.sendAppMessage(document.getElementById("jsondata").innerHTML, false );
         showStep("step1");
         GBActivity.closeActivity();
     }
@@ -189,7 +189,7 @@ function gbPebble() {
     this.sendAppMessage = function (dict, callbackAck, callbackNack){
         try {
             self.configurationValues = JSON.stringify(dict);
-            if (document.getElementById("step2").style.display == 'block') { //intercept the values
+            if (document.getElementById("step2").style.display == 'block' && document.getElementById("jsondata").innerHTML == "") { //intercept the values
                 document.getElementById("jsondata").innerHTML=self.configurationValues;
             } else { //pass them silently
                 var needsTransaction = false;
