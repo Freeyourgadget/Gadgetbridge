@@ -809,6 +809,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     public void handleButtonPressed(byte[] value) {
+        // TODO: Try to implement button receiver and broadcast (like "com.mc.miband.buttonPressed1" in official app)
         LOG.info("Button pressed");
         logMessageContent(value);
     }
