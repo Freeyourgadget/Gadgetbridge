@@ -405,4 +405,17 @@
     <string name="discovery_pair_question">Vyberte Párování pro spárování s vaším zaříením. Pokud to selže, tak to zkuste bez párování.</string>
     <string name="discovery_yes_pair">Párování</string>
     <string name="discovery_dont_pair">Nepárovat</string>
+    <string name="mi2_prefs_button_actions">Akce tlačítka</string>
+    <string name="mi2_prefs_button_actions_summary">Definujte akce při stisku tlačítka na Mi Band 2</string>
+    <string name="mi2_prefs_button_press_count">Počet stisků tlačítka</string>
+    <string name="mi2_prefs_button_press_count_summary">Definujte počet stisknutí tlačítka k vyslání broadcast zprávy</string>
+    <string name="mi2_prefs_button_press_broadcast">Zpráva k vyslání (broadcast)</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">Zpráva k vyslání do systému pokud počtu stisknutí tlačítka (viz výše)</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value">nodomain.freeyourgadget.gadgetbridge.mibandButtonPressed</string>
+    <string name="mi2_prefs_button_action">Povolit akci tlačítka</string>
+    <string name="mi2_prefs_button_action_summary">Povolit akci tlačítka na definovaný počet stisknutí</string>
+    <string name="mi2_prefs_button_action_vibrate">Povolit vibrace náramku</string>
+    <string name="mi2_prefs_button_action_vibrate_summary">Povolit vibrace náramku při vyslání broadcast zprávy</string>
+    <string name="mi2_prefs_button_press_count_max_delay">Maximální prodleva mezi stisky</string>
+    <string name="mi2_prefs_button_press_count_max_delay_summary">Maximální prodleva mezi stisky tlačítka v milisekundách</string>
 </resources>

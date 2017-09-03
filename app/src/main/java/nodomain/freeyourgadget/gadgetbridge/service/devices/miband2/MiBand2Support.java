@@ -24,7 +24,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.format.DateFormat;
 import android.widget.Toast;
@@ -122,6 +124,10 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ge
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.getNotificationPrefStringValue;
 
 public class MiBand2Support extends AbstractBTLEDeviceSupport {
+
+    // We introduce key press counter for notification purposes
+    private static int currentButtonPressCount = 0;
+    private static long currentButtonPressTime = 0;
 
     private static final Logger LOG = LoggerFactory.getLogger(MiBand2Support.class);
     private final DeviceInfoProfile<MiBand2Support> deviceInfoProfile;
@@ -809,9 +815,48 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     public void handleButtonPressed(byte[] value) {
-        // TODO: Try to implement button receiver and broadcast (like "com.mc.miband.buttonPressed1" in official app)
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+
         LOG.info("Button pressed");
         logMessageContent(value);
+
+        Prefs prefs = GBApplication.getPrefs();
+
+        // If disabled we return from function immediately
+        if (!prefs.getBoolean(MiBandConst.PREF_MIBAND_BUTTON_ACTION_ENABLE, false)) {
+            return;
+        }
+
+        int buttonPressMaxDelay = prefs.getInt(MiBandConst.PREF_MIBAND_BUTTON_PRESS_MAX_DELAY, 2000);
+        int requiredButtonPressCount = prefs.getInt(MiBandConst.PREF_MIBAND_BUTTON_PRESS_COUNT, 0);
+
+        String requiredButtonPressMessage = prefs.getString(MiBandConst.PREF_MIBAND_BUTTON_PRESS_BROADCAST,
+                this.getContext().getString(R.string.mi2_prefs_button_press_broadcast_default_value));
+
+        if (requiredButtonPressCount > 0) {
+            long timeSinceLastPress = System.currentTimeMillis() - currentButtonPressTime;
+
+            if ((currentButtonPressTime == 0) || (timeSinceLastPress < buttonPressMaxDelay)) {
+                currentButtonPressCount++;
+            }
+            else {
+                currentButtonPressCount = 0;
+            }
+
+            currentButtonPressTime = System.currentTimeMillis();
+            if (currentButtonPressCount >= requiredButtonPressCount) {
+                Intent in = new Intent();
+                in.setAction(requiredButtonPressMessage);
+                this.getContext().getApplicationContext().sendBroadcast(in);
+
+                currentButtonPressCount = 0;
+                currentButtonPressTime = System.currentTimeMillis();
+
+                if (prefs.getBoolean(MiBandConst.PREF_MIBAND_BUTTON_ACTION_VIBRATE, false)) {
+                    performPreferredNotification(null, null, null, MiBand2Service.ALERT_LEVEL_VIBRATE_ONLY, null);
+                }
+            }
+        }
     }
 
     private void handleUnknownCharacteristic(byte[] value) {
