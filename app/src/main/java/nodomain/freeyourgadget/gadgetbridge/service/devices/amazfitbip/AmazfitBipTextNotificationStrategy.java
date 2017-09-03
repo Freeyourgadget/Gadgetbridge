@@ -40,7 +40,7 @@ class AmazfitBipTextNotificationStrategy extends Mi2TextNotificationStrategy {
 
     @Override
     protected void sendCustomNotification(VibrationProfile vibrationProfile, SimpleNotification simpleNotification, BtLEAction extraAction, TransactionBuilder builder) {
-        if (simpleNotification != null && !StringUtils.isEmpty(simpleNotification.getMessage())) {
+        if (simpleNotification != null) {
             sendAlert(simpleNotification, builder);
         }
     }

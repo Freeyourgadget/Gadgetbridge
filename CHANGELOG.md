@@ -4,6 +4,7 @@
 * Initial NO.1 F1 support
 * Amazfit Bip: Display GPS firmware version
 * Amazfit Bip: Fix E-Mail notifications
+* Amazfit Bip: Fix call notification with unknown caller
 * Pebble: Fix crash when takeing screenshots on Android 8.0 (Oreo)
 * Pebble: Support some google app icons
 * Pebble: try to support spotify
