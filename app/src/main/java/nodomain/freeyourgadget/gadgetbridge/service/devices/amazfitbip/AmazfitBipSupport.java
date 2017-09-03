@@ -142,11 +142,13 @@ public class AmazfitBipSupport extends MiBand2Support {
     public void onSendWeather(WeatherSpec weatherSpec) {
         try {
             TransactionBuilder builder = performInitialized("Sending weather forecast");
-            Version version = new Version(gbDevice.getFirmwareVersion());
-
             boolean supportsConditionString = false;
-            if (version.compareTo(new Version("0.0.8.74")) >= 0) {
-                supportsConditionString = true;
+
+            if (gbDevice.getFirmwareVersion() != null) {
+                Version version = new Version(gbDevice.getFirmwareVersion());
+                if (version.compareTo(new Version("0.0.8.74")) >= 0) {
+                    supportsConditionString = true;
+                }
             }
 
             final byte NR_DAYS = 2;
