@@ -38,7 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2;
 import nodomain.freeyourgadget.gadgetbridge.activities.DiscoveryActivity;
-import nodomain.freeyourgadget.gadgetbridge.activities.GBActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
@@ -50,7 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class PebblePairingActivity extends GBActivity {
+public class PebblePairingActivity extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(PebblePairingActivity.class);
     private TextView message;
     private boolean isPairing;

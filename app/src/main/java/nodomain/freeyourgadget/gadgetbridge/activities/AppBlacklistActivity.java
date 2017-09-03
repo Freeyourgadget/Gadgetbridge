@@ -31,7 +31,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.AppBlacklistAdapter;
 
 
-public class AppBlacklistActivity extends GBActivity {
+public class AppBlacklistActivity extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(AppBlacklistActivity.class);
 
     private AppBlacklistAdapter appBlacklistAdapter;

@@ -53,7 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 
-public class DebugActivity extends GBActivity {
+public class DebugActivity extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(DebugActivity.class);
 
     private static final String EXTRA_REPLY = "reply";

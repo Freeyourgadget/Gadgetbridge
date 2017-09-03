@@ -19,9 +19,9 @@ package nodomain.freeyourgadget.gadgetbridge.externalevents;
 import android.os.Bundle;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.GBActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 
-public class WeatherNotificationConfig extends GBActivity {
+public class WeatherNotificationConfig extends AbstractGBActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

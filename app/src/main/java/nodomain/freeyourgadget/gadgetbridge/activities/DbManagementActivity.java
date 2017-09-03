@@ -45,7 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.ImportExportSharedPreferences;
 
 
-public class DbManagementActivity extends GBActivity {
+public class DbManagementActivity extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(DbManagementActivity.class);
     private static SharedPreferences sharedPrefs;
     private ImportExportSharedPreferences shared_file = new ImportExportSharedPreferences();

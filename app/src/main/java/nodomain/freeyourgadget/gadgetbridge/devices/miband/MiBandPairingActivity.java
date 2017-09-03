@@ -37,7 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2;
 import nodomain.freeyourgadget.gadgetbridge.activities.DiscoveryActivity;
-import nodomain.freeyourgadget.gadgetbridge.activities.GBActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
@@ -46,7 +46,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-public class MiBandPairingActivity extends GBActivity {
+public class MiBandPairingActivity extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandPairingActivity.class);
 
     private static final int REQ_CODE_USER_SETTINGS = 52;
