@@ -3,6 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.no1f1;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.net.Uri;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +39,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static org.apache.commons.lang3.math.NumberUtils.min;
 
@@ -225,6 +227,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             builder.write(ctrlCharacteristic, msg);
             performConnected(builder.getTransaction());
         } catch (IOException e) {
+            GB.toast(getContext(), "Error fetching activity data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
     }
 
@@ -386,6 +389,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             builder.write(ctrlCharacteristic, msg);
             performConnected(builder.getTransaction());
         } catch (IOException e) {
+            LOG.warn("Unable to set vibration", e);
         }
     }
 
@@ -399,6 +403,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             builder.write(ctrlCharacteristic, msg);
             performConnected(builder.getTransaction());
         } catch (IOException e) {
+            GB.toast(getContext(), "Error showing icon: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
     }
 
@@ -430,6 +435,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
 
             performConnected(builder.getTransaction());
         } catch (IOException e) {
+            GB.toast(getContext(), "Error showing notificaton: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
     }
 
@@ -443,6 +449,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             builder.write(ctrlCharacteristic, msg);
             performConnected(builder.getTransaction());
         } catch (IOException e) {
+            LOG.warn("Unable to stop notification", e);
         }
     }
 
@@ -467,6 +474,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                         getDevice().sendDeviceUpdateIntent(getContext());
                     }
                 } catch (Exception ex) {
+                    GB.toast(getContext(), "Error saving step data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                 }
             }
         } else {
