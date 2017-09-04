@@ -42,6 +42,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.UnknownDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipCooordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.MakibesF68Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.jyou.TeclastH30Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.liveview.LiveviewCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
@@ -195,6 +196,7 @@ public class DeviceHelper {
         result.add(new HPlusCoordinator());
         result.add(new No1F1Coordinator());
         result.add(new MakibesF68Coordinator());
+        result.add(new TeclastH30Coordinator());
 
         return result;
     }
