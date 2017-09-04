@@ -465,6 +465,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                         samples.get(i).setDeviceId(deviceId);
                         samples.get(i).setUserId(userId);
                         samples.get(i).setRawKind(ActivityKind.TYPE_ACTIVITY);
+                        samples.get(i).setRawIntensity(samples.get(i).getSteps());
                         provider.addGBActivitySample(samples.get(i));
                     }
                     samples.clear();
