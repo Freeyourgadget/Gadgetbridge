@@ -1064,7 +1064,6 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 queueAlarm(alarm, builder, characteristic);
                 iteration++;
             }
-            builder.queue(getQueue());
         }
         return this;
     }
