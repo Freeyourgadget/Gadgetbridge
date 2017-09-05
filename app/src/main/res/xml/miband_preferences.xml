@@ -30,6 +30,50 @@
             android:summary="@string/mi2_prefs_goal_notification_summary"
             android:title="@string/mi2_prefs_goal_notification" />
 
+        <PreferenceScreen
+            android:key="mi2_button_actions_key"
+            android:summary="@string/mi2_prefs_button_actions_summary"
+            android:title="@string/mi2_prefs_button_actions"
+            android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory
+                android:title="@string/mi2_prefs_button_action"
+                />
+
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="mi2_enable_button_action"
+                android:summary="@string/mi2_prefs_button_action_summary"
+                android:title="@string/mi2_prefs_button_action" />
+
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="mi2_button_action_vibrate"
+                android:summary="@string/mi2_prefs_button_action_vibrate_summary"
+                android:title="@string/mi2_prefs_button_action_vibrate" />
+
+            <EditTextPreference
+                android:defaultValue="6"
+                android:inputType="number"
+                android:key="mi_button_press_count"
+                android:summary="@string/mi2_prefs_button_press_count_summary"
+                android:title="@string/mi2_prefs_button_press_count" />
+
+            <EditTextPreference
+                android:defaultValue="@string/mi2_prefs_button_press_broadcast_default_value"
+                android:key="mi_button_press_broadcast"
+                android:summary="@string/mi2_prefs_button_press_broadcast_summary"
+                android:title="@string/mi2_prefs_button_press_broadcast" />
+
+            <EditTextPreference
+                android:defaultValue="2000"
+                android:inputType="number"
+                android:key="mi_button_press_count_max_delay"
+                android:summary="@string/mi2_prefs_button_press_count_max_delay_summary"
+                android:title="@string/mi2_prefs_button_press_count_max_delay" />
+        </PreferenceScreen>
+
         <EditTextPreference
             android:defaultValue="0"
             android:inputType="number"
