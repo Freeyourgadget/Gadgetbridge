@@ -28,6 +28,8 @@ vendor's servers.
 * Mi Band 2 [Wiki section about mi band](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band), some parts apply to mi band 2 as well
 * Amazfit Bip (WIP) [Wiki section about the Amazfit Bip](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
 * HPlus Devices (e.g. ZeBand) [Wiki section about this device](https://github.com/Freeyourgadget/Gadgetbridge/wiki/HPlus)
+* Teclast H30 (WIP)
+* NO.1 F1 (WIP)
 * Liveview
 * Vibratissimo (experimental)
 
@@ -143,6 +145,8 @@ For more information read [this wiki article](https://github.com/Freeyourgadget/
 ### Additional device support
 
 * João Paulo Barraca (HPlus)
+* Vitaly Svyastyn (NO.1 F1)
+* Sami Alaoui (Teclast H30)
 
 ## Contribute
 
