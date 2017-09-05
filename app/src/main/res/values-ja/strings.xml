@@ -401,4 +401,12 @@
   <string name="discovery_pair_question">お使いのデバイスとペアにする相手を選択します。 これに失敗した場合は、ペア設定をせずに再試行してください。</string>
   <string name="discovery_yes_pair">ペア</string>
   <string name="discovery_dont_pair">ペアにしない</string>
-</resources>
+<string name="fw_upgrade_notice_amazfitbip">Amazfit Bip の現在の代わりに %s のファームウェアをインストールしようとしています。
+\n
+\n.gps ファームウェア、その後 .res ファイル、そして最終的に .fw ファイルをインストールすることを確認してください。お使いのウォッチは、.fw ファイルをインストールした後に再起動します。
+\n
+\n注: これらのファイルが以前インストールされているのものと完全に同じ場合、.res と .gps をインストールする必要はありません。
+\n
+\n実験的です。あなた自身の責任で行ってください</string>
+    <string name="amazfitbip_firmware">Amazfit Bip ファームウェア%1$s</string>
+    </resources>

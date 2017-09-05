@@ -1,13 +1,17 @@
 ### Changelog
 
-#### Version 0.21.0 (next)
+#### Version 0.21.0
 * Initial NO.1 F1 support
+* Initial Teclast H30 support
 * Amazfit Bip: Display GPS firmware version
 * Amazfit Bip: Fix E-Mail notifications
 * Amazfit Bip: Fix call notification with unknown caller
+* Amazfit Bip: Fix crash when weather is updated and device reconnecting
+* Mi2/Bip: Fix crash when synchronizing calendar to alarms
 * Pebble: Fix crash when takeing screenshots on Android 8.0 (Oreo)
 * Pebble: Support some google app icons
 * Pebble: try to support spotify
+* Mi Band 2: Support configurable button actions
 * Fix language being reset to system default
 
 #### Version 0.20.2
