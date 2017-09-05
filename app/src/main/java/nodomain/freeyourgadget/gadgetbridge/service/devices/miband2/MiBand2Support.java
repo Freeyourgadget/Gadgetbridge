@@ -1110,7 +1110,6 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 queueAlarm(alarm, builder, characteristic);
                 iteration++;
             }
-            builder.queue(getQueue());
         }
         return this;
     }
@@ -1355,8 +1354,11 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     public void phase2Initialize(TransactionBuilder builder) {
         LOG.info("phase2Initialize...");
-        enableFurtherNotifications(builder, true);
         requestBatteryInfo(builder);
+    }
+
+    public void phase3Initialize(TransactionBuilder builder) {
+        LOG.info("phase3Initialize...");
         setDateDisplay(builder);
         setTimeFormat(builder);
         setWearLocation(builder);

@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.devices.no1f1;
+package nodomain.freeyourgadget.gadgetbridge.devices.jyou;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -8,10 +8,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelUuid;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
-import java.util.Collection;
-import java.util.Collections;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
@@ -21,20 +17,28 @@ import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
-import nodomain.freeyourgadget.gadgetbridge.entities.No1F1ActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 
-public class No1F1Coordinator extends AbstractDeviceCoordinator {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Collection;
+import java.util.Collections;
+
+public class TeclastH30Coordinator extends AbstractDeviceCoordinator {
+
+    protected static final Logger LOG = LoggerFactory.getLogger(TeclastH30Coordinator.class);
 
     @NonNull
     @Override
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public Collection<? extends ScanFilter> createBLEScanFilters() {
-        ParcelUuid hpService = new ParcelUuid(No1F1Constants.UUID_SERVICE_NO1);
-        ScanFilter filter = new ScanFilter.Builder().setServiceUuid(hpService).build();
+        ParcelUuid uuid = new ParcelUuid(JYouConstants.UUID_SERVICE_JYOU);
+        ScanFilter filter = new ScanFilter.Builder().setServiceUuid(uuid).build();
         return Collections.singletonList(filter);
     }
 
@@ -42,52 +46,59 @@ public class No1F1Coordinator extends AbstractDeviceCoordinator {
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String name = candidate.getDevice().getName();
-        if (name != null && name.startsWith("X-RUN")) {
-            return DeviceType.NO1F1;
+        if (name != null && name.startsWith("TECLAST_H30")) {
+            return DeviceType.TECLASTH30;
         }
-
         return DeviceType.UNKNOWN;
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.NO1F1;
-    }
-
-    @Override
-    public int getBondingStyle(GBDevice deviceCandidate) {
+    public int getBondingStyle(GBDevice deviceCandidate){
         return BONDING_STYLE_NONE;
     }
 
-    @Nullable
+    @Override
+    public boolean supportsCalendarEvents() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsRealtimeData() {
+        return true;
+    }
+
+    @Override
+    public DeviceType getDeviceType() {
+        return DeviceType.TECLASTH30;
+    }
+
     @Override
     public Class<? extends Activity> getPairingActivity() {
         return null;
     }
 
-    @Nullable
     @Override
     public Class<? extends Activity> getPrimaryActivity() {
         return ChartsActivity.class;
     }
 
     @Override
+    public InstallHandler findInstallHandler(Uri uri, Context context) {
+        return null;
+    }
+
+    @Override
     public boolean supportsActivityDataFetching() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean supportsActivityTracking() {
-        return true;
+        return false;
     }
 
     @Override
     public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
-        return new No1F1SampleProvider(device, session);
-    }
-
-    @Override
-    public InstallHandler findInstallHandler(Uri uri, Context context) {
         return null;
     }
 
@@ -98,7 +109,7 @@ public class No1F1Coordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsAlarmConfiguration() {
-        return false;
+        return true;
     }
 
     @Override
@@ -108,12 +119,12 @@ public class No1F1Coordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
-        return false;
+        return true;
     }
 
     @Override
     public String getManufacturer() {
-        return "NO1";
+        return "Teclast";
     }
 
     @Override
@@ -127,19 +138,7 @@ public class No1F1Coordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsCalendarEvents() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsRealtimeData() {
-        return false;
-    }
-
-    @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
-        Long deviceId = device.getId();
-        QueryBuilder<?> qb = session.getNo1F1ActivitySampleDao().queryBuilder();
-        qb.where(No1F1ActivitySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
+
     }
 }
