@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="pref_language_options">
+        <item name="default">Predefinito dal sistema</item>
+        <item name="de">T</item>
+        <item name="en"></item>
+        <item name="es"></item>
+        <item name="fr"></item>
+        <item name="pl"></item>
+        <item name="ru"></item>
+        <item name="vi"></item>
+        <item name="tr"></item>
+        <item name="uk"></item>
+        <item name="ko">C</item>
+        <item name="ja">G</item>
+        <item name="hu"></item>
+    </string-array>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</resources>
