@@ -50,6 +50,18 @@ public class MiBand2Service {
     public static final UUID UUID_CHARACTERISTIC_AUTH = UUID.fromString("00000009-0000-3512-2118-0009af100700");
     public static final UUID UUID_CHARACTERISTIC_10_BUTTON = UUID.fromString("00000010-0000-3512-2118-0009af100700");
 
+    // Put UUIDs according to http://jellygom.com/2016/09/30/Mi-Band-UUID.html
+    // Also good resource is http://muhlenxi.com/2017/05/08/iOS-Bluetooth-Low-Energy-Develop-Chapter7/ however hard readable
+    // even using Google Translate translation as I don't know Chinese
+    // Update: Translation using following URL seems to be understandable:
+    // https://translate.google.com/translate?hl=en&sl=auto&tl=en&u=http%3A%2F%2Fmuhlenxi.com%2F2017%2F05%2F08%2FiOS-Bluetooth-Low-Energy-Develop-Chapter7%2F
+    // Another good resource may be: http://allmydroids.blogspot.cz/2014/12/xiaomi-mi-band-ble-protocol-reverse.html
+    public static final UUID UUID_CHARACTERISTIC_DEV_INFO_SERIAL_NO = UUID.fromString("00002a25-0000-1000-8000-00805f9b34fb");
+    public static final UUID UUID_CHARACTERISTIC_DEV_INFO_HW_REVISION = UUID.fromString("00002a27-0000-1000-8000-00805f9b34fb");
+    public static final UUID UUID_CHARACTERISTIC_DEV_INFO_SW_REVISION = UUID.fromString("00002a28-0000-1000-8000-00805f9b34fb");
+    public static final UUID UUID_CHARACTERISTIC_DEV_INFO_SYSTEM_ID = UUID.fromString("00002a23-0000-1000-8000-00805f9b34fb");
+    public static final UUID UUID_CHARACTERISTIC_DEV_INFO_PNP_ID = UUID.fromString("00002a50-0000-1000-8000-00805f9b34fb");
+
     public static final int ALERT_LEVEL_NONE = 0;
     public static final int ALERT_LEVEL_MESSAGE = 1;
     public static final int ALERT_LEVEL_PHONE_CALL = 2;
@@ -192,6 +204,7 @@ public class MiBand2Service {
     public static final byte[] COMMAND_ENABLE_INACTIVITY_WARNINGS = new byte[] { 0x08, 0x01, 0x3c, 0x00, 0x04, 0x00, 0x15, 0x00, 0x00, 0x00, 0x00, 0x00 };
     public static final byte[] COMMAND_DISABLE_INACTIVITY_WARNINGS = new byte[] { 0x08, 0x00, 0x3c, 0x00, 0x04, 0x00, 0x15, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
+    public static byte ENDPOINT_INACTIVITY_WARNINGS = 0x08;
     public static byte ENDPOINT_DND = 0x09;
 
     public static final byte[] COMMAND_DO_NOT_DISTURB_AUTOMATIC = new byte[] { ENDPOINT_DND, (byte) 0x83 };
