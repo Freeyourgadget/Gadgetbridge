@@ -70,14 +70,6 @@ public class AndroidUtils {
         }
     }
 
-    public static void setLanguage(Activity activity, Locale language, boolean recreate) {
-        setLanguage(activity.getBaseContext(), language);
-
-        if (recreate) {
-            activity.recreate();
-        }
-    }
-
     public static void setLanguage(Context context, Locale language) {
         Configuration config = new Configuration();
         config.setLocale(language);

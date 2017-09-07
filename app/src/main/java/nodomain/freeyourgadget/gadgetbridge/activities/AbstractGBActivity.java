@@ -33,6 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 
 
 public abstract class AbstractGBActivity extends AppCompatActivity implements GBActivity {
+    private boolean isLanguageInvalid = false;
 
     public static final int NONE = 0;
     public static final int NO_ACTIONBAR = 1;
@@ -52,8 +53,11 @@ public abstract class AbstractGBActivity extends AppCompatActivity implements GB
         }
     };
 
-    public void setLanguage(Locale language, boolean recreate) {
-        AndroidUtils.setLanguage(this, language, recreate);
+    public void setLanguage(Locale language, boolean invalidateLanguage) {
+        if (invalidateLanguage) {
+            isLanguageInvalid = true;
+        }
+        AndroidUtils.setLanguage(this, language);
     }
 
     public static void init(GBActivity activity) {
@@ -86,6 +90,15 @@ public abstract class AbstractGBActivity extends AppCompatActivity implements GB
 
         init(this);
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isLanguageInvalid) {
+            isLanguageInvalid = false;
+            recreate();
+        }
     }
 
     @Override
