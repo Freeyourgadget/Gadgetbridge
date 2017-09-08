@@ -411,4 +411,17 @@
 \n
 \nEXPERIMENTAL, PROCEDE BAJO TU PROPIA RESPONSABILIDAD</string>
     <string name="amazfitbip_firmware">Firmware Amazfit Bip %1$s</string>
+    <string name="mi2_prefs_button_actions">Acciones del botón</string>
+    <string name="mi2_prefs_button_actions_summary">Especificar acción para pulsación del botón del Mi Band 2</string>
+    <string name="mi2_prefs_button_press_count">Número de presiones</string>
+    <string name="mi2_prefs_button_press_count_summary">Número de presiones para activar el envío del mensaje</string>
+    <string name="mi2_prefs_button_press_broadcast">Mensaje para enviar</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">Enviar mensaje después de un número definido de pulsaciones</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value">nodomain.freeyourgadget.gadgetbridge.mibandButtonPressed</string>
+    <string name="mi2_prefs_button_action">Activar acción por botón</string>
+    <string name="mi2_prefs_button_action_summary">Activar acción por un número definido de pulsaciones</string>
+    <string name="mi2_prefs_button_action_vibrate">Activar la vibración de la pulsera</string>
+    <string name="mi2_prefs_button_action_vibrate_summary">Activar vibración por acción</string>
+    <string name="mi2_prefs_button_press_count_max_delay">Retardo máximo entre pulsaciones</string>
+    <string name="mi2_prefs_button_press_count_max_delay_summary">Retardo máximo entre pulsaciones en milisegundos</string>
     </resources>
