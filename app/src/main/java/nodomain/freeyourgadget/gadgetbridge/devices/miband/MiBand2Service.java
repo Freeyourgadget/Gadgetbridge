@@ -207,6 +207,8 @@ public class MiBand2Service {
 
     public static final byte SUCCESS = 0x01;
     public static final byte COMMAND_ACTIVITY_DATA_START_DATE = 0x01;
+    public static final byte COMMAND_ACTIVITY_DATA_TYPE_ACTIVTY = 0x01;
+    public static final byte COMMAND_ACTIVITY_DATA_TYPE_UNKNOWN_2 = 0x02;
     public static final byte COMMAND_ACTIVITY_DATA_XXX_DATE = 0x02; // issued on first connect, followd by COMMAND_XXXX_ACTIVITY_DATA instead of COMMAND_FETCH_ACTIVITY_DATA
 
     public static final byte COMMAND_FIRMWARE_INIT = 0x01; // to UUID_CHARACTERISTIC_FIRMWARE, followed by fw file size in bytes
