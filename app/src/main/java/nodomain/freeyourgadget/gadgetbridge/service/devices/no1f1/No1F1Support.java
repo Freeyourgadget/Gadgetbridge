@@ -114,6 +114,9 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             case No1F1Constants.CMD_FETCH_STEPS:
                 handleStepData(data);
                 return true;
+            case No1F1Constants.CMD_FETCH_SLEEP:
+                handleSleepData(data);
+                return true;
             case No1F1Constants.CMD_NOTIFICATION:
             case No1F1Constants.CMD_ICON:
             case No1F1Constants.CMD_DEVICE_SETTINGS:
@@ -470,10 +473,18 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                     }
                     samples.clear();
                     LOG.info("Steps data saved");
-                    if (getDevice().isBusy()) {
-                        getDevice().unsetBusyTask();
-                        getDevice().sendDeviceUpdateIntent(getContext());
+                    try {
+                        TransactionBuilder builder = performInitialized("fetchSleep");
+                        byte[] msg = new byte[]{
+                                No1F1Constants.CMD_FETCH_SLEEP,
+                                (byte) 0xfa
+                        };
+                        builder.write(ctrlCharacteristic, msg);
+                        performConnected(builder.getTransaction());
+                    } catch (IOException e) {
+                        GB.toast(getContext(), "Error fetching activity data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                     }
+
                 } catch (Exception ex) {
                     GB.toast(getContext(), "Error saving step data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                 }
@@ -495,6 +506,54 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             samples.add(sample);
             LOG.info("Received steps data for " + String.format("%1$TD %1$TT", timestamp) + ": " +
                     sample.getSteps() + " steps"
+            );
+        }
+    }
+
+    private void handleSleepData(byte[] data) {
+        if (data[1] == (byte) 0xfd) {
+            // TODO Check CRC
+            if (samples.size() > 0) {
+                try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                    Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
+                    Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
+                    No1F1SampleProvider provider = new No1F1SampleProvider(getDevice(), dbHandler.getDaoSession());
+                    for (int i = 0; i < samples.size(); i++) {
+                        samples.get(i).setDeviceId(deviceId);
+                        samples.get(i).setUserId(userId);
+                        if (samples.get(i).getRawIntensity()<7)
+                            samples.get(i).setRawKind(ActivityKind.TYPE_DEEP_SLEEP);
+                        else
+                            samples.get(i).setRawKind(ActivityKind.TYPE_LIGHT_SLEEP);
+                        provider.addGBActivitySample(samples.get(i));
+                    }
+                    samples.clear();
+                    LOG.info("Sleep data saved");
+                    if (getDevice().isBusy()) {
+                        getDevice().unsetBusyTask();
+                        getDevice().sendDeviceUpdateIntent(getContext());
+                    }
+                } catch (Exception ex) {
+                    GB.toast(getContext(), "Error saving sleep data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                }
+            }
+        } else {
+            No1F1ActivitySample sample = new No1F1ActivitySample();
+
+            Calendar timestamp = GregorianCalendar.getInstance();
+            timestamp.set(Calendar.YEAR, data[1] * 256 + (data[2] & 0xff));
+            timestamp.set(Calendar.MONTH, (data[3] - 1) & 0xff);
+            timestamp.set(Calendar.DAY_OF_MONTH, data[4] & 0xff);
+            timestamp.set(Calendar.HOUR_OF_DAY, data[5] & 0xff);
+            timestamp.set(Calendar.MINUTE, data[6] & 0xff);
+            timestamp.set(Calendar.SECOND, 0);
+
+            sample.setTimestamp((int) (timestamp.getTimeInMillis() / 1000L));
+            sample.setRawIntensity(data[7] * 256 + (data[8] & 0xff));
+
+            samples.add(sample);
+            LOG.info("Received sleep data for " + String.format("%1$TD %1$TT", timestamp) + ": " +
+                    sample.getRawIntensity() + " rolls"
             );
         }
     }
