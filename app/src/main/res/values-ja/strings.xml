@@ -409,4 +409,17 @@
 \n
 \n実験的です。あなた自身の責任で行ってください</string>
     <string name="amazfitbip_firmware">Amazfit Bip ファームウェア%1$s</string>
+    <string name="mi2_prefs_button_actions">ボタンの動作</string>
+    <string name="mi2_prefs_button_actions_summary">Mi Band 2 ボタンを押した動作を指定します</string>
+    <string name="mi2_prefs_button_press_count">ボタン押したカウント</string>
+    <string name="mi2_prefs_button_press_count_summary">ブロードキャスト メッセージをトリガーするボタンを押した数</string>
+    <string name="mi2_prefs_button_press_broadcast">送信するブロードキャスト メッセージ</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">ボタンを押した数で定義された数に達したブロードキャスト メッセージ</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value">nodomain.freeyourgadget.gadgetbridge.mibandButtonPressed</string>
+    <string name="mi2_prefs_button_action">ボタンの動作を有効にする</string>
+    <string name="mi2_prefs_button_action_summary">指定したボタンを押した数の動作を有効にします</string>
+    <string name="mi2_prefs_button_action_vibrate">band の振動を有効にする</string>
+    <string name="mi2_prefs_button_action_vibrate_summary">ボタンの動作をトリガーに band の振動を有効にします</string>
+    <string name="mi2_prefs_button_press_count_max_delay">ボタンを押す間の最大遅延時間</string>
+    <string name="mi2_prefs_button_press_count_max_delay_summary">ボタンを押す間隔の最大遅延時間 (ミリ秒単位)</string>
     </resources>
