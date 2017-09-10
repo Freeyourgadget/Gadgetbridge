@@ -160,7 +160,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     private HPlusSupport syncPreferences(TransactionBuilder transaction) {
 
-        if (deviceType == DeviceType.HPLUS) {
+        if (deviceType == DeviceType.HPLUS || deviceType == DeviceType.EXRIZUK8) {
             setSIT(transaction);          //Sync SIT Interval
         }
 
