@@ -103,11 +103,7 @@ public class BleNamesResolver {
 		mServices.put("00001530-0000-3512-2118-0009af100700", "(Propr: Xiaomi Weight Service)");
 		mServices.put("14701820-620a-3973-7c78-9cfff0876abd", "(Propr: HPLUS Service)");
 
-		mCharacteristics.put("00000005-0000-3512-2118-0009af100700", "Xiaomi Activity Data");
-		mCharacteristics.put("00000006-0000-3512-2118-0009af100700", "Xiaomi Battery Info");
-		mCharacteristics.put("00000007-0000-3512-2118-0009af100700", "Xiaomi Real Time Steps");
-		mCharacteristics.put("00000010-0000-3512-2118-0009af100700", "Xiaomi Mi Band 2 Button");
-
+		
 		mCharacteristics.put("00002a43-0000-1000-8000-00805f9b34fb", "Alert AlertCategory ID");
 		mCharacteristics.put("00002a42-0000-1000-8000-00805f9b34fb", "Alert AlertCategory ID Bit Mask");
 		mCharacteristics.put("00002a06-0000-1000-8000-00805f9b34fb", "Alert Level");

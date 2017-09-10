@@ -36,7 +36,6 @@ public final class MiBandConst {
     public static final String PREF_MIBAND_BUTTON_ACTION_VIBRATE = "mi2_button_action_vibrate";
     public static final String PREF_MIBAND_BUTTON_PRESS_COUNT = "mi_button_press_count";
     public static final String PREF_MIBAND_BUTTON_PRESS_MAX_DELAY = "mi_button_press_count_max_delay";
-    public static final String PREF_MIBAND_BUTTON_ACTION_DELAY = "mi_button_press_count_match_delay";
     public static final String PREF_MIBAND_BUTTON_PRESS_BROADCAST = "mi_button_press_broadcast";
     public static final String PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION = "mi_hr_sleep_detection";
 	public static final String PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS = "mi_device_time_offset_hours";

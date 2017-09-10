@@ -72,13 +72,6 @@
                 android:key="mi_button_press_count_max_delay"
                 android:summary="@string/mi2_prefs_button_press_count_max_delay_summary"
                 android:title="@string/mi2_prefs_button_press_count_max_delay" />
-
-            <EditTextPreference
-                android:defaultValue="0"
-                android:inputType="number"
-                android:key="mi_button_press_count_match_delay"
-                android:summary="@string/mi2_prefs_button_press_count_match_delay_summary"
-                android:title="@string/mi2_prefs_button_press_count_match_delay" />
         </PreferenceScreen>
 
         <EditTextPreference

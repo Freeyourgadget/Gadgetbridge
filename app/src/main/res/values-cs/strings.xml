@@ -420,8 +420,6 @@
     <string name="mi2_prefs_button_action_vibrate_summary">Povolit vibrace náramku při vyslání broadcast zprávy</string>
     <string name="mi2_prefs_button_press_count_max_delay">Maximální prodleva mezi stisky</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">Maximální prodleva mezi stisky tlačítka v milisekundách</string>
-    <string name="mi2_prefs_button_press_count_match_delay">Prodleva před akcí</string>
-    <string name="mi2_prefs_button_press_count_match_delay_summary">Prodleva před akcí tlačítka. Umožňuje více průchodů (v extra button_id u Intent) nebo 0 pro okamžitou akci</string>
 <string name="fw_upgrade_notice_amazfitbip">Chystáte se nainstalovat firmware %s namísto toho, který je aktuálně na vašem Amazfit Bipu.
 \n
 \nUjistěte se, že jste nainstalovali firmware .gps, pak soubor .res a nakonec soubor .fw. Hodiny se po instalaci souboru .fw restartují.

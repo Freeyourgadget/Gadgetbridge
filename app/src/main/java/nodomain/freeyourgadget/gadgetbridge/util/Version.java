@@ -16,8 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
-import android.util.Log;
-
 // http://stackoverflow.com/questions/198431/how-do-you-compare-two-version-strings-in-java
 public class Version implements Comparable<Version> {
 
