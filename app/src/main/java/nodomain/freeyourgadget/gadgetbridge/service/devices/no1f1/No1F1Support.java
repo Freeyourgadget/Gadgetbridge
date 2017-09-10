@@ -117,6 +117,12 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             case No1F1Constants.CMD_FETCH_SLEEP:
                 handleSleepData(data);
                 return true;
+            case No1F1Constants.CMD_FETCH_HEARTRATE:
+                handleHeartRateData(data);
+                return true;
+            case No1F1Constants.CMD_REALTIME_HEARTRATE:
+                handleRealtimeHeartRateData(data);
+                return true;
             case No1F1Constants.CMD_NOTIFICATION:
             case No1F1Constants.CMD_ICON:
             case No1F1Constants.CMD_DEVICE_SETTINGS:
@@ -240,7 +246,17 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onHeartRateTest() {
-
+        try {
+            TransactionBuilder builder = performInitialized("heartRateTest");
+            byte[] msg = new byte[]{
+                    No1F1Constants.CMD_REALTIME_HEARTRATE,
+                    (byte) 0x11
+            };
+            builder.write(ctrlCharacteristic, msg);
+            performConnected(builder.getTransaction());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error starting heart rate measurement: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
     }
 
     @Override
@@ -529,10 +545,18 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                     }
                     samples.clear();
                     LOG.info("Sleep data saved");
-                    if (getDevice().isBusy()) {
-                        getDevice().unsetBusyTask();
-                        getDevice().sendDeviceUpdateIntent(getContext());
+                    try {
+                        TransactionBuilder builder = performInitialized("fetchHeartRate");
+                        byte[] msg = new byte[]{
+                                No1F1Constants.CMD_FETCH_HEARTRATE,
+                                (byte) 0xfa
+                        };
+                        builder.write(ctrlCharacteristic, msg);
+                        performConnected(builder.getTransaction());
+                    } catch (IOException e) {
+                        GB.toast(getContext(), "Error fetching heart rate data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                     }
+
                 } catch (Exception ex) {
                     GB.toast(getContext(), "Error saving sleep data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                 }
@@ -555,6 +579,78 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             LOG.info("Received sleep data for " + String.format("%1$TD %1$TT", timestamp) + ": " +
                     sample.getRawIntensity() + " rolls"
             );
+        }
+    }
+
+    private void handleHeartRateData(byte[] data) {
+        if (data[1] == (byte) 0xfd) {
+            // TODO Check CRC
+            if (samples.size() > 0) {
+                try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                    Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
+                    Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
+                    No1F1SampleProvider provider = new No1F1SampleProvider(getDevice(), dbHandler.getDaoSession());
+                    for (int i = 0; i < samples.size(); i++) {
+                        samples.get(i).setDeviceId(deviceId);
+                        samples.get(i).setUserId(userId);
+                        provider.addGBActivitySample(samples.get(i));
+                    }
+                    samples.clear();
+                    LOG.info("Heart rate data saved");
+                    if (getDevice().isBusy()) {
+                        getDevice().unsetBusyTask();
+                        getDevice().sendDeviceUpdateIntent(getContext());
+                    }
+                } catch (Exception ex) {
+                    GB.toast(getContext(), "Error saving heart rate data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                }
+            }
+        } else {
+            No1F1ActivitySample sample = new No1F1ActivitySample();
+
+            Calendar timestamp = GregorianCalendar.getInstance();
+            timestamp.set(Calendar.YEAR, data[1] * 256 + (data[2] & 0xff));
+            timestamp.set(Calendar.MONTH, (data[3] - 1) & 0xff);
+            timestamp.set(Calendar.DAY_OF_MONTH, data[4] & 0xff);
+            timestamp.set(Calendar.HOUR_OF_DAY, data[5] & 0xff);
+            timestamp.set(Calendar.MINUTE, data[6] & 0xff);
+            timestamp.set(Calendar.SECOND, 0);
+
+            sample.setTimestamp((int) (timestamp.getTimeInMillis() / 1000L));
+            sample.setHeartRate(data[7] & 0xff);
+
+            samples.add(sample);
+            LOG.info("Received heart rate data for " + String.format("%1$TD %1$TT", timestamp) + ": " +
+                    sample.getHeartRate() + " BPM"
+            );
+        }
+    }
+
+    private void handleRealtimeHeartRateData(byte[] data) {
+        if (data.length==2)
+        {
+            if (data[1]==(byte) 0x11)
+                LOG.info("Heart rate measurement started.");
+            else
+                LOG.info("Heart rate measurement stopped.");
+            return;
+        }
+        // Check if data is valid. Otherwise ignore sample.
+        if (data[2]==0) {
+            No1F1ActivitySample sample = new No1F1ActivitySample();
+            sample.setTimestamp((int) (GregorianCalendar.getInstance().getTimeInMillis() / 1000L));
+            sample.setHeartRate(data[3] & 0xff);
+            LOG.info("Current heart rate is: " + sample.getHeartRate() + " BPM");
+            try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
+                Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
+                No1F1SampleProvider provider = new No1F1SampleProvider(getDevice(), dbHandler.getDaoSession());
+                sample.setDeviceId(deviceId);
+                sample.setUserId(userId);
+                provider.addGBActivitySample(sample);
+            } catch (Exception ex) {
+                LOG.warn("Error saving current heart rate: " + ex.getLocalizedMessage());
+            }
         }
     }
 }

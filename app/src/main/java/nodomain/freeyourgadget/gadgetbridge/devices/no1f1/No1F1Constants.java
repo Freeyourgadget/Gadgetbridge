@@ -18,6 +18,8 @@ public final class No1F1Constants {
     public static final byte CMD_REALTIME_STEPS = (byte) 0xb1;
     public static final byte CMD_FETCH_STEPS = (byte) 0xb2;
     public static final byte CMD_FETCH_SLEEP = (byte) 0xb3;
+    public static final byte CMD_REALTIME_HEARTRATE = (byte) 0xe5;
+    public static final byte CMD_FETCH_HEARTRATE = (byte) 0xe6;
     public static final byte CMD_NOTIFICATION = (byte) 0xc1;
     public static final byte CMD_ICON = (byte) 0xc3;
     public static final byte CMD_DEVICE_SETTINGS = (byte) 0xd3;
