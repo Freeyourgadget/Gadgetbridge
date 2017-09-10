@@ -25,7 +25,6 @@ import android.media.AudioManager;
 import android.media.session.MediaController;
 import android.media.session.MediaSessionManager;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.KeyEvent;
 
 import org.slf4j.Logger;
@@ -94,8 +93,7 @@ public class GBMusicControlReceiver extends BroadcastReceiver {
                 }
             }
 
-            Log.d("keypress", musicCmd.toString());
-            Log.d("sent to", audioPlayer);
+            LOG.debug("keypress: " + musicCmd.toString() + " sent to: " + audioPlayer);
 
             long eventtime = SystemClock.uptimeMillis();
 
