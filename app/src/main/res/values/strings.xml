@@ -467,4 +467,9 @@
     <string name="discovery_pair_question">Select Pair to pair your devices. If this fails, try again without pairing.</string>
     <string name="discovery_yes_pair">Pair</string>
     <string name="discovery_dont_pair">Don\'t Pair</string>
+
+    <!-- strings sent to pebble watches for quick actions -->
+    <string name="_pebble_watch_open_on_phone">Open on phone</string>
+    <string name="_pebble_watch_mute">Mute</string>
+    <string name="_pebble_watch_reply">Reply</string>
 </resources>
