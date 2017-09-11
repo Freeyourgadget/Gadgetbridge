@@ -2,6 +2,7 @@
 
 #### Version 0.21.1
 * Initial support for EXRIZU K8 (HPLus variant)
+* Amazfit Bip: fix long messages not being displayed at all
 * Mi Band 2: Support multiple button actions
 * NO.1 F1: Fetch sleep data
 * NO.1 F1: Heart rate support
