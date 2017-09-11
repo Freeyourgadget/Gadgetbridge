@@ -40,6 +40,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -122,6 +124,12 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ge
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.getNotificationPrefStringValue;
 
 public class MiBand2Support extends AbstractBTLEDeviceSupport {
+
+    // We introduce key press counter for notification purposes
+    private static int currentButtonActionId = 0;
+    private static int currentButtonPressCount = 0;
+    private static long currentButtonPressTime = 0;
+    private static long currentButtonTimerActivationTime = 0;
 
     private static final Logger LOG = LoggerFactory.getLogger(MiBand2Support.class);
     private final DeviceInfoProfile<MiBand2Support> deviceInfoProfile;
@@ -776,6 +784,80 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         // not supported
     }
 
+    public void runButtonAction() {
+        Prefs prefs = GBApplication.getPrefs();
+
+        if (currentButtonTimerActivationTime != currentButtonPressTime) {
+            return;
+        }
+
+        String requiredButtonPressMessage = prefs.getString(MiBandConst.PREF_MIBAND_BUTTON_PRESS_BROADCAST,
+                this.getContext().getString(R.string.mi2_prefs_button_press_broadcast_default_value));
+
+        Intent in = new Intent();
+        in.setAction(requiredButtonPressMessage);
+        in.putExtra("button_id", currentButtonActionId);
+        LOG.info("Sending " + requiredButtonPressMessage + " with button_id " + currentButtonActionId);
+        this.getContext().getApplicationContext().sendBroadcast(in);
+        if (prefs.getBoolean(MiBandConst.PREF_MIBAND_BUTTON_ACTION_VIBRATE, false)) {
+            performPreferredNotification(null, null, null, MiBand2Service.ALERT_LEVEL_VIBRATE_ONLY, null);
+        }
+
+        currentButtonActionId = 0;
+
+        currentButtonPressCount = 0;
+        currentButtonPressTime = System.currentTimeMillis();
+    }
+
+    public void handleButtonPressed(byte[] value) {
+        LOG.info("Button pressed");
+        ///logMessageContent(value);
+
+        // If disabled we return from function immediately
+        Prefs prefs = GBApplication.getPrefs();
+        if (!prefs.getBoolean(MiBandConst.PREF_MIBAND_BUTTON_ACTION_ENABLE, false)) {
+            return;
+        }
+
+        int buttonPressMaxDelay = prefs.getInt(MiBandConst.PREF_MIBAND_BUTTON_PRESS_MAX_DELAY, 2000);
+        int buttonActionDelay = prefs.getInt(MiBandConst.PREF_MIBAND_BUTTON_ACTION_DELAY, 0);
+        int requiredButtonPressCount = prefs.getInt(MiBandConst.PREF_MIBAND_BUTTON_PRESS_COUNT, 0);
+
+        if (requiredButtonPressCount > 0) {
+            long timeSinceLastPress = System.currentTimeMillis() - currentButtonPressTime;
+
+            if ((currentButtonPressTime == 0) || (timeSinceLastPress < buttonPressMaxDelay)) {
+                currentButtonPressCount++;
+            }
+            else {
+                currentButtonPressCount = 1;
+                currentButtonActionId = 0;
+            }
+
+            currentButtonPressTime = System.currentTimeMillis();
+            if (currentButtonPressCount == requiredButtonPressCount) {
+                currentButtonTimerActivationTime = currentButtonPressTime;
+                if (buttonActionDelay > 0) {
+                    LOG.info("Activating timer");
+                    final Timer buttonActionTimer = new Timer("Mi Band Button Action Timer");
+                    buttonActionTimer.scheduleAtFixedRate(new TimerTask() {
+                        @Override
+                        public void run() {
+                            runButtonAction();
+                            buttonActionTimer.cancel();
+                        }
+                    }, buttonActionDelay, buttonActionDelay);
+                }
+                else {
+                    LOG.info("Activating button action");
+                    runButtonAction();
+                }
+                currentButtonActionId++;
+                currentButtonPressCount = 0;
+            }
+        }
+    }
+
     @Override
     public boolean onCharacteristicChanged(BluetoothGatt gatt,
                                            BluetoothGattCharacteristic characteristic) {
@@ -805,12 +887,8 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             LOG.info("Unhandled characteristic changed: " + characteristicUUID);
             logMessageContent(characteristic.getValue());
         }
-        return false;
-    }
 
-    public void handleButtonPressed(byte[] value) {
-        LOG.info("Button pressed");
-        logMessageContent(value);
+        return false;
     }
 
     private void handleUnknownCharacteristic(byte[] value) {
@@ -842,6 +920,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             LOG.info("Unhandled characteristic read: " + characteristicUUID);
             logMessageContent(characteristic.getValue());
         }
+
         return false;
     }
 
@@ -1017,6 +1096,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 //                    getContext().getString(R.string.DEVINFO_HR_VER),
 //                    info.getSoftwareRevision()));
 //        }
+
         LOG.warn("Device info: " + info);
         versionCmd.hwVersion = info.getHardwareRevision();
 //        versionCmd.fwVersion = info.getFirmwareRevision(); // always null
@@ -1064,7 +1144,6 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 queueAlarm(alarm, builder, characteristic);
                 iteration++;
             }
-            builder.queue(getQueue());
         }
         return this;
     }
@@ -1309,8 +1388,11 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     public void phase2Initialize(TransactionBuilder builder) {
         LOG.info("phase2Initialize...");
-        enableFurtherNotifications(builder, true);
         requestBatteryInfo(builder);
+    }
+
+    public void phase3Initialize(TransactionBuilder builder) {
+        LOG.info("phase3Initialize...");
         setDateDisplay(builder);
         setTimeFormat(builder);
         setWearLocation(builder);

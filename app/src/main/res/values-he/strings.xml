@@ -7,7 +7,7 @@
   <string name="action_quit">יציאה</string>
   <string name="controlcenter_fetch_activity_data">סנכרון</string>
   <string name="controlcenter_start_sleepmonitor">מעקב שינה (בבדיקה)</string>
-  <string name="controlcenter_find_device">איתור התקן שאבד…</string>
+  <string name="controlcenter_find_device">איתור התקן שאבד</string>
   <string name="controlcenter_take_screenshot">צילום המסך</string>
   <string name="controlcenter_disconnect">ניתוק</string>
   <string name="controlcenter_delete_device">מחיקת התקן</string>
@@ -33,7 +33,7 @@
   <string name="app_configure">הגדרה</string>
   <string name="app_move_to_top">העברה למעלה</string>
   <!--Strings related to AppBlacklist-->
-  <string name="title_activity_appblacklist">חסימת דיווחים</string>
+  <string name="title_activity_appblacklist">רשימת התרעות חסומות</string>
   <!--Strings related to CalBlacklist-->
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">התקנת קושחה/יישומון</string>
@@ -52,7 +52,7 @@
   <string name="pref_default">בררת מחדל</string>
   <string name="pref_header_datetime">שעה ותאריך</string>
   <string name="pref_title_datetime_syctimeonconnect">סנכרון השעה</string>
-  <string name="pref_summary_datetime_syctimeonconnect">סנכרון השעה בהתקן בעת ההתחברות וכאשר השעה או אזור הזמן משתנים באנדרואיד.</string>
+  <string name="pref_summary_datetime_syctimeonconnect">סנכרון השעה בהתקן בעת ההתחברות וכאשר השעה או אזור הזמן משתנים באנדרואיד</string>
   <string name="pref_title_theme">ערכת עיצוב</string>
   <string name="pref_theme_light">בהירה</string>
   <string name="pref_theme_dark">כהה</string>
@@ -69,7 +69,7 @@
   <string name="pref_title_notifications_generic">תמיכה בדיווחים גנריים</string>
   <string name="pref_title_whenscreenon">…גם כאשר המסך פעיל</string>
   <string name="pref_title_notification_filter">לא להפריע</string>
-  <string name="pref_summary_notification_filter">חסימת שליחה של דיווחים בלתי רצויים בהתבסס על המצב לא להפריע.</string>
+  <string name="pref_summary_notification_filter">חסימת שליחה של התרעות בלתי רצויות בהתבסס על המצב לא להפריע</string>
   <string name="pref_title_transliteration">תעתיק</string>
   <string name="always">תמיד</string>
   <string name="when_screen_off">כאשר המסך כבוי</string>
@@ -87,7 +87,7 @@
   <string name="pref_title_canned_messages_set">עדכון ב־Pebble</string>
   <string name="pref_header_development">אפשרויות פיתוח</string>
   <string name="pref_title_development_miaddr">כתובת </string>
-  <string name="pref_title_pebble_settings">הגדרות </string>
+  <string name="pref_title_pebble_settings">הגדרות Pebble</string>
   <string name="pref_header_activitytrackers">עוקבי פעילות</string>
   <string name="pref_title_pebble_activitytracker">עוקב פעילות מועדף</string>
   <string name="pref_title_pebble_sync_health">סנכרון Pebble Health</string>
@@ -98,7 +98,7 @@
   <string name="pref_title_enable_pebblekit">לאפשר גישה ליישומוני צד שלישי באנדרואיד</string>
   <string name="pref_summary_enable_pebblekit">הפעלת תמיכה ניסיונית ביישומוני אנדרואיד באמצעות PebbleKit</string>
   <string name="pref_title_sunrise_sunset">זריחה ושקיעה</string>
-  <string name="pref_summary_sunrise_sunset">שליחת מועדי זריחה ושקיעה בהתבסס על המיקום לציר הזמן של pebble</string>
+  <string name="pref_summary_sunrise_sunset">שליחת מועדי זריחה ושקיעה בהתבסס על המיקום לציר הזמן של Pebble</string>
   <string name="pref_title_autoremove_notifications">הסרה אוטומטית של דיווחים שהתעלמת מהם</string>
   <string name="pref_summary_autoremove_notifications">דיווחים מוסרים אוטומטית מה־Pebble כשהתעלמת מהם בהתקן האנדרואיד</string>
   <string name="pref_title_pebble_privacy_mode">מצב פרטיות</string>
@@ -118,7 +118,7 @@
   <string name="pref_title_pebble_forceuntested">הפעלת תכונות שלא נבדקו</string>
   <string name="pref_summary_pebble_forceuntested">הפעלת תכונות שלא נבדקו. יש להפעיל רק אם ההשלכות ברורות לך לחלוטין!!</string>
   <string name="pref_title_pebble_forcele">תמיד להעדיף BLE</string>
-  <string name="pref_summary_pebble_forcele">שימוש בתמיכה ניסיונית ב־Pebble LE עבור כל סוגי ה־Pebble במקום ה־Bluetooth הקלסי, נדרש צימוד „Pebble LE“ לאחר שנוצר חיבור שאינו LE בעבר.</string>
+  <string name="pref_summary_pebble_forcele">שימוש בתמיכה ניסיונית ב־Pebble LE עבור כל סוגי ה־Pebble במקום ה־Bluetooth הקלסי, נדרש צימוד „Pebble LE“ לאחר שנוצר חיבור שאינו LE בעבר</string>
   <string name="pref_title_pebble_mtu_limit">מגבלת ה־MTU של GATT ל־Pebble 2/LE</string>
   <string name="pref_summary_pebble_mtu_limit">אם ה־Pebble 2/Pebble LE שלך אינו עובד כצפוי, יש לנסות אפשרות זאת כדי להגביל את כמות הנתונים המועברת - MTU (טווח תקני 20–512)</string>
   <string name="pref_title_pebble_enable_applogs">הפעלת מעקב רישום אחר יישומון השעון</string>
@@ -132,23 +132,23 @@
   <string name="prefs_title_all_day_heart_rate">מדידת דופק במשך כל היום</string>
   <string name="preferences_hplus_settings">הגדרות HPlus/Makibes</string>
   <string name="not_connected">לא מחובר</string>
-  <string name="connecting">מחובר</string>
-  <string name="connected">מתחבר</string>
+  <string name="connecting">בהתחברות</string>
+  <string name="connected">מחובר</string>
   <string name="unknown_state">מצב לא ידוע</string>
   <string name="_unknown_">(לא ידוע)</string>
   <string name="test">בדיקה</string>
-  <string name="test_notification">דיווח לבדיקה</string>
-  <string name="this_is_a_test_notification_from_gadgetbridge">זהו דיווח לבדיקה מ־Gadgetbridge</string>
+  <string name="test_notification">התרעה לבדיקה</string>
+  <string name="this_is_a_test_notification_from_gadgetbridge">זוהי התרעה לבדיקה מ־Gadgetbridge</string>
   <string name="bluetooth_is_not_supported_">אין תמיכה ב־Bluetooth.</string>
   <string name="bluetooth_is_disabled_">ה־Bluetooth מנוטרל.</string>
   <string name="tap_connected_device_for_app_mananger">נקישה על ההתקן המחובר למנהל היישומים</string>
   <string name="tap_connected_device_for_activity">נקישה על ההתקן המחובר לפעילות</string>
   <string name="tap_connected_device_for_vibration">נקישה על ההתקן המחובר לרטט</string>
   <string name="tap_a_device_to_connect">יש לגעת בהתקן כדי להתחבר</string>
-  <string name="cannot_connect_bt_address_invalid_">לא ניתן להתחבר. כתובת ה־BT שגויה?</string>
+  <string name="cannot_connect_bt_address_invalid_">לא ניתן להתחבר. כתובת ה־Bluetooth שגויה?</string>
   <string name="gadgetbridge_running">Gadgetbridge פעיל</string>
   <string name="installing_binary_d_d">התקנת הבינרי %1$d/%2$d</string>
-  <string name="installation_failed_">ההתקנה נכשלה!</string>
+  <string name="installation_failed_">ההתקנה נכשלה</string>
   <string name="installation_successful">ההתקנה הצליחה</string>
   <string name="firmware_install_warning">זהו ניסיון להתקנת קושחה, ניתן להמשיך אם ברורות לך ההשלכות.\n\n\n קושחה זו מיועדת לחומרה במהדורה: %s</string>
   <string name="app_install_info">היישומון המועמד להתקנה הוא:\n\n\n%1$s גרסה %2$s מאת %3$s\n</string>
@@ -157,9 +157,9 @@
   <string name="appversion_by_creator">%1$s מאת %2$s</string>
   <string name="title_activity_discovery">גילוי התקנים</string>
   <string name="discovery_stop_scanning">להפסיק את הסריקה</string>
-  <string name="discovery_start_scanning">להתחיל בסריקה</string>
+  <string name="discovery_start_scanning">להתחיל בגילוי</string>
   <string name="action_discover">חיבור התקן חדש</string>
-  <string name="device_with_rssi">%1$s (%2$s)</string>
+  <string name="device_with_rssi">%1$s‏ (%2$s)</string>
   <string name="title_activity_android_pairing">צימוד התקן</string>
   <string name="android_pairing_hint">יש להשתמש בדו־שיח צימוד ה־Bluetooth לאנדרואיד כדי ליצור צימוד להתקן.</string>
   <string name="title_activity_mi_band_pairing">צימוד ה־Mi Band שלך</string>
@@ -170,7 +170,7 @@
   <string name="pairing_already_bonded">כבר נוצר איגוד עם %1$s (%2$s), מתבצעת התחברות…</string>
   <string name="message_cannot_pair_no_mac">לא הועברה כתובת חומרה, לא ניתן לצמד.</string>
   <string name="preferences_category_device_specific_settings">הגדרות ייעודיות להתקן</string>
-  <string name="preferences_miband_settings">הגדרות Mi Band</string>
+  <string name="preferences_miband_settings">הגדרות Mi Band / Bip</string>
   <string name="male">זכר</string>
   <string name="female">נקבה</string>
   <string name="other">אחר</string>
@@ -185,7 +185,7 @@
   <string name="miband_prefs_alias">שם/כינוי</string>
   <string name="pref_header_vibration_count">ספירת רטט</string>
   <string name="title_activity_sleepmonitor">מעקב שינה</string>
-  <string name="pref_write_logfiles">כתיבת קובצי יומן</string>
+  <string name="pref_write_logfiles">כתיבת קובצי רישום</string>
   <string name="initializing">מתבצע אתחול</string>
   <string name="busy_task_fetch_activity_data">נתוני הפעילות מתקבלים</string>
   <string name="sleep_activity_date_range">מ־%1$s עד %2$s</string>
@@ -200,11 +200,11 @@
   <string name="vibration_profile_alarm_clock">שעון מעורר</string>
   <string name="miband_prefs_vibration">רטט</string>
   <string name="vibration_try">בדיקה</string>
-  <string name="pref_screen_notification_profile_sms">דיווח על מסרון</string>
+  <string name="pref_screen_notification_profile_sms">התרעת מסרון</string>
   <string name="pref_header_vibration_settings">הגדרות רטט</string>
-  <string name="pref_screen_notification_profile_generic">דיווחים כלליים</string>
-  <string name="pref_screen_notification_profile_email">דיווח על דוא״ל</string>
-  <string name="pref_screen_notification_profile_incoming_call">דיווח על שיחה נכנסת</string>
+  <string name="pref_screen_notification_profile_generic">התרעות כלליות</string>
+  <string name="pref_screen_notification_profile_email">התרעה על דוא״ל</string>
+  <string name="pref_screen_notification_profile_incoming_call">התרעה על שיחה נכנסת</string>
   <string name="pref_screen_notification_profile_generic_chat">צ׳אט</string>
   <string name="pref_screen_notification_profile_generic_navigation">ניווט</string>
   <string name="pref_screen_notification_profile_generic_social">רשת חברתית</string>
@@ -300,12 +300,12 @@
   <string name="add_widget">הוספת וידג׳ט</string>
   <string name="activity_prefs_sleep_duration">משך השינה המועדף בשעות</string>
   <string name="appwidget_alarms_set">הוגדרה התרעה לשעה %1$02d:%2$02d</string>
-  <string name="device_hw">חומרה: %1$s</string>
-  <string name="device_fw">קושחה: %1$s</string>
+  <string name="device_hw">מהדורת חומרה: %1$s</string>
+  <string name="device_fw">מהדורת קושחה: %1$s</string>
   <string name="error_creating_directory_for_logfiles">אירעה שגיאה ביצירת תיקייה לקובצי הרישום: %1$s</string>
-  <string name="DEVINFO_HR_VER">דופק:</string>
+  <string name="DEVINFO_HR_VER">"דופק: "</string>
   <string name="updatefirmwareoperation_update_in_progress">מתבצע עדכון קושחה</string>
-  <string name="updatefirmwareoperation_firmware_not_sent">לא הוגדרה קושחה</string>
+  <string name="updatefirmwareoperation_firmware_not_sent">לא נשלחה קושחה</string>
   <string name="charts_legend_heartrate">דופק</string>
   <string name="live_activity_heart_rate">דופק</string>
   <string name="pref_title_pebble_health_store_raw">אחסון נתונים גולמיים במסד הנתונים</string>
@@ -363,7 +363,7 @@
     <string name="pref_blacklist_calendars">חסימת יומנים</string>
 
     <string name="pref_header_pebble_timeline">ציר זמן Pebble</string>
-    <string name="pref_title_enable_calendar_sync">סנכרון יומנים</string>
+    <string name="pref_title_enable_calendar_sync">סנכרון יומן</string>
     <string name="pref_summary_enable_calendar_sync">שליחת אירועים מהיומן לציר הזמן</string>
 
     <string name="stats_title">אזורי מהירות</string>
@@ -388,4 +388,33 @@
     <string name="mi2_prefs_inactivity_warnings_dnd_summary">השבתת אזהרות חוסר הפעילות לפרק זמן מסוים</string>
     <string name="mi2_prefs_do_not_disturb_start">מועד ההתחלה</string>
     <string name="mi2_prefs_do_not_disturb_end">מועד הסיום</string>
-    </resources>
+    <string name="fw_upgrade_notice_amazfitbip">ביקשת להתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Amazfit Bip שלך.
+\n
+\nנא לוודא את התקנת הקושחה ‎.gps בהתחלה, לאחר מכן את קובץ ה־‎.res ולבסוף קובץ ה־‎.fw
+\n
+\n
+\nלתשומת לבך: אין צורך בהתקנת קובצי ה־‎.res וה־‎.gps אם הם כבר זהים לאלו שהתקנת בעבר.
+\n
+\nניסיוני! המשך התהליך הוא על אחריותך!</string>
+    <string name="pref_summary_transliteration">יש להפעיל אפשרות זו אם להתקן אין תמיכה בגופן השפה שלך</string>
+
+    <string name="amazfitbip_firmware">קושחה של Amazfit Bip גרסה %1$s</string>
+    <string name="dbmanagementactivity_error_exporting_shared">שגיאה בייצוא ההעדפה: %1$s</string>
+    <string name="dbmanagementactivity_error_importing_shared">שגיאה בייבוא העדפה: %1$s</string>
+    <string name="mi2_fw_installhandler_fw53_hint">עליך להתקין את הגרסה %1$s בטרם התקנת קושחה זו!</string>
+    <string name="mi2_enable_text_notifications">התרעות טקסט</string>
+    <string name="mi2_enable_text_notifications_summary">נדרשת קושחה &gt;= 1.0.1.28 והקובץ Mili_pro.ft*‎ מותקן.</string>
+    <string name="off">כבוי</string>
+    <string name="mi2_dnd_off">כבוי</string>
+    <string name="mi2_dnd_automatic">אוטומטי (זיהוי שינה)</string>
+    <string name="mi2_dnd_scheduled">מתוזמן (הפרשי זמן)</string>
+    <string name="discovery_attempting_to_pair">מתבצע ניסיון לצימוד עם %1$s</string>
+    <string name="discovery_bonding_failed_immediately">האיגוד עם %1$s נכשל מיידית.</string>
+    <string name="discovery_trying_to_connect_to">מתבצע ניסיון להתחבר אל: %1$s</string>
+    <string name="discovery_enable_bluetooth">יש להפעיל Bluetooth כדי לגלות התקנים.</string>
+    <string name="discovery_successfully_bonded">האיגוד עם %1$s הצליח.</string>
+    <string name="discovery_pair_title">ליצור צימוד עם %1$s?</string>
+    <string name="discovery_pair_question">יש לבחור בצימוד כדי לצמד את ההתקנים שלך. אם התהליך נכשל, יש לנסות שוב ללא צימוד.</string>
+    <string name="discovery_yes_pair">לצמד</string>
+    <string name="discovery_dont_pair">לא לצמד</string>
+</resources>

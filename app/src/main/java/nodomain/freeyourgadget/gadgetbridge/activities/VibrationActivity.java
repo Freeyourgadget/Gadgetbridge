@@ -26,7 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
 
-public class VibrationActivity extends GBActivity {
+public class VibrationActivity extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(VibrationActivity.class);
     private SeekBar seekBar;
 

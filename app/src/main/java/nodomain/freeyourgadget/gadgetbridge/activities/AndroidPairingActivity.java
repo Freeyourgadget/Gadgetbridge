@@ -20,7 +20,7 @@ import android.os.Bundle;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 
-public class AndroidPairingActivity extends GBActivity {
+public class AndroidPairingActivity extends AbstractGBActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

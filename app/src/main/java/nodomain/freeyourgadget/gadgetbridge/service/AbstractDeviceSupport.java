@@ -229,7 +229,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
 
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("image/*");
-            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(fullpath)));
+            shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotURI);
 
             PendingIntent pendingShareIntent = PendingIntent.getActivity(context, 0, Intent.createChooser(shareIntent, "share screenshot"),
                     PendingIntent.FLAG_UPDATE_CURRENT);

@@ -38,7 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_ALARMS;
 
 
-public class ConfigureAlarms extends GBActivity {
+public class ConfigureAlarms extends AbstractGBActivity {
 
     private static final int REQ_CONFIGURE_ALARM = 1;
 

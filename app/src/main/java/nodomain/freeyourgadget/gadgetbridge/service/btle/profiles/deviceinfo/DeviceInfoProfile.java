@@ -110,49 +110,49 @@ public class DeviceInfoProfile<T extends AbstractBTLEDeviceSupport> extends Abst
 
 
     private void handleManufacturerName(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-        String name = characteristic.getStringValue(0);
+        String name = characteristic.getStringValue(0).trim();
         deviceInfo.setManufacturerName(name);
         notify(createIntent(deviceInfo));
     }
 
     private void handleModelNumber(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-        String modelNumber = characteristic.getStringValue(0);
+        String modelNumber = characteristic.getStringValue(0).trim();
         deviceInfo.setModelNumber(modelNumber);
         notify(createIntent(deviceInfo));
     }
     private void handleSerialNumber(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-        String serialNumber = characteristic.getStringValue(0);
+        String serialNumber = characteristic.getStringValue(0).trim();
         deviceInfo.setSerialNumber(serialNumber);
         notify(createIntent(deviceInfo));
     }
 
     private void handleHardwareRevision(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-        String hardwareRevision = characteristic.getStringValue(0);
+        String hardwareRevision = characteristic.getStringValue(0).trim();
         deviceInfo.setHardwareRevision(hardwareRevision);
         notify(createIntent(deviceInfo));
     }
 
     private void handleFirmwareRevision(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-        String firmwareRevision = characteristic.getStringValue(0);
+        String firmwareRevision = characteristic.getStringValue(0).trim();
         deviceInfo.setFirmwareRevision(firmwareRevision);
         notify(createIntent(deviceInfo));
     }
 
     private void handleSoftwareRevision(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-        String softwareRevision = characteristic.getStringValue(0);
+        String softwareRevision = characteristic.getStringValue(0).trim();
         deviceInfo.setSoftwareRevision(softwareRevision);
         notify(createIntent(deviceInfo));
     }
 
     private void handleSystemId(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-        String systemId = characteristic.getStringValue(0);
+        String systemId = characteristic.getStringValue(0).trim();
         deviceInfo.setSystemId(systemId);
         notify(createIntent(deviceInfo));
     }
 
     private void handleRegulatoryCertificationData(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
         // TODO: regulatory certification data list not supported yet
-//        String regulatoryCertificationData = characteristic.getStringValue(0);
+//        String regulatoryCertificationData = characteristic.getStringValue(0).trim();
 //        deviceInfo.setRegulatoryCertificationDataList(regulatoryCertificationData);
 //        notify(createIntent(deviceInfo));
     }

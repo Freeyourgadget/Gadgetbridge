@@ -47,7 +47,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 
-public class CalBlacklistActivity extends GBActivity {
+public class CalBlacklistActivity extends AbstractGBActivity {
 
     private final String[] EVENT_PROJECTION = new String[]{
             CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,

@@ -70,13 +70,12 @@ public class AndroidUtils {
         }
     }
 
-    public static void setLanguage(Activity activity, Locale language) {
+    public static void setLanguage(Context context, Locale language) {
         Configuration config = new Configuration();
         config.setLocale(language);
 
         // FIXME: I have no idea what I am doing
-        activity.getBaseContext().getResources().updateConfiguration(config, activity.getBaseContext().getResources().getDisplayMetrics());
-        activity.recreate();
+        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
     }
 
     /**

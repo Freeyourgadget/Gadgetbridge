@@ -16,34 +16,24 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip.operations;
 
+import android.content.Context;
 import android.net.Uri;
-import android.widget.Toast;
 
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip.AmazfitBipSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.Mi2FirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.UpdateFirmwareOperation;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class AmazfitBipUpdateFirmwareOperation extends UpdateFirmwareOperation {
     public AmazfitBipUpdateFirmwareOperation(Uri uri, AmazfitBipSupport support) {
         super(uri, support);
     }
 
-    @Override
-    protected void doPerform() throws IOException {
-        AmazfitBipFWHelper mFwHelper = new AmazfitBipFWHelper(uri, getContext());
 
-        firmwareInfo = mFwHelper.getFirmwareInfo();
-        if (!firmwareInfo.isGenerallyCompatibleWith(getDevice())) {
-            throw new IOException("Firmware is not compatible with the given device: " + getDevice().getAddress());
-        }
-
-        if (!sendFwInfo()) {
-            displayMessage(getContext(), "Error sending firmware info, aborting.", Toast.LENGTH_LONG, GB.ERROR);
-            done();
-        }
-        //the firmware will be sent by the notification listener if the band confirms that the metadata are ok.
+    protected Mi2FirmwareInfo createFwInfo(Uri uri, Context context) throws IOException {
+        AmazfitBipFWHelper fwHelper = new AmazfitBipFWHelper(uri, getContext());
+        return fwHelper.getFirmwareInfo();
     }
 }

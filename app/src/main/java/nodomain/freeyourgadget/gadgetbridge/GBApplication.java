@@ -57,6 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.service.NotificationCollectorMonitorService;
+import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
@@ -532,11 +533,11 @@ public class GBApplication extends Application {
         } else {
             language = new Locale(lang);
         }
-        Configuration config = new Configuration();
-        config.setLocale(language);
+        updateLanguage(language);
+    }
 
-        // FIXME: I have no idea what I am doing
-        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
+    public static void updateLanguage(Locale locale) {
+        AndroidUtils.setLanguage(context, locale);
 
         Intent intent = new Intent();
         intent.setAction(ACTION_LANGUAGE_CHANGE);
@@ -556,6 +557,12 @@ public class GBApplication extends Application {
         Resources.Theme theme = context.getTheme();
         theme.resolveAttribute(R.attr.textColorPrimary, typedValue, true);
         return typedValue.data;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        updateLanguage(getLanguage());
     }
 
     public static int getBackgroundColor(Context context) {

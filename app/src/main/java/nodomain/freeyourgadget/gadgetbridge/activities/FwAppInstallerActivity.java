@@ -51,7 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 
-public class FwAppInstallerActivity extends GBActivity implements InstallActivity {
+public class FwAppInstallerActivity extends AbstractGBActivity implements InstallActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(FwAppInstallerActivity.class);
     private static final String ITEM_DETAILS = "details";

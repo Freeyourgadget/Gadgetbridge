@@ -37,7 +37,6 @@ import org.slf4j.LoggerFactory;
 import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 
 /**
@@ -46,9 +45,11 @@ import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
  * to set that listener in #onCreate, *not* in #onPostCreate, otherwise the value will
  * not be displayed.
  */
-public abstract class AbstractSettingsActivity extends AppCompatPreferenceActivity {
+public abstract class AbstractSettingsActivity extends AppCompatPreferenceActivity implements GBActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractSettingsActivity.class);
+
+    private boolean isLanguageInvalid = false;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -56,7 +57,7 @@ public abstract class AbstractSettingsActivity extends AppCompatPreferenceActivi
             String action = intent.getAction();
             switch (action) {
                 case GBApplication.ACTION_LANGUAGE_CHANGE:
-                    setLanguage(GBApplication.getLanguage());
+                    setLanguage(GBApplication.getLanguage(), true);
                     break;
                 case GBApplication.ACTION_QUIT:
                     finish();
@@ -129,11 +130,7 @@ public abstract class AbstractSettingsActivity extends AppCompatPreferenceActivi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (GBApplication.isDarkThemeEnabled()) {
-            setTheme(R.style.GadgetbridgeThemeDark);
-        } else {
-            setTheme(R.style.GadgetbridgeTheme);
-        }
+        AbstractGBActivity.init(this);
 
         IntentFilter filterLocal = new IntentFilter();
         filterLocal.addAction(GBApplication.ACTION_QUIT);
@@ -154,6 +151,15 @@ public abstract class AbstractSettingsActivity extends AppCompatPreferenceActivi
             } else {
                 LOG.error("Unknown preference key: " + prefKey + ", unable to display value.");
             }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isLanguageInvalid) {
+            isLanguageInvalid = false;
+            recreate();
         }
     }
 
@@ -215,7 +221,10 @@ public abstract class AbstractSettingsActivity extends AppCompatPreferenceActivi
         return super.onOptionsItemSelected(item);
     }
 
-    private void setLanguage(Locale language) {
+    public void setLanguage(Locale language, boolean invalidateLanguage) {
+        if (invalidateLanguage) {
+            isLanguageInvalid = true;
+        }
         AndroidUtils.setLanguage(this, language);
     }
 }

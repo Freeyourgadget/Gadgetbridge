@@ -47,7 +47,7 @@
   <string name="fw_multi_upgrade_notice">Instaluje firmwary %1$s a %2$s do Mi Band místo stávajícího.</string>
   <string name="miband_firmware_known">Tento firmware byl testován a je kompatibilní s Gadgetbridge.</string>
   <string name="miband_firmware_unknown_warning">Tento firmware nebyl testován a nemusí být kompatibilní s Gadgetbridge.\n\nNedoporučujeme jej nahrávat do Mi Band!</string>
-  <string name="miband_firmware_suggest_whitelist">Pokud budete prokračovat a vše bude fungovat běžně i potom, upozorněte vývojáře Gadgetbridge, aby označili tento firmware: %s jako vyzkoušený.</string>
+  <string name="miband_firmware_suggest_whitelist">Pokud budete prokračovat a vše bude fungovat běžně i potom, upozorněte vývojáře Gadgetbridge, aby označili tento firmware: %s jako vyzkoušený</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Nastavení</string>
   <string name="pref_header_general">Základní nastavení</string>
@@ -142,6 +142,8 @@
   <string name="connecting">Připojování</string>
   <string name="connected">Připojeno</string>
   <string name="unknown_state">Neznámý stav</string>
+  <string name="connectionstate_hw_fw">HW: %1$s FW: %2$s</string>
+  <string name="connectionstate_fw">Verze FW: %1$s</string>
   <string name="_unknown_">(neznámé)</string>
   <string name="test">Test</string>
   <string name="test_notification">Test notifikací</string>
@@ -405,4 +407,27 @@
     <string name="discovery_pair_question">Vyberte Párování pro spárování s vaším zaříením. Pokud to selže, tak to zkuste bez párování.</string>
     <string name="discovery_yes_pair">Párování</string>
     <string name="discovery_dont_pair">Nepárovat</string>
+    <string name="mi2_prefs_button_actions">Akce tlačítka</string>
+    <string name="mi2_prefs_button_actions_summary">Definujte akce při stisku tlačítka na Mi Band 2</string>
+    <string name="mi2_prefs_button_press_count">Počet stisků tlačítka</string>
+    <string name="mi2_prefs_button_press_count_summary">Definujte počet stisknutí tlačítka k vyslání broadcast zprávy</string>
+    <string name="mi2_prefs_button_press_broadcast">Zpráva k vyslání (broadcast)</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">Zpráva k vyslání do systému pokud počtu stisknutí tlačítka (viz výše)</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value">nodomain.freeyourgadget.gadgetbridge.mibandButtonPressed</string>
+    <string name="mi2_prefs_button_action">Povolit akci tlačítka</string>
+    <string name="mi2_prefs_button_action_summary">Povolit akci tlačítka na definovaný počet stisknutí</string>
+    <string name="mi2_prefs_button_action_vibrate">Povolit vibrace náramku</string>
+    <string name="mi2_prefs_button_action_vibrate_summary">Povolit vibrace náramku při vyslání broadcast zprávy</string>
+    <string name="mi2_prefs_button_press_count_max_delay">Maximální prodleva mezi stisky</string>
+    <string name="mi2_prefs_button_press_count_max_delay_summary">Maximální prodleva mezi stisky tlačítka v milisekundách</string>
+    <string name="mi2_prefs_button_press_count_match_delay">Prodleva před akcí</string>
+    <string name="mi2_prefs_button_press_count_match_delay_summary">Prodleva před akcí tlačítka. Umožňuje více průchodů (v extra button_id u Intent) nebo 0 pro okamžitou akci</string>
+<string name="fw_upgrade_notice_amazfitbip">Chystáte se nainstalovat firmware %s namísto toho, který je aktuálně na vašem Amazfit Bipu.
+\n
+\nUjistěte se, že jste nainstalovali firmware .gps, pak soubor .res a nakonec soubor .fw. Hodiny se po instalaci souboru .fw restartují.
+\n
+\nPoznámka: Nemusíte instalovat soubory .res a .gps, pokud jsou tyto soubory přesně stejné jako ty, které byly dříve nainstalovány.
+\n
+\nEXPERIMENTÁLNÍ PROCES, DĚLÁTE NA VAŠE VLASTNÍ RIZIKO</string>
+    <string name="amazfitbip_firmware">"Firmware Amazfit Bipu  %1$s"</string>
 </resources>

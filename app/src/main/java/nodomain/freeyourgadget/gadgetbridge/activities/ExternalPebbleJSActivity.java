@@ -64,7 +64,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-public class ExternalPebbleJSActivity extends GBActivity {
+public class ExternalPebbleJSActivity extends AbstractGBActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(ExternalPebbleJSActivity.class);
 

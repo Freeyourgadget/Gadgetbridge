@@ -159,6 +159,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 String newLang = newVal.toString();
                 try {
                     GBApplication.setLanguage(newLang);
+                    recreate();
                 } catch (Exception ex) {
                     GB.toast(getApplicationContext(),
                             "Error setting language: " + ex.getLocalizedMessage(),

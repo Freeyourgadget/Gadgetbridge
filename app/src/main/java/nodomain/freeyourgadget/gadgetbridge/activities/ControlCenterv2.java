@@ -62,9 +62,9 @@ import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-//TODO: extend GBActivity, but it requires actionbar that is not available
+//TODO: extend AbstractGBActivity, but it requires actionbar that is not available
 public class ControlCenterv2 extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, GBActivity {
 
     //needed for KK compatibility
     static {
@@ -78,13 +78,15 @@ public class ControlCenterv2 extends AppCompatActivity
     private GBDeviceAdapterv2 mGBDeviceAdapter;
     private RecyclerView deviceListView;
 
+    private boolean isLanguageInvalid = false;
+
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             switch (action) {
                 case GBApplication.ACTION_LANGUAGE_CHANGE:
-                    setLanguage(GBApplication.getLanguage());
+                    setLanguage(GBApplication.getLanguage(), true);
                     break;
                 case GBApplication.ACTION_QUIT:
                     finish();
@@ -98,11 +100,7 @@ public class ControlCenterv2 extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (GBApplication.isDarkThemeEnabled()) {
-            setTheme(R.style.GadgetbridgeThemeDark_NoActionBar);
-        } else {
-            setTheme(R.style.GadgetbridgeTheme_NoActionBar);
-        }
+        AbstractGBActivity.init(this, AbstractGBActivity.NO_ACTIONBAR);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_controlcenterv2);
@@ -211,6 +209,15 @@ public class ControlCenterv2 extends AppCompatActivity
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (isLanguageInvalid) {
+            isLanguageInvalid = false;
+            recreate();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         unregisterForContextMenu(deviceListView);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
@@ -315,7 +322,10 @@ public class ControlCenterv2 extends AppCompatActivity
             ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[wantedPermissions.size()]), 0);
     }
 
-    private void setLanguage(Locale language) {
+    public void setLanguage(Locale language, boolean invalidateLanguage) {
+        if (invalidateLanguage) {
+            isLanguageInvalid = true;
+        }
         AndroidUtils.setLanguage(this, language);
     }
 }

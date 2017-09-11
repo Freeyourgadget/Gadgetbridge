@@ -36,6 +36,8 @@ import java.util.Random;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppManagement;
@@ -589,9 +591,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
         byte actions_count;
         short actions_length;
         String dismiss_string;
-        String open_string = "Open on phone";
-        String mute_string = "Mute";
-        String reply_string = "Reply";
+        String open_string = GBApplication.getContext().getString(R.string._pebble_watch_open_on_phone);
+        String mute_string = GBApplication.getContext().getString(R.string._pebble_watch_mute);
+        String reply_string = GBApplication.getContext().getString(R.string._pebble_watch_reply);
         if (sourceName != null) {
             mute_string += " " + sourceName;
         }

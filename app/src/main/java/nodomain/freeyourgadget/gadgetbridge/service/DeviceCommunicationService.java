@@ -188,7 +188,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             "net.sourceforge.subsonic.androidapp.EVENT_META_CHANGED",
             "com.maxmpz.audioplayer.TPOS_SYNC",
             "com.maxmpz.audioplayer.STATUS_CHANGED",
-            "com.maxmpz.audioplayer.PLAYING_MODE_CHANGED"};
+            "com.maxmpz.audioplayer.PLAYING_MODE_CHANGED",
+            "com.spotify.music.metadatachanged",
+            "com.spotify.music.playbackstatechanged"
+    };
 
     /**
      * For testing!

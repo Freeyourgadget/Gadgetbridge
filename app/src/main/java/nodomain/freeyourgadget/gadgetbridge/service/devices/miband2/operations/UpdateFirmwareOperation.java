@@ -68,9 +68,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
 
     @Override
     protected void doPerform() throws IOException {
-        MiBand2FWHelper mFwHelper = new MiBand2FWHelper(uri, getContext());
-
-        firmwareInfo = mFwHelper.getFirmwareInfo();
+        firmwareInfo = createFwInfo(uri, getContext());
         if (!firmwareInfo.isGenerallyCompatibleWith(getDevice())) {
             throw new IOException("Firmware is not compatible with the given device: " + getDevice().getAddress());
         }
@@ -80,6 +78,11 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
             done();
         }
         //the firmware will be sent by the notification listener if the band confirms that the metadata are ok.
+    }
+
+    protected Mi2FirmwareInfo createFwInfo(Uri uri, Context context) throws IOException {
+        MiBand2FWHelper fwHelper = new MiBand2FWHelper(uri, context);
+        return fwHelper.getFirmwareInfo();
     }
 
     protected void done() {

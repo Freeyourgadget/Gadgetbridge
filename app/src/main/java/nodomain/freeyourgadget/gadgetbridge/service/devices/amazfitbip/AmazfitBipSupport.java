@@ -30,6 +30,7 @@ import java.nio.ByteOrder;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipIcon;
 import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipService;
@@ -89,6 +90,10 @@ public class AmazfitBipSupport extends MiBand2Support {
             if (notificationSpec.type == NotificationType.GENERIC_SMS) {
                 alertCategory = AlertCategory.SMS;
             }
+            // EMAIL icon does not work in FW 0.0.8.74, it did in 0.0.7.90
+            else if (notificationSpec.type == NotificationType.GENERIC_EMAIL) {
+                alertCategory = AlertCategory.Email;
+            }
 
             NewAlert alert = new NewAlert(alertCategory, 1, message, customIconId);
             profile.newAlert(builder, alert);
@@ -118,6 +123,7 @@ public class AmazfitBipSupport extends MiBand2Support {
         } else if (value[0] == 0x09) {
             callCmd.event = GBDeviceEventCallControl.Event.ACCEPT;
         } else {
+            LOG.info("Unhandled button press: " + Logging.formatBytes(value));
             return;
         }
         evaluateGBDeviceEvent(callCmd);
@@ -134,11 +140,16 @@ public class AmazfitBipSupport extends MiBand2Support {
 
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
+        if (gbDevice.getFirmwareVersion() == null) {
+            LOG.warn("Device not initialized yet, so not sending weather info");
+            return;
+        }
+
         try {
             TransactionBuilder builder = performInitialized("Sending weather forecast");
-            Version version = new Version(gbDevice.getFirmwareVersion());
-
             boolean supportsConditionString = false;
+
+            Version version = new Version(gbDevice.getFirmwareVersion());
             if (version.compareTo(new Version("0.0.8.74")) >= 0) {
                 supportsConditionString = true;
             }
@@ -182,7 +193,8 @@ public class AmazfitBipSupport extends MiBand2Support {
 
             builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
             builder.queue(getQueue());
-        } catch (IOException ignore) {
+        } catch (Exception ex) {
+            LOG.error("Error sending weather information to the Bip", ex);
         }
     }
 
