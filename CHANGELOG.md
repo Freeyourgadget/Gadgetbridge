@@ -1,5 +1,13 @@
 ### Changelog
 
+#### Version 0.21.1
+* Initial support for EXRIZU K8 (HPLus variant)
+* Mi Band 2: Support multiple button actions
+* NO.1 F1: Fetch sleep data
+* NO.1 F1: Heart rate support
+* Pebble: Support controlling the current active media playback application
+* Fix suspended activities coming to front when rotating the screen
+
 #### Version 0.21.0
 * Initial NO.1 F1 support
 * Initial Teclast H30 support
