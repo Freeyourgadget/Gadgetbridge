@@ -289,7 +289,7 @@
   <string name="pref_summary_keep_data_on_device">Aktivitätsdaten verbleiben auf dem Mi Band, auch nach der Synchronisierung. Hilfreich, wenn das Mi Band mit weiteren Apps verwendet wird.</string>
   <string name="pref_title_low_latency_fw_update">Benutze Modus mit niedriger Latenz für Firmware-Updates</string>
   <string name="pref_summary_low_latency_fw_update">Dies kann bei Geräten helfen, bei denen Firmwareupdates fehlschlagen</string>
-  <string name="live_activity_steps_history">Verlauf Schritte</string>
+  <string name="live_activity_steps_history">Schritteverlauf</string>
   <string name="live_activity_current_steps_per_minute">Akt. Schritte pro Minute</string>
   <string name="live_activity_total_steps">Schritte insgesamt</string>
   <string name="live_activity_steps_per_minute_history">Verlauf Schritte pro Minute</string>
@@ -385,7 +385,7 @@
   <string name="pref_screen_notification_profile_alarm_clock">Wecker</string>
   <string name="StringUtils_sender"> (%1$s)</string>
   <string name="find_device_you_found_it">Gefunden!</string>
-  <string name="miband2_prefs_timeformat">Mi2: Uhrzeit-Format</string>
+  <string name="miband2_prefs_timeformat">Mi2: Uhrzeitformat</string>
   <string name="mi2_fw_installhandler_fw53_hint">Installiere Version %1$s vor dem Installieren der Firmware!</string>
   <string name="mi2_enable_text_notifications">Text Benachrichtigung</string>
   <string name="mi2_enable_text_notifications_summary"><![CDATA[Firmware >= 1.0.1.28 und installiertes Mili_pro.ft* benötigt.]]></string>
@@ -410,4 +410,19 @@
 \nHinweis: Du musst die .res and .gps Dateien nicht installieren, falls diese genau die gleichen Dateien wie die sind, die Du schon mit einer vorigen .fw Datei zusammen installiert hattest.
 \n
 \nDIES IST EXPERIMENTELL, FAHRE AUF EIGENES RISIKO FORT</string>
-    </resources>
+    <string name="amazfitbip_firmware">Amazfit Bip Firmware %1$s</string>
+    <string name="mi2_prefs_button_actions">Aktion bei Tastendruck</string>
+    <string name="mi2_prefs_button_actions_summary">Bestimmte Aktion bei Tastendruck auf dem Mi Band 2</string>
+    <string name="mi2_prefs_button_press_count_summary">Anzahl der Tastendrücke, die einen Broadcast auslöst</string>
+    <string name="mi2_prefs_button_press_broadcast">Zu Sendende Broadcast-Nachricht</string>
+    <string name="mi2_prefs_button_action">Aktiviere Tastenaktion</string>
+    <string name="mi2_prefs_button_action_summary">Aktiviere Aktion bei einer bestimmten Anzahl an Tastendrücken</string>
+    <string name="mi2_prefs_button_action_vibrate">Aktiviere Vibration</string>
+    <string name="mi2_prefs_button_action_vibrate_summary">Vibriere, wenn die Tastenaktion ausgelöst wurde</string>
+    <string name="mi2_prefs_button_press_count_max_delay">Maximale Verzögerung zwischen den Tastendrücken</string>
+    <string name="mi2_prefs_button_press_count_max_delay_summary">Maximale Verzögerung zwischen den Tastendrücken in Millisekunden</string>
+    <string name="mi2_prefs_button_press_count_match_delay">Verzögerung nach Tastenaktion</string>
+    <string name="_pebble_watch_open_on_phone">Auf dem Smartphone öffnen</string>
+    <string name="_pebble_watch_mute">Stummschalten</string>
+    <string name="_pebble_watch_reply">Antwort</string>
+</resources>
