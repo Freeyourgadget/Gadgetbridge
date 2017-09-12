@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Julien
-    Pivotto, Kevin Richter
+/*  Copyright (C) 2015-2017 Andreas Shimokawa, AnthonyDiGirolamo, Carsten
+    Pfeiffer, Julien Pivotto, Kevin Richter
 
     This file is part of Gadgetbridge.
 

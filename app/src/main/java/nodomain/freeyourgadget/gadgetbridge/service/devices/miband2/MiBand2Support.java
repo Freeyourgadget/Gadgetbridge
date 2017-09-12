@@ -1,6 +1,6 @@
 /*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Christian
     Fischer, Daniele Gobbetti, JohnnySun, José Rebelo, Julien Pivotto, Kasha,
-    Sergey Trofimov, Steffen Liebergeld
+    Michal Novotny, Sergey Trofimov, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 

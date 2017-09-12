@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, João Paulo Barraca
+    Gobbetti, João Paulo Barraca, protomors, Quallenauge, Sami Alaoui
 
     This file is part of Gadgetbridge.
 

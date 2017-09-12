@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017 Quallenauge
+/*  Copyright (C) 2017 João Paulo Barraca, Quallenauge
 
     This file is part of Gadgetbridge.
 
