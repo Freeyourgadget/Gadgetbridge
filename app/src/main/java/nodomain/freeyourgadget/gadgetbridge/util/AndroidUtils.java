@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2017 Carsten Pfeiffer
+/*  Copyright (C) 2016-2017 Andreas Shimokawa, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 
@@ -67,14 +67,6 @@ public class AndroidUtils {
             return true;
         } catch (IllegalArgumentException ex) {
             return false;
-        }
-    }
-
-    public static void setLanguage(Activity activity, Locale language, boolean recreate) {
-        setLanguage(activity.getBaseContext(), language);
-
-        if (recreate) {
-            activity.recreate();
         }
     }
 

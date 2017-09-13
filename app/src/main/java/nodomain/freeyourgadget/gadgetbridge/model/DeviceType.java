@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, João Paulo Barraca
+    Gobbetti, João Paulo Barraca, protomors, Quallenauge, Sami Alaoui
 
     This file is part of Gadgetbridge.
 
@@ -37,6 +37,7 @@ public enum DeviceType {
     LIVEVIEW(30, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled),
     HPLUS(40, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled),
     MAKIBESF68(41, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled),
+    EXRIZUK8(42, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled),
     NO1F1(50, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled),
     TECLASTH30(60, R.drawable.ic_device_h30_h10, R.drawable.ic_device_h30_h10_disabled),
     TEST(1000, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled);

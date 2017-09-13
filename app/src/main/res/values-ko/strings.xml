@@ -7,7 +7,7 @@
   <string name="action_quit">종료</string>
   <string name="controlcenter_fetch_activity_data">동기화</string>
   <string name="controlcenter_start_sleepmonitor">수면 측정계 (초기 버전)</string>
-  <string name="controlcenter_find_device">잃어버린 기기 찾기...</string>
+  <string name="controlcenter_find_device">잃어버린 기기 찾기</string>
   <string name="controlcenter_take_screenshot">스크린샷 찍기</string>
   <string name="controlcenter_disconnect">연결 해제</string>
   <string name="title_activity_debug">디버그</string>
@@ -46,7 +46,7 @@
   <string name="pref_title_notifications_sms">SMS</string>
   <string name="pref_title_notifications_pebblemsg">Pebble 메세지</string>
   <string name="pref_title_notifications_generic">일반적인 알림 지원</string>
-  <string name="pref_title_whenscreenon">… 화면이 켜져있을 때도</string>
+  <string name="pref_title_whenscreenon">…화면이 켜져있을 때도</string>
   <string name="always">항상</string>
   <string name="when_screen_off">화면이 꺼져 있을 때</string>
   <string name="never">하지 않음</string>
@@ -56,7 +56,7 @@
   <string name="pref_title_development_miaddr">Mi Band 주소</string>
   <string name="pref_title_pebble_settings">Pebble 설정</string>
   <string name="pref_title_pebble_activitytracker">선호하는 액티비티 트래커</string>
-  <string name="pref_title_enable_pebblekit">제3자 안드로이드 앱 접근을 허용</string>
+  <string name="pref_title_enable_pebblekit">제 3자 안드로이드 앱 접근을 허용</string>
   <string name="pref_summary_enable_pebblekit">PebbleKit을 사용하는 안드로이드 앱을 실험적으로 지원</string>
   <string name="pref_title_pebble_forceprotocol">강제 알림 프로토콜</string>
   <string name="pref_summary_pebble_forceprotocol">이 옵션은 펌웨어 버전에 따라 최신 알림 프로토콜을 강제로 사용하도록 합니다. 자세한 내용을 알 경우에만 이 옵션을 사용하세요.</string>

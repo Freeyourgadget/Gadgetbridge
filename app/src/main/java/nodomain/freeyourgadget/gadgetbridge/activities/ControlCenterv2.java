@@ -78,6 +78,8 @@ public class ControlCenterv2 extends AppCompatActivity
     private GBDeviceAdapterv2 mGBDeviceAdapter;
     private RecyclerView deviceListView;
 
+    private boolean isLanguageInvalid = false;
+
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -207,6 +209,15 @@ public class ControlCenterv2 extends AppCompatActivity
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (isLanguageInvalid) {
+            isLanguageInvalid = false;
+            recreate();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         unregisterForContextMenu(deviceListView);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
@@ -311,7 +322,10 @@ public class ControlCenterv2 extends AppCompatActivity
             ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[wantedPermissions.size()]), 0);
     }
 
-    public void setLanguage(Locale language, boolean recreate) {
-        AndroidUtils.setLanguage(this, language, recreate);
+    public void setLanguage(Locale language, boolean invalidateLanguage) {
+        if (invalidateLanguage) {
+            isLanguageInvalid = true;
+        }
+        AndroidUtils.setLanguage(this, language);
     }
 }

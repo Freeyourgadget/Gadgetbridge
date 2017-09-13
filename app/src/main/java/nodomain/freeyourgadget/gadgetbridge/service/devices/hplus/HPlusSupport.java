@@ -1,5 +1,5 @@
 /*  Copyright (C) 2016-2017 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
-    ivanovlev, João Paulo Barraca, Pavel Motyrev
+    ivanovlev, João Paulo Barraca, Pavel Motyrev, Quallenauge
 
     This file is part of Gadgetbridge.
 
@@ -160,7 +160,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     private HPlusSupport syncPreferences(TransactionBuilder transaction) {
 
-        if (deviceType == DeviceType.HPLUS) {
+        if (deviceType == DeviceType.HPLUS || deviceType == DeviceType.EXRIZUK8) {
             setSIT(transaction);          //Sync SIT Interval
         }
 

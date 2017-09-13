@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2017 Andreas Shimokawa, Daniele Gobbetti, Kevin Richter
+/*  Copyright (C) 2016-2017 Andreas Shimokawa, AnthonyDiGirolamo, Daniele
+    Gobbetti, Kevin Richter
 
     This file is part of Gadgetbridge.
 

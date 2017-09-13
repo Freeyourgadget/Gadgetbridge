@@ -49,6 +49,8 @@ public abstract class AbstractSettingsActivity extends AppCompatPreferenceActivi
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractSettingsActivity.class);
 
+    private boolean isLanguageInvalid = false;
+
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -153,6 +155,15 @@ public abstract class AbstractSettingsActivity extends AppCompatPreferenceActivi
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (isLanguageInvalid) {
+            isLanguageInvalid = false;
+            recreate();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
         super.onDestroy();
@@ -210,7 +221,10 @@ public abstract class AbstractSettingsActivity extends AppCompatPreferenceActivi
         return super.onOptionsItemSelected(item);
     }
 
-    public void setLanguage(Locale language, boolean recreate) {
-        AndroidUtils.setLanguage(this, language, recreate);
+    public void setLanguage(Locale language, boolean invalidateLanguage) {
+        if (invalidateLanguage) {
+            isLanguageInvalid = true;
+        }
+        AndroidUtils.setLanguage(this, language);
     }
 }

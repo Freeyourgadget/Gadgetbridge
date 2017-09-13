@@ -1,3 +1,19 @@
+/*  Copyright (C) 2017 protomors
+
+    This file is part of Gadgetbridge.
+
+    Gadgetbridge is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Gadgetbridge is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.no1f1;
 
 import java.util.UUID;
@@ -18,6 +34,8 @@ public final class No1F1Constants {
     public static final byte CMD_REALTIME_STEPS = (byte) 0xb1;
     public static final byte CMD_FETCH_STEPS = (byte) 0xb2;
     public static final byte CMD_FETCH_SLEEP = (byte) 0xb3;
+    public static final byte CMD_REALTIME_HEARTRATE = (byte) 0xe5;
+    public static final byte CMD_FETCH_HEARTRATE = (byte) 0xe6;
     public static final byte CMD_NOTIFICATION = (byte) 0xc1;
     public static final byte CMD_ICON = (byte) 0xc3;
     public static final byte CMD_DEVICE_SETTINGS = (byte) 0xd3;

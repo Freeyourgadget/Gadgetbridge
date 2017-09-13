@@ -415,4 +415,22 @@ NOTE: la base de données sera bien évidement plus grande !</string>
 \n
 \nEXPÉRIMENTAL, CONTINUEZ À VOS RISQUES</string>
     <string name="amazfitbip_firmware">Firmware Amazfit Bip %1$s</string>
-    </resources>
+    <string name="mi2_prefs_button_actions">Actions du bouton</string>
+    <string name="mi2_prefs_button_actions_summary">Spécifier les actions par pression du bouton du Mi Band 2</string>
+    <string name="mi2_prefs_button_press_count">Nombre de pressions du bouton</string>
+    <string name="mi2_prefs_button_press_count_summary">Nombre de pressions pour envoyer message</string>
+    <string name="mi2_prefs_button_press_broadcast">Message à envoyer</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">Envoyer message après nombre défini de pressions du bouton</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value">nodomain.freeyourgadget.gadgetbridge.mibandButtonPressed</string>
+    <string name="mi2_prefs_button_action">Activer action du bouton</string>
+    <string name="mi2_prefs_button_action_summary">Activer action après nombre spécifié de pressions</string>
+    <string name="mi2_prefs_button_action_vibrate">Activer la vibration du bracelet</string>
+    <string name="mi2_prefs_button_action_vibrate_summary">Activer la vibration après déclenchement de l\'action</string>
+    <string name="mi2_prefs_button_press_count_max_delay">Délai maximum entre pressions</string>
+    <string name="mi2_prefs_button_press_count_max_delay_summary">Délai maximum entre pressions en millisecondes</string>
+    <string name="mi2_prefs_button_press_count_match_delay">Délai après action du bouton</string>
+    <string name="mi2_prefs_button_press_count_match_delay_summary">Délai après une pression de bouton (le nombre est dans button_id intent extra) ou 0 pour immédiatement</string>
+    <string name="_pebble_watch_open_on_phone">Ouvrir sur le téléphone</string>
+    <string name="_pebble_watch_mute">Silencieux</string>
+    <string name="_pebble_watch_reply">Répondre</string>
+</resources>

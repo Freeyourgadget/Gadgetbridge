@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017 Andreas Shimokawa
+/*  Copyright (C) 2017 Andreas Shimokawa, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 
@@ -80,7 +80,7 @@ public class AmazfitBipSupport extends MiBand2Support {
         try {
             TransactionBuilder builder = performInitialized("new notification");
             AlertNotificationProfile<?> profile = new AlertNotificationProfile(this);
-            profile.setMaxLength(255); // TODO: find out real limit, certainly it is more than 18 which is default
+            profile.setMaxLength(230);
 
             int customIconId = AmazfitBipIcon.mapToIconId(notificationSpec.type);
 
