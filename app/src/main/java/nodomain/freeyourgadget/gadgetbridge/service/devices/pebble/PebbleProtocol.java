@@ -17,15 +17,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 
-import android.util.Base64;
-import android.util.Pair;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
@@ -36,6 +27,14 @@ import java.util.Random;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import android.util.Base64;
+import android.util.Pair;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
@@ -496,10 +495,13 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         if (mFwMajor >= 3) {
             // 3.x notification
-            return encodeBlobdbNotification(id, (int) (ts & 0xffffffffL), title, subtitle, notificationSpec.body, notificationSpec.sourceName, hasHandle, notificationSpec.type, notificationSpec.cannedReplies);
+            return encodeBlobdbNotification(id, (int) (ts & 0xffffffffL), title, subtitle, notificationSpec.body,
+                    notificationSpec.sourceName, hasHandle, notificationSpec.type, notificationSpec.pebbleColor,
+                    notificationSpec.cannedReplies);
         } else if (mForceProtocol || notificationSpec.type != NotificationType.GENERIC_EMAIL) {
             // 2.x notification
-            return encodeExtensibleNotification(id, (int) (ts & 0xffffffffL), title, subtitle, notificationSpec.body, notificationSpec.sourceName, hasHandle, notificationSpec.cannedReplies);
+            return encodeExtensibleNotification(id, (int) (ts & 0xffffffffL), title, subtitle, notificationSpec.body,
+                    notificationSpec.sourceName, hasHandle, notificationSpec.cannedReplies);
         } else {
             // 1.x notification on FW 2.X
             String[] parts = {title, notificationSpec.body, ts.toString(), subtitle};
@@ -920,7 +922,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return encodeBlobdb(uuid, BLOBDB_INSERT, BLOBDB_PIN, buf.array());
     }
 
-    private byte[] encodeBlobdbNotification(int id, int timestamp, String title, String subtitle, String body, String sourceName, boolean hasHandle, NotificationType notificationType, String[] cannedReplies) {
+    private byte[] encodeBlobdbNotification(int id, int timestamp, String title, String subtitle, String body, String sourceName,
+                                            boolean hasHandle, NotificationType notificationType, byte backgroundColor,
+                                            String[] cannedReplies) {
         final short NOTIFICATION_PIN_LENGTH = 46;
         final short ACTION_LENGTH_MIN = 10;
 
@@ -931,7 +935,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
         }
 
         int icon_id = notificationType.icon;
-        byte color_id = notificationType.color;
 
         // Calculate length first
         byte actions_count;
@@ -1021,7 +1024,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         buf.put((byte) 28); // background_color
         buf.putShort((short) 1); // length of int
-        buf.put(color_id);
+        buf.put(backgroundColor);
 
         // dismiss action
         buf.put(dismiss_action_id);

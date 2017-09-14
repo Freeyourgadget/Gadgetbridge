@@ -70,6 +70,7 @@ dependencies {
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:gridlayout-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:palette-v7:25.3.1'
     compile 'com.github.tony19:logback-android-classic:1.1.1-6'
     compile 'org.slf4j:slf4j-api:1.7.7'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'

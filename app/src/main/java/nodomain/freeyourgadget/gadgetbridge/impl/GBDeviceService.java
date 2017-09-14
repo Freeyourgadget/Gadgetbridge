@@ -17,6 +17,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.impl;
 
+import static nodomain.freeyourgadget.gadgetbridge.util.JavaExtensions.coalesce;
+
+import java.util.ArrayList;
+import java.util.UUID;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -24,10 +29,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
-
-import java.util.ArrayList;
-import java.util.UUID;
-
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
@@ -41,8 +42,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.LanguageUtils;
-
-import static nodomain.freeyourgadget.gadgetbridge.util.JavaExtensions.coalesce;
 
 public class GBDeviceService implements DeviceService {
     protected final Context mContext;
@@ -141,7 +140,8 @@ public class GBDeviceService implements DeviceService {
                 .putExtra(EXTRA_NOTIFICATION_BODY, notificationSpec.body)
                 .putExtra(EXTRA_NOTIFICATION_ID, notificationSpec.id)
                 .putExtra(EXTRA_NOTIFICATION_TYPE, notificationSpec.type)
-                .putExtra(EXTRA_NOTIFICATION_SOURCENAME, notificationSpec.sourceName);
+                .putExtra(EXTRA_NOTIFICATION_SOURCENAME, notificationSpec.sourceName)
+                .putExtra(EXTRA_NOTIFICATION_PEBBLE_COLOR, notificationSpec.pebbleColor);
         invokeService(intent);
     }
 

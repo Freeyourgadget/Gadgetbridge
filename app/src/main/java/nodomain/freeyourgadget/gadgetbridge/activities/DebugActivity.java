@@ -17,6 +17,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import java.util.ArrayList;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -35,12 +40,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -126,6 +125,7 @@ public class DebugActivity extends AbstractGBActivity {
                 notificationSpec.sender = testString;
                 notificationSpec.subject = testString;
                 notificationSpec.type = NotificationType.values()[sendTypeSpinner.getSelectedItemPosition()];
+                notificationSpec.pebbleColor = notificationSpec.type.color;
                 notificationSpec.id = -1;
                 GBApplication.deviceService().onNotification(notificationSpec);
             }
