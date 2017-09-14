@@ -25,22 +25,43 @@ public enum NotificationType {
     // TODO: this this pebbleism needs to be moved somewhere else
     UNKNOWN(PebbleIconID.NOTIFICATION_GENERIC, PebbleColor.Red),
 
+    AMAZON(PebbleIconID.NOTIFICATION_AMAZON, PebbleColor.ChromeYellow),
+    BBM(PebbleIconID.NOTIFICATION_BLACKBERRY_MESSENGER, PebbleColor.DarkGray),
     CONVERSATIONS(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.Inchworm),
-    GENERIC_EMAIL(PebbleIconID.GENERIC_EMAIL, PebbleColor.JaegerGreen),
+    FACEBOOK(PebbleIconID.NOTIFICATION_FACEBOOK, PebbleColor.CobaltBlue),
+    FACEBOOK_MESSENGER(PebbleIconID.NOTIFICATION_FACEBOOK_MESSENGER, PebbleColor.BlueMoon),
+    GENERIC_ALARM_CLOCK(PebbleIconID.ALARM_CLOCK, PebbleColor.Red),
+    GENERIC_CALENDAR(PebbleIconID.TIMELINE_CALENDAR, PebbleColor.BlueMoon),
+    GENERIC_EMAIL(PebbleIconID.GENERIC_EMAIL, PebbleColor.Orange),
     GENERIC_NAVIGATION(PebbleIconID.LOCATION, PebbleColor.Orange),
+    GENERIC_PHONE(PebbleIconID.DURING_PHONE_CALL, PebbleColor.JaegerGreen),
     GENERIC_SMS(PebbleIconID.GENERIC_SMS, PebbleColor.VividViolet),
-    GENERIC_CALENDAR(PebbleIconID.TIMELINE_CALENDAR, PebbleColor.Blue),
     GMAIL(PebbleIconID.NOTIFICATION_GMAIL, PebbleColor.Red),
-    GOOGLE_INBOX(PebbleIconID.NOTIFICATION_GOOGLE_INBOX, PebbleColor.Blue),
-    GOOGLE_MESSENGER(PebbleIconID.NOTIFICATION_GOOGLE_MESSENGER, PebbleColor.Blue),
-    FACEBOOK(PebbleIconID.NOTIFICATION_FACEBOOK, PebbleColor.Liberty),
-    FACEBOOK_MESSENGER(PebbleIconID.NOTIFICATION_FACEBOOK_MESSENGER, PebbleColor.VeryLightBlue),
+    GOOGLE_HANGOUTS(PebbleIconID.NOTIFICATION_GOOGLE_HANGOUTS, PebbleColor.JaegerGreen),
+    GOOGLE_INBOX(PebbleIconID.NOTIFICATION_GOOGLE_INBOX, PebbleColor.BlueMoon),
+    GOOGLE_MAPS(PebbleIconID.NOTIFICATION_GOOGLE_MAPS, PebbleColor.BlueMoon),
+    GOOGLE_MESSENGER(PebbleIconID.NOTIFICATION_GOOGLE_MESSENGER, PebbleColor.VividCerulean),
+    GOOGLE_PHOTOS(PebbleIconID.NOTIFICATION_GOOGLE_PHOTOS, PebbleColor.BlueMoon),
+    HIPCHAT(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.CobaltBlue),
+    INSTAGRAM(PebbleIconID.NOTIFICATION_INSTAGRAM, PebbleColor.CobaltBlue),
+    KAKAO_TALK(PebbleIconID.NOTIFICATION_KAKAOTALK, PebbleColor.Yellow),
+    KIK(PebbleIconID.NOTIFICATION_KIK, PebbleColor.IslamicGreen),
+    LINE(PebbleIconID.NOTIFICATION_LINE, PebbleColor.IslamicGreen),
+    LINKEDIN(PebbleIconID.NOTIFICATION_LINKEDIN, PebbleColor.CobaltBlue),
+    MAILBOX(PebbleIconID.NOTIFICATION_MAILBOX, PebbleColor.VividCerulean),
+    OUTLOOK(PebbleIconID.NOTIFICATION_OUTLOOK, PebbleColor.BlueMoon),
     RIOT(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.LavenderIndigo),
     SIGNAL(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.BlueMoon),
+    SKYPE(PebbleIconID.NOTIFICATION_SKYPE, PebbleColor.VividCerulean),
+    SLACK(PebbleIconID.NOTIFICATION_SLACK, PebbleColor.Folly),
+    SNAPCHAT(PebbleIconID.NOTIFICATION_SNAPCHAT, PebbleColor.Icterine),
+    TELEGRAM(PebbleIconID.NOTIFICATION_TELEGRAM, PebbleColor.VividCerulean),
     TWITTER(PebbleIconID.NOTIFICATION_TWITTER, PebbleColor.BlueMoon),
-    TELEGRAM(PebbleIconID.NOTIFICATION_TELEGRAM, PebbleColor.PictonBlue),
-    WHATSAPP(PebbleIconID.NOTIFICATION_WHATSAPP, PebbleColor.MayGreen),
-    GENERIC_ALARM_CLOCK(PebbleIconID.ALARM_CLOCK, PebbleColor.Red);
+    VIBER(PebbleIconID.NOTIFICATION_VIBER, PebbleColor.VividViolet),
+    WECHAT(PebbleIconID.NOTIFICATION_WECHAT, PebbleColor.KellyGreen),
+    WHATSAPP(PebbleIconID.NOTIFICATION_WHATSAPP, PebbleColor.IslamicGreen),
+    YAHOO_MAIL(PebbleIconID.NOTIFICATION_YAHOO_MAIL, PebbleColor.Indigo);
+
     // Note: if you add any more constants, update all clients as well
 
     public final int icon;
@@ -69,6 +90,9 @@ public enum NotificationType {
                 return getFixedValue();
             case FACEBOOK:
             case TWITTER:
+            case SNAPCHAT:
+            case INSTAGRAM:
+            case LINKEDIN:
                 return "generic_social";
             case CONVERSATIONS:
             case FACEBOOK_MESSENGER:
@@ -77,10 +101,23 @@ public enum NotificationType {
             case TELEGRAM:
             case WHATSAPP:
             case GOOGLE_MESSENGER:
+            case GOOGLE_HANGOUTS:
+            case HIPCHAT:
+            case SKYPE:
+            case WECHAT:
+            case KIK:
+            case KAKAO_TALK:
+            case SLACK:
                 return "generic_chat";
             case GMAIL:
             case GOOGLE_INBOX:
+            case MAILBOX:
+            case OUTLOOK:
+            case YAHOO_MAIL:
                 return "generic_email";
+            case LINE:
+            case VIBER:
+                return "generic_phone";
             case UNKNOWN:
             default:
                 return "generic";
