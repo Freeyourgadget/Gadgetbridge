@@ -49,7 +49,7 @@ public class NewAlert {
     private final AlertCategory category;
     private final int numAlerts;
     private final String message;
-    private int customIcon = -1;
+    private byte customIcon = -1;
 
     public NewAlert(AlertCategory category, int /*uint8*/ numAlerts, String /*utf8s*/ message) {
         this.category = category;
@@ -57,7 +57,7 @@ public class NewAlert {
         this.message = message;
     }
 
-    public NewAlert(AlertCategory category, int /*uint8*/ numAlerts, String /*utf8s*/ message, int customIcon) {
+    public NewAlert(AlertCategory category, int /*uint8*/ numAlerts, String /*utf8s*/ message, byte customIcon) {
         this.category = category;
         this.numAlerts = numAlerts;
         this.message = message;
@@ -76,7 +76,7 @@ public class NewAlert {
         return message;
     }
 
-    public int getCustomIcon() {
+    public byte getCustomIcon() {
         return customIcon;
     }
 }

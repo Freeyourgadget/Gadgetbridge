@@ -21,6 +21,7 @@ import android.support.annotation.NonNull;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband2.MiBand2Icon;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
@@ -68,9 +69,9 @@ public class Mi2TextNotificationStrategy extends Mi2NotificationStrategy {
                 case Email:
                     return new byte[] { BLETypeConversions.fromUint8(AlertCategory.Email.getId()), BLETypeConversions.fromUint8(numAlerts)};
                 case InstantMessage:
-                    return new byte[] { BLETypeConversions.fromUint8(AlertCategory.CustomMiBand2.getId()), BLETypeConversions.fromUint8(numAlerts), MiBand2Service.ICON_CHAT};
+                    return new byte[] { BLETypeConversions.fromUint8(AlertCategory.CustomMiBand2.getId()), BLETypeConversions.fromUint8(numAlerts), MiBand2Icon.WECHAT};
                 case News:
-                    return new byte[] { BLETypeConversions.fromUint8(AlertCategory.CustomMiBand2.getId()), BLETypeConversions.fromUint8(numAlerts), MiBand2Service.ICON_PENGUIN};
+                    return new byte[] { BLETypeConversions.fromUint8(AlertCategory.CustomMiBand2.getId()), BLETypeConversions.fromUint8(numAlerts), MiBand2Icon.PENGUIN_1};
             }
         }
         return new byte[] { BLETypeConversions.fromUint8(AlertCategory.SMS.getId()), BLETypeConversions.fromUint8(numAlerts)};

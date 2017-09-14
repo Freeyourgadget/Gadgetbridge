@@ -32,7 +32,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
-import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipIcon;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband2.MiBand2Icon;
 import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipWeatherConditions;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
@@ -82,7 +82,7 @@ public class AmazfitBipSupport extends MiBand2Support {
             AlertNotificationProfile<?> profile = new AlertNotificationProfile(this);
             profile.setMaxLength(230);
 
-            int customIconId = AmazfitBipIcon.mapToIconId(notificationSpec.type);
+            byte customIconId = MiBand2Icon.mapToIconId(notificationSpec.type);
 
             AlertCategory alertCategory = AlertCategory.CustomMiBand2;
 
