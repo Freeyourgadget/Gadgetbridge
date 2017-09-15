@@ -199,7 +199,7 @@ public class NotificationListener extends NotificationListenerService {
                 return;
         }
 
-        String source = sbn.getPackageName();
+        String source = sbn.getPackageName().toLowerCase();
         Notification notification = sbn.getNotification();
         NotificationSpec notificationSpec = new NotificationSpec();
         notificationSpec.id = (int) sbn.getPostTime(); //FIMXE: a truly unique id would be better
