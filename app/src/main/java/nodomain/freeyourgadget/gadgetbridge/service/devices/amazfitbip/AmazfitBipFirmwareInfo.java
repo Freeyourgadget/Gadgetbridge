@@ -41,15 +41,24 @@ public class AmazfitBipFirmwareInfo extends Mi2FirmwareInfo {
             0x48, 0x4d, 0x52, 0x45, 0x53
     };
 
+    private static final byte[] GPS_ALMANAC_HEADER = new byte[]{ // probably wrong, we only have one file
+            (byte) 0xa0, (byte) 0x80, 0x08, 0x00, (byte) 0x8b, 0x07, (byte) 0x87, 0x13
+    };
+
+    private static final byte[] GPS_CEP_HEADER = new byte[]{ // probably wrong, we only have one file
+            0x2a, 0x12, (byte) 0xa0, 0x02, (byte) 0xc4, (byte) 0xe1, 0x00, 0x00
+    };
 
     static {
         // firmware
         crcToVersion.put(25257, "0.0.8.74");
         crcToVersion.put(57724, "0.0.8.88");
+        crcToVersion.put(27668, "0.0.8.96");
 
         // resources
         crcToVersion.put(12586, "RES 0.0.8.74");
         crcToVersion.put(34068, "RES 0.0.8.88");
+        crcToVersion.put(59839, "RES 0.0.8.96");
 
         // gps
         crcToVersion.put(61520, "GPS 9367,8f79a91,0,0,");
@@ -66,6 +75,12 @@ public class AmazfitBipFirmwareInfo extends Mi2FirmwareInfo {
         }
         if (ArrayUtils.startsWith(bytes, GPS_HEADER)) {
             return FirmwareType.GPS;
+        }
+        if (ArrayUtils.startsWith(bytes, GPS_ALMANAC_HEADER)) {
+            return FirmwareType.GPS_ALMANAC;
+        }
+        if (ArrayUtils.startsWith(bytes, GPS_CEP_HEADER)) {
+            return FirmwareType.GPS_CEP;
         }
         if (ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET)) {
             // TODO: this is certainly not a correct validation, but it works for now

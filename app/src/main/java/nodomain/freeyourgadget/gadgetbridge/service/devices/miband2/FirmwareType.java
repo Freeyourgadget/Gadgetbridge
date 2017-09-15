@@ -19,8 +19,11 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.miband2;
 public enum FirmwareType {
     FIRMWARE((byte) 0),
     FONT((byte) 1),
+    // Amazfit Bip only from here on
     RES((byte) 2),
     GPS((byte) 3),
+    GPS_CEP((byte) 4),
+    GPS_ALMANAC((byte)5),
     INVALID(Byte.MIN_VALUE);
 
     private final byte value;
