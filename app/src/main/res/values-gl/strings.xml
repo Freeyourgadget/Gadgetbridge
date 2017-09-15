@@ -5,4 +5,188 @@
     <string name="action_settings">Axustes</string>
     <string name="action_debug">Depuración</string>
     <string name="action_quit">Saír</string>
+    <string name="action_donate">Doar</string>
+    <string name="controlcenter_fetch_activity_data">Sincronizar</string>
+    <string name="controlcenter_start_sleepmonitor">Monitor de sono (Alpha)</string>
+    <string name="controlcenter_find_device">Atopar dispositivo perdido</string>
+    <string name="controlcenter_take_screenshot">Capturar pantalla</string>
+    <string name="controlcenter_disconnect">Desconectar</string>
+    <string name="controlcenter_delete_device">Borrar dispositivo</string>
+    <string name="controlcenter_delete_device_name">Borrar %1$s</string>
+    <string name="controlcenter_delete_device_dialogmessage">Borrarás o dispositivo e todos os datos asociados!</string>
+    <string name="controlcenter_navigation_drawer_open">Abrir menú de navegación</string>
+    <string name="controlcenter_navigation_drawer_close">Pechar menú de navegación</string>
+    <string name="controlcenter_snackbar_need_longpress">Manter pulsado o icono para desconectar</string>
+    <string name="controlcenter_snackbar_disconnecting">Desconectando</string>
+    <string name="controlcenter_snackbar_connecting">Conectando</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Capturando pantalla do dispositivo</string>
+
+
+    <string name="title_activity_debug">Depurar</string>
+
+    <string name="title_activity_appmanager">Xestor de App</string>
+    <string name="appmanager_cached_watchapps_watchfaces">Apps en caché</string>
+    <string name="appmanager_installed_watchapps">Apps instaladas</string>
+    <string name="appmanager_installed_watchfaces">Visores instalados</string>
+    <string name="appmananger_app_delete">Borrar</string>
+    <string name="appmananger_app_delete_cache">Borrar e retirar da caché</string>
+    <string name="appmananger_app_reinstall">Reinstalar</string>
+    <string name="appmanager_app_openinstore">Buscar na Appstore de Pebble</string>
+    <string name="appmanager_health_activate">Activar</string>
+    <string name="appmanager_health_deactivate">Desactivar</string>
+    <string name="appmanager_hrm_activate">Activar Monitor de Ritmo Cardíaco</string>
+    <string name="appmanager_hrm_deactivate">Desactivar Monitor de Ritmo Cardíaco</string>
+    <string name="appmanager_weather_activate">Activar app de clima do sistema</string>
+    <string name="appmanager_weather_deactivate">Desactivar app de clima do sistema</string>
+    <string name="appmanager_weather_install_provider">Instalar a app de notificacións do clima</string>
+    <string name="app_configure">Configurar</string>
+    <string name="app_move_to_top">Mover para arriba</string>
+
+    <string name="title_activity_appblacklist">Bloqueo de notificacións</string>
+
+    <string name="title_activity_calblacklist">Calendarios bloqueados</string>
+
+    <string name="title_activity_fw_app_insaller">Instalador de FW/App</string>
+    <string name="fw_upgrade_notice">Está a piques de instalar o firmware %s no lugar do actual na súa Mi Band.</string>
+    <string name="fw_multi_upgrade_notice">Está a piques de instalar os firmwares %1$s e %2$s no lugar dos que están actualmente na súa Mi Band.</string>
+    <string name="miband_firmware_known">Este firmware foi probado e é compatíbel co Gadgetbridge.</string>
+    <string name="miband_firmware_unknown_warning">Este firmware non foi probado e pode non ser compatíbel co Gadgetbridge.
+\n
+\nÉ preferíbel que NON o instale na súa Mi Band!</string>
+    <string name="miband_firmware_suggest_whitelist">Se aínda así quere proceder e todo continúa a funcionar normalmente, por favor avise aos programadores do Gadgetbridge para permitir o firmware versión: %s</string>
+
+    <string name="title_activity_settings">Axustes</string>
+
+    <string name="pref_header_general">Axustes xerais</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Conectar ao dispositivo ao activar o Bluetooth</string>
+    <string name="pref_title_general_autostartonboot">Iniciar automaticamente</string>
+    <string name="pref_title_general_autocreonnect">Reconectar automaticamente</string>
+    <string name="pref_title_audo_player">Reprodutor de audio preferido</string>
+    <string name="pref_default">Predefinido</string>
+
+    <string name="pref_header_datetime">Data e Hora</string>
+    <string name="pref_title_datetime_syctimeonconnect">Sincronizar hora</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Sincronizar hora ao conectar ou ao cambiar o fuso horario no android</string>
+
+    <string name="pref_title_theme">Tema</string>
+    <string name="pref_theme_light">Claro</string>
+    <string name="pref_theme_dark">Escuro</string>
+
+    <string name="pref_title_language">Idioma</string>
+
+    <string name="pref_title_minimize_priority">Ocultar a notificación de Gadgetbridge</string>
+    <string name="pref_summary_minimize_priority_off">Amosar icono na barra de estado e notificación na pantalla de bloqueo</string>
+    <string name="pref_summary_minimize_priority_on">Ocultar icono na barra de estado e notificación na pantalla de bloqueo</string>
+
+    <string name="pref_header_notifications">Notificacións</string>
+    <string name="pref_title_notifications_repetitions">Repeticións</string>
+    <string name="pref_title_notifications_call">Chamadas telefónicas</string>
+    <string name="pref_title_notifications_sms">SMS</string>
+    <string name="pref_title_notifications_pebblemsg">Mensaxes de Pebble</string>
+    <string name="pref_summary_notifications_pebblemsg">Soporte para aplicacións que envían notificacións a Pebble através de PebbleKit.</string>
+    <string name="pref_title_notifications_generic">Soporte para notificacións xenéricas</string>
+    <string name="pref_title_whenscreenon">... tamén coa pantalla acesa</string>
+    <string name="pref_title_notification_filter">Non Molestar</string>
+    <string name="pref_summary_notification_filter">Parar notificacións indesexadas baseándose no modo Non Molestar</string>
+    <string name="pref_title_transliteration">Transliteración</string>
+    <string name="pref_summary_transliteration">Activar isto se o dispositivo non ten soporte para o seu idioma</string>
+
+    <string name="always">Sempre</string>
+    <string name="when_screen_off">Cando a pantalla está apagada</string>
+    <string name="never">Nunca</string>
+
+    <string name="pref_header_privacy">Privacidade</string>
+    <string name="pref_title_call_privacy_mode">Modo de privacidade de chamada</string>
+    <string name="pref_call_privacy_mode_off">Amosar nome e número</string>
+    <string name="pref_call_privacy_mode_name">Ocultar nome pero amosar número</string>
+    <string name="pref_call_privacy_mode_number">Ocultar número pero amosar nome</string>
+    <string name="pref_call_privacy_mode_complete">Ocultar nome e número</string>
+
+
+    <string name="pref_blacklist">Bloquear Apps</string>
+    <string name="pref_blacklist_calendars">Bloquear Calendarios</string>
+
+    <string name="pref_header_cannned_messages">Histórico de mensaxes</string>
+    <string name="pref_title_canned_replies">Respostas</string>
+    <string name="pref_title_canned_reply_suffix">Sufixo común</string>
+    <string name="pref_title_canned_messages_dismisscall">Rexeitar chamada</string>
+    <string name="pref_title_canned_messages_set">Actualizar no Pebble</string>
+
+    <string name="pref_header_development">Opcións de desenvolvedor</string>
+    <string name="pref_title_development_miaddr">Enderezo do MiBand</string>
+
+    <string name="pref_title_pebble_settings">Axustes do Pebble</string>
+
+    <string name="pref_header_activitytrackers">Monitores de actividade</string>
+    <string name="pref_title_pebble_activitytracker">Monitor de actividade preferido</string>
+    <string name="pref_title_pebble_sync_health">Sincronizar con Pebble Health</string>
+    <string name="pref_title_pebble_sync_misfit">Sincronizar con Misfit</string>
+    <string name="pref_title_pebble_sync_morpheuz">Sincronizar con Morpheuz</string>
+
+    <string name="pref_title_enable_outgoing_call">Soporte para chamadas saíntes</string>
+    <string name="pref_title_enable_pebblekit">Permitir acceso a Apps Android de terceiros</string>
+    <string name="pref_summary_enable_pebblekit">Habilitar soporte experimental para Apps Android que usen PebbleKit</string>
+
+    <string name="pref_title_sunrise_sunset">Mencer e solpor</string>
+    <string name="pref_summary_sunrise_sunset">Enviar mencer e solpor baseado na localización do Pebble</string>
+    <string name="pref_title_enable_calendar_sync">Sincronizar calendario</string>
+    <string name="pref_title_autoremove_notifications">Borrar automaticamente as notificacións rexeitadas</string>
+    <string name="pref_title_pebble_privacy_mode">Modo de privacidade</string>
+    <string name="pref_pebble_privacy_mode_off">Notificacións normais</string>
+    <string name="pref_pebble_privacy_mode_complete">Só amosar o icono de notificación</string>
+
+    <string name="pref_header_location">Localización</string>
+    <string name="pref_title_location_aquire">Obter ubicación</string>
+    <string name="pref_title_location_latitude">Latitude</string>
+    <string name="pref_title_location_longitude">Lonxitude</string>
+    <string name="pref_title_location_keep_uptodate">Manter actualizada a ubicación</string>
+    <string name="toast_enable_networklocationprovider">Por favor, active a ubicación por rede</string>
+    <string name="toast_aqurired_networklocation">ubicación obtida</string>
+
+    <string name="pref_title_pebble_forceprotocol">Forzar o protocolo de notificación</string>
+    <string name="pref_summary_pebble_forceprotocol">Esta opción forza o uso do protocolo de notificación máis recente dependendo da versión do firmware. HABILITE SE SABE O QUE ESTÁ FACENDO!</string>
+    <string name="pref_title_pebble_forceuntested">Habilitar características non probadas</string>
+    <string name="pref_title_pebble_forcele">Preferir sempre BLE</string>
+    <string name="pref_title_pebble_enable_applogs">Activar rexistro das Apps do dispositivo</string>
+    <string name="pref_summary_pebble_enable_applogs">Causa que os rexistros das apps do reloxo sexan gardados polo Gadgetbridge (necesita reconectar)</string>
+    <string name="pref_title_pebble_reconnect_attempts">Intentos de reconexión</string>
+
+    <string name="pref_title_unit_system">Unidades</string>
+    <string name="pref_title_timeformat">Formato de hora</string>
+    <string name="pref_title_screentime">Tempo de pantalla acesa</string>
+    <string name="prefs_title_all_day_heart_rate">Medición da frecuencia cardíaca durante todo o día</string>
+    <string name="not_connected">Non conectado</string>
+    <string name="connecting">Conectando</string>
+    <string name="connected">Conectado</string>
+    <string name="unknown_state">Estado descoñecido</string>
+    <string name="_unknown_">(descoñecido)</string>
+    <string name="test">Probar</string>
+    <string name="test_notification">Probar notificación</string>
+    <string name="this_is_a_test_notification_from_gadgetbridge">Esta é unha notificación de proba desde Gadgetbridge</string>
+    <string name="bluetooth_is_not_supported_">O Bluetooth non está soportado.</string>
+    <string name="bluetooth_is_disabled_">O Bluetooh está desactivado.</string>
+    <string name="tap_connected_device_for_app_mananger">Toque nun dispositivo conectado para xestionar as Apps</string>
+    <string name="tap_connected_device_for_activity">Toque nun dispositivo conectado para ver a actividade</string>
+    <string name="tap_connected_device_for_vibration">Toque nun dispositivo conectado para facelo Vibrar</string>
+    <string name="tap_a_device_to_connect">Toque nun dispositivo para conectar</string>
+    <string name="cannot_connect_bt_address_invalid_">Non foi posíbel conectar. Enderezo Bluetooth inválido?</string>
+    <string name="gadgetbridge_running">Gadgetbridge en execución</string>
+    <string name="installing_binary_d_d">Instalando binario %1$d/%2$d</string>
+    <string name="installation_failed_">Fallou a instalación</string>
+    <string name="installation_successful">Instalación correcta</string>
+    <string name="initialized">inicializado</string>
+    <string name="appversion_by_creator">%1$s de %2$s</string>
+    <string name="title_activity_discovery">Descubrir dispositivos</string>
+
+    <string name="discovery_stop_scanning">Parar a busca</string>
+    <string name="discovery_start_scanning">Comezar a busca</string>
+    <string name="action_discover">Conectar novo dispositivo</string>
+    <string name="device_with_rssi">%1$s (%2$s)</string>
+    <string name="title_activity_android_pairing">Emparellar dispositivo</string>
+    <string name="android_pairing_hint">Usar o menú de emparellamento Bluetooth de Android para vincular o dispositivo.</string>
+    <string name="title_activity_mi_band_pairing">Emparella a túa MiBand</string>
+    <string name="pairing">Emparellando con %s…</string>
+    <string name="pairing_creating_bond_with">Creando vínculo con %1$s (%2$s)</string>
+    <string name="pairing_unable_to_pair_with">Incapaz de emparellar con %1$s (%2$s)</string>
+    <string name="preferences_category_device_specific_settings">Axustes específicos do dispositivo</string>
     </resources>
