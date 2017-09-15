@@ -118,15 +118,30 @@ public class AmazfitBipSupport extends MiBand2Support {
         }
         GBDeviceEventCallControl callCmd = new GBDeviceEventCallControl();
 
-        if (value[0] == 0x07) {
-            callCmd.event = GBDeviceEventCallControl.Event.REJECT;
-        } else if (value[0] == 0x09) {
-            callCmd.event = GBDeviceEventCallControl.Event.ACCEPT;
-        } else {
-            LOG.info("Unhandled button press: " + Logging.formatBytes(value));
-            return;
+        switch (value[0]) {
+            case AmazfitBipEvent.CALL_REJECT:
+                callCmd.event = GBDeviceEventCallControl.Event.REJECT;
+                evaluateGBDeviceEvent(callCmd);
+                break;
+            case AmazfitBipEvent.CALL_ACCEPT:
+                callCmd.event = GBDeviceEventCallControl.Event.ACCEPT;
+                evaluateGBDeviceEvent(callCmd);
+                break;
+            case AmazfitBipEvent.BUTTON_PRESSED:
+                LOG.info("button pressed");
+                break;
+            case AmazfitBipEvent.BUTTON_PRESSED_LONG:
+                LOG.info("button long-pressed ");
+                break;
+            case AmazfitBipEvent.START_NONWEAR:
+                LOG.info("non-wear start detected");
+                break;
+            case AmazfitBipEvent.ALARM_TOGGLED:
+                LOG.info("An alarm was toggled"); // TODO: sync alarms watch -> GB
+                break;
+            default:
+                LOG.warn("unhandled event " + value[0]);
         }
-        evaluateGBDeviceEvent(callCmd);
     }
 
     @Override
