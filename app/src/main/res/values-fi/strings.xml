@@ -1,2 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="action_settings">Asetukset</string>
+    <string name="controlcenter_fetch_activity_data">Synkronisoi</string>
+    <string name="controlcenter_find_device">Löydä kadonnut laite</string>
+    </resources>
