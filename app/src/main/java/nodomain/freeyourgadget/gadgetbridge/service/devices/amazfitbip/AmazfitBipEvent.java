@@ -20,6 +20,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip;
 public class AmazfitBipEvent {
     public static final byte FELL_ASLEEP = 0x01;
     public static final byte WOKE_UP = 0x02;
+    public static final byte STEPSGOAL_REACHED = 0x03;
     public static final byte BUTTON_PRESSED = 0x04;
     public static final byte START_NONWEAR = 0x06;
     public static final byte CALL_REJECT = 0x07;

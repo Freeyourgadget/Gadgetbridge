@@ -30,12 +30,11 @@ import java.nio.ByteOrder;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband2.MiBand2Icon;
 import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipWeatherConditions;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband2.MiBand2Icon;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
@@ -144,6 +143,9 @@ public class AmazfitBipSupport extends MiBand2Support {
                 break;
             case AmazfitBipEvent.WOKE_UP:
                 LOG.info("Woke up");
+                break;
+            case AmazfitBipEvent.STEPSGOAL_REACHED:
+                LOG.info("Steps goal reached");
                 break;
             case AmazfitBipEvent.TICK_30MIN:
                 LOG.info("Tick 30 min (?)");
