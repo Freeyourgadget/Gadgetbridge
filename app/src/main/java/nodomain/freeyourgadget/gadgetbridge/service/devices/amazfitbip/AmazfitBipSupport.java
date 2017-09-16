@@ -139,6 +139,15 @@ public class AmazfitBipSupport extends MiBand2Support {
             case AmazfitBipEvent.ALARM_TOGGLED:
                 LOG.info("An alarm was toggled"); // TODO: sync alarms watch -> GB
                 break;
+            case AmazfitBipEvent.FELL_ASLEEP:
+                LOG.info("Fell asleep");
+                break;
+            case AmazfitBipEvent.WOKE_UP:
+                LOG.info("Woke up");
+                break;
+            case AmazfitBipEvent.TICK_30MIN:
+                LOG.info("Tick 30 min (?)");
+                break;
             default:
                 LOG.warn("unhandled event " + value[0]);
         }
