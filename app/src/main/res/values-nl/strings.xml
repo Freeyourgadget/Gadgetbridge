@@ -1,2 +1,129 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="app_name">Gadgetbridge</string>
+
+    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="action_settings">Instellingen</string>
+    <string name="action_debug">Debug</string>
+    <string name="action_quit">Sluit af</string>
+    <string name="action_donate">Doneer</string>
+    <string name="controlcenter_fetch_activity_data">Synchroniseren</string>
+    <string name="controlcenter_start_sleepmonitor">Slaap monitor (ALPHA)</string>
+    <string name="controlcenter_find_device">Zoek verloren Toestel</string>
+    <string name="controlcenter_take_screenshot">Screenshot maken</string>
+    <string name="controlcenter_disconnect">Loskoppelen</string>
+    <string name="controlcenter_delete_device">Apparaat Verwijderen</string>
+    <string name="controlcenter_delete_device_name">Verwijder %1$s</string>
+    <string name="controlcenter_delete_device_dialogmessage">Dit zal het apparaat en alle bijbehorende gegevens verwijderen!</string>
+    <string name="controlcenter_snackbar_need_longpress">Druk lang op de kaart om los te koppelen</string>
+    <string name="controlcenter_snackbar_disconnecting">Loskoppelen</string>
+    <string name="controlcenter_snackbar_connecting">Aansluiten</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Een screenshot maken van het apparaat</string>
+
+
+    <string name="title_activity_debug">Debug</string>
+
+    <string name="title_activity_appmanager"></string>
+    <string name="appmanager_cached_watchapps_watchfaces">Apps in de cache</string>
+    <string name="appmanager_installed_watchapps">Geïnstalleerde apps</string>
+    <string name="appmanager_installed_watchfaces">Geïnstalleerde wijzerplaten</string>
+    <string name="appmananger_app_delete">Verwijder</string>
+    <string name="appmananger_app_delete_cache">Verwijder en verwijder uit cache</string>
+    <string name="appmananger_app_reinstall">Installeer</string>
+    <string name="appmanager_app_openinstore">Zoek in Pebble Appstore</string>
+    <string name="appmanager_health_activate">Activeren</string>
+    <string name="appmanager_health_deactivate">deactiveren</string>
+    <string name="appmanager_hrm_activate">Activeer HRM</string>
+    <string name="appmanager_hrm_deactivate">Deactiveer HRM</string>
+    <string name="appmanager_weather_activate">Activeer het systeem weer app</string>
+    <string name="appmanager_weather_install_provider">Installeer de app voor weerbericht</string>
+    <string name="app_configure">Configureren</string>
+    <string name="app_move_to_top">Verplaats naar de top</string>
+
+    <string name="title_activity_appblacklist">Notificatie zwarte lijst</string>
+
+    <string name="fw_upgrade_notice">U staat op het punt om firmware% s te installeren in plaats van die nu op uw Mi Band staat.</string>
+    <string name="fw_upgrade_notice_amazfitbip">U staat op het punt om firmware% s te installeren in plaats van die nu op uw Amazfit Bip staat.
+\n
+\nZorg ervoor dat u de .gps firmware installeert, dan het .res-bestand en tenslotte het .fw-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand.
+\n
+\nOpmerking: u hoeft geen .res en .gps te installeren als deze bestanden exact hetzelfde zijn als die welke eerder zijn geïnstalleerd.
+\n
+\nEXPERIMENTEEL, PROCEDURE OP JE EIGEN RISICO</string>
+    <string name="fw_multi_upgrade_notice">U staat op het punt om firmwares %1$s en %2$s te installeren in plaats van die momenteel op uw Mi Band staat.</string>
+    <string name="miband_firmware_known">Deze firmware is getest en is compatibel met Gadgetbridge.</string>
+    <string name="miband_firmware_unknown_warning">Deze firmware is niet getest en is mogelijk niet compatibel met Gadgetbridge.
+\n
+\nU wordt NIET aangemoedigd om het op uw Mi Band te installeren!</string>
+    <string name="miband_firmware_suggest_whitelist">Als u nog steeds wilt doorgaan en uw apparaat blijft goed functioneren, vertelt u de ontwikkelaars van Gadgetbridge om de firmware-versie op de goedgekeurde lijst te zetten: %s</string>
+
+    <string name="title_activity_settings">Instellingen</string>
+
+    <string name="pref_header_general">Algemene instellingen</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Verbind met apparaat wanneer Bluetooth is ingeschakeld</string>
+    <string name="pref_title_general_autostartonboot">Start automatisch</string>
+    <string name="pref_title_general_autocreonnect">Verbind automatisch opnieuw</string>
+    <string name="pref_title_audo_player">Gewenste Audiospeler</string>
+    <string name="pref_default">Standaard</string>
+
+    <string name="pref_header_datetime">Datum en tijd</string>
+    <string name="pref_title_datetime_syctimeonconnect">Sync tijd</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Synchroniseer de tijd naar het apparaat wanneer u verbinding maakt en wanneer de tijd of tijdzone op Android verandert</string>
+
+    <string name="pref_title_theme">Thema</string>
+    <string name="pref_theme_light">Licht</string>
+    <string name="pref_theme_dark">Donker</string>
+
+    <string name="pref_title_language">Taal</string>
+
+    <string name="pref_title_minimize_priority">Verberg de Gadgetbridge-melding</string>
+    <string name="pref_summary_minimize_priority_off">Het pictogram in de statusbalk en de melding op het vergrendelingsscherm worden weergegeven</string>
+    <string name="pref_summary_minimize_priority_on">Het pictogram in de statusbalk en de melding op het vergrendelingsscherm zijn verborgen</string>
+
+    <string name="pref_header_notifications">Meldingen</string>
+    <string name="pref_title_notifications_repetitions">Herhalingen</string>
+    <string name="pref_title_notifications_call">Telefoongesprekken</string>
+    <string name="pref_title_notifications_sms">SMS</string>
+    <string name="pref_title_notifications_pebblemsg">Pebble Berichten</string>
+    <string name="pref_summary_notifications_pebblemsg">Ondersteuning voor applicaties die meldingen versturen naar de Pebble via PebbleKit sturen.</string>
+    <string name="pref_title_notifications_generic">Algemene melding ondersteuning</string>
+    <string name="pref_title_whenscreenon">... ook als het scherm is ingeschakeld</string>
+    <string name="pref_title_notification_filter">Niet Storen</string>
+    <string name="pref_summary_notification_filter">Stop ongewenste meldingen te verzenden op basis van de Niet storen modus</string>
+    <string name="pref_title_transliteration">Transliteratie</string>
+    <string name="pref_summary_transliteration">Schakel dit in als uw apparaat geen ondersteuning heeft voor het lettertype van uw taal</string>
+
+    <string name="always">Altijd</string>
+    <string name="when_screen_off">Wanneer het scherm uit staat</string>
+    <string name="never">Nooit</string>
+
+    <string name="pref_header_privacy">Privacy</string>
+    <string name="pref_title_call_privacy_mode">Bel privacy modus</string>
+    <string name="pref_call_privacy_mode_off">Toon naam en nummer</string>
+    <string name="pref_call_privacy_mode_name">Verberg naam maar toon nummer</string>
+    <string name="pref_call_privacy_mode_number">Verberg nummer maar toon naam</string>
+    <string name="pref_call_privacy_mode_complete">Verberg naam en nummer</string>
+
+
+    <string name="pref_blacklist">Blacklist Apps</string>
+    <string name="pref_blacklist_calendars">Blacklist Kalenders</string>
+
+    <string name="pref_title_canned_replies">Antwoorden</string>
+    <string name="pref_title_canned_reply_suffix">Vaak voorkomend achtervoegsel</string>
+    <string name="pref_title_canned_messages_dismisscall">Bel Afwijzing</string>
+    <string name="pref_title_canned_messages_set">Update op Pebble</string>
+
+    <string name="pref_header_development">Ontwikkelaarsopties</string>
+    <string name="pref_title_development_miaddr">Mi Band adres</string>
+
+    <string name="pref_title_pebble_settings">Pebble instellingen</string>
+
+    <string name="pref_header_activitytrackers">Activity trackers</string>
+    <string name="pref_title_pebble_activitytracker">Gewenste activiteit tracker</string>
+    <string name="pref_title_pebble_sync_health">Synchroniseer Pebble Health</string>
+    <string name="pref_title_pebble_sync_misfit">Sync Misfit</string>
+    <string name="pref_title_pebble_sync_morpheuz">Sync Morpheuz</string>
+
+    <string name="pref_title_enable_outgoing_call">Ondersteun uitgaande oproepen</string>
+    <string name="pref_summary_enable_outgoing_call">Als u dit uitschakelt, wordt ook de Pebble 2/LE gestopt om voor uitgaande gesprekken te trillen</string>
+
+    </resources>
