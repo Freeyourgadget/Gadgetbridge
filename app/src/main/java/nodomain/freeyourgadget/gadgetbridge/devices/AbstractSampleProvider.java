@@ -22,10 +22,6 @@ import android.support.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +44,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
  * @param <T> the sample type
  */
 public abstract class AbstractSampleProvider<T extends AbstractActivitySample> implements SampleProvider<T> {
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractSampleProvider.class);
     private static final WhereCondition[] NO_CONDITIONS = new WhereCondition[0];
     private final DaoSession mSession;
     private final GBDevice mDevice;
@@ -97,29 +92,6 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
     @Override
     public void addGBActivitySamples(T[] activitySamples) {
         getSampleDao().insertOrReplaceInTx(activitySamples);
-    }
-
-    @Override
-    public void exportToCSV(T[] activitySamples, File outFile) {
-        String separator = ",";
-
-        LOG.info("Exporting samples into csv file: " + outFile.getName());
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(outFile));
-
-            for (T sample : activitySamples){
-            String line = sample.getTimestamp() + separator + sample.getDeviceId() + separator + sample.getUserId() + separator + sample.getRawIntensity() + separator + sample.getSteps() + separator + sample.getRawKind() + separator + sample.getHeartRate();
-
-            //LOG.debug("Adding line into buffer: " + line);
-            bw.write(line);
-            bw.newLine();
-        }
-
-            bw.flush();
-            bw.close();
-            } catch (IOException e) {
-            LOG.error(e.getMessage());
-        }
     }
 
     @Nullable

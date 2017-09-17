@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 
 /**
@@ -16,15 +16,13 @@ import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
  */
 
 public class CSVExport {
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractSampleProvider.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SampleProvider.class);
 
     public static void exportToCSV(AbstractActivitySample[] activitySamples, File outFile) {
         String separator = ",";
-        BufferedWriter bw = null;
 
         LOG.info("Exporting samples into csv file: " + outFile.getName());
-        try {
-            bw = new BufferedWriter(new FileWriter(outFile));
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(outFile))) {
             bw.write("TIMESTAMP" + separator + "DEVICE_ID" + separator + "USER_ID" + separator + "RAW_INTENSITY" + separator + "STEPS" + separator + "RAW_KIND" + separator + "HEART_RATE");
             bw.newLine();
 
@@ -35,17 +33,10 @@ public class CSVExport {
                 bw.write(line);
                 bw.newLine();
             }
+
+            bw.flush();
         } catch (IOException e) {
-            LOG.error(e.getMessage());
-        } finally {
-            if (bw != null){
-                try {
-                    bw.flush();
-                    bw.close();
-                } catch (IOException e) {
-                    LOG.error(e.getMessage());
-                }
-            }
+            LOG.error("Error related to " + outFile.getName() + " file: " + e.getMessage(), e);
         }
     }
 }
