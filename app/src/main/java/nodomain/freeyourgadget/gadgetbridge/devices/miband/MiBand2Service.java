@@ -104,7 +104,7 @@ public class MiBand2Service {
     public static final byte AUTH_BYTE = 0x8;
 
     // maybe not really activity data, but steps?
-    public static final byte COMMAND_FETCH_ACTIVITY_DATA = 0x02;
+    public static final byte COMMAND_FETCH_DATA = 0x02;
     public static final byte COMMAND_XXXX_ACTIVITY_DATA = 0x03; // maybe delete/drop activity data?
 
     public static final byte[] COMMAND_SET_FITNESS_GOAL_START = new byte[] { 0x10, 0x0, 0x0 };
@@ -176,7 +176,7 @@ public class MiBand2Service {
     public static final byte COMMAND_ACTIVITY_DATA_START_DATE = 0x01;
     public static final byte COMMAND_ACTIVITY_DATA_TYPE_ACTIVTY = 0x01;
     public static final byte COMMAND_ACTIVITY_DATA_TYPE_UNKNOWN_2 = 0x02;
-    public static final byte COMMAND_ACTIVITY_DATA_XXX_DATE = 0x02; // issued on first connect, followd by COMMAND_XXXX_ACTIVITY_DATA instead of COMMAND_FETCH_ACTIVITY_DATA
+    public static final byte COMMAND_ACTIVITY_DATA_XXX_DATE = 0x02; // issued on first connect, followd by COMMAND_XXXX_ACTIVITY_DATA instead of COMMAND_FETCH_DATA
 
     public static final byte COMMAND_FIRMWARE_INIT = 0x01; // to UUID_CHARACTERISTIC_FIRMWARE, followed by fw file size in bytes
     public static final byte COMMAND_FIRMWARE_START_DATA = 0x03; // to UUID_CHARACTERISTIC_FIRMWARE

@@ -71,7 +71,7 @@ public class FetchActivityOperation extends AbstractFetchOperation {
         builder.write(characteristicFetch, BLETypeConversions.join(new byte[] { MiBand2Service.COMMAND_ACTIVITY_DATA_START_DATE, MiBand2Service.COMMAND_ACTIVITY_DATA_TYPE_ACTIVTY }, getSupport().getTimeBytes(sinceWhen, TimeUnit.MINUTES)));
         builder.add(new WaitAction(1000)); // TODO: actually wait for the success-reply
         builder.notify(characteristicActivityData, true);
-        builder.write(characteristicFetch, new byte[] { MiBand2Service.COMMAND_FETCH_ACTIVITY_DATA });
+        builder.write(characteristicFetch, new byte[] { MiBand2Service.COMMAND_FETCH_DATA});
     }
 
     protected void handleActivityFetchFinish() {

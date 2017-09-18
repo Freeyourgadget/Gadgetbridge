@@ -60,7 +60,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
 //                getSupport().getTimeBytes(sinceWhen, TimeUnit.MINUTES)));
 //        builder.add(new WaitAction(1000)); // TODO: actually wait for the success-reply
 //        builder.notify(characteristicActivityData, true);
-//        builder.write(characteristicFetch, new byte[] { MiBand2Service.COMMAND_FETCH_ACTIVITY_DATA });
+//        builder.write(characteristicFetch, new byte[] { MiBand2Service.COMMAND_FETCH_DATA });
     }
 
     @Override

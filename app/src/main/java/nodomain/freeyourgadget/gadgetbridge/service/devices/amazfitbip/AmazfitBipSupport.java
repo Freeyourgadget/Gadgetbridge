@@ -43,6 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.NewAlert;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip.operations.AmazfitBipFetchLogsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip.operations.AmazfitBipUpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Support;
@@ -221,6 +222,15 @@ public class AmazfitBipSupport extends MiBand2Support {
             builder.queue(getQueue());
         } catch (Exception ex) {
             LOG.error("Error sending weather information to the Bip", ex);
+        }
+    }
+
+    @Override
+    public void onTestNewFunction() {
+        try {
+            new AmazfitBipFetchLogsOperation(this).perform();
+        } catch (IOException ex) {
+            LOG.error("Unable to fetch logs", ex);
         }
     }
 

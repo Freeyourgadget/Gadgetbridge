@@ -24,4 +24,6 @@ public class AmazfitBipService {
 
     // goes to UUID_CHARACTERISTIC_3_CONFIGURATION, TODO: validate this for Mi Band 2, it maybe triggers more than only GPS version...
     public static final byte[] COMMAND_REQUEST_GPS_VERSION = new byte[]{0x0e};
+
+    public static final byte COMMAND_ACTIVITY_DATA_TYPE_DEBUGLOGS = 0x07;
 }
