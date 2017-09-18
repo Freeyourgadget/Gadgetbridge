@@ -19,9 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.impl;
 
 import static nodomain.freeyourgadget.gadgetbridge.util.JavaExtensions.coalesce;
 
-import java.util.ArrayList;
-import java.util.UUID;
-
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -29,6 +26,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
+
+import java.util.ArrayList;
+import java.util.UUID;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;

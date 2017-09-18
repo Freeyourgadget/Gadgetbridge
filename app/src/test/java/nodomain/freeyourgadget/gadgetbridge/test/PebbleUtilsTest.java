@@ -2,10 +2,10 @@ package nodomain.freeyourgadget.gadgetbridge.test;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Test;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.junit.Test;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleColor;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;

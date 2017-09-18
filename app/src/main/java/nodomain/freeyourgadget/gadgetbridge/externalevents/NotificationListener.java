@@ -18,12 +18,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
-import java.util.List;
-import java.util.Objects;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -52,6 +46,13 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.graphics.Palette;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.Objects;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleColor;
@@ -392,10 +393,8 @@ public class NotificationListener extends NotificationListenerService {
             return true;
         }
 
-        if (shouldIgnoreSource(sbn.getPackageName()))
-            return true;
-
-        return shouldIgnoreNotification(sbn.getNotification());
+        return shouldIgnoreSource(sbn.getPackageName()) || shouldIgnoreNotification(
+                sbn.getNotification());
 
     }
 

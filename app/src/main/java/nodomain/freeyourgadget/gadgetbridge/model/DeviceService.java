@@ -18,6 +18,7 @@
 package nodomain.freeyourgadget.gadgetbridge.model;
 
 import android.support.annotation.Nullable;
+
 import nodomain.freeyourgadget.gadgetbridge.devices.EventHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
