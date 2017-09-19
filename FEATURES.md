@@ -1,4 +1,4 @@
-##Feature Matrix
+## Feature Matrix
 
 |                                   | Pebble OG | Pebble Time/2 | Mi Band | Mi Band 2 | Amazfit Bip |
 |-----------------------------------| ----------|---------------|---------|-----------|-------------|
