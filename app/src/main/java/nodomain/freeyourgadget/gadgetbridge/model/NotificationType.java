@@ -35,7 +35,7 @@ public enum NotificationType {
     GENERIC_EMAIL(PebbleIconID.GENERIC_EMAIL, PebbleColor.Orange),
     GENERIC_NAVIGATION(PebbleIconID.LOCATION, PebbleColor.Orange),
     GENERIC_PHONE(PebbleIconID.DURING_PHONE_CALL, PebbleColor.JaegerGreen),
-    GENERIC_SMS(PebbleIconID.GENERIC_SMS, PebbleColor.IslamicGreen),
+    GENERIC_SMS(PebbleIconID.GENERIC_SMS, PebbleColor.VividViolet),
     GMAIL(PebbleIconID.NOTIFICATION_GMAIL, PebbleColor.Red),
     GOOGLE_HANGOUTS(PebbleIconID.NOTIFICATION_GOOGLE_HANGOUTS, PebbleColor.JaegerGreen),
     GOOGLE_INBOX(PebbleIconID.NOTIFICATION_GOOGLE_INBOX, PebbleColor.BlueMoon),
