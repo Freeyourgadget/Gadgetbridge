@@ -35,7 +35,7 @@ vendor's servers.
 
 ## Features
 
-Please see [FEATURES.md](https://github.com/Freeyourgadget/Gadgetbridge/blob/master/CHANGELOG.md)
+Please see [FEATURES.md](https://github.com/Freeyourgadget/Gadgetbridge/blob/master/FEATURES.md)
 
 ## Getting Started (Pebble)
 
