@@ -463,4 +463,28 @@
     <string name="_pebble_watch_open_on_phone">Abrir no teléfono</string>
     <string name="_pebble_watch_mute">Silenciar</string>
     <string name="_pebble_watch_reply">Responder</string>
-</resources>
+<string name="fw_upgrade_notice_amazfitbip">Estás a piques de instalar o firmware %s nas veces do que está actualmente no teu Amazfit Bip. 
+\n 
+\nPor favor, asegúrate de instalar o firmware .gps, despois o arquivo .res, e finalmente o binario .fw. O teu reloxo reiniciará despois de instalar o arquivo .fw. 
+\n 
+\nNota: non tes que instalar .res e .gps se estes arquivos son os mesmos que os previamente instalados. 
+\n 
+\nEXPERIMENTAL, PROCEDE BAIXO A TÚA PROPIA RESPONSABILIDADE</string>
+    <string name="pref_summary_pebble_forcele">Use soporte experimental do Pebble LE nas veces do Bluetooth clásico, require emparellar un \"Pebble LE\" despois de que nengún LE teña sido conectado</string>
+    <string name="pref_summary_pebble_always_ack_pebblekit">Isto fará que as mensaxes enviadas para apps de terceiros sexan recoñecidas sempre e inmediatamente</string>
+
+    <string name="miband_prefs_device_time_offset_hours">Compensación da hora do dispositivo en horas (para detectar o sono de traballadores a turnos)</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">Enviar mensaxe despois dun número definido de pulsacións</string>
+    <string name="mi2_prefs_button_press_count_match_delay_summary">Retardo despois dunha acción do botón (o número está en button_id intent extra) ou ben 0 para efecto inmediato</string>
+    <string name="pref_summary_pebble_health_store_raw">Se marcado, os datos son almacenados no seu formato orixinal ficando disponíbeis para posterior interpretación. Nota: A base de datos será máis grande!</string>
+    <string name="pebble_pairing_hint">É esperado que vexa unha notificación de emparellamento no seu dispositivo Android. Se iso non acontece, acceda ás notificacións e acepte a solicitude de emparellamento. Despois acepte igualmente a solicitude de emparellamento no seu Pebble</string>
+
+    <string name="weather_notification_label">Asegúrate de que este tema esté activado na aplicación de notificación do clima para obter a información no teu Pebble.
+\n
+\nNon se require configuración.
+\n
+\nPodes activar a aplicación meteorolóxica do sistema desde a configuración da app.
+\n
+\nAs \"watchfaces\" soportadas amosarán a información do clima automáticamente.</string>
+    <string name="discovery_pair_question">Selecciona Emparellar para emparellar os teus dispositivos. Se isto falla, proba de novo sen emparellar.</string>
+    </resources>
