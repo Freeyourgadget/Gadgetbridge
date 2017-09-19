@@ -17,8 +17,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.impl;
 
-import static nodomain.freeyourgadget.gadgetbridge.util.JavaExtensions.coalesce;
-
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -43,6 +41,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.LanguageUtils;
+
+import static nodomain.freeyourgadget.gadgetbridge.util.JavaExtensions.coalesce;
 
 public class GBDeviceService implements DeviceService {
     protected final Context mContext;

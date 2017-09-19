@@ -1,7 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.test;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -9,6 +7,8 @@ import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleColor;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
+
+import static org.junit.Assert.assertEquals;
 
 public class PebbleUtilsTest extends TestBase {
     @Test
