@@ -23,7 +23,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleIconID;
 public enum NotificationType {
 
     // TODO: this this pebbleism needs to be moved somewhere else
-    UNKNOWN(PebbleIconID.NOTIFICATION_GENERIC, PebbleColor.Red),
+    UNKNOWN(PebbleIconID.NOTIFICATION_GENERIC, PebbleColor.DarkCandyAppleRed),
 
     AMAZON(PebbleIconID.NOTIFICATION_AMAZON, PebbleColor.ChromeYellow),
     BBM(PebbleIconID.NOTIFICATION_BLACKBERRY_MESSENGER, PebbleColor.DarkGray),
@@ -46,6 +46,7 @@ public enum NotificationType {
     INSTAGRAM(PebbleIconID.NOTIFICATION_INSTAGRAM, PebbleColor.CobaltBlue),
     KAKAO_TALK(PebbleIconID.NOTIFICATION_KAKAOTALK, PebbleColor.Yellow),
     KIK(PebbleIconID.NOTIFICATION_KIK, PebbleColor.IslamicGreen),
+    LIGHTHOUSE(PebbleIconID.NOTIFICATION_LIGHTHOUSE, PebbleColor.PictonBlue), // ??? - No idea what this is, but it works.
     LINE(PebbleIconID.NOTIFICATION_LINE, PebbleColor.IslamicGreen),
     LINKEDIN(PebbleIconID.NOTIFICATION_LINKEDIN, PebbleColor.CobaltBlue),
     MAILBOX(PebbleIconID.NOTIFICATION_MAILBOX, PebbleColor.VividCerulean),
@@ -56,6 +57,7 @@ public enum NotificationType {
     SLACK(PebbleIconID.NOTIFICATION_SLACK, PebbleColor.Folly),
     SNAPCHAT(PebbleIconID.NOTIFICATION_SNAPCHAT, PebbleColor.Icterine),
     TELEGRAM(PebbleIconID.NOTIFICATION_TELEGRAM, PebbleColor.VividCerulean),
+    TRANSIT(PebbleIconID.LOCATION, PebbleColor.JaegerGreen),
     TWITTER(PebbleIconID.NOTIFICATION_TWITTER, PebbleColor.BlueMoon),
     VIBER(PebbleIconID.NOTIFICATION_VIBER, PebbleColor.VividViolet),
     WECHAT(PebbleIconID.NOTIFICATION_WECHAT, PebbleColor.KellyGreen),

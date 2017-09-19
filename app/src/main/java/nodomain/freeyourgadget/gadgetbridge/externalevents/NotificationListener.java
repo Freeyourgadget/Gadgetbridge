@@ -28,6 +28,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.media.MediaMetadata;
 import android.media.session.PlaybackState;
 import android.os.Bundle;
@@ -42,21 +45,26 @@ import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.NotificationCompat;
+import android.support.v7.graphics.Palette;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleColor;
 import nodomain.freeyourgadget.gadgetbridge.model.AppNotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
+import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class NotificationListener extends NotificationListenerService {
@@ -192,7 +200,7 @@ public class NotificationListener extends NotificationListenerService {
                 return;
         }
 
-        String source = sbn.getPackageName();
+        String source = sbn.getPackageName().toLowerCase();
         Notification notification = sbn.getNotification();
         NotificationSpec notificationSpec = new NotificationSpec();
         notificationSpec.id = (int) sbn.getPostTime(); //FIMXE: a truly unique id would be better
@@ -211,6 +219,9 @@ public class NotificationListener extends NotificationListenerService {
 
         boolean preferBigText = false;
 
+        // Get the app ID that generated this notification. For now only used by pebble color, but may be more useful later.
+        notificationSpec.sourceAppId = source;
+
         notificationSpec.type = AppNotificationType.getInstance().get(source);
 
         if (source.startsWith("com.fsck.k9")) {
@@ -220,6 +231,9 @@ public class NotificationListener extends NotificationListenerService {
         if (notificationSpec.type == null) {
             notificationSpec.type = NotificationType.UNKNOWN;
         }
+
+        // Get color
+        notificationSpec.pebbleColor = getPebbleColorForNotification(notificationSpec);
 
         LOG.info("Processing notification " + notificationSpec.id + " from source " + source + " with flags: " + notification.flags);
 
@@ -379,13 +393,9 @@ public class NotificationListener extends NotificationListenerService {
             return true;
         }
 
-        if (shouldIgnoreSource(sbn.getPackageName()))
-            return true;
+        return shouldIgnoreSource(sbn.getPackageName()) || shouldIgnoreNotification(
+                sbn.getNotification());
 
-        if (shouldIgnoreNotification(sbn.getNotification()))
-            return true;
-
-        return false;
     }
 
     private boolean shouldIgnoreSource(String source) {
@@ -442,12 +452,46 @@ public class NotificationListener extends NotificationListenerService {
             }
         }
 
-        if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
-//            LOG.info("Not forwarding notification, FLAG_ONGOING_EVENT is set. Notification flags: " + notification.flags);
-            return true;
-        }
+        return (notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT;
 
-        return false;
     }
 
+
+    /**
+     * Get the notification color that should be used for this Pebble notification.
+     *
+     * Note that this method will *not* edit the NotificationSpec passed in. It will only evaluate the PebbleColor.
+     *
+     * See Issue #815 on GitHub to see how notification colors are set.
+     *
+     * @param notificationSpec The NotificationSpec to read from.
+     * @return Returns a PebbleColor that best represents this notification.
+     */
+    private byte getPebbleColorForNotification(NotificationSpec notificationSpec) {
+        String appId = notificationSpec.sourceAppId;
+        NotificationType existingType = notificationSpec.type;
+
+        // If the notification type is known, return the associated color.
+        if (existingType != NotificationType.UNKNOWN) {
+            return existingType.color;
+        }
+
+        // Otherwise, we go and attempt to find the color from the app icon.
+        Drawable icon;
+        try {
+            icon = getApplicationContext().getPackageManager().getApplicationIcon(appId);
+            Objects.requireNonNull(icon);
+        } catch (Exception ex) {
+            // If we can't get the icon, we go with the default defined above.
+            LOG.warn("Could not get icon for AppID " + appId, ex);
+            return PebbleColor.IslamicGreen;
+        }
+
+        Bitmap bitmapIcon = BitmapUtil.convertDrawableToBitmap(icon);
+        int iconPrimaryColor = new Palette.Builder(bitmapIcon)
+                .generate()
+                .getVibrantColor(Color.parseColor("#aa0000"));
+
+        return PebbleUtils.getPebbleColor(iconPrimaryColor);
+    }
 }

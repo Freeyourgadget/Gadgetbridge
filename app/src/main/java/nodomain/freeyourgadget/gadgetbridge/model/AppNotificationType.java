@@ -135,6 +135,9 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
 
         // Slack
         put("com.slack", NotificationType.SLACK);
+
+        // Transit
+        put("com.thetransitapp.droid", NotificationType.TRANSIT);
     }
 
 }

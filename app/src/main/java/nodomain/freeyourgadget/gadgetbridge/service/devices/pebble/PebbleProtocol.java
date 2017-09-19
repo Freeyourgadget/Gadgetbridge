@@ -496,10 +496,13 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         if (mFwMajor >= 3) {
             // 3.x notification
-            return encodeBlobdbNotification(id, (int) (ts & 0xffffffffL), title, subtitle, notificationSpec.body, notificationSpec.sourceName, hasHandle, notificationSpec.type, notificationSpec.cannedReplies);
+            return encodeBlobdbNotification(id, (int) (ts & 0xffffffffL), title, subtitle, notificationSpec.body,
+                    notificationSpec.sourceName, hasHandle, notificationSpec.type, notificationSpec.pebbleColor,
+                    notificationSpec.cannedReplies);
         } else if (mForceProtocol || notificationSpec.type != NotificationType.GENERIC_EMAIL) {
             // 2.x notification
-            return encodeExtensibleNotification(id, (int) (ts & 0xffffffffL), title, subtitle, notificationSpec.body, notificationSpec.sourceName, hasHandle, notificationSpec.cannedReplies);
+            return encodeExtensibleNotification(id, (int) (ts & 0xffffffffL), title, subtitle, notificationSpec.body,
+                    notificationSpec.sourceName, hasHandle, notificationSpec.cannedReplies);
         } else {
             // 1.x notification on FW 2.X
             String[] parts = {title, notificationSpec.body, ts.toString(), subtitle};
@@ -920,7 +923,9 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return encodeBlobdb(uuid, BLOBDB_INSERT, BLOBDB_PIN, buf.array());
     }
 
-    private byte[] encodeBlobdbNotification(int id, int timestamp, String title, String subtitle, String body, String sourceName, boolean hasHandle, NotificationType notificationType, String[] cannedReplies) {
+    private byte[] encodeBlobdbNotification(int id, int timestamp, String title, String subtitle, String body, String sourceName,
+                                            boolean hasHandle, NotificationType notificationType, byte backgroundColor,
+                                            String[] cannedReplies) {
         final short NOTIFICATION_PIN_LENGTH = 46;
         final short ACTION_LENGTH_MIN = 10;
 
@@ -931,7 +936,6 @@ public class PebbleProtocol extends GBDeviceProtocol {
         }
 
         int icon_id = notificationType.icon;
-        byte color_id = notificationType.color;
 
         // Calculate length first
         byte actions_count;
@@ -1021,7 +1025,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         buf.put((byte) 28); // background_color
         buf.putShort((short) 1); // length of int
-        buf.put(color_id);
+        buf.put(backgroundColor);
 
         // dismiss action
         buf.put(dismiss_action_id);
