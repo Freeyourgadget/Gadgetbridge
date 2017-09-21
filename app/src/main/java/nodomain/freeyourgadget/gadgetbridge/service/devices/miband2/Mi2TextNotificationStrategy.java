@@ -59,7 +59,11 @@ public class Mi2TextNotificationStrategy extends Mi2NotificationStrategy {
 
     @Override
     protected void startNotify(TransactionBuilder builder, int alertLevel, SimpleNotification simpleNotification) {
-        builder.write(newAlertCharacteristic, getNotifyMessage(simpleNotification));
+        if (alertLevel == MiBand2Service.ALERT_LEVEL_VIBRATE_ONLY) {
+            super.startNotify(builder, alertLevel, simpleNotification);
+        } else {
+            builder.write(newAlertCharacteristic, getNotifyMessage(simpleNotification));
+        }
     }
 
     protected byte[] getNotifyMessage(SimpleNotification simpleNotification) {

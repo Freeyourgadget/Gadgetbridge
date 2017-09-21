@@ -38,6 +38,7 @@ public enum AlertCategory {
     // 251-255 defined by service specification
     Any(255),
     Custom(-1),
+    CustomVibrateOnly(-2),
     CustomMiBand2(-6);
 
     private final int id;

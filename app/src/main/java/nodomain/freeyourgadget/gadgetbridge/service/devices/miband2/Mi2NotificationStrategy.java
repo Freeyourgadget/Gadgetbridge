@@ -19,10 +19,12 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.miband2;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.support.annotation.Nullable;
 
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotification;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.V2NotificationStrategy;
 
@@ -34,6 +36,16 @@ public class Mi2NotificationStrategy extends V2NotificationStrategy<MiBand2Suppo
         super(support);
         alertLevelCharacteristic = support.getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL);
     }
+
+    @Override
+    public void sendDefaultNotification(TransactionBuilder builder, SimpleNotification simpleNotification, BtLEAction extraAction) {
+        VibrationProfile profile = VibrationProfile.getProfile(VibrationProfile.ID_MEDIUM, (short) 3);
+        if (simpleNotification.getAlertCategory() == AlertCategory.CustomVibrateOnly) {
+            profile.setAlertLevel(MiBand2Service.ALERT_LEVEL_VIBRATE_ONLY);
+        }
+        sendCustomNotification(profile, simpleNotification, extraAction, builder);
+    }
+
 
     @Override
     protected void sendCustomNotification(VibrationProfile vibrationProfile, SimpleNotification simpleNotification, BtLEAction extraAction, TransactionBuilder builder) {
