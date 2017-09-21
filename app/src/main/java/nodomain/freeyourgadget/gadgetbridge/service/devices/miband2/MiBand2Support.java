@@ -664,17 +664,15 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFindDevice(boolean start) {
-        isLocatingDevice = start;
-
         if (start) {
-            AbortTransactionAction abortAction = new AbortTransactionAction() {
-                @Override
-                protected boolean shouldAbort() {
-                    return !isLocatingDevice;
-                }
-            };
-            SimpleNotification simpleNotification = new SimpleNotification(getContext().getString(R.string.find_device_you_found_it), AlertCategory.HighPriorityAlert);
-            performDefaultNotification("locating device", simpleNotification, (short) 255, abortAction);
+            try {
+                TransactionBuilder builder = performInitialized("Mi Band 2 - Find Device");
+                // ALERT_LEVEL_VIBRATE_ONLY ensures band vibrates, even while in DND
+                builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL), new byte[]{MiBand2Service.ALERT_LEVEL_VIBRATE_ONLY});
+                performConnected(builder.getTransaction());
+            } catch (IOException e) {
+                LOG.error("Error finding Mi Band 2: ", e);
+            }
         }
     }
 
