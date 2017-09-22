@@ -350,7 +350,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     private MiBand2Support setFitnessGoal(TransactionBuilder transaction) {
         LOG.info("Attempting to set Fitness Goal...");
-        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC8);
+        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_8_USER_SETTINGS);
         if (characteristic != null) {
             int fitnessGoal = GBApplication.getPrefs().getInt(ActivityUser.PREF_USER_STEPS_GOAL, 10000);
             byte[] bytes = ArrayUtils.addAll(
@@ -368,12 +368,61 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     /**
      * Part of device initialization process. Do not call manually.
      *
+     * @param transaction
+     * @return
+     */
+
+    private MiBand2Support setUserInfo(TransactionBuilder transaction) {
+        Prefs prefs = GBApplication.getPrefs();
+        String alias = prefs.getString(MiBandConst.PREF_USER_ALIAS, null);
+        LOG.info("Attempting to set user info...");
+        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_8_USER_SETTINGS);
+        if (characteristic != null || alias == null) {
+            // TODO: get all from userattributes
+            short birth_year = 1980;
+            byte birth_month = 12;
+            byte birth_day = 24;
+            byte sex = 0; // male 0. female 1, other 2
+            short height = 175;
+            short weight = 70;
+            int userid = alias.hashCode(); // hash from alias like mi1
+
+            // FIXME: Do encoding like in PebbleProtocol, this is ugly
+            byte bytes[] = new byte[]{
+                    MiBand2Service.COMMAND_SET_USERINFO,
+                    0,
+                    0,
+                    (byte) (birth_year & 0xff),
+                    (byte) ((birth_year >> 8) & 0xff),
+                    birth_month,
+                    birth_day,
+                    sex,
+                    (byte) (height & 0xff),
+                    (byte) ((height >> 8) & 0xff),
+                    (byte) ((weight * 200) & 0xff),
+                    (byte) (((weight * 200) >> 8) & 0xff),
+                    (byte) (userid & 0xff),
+                    (byte) ((userid >> 8) & 0xff),
+                    (byte) ((userid >> 16) & 0xff),
+                    (byte) ((userid >> 24) & 0xff)
+            };
+
+            transaction.write(characteristic, bytes);
+        } else {
+            LOG.warn("Unable to set user info");
+        }
+        return this;
+    }
+
+    /**
+     * Part of device initialization process. Do not call manually.
+     *
      * @param builder
      * @return
      */
     private MiBand2Support setWearLocation(TransactionBuilder builder) {
         LOG.info("Attempting to set wear location...");
-        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC8);
+        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_8_USER_SETTINGS);
         if (characteristic != null) {
             builder.notify(characteristic, true);
             int location = MiBandCoordinator.getWearLocation(getDevice().getAddress());
@@ -1395,6 +1444,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         LOG.info("phase3Initialize...");
         setDateDisplay(builder);
         setTimeFormat(builder);
+        ///setUserInfo(builder);
         setWearLocation(builder);
         setFitnessGoal(builder);
         setDisplayItems(builder);
