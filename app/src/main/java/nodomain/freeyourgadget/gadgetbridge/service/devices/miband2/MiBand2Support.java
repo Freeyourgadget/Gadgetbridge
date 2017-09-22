@@ -377,14 +377,21 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         String alias = prefs.getString(MiBandConst.PREF_USER_ALIAS, null);
         LOG.info("Attempting to set user info...");
         BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_8_USER_SETTINGS);
-        if (characteristic != null || alias == null) {
-            // TODO: get all from userattributes
-            short birth_year = 1980;
-            byte birth_month = 12;
-            byte birth_day = 24;
-            byte sex = 0; // male 0. female 1, other 2
-            short height = 175;
-            short weight = 70;
+        if (characteristic != null && alias != null) {
+            ActivityUser activityUser = new ActivityUser();
+            int birth_year = activityUser.getYearOfBirth();
+            byte birth_month = 7; // not in user attributes
+            byte birth_day = 1; // not in user attributes
+            byte sex = 2; // other
+            switch (activityUser.getGender()) {
+                case ActivityUser.GENDER_MALE:
+                    sex = 0;
+                    break;
+                case ActivityUser.GENDER_FEMALE:
+                    sex = 1;
+            }
+            int height = activityUser.getHeightCm();
+            int weight = activityUser.getWeightKg();
             int userid = alias.hashCode(); // hash from alias like mi1
 
             // FIXME: Do encoding like in PebbleProtocol, this is ugly
@@ -1444,7 +1451,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         LOG.info("phase3Initialize...");
         setDateDisplay(builder);
         setTimeFormat(builder);
-        ///setUserInfo(builder);
+        setUserInfo(builder);
         setWearLocation(builder);
         setFitnessGoal(builder);
         setDisplayItems(builder);
