@@ -687,11 +687,16 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     public void onReboot() {
         try {
             TransactionBuilder builder = performInitialized("Reboot");
-            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_FIRMWARE), new byte[] { MiBand2Service.COMMAND_FIRMWARE_REBOOT});
+            sendReboot(builder);
             builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to reboot MI", ex);
         }
+    }
+
+    public MiBand2Support sendReboot(TransactionBuilder builder) {
+        builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_FIRMWARE), new byte[] { MiBand2Service.COMMAND_FIRMWARE_REBOOT});
+        return this;
     }
 
     @Override
