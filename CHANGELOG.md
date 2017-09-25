@@ -1,5 +1,13 @@
 ### Changelog
 
+#### Version 0.21.2
+* Amazfit Bip: Support flashing CEP and ALM files for AGPS
+* Amazfit Bip: Initial experimental support for fetching logs from the watch
+* Mi2/Bip: Send user info to the device (fixes calories and distance display)
+* Mi2/Bip: Fix firmware update progressbar being stuck at the end
+* Pebble/Bip: Support more notification icons
+* Pebble: Automatically determine color for unknown notifications on Pebble Time
+
 #### Version 0.21.1
 * Initial support for EXRIZU K8 (HPLus variant)
 * Amazfit Bip: fix long messages not being displayed at all

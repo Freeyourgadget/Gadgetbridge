@@ -66,8 +66,13 @@ public class MiBand2Icon {
             case UNKNOWN:
                 return APP_11;
             case CONVERSATIONS:
+            case RIOT:
+            case HIPCHAT:
                 return WECHAT;
             case GENERIC_EMAIL:
+            case GMAIL:
+            case YAHOO_MAIL:
+            case OUTLOOK:
                 return EMAIL;
             case GENERIC_NAVIGATION:
                 return APP_11;
@@ -80,15 +85,15 @@ public class MiBand2Icon {
             case FACEBOOK_MESSENGER:
                 return FACEBOOK_MESSENGER;
             case GOOGLE_HANGOUTS:
+            case GOOGLE_MESSENGER:
                 return HANGOUTS;
             case INSTAGRAM:
+            case GOOGLE_PHOTOS:
                 return INSTAGRAM;
             case KAKAO_TALK:
                 return KAKAOTALK;
             case LINE:
                 return LINE;
-            case RIOT:
-                return WECHAT;
             case SIGNAL:
                 return CHAT_BLUE_13;
             case TWITTER:

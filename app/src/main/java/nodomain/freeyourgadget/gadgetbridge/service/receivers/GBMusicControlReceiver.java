@@ -113,7 +113,7 @@ public class GBMusicControlReceiver extends BroadcastReceiver {
                 MediaController controller = controllers.get(0);
                 audioPlayer = controller.getPackageName();
             } catch (IndexOutOfBoundsException e) {
-                LOG.error("IndexOutOfBoundsException: " + e.getMessage());
+                LOG.error("No media controller available", e);
             }
         }
         return audioPlayer;
