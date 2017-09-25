@@ -92,6 +92,18 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
     }
 
     @Override
+    public boolean onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+        if (status != BluetoothGatt.GATT_SUCCESS) {
+            operationFailed();
+        }
+        return super.onCharacteristicWrite(gatt, characteristic, status);
+    }
+
+    private void operationFailed() {
+        GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_write_failed), false, 0, getContext());
+    }
+
+    @Override
     public boolean onCharacteristicChanged(BluetoothGatt gatt,
                                            BluetoothGattCharacteristic characteristic) {
         UUID characteristicUUID = characteristic.getUuid();
@@ -154,6 +166,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
                     default: {
                         LOG.error("Unexpected response during firmware update: ");
                         getSupport().logMessageContent(value);
+                        operationFailed();
                         displayMessage(getContext(), getContext().getString(R.string.updatefirmwareoperation_updateproblem_do_not_reboot), Toast.LENGTH_LONG, GB.ERROR);
                         done();
                         return;
@@ -165,6 +178,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
             }
         } else {
             LOG.error("Unexpected notification during firmware update: ");
+            operationFailed();
             getSupport().logMessageContent(value);
             displayMessage(getContext(), getContext().getString(R.string.updatefirmwareoperation_metadata_updateproblem), Toast.LENGTH_LONG, GB.ERROR);
             done();
