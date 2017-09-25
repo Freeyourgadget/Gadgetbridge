@@ -59,7 +59,7 @@ public class WebViewSingleton {
     private WebViewSingleton() {
     }
 
-    public static synchronized WebView getInstance(Activity context) {
+    public static synchronized void ensureCreated(Activity context) {
         if (webViewSingleton.instance == null) {
             webViewSingleton.contextWrapper = new MutableContextWrapper(context);
             webViewSingleton.mainLooper = context.getMainLooper();
@@ -76,7 +76,6 @@ public class WebViewSingleton {
             //needed for localstorage
             webSettings.setDatabaseEnabled(true);
         }
-        return webViewSingleton.instance;
     }
 
     //Internet helper outgoing connection

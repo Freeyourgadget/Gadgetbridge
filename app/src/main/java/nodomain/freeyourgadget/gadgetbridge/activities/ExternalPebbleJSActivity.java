@@ -69,7 +69,7 @@ public class ExternalPebbleJSActivity extends AbstractGBActivity {
                 if (extras.getBoolean(SHOW_CONFIG, false)) {
                     WebViewSingleton.runJavascriptInterface(currentDevice, currentUUID);
                 } else if (extras.getBoolean(START_BG_WEBVIEW, false)) {
-                    WebViewSingleton.getInstance(this);
+                    WebViewSingleton.ensureCreated(this);
                     finish();
                 }
             }
