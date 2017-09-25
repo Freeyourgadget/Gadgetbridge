@@ -76,22 +76,7 @@ public class GBMusicControlReceiver extends BroadcastReceiver {
         }
 
         if (keyCode != -1) {
-            Prefs prefs = GBApplication.getPrefs();
-            String audioPlayer = prefs.getString("audio_player", "default");
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                MediaSessionManager mediaSessionManager =
-                        (MediaSessionManager) context.getSystemService(Context.MEDIA_SESSION_SERVICE);
-
-                List<MediaController> controllers = mediaSessionManager.getActiveSessions(
-                        new ComponentName(context, NotificationListener.class));
-                try {
-                    MediaController controller = controllers.get(0);
-                    audioPlayer = controller.getPackageName();
-                } catch (IndexOutOfBoundsException e) {
-                    System.err.println("IndexOutOfBoundsException: " + e.getMessage());
-                }
-            }
+            String audioPlayer = getAudioPlayer(context);
 
             LOG.debug("keypress: " + musicCmd.toString() + " sent to: " + audioPlayer);
 
@@ -113,5 +98,24 @@ public class GBMusicControlReceiver extends BroadcastReceiver {
             }
             context.sendOrderedBroadcast(upIntent, null);
         }
+    }
+
+    private String getAudioPlayer(Context context) {
+        Prefs prefs = GBApplication.getPrefs();
+        String audioPlayer = prefs.getString("audio_player", "default");
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            MediaSessionManager mediaSessionManager =
+                    (MediaSessionManager) context.getSystemService(Context.MEDIA_SESSION_SERVICE);
+
+            List<MediaController> controllers = mediaSessionManager.getActiveSessions(
+                    new ComponentName(context, NotificationListener.class));
+            try {
+                MediaController controller = controllers.get(0);
+                audioPlayer = controller.getPackageName();
+            } catch (IndexOutOfBoundsException e) {
+                LOG.error("IndexOutOfBoundsException: " + e.getMessage());
+            }
+        }
+        return audioPlayer;
     }
 }

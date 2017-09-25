@@ -5,6 +5,7 @@
   <string name="action_settings">Impostazioni</string>
   <string name="action_debug">Debug</string>
   <string name="action_quit">Esci</string>
+  <string name="action_donate">Donazioni</string>
   <string name="controlcenter_fetch_activity_data">Sincronizza</string>
   <string name="controlcenter_start_sleepmonitor">Monitoraggio del sonno (ALPHA)</string>
   <string name="controlcenter_find_device">Trova dispositivo smarrito</string>
@@ -40,6 +41,8 @@
   <string name="app_move_to_top">Sposta in cima</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Blocco notifiche</string>
+  <!--Strings related to CalBlacklist-->
+  <string name="title_activity_calblacklist">Calendari ignorati</string>
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">Installazione FW/App</string>
   <string name="fw_upgrade_notice">Il firmware %s verrà installato al posto di quello attualmente sulla Mi Band.</string>
@@ -74,7 +77,7 @@
   <string name="pref_title_notifications_pebblemsg">Messaggi Pebble</string>
   <string name="pref_summary_notifications_pebblemsg">Supporto per applicazioni che inviano le notifiche a Pebble usando PebbleKit.</string>
   <string name="pref_title_notifications_generic">Notifiche generiche</string>
-  <string name="pref_title_whenscreenon">…anche se lo schermo è acceso</string>
+  <string name="pref_title_whenscreenon">… anche se lo schermo è acceso</string>
   <string name="pref_title_notification_filter">Non disturbare</string>
   <string name="pref_summary_notification_filter">Non inviare notifiche nei periodi configurati come \"non disturbare\".</string>
   <string name="pref_title_transliteration">Traslitterazione</string>
@@ -108,6 +111,7 @@
   <string name="pref_summary_enable_pebblekit">Attiva l\'accesso sperimentale ad applicazioni Android che usano PebbleKit</string>
   <string name="pref_title_sunrise_sunset">Alba e tramonto</string>
   <string name="pref_summary_sunrise_sunset">Mostra gli orari calcolati per l\'alba e il tramonto sulla timeline</string>
+  <string name="pref_title_enable_calendar_sync">Sincronizza calendario</string>
   <string name="pref_title_autoremove_notifications">Rimuovi automaticamente le notifiche</string>
   <string name="pref_summary_autoremove_notifications">Le notifiche vengono rimosse automaticamente dal Pebble dopo averle nascoste sul dispositivo Android</string>
   <string name="pref_title_pebble_privacy_mode">Impostazioni privacy</string>
@@ -135,6 +139,7 @@
   <string name="pref_title_pebble_always_ack_pebblekit">Invia l\'ACK dei messaggi PebbleKit prematuramente</string>
   <string name="pref_summary_pebble_always_ack_pebblekit">I messaggi inviati alle applicazioni di terze parti verranno immediatamente confermate</string>
   <string name="pref_title_pebble_reconnect_attempts">Tentativi di riconessione</string>
+  <!--HPlus Preferences-->
   <string name="pref_title_unit_system">Unità</string>
   <string name="pref_title_timeformat">Formato dell\'orario</string>
   <string name="pref_title_screentime">Durata dell\'accensione dello schermo</string>
@@ -143,8 +148,6 @@
   <string name="not_connected">Non connesso</string>
   <string name="connecting">In collegamento</string>
   <string name="connected">Connesso</string>
-  <string name="unknown_state">Stato sconosciuto</string>
-  <string name="connectionstate_hw_fw">HW: %1$s FW: %2$s</string>
   <string name="connectionstate_fw">Versione firmware: %1$s</string>
   <string name="_unknown_">(sconosciuto)</string>
   <string name="test">Test</string>
@@ -219,6 +222,9 @@
   <string name="pref_screen_notification_profile_generic_chat">Cha</string>
   <string name="pref_screen_notification_profile_generic_navigation">Navigazione</string>
   <string name="pref_screen_notification_profile_generic_social">Social Network</string>
+  <string name="stats_title">Zone di velocità</string>
+  <string name="stats_x_axis_label">Minuti totali</string>
+  <string name="stats_y_axis_label">Passi al minuto</string>
   <string name="control_center_find_lost_device">Trova dispositivo smarrito</string>
   <string name="control_center_cancel_to_stop_vibration">Annulla per fermare la vibrazione</string>
   <string name="title_activity_charts">Le tue attività</string>
@@ -257,6 +263,7 @@
   <string name="updating_firmware">Aggiornamento del Firmware...</string>
   <string name="fwapp_install_device_not_ready">Il file non può essere installato, il dispositivo non è pronto.</string>
   <string name="miband_installhandler_miband_firmware">Firmware Mi Band: %1$s</string>
+  <string name="amazfitbip_firmware">Firmware Amazfit Bip %1$s</string>
   <string name="miband_fwinstaller_compatible_version">Versione compatibile</string>
   <string name="miband_fwinstaller_untested_version">Versione non testata!</string>
   <string name="fwappinstaller_connection_state">Connessione al device: %1$s</string>
@@ -270,6 +277,11 @@
   <string name="updatefirmwareoperation_update_complete_rebooting">Installazione del firmware completata, riavvio del dispositivo...</string>
   <string name="updatefirmwareoperation_write_failed">Scrittura del firmware non riuscita</string>
   <string name="chart_steps">Passi</string>
+  <string name="calories">Calorie</string>
+  <string name="distance">Distanza</string>
+  <string name="clock">Orologio</string>
+  <string name="heart_rate">Pulsazioni</string>
+  <string name="battery">Batteria</string>
   <string name="liveactivity_live_activity">Attività in tempo reale</string>
   <string name="weeksteps_today_steps_description">Passi di oggi, traguardo: %1$s</string>
   <string name="pref_title_dont_ack_transfer">Non confermare il trasferimento dati</string>
@@ -296,7 +308,21 @@
   <string name="miband_prefs_device_time_offset_hours">Sfasamento dell\'orario per il device (per consentire il rilevamento del sonno per chi lavora a turni)</string>
   <string name="miband2_prefs_dateformat">Mi2: formato della data</string>
   <string name="dateformat_time">Ora</string>
+  <string name="dateformat_date_time">Ora e data</string>
+  <string name="mi2_prefs_goal_notification">Notifica raggiungimento obbiettivi</string>
+  <string name="mi2_prefs_goal_notification_summary">La band vibrerà una volta raggiunto l\'obbiettivo passi giornalieri</string>
+  <string name="mi2_prefs_display_items">Elementi mostrati</string>
+  <string name="mi2_prefs_display_items_summary">Scelta elementi da mostrare sullo schermo della band</string>
   <string name="mi2_prefs_activate_display_on_lift">Attiva il display quando sollevato</string>
+  <string name="mi2_prefs_rotate_wrist_to_switch_info">Rotazione polso per cambiare vista</string>
+  <string name="mi2_prefs_do_not_disturb">Non disturbare</string>
+  <string name="mi2_prefs_do_not_disturb_summary">La band non riceverà notifiche quando è attiva</string>
+  <string name="mi2_prefs_inactivity_warnings">Allarmi inattività</string>
+  <string name="mi2_prefs_inactivity_warnings_summary">La band vibrerà dopo un determinato periodo di inattività</string>
+  <string name="mi2_prefs_inactivity_warnings_threshold">Limite inattività (in minuti)</string>
+  <string name="mi2_prefs_inactivity_warnings_dnd_summary">Disabilita allarmi inattività per un dato intervallo di tempo</string>
+  <string name="mi2_prefs_do_not_disturb_start">Ora inizio</string>
+  <string name="mi2_prefs_do_not_disturb_end">Ora fine</string>
   <string name="FetchActivityOperation_about_to_transfer_since">Vengono trasferiti dati a partire dal %1$s</string>
   <string name="waiting_for_reconnect">in attesa di riconnessione</string>
   <string name="activity_prefs_about_you">Informazioni sull\'utilizzatore</string>
@@ -327,10 +353,12 @@
   <string name="dbmanagementactivvity_cannot_access_export_path">Impossibile accedere al path esterno. Per cortesia contatta gli sviluppatori del progetto.</string>
   <string name="dbmanagementactivity_exported_to">Esportato su: %1$s</string>
   <string name="dbmanagementactivity_error_exporting_db">Errore esportando il DB: %1$s</string>
+  <string name="dbmanagementactivity_error_exporting_shared">"Errore nell\'esportazione delle preferenze: %1$s"</string>
   <string name="dbmanagementactivity_import_data_title">Importare i dati?</string>
   <string name="dbmanagementactivity_overwrite_database_confirmation">Vuoi davvero sovrascrivere il database attuale? Tutte le tue attività saranno perse.</string>
   <string name="dbmanagementactivity_import_successful">L\'importazione ha avuto successo.</string>
   <string name="dbmanagementactivity_error_importing_db">Errore importando il DB: %1$s</string>
+  <string name="dbmanagementactivity_error_importing_shared">"Errore nell\'importazione della preferenza: %1$s"</string>
   <string name="dbmanagementactivity_delete_activity_data_title">Cancella i dati delle attività?</string>
   <string name="dbmanagementactivity_really_delete_entire_db">Vuoi davvero cancellare il database? Tutte le informazioni sulle tue attività e sui tuoi dispositivi saranno perse.</string>
   <string name="dbmanagementactivity_database_successfully_deleted">Dati cancellati con successo.</string>
@@ -359,26 +387,13 @@
   <string name="miband2_prefs_timeformat">Mi2: Formato dell\'orario</string>
   <string name="mi2_fw_installhandler_fw53_hint">E\' necessario installare la verione %1$s prima di installare questo firmware!</string>
   <string name="mi2_enable_text_notifications">Notifiche</string>
-  <string name="off">Spento</string>
-<string name="action_donate">Dona</string>
-    <string name="title_activity_calblacklist">Calendari con notifiche bloccate</string>
-
-    <string name="pref_blacklist_calendars">Blocca calendari</string>
-
-    <string name="pref_title_enable_calendar_sync">Sincronizza calendari</string>
-    <string name="pref_summary_enable_calendar_sync">Mostra eveti dei calendari sulla timeline</string>
-
-    <string name="stats_x_axis_label">Minuti totali</string>
-    <string name="stats_y_axis_label">Passi al minuto</string>
-
-    <string name="calories">Calorie</string>
-    <string name="distance">Distanza</string>
-    <string name="battery">Batteria</string>
-    <string name="dateformat_date_time">Ora e data</string>
-    <string name="mi2_prefs_goal_notification">Notifica al raggiungimento dell\'obiettivo</string>
-    <string name="mi2_prefs_goal_notification_summary">Il dispositivo vibrerà quando l\'obiettivo giornaliero di passi viene raggiunto</string>
-    <string name="mi2_prefs_do_not_disturb">Non disturbare</string>
-    <string name="dbmanagementactivity_error_exporting_shared">Errore durante l\'export delle preferenze: %1$s</string>
-    <string name="dbmanagementactivity_error_importing_shared">Errore durante l\'importazione delle preferenze: %1$s</string>
-    <string name="mi2_enable_text_notifications_summary">"Devono essere installati un firmware &gt;= 1.0.1.28 e  Mili_pro.ft*."</string>
-    </resources>
+  <string name="mi2_enable_text_notifications_summary">Richiede firmware versione minima 1.9.1.28 e Mili_pro.ft* installati.</string>
+  <string name="off">spento</string>
+  <string name="mi2_dnd_off">Spento</string>
+  <string name="mi2_dnd_automatic">Automatico (rilevamento del sonno)</string>
+  <string name="discovery_attempting_to_pair">Tentativo di connessione a %1$s in corso</string>
+  <string name="discovery_bonding_failed_immediately">La connessione con %1$s è subito fallita.</string>
+  <string name="discovery_trying_to_connect_to">Tentativo di connessione con: %1$s</string>
+  <string name="discovery_enable_bluetooth">Abilitare Bluetooth per l\'individuazione dei dispositivi.</string>
+  <string name="discovery_dont_pair">Non connettersi</string>
+</resources>

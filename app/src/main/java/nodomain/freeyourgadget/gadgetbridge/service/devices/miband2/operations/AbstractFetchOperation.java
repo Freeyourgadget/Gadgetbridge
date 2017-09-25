@@ -132,10 +132,6 @@ public abstract class AbstractFetchOperation extends AbstractMiBand2Operation {
      */
     protected abstract void handleActivityNotif(byte[] value);
 
-    /**
-     * Creates samples from the given 17-length array
-     * @param value
-     */
     protected abstract void bufferActivityData(byte[] value);
 
     protected void handleActivityMetadata(byte[] value) {
@@ -146,7 +142,7 @@ public abstract class AbstractFetchOperation extends AbstractMiBand2Operation {
                 // the 4th - 7th bytes probably somehow represent the number of bytes/packets to expect
 
                 // last 8 bytes are the start date
-                Calendar startTimestamp = getSupport().fromTimeBytes(org.apache.commons.lang3.ArrayUtils.subarray(value, 7, value.length));
+                Calendar startTimestamp = getSupport().fromTimeBytes(Arrays.copyOfRange(value, 7, value.length));
                 setStartTimestamp(startTimestamp);
 
                 GB.toast(getContext().getString(R.string.FetchActivityOperation_about_to_transfer_since,

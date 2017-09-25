@@ -73,6 +73,7 @@ public interface DeviceService extends EventHandler {
     String EXTRA_NOTIFICATION_SUBJECT = "notification_subject";
     String EXTRA_NOTIFICATION_TITLE = "notification_title";
     String EXTRA_NOTIFICATION_TYPE = "notification_type";
+    String EXTRA_NOTIFICATION_PEBBLE_COLOR = "notification_pebble_color";
     String EXTRA_FIND_START = "find_start";
     String EXTRA_VIBRATION_INTENSITY = "vibration_intensity";
     String EXTRA_CALL_COMMAND = "call_command";

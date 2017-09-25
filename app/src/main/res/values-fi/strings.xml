@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="action_settings">Asetukset</string>
+    <string name="controlcenter_fetch_activity_data">Synkronisoi</string>
+    <string name="controlcenter_find_device">Löydä kadonnut laite</string>
+    <string name="app_name">Gadgetbridge</string>
+
+    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="action_quit">Sulje</string>
+    <string name="action_donate">Lahjoita</string>
+    <string name="controlcenter_take_screenshot">Ota ruutukaappaus</string>
+    <string name="controlcenter_disconnect">Katkaise yhteys</string>
+    <string name="controlcenter_delete_device">Poista laite</string>
+    <string name="controlcenter_delete_device_name">Poista %1$s</string>
+    <string name="controlcenter_delete_device_dialogmessage">Tämä toiminto poistaa laitteen ja kaikki siihen liittyvät tiedot!</string>
+    <string name="controlcenter_navigation_drawer_open">Avaa navigointivetolaatikko</string>
+    <string name="controlcenter_navigation_drawer_close">Sulje navigointivetolaatikko</string>
+    <string name="controlcenter_snackbar_need_longpress">Paina korttia pitkään katkaistaksesi yhteyden</string>
+    <string name="controlcenter_snackbar_disconnecting">Yhteyttä katkaistaan</string>
+    <string name="controlcenter_snackbar_connecting">Yhdistetään</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Otataan ruutukaappausta laitteesta</string>
+
+
+    <string name="title_activity_appmanager">Sovellusten hallinta</string>
+    <string name="appmanager_cached_watchapps_watchfaces">Välimuistissa olevat sovellukset</string>
+    <string name="appmanager_installed_watchapps">Asennetut sovellukset</string>
+    <string name="appmanager_installed_watchfaces">Asennetut kellotaulut</string>
+    <string name="appmananger_app_delete">Poista</string>
+    <string name="appmananger_app_delete_cache">Poista laitteesta ja välimuistista</string>
+    <string name="appmananger_app_reinstall">Asenna uudelleen</string>
+    <string name="appmanager_app_openinstore">Etsi Pebble Appstoresta</string>
+    <string name="appmanager_health_activate">Aktivoi</string>
+    <string name="appmanager_health_deactivate">Poista käytöstä</string>
+    <string name="appmanager_hrm_activate">Aktivoi sykemittari</string>
+    <string name="appmanager_hrm_deactivate">Poista sykemittari käytöstä</string>
+    <string name="appmanager_weather_activate">Aktivoi järjestelmän sääsovellus</string>
+    <string name="appmanager_weather_deactivate">Ota järjestelmän sääsovellus pois käytöstä</string>
+    <string name="appmanager_weather_install_provider">Asenna sääilmoitussovellus</string>
+    <string name="app_configure">Määritä</string>
+    <string name="app_move_to_top">Siirrä ylös</string>
+
+    </resources>

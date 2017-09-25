@@ -186,7 +186,7 @@
   <string name="pairing_already_bonded">Déjà lié avec %1$s (%2$s), connexion…</string>
   <string name="message_cannot_pair_no_mac">Aucune adresse MAC fournie, ne peut être appairé.</string>
   <string name="preferences_category_device_specific_settings">Paramètres spécifiques à l\'appareil </string>
-  <string name="preferences_miband_settings">Paramètres Mi Band</string>
+  <string name="preferences_miband_settings">Paramètres Mi Band / Bip</string>
   <string name="male">Homme</string>
   <string name="female">Femme</string>
   <string name="other">Autre</string>
@@ -383,7 +383,7 @@ NOTE: la base de données sera bien évidement plus grande !</string>
   <string name="weather_notification_label">Assurez vous que ce thème soit activé dans l\'application de notification de la météo pour recevoir les informations sur votre Pebble.\n\nAucune configuration n\'est requise.\n\nVous pouvez activer l\'application météo système de votre Pebble depuis la configuration de l\'application.\n\nLes watchfaces supportées afficheront la météo automatiquement.</string>
   <string name="pref_title_setup_bt_pairing">Activer le jumelage Bluetooth</string>
   <string name="pref_summary_setup_bt_pairing">Désactivez ceci si vous avez des problèmes de connexion</string>
-  <string name="unit_metric">Mesure</string>
+  <string name="unit_metric">Métrique</string>
   <string name="unit_imperial">Impériale</string>
   <string name="timeformat_24h">24H</string>
   <string name="timeformat_am_pm">AM/PM</string>

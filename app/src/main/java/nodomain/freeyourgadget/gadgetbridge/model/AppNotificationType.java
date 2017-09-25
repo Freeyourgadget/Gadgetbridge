@@ -53,6 +53,9 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
         put("com.google.android.apps.inbox", NotificationType.GOOGLE_INBOX);
         put("com.google.android.calendar", NotificationType.GENERIC_CALENDAR);
         put("com.google.android.apps.messaging", NotificationType.GOOGLE_MESSENGER);
+        put("com.google.android.talk", NotificationType.GOOGLE_HANGOUTS);
+        put("com.google.android.apps.maps", NotificationType.GOOGLE_MAPS);
+        put("com.google.android.apps.photos", NotificationType.GOOGLE_PHOTOS);
 
         // Conversations
         put("eu.siacs.conversations", NotificationType.CONVERSATIONS);
@@ -84,6 +87,57 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
 
         // WhatsApp
         put("com.whatsapp", NotificationType.WHATSAPP);
+
+        // HipChat
+        put("com.hipchat", NotificationType.HIPCHAT);
+
+        // Skype
+        put("com.skype.raider", NotificationType.SKYPE);
+
+        // Mailbox
+        put("com.mailboxapp", NotificationType.MAILBOX);
+
+        // Snapchat
+        put("com.snapchat.android", NotificationType.SNAPCHAT);
+
+        // WeChat
+        put("com.tencent.mm", NotificationType.WECHAT);
+
+        // Viber
+        put("com.viber.voip", NotificationType.VIBER);
+
+        // Instagram
+        put("com.instagram.android", NotificationType.INSTAGRAM);
+
+        // Kik
+        put("kik.android", NotificationType.KIK);
+
+        // Line
+        put("jp.naver.line.android", NotificationType.LINE);
+
+        // BBM
+        put("com.bbm", NotificationType.BBM);
+
+        // Microsoft Outlook
+        put("com.microsoft.office.outlook", NotificationType.OUTLOOK);
+
+        // Yahoo Mail
+        put("com.yahoo.mobile.client.android.mail", NotificationType.YAHOO_MAIL);
+
+        // Kakao Talk
+        put("com.kakao.talk", NotificationType.KAKAO_TALK);
+
+        // Amazon
+        put("com.amazon.mshop.android.shopping", NotificationType.AMAZON);
+
+        // LinkedIn
+        put("com.linkedin.android", NotificationType.LINKEDIN);
+
+        // Slack
+        put("com.slack", NotificationType.SLACK);
+
+        // Transit
+        put("com.thetransitapp.droid", NotificationType.TRANSIT);
     }
 
 }

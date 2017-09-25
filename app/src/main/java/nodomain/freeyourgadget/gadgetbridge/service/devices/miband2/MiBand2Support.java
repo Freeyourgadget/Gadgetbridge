@@ -350,7 +350,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     private MiBand2Support setFitnessGoal(TransactionBuilder transaction) {
         LOG.info("Attempting to set Fitness Goal...");
-        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC8);
+        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_8_USER_SETTINGS);
         if (characteristic != null) {
             int fitnessGoal = GBApplication.getPrefs().getInt(ActivityUser.PREF_USER_STEPS_GOAL, 10000);
             byte[] bytes = ArrayUtils.addAll(
@@ -368,12 +368,74 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     /**
      * Part of device initialization process. Do not call manually.
      *
+     * @param transaction
+     * @return
+     */
+
+    private MiBand2Support setUserInfo(TransactionBuilder transaction) {
+        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_8_USER_SETTINGS);
+        if (characteristic == null) {
+            return this;
+        }
+
+        LOG.info("Attempting to set user info...");
+        Prefs prefs = GBApplication.getPrefs();
+        String alias = prefs.getString(MiBandConst.PREF_USER_ALIAS, null);
+        ActivityUser activityUser = new ActivityUser();
+        int height = activityUser.getHeightCm();
+        int weight = activityUser.getWeightKg();
+        int birth_year = activityUser.getYearOfBirth();
+        byte birth_month = 7; // not in user attributes
+        byte birth_day = 1; // not in user attributes
+
+        if (alias == null || weight == 0 || height == 0 || birth_year == 0) {
+            LOG.warn("Unable to set user info, make sure it is set up");
+            return this;
+        }
+
+        byte sex = 2; // other
+        switch (activityUser.getGender()) {
+            case ActivityUser.GENDER_MALE:
+                sex = 0;
+                break;
+            case ActivityUser.GENDER_FEMALE:
+                sex = 1;
+        }
+        int userid = alias.hashCode(); // hash from alias like mi1
+
+        // FIXME: Do encoding like in PebbleProtocol, this is ugly
+        byte bytes[] = new byte[]{
+                MiBand2Service.COMMAND_SET_USERINFO,
+                0,
+                0,
+                (byte) (birth_year & 0xff),
+                (byte) ((birth_year >> 8) & 0xff),
+                birth_month,
+                birth_day,
+                sex,
+                (byte) (height & 0xff),
+                (byte) ((height >> 8) & 0xff),
+                (byte) ((weight * 200) & 0xff),
+                (byte) (((weight * 200) >> 8) & 0xff),
+                (byte) (userid & 0xff),
+                (byte) ((userid >> 8) & 0xff),
+                (byte) ((userid >> 16) & 0xff),
+                (byte) ((userid >> 24) & 0xff)
+        };
+
+        transaction.write(characteristic, bytes);
+        return this;
+    }
+
+    /**
+     * Part of device initialization process. Do not call manually.
+     *
      * @param builder
      * @return
      */
     private MiBand2Support setWearLocation(TransactionBuilder builder) {
         LOG.info("Attempting to set wear location...");
-        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC8);
+        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_8_USER_SETTINGS);
         if (characteristic != null) {
             builder.notify(characteristic, true);
             int location = MiBandCoordinator.getWearLocation(getDevice().getAddress());
@@ -625,11 +687,16 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     public void onReboot() {
         try {
             TransactionBuilder builder = performInitialized("Reboot");
-            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_FIRMWARE), new byte[] { MiBand2Service.COMMAND_FIRMWARE_REBOOT});
+            sendReboot(builder);
             builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to reboot MI", ex);
         }
+    }
+
+    public MiBand2Support sendReboot(TransactionBuilder builder) {
+        builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_FIRMWARE), new byte[] { MiBand2Service.COMMAND_FIRMWARE_REBOOT});
+        return this;
     }
 
     @Override
@@ -1395,6 +1462,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         LOG.info("phase3Initialize...");
         setDateDisplay(builder);
         setTimeFormat(builder);
+        setUserInfo(builder);
         setWearLocation(builder);
         setFitnessGoal(builder);
         setDisplayItems(builder);

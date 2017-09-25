@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2017 Andreas Shimokawa
 
     This file is part of Gadgetbridge.
 
@@ -14,25 +14,18 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.miband2;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip;
 
-public enum FirmwareType {
-    FIRMWARE((byte) 0),
-    FONT((byte) 1),
-    // Amazfit Bip only from here on
-    RES((byte) 2),
-    GPS((byte) 3),
-    GPS_CEP((byte) 4),
-    GPS_ALMANAC((byte)5),
-    INVALID(Byte.MIN_VALUE);
 
-    private final byte value;
-
-    FirmwareType(byte value) {
-        this.value = value;
-    }
-
-    public byte getValue() {
-        return value;
-    }
+public class AmazfitBipEvent {
+    public static final byte FELL_ASLEEP = 0x01;
+    public static final byte WOKE_UP = 0x02;
+    public static final byte STEPSGOAL_REACHED = 0x03;
+    public static final byte BUTTON_PRESSED = 0x04;
+    public static final byte START_NONWEAR = 0x06;
+    public static final byte CALL_REJECT = 0x07;
+    public static final byte CALL_ACCEPT = 0x09;
+    public static final byte ALARM_TOGGLED = 0x0a;
+    public static final byte BUTTON_PRESSED_LONG = 0x0b;
+    public static final byte TICK_30MIN = 0x0e; // unsure
 }

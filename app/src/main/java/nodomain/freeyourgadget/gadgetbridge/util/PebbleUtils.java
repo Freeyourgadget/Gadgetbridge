@@ -16,6 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import android.graphics.Color;
+
 public class PebbleUtils {
     public static String getPlatformName(String hwRev) {
         String platformName;
@@ -62,5 +64,30 @@ public class PebbleUtils {
     public static boolean hasHealth(String hwRev) {
         String platformName = getPlatformName(hwRev);
         return !"aplite".equals(platformName);
+    }
+
+    /**
+     * Get the closest Pebble-compatible color from the associated Android Color Integer.
+     * @param color An Android Color Integer to convert
+     * @return A byte representing the closest Pebble color.
+     */
+    public static byte getPebbleColor(int color) {
+        // 85 here is determined by dividing 255 by 3, or reducing an 8-bit color to a 2-bit color. (2^3 = 8)
+
+        int colorRed = ((color >> 16) & 0xFF) / 85;
+        int colorGreen = ((color >> 8) & 0xFF) / 85;
+        int colorBlue = (color & 0xFF) / 85;
+
+        // Bit shifting, woo!
+        return (byte) ((0b11 << 6) | ((colorRed & 0b11) << 4) | ((colorGreen & 0b11) << 2) | (colorBlue & 0b11));
+    }
+
+    /**
+     * Get the closest Pebble-compatible color from the associated Hex string.
+     * @param colorHex A Hex-formatted string (#FFDD00) to convert.
+     * @return A byte representing the closest Pebble color.
+     */
+    public static byte getPebbleColor(String colorHex) {
+        return getPebbleColor(Color.parseColor(colorHex));
     }
 }

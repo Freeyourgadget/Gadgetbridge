@@ -97,6 +97,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
         UUID characteristicUUID = characteristic.getUuid();
         if (fwCControlChar.getUuid().equals(characteristicUUID)) {
             handleNotificationNotif(characteristic.getValue());
+            return true; // don't let anyone else handle it
         } else {
             super.onCharacteristicChanged(gatt, characteristic);
         }
@@ -134,7 +135,9 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
                     }
                     case MiBand2Service.COMMAND_FIRMWARE_CHECKSUM: {
                         if (getFirmwareInfo().getFirmwareType() == FirmwareType.FIRMWARE) {
-                            getSupport().onReboot();
+                            TransactionBuilder builder = performInitialized("reboot");
+                            getSupport().sendReboot(builder);
+                            builder.queue(getQueue());
                         } else {
                             GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_update_complete), false, 100, getContext());
                             done();
@@ -142,6 +145,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
                         break;
                     }
                     case MiBand2Service.COMMAND_FIRMWARE_REBOOT: {
+                        LOG.info("Reboot command successfully sent.");
                         GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_update_complete), false, 100, getContext());
 //                    getSupport().onReboot();
                         done();

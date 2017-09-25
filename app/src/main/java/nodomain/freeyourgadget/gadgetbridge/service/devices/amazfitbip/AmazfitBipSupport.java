@@ -30,12 +30,11 @@ import java.nio.ByteOrder;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
-import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipIcon;
 import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipWeatherConditions;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband2.MiBand2Icon;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
@@ -44,6 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.NewAlert;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip.operations.AmazfitBipFetchLogsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip.operations.AmazfitBipUpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Support;
@@ -82,7 +82,7 @@ public class AmazfitBipSupport extends MiBand2Support {
             AlertNotificationProfile<?> profile = new AlertNotificationProfile(this);
             profile.setMaxLength(230);
 
-            int customIconId = AmazfitBipIcon.mapToIconId(notificationSpec.type);
+            byte customIconId = MiBand2Icon.mapToIconId(notificationSpec.type);
 
             AlertCategory alertCategory = AlertCategory.CustomMiBand2;
 
@@ -118,15 +118,42 @@ public class AmazfitBipSupport extends MiBand2Support {
         }
         GBDeviceEventCallControl callCmd = new GBDeviceEventCallControl();
 
-        if (value[0] == 0x07) {
-            callCmd.event = GBDeviceEventCallControl.Event.REJECT;
-        } else if (value[0] == 0x09) {
-            callCmd.event = GBDeviceEventCallControl.Event.ACCEPT;
-        } else {
-            LOG.info("Unhandled button press: " + Logging.formatBytes(value));
-            return;
+        switch (value[0]) {
+            case AmazfitBipEvent.CALL_REJECT:
+                callCmd.event = GBDeviceEventCallControl.Event.REJECT;
+                evaluateGBDeviceEvent(callCmd);
+                break;
+            case AmazfitBipEvent.CALL_ACCEPT:
+                callCmd.event = GBDeviceEventCallControl.Event.ACCEPT;
+                evaluateGBDeviceEvent(callCmd);
+                break;
+            case AmazfitBipEvent.BUTTON_PRESSED:
+                LOG.info("button pressed");
+                break;
+            case AmazfitBipEvent.BUTTON_PRESSED_LONG:
+                LOG.info("button long-pressed ");
+                break;
+            case AmazfitBipEvent.START_NONWEAR:
+                LOG.info("non-wear start detected");
+                break;
+            case AmazfitBipEvent.ALARM_TOGGLED:
+                LOG.info("An alarm was toggled"); // TODO: sync alarms watch -> GB
+                break;
+            case AmazfitBipEvent.FELL_ASLEEP:
+                LOG.info("Fell asleep");
+                break;
+            case AmazfitBipEvent.WOKE_UP:
+                LOG.info("Woke up");
+                break;
+            case AmazfitBipEvent.STEPSGOAL_REACHED:
+                LOG.info("Steps goal reached");
+                break;
+            case AmazfitBipEvent.TICK_30MIN:
+                LOG.info("Tick 30 min (?)");
+                break;
+            default:
+                LOG.warn("unhandled event " + value[0]);
         }
-        evaluateGBDeviceEvent(callCmd);
     }
 
     @Override
@@ -195,6 +222,15 @@ public class AmazfitBipSupport extends MiBand2Support {
             builder.queue(getQueue());
         } catch (Exception ex) {
             LOG.error("Error sending weather information to the Bip", ex);
+        }
+    }
+
+    @Override
+    public void onTestNewFunction() {
+        try {
+            new AmazfitBipFetchLogsOperation(this).perform();
+        } catch (IOException ex) {
+            LOG.error("Unable to fetch logs", ex);
         }
     }
 
