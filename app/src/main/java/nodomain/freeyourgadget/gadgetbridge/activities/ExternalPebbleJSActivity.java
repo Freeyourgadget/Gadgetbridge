@@ -24,7 +24,9 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -34,9 +36,13 @@ import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.GBChromeClient;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.GBWebClient;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.JSInterface;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton;
 
@@ -46,41 +52,77 @@ public class ExternalPebbleJSActivity extends AbstractGBActivity {
 
     private Uri confUri;
     private WebView myWebView;
+    public static final String START_BG_WEBVIEW = "start_webview";
+    public static final String SHOW_CONFIG = "configure";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        GBDevice currentDevice;
+        UUID currentUUID;
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            WebViewSingleton.runJavascriptInterface((GBDevice) extras.getParcelable(GBDevice.EXTRA_DEVICE), (UUID) extras.getSerializable(DeviceService.EXTRA_APP_UUID));
+            currentDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
+            currentUUID = (UUID) extras.getSerializable(DeviceService.EXTRA_APP_UUID);
+
+            if (GBApplication.getPrefs().getBoolean("pebble_enable_background_javascript", false)) {
+                if (extras.getBoolean(SHOW_CONFIG, false)) {
+                    WebViewSingleton.runJavascriptInterface(currentDevice, currentUUID);
+                } else if (extras.getBoolean(START_BG_WEBVIEW, false)) {
+                    WebViewSingleton.getInstance(this);
+                    finish();
+                }
+            }
         } else {
             throw new IllegalArgumentException("Must provide a device when invoking this activity");
         }
 
-        setContentView(R.layout.activity_external_pebble_js);
 
-        WebViewSingleton.updateActivityContext(this);
-        myWebView = WebViewSingleton.getWebView();
-        myWebView.setWillNotDraw(false);
-        myWebView.removeJavascriptInterface("GBActivity");
-        myWebView.addJavascriptInterface(new ActivityJSInterface(ExternalPebbleJSActivity.this), "GBActivity");
-        FrameLayout fl = (FrameLayout) findViewById(R.id.webview_placeholder);
-        fl.addView(myWebView);
-
-        myWebView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
-            @Override
-            public void onViewAttachedToWindow(View v) {
-                v.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        if (GBApplication.getPrefs().getBoolean("pebble_enable_background_javascript", false)) {
+            setContentView(R.layout.activity_external_pebble_js);
+            myWebView = WebViewSingleton.getWebView(this);
+            if (myWebView.getParent() != null) {
+                ((ViewGroup) myWebView.getParent()).removeView(myWebView);
             }
+            myWebView.setWillNotDraw(false);
+            myWebView.removeJavascriptInterface("GBActivity");
+            myWebView.addJavascriptInterface(new ActivityJSInterface(ExternalPebbleJSActivity.this), "GBActivity");
+            FrameLayout fl = (FrameLayout) findViewById(R.id.webview_placeholder);
+            fl.addView(myWebView);
 
-            @Override
-            public void onViewDetachedFromWindow(View v) {
-                v.removeOnAttachStateChangeListener(this);
-                FrameLayout fl = (FrameLayout) findViewById(R.id.webview_placeholder);
-                fl.removeAllViews();
-            }
-        });
+            myWebView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+                @Override
+                public void onViewAttachedToWindow(View v) {
+                    v.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+                }
+
+                @Override
+                public void onViewDetachedFromWindow(View v) {
+                    v.removeOnAttachStateChangeListener(this);
+                    FrameLayout fl = (FrameLayout) findViewById(R.id.webview_placeholder);
+                    fl.removeAllViews();
+                }
+            });
+        } else {
+            setContentView(R.layout.activity_legacy_external_pebble_js);
+            myWebView = (WebView) findViewById(R.id.configureWebview);
+            myWebView.clearCache(true);
+            myWebView.setWebViewClient(new GBWebClient());
+            myWebView.setWebChromeClient(new GBChromeClient());
+            WebSettings webSettings = myWebView.getSettings();
+            webSettings.setJavaScriptEnabled(true);
+            //needed to access the DOM
+            webSettings.setDomStorageEnabled(true);
+            //needed for localstorage
+            webSettings.setDatabaseEnabled(true);
+
+            JSInterface gbJSInterface = new JSInterface(currentDevice, currentUUID);
+            myWebView.addJavascriptInterface(gbJSInterface, "GBjs");
+            myWebView.addJavascriptInterface(new ActivityJSInterface(ExternalPebbleJSActivity.this), "GBActivity");
+
+            myWebView.loadUrl("file:///android_asset/app_config/configure.html");
+
+        }
     }
 
     @Override
@@ -119,7 +161,7 @@ public class ExternalPebbleJSActivity extends AbstractGBActivity {
 
         Context mContext;
 
-        public ActivityJSInterface(Context c) {
+        ActivityJSInterface(Context c) {
             mContext = c;
         }
 

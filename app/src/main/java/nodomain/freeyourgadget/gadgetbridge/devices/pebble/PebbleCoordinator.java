@@ -25,7 +25,6 @@ import android.support.annotation.NonNull;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
-import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -154,11 +153,6 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsCalendarEvents() {
-        return true;
-    }
-
-    @Override
-    public boolean needsBackgroundWebView(GBDevice device) {
         return true;
     }
 

@@ -363,10 +363,6 @@
             android:label="@string/title_activity_discovery"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
-            android:name=".activities.BackgroundWebViewActivity"
-            android:theme="@android:style/Theme.Translucent"
-            android:label="@string/activity_web_view"/>
-        <activity
             android:name=".activities.AndroidPairingActivity"
             android:label="@string/title_activity_android_pairing" />
         <activity

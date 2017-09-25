@@ -47,7 +47,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import nodomain.freeyourgadget.gadgetbridge.activities.BackgroundWebViewActivity;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
@@ -58,7 +57,6 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.service.NotificationCollectorMonitorService;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -167,8 +165,6 @@ public class GBApplication extends Application {
         String language = prefs.getString("language", "default");
         setLanguage(language);
 
-        createWebViewActivity();
-
         deviceService = createDeviceService();
         loadAppsBlackList();
         loadCalendarsBlackList();
@@ -177,14 +173,6 @@ public class GBApplication extends Application {
             notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             //the following will ensure the notification manager is kept alive
             startService(new Intent(this, NotificationCollectorMonitorService.class));
-        }
-    }
-
-    private void createWebViewActivity() {
-        if (DeviceHelper.getInstance().needsBackgroundWebView(this)) {
-            Intent intent = new Intent(getContext(), BackgroundWebViewActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
         }
     }
 

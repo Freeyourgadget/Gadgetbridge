@@ -424,6 +424,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                 Intent startIntent = new Intent(getContext().getApplicationContext(), ExternalPebbleJSActivity.class);
                 startIntent.putExtra(DeviceService.EXTRA_APP_UUID, selectedApp.getUUID());
                 startIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
+                startIntent.putExtra(ExternalPebbleJSActivity.SHOW_CONFIG, true);
                 startActivity(startIntent);
                 return true;
             case R.id.appmanager_app_openinstore:
