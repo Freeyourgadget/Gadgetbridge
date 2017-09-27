@@ -55,6 +55,10 @@ public class AmazfitBipSupport extends MiBand2Support {
 
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitBipSupport.class);
 
+    public AmazfitBipSupport() {
+        super(LOG);
+    }
+
     @Override
     public NotificationStrategy getNotificationStrategy() {
         return new AmazfitBipTextNotificationStrategy(this);
