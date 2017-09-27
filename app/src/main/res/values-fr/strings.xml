@@ -177,7 +177,7 @@
   <string name="action_discover">Connecter un nouvel appareil</string>
   <string name="device_with_rssi">%1$s (%2$s)</string>
   <string name="title_activity_android_pairing">Appairer l\'appareil</string>
-  <string name="android_pairing_hint">Utiliser le l\'appairage Bluetooth d\'Android pour jumeler l\'appareil</string>
+  <string name="android_pairing_hint">Utiliser l\'appairage Bluetooth d\'Android pour jumeler l\'appareil.</string>
   <string name="title_activity_mi_band_pairing">Appairer votre Mi Band</string>
   <string name="pairing">Jumelage avec %s…</string>
   <string name="pairing_creating_bond_with">Création d’un lien avec %1$s (%2$s)</string>
@@ -228,7 +228,7 @@
   <string name="stats_x_axis_label">Total de minutes</string>
   <string name="stats_y_axis_label">Pas par minute</string>
   <string name="control_center_find_lost_device">Trouver l\'appareil perdu</string>
-  <string name="control_center_cancel_to_stop_vibration">Annuler pour arrêter les vibrations</string>
+  <string name="control_center_cancel_to_stop_vibration">Annuler pour arrêter les vibrations.</string>
   <string name="title_activity_charts">Votre activité</string>
   <string name="title_activity_set_alarm">Configurer les alarmes</string>
   <string name="controlcenter_start_configure_alarms">Configurer les alarmes</string>
@@ -399,10 +399,10 @@ NOTE: la base de données sera bien évidement plus grande !</string>
   <string name="mi2_dnd_automatic">Automatique (détection de sommeil)</string>
   <string name="mi2_dnd_scheduled">Programmé (intervalle de temps)</string>
   <string name="discovery_attempting_to_pair">Tentative de jumelage avec %1$s</string>
-  <string name="discovery_bonding_failed_immediately">Le lien avec %1$s a échoué instantanément</string>
+  <string name="discovery_bonding_failed_immediately">Le lien avec %1$s a échoué instantanément.</string>
   <string name="discovery_trying_to_connect_to">Tentative de connexion à: %1$s</string>
-  <string name="discovery_enable_bluetooth">Activez le Bluetooth pour trouver des dispositifs</string>
-  <string name="discovery_successfully_bonded">Correctement lié à %1$s</string>
+  <string name="discovery_enable_bluetooth">Activez le Bluetooth pour trouver des dispositifs.</string>
+  <string name="discovery_successfully_bonded">Correctement lié à %1$s.</string>
   <string name="discovery_pair_title">Appairer avec %1$s ?</string>
   <string name="discovery_pair_question">Sélectionnez Jumeler pour associer vos dispositifs. Si cela échoue, essayez à nouveau sans jumelage.</string>
   <string name="discovery_yes_pair">Jumelage</string>
