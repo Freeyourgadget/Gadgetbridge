@@ -19,6 +19,8 @@ package nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip;
 
 import java.util.UUID;
 
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service.ENDPOINT_DISPLAY;
+
 public class AmazfitBipService {
     public static final UUID UUID_CHARACTERISTIC_WEATHER = UUID.fromString("0000000e-0000-3512-2118-0009af100700");
 
@@ -26,4 +28,8 @@ public class AmazfitBipService {
     public static final byte[] COMMAND_REQUEST_GPS_VERSION = new byte[]{0x0e};
 
     public static final byte COMMAND_ACTIVITY_DATA_TYPE_DEBUGLOGS = 0x07;
+
+    public static final byte[] COMMAND_SET_LANGUAGE_SIMPLIFIED_CHINESE = new byte[]{ENDPOINT_DISPLAY, 0x13, 0x00, 0x00};
+    public static final byte[] COMMAND_SET_LANGUAGE_TRADITIONAL_CHINESE = new byte[]{ENDPOINT_DISPLAY, 0x13, 0x00, 0x01};
+    public static final byte[] COMMAND_SET_LANGUAGE_ENGLISH = new byte[]{ENDPOINT_DISPLAY, 0x13, 0x00, 0x02};
 }
