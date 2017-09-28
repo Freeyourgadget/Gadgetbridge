@@ -225,11 +225,6 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         GregorianCalendar now = BLETypeConversions.createCalendar();
         byte[] bytes = getTimeBytes(now, TimeUnit.SECONDS);
         builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_CURRENT_TIME), bytes);
-
-//        byte[] localtime = BLETypeConversions.calendarToLocalTimeBytes(now);
-//        builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_LOCAL_TIME_INFORMATION), localtime);
-//        builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_CURRENT_TIME), new byte[] {0x2, 0x00});
-//        builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOQN_CHARACTERISTIC0), new byte[] {0x03,0x00,(byte)0x8e,(byte)0xce,0x5a,0x09,(byte)0xb3,(byte)0xd8,0x55,0x57,0x10,0x2a,(byte)0xed,0x7d,0x6b,0x78,(byte)0xc5,(byte)0xd2});
         return this;
     }
 
