@@ -154,7 +154,11 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     private boolean alarmClockRinging;
 
     public MiBand2Support() {
-        super(LOG);
+        this(LOG);
+    }
+
+    public MiBand2Support(Logger logger) {
+        super(logger);
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ACCESS);
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ATTRIBUTE);
         addSupportedService(GattService.UUID_SERVICE_HEART_RATE);

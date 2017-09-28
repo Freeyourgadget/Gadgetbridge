@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.Locale;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 
@@ -54,6 +55,10 @@ import nodomain.freeyourgadget.gadgetbridge.util.Version;
 public class AmazfitBipSupport extends MiBand2Support {
 
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitBipSupport.class);
+
+    public AmazfitBipSupport() {
+        super(LOG);
+    }
 
     @Override
     public NotificationStrategy getNotificationStrategy() {
@@ -267,10 +272,31 @@ public class AmazfitBipSupport extends MiBand2Support {
         return this;
     }
 
+    private AmazfitBipSupport setLanguage(TransactionBuilder builder) {
+        String language = Locale.getDefault().getLanguage();
+        String country = Locale.getDefault().getCountry();
+
+        LOG.info("Setting watch language, phone language = " + language + " country = " + country);
+
+        byte[] command;
+        if (language.equals("zh")) {
+            if (country.equals("TW") || country.equals("HK") || country.equals("MO")) { // Taiwan, Hong Kong,  Macao
+                command = AmazfitBipService.COMMAND_SET_LANGUAGE_TRADITIONAL_CHINESE;
+            } else {
+                command = AmazfitBipService.COMMAND_SET_LANGUAGE_SIMPLIFIED_CHINESE;
+            }
+        } else {
+            command = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
+        }
+        builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
+        return this;
+    }
+
     @Override
     public void phase2Initialize(TransactionBuilder builder) {
         super.phase2Initialize(builder);
         LOG.info("phase2Initialize...");
+        setLanguage(builder);
         requestGPSVersion(builder);
     }
 }

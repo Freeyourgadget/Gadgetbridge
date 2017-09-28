@@ -1,5 +1,8 @@
 ### Changelog
 
+#### Version 0.21.3
+* Amazfit Bip: Auto-switch language on connect (English, Simplified Chinese, Traditional Chinese), requires FW 0.0.9.14+
+
 #### Version 0.21.2
 * Amazfit Bip: Support flashing CEP and ALM files for AGPS
 * Amazfit Bip: Initial experimental support for fetching logs from the watch

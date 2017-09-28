@@ -56,11 +56,13 @@ public class AmazfitBipFirmwareInfo extends Mi2FirmwareInfo {
         crcToVersion.put(27668, "0.0.8.96");
         crcToVersion.put(60173, "0.0.8.97");
         crcToVersion.put(3462, "0.0.8.98");
+        crcToVersion.put(55420, "0.0.9.14");
 
         // resources
         crcToVersion.put(12586, "RES 0.0.8.74");
         crcToVersion.put(34068, "RES 0.0.8.88");
         crcToVersion.put(59839, "RES 0.0.8.96-98");
+        crcToVersion.put(50401, "RES 0.0.9.14");
 
         // gps
         crcToVersion.put(61520, "GPS 9367,8f79a91,0,0,");
