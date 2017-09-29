@@ -422,4 +422,9 @@
     <string name="mi2_prefs_button_action_vibrate_summary">ボタンの動作をトリガーに band の振動を有効にします</string>
     <string name="mi2_prefs_button_press_count_max_delay">ボタンを押す間の最大遅延時間</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">ボタンを押す間隔の最大遅延時間 (ミリ秒単位)</string>
-    </resources>
+    <string name="mi2_prefs_button_press_count_match_delay">ボタン操作の後に遅延</string>
+    <string name="mi2_prefs_button_press_count_match_delay_summary">1回のボタン操作に一致した後の遅滞 (数字は button_id インテント拡張内) 0 の場合はすぐ</string>
+    <string name="_pebble_watch_open_on_phone">電話で開く</string>
+    <string name="_pebble_watch_mute">ミュート</string>
+    <string name="_pebble_watch_reply">返信</string>
+</resources>
