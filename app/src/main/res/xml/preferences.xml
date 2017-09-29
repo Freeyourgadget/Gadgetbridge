@@ -34,6 +34,13 @@
             android:entryValues="@array/pref_language_values"
             android:defaultValue="default"
             android:summary="%s" />
+        <ListPreference
+            android:defaultValue="metric"
+            android:entries="@array/pref_entries_unit_system"
+            android:entryValues="@array/pref_values_unit_system"
+            android:key="measurement_system"
+            android:summary="%s"
+            android:title="@string/pref_title_unit_system" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="minimize_priority"
@@ -457,14 +464,6 @@
                     android:defaultValue="true"
                     android:key="hplus_alldayhr"
                     android:title="@string/prefs_title_all_day_heart_rate" />
-
-                <ListPreference
-                    android:defaultValue="metric"
-                    android:entries="@array/pref_entries_unit_system"
-                    android:entryValues="@array/pref_values_unit_system"
-                    android:key="hplus_unit"
-                    android:title="@string/pref_title_unit_system"
-                    android:summary="%s" />
 
             </PreferenceCategory>
 

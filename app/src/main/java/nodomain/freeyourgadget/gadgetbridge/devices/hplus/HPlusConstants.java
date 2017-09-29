@@ -127,7 +127,7 @@ public final class HPlusConstants {
 
     public static final String PREF_HPLUS_SCREENTIME = "hplus_screentime";
     public static final String PREF_HPLUS_ALLDAYHR = "hplus_alldayhr";
-    public static final String PREF_HPLUS_UNIT = "hplus_unit";
+    public static final String PREF_HPLUS_UNIT = "measurement_system";
     public static final String PREF_HPLUS_TIMEFORMAT = "hplus_timeformat";
     public static final String PREF_HPLUS_WRIST = "hplus_wrist";
     public static final String PREF_HPLUS_SIT_START_TIME = "hplus_sit_start_time";
