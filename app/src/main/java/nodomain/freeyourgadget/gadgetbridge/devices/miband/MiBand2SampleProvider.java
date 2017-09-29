@@ -47,13 +47,23 @@ public class MiBand2SampleProvider extends AbstractMiBandSampleProvider {
     // 12 = definitely wake up
     // 17 = definitely not sleep related
 
+    // Firmware >1.0.1.47 changed sleep detection
+    // Those activities are marked wit NEWFW
+    // 112 (with intensity >0) - Light sleep
+    // 122 - Deep sleep
+    // 28 - waking up + walking in the same minute
+    // 105 - waking up but staying in bed (no steps but high raw intensity)
+    // 123 - start of sleep
+
     public static final int TYPE_UNSET = -1;
     public static final int TYPE_NO_CHANGE = 0;
     public static final int TYPE_ACTIVITY = 1;
     public static final int TYPE_NONWEAR = 3;
     public static final int TYPE_CHARGING = 6;
     public static final int TYPE_LIGHT_SLEEP = 9;
+    public static final int TYPE_LIGHT_SLEEP_NEWFW = 112;
     public static final int TYPE_DEEP_SLEEP = 11;
+    public static final int TYPE_DEEP_SLEEP_NEWFW = 122;
     public static final int TYPE_WAKE_UP = 12;
     // appears to be a measurement problem resulting in type = 10 and intensity = 20, at least with fw 1.0.0.39
     public static final int TYPE_IGNORE = 10;
@@ -113,8 +123,10 @@ public class MiBand2SampleProvider extends AbstractMiBandSampleProvider {
     public int normalizeType(int rawType) {
         switch (rawType) {
             case TYPE_DEEP_SLEEP:
+            case TYPE_DEEP_SLEEP_NEWFW:
                 return ActivityKind.TYPE_DEEP_SLEEP;
             case TYPE_LIGHT_SLEEP:
+            case TYPE_LIGHT_SLEEP_NEWFW:
                 return ActivityKind.TYPE_LIGHT_SLEEP;
             case TYPE_ACTIVITY:
                 return ActivityKind.TYPE_ACTIVITY;
