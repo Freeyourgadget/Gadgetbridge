@@ -61,6 +61,8 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_
 public class SettingsActivity extends AbstractSettingsActivity {
     private static final Logger LOG = LoggerFactory.getLogger(SettingsActivity.class);
 
+    public static final String PREF_MEASUREMENT_SYSTEM = "measurement_system";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -172,6 +174,20 @@ public class SettingsActivity extends AbstractSettingsActivity {
 
         });
 
+        final Preference unit = findPreference(PREF_MEASUREMENT_SYSTEM);
+        unit.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MEASUREMENT_SYSTEM);
+                    }
+                });
+                return true;
+            }
+        });
+
         if (!GBApplication.isRunningMarshmallowOrLater()) {
             pref = findPreference("notification_filter");
             PreferenceCategory category = (PreferenceCategory) findPreference("pref_key_notifications");
@@ -266,6 +282,13 @@ public class SettingsActivity extends AbstractSettingsActivity {
         audioPlayer.setEntries(newEntries);
         audioPlayer.setEntryValues(newValues);
         audioPlayer.setDefaultValue(newValues[0]);
+    }
+
+    /*
+     * delayed execution so that the preferences are applied first
+     */
+    private void invokeLater(Runnable runnable) {
+        getListView().post(runnable);
     }
 
     @Override

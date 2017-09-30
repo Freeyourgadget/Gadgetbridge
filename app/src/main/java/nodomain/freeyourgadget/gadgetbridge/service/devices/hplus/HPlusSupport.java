@@ -45,6 +45,7 @@ import java.util.List;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
@@ -646,8 +647,18 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendConfiguration(String config) {
-        LOG.info("Send Configuration: " + config);
-
+        TransactionBuilder builder;
+        try {
+            builder = performInitialized("Sending configuration for option: " + config);
+            switch (config) {
+                case SettingsActivity.PREF_MEASUREMENT_SYSTEM:
+                    setUnit(builder);
+                    break;
+            }
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast("Error setting configuration", Toast.LENGTH_LONG, GB.ERROR, e);
+        }
     }
 
     @Override
