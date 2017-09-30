@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.no1f1;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.net.Uri;
+import android.text.format.DateFormat;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -388,11 +389,23 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
         });
 
         // display settings
-        builder.write(ctrlCharacteristic, new byte[]{
+        byte[] displayBytes = new byte[]{
                 No1F1Constants.CMD_DISPLAY_SETTINGS,
-                0x01, // 1 - display distance in kilometers, 2 - in miles
-                0x01 // 1 - display 24-hour clock, 2 - for 12-hour with AM/PM
-        });
+                0x00, // 1 - display distance in kilometers, 2 - in miles
+                0x00 // 1 - display 24-hour clock, 2 - for 12-hour with AM/PM
+        };
+        String units = GBApplication.getPrefs().getString("measurement_system", getContext().getString(R.string.p_unit_metric));
+        if (units.equals(getContext().getString(R.string.p_unit_metric))) {
+            displayBytes[1] = 1;
+        } else {
+            displayBytes[1] = 2;
+        }
+        if (DateFormat.is24HourFormat(getContext())) {
+            displayBytes[2] = 1;
+        } else {
+            displayBytes[2] = 2;
+        }
+        builder.write(ctrlCharacteristic, displayBytes);
 
         // heart rate measurement mode
         builder.write(ctrlCharacteristic, new byte[]{
@@ -553,7 +566,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                     for (int i = 0; i < samples.size(); i++) {
                         samples.get(i).setDeviceId(deviceId);
                         samples.get(i).setUserId(userId);
-                        if (samples.get(i).getRawIntensity()<7)
+                        if (samples.get(i).getRawIntensity() < 7)
                             samples.get(i).setRawKind(ActivityKind.TYPE_DEEP_SLEEP);
                         else
                             samples.get(i).setRawKind(ActivityKind.TYPE_LIGHT_SLEEP);
@@ -643,16 +656,15 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
     }
 
     private void handleRealtimeHeartRateData(byte[] data) {
-        if (data.length==2)
-        {
-            if (data[1]==(byte) 0x11)
+        if (data.length == 2) {
+            if (data[1] == (byte) 0x11)
                 LOG.info("Heart rate measurement started.");
             else
                 LOG.info("Heart rate measurement stopped.");
             return;
         }
         // Check if data is valid. Otherwise ignore sample.
-        if (data[2]==0) {
+        if (data[2] == 0) {
             No1F1ActivitySample sample = new No1F1ActivitySample();
             sample.setTimestamp((int) (GregorianCalendar.getInstance().getTimeInMillis() / 1000L));
             sample.setHeartRate(data[3] & 0xff);
