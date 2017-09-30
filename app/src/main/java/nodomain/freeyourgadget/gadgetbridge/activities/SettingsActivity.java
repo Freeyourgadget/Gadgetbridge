@@ -184,6 +184,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
                         GBApplication.deviceService().onSendConfiguration(PREF_MEASUREMENT_SYSTEM);
                     }
                 });
+                preference.setSummary(newVal.toString());
                 return true;
             }
         });
@@ -294,7 +295,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
     @Override
     protected String[] getPreferenceKeysWithSummary() {
         return new String[]{
-                "measurement_system",
                 "pebble_emu_addr",
                 "pebble_emu_port",
                 "pebble_reconnect_attempts",
