@@ -35,6 +35,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
@@ -143,6 +144,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             case No1F1Constants.CMD_NOTIFICATION:
             case No1F1Constants.CMD_ICON:
             case No1F1Constants.CMD_DEVICE_SETTINGS:
+            case No1F1Constants.CMD_DISPLAY_SETTINGS:
                 return true;
             default:
                 LOG.warn("Unhandled characteristic change: " + characteristicUUID + " code: " + Arrays.toString(data));
@@ -316,7 +318,18 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendConfiguration(String config) {
-
+        TransactionBuilder builder;
+        try {
+            builder = performInitialized("Sending configuration for option: " + config);
+            switch (config) {
+                case SettingsActivity.PREF_MEASUREMENT_SYSTEM:
+                    setDisplaySettings(builder);
+                    break;
+            }
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast("Error setting configuration", Toast.LENGTH_LONG, GB.ERROR, e);
+        }
     }
 
     @Override
@@ -332,6 +345,33 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
     @Override
     public boolean useAutoConnect() {
         return true;
+    }
+
+    /**
+     * Set display settings (time format and measurement system)
+     *
+     * @param transaction
+     * @return
+     */
+    private No1F1Support setDisplaySettings(TransactionBuilder transaction) {
+        byte[] displayBytes = new byte[]{
+                No1F1Constants.CMD_DISPLAY_SETTINGS,
+                0x00, // 1 - display distance in kilometers, 2 - in miles
+                0x00 // 1 - display 24-hour clock, 2 - for 12-hour with AM/PM
+        };
+        String units = GBApplication.getPrefs().getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, getContext().getString(R.string.p_unit_metric));
+        if (units.equals(getContext().getString(R.string.p_unit_metric))) {
+            displayBytes[1] = 1;
+        } else {
+            displayBytes[1] = 2;
+        }
+        if (DateFormat.is24HourFormat(getContext())) {
+            displayBytes[2] = 1;
+        } else {
+            displayBytes[2] = 2;
+        }
+        transaction.write(ctrlCharacteristic, displayBytes);
+        return this;
     }
 
     private void sendSettings(TransactionBuilder builder) {
@@ -388,24 +428,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                 0x00
         });
 
-        // display settings
-        byte[] displayBytes = new byte[]{
-                No1F1Constants.CMD_DISPLAY_SETTINGS,
-                0x00, // 1 - display distance in kilometers, 2 - in miles
-                0x00 // 1 - display 24-hour clock, 2 - for 12-hour with AM/PM
-        };
-        String units = GBApplication.getPrefs().getString("measurement_system", getContext().getString(R.string.p_unit_metric));
-        if (units.equals(getContext().getString(R.string.p_unit_metric))) {
-            displayBytes[1] = 1;
-        } else {
-            displayBytes[1] = 2;
-        }
-        if (DateFormat.is24HourFormat(getContext())) {
-            displayBytes[2] = 1;
-        } else {
-            displayBytes[2] = 2;
-        }
-        builder.write(ctrlCharacteristic, displayBytes);
+        setDisplaySettings(builder);
 
         // heart rate measurement mode
         builder.write(ctrlCharacteristic, new byte[]{
