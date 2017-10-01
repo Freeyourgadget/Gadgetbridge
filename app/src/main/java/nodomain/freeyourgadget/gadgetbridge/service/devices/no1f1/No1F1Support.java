@@ -68,6 +68,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
     public BluetoothGattCharacteristic ctrlCharacteristic = null;
     public BluetoothGattCharacteristic measureCharacteristic = null;
     private List<No1F1ActivitySample> samples = new ArrayList<>();
+    private byte crc = 0;
 
     public No1F1Support() {
         super(LOG);
@@ -246,6 +247,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
     public void onFetchActivityData() {
         try {
             samples.clear();
+            crc = 0;
             TransactionBuilder builder = performInitialized("fetchSteps");
             builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.busy_task_fetch_activity_data), getContext()));
             byte[] msg = new byte[]{
@@ -526,8 +528,14 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
 
     private void handleStepData(byte[] data) {
         if (data[1] == (byte) 0xfd) {
-            // TODO Check CRC
-            if (samples.size() > 0) {
+            LOG.info("CRC received: " + (data[2] & 0xff) + ", calculated: " + (crc & 0xff));
+            if (data[2] != crc) {
+                GB.toast(getContext(), "Incorrect CRC. Try fetching data again.", Toast.LENGTH_LONG, GB.ERROR);
+                if (getDevice().isBusy()) {
+                    getDevice().unsetBusyTask();
+                    getDevice().sendDeviceUpdateIntent(getContext());
+                }
+            } else if (samples.size() > 0) {
                 try (DBHandler dbHandler = GBApplication.acquireDB()) {
                     Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
                     Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
@@ -540,6 +548,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                         provider.addGBActivitySample(samples.get(i));
                     }
                     samples.clear();
+                    crc = 0;
                     LOG.info("Steps data saved");
                     try {
                         TransactionBuilder builder = performInitialized("fetchSleep");
@@ -572,6 +581,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             sample.setSteps(data[6] * 256 + (data[7] & 0xff));
 
             samples.add(sample);
+            crc ^= (data[6] ^ data[7]);
             LOG.info("Received steps data for " + String.format("%1$TD %1$TT", timestamp) + ": " +
                     sample.getSteps() + " steps"
             );
@@ -580,8 +590,14 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
 
     private void handleSleepData(byte[] data) {
         if (data[1] == (byte) 0xfd) {
-            // TODO Check CRC
-            if (samples.size() > 0) {
+            LOG.info("CRC received: " + (data[2] & 0xff) + ", calculated: " + (crc & 0xff));
+            if (data[2] != crc) {
+                GB.toast(getContext(), "Incorrect CRC. Try fetching data again.", Toast.LENGTH_LONG, GB.ERROR);
+                if (getDevice().isBusy()) {
+                    getDevice().unsetBusyTask();
+                    getDevice().sendDeviceUpdateIntent(getContext());
+                }
+            } else if (samples.size() > 0) {
                 try (DBHandler dbHandler = GBApplication.acquireDB()) {
                     Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
                     Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
@@ -596,6 +612,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                         provider.addGBActivitySample(samples.get(i));
                     }
                     samples.clear();
+                    crc = 0;
                     LOG.info("Sleep data saved");
                     try {
                         TransactionBuilder builder = performInitialized("fetchHeartRate");
@@ -628,6 +645,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             sample.setRawIntensity(data[7] * 256 + (data[8] & 0xff));
 
             samples.add(sample);
+            crc ^= (data[7] ^ data[8]);
             LOG.info("Received sleep data for " + String.format("%1$TD %1$TT", timestamp) + ": " +
                     sample.getRawIntensity() + " rolls"
             );
@@ -636,8 +654,14 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
 
     private void handleHeartRateData(byte[] data) {
         if (data[1] == (byte) 0xfd) {
-            // TODO Check CRC
-            if (samples.size() > 0) {
+            LOG.info("CRC received: " + (data[2] & 0xff) + ", calculated: " + (crc & 0xff));
+            if (data[2] != crc) {
+                GB.toast(getContext(), "Incorrect CRC. Try fetching data again.", Toast.LENGTH_LONG, GB.ERROR);
+                if (getDevice().isBusy()) {
+                    getDevice().unsetBusyTask();
+                    getDevice().sendDeviceUpdateIntent(getContext());
+                }
+            } else if (samples.size() > 0) {
                 try (DBHandler dbHandler = GBApplication.acquireDB()) {
                     Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
                     Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
@@ -648,6 +672,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                         provider.addGBActivitySample(samples.get(i));
                     }
                     samples.clear();
+                    crc = 0;
                     LOG.info("Heart rate data saved");
                     if (getDevice().isBusy()) {
                         getDevice().unsetBusyTask();
@@ -672,6 +697,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             sample.setHeartRate(data[7] & 0xff);
 
             samples.add(sample);
+            crc ^= (data[6] ^ data[7]);
             LOG.info("Received heart rate data for " + String.format("%1$TD %1$TT", timestamp) + ": " +
                     sample.getHeartRate() + " BPM"
             );
