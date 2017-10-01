@@ -35,6 +35,7 @@ import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -202,7 +203,7 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static byte getUnit(String address) {
-        String units = prefs.getString(HPlusConstants.PREF_HPLUS_UNIT, getContext().getString(R.string.p_unit_metric));
+        String units = prefs.getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, getContext().getString(R.string.p_unit_metric));
 
         if(units.equals(getContext().getString(R.string.p_unit_metric))){
             return HPlusConstants.ARG_UNIT_METRIC;

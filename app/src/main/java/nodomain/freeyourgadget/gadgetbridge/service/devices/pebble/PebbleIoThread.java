@@ -571,20 +571,6 @@ class PebbleIoThread extends GBDeviceIoThread {
     }
 
     void installApp(Uri uri, int appId) {
-        if (uri.equals(Uri.parse("fake://health"))) {
-            write(mPebbleProtocol.encodeActivateHealth(true));
-            write(mPebbleProtocol.encodeSetSaneDistanceUnit(true));
-            return;
-        }
-        if (uri.equals(Uri.parse("fake://hrm"))) {
-            write(mPebbleProtocol.encodeActivateHRM(true));
-            return;
-        }
-        if (uri.equals(Uri.parse("fake://weather"))) {
-            write(mPebbleProtocol.encodeActivateWeather(true));
-            return;
-        }
-
         if (mIsInstalling) {
             return;
         }

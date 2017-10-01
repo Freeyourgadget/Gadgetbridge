@@ -1,5 +1,12 @@
 ### Changelog
 
+#### Version 0.21.4
+* Mi2/Bip: Fix sleep detection for newer firmwares
+* Mi2/Bip: Fix ancient bug resulting in wrong activity data at the beginning in diagrams and aggregate data
+* No.1 F1: Support setting time format and distance units (metric/imperial)
+* Pebble: Support setting distance units to miles for Health (need to reactivate Health in App Manager after toggling)
+* HPlus: Make changing distance unit system effective immediately on toggling
+
 #### Version 0.21.3
 * Amazfit Bip: Auto-switch language on connect (English, Simplified Chinese, Traditional Chinese), requires FW 0.0.9.14+
 
