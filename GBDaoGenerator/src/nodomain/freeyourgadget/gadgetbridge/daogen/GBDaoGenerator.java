@@ -43,7 +43,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(16, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(17, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -66,6 +66,7 @@ public class GBDaoGenerator {
         addPebbleMorpheuzActivitySample(schema, user, device);
         addHPlusHealthActivityKindOverlay(schema, user, device);
         addHPlusHealthActivitySample(schema, user, device);
+        addNo1F1ActivitySample(schema, user, device);
 
         addCalendarSyncState(schema, device);
 
@@ -280,6 +281,17 @@ public class GBDaoGenerator {
         activityOverlay.addToOne(user, userId);
         activityOverlay.addByteArrayProperty("rawHPlusHealthData");
         return activityOverlay;
+    }
+
+    private static Entity addNo1F1ActivitySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "No1F1ActivitySample");
+        activitySample.implementsSerializable();
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        addHeartRateProperties(activitySample);
+        return activitySample;
     }
 
     private static void addCommonActivitySampleProperties(String superClass, Entity activitySample, Entity user, Entity device) {

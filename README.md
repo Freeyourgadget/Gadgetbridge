@@ -2,8 +2,16 @@ Gadgetbridge
 ============
 
 Gadgetbridge is an Android (4.4+) application which will allow you to use your
-Pebble or Mi Band without the vendor's closed source application and without the
-need to create an account and transmit any of your data to the vendor's servers.
+Pebble, Mi Band, Amazfit Bit and HPlus device (and more) without the vendor's closed source application
+and without the need to create an account and transmit any of your data to the
+vendor's servers.
+
+
+[Homepage](https://gadgetbridge.org)
+
+[Blog](https://blog.gadgetbridge.org)
+
+[![Donate](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/Gadgetbridge/donate)
 
 [![Build](https://travis-ci.org/Freeyourgadget/Gadgetbridge.svg?branch=master)](https://travis-ci.org/Freeyourgadget/Gadgetbridge)
 
@@ -11,42 +19,23 @@ need to create an account and transmit any of your data to the vendor's servers.
 
 [![Gadgetbridge on F-Droid](/Get_it_on_F-Droid.svg.png?raw=true "Download from F-Droid")](https://f-droid.org/repository/browse/?fdid=nodomain.freeyourgadget.gadgetbridge)
 
-[List of changes](CHANGELOG.md)
+[List of changes](https://github.com/Freeyourgadget/Gadgetbridge/blob/master/CHANGELOG.md)
 
 ## Supported Devices
 * Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round [Wiki section about this device](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble)
 * Pebble 2 (add the device from within Gadgetbridge!) [Wiki section about pebble](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble), most parts apply to Pebble 2 as well
 * Mi Band, Mi Band 1A, Mi Band 1S [Wiki section about this device](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band)
 * Mi Band 2 [Wiki section about mi band](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Mi-Band), some parts apply to mi band 2 as well
-* Vibratissimo (experimental)
-* Liveview
+* Amazfit Bip (WIP) [Wiki section about the Amazfit Bip](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
 * HPlus Devices (e.g. ZeBand) [Wiki section about this device](https://github.com/Freeyourgadget/Gadgetbridge/wiki/HPlus)
+* Teclast H30 (WIP)
+* NO.1 F1 (WIP)
+* Liveview
+* Vibratissimo (experimental)
 
-## Features (Pebble)
+## Features
 
-* Incoming calls notification and display
-* Outgoing call display
-* Reject calls (optionally with predefined texts) / hangup calls
-* SMS notification
-* Support for generic notifications
-* Support for up to 16 predefined replies for SMS and Android Wear compatible notifications (experimental, tested with Signal and Conversations)
-* Dismiss individual notifications, mute or open corresponding app on phone from the action menu (generic notifications)
-* Dismiss all notifications from the action menu (SMS and PebbleKit notifications)
-* Music playback info (artist, album, track)
-* Music control: play/pause, next track, previous track, volume up, volume down
-* List and remove installed apps/watchfaces
-* Install watchfaces and watchapps (.pbw)
-* Install firmware files (.pbz) [READ THE WIKI](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble-Firmware-updates)
-* Install language files (.pbl)
-* Take and share screenshots from the Pebble's screen
-* PebbleKit support for 3rd Party Android Apps (experimental)
-* Fetch activity data from Pebble Health
-* Build-in support for Misfit and Morpheuz (experimental)
-* Configure watchfaces / apps (limited compatibility, experimental)
-
-## Notes about Firmware >=3.0 (Pebble Time, updated OG)
-
-* Gadgetbridge will keep track of installed watchfaces, but if the Pebble is used with another phone or another app, the information displayed in the app manager can get out of sync since it is impossible to query Firmware >= 3.x for installed apps/watchfaces.
+Please see [FEATURES.md](https://github.com/Freeyourgadget/Gadgetbridge/blob/master/FEATURES.md)
 
 ## Getting Started (Pebble)
 
@@ -55,42 +44,6 @@ need to create an account and transmit any of your data to the vendor's servers.
 3. To test, choose "Debug" from the menu and play around
 
 For more information read [this wiki article](https://github.com/Freeyourgadget/Gadgetbridge/wiki/Pebble-Getting-Started) 
-
-## Features (Mi Band 1x)
-
-* Discovery and pairing
-* Mi Band notifications (LEDs + vibration) for
-* Display live activity data (alpha)
-    * Incoming calls
-    * SMS received
-    * K-9 mails received
-    * Conversations messages
-    * Generic Android notifications
-* Synchronize the time to the Mi Band
-* Display firmware version and battery state
-* Firmware update
-* Heart rate measurement on demand and during sleep
-* Synchronize activity data
-* Display sleep data (alpha)
-* Display sports data (step count) (alpha)
-* Display live activity data (alpha)
-* Set alarms on the Mi Band
-
-## Features (Mi Band 2)
-
-* Discovery and pairing
-* Mi Band notifications (Display + vibration) for
-    * Incoming calls
-    * SMS received
-    * K-9 mails received
-    * Conversations messages
-    * Generic Android notifications
-* Synchronize the time to the Mi Band 2
-* Display firmware version
-* Firmware update (beta)
-* Heart rate measurement on demand and during sleep
-* Synchronize activity data (alpha)
-* Set alarms on the Mi Band 2
 
 ## How to use (Mi Band 1+2)
 
@@ -134,6 +87,8 @@ For more information read [this wiki article](https://github.com/Freeyourgadget/
 ### Additional device support
 
 * João Paulo Barraca (HPlus)
+* Vitaly Svyastyn (NO.1 F1)
+* Sami Alaoui (Teclast H30)
 
 ## Contribute
 
@@ -141,7 +96,7 @@ Contributions are welcome, be it feedback, bugreports, documentation, translatio
 on any of the open [issues](https://github.com/Freeyourgadget/Gadgetbridge/issues?q=is%3Aopen+is%3Aissue);
 just leave a comment that you're working on one to avoid duplicated work.
 
-Translations can be contributed via https://www.transifex.com/projects/p/gadgetbridge/resource/strings/ or manually.
+Translations can be contributed via https://hosted.weblate.org/projects/freeyourgadget/gadgetbridge/
 
 ## Do you have further questions or feedback?
 

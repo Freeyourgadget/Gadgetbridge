@@ -35,6 +35,7 @@ import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -93,6 +94,11 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsRealtimeData() {
+        return true;
+    }
+
+    @Override
     public DeviceType getDeviceType() {
         return DeviceType.HPLUS;
     }
@@ -148,11 +154,6 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public int getTapString() {
-        return R.string.tap_connected_device_for_activity;
-    }
-
-    @Override
     public String getManufacturer() {
         return "Zeblaze";
     }
@@ -202,7 +203,7 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static byte getUnit(String address) {
-        String units = prefs.getString(HPlusConstants.PREF_HPLUS_UNIT, getContext().getString(R.string.p_unit_metric));
+        String units = prefs.getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, getContext().getString(R.string.p_unit_metric));
 
         if(units.equals(getContext().getString(R.string.p_unit_metric))){
             return HPlusConstants.ARG_UNIT_METRIC;
@@ -289,6 +290,6 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static boolean getUnicodeSupport(String address){
-        return (prefs.getBoolean(HPlusConstants.PREF_HPLUS_UNICODE, false));
+        return (prefs.getBoolean(HPlusConstants.PREF_HPLUS_UNICODE + "_" + address, false));
     }
 }

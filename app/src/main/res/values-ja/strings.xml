@@ -5,9 +5,10 @@
   <string name="action_settings">設定</string>
   <string name="action_debug">デバッグ</string>
   <string name="action_quit">終了</string>
+  <string name="action_donate">寄付する</string>
   <string name="controlcenter_fetch_activity_data">同期</string>
   <string name="controlcenter_start_sleepmonitor">睡眠観測（アルファ）</string>
-  <string name="controlcenter_find_device">デバイスをバイブさせる</string>
+  <string name="controlcenter_find_device">失くしたデバイスを見つける</string>
   <string name="controlcenter_take_screenshot">スクリーンショットを撮る</string>
   <string name="controlcenter_disconnect">切断</string>
   <string name="controlcenter_delete_device">デバイスを削除</string>
@@ -40,6 +41,8 @@
   <string name="app_move_to_top">先頭に移動</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">ステータス通知ブラックリスト</string>
+  <!--Strings related to CalBlacklist-->
+  <string name="title_activity_calblacklist">ブラックリストにしたカレンダー</string>
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">ファームウェア・アプリのインストール</string>
   <string name="fw_upgrade_notice">お使いのMi Bandに、現在のファームウェアの代わりに%sをインストールしようとしています。</string>
@@ -76,7 +79,7 @@
   <string name="pref_title_notification_filter">サイレント</string>
   <string name="pref_summary_notification_filter">サイレントモードに基づいて、送信される不要な通知を停止します。</string>
   <string name="pref_title_transliteration">音訳</string>
-  <string name="pref_summary_transliteration">デバイスでお使いの言語のフォントがサポートされていない場合に、これを有効にしてください (現在はキリル文字のみ)</string>
+  <string name="pref_summary_transliteration">お使いのデバイスがあなたの言語のフォントをサポートしていない場合、これを有効にしてください</string>
   <string name="always">いつも</string>
   <string name="when_screen_off">スクリーンがオフのとき</string>
   <string name="never">なし</string>
@@ -87,6 +90,7 @@
   <string name="pref_call_privacy_mode_number">番号は非表示、名前は表示</string>
   <string name="pref_call_privacy_mode_complete">名前と番号を非表示</string>
   <string name="pref_blacklist">アップのブラックリスト</string>
+  <string name="pref_blacklist_calendars">ブラックリストのカレンダー</string>
   <string name="pref_header_cannned_messages">定型のメッセージ</string>
   <string name="pref_title_canned_replies">返信</string>
   <string name="pref_title_canned_reply_suffix">共通の接尾語</string>
@@ -145,8 +149,6 @@
   <string name="connecting">接続中</string>
   <string name="connected">接続</string>
   <string name="unknown_state">不明な状態</string>
-  <string name="connectionstate_hw_fw">HW: %1$s FW: %2$s</string>
-  <string name="connectionstate_fw">FW: %1$s</string>
   <string name="_unknown_">(不明)</string>
   <string name="test">テスト</string>
   <string name="test_notification">通知のテスト</string>
@@ -220,6 +222,9 @@
   <string name="pref_screen_notification_profile_generic_chat">チャット</string>
   <string name="pref_screen_notification_profile_generic_navigation">ナビゲーション</string>
   <string name="pref_screen_notification_profile_generic_social">ソーシャルネットワーク</string>
+  <string name="stats_title">スピードゾーン</string>
+  <string name="stats_x_axis_label">合計分数</string>
+  <string name="stats_y_axis_label">毎分の歩数</string>
   <string name="control_center_find_lost_device">なくしたデバイスを探す</string>
   <string name="control_center_cancel_to_stop_vibration">キャンセルで振動を停止します。</string>
   <string name="title_activity_charts">あなたの活動</string>
@@ -273,6 +278,9 @@
   <string name="chart_steps">歩数</string>
   <string name="calories">カロリー</string>
   <string name="distance">距離</string>
+  <string name="clock">時計</string>
+  <string name="heart_rate">心拍数</string>
+  <string name="battery">バッテリー</string>
   <string name="liveactivity_live_activity">生活活動</string>
   <string name="weeksteps_today_steps_description">今日の歩数、目標: %1$s</string>
   <string name="pref_title_dont_ack_transfer">活動データ転送に応答しない</string>
@@ -300,7 +308,20 @@
   <string name="miband2_prefs_dateformat">Mi2: 日付形式</string>
   <string name="dateformat_time">時間</string>
   <string name="dateformat_date_time"><![CDATA[時間 & 日付]]></string>
+  <string name="mi2_prefs_goal_notification">目標通知</string>
+  <string name="mi2_prefs_goal_notification_summary">毎日の歩数が目標に達すると、バンドが振動します</string>
+  <string name="mi2_prefs_display_items">表示アイテム</string>
+  <string name="mi2_prefs_display_items_summary">バンド画面に表示されるアイテムを選択</string>
   <string name="mi2_prefs_activate_display_on_lift">持ち上げ時に表示を有効にする</string>
+  <string name="mi2_prefs_rotate_wrist_to_switch_info">手首を回して情報を切り替え</string>
+  <string name="mi2_prefs_do_not_disturb">サイレント</string>
+  <string name="mi2_prefs_do_not_disturb_summary">アクティブな間、バンドは通知を受信しません</string>
+  <string name="mi2_prefs_inactivity_warnings">非アクティブ警告</string>
+  <string name="mi2_prefs_inactivity_warnings_summary">あなたがしばらくの間アクティブでないときに、バンドが振動します</string>
+  <string name="mi2_prefs_inactivity_warnings_threshold">非アクティブしきい値 (分単位)</string>
+  <string name="mi2_prefs_inactivity_warnings_dnd_summary">その期間、非アクティブ警告を無効にします</string>
+  <string name="mi2_prefs_do_not_disturb_start">開始時刻</string>
+  <string name="mi2_prefs_do_not_disturb_end">終了時刻</string>
   <string name="FetchActivityOperation_about_to_transfer_since">%1$s からのデータを転送します</string>
   <string name="waiting_for_reconnect">再接続の待機中</string>
   <string name="activity_prefs_about_you">あなたについて</string>
@@ -368,6 +389,9 @@
   <string name="mi2_enable_text_notifications">テキスト通知</string>
   <string name="mi2_enable_text_notifications_summary"><![CDATA[ファームウェア >= 1.0.1.28 と Mili_pro.ft* をインストールしていることが必要です。]]></string>
   <string name="off">オフ</string>
+  <string name="mi2_dnd_off">オフ</string>
+  <string name="mi2_dnd_automatic">自動 (睡眠検出)</string>
+  <string name="mi2_dnd_scheduled">スケジュール (期間)</string>
   <string name="discovery_attempting_to_pair">%1$s とペアを試みています</string>
   <string name="discovery_bonding_failed_immediately">%1$s との接続がすぐに失敗しました。</string>
   <string name="discovery_trying_to_connect_to">接続の試行中: %1$s</string>
@@ -377,4 +401,30 @@
   <string name="discovery_pair_question">お使いのデバイスとペアにする相手を選択します。 これに失敗した場合は、ペア設定をせずに再試行してください。</string>
   <string name="discovery_yes_pair">ペア</string>
   <string name="discovery_dont_pair">ペアにしない</string>
+<string name="fw_upgrade_notice_amazfitbip">Amazfit Bip の現在の代わりに %s のファームウェアをインストールしようとしています。
+\n
+\n.gps ファームウェア、その後 .res ファイル、そして最終的に .fw ファイルをインストールすることを確認してください。お使いのウォッチは、.fw ファイルをインストールした後に再起動します。
+\n
+\n注: これらのファイルが以前インストールされているのものと完全に同じ場合、.res と .gps をインストールする必要はありません。
+\n
+\n実験的です。あなた自身の責任で行ってください</string>
+    <string name="amazfitbip_firmware">Amazfit Bip ファームウェア%1$s</string>
+    <string name="mi2_prefs_button_actions">ボタンの動作</string>
+    <string name="mi2_prefs_button_actions_summary">Mi Band 2 ボタンを押した動作を指定します</string>
+    <string name="mi2_prefs_button_press_count">ボタン押したカウント</string>
+    <string name="mi2_prefs_button_press_count_summary">ブロードキャスト メッセージをトリガーするボタンを押した数</string>
+    <string name="mi2_prefs_button_press_broadcast">送信するブロードキャスト メッセージ</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">ボタンを押した数で定義された数に達したブロードキャスト メッセージ</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value">nodomain.freeyourgadget.gadgetbridge.mibandButtonPressed</string>
+    <string name="mi2_prefs_button_action">ボタンの動作を有効にする</string>
+    <string name="mi2_prefs_button_action_summary">指定したボタンを押した数の動作を有効にします</string>
+    <string name="mi2_prefs_button_action_vibrate">band の振動を有効にする</string>
+    <string name="mi2_prefs_button_action_vibrate_summary">ボタンの動作をトリガーに band の振動を有効にします</string>
+    <string name="mi2_prefs_button_press_count_max_delay">ボタンを押す間の最大遅延時間</string>
+    <string name="mi2_prefs_button_press_count_max_delay_summary">ボタンを押す間隔の最大遅延時間 (ミリ秒単位)</string>
+    <string name="mi2_prefs_button_press_count_match_delay">ボタン操作の後に遅延</string>
+    <string name="mi2_prefs_button_press_count_match_delay_summary">1回のボタン操作に一致した後の遅滞 (数字は button_id インテント拡張内) 0 の場合はすぐ</string>
+    <string name="_pebble_watch_open_on_phone">電話で開く</string>
+    <string name="_pebble_watch_mute">ミュート</string>
+    <string name="_pebble_watch_reply">返信</string>
 </resources>

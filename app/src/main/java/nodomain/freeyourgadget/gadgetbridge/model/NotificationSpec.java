@@ -29,4 +29,14 @@ public class NotificationSpec {
     public NotificationType type;
     public String sourceName;
     public String[] cannedReplies;
+
+    /**
+     * The application that generated the notification.
+     */
+    public String sourceAppId;
+
+    /**
+     * The color that should be assigned to this notification when displayed on a Pebble
+     */
+    public byte pebbleColor;
 }

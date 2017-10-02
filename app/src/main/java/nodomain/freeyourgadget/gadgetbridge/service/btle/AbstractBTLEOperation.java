@@ -85,6 +85,9 @@ public abstract class AbstractBTLEOperation<T extends AbstractBTLEDeviceSupport>
      * You MUST call this method when the operation has finished, either
      * successfully or unsuccessfully.
      *
+     * Subclasses must ensure that the {@link BtLEQueue queue's}'s gatt callback (set on the transaction builder by {@link #performInitialized(String)})
+     * is being unset, otherwise it will continue to receive events until another transaction is being executed by the queue.
+     *
      * @throws IOException
      */
     protected void operationFinished() throws IOException {

@@ -16,28 +16,20 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations;
 
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
+import android.text.format.DateUtils;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.Logging;
-import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -49,11 +41,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WaitAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Support;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.AbstractMiBand2Operation;
-import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -61,88 +50,64 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
  * An operation that fetches activity data. For every fetch, a new operation must
  * be created, i.e. an operation may not be reused for multiple fetches.
  */
-public class FetchActivityOperation extends AbstractMiBand2Operation {
+public class FetchActivityOperation extends AbstractFetchOperation {
     private static final Logger LOG = LoggerFactory.getLogger(FetchActivityOperation.class);
 
     private List<MiBandActivitySample> samples = new ArrayList<>(60*24); // 1day per default
-
-    private byte lastPacketCounter = -1;
-    private Calendar startTimestamp;
 
     public FetchActivityOperation(MiBand2Support support) {
         super(support);
     }
 
     @Override
-    protected void enableNeededNotifications(TransactionBuilder builder, boolean enable) {
-        if (!enable) {
-            // dynamically enabled, but always disabled on finish
-            builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_5_ACTIVITY_DATA), enable);
-        }
+    protected void startFetching() throws IOException {
+        samples.clear();
+        super.startFetching();
     }
 
     @Override
-    protected void doPerform() throws IOException {
-        TransactionBuilder builder = performInitialized("fetching activity data");
-        getSupport().setLowLatency(builder);
-        builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.busy_task_fetch_activity_data), getContext()));
-        BluetoothGattCharacteristic characteristicFetch = getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC4);
-        builder.notify(characteristicFetch, true);
-        BluetoothGattCharacteristic characteristicActivityData = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_5_ACTIVITY_DATA);
-
+    protected void startFetching(TransactionBuilder builder) {
         GregorianCalendar sinceWhen = getLastSuccessfulSyncTime();
-        builder.write(characteristicFetch, BLETypeConversions.join(new byte[] { MiBand2Service.COMMAND_ACTIVITY_DATA_START_DATE, 0x01 }, getSupport().getTimeBytes(sinceWhen, TimeUnit.MINUTES)));
+        builder.write(characteristicFetch, BLETypeConversions.join(new byte[] { MiBand2Service.COMMAND_ACTIVITY_DATA_START_DATE, MiBand2Service.COMMAND_ACTIVITY_DATA_TYPE_ACTIVTY }, getSupport().getTimeBytes(sinceWhen, TimeUnit.MINUTES)));
         builder.add(new WaitAction(1000)); // TODO: actually wait for the success-reply
         builder.notify(characteristicActivityData, true);
-        builder.write(characteristicFetch, new byte[] { MiBand2Service.COMMAND_FETCH_ACTIVITY_DATA });
-        builder.queue(getQueue());
+        builder.write(characteristicFetch, new byte[] { MiBand2Service.COMMAND_FETCH_DATA});
     }
 
-    private GregorianCalendar getLastSuccessfulSyncTime() {
-        long timeStampMillis = GBApplication.getPrefs().getLong(getLastSyncTimeKey(), 0);
-        if (timeStampMillis != 0) {
-            GregorianCalendar calendar = BLETypeConversions.createCalendar();
-            calendar.setTimeInMillis(timeStampMillis);
-            return calendar;
+    protected void handleActivityFetchFinish() {
+        LOG.info("Fetching activity data has finished round " + fetchCount);
+        GregorianCalendar lastSyncTimestamp = saveSamples();
+        if (lastSyncTimestamp != null && needsAnotherFetch(lastSyncTimestamp)) {
+            try {
+                startFetching();
+                return;
+            } catch (IOException ex) {
+                LOG.error("Error starting another round of fetching activity data", ex);
+            }
         }
-        GregorianCalendar calendar = BLETypeConversions.createCalendar();
-        calendar.add(Calendar.DAY_OF_MONTH, -10);
-        return calendar;
+
+        super.handleActivityFetchFinish();
     }
 
-    private void saveLastSyncTimestamp(@NonNull GregorianCalendar timestamp) {
-        SharedPreferences.Editor editor = GBApplication.getPrefs().getPreferences().edit();
-        editor.putLong(getLastSyncTimeKey(), timestamp.getTimeInMillis());
-        editor.apply();
-    }
-
-    private String getLastSyncTimeKey() {
-        return getDevice().getAddress() + "_" + "lastSyncTimeMillis";
-    }
-
-    @Override
-    public boolean onCharacteristicChanged(BluetoothGatt gatt,
-                                           BluetoothGattCharacteristic characteristic) {
-        UUID characteristicUUID = characteristic.getUuid();
-        if (MiBand2Service.UUID_CHARACTERISTIC_5_ACTIVITY_DATA.equals(characteristicUUID)) {
-            handleActivityNotif(characteristic.getValue());
-            return true;
-        } else if (MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC4.equals(characteristicUUID)) {
-            handleActivityMetadata(characteristic.getValue());
-            return true;
-        } else {
-            return super.onCharacteristicChanged(gatt, characteristic);
+    private boolean needsAnotherFetch(GregorianCalendar lastSyncTimestamp) {
+        if (fetchCount > 5) {
+            LOG.warn("Already jave 5 fetch rounds, not doing another one.");
+            return false;
         }
+
+        if (DateUtils.isToday(lastSyncTimestamp.getTimeInMillis())) {
+            LOG.info("Hopefully no further fetch needed, last synced timestamp is from today.");
+            return false;
+        }
+        if (lastSyncTimestamp.getTimeInMillis() > System.currentTimeMillis()) {
+            LOG.warn("Not doing another fetch since last synced timestamp is in the future: " + DateTimeUtils.formatDateTime(lastSyncTimestamp.getTime()));
+            return false;
+        }
+        LOG.info("Doing another fetch since last sync timestamp is still too old: " + DateTimeUtils.formatDateTime(lastSyncTimestamp.getTime()));
+        return true;
     }
 
-    private void handleActivityFetchFinish() {
-        LOG.info("Fetching activity data has finished.");
-        saveSamples();
-        operationFinished();
-        unsetBusy();
-    }
-
-    private void saveSamples() {
+    private GregorianCalendar saveSamples() {
         if (samples.size() > 0) {
             // save all the samples that we got
             try (DBHandler handler = GBApplication.acquireDB()) {
@@ -168,6 +133,7 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
 
                 saveLastSyncTimestamp(timestamp);
                 LOG.info("Mi2 activity data: last sample timestamp: " + DateTimeUtils.formatDateTime(timestamp.getTime()));
+                return timestamp;
 
             } catch (Exception ex) {
                 GB.toast(getContext(), "Error saving activity samples", Toast.LENGTH_LONG, GB.ERROR);
@@ -175,6 +141,7 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
                 samples.clear();
             }
         }
+        return null;
     }
 
     /**
@@ -187,7 +154,7 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
      *
      * @param value
      */
-    private void handleActivityNotif(byte[] value) {
+    protected void handleActivityNotif(byte[] value) {
         if (!isOperationRunning()) {
             LOG.error("ignoring activity data notification because operation is not running. Data length: " + value.length);
             getSupport().logMessageContent(value);
@@ -212,7 +179,7 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
      * Creates samples from the given 17-length array
      * @param value
      */
-    private void bufferActivityData(byte[] value) {
+    protected void bufferActivityData(byte[] value) {
         int len = value.length;
 
         if (len % 4 != 1) {
@@ -235,34 +202,8 @@ public class FetchActivityOperation extends AbstractMiBand2Operation {
         return sample;
     }
 
-    private void handleActivityMetadata(byte[] value) {
-        if (value.length == 15) {
-            // first two bytes are whether our request was accepted
-            if (ArrayUtils.equals(value, MiBand2Service.RESPONSE_ACTIVITY_DATA_START_DATE_SUCCESS, 0)) {
-                // the third byte (0x01 on success) = ?
-                // the 4th - 7th bytes probably somehow represent the number of bytes/packets to expect
-
-                // last 8 bytes are the start date
-                Calendar startTimestamp = getSupport().fromTimeBytes(org.apache.commons.lang3.ArrayUtils.subarray(value, 7, value.length));
-                setStartTimestamp(startTimestamp);
-
-                GB.toast(getContext().getString(R.string.FetchActivityOperation_about_to_transfer_since,
-                        DateFormat.getDateTimeInstance().format(startTimestamp.getTime())), Toast.LENGTH_LONG, GB.INFO);
-            } else {
-                LOG.warn("Unexpected activity metadata: " + Logging.formatBytes(value));
-                handleActivityFetchFinish();
-            }
-        } else if (value.length == 3) {
-            if (Arrays.equals(MiBand2Service.RESPONSE_FINISH_SUCCESS, value)) {
-                handleActivityFetchFinish();
-            } else {
-                LOG.warn("Unexpected activity metadata: " + Logging.formatBytes(value));
-                handleActivityFetchFinish();
-            }
-        }
-    }
-
-    private void setStartTimestamp(Calendar startTimestamp) {
-        this.startTimestamp = startTimestamp;
+    @Override
+    protected String getLastSyncTimeKey() {
+        return getDevice().getAddress() + "_" + "lastSyncTimeMillis";
     }
 }

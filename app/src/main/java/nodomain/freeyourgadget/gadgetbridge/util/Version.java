@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017 Carsten Pfeiffer
+/*  Copyright (C) 2017 Andreas Shimokawa, Carsten Pfeiffer, Michal Novotny
 
     This file is part of Gadgetbridge.
 
@@ -28,7 +28,9 @@ public class Version implements Comparable<Version> {
     public Version(String version) {
         if(version == null)
             throw new IllegalArgumentException("Version can not be null");
-        if(!version.matches("[0-9]+(\\.[0-9]+)*"))
+
+        version = version.trim();
+        if (!version.matches("[0-9]+(\\.[0-9]+)*"))
             throw new IllegalArgumentException("Invalid version format");
         this.version = version;
     }

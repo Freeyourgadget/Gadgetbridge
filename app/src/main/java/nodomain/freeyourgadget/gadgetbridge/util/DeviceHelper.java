@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2017 0nse, Andreas Shimokawa, Carsten Pfeiffer,
-    Daniele Gobbetti, João Paulo Barraca
+    Daniele Gobbetti, João Paulo Barraca, protomors, Quallenauge, Sami Alaoui
 
     This file is part of Gadgetbridge.
 
@@ -39,12 +39,16 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.UnknownDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipCooordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.hplus.EXRIZUK8Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.MakibesF68Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.jyou.TeclastH30Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.liveview.LiveviewCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.no1f1.No1F1Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.vibratissimo.VibratissimoCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -184,13 +188,17 @@ public class DeviceHelper {
 
     private List<DeviceCoordinator> createCoordinators() {
         List<DeviceCoordinator> result = new ArrayList<>();
+        result.add(new AmazfitBipCooordinator()); // Note: AmazfitBip must come before MiBand2 because detection is hacky, atm
         result.add(new MiBand2Coordinator()); // Note: MiBand2 must come before MiBand because detection is hacky, atm
         result.add(new MiBandCoordinator());
         result.add(new PebbleCoordinator());
         result.add(new VibratissimoCoordinator());
         result.add(new LiveviewCoordinator());
         result.add(new HPlusCoordinator());
+        result.add(new No1F1Coordinator());
         result.add(new MakibesF68Coordinator());
+        result.add(new EXRIZUK8Coordinator());
+        result.add(new TeclastH30Coordinator());
 
         return result;
     }

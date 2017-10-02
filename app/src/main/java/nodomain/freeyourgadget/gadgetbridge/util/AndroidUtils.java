@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2017 Carsten Pfeiffer
+/*  Copyright (C) 2016-2017 Andreas Shimokawa, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 
@@ -16,11 +16,19 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.ParcelUuid;
 import android.os.Parcelable;
 import android.support.v4.content.LocalBroadcastManager;
+
+import java.util.Locale;
+
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 
 public class AndroidUtils {
     public static ParcelUuid[] toParcelUUids(Parcelable[] uuids) {
@@ -60,5 +68,48 @@ public class AndroidUtils {
         } catch (IllegalArgumentException ex) {
             return false;
         }
+    }
+
+    public static void setLanguage(Context context, Locale language) {
+        Configuration config = new Configuration();
+        config.setLocale(language);
+
+        // FIXME: I have no idea what I am doing
+        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
+    }
+
+    /**
+     * Returns the theme dependent text color as a css-style hex string.
+     * @param context the context to access the colour
+     */
+    public static String getTextColorHex(Context context) {
+        int color;
+        if (GBApplication.isDarkThemeEnabled()) {
+            color = context.getResources().getColor(R.color.primarytext_dark);
+        } else {
+            color = context.getResources().getColor(R.color.primarytext_light);
+        }
+        return colorToHex(color);
+    }
+
+    /**
+     * Returns the theme dependent background color as a css-style hex string.
+     * @param context the context to access the colour
+     */
+    public static String getBackgroundColorHex(Context context) {
+        int color;
+        if (GBApplication.isDarkThemeEnabled()) {
+            color = context.getResources().getColor(R.color.cardview_dark_background);
+        } else {
+            color = context.getResources().getColor(R.color.cardview_light_background);
+        }
+        return colorToHex(color);
+    }
+
+    private static String colorToHex(int color) {
+        return "#"
+                + Integer.toHexString(Color.red(color))
+                + Integer.toHexString(Color.green(color))
+                + Integer.toHexString(Color.blue(color));
     }
 }

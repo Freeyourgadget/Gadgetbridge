@@ -1,6 +1,6 @@
 /*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Christian
-    Fischer, Daniele Gobbetti, JohnnySun, Julien Pivotto, Kasha, Sergey Trofimov,
-    Steffen Liebergeld
+    Fischer, Daniele Gobbetti, JohnnySun, José Rebelo, Julien Pivotto, Kasha,
+    Michal Novotny, Sergey Trofimov, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 
@@ -36,8 +36,12 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -50,6 +54,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInf
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.DateTimeDisplay;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.DoNotDisturb;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
@@ -120,6 +125,12 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ge
 
 public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
+    // We introduce key press counter for notification purposes
+    private static int currentButtonActionId = 0;
+    private static int currentButtonPressCount = 0;
+    private static long currentButtonPressTime = 0;
+    private static long currentButtonTimerActivationTime = 0;
+
     private static final Logger LOG = LoggerFactory.getLogger(MiBand2Support.class);
     private final DeviceInfoProfile<MiBand2Support> deviceInfoProfile;
     private final HeartRateProfile<MiBand2Support> heartRateProfile;
@@ -143,7 +154,11 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     private boolean alarmClockRinging;
 
     public MiBand2Support() {
-        super(LOG);
+        this(LOG);
+    }
+
+    public MiBand2Support(Logger logger) {
+        super(logger);
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ACCESS);
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ATTRIBUTE);
         addSupportedService(GattService.UUID_SERVICE_HEART_RATE);
@@ -210,11 +225,6 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         GregorianCalendar now = BLETypeConversions.createCalendar();
         byte[] bytes = getTimeBytes(now, TimeUnit.SECONDS);
         builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_CURRENT_TIME), bytes);
-
-//        byte[] localtime = BLETypeConversions.calendarToLocalTimeBytes(now);
-//        builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_LOCAL_TIME_INFORMATION), localtime);
-//        builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_CURRENT_TIME), new byte[] {0x2, 0x00});
-//        builder.write(getCharacteristic(MiBand2Service.UUID_UNKNOQN_CHARACTERISTIC0), new byte[] {0x03,0x00,(byte)0x8e,(byte)0xce,0x5a,0x09,(byte)0xb3,(byte)0xd8,0x55,0x57,0x10,0x2a,(byte)0xed,0x7d,0x6b,0x78,(byte)0xc5,(byte)0xd2});
         return this;
     }
 
@@ -298,7 +308,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    private NotificationStrategy getNotificationStrategy() {
+    public NotificationStrategy getNotificationStrategy() {
         String firmwareVersion = getDevice().getFirmwareVersion();
         if (firmwareVersion != null) {
             Version ver = new Version(firmwareVersion);
@@ -339,7 +349,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     private MiBand2Support setFitnessGoal(TransactionBuilder transaction) {
         LOG.info("Attempting to set Fitness Goal...");
-        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC8);
+        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_8_USER_SETTINGS);
         if (characteristic != null) {
             int fitnessGoal = GBApplication.getPrefs().getInt(ActivityUser.PREF_USER_STEPS_GOAL, 10000);
             byte[] bytes = ArrayUtils.addAll(
@@ -357,12 +367,74 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     /**
      * Part of device initialization process. Do not call manually.
      *
+     * @param transaction
+     * @return
+     */
+
+    private MiBand2Support setUserInfo(TransactionBuilder transaction) {
+        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_8_USER_SETTINGS);
+        if (characteristic == null) {
+            return this;
+        }
+
+        LOG.info("Attempting to set user info...");
+        Prefs prefs = GBApplication.getPrefs();
+        String alias = prefs.getString(MiBandConst.PREF_USER_ALIAS, null);
+        ActivityUser activityUser = new ActivityUser();
+        int height = activityUser.getHeightCm();
+        int weight = activityUser.getWeightKg();
+        int birth_year = activityUser.getYearOfBirth();
+        byte birth_month = 7; // not in user attributes
+        byte birth_day = 1; // not in user attributes
+
+        if (alias == null || weight == 0 || height == 0 || birth_year == 0) {
+            LOG.warn("Unable to set user info, make sure it is set up");
+            return this;
+        }
+
+        byte sex = 2; // other
+        switch (activityUser.getGender()) {
+            case ActivityUser.GENDER_MALE:
+                sex = 0;
+                break;
+            case ActivityUser.GENDER_FEMALE:
+                sex = 1;
+        }
+        int userid = alias.hashCode(); // hash from alias like mi1
+
+        // FIXME: Do encoding like in PebbleProtocol, this is ugly
+        byte bytes[] = new byte[]{
+                MiBand2Service.COMMAND_SET_USERINFO,
+                0,
+                0,
+                (byte) (birth_year & 0xff),
+                (byte) ((birth_year >> 8) & 0xff),
+                birth_month,
+                birth_day,
+                sex,
+                (byte) (height & 0xff),
+                (byte) ((height >> 8) & 0xff),
+                (byte) ((weight * 200) & 0xff),
+                (byte) (((weight * 200) >> 8) & 0xff),
+                (byte) (userid & 0xff),
+                (byte) ((userid >> 8) & 0xff),
+                (byte) ((userid >> 16) & 0xff),
+                (byte) ((userid >> 24) & 0xff)
+        };
+
+        transaction.write(characteristic, bytes);
+        return this;
+    }
+
+    /**
+     * Part of device initialization process. Do not call manually.
+     *
      * @param builder
      * @return
      */
     private MiBand2Support setWearLocation(TransactionBuilder builder) {
         LOG.info("Attempting to set wear location...");
-        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_UNKNOWN_CHARACTERISTIC8);
+        BluetoothGattCharacteristic characteristic = getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_8_USER_SETTINGS);
         if (characteristic != null) {
             builder.notify(characteristic, true);
             int location = MiBandCoordinator.getWearLocation(getDevice().getAddress());
@@ -432,7 +504,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void performPreferredNotification(String task, String notificationOrigin, SimpleNotification simpleNotification, int alertLevel, BtLEAction extraAction) {
+    protected void performPreferredNotification(String task, String notificationOrigin, SimpleNotification simpleNotification, int alertLevel, BtLEAction extraAction) {
         try {
             TransactionBuilder builder = performInitialized(task);
             Prefs prefs = GBApplication.getPrefs();
@@ -526,7 +598,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         performPreferredNotification(origin + " received", origin, simpleNotification, alertLevel, null);
     }
 
-    private void onAlarmClock(NotificationSpec notificationSpec) {
+    protected void onAlarmClock(NotificationSpec notificationSpec) {
         alarmClockRinging = true;
         AbortTransactionAction abortAction = new StopNotificationAction(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL)) {
             @Override
@@ -614,11 +686,16 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     public void onReboot() {
         try {
             TransactionBuilder builder = performInitialized("Reboot");
-            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_FIRMWARE), new byte[] { MiBand2Service.COMMAND_FIRMWARE_REBOOT});
+            sendReboot(builder);
             builder.queue(getQueue());
         } catch (IOException ex) {
             LOG.error("Unable to reboot MI", ex);
         }
+    }
+
+    public MiBand2Support sendReboot(TransactionBuilder builder) {
+        builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_FIRMWARE), new byte[] { MiBand2Service.COMMAND_FIRMWARE_REBOOT});
+        return this;
     }
 
     @Override
@@ -773,6 +850,80 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         // not supported
     }
 
+    public void runButtonAction() {
+        Prefs prefs = GBApplication.getPrefs();
+
+        if (currentButtonTimerActivationTime != currentButtonPressTime) {
+            return;
+        }
+
+        String requiredButtonPressMessage = prefs.getString(MiBandConst.PREF_MIBAND_BUTTON_PRESS_BROADCAST,
+                this.getContext().getString(R.string.mi2_prefs_button_press_broadcast_default_value));
+
+        Intent in = new Intent();
+        in.setAction(requiredButtonPressMessage);
+        in.putExtra("button_id", currentButtonActionId);
+        LOG.info("Sending " + requiredButtonPressMessage + " with button_id " + currentButtonActionId);
+        this.getContext().getApplicationContext().sendBroadcast(in);
+        if (prefs.getBoolean(MiBandConst.PREF_MIBAND_BUTTON_ACTION_VIBRATE, false)) {
+            performPreferredNotification(null, null, null, MiBand2Service.ALERT_LEVEL_VIBRATE_ONLY, null);
+        }
+
+        currentButtonActionId = 0;
+
+        currentButtonPressCount = 0;
+        currentButtonPressTime = System.currentTimeMillis();
+    }
+
+    public void handleButtonPressed(byte[] value) {
+        LOG.info("Button pressed");
+        ///logMessageContent(value);
+
+        // If disabled we return from function immediately
+        Prefs prefs = GBApplication.getPrefs();
+        if (!prefs.getBoolean(MiBandConst.PREF_MIBAND_BUTTON_ACTION_ENABLE, false)) {
+            return;
+        }
+
+        int buttonPressMaxDelay = prefs.getInt(MiBandConst.PREF_MIBAND_BUTTON_PRESS_MAX_DELAY, 2000);
+        int buttonActionDelay = prefs.getInt(MiBandConst.PREF_MIBAND_BUTTON_ACTION_DELAY, 0);
+        int requiredButtonPressCount = prefs.getInt(MiBandConst.PREF_MIBAND_BUTTON_PRESS_COUNT, 0);
+
+        if (requiredButtonPressCount > 0) {
+            long timeSinceLastPress = System.currentTimeMillis() - currentButtonPressTime;
+
+            if ((currentButtonPressTime == 0) || (timeSinceLastPress < buttonPressMaxDelay)) {
+                currentButtonPressCount++;
+            }
+            else {
+                currentButtonPressCount = 1;
+                currentButtonActionId = 0;
+            }
+
+            currentButtonPressTime = System.currentTimeMillis();
+            if (currentButtonPressCount == requiredButtonPressCount) {
+                currentButtonTimerActivationTime = currentButtonPressTime;
+                if (buttonActionDelay > 0) {
+                    LOG.info("Activating timer");
+                    final Timer buttonActionTimer = new Timer("Mi Band Button Action Timer");
+                    buttonActionTimer.scheduleAtFixedRate(new TimerTask() {
+                        @Override
+                        public void run() {
+                            runButtonAction();
+                            buttonActionTimer.cancel();
+                        }
+                    }, buttonActionDelay, buttonActionDelay);
+                }
+                else {
+                    LOG.info("Activating button action");
+                    runButtonAction();
+                }
+                currentButtonActionId++;
+                currentButtonPressCount = 0;
+            }
+        }
+    }
+
     @Override
     public boolean onCharacteristicChanged(BluetoothGatt gatt,
                                            BluetoothGattCharacteristic characteristic) {
@@ -802,12 +953,8 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             LOG.info("Unhandled characteristic changed: " + characteristicUUID);
             logMessageContent(characteristic.getValue());
         }
-        return false;
-    }
 
-    private void handleButtonPressed(byte[] value) {
-        LOG.info("Button pressed");
-        logMessageContent(value);
+        return false;
     }
 
     private void handleUnknownCharacteristic(byte[] value) {
@@ -839,6 +986,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             LOG.info("Unhandled characteristic read: " + characteristicUUID);
             logMessageContent(characteristic.getValue());
         }
+
         return false;
     }
 
@@ -1014,6 +1162,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 //                    getContext().getString(R.string.DEVINFO_HR_VER),
 //                    info.getSoftwareRevision()));
 //        }
+
         LOG.warn("Device info: " + info);
         versionCmd.hwVersion = info.getHardwareRevision();
 //        versionCmd.fwVersion = info.getFirmwareRevision(); // always null
@@ -1061,7 +1210,6 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 queueAlarm(alarm, builder, characteristic);
                 iteration++;
             }
-            builder.queue(getQueue());
         }
         return this;
     }
@@ -1075,11 +1223,34 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 case MiBandConst.PREF_MI2_DATEFORMAT:
                     setDateDisplay(builder);
                     break;
+                case MiBandConst.PREF_MI2_GOAL_NOTIFICATION:
+                    setGoalNotification(builder);
+                    break;
                 case MiBandConst.PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT:
                     setActivateDisplayOnLiftWrist(builder);
                     break;
+                case MiBandConst.PREF_MI2_DISPLAY_ITEMS:
+                    setDisplayItems(builder);
+                    break;
+                case MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO:
+                    setRotateWristToSwitchInfo(builder);
+                    break;
                 case ActivityUser.PREF_USER_STEPS_GOAL:
                     setFitnessGoal(builder);
+                    break;
+                case MiBandConst.PREF_MI2_DO_NOT_DISTURB:
+                case MiBandConst.PREF_MI2_DO_NOT_DISTURB_START:
+                case MiBandConst.PREF_MI2_DO_NOT_DISTURB_END:
+                    setDoNotDisturb(builder);
+                    break;
+                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS:
+                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD:
+                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_START:
+                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_END:
+                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND:
+                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND_START:
+                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND_END:
+                    setInactivityWarnings(builder);
                     break;
             }
             builder.queue(getQueue());
@@ -1128,6 +1299,17 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return this;
     }
 
+    private MiBand2Support setGoalNotification(TransactionBuilder builder) {
+        boolean enable = MiBand2Coordinator.getGoalNotification();
+        LOG.info("Setting goal notification to " + enable);
+        if (enable) {
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_ENABLE_GOAL_NOTIFICATION);
+        } else {
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_DISABLE_GOAL_NOTIFICATION);
+        }
+        return this;
+    }
+
     private MiBand2Support setActivateDisplayOnLiftWrist(TransactionBuilder builder) {
         boolean enable = MiBand2Coordinator.getActivateDisplayOnLiftWrist();
         LOG.info("Setting activate display on lift wrist to " + enable);
@@ -1139,15 +1321,156 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return this;
     }
 
+    private MiBand2Support setDisplayItems(TransactionBuilder builder) {
+        Set<String> pages = MiBand2Coordinator.getDisplayItems();
+        LOG.info("Setting display items to " + (pages == null ? "none" : pages));
+
+        byte[] data = MiBand2Service.COMMAND_CHANGE_SCREENS.clone();
+
+        if (pages != null) {
+            if (pages.contains(MiBandConst.PREF_MI2_DISPLAY_ITEM_STEPS)) {
+                data[MiBand2Service.SCREEN_CHANGE_BYTE] |= MiBand2Service.DISPLAY_ITEM_BIT_STEPS;
+            }
+            if (pages.contains(MiBandConst.PREF_MI2_DISPLAY_ITEM_DISTANCE)) {
+                data[MiBand2Service.SCREEN_CHANGE_BYTE] |= MiBand2Service.DISPLAY_ITEM_BIT_DISTANCE;
+            }
+            if (pages.contains(MiBandConst.PREF_MI2_DISPLAY_ITEM_CALORIES)) {
+                data[MiBand2Service.SCREEN_CHANGE_BYTE] |= MiBand2Service.DISPLAY_ITEM_BIT_CALORIES;
+            }
+            if (pages.contains(MiBandConst.PREF_MI2_DISPLAY_ITEM_HEART_RATE)) {
+                data[MiBand2Service.SCREEN_CHANGE_BYTE] |= MiBand2Service.DISPLAY_ITEM_BIT_HEART_RATE;
+            }
+            if (pages.contains(MiBandConst.PREF_MI2_DISPLAY_ITEM_BATTERY)) {
+                data[MiBand2Service.SCREEN_CHANGE_BYTE] |= MiBand2Service.DISPLAY_ITEM_BIT_BATTERY;
+            }
+        }
+
+        builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), data);
+        return this;
+    }
+
+    private MiBand2Support setRotateWristToSwitchInfo(TransactionBuilder builder) {
+        boolean enable = MiBand2Coordinator.getRotateWristToSwitchInfo();
+        LOG.info("Setting rotate wrist to cycle info to " + enable);
+        if (enable) {
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_ENABLE_ROTATE_WRIST_TO_SWITCH_INFO);
+        } else {
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_DISABLE_ROTATE_WRIST_TO_SWITCH_INFO);
+        }
+        return this;
+    }
+
+    private MiBand2Support setDisplayCaller(TransactionBuilder builder) {
+        builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_ENABLE_DISPLAY_CALLER);
+        return this;
+    }
+
+    private MiBand2Support setDoNotDisturb(TransactionBuilder builder) {
+        DoNotDisturb doNotDisturb = MiBand2Coordinator.getDoNotDisturb(getContext());
+        LOG.info("Setting do not disturb to " + doNotDisturb);
+        switch (doNotDisturb) {
+            case OFF:
+                builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_DO_NOT_DISTURB_OFF);
+                break;
+            case AUTOMATIC:
+                builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_DO_NOT_DISTURB_AUTOMATIC);
+                break;
+            case SCHEDULED:
+                byte[] data = MiBand2Service.COMMAND_DO_NOT_DISTURB_SCHEDULED.clone();
+
+                Calendar calendar = GregorianCalendar.getInstance();
+
+                Date start = MiBand2Coordinator.getDoNotDisturbStart();
+                calendar.setTime(start);
+                data[MiBand2Service.DND_BYTE_START_HOURS] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
+                data[MiBand2Service.DND_BYTE_START_MINUTES] = (byte) calendar.get(Calendar.MINUTE);
+
+                Date end = MiBand2Coordinator.getDoNotDisturbEnd();
+                calendar.setTime(end);
+                data[MiBand2Service.DND_BYTE_END_HOURS] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
+                data[MiBand2Service.DND_BYTE_END_MINUTES] = (byte) calendar.get(Calendar.MINUTE);
+
+                builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), data);
+
+                break;
+        }
+
+        return this;
+    }
+
+    private MiBand2Support setInactivityWarnings(TransactionBuilder builder) {
+        boolean enable = MiBand2Coordinator.getInactivityWarnings();
+        LOG.info("Setting inactivity warnings to " + enable);
+
+        if (enable) {
+            byte[] data = MiBand2Service.COMMAND_ENABLE_INACTIVITY_WARNINGS.clone();
+
+            int threshold = MiBand2Coordinator.getInactivityWarningsThreshold();
+            data[MiBand2Service.INACTIVITY_WARNINGS_THRESHOLD] = (byte) threshold;
+
+            Calendar calendar = GregorianCalendar.getInstance();
+
+            boolean enableDnd = MiBand2Coordinator.getInactivityWarningsDnd();
+
+            Date intervalStart = MiBand2Coordinator.getInactivityWarningsStart();
+            Date intervalEnd = MiBand2Coordinator.getInactivityWarningsEnd();
+            Date dndStart = MiBand2Coordinator.getInactivityWarningsDndStart();
+            Date dndEnd = MiBand2Coordinator.getInactivityWarningsDndEnd();
+
+            // The first interval always starts when the warnings interval starts
+            calendar.setTime(intervalStart);
+            data[MiBand2Service.INACTIVITY_WARNINGS_INTERVAL_1_START_HOURS] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
+            data[MiBand2Service.INACTIVITY_WARNINGS_INTERVAL_1_START_MINUTES] = (byte) calendar.get(Calendar.MINUTE);
+
+            if(enableDnd) {
+                // The first interval ends when the dnd interval starts
+                calendar.setTime(dndStart);
+                data[MiBand2Service.INACTIVITY_WARNINGS_INTERVAL_1_END_HOURS] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
+                data[MiBand2Service.INACTIVITY_WARNINGS_INTERVAL_1_END_MINUTES] = (byte) calendar.get(Calendar.MINUTE);
+
+                // The second interval starts when the dnd interval ends
+                calendar.setTime(dndEnd);
+                data[MiBand2Service.INACTIVITY_WARNINGS_INTERVAL_2_START_HOURS] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
+                data[MiBand2Service.INACTIVITY_WARNINGS_INTERVAL_2_START_MINUTES] = (byte) calendar.get(Calendar.MINUTE);
+
+                // ... and it ends when the warnings interval ends
+                calendar.setTime(intervalEnd);
+                data[MiBand2Service.INACTIVITY_WARNINGS_INTERVAL_2_END_HOURS] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
+                data[MiBand2Service.INACTIVITY_WARNINGS_INTERVAL_2_END_MINUTES] = (byte) calendar.get(Calendar.MINUTE);
+            } else {
+                // No Dnd, use the first interval
+                calendar.setTime(intervalEnd);
+                data[MiBand2Service.INACTIVITY_WARNINGS_INTERVAL_1_END_HOURS] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
+                data[MiBand2Service.INACTIVITY_WARNINGS_INTERVAL_1_END_MINUTES] = (byte) calendar.get(Calendar.MINUTE);
+            }
+
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), data);
+        } else {
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_DISABLE_INACTIVITY_WARNINGS);
+        }
+
+        return this;
+    }
+
     public void phase2Initialize(TransactionBuilder builder) {
         LOG.info("phase2Initialize...");
-        enableFurtherNotifications(builder, true);
         requestBatteryInfo(builder);
+    }
+
+    public void phase3Initialize(TransactionBuilder builder) {
+        LOG.info("phase3Initialize...");
         setDateDisplay(builder);
         setTimeFormat(builder);
+        setUserInfo(builder);
         setWearLocation(builder);
         setFitnessGoal(builder);
+        setDisplayItems(builder);
+        setDoNotDisturb(builder);
+        setRotateWristToSwitchInfo(builder);
         setActivateDisplayOnLiftWrist(builder);
+        setDisplayCaller(builder);
+        setGoalNotification(builder);
+        setInactivityWarnings(builder);
         setHeartrateSleepSupport(builder);
     }
 }

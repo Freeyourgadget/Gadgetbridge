@@ -51,7 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 
-public class FwAppInstallerActivity extends GBActivity implements InstallActivity {
+public class FwAppInstallerActivity extends AbstractGBActivity implements InstallActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(FwAppInstallerActivity.class);
     private static final String ITEM_DETAILS = "details";
@@ -76,9 +76,7 @@ public class FwAppInstallerActivity extends GBActivity implements InstallActivit
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (GBApplication.ACTION_QUIT.equals(action)) {
-                finish();
-            } else if (GBDevice.ACTION_DEVICE_CHANGED.equals(action)) {
+            if (GBDevice.ACTION_DEVICE_CHANGED.equals(action)) {
                 device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                 if (device != null) {
                     refreshBusyState(device);
@@ -154,7 +152,6 @@ public class FwAppInstallerActivity extends GBActivity implements InstallActivit
         detailsListView.setAdapter(mDetailsItemAdapter);
         setInstallEnabled(false);
         IntentFilter filter = new IntentFilter();
-        filter.addAction(GBApplication.ACTION_QUIT);
         filter.addAction(GBDevice.ACTION_DEVICE_CHANGED);
         filter.addAction(GB.ACTION_DISPLAY_MESSAGE);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);

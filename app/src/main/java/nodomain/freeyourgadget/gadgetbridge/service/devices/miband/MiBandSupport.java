@@ -1,6 +1,6 @@
 /*  Copyright (C) 2015-2017 Andreas Shimokawa, atkyritsis, Carsten Pfeiffer,
-    Christian Fischer, Daniele Gobbetti, JohnnySun, Julien Pivotto, Kasha,
-    Sergey Trofimov, Steffen Liebergeld
+    Christian Fischer, Daniele Gobbetti, freezed-or-frozen, JohnnySun, Julien
+    Pivotto, Kasha, Sergey Trofimov, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 
@@ -1270,8 +1270,26 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     }
 
-    private void handleSensorData(byte[] value) {
-        int counter=0, step=0, axis1=0, axis2=0, axis3 =0;
+    /**
+     * Analyse and decode sensor data from ADXL362 accelerometer
+     * @param value to decode
+     * @return nothing
+     *
+     * Each axis raw value is 16bits long and look like : ttssvvvvvvvvvvvv
+     *   tt : 2 bits for the type of data (00=x, 01=y, 10=z, 11=temperature)
+     *   ss : sign of the value
+     *   vvvvvvvvvvvv : accelerometer value encoded using two complements
+     *
+     * TODO: Because each accelerometer is different, all values should be calibrated with  :
+     *   a scale factor
+     *   an offset factor
+     */
+    private static void handleSensorData(byte[] value) {
+        int counter=0, step=0;
+        double xAxis=0.0, yAxis=0.0, zAxis=0.0;
+        double scale_factor = 1000.0;
+        double gravity = 9.81;
+
         if ((value.length - 2) % 6 != 0) {
             LOG.warn("GOT UNEXPECTED SENSOR DATA WITH LENGTH: " + value.length);
             for (byte b : value) {
@@ -1282,11 +1300,46 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             counter = (value[0] & 0xff) | ((value[1] & 0xff) << 8);
             for (int idx = 0; idx < ((value.length - 2) / 6); idx++) {
                 step = idx * 6;
-                axis1 = (value[step+2] & 0xff) | ((value[step+3] & 0xff) << 8);
-                axis2 = (value[step+4] & 0xff) | ((value[step+5] & 0xff) << 8);
-                axis3 = (value[step+6] & 0xff) | ((value[step+7] & 0xff) << 8);
+
+                // Analyse X-axis data
+                int xAxisRawValue = (value[step+2] & 0xff) | ((value[step+3] & 0xff) << 8);
+                int xAxisSign = (value[step+3] & 0x30) >> 4;
+                int xAxisType = (value[step+3] & 0xc0) >> 6;
+                if (xAxisSign == 0) {
+                    xAxis = xAxisRawValue & 0xfff;
+                }
+                else {
+                    xAxis = (xAxisRawValue & 0xfff) - 4097;
+                }
+                xAxis = (xAxis*1.0 / scale_factor) * gravity;
+
+                // Analyse Y-axis data
+                int yAxisRawValue = (value[step+4] & 0xff) | ((value[step+5] & 0xff) << 8);
+                int yAxisSign = (value[step+5] & 0x30) >> 4;
+                int yAxisType = (value[step+5] & 0xc0) >> 6;
+                if (yAxisSign == 0) {
+                    yAxis = yAxisRawValue & 0xfff;
+                }
+                else {
+                    yAxis = (yAxisRawValue & 0xfff) - 4097;
+                }
+                yAxis = (yAxis / scale_factor) * gravity;
+
+                // Analyse Z-axis data
+                int zAxisRawValue = (value[step+6] & 0xff) | ((value[step+7] & 0xff) << 8);
+                int zAxisSign = (value[step+7] & 0x30) >> 4;
+                int zAxisType = (value[step+7] & 0xc0) >> 6;
+                if (zAxisSign == 0) {
+                    zAxis = zAxisRawValue & 0xfff;
+                }
+                else {
+                    zAxis = (zAxisRawValue & 0xfff) - 4097;
+                }
+                zAxis = (zAxis / scale_factor) * gravity;
+
+                // Print results in log
+                LOG.info("READ SENSOR DATA VALUES: counter:"+counter+" step:"+step+" x-axis:"+ String.format("%.03f",xAxis)+" y-axis:"+String.format("%.03f",yAxis)+" z-axis:"+String.format("%.03f",zAxis)+";");
             }
-            LOG.info("READ SENSOR DATA VALUES: counter:"+counter+" step:"+step+" axis1:"+axis1+" axis2:"+axis2+" axis3:"+axis3+";");
         }
     }
 }

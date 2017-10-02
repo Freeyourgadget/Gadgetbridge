@@ -158,11 +158,6 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public int getTapString() {
-        return 0;
-    }
-
-    @Override
     public String getManufacturer() {
         return "unknown";
     }
@@ -179,6 +174,11 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsCalendarEvents() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsRealtimeData() {
         return false;
     }
 }

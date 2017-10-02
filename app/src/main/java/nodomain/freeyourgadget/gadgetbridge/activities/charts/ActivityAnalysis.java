@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
+    Gobbetti, Vebryn
 
     This file is part of Gadgetbridge.
 
@@ -17,7 +17,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmount;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmounts;
@@ -25,6 +30,13 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 class ActivityAnalysis {
+    private static final Logger LOG = LoggerFactory.getLogger(ActivityAnalysis.class);
+
+    // store raw steps and duration
+    protected HashMap<Integer, Long> stats = new HashMap<Integer, Long>();
+    // max speed determined from samples
+    private int maxSpeed = 0;
+
     ActivityAmounts calculateActivityAmounts(List<? extends ActivitySample> samples) {
         ActivityAmount deepSleep = new ActivityAmount(ActivityKind.TYPE_DEEP_SLEEP);
         ActivityAmount lightSleep = new ActivityAmount(ActivityKind.TYPE_LIGHT_SLEEP);
@@ -53,7 +65,7 @@ class ActivityAnalysis {
 
             int steps = sample.getSteps();
             if (steps > 0) {
-                amount.addSteps(sample.getSteps());
+                amount.addSteps(steps);
             }
 
             if (previousSample != null) {
@@ -64,6 +76,22 @@ class ActivityAnalysis {
                     long sharedTimeDifference = (long) (timeDifference / 2.0f);
                     previousAmount.addSeconds(sharedTimeDifference);
                     amount.addSeconds(sharedTimeDifference);
+                }
+
+                // add time
+                if (steps > 0 && sample.getKind() == ActivityKind.TYPE_ACTIVITY) {
+                    if (steps > maxSpeed) {
+                        maxSpeed = steps;
+                    }
+
+                    if (!stats.containsKey(steps)) {
+                        LOG.info("Adding: " + steps);
+                        stats.put(steps, timeDifference);
+                    } else {
+                        long time = stats.get(steps);
+                        LOG.info("Updating: " + steps + " " + timeDifference + time);
+                        stats.put(steps, timeDifference + time);
+                    }
                 }
             }
 

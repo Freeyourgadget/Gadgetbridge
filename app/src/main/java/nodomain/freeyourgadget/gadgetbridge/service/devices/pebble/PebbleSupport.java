@@ -30,6 +30,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -67,7 +68,30 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
 
     @Override
     public void onInstallApp(Uri uri) {
-        getDeviceIOThread().installApp(uri, 0);
+        PebbleProtocol pebbleProtocol = (PebbleProtocol) getDeviceProtocol();
+        PebbleIoThread pebbleIoThread = getDeviceIOThread();
+        // catch fake urls first
+        if (uri.equals(Uri.parse("fake://health"))) {
+            getDeviceIOThread().write(pebbleProtocol.encodeActivateHealth(true));
+            String units = GBApplication.getPrefs().getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, getContext().getString(R.string.p_unit_metric));
+            if (units.equals(getContext().getString(R.string.p_unit_metric))) {
+                pebbleIoThread.write(pebbleProtocol.encodeSetSaneDistanceUnit(true));
+            } else {
+                pebbleIoThread.write(pebbleProtocol.encodeSetSaneDistanceUnit(false));
+            }
+            return;
+        }
+        if (uri.equals(Uri.parse("fake://hrm"))) {
+            getDeviceIOThread().write(pebbleProtocol.encodeActivateHRM(true));
+            return;
+        }
+        if (uri.equals(Uri.parse("fake://weather"))) {
+            getDeviceIOThread().write(pebbleProtocol.encodeActivateWeather(true));
+            return;
+        }
+
+        // it is a real app
+        pebbleIoThread.installApp(uri, 0);
     }
 
     @Override
@@ -87,6 +111,8 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
                         byteArray[i] = ((Integer) jsonArray.get(i)).byteValue();
                     }
                     object = byteArray;
+                } else if (object instanceof Boolean) {
+                    object = (short) (((Boolean) object) ? 1 : 0);
                 }
                 pairs.add(new Pair<>(Integer.parseInt(keyStr), object));
             }
@@ -148,7 +174,6 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
             }
         }
         if (reconnect()) {
-            super.onDeleteNotification(notificationSpec.id); //update notification hack
             super.onNotification(notificationSpec);
         }
     }

@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Canvas;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -49,6 +50,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import de.cketti.library.changelog.ChangeLog;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -56,12 +58,13 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapterv2;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-//TODO: extend GBActivity, but it requires actionbar that is not available
+//TODO: extend AbstractGBActivity, but it requires actionbar that is not available
 public class ControlCenterv2 extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, GBActivity {
 
     //needed for KK compatibility
     static {
@@ -75,11 +78,16 @@ public class ControlCenterv2 extends AppCompatActivity
     private GBDeviceAdapterv2 mGBDeviceAdapter;
     private RecyclerView deviceListView;
 
+    private boolean isLanguageInvalid = false;
+
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             switch (action) {
+                case GBApplication.ACTION_LANGUAGE_CHANGE:
+                    setLanguage(GBApplication.getLanguage(), true);
+                    break;
                 case GBApplication.ACTION_QUIT:
                     finish();
                     break;
@@ -92,11 +100,7 @@ public class ControlCenterv2 extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (GBApplication.isDarkThemeEnabled()) {
-            setTheme(R.style.GadgetbridgeThemeDark_NoActionBar);
-        } else {
-            setTheme(R.style.GadgetbridgeTheme_NoActionBar);
-        }
+        AbstractGBActivity.init(this, AbstractGBActivity.NO_ACTIONBAR);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_controlcenterv2);
@@ -170,6 +174,7 @@ public class ControlCenterv2 extends AppCompatActivity
         registerForContextMenu(deviceListView);
 
         IntentFilter filterLocal = new IntentFilter();
+        filterLocal.addAction(GBApplication.ACTION_LANGUAGE_CHANGE);
         filterLocal.addAction(GBApplication.ACTION_QUIT);
         filterLocal.addAction(DeviceManager.ACTION_DEVICES_CHANGED);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
@@ -189,7 +194,7 @@ public class ControlCenterv2 extends AppCompatActivity
             checkAndRequestPermissions();
         }
 
-        ChangeLog cl = new ChangeLog(this);
+        ChangeLog cl = createChangeLog();
         if (cl.isFirstRun()) {
             cl.getLogDialog().show();
         }
@@ -201,6 +206,22 @@ public class ControlCenterv2 extends AppCompatActivity
         } else {
             GBApplication.deviceService().requestDeviceInfo();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isLanguageInvalid) {
+            isLanguageInvalid = false;
+            recreate();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterForContextMenu(deviceListView);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+        super.onDestroy();
     }
 
     @Override
@@ -235,8 +256,13 @@ public class ControlCenterv2 extends AppCompatActivity
             case R.id.action_quit:
                 GBApplication.quit();
                 return true;
+            case R.id.donation_link:
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://liberapay.com/Gadgetbridge")); //TODO: centralize if ever used somewhere else
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+                return true;
             case R.id.external_changelog:
-                ChangeLog cl = new ChangeLog(this);
+                ChangeLog cl = createChangeLog();
                 cl.getFullLogDialog().show();
                 return true;
         }
@@ -244,6 +270,14 @@ public class ControlCenterv2 extends AppCompatActivity
         return true;
     }
 
+    private ChangeLog createChangeLog() {
+        String css = ChangeLog.DEFAULT_CSS;
+        css += "body { "
+                + "color: " + AndroidUtils.getTextColorHex(getBaseContext()) + "; "
+                + "background-color: " + AndroidUtils.getBackgroundColorHex(getBaseContext()) + ";" +
+                "}";
+        return new ChangeLog(this, css);
+}
     private void launchDiscoveryActivity() {
         startActivity(new Intent(this, DiscoveryActivity.class));
     }
@@ -288,4 +322,10 @@ public class ControlCenterv2 extends AppCompatActivity
             ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[wantedPermissions.size()]), 0);
     }
 
+    public void setLanguage(Locale language, boolean invalidateLanguage) {
+        if (invalidateLanguage) {
+            isLanguageInvalid = true;
+        }
+        AndroidUtils.setLanguage(this, language);
+    }
 }

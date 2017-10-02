@@ -40,6 +40,7 @@
   <string name="app_move_to_top">Переместить наверх</string>
   <!--Strings related to AppBlacklist-->
   <string name="title_activity_appblacklist">Заблокированные уведомления</string>
+  <!--Strings related to CalBlacklist-->
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">Установщик прошивки/приложений</string>
   <string name="fw_upgrade_notice">Вы собираетесь установить прошивку  %s заместо текущей на вашем Mi Band.</string>
@@ -76,8 +77,8 @@
   <string name="pref_title_notification_filter">Не беспокоить</string>
   <string name="pref_summary_notification_filter">Предотвращать отправку нежелательных уведомлений в режиме \"Не беспокоить\"</string>
   <string name="pref_title_transliteration">Транслитерация</string>
-  <string name="pref_summary_transliteration">Включите эту функцию, если ваше устройство не имеет поддержки шрифта на вашем языке (в настоящее время только на Кириллице)</string>
   <string name="always">всегда</string>
+  <string name="pref_summary_transliteration">Включите эту функцию, если ваше устройство не имеет поддержки шрифта на вашем языке</string>
   <string name="when_screen_off">когда экран выключен</string>
   <string name="never">никогда</string>
   <string name="pref_header_privacy">Конфиденциальность</string>
@@ -106,6 +107,8 @@
   <string name="pref_summary_enable_pebblekit">Добавить экспериментальную поддержку приложений Android, использующих PebbleKit</string>
   <string name="pref_title_sunrise_sunset">Восход и закат солнца</string>
   <string name="pref_summary_sunrise_sunset">Показывать время восхода и захода солнца в зависимости от местоположения на временной шкале pebble</string>
+  <string name="pref_title_enable_calendar_sync">Синхронизация календаря</string>
+  <string name="pref_summary_enable_calendar_sync">Отображать события календаря на временной шкале pebble</string>
   <string name="pref_title_autoremove_notifications">Автоматическое удаление отклонённых уведомлений</string>
   <string name="pref_summary_autoremove_notifications">Уведомления автоматически будут удалены из Pebble, при удалении с устройства Android</string>
   <string name="pref_title_pebble_privacy_mode">Режим конфиденциальности</string>
@@ -142,8 +145,6 @@
   <string name="connecting">соединение</string>
   <string name="connected">соединено</string>
   <string name="unknown_state">неизвестное состояние</string>
-  <string name="connectionstate_hw_fw">Версия устройства: %1$s Версия ПО: %2$s</string>
-  <string name="connectionstate_fw">ПО: %1$s</string>
   <string name="_unknown_">(неизвестно)</string>
   <string name="test">Тест</string>
   <string name="test_notification">Тест уведомлений</string>

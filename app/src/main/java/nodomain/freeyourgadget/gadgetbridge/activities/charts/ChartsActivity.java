@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
+    Gobbetti, Vebryn
 
     This file is part of Gadgetbridge.
 
@@ -102,9 +102,6 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             switch (action) {
-                case GBApplication.ACTION_QUIT:
-                    finish();
-                    break;
                 case GBDevice.ACTION_DEVICE_CHANGED:
                     GBDevice dev = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                     refreshBusyState(dev);
@@ -136,7 +133,6 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         initDates();
 
         IntentFilter filterLocal = new IntentFilter();
-        filterLocal.addAction(GBApplication.ACTION_QUIT);
         filterLocal.addAction(GBDevice.ACTION_DEVICE_CHANGED);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
 
@@ -332,15 +328,20 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
                 case 3:
                     return new WeekStepsChartFragment();
                 case 4:
+                    return new SpeedZonesFragment();
+                case 5:
                     return new LiveActivityFragment();
-
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            // Show 5 total pages.
+            // Show 5 or 6 total pages.
+            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(mGBDevice);
+            if (coordinator.supportsRealtimeData()) {
+                return 6;
+            }
             return 5;
         }
 
@@ -356,6 +357,8 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
                 case 3:
                     return getString(R.string.weekstepschart_steps_a_week);
                 case 4:
+                    return getString(R.string.stats_title);
+                case 5:
                     return getString(R.string.liveactivity_live_activity);
             }
             return super.getPageTitle(position);

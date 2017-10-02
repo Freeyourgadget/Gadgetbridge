@@ -7,7 +7,7 @@
   <string name="action_quit">종료</string>
   <string name="controlcenter_fetch_activity_data">동기화</string>
   <string name="controlcenter_start_sleepmonitor">수면 측정계 (초기 버전)</string>
-  <string name="controlcenter_find_device">잃어버린 기기 찾기...</string>
+  <string name="controlcenter_find_device">잃어버린 기기 찾기</string>
   <string name="controlcenter_take_screenshot">스크린샷 찍기</string>
   <string name="controlcenter_disconnect">연결 해제</string>
   <string name="title_activity_debug">디버그</string>
@@ -25,8 +25,10 @@
   <string name="fw_upgrade_notice">지금 기존의 Mi Band 펌웨어 대신 %s 펌웨어를 설치하려고 합니다.</string>
   <string name="fw_multi_upgrade_notice">지금 Mi Band의 기존 펌웨어 대신 %1$s와 %2$s 펌웨어를 설치하려고 합니다.</string>
   <string name="miband_firmware_known">이 펌웨어는 테스트를 거쳤고 가젯브릿지와 호환됩니다.</string>
-  <string name="miband_firmware_unknown_warning">이 펌웨어는 테스트를 거치지 않았고 가젯브릿지와 호환되지 않을 수 있습니다.\n\n Mi Band에 설치하지 않는 것이 좋습니다.</string>
-  <string name="miband_firmware_suggest_whitelist">여전히 계속 진행하기를 원하고 이후에도 정상적으로 작동하기를 원한다면, %s 화이트리스트 펌웨어 버전을 가젯브릿지 개발자들에게 알려주세요.</string>
+  <string name="miband_firmware_unknown_warning">이 펌웨어는 테스트를 거치지 않았고 가젯브릿지와 호환되지 않을 수 있습니다.
+\n
+\nMi Band에 설치하지 않는 것이 좋습니다!</string>
+  <string name="miband_firmware_suggest_whitelist">여전히 계속 진행하기를 원하고 이후에도 정상적으로 작동하기를 원한다면, %s 화이트리스트 펌웨어 버전을 가젯브릿지 개발자들에게 알려주세요</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">설정</string>
   <string name="pref_header_general">일반 설정</string>
@@ -46,7 +48,7 @@
   <string name="pref_title_notifications_sms">SMS</string>
   <string name="pref_title_notifications_pebblemsg">Pebble 메세지</string>
   <string name="pref_title_notifications_generic">일반적인 알림 지원</string>
-  <string name="pref_title_whenscreenon">… 화면이 켜져있을 때도</string>
+  <string name="pref_title_whenscreenon">…화면이 켜져있을 때도</string>
   <string name="always">항상</string>
   <string name="when_screen_off">화면이 꺼져 있을 때</string>
   <string name="never">하지 않음</string>
@@ -55,8 +57,8 @@
   <string name="pref_header_development">개발자 옵션</string>
   <string name="pref_title_development_miaddr">Mi Band 주소</string>
   <string name="pref_title_pebble_settings">Pebble 설정</string>
-  <string name="pref_title_pebble_activitytracker">선호하는 액티비티 트래커</string>
-  <string name="pref_title_enable_pebblekit">제3자 안드로이드 앱 접근을 허용</string>
+  <string name="pref_title_pebble_activitytracker">선호하는 활동 추적자</string>
+  <string name="pref_title_enable_pebblekit">제 3자 안드로이드 앱 접근을 허용</string>
   <string name="pref_summary_enable_pebblekit">PebbleKit을 사용하는 안드로이드 앱을 실험적으로 지원</string>
   <string name="pref_title_pebble_forceprotocol">강제 알림 프로토콜</string>
   <string name="pref_summary_pebble_forceprotocol">이 옵션은 펌웨어 버전에 따라 최신 알림 프로토콜을 강제로 사용하도록 합니다. 자세한 내용을 알 경우에만 이 옵션을 사용하세요.</string>
@@ -67,8 +69,6 @@
   <string name="connecting">연결 중</string>
   <string name="connected">연결됨</string>
   <string name="unknown_state">알 수 없는 상태</string>
-  <string name="connectionstate_hw_fw">HW: %1$s FW: %2$s</string>
-  <string name="connectionstate_fw">FW: %1$s</string>
   <string name="_unknown_">(알 수 없음)</string>
   <string name="test">테스트</string>
   <string name="test_notification">알림 테스트</string>
@@ -223,4 +223,108 @@
   <string name="Delete">삭제</string>
   <!--Strings related to Vibration Activity-->
   <!--Strings related to Pebble Pairing Activity-->
-</resources>
+<string name="action_donate">기부</string>
+    <string name="controlcenter_delete_device">기기 제거</string>
+    <string name="controlcenter_delete_device_name">%1$s 제거</string>
+    <string name="controlcenter_delete_device_dialogmessage">기기와 그와 관련된 모든 데이터를 삭제 할 것입니다!</string>
+    <string name="controlcenter_navigation_drawer_open">네비게이션 드로어 열기</string>
+    <string name="controlcenter_navigation_drawer_close">네비게이션 드로어 닫기</string>
+    <string name="controlcenter_snackbar_need_longpress">카드를 길게 눌러 연결 해제</string>
+    <string name="controlcenter_snackbar_disconnecting">연결 해제 중</string>
+    <string name="controlcenter_snackbar_connecting">연결 중</string>
+    <string name="controlcenter_snackbar_requested_screenshot">기기의 스크린샷을 찍는 중</string>
+
+
+    <string name="appmanager_cached_watchapps_watchfaces">캐시에 저장된 앱들</string>
+    <string name="appmanager_installed_watchapps">설치된 앱들</string>
+    <string name="appmanager_installed_watchfaces">설치된 워치페이스</string>
+    <string name="appmananger_app_delete_cache">삭제하고 캐시에서 제거</string>
+    <string name="appmanager_app_openinstore">페블 앱스토어에서 검색</string>
+    <string name="appmanager_hrm_activate">심장 박동수 모니터링 활성화</string>
+    <string name="appmanager_hrm_deactivate">심장 박동수 모니터링 비활성화</string>
+    <string name="appmanager_weather_activate">시스템 날씨 앱 활성화</string>
+    <string name="appmanager_weather_deactivate">시스템 날씨 앱 비활성화</string>
+    <string name="appmanager_weather_install_provider">날씨 알림 앱 설치</string>
+    <string name="app_move_to_top">가장 위로 이동</string>
+
+    <string name="title_activity_calblacklist">비활성화 된 캘린더들</string>
+
+    <string name="fw_upgrade_notice_amazfitbip">지금 기존의 Amazfit Bip에 설치되어 있는 펌웨어 대신 %s 펌웨어를 설치하려고 합니다.
+\n
+\n.gps 펌웨어를 설치하고 나서 .res 파일을, 그리고 최종적으로 .fw 파일을 설치하세요. 시계가 .fw 파일을 설치한 후 재시작 됩니다.
+\n
+\n비고: 만약 전에 설치되어 있던 .res 파일과 .gps 파일을 그대로 사용한다면 각 파일을 다시 설치 할 필요는 없습니다.
+\n
+\n실험적인 기능입니다. 기기 파손의 책임은 사용자에게 있으니 주의해서 진행하세요</string>
+    <string name="pref_title_general_autostartonboot">자동으로 시작</string>
+    <string name="pref_title_language">언어</string>
+
+    <string name="pref_title_minimize_priority">가젯브릿지 알림 숨김</string>
+    <string name="pref_summary_minimize_priority_off">상태 표시줄과 잠금 화면 알림에 아이콘이 표시됩니다</string>
+    <string name="pref_summary_minimize_priority_on">상태 표시줄과 잠금 화면 알림에 아이콘이 표시되지 않습니다</string>
+
+    <string name="pref_summary_notifications_pebblemsg">PebbleKit를 사용하여 페블에 알림을 보내는 앱을 지원합니다.</string>
+    <string name="pref_title_notification_filter">방해 금지 모드</string>
+    <string name="pref_summary_notification_filter">방해 금지 모드가 활성화 되었을 때 원하지 않는 알림을 보내지 않습니다</string>
+    <string name="pref_title_transliteration">표기법 변환</string>
+    <string name="pref_summary_transliteration">만약 장치가 당신이 사용하는 언어의 폰트를 지원하지 않는다면 이 옵션을 활성화 하세요</string>
+
+    <string name="pref_header_privacy">프라이버시</string>
+    <string name="pref_title_call_privacy_mode">전화 프라이버시 모드</string>
+    <string name="pref_call_privacy_mode_off">이름과 번호를 표시</string>
+    <string name="pref_call_privacy_mode_name">이름을 숨기지만 번호는 표시</string>
+    <string name="pref_call_privacy_mode_number">이름을 표시하지만 번호는 숨기기</string>
+    <string name="pref_call_privacy_mode_complete">이름과 번호를 숨기기</string>
+
+
+    <string name="pref_blacklist_calendars">블랙리스트 캘린더</string>
+
+    <string name="pref_header_cannned_messages">상용구</string>
+    <string name="pref_title_canned_replies">답장</string>
+    <string name="pref_title_canned_messages_dismisscall">전화 거절</string>
+    <string name="pref_title_canned_messages_set">페블에서 업데이트</string>
+
+    <string name="pref_header_activitytrackers">활동 추적자 설정</string>
+    <string name="pref_title_pebble_sync_health">Pebble Health 동기화</string>
+    <string name="pref_title_pebble_sync_misfit">Misfit 동기화</string>
+    <string name="pref_title_pebble_sync_morpheuz">Morpheuz 동기화</string>
+
+    <string name="pref_title_enable_outgoing_call">거는 전화를 지원</string>
+    <string name="pref_summary_enable_outgoing_call">이 옵션을 비활성화 하면 Pebble 2/LE가 전화를 걸 때 진동하지 않습니다</string>
+
+    <string name="pref_header_pebble_timeline">페블 타임라인</string>
+    <string name="pref_title_sunrise_sunset">일출과 일몰</string>
+    <string name="pref_summary_sunrise_sunset">현재 위치 기반으로 타임라인에 일출과 일몰 시간을 보여줍니다</string>
+    <string name="pref_title_enable_calendar_sync">캘린더 동기화</string>
+    <string name="pref_summary_enable_calendar_sync">타임라인에 캘린더 이벤트를 보여줍니다</string>
+
+    <string name="pref_title_autoremove_notifications">닫은 알림을 자동으로 삭제</string>
+    <string name="pref_summary_autoremove_notifications">안드로이드 기기에서 알림을 닫으면 페블에서도 자동으로 삭제합니다</string>
+
+    <string name="pref_title_pebble_privacy_mode">프라이버시 모드</string>
+    <string name="pref_pebble_privacy_mode_off">일반 알림</string>
+    <string name="pref_pebble_privacy_mode_content">알림 내용을 바로 보여주지 않습니다</string>
+    <string name="pref_pebble_privacy_mode_complete">알림 아이콘만 보여줍니다</string>
+
+    <string name="pref_header_location">위치</string>
+    <string name="pref_title_location_aquire">위치 찾기</string>
+    <string name="pref_title_location_latitude">위도</string>
+    <string name="pref_title_location_longitude">경도</string>
+    <string name="pref_title_location_keep_uptodate">위치를 자동으로 업데이트</string>
+    <string name="pref_summary_location_keep_uptodate">사용 중 현재 위치를 받아오려고 시도합니다. 실패하면 저장된 위치를 사용합니다</string>
+
+    <string name="toast_enable_networklocationprovider">네트워크 기반 위치 측량 기능을 활성화 해 주세요</string>
+    <string name="toast_aqurired_networklocation">위치를 찾음</string>
+
+    <string name="pref_title_pebble_forcele">블루투스 저전력 연결을 언제나 선호</string>
+    <string name="pref_summary_pebble_forcele">일반 블루투스 프로토콜이 아닌 실험적인 블루투스 저전력 연결을 사용합니다. 일반적인 연결을 최소한 한번 한 후 Pebble LE를 페어링 하는 것이 필요합니다</string>
+    <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU 제한</string>
+    <string name="pref_summary_pebble_mtu_limit">만약 Pebble 2/Pebble LE가 기대한 대로 작동하지 않는다면, 이 설정을 사용하여 MTU를 제한하세요 (20-512까지 설정 가능)</string>
+    <string name="pref_title_pebble_enable_applogs">시계 앱 로그 활성화</string>
+    <string name="pref_summary_pebble_enable_applogs">시계 앱들의 로그를 Gadgetbridge가 기록합니다 (재연결 필요)</string>
+    <string name="pref_title_pebble_always_ack_pebblekit">끝나기 전 미리 PebbleKit 연결에 ACK 보내기</string>
+    <string name="pref_summary_pebble_always_ack_pebblekit">제 3자 앱으로 보내는 메세지에 언제나 바로 ACK을 보냅니다</string>
+
+    <string name="pref_title_unit_system">단위</string>
+    <string name="pref_title_timeformat">시간 형식</string>
+    </resources>

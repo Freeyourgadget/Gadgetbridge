@@ -61,6 +61,8 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_
 public class SettingsActivity extends AbstractSettingsActivity {
     private static final Logger LOG = LoggerFactory.getLogger(SettingsActivity.class);
 
+    public static final String PREF_MEASUREMENT_SYSTEM = "measurement_system";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +94,15 @@ public class SettingsActivity extends AbstractSettingsActivity {
         pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
                 Intent enableIntent = new Intent(SettingsActivity.this, AppBlacklistActivity.class);
+                startActivity(enableIntent);
+                return true;
+            }
+        });
+
+        pref = findPreference("pref_key_blacklist_calendars");
+        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                Intent enableIntent = new Intent(SettingsActivity.this, CalBlacklistActivity.class);
                 startActivity(enableIntent);
                 return true;
             }
@@ -141,6 +152,41 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 return true;
             }
 
+        });
+
+        pref = findPreference("language");
+        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                String newLang = newVal.toString();
+                try {
+                    GBApplication.setLanguage(newLang);
+                    recreate();
+                } catch (Exception ex) {
+                    GB.toast(getApplicationContext(),
+                            "Error setting language: " + ex.getLocalizedMessage(),
+                            Toast.LENGTH_LONG,
+                            GB.ERROR,
+                            ex);
+                }
+                return true;
+            }
+
+        });
+
+        final Preference unit = findPreference(PREF_MEASUREMENT_SYSTEM);
+        unit.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MEASUREMENT_SYSTEM);
+                    }
+                });
+                preference.setSummary(newVal.toString());
+                return true;
+            }
         });
 
         if (!GBApplication.isRunningMarshmallowOrLater()) {
@@ -237,6 +283,13 @@ public class SettingsActivity extends AbstractSettingsActivity {
         audioPlayer.setEntries(newEntries);
         audioPlayer.setEntryValues(newValues);
         audioPlayer.setDefaultValue(newValues[0]);
+    }
+
+    /*
+     * delayed execution so that the preferences are applied first
+     */
+    private void invokeLater(Runnable runnable) {
+        getListView().post(runnable);
     }
 
     @Override

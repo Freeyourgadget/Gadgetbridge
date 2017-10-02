@@ -17,13 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -32,25 +27,14 @@ import android.view.MenuItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.AppBlacklistAdapter;
 
 
-public class AppBlacklistActivity extends GBActivity {
+public class AppBlacklistActivity extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(AppBlacklistActivity.class);
 
     private AppBlacklistAdapter appBlacklistAdapter;
-
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equals(GBApplication.ACTION_QUIT)) {
-                finish();
-            }
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +62,6 @@ public class AppBlacklistActivity extends GBActivity {
                 return true;
             }
         });
-
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(GBApplication.ACTION_QUIT);
-        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
     }
 
     @Override
@@ -92,11 +72,5 @@ public class AppBlacklistActivity extends GBActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onDestroy() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
-        super.onDestroy();
     }
 }

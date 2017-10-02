@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Christian
-    Fischer, Daniele Gobbetti, Szymon Tomasz Stefanek
+    Fischer, Daniele Gobbetti, José Rebelo, Szymon Tomasz Stefanek
 
     This file is part of Gadgetbridge.
 
@@ -34,12 +34,28 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_ALARM_CLOCK;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_INCOMING_CALL;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DATEFORMAT;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DISPLAY_ITEMS;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_END;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_OFF;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_SCHEDULED;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DO_NOT_DISTURB_START;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_ENABLE_TEXT_NOTIFICATIONS;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_GOAL_NOTIFICATION;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_INACTIVITY_WARNINGS;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND_END;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND_START;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_END;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_START;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD;
+import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_ADDRESS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR;
@@ -57,11 +73,27 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
 
         addTryListeners();
 
+        Prefs prefs = GBApplication.getPrefs();
+
         final Preference enableHeartrateSleepSupport = findPreference(PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION);
         enableHeartrateSleepSupport.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newVal) {
                 GBApplication.deviceService().onEnableHeartRateSleepSupport(Boolean.TRUE.equals(newVal));
+                return true;
+            }
+        });
+
+        final Preference goalNotification = findPreference(PREF_MI2_GOAL_NOTIFICATION);
+        goalNotification.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_GOAL_NOTIFICATION);
+                    }
+                });
                 return true;
             }
         });
@@ -80,6 +112,20 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
             }
         });
 
+        final Preference displayPages = findPreference(PREF_MI2_DISPLAY_ITEMS);
+        displayPages.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DISPLAY_ITEMS);
+                    }
+                });
+                return true;
+            }
+        });
+
         final Preference activateDisplayOnLift = findPreference(PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT);
         activateDisplayOnLift.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -88,6 +134,170 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
                     @Override
                     public void run() {
                         GBApplication.deviceService().onSendConfiguration(PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference rotateWristCycleInfo = findPreference(PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO);
+        rotateWristCycleInfo.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference inactivityWarnings = findPreference(PREF_MI2_INACTIVITY_WARNINGS);
+        inactivityWarnings.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_INACTIVITY_WARNINGS);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference inactivityWarningsThreshold = findPreference(PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD);
+        inactivityWarningsThreshold.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference inactivityWarningsStart = findPreference(PREF_MI2_INACTIVITY_WARNINGS_START);
+        inactivityWarningsStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_INACTIVITY_WARNINGS_START);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference inactivityWarningsEnd = findPreference(PREF_MI2_INACTIVITY_WARNINGS_END);
+        inactivityWarningsEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_INACTIVITY_WARNINGS_END);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference inactivityWarningsDnd = findPreference(PREF_MI2_INACTIVITY_WARNINGS_DND);
+        inactivityWarningsDnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_INACTIVITY_WARNINGS_DND);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference inactivityWarningsDndStart = findPreference(PREF_MI2_INACTIVITY_WARNINGS_DND_START);
+        inactivityWarningsDndStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_INACTIVITY_WARNINGS_DND_START);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference inactivityWarningsDndEnd = findPreference(PREF_MI2_INACTIVITY_WARNINGS_DND_END);
+        inactivityWarningsDndEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_INACTIVITY_WARNINGS_DND_END);
+                    }
+                });
+                return true;
+            }
+        });
+
+        String doNotDisturbState = prefs.getString(MiBandConst.PREF_MI2_DO_NOT_DISTURB, PREF_MI2_DO_NOT_DISTURB_OFF);
+        boolean doNotDisturbScheduled = doNotDisturbState.equals(PREF_MI2_DO_NOT_DISTURB_SCHEDULED);
+
+        final Preference doNotDisturbStart = findPreference(PREF_MI2_DO_NOT_DISTURB_START);
+        doNotDisturbStart.setEnabled(doNotDisturbScheduled);
+        doNotDisturbStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DO_NOT_DISTURB_START);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference doNotDisturbEnd = findPreference(PREF_MI2_DO_NOT_DISTURB_END);
+        doNotDisturbEnd.setEnabled(doNotDisturbScheduled);
+        doNotDisturbEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DO_NOT_DISTURB_END);
+                    }
+                });
+                return true;
+            }
+        });
+
+        final Preference doNotDisturb = findPreference(PREF_MI2_DO_NOT_DISTURB);
+        doNotDisturb.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                final boolean scheduled = PREF_MI2_DO_NOT_DISTURB_SCHEDULED.equals(newVal.toString());
+
+                doNotDisturbStart.setEnabled(scheduled);
+                doNotDisturbEnd.setEnabled(scheduled);
+
+                invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSendConfiguration(PREF_MI2_DO_NOT_DISTURB);
                     }
                 });
                 return true;
@@ -165,6 +375,7 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
         prefKeys.add(PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR);
         prefKeys.add(PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS);
         prefKeys.add(PREF_MI2_ENABLE_TEXT_NOTIFICATIONS);
+        prefKeys.add(PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD);
         prefKeys.add(getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_ALARM_CLOCK));
         prefKeys.add(getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_INCOMING_CALL));
 

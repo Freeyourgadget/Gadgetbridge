@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
+    Gobbetti, Gabe Schrecker
 
     This file is part of Gadgetbridge.
 
@@ -18,17 +18,23 @@
 package nodomain.freeyourgadget.gadgetbridge.service.receivers;
 
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.media.session.MediaController;
+import android.media.session.MediaSessionManager;
 import android.os.SystemClock;
 import android.view.KeyEvent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class GBMusicControlReceiver extends BroadcastReceiver {
@@ -70,8 +76,9 @@ public class GBMusicControlReceiver extends BroadcastReceiver {
         }
 
         if (keyCode != -1) {
-            Prefs prefs = GBApplication.getPrefs();
-            String audioPlayer = prefs.getString("audio_player", "default");
+            String audioPlayer = getAudioPlayer(context);
+
+            LOG.debug("keypress: " + musicCmd.toString() + " sent to: " + audioPlayer);
 
             long eventtime = SystemClock.uptimeMillis();
 
@@ -91,5 +98,24 @@ public class GBMusicControlReceiver extends BroadcastReceiver {
             }
             context.sendOrderedBroadcast(upIntent, null);
         }
+    }
+
+    private String getAudioPlayer(Context context) {
+        Prefs prefs = GBApplication.getPrefs();
+        String audioPlayer = prefs.getString("audio_player", "default");
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            MediaSessionManager mediaSessionManager =
+                    (MediaSessionManager) context.getSystemService(Context.MEDIA_SESSION_SERVICE);
+
+            List<MediaController> controllers = mediaSessionManager.getActiveSessions(
+                    new ComponentName(context, NotificationListener.class));
+            try {
+                MediaController controller = controllers.get(0);
+                audioPlayer = controller.getPackageName();
+            } catch (IndexOutOfBoundsException e) {
+                LOG.error("No media controller available", e);
+            }
+        }
+        return audioPlayer;
     }
 }

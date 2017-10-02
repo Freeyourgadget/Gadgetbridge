@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2017 Carsten Pfeiffer
+/*  Copyright (C) 2016-2017 Carsten Pfeiffer, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -28,8 +28,12 @@ import android.support.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -115,6 +119,92 @@ public class MiBand2Coordinator extends MiBandCoordinator {
     public static boolean getActivateDisplayOnLiftWrist() {
         Prefs prefs = GBApplication.getPrefs();
         return prefs.getBoolean(MiBandConst.PREF_MI2_ACTIVATE_DISPLAY_ON_LIFT, true);
+    }
+
+    public static Set<String> getDisplayItems() {
+        Prefs prefs = GBApplication.getPrefs();
+        return prefs.getStringSet(MiBandConst.PREF_MI2_DISPLAY_ITEMS, null);
+    }
+
+    public static boolean getGoalNotification() {
+        Prefs prefs = GBApplication.getPrefs();
+        return prefs.getBoolean(MiBandConst.PREF_MI2_GOAL_NOTIFICATION, false);
+    }
+
+    public static boolean getRotateWristToSwitchInfo() {
+        Prefs prefs = GBApplication.getPrefs();
+        return prefs.getBoolean(MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO, false);
+    }
+
+    public static boolean getInactivityWarnings() {
+        Prefs prefs = GBApplication.getPrefs();
+        return prefs.getBoolean(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS, false);
+    }
+
+    public static int getInactivityWarningsThreshold() {
+        Prefs prefs = GBApplication.getPrefs();
+        return prefs.getInt(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD, 60);
+    }
+
+    public static boolean getInactivityWarningsDnd() {
+        Prefs prefs = GBApplication.getPrefs();
+        return prefs.getBoolean(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND, false);
+    }
+
+    public static Date getInactivityWarningsStart() {
+        return getTimePreference(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_START, "06:00");
+    }
+
+    public static Date getInactivityWarningsEnd() {
+        return getTimePreference(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_END, "22:00");
+    }
+
+    public static Date getInactivityWarningsDndStart() {
+        return getTimePreference(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND_START, "12:00");
+    }
+
+    public static Date getInactivityWarningsDndEnd() {
+        return getTimePreference(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND_END, "14:00");
+    }
+
+    public static Date getDoNotDisturbStart() {
+        return getTimePreference(MiBandConst.PREF_MI2_DO_NOT_DISTURB_START, "01:00");
+    }
+
+    public static Date getDoNotDisturbEnd() {
+        return getTimePreference(MiBandConst.PREF_MI2_DO_NOT_DISTURB_END, "06:00");
+    }
+
+    public static Date getTimePreference(String key, String defaultValue) {
+        Prefs prefs = GBApplication.getPrefs();
+        String time = prefs.getString(key, defaultValue);
+
+        DateFormat df = new SimpleDateFormat("HH:mm");
+        try {
+            return df.parse(time);
+        } catch(Exception e) {
+            LOG.error("Unexpected exception in MiBand2Coordinator.getTime: " + e.getMessage());
+        }
+
+        return new Date();
+    }
+
+    public static DoNotDisturb getDoNotDisturb(Context context) {
+        Prefs prefs = GBApplication.getPrefs();
+
+        String dndOff = context.getString(R.string.p_off);
+        String dndAutomatic = context.getString(R.string.p_automatic);
+        String dndScheduled = context.getString(R.string.p_scheduled);
+
+        String pref = prefs.getString(MiBandConst.PREF_MI2_DO_NOT_DISTURB, dndOff);
+
+        if (dndAutomatic.equals(pref)) {
+            return DoNotDisturb.AUTOMATIC;
+        } else if (dndScheduled.equals(pref)) {
+            return DoNotDisturb.SCHEDULED;
+        }
+
+        return DoNotDisturb.OFF;
     }
 
     @Override

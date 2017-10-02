@@ -117,7 +117,9 @@ public class InitOperation extends AbstractBTLEOperation<MiBand2Support> {
                     TransactionBuilder builder = createTransactionBuilder("Authenticated, now initialize phase 2");
                     builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
                     getSupport().requestDeviceInfo(builder);
+                    getSupport().enableFurtherNotifications(builder, true);
                     getSupport().phase2Initialize(builder);
+                    getSupport().phase3Initialize(builder);
                     getSupport().setInitialized(builder);
                     getSupport().performImmediately(builder);
                 } else {

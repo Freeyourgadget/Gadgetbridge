@@ -1,5 +1,87 @@
 ### Changelog
 
+#### Version 0.21.4
+* Mi2/Bip: Fix sleep detection for newer firmwares
+* Mi2/Bip: Fix ancient bug resulting in wrong activity data at the beginning in diagrams and aggregate data
+* No.1 F1: Support setting time format and distance units (metric/imperial)
+* Pebble: Support setting distance units to miles for Health (need to reactivate Health in App Manager after toggling)
+* HPlus: Make changing distance unit system effective immediately on toggling
+
+#### Version 0.21.3
+* Amazfit Bip: Auto-switch language on connect (English, Simplified Chinese, Traditional Chinese), requires FW 0.0.9.14+
+
+#### Version 0.21.2
+* Amazfit Bip: Support flashing CEP and ALM files for AGPS
+* Amazfit Bip: Initial experimental support for fetching logs from the watch
+* Mi2/Bip: Send user info to the device (fixes calories and distance display)
+* Mi2/Bip: Fix firmware update progressbar being stuck at the end
+* Pebble/Bip: Support more notification icons
+* Pebble: Automatically determine color for unknown notifications on Pebble Time
+
+#### Version 0.21.1
+* Initial support for EXRIZU K8 (HPLus variant)
+* Amazfit Bip: fix long messages not being displayed at all
+* Mi Band 2: Support multiple button actions
+* NO.1 F1: Fetch sleep data
+* NO.1 F1: Heart rate support
+* Pebble: Support controlling the current active media playback application
+* Fix suspended activities coming to front when rotating the screen
+
+#### Version 0.21.0
+* Initial NO.1 F1 support
+* Initial Teclast H30 support
+* Amazfit Bip: Display GPS firmware version
+* Amazfit Bip: Fix E-Mail notifications
+* Amazfit Bip: Fix call notification with unknown caller
+* Amazfit Bip: Fix crash when weather is updated and device reconnecting
+* Mi2/Bip: Fix crash when synchronizing calendar to alarms
+* Pebble: Fix crash when takeing screenshots on Android 8.0 (Oreo)
+* Pebble: Support some google app icons
+* Pebble: try to support spotify
+* Mi Band 2: Support configurable button actions
+* Fix language being reset to system default
+
+#### Version 0.20.2
+* Amazfit Bip: Various fixes regarding weather, add condition string support for FW 0.0.8.74
+* Amazfit Bip: enable caller display in later firmwares
+* Amazfit Bip: initial firmware update support (EXPERIMENTAL, AT YOUR OWN RISK)
+* Re-enable improved speed zones tab
+* Probably fix crash with certain music players
+* Improve theme and add changelog icon
+
+#### Version 0.20.1
+* Amazfit Bip: Support icons and text body for notifications
+* Mi Band: Fix setting smart alarms
+
+#### Version 0.20.0
+* Inital Amazfit Bip support (WIP)
+* Various theming fixes
+* Add workaround for blacklist not properly persisting
+* Handle resetting language to default properly
+* Pebble: Pass booleans from Javascript Appmessage correctly
+* Pebble: Make local configuration pages work on most recent webview implementation
+* Pebble: Allow to blacklist calendars
+* Add Greek and German transliteration support
+* Various visual improvements to charts
+
+#### Version 0.19.4
+* Replace or relicense CC-NC licensed icons to satisfy F-Droid
+* Mi Band 2: Make infos to display on the Band configurable
+* Mi Band 2: Support wrist rotation to switch info setting
+* Mi Band 2: Support goal notification setting
+* Mi Band 2: Support do not disturb setting
+* Mi Band 2: Support inactivity warning setting 
+
+#### Version 0.19.3
+* Pebble: Fix crash when calendar access permission has been denied
+* Pebble: Fix wrong timestamps with Morpheuz running on Firmware >=3
+* Mi Band 2: Improve reliability when fetching activity data
+* HPlus: Fix intensity calculation without continuous connectivity
+* HPlus: Fix Unicode handling
+* HPlus: Initial not work detection
+* Fix memory leak
+* Only show Realtime Chart on devices supporting it
+
 #### Version 0.19.2
 * Pebble: Fix recurring calendar events only appearing once per week
 * HPlus: Fix crash when receiving calls without phone number

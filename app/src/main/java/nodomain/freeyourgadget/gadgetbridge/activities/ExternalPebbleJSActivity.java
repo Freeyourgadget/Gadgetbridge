@@ -64,7 +64,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-public class ExternalPebbleJSActivity extends GBActivity {
+public class ExternalPebbleJSActivity extends AbstractGBActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(ExternalPebbleJSActivity.class);
 
@@ -221,9 +221,6 @@ public class ExternalPebbleJSActivity extends GBActivity {
 
                     if (passKey) {
                         Object obj = in.get(inKey);
-                        if (obj instanceof Boolean) {
-                            obj = ((Boolean) obj) ? "true" : "false";
-                        }
                         out.put(outKey, obj);
                     } else {
                         GB.toast("Discarded key " + inKey + ", not found in the local configuration and is not an integer key.", Toast.LENGTH_SHORT, GB.WARN);

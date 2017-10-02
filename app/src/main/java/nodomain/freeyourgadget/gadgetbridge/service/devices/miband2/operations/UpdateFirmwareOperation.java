@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2017 Carsten Pfeiffer
+/*  Copyright (C) 2016-2017 Andreas Shimokawa, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 
@@ -48,11 +48,11 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
     private static final Logger LOG = LoggerFactory.getLogger(UpdateFirmwareOperation.class);
 
-    private final Uri uri;
-    private final BluetoothGattCharacteristic fwCControlChar;
-    private final BluetoothGattCharacteristic fwCDataChar;
-    final Prefs prefs = GBApplication.getPrefs();
-    private Mi2FirmwareInfo firmwareInfo;
+    protected final Uri uri;
+    protected final BluetoothGattCharacteristic fwCControlChar;
+    protected final BluetoothGattCharacteristic fwCDataChar;
+    protected final Prefs prefs = GBApplication.getPrefs();
+    protected Mi2FirmwareInfo firmwareInfo;
 
     public UpdateFirmwareOperation(Uri uri, MiBand2Support support) {
         super(support);
@@ -68,9 +68,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
 
     @Override
     protected void doPerform() throws IOException {
-        MiBand2FWHelper mFwHelper = new MiBand2FWHelper(uri, getContext());
-
-        firmwareInfo = mFwHelper.getFirmwareInfo();
+        firmwareInfo = createFwInfo(uri, getContext());
         if (!firmwareInfo.isGenerallyCompatibleWith(getDevice())) {
             throw new IOException("Firmware is not compatible with the given device: " + getDevice().getAddress());
         }
@@ -82,10 +80,27 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
         //the firmware will be sent by the notification listener if the band confirms that the metadata are ok.
     }
 
-    private void done() {
+    protected Mi2FirmwareInfo createFwInfo(Uri uri, Context context) throws IOException {
+        MiBand2FWHelper fwHelper = new MiBand2FWHelper(uri, context);
+        return fwHelper.getFirmwareInfo();
+    }
+
+    protected void done() {
         LOG.info("Operation done.");
         operationFinished();
         unsetBusy();
+    }
+
+    @Override
+    public boolean onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+        if (status != BluetoothGatt.GATT_SUCCESS) {
+            operationFailed();
+        }
+        return super.onCharacteristicWrite(gatt, characteristic, status);
+    }
+
+    private void operationFailed() {
+        GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_write_failed), false, 0, getContext());
     }
 
     @Override
@@ -94,6 +109,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
         UUID characteristicUUID = characteristic.getUuid();
         if (fwCControlChar.getUuid().equals(characteristicUUID)) {
             handleNotificationNotif(characteristic.getValue());
+            return true; // don't let anyone else handle it
         } else {
             super.onCharacteristicChanged(gatt, characteristic);
         }
@@ -131,7 +147,9 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
                     }
                     case MiBand2Service.COMMAND_FIRMWARE_CHECKSUM: {
                         if (getFirmwareInfo().getFirmwareType() == FirmwareType.FIRMWARE) {
-                            getSupport().onReboot();
+                            TransactionBuilder builder = performInitialized("reboot");
+                            getSupport().sendReboot(builder);
+                            builder.queue(getQueue());
                         } else {
                             GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_update_complete), false, 100, getContext());
                             done();
@@ -139,6 +157,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
                         break;
                     }
                     case MiBand2Service.COMMAND_FIRMWARE_REBOOT: {
+                        LOG.info("Reboot command successfully sent.");
                         GB.updateInstallNotification(getContext().getString(R.string.updatefirmwareoperation_update_complete), false, 100, getContext());
 //                    getSupport().onReboot();
                         done();
@@ -147,6 +166,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
                     default: {
                         LOG.error("Unexpected response during firmware update: ");
                         getSupport().logMessageContent(value);
+                        operationFailed();
                         displayMessage(getContext(), getContext().getString(R.string.updatefirmwareoperation_updateproblem_do_not_reboot), Toast.LENGTH_LONG, GB.ERROR);
                         done();
                         return;
@@ -158,12 +178,13 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
             }
         } else {
             LOG.error("Unexpected notification during firmware update: ");
+            operationFailed();
             getSupport().logMessageContent(value);
             displayMessage(getContext(), getContext().getString(R.string.updatefirmwareoperation_metadata_updateproblem), Toast.LENGTH_LONG, GB.ERROR);
             done();
         }
     }
-    private void displayMessage(Context context, String message, int duration, int severity) {
+    protected void displayMessage(Context context, String message, int duration, int severity) {
         getSupport().handleGBDeviceEvent(new GBDeviceEventDisplayMessage(message, duration, severity));
     }
 

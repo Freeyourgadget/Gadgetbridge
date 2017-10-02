@@ -1,21 +1,27 @@
 The following artwork is licensed under the following licenses
 
-Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0):
+Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0):
+   ic_launcher.png
    ic_device_pebble.png
    ic_device_miband.png
+   ic_device_lovetoy.png
+   ic_device_hplus.png
+   ic_device_default.png
    ic_activitytracker.png
    ic_watchface.png
    ic_languagepack.png
    ic_firmware.png
    ic_watchapp.png
    ic_systemapp.png
+   icon.png (fastlane metadata directories)
+   featureGraphic.png (fastlane metadata directories)
 (All of the above by xphnx)
-
-Creative Commons Attribution-NonCommercial-ShareAlike (CC BY-NC-SA):
-   ic_launcher.png (by Joseph Kim)
 
 Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0):
    "GET IT ON F-Droid" button by Laura Kalbag. Source: https://ind.ie/about/blog/f-droid-button/
 
 Creative Commons Attribution 3.0 Unported license (CC BY-3.0):
    ic_notification_battery_low.png by Picol.org. Source: https://commons.wikimedia.org/wiki/File:Battery_1_Picol_icon.svg
+
+Creative Commons Attribution 3.0 United States   (CC BY-3.0 US):
+   ic_donate by Peter van Driel https://thenounproject.com/term/donate/239009/

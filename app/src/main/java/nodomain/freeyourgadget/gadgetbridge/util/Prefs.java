@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -161,5 +162,17 @@ public class Prefs {
      */
     public SharedPreferences getPreferences() {
         return preferences;
+    }
+
+    /**
+     * Ugly workaround for Set<String> preferences not consistently applying.
+     * @param editor
+     * @param preference
+     * @param value
+     */
+    public static void putStringSet(SharedPreferences.Editor editor, String preference, HashSet<String> value) {
+        editor.putStringSet(preference, null);
+        editor.commit();
+        editor.putStringSet(preference, new HashSet<>(value));
     }
 }

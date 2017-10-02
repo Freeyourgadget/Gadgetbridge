@@ -79,7 +79,6 @@ public final class HPlusConstants {
     public static final byte ARG_FINDME_ON = 0x01;
     public static final byte ARG_FINDME_OFF = 0x02;
 
-    public static final byte CMD_GET_VERSION = 0x17;
     public static final byte CMD_SET_END = 0x4f;
     public static final byte CMD_SET_INCOMING_CALL_NUMBER = 0x23;
     public static final byte CMD_SET_ALLDAY_HRM = 0x35;
@@ -89,7 +88,8 @@ public final class HPlusConstants {
     public static final byte CMD_SET_SIT_INTERVAL = 0x51;
     public static final byte CMD_SET_HEARTRATE_STATE = 0x32;
 
-    //Actions to device
+    //GET messages
+    public static final byte CMD_GET_VERSION = 0x17;
     public static final byte CMD_GET_ACTIVE_DAY = 0x27;
     public static final byte CMD_GET_DAY_DATA = 0x15;
     public static final byte CMD_GET_SLEEP = 0x19;
@@ -122,12 +122,11 @@ public final class HPlusConstants {
     public static final byte DATA_SLEEP = 0x1A;
     public static final byte DATA_VERSION = 0x18;
     public static final byte DATA_VERSION1 = 0x2E;
-
+    public static final byte DATA_DAY_UNKNOWN = 0x52; //To be defined
     public static final byte DATA_UNKNOWN = 0x4d;
 
     public static final String PREF_HPLUS_SCREENTIME = "hplus_screentime";
     public static final String PREF_HPLUS_ALLDAYHR = "hplus_alldayhr";
-    public static final String PREF_HPLUS_UNIT = "hplus_unit";
     public static final String PREF_HPLUS_TIMEFORMAT = "hplus_timeformat";
     public static final String PREF_HPLUS_WRIST = "hplus_wrist";
     public static final String PREF_HPLUS_SIT_START_TIME = "hplus_sit_start_time";
