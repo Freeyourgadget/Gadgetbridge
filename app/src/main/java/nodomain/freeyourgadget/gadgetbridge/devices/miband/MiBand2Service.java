@@ -144,6 +144,8 @@ public class MiBand2Service {
     public static final byte[] COMMAND_DISABLE_DISPLAY_CALLER = new byte[]{ENDPOINT_DISPLAY, 0x10, 0x00, 0x00, 0x00};
     public static final byte[] DISPLAY_XXX = new byte[] {ENDPOINT_DISPLAY, 0x03, 0x0, 0x0 };
     public static final byte[] DISPLAY_YYY = new byte[] {ENDPOINT_DISPLAY, 0x10, 0x0, 0x1, 0x1 };
+    public static final byte[] COMMAND_DISTANCE_UNIT_METRIC = new byte[] { ENDPOINT_DISPLAY, 0x03, 0x00, 0x00 };
+    public static final byte[] COMMAND_DISTANCE_UNIT_IMPERIAL = new byte[] { ENDPOINT_DISPLAY, 0x03, 0x00, 0x01 };
 
     // The third byte controls the threshold, in minutes
     // The last 8 bytes represent 2 separate time intervals for the inactivity warnings
