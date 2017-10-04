@@ -132,13 +132,9 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                 LOG.info("User data updated");
                 return true;
             case No1F1Constants.CMD_FETCH_STEPS:
-                handleStepData(data);
-                return true;
             case No1F1Constants.CMD_FETCH_SLEEP:
-                handleSleepData(data);
-                return true;
             case No1F1Constants.CMD_FETCH_HEARTRATE:
-                handleHeartRateData(data);
+                handleActivityData(data);
                 return true;
             case No1F1Constants.CMD_REALTIME_HEARTRATE:
                 handleRealtimeHeartRateData(data);
@@ -246,21 +242,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFetchActivityData() {
-        try {
-            samples.clear();
-            crc = 0;
-            firstTimestamp = 0;
-            TransactionBuilder builder = performInitialized("fetchSteps");
-            builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.busy_task_fetch_activity_data), getContext()));
-            byte[] msg = new byte[]{
-                    No1F1Constants.CMD_FETCH_STEPS,
-                    (byte) 0xfa
-            };
-            builder.write(ctrlCharacteristic, msg);
-            performConnected(builder.getTransaction());
-        } catch (IOException e) {
-            GB.toast(getContext(), "Error fetching activity data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-        }
+        sendFetchCommand(No1F1Constants.CMD_FETCH_STEPS);
     }
 
     @Override
@@ -528,7 +510,25 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void handleStepData(byte[] data) {
+    private void sendFetchCommand(byte type) {
+        samples.clear();
+        crc = 0;
+        firstTimestamp = 0;
+        try {
+            TransactionBuilder builder = performInitialized("fetchActivityData");
+            builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.busy_task_fetch_activity_data), getContext()));
+            byte[] msg = new byte[]{
+                    type,
+                    (byte) 0xfa
+            };
+            builder.write(ctrlCharacteristic, msg);
+            performConnected(builder.getTransaction());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error fetching activity data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
+    }
+
+    private void handleActivityData(byte[] data) {
         if (data[1] == (byte) 0xfd) {
             LOG.info("CRC received: " + (data[2] & 0xff) + ", calculated: " + (crc & 0xff));
             if (data[2] != crc) {
@@ -546,28 +546,31 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                     for (int i = 0; i < samples.size(); i++) {
                         samples.get(i).setDeviceId(deviceId);
                         samples.get(i).setUserId(userId);
-                        samples.get(i).setRawKind(ActivityKind.TYPE_ACTIVITY);
-                        samples.get(i).setRawIntensity(samples.get(i).getSteps());
+                        if (data[0] == No1F1Constants.CMD_FETCH_STEPS) {
+                            samples.get(i).setRawKind(ActivityKind.TYPE_ACTIVITY);
+                            samples.get(i).setRawIntensity(samples.get(i).getSteps());
+                        } else if (data[0] == No1F1Constants.CMD_FETCH_STEPS) {
+                            if (samples.get(i).getRawIntensity() < 7)
+                                samples.get(i).setRawKind(ActivityKind.TYPE_DEEP_SLEEP);
+                            else
+                                samples.get(i).setRawKind(ActivityKind.TYPE_LIGHT_SLEEP);
+                        }
                         provider.addGBActivitySample(samples.get(i));
                     }
-                    samples.clear();
-                    crc = 0;
-                    firstTimestamp = 0;
-                    LOG.info("Steps data saved");
-                    try {
-                        TransactionBuilder builder = performInitialized("fetchSleep");
-                        byte[] msg = new byte[]{
-                                No1F1Constants.CMD_FETCH_SLEEP,
-                                (byte) 0xfa
-                        };
-                        builder.write(ctrlCharacteristic, msg);
-                        performConnected(builder.getTransaction());
-                    } catch (IOException e) {
-                        GB.toast(getContext(), "Error fetching activity data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                    LOG.info("Activity data saved");
+                    if (data[0] == No1F1Constants.CMD_FETCH_STEPS) {
+                        sendFetchCommand(No1F1Constants.CMD_FETCH_SLEEP);
+                    } else if (data[0] == No1F1Constants.CMD_FETCH_SLEEP) {
+                        sendFetchCommand(No1F1Constants.CMD_FETCH_HEARTRATE);
+                    } else {
+                        GB.updateTransferNotification("", false, 100, getContext());
+                        if (getDevice().isBusy()) {
+                            getDevice().unsetBusyTask();
+                            getDevice().sendDeviceUpdateIntent(getContext());
+                        }
                     }
-
                 } catch (Exception ex) {
-                    GB.toast(getContext(), "Error saving step data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                    GB.toast(getContext(), "Error saving activity data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                     GB.updateTransferNotification("Data transfer failed", false, 0, getContext());
                 }
             }
@@ -579,155 +582,33 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             timestamp.set(Calendar.MONTH, (data[3] - 1) & 0xff);
             timestamp.set(Calendar.DAY_OF_MONTH, data[4] & 0xff);
             timestamp.set(Calendar.HOUR_OF_DAY, data[5] & 0xff);
-            timestamp.set(Calendar.MINUTE, 0);
             timestamp.set(Calendar.SECOND, 0);
 
-            sample.setTimestamp((int) (timestamp.getTimeInMillis() / 1000L));
-            sample.setSteps(data[6] * 256 + (data[7] & 0xff));
+            int startProgress = 0;
+            if (data[0] == No1F1Constants.CMD_FETCH_STEPS) {
+                timestamp.set(Calendar.MINUTE, 0);
+                sample.setSteps(data[6] * 256 + (data[7] & 0xff));
+                crc ^= (data[6] ^ data[7]);
+            } else if (data[0] == No1F1Constants.CMD_FETCH_SLEEP) {
+                timestamp.set(Calendar.MINUTE, data[6] & 0xff);
+                sample.setRawIntensity(data[7] * 256 + (data[8] & 0xff));
+                crc ^= (data[7] ^ data[8]);
+                startProgress = 33;
+            } else if (data[0] == No1F1Constants.CMD_FETCH_HEARTRATE) {
+                timestamp.set(Calendar.MINUTE, data[6] & 0xff);
+                sample.setHeartRate(data[7] & 0xff);
+                crc ^= (data[6] ^ data[7]);
+                startProgress = 66;
+            }
 
+            sample.setTimestamp((int) (timestamp.getTimeInMillis() / 1000L));
             samples.add(sample);
-            crc ^= (data[6] ^ data[7]);
-            LOG.info("Received steps data for " + String.format("%1$TD %1$TT", timestamp) + ": " +
-                    sample.getSteps() + " steps"
-            );
+
             if (firstTimestamp == 0)
                 firstTimestamp = sample.getTimestamp();
-            int progress = 33 * (sample.getTimestamp() - firstTimestamp) /
+            int progress = startProgress + 33 * (sample.getTimestamp() - firstTimestamp) /
                     ((int) (Calendar.getInstance().getTimeInMillis() / 1000L) - firstTimestamp);
             GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), true, progress, getContext());
-        }
-    }
-
-    private void handleSleepData(byte[] data) {
-        if (data[1] == (byte) 0xfd) {
-            LOG.info("CRC received: " + (data[2] & 0xff) + ", calculated: " + (crc & 0xff));
-            if (data[2] != crc) {
-                GB.toast(getContext(), "Incorrect CRC. Try fetching data again.", Toast.LENGTH_LONG, GB.ERROR);
-                GB.updateTransferNotification("Data transfer failed", false, 0, getContext());
-                if (getDevice().isBusy()) {
-                    getDevice().unsetBusyTask();
-                    getDevice().sendDeviceUpdateIntent(getContext());
-                }
-            } else if (samples.size() > 0) {
-                try (DBHandler dbHandler = GBApplication.acquireDB()) {
-                    Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
-                    Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
-                    No1F1SampleProvider provider = new No1F1SampleProvider(getDevice(), dbHandler.getDaoSession());
-                    for (int i = 0; i < samples.size(); i++) {
-                        samples.get(i).setDeviceId(deviceId);
-                        samples.get(i).setUserId(userId);
-                        if (samples.get(i).getRawIntensity() < 7)
-                            samples.get(i).setRawKind(ActivityKind.TYPE_DEEP_SLEEP);
-                        else
-                            samples.get(i).setRawKind(ActivityKind.TYPE_LIGHT_SLEEP);
-                        provider.addGBActivitySample(samples.get(i));
-                    }
-                    samples.clear();
-                    crc = 0;
-                    firstTimestamp = 0;
-                    LOG.info("Sleep data saved");
-                    try {
-                        TransactionBuilder builder = performInitialized("fetchHeartRate");
-                        byte[] msg = new byte[]{
-                                No1F1Constants.CMD_FETCH_HEARTRATE,
-                                (byte) 0xfa
-                        };
-                        builder.write(ctrlCharacteristic, msg);
-                        performConnected(builder.getTransaction());
-                    } catch (IOException e) {
-                        GB.toast(getContext(), "Error fetching heart rate data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-                    }
-
-                } catch (Exception ex) {
-                    GB.toast(getContext(), "Error saving sleep data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-                    GB.updateTransferNotification("Data transfer failed", false, 0, getContext());
-                }
-            }
-        } else {
-            No1F1ActivitySample sample = new No1F1ActivitySample();
-
-            Calendar timestamp = GregorianCalendar.getInstance();
-            timestamp.set(Calendar.YEAR, data[1] * 256 + (data[2] & 0xff));
-            timestamp.set(Calendar.MONTH, (data[3] - 1) & 0xff);
-            timestamp.set(Calendar.DAY_OF_MONTH, data[4] & 0xff);
-            timestamp.set(Calendar.HOUR_OF_DAY, data[5] & 0xff);
-            timestamp.set(Calendar.MINUTE, data[6] & 0xff);
-            timestamp.set(Calendar.SECOND, 0);
-
-            sample.setTimestamp((int) (timestamp.getTimeInMillis() / 1000L));
-            sample.setRawIntensity(data[7] * 256 + (data[8] & 0xff));
-
-            samples.add(sample);
-            crc ^= (data[7] ^ data[8]);
-            LOG.info("Received sleep data for " + String.format("%1$TD %1$TT", timestamp) + ": " +
-                    sample.getRawIntensity() + " rolls"
-            );
-            if (firstTimestamp == 0)
-                firstTimestamp = sample.getTimestamp();
-            int progress = 33 * (sample.getTimestamp() - firstTimestamp) /
-                    ((int) (Calendar.getInstance().getTimeInMillis() / 1000L) - firstTimestamp);
-            GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), true, progress + 33, getContext());
-        }
-    }
-
-    private void handleHeartRateData(byte[] data) {
-        if (data[1] == (byte) 0xfd) {
-            LOG.info("CRC received: " + (data[2] & 0xff) + ", calculated: " + (crc & 0xff));
-            if (data[2] != crc) {
-                GB.toast(getContext(), "Incorrect CRC. Try fetching data again.", Toast.LENGTH_LONG, GB.ERROR);
-                GB.updateTransferNotification("Data transfer failed", false, 0, getContext());
-                if (getDevice().isBusy()) {
-                    getDevice().unsetBusyTask();
-                    getDevice().sendDeviceUpdateIntent(getContext());
-                }
-            } else if (samples.size() > 0) {
-                try (DBHandler dbHandler = GBApplication.acquireDB()) {
-                    Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
-                    Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
-                    No1F1SampleProvider provider = new No1F1SampleProvider(getDevice(), dbHandler.getDaoSession());
-                    for (int i = 0; i < samples.size(); i++) {
-                        samples.get(i).setDeviceId(deviceId);
-                        samples.get(i).setUserId(userId);
-                        provider.addGBActivitySample(samples.get(i));
-                    }
-                    samples.clear();
-                    crc = 0;
-                    firstTimestamp = 0;
-                    LOG.info("Heart rate data saved");
-                    GB.updateTransferNotification("", false, 100, getContext());
-                    if (getDevice().isBusy()) {
-                        getDevice().unsetBusyTask();
-                        getDevice().sendDeviceUpdateIntent(getContext());
-                    }
-                } catch (Exception ex) {
-                    GB.toast(getContext(), "Error saving heart rate data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-                    GB.updateTransferNotification("Data transfer failed", false, 0, getContext());
-                }
-            }
-        } else {
-            No1F1ActivitySample sample = new No1F1ActivitySample();
-
-            Calendar timestamp = GregorianCalendar.getInstance();
-            timestamp.set(Calendar.YEAR, data[1] * 256 + (data[2] & 0xff));
-            timestamp.set(Calendar.MONTH, (data[3] - 1) & 0xff);
-            timestamp.set(Calendar.DAY_OF_MONTH, data[4] & 0xff);
-            timestamp.set(Calendar.HOUR_OF_DAY, data[5] & 0xff);
-            timestamp.set(Calendar.MINUTE, data[6] & 0xff);
-            timestamp.set(Calendar.SECOND, 0);
-
-            sample.setTimestamp((int) (timestamp.getTimeInMillis() / 1000L));
-            sample.setHeartRate(data[7] & 0xff);
-
-            samples.add(sample);
-            crc ^= (data[6] ^ data[7]);
-            LOG.info("Received heart rate data for " + String.format("%1$TD %1$TT", timestamp) + ": " +
-                    sample.getHeartRate() + " BPM"
-            );
-            if (firstTimestamp == 0)
-                firstTimestamp = sample.getTimestamp();
-            int progress = 33 * (sample.getTimestamp() - firstTimestamp) /
-                    ((int) (Calendar.getInstance().getTimeInMillis() / 1000L) - firstTimestamp);
-            GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), true, progress + 66, getContext());
         }
     }
 
