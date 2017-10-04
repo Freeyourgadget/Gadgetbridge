@@ -48,6 +48,7 @@ import java.util.concurrent.TimeUnit;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
@@ -1252,6 +1253,9 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND_END:
                     setInactivityWarnings(builder);
                     break;
+                case SettingsActivity.PREF_MEASUREMENT_SYSTEM:
+                    setDistanceUnit(builder);
+                    break;
             }
             builder.queue(getQueue());
         } catch (IOException e) {
@@ -1452,6 +1456,17 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         return this;
     }
 
+    private MiBand2Support setDistanceUnit(TransactionBuilder builder) {
+        MiBandConst.DistanceUnit unit = MiBand2Coordinator.getDistanceUnit();
+        LOG.info("Setting distance unit to " + unit);
+        if (unit == MiBandConst.DistanceUnit.METRIC) {
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_DISTANCE_UNIT_METRIC);
+        } else {
+            builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_DISTANCE_UNIT_IMPERIAL);
+        }
+        return this;
+    }
+
     public void phase2Initialize(TransactionBuilder builder) {
         LOG.info("phase2Initialize...");
         requestBatteryInfo(builder);
@@ -1462,6 +1477,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         setDateDisplay(builder);
         setTimeFormat(builder);
         setUserInfo(builder);
+        setDistanceUnit(builder);
         setWearLocation(builder);
         setFitnessGoal(builder);
         setDisplayItems(builder);

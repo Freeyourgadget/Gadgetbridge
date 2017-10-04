@@ -81,6 +81,11 @@ public final class MiBandConst {
     public static final Version MI2_FW_VERSION_MIN_TEXT_NOTIFICATIONS = new Version("1.0.1.28");
     public static final Version MI2_FW_VERSION_INTERMEDIATE_UPGRADE_53 = new Version("1.0.0.53");
 
+    public enum DistanceUnit {
+        METRIC,
+        IMPERIAL
+    }
+
     public static int getNotificationPrefIntValue(String pref, String origin, Prefs prefs, int defaultValue) {
         String key = getNotificationPrefKey(pref, origin);
         return prefs.getInt(key, defaultValue);

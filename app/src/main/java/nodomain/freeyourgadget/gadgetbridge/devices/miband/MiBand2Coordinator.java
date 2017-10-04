@@ -37,6 +37,7 @@ import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband2.MiBand2FWInstallHandler;
@@ -187,6 +188,16 @@ public class MiBand2Coordinator extends MiBandCoordinator {
         }
 
         return new Date();
+    }
+
+    public static MiBandConst.DistanceUnit getDistanceUnit() {
+        Prefs prefs = GBApplication.getPrefs();
+        String unit = prefs.getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, GBApplication.getContext().getString(R.string.p_unit_metric));
+        if (unit.equals(GBApplication.getContext().getString(R.string.p_unit_metric))) {
+            return MiBandConst.DistanceUnit.METRIC;
+        } else {
+            return MiBandConst.DistanceUnit.IMPERIAL;
+        }
     }
 
     public static DoNotDisturb getDoNotDisturb(Context context) {

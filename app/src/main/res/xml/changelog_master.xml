@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.21.5" versioncode="106">
+        <change>Mi2/Bip: Support setting distance units (metric/imperial)</change>
+    </release>
     <release version="0.21.4" versioncode="105">
         <change>Mi2/Bip: Fix sleep detection for newer firmwares</change>
         <change>Mi2/Bip: Fix ancient bug resulting in wrong activity data at the beginning in diagrams and aggregate data</change>
