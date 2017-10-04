@@ -162,15 +162,14 @@ class PebbleIoThread extends GBDeviceIoThread {
                     mBtSocket.connect();
                     mInStream = mBtSocket.getInputStream();
                     mOutStream = mBtSocket.getOutputStream();
-
-                    if (prefs.getBoolean("pebble_enable_background_javascript", false)) {
-                        Intent startIntent = new Intent(getContext(), ExternalPebbleJSActivity.class);
-                        startIntent.putExtra(ExternalPebbleJSActivity.START_BG_WEBVIEW, true);
-                        getContext().startActivity(startIntent);
-                    } else {
-                        LOG.debug("Not enabling background Webview, is disabled in preferences.");
-                    }
                 }
+            }
+            if (prefs.getBoolean("pebble_enable_background_javascript", false)) {
+                Intent startIntent = new Intent(getContext(), ExternalPebbleJSActivity.class);
+                startIntent.putExtra(ExternalPebbleJSActivity.START_BG_WEBVIEW, true);
+                getContext().startActivity(startIntent);
+            } else {
+                LOG.debug("Not enabling background Webview, is disabled in preferences.");
             }
         } catch (IOException e) {
             LOG.warn("error while connecting: " + e.getMessage(), e);
