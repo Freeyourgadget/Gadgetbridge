@@ -1,0 +1,1 @@
+* Mi2/Bip: Support setting distance units (metric/imperial)

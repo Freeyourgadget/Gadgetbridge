@@ -27,7 +27,7 @@ android {
 
         // note: always bump BOTH versionCode and versionName!
         versionName "0.21.5"
-        versionCode 105
+        versionCode 106
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {

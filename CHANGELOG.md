@@ -1,5 +1,8 @@
 ### Changelog
 
+#### Version 0.21.5
+* Mi2/Bip: Support setting distance units (metric/imperial)
+
 #### Version 0.21.4
 * Mi2/Bip: Fix sleep detection for newer firmwares
 * Mi2/Bip: Fix ancient bug resulting in wrong activity data at the beginning in diagrams and aggregate data
