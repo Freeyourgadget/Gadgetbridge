@@ -69,6 +69,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
     public BluetoothGattCharacteristic measureCharacteristic = null;
     private List<No1F1ActivitySample> samples = new ArrayList<>();
     private byte crc = 0;
+    private int firstTimestamp = 0;
 
     public No1F1Support() {
         super(LOG);
@@ -248,6 +249,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
         try {
             samples.clear();
             crc = 0;
+            firstTimestamp = 0;
             TransactionBuilder builder = performInitialized("fetchSteps");
             builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.busy_task_fetch_activity_data), getContext()));
             byte[] msg = new byte[]{
@@ -531,6 +533,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             LOG.info("CRC received: " + (data[2] & 0xff) + ", calculated: " + (crc & 0xff));
             if (data[2] != crc) {
                 GB.toast(getContext(), "Incorrect CRC. Try fetching data again.", Toast.LENGTH_LONG, GB.ERROR);
+                GB.updateTransferNotification("Data transfer failed", false, 0, getContext());
                 if (getDevice().isBusy()) {
                     getDevice().unsetBusyTask();
                     getDevice().sendDeviceUpdateIntent(getContext());
@@ -549,6 +552,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                     }
                     samples.clear();
                     crc = 0;
+                    firstTimestamp = 0;
                     LOG.info("Steps data saved");
                     try {
                         TransactionBuilder builder = performInitialized("fetchSleep");
@@ -564,6 +568,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
 
                 } catch (Exception ex) {
                     GB.toast(getContext(), "Error saving step data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                    GB.updateTransferNotification("Data transfer failed", false, 0, getContext());
                 }
             }
         } else {
@@ -585,6 +590,11 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             LOG.info("Received steps data for " + String.format("%1$TD %1$TT", timestamp) + ": " +
                     sample.getSteps() + " steps"
             );
+            if (firstTimestamp == 0)
+                firstTimestamp = sample.getTimestamp();
+            int progress = 33 * (sample.getTimestamp() - firstTimestamp) /
+                    ((int) (Calendar.getInstance().getTimeInMillis() / 1000L) - firstTimestamp);
+            GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), true, progress, getContext());
         }
     }
 
@@ -593,6 +603,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             LOG.info("CRC received: " + (data[2] & 0xff) + ", calculated: " + (crc & 0xff));
             if (data[2] != crc) {
                 GB.toast(getContext(), "Incorrect CRC. Try fetching data again.", Toast.LENGTH_LONG, GB.ERROR);
+                GB.updateTransferNotification("Data transfer failed", false, 0, getContext());
                 if (getDevice().isBusy()) {
                     getDevice().unsetBusyTask();
                     getDevice().sendDeviceUpdateIntent(getContext());
@@ -613,6 +624,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                     }
                     samples.clear();
                     crc = 0;
+                    firstTimestamp = 0;
                     LOG.info("Sleep data saved");
                     try {
                         TransactionBuilder builder = performInitialized("fetchHeartRate");
@@ -628,6 +640,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
 
                 } catch (Exception ex) {
                     GB.toast(getContext(), "Error saving sleep data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                    GB.updateTransferNotification("Data transfer failed", false, 0, getContext());
                 }
             }
         } else {
@@ -649,6 +662,11 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             LOG.info("Received sleep data for " + String.format("%1$TD %1$TT", timestamp) + ": " +
                     sample.getRawIntensity() + " rolls"
             );
+            if (firstTimestamp == 0)
+                firstTimestamp = sample.getTimestamp();
+            int progress = 33 * (sample.getTimestamp() - firstTimestamp) /
+                    ((int) (Calendar.getInstance().getTimeInMillis() / 1000L) - firstTimestamp);
+            GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), true, progress + 33, getContext());
         }
     }
 
@@ -657,6 +675,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             LOG.info("CRC received: " + (data[2] & 0xff) + ", calculated: " + (crc & 0xff));
             if (data[2] != crc) {
                 GB.toast(getContext(), "Incorrect CRC. Try fetching data again.", Toast.LENGTH_LONG, GB.ERROR);
+                GB.updateTransferNotification("Data transfer failed", false, 0, getContext());
                 if (getDevice().isBusy()) {
                     getDevice().unsetBusyTask();
                     getDevice().sendDeviceUpdateIntent(getContext());
@@ -673,13 +692,16 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                     }
                     samples.clear();
                     crc = 0;
+                    firstTimestamp = 0;
                     LOG.info("Heart rate data saved");
+                    GB.updateTransferNotification("", false, 100, getContext());
                     if (getDevice().isBusy()) {
                         getDevice().unsetBusyTask();
                         getDevice().sendDeviceUpdateIntent(getContext());
                     }
                 } catch (Exception ex) {
                     GB.toast(getContext(), "Error saving heart rate data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                    GB.updateTransferNotification("Data transfer failed", false, 0, getContext());
                 }
             }
         } else {
@@ -701,6 +723,11 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             LOG.info("Received heart rate data for " + String.format("%1$TD %1$TT", timestamp) + ": " +
                     sample.getHeartRate() + " BPM"
             );
+            if (firstTimestamp == 0)
+                firstTimestamp = sample.getTimestamp();
+            int progress = 33 * (sample.getTimestamp() - firstTimestamp) /
+                    ((int) (Calendar.getInstance().getTimeInMillis() / 1000L) - firstTimestamp);
+            GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), true, progress + 66, getContext());
         }
     }
 
