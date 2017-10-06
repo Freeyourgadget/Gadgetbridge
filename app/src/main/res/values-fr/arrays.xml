@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="pref_language_options">
+        <item name="default"></item>
+        <item name="de">Deutsch</item>
+        <item name="en">English</item>
+        <item name="es">Español</item>
+        <item name="fr">Français</item>
+        <item name="pl">Polski</item>
+        <item name="ru">Русский</item>
+        <item name="vi">Tiếng Việt</item>
+        <item name="tr">Türkçe</item>
+        <item name="uk">Українська</item>
+        <item name="ko">한국어</item>
+        <item name="ja">日本語</item>
+        <item name="hu">Magyar</item>
+    </string-array>
+
+    <string-array name="pref_language_values">
+        <item>Par défaut</item>
+        <item>de</item>
+        <item>en</item>
+        <item>es</item>
+        <item>fr</item>
+        <item>pl</item>
+        <item>ru</item>
+        <item>V</item>
+        <item>tr</item>
+        <item>uk</item>
+        <item>ko</item>
+        <item>J</item>
+        <item>hu</item>
+    </string-array>
+
+    <string-array name="notification_mode_values">
+        <item>toujours</item>
+        <item></item>
+        <item>J</item>
+    </string-array>
+
+    <string-array name="notification_mode_values_toggle">
+        <item>toujours</item>
+        <item>J</item>
+    </string-array>
+
+    <string-array name="gender_values">
+        <item>1</item>
+        <item>0</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="wearside_values">
+        <item>gauche</item>
+        <item>D</item>
+    </string-array>
+
+
+
+    <string-array name="pebble_activitytracker_values">
+        <item>4</item>
+        <item>3</item>
+        <item>1</item>
+    </string-array>
+
+
+
+
+
+
+
+
+
+
+
+
+</resources>
