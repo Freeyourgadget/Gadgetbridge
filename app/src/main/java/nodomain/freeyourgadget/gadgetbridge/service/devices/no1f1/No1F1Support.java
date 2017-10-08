@@ -192,7 +192,49 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
+        try {
+            TransactionBuilder builder = performInitialized("Set alarm");
+            boolean anyAlarmEnabled = false;
+            for (Alarm alarm : alarms) {
+                anyAlarmEnabled |= alarm.isEnabled();
+                Calendar calendar = alarm.getAlarmCal();
 
+                int maxAlarms = 3;
+                if (alarm.getIndex() >= maxAlarms) {
+                    if (alarm.isEnabled()) {
+                        GB.toast(getContext(), "Only 3 alarms are supported.", Toast.LENGTH_LONG, GB.WARN);
+                    }
+                    return;
+                }
+
+                int daysMask = 0;
+                if (alarm.isEnabled()) {
+                    daysMask = alarm.getRepetitionMask();
+                    // Mask for this device starts from sunday and not from monday.
+                    daysMask = (daysMask / 64) + (daysMask >> 1);
+                }
+                byte[] alarmMessage = new byte[]{
+                        No1F1Constants.CMD_ALARM,
+                        (byte) daysMask,
+                        (byte) calendar.get(Calendar.HOUR_OF_DAY),
+                        (byte) calendar.get(Calendar.MINUTE),
+                        (byte) (alarm.isEnabled() ? 2 : 0), // vibration duration
+                        (byte) (alarm.isEnabled() ? 10 : 0), // vibration count
+                        (byte) (alarm.isEnabled() ? 2 : 0), // unknown
+                        (byte) 0,
+                        (byte) (alarm.getIndex() + 1)
+                };
+                builder.write(ctrlCharacteristic, alarmMessage);
+            }
+            builder.queue(getQueue());
+            if (anyAlarmEnabled) {
+                GB.toast(getContext(), getContext().getString(R.string.user_feedback_miband_set_alarms_ok), Toast.LENGTH_SHORT, GB.INFO);
+            } else {
+                GB.toast(getContext(), getContext().getString(R.string.user_feedback_all_alarms_disabled), Toast.LENGTH_SHORT, GB.INFO);
+            }
+        } catch (IOException ex) {
+            GB.toast(getContext(), getContext().getString(R.string.user_feedback_miband_set_alarms_failed), Toast.LENGTH_LONG, GB.ERROR, ex);
+        }
     }
 
     @Override
