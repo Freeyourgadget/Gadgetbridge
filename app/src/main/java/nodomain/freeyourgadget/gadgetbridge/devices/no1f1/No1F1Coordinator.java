@@ -115,7 +115,7 @@ public class No1F1Coordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsAlarmConfiguration() {
-        return false;
+        return true;
     }
 
     @Override
