@@ -171,7 +171,23 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetTime() {
-
+        try {
+            TransactionBuilder builder = performInitialized("setTime");
+            Calendar c = GregorianCalendar.getInstance();
+            byte[] datetimeBytes = new byte[]{
+                    No1F1Constants.CMD_DATETIME,
+                    (byte) ((c.get(Calendar.YEAR) / 256) & 0xff),
+                    (byte) (c.get(Calendar.YEAR) % 256),
+                    (byte) (c.get(Calendar.MONTH) + 1),
+                    (byte) c.get(Calendar.DAY_OF_MONTH),
+                    (byte) c.get(Calendar.HOUR_OF_DAY),
+                    (byte) c.get(Calendar.MINUTE),
+                    (byte) c.get(Calendar.SECOND)
+            };
+            builder.write(ctrlCharacteristic, datetimeBytes);
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error setting time: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
     }
 
     @Override
@@ -362,20 +378,6 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
 
     private void sendSettings(TransactionBuilder builder) {
         // TODO Create custom settings page for changing hardcoded values
-
-        // set date and time
-        Calendar c = GregorianCalendar.getInstance();
-        byte[] datetimeBytes = new byte[]{
-                No1F1Constants.CMD_DATETIME,
-                (byte) ((c.get(Calendar.YEAR) / 256) & 0xff),
-                (byte) (c.get(Calendar.YEAR) % 256),
-                (byte) (c.get(Calendar.MONTH) + 1),
-                (byte) c.get(Calendar.DAY_OF_MONTH),
-                (byte) c.get(Calendar.HOUR_OF_DAY),
-                (byte) c.get(Calendar.MINUTE),
-                (byte) c.get(Calendar.SECOND)
-        };
-        builder.write(ctrlCharacteristic, datetimeBytes);
 
         // set user data
         ActivityUser activityUser = new ActivityUser();
