@@ -417,4 +417,20 @@
     <string name="discovery_pair_question">יש לבחור בצימוד כדי לצמד את ההתקנים שלך. אם התהליך נכשל, יש לנסות שוב ללא צימוד.</string>
     <string name="discovery_yes_pair">לצמד</string>
     <string name="discovery_dont_pair">לא לצמד</string>
+<string name="mi2_prefs_button_actions">פעולות כפתור</string>
+    <string name="mi2_prefs_button_actions_summary">ציון פעולות בלחיצה על הכפתור של Mi Band 2</string>
+    <string name="mi2_prefs_button_press_count">ספירת לחיצות על הכפתור</string>
+    <string name="mi2_prefs_button_press_count_summary">מספר לחיצות על הכפתור כדי להפעיל שידור הודעה</string>
+    <string name="mi2_prefs_button_press_broadcast">הודעת שידור לשליחה</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">שידור הודעה כשמגיעים למספר מסוים של לחיצות</string>
+    <string name="mi2_prefs_button_action">הפעלת פעולת כפתור</string>
+    <string name="mi2_prefs_button_action_summary">הפעלת פעולה עם מספר מוגדר של לחיצות כפתור</string>
+    <string name="mi2_prefs_button_action_vibrate">הפעלת רטט בצמיד</string>
+    <string name="mi2_prefs_button_action_vibrate_summary">הפעלת רטט בצמיד עם פעולת כפתור</string>
+    <string name="mi2_prefs_button_press_count_max_delay">הפרש מרבי בין לחיצות</string>
+    <string name="mi2_prefs_button_press_count_max_delay_summary">הפרש מרבי בין לחיצות על הכפתור במילישניות</string>
+    <string name="mi2_prefs_button_press_count_match_delay">הפרש לאחר לחיצת כפתור</string>
+    <string name="_pebble_watch_open_on_phone">פתיחה בטלפון</string>
+    <string name="_pebble_watch_mute">השתקה</string>
+    <string name="_pebble_watch_reply">תגובה</string>
 </resources>
