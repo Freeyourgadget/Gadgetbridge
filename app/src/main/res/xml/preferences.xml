@@ -422,6 +422,7 @@
                 <CheckBoxPreference
                     android:defaultValue="false"
                     android:key="pebble_enable_background_javascript"
+                    android:dependency="pebble_force_untested"
                     android:summary="@string/pref_summary_pebble_enable_bgjs"
                     android:title="@string/pref_title_pebble_enable_bgjs" />
                 <EditTextPreference
