@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
+// FIXME: document me and my fields, including units
 public class WeatherSpec {
     public int timestamp;
     public String location;
