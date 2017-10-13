@@ -37,6 +37,10 @@ import static nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton.latch;
 
 public class GBWebClient extends WebViewClient {
 
+    private String[] AllowedDomains = new String[]{
+            "openweathermap.org",   //for weather :)
+            "tagesschau.de"         //for internal watchapp tests
+    };
     private static final Logger LOG = LoggerFactory.getLogger(GBWebClient.class);
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -60,8 +64,9 @@ public class GBWebClient extends WebViewClient {
         return super.shouldInterceptRequest(view, url);
     }
 
+
     private WebResourceResponse mimicReply(Uri requestedUri) {
-        if (requestedUri.getHost() != null && (requestedUri.getHost().contains("openweathermap.org") || requestedUri.getHost().contains("tagesschau.de"))) {
+        if (requestedUri.getHost() != null && (org.apache.commons.lang3.StringUtils.indexOfAny(requestedUri.getHost(), AllowedDomains) != -1)) {
             if (internetHelperBound) {
                 LOG.debug("WEBVIEW forwarding request to the internet helper");
                 Bundle bundle = new Bundle();
