@@ -71,6 +71,7 @@ public class ExternalPebbleJSActivity extends AbstractGBActivity {
                 } else if (extras.getBoolean(START_BG_WEBVIEW, false)) {
                     WebViewSingleton.ensureCreated(this);
                     finish();
+                    return;
                 }
             }
         } else {

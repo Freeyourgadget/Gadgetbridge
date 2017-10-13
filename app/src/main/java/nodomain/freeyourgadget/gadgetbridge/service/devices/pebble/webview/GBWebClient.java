@@ -76,7 +76,7 @@ public class GBWebClient extends WebViewClient {
                     return internetResponse;
 
                 } catch (RemoteException | InterruptedException e) {
-                    e.printStackTrace();
+                    LOG.warn("Error downloading data from " + requestedUri, e);
                 }
 
             } else {
@@ -163,7 +163,7 @@ public class GBWebClient extends WebViewClient {
                 return new WebResourceResponse("application/json", "utf-8", new ByteArrayInputStream(resp.toString().getBytes()));
             }
         } catch (JSONException e) {
-            LOG.warn(e.getMessage());
+            LOG.warn("Error building the JSON weather message.", e);
         }
 
         return null;

@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -95,6 +96,16 @@ public class WebViewSingleton {
 
     //Internet helper inbound (responses) handler
     private static class IncomingHandler extends Handler {
+
+        private String getCharsetFromHeaders(String contentType) {
+            if (contentType != null && contentType.toLowerCase().trim().contains("charset=")) {
+                String[] parts = contentType.toLowerCase().trim().split("=");
+                if (parts.length > 0)
+                    return parts[1];
+            }
+            return null;
+        }
+
         @Override
         public void handleMessage(Message msg) {
             Bundle data = msg.getData();
@@ -105,10 +116,10 @@ public class WebViewSingleton {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 internetResponse = new WebResourceResponse(data.getString("content-type"), data.getString("content-encoding"), 200, "OK",
                         headers,
-                        new ByteArrayInputStream(data.getString("response").getBytes())
+                        new ByteArrayInputStream(data.getString("response").getBytes(Charset.forName(getCharsetFromHeaders(data.getString("content-type")))))
                 );
             } else {
-                internetResponse = new WebResourceResponse(data.getString("content-type"), data.getString("content-encoding"), new ByteArrayInputStream(data.getString("response").getBytes()));
+                internetResponse = new WebResourceResponse(data.getString("content-type"), data.getString("content-encoding"), new ByteArrayInputStream(data.getString("response").getBytes(Charset.forName(getCharsetFromHeaders(data.getString("content-type"))))));
             }
 
             latch.countDown();
@@ -122,6 +133,9 @@ public class WebViewSingleton {
     }
 
     public static void runJavascriptInterface(GBDevice device, UUID uuid) {
+        if (uuid == null && device == null) {
+            throw new RuntimeException("Javascript interface started without device and uuid");
+        }
         if (uuid.equals(currentRunningUUID)) {
             LOG.debug("WEBVIEW uuid not changed keeping the old context");
         } else {
@@ -221,7 +235,7 @@ public class WebViewSingleton {
                 return json.getJSONObject("appKeys");
             }
         } catch (IOException | JSONException e) {
-            LOG.warn(e.getMessage());
+            LOG.warn("Unable to parse configuration JSON file", e);
         }
         return null;
     }
@@ -232,7 +246,7 @@ public class WebViewSingleton {
         JSONObject knownKeys = getAppConfigurationKeys(uuid);
         SparseArray<String> appKeysMap = new SparseArray<>();
 
-        if (knownKeys == null) {
+        if (knownKeys == null || msg == null) {
             return "{}";
         }
 
@@ -267,7 +281,7 @@ public class WebViewSingleton {
             jsAppMessage.put("payload", outgoing);
 
         } catch (Exception e) {
-            LOG.warn(e.getMessage());
+            LOG.warn("Unable to parse incoming app message", e);
         }
         return jsAppMessage.toString();
     }

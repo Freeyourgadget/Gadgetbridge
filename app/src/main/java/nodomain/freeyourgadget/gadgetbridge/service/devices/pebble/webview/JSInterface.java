@@ -98,7 +98,7 @@ public class JSInterface {
             }
 
         } catch (JSONException e) {
-            LOG.warn(e.getMessage());
+            LOG.warn("Error building the appmessage JSON object", e);
         }
         return null;
     }
@@ -113,7 +113,7 @@ public class JSInterface {
             //TODO: use real info
             wi.put("language", "en");
         } catch (JSONException e) {
-            LOG.warn(e.getMessage());
+            LOG.warn("Error building the ActiveWathcInfo JSON object", e);
         }
         //Json not supported apparently, we need to cast back and forth
         return wi.toString();
@@ -129,7 +129,7 @@ public class JSInterface {
                 return "file:///" + configurationFile.getAbsolutePath();
             }
         } catch (IOException e) {
-            LOG.warn(e.getMessage());
+            LOG.warn("Error loading config file", e);
         }
         return null;
     }
@@ -144,7 +144,7 @@ public class JSInterface {
             }
         } catch (IOException e) {
             GB.toast("Error reading presets", Toast.LENGTH_LONG, GB.ERROR);
-            LOG.warn(e.getMessage());
+            LOG.warn("Error reading presets", e);
         }
         return null;
     }
@@ -162,7 +162,7 @@ public class JSInterface {
             GB.toast("Presets stored", Toast.LENGTH_SHORT, GB.INFO);
         } catch (IOException e) {
             GB.toast("Error storing presets", Toast.LENGTH_LONG, GB.ERROR);
-            LOG.warn(e.getMessage());
+            LOG.warn("Error storing presets", e);
         }
     }
 
@@ -185,7 +185,7 @@ public class JSInterface {
             }
             return sb.toString().toLowerCase();
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-            LOG.warn(e.getMessage());
+            LOG.warn("Error definining local storage prefix", e);
             return prefix;
         }
     }
