@@ -7,7 +7,7 @@
     <string name="action_quit">Sluit af</string>
     <string name="action_donate">Doneer</string>
     <string name="controlcenter_fetch_activity_data">Synchroniseren</string>
-    <string name="controlcenter_start_sleepmonitor">Slaap monitor (ALPHA)</string>
+    <string name="controlcenter_start_sleepmonitor">Slaap Monitor (ALPHA)</string>
     <string name="controlcenter_find_device">Zoek verloren Toestel</string>
     <string name="controlcenter_take_screenshot">Screenshot maken</string>
     <string name="controlcenter_disconnect">Loskoppelen</string>
@@ -22,7 +22,7 @@
 
     <string name="title_activity_debug">Debug</string>
 
-    <string name="title_activity_appmanager"></string>
+    <string name="title_activity_appmanager"/>
     <string name="appmanager_cached_watchapps_watchfaces">Apps in de cache</string>
     <string name="appmanager_installed_watchapps">Geïnstalleerde apps</string>
     <string name="appmanager_installed_watchfaces">Geïnstalleerde wijzerplaten</string>
@@ -126,4 +126,36 @@
     <string name="pref_title_enable_outgoing_call">Ondersteun uitgaande oproepen</string>
     <string name="pref_summary_enable_outgoing_call">Als u dit uitschakelt, wordt ook de Pebble 2/LE gestopt om voor uitgaande gesprekken te trillen</string>
 
-    </resources>
+    <string name="pref_title_enable_pebblekit">Toegang tot de Android App van 3de partij toestaan</string>
+    <string name="pref_summary_enable_pebblekit">De experimentele ondersteuning voor Android Apps inschakelen met PebbleKit</string>
+
+    <string name="pref_header_pebble_timeline">Pebble tijdlijn</string>
+    <string name="pref_title_sunrise_sunset">zonsopkomst en zonsondergang</string>
+    <string name="pref_summary_sunrise_sunset">Zend zonsopgang en zonsondergangstijden op basis van de locatie naar de Pebble-tijdlijn</string>
+    <string name="pref_title_enable_calendar_sync">Synchroniseer kalender</string>
+    <string name="pref_summary_enable_calendar_sync">Zend kalendergebeurtenissen naar de tijdlijn</string>
+
+    <string name="pref_title_pebble_privacy_mode">Privacy modus</string>
+    <string name="pref_pebble_privacy_mode_off">Normale meldingen</string>
+    <string name="pref_pebble_privacy_mode_complete">Toon alleen het notificatie icoon</string>
+
+    <string name="pref_header_location">Locatie</string>
+    <string name="pref_title_location_aquire">Verkrijg locatie</string>
+    <string name="pref_title_location_latitude">Breedtegraad</string>
+    <string name="pref_title_location_longitude">Lengtegraad</string>
+    <string name="pref_title_location_keep_uptodate">Houd de locatie bijgewerkt</string>
+    <string name="pref_summary_location_keep_uptodate">Probeer de huidige locatie op tijd te krijgen, gebruik de opgeslagen locatie als terugval</string>
+
+    <string name="toast_enable_networklocationprovider">Activeer de netwerk locatie</string>
+    <string name="toast_aqurired_networklocation">locatie gevonden</string>
+
+    <string name="discovery_successfully_bonded">Succesvol gekoppeld aan %1$s.</string>
+    <string name="discovery_pair_title">Koppel met %1$s?</string>
+    <string name="discovery_pair_question">Koppelen selecteren om uw apparaten te koppelen. Als dit mislukt, probeer het opnieuw zonder te koppelen.</string>
+    <string name="discovery_yes_pair">Koppel</string>
+    <string name="discovery_dont_pair">Niet Koppelen</string>
+
+    <string name="_pebble_watch_open_on_phone">Open op de telefoon</string>
+    <string name="_pebble_watch_mute">Dempen</string>
+    <string name="_pebble_watch_reply">Antwoord</string>
+</resources>
