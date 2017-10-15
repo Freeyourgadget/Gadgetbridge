@@ -840,7 +840,9 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
                     LOG.error("Could not convert String to Bytes: " + e.getMessage());
                 }
             }
-            for (int j = 0; j < cs.length; j++)
+
+            final int j0 = (unicode && i != 0) ? 2 : 0;
+            for (int j = j0; j < cs.length; j++)
                 outBytes.add(cs[j]);
         }
 
