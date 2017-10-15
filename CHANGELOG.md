@@ -1,5 +1,11 @@
 ### Changelog
 
+#### Version 0.21.6
+* Amazfit Bip: Fix non-working notifications from Outlook, Yahoo Mail and GMail
+* HPlus: Fix Unicode encoding
+* No.1 F1: Alarms support
+* No.1 F1: Show data fetching progress
+
 #### Version 0.21.5
 * Mi2/Bip: Support setting distance units (metric/imperial)
 

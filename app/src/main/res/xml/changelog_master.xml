@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.21.6" versioncode="107">
+        <change>Amazfit Bip: Fix non-working notifications from Outlook, Yahoo Mail and GMail</change>
+        <change>HPlus: Fix Unicode encoding</change>
+        <change>No.1 F1: Alarms support</change>
+        <change>No.1 F1: Show data fetching progress</change>
+    </release>
     <release version="0.21.5" versioncode="106">
         <change>Mi2/Bip: Support setting distance units (metric/imperial)</change>
     </release>

@@ -1,0 +1,4 @@
+* Amazfit Bip: Fix non-working notifications from Outlook, Yahoo Mail and GMail
+* HPlus: Fix Unicode encoding
+* No.1 F1: Alarms support
+* No.1 F1: Show data fetching progress
