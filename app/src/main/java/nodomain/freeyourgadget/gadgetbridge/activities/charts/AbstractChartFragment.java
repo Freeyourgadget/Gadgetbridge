@@ -486,7 +486,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                         colors.add(akActivity.color);
                 }
                 activityEntries.add(createBarEntry(value, ts));
-                if (hr && isValidHeartRateValue(sample.getHeartRate())) {
+                if (hr && HeartRateUtils.isValidHeartRateValue(sample.getHeartRate())) {
                     if (lastHrSampleIndex > -1 && ts - lastHrSampleIndex > 1800*HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
                         heartrateEntries.add(createLineEntry(0, lastHrSampleIndex + 1));
                         heartrateEntries.add(createLineEntry(0, ts - 1));
@@ -548,10 +548,6 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
         IAxisValueFormatter xValueFormatter = new SampleXLabelFormatter(tsTranslation);
         return new DefaultChartsData(combinedData, xValueFormatter);
-    }
-
-    protected boolean isValidHeartRateValue(int value) {
-        return value > HeartRateUtils.MIN_HEART_RATE_VALUE && value < HeartRateUtils.MAX_HEART_RATE_VALUE;
     }
 
     /**
