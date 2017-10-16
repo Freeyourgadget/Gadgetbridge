@@ -433,4 +433,8 @@
     <string name="_pebble_watch_open_on_phone">פתיחה בטלפון</string>
     <string name="_pebble_watch_mute">השתקה</string>
     <string name="_pebble_watch_reply">תגובה</string>
-</resources>
+<string name="pref_title_pebble_enable_bgjs">הפעלת JS ברקע</string>
+    <string name="mi2_prefs_button_press_count_match_delay_summary">המתנה לאחר התאמת פעולת כפתור אחת (המספר נמצא בתוספת של intent בשם button_id) או 0 לתגובה מיידית</string>
+    <string name="activity_web_view">פעילות תצוגת דפדפן</string>
+
+    </resources>
