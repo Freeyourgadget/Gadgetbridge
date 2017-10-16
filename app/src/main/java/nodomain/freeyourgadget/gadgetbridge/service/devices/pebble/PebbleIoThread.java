@@ -43,6 +43,7 @@ import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.ExternalPebbleJSActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AbstractAppManagerFragment;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
@@ -62,6 +63,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton;
 
 class PebbleIoThread extends GBDeviceIoThread {
     private static final Logger LOG = LoggerFactory.getLogger(PebbleIoThread.class);
@@ -96,6 +98,13 @@ class PebbleIoThread extends GBDeviceIoThread {
     private int mCRC = -1;
     private int mBinarySize = -1;
     private int mBytesWritten = -1;
+
+    private void sendAppMessageJS(GBDeviceEventAppMessage appMessage) {
+        WebViewSingleton.appMessage(appMessage);
+        if (appMessage.type == GBDeviceEventAppMessage.TYPE_APPMESSAGE) {
+            write(mPebbleProtocol.encodeApplicationMessageAck(appMessage.appUUID, (byte) appMessage.id));
+        }
+    }
 
     PebbleIoThread(PebbleSupport pebbleSupport, GBDevice gbDevice, GBDeviceProtocol gbDeviceProtocol, BluetoothAdapter btAdapter, Context context) {
         super(gbDevice, context);
@@ -154,6 +163,13 @@ class PebbleIoThread extends GBDeviceIoThread {
                     mInStream = mBtSocket.getInputStream();
                     mOutStream = mBtSocket.getOutputStream();
                 }
+            }
+            if (prefs.getBoolean("pebble_enable_background_javascript", false)) {
+                Intent startIntent = new Intent(getContext(), ExternalPebbleJSActivity.class);
+                startIntent.putExtra(ExternalPebbleJSActivity.START_BG_WEBVIEW, true);
+                getContext().startActivity(startIntent);
+            } else {
+                LOG.debug("Not enabling background Webview, is disabled in preferences.");
             }
         } catch (IOException e) {
             LOG.warn("error while connecting: " + e.getMessage(), e);
@@ -371,6 +387,11 @@ class PebbleIoThread extends GBDeviceIoThread {
         } else {
             gbDevice.setState(GBDevice.State.WAITING_FOR_RECONNECT);
         }
+
+        if (prefs.getBoolean("pebble_enable_background_javascript", false)) {
+            WebViewSingleton.disposeWebView();
+        }
+
         gbDevice.sendDeviceUpdateIntent(getContext());
     }
 
@@ -495,6 +516,9 @@ class PebbleIoThread extends GBDeviceIoThread {
                     break;
                 case START:
                     LOG.info("got GBDeviceEventAppManagement START event for uuid: " + appMgmt.uuid);
+                    if (prefs.getBoolean("pebble_enable_background_javascript", false)) {
+                        WebViewSingleton.runJavascriptInterface(gbDevice, appMgmt.uuid);
+                    }
                     break;
                 default:
                     break;
@@ -506,9 +530,12 @@ class PebbleIoThread extends GBDeviceIoThread {
             setInstallSlot(appInfoEvent.freeSlot);
             return false;
         } else if (deviceEvent instanceof GBDeviceEventAppMessage) {
+            if (GBApplication.getPrefs().getBoolean("pebble_enable_background_javascript", false)) {
+                sendAppMessageJS((GBDeviceEventAppMessage) deviceEvent);
+            }
             if (mEnablePebblekit) {
                 LOG.info("Got AppMessage event");
-                if (mPebbleKitSupport != null) {
+                if (mPebbleKitSupport != null && ((GBDeviceEventAppMessage) deviceEvent).type == GBDeviceEventAppMessage.TYPE_APPMESSAGE) {
                     mPebbleKitSupport.sendAppMessageIntent((GBDeviceEventAppMessage) deviceEvent);
                 }
             }

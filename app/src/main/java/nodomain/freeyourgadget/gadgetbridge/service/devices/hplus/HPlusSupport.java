@@ -529,7 +529,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onAppConfiguration(UUID appUuid, String config) {
+    public void onAppConfiguration(UUID appUuid, String config, Integer id) {
 
     }
 

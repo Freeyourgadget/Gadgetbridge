@@ -63,7 +63,7 @@ public interface EventHandler {
 
     void onAppDelete(UUID uuid);
 
-    void onAppConfiguration(UUID appUuid, String config);
+    void onAppConfiguration(UUID appUuid, String config, Integer id);
 
     void onAppReorder(UUID uuids[]);
 

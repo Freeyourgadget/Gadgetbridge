@@ -419,6 +419,12 @@
                     android:key="pebble_always_ack_pebblekit"
                     android:summary="@string/pref_summary_pebble_always_ack_pebblekit"
                     android:title="@string/pref_title_pebble_always_ack_pebblekit" />
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="pebble_enable_background_javascript"
+                    android:dependency="pebble_force_untested"
+                    android:summary="@string/pref_summary_pebble_enable_bgjs"
+                    android:title="@string/pref_title_pebble_enable_bgjs" />
                 <EditTextPreference
                     android:digits="0123456789."
                     android:key="pebble_emu_addr"

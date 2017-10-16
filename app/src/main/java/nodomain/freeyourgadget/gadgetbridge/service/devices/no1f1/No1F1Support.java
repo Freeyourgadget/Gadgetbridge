@@ -289,7 +289,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onAppConfiguration(UUID appUuid, String config) {
+    public void onAppConfiguration(UUID appUuid, String config, Integer id) {
 
     }
 

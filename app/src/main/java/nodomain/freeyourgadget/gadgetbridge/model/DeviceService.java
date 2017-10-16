@@ -95,6 +95,7 @@ public interface DeviceService extends EventHandler {
     String EXTRA_APP_UUID = "app_uuid";
     String EXTRA_APP_START = "app_start";
     String EXTRA_APP_CONFIG = "app_config";
+    String EXTRA_APP_CONFIG_ID = "app_config_id";
     String EXTRA_URI = "uri";
     String EXTRA_CONFIG = "config";
     String EXTRA_ALARMS = "alarms";

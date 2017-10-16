@@ -19,6 +19,11 @@ package nodomain.freeyourgadget.gadgetbridge.deviceevents;
 import java.util.UUID;
 
 public class GBDeviceEventAppMessage extends GBDeviceEvent {
+    public static int TYPE_APPMESSAGE = 0;
+    public static int TYPE_ACK = 1;
+    public static int TYPE_NACK = 2;
+
+    public int type;
     public UUID appUUID;
     public int id;
     public String message;

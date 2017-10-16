@@ -170,6 +170,8 @@
     <string name="pref_summary_pebble_enable_applogs">Will cause logs from watch apps to be logged by Gadgetbridge (requires reconnect)</string>
     <string name="pref_title_pebble_always_ack_pebblekit">Prematurely ACK PebbleKit</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">Will cause messages that are sent to external 3rd party apps to be acknowledged always and immediately</string>
+    <string name="pref_title_pebble_enable_bgjs">Enable background JS</string>
+    <string name="pref_summary_pebble_enable_bgjs">When enabled, allows watchfaces to show weather, battery info etc.</string>
 
     <string name="pref_title_pebble_reconnect_attempts">Reconnection attempts</string>
 
@@ -449,7 +451,11 @@
 
     <string name="timeformat_24h">24H</string>
     <string name="timeformat_am_pm">AM/PM</string>
+
     <string name="pref_screen_notification_profile_alarm_clock">Alarm clock</string>
+
+    <string name="activity_web_view">Web View Activity</string>
+
     <string name="StringUtils_sender"> (%1$s)</string>
     <string name="find_device_you_found_it">You found it!</string>
     <string name="miband2_prefs_timeformat">Mi2: Time format</string>

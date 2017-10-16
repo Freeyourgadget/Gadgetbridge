@@ -72,7 +72,7 @@ class AppMessageHandlerZalewszczak extends AppMessageHandler {
         ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>(2);
         pairs.add(new Pair<Integer, Object>(KEY_TEMP, weatherSpec.currentTemp - 273 + "C"));
         pairs.add(new Pair<Integer, Object>(KEY_ICON, getIconForConditionCode(weatherSpec.currentConditionCode)));
-        byte[] weatherMessage = mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs);
+        byte[] weatherMessage = mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs, null);
 
         ByteBuffer buf = ByteBuffer.allocate(weatherMessage.length);
 

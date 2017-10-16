@@ -145,7 +145,7 @@ class AppMessageHandlerTimeStylePebble extends AppMessageHandler {
         pairs.add(new Pair<>(messageKeys.get("WeatherForecastHighTemp"), (Object) (weatherSpec.todayMaxTemp - 273)));
         pairs.add(new Pair<>(messageKeys.get("WeatherForecastLowTemp"), (Object) (weatherSpec.todayMinTemp - 273)));
 
-        return mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs);
+        return mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs, null);
     }
 
     @Override

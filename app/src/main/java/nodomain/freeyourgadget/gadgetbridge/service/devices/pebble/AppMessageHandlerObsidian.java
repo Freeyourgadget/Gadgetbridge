@@ -155,7 +155,7 @@ class AppMessageHandlerObsidian extends AppMessageHandler {
         pairs.add(new Pair<>(messageKeys.get("MSG_KEY_WEATHER_ICON"), (Object) getIconForConditionCode(weatherSpec.currentConditionCode, isNight))); //celsius
         pairs.add(new Pair<>(messageKeys.get("MSG_KEY_WEATHER_TEMP"), (Object) (weatherSpec.currentTemp - 273)));
 
-        return mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs);
+        return mPebbleProtocol.encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, mUUID, pairs, null);
     }
 
     @Override

@@ -406,19 +406,23 @@ public class PebbleProtocol extends GBDeviceProtocol {
         super(device);
         mAppMessageHandlers.put(UUID_MORPHEUZ, new AppMessageHandlerMorpheuz(UUID_MORPHEUZ, PebbleProtocol.this));
         mAppMessageHandlers.put(UUID_MISFIT, new AppMessageHandlerMisfit(UUID_MISFIT, PebbleProtocol.this));
-        mAppMessageHandlers.put(UUID_PEBBLE_TIMESTYLE, new AppMessageHandlerTimeStylePebble(UUID_PEBBLE_TIMESTYLE, PebbleProtocol.this));
-        //mAppMessageHandlers.put(UUID_PEBSTYLE, new AppMessageHandlerPebStyle(UUID_PEBSTYLE, PebbleProtocol.this));
-        mAppMessageHandlers.put(UUID_MARIOTIME, new AppMessageHandlerMarioTime(UUID_MARIOTIME, PebbleProtocol.this));
-        mAppMessageHandlers.put(UUID_HELTHIFY, new AppMessageHandlerHealthify(UUID_HELTHIFY, PebbleProtocol.this));
-        mAppMessageHandlers.put(UUID_TREKVOLLE, new AppMessageHandlerTrekVolle(UUID_TREKVOLLE, PebbleProtocol.this));
-        mAppMessageHandlers.put(UUID_SQUARE, new AppMessageHandlerSquare(UUID_SQUARE, PebbleProtocol.this));
-        mAppMessageHandlers.put(UUID_ZALEWSZCZAK_CROWEX, new AppMessageHandlerZalewszczak(UUID_ZALEWSZCZAK_CROWEX, PebbleProtocol.this));
-        mAppMessageHandlers.put(UUID_ZALEWSZCZAK_FANCY, new AppMessageHandlerZalewszczak(UUID_ZALEWSZCZAK_FANCY, PebbleProtocol.this));
-        mAppMessageHandlers.put(UUID_ZALEWSZCZAK_TALLY, new AppMessageHandlerZalewszczak(UUID_ZALEWSZCZAK_TALLY, PebbleProtocol.this));
-        mAppMessageHandlers.put(UUID_OBSIDIAN, new AppMessageHandlerObsidian(UUID_OBSIDIAN, PebbleProtocol.this));
+        if (!(GBApplication.getPrefs().getBoolean("pebble_enable_background_javascript", false))) {
+            mAppMessageHandlers.put(UUID_PEBBLE_TIMESTYLE, new AppMessageHandlerTimeStylePebble(UUID_PEBBLE_TIMESTYLE, PebbleProtocol.this));
+            mAppMessageHandlers.put(UUID_PEBSTYLE, new AppMessageHandlerPebStyle(UUID_PEBSTYLE, PebbleProtocol.this));
+            mAppMessageHandlers.put(UUID_MARIOTIME, new AppMessageHandlerMarioTime(UUID_MARIOTIME, PebbleProtocol.this));
+            mAppMessageHandlers.put(UUID_HELTHIFY, new AppMessageHandlerHealthify(UUID_HELTHIFY, PebbleProtocol.this));
+            mAppMessageHandlers.put(UUID_TREKVOLLE, new AppMessageHandlerTrekVolle(UUID_TREKVOLLE, PebbleProtocol.this));
+            mAppMessageHandlers.put(UUID_SQUARE, new AppMessageHandlerSquare(UUID_SQUARE, PebbleProtocol.this));
+            mAppMessageHandlers.put(UUID_ZALEWSZCZAK_CROWEX, new AppMessageHandlerZalewszczak(UUID_ZALEWSZCZAK_CROWEX, PebbleProtocol.this));
+            mAppMessageHandlers.put(UUID_ZALEWSZCZAK_FANCY, new AppMessageHandlerZalewszczak(UUID_ZALEWSZCZAK_FANCY, PebbleProtocol.this));
+            mAppMessageHandlers.put(UUID_ZALEWSZCZAK_TALLY, new AppMessageHandlerZalewszczak(UUID_ZALEWSZCZAK_TALLY, PebbleProtocol.this));
+            mAppMessageHandlers.put(UUID_OBSIDIAN, new AppMessageHandlerObsidian(UUID_OBSIDIAN, PebbleProtocol.this));
+        }
     }
 
     private final HashMap<Byte, DatalogSession> mDatalogSessions = new HashMap<>();
+
+    private Integer[] idLookup = new Integer[256];
 
     private byte[] encodeSimpleMessage(short endpoint, byte command) {
         final short LENGTH_SIMPLEMESSAGE = 1;
@@ -1472,7 +1476,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>();
             int param = start ? 1 : 0;
             pairs.add(new Pair<>(1, (Object) param));
-            return encodeApplicationMessagePush(ENDPOINT_LAUNCHER, uuid, pairs);
+            return encodeApplicationMessagePush(ENDPOINT_LAUNCHER, uuid, pairs, null);
         }
     }
 
@@ -1905,7 +1909,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         return new GBDeviceEvent[]{appMessage, sendBytesAck};
     }
 
-    byte[] encodeApplicationMessagePush(short endpoint, UUID uuid, ArrayList<Pair<Integer, Object>> pairs) {
+    byte[] encodeApplicationMessagePush(short endpoint, UUID uuid, ArrayList<Pair<Integer, Object>> pairs, Integer ext_id) {
         int length = LENGTH_UUID + 3; // UUID + (PUSH + id + length of dict)
         for (Pair<Integer, Object> pair : pairs) {
             if (pair.first == null || pair.second == null)
@@ -1967,6 +1971,8 @@ public class PebbleProtocol extends GBDeviceProtocol {
             }
         }
 
+        idLookup[last_id] = ext_id;
+
         return buf.array();
     }
 
@@ -2006,7 +2012,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             }
         }
 
-        return encodeApplicationMessagePush(ENDPOINT_APPLICATIONMESSAGE, uuid, pairs);
+        return encodeApplicationMessagePush(ENDPOINT_APPLICATIONMESSAGE, uuid, pairs, null);
     }
 
     private byte reverseBits(byte in) {
@@ -2604,12 +2610,24 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         }
                         break;
                     case APPLICATIONMESSAGE_ACK:
-                        LOG.info("got APPLICATIONMESSAGE/LAUNCHER (EP " + endpoint + ")  ACK");
-                        devEvts = new GBDeviceEvent[]{null};
-                        break;
                     case APPLICATIONMESSAGE_NACK:
-                        LOG.info("got APPLICATIONMESSAGE/LAUNCHER (EP " + endpoint + ")  NACK");
-                        devEvts = new GBDeviceEvent[]{null};
+                        if (pebbleCmd == APPLICATIONMESSAGE_ACK) {
+                            LOG.info("got APPLICATIONMESSAGE/LAUNCHER (EP " + endpoint + ") ACK");
+                        } else {
+                            LOG.info("got APPLICATIONMESSAGE/LAUNCHER (EP " + endpoint + ") NACK");
+                        }
+                        GBDeviceEventAppMessage evtAppMessage = null;
+                        if (endpoint == ENDPOINT_APPLICATIONMESSAGE && idLookup[last_id] != null) {
+                            evtAppMessage = new GBDeviceEventAppMessage();
+                            if (pebbleCmd == APPLICATIONMESSAGE_ACK) {
+                                evtAppMessage.type = GBDeviceEventAppMessage.TYPE_ACK;
+                            } else {
+                                evtAppMessage.type = GBDeviceEventAppMessage.TYPE_NACK;
+                            }
+                            evtAppMessage.id = idLookup[last_id];
+                            evtAppMessage.appUUID = currentRunningApp;
+                        }
+                        devEvts = new GBDeviceEvent[]{evtAppMessage};
                         break;
                     case APPLICATIONMESSAGE_REQUEST:
                         LOG.info("got APPLICATIONMESSAGE/LAUNCHER (EP " + endpoint + ")  REQUEST");

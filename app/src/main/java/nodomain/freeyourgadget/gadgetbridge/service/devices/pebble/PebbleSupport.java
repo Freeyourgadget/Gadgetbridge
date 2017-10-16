@@ -95,7 +95,7 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
     }
 
     @Override
-    public void onAppConfiguration(UUID uuid, String config) {
+    public void onAppConfiguration(UUID uuid, String config, Integer id) {
         try {
             ArrayList<Pair<Integer, Object>> pairs = new ArrayList<>();
 
@@ -116,7 +116,7 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
                 }
                 pairs.add(new Pair<>(Integer.parseInt(keyStr), object));
             }
-            getDeviceIOThread().write(((PebbleProtocol) getDeviceProtocol()).encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, uuid, pairs));
+            getDeviceIOThread().write(((PebbleProtocol) getDeviceProtocol()).encodeApplicationMessagePush(PebbleProtocol.ENDPOINT_APPLICATIONMESSAGE, uuid, pairs, id));
         } catch (JSONException e) {
             e.printStackTrace();
         }

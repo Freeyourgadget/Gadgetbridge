@@ -837,7 +837,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onAppConfiguration(UUID uuid, String config) {
+    public void onAppConfiguration(UUID uuid, String config, Integer id) {
         // not supported
     }
 
