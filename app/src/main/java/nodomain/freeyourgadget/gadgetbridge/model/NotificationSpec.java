@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2017 Andreas Shimokawa
+/*  Copyright (C) 2015-2017 Andreas Shimokawa, Frank Slezak
 
     This file is part of Gadgetbridge.
 

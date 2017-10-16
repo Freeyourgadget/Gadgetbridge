@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, ivanovlev, Kasha, Lem Dulfo, Steffen Liebergeld
+    Gobbetti, Frank Slezak, ivanovlev, Kasha, Lem Dulfo, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 

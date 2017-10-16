@@ -1,5 +1,5 @@
 /*  Copyright (C) 2016-2017 Andreas Shimokawa, AnthonyDiGirolamo, Daniele
-    Gobbetti, Kevin Richter
+    Gobbetti, Frank Slezak, Kaz Wolfe, Kevin Richter
 
     This file is part of Gadgetbridge.
 

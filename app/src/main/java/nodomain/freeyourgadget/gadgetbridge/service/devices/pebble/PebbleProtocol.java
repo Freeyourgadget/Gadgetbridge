@@ -1,5 +1,6 @@
 /*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Julien Pivotto, Kevin Richter, Steffen Liebergeld, Uwe Hermann
+    Gobbetti, Frank Slezak, Julien Pivotto, Kevin Richter, Steffen Liebergeld,
+    Uwe Hermann
 
     This file is part of Gadgetbridge.
 

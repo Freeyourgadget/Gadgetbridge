@@ -1,6 +1,6 @@
 /*  Copyright (C) 2015-2017 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Hasan Ammar, Julien Pivotto, Kevin Richter, Normano64, Steffen
-    Liebergeld
+    Gobbetti, Frank Slezak, Hasan Ammar, Julien Pivotto, Kevin Richter, Normano64,
+    Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 

@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2017 Andreas Shimokawa, AnthonyDiGirolamo, Carsten
-    Pfeiffer, Julien Pivotto, Kevin Richter
+    Pfeiffer, Frank Slezak, Julien Pivotto, Kaz Wolfe, Kevin Richter
 
     This file is part of Gadgetbridge.
 
