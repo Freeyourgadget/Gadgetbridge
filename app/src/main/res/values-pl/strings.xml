@@ -342,4 +342,5 @@
     <string name="mi2_prefs_button_press_count_max_delay_summary">Maksymalny opóźnienie pomiędzy wciśnięciami w milisekundach</string>
     <string name="mi2_prefs_button_press_count_match_delay">Opóźnienie po wciśnięciu przycisku akcji</string>
     <string name="mi2_prefs_goal_notification_summary">Opaska zawibruje gdy zostanie osiągnięty dzienny cel korków</string>
+    <string name="mi2_prefs_do_not_disturb">Nie przeszkadzać</string>
     </resources>
