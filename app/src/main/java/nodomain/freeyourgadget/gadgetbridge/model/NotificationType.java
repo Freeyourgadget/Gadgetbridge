@@ -110,6 +110,8 @@ public enum NotificationType {
             case KIK:
             case KAKAO_TALK:
             case SLACK:
+            case LINE:
+            case VIBER:
                 return "generic_chat";
             case GMAIL:
             case GOOGLE_INBOX:
@@ -117,9 +119,6 @@ public enum NotificationType {
             case OUTLOOK:
             case YAHOO_MAIL:
                 return "generic_email";
-            case LINE:
-            case VIBER:
-                return "generic_phone";
             case UNKNOWN:
             default:
                 return "generic";
