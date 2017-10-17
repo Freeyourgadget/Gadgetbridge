@@ -143,11 +143,11 @@
   <string name="appinstaller_install">Instaluj</string>
   <string name="discovery_note">Uwaga:</string>
   <string name="candidate_item_device_image">Obraz urządzenia</string>
-  <string name="miband_prefs_alias">Nazwisko/Pseudonim</string>
+  <string name="miband_prefs_alias">Imię/Pseudonim</string>
   <string name="pref_header_vibration_count">Liczba wibracji</string>
   <string name="title_activity_sleepmonitor">Monitor snu</string>
   <string name="initializing">Uruchamianie</string>
-  <string name="busy_task_fetch_activity_data">Pobieranie danych aktywności</string>
+  <string name="busy_task_fetch_activity_data">Pobieranie danych o aktywności</string>
   <string name="sleep_activity_date_range">Od %1$s do %2$s</string>
   <string name="miband_prefs_wearside">Nosisz na prawej czy lewej?</string>
   <string name="pref_screen_vibration_profile">Profil wibracji</string>
@@ -218,7 +218,7 @@
   <string name="liveactivity_live_activity">Ostatnia aktywność</string>
   <string name="weeksteps_today_steps_description">Kroków dziś, cel: %1$s</string>
   <string name="pref_title_dont_ack_transfer">Nie wysyłaj danych aktywności</string>
-  <string name="pref_summary_dont_ack_transfers">Gdy dane aktywności nie są przesłane na opaskę, wtedy nie będą usuwane. Przydatne gdy Gadgetbridge jest używany wraz z innymi aplikacjami</string>
+  <string name="pref_summary_dont_ack_transfers">Gdy dane aktywności nie są przesłane na opaskę, wtedy nie będą usuwane. Przydatne gdy Gadgetbridge jest używany wraz z innymi aplikacjami.</string>
   <string name="pref_summary_keep_data_on_device">Dane aktywności będą zachowane na Mi Band nawet po synchronizacji. Przydatne gdy Gadgetbridge jest używany z innymi aplikacjami.</string>
   <string name="pref_summary_low_latency_fw_update">To może pomóc na urządzeniach gdzie uaktualnienie kończy się błędem</string>
   <string name="live_activity_steps_history">Historia kroków</string>
@@ -230,7 +230,7 @@
   <string name="abstract_chart_fragment_kind_light_sleep">Płytki sen</string>
   <string name="abstract_chart_fragment_kind_deep_sleep">Głęboki sen</string>
   <string name="abstract_chart_fragment_kind_not_worn">Niezałożona</string>
-  <string name="device_not_connected">Nie połączono</string>
+  <string name="device_not_connected">Nie połączono.</string>
   <string name="user_feedback_all_alarms_disabled">Wszystkie alarmy wyłączono</string>
   <string name="pref_title_keep_data_on_device">Zachowaj dane aktywności na urządzeniu</string>
   <string name="miband_fwinstaller_incompatible_version">Niekompatybilny firmware</string>
@@ -307,7 +307,7 @@
     <string name="pref_pebble_privacy_mode_complete">Pokaż jedynie ikonę powiadomienia</string>
 
     <string name="pref_title_pebble_enable_bgjs">Włącz JS w tle</string>
-    <string name="pref_summary_pebble_enable_bgjs">Jeśli włączone, pozwala zegarkowi na wyświetlanie informacji o pogodzie, baterii itp</string>
+    <string name="pref_summary_pebble_enable_bgjs">Jeśli włączone, pozwala zegarkowi na wyświetlanie informacji o pogodzie, baterii itp.</string>
 
     <string name="pref_title_unit_system">Jednostki</string>
     <string name="pref_title_timeformat">Format czasu</string>
@@ -319,4 +319,5 @@
     <string name="pairing_unable_to_pair_with">Nie można sparować z %1$s (%2$s)</string>
     <string name="pairing_in_progress">Łączenie w toku: %1$s (%2$s)</string>
     <string name="pairing_already_bonded">Już związano z %1$s (%2$s), łączenie …</string>
+    <string name="pref_write_logfiles">Zapisz log</string>
     </resources>
