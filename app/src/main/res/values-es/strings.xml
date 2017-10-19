@@ -434,4 +434,5 @@
 
     <string name="activity_web_view">Actividad Web View</string>
 
+    <string name="controlcenter_connect">Conectar</string>
     </resources>
