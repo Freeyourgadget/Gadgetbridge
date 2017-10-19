@@ -438,4 +438,5 @@ NOTE: la base de données sera bien évidement plus grande !</string>
 
     <string name="activity_web_view">Activité Web View</string>
 
+    <string name="controlcenter_connect">Connecter</string>
     </resources>
