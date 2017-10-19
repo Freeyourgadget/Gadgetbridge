@@ -429,4 +429,9 @@
     <string name="_pebble_watch_open_on_phone">Abrir en el teléfono</string>
     <string name="_pebble_watch_mute">Silenciar</string>
     <string name="_pebble_watch_reply">Responder</string>
-</resources>
+<string name="pref_title_pebble_enable_bgjs">Habilitar JS de fondo</string>
+    <string name="pref_summary_pebble_enable_bgjs">Permite a las watchfaces mostrar el tiempo, información de batería, etc.</string>
+
+    <string name="activity_web_view">Actividad Web View</string>
+
+    </resources>
