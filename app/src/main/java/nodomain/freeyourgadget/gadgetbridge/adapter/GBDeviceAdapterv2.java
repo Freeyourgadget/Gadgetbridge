@@ -43,6 +43,7 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.ActivitySummariesActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
 import nodomain.freeyourgadget.gadgetbridge.activities.VibrationActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
@@ -210,6 +211,20 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                                      }
         );
 
+        //show activity tracks
+        holder.showActivityTracks.setVisibility(coordinator.supportsActivityTracks() ? View.VISIBLE : View.GONE);
+        holder.showActivityTracks.setOnClickListener(new View.OnClickListener()
+                                                     {
+                                                         @Override
+                                                         public void onClick(View v) {
+                                                             Intent startIntent;
+                                                             startIntent = new Intent(context, ActivitySummariesActivity.class);
+                                                             startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                                                             context.startActivity(startIntent);
+                                                         }
+                                                     }
+        );
+
         ItemWithDetailsAdapter infoAdapter = new ItemWithDetailsAdapter(context, device.getDeviceInfos());
         infoAdapter.setHorizontalAlignment(true);
         holder.deviceInfoList.setAdapter(infoAdapter);
@@ -338,6 +353,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         ImageView manageAppsView;
         ImageView setAlarmsView;
         ImageView showActivityGraphs;
+        ImageView showActivityTracks;
 
         ImageView deviceInfoView;
         //overflow
@@ -365,6 +381,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             manageAppsView = (ImageView) view.findViewById(R.id.device_action_manage_apps);
             setAlarmsView = (ImageView) view.findViewById(R.id.device_action_set_alarms);
             showActivityGraphs = (ImageView) view.findViewById(R.id.device_action_show_activity_graphs);
+            showActivityTracks = (ImageView) view.findViewById(R.id.device_action_show_activity_tracks);
             deviceInfoView = (ImageView) view.findViewById(R.id.device_info_image);
 
             deviceInfoBox = (RelativeLayout) view.findViewById(R.id.device_item_infos_box);

@@ -15,6 +15,8 @@
  */
 package nodomain.freeyourgadget.gadgetbridge.daogen;
 
+import java.util.Date;
+
 import de.greenrobot.daogenerator.DaoGenerator;
 import de.greenrobot.daogenerator.Entity;
 import de.greenrobot.daogenerator.Index;
@@ -32,6 +34,7 @@ public class GBDaoGenerator {
     private static final String MAIN_PACKAGE = "nodomain.freeyourgadget.gadgetbridge";
     private static final String MODEL_PACKAGE = MAIN_PACKAGE + ".model";
     private static final String VALID_BY_DATE = MODEL_PACKAGE + ".ValidByDate";
+    private static final String ACTIVITY_SUMMARY = MODEL_PACKAGE + ".ActivitySummary";
     private static final String OVERRIDE = "@Override";
     private static final String SAMPLE_RAW_INTENSITY = "rawIntensity";
     private static final String SAMPLE_STEPS = "steps";
@@ -67,6 +70,8 @@ public class GBDaoGenerator {
         addNo1F1ActivitySample(schema, user, device);
 
         addCalendarSyncState(schema, device);
+
+        addBipActivitySummary(schema, user, device);
 
         new DaoGenerator().generateAll(schema, "app/src/main/java");
     }
@@ -295,6 +300,31 @@ public class GBDaoGenerator {
         calendarSyncState.addIndex(indexUnique);
         calendarSyncState.addToOne(device, deviceId);
         calendarSyncState.addIntProperty("hash").notNull();
+    }
+
+    private static void addBipActivitySummary(Schema schema, Entity user, Entity device) {
+        Entity summary = addEntity(schema, "BaseActivitySummary");
+        summary.implementsInterface(ACTIVITY_SUMMARY);
+        summary.addIdProperty();
+
+        summary.setJavaDoc(
+                "This class represents the summary of a user's activity event. I.e. a walk, hike, a bicycle tour, etc.");
+
+        summary.addStringProperty("name").codeBeforeGetter(OVERRIDE);
+        summary.addDateProperty("startTime").notNull().codeBeforeGetter(OVERRIDE);
+        summary.addDateProperty("endTime").notNull().codeBeforeGetter(OVERRIDE);
+        summary.addIntProperty("activityKind").notNull().codeBeforeGetter(OVERRIDE);
+
+        summary.addIntProperty("baseLongitude").javaDocGetterAndSetter("Temporary, bip-specific");
+        summary.addIntProperty("baseLatitude").javaDocGetterAndSetter("Temporary, bip-specific");
+        summary.addIntProperty("baseAltitude").javaDocGetterAndSetter("Temporary, bip-specific");
+
+        summary.addStringProperty("gpxTrack").codeBeforeGetter(OVERRIDE);
+
+        Property deviceId = summary.addLongProperty("deviceId").notNull().codeBeforeGetter(OVERRIDE).getProperty();
+        summary.addToOne(device, deviceId);
+        Property userId = summary.addLongProperty("userId").notNull().codeBeforeGetter(OVERRIDE).getProperty();
+        summary.addToOne(user, userId);
     }
 
     private static Property findProperty(Entity entity, String propertyName) {

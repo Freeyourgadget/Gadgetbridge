@@ -74,7 +74,7 @@ public class FetchActivityOperation extends AbstractFetchOperation {
         builder.write(characteristicFetch, new byte[] { MiBand2Service.COMMAND_FETCH_DATA});
     }
 
-    protected void handleActivityFetchFinish() {
+    protected void handleActivityFetchFinish(boolean success) {
         LOG.info("Fetching activity data has finished round " + fetchCount);
         GregorianCalendar lastSyncTimestamp = saveSamples();
         if (lastSyncTimestamp != null && needsAnotherFetch(lastSyncTimestamp)) {
@@ -86,7 +86,7 @@ public class FetchActivityOperation extends AbstractFetchOperation {
             }
         }
 
-        super.handleActivityFetchFinish();
+        super.handleActivityFetchFinish(success);
     }
 
     private boolean needsAnotherFetch(GregorianCalendar lastSyncTimestamp) {
@@ -167,11 +167,12 @@ public class FetchActivityOperation extends AbstractFetchOperation {
                 bufferActivityData(value);
             } else {
                 GB.toast("Error fetching activity data, invalid package counter: " + value[0], Toast.LENGTH_LONG, GB.ERROR);
-                handleActivityFetchFinish();
+                handleActivityFetchFinish(false);
                 return;
             }
         } else {
             GB.toast("Error fetching activity data, unexpected package length: " + value.length, Toast.LENGTH_LONG, GB.ERROR);
+            handleActivityFetchFinish(false);
         }
     }
 

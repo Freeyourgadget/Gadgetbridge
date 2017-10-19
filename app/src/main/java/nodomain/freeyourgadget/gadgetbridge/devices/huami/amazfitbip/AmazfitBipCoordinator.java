@@ -63,4 +63,9 @@ public class AmazfitBipCoordinator extends HuamiCoordinator {
     public boolean supportsHeartRateMeasurement(GBDevice device) {
         return true;
     }
+
+    @Override
+    public boolean supportsActivityTracks() {
+        return true;
+    }
 }

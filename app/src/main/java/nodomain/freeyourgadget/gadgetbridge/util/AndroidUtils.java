@@ -19,23 +19,36 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.ParcelUuid;
 import android.os.Parcelable;
+import android.support.v4.content.FileProvider;
 import android.support.v4.content.LocalBroadcastManager;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.ActivitySummariesActivity;
 
 public class AndroidUtils {
+    /**
+     * Creates a new {@link ParcelUuid} array with the contents of the given uuids.
+     * The given array is expected to contain only {@link ParcelUuid} elements.
+     * @param uuids an array of {@link ParcelUuid} elements
+     * @return a {@link ParcelUuid} array instance with the same contents
+     */
     public static ParcelUuid[] toParcelUUids(Parcelable[] uuids) {
         if (uuids == null) {
             return null;
         }
         ParcelUuid[] uuids2 = new ParcelUuid[uuids.length];
+        //noinspection SuspiciousSystemArraycopy
         System.arraycopy(uuids, 0, uuids2, 0, uuids.length);
         return uuids2;
     }
@@ -111,5 +124,16 @@ public class AndroidUtils {
                 + Integer.toHexString(Color.red(color))
                 + Integer.toHexString(Color.green(color))
                 + Integer.toHexString(Color.blue(color));
+    }
+
+    public static void viewFile(String path, String action, Context context) throws IOException {
+        Intent intent = new Intent(action);
+        File file = new File(path);
+
+        Uri contentUri = FileProvider.getUriForFile(context,
+                context.getApplicationContext().getPackageName() + ".screenshot_provider", file);
+        intent.setFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setData(contentUri);
+        context.startActivity(intent);
     }
 }

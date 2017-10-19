@@ -24,6 +24,9 @@ import android.app.NotificationManager.Policy;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -590,5 +593,25 @@ public class GBApplication extends Application {
 
     public static Locale getLanguage() {
         return language;
+    }
+
+    public String getVersion() {
+        try {
+            return getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_META_DATA).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            GB.log("Unable to determine Gadgetbridge's version", GB.WARN, e);
+            return "0.0.0";
+        }
+    }
+
+    public String getNameAndVersion() {
+        try {
+            ApplicationInfo appInfo = getPackageManager().getApplicationInfo(getContext().getPackageName(), PackageManager.GET_META_DATA);
+            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_META_DATA);
+            return String.format("%s %s", appInfo.name, packageInfo.versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            GB.log("Unable to determine Gadgetbridge's name/version", GB.WARN, e);
+            return "Gadgetbridge";
+        }
     }
 }

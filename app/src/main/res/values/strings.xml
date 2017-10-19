@@ -483,4 +483,16 @@
     <string name="_pebble_watch_open_on_phone">Open on phone</string>
     <string name="_pebble_watch_mute">Mute</string>
     <string name="_pebble_watch_reply">Reply</string>
+    <string name="controlcenter_start_activity_tracks">Your activity tracks</string>
+    <string name="activity_type_not_measured">Not measured</string>
+    <string name="activity_type_activity">Activity</string>
+    <string name="activity_type_light_sleep">Light sleep</string>
+    <string name="activity_type_deep_sleep">Deep sleep</string>
+    <string name="activity_type_not_worn">Device not worn</string>
+    <string name="activity_type_running">Running</string>
+    <string name="activity_type_walking">Walking</string>
+    <string name="activity_type_swimming">Swimming</string>
+    <string name="activity_type_unknown">Unknown activity</string>
+    <string name="activity_summaries">Activities</string>
+    <string name="activity_type_biking">Biking</string>
 </resources>

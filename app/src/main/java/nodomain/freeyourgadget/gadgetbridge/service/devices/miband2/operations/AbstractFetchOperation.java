@@ -115,7 +115,7 @@ public abstract class AbstractFetchOperation extends AbstractMiBand2Operation {
     }
 
     @CallSuper
-    protected void handleActivityFetchFinish() {
+    protected void handleActivityFetchFinish(boolean success) {
         operationFinished();
         unsetBusy();
     }
@@ -149,18 +149,18 @@ public abstract class AbstractFetchOperation extends AbstractMiBand2Operation {
                         DateFormat.getDateTimeInstance().format(startTimestamp.getTime())), Toast.LENGTH_LONG, GB.INFO);
             } else {
                 LOG.warn("Unexpected activity metadata: " + Logging.formatBytes(value));
-                handleActivityFetchFinish();
+                handleActivityFetchFinish(false);
             }
         } else if (value.length == 3) {
             if (Arrays.equals(MiBand2Service.RESPONSE_FINISH_SUCCESS, value)) {
-                handleActivityFetchFinish();
+                handleActivityFetchFinish(true);
             } else {
                 LOG.warn("Unexpected activity metadata: " + Logging.formatBytes(value));
-                handleActivityFetchFinish();
+                handleActivityFetchFinish(false);
             }
         } else {
             LOG.warn("Unexpected activity metadata: " + Logging.formatBytes(value));
-            handleActivityFetchFinish();
+            handleActivityFetchFinish(false);
         }
     }
 
