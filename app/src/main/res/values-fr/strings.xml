@@ -433,4 +433,9 @@ NOTE: la base de données sera bien évidement plus grande !</string>
     <string name="_pebble_watch_open_on_phone">Ouvrir sur le téléphone</string>
     <string name="_pebble_watch_mute">Silencieux</string>
     <string name="_pebble_watch_reply">Répondre</string>
-</resources>
+<string name="pref_title_pebble_enable_bgjs">Activer tâche de fond JS</string>
+    <string name="pref_summary_pebble_enable_bgjs">Si activé, permet aux watchfaces d\'afficher la météo, les informations de batterie, etc.</string>
+
+    <string name="activity_web_view">Activité Web View</string>
+
+    </resources>
