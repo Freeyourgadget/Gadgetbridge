@@ -45,6 +45,9 @@ import nodomain.freeyourgadget.gadgetbridge.GBEnvironment;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
 public class GB {
     public static final int NOTIFICATION_ID = 1;
@@ -61,19 +64,60 @@ public class GB {
     public static final String DISPLAY_MESSAGE_DURATION = "duration";
     public static final String DISPLAY_MESSAGE_SEVERITY = "severity";
 
-    public static Notification createNotification(String text, boolean connected, Context context) {
+    private static PendingIntent getContentIntent(Context context) {
         Intent notificationIntent = new Intent(context, ControlCenterv2.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
                 notificationIntent, 0);
 
+        return pendingIntent;
+    }
+
+    public static Notification createNotification(GBDevice device, Context context) {
+        String text = device.getName() + " " + device.getStateString();
+        Boolean connected = device.isInitialized();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         builder.setContentTitle(context.getString(R.string.app_name))
                 .setTicker(text)
                 .setContentText(text)
                 .setSmallIcon(connected ? R.drawable.ic_notification : R.drawable.ic_notification_disconnected)
-                .setContentIntent(pendingIntent)
+                .setContentIntent(getContentIntent(context))
+                .setOngoing(true);
+
+        Intent deviceCommunicationServiceIntent = new Intent(context, DeviceCommunicationService.class);
+        if (connected) {
+            deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_DISCONNECT);
+            PendingIntent disconnectPendingIntent = PendingIntent.getService(context, 0, deviceCommunicationServiceIntent, 0);
+            builder.addAction(R.drawable.ic_notification_disconnected, context.getString(R.string.controlcenter_disconnect), disconnectPendingIntent);
+            if (DeviceHelper.getInstance().getCoordinator(device).supportsActivityDataFetching()) {
+                deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_FETCH_ACTIVITY_DATA);
+                PendingIntent fetchPendingIntent = PendingIntent.getService(context, 1, deviceCommunicationServiceIntent, 0);
+                builder.addAction(R.drawable.ic_action_fetch_activity_data, context.getString(R.string.controlcenter_fetch_activity_data), fetchPendingIntent);
+            }
+        } else if (device.getState().equals(GBDevice.State.WAITING_FOR_RECONNECT) || device.getState().equals(GBDevice.State.NOT_CONNECTED)) {
+            deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_CONNECT);
+            //FIXME: why does it reconnect to the device before the last one sometimes???
+            deviceCommunicationServiceIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+            PendingIntent reconnectPendingIntent = PendingIntent.getService(context, 2, deviceCommunicationServiceIntent, 0);
+            builder.addAction(R.drawable.ic_notification, context.getString(R.string.controlcenter_connect), reconnectPendingIntent);
+        }
+        if (GBApplication.isRunningLollipopOrLater()) {
+            builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+        }
+        if (GBApplication.minimizeNotification()) {
+            builder.setPriority(Notification.PRIORITY_MIN);
+        }
+        return builder.build();
+    }
+
+    public static Notification createNotification(String text, boolean connected, Context context) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        builder.setContentTitle(context.getString(R.string.app_name))
+                .setTicker(text)
+                .setContentText(text)
+                .setSmallIcon(connected ? R.drawable.ic_notification : R.drawable.ic_notification_disconnected)
+                .setContentIntent(getContentIntent(context))
                 .setOngoing(true);
         if (GBApplication.isRunningLollipopOrLater()) {
             builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
@@ -84,8 +128,8 @@ public class GB {
         return builder.build();
     }
 
-    public static void updateNotification(String text, boolean connected, Context context) {
-        Notification notification = createNotification(text, connected, context);
+    public static void updateNotification(GBDevice device, Context context) {
+        Notification notification = createNotification(device, context);
         updateNotification(notification, NOTIFICATION_ID, context);
     }
 

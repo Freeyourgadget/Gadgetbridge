@@ -218,7 +218,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     mGBDevice = device;
                     boolean enableReceivers = mDeviceSupport != null && (mDeviceSupport.useAutoConnect() || mGBDevice.isInitialized());
                     setReceiversEnableState(enableReceivers, mGBDevice.isInitialized(), DeviceHelper.getInstance().getCoordinator(device));
-                    GB.updateNotification(mGBDevice.getName() + " " + mGBDevice.getStateString(), mGBDevice.isInitialized(), context);
+                    GB.updateNotification(mGBDevice, context);
                 } else {
                     LOG.error("Got ACTION_DEVICE_CHANGED from unexpected device: " + device);
                 }
