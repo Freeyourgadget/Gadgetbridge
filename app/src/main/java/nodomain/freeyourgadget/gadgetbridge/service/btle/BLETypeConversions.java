@@ -264,20 +264,29 @@ public class BLETypeConversions {
             case GENERIC_SMS:
                 return AlertCategory.SMS;
             case GENERIC_EMAIL:
+            case GMAIL:
+            case OUTLOOK:
+            case YAHOO_MAIL:
                 return AlertCategory.Email;
             case GENERIC_NAVIGATION:
                 return AlertCategory.Simple;
+            case CONVERSATIONS:
+            case FACEBOOK_MESSENGER:
+            case GOOGLE_MESSENGER:
+            case GOOGLE_HANGOUTS:
+            case HIPCHAT:
+            case KAKAO_TALK:
+            case LINE:
             case RIOT:
             case SIGNAL:
+            case SKYPE:
+            case SNAPCHAT:
             case TELEGRAM:
-            case WHATSAPP:
-            case CONVERSATIONS:
-            case FACEBOOK:
-            case FACEBOOK_MESSENGER:
             case TWITTER:
+            case WHATSAPP:
+            case VIBER:
+            case WECHAT:
                 return AlertCategory.InstantMessage;
-            case UNKNOWN:
-                return AlertCategory.Simple;
         }
         return AlertCategory.Simple;
     }

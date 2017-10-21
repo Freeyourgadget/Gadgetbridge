@@ -587,7 +587,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
             }
         };
         String message = NotificationUtils.getPreferredTextFor(notificationSpec, 40, 40, getContext());
-        SimpleNotification simpleNotification = new SimpleNotification(message, AlertCategory.HighPriorityAlert);
+        SimpleNotification simpleNotification = new SimpleNotification(message, AlertCategory.HighPriorityAlert, null);
         performPreferredNotification("alarm clock ringing", simpleNotification, MiBandConst.ORIGIN_ALARM_CLOCK, abortAction);
     }
 
@@ -653,7 +653,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 }
             };
             String message = NotificationUtils.getPreferredTextFor(callSpec);
-            SimpleNotification simpleNotification = new SimpleNotification(message, AlertCategory.IncomingCall);
+            SimpleNotification simpleNotification = new SimpleNotification(message, AlertCategory.IncomingCall, null);
             performPreferredNotification("incoming call", simpleNotification, MiBandConst.ORIGIN_INCOMING_CALL, abortAction);
         } else if ((callSpec.command == CallSpec.CALL_START) || (callSpec.command == CallSpec.CALL_END)) {
             telephoneRinging = false;
@@ -745,7 +745,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                     return !isLocatingDevice;
                 }
             };
-            SimpleNotification simpleNotification = new SimpleNotification(getContext().getString(R.string.find_device_you_found_it), AlertCategory.HighPriorityAlert);
+            SimpleNotification simpleNotification = new SimpleNotification(getContext().getString(R.string.find_device_you_found_it), AlertCategory.HighPriorityAlert, null);
             performDefaultNotification("locating device", simpleNotification, (short) 255, abortAction);
         }
     }
