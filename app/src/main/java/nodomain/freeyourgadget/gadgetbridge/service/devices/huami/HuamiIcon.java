@@ -15,12 +15,12 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-package nodomain.freeyourgadget.gadgetbridge.devices.miband2;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
 
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 
-public class MiBand2Icon {
+public class HuamiIcon {
     // icons which are unsure which app they are for are suffixed with _NN
     public static final byte WECHAT = 0;
     public static final byte PENGUIN_1 = 1;

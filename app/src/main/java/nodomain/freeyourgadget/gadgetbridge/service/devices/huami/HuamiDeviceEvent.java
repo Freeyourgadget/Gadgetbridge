@@ -14,10 +14,10 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
 
-public class AmazfitBipEvent {
+public class HuamiDeviceEvent {
     public static final byte FELL_ASLEEP = 0x01;
     public static final byte WOKE_UP = 0x02;
     public static final byte STEPSGOAL_REACHED = 0x03;

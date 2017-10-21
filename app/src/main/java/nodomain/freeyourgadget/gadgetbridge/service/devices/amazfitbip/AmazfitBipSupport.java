@@ -31,11 +31,10 @@ import java.util.Locale;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipWeatherConditions;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband2.MiBand2Icon;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiIcon;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
@@ -87,7 +86,7 @@ public class AmazfitBipSupport extends MiBand2Support {
             AlertNotificationProfile<?> profile = new AlertNotificationProfile(this);
             profile.setMaxLength(230);
 
-            byte customIconId = MiBand2Icon.mapToIconId(notificationSpec.type);
+            byte customIconId = HuamiIcon.mapToIconId(notificationSpec.type);
 
             AlertCategory alertCategory = AlertCategory.CustomMiBand2;
 
@@ -96,7 +95,7 @@ public class AmazfitBipSupport extends MiBand2Support {
                 alertCategory = AlertCategory.SMS;
             }
             // EMAIL icon does not work in FW 0.0.8.74, it did in 0.0.7.90
-            else if (customIconId == MiBand2Icon.EMAIL) {
+            else if (customIconId == HuamiIcon.EMAIL) {
                 alertCategory = AlertCategory.Email;
             }
 
@@ -117,48 +116,8 @@ public class AmazfitBipSupport extends MiBand2Support {
     }
 
     @Override
-    public void handleButtonPressed(byte[] value) {
-        if (value == null || value.length != 1) {
-            return;
-        }
-        GBDeviceEventCallControl callCmd = new GBDeviceEventCallControl();
-
-        switch (value[0]) {
-            case AmazfitBipEvent.CALL_REJECT:
-                callCmd.event = GBDeviceEventCallControl.Event.REJECT;
-                evaluateGBDeviceEvent(callCmd);
-                break;
-            case AmazfitBipEvent.CALL_ACCEPT:
-                callCmd.event = GBDeviceEventCallControl.Event.ACCEPT;
-                evaluateGBDeviceEvent(callCmd);
-                break;
-            case AmazfitBipEvent.BUTTON_PRESSED:
-                LOG.info("button pressed");
-                break;
-            case AmazfitBipEvent.BUTTON_PRESSED_LONG:
-                LOG.info("button long-pressed ");
-                break;
-            case AmazfitBipEvent.START_NONWEAR:
-                LOG.info("non-wear start detected");
-                break;
-            case AmazfitBipEvent.ALARM_TOGGLED:
-                LOG.info("An alarm was toggled"); // TODO: sync alarms watch -> GB
-                break;
-            case AmazfitBipEvent.FELL_ASLEEP:
-                LOG.info("Fell asleep");
-                break;
-            case AmazfitBipEvent.WOKE_UP:
-                LOG.info("Woke up");
-                break;
-            case AmazfitBipEvent.STEPSGOAL_REACHED:
-                LOG.info("Steps goal reached");
-                break;
-            case AmazfitBipEvent.TICK_30MIN:
-                LOG.info("Tick 30 min (?)");
-                break;
-            default:
-                LOG.warn("unhandled event " + value[0]);
-        }
+    public void handleButtonEvent() {
+        // ignore
     }
 
     @Override

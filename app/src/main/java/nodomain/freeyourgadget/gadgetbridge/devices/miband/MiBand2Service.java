@@ -48,7 +48,7 @@ public class MiBand2Service {
     public static final UUID UUID_CHARACTERISTIC_8_USER_SETTINGS = UUID.fromString("00000008-0000-3512-2118-0009af100700");
     // service uuid fee1
     public static final UUID UUID_CHARACTERISTIC_AUTH = UUID.fromString("00000009-0000-3512-2118-0009af100700");
-    public static final UUID UUID_CHARACTERISTIC_10_BUTTON = UUID.fromString("00000010-0000-3512-2118-0009af100700");
+    public static final UUID UUID_CHARACTERISTIC_DEVICEEVENT = UUID.fromString("00000010-0000-3512-2118-0009af100700");
 
     public static final int ALERT_LEVEL_NONE = 0;
     public static final int ALERT_LEVEL_MESSAGE = 1;

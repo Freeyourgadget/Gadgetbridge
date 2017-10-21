@@ -52,6 +52,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.DateTimeDisplay;
@@ -94,6 +95,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotificat
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.heartrate.HeartRateProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotification;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.RealtimeSamplesSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.actions.StopNotificationAction;
@@ -263,7 +265,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     public MiBand2Support enableFurtherNotifications(TransactionBuilder builder, boolean enable) {
         builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), enable);
         builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_6_BATTERY_INFO), enable);
-        builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_10_BUTTON), enable);
+        builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_DEVICEEVENT), enable);
         BluetoothGattCharacteristic heartrateCharacteristic = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT);
         if (heartrateCharacteristic != null) {
             builder.notify(heartrateCharacteristic, enable);
@@ -876,8 +878,52 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         currentButtonPressTime = System.currentTimeMillis();
     }
 
-    public void handleButtonPressed(byte[] value) {
-        LOG.info("Button pressed");
+    public void handleDeviceEvent(byte[] value) {
+        if (value == null || value.length != 1) {
+            return;
+        }
+        GBDeviceEventCallControl callCmd = new GBDeviceEventCallControl();
+
+        switch (value[0]) {
+            case HuamiDeviceEvent.CALL_REJECT:
+                callCmd.event = GBDeviceEventCallControl.Event.REJECT;
+                evaluateGBDeviceEvent(callCmd);
+                break;
+            case HuamiDeviceEvent.CALL_ACCEPT:
+                callCmd.event = GBDeviceEventCallControl.Event.ACCEPT;
+                evaluateGBDeviceEvent(callCmd);
+                break;
+            case HuamiDeviceEvent.BUTTON_PRESSED:
+                LOG.info("button pressed");
+                handleButtonEvent();
+                break;
+            case HuamiDeviceEvent.BUTTON_PRESSED_LONG:
+                LOG.info("button long-pressed ");
+                break;
+            case HuamiDeviceEvent.START_NONWEAR:
+                LOG.info("non-wear start detected");
+                break;
+            case HuamiDeviceEvent.ALARM_TOGGLED:
+                LOG.info("An alarm was toggled");
+                break;
+            case HuamiDeviceEvent.FELL_ASLEEP:
+                LOG.info("Fell asleep");
+                break;
+            case HuamiDeviceEvent.WOKE_UP:
+                LOG.info("Woke up");
+                break;
+            case HuamiDeviceEvent.STEPSGOAL_REACHED:
+                LOG.info("Steps goal reached");
+                break;
+            case HuamiDeviceEvent.TICK_30MIN:
+                LOG.info("Tick 30 min (?)");
+                break;
+            default:
+                LOG.warn("unhandled event " + value[0]);
+        }
+    }
+
+    public void handleButtonEvent() {
         ///logMessageContent(value);
 
         // If disabled we return from function immediately
@@ -944,8 +990,8 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             LOG.info("AUTHENTICATION?? " + characteristicUUID);
             logMessageContent(characteristic.getValue());
             return true;
-        } else if (MiBand2Service.UUID_CHARACTERISTIC_10_BUTTON.equals(characteristicUUID)) {
-            handleButtonPressed(characteristic.getValue());
+        } else if (MiBand2Service.UUID_CHARACTERISTIC_DEVICEEVENT.equals(characteristicUUID)) {
+            handleDeviceEvent(characteristic.getValue());
             return true;
         } else if (MiBand2Service.UUID_CHARACTERISTIC_7_REALTIME_STEPS.equals(characteristicUUID)) {
             handleRealtimeSteps(characteristic.getValue());
@@ -956,10 +1002,6 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         }
 
         return false;
-    }
-
-    private void handleUnknownCharacteristic(byte[] value) {
-
     }
 
     @Override
@@ -980,8 +1022,8 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         } else if (MiBand2Service.UUID_CHARACTERISTIC_7_REALTIME_STEPS.equals(characteristicUUID)) {
             handleRealtimeSteps(characteristic.getValue());
             return true;
-        } else if (MiBand2Service.UUID_CHARACTERISTIC_10_BUTTON.equals(characteristicUUID)) {
-            handleButtonPressed(characteristic.getValue());
+        } else if (MiBand2Service.UUID_CHARACTERISTIC_DEVICEEVENT.equals(characteristicUUID)) {
+            handleDeviceEvent(characteristic.getValue());
             return true;
         } else {
             LOG.info("Unhandled characteristic read: " + characteristicUUID);

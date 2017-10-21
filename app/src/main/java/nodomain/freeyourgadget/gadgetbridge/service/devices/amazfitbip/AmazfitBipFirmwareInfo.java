@@ -18,7 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.FirmwareType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.Mi2FirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 
@@ -73,24 +73,24 @@ public class AmazfitBipFirmwareInfo extends Mi2FirmwareInfo {
     }
 
     @Override
-    protected FirmwareType determineFirmwareType(byte[] bytes) {
+    protected HuamiFirmwareType determineFirmwareType(byte[] bytes) {
         if (ArrayUtils.startsWith(bytes, RES_HEADER)) {
-            return FirmwareType.RES;
+            return HuamiFirmwareType.RES;
         }
         if (ArrayUtils.startsWith(bytes, GPS_HEADER)) {
-            return FirmwareType.GPS;
+            return HuamiFirmwareType.GPS;
         }
         if (ArrayUtils.startsWith(bytes, GPS_ALMANAC_HEADER)) {
-            return FirmwareType.GPS_ALMANAC;
+            return HuamiFirmwareType.GPS_ALMANAC;
         }
         if (ArrayUtils.startsWith(bytes, GPS_CEP_HEADER)) {
-            return FirmwareType.GPS_CEP;
+            return HuamiFirmwareType.GPS_CEP;
         }
         if (ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET)) {
             // TODO: this is certainly not a correct validation, but it works for now
-            return FirmwareType.FIRMWARE;
+            return HuamiFirmwareType.FIRMWARE;
         }
-        return FirmwareType.INVALID;
+        return HuamiFirmwareType.INVALID;
     }
 
     @Override

@@ -39,7 +39,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.AbstractMiBand2Operation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.FirmwareType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.Mi2FirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Support;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -146,7 +146,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
                         break;
                     }
                     case MiBand2Service.COMMAND_FIRMWARE_CHECKSUM: {
-                        if (getFirmwareInfo().getFirmwareType() == FirmwareType.FIRMWARE) {
+                        if (getFirmwareInfo().getFirmwareType() == HuamiFirmwareType.FIRMWARE) {
                             TransactionBuilder builder = performInitialized("reboot");
                             getSupport().sendReboot(builder);
                             builder.queue(getQueue());
@@ -196,7 +196,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
             int fwSize = getFirmwareInfo().getSize();
             byte[] sizeBytes = BLETypeConversions.fromUint24(fwSize);
             int arraySize = 4;
-            boolean isFirmwareCode = getFirmwareInfo().getFirmwareType() == FirmwareType.FIRMWARE;
+            boolean isFirmwareCode = getFirmwareInfo().getFirmwareType() == HuamiFirmwareType.FIRMWARE;
             if (!isFirmwareCode) {
                 arraySize++;
             }

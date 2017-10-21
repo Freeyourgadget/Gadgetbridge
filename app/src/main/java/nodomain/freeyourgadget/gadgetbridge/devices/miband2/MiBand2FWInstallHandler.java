@@ -31,7 +31,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.AbstractMiBandFWInsta
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.FirmwareType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 public class MiBand2FWInstallHandler extends AbstractMiBandFWInstallHandler {
@@ -49,16 +49,16 @@ public class MiBand2FWInstallHandler extends AbstractMiBandFWInstallHandler {
     }
 
     private void maybeAddFontHint(InstallActivity installActivity) {
-        FirmwareType type = getFirmwareType();
-        if (type == FirmwareType.FIRMWARE) {
+        HuamiFirmwareType type = getFirmwareType();
+        if (type == HuamiFirmwareType.FIRMWARE) {
             String newInfoText = installActivity.getInfoText() + "\n\n" + "Note: you may install Mili_pro.ft or Mili_pro.ft.en to enable text notifications.";
             installActivity.setInfoText(newInfoText);
         }
     }
 
     private void maybeAddFw53Hint(InstallActivity installActivity, GBDevice device) {
-        FirmwareType type = getFirmwareType();
-        if (type != FirmwareType.FIRMWARE) {
+        HuamiFirmwareType type = getFirmwareType();
+        if (type != HuamiFirmwareType.FIRMWARE) {
             return;
         }
 
@@ -91,12 +91,12 @@ public class MiBand2FWInstallHandler extends AbstractMiBandFWInstallHandler {
         }
     }
 
-    private FirmwareType getFirmwareType() {
+    private HuamiFirmwareType getFirmwareType() {
         AbstractMiBandFWHelper helper = getHelper();
         if (helper instanceof MiBand2FWHelper) {
             return ((MiBand2FWHelper) helper).getFirmwareInfo().getFirmwareType();
         }
-        return FirmwareType.INVALID;
+        return HuamiFirmwareType.INVALID;
     }
 
     @Override

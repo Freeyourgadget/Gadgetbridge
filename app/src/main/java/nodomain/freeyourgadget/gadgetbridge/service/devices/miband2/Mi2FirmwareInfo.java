@@ -21,6 +21,7 @@ import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 
@@ -67,7 +68,7 @@ public class Mi2FirmwareInfo {
         crcToVersion.put(6377, "Font (En)");
     }
 
-    private FirmwareType firmwareType = FirmwareType.FIRMWARE;
+    private HuamiFirmwareType firmwareType = HuamiFirmwareType.FIRMWARE;
 
     public static String toVersion(int crc16) {
         return crcToVersion.get(crc16);
@@ -89,15 +90,15 @@ public class Mi2FirmwareInfo {
         firmwareType = determineFirmwareType(bytes);
     }
 
-    protected FirmwareType determineFirmwareType(byte[] bytes) {
+    protected HuamiFirmwareType determineFirmwareType(byte[] bytes) {
         if (ArrayUtils.startsWith(bytes, FT_HEADER)) {
-            return FirmwareType.FONT;
+            return HuamiFirmwareType.FONT;
         }
         if (ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET)) {
             // TODO: this is certainly not a correct validation, but it works for now
-            return FirmwareType.FIRMWARE;
+            return HuamiFirmwareType.FIRMWARE;
         }
-        return FirmwareType.INVALID;
+        return HuamiFirmwareType.INVALID;
     }
 
     public boolean isGenerallyCompatibleWith(GBDevice device) {
@@ -105,7 +106,7 @@ public class Mi2FirmwareInfo {
     }
 
     public boolean isHeaderValid() {
-        return getFirmwareType() != FirmwareType.INVALID;
+        return getFirmwareType() != HuamiFirmwareType.INVALID;
     }
 
     public void checkValid() throws IllegalArgumentException {
@@ -131,7 +132,7 @@ public class Mi2FirmwareInfo {
         return getCrc16(); // HACK until we know how to determine the version from the fw bytes
     }
 
-    public FirmwareType getFirmwareType() {
+    public HuamiFirmwareType getFirmwareType() {
         return firmwareType;
     }
 }

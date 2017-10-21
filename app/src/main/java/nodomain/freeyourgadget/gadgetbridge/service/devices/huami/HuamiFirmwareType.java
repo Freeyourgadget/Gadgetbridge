@@ -14,12 +14,11 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.miband2;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
-public enum FirmwareType {
+public enum HuamiFirmwareType {
     FIRMWARE((byte) 0),
     FONT((byte) 1),
-    // Amazfit Bip only from here on
     RES((byte) 2),
     GPS((byte) 3),
     GPS_CEP((byte) 4),
@@ -28,7 +27,7 @@ public enum FirmwareType {
 
     private final byte value;
 
-    FirmwareType(byte value) {
+    HuamiFirmwareType(byte value) {
         this.value = value;
     }
 
