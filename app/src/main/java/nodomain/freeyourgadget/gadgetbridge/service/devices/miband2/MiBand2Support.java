@@ -742,7 +742,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                     return !isLocatingDevice;
                 }
             };
-            SimpleNotification simpleNotification = new SimpleNotification(getContext().getString(R.string.find_device_you_found_it), AlertCategory.HighPriorityAlert);
+            SimpleNotification simpleNotification = new SimpleNotification(getContext().getString(R.string.find_device_you_found_it), AlertCategory.CustomVibrateOnly);
             performDefaultNotification("locating device", simpleNotification, (short) 255, abortAction);
         }
     }
