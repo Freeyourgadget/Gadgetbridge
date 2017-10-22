@@ -59,6 +59,9 @@ public class LanguageUtils {
             put('Ξ',"KS");put('Ο',"O");put('Ό',"O");put('Π',"P");put('Ρ',"R");put('Σ',"S");put('Τ',"T");put('Υ',"Y");put('Ύ',"Y");
             put('Ϋ',"Y");put('Φ',"F");put('Χ',"CH");put('Ψ',"PS");put('Ω',"O");put('Ώ',"O");
 
+            //ukrainian characters
+            put('ґ', "gh"); put('є', "je"); put('і', "i"); put('ї', "ji"); put('Ґ', "GH"); put('Є', "JE"); put('І', "I"); put('Ї', "JI");
+            
             //TODO: these must be configurabe. If someone wants to transliterate cyrillic it does not mean his device has no German umlauts
             //all or nothing is really bad here
         }
