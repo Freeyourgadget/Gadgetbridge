@@ -25,11 +25,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
-public class AmazfitBipCoordinator extends MiBand2Coordinator {
+public class AmazfitBipCoordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitBipCoordinator.class);
 
     @Override
@@ -56,5 +57,10 @@ public class AmazfitBipCoordinator extends MiBand2Coordinator {
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         AmazfitBipFWInstallHandler handler = new AmazfitBipFWInstallHandler(uri, context);
         return handler.isValid() ? handler : null;
+    }
+
+    @Override
+    public boolean supportsHeartRateMeasurement(GBDevice device) {
+        return true;
     }
 }

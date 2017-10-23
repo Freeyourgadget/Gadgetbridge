@@ -25,11 +25,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
-public class MiBand2HRXCoordinator extends MiBand2Coordinator {
+public class MiBand2HRXCoordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MiBand2HRXCoordinator.class);
 
     @NonNull

@@ -57,7 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInf
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.DateTimeDisplay;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.DoNotDisturb;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
@@ -1329,7 +1329,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     private MiBand2Support setDateDisplay(TransactionBuilder builder) {
-        DateTimeDisplay dateTimeDisplay = MiBand2Coordinator.getDateDisplay(getContext());
+        DateTimeDisplay dateTimeDisplay = HuamiCoordinator.getDateDisplay(getContext());
         LOG.info("Setting date display to " + dateTimeDisplay);
         switch (dateTimeDisplay) {
             case TIME:
@@ -1354,7 +1354,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     private MiBand2Support setGoalNotification(TransactionBuilder builder) {
-        boolean enable = MiBand2Coordinator.getGoalNotification();
+        boolean enable = HuamiCoordinator.getGoalNotification();
         LOG.info("Setting goal notification to " + enable);
         if (enable) {
             builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_ENABLE_GOAL_NOTIFICATION);
@@ -1365,7 +1365,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     private MiBand2Support setActivateDisplayOnLiftWrist(TransactionBuilder builder) {
-        boolean enable = MiBand2Coordinator.getActivateDisplayOnLiftWrist();
+        boolean enable = HuamiCoordinator.getActivateDisplayOnLiftWrist();
         LOG.info("Setting activate display on lift wrist to " + enable);
         if (enable) {
             builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_ENABLE_DISPLAY_ON_LIFT_WRIST);
@@ -1376,7 +1376,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     private MiBand2Support setDisplayItems(TransactionBuilder builder) {
-        Set<String> pages = MiBand2Coordinator.getDisplayItems();
+        Set<String> pages = HuamiCoordinator.getDisplayItems();
         LOG.info("Setting display items to " + (pages == null ? "none" : pages));
 
         byte[] data = MiBand2Service.COMMAND_CHANGE_SCREENS.clone();
@@ -1404,7 +1404,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     private MiBand2Support setRotateWristToSwitchInfo(TransactionBuilder builder) {
-        boolean enable = MiBand2Coordinator.getRotateWristToSwitchInfo();
+        boolean enable = HuamiCoordinator.getRotateWristToSwitchInfo();
         LOG.info("Setting rotate wrist to cycle info to " + enable);
         if (enable) {
             builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_ENABLE_ROTATE_WRIST_TO_SWITCH_INFO);
@@ -1420,7 +1420,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     private MiBand2Support setDoNotDisturb(TransactionBuilder builder) {
-        DoNotDisturb doNotDisturb = MiBand2Coordinator.getDoNotDisturb(getContext());
+        DoNotDisturb doNotDisturb = HuamiCoordinator.getDoNotDisturb(getContext());
         LOG.info("Setting do not disturb to " + doNotDisturb);
         switch (doNotDisturb) {
             case OFF:
@@ -1434,12 +1434,12 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
                 Calendar calendar = GregorianCalendar.getInstance();
 
-                Date start = MiBand2Coordinator.getDoNotDisturbStart();
+                Date start = HuamiCoordinator.getDoNotDisturbStart();
                 calendar.setTime(start);
                 data[MiBand2Service.DND_BYTE_START_HOURS] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
                 data[MiBand2Service.DND_BYTE_START_MINUTES] = (byte) calendar.get(Calendar.MINUTE);
 
-                Date end = MiBand2Coordinator.getDoNotDisturbEnd();
+                Date end = HuamiCoordinator.getDoNotDisturbEnd();
                 calendar.setTime(end);
                 data[MiBand2Service.DND_BYTE_END_HOURS] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
                 data[MiBand2Service.DND_BYTE_END_MINUTES] = (byte) calendar.get(Calendar.MINUTE);
@@ -1453,23 +1453,23 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     private MiBand2Support setInactivityWarnings(TransactionBuilder builder) {
-        boolean enable = MiBand2Coordinator.getInactivityWarnings();
+        boolean enable = HuamiCoordinator.getInactivityWarnings();
         LOG.info("Setting inactivity warnings to " + enable);
 
         if (enable) {
             byte[] data = MiBand2Service.COMMAND_ENABLE_INACTIVITY_WARNINGS.clone();
 
-            int threshold = MiBand2Coordinator.getInactivityWarningsThreshold();
+            int threshold = HuamiCoordinator.getInactivityWarningsThreshold();
             data[MiBand2Service.INACTIVITY_WARNINGS_THRESHOLD] = (byte) threshold;
 
             Calendar calendar = GregorianCalendar.getInstance();
 
-            boolean enableDnd = MiBand2Coordinator.getInactivityWarningsDnd();
+            boolean enableDnd = HuamiCoordinator.getInactivityWarningsDnd();
 
-            Date intervalStart = MiBand2Coordinator.getInactivityWarningsStart();
-            Date intervalEnd = MiBand2Coordinator.getInactivityWarningsEnd();
-            Date dndStart = MiBand2Coordinator.getInactivityWarningsDndStart();
-            Date dndEnd = MiBand2Coordinator.getInactivityWarningsDndEnd();
+            Date intervalStart = HuamiCoordinator.getInactivityWarningsStart();
+            Date intervalEnd = HuamiCoordinator.getInactivityWarningsEnd();
+            Date dndStart = HuamiCoordinator.getInactivityWarningsDndStart();
+            Date dndEnd = HuamiCoordinator.getInactivityWarningsDndEnd();
 
             // The first interval always starts when the warnings interval starts
             calendar.setTime(intervalStart);
@@ -1507,7 +1507,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     private MiBand2Support setDistanceUnit(TransactionBuilder builder) {
-        MiBandConst.DistanceUnit unit = MiBand2Coordinator.getDistanceUnit();
+        MiBandConst.DistanceUnit unit = HuamiCoordinator.getDistanceUnit();
         LOG.info("Setting distance unit to " + unit);
         if (unit == MiBandConst.DistanceUnit.METRIC) {
             builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand2Service.COMMAND_DISTANCE_UNIT_METRIC);
