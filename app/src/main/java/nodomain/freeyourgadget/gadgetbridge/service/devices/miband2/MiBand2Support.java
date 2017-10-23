@@ -57,7 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInf
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.DateTimeDisplay;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.DoNotDisturb;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
@@ -147,6 +147,8 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         }
     };
 
+    BluetoothGattCharacteristic characteristicHRControlPoint;
+
     private boolean needsAuth;
     private volatile boolean telephoneRinging;
     private volatile boolean isLocatingDevice;
@@ -198,6 +200,7 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
             boolean authenticate = needsAuth;
             needsAuth = false;
             new InitOperation(authenticate, this, builder).perform();
+            characteristicHRControlPoint = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT);
         } catch (IOException e) {
             GB.toast(getContext(), "Initializing Mi Band 2 failed", Toast.LENGTH_SHORT, GB.ERROR, e);
         }
@@ -481,7 +484,6 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
      * @param builder
      */
     private MiBand2Support setHeartrateSleepSupport(TransactionBuilder builder) {
-        BluetoothGattCharacteristic characteristicHRControlPoint = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT);
         final boolean enableHrSleepSupport = MiBandCoordinator.getHeartrateSleepSupport(getDevice().getAddress());
         if (characteristicHRControlPoint != null) {
             builder.notify(characteristicHRControlPoint, true);
@@ -703,31 +705,37 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onHeartRateTest() {
+        if (characteristicHRControlPoint == null) {
+            return;
+        }
         try {
             TransactionBuilder builder = performInitialized("HeartRateTest");
-            builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementContinuous);
-            builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementManual);
-            builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), startHeartMeasurementManual);
+            builder.write(characteristicHRControlPoint, stopHeartMeasurementContinuous);
+            builder.write(characteristicHRControlPoint, stopHeartMeasurementManual);
+            builder.write(characteristicHRControlPoint, startHeartMeasurementManual);
             builder.queue(getQueue());
         } catch (IOException ex) {
-            LOG.error("Unable to read HearRate with MI2", ex);
+            LOG.error("Unable to read heart rate with MI2", ex);
         }
     }
 
     @Override
     public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
+        if (characteristicHRControlPoint == null) {
+            return;
+        }
         try {
-            TransactionBuilder builder = performInitialized("Enable realtime heart rateM measurement");
+            TransactionBuilder builder = performInitialized("Enable realtime heart rate measurement");
             if (enable) {
-                builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementManual);
-                builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), startHeartMeasurementContinuous);
+                builder.write(characteristicHRControlPoint, stopHeartMeasurementManual);
+                builder.write(characteristicHRControlPoint, startHeartMeasurementContinuous);
             } else {
                 builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementContinuous);
             }
             builder.queue(getQueue());
             enableRealtimeSamplesTimer(enable);
         } catch (IOException ex) {
-            LOG.error("Unable to enable realtime heart rate measurement in  MI1S", ex);
+            LOG.error("Unable to enable realtime heart rate measurement", ex);
         }
     }
 

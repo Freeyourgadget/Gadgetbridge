@@ -31,8 +31,8 @@ import java.util.Locale;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipService;
-import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipWeatherConditions;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiWeatherConditions;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiIcon;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -163,7 +163,7 @@ public class AmazfitBipSupport extends MiBand2Support {
 
             buf.put(NR_DAYS);
 
-            byte condition = AmazfitBipWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.currentConditionCode);
+            byte condition = HuamiWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.currentConditionCode);
             buf.put(condition);
             buf.put(condition);
             buf.put((byte) (weatherSpec.todayMaxTemp - 273));
@@ -172,7 +172,7 @@ public class AmazfitBipSupport extends MiBand2Support {
                 buf.put(weatherSpec.currentCondition.getBytes());
                 buf.put((byte) 0); //
             }
-            condition = AmazfitBipWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.tomorrowConditionCode);
+            condition = HuamiWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.tomorrowConditionCode);
 
             buf.put(condition);
             buf.put(condition);

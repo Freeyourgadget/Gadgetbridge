@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.miband2;
+package nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2;
 
 import android.content.Context;
 import android.net.Uri;

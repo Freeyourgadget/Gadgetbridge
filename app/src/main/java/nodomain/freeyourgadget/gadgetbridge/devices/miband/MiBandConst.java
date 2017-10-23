@@ -72,6 +72,7 @@ public final class MiBandConst {
     public static final String ORIGIN_ALARM_CLOCK = "alarm_clock";
     public static final String MI_GENERAL_NAME_PREFIX = "MI";
     public static final String MI_BAND2_NAME = "MI Band 2";
+    public static final String MI_BAND2_NAME_HRX = "Mi Band HRX";
     public static final String MI_1 = "1";
     public static final String MI_1A = "1A";
     public static final String MI_1S = "1S";

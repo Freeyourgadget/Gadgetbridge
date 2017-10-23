@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip;
+package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
@@ -25,12 +25,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
-public class AmazfitBipCooordinator extends MiBand2Coordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(AmazfitBipCooordinator.class);
+public class AmazfitBipCoordinator extends MiBand2Coordinator {
+    private static final Logger LOG = LoggerFactory.getLogger(AmazfitBipCoordinator.class);
 
     @Override
     public DeviceType getDeviceType() {

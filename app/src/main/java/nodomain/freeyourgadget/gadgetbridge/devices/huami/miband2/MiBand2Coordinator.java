@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.miband;
+package nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2;
 
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothDevice;
@@ -40,7 +40,13 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband2.MiBand2FWInstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.DateTimeDisplay;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.DoNotDisturb;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;

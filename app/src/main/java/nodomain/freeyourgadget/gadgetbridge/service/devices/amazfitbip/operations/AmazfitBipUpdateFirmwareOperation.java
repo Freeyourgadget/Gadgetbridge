@@ -21,7 +21,7 @@ import android.net.Uri;
 
 import java.io.IOException;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.amazfitbip.AmazfitBipFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip.AmazfitBipSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.Mi2FirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.UpdateFirmwareOperation;
