@@ -2710,6 +2710,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
         mEnablePebbleKit = enablePebbleKit;
     }
 
+    boolean hasAppMessageHandler(UUID uuid) {
+        return mAppMessageHandlers.containsKey(uuid);
+    }
+
     private String getFixedString(ByteBuffer buf, int length) {
         byte[] tmp = new byte[length];
         buf.get(tmp, 0, length);
