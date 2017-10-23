@@ -425,4 +425,6 @@
     <string name="_pebble_watch_open_on_phone">Auf dem Smartphone öffnen</string>
     <string name="_pebble_watch_mute">Stummschalten</string>
     <string name="_pebble_watch_reply">Antwort</string>
-</resources>
+<string name="controlcenter_connect">Verbinden</string>
+    <string name="pref_title_pebble_enable_bgjs">Hintergrund JS</string>
+    </resources>
