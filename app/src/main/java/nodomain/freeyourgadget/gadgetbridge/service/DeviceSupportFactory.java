@@ -114,6 +114,7 @@ public class DeviceSupportFactory {
                         deviceSupport = new ServiceDeviceSupport(new MiBand2Support(), EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
                     case AMAZFITBIP:
+                    case AMAZFITCOR:
                         deviceSupport = new ServiceDeviceSupport(new AmazfitBipSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
                     case VIBRATISSIMO:

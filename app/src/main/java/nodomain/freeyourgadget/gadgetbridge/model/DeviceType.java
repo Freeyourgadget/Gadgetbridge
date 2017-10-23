@@ -33,6 +33,7 @@ public enum DeviceType {
     MIBAND(10, R.drawable.ic_device_miband, R.drawable.ic_device_miband_disabled),
     MIBAND2(11, R.drawable.ic_device_miband, R.drawable.ic_device_miband_disabled),
     AMAZFITBIP(12, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled),
+    AMAZFITCOR(13, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled),
     VIBRATISSIMO(20, R.drawable.ic_device_lovetoy, R.drawable.ic_device_lovetoy_disabled),
     LIVEVIEW(30, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled),
     HPLUS(40, R.drawable.ic_device_hplus, R.drawable.ic_device_hplus_disabled),
