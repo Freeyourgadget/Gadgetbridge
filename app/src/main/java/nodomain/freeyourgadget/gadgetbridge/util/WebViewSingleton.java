@@ -197,6 +197,18 @@ public class WebViewSingleton {
         });
     }
 
+    public static void stopJavascriptInterface() {
+        new Handler(webViewSingleton.mainLooper).post(new Runnable() {
+            @Override
+            public void run() {
+                if (webViewSingleton.instance != null) {
+                    webViewSingleton.instance.removeJavascriptInterface("GBjs");
+                    webViewSingleton.instance.loadUrl("about:blank");
+                }
+            }
+        });
+    }
+
     public static void disposeWebView() {
         if (internetHelperBound) {
             LOG.debug("WEBVIEW: will unbind the internet helper");

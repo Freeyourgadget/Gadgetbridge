@@ -518,7 +518,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                     LOG.info("got GBDeviceEventAppManagement START event for uuid: " + appMgmt.uuid);
                     if (prefs.getBoolean("pebble_enable_background_javascript", false)) {
                         if (mPebbleProtocol.hasAppMessageHandler(appMgmt.uuid)) {
-                            WebViewSingleton.disposeWebView();
+                            WebViewSingleton.stopJavascriptInterface();
                         } else {
                             WebViewSingleton.runJavascriptInterface(gbDevice, appMgmt.uuid);
                         }
