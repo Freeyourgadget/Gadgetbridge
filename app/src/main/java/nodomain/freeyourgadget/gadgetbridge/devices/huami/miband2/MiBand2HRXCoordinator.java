@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
@@ -50,4 +51,10 @@ public class MiBand2HRXCoordinator extends MiBand2Coordinator {
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         return null;
     }
+
+    @Override
+    public boolean supportsHeartRateMeasurement(GBDevice device) {
+        return false;
+    }
+
 }
