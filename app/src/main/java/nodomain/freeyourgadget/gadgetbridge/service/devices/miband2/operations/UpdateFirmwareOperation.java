@@ -32,12 +32,14 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2FWHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.AbstractMiBand2Operation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.Mi2FirmwareInfo;
@@ -52,7 +54,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
     protected final BluetoothGattCharacteristic fwCControlChar;
     protected final BluetoothGattCharacteristic fwCDataChar;
     protected final Prefs prefs = GBApplication.getPrefs();
-    protected Mi2FirmwareInfo firmwareInfo;
+    protected HuamiFirmwareInfo firmwareInfo;
 
     public UpdateFirmwareOperation(Uri uri, MiBand2Support support) {
         super(support);
@@ -80,8 +82,8 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
         //the firmware will be sent by the notification listener if the band confirms that the metadata are ok.
     }
 
-    protected Mi2FirmwareInfo createFwInfo(Uri uri, Context context) throws IOException {
-        MiBand2FWHelper fwHelper = new MiBand2FWHelper(uri, context);
+    protected HuamiFirmwareInfo createFwInfo(Uri uri, Context context) throws IOException {
+        HuamiFWHelper fwHelper = getSupport().createFWHelper(uri, context);
         return fwHelper.getFirmwareInfo();
     }
 
@@ -229,7 +231,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
      * @return whether the transfer succeeded or not. Only a BT layer exception will cause the transmission to fail.
      * @see #handleNotificationNotif
      */
-    private boolean sendFirmwareData(Mi2FirmwareInfo info) {
+    private boolean sendFirmwareData(HuamiFirmwareInfo info) {
         byte[] fwbytes = info.getBytes();
         int len = fwbytes.length;
         final int packetLength = 20;
@@ -276,7 +278,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
     }
 
 
-    private void sendChecksum(Mi2FirmwareInfo firmwareInfo) throws IOException {
+    private void sendChecksum(HuamiFirmwareInfo firmwareInfo) throws IOException {
         TransactionBuilder builder = performInitialized("send firmware checksum");
         int crc16 = firmwareInfo.getCrc16();
         byte[] bytes = BLETypeConversions.fromUint16(crc16);
@@ -288,7 +290,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand2Operation {
         builder.queue(getQueue());
     }
 
-    private Mi2FirmwareInfo getFirmwareInfo() {
+    private HuamiFirmwareInfo getFirmwareInfo() {
         return firmwareInfo;
     }
 }

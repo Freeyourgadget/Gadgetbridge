@@ -22,51 +22,13 @@ import android.support.annotation.NonNull;
 
 import java.io.IOException;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.AbstractMiBandFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip.AmazfitBipFirmwareInfo;
 
-public class AmazfitBipFWHelper extends AbstractMiBandFWHelper {
+public class AmazfitBipFWHelper extends HuamiFWHelper {
 
     public AmazfitBipFWHelper(Uri uri, Context context) throws IOException {
         super(uri, context);
-    }
-
-    private AmazfitBipFirmwareInfo firmwareInfo;
-
-    @Override
-    public String format(int version) {
-        return AmazfitBipFirmwareInfo.toVersion(version);
-    }
-
-    @Override
-    public int getFirmwareVersion() {
-        return firmwareInfo.getFirmwareVersion();
-    }
-
-    @Override
-    public int getFirmware2Version() {
-        return 0;
-    }
-
-    @Override
-    public String getHumanFirmwareVersion2() {
-        return "";
-    }
-
-    @Override
-    protected int[] getWhitelistedFirmwareVersions() {
-        return AmazfitBipFirmwareInfo.getWhitelistedVersions();
-    }
-
-    @Override
-    public boolean isFirmwareGenerallyCompatibleWith(GBDevice device) {
-        return firmwareInfo.isGenerallyCompatibleWith(device);
-    }
-
-    @Override
-    public boolean isSingleFirmware() {
-        return true;
     }
 
     @NonNull
@@ -77,14 +39,4 @@ public class AmazfitBipFWHelper extends AbstractMiBandFWHelper {
             throw new IllegalArgumentException("Not a an Amazifit Bip firmware");
         }
     }
-
-    @Override
-    public void checkValid() throws IllegalArgumentException {
-        firmwareInfo.checkValid();
-    }
-
-    public AmazfitBipFirmwareInfo getFirmwareInfo() {
-        return firmwareInfo;
-    }
-
 }

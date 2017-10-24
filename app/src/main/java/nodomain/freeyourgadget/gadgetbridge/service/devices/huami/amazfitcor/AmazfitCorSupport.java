@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2017 Andreas Shimokawa
 
     This file is part of Gadgetbridge.
 
@@ -14,26 +14,21 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip.operations;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitcor;
 
 import android.content.Context;
 import android.net.Uri;
 
 import java.io.IOException;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcor.AmazfitCorFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip.AmazfitBipSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.Mi2FirmwareInfo;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations.UpdateFirmwareOperation;
 
-public class AmazfitBipUpdateFirmwareOperation extends UpdateFirmwareOperation {
-    public AmazfitBipUpdateFirmwareOperation(Uri uri, AmazfitBipSupport support) {
-        super(uri, support);
-    }
+public class AmazfitCorSupport extends AmazfitBipSupport {
 
-
-    protected Mi2FirmwareInfo createFwInfo(Uri uri, Context context) throws IOException {
-        AmazfitBipFWHelper fwHelper = new AmazfitBipFWHelper(uri, getContext());
-        return fwHelper.getFirmwareInfo();
+    @Override
+    public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
+        return new AmazfitCorFWHelper(uri, context);
     }
 }

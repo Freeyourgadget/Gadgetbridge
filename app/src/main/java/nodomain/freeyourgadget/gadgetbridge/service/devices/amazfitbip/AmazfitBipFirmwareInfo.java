@@ -16,13 +16,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.Mi2FirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 
-public class AmazfitBipFirmwareInfo extends Mi2FirmwareInfo {
+public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
     // total crap maybe
     private static final byte[] GPS_HEADER = new byte[]{
             (byte) 0xcb, 0x51, (byte) 0xc1, 0x30, 0x41, (byte) 0x9e, 0x5e, (byte) 0xd3,
@@ -37,10 +40,6 @@ public class AmazfitBipFirmwareInfo extends Mi2FirmwareInfo {
 
     private static final int FW_HEADER_OFFSET = 0x9330;
 
-    private static final byte[] RES_HEADER = new byte[]{ // HMRES resources file (*.res)
-            0x48, 0x4d, 0x52, 0x45, 0x53
-    };
-
     private static final byte[] GPS_ALMANAC_HEADER = new byte[]{ // probably wrong
             (byte) 0xa0, (byte) 0x80, 0x08, 0x00, (byte) 0x8b, 0x07
     };
@@ -49,6 +48,7 @@ public class AmazfitBipFirmwareInfo extends Mi2FirmwareInfo {
             0x2a, 0x12, (byte) 0xa0, 0x02
     };
 
+    private static Map<Integer, String> crcToVersion = new HashMap<>();
     static {
         // firmware
         crcToVersion.put(25257, "0.0.8.74");
@@ -75,6 +75,9 @@ public class AmazfitBipFirmwareInfo extends Mi2FirmwareInfo {
     @Override
     protected HuamiFirmwareType determineFirmwareType(byte[] bytes) {
         if (ArrayUtils.startsWith(bytes, RES_HEADER)) {
+            if (bytes.length > 500000) { // dont know how to distinguish from Cor .res
+                return HuamiFirmwareType.INVALID;
+            }
             return HuamiFirmwareType.RES;
         }
         if (ArrayUtils.startsWith(bytes, GPS_HEADER)) {
@@ -98,4 +101,8 @@ public class AmazfitBipFirmwareInfo extends Mi2FirmwareInfo {
         return isHeaderValid() && device.getType() == DeviceType.AMAZFITBIP;
     }
 
+    @Override
+    protected Map<Integer, String> getCrcMap() {
+        return crcToVersion;
+    }
 }

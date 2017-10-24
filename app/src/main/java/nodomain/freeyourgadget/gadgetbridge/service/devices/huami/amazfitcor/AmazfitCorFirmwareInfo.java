@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2017 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2017 Andreas Shimokawa
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.miband2;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitcor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,61 +25,49 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareI
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 
-public class Mi2FirmwareInfo extends HuamiFirmwareInfo {
+public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
+    // guessed - at least it is the same accross current versions and different from other devices
     private static final byte[] FW_HEADER = new byte[]{
-            (byte) 0xa3,
-            (byte) 0x68,
-            (byte) 0x04,
-            (byte) 0x3b,
-            (byte) 0x02,
-            (byte) 0xdb,
-            (byte) 0xc8,
-            (byte) 0x58,
-            (byte) 0xd0,
-            (byte) 0x50,
-            (byte) 0xfa,
-            (byte) 0xe7,
-            (byte) 0x0c,
-            (byte) 0x34,
-            (byte) 0xf3,
-            (byte) 0xe7,
+            (byte) 0x06, (byte) 0x48, (byte) 0x00, (byte) 0x47, (byte) 0xfe, (byte) 0xe7, (byte) 0xfe, (byte) 0xe7,
+            (byte) 0xfe, (byte) 0xe7, (byte) 0xfe, (byte) 0xe7, (byte) 0xfe, (byte) 0xe7, (byte) 0xfe, (byte) 0xe7
     };
 
-    private static final int FW_HEADER_OFFSET = 0x150;
+    private static final int FW_HEADER_OFFSET = 0x9330;
 
-    protected static Map<Integer,String> crcToVersion = new HashMap<>();
+    private static Map<Integer, String> crcToVersion = new HashMap<>();
+
     static {
         // firmware
-        crcToVersion.put(41899, "1.0.0.39");
-        crcToVersion.put(49197, "1.0.0.53");
-        crcToVersion.put(32450, "1.0.1.28");
-        crcToVersion.put(51770, "1.0.1.34");
-        crcToVersion.put(3929, "1.0.1.39");
+        crcToVersion.put(39948, "1.0.5.60");
 
-        // fonts
-        crcToVersion.put(45624, "Font");
-        crcToVersion.put(6377, "Font (En)");
+        // resources
+        crcToVersion.put(46341, "RES 1.0.5.60");
     }
 
-    public Mi2FirmwareInfo(byte[] bytes) {
+    public AmazfitCorFirmwareInfo(byte[] bytes) {
         super(bytes);
     }
 
+    @Override
     protected HuamiFirmwareType determineFirmwareType(byte[] bytes) {
-        if (ArrayUtils.startsWith(bytes, HuamiFirmwareInfo.FT_HEADER)) {
-            return HuamiFirmwareType.FONT;
-        }
-        if (ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET)) {
+        if (ArrayUtils.startsWith(bytes, RES_HEADER)) {
+            if (bytes.length < 700000) { // dont know how to distinguish from Bip .res
+                return HuamiFirmwareType.INVALID;
+            }
+            return HuamiFirmwareType.RES;
+        } else if (ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET)) {
             // TODO: this is certainly not a correct validation, but it works for now
             return HuamiFirmwareType.FIRMWARE;
         }
         return HuamiFirmwareType.INVALID;
     }
 
+    @Override
     public boolean isGenerallyCompatibleWith(GBDevice device) {
-        return isHeaderValid() && device.getType() == DeviceType.MIBAND2;
+        return isHeaderValid() && device.getType() == DeviceType.AMAZFITCOR;
     }
 
+    @Override
     protected Map<Integer, String> getCrcMap() {
         return crcToVersion;
     }

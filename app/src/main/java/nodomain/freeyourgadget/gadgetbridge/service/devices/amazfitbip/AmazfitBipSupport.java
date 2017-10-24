@@ -18,8 +18,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Context;
 import android.net.Uri;
-import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,10 +31,11 @@ import java.util.Locale;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiWeatherConditions;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiIcon;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
@@ -44,10 +45,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotificat
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.NewAlert;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip.operations.AmazfitBipFetchLogsOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip.operations.AmazfitBipUpdateFirmwareOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiIcon;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Support;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
@@ -118,15 +118,6 @@ public class AmazfitBipSupport extends MiBand2Support {
     @Override
     public void handleButtonEvent() {
         // ignore
-    }
-
-    @Override
-    public void onInstallApp(Uri uri) {
-        try {
-            new AmazfitBipUpdateFirmwareOperation(uri, this).perform();
-        } catch (IOException ex) {
-            GB.toast(getContext(), "Firmware cannot be installed: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
-        }
     }
 
     @Override
@@ -257,5 +248,10 @@ public class AmazfitBipSupport extends MiBand2Support {
         LOG.info("phase2Initialize...");
         setLanguage(builder);
         requestGPSVersion(builder);
+    }
+
+    @Override
+    public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
+        return new AmazfitBipFWHelper(uri, context);
     }
 }

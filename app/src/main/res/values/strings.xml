@@ -55,6 +55,7 @@
     <string name="title_activity_fw_app_insaller">FW/App installer</string>
     <string name="fw_upgrade_notice">You are about to install firmware %s instead of the one currently on your Mi Band.</string>
     <string name="fw_upgrade_notice_amazfitbip">You are about to install firmware %s instead of the one currently on your Amazfit Bip.\n\nPlease make sure to install the .gps firmware, then the .res file, and finally the .fw file. Your watch will reboot after installing the .fw file.\n\nNote: You do not have to install .res and .gps if these files are exactly the same as the ones previously installed.\n\nEXPERIMENTAL, PROCEED AT YOUR OWN RISK</string>
+    <string name="fw_upgrade_notice_amazfitcor">You are about to install firmware %s instead of the one currently on your Amazfit Cor.\n\nPlease make sure to install the .res file, and after that the .fw file. Your watch will reboot after installing the .fw file.\n\nNote: You do not have to install .res if it is exactly the same as the one previously installed.\n\nEXPERIMENTAL, PROCEED AT YOUR OWN RISK</string>
     <string name="fw_multi_upgrade_notice">You are about to install firmwares %1$s and %2$s instead of the ones currently on your Mi Band.</string>
     <string name="miband_firmware_known">This firmware has been tested and is known to be compatible with Gadgetbridge.</string>
     <string name="miband_firmware_unknown_warning">"This firmware is untested and may not be compatible with Gadgetbridge.\n\nYou are NOT encouraged to flash it to your Mi Band!"</string>
@@ -308,6 +309,7 @@
     <string name="fwapp_install_device_not_ready">File cannot be installed, device not ready.</string>
     <string name="miband_installhandler_miband_firmware">Mi Band Firmware %1$s</string>
     <string name="amazfitbip_firmware">Amazfit Bip Firmware %1$s</string>
+    <string name="amazfitcor_firmware">Amazfit Cor Firmware %1$s</string>
     <string name="miband_fwinstaller_compatible_version">Compatible version</string>
     <string name="miband_fwinstaller_untested_version">Untested version!</string>
     <string name="fwappinstaller_connection_state">Connection to device: %1$s</string>

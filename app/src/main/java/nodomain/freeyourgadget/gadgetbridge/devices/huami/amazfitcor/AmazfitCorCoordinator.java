@@ -55,7 +55,8 @@ public class AmazfitCorCoordinator extends HuamiCoordinator {
 
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
-        return null;
+        AmazfitCorFWInstallHandler handler = new AmazfitCorFWInstallHandler(uri, context);
+        return handler.isValid() ? handler : null;
     }
 
     @Override
