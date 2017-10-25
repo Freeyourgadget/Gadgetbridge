@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2017 Carsten Pfeiffer, João Paulo Barraca, JohnnySun
+/*  Copyright (C) 2016-2017 Andreas Shimokawa, Carsten Pfeiffer, João
+    Paulo Barraca, JohnnySun
 
     This file is part of Gadgetbridge.
 

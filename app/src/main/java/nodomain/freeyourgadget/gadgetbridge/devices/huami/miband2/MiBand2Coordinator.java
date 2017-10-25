@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017 Andreas Shimokawa, João Paulo Barraca
+/*  Copyright (C) 2016-2017 Andreas Shimokawa, Carsten Pfeiffer, José Rebelo
 
     This file is part of Gadgetbridge.
 
