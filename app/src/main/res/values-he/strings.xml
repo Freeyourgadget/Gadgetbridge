@@ -440,4 +440,12 @@
     <string name="controlcenter_connect">התחברות</string>
     <string name="pref_summary_pebble_enable_bgjs">כשאפשרות זו פעילה, יתאפשר למסיכות השעון להציג מזג אוויר, סוללה וכו׳.</string>
 
+    <string name="fw_upgrade_notice_amazfitcor">פעולה זו תתקין את הקושחה %s במקום הנוכחית שעל ה־Amazfit Cor שלך.
+\n
+\nנא לוודא את התקנת קובץ ה־‎.res, ולאחר מכן את קובץ ה־‎.fw. השעון שלך יופעל מחדש לאחר התקנת קובץ ה־‎.fw.
+\n
+\nלתשומת לבך: אין צורך להתקין את קובץ ה־‎.res אם הוא זהה לקובץ שהתקנת בעבר.
+\n
+\nניסיוני, המשך מעבר לנקודה זו הוא על אחריותך!</string>
+    <string name="amazfitcor_firmware">קושחה %1$s של Amazfit Cor</string>
     </resources>
