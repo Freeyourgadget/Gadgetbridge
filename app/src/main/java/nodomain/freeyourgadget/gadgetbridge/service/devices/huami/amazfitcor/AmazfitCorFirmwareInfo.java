@@ -33,15 +33,19 @@ public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
     };
 
     private static final int FW_HEADER_OFFSET = 0x9330;
+    private static final int NEW_RES_HEADER_OFFSET = 0x9;
 
     private static Map<Integer, String> crcToVersion = new HashMap<>();
 
     static {
         // firmware
         crcToVersion.put(39948, "1.0.5.60");
+        crcToVersion.put(62147, "1.0.5.78");
 
         // resources
         crcToVersion.put(46341, "RES 1.0.5.60");
+        crcToVersion.put(21770, "RES 1.0.5.78");
+
     }
 
     public AmazfitCorFirmwareInfo(byte[] bytes) {
@@ -54,6 +58,8 @@ public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
             if (bytes.length < 700000) { // dont know how to distinguish from Bip .res
                 return HuamiFirmwareType.INVALID;
             }
+            return HuamiFirmwareType.RES;
+        } else if (ArrayUtils.equals(bytes, RES_HEADER, NEW_RES_HEADER_OFFSET)) {
             return HuamiFirmwareType.RES;
         } else if (ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET)) {
             // TODO: this is certainly not a correct validation, but it works for now
