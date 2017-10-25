@@ -41,18 +41,18 @@ public class BluetoothConnectReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        if (!action.equals(BluetoothDevice.ACTION_ACL_CONNECTED)) {
+        if (!action.equals(BluetoothDevice.ACTION_ACL_CONNECTED) || !intent.hasExtra(BluetoothDevice.EXTRA_DEVICE)) {
             return;
         }
-        LOG.info("got connection attempt");
+
+        BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+        LOG.info("connection attempt detected from or to " + device.getAddress() + "(" + device.getName() + ")");
+
         GBDevice gbDevice = service.getGBDevice();
         if (gbDevice != null) {
-            BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
             if (device.getAddress().equals(gbDevice.getAddress()) && gbDevice.getState() == GBDevice.State.WAITING_FOR_RECONNECT) {
-                LOG.info("will connect to " + gbDevice.getName());
+                LOG.info("Will re-connect to " + gbDevice.getAddress() + "(" + gbDevice.getName() + ")");
                 GBApplication.deviceService().connect();
-            } else {
-                LOG.info("won't connect to " + device.getAddress() + "(" + device.getName() + ")");
             }
         }
     }
