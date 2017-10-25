@@ -487,4 +487,18 @@
 \n
 \nAs \"watchfaces\" soportadas amosarán a información do clima automáticamente.</string>
     <string name="discovery_pair_question">Selecciona Emparellar para emparellar os teus dispositivos. Se isto falla, proba de novo sen emparellar.</string>
+    <string name="controlcenter_connect">Conectar</string>
+    <string name="fw_upgrade_notice_amazfitcor">Estás a piques de instalar o firmware %s nas veces do que está actualmente no teu Amazfit Cor. 
+\n 
+\nPor favor, asegúrate de instalar o ficheiro .res, e despois diso o binario .fw. O teu reloxo reiniciará despois de instalar o arquivo .fw. 
+\n 
+\nNota: non tes que instalar .res se este arquivo é exactamente o mesmo que o previamente instalado. 
+\n 
+\nEXPERIMENTAL, PROCEDE BAIXO A TÚA PROPIA RESPONSABILIDADE</string>
+    <string name="pref_title_pebble_enable_bgjs">Habilitar JS de fondo</string>
+    <string name="pref_summary_pebble_enable_bgjs">"Permite ás  watchfaces amosar o tempo, información de batería, etc."</string>
+
+    <string name="amazfitcor_firmware">Firmware do Amazfit Cor %1$s</string>
+    <string name="activity_web_view">Actividade Vista Web</string>
+
     </resources>
