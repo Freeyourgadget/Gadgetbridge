@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.22.0" versioncode="108">
+        <change>Pebble: Experimental support for background javascript, allows weather and other features for watchapps without special Gadgetbridge support</change>
+        <change>Add experimental support for Amazfit Cor and Mi Band HRX (no firmware update on the latter)</change>
+        <change>Mi Band 2: Support more icons and textual notifications for more apps</change>
+        <change>Add some quick action buttons to Gadgetbridge's notification</change>
+        <change>Add transliteration support for ukranian cyrillic charaters</change>
+        <change>Fix annoying toast in Mi Band settings</change>
+    </release>
     <release version="0.21.6" versioncode="107">
         <change>Amazfit Bip: Fix non-working notifications from Outlook, Yahoo Mail and GMail</change>
         <change>HPlus: Fix Unicode encoding</change>
