@@ -31,6 +31,10 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
             (byte) 0xcb, 0x51, (byte) 0xc1, 0x30, 0x41, (byte) 0x9e, 0x5e, (byte) 0xd3,
             0x51, 0x35, (byte) 0xdf, 0x66, (byte) 0xed, (byte) 0xd9, 0x5f, (byte) 0xa7
     };
+    private static final byte[] GPS_HEADER2 = new byte[]{
+            0x10, 0x50, 0x26, 0x76, (byte) 0x8f, 0x4a, (byte) 0xa1, 0x49,
+            (byte) 0xa7, 0x26, (byte) 0xd0, (byte) 0xe6, 0x4a, 0x21, (byte) 0x88, (byte) 0xd4
+    };
 
     // guessed - at least it is the same accross current versions and different from other devices
     private static final byte[] FW_HEADER = new byte[]{
@@ -57,15 +61,17 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(60173, "0.0.8.97");
         crcToVersion.put(3462, "0.0.8.98");
         crcToVersion.put(55420, "0.0.9.14");
+        crcToVersion.put(39465, "0.0.9.26");
 
         // resources
         crcToVersion.put(12586, "RES 0.0.8.74");
         crcToVersion.put(34068, "RES 0.0.8.88");
         crcToVersion.put(59839, "RES 0.0.8.96-98");
-        crcToVersion.put(50401, "RES 0.0.9.14");
+        crcToVersion.put(50401, "RES 0.0.9.14-26");
 
         // gps
         crcToVersion.put(61520, "GPS 9367,8f79a91,0,0,");
+        crcToVersion.put(8784, "GPS 9565,dfbd8fa,0,0,");
     }
 
     public AmazfitBipFirmwareInfo(byte[] bytes) {
@@ -80,7 +86,7 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
             }
             return HuamiFirmwareType.RES;
         }
-        if (ArrayUtils.startsWith(bytes, GPS_HEADER)) {
+        if (ArrayUtils.startsWith(bytes, GPS_HEADER) || ArrayUtils.startsWith(bytes, GPS_HEADER2)) {
             return HuamiFirmwareType.GPS;
         }
         if (ArrayUtils.startsWith(bytes, GPS_ALMANAC_HEADER)) {
