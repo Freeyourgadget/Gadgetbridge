@@ -170,7 +170,7 @@
   <string name="pairing_already_bonded">כבר נוצר איגוד עם %1$s (%2$s), מתבצעת התחברות…</string>
   <string name="message_cannot_pair_no_mac">לא הועברה כתובת חומרה, לא ניתן לצמד.</string>
   <string name="preferences_category_device_specific_settings">הגדרות ייעודיות להתקן</string>
-  <string name="preferences_miband_settings">הגדרות Mi Band / Bip</string>
+  <string name="preferences_miband_settings">הגדרות Mi Band / Amazfit</string>
   <string name="male">זכר</string>
   <string name="female">נקבה</string>
   <string name="other">אחר</string>
@@ -388,14 +388,14 @@
     <string name="mi2_prefs_inactivity_warnings_dnd_summary">השבתת אזהרות חוסר הפעילות לפרק זמן מסוים</string>
     <string name="mi2_prefs_do_not_disturb_start">מועד ההתחלה</string>
     <string name="mi2_prefs_do_not_disturb_end">מועד הסיום</string>
-    <string name="fw_upgrade_notice_amazfitbip">ביקשת להתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Amazfit Bip שלך.
-\n
-\nנא לוודא את התקנת הקושחה ‎.gps בהתחלה, לאחר מכן את קובץ ה־‎.res ולבסוף קובץ ה־‎.fw
-\n
-\n
-\nלתשומת לבך: אין צורך בהתקנת קובצי ה־‎.res וה־‎.gps אם הם כבר זהים לאלו שהתקנת בעבר.
-\n
-\nניסיוני! המשך התהליך הוא על אחריותך!</string>
+    <string name="fw_upgrade_notice_amazfitbip">ביקשת להתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Amazfit Bip שלך. 
+\n 
+\nנא לוודא את התקנת הקושחה ‎.gps בהתחלה, לאחר מכן את קובץ ה־‎.res ולבסוף קובץ ה־‎.fw 
+\n 
+\n 
+\nלתשומת לבך: אין צורך בהתקנת קובצי ה־‎.res וה־‎.gps אם הם כבר זהים לאלו שהתקנת בעבר. 
+\n 
+\nהמשך התהליך הוא על אחריותך!</string>
     <string name="pref_summary_transliteration">יש להפעיל אפשרות זו אם להתקן אין תמיכה בגופן השפה שלך</string>
 
     <string name="amazfitbip_firmware">קושחה של Amazfit Bip גרסה %1$s</string>
