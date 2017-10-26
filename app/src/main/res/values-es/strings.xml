@@ -186,7 +186,7 @@
   <string name="pairing_already_bonded">Emparejado con %1$s (%2$s), conectando…</string>
   <string name="message_cannot_pair_no_mac">Ninguna dirección MAC proporcionada, no se puede emparejar.</string>
   <string name="preferences_category_device_specific_settings">Ajustes específicos del dispositivo</string>
-  <string name="preferences_miband_settings">Ajustes de MiBand</string>
+  <string name="preferences_miband_settings">Ajustes de Mi Band / Amazfit</string>
   <string name="male">Hombre</string>
   <string name="female">Mujer</string>
   <string name="other">Otro</string>
@@ -403,13 +403,13 @@
   <string name="discovery_pair_question">Selecciona Emparejar para emparejar tus dispositivos. Si esto falla, prueba de nuevo sin emparejar.</string>
   <string name="discovery_yes_pair">Emparejar</string>
   <string name="discovery_dont_pair">No emparejar</string>
-<string name="fw_upgrade_notice_amazfitbip">Estás a punto de instalar el firmware %s en lugar del que está actualmente en tu Amazfit Bip.
-\n
-\nPor favor, asegúrate de instalar el firmware .gps, luego el archivo .res, y finalmente el binario .fw. Tu reloj reiniciará después de instalar el archivo .fw.
-\n
-\nNota: no tienes que instalar .res y .gps si estos archivos son los mismos que los previamente instalados.
-\n
-\nEXPERIMENTAL, PROCEDE BAJO TU PROPIA RESPONSABILIDAD</string>
+<string name="fw_upgrade_notice_amazfitbip">Estás a punto de instalar el firmware %s en tu Amazfit Bip. 
+\n 
+\nPor favor, asegúrate de instalar el firmware .gps, luego el archivo .res, y finalmente el binario .fw. Tu reloj reiniciará después de instalar el archivo .fw. 
+\n 
+\nNota: no tienes que instalar .res y .gps si estos archivos son los mismos que los previamente instalados. 
+\n 
+\nPROCEDE BAJO TU PROPIA RESPONSABILIDAD !</string>
     <string name="amazfitbip_firmware">Firmware Amazfit Bip %1$s</string>
     <string name="mi2_prefs_button_actions">Acciones del botón</string>
     <string name="mi2_prefs_button_actions_summary">Especificar acción para pulsación del botón del Mi Band 2</string>
@@ -435,4 +435,12 @@
     <string name="activity_web_view">Actividad Web View</string>
 
     <string name="controlcenter_connect">Conectar</string>
+    <string name="fw_upgrade_notice_amazfitcor">Estás a punto de instalar el firmware %s en tu Amazfit Cor. 
+\n 
+\nPor favor, asegúrate de instalar el firmware .gps, luego el archivo .res, y finalmente el binario .fw. Tu reloj reiniciará después de instalar el archivo .fw. 
+\n 
+\nNota: no tienes que instalar .res si este archivo es el mismo que el previamente instalado. 
+\n 
+\nNO PROBADO, PUEDE BRICKEAR TU DISPOSITIVO. PROCEDE BAJO TU PROPIA RESPONSABILIDAD !</string>
+    <string name="amazfitcor_firmware">Firmware Amazfit Cor %1$s</string>
     </resources>
