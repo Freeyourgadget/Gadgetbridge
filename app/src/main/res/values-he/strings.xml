@@ -448,4 +448,6 @@
 \n
 \nניסיוני, המשך מעבר לנקודה זו הוא על אחריותך!</string>
     <string name="amazfitcor_firmware">קושחה %1$s של Amazfit Cor</string>
+    <string name="pref_title_charts_swipe">הפעלת הסטה לימין/שמאל בפעילות התרשימים</string>
+
     </resources>
