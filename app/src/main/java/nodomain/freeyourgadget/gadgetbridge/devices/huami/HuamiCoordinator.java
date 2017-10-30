@@ -59,11 +59,6 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(HuamiCoordinator.class);
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.MIBAND2;
-    }
-
-    @Override
     public Class<? extends Activity> getPairingActivity() {
         return MiBandPairingActivity.class;
     }

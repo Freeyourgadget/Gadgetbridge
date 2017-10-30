@@ -37,7 +37,7 @@ public class MiBand2Coordinator extends HuamiCoordinator {
 
     @Override
     public DeviceType getDeviceType() {
-        return DeviceType.AMAZFITBIP;
+        return DeviceType.MIBAND2;
     }
 
     @NonNull

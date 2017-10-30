@@ -33,6 +33,11 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 public class MiBand2HRXCoordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MiBand2HRXCoordinator.class);
 
+    @Override
+    public DeviceType getDeviceType() {
+        return DeviceType.MIBAND2;
+    }
+
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
