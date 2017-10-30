@@ -75,31 +75,36 @@ public class GB {
     }
 
     public static Notification createNotification(GBDevice device, Context context) {
-        String text = device.getName() + " " + device.getStateString();
+        String deviceName = device.getName();
+        String text = device.getStateString();
+        if (device.getBatteryLevel() != GBDevice.BATTERY_UNKNOWN) {
+            text += ": " + context.getString(R.string.battery) + " " + device.getBatteryLevel() + "%";
+        }
+
         Boolean connected = device.isInitialized();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        builder.setContentTitle(context.getString(R.string.app_name))
-                .setTicker(text)
+        builder.setContentTitle(deviceName)
+                .setTicker(deviceName + text)
                 .setContentText(text)
                 .setSmallIcon(connected ? R.drawable.ic_notification : R.drawable.ic_notification_disconnected)
                 .setContentIntent(getContentIntent(context))
+                .setColor(context.getResources().getColor(R.color.accent))
                 .setOngoing(true);
 
         Intent deviceCommunicationServiceIntent = new Intent(context, DeviceCommunicationService.class);
         if (connected) {
             deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_DISCONNECT);
-            PendingIntent disconnectPendingIntent = PendingIntent.getService(context, 0, deviceCommunicationServiceIntent, 0);
+            PendingIntent disconnectPendingIntent = PendingIntent.getService(context, 0, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT);
             builder.addAction(R.drawable.ic_notification_disconnected, context.getString(R.string.controlcenter_disconnect), disconnectPendingIntent);
             if (DeviceHelper.getInstance().getCoordinator(device).supportsActivityDataFetching()) {
                 deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_FETCH_ACTIVITY_DATA);
-                PendingIntent fetchPendingIntent = PendingIntent.getService(context, 1, deviceCommunicationServiceIntent, 0);
+                PendingIntent fetchPendingIntent = PendingIntent.getService(context, 1, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT);
                 builder.addAction(R.drawable.ic_action_fetch_activity_data, context.getString(R.string.controlcenter_fetch_activity_data), fetchPendingIntent);
             }
         } else if (device.getState().equals(GBDevice.State.WAITING_FOR_RECONNECT) || device.getState().equals(GBDevice.State.NOT_CONNECTED)) {
             deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_CONNECT);
-            //FIXME: why does it reconnect to the device before the last one sometimes???
             deviceCommunicationServiceIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
-            PendingIntent reconnectPendingIntent = PendingIntent.getService(context, 2, deviceCommunicationServiceIntent, 0);
+            PendingIntent reconnectPendingIntent = PendingIntent.getService(context, 2, deviceCommunicationServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             builder.addAction(R.drawable.ic_notification, context.getString(R.string.controlcenter_connect), reconnectPendingIntent);
         }
         if (GBApplication.isRunningLollipopOrLater()) {
@@ -111,14 +116,19 @@ public class GB {
         return builder.build();
     }
 
-    public static Notification createNotification(String text, boolean connected, Context context) {
+    public static Notification createNotification(String text, Context context) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        builder.setContentTitle(context.getString(R.string.app_name))
-                .setTicker(text)
+        builder.setTicker(text)
                 .setContentText(text)
-                .setSmallIcon(connected ? R.drawable.ic_notification : R.drawable.ic_notification_disconnected)
+                .setSmallIcon(R.drawable.ic_notification_disconnected)
                 .setContentIntent(getContentIntent(context))
                 .setOngoing(true);
+        if (GBApplication.getPrefs().getString("last_device_address", null) != null) {
+            Intent deviceCommunicationServiceIntent = new Intent(context, DeviceCommunicationService.class);
+            deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_CONNECT);
+            PendingIntent reconnectPendingIntent = PendingIntent.getService(context, 2, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT);
+            builder.addAction(R.drawable.ic_notification, context.getString(R.string.controlcenter_connect), reconnectPendingIntent);
+        }
         if (GBApplication.isRunningLollipopOrLater()) {
             builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
         }
