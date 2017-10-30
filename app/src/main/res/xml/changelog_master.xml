@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.22.1" versioncode="109">
+        <change>Mi Band 2: Fix being detected as Amazfit Bip which lead to various problems especially on newly paired devices</change>
+    </release>
     <release version="0.22.0" versioncode="108">
         <change>Pebble: Experimental support for background javascript, allows weather and other features for watchapps without special Gadgetbridge support</change>
         <change>Add experimental support for Amazfit Cor and Mi Band HRX (no firmware update on the latter)</change>

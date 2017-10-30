@@ -1,0 +1,1 @@
+* Mi Band 2: Fix being detected as Amazfit Bip which lead to various problems especially on newly paired devices
