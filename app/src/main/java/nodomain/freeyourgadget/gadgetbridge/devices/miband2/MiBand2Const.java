@@ -42,7 +42,7 @@ public class MiBand2Const {
             case TYPE_CHARGING:
                 return ActivityKind.TYPE_NOT_WORN; //I believe it's a safe assumption
             case TYPE_RIDE_BIKE:
-                return ActivityKind.TYPE_BIKING;
+                return ActivityKind.TYPE_CYCLING;
             default:
             case TYPE_UNSET: // fall through
                 return ActivityKind.TYPE_UNKNOWN;

@@ -47,6 +47,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WaitAction;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip.BipActivityType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.MiBand2Support;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -175,10 +176,13 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
         ByteBuffer buffer = ByteBuffer.wrap(stream.toByteArray()).order(ByteOrder.LITTLE_ENDIAN);
 //        summary.setVersion(BLETypeConversions.toUnsigned(buffer.getShort()));
         buffer.getShort(); // version
-        int rawKind = BLETypeConversions.toUnsigned(buffer.getShort());
-        int activityKind = MiBand2Const.toActivityKind(rawKind);
-        if (activityKind == ActivityKind.TYPE_UNKNOWN) {
-            activityKind = rawKind; // hack for later activity kind detection
+        int activityKind = ActivityKind.TYPE_UNKNOWN;
+        try {
+            int rawKind = BLETypeConversions.toUnsigned(buffer.getShort());
+            BipActivityType activityType = BipActivityType.values()[rawKind];
+            activityKind = activityType.toActivityKind();
+        } catch (Exception ex) {
+            LOG.error("Error mapping acivity kind: " + ex.getMessage(), ex);
         }
         summary.setActivityKind(activityKind);
         // FIXME: should save timezone etc.
