@@ -26,7 +26,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -50,6 +49,7 @@ public class AmazfitBipFetchLogsOperation extends AbstractFetchOperation {
 
     public AmazfitBipFetchLogsOperation(AmazfitBipSupport support) {
         super(support);
+        setName("fetch logs");
     }
 
     @Override
@@ -90,7 +90,7 @@ public class AmazfitBipFetchLogsOperation extends AbstractFetchOperation {
 
     @Override
     protected void handleActivityFetchFinish(boolean success) {
-        LOG.info("Fetching log data has finished");
+        LOG.info(getName() +" data has finished");
         try {
             logOutputStream.close();
             logOutputStream = null;
@@ -113,7 +113,7 @@ public class AmazfitBipFetchLogsOperation extends AbstractFetchOperation {
             lastPacketCounter++;
             bufferActivityData(value);
         } else {
-            GB.toast("Error fetching activity data, invalid package counter: " + value[0], Toast.LENGTH_LONG, GB.ERROR);
+            GB.toast("Error " + getName() + " invalid package counter: " + value[0], Toast.LENGTH_LONG, GB.ERROR);
             handleActivityFetchFinish(false);
         }
     }

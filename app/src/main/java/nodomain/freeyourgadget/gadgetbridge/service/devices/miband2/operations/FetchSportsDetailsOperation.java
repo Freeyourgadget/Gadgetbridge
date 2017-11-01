@@ -56,11 +56,13 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
 
     public FetchSportsDetailsOperation(BaseActivitySummary summary, MiBand2Support support) {
         super(support);
+        setName("fetching sport details");
         this.summary = summary;
     }
 
     @Override
     protected void startFetching(TransactionBuilder builder) {
+        LOG.info("start " + getName());
         buffer = new ByteArrayOutputStream(1024);
         GregorianCalendar sinceWhen = getLastSuccessfulSyncTime();
         builder.write(characteristicFetch, BLETypeConversions.join(new byte[] {
@@ -74,7 +76,7 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
 
     @Override
     protected void handleActivityFetchFinish(boolean success) {
-        LOG.info("Fetching activity data has finished round " + fetchCount);
+        LOG.info(getName() + " has finished round " + fetchCount);
 //        GregorianCalendar lastSyncTimestamp = saveSamples();
 //        if (lastSyncTimestamp != null && needsAnotherFetch(lastSyncTimestamp)) {
 //            try {
@@ -126,16 +128,16 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
      */
     @Override
     protected void handleActivityNotif(byte[] value) {
-        LOG.warn("sports data: " + Logging.formatBytes(value));
+        LOG.warn("sports details: " + Logging.formatBytes(value));
 
         if (!isOperationRunning()) {
-            LOG.error("ignoring activity data notification because operation is not running. Data length: " + value.length);
+            LOG.error("ignoring sports details notification because operation is not running. Data length: " + value.length);
             getSupport().logMessageContent(value);
             return;
         }
 
         if (value.length < 2) {
-            LOG.error("unexpected sports summary data length: " + value.length);
+            LOG.error("unexpected sports details data length: " + value.length);
             getSupport().logMessageContent(value);
             return;
         }
@@ -144,7 +146,7 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
             lastPacketCounter++;
             bufferActivityData(value);
         } else {
-            GB.toast("Error fetching activity data, invalid package counter: " + value[0] + ", last was: " + lastPacketCounter, Toast.LENGTH_LONG, GB.ERROR);
+            GB.toast("Error " + getName() + ", invalid package counter: " + value[0] + ", last was: " + lastPacketCounter, Toast.LENGTH_LONG, GB.ERROR);
             handleActivityFetchFinish(false);
             return;
         }

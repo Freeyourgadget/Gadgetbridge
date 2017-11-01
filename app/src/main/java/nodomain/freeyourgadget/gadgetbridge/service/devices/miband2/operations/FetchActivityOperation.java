@@ -57,6 +57,7 @@ public class FetchActivityOperation extends AbstractFetchOperation {
 
     public FetchActivityOperation(MiBand2Support support) {
         super(support);
+        setName("fetching activity data");
     }
 
     @Override
@@ -75,14 +76,14 @@ public class FetchActivityOperation extends AbstractFetchOperation {
     }
 
     protected void handleActivityFetchFinish(boolean success) {
-        LOG.info("Fetching activity data has finished round " + fetchCount);
+        LOG.info(getName() + " has finished round " + fetchCount);
         GregorianCalendar lastSyncTimestamp = saveSamples();
         if (lastSyncTimestamp != null && needsAnotherFetch(lastSyncTimestamp)) {
             try {
                 startFetching();
                 return;
             } catch (IOException ex) {
-                LOG.error("Error starting another round of fetching activity data", ex);
+                LOG.error("Error starting another round of " + getName(), ex);
             }
         }
 
@@ -91,7 +92,7 @@ public class FetchActivityOperation extends AbstractFetchOperation {
 
     private boolean needsAnotherFetch(GregorianCalendar lastSyncTimestamp) {
         if (fetchCount > 5) {
-            LOG.warn("Already jave 5 fetch rounds, not doing another one.");
+            LOG.warn("Already have 5 fetch rounds, not doing another one.");
             return false;
         }
 
@@ -166,12 +167,12 @@ public class FetchActivityOperation extends AbstractFetchOperation {
                 lastPacketCounter++;
                 bufferActivityData(value);
             } else {
-                GB.toast("Error fetching activity data, invalid package counter: " + value[0], Toast.LENGTH_LONG, GB.ERROR);
+                GB.toast("Error " + getName() + ", invalid package counter: " + value[0], Toast.LENGTH_LONG, GB.ERROR);
                 handleActivityFetchFinish(false);
                 return;
             }
         } else {
-            GB.toast("Error fetching activity data, unexpected package length: " + value.length, Toast.LENGTH_LONG, GB.ERROR);
+            GB.toast("Error " + getName() + ", unexpected package length: " + value.length, Toast.LENGTH_LONG, GB.ERROR);
             handleActivityFetchFinish(false);
         }
     }

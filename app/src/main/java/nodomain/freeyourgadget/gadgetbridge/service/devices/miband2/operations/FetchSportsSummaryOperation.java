@@ -38,7 +38,6 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband2.MiBand2Const;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -60,14 +59,14 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
 
     private ByteArrayOutputStream buffer = new ByteArrayOutputStream(140);
 
-//    private List<MiBandActivitySample> samples = new ArrayList<>(60*24); // 1day per default
-
     public FetchSportsSummaryOperation(MiBand2Support support) {
         super(support);
+        setName("fetching sport summaries");
     }
 
     @Override
     protected void startFetching(TransactionBuilder builder) {
+        LOG.info("start" + getName());
         GregorianCalendar sinceWhen = getLastSuccessfulSyncTime();
         builder.write(characteristicFetch, BLETypeConversions.join(new byte[] {
                 MiBand2Service.COMMAND_ACTIVITY_DATA_START_DATE,
@@ -80,7 +79,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
 
     @Override
     protected void handleActivityFetchFinish(boolean success) {
-        LOG.info("Fetching activity data has finished round " + fetchCount);
+        LOG.info(getName() + " has finished round " + fetchCount);
 
 //        GregorianCalendar lastSyncTimestamp = saveSamples();
 //        if (lastSyncTimestamp != null && needsAnotherFetch(lastSyncTimestamp)) {
@@ -137,7 +136,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
      */
     @Override
     protected void handleActivityNotif(byte[] value) {
-        LOG.warn("sports data: " + Logging.formatBytes(value));
+        LOG.warn("sports summary data: " + Logging.formatBytes(value));
 
         if (!isOperationRunning()) {
             LOG.error("ignoring activity data notification because operation is not running. Data length: " + value.length);
@@ -155,7 +154,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
             lastPacketCounter++;
             bufferActivityData(value);
         } else {
-            GB.toast("Error fetching activity data, invalid package counter: " + value[0] + ", last was: " + lastPacketCounter, Toast.LENGTH_LONG, GB.ERROR);
+            GB.toast("Error " + getName() + ", invalid package counter: " + value[0] + ", last was: " + lastPacketCounter, Toast.LENGTH_LONG, GB.ERROR);
             handleActivityFetchFinish(false);
             return;
         }
