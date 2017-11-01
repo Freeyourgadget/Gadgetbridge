@@ -1,8 +1,10 @@
 ### Changelog
 
 #### Version NEXT
-* Charts: added preference to disable swiping charts left/right and some UI changes
+* Charts: Add setting to disable swiping charts left/right and some UI changes
 * Pebble: Use the configured unit system also for system weather app
+* Mi Band 2: Fix HR being absent in charts
+* Amazfit Bip: Add setting to allow manual language selection
 
 #### Version 0.22.1
 * Mi Band 2: Fix being detected as Amazfit Bip which lead to various problems especially on newly paired devices
