@@ -54,6 +54,11 @@ public class MiBand2HRXCoordinator extends HuamiCoordinator {
     }
 
     @Override
+    public boolean supports(GBDevice device) {
+        return getDeviceType().equals(device.getType()) && device.getName().equals("Mi Band HRX");
+    }
+
+    @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         return null;
     }
