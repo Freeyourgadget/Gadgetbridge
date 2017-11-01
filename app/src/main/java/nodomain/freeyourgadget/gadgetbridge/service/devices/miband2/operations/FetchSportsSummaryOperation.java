@@ -68,8 +68,6 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
     protected void startFetching(TransactionBuilder builder) {
         LOG.info("start" + getName());
         GregorianCalendar sinceWhen = getLastSuccessfulSyncTime();
-        builder.notify(characteristicActivityData, true);
-        builder.notify(characteristicFetch, true);
         builder.write(characteristicFetch, BLETypeConversions.join(new byte[] {
                 MiBand2Service.COMMAND_ACTIVITY_DATA_START_DATE,
                 AmazfitBipService.COMMAND_ACTIVITY_DATA_TYPE_SPORTS_SUMMARIES},
