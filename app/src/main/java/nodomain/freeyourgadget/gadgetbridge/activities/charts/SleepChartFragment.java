@@ -26,13 +26,13 @@ import android.view.ViewGroup;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.Chart;
-import com.github.mikephil.charting.charts.CombinedChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -60,7 +60,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 public class SleepChartFragment extends AbstractChartFragment {
     protected static final Logger LOG = LoggerFactory.getLogger(ActivitySleepChartFragment.class);
 
-    private CombinedChart mActivityChart;
+    private LineChart mActivityChart;
     private PieChart mSleepAmountChart;
 
     private int mSmartAlarmFrom = -1;
@@ -136,7 +136,7 @@ public class SleepChartFragment extends AbstractChartFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_sleepchart, container, false);
 
-        mActivityChart = (CombinedChart) rootView.findViewById(R.id.sleepchart);
+        mActivityChart = (LineChart) rootView.findViewById(R.id.sleepchart);
         mSleepAmountChart = (PieChart) rootView.findViewById(R.id.sleepchart_pie_light_deep);
 
         setupActivityChart();
@@ -262,10 +262,10 @@ public class SleepChartFragment extends AbstractChartFragment {
     }
 
     private static class MyChartsData extends ChartsData {
-        private final DefaultChartsData<CombinedData> chartsData;
+        private final DefaultChartsData<LineData> chartsData;
         private final MySleepChartsData pieData;
 
-        public MyChartsData(MySleepChartsData pieData, DefaultChartsData<CombinedData> chartsData) {
+        public MyChartsData(MySleepChartsData pieData, DefaultChartsData<LineData> chartsData) {
             this.pieData = pieData;
             this.chartsData = chartsData;
         }
@@ -274,7 +274,7 @@ public class SleepChartFragment extends AbstractChartFragment {
             return pieData;
         }
 
-        public DefaultChartsData<CombinedData> getChartsData() {
+        public DefaultChartsData<LineData> getChartsData() {
             return chartsData;
         }
     }

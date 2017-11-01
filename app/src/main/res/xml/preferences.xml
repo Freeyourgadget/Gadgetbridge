@@ -92,6 +92,10 @@
                 android:maxLength="2"
                 android:title="@string/activity_prefs_sleep_duration" />
         </PreferenceScreen>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="charts_allow_swipe"
+            android:title="@string/pref_title_charts_swipe" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="pref_key_datetime"

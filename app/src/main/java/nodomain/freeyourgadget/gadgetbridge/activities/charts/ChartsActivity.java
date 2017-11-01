@@ -29,8 +29,10 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -66,7 +68,7 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
     private Date mStartDate;
     private Date mEndDate;
     private SwipeRefreshLayout swipeLayout;
-    private ViewPager viewPager;
+    private NonSwipeableViewPager viewPager;
 
     LimitedQueue mActivityAmountCache = new LimitedQueue(60);
 
@@ -153,7 +155,7 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         enableSwipeRefresh(true);
 
         // Set up the ViewPager with the sections adapter.
-        viewPager = (ViewPager) findViewById(R.id.charts_pager);
+        viewPager = (NonSwipeableViewPager) findViewById(R.id.charts_pager);
         viewPager.setAdapter(getPagerAdapter());
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -363,5 +365,28 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
             }
             return super.getPageTitle(position);
         }
+    }
+}
+
+class NonSwipeableViewPager extends ViewPager {
+
+    public NonSwipeableViewPager(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (GBApplication.getPrefs().getBoolean("charts_allow_swipe", true)) {
+            return super.onInterceptTouchEvent(ev);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        if (GBApplication.getPrefs().getBoolean("charts_allow_swipe", true)) {
+            return super.onTouchEvent(ev);
+        }
+        return false;
     }
 }

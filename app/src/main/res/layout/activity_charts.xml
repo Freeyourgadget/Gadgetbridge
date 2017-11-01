@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v4.view.ViewPager
+        <nodomain.freeyourgadget.gadgetbridge.activities.charts.NonSwipeableViewPager
             android:id="@+id/charts_pager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 app:tabMode="scrollable" />
-        </android.support.v4.view.ViewPager>
+        </nodomain.freeyourgadget.gadgetbridge.activities.charts.NonSwipeableViewPager>
 
         <LinearLayout
             android:id="@+id/charts_date_bar"

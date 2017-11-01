@@ -35,16 +35,12 @@ import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.ChartData;
-import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -419,7 +415,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
      */
     protected abstract void renderCharts();
 
-    protected DefaultChartsData<CombinedData> refresh(GBDevice gbDevice, List<? extends ActivitySample> samples) {
+    protected DefaultChartsData<LineData> refresh(GBDevice gbDevice, List<? extends ActivitySample> samples) {
 //        Calendar cal = GregorianCalendar.getInstance();
 //        cal.clear();
         TimestampTranslation tsTranslation = new TimestampTranslation();
@@ -429,7 +425,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 //        ArrayList<String> xLabels = null;
 
         LOG.info("" + getTitle() + ": number of samples:" + samples.size());
-        CombinedData combinedData;
+        LineData lineData;
         if (samples.size() > 1) {
             boolean annotate = true;
             boolean use_steps_as_movement;
@@ -437,7 +433,10 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             int last_type = ActivityKind.TYPE_UNKNOWN;
 
             int numEntries = samples.size();
-            List<BarEntry> activityEntries = new ArrayList<>(numEntries);
+            List<Entry> activityEntries = new ArrayList<>(numEntries);
+            List<Entry> deepSleepEntries = new ArrayList<>(numEntries);
+            List<Entry> lightSleepEntries = new ArrayList<>(numEntries);
+            List<Entry> notWornEntries = new ArrayList<>(numEntries);
             boolean hr = supportsHeartrate(gbDevice);
             List<Entry> heartrateEntries = hr ? new ArrayList<Entry>(numEntries) : null;
             List<Integer> colors = new ArrayList<>(numEntries); // this is kinda inefficient...
@@ -466,15 +465,34 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                 float value = movement;
                 switch (type) {
                     case ActivityKind.TYPE_DEEP_SLEEP:
-                        value += SleepUtils.Y_VALUE_DEEP_SLEEP;
-                        colors.add(akDeepSleep.color);
+                        if (last_type != type) { //FIXME: this is ugly but it works (repeated in each case)
+                            deepSleepEntries.add(createLineEntry(0, ts - 1));
+
+                            lightSleepEntries.add(createLineEntry(0, ts));
+                            notWornEntries.add(createLineEntry(0, ts));
+                            activityEntries.add(createLineEntry(0, ts));
+                        }
+                        deepSleepEntries.add(createLineEntry(value + SleepUtils.Y_VALUE_DEEP_SLEEP, ts));
                         break;
                     case ActivityKind.TYPE_LIGHT_SLEEP:
-                        colors.add(akLightSleep.color);
+                        if (last_type != type) {
+                            lightSleepEntries.add(createLineEntry(0, ts - 1));
+
+                            deepSleepEntries.add(createLineEntry(0, ts));
+                            notWornEntries.add(createLineEntry(0, ts));
+                            activityEntries.add(createLineEntry(0, ts));
+                        }
+                        lightSleepEntries.add(createLineEntry(value, ts));
                         break;
                     case ActivityKind.TYPE_NOT_WORN:
-                        value = SleepUtils.Y_VALUE_DEEP_SLEEP; //a small value, just to show something on the graphs
-                        colors.add(akNotWorn.color);
+                        if (last_type != type) {
+                            notWornEntries.add(createLineEntry(0, ts - 1));
+
+                            lightSleepEntries.add(createLineEntry(0, ts));
+                            deepSleepEntries.add(createLineEntry(0, ts));
+                            activityEntries.add(createLineEntry(0, ts));
+                        }
+                        notWornEntries.add(createLineEntry(SleepUtils.Y_VALUE_DEEP_SLEEP, ts)); //a small value, just to show something on the graphs
                         break;
                     default:
 //                        short steps = sample.getSteps();
@@ -483,9 +501,15 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 //                            movement = steps;
 //                        }
 //                        value = ((float) movement) / movement_divisor;
-                        colors.add(akActivity.color);
+                        if (last_type != type) {
+                            activityEntries.add(createLineEntry(0, ts - 1));
+
+                            lightSleepEntries.add(createLineEntry(0, ts));
+                            notWornEntries.add(createLineEntry(0, ts));
+                            deepSleepEntries.add(createLineEntry(0, ts));
+                        }
+                        activityEntries.add(createLineEntry(value, ts));
                 }
-                activityEntries.add(createBarEntry(value, ts));
                 if (hr && HeartRateUtils.isValidHeartRateValue(sample.getHeartRate())) {
                     if (lastHrSampleIndex > -1 && ts - lastHrSampleIndex > 1800*HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
                         heartrateEntries.add(createLineEntry(0, lastHrSampleIndex + 1));
@@ -519,35 +543,36 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 //                            chart.getXAxis().addLimitLine(line);
 //                        }
 //                    }
-//                    last_type = type;
                 }
+                last_type = type;
             }
 
-            BarDataSet activitySet = createActivitySet(activityEntries, colors, "Activity");
-            // create a data object with the datasets
-//            combinedData = new CombinedData(xLabels);
-            combinedData = new CombinedData();
-            List<IBarDataSet> list = new ArrayList<>();
-            list.add(activitySet);
-            BarData barData = new BarData(list);
-            barData.setBarWidth(200f);
-//            barData.setGroupSpace(0);
-            combinedData.setData(barData);
+
+            List<ILineDataSet> lineDataSets = new ArrayList<>();
+            LineDataSet activitySet = createDataSet(activityEntries, akActivity.color, "Activity");
+            lineDataSets.add(activitySet);
+            LineDataSet deepSleepSet = createDataSet(deepSleepEntries, akDeepSleep.color, "Deep Sleep");
+            lineDataSets.add(deepSleepSet);
+            LineDataSet lightSleepSet = createDataSet(lightSleepEntries, akLightSleep.color, "Light Sleep");
+            lineDataSets.add(lightSleepSet);
+            LineDataSet notWornSet = createDataSet(notWornEntries, akNotWorn.color, "Not worn");
+            lineDataSets.add(notWornSet);
 
             if (hr && heartrateEntries.size() > 0) {
                 LineDataSet heartrateSet = createHeartrateSet(heartrateEntries, "Heart Rate");
-                LineData lineData = new LineData(heartrateSet);
-                combinedData.setData(lineData);
+
+                lineDataSets.add(heartrateSet);
             }
+            lineData = new LineData(lineDataSets);
 
 //            chart.setDescription(getString(R.string.sleep_activity_date_range, dateStringFrom, dateStringTo));
 //            chart.setDescriptionPosition(?, ?);
         } else {
-            combinedData = new CombinedData();
+            lineData = new LineData();
         }
 
         IAxisValueFormatter xValueFormatter = new SampleXLabelFormatter(tsTranslation);
-        return new DefaultChartsData(combinedData, xValueFormatter);
+        return new DefaultChartsData(lineData, xValueFormatter);
     }
 
     /**
@@ -563,24 +588,21 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
     protected abstract void setupLegend(Chart chart);
 
-    protected BarEntry createBarEntry(float value, int xValue) {
-        return new BarEntry(xValue, value);
-    }
-
     protected Entry createLineEntry(float value, int xValue) {
         return new Entry(xValue, value);
     }
 
-    protected BarDataSet createActivitySet(List<BarEntry> values, List<Integer> colors, String label) {
-        BarDataSet set1 = new BarDataSet(values, label);
-        set1.setColors(colors);
+    protected LineDataSet createDataSet(List<Entry> values, Integer color, String label) {
+        LineDataSet set1 = new LineDataSet(values, label);
+        set1.setColor(color);
 //        set1.setDrawCubic(true);
 //        set1.setCubicIntensity(0.2f);
-//        //set1.setDrawFilled(true);
-//        set1.setDrawCircles(false);
+        set1.setDrawFilled(true);
+        set1.setDrawCircles(false);
 //        set1.setLineWidth(2f);
 //        set1.setCircleSize(5f);
-//        set1.setFillColor(ColorTemplate.getHoloBlue());
+        set1.setFillColor(color);
+        set1.setFillAlpha(255);
         set1.setDrawValues(false);
 //        set1.setHighLightColor(Color.rgb(128, 0, 255));
 //        set1.setColor(Color.rgb(89, 178, 44));
@@ -607,40 +629,6 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         set1.setDrawValues(true);
         set1.setValueTextColor(CHART_TEXT_COLOR);
         set1.setAxisDependency(YAxis.AxisDependency.RIGHT);
-        return set1;
-    }
-
-    protected BarDataSet createDeepSleepSet(List<BarEntry> values, String label) {
-        BarDataSet set1 = new BarDataSet(values, label);
-//        set1.setDrawCubic(true);
-//        set1.setCubicIntensity(0.2f);
-//        //set1.setDrawFilled(true);
-//        set1.setDrawCircles(false);
-//        set1.setLineWidth(2f);
-//        set1.setCircleSize(5f);
-//        set1.setFillColor(ColorTemplate.getHoloBlue());
-        set1.setDrawValues(false);
-//        set1.setHighLightColor(Color.rgb(244, 117, 117));
-//        set1.setColor(Color.rgb(76, 90, 255));
-        set1.setValueTextColor(CHART_TEXT_COLOR);
-        return set1;
-    }
-
-    protected BarDataSet createLightSleepSet(List<BarEntry> values, String label) {
-        BarDataSet set1 = new BarDataSet(values, label);
-
-//        set1.setDrawCubic(true);
-//        set1.setCubicIntensity(0.2f);
-//        //set1.setDrawFilled(true);
-//        set1.setDrawCircles(false);
-//        set1.setLineWidth(2f);
-//        set1.setCircleSize(5f);
-//        set1.setFillColor(ColorTemplate.getHoloBlue());
-        set1.setDrawValues(false);
-//        set1.setHighLightColor(Color.rgb(244, 117, 117));
-//        set1.setColor(Color.rgb(182, 191, 255));
-        set1.setValueTextColor(CHART_TEXT_COLOR);
-//        set1.setColor(Color.CYAN);
         return set1;
     }
 
