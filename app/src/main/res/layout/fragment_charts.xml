@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity$PlaceholderFragment">
 
-    <com.github.mikephil.charting.charts.CombinedChart
+    <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/activitysleepchart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

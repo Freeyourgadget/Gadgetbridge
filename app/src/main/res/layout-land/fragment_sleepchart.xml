@@ -11,7 +11,7 @@
         android:layout_weight="40">
     </com.github.mikephil.charting.charts.PieChart>
 
-    <com.github.mikephil.charting.charts.CombinedChart
+    <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/sleepchart"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
