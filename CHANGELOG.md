@@ -1,5 +1,8 @@
 ### Changelog
 
+#### Version NEXT
+* Charts: added preference to disable swiping charts left/right
+
 #### Version 0.22.1
 * Mi Band 2: Fix being detected as Amazfit Bip which lead to various problems especially on newly paired devices
 
