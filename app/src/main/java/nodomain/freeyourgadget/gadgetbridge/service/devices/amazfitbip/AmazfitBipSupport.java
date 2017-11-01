@@ -31,6 +31,7 @@ import java.util.Locale;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiWeatherConditions;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipFWHelper;
@@ -229,15 +230,28 @@ public class AmazfitBipSupport extends MiBand2Support {
         LOG.info("Setting watch language, phone language = " + language + " country = " + country);
 
         byte[] command;
-        if (language.equals("zh")) {
-            if (country.equals("TW") || country.equals("HK") || country.equals("MO")) { // Taiwan, Hong Kong,  Macao
-                command = AmazfitBipService.COMMAND_SET_LANGUAGE_TRADITIONAL_CHINESE;
-            } else {
+        switch (GBApplication.getPrefs().getInt("amazfitbip_language", -1)) {
+            case 0:
                 command = AmazfitBipService.COMMAND_SET_LANGUAGE_SIMPLIFIED_CHINESE;
-            }
-        } else {
-            command = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
+                break;
+            case 1:
+                command = AmazfitBipService.COMMAND_SET_LANGUAGE_TRADITIONAL_CHINESE;
+                break;
+            case 2:
+                command = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
+                break;
+            default:
+                if (language.equals("zh")) {
+                    if (country.equals("TW") || country.equals("HK") || country.equals("MO")) { // Taiwan, Hong Kong,  Macao
+                        command = AmazfitBipService.COMMAND_SET_LANGUAGE_TRADITIONAL_CHINESE;
+                    } else {
+                        command = AmazfitBipService.COMMAND_SET_LANGUAGE_SIMPLIFIED_CHINESE;
+                    }
+                } else {
+                    command = AmazfitBipService.COMMAND_SET_LANGUAGE_ENGLISH;
+                }
         }
+
         builder.write(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
         return this;
     }

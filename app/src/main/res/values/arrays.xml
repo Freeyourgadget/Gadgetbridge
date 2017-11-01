@@ -202,4 +202,18 @@
         <item>@string/p_call_privacy_mode_complete</item>
     </string-array>
 
+    <string-array name="pref_amazfitbip_language">
+        <item name="-1">@string/automatic</item>
+        <item name="0">@string/simplified_chinese</item>
+        <item name="1">@string/traditional_chinese</item>
+        <item name="2">@string/english</item>
+    </string-array>
+
+    <string-array name="pref_amazfitbip_language_values">
+        <item>-1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
 </resources>
