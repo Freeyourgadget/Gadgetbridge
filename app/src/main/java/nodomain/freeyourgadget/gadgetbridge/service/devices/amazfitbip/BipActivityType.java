@@ -3,10 +3,16 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public enum BipActivityType {
-    Outdoor,
-    Treadmill,
-    Cycling,
-    Walking;
+    Outdoor(1),
+    Treadmill(2),
+    Cycling(3),
+    Walking(4);
+
+    private final int code;
+
+    BipActivityType(final int code) {
+        this.code = code;
+    }
 
     public int toActivityKind() {
         switch (this) {
@@ -22,8 +28,17 @@ public enum BipActivityType {
         throw new RuntimeException("Not mapped activity kind for: " + this);
     }
 
-    public static BipActivityType fromActivityKind(int kind) {
-        switch (kind) {
+    public static BipActivityType fromCode(int bipCode) {
+        for (BipActivityType type : values()) {
+            if (type.code == bipCode) {
+                return type;
+            }
+        }
+        throw new RuntimeException("No matching BipActivityType for code: " + bipCode);
+    }
+
+    public static BipActivityType fromActivityKind(int activityKind) {
+        switch (activityKind) {
             case ActivityKind.TYPE_RUNNING:
                 return Outdoor;
             case ActivityKind.TYPE_TREADMILL:
@@ -33,6 +48,6 @@ public enum BipActivityType {
             case ActivityKind.TYPE_WALKING:
                 return Walking;
         }
-        throw new RuntimeException("No matching activity kind: " + kind);
+        throw new RuntimeException("No matching activity activityKind: " + activityKind);
     }
 }

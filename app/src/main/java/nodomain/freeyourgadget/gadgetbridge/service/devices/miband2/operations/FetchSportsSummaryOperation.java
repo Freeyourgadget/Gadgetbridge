@@ -179,7 +179,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
         int activityKind = ActivityKind.TYPE_UNKNOWN;
         try {
             int rawKind = BLETypeConversions.toUnsigned(buffer.getShort());
-            BipActivityType activityType = BipActivityType.values()[rawKind];
+            BipActivityType activityType = BipActivityType.fromCode(rawKind);
             activityKind = activityType.toActivityKind();
         } catch (Exception ex) {
             LOG.error("Error mapping acivity kind: " + ex.getMessage(), ex);
