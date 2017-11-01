@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.miband2.operations;
 
+import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -51,13 +52,15 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 public class FetchSportsDetailsOperation extends AbstractFetchOperation {
     private static final Logger LOG = LoggerFactory.getLogger(FetchSportsDetailsOperation.class);
     private final BaseActivitySummary summary;
+    private final String lastSyncTimeKey;
 
     private ByteArrayOutputStream buffer;
 
-    public FetchSportsDetailsOperation(BaseActivitySummary summary, MiBand2Support support) {
+    public FetchSportsDetailsOperation(@NonNull BaseActivitySummary summary, @NonNull MiBand2Support support, @NonNull String lastSyncTimeKey) {
         super(support);
         setName("fetching sport details");
         this.summary = summary;
+        this.lastSyncTimeKey = lastSyncTimeKey;
     }
 
     @Override
@@ -102,6 +105,9 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
                     summary.setGpxTrack(targetFile.getAbsolutePath());
                     dbHandler.getDaoSession().getBaseActivitySummaryDao().update(summary);
                 }
+                GregorianCalendar endTime = BLETypeConversions.createCalendar();
+                endTime.setTime(summary.getEndTime());
+                saveLastSyncTimestamp(endTime);
             } catch (Exception ex) {
                 GB.toast(getContext(), "Error getting activity details: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
             }
@@ -164,11 +170,10 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
 
     @Override
     protected String getLastSyncTimeKey() {
-        return getDevice().getAddress() + "_" + "lastSportsSummaryTimeMillis";
+        return lastSyncTimeKey;
     }
 
     protected GregorianCalendar getLastSuccessfulSyncTime() {
-        // FIXME: remove this!
         GregorianCalendar calendar = BLETypeConversions.createCalendar();
         calendar.setTime(summary.getStartTime());
         return calendar;

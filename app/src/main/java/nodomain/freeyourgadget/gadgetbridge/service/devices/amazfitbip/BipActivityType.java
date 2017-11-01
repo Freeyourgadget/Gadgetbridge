@@ -5,8 +5,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 public enum BipActivityType {
     Outdoor(1),
     Treadmill(2),
-    Cycling(3),
-    Walking(4);
+    Cycling(3), // should be Walking
+    Walking(4); // should be cycling
 
     private final int code;
 

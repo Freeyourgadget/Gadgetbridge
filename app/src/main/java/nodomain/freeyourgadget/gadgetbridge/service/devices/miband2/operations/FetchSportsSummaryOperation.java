@@ -68,6 +68,8 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
     protected void startFetching(TransactionBuilder builder) {
         LOG.info("start" + getName());
         GregorianCalendar sinceWhen = getLastSuccessfulSyncTime();
+        builder.notify(characteristicActivityData, true);
+        builder.notify(characteristicFetch, true);
         builder.write(characteristicFetch, BLETypeConversions.join(new byte[] {
                 MiBand2Service.COMMAND_ACTIVITY_DATA_START_DATE,
                 AmazfitBipService.COMMAND_ACTIVITY_DATA_TYPE_SPORTS_SUMMARIES},
@@ -109,7 +111,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
         super.handleActivityFetchFinish(success);
 
         if (summary != null) {
-            FetchSportsDetailsOperation nextOperation = new FetchSportsDetailsOperation(summary, getSupport());
+            FetchSportsDetailsOperation nextOperation = new FetchSportsDetailsOperation(summary, getSupport(), getLastSyncTimeKey());
             try {
                 nextOperation.perform();
             } catch (IOException ex) {
@@ -237,13 +239,6 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
 
     @Override
     protected String getLastSyncTimeKey() {
-        return getDevice().getAddress() + "_" + "lastSportsSummaryTimeMillis";
-    }
-
-    protected GregorianCalendar getLastSuccessfulSyncTime() {
-        // FIXME: remove this!
-        GregorianCalendar calendar = BLETypeConversions.createCalendar();
-        calendar.add(Calendar.DAY_OF_MONTH, -25);
-        return calendar;
+        return getDevice().getAddress() + "_" + "lastSportsActivityTimeMillis";
     }
 }

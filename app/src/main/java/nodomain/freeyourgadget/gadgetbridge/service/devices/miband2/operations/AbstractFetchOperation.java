@@ -186,7 +186,7 @@ public abstract class AbstractFetchOperation extends AbstractMiBand2Operation {
             return calendar;
         }
         GregorianCalendar calendar = BLETypeConversions.createCalendar();
-        calendar.add(Calendar.DAY_OF_MONTH, -10);
+        calendar.add(Calendar.DAY_OF_MONTH, - 100);
         return calendar;
     }
 }
