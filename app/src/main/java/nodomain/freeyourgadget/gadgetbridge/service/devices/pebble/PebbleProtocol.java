@@ -39,6 +39,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppManagement;
@@ -1222,6 +1223,20 @@ public class PebbleProtocol extends GBDeviceProtocol {
     }
 
     private byte[] encodeWeatherForecast(WeatherSpec weatherSpec) {
+
+        short currentTemp = (short) (weatherSpec.currentTemp - 273);
+        short todayMax = (short) (weatherSpec.todayMaxTemp - 273);
+        short todayMin = (short) (weatherSpec.todayMinTemp - 273);
+        short tomorrowMax = (short) (weatherSpec.tomorrowMaxTemp - 273);
+        short tomorrowMin = (short) (weatherSpec.tomorrowMinTemp - 273);
+        String units = GBApplication.getPrefs().getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, GBApplication.getContext().getString(R.string.p_unit_metric));
+        if (units.equals(GBApplication.getContext().getString(R.string.p_unit_imperial))) {
+            currentTemp = (short) (currentTemp * 1.8f + 32);
+            todayMax = (short) (todayMax * 1.8f + 32);
+            todayMin = (short) (todayMin * 1.8f + 32);
+            tomorrowMax = (short) (tomorrowMax * 1.8f + 32);
+            tomorrowMin = (short) (tomorrowMin * 1.8f + 32);
+        }
         final short WEATHER_FORECAST_LENGTH = 20;
 
         String[] parts = {weatherSpec.location, weatherSpec.currentCondition};
@@ -1242,13 +1257,13 @@ public class PebbleProtocol extends GBDeviceProtocol {
         ByteBuffer buf = ByteBuffer.allocate(pin_length);
         buf.order(ByteOrder.LITTLE_ENDIAN);
         buf.put((byte) 3); // unknown, always 3?
-        buf.putShort((short) (weatherSpec.currentTemp - 273));
+        buf.putShort(currentTemp);
         buf.put(Weather.mapToPebbleCondition(weatherSpec.currentConditionCode));
-        buf.putShort((short) (weatherSpec.todayMaxTemp - 273));
-        buf.putShort((short) (weatherSpec.todayMinTemp - 273));
+        buf.putShort(todayMax);
+        buf.putShort(todayMin);
         buf.put(Weather.mapToPebbleCondition(weatherSpec.tomorrowConditionCode));
-        buf.putShort((short) (weatherSpec.tomorrowMaxTemp - 273));
-        buf.putShort((short) (weatherSpec.tomorrowMinTemp - 273));
+        buf.putShort(tomorrowMax);
+        buf.putShort(tomorrowMin);
         buf.putInt(weatherSpec.timestamp);
         buf.put((byte) 0); // automatic location 0=manual 1=auto
         buf.putShort(attributes_length);
