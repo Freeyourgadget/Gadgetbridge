@@ -405,11 +405,11 @@
 <string name="stats_title">Geschwindigkeitszonen</string>
     <string name="fw_upgrade_notice_amazfitbip">Es soll die Firmware %s auf die Amazfit Bip gespielt werden. 
 \n 
-\nBitte stelle sicher, dass Du zuerst die .gps firmware, dann die .res Datei, und zum Schluss die .fw Datei installiert. Deine Uhr wird sich nach der installation der .fw Datei neustarten. 
+\nBitte stelle sicher, dass Du zuerst die .gps firmware, dann die .res Datei, und zum Schluss die .fw Datei installierst. Deine Uhr wird sich nach der Installation der .fw Datei neu starten. 
 \n 
 \nHinweis: Du musst die .res and .gps Dateien nicht installieren, falls diese genau die gleichen Dateien wie die sind, die Du schon mit einer vorigen .fw Datei zusammen installiert hattest. 
-\n
-\nFAHRE AUF EIGENES RISIKO FORT!</string>
+\n 
+\nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="amazfitbip_firmware">Amazfit Bip Firmware %1$s</string>
     <string name="mi2_prefs_button_actions">Aktion bei Tastendruck</string>
     <string name="mi2_prefs_button_actions_summary">Bestimmte Aktion bei Tastendruck auf dem Mi Band 2</string>
@@ -433,4 +433,12 @@
     <string name="traditional_chinese">Traditionelles Chinesisch</string>
     <string name="english">Englisch</string>
 
+    <string name="fw_upgrade_notice_amazfitcor">Es soll die Firmware %s auf das Amazfit Cor gespielt werden.
+\n
+\nBitte stelle sicher, dass du zuerst die .res-Datei und im Anschluss die .fw-Datei installierst. Nach der Installation der .fw-Datei startet deine Uhr neu.
+\n
+\nHinweis: Die .res-Datei muss nicht neu installiert werden, falls die exakt gleiche Datei bereits bei einer vorherigen Version installiert wurde.
+\n
+\nNICHT GETESTET, DIES KÖNNTE DEIN GERÄT UNBENUTZBAR MACHEN, INSTALLATION AUF EIGENE GEFAHR!</string>
+    <string name="mi2_prefs_button_press_count">Anzahl an Tastendrücken</string>
     </resources>
