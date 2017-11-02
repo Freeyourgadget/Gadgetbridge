@@ -450,4 +450,10 @@
     <string name="amazfitcor_firmware">קושחה %1$s של Amazfit Cor</string>
     <string name="pref_title_charts_swipe">הפעלת הסטה לימין/שמאל בפעילות התרשימים</string>
 
+    <string name="preferences_amazfitbip_settings">הגדרות Amazfit Bip</string>
+    <string name="automatic">אוטומטי</string>
+    <string name="simplified_chinese">סינית מפושטת</string>
+    <string name="traditional_chinese">סינית מסורתית</string>
+    <string name="english">אנגלית</string>
+
     </resources>
