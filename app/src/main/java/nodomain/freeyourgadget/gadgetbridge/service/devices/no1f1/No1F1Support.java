@@ -598,7 +598,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                         if (data[0] == No1F1Constants.CMD_FETCH_STEPS) {
                             samples.get(i).setRawKind(ActivityKind.TYPE_ACTIVITY);
                             samples.get(i).setRawIntensity(samples.get(i).getSteps());
-                        } else if (data[0] == No1F1Constants.CMD_FETCH_STEPS) {
+                        } else if (data[0] == No1F1Constants.CMD_FETCH_SLEEP) {
                             if (samples.get(i).getRawIntensity() < 7)
                                 samples.get(i).setRawKind(ActivityKind.TYPE_DEEP_SLEEP);
                             else
