@@ -427,4 +427,18 @@
     <string name="_pebble_watch_open_on_phone">電話で開く</string>
     <string name="_pebble_watch_mute">ミュート</string>
     <string name="_pebble_watch_reply">返信</string>
-</resources>
+<string name="controlcenter_connect">接続</string>
+    <string name="fw_upgrade_notice_amazfitcor">Amazfit Cor にファームウェア %s をインストールしようとしています。
+\n
+\n.res ファイルをインストールし、、その後 .fw ファイルをインストールしてください。お使いのウォッチは、.fw ファイルをインストールした後に再起動します。
+\n
+\n注: 以前にインストールされたものと同じ場合は、.res をインストールする必要はありません。
+\n
+\nテストされていません。デバイスが文鎮化する可能性があります。ご自身の責任で行って下さい!</string>
+    <string name="pref_title_pebble_enable_bgjs">バックグラウンド JS を有効にします</string>
+    <string name="pref_summary_pebble_enable_bgjs">有効にすると、ウォッチフェースに天気、バッテリー情報等を表示することができます。</string>
+
+    <string name="amazfitcor_firmware">Amazfit Cor ファームウェア %1$s</string>
+    <string name="activity_web_view">Web View アクティビティ</string>
+
+    </resources>

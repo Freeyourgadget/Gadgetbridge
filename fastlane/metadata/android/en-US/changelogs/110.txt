@@ -1,0 +1,5 @@
+* Charts: Add setting to disable swiping charts left/right and some UI changes
+* Pebble: Use the configured unit system also for system weather app
+* Mi Band 2: Fix HR being absent in charts
+* Amazfit Bip: Allow manual language selection in settings
+* Amazfit Cor: Fix firmware update 

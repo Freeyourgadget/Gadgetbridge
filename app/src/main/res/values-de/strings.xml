@@ -58,10 +58,10 @@
   <string name="pref_title_general_autocreonnect">Verbindung automatisch wiederherstellen</string>
   <string name="pref_title_audo_player">Bevorzugter Audioplayer</string>
   <string name="pref_default">Standard</string>
-  <string name="pref_header_datetime">Datum und Zeit</string>
+  <string name="pref_header_datetime">Datum und Uhrzeit</string>
   <string name="pref_title_datetime_syctimeonconnect">Uhrzeit synchronisieren</string>
   <string name="pref_summary_datetime_syctimeonconnect">Synchronisiere die Uhrzeit mit dem Gerät bei Verbindungsaufbau und wenn die Zeit oder Zeitzone auf dem Android Gerät geändert wird</string>
-  <string name="pref_title_theme">Thema</string>
+  <string name="pref_title_theme">Farbschema</string>
   <string name="pref_theme_light">Hell</string>
   <string name="pref_theme_dark">Dunkel</string>
   <string name="pref_title_language">Sprache</string>
@@ -186,7 +186,7 @@
   <string name="pairing_already_bonded">Bereits mit %1$s (%2$s) verbunden, stelle Verbindung her…</string>
   <string name="message_cannot_pair_no_mac">Keine MAC-Adresse erhalten, koppeln nicht möglich.</string>
   <string name="preferences_category_device_specific_settings">Gerätespezifische Einstellungen</string>
-  <string name="preferences_miband_settings">Mi Band / Bip Einstellungen</string>
+  <string name="preferences_miband_settings">Mi Band / Amazfit Einstellungen</string>
   <string name="male">Männlich</string>
   <string name="female">Weiblich</string>
   <string name="other">Anderes</string>
@@ -403,13 +403,13 @@
   <string name="discovery_yes_pair">Koppeln</string>
   <string name="discovery_dont_pair">Nicht koppeln</string>
 <string name="stats_title">Geschwindigkeitszonen</string>
-    <string name="fw_upgrade_notice_amazfitbip">Es soll die Firmware %s anstelle der aktuell installierten Version auf die Amazfit Bip gespielt werden.
-\n
-\nBitte stelle sicher, dass Du zuerst die .gps firmware, dann die .res Datei, und zum Schluss die .fw Datei installiert. Deine Uhr wird sich nach der installation der .fw Datei neustarten.
-\n
-\nHinweis: Du musst die .res and .gps Dateien nicht installieren, falls diese genau die gleichen Dateien wie die sind, die Du schon mit einer vorigen .fw Datei zusammen installiert hattest.
-\n
-\nDIES IST EXPERIMENTELL, FAHRE AUF EIGENES RISIKO FORT</string>
+    <string name="fw_upgrade_notice_amazfitbip">Es soll die Firmware %s auf die Amazfit Bip gespielt werden. 
+\n 
+\nBitte stelle sicher, dass Du zuerst die .gps firmware, dann die .res Datei, und zum Schluss die .fw Datei installierst. Deine Uhr wird sich nach der Installation der .fw Datei neu starten. 
+\n 
+\nHinweis: Du musst die .res and .gps Dateien nicht installieren, falls diese genau die gleichen Dateien wie die sind, die Du schon mit einer vorigen .fw Datei zusammen installiert hattest. 
+\n 
+\nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="amazfitbip_firmware">Amazfit Bip Firmware %1$s</string>
     <string name="mi2_prefs_button_actions">Aktion bei Tastendruck</string>
     <string name="mi2_prefs_button_actions_summary">Bestimmte Aktion bei Tastendruck auf dem Mi Band 2</string>
@@ -427,4 +427,18 @@
     <string name="_pebble_watch_reply">Antwort</string>
 <string name="controlcenter_connect">Verbinden</string>
     <string name="pref_title_pebble_enable_bgjs">Hintergrund JS</string>
+    <string name="preferences_amazfitbip_settings">Amazfit Bip Einstellungen</string>
+    <string name="amazfitcor_firmware">Amazfit Cor Firmware %1$s</string>
+    <string name="simplified_chinese">Vereinfachtes Chinesisch</string>
+    <string name="traditional_chinese">Traditionelles Chinesisch</string>
+    <string name="english">Englisch</string>
+
+    <string name="fw_upgrade_notice_amazfitcor">Es soll die Firmware %s auf das Amazfit Cor gespielt werden.
+\n
+\nBitte stelle sicher, dass du zuerst die .res-Datei und im Anschluss die .fw-Datei installierst. Nach der Installation der .fw-Datei startet deine Uhr neu.
+\n
+\nHinweis: Die .res-Datei muss nicht neu installiert werden, falls die exakt gleiche Datei bereits bei einer vorherigen Version installiert wurde.
+\n
+\nNICHT GETESTET, DIES KÖNNTE DEIN GERÄT UNBENUTZBAR MACHEN, INSTALLATION AUF EIGENE GEFAHR!</string>
+    <string name="mi2_prefs_button_press_count">Anzahl an Tastendrücken</string>
     </resources>

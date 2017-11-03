@@ -186,7 +186,7 @@
   <string name="pairing_already_bonded">Déjà lié avec %1$s (%2$s), connexion…</string>
   <string name="message_cannot_pair_no_mac">Aucune adresse MAC fournie, ne peut être appairé.</string>
   <string name="preferences_category_device_specific_settings">Paramètres spécifiques à l\'appareil </string>
-  <string name="preferences_miband_settings">Paramètres Mi Band / Bip</string>
+  <string name="preferences_miband_settings">Paramètres Mi Band / Amazfit</string>
   <string name="male">Homme</string>
   <string name="female">Femme</string>
   <string name="other">Autre</string>
@@ -407,13 +407,13 @@ NOTE: la base de données sera bien évidement plus grande !</string>
   <string name="discovery_pair_question">Sélectionnez Jumeler pour associer vos dispositifs. Si cela échoue, essayez à nouveau sans jumelage.</string>
   <string name="discovery_yes_pair">Jumelage</string>
   <string name="discovery_dont_pair">Ne pas appairer</string>
-<string name="fw_upgrade_notice_amazfitbip">Vous êtes sur le point d\'installer le micrologiciel %s au lieu de celui actuellement présent sur votre Amazfit Bip.
-\n
-\nVeuillez installer le micrologiciel .gps, ensuite le fichier .res, puis le fichier .fw. Votre montre redémarrera après installation du .fw.
-\n
-\nNote: vous ne devez pas installer .res et .gps si ceux-ci sont identiques à ceux installés précédemment.
-\n
-\nEXPÉRIMENTAL, CONTINUEZ À VOS RISQUES</string>
+<string name="fw_upgrade_notice_amazfitbip">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Bip. 
+\n 
+\nVeuillez installer le micrologiciel .gps, ensuite le fichier .res, puis le fichier .fw. Votre montre redémarrera après installation du .fw. 
+\n 
+\nNote: vous ne devez pas installer .res et .gps si ceux-ci sont identiques à ceux installés précédemment. 
+\n 
+\nCONTINUEZ À VOS RISQUES !</string>
     <string name="amazfitbip_firmware">Firmware Amazfit Bip %1$s</string>
     <string name="mi2_prefs_button_actions">Actions du bouton</string>
     <string name="mi2_prefs_button_actions_summary">Spécifier les actions par pression du bouton du Mi Band 2</string>
@@ -439,4 +439,12 @@ NOTE: la base de données sera bien évidement plus grande !</string>
     <string name="activity_web_view">Activité Web View</string>
 
     <string name="controlcenter_connect">Connecter</string>
+    <string name="fw_upgrade_notice_amazfitcor">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Cor. 
+\n 
+\nVeuillez installer le micrologiciel .gps, ensuite le fichier .res, puis le fichier .fw. Votre montre redémarrera après installation du .fw. 
+\n 
+\nNote: vous ne devez pas installer .res si celui-ci est identique à celui installé précédemment. 
+\n 
+\nNON TESTÉ, PEUT BRICKER L\'APPAREIL. CONTINUEZ À VOS RISQUES !</string>
+    <string name="amazfitcor_firmware">Micrologiciel Amazfit Cor %1$s</string>
     </resources>
