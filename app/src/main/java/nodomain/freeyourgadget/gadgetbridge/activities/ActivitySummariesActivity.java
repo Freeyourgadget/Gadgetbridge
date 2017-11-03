@@ -26,7 +26,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         getItemListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Object item = getItemAdapter().getItem(position);
+                Object item = parent.getItemAtPosition(position);
                 if (item != null) {
                     ActivitySummary summary = (ActivitySummary) item;
                     String gpxTrack = summary.getGpxTrack();
