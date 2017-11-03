@@ -58,10 +58,10 @@
   <string name="pref_title_general_autocreonnect">Verbindung automatisch wiederherstellen</string>
   <string name="pref_title_audo_player">Bevorzugter Audioplayer</string>
   <string name="pref_default">Standard</string>
-  <string name="pref_header_datetime">Datum und Zeit</string>
+  <string name="pref_header_datetime">Datum und Uhrzeit</string>
   <string name="pref_title_datetime_syctimeonconnect">Uhrzeit synchronisieren</string>
   <string name="pref_summary_datetime_syctimeonconnect">Synchronisiere die Uhrzeit mit dem Gerät bei Verbindungsaufbau und wenn die Zeit oder Zeitzone auf dem Android Gerät geändert wird</string>
-  <string name="pref_title_theme">Thema</string>
+  <string name="pref_title_theme">Farbschema</string>
   <string name="pref_theme_light">Hell</string>
   <string name="pref_theme_dark">Dunkel</string>
   <string name="pref_title_language">Sprache</string>
