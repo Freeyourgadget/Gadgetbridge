@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="next">
-        <change>Charts: added preference to disable swiping charts left/right and some UI changes
-        </change>
+    <release version="0.22.2" versioncode="110">
+        <change>Charts: Add setting to disable swiping charts left/right and some UI changes</change>
         <change>Pebble: Use the configured unit system also for system weather app</change>
+        <change>Mi Band 2: Fix HR being absent in charts</change>
+        <change>Amazfit Bip: Allow manual language selection in settings</change>
+        <change>Amazfit Cor: Fix firmware update</change>
     </release>
     <release version="0.22.1" versioncode="109">
         <change>Mi Band 2: Fix being detected as Amazfit Bip which lead to various problems especially on newly paired devices</change>
