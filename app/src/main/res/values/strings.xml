@@ -496,4 +496,5 @@
     <string name="activity_type_unknown">Unknown activity</string>
     <string name="activity_summaries">Activities</string>
     <string name="activity_type_biking">Biking</string>
+    <string name="activity_type_treadmill">Treadmill</string>
 </resources>

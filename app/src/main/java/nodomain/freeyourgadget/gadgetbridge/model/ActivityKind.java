@@ -68,6 +68,9 @@ public class ActivityKind {
         if ((types & ActivityKind.TYPE_CYCLING) != 0) {
             result[i++] = provider.toRawActivityKind(TYPE_CYCLING);
         }
+        if ((types & ActivityKind.TYPE_TREADMILL) != 0) {
+            result[i++] = provider.toRawActivityKind(TYPE_TREADMILL);
+        }
         return Arrays.copyOf(result, i);
     }
 
@@ -91,6 +94,8 @@ public class ActivityKind {
                 return context.getString(R.string.activity_type_swimming);
             case TYPE_CYCLING:
                 return context.getString(R.string.activity_type_biking);
+            case TYPE_TREADMILL:
+                return context.getString(R.string.activity_type_treadmill);
             case TYPE_UNKNOWN:
             default:
                 return context.getString(R.string.activity_type_unknown);
@@ -112,6 +117,8 @@ public class ActivityKind {
                 return R.drawable.ic_activity_walking;
             case TYPE_CYCLING:
                 return R.drawable.ic_activity_biking;
+            case TYPE_TREADMILL:
+                return R.drawable.ic_activity_walking;
             case TYPE_SWIMMING: // fall through
             case TYPE_NOT_WORN: // fall through
             case TYPE_ACTIVITY: // fall through

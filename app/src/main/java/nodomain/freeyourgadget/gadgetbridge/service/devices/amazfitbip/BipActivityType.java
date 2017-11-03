@@ -3,10 +3,10 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.amazfitbip;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public enum BipActivityType {
-    Outdoor(1),
+    Outdoor(4),
     Treadmill(2),
-    Cycling(3), // should be Walking
-    Walking(4); // should be cycling
+    Cycling(1),
+    Walking(3);
 
     private final int code;
 
