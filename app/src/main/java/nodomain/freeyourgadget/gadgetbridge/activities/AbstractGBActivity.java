@@ -42,6 +42,9 @@ public abstract class AbstractGBActivity extends AppCompatActivity implements GB
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+            if (action == null) {
+                return;
+            }
             switch (action) {
                 case GBApplication.ACTION_LANGUAGE_CHANGE:
                     setLanguage(GBApplication.getLanguage(), true);
