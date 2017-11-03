@@ -46,7 +46,7 @@ class AmazfitCorFWInstallHandler extends AbstractMiBandFWInstallHandler {
 
     @Override
     protected AbstractMiBandFWHelper createHelper(Uri uri, Context context) throws IOException {
-        return new AmazfitBipFWHelper(uri, context);
+        return new AmazfitCorFWHelper(uri, context);
     }
 
     @Override
