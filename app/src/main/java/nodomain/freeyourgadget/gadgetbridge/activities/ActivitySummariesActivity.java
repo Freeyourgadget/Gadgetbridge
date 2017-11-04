@@ -18,6 +18,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class ActivitySummariesActivity extends AbstractListActivity<BaseActivitySummary> {
 
+    private int selectedIndex;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +47,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                 delete.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-                        deleteItemAt(info.position);
+                        deleteItemAt(selectedIndex);
                         return true;
                     }
                 });
@@ -56,6 +57,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         getItemListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedIndex = position;
                 return getItemListView().showContextMenu();
             }
         });
