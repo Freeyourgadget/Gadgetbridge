@@ -447,4 +447,12 @@ NOTE: la base de données sera bien évidement plus grande !</string>
 \n 
 \nNON TESTÉ, PEUT BRICKER L\'APPAREIL. CONTINUEZ À VOS RISQUES !</string>
     <string name="amazfitcor_firmware">Micrologiciel Amazfit Cor %1$s</string>
+    <string name="pref_title_charts_swipe">Permettre le balayage gauche/droite dans les graphiques d\'activité</string>
+
+    <string name="preferences_amazfitbip_settings">Paramètres Amazfit Bip</string>
+    <string name="automatic">Automatique</string>
+    <string name="simplified_chinese">Chinois simplifié</string>
+    <string name="traditional_chinese">Chinois traditionnel</string>
+    <string name="english">Anglais</string>
+
     </resources>
