@@ -147,6 +147,12 @@ public class BLETypeConversions {
                     value[6] & 0xff
             );
 
+            if (value.length > 7) {
+                TimeZone timeZone = TimeZone.getDefault();
+                timeZone.setRawOffset(value[7] * 15 * 60 * 1000);
+                timestamp.setTimeZone(timeZone);
+            }
+
             if (honorDeviceTimeOffset) {
                 int offsetInHours = MiBandCoordinator.getDeviceTimeOffsetHours();
                 if (offsetInHours != 0) {
