@@ -265,7 +265,7 @@ public class BLETypeConversions {
      */
     public static byte mapTimeZone(TimeZone timeZone, int timezoneFlags) {
         int offsetMillis = timeZone.getRawOffset();
-        if (timezoneFlags == TZ_FLAG_INCLUDE_DST_IN_TZ) {
+        if (false && timezoneFlags == TZ_FLAG_INCLUDE_DST_IN_TZ) {
             offsetMillis += timeZone.getDSTSavings();
         }
         int utcOffsetInHours =  (offsetMillis / (1000 * 60 * 60));
