@@ -58,6 +58,7 @@ public interface DeviceService extends EventHandler {
     String ACTION_REALTIME_SAMPLES = PREFIX + ".action.realtime_samples";
     String ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT = PREFIX + ".action.realtime_hr_measurement";
     String ACTION_ENABLE_HEARTRATE_SLEEP_SUPPORT = PREFIX + ".action.enable_heartrate_sleep_support";
+    String ACTION_SET_HEARTRATE_MEASUREMENT_INTERVAL = PREFIX + ".action.set_heartrate_measurement_intervarl";
     String ACTION_HEARTRATE_MEASUREMENT = PREFIX + ".action.hr_measurement";
     String ACTION_ADD_CALENDAREVENT = PREFIX + ".action.add_calendarevent";
     String ACTION_DELETE_CALENDAREVENT = PREFIX + ".action.delete_calendarevent";
@@ -101,6 +102,7 @@ public interface DeviceService extends EventHandler {
     String EXTRA_ALARMS = "alarms";
     String EXTRA_CONNECT_FIRST_TIME = "connect_first_time";
     String EXTRA_BOOLEAN_ENABLE = "enable_realtime_steps";
+    String EXTRA_INTERVAL_SECONDS = "interval_seconds";
 
     String EXTRA_WEATHER_TIMESTAMP = "weather_timestamp";
     String EXTRA_WEATHER_LOCATION = "weather_location";

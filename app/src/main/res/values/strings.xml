@@ -268,6 +268,13 @@
     <string name="pref_screen_notification_profile_generic_navigation">Navigation</string>
     <string name="pref_screen_notification_profile_generic_social">Social network</string>
 
+    <string name="prefs_title_heartrate_measurement_interval">Whole day HR measurement</string>
+    <string name="interval_one_minute">once a minute</string>
+    <string name="interval_five_minutes">every 5 minutes</string>
+    <string name="interval_ten_minutes">every 10 minutes</string>
+    <string name="interval_thirty_minutes">every 30 minutes</string>
+    <string name="interval_one_hour">once an hour</string>
+
     <string name="stats_title">Speed zones</string>
     <string name="stats_x_axis_label">Total minutes</string>
     <string name="stats_y_axis_label">Steps per minute</string>

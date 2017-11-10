@@ -133,6 +133,11 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
     }
 
     @Override
+    public void onSetHeartRateMeasurementInterval(int seconds) {
+
+    }
+
+    @Override
     public synchronized PebbleIoThread getDeviceIOThread() {
         return (PebbleIoThread) super.getDeviceIOThread();
     }

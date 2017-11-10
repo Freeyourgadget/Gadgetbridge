@@ -98,7 +98,15 @@
             android:key="mi_hr_sleep_detection"
             android:title="@string/miband_prefs_hr_sleep_detection" />
 
-		<EditTextPreference
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/prefs_heartrate_measurement_interval"
+            android:entryValues="@array/prefs_heartrate_measurement_interval_values"
+            android:key="heartrate_measurement_interval"
+            android:summary="%s"
+            android:title="@string/prefs_title_heartrate_measurement_interval" />
+
+        <EditTextPreference
 			android:defaultValue="0"
 			android:inputType="numberSigned"
 			android:key="mi_device_time_offset_hours"

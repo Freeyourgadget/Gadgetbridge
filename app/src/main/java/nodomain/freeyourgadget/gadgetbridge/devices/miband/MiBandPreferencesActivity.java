@@ -84,6 +84,15 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
             }
         });
 
+        final Preference heartrateMeasurementInterval = findPreference("heartrate_measurement_interval");
+        heartrateMeasurementInterval.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                GBApplication.deviceService().onSetHeartRateMeasurementInterval(Integer.parseInt((String) newVal));
+                return true;
+            }
+        });
+
         final Preference goalNotification = findPreference(PREF_MI2_GOAL_NOTIFICATION);
         goalNotification.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override

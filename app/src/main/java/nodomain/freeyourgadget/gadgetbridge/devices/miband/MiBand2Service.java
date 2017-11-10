@@ -202,6 +202,8 @@ public class MiBand2Service {
     public static final byte[] COMMAND_ENABLE_HR_SLEEP_MEASUREMENT = new byte[]{0x15, 0x00, 0x01};
     public static final byte[] COMMAND_DISABLE_HR_SLEEP_MEASUREMENT = new byte[]{0x15, 0x00, 0x00};
 
+    public static final byte COMMAND_SET_PERIODIC_HR_MEASUREMENT_INTERVAL = 0x14;
+
     public static final byte[] COMMAND_TEXT_NOTIFICATION = new byte[] {0x05, 0x01};
 
     static {
