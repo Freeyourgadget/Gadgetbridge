@@ -60,7 +60,7 @@ public class AmazfitCorFirmwareInfo extends HuamiFirmwareInfo {
             }
             return HuamiFirmwareType.RES;
         } else if (ArrayUtils.equals(bytes, RES_HEADER, NEW_RES_HEADER_OFFSET)) {
-            return HuamiFirmwareType.RES;
+            return HuamiFirmwareType.RES_NEW;
         } else if (ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET)) {
             // TODO: this is certainly not a correct validation, but it works for now
             return HuamiFirmwareType.FIRMWARE;

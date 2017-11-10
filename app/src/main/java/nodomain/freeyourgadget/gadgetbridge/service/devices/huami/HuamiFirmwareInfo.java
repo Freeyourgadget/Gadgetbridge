@@ -30,11 +30,12 @@ public abstract class HuamiFirmwareInfo {
             0x48, 0x4d, 0x52, 0x45, 0x53
     };
 
+    protected static final byte[] WATCHFACE_HEADER = new byte[]{
+            0x48, 0x4d, 0x44, 0x49, 0x41, 0x4c
+    };
+
     protected static final byte[] FT_HEADER = new byte[]{ // HMZK font file (*.ft, *.ft.xx)
-            0x48,
-            0x4d,
-            0x5a,
-            0x4b
+            0x48, 0x4d, 0x5a, 0x4b
     };
 
     private HuamiFirmwareType firmwareType = HuamiFirmwareType.FIRMWARE;

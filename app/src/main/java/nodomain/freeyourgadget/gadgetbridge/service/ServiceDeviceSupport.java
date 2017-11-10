@@ -313,10 +313,18 @@ public class ServiceDeviceSupport implements DeviceSupport {
 
     @Override
     public void onEnableHeartRateSleepSupport(boolean enable) {
-        if (checkBusy("enable heartrate sleep support: " + enable)) {
+        if (checkBusy("enable heart rate sleep support: " + enable)) {
             return;
         }
         delegate.onEnableHeartRateSleepSupport(enable);
+    }
+
+    @Override
+    public void onSetHeartRateMeasurementInterval(int seconds) {
+        if (checkBusy("set heart rate measurement interval: " + seconds + "s")) {
+            return;
+        }
+        delegate.onSetHeartRateMeasurementInterval(seconds);
     }
 
     @Override

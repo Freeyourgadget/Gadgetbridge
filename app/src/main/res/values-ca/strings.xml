@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="app_name">Gadgetbridge</string>
+
+    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="action_settings">Paràmetres</string>
+    <string name="action_debug">Depuració</string>
+    <string name="action_quit">Sortir</string>
+    <string name="action_donate">Donació</string>
+    <string name="controlcenter_fetch_activity_data">Sincronitza</string>
+    <string name="controlcenter_start_sleepmonitor">Seguiment del son (ALPHA)</string>
+    <string name="controlcenter_find_device">Cercar dispositiu perdut</string>
+    <string name="controlcenter_take_screenshot">Fer captura de pantalla</string>
+    <string name="controlcenter_connect">Connectar</string>
+    <string name="controlcenter_disconnect">Desconnecta</string>
+    <string name="controlcenter_delete_device">Esborra dispositiu</string>
+    <string name="controlcenter_delete_device_name">Esborrar %1$s</string>
+    <string name="controlcenter_delete_device_dialogmessage">Aquesta acció esborrarà el dispositiu i tota la seva informació associada!</string>
+    <string name="controlcenter_navigation_drawer_open">Obrir el calaix de navegació</string>
+    <string name="controlcenter_navigation_drawer_close">Tancar el calaix de navegació</string>
+    <string name="controlcenter_snackbar_need_longpress">Mantenir premut la icona per desconnecta</string>
+    <string name="controlcenter_snackbar_disconnecting">Desconnectant</string>
+    <string name="controlcenter_snackbar_connecting">Connectant</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Fer captura de pantalla del dispositiu</string>
+
+
+    <string name="title_activity_debug">Depuració</string>
+
+    <string name="title_activity_appmanager">Gestor de l\'aplicació</string>
+    <string name="appmanager_cached_watchapps_watchfaces">Aplicació en memòria cau</string>
+    <string name="appmanager_installed_watchapps">Aplicacions instal·lades</string>
+    <string name="appmanager_installed_watchfaces">Esferes instal·lades</string>
+    <string name="appmananger_app_delete">Esborrar</string>
+    <string name="appmananger_app_delete_cache">Esborra i treu de la memòria cau</string>
+    <string name="appmananger_app_reinstall">Reinstal·lar</string>
+    <string name="appmanager_app_openinstore">Cerca a Pebble Appstore</string>
+    <string name="appmanager_health_activate">Activar</string>
+    <string name="appmanager_health_deactivate">Desactivar</string>
+    <string name="appmanager_hrm_activate">Activar seguiment d\'activitat cardíaca</string>
+    <string name="appmanager_hrm_deactivate">Desactivar seguiment d\'activitat cardíaca</string>
+    <string name="appmanager_weather_activate">Activar l\'aplicació del temps del sistema</string>
+    <string name="appmanager_weather_deactivate">Desactivar l\'aplicació del temps del sistema</string>
+    <string name="appmanager_weather_install_provider">Instal·lar l\'aplicació del temps del sistema</string>
+    <string name="app_configure">Configurar</string>
+    <string name="app_move_to_top">Moure a la part superior</string>
+
+    <string name="title_activity_appblacklist">Llista negra de notificacions</string>
+
+    <string name="title_activity_calblacklist">Calendaris en llista negra</string>
+
+    <string name="title_activity_fw_app_insaller">Instal·lador de FW/App</string>
+    <string name="fw_upgrade_notice">Estàs a punt d\'instal·lar el firmware %s en lloc del que està a la teva MiBand.</string>
+    <string name="fw_upgrade_notice_amazfitbip">Estàs a punt d\'instal·lar el firmware %s en el teu Amazfit Bip.
+\n
+\nSi us plau, assegura\'t d\'instal·lar el firmware .gps, després l\'arxiu .res, i finalment el binari .fw. El teu rellotge reiniciarà després d\'instal·lar l\'arxiu .fw.
+\n
+\nNota: no has d\'instal·lar .res i .gps si aquests arxius són els mateixos que els prèviament instal·lats.
+\n
+\nPROCEDEIX SOTA LA TEVA PRÒPIA RESPONSABILITAT!</string>
+    <string name="fw_upgrade_notice_amazfitcor">Estàs a punt d\'instal·lar el firmware %s en el teu Amazfit Cor.
+\n
+\nSi us plau, assegura\'t d\'instal·lar el firmware .gps, després l\'arxiu .res, i finalment el binari .fw. El teu rellotge reiniciarà després d\'instal·lar l\'arxiu .fw.
+\n
+\nNota: no has d\'instal·lar .res i .gps si aquests arxius són els mateixos que els prèviament instal·lats.
+\n
+\nNO PROBAT, PODEU TRENCAR EL VOSTRE DISPOSITIU. PROCEDEIX SOTA LA TEVA PRÒPIA RESPONSABILITAT!</string>
+    <string name="fw_multi_upgrade_notice">Estàs a punt d\'instal·lar els firmwares %1$s i %2$s en lloc dels de la vostra MiBand.</string>
+    <string name="miband_firmware_known">Aquest firmware ha estat provat i se sap que és compatible amb Gadgetbridge.</string>
+    <string name="miband_firmware_unknown_warning">Aquest firmware no ha estat provat i pot ser que no sigui compatible amb Gadgetbridge.
+\n
+\nNO es recomana la instal·lació en el teu MiBand!</string>
+    <string name="miband_firmware_suggest_whitelist">Si tot i així vols seguir i les coses continuen funcionant correctament, si us plau indica\'ls als desenvolupadors de Gadgetbridge que aquesta versió del firmware funciona bé: %s</string>
+
+    <string name="title_activity_settings">Paràmetres</string>
+
+    <string name="pref_header_general">Paràmetres generals</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Connectar-se al dispositiu quan el Bluetooth estigui activat</string>
+    <string name="pref_title_general_autostartonboot">Inicia automàticament</string>
+    <string name="pref_title_general_autocreonnect">Reconnecta automàticament</string>
+    <string name="pref_title_audo_player">Reproductor preferit</string>
+    <string name="pref_default">Per defecte</string>
+    <string name="pref_title_charts_swipe">Permetre lliscar cap a l\'esquerra/dreta en els gràfics d\'activitat</string>
+
+    <string name="pref_header_datetime">Data i Hora</string>
+    <string name="pref_title_datetime_syctimeonconnect">Sincronitza l\'hora</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Sincronitza l\'hora en el dispositiu quan es connecti o es canviï l\'hora o zona horària en Android</string>
+
+    <string name="pref_title_theme">Aparença</string>
+    <string name="pref_theme_light">Clar</string>
+    <string name="pref_theme_dark">Fosc</string>
+
+    <string name="pref_title_language">Idioma</string>
+
+    <string name="pref_title_minimize_priority">Oculta la notificació de Gadgetbridge</string>
+    <string name="pref_summary_minimize_priority_off">La icona a la barra d\'estat i la notificació a la pantalla de bloqueig estan actius</string>
+    <string name="pref_summary_minimize_priority_on">La icona a la barra d\'estat i la notificació a la pantalla de bloqueig estan ocults</string>
+
+    <string name="pref_header_notifications">Notificacions</string>
+    <string name="pref_title_notifications_repetitions">Repeticions</string>
+    <string name="pref_title_notifications_call">Trucades telefòniques</string>
+    <string name="pref_title_notifications_sms">SMS</string>
+    <string name="pref_title_notifications_pebblemsg">Missatges de Pebble</string>
+    <string name="pref_summary_notifications_pebblemsg">Suport per a aplicacions que envien notificacions a Pebble a través de PebbleKit.</string>
+    <string name="pref_title_notifications_generic">Suport per a notificacions genèriques</string>
+    <string name="pref_title_whenscreenon">... també amb la pantalla encesa</string>
+    <string name="pref_title_notification_filter">No molestar</string>
+    <string name="pref_summary_notification_filter">Deixar d\'enviar notificacions no desitjades basant-se en el mode No Molestar</string>
+    <string name="pref_title_transliteration">Transcripció</string>
+    <string name="pref_summary_transliteration">Utilitzar en cas que el teu dispositiu no suporti la font del teu idioma</string>
+
+    <string name="always">Sempre</string>
+    <string name="when_screen_off">Quan la pantalla està apagada</string>
+    <string name="never">Mai</string>
+
+    <string name="pref_header_privacy">Privacitat</string>
+    <string name="pref_title_call_privacy_mode">Mode de privacitat de trucada</string>
+    <string name="pref_call_privacy_mode_off">Mostrar nom i número</string>
+    <string name="pref_call_privacy_mode_name">Oculta nom però mostrar número</string>
+    <string name="pref_call_privacy_mode_number">Ocultar número però mostrar nom</string>
+    <string name="pref_call_privacy_mode_complete">Ocultar nom i número</string>
+
+
+    <string name="pref_blacklist">Llista negra d\'aplicacions</string>
+    <string name="pref_blacklist_calendars">Llista negra de calendaris</string>
+
+    <string name="pref_header_cannned_messages">Missatges predeterminants</string>
+    <string name="pref_title_canned_replies">Respostes</string>
+    <string name="pref_title_canned_reply_suffix">Sufixe habitual</string>
+    <string name="pref_title_canned_messages_dismisscall">Rebutjar trucada</string>
+    <string name="pref_title_canned_messages_set">Actualitza a Pebble</string>
+
+    <string name="pref_header_development">Opcions de desenvolupadors</string>
+    <string name="pref_title_development_miaddr">Direcció de MiBand</string>
+
+    <string name="pref_title_pebble_settings">Paràmetres de Pebble</string>
+
+    <string name="pref_header_activitytrackers">Seguiment d\'activitat</string>
+    <string name="pref_title_pebble_activitytracker">Seguiment d\'activitat preferit</string>
+    <string name="pref_title_pebble_sync_health">Sincronitzar amb Pebble Health</string>
+    <string name="pref_title_pebble_sync_misfit">Sincronitzar amb Misfit</string>
+    <string name="pref_title_pebble_sync_morpheuz">Sincronitzar amb Morpheuz</string>
+
+    <string name="pref_title_enable_outgoing_call">Suport per trucades sortints</string>
+    <string name="pref_summary_enable_outgoing_call">Desactivar això evitarà que Pebble 2/LE vibri en trucades sortints</string>
+
+    <string name="pref_title_enable_pebblekit">Permetre l\'accés a aplicacions Android de tercers</string>
+    <string name="pref_summary_enable_pebblekit">Permetre el suport experimental per aplicacions Android que fan servir PebbleKit</string>
+
+    <string name="pref_header_pebble_timeline">Timeline Pebble</string>
+    <string name="pref_title_sunrise_sunset">Sortida i posta de sol</string>
+    <string name="pref_summary_sunrise_sunset">Envia les hores de sortida i posta de sol basant-se en la localització a la timeline del Pebble</string>
+    <string name="pref_title_enable_calendar_sync">Sincronitzar calendari</string>
+    <string name="pref_summary_enable_calendar_sync">Envia els esdeveniments del calendari a la línia de temps</string>
+
+    <string name="pref_title_autoremove_notifications">Esborra automàticament les notificacions rebutjades</string>
+    <string name="pref_summary_autoremove_notifications">Les notificacions s\'esborren automàticament de Pebble quan es rebutgen a Android</string>
+
+    <string name="pref_title_pebble_privacy_mode">Mode privat</string>
+    <string name="pref_pebble_privacy_mode_off">Notificació normal</string>
+    <string name="pref_pebble_privacy_mode_content">Desplaça la notificació fora de la pantalla</string>
+    <string name="pref_pebble_privacy_mode_complete">Mostra només la icona de notificació</string>
+
+    <string name="pref_header_location">Localització</string>
+    <string name="pref_title_location_aquire">Obtenir localització</string>
+    <string name="pref_title_location_latitude">Latitud</string>
+    <string name="pref_title_location_longitude">Longitud</string>
+    <string name="pref_title_location_keep_uptodate">Mantenir la localització actualitzada</string>
+    <string name="pref_summary_location_keep_uptodate">Intentar aconseguir la localització en marxa, fer servir la desada com a alternatiu</string>
+
+    <string name="toast_enable_networklocationprovider">Si us plau, activa la localització per xarxa</string>
+    <string name="toast_aqurired_networklocation">Localització trobada</string>
+
+    <string name="pref_title_pebble_forceprotocol">Forçar el protocol de notificació</string>
+    <string name="pref_summary_pebble_forceprotocol">Aquesta opció força l\'ús del darrer protocol de notificació en funció de la versió del firmware. ACTIVA-HO NOMÉS SI SAPS EL QUE ESTÀS FENT!</string>
+    <string name="pref_title_pebble_forceuntested">Activar característiques no provades</string>
+    <string name="pref_summary_pebble_forceuntested">Activar les característiques que no han estat provades. ACTIVA-HO NOMÉS SI SAPS EL QUE ESTÀS FENT!</string>
+    <string name="pref_title_pebble_forcele">Preferir sempre BLE</string>
+    <string name="pref_summary_pebble_forcele">Utilitza el suport experimental de Pebble LE a tots els Pebble en lloc del Bluetooth clàssic, la qual cosa requereix vincular \"Pebble LE\" si un Pebble no-LI ha estat vinculat abans</string>
+    <string name="pref_title_pebble_mtu_limit">Pebble 2/LI límit de GATT MTU</string>
+    <string name="pref_summary_pebble_mtu_limit">Si el teu Pebble 2/Pebble LE no funciona correctament, prova aquesta opció per limitar l\'MTU (rang vàlid 20-512)</string>
+    <string name="pref_title_pebble_enable_applogs">Activa els registres de les aplicacions del rellotge</string>
+    <string name="pref_summary_pebble_enable_applogs">Produirà registres de les apps del rellotge que Gadgetbridge guardarà (necessita reconnexió)</string>
+    <string name="pref_title_pebble_always_ack_pebblekit">ACK abans d\'hora de PebbleKit</string>
+    <string name="pref_summary_pebble_always_ack_pebblekit">Permetrà als missatges enviats a apps de tercers ser reconeguts sempre i immediatament</string>
+    <string name="pref_title_pebble_enable_bgjs">Activa JS en segon pla</string>
+    <string name="pref_summary_pebble_enable_bgjs">Permet a les pantalles mostrar el temps, informació de bateria, etc.</string>
+
+    <string name="pref_title_pebble_reconnect_attempts">Intents de reconnexions</string>
+
+    <string name="pref_title_unit_system">Preferències HPlus</string>
+    <string name="pref_title_timeformat">Format d\'hora</string>
+    <string name="pref_title_screentime">Temps de pantalla encesa</string>
+    <string name="prefs_title_all_day_heart_rate">Mesura el ritme cardíac tot el dia</string>
+    <string name="preferences_hplus_settings">Paràmetres HPlus/Makibes</string>
+
+    <string name="not_connected">No connectat</string>
+    <string name="connecting">Connectant</string>
+    <string name="connected">Connectat</string>
+    <string name="unknown_state">Estat desconegut</string>
+    <string name="_unknown_">(desconegut)</string>
+    <string name="test">Prova</string>
+    <string name="test_notification">Prova notificació</string>
+    <string name="this_is_a_test_notification_from_gadgetbridge">Això és una notificació de prova des de Gadgetbridge</string>
+    <string name="bluetooth_is_not_supported_">El Bluetooth no està suportat.</string>
+    <string name="bluetooth_is_disabled_">El Bluetooth està inhabilitat.</string>
+    <string name="tap_connected_device_for_app_mananger">Fes un toc al dispositiu connectat per a configurar les aplicacions</string>
+    <string name="tap_connected_device_for_activity">Fes un toc al dispositiu connectat per activitat</string>
+    <string name="tap_connected_device_for_vibration">Fes un toc al dispositiu per vibració</string>
+    <string name="tap_a_device_to_connect">Fes un toc a un dispositius per connectar</string>
+    <string name="cannot_connect_bt_address_invalid_">No és pot connectar. Direcció BT incorrecta?</string>
+    <string name="gadgetbridge_running">Gadgetbridge funcionant</string>
+    <string name="installing_binary_d_d">Instal·lat binari $1$d/%2$d</string>
+    <string name="installation_failed_">La instal·lació ha fallat</string>
+    <string name="installation_successful">Instal·lació correcta</string>
+    </resources>

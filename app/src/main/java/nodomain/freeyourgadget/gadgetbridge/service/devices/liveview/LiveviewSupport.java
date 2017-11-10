@@ -75,6 +75,11 @@ public class LiveviewSupport extends AbstractSerialDeviceSupport {
     }
 
     @Override
+    public void onSetHeartRateMeasurementInterval(int seconds) {
+
+    }
+
+    @Override
     public synchronized LiveviewIoThread getDeviceIOThread() {
         return (LiveviewIoThread) super.getDeviceIOThread();
     }

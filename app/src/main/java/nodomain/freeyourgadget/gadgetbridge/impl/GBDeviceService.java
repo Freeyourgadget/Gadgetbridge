@@ -323,6 +323,13 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
+    public void onSetHeartRateMeasurementInterval(int seconds) {
+        Intent intent = createIntent().setAction(ACTION_SET_HEARTRATE_MEASUREMENT_INTERVAL)
+                .putExtra(EXTRA_INTERVAL_SECONDS, seconds);
+        invokeService(intent);
+    }
+
+    @Override
     public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
         Intent intent = createIntent().setAction(ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT)
                 .putExtra(EXTRA_BOOLEAN_ENABLE, enable);

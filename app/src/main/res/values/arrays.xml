@@ -216,4 +216,22 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="prefs_heartrate_measurement_interval">
+        <item name="0">@string/off</item>
+        <item name="60">@string/interval_one_minute</item>
+        <item name="300">@string/interval_five_minutes</item>
+        <item name="600">@string/interval_ten_minutes</item>
+        <item name="1800">@string/interval_thirty_minutes</item>
+        <item name="3600">@string/interval_one_hour</item>
+    </string-array>
+
+    <string-array name="prefs_heartrate_measurement_interval_values">
+        <item>0</item>
+        <item>60</item>
+        <item>300</item>
+        <item>600</item>
+        <item>1800</item>
+        <item>3600</item>
+    </string-array>
+
 </resources>

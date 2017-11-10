@@ -430,6 +430,11 @@ public class TeclastH30Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onSetHeartRateMeasurementInterval(int seconds) {
+
+    }
+
+    @Override
     public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
 
     }

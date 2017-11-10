@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.22.3" versioncode="111">
+        <change>Amazfit Bip: Allow flashing watchfaces</change>
+        <change>Amazfit Cor: Fix flashing new .res files</change>
+        <change>Mi Band 2/HRX/Bip/Cor: Try to fix stuck activity sync</change>
+    </release>
     <release version="0.22.2" versioncode="110">
         <change>Charts: Add setting to disable swiping charts left/right and some UI changes</change>
         <change>Pebble: Use the configured unit system also for system weather app</change>

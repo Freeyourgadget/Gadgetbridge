@@ -83,6 +83,8 @@ public interface EventHandler {
 
     void onEnableHeartRateSleepSupport(boolean enable);
 
+    void onSetHeartRateMeasurementInterval(int seconds);
+
     void onAddCalendarEvent(CalendarEventSpec calendarEventSpec);
 
     void onDeleteCalendarEvent(byte type, long id);

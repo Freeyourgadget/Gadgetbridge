@@ -62,12 +62,14 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(3462, "0.0.8.98");
         crcToVersion.put(55420, "0.0.9.14");
         crcToVersion.put(39465, "0.0.9.26");
+        crcToVersion.put(27394, "0.0.9.40");
 
         // resources
         crcToVersion.put(12586, "RES 0.0.8.74");
         crcToVersion.put(34068, "RES 0.0.8.88");
         crcToVersion.put(59839, "RES 0.0.8.96-98");
         crcToVersion.put(50401, "RES 0.0.9.14-26");
+        crcToVersion.put(22051, "RES 0.0.9.40");
 
         // gps
         crcToVersion.put(61520, "GPS 9367,8f79a91,0,0,");
@@ -98,6 +100,9 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         if (ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET)) {
             // TODO: this is certainly not a correct validation, but it works for now
             return HuamiFirmwareType.FIRMWARE;
+        }
+        if (ArrayUtils.startsWith(bytes, WATCHFACE_HEADER)) {
+            return HuamiFirmwareType.WATCHFACE;
         }
         return HuamiFirmwareType.INVALID;
     }

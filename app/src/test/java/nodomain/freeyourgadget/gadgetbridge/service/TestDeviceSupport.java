@@ -155,6 +155,11 @@ class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
+    public void onSetHeartRateMeasurementInterval(int seconds) {
+
+    }
+
+    @Override
     public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
 
     }

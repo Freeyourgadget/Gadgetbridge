@@ -30,10 +30,12 @@
   <string name="title_activity_appblacklist">Перелік заблокованих сповіщень</string>
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">Встановлення мікропрограми</string>
-  <string name="fw_upgrade_notice">Ви збираєтесь встановити мікропрограму %s на заміну поточній Вашого Mi–Band</string>
-  <string name="fw_multi_upgrade_notice">Ви збираєтесь встановити мікропрограми %1$s та %2$s на заміну поточній Вашого Mi–Band</string>
-  <string name="miband_firmware_known">Ця мікропрограма була перевірена на сумісність із Gadgetbridge</string>
-  <string name="miband_firmware_unknown_warning">Ця мікропрограма не перевірялася і може бути не сумісною із Gadgetbridge.\n\nНе рекомендується встановлювати її на Ваш Mi–Band</string>
+  <string name="fw_upgrade_notice">Ви збираєтесь встановити мікропрограму %s на заміну поточній Вашого Mi–Band.</string>
+  <string name="fw_multi_upgrade_notice">Ви збираєтесь встановити мікропрограми %1$s та %2$s на заміну поточній Вашого Mi–Band.</string>
+  <string name="miband_firmware_known">Ця мікропрограма була перевірена на сумісність із Gadgetbridge.</string>
+  <string name="miband_firmware_unknown_warning">Ця мікропрограма не перевірялася і може бути не сумісною із Gadgetbridge.
+\n
+\nНе рекомендується встановлювати її на Ваш Mi–Band!</string>
   <string name="miband_firmware_suggest_whitelist">Якщо ж Ви вирішили продовжити та все працює, будь ласка, повідомте про це розробникам, аби відмітити цю версію мікропрограми сумісною: %s</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Параметри</string>
@@ -81,7 +83,7 @@
   <string name="pref_title_location_latitude">Широта</string>
   <string name="pref_title_location_longitude">Довгота</string>
   <string name="pref_title_pebble_forceprotocol">Примусовий протокол сповіщень</string>
-  <string name="pref_summary_pebble_forceprotocol">Цей параметр примусово вмикає новий протокол сповіщень, який залежить від версії мікропрограми. ВМИКАЙТЕ, ЯКЩО ВИ ЗНАЄТЕ НА ЩО ЙДЕТЕ.</string>
+  <string name="pref_summary_pebble_forceprotocol">Цей параметр примусово вмикає новий протокол сповіщень, який залежить від версії мікропрограми. ВМИКАЙТЕ, ЯКЩО ВИ ЗНАЄТЕ НА ЩО ЙДЕТЕ!</string>
   <string name="pref_title_pebble_forceuntested">Увімкнути не перевірені можливості</string>
   <string name="pref_summary_pebble_forceuntested">Увімкнути функції, які ще не перевірені. ВМИКАЙТЕ НА СВІЙ СТРАХ ТА РИЗИК!</string>
   <string name="pref_title_pebble_reconnect_attempts">Спроби повторного з\'єднання</string>
@@ -151,7 +153,7 @@
   <string name="pref_screen_notification_profile_generic_navigation">Навігація</string>
   <string name="pref_screen_notification_profile_generic_social">Соціальні мережі</string>
   <string name="control_center_find_lost_device">Знайти загублений пристрій</string>
-  <string name="control_center_cancel_to_stop_vibration">Скасуйте, аби зупинити вібро</string>
+  <string name="control_center_cancel_to_stop_vibration">Скасуйте, аби зупинити вібрацію.</string>
   <string name="title_activity_charts">Ваша активність</string>
   <string name="title_activity_set_alarm">Завести Будильник</string>
   <string name="controlcenter_start_configure_alarms">Завести будильник</string>
@@ -174,7 +176,7 @@
   <string name="cannot_connect">Неможливо з\'єднатися: %1$s</string>
   <string name="installer_activity_unable_to_find_handler">Не вдалося знайти обробник подій для встановлення даного файлу.</string>
   <string name="pbw_install_handler_unable_to_install">Не вдалося встановити даний файл: %1$s</string>
-  <string name="pbw_install_handler_hw_revision_mismatch">Не вдалося встановити дану мікропрограму: вона не відповідає версії пристрою Вашого Pebble</string>
+  <string name="pbw_install_handler_hw_revision_mismatch">Не вдалося встановити дану мікропрограму: вона не відповідає версії пристрою Вашого Pebble.</string>
   <string name="installer_activity_wait_while_determining_status">Будь ласка, зачекайте, триває визначення стану встановлення…</string>
   <string name="notif_battery_low_title">Низький заряд пристрою!</string>
   <string name="notif_battery_low_percent">%1$s заряду лишилось: %2$s%%</string>

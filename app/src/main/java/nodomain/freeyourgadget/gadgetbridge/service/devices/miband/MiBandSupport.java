@@ -443,6 +443,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onSetHeartRateMeasurementInterval(int seconds) {
+
+    }
+
+    @Override
     public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
         // not supported
     }

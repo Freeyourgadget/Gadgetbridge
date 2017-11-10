@@ -483,6 +483,20 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onSetHeartRateMeasurementInterval(int seconds) {
+        try {
+            int minuteInterval = seconds / 60;
+            minuteInterval = Math.min(minuteInterval, 120);
+            minuteInterval = Math.max(0,minuteInterval);
+            TransactionBuilder builder = performInitialized("set heart rate interval to: " + minuteInterval + " minutes");
+            setHeartrateMeasurementInterval(builder, minuteInterval);
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Error toggling heart rate sleep support: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
+    }
+
+    @Override
     public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
         // not supported
     }
@@ -508,6 +522,16 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 LOG.info("Disabling heartrate sleep support...");
                 builder.write(characteristicHRControlPoint, MiBand2Service.COMMAND_DISABLE_HR_SLEEP_MEASUREMENT);
             }
+            builder.notify(characteristicHRControlPoint, false); // TODO: this should actually be in some kind of finally-block in the queue. It should also be sent asynchronously after the notifications have completely arrived and processed.
+        }
+        return this;
+    }
+
+    private MiBand2Support setHeartrateMeasurementInterval(TransactionBuilder builder, int minutes) {
+        if (characteristicHRControlPoint != null) {
+            builder.notify(characteristicHRControlPoint, true);
+            LOG.info("Setting heart rate measurement interval to " + minutes + " minutes");
+            builder.write(characteristicHRControlPoint, new byte[]{MiBand2Service.COMMAND_SET_PERIODIC_HR_MEASUREMENT_INTERVAL, (byte) minutes});
             builder.notify(characteristicHRControlPoint, false); // TODO: this should actually be in some kind of finally-block in the queue. It should also be sent asynchronously after the notifications have completely arrived and processed.
         }
         return this;
@@ -1551,6 +1575,11 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         setGoalNotification(builder);
         setInactivityWarnings(builder);
         setHeartrateSleepSupport(builder);
+        setHeartrateMeasurementInterval(builder, getHeartRateMeasurementInterval());
+    }
+
+    private int getHeartRateMeasurementInterval() {
+        return GBApplication.getPrefs().getInt("heartrate_measurement_interval", 0) / 60;
     }
 
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
