@@ -43,7 +43,7 @@
   <!--Strings related to CalBlacklist-->
   <!--Strings related to FwAppInstaller-->
   <string name="title_activity_fw_app_insaller">Установщик прошивки/приложений</string>
-  <string name="fw_upgrade_notice">"Вы собираетесь установить прошивку %s  на ваш Mi Band вместо текущей."</string>
+  <string name="fw_upgrade_notice">Вы собираетесь установить прошивку %s вместо текущей на вашем Mi Band.</string>
   <string name="fw_multi_upgrade_notice">Вы собираетесь установить прошивки %1$s и %2$s вместо текущей на вашем Mi Band.</string>
   <string name="miband_firmware_known">Эта прошивка была проверена и совместима с Gadgetbridge.</string>
   <string name="miband_firmware_unknown_warning">Эта прошивка не протестирована и может быть несовместима с Gadgetbridge.\n\nНе рекомендуется устанавливать её на ваш Mi Band!</string>
