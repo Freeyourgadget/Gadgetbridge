@@ -441,4 +441,6 @@
 \n
 \nNICHT GETESTET, DIES KÖNNTE DEIN GERÄT UNBENUTZBAR MACHEN, INSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="mi2_prefs_button_press_count">Anzahl an Tastendrücken</string>
+    <string name="pref_title_charts_swipe">Seitwärts-Wischgesten in der Statistik-Anzeige</string>
+
     </resources>
