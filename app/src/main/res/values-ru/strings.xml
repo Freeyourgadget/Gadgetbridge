@@ -166,7 +166,7 @@
   <string name="initialized">Инициализировано</string>
   <string name="appversion_by_creator">%1$s от %2$s</string>
   <string name="title_activity_discovery">Поиск устройства</string>
-  <string name="discovery_stop_scanning">Остановить поиск</string>
+  <string name="discovery_stop_scanning">Остановить поиск устройств</string>
   <string name="discovery_start_scanning">Умный поиск</string>
   <string name="action_discover">Подключиться к новому устройству</string>
   <string name="device_with_rssi">%1$s (%2$s)</string>
@@ -178,12 +178,12 @@
   <string name="pairing_unable_to_pair_with">Невозможно выполнить сопряжение с %1$s (%2$s)</string>
   <string name="pairing_in_progress">Выполняется привязка: %1$s (%2$s)</string>
   <string name="pairing_already_bonded">Уже привязан к %1$s (%2$s), выполняется соединение…</string>
-  <string name="message_cannot_pair_no_mac">MAC-адрес не был передан, сопряжение не удалось.</string>
+  <string name="message_cannot_pair_no_mac">MAC-адреса нет, сопряжение не удалось.</string>
   <string name="preferences_category_device_specific_settings">Настройки устройства</string>
-  <string name="preferences_miband_settings">Настройки Mi Band</string>
-  <string name="male">мужской</string>
-  <string name="female">женский</string>
-  <string name="other">другой</string>
+  <string name="preferences_miband_settings">Настройки Mi Band и Amazfit</string>
+  <string name="male">Мужчина</string>
+  <string name="female">Женщина</string>
+  <string name="other">Другой</string>
   <string name="left">слева</string>
   <string name="right">справа</string>
   <string name="miband_pairing_using_dummy_userdata">Не предоставлено действительных данных пользователя. Используются данные по-умолчанию.</string>
@@ -194,13 +194,13 @@
   <string name="candidate_item_device_image">Изображение устройства</string>
   <string name="miband_prefs_alias">Имя/псевдоним</string>
   <string name="pref_header_vibration_count">Количество вибраций</string>
-  <string name="title_activity_sleepmonitor">Анализ сна</string>
-  <string name="pref_write_logfiles">Сохранять файл журнала</string>
-  <string name="initializing">Инициализация</string>
+  <string name="title_activity_sleepmonitor">Анализ фаз сна</string>
+  <string name="pref_write_logfiles">Сохранять файлы журнала</string>
+  <string name="initializing">Запускается</string>
   <string name="busy_task_fetch_activity_data">Получение данных активности</string>
   <string name="sleep_activity_date_range">От %1$s до %2$s</string>
   <string name="miband_prefs_wearside">Носите на левой или правой руке?</string>
-  <string name="pref_screen_vibration_profile">Профиль вибро</string>
+  <string name="pref_screen_vibration_profile">Профиль настроек вибрации</string>
   <string name="vibration_profile_staccato">Стаккато</string>
   <string name="vibration_profile_short">Короткий</string>
   <string name="vibration_profile_medium">Средний</string>
@@ -211,9 +211,9 @@
   <string name="miband_prefs_vibration">Вибро</string>
   <string name="vibration_try">Попробовать</string>
   <string name="pref_screen_notification_profile_sms">SMS-уведомление</string>
-  <string name="pref_header_vibration_settings">Настройки вибро</string>
+  <string name="pref_header_vibration_settings">Настройки вибрации</string>
   <string name="pref_screen_notification_profile_generic">Общие уведомления</string>
-  <string name="pref_screen_notification_profile_email">Уведомление по электронной почте</string>
+  <string name="pref_screen_notification_profile_email">Уведомление электронной почты</string>
   <string name="pref_screen_notification_profile_incoming_call">Уведомления о входящем звонке</string>
   <string name="pref_screen_notification_profile_generic_chat">Чат</string>
   <string name="pref_screen_notification_profile_generic_navigation">Навигация</string>
@@ -223,7 +223,7 @@
   <string name="title_activity_charts">Ваша активность</string>
   <string name="title_activity_set_alarm">Завести Будильник</string>
   <string name="controlcenter_start_configure_alarms">Завести будильник</string>
-  <string name="title_activity_alarm_details">Свойства будильника</string>
+  <string name="title_activity_alarm_details">Настройки будильника</string>
   <string name="alarm_sun_short">Вс</string>
   <string name="alarm_mon_short">Пн</string>
   <string name="alarm_tue_short">Вт</string>
@@ -252,7 +252,7 @@
   <string name="weeksleepchart_sleep_a_week">Сон за неделю</string>
   <string name="weeksleepchart_today_sleep_description">Сон сегодня, цель: %1$s</string>
   <string name="weekstepschart_steps_a_week">Шагов в неделю</string>
-  <string name="activity_sleepchart_activity_and_sleep">Ваша активность и сон</string>
+  <string name="activity_sleepchart_activity_and_sleep">Ваши активность и сон</string>
   <string name="updating_firmware">Обновление прошивки…</string>
   <string name="fwapp_install_device_not_ready">Файл не может быть установлен, устройство не готово.</string>
   <string name="miband_installhandler_miband_firmware">Версия прошивки Mi Band: %1$s</string>
@@ -284,7 +284,7 @@
   <string name="live_activity_steps_per_minute_history">История шагов за минуту</string>
   <string name="live_activity_start_your_activity">Начните вашу активность</string>
   <string name="abstract_chart_fragment_kind_activity">Активность</string>
-  <string name="abstract_chart_fragment_kind_light_sleep">Неглубокий сон</string>
+  <string name="abstract_chart_fragment_kind_light_sleep">Быстрый сон</string>
   <string name="abstract_chart_fragment_kind_deep_sleep">Глубокий сон</string>
   <string name="abstract_chart_fragment_kind_not_worn">Не носилось</string>
   <string name="device_not_connected">Не подключен.</string>
@@ -297,7 +297,7 @@
   <string name="miband_prefs_device_time_offset_hours">Смещение времени в часах (для тех, кто работает по ночам)</string>
   <string name="miband2_prefs_dateformat">Mi2: Формат даты</string>
   <string name="dateformat_time">Время</string>
-  <string name="dateformat_date_time"><![CDATA[Время и Дата]]></string>
+  <string name="dateformat_date_time">Время и дата</string>
   <string name="mi2_prefs_activate_display_on_lift">Активировать экран при подъёме</string>
   <string name="FetchActivityOperation_about_to_transfer_since">Готов к передачи данных с %1$s</string>
   <string name="waiting_for_reconnect">Ожидание переподключения</string>
@@ -313,7 +313,7 @@
   <string name="activity_prefs_sleep_duration">Желаемая продолжительность сна</string>
   <string name="appwidget_alarms_set">Будильник был установлен на %1$02d:%2$02d</string>
   <string name="device_hw">Версия устройства: %1$s</string>
-  <string name="device_fw"> Версия ПО: %1$s</string>
+  <string name="device_fw">Версия прошивки: %1$s</string>
   <string name="error_creating_directory_for_logfiles">Ошибка создания каталога для лог-файлов: %1$s</string>
   <string name="DEVINFO_HR_VER">"Версия устройства: "</string>
   <string name="updatefirmwareoperation_update_in_progress">Происходит обновление прошивки</string>
@@ -417,4 +417,47 @@
     <string name="_pebble_watch_open_on_phone">Открыть в устройстве</string>
     <string name="_pebble_watch_mute">Отключить звук</string>
     <string name="_pebble_watch_reply">Ответить</string>
-</resources>
+<string name="preferences_amazfitbip_settings">Настройки Amazfit Bip</string>
+    <string name="stats_title">Зоны скорости</string>
+    <string name="stats_x_axis_label">Всего минут</string>
+    <string name="stats_y_axis_label">Шагов в минуту</string>
+
+    <string name="amazfitbip_firmware">Прошивка Amazfit Bip версии %1$s</string>
+    <string name="amazfitcor_firmware">Прошивка Amazfit Cor версии %1$s</string>
+    <string name="clock">Часы</string>
+    <string name="heart_rate">Пульс</string>
+    <string name="battery">Заряд батарейки</string>
+    <string name="mi2_prefs_button_actions">Действия кнопки</string>
+    <string name="mi2_prefs_button_actions_summary">Настройте действия при нажатии на кнопку вашего Mi Band 2</string>
+    <string name="mi2_prefs_button_press_count">Нажатий на кнопку</string>
+    <string name="mi2_prefs_button_press_count_summary">Количество нажатий, необходимое чтобы запустить трансляцию сообщений</string>
+    <string name="mi2_prefs_button_press_broadcast">Сообщение для трансляции</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">Заданное количество нажатий для трансляции сообщения выполнено</string>
+    <string name="mi2_prefs_button_action">Включить действия при нажатии на кнопку</string>
+    <string name="mi2_prefs_button_action_summary">Включить действия для заданного количества нажатий на кнопку</string>
+    <string name="mi2_prefs_button_action_vibrate">Включить вибрацию браслета</string>
+    <string name="mi2_prefs_button_action_vibrate_summary">Включить вибрацию браслета в ответ на исполняющееся при нажатии действие</string>
+    <string name="mi2_prefs_button_press_count_max_delay">Максимальная задержка между нажатиями</string>
+    <string name="mi2_prefs_button_press_count_max_delay_summary">Максимальная задержка между нажатиями в миллисекундах</string>
+    <string name="mi2_prefs_button_press_count_match_delay">Задержка после действия при нажатии</string>
+    <string name="mi2_prefs_button_press_count_match_delay_summary">Задержка при выполнении заданного количества нажатий для однократного действия (число указано в button_id). Это число равно нулю для действий без задержки</string>
+    <string name="mi2_prefs_goal_notification">Уведомления о достижении цели</string>
+    <string name="mi2_prefs_goal_notification_summary">Когда выполнена дневная норма шагов, браслет вибрирует</string>
+    <string name="mi2_prefs_display_items">Что показывать на экране</string>
+    <string name="mi2_prefs_display_items_summary">Выберите, что показывать на экране браслета</string>
+    <string name="mi2_prefs_rotate_wrist_to_switch_info">Поверните запястье, чтобы переключиться на другую информацию</string>
+    <string name="mi2_prefs_do_not_disturb">Не беспокоить</string>
+    <string name="mi2_prefs_do_not_disturb_summary">Браслет не будет получать уведомления, даже если включён</string>
+    <string name="mi2_prefs_inactivity_warnings">Напоминания о низкой активности</string>
+    <string name="mi2_prefs_inactivity_warnings_summary">Когда вы мало двигаетесь, браслет время от времени вибрирует</string>
+    <string name="mi2_prefs_inactivity_warnings_threshold">Период низкой активности (в минутах)</string>
+    <string name="mi2_prefs_inactivity_warnings_dnd_summary">Отключить уведомления о низкой активности во время режима \"Не беспокоить\"</string>
+    <string name="mi2_prefs_do_not_disturb_start">Начало режим \"Не беспокоить\"</string>
+    <string name="mi2_prefs_do_not_disturb_end">Окончание режима \"Не беспокоить\"</string>
+
+    <string name="automatic">Автоматически</string>
+    <string name="simplified_chinese">Упрощённый китайский язык</string>
+    <string name="traditional_chinese">Традиционный китайский язык</string>
+    <string name="english">Английский язык</string>
+
+    </resources>
