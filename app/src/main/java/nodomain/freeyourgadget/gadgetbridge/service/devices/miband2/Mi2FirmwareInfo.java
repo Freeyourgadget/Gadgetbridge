@@ -55,6 +55,7 @@ public class Mi2FirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(32450, "1.0.1.28");
         crcToVersion.put(51770, "1.0.1.34");
         crcToVersion.put(3929, "1.0.1.39");
+        crcToVersion.put(47364 , "1.0.1.54");
 
         // fonts
         crcToVersion.put(45624, "Font");
