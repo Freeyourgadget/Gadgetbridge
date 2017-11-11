@@ -441,4 +441,19 @@
     <string name="amazfitcor_firmware">Amazfit Cor ファームウェア %1$s</string>
     <string name="activity_web_view">Web View アクティビティ</string>
 
+    <string name="pref_title_charts_swipe">チャートアクティビティで左/右のスワイプを有効にする</string>
+
+    <string name="preferences_amazfitbip_settings">Amazfit Bip 設定</string>
+    <string name="prefs_title_heartrate_measurement_interval">終日心拍数計測</string>
+    <string name="interval_one_minute">1分間に 1 回</string>
+    <string name="interval_five_minutes">5 分ごと</string>
+    <string name="interval_ten_minutes">10 分ごと</string>
+    <string name="interval_thirty_minutes">30 分ごと</string>
+    <string name="interval_one_hour">1 時間に 1 回</string>
+
+    <string name="automatic">自動</string>
+    <string name="simplified_chinese">簡体中国語</string>
+    <string name="traditional_chinese">繁体中国語</string>
+    <string name="english">英語</string>
+
     </resources>
