@@ -455,4 +455,11 @@ NOTE: la base de données sera bien évidement plus grande !</string>
     <string name="traditional_chinese">Chinois traditionnel</string>
     <string name="english">Anglais</string>
 
+    <string name="prefs_title_heartrate_measurement_interval">Mesure du pouls toute la journée</string>
+    <string name="interval_one_minute">Une fois par minute</string>
+    <string name="interval_five_minutes">Toutes les 5 minutes</string>
+    <string name="interval_ten_minutes">Toutes les 10 minutes</string>
+    <string name="interval_thirty_minutes">Toutes les 30 minutes</string>
+    <string name="interval_one_hour">Une fois par heure</string>
+
     </resources>
