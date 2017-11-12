@@ -451,4 +451,11 @@
     <string name="traditional_chinese">Chino tradicional</string>
     <string name="english">Inglés</string>
 
+    <string name="prefs_title_heartrate_measurement_interval">Medición de pulso todo el día</string>
+    <string name="interval_one_minute">Una vez por minuto</string>
+    <string name="interval_five_minutes">Cada 5 minutos</string>
+    <string name="interval_ten_minutes">Cada 10 minutos</string>
+    <string name="interval_thirty_minutes">Cada 30 minutos</string>
+    <string name="interval_one_hour">Cada hora</string>
+
     </resources>
