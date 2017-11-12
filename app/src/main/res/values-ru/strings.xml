@@ -460,4 +460,11 @@
     <string name="traditional_chinese">Традиционный китайский язык</string>
     <string name="english">Английский язык</string>
 
+    <string name="prefs_title_heartrate_measurement_interval">Измерение пульса в течение целого дня</string>
+    <string name="interval_one_minute">раз в минуту</string>
+    <string name="interval_five_minutes">раз в 5 минут</string>
+    <string name="interval_ten_minutes">раз в 10 минут</string>
+    <string name="interval_thirty_minutes">раз в полчаса</string>
+    <string name="interval_one_hour">раз в час</string>
+
     </resources>
