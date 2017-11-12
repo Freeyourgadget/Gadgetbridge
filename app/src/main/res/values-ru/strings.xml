@@ -154,7 +154,7 @@
   <string name="tap_connected_device_for_app_mananger">Коснитесь подключённого устройства для вызова Управления приложениями</string>
   <string name="tap_connected_device_for_activity">Коснитесь подключённого устройства для показа Активностей</string>
   <string name="tap_connected_device_for_vibration">Коснитесь подключённого устройства для Вибрации</string>
-  <string name="tap_a_device_to_connect">Коснитесь подключённого устройства для соединения</string>
+  <string name="tap_a_device_to_connect">Коснитесь устройства для соединения</string>
   <string name="cannot_connect_bt_address_invalid_">Не удалось соединиться. Невереный адрес Bluetooth?</string>
   <string name="gadgetbridge_running">Gadgetbridge запущен</string>
   <string name="installing_binary_d_d">установка бинарного файла %1$d/%2$d</string>
@@ -214,7 +214,7 @@
   <string name="pref_header_vibration_settings">Настройки вибрации</string>
   <string name="pref_screen_notification_profile_generic">Общие уведомления</string>
   <string name="pref_screen_notification_profile_email">Уведомление электронной почты</string>
-  <string name="pref_screen_notification_profile_incoming_call">Уведомления о входящем звонке</string>
+  <string name="pref_screen_notification_profile_incoming_call">Уведомления о входящих звонках</string>
   <string name="pref_screen_notification_profile_generic_chat">Чат</string>
   <string name="pref_screen_notification_profile_generic_navigation">Навигация</string>
   <string name="pref_screen_notification_profile_generic_social">Социальные сети</string>
@@ -222,7 +222,7 @@
   <string name="control_center_cancel_to_stop_vibration">Отмените, чтобы прекратить вибрацию.</string>
   <string name="title_activity_charts">Ваша активность</string>
   <string name="title_activity_set_alarm">Завести Будильник</string>
-  <string name="controlcenter_start_configure_alarms">Завести будильник</string>
+  <string name="controlcenter_start_configure_alarms">Настроить будильники</string>
   <string name="title_activity_alarm_details">Настройки будильника</string>
   <string name="alarm_sun_short">Вс</string>
   <string name="alarm_mon_short">Пн</string>
@@ -289,7 +289,7 @@
   <string name="abstract_chart_fragment_kind_not_worn">Не носилось</string>
   <string name="device_not_connected">Не подключен.</string>
   <string name="user_feedback_all_alarms_disabled">Все будильники отключены</string>
-  <string name="pref_title_keep_data_on_device">Храните данные о деятельности на устройстве</string>
+  <string name="pref_title_keep_data_on_device">Хранить данные об активности на устройстве</string>
   <string name="miband_fwinstaller_incompatible_version">Несовместимая прошивка</string>
   <string name="fwinstaller_firmware_not_compatible_to_device">Эта прошивка не совместима с устройством</string>
   <string name="miband_prefs_reserve_alarm_calendar">Резервные сигналы для предстоящих событий</string>
@@ -342,7 +342,7 @@
   <string name="dbmanagementactivity_database_successfully_deleted">Данные успешно удалены.</string>
   <string name="dbmanagementactivity_db_deletion_failed">Удалить базу данных не получилось.</string>
   <string name="dbmanagementactivity_delete_old_activity_db">Удалить данные по предыдущей активности?</string>
-  <string name="dbmanagementactivity_delete_old_activitydb_confirmation">Точно удалить устаревшие данные по вашей активности? Все не импортированные данные об активности будут утеряны.</string>
+  <string name="dbmanagementactivity_delete_old_activitydb_confirmation">Точно удалить старые данные об активности? Все не импортированные данные об активности будут утеряны.</string>
   <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Устаревшие данные по вашей активности успешно удалены.</string>
   <string name="dbmanagementactivity_old_activity_db_deletion_failed">Удалить устаревшие данные по вашей активности не получилось.</string>
   <string name="dbmanagementactivity_overwrite">Перезаписать</string>
@@ -435,7 +435,7 @@
     <string name="mi2_prefs_button_press_broadcast_summary">Заданное количество нажатий для трансляции сообщения выполнено</string>
     <string name="mi2_prefs_button_action">Включить действия при нажатии на кнопку</string>
     <string name="mi2_prefs_button_action_summary">Включить действия для заданного количества нажатий на кнопку</string>
-    <string name="mi2_prefs_button_action_vibrate">Включить вибрацию браслета</string>
+    <string name="mi2_prefs_button_action_vibrate">Включить вибрацию</string>
     <string name="mi2_prefs_button_action_vibrate_summary">Включить вибрацию браслета в ответ на исполняющееся при нажатии действие</string>
     <string name="mi2_prefs_button_press_count_max_delay">Максимальная задержка между нажатиями</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">Максимальная задержка между нажатиями в миллисекундах</string>
