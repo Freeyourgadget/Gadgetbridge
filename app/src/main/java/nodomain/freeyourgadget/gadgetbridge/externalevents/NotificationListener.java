@@ -441,10 +441,12 @@ public class NotificationListener extends NotificationListenerService {
 
         NotificationType type = AppNotificationType.getInstance().get(source);
         //ignore notifications marked as LocalOnly https://developer.android.com/reference/android/app/Notification.html#FLAG_LOCAL_ONLY
+        //some Apps always mark their notifcations as read-only
         if (NotificationCompat.getLocalOnly(notification) &&
-                //WeChat always marks its notifications as LocalOnly, do not ignore them
-                type != NotificationType.WECHAT)
+                type != NotificationType.WECHAT &&
+                type != NotificationType.OUTLOOK) {
             return true;
+        }
 
         Prefs prefs = GBApplication.getPrefs();
         if (!prefs.getBoolean("notifications_generic_whenscreenon", false)) {
