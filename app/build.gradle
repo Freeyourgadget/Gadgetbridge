@@ -36,6 +36,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dexOptions {
+        preDexLibraries = System.getenv('TRAVIS_BUILD_NUMBER') ? true : false
+    }
 
     lintOptions {
         abortOnError ABORT_ON_CHECK_FAILURE
