@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.22.4" versioncode="112">
+        <change>Mi Band 2/Bip/Cor: Whole day HR support</change>
+        <change>Mi Band 2/Bip/Cor: Prevent writing a lot of HR samples to the database when not using the live activity feature</change>
+        <change>Pebble: Fix some nasty crashes which occur since 0.22.0</change>
+        <change>Workround for non-working notifcations from wechat and outlook</change>
+    </release>
     <release version="0.22.3" versioncode="111">
         <change>Amazfit Bip: Allow flashing watchfaces</change>
         <change>Amazfit Cor: Fix flashing new .res files</change>

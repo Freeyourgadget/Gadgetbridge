@@ -1,5 +1,11 @@
 ### Changelog
 
+#### Version 0.22.4
+* Mi Band 2/Bip/Cor: Whole day HR support
+* Mi Band 2/Bip/Cor: Prevent writing a lot of HR samples to the database when not using the live activity feature
+* Pebble: Fix some nasty crashes which occur since 0.22.0
+* Workround for non-working notifcations from wechat and outlook
+
 #### Version 0.22.3
 * Amazfit Bip: Allow flashing watchfaces
 * Amazfit Cor: Fix flashing new .res files
