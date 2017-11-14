@@ -1986,7 +1986,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             }
         }
 
-        idLookup[last_id] = ext_id;
+        idLookup[last_id & 0xff] = ext_id;
 
         return buf.array();
     }
@@ -2633,14 +2633,14 @@ public class PebbleProtocol extends GBDeviceProtocol {
                             LOG.info("got APPLICATIONMESSAGE/LAUNCHER (EP " + endpoint + ") NACK");
                         }
                         GBDeviceEventAppMessage evtAppMessage = null;
-                        if (endpoint == ENDPOINT_APPLICATIONMESSAGE && idLookup[last_id] != null) {
+                        if (endpoint == ENDPOINT_APPLICATIONMESSAGE && idLookup[last_id & 0xff] != null) {
                             evtAppMessage = new GBDeviceEventAppMessage();
                             if (pebbleCmd == APPLICATIONMESSAGE_ACK) {
                                 evtAppMessage.type = GBDeviceEventAppMessage.TYPE_ACK;
                             } else {
                                 evtAppMessage.type = GBDeviceEventAppMessage.TYPE_NACK;
                             }
-                            evtAppMessage.id = idLookup[last_id];
+                            evtAppMessage.id = idLookup[last_id & 0xff];
                             evtAppMessage.appUUID = currentRunningApp;
                         }
                         devEvts = new GBDeviceEvent[]{evtAppMessage};
