@@ -85,7 +85,7 @@ class PebbleKitSupport {
                         sendAppMessageAck(transaction_id);
                         //  }
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        LOG.error("failed decoding JSON", e);
                     }
                     break;
                 case PEBBLEKIT_ACTION_APP_ACK:

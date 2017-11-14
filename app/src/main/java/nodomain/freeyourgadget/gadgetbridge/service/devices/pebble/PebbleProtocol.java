@@ -2023,6 +2023,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         break;
                 }
             } catch (JSONException e) {
+                LOG.error("error decoding JSON", e);
                 return null;
             }
         }
