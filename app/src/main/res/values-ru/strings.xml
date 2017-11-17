@@ -232,7 +232,7 @@
   <string name="alarm_fri_short">Пт</string>
   <string name="alarm_sat_short">Сб</string>
   <string name="alarm_smart_wakeup">умное пробуждение</string>
-  <string name="user_feedback_miband_set_alarms_failed">Произошла ошибка при настройке будильника, попробуйте ещё!</string>
+  <string name="user_feedback_miband_set_alarms_failed">Произошла ошибка при настройке будильника, попробуйте ещё раз!</string>
   <string name="user_feedback_miband_set_alarms_ok">Будильник был послан на устройство!</string>
   <string name="chart_no_data_synchronize">Нет данных. Синхронизировать устройство?</string>
   <string name="user_feedback_miband_activity_data_transfer">Будет передано %1$s данных, начиная с %2$s</string>
@@ -384,7 +384,7 @@
   <string name="discovery_yes_pair">Сопряжение</string>
   <string name="discovery_dont_pair">Не выполнять сопряжение</string>
 <string name="action_donate">Пожертвовать</string>
-    <string name="controlcenter_connect">Cоединение</string>
+    <string name="controlcenter_connect">Подключить</string>
     <string name="title_activity_calblacklist">Заблокированные календари</string>
 
     <string name="fw_upgrade_notice_amazfitbip">"Вы собираетесь установить прошивку %s на ваш Amazfit Bip.
@@ -442,7 +442,7 @@
     <string name="mi2_prefs_button_press_count_match_delay">Задержка после действия при нажатии</string>
     <string name="mi2_prefs_button_press_count_match_delay_summary">Задержка при выполнении заданного количества нажатий для однократного действия (число указано в button_id). Это число равно нулю для действий без задержки</string>
     <string name="mi2_prefs_goal_notification">Уведомления о достижении цели</string>
-    <string name="mi2_prefs_goal_notification_summary">Когда выполнена дневная норма шагов, браслет вибрирует</string>
+    <string name="mi2_prefs_goal_notification_summary">Браслет завибрирует, когда будет выполнена дневная норма шагов</string>
     <string name="mi2_prefs_display_items">Что показывать на экране</string>
     <string name="mi2_prefs_display_items_summary">Выберите, что показывать на экране браслета</string>
     <string name="mi2_prefs_rotate_wrist_to_switch_info">Поверните запястье, чтобы переключиться на другую информацию</string>
