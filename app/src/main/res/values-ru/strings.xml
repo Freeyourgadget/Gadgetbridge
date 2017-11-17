@@ -9,7 +9,7 @@
   <string name="controlcenter_start_sleepmonitor">Анализ сна (АЛЬФА)</string>
   <string name="controlcenter_find_device">Найти устройство</string>
   <string name="controlcenter_take_screenshot">Сделать снимок экрана</string>
-  <string name="controlcenter_disconnect">Отключиться</string>
+  <string name="controlcenter_disconnect">Отключить</string>
   <string name="controlcenter_delete_device">Удалить устройство</string>
   <string name="controlcenter_delete_device_name">Удалить %1$s</string>
   <string name="controlcenter_delete_device_dialogmessage">Устройство и вся связанная с ним информация будут удалены!</string>
