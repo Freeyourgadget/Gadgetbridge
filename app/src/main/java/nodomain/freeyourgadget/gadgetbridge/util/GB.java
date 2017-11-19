@@ -96,7 +96,7 @@ public class GB {
             deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_DISCONNECT);
             PendingIntent disconnectPendingIntent = PendingIntent.getService(context, 0, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT);
             builder.addAction(R.drawable.ic_notification_disconnected, context.getString(R.string.controlcenter_disconnect), disconnectPendingIntent);
-            if (DeviceHelper.getInstance().getCoordinator(device).supportsActivityDataFetching()) {
+            if (GBApplication.isRunningLollipopOrLater() && DeviceHelper.getInstance().getCoordinator(device).supportsActivityDataFetching()) { //for some reason this fails on KK
                 deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_FETCH_ACTIVITY_DATA);
                 PendingIntent fetchPendingIntent = PendingIntent.getService(context, 1, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT);
                 builder.addAction(R.drawable.ic_action_fetch_activity_data, context.getString(R.string.controlcenter_fetch_activity_data), fetchPendingIntent);
@@ -122,6 +122,7 @@ public class GB {
                 .setContentText(text)
                 .setSmallIcon(R.drawable.ic_notification_disconnected)
                 .setContentIntent(getContentIntent(context))
+                .setColor(context.getResources().getColor(R.color.accent))
                 .setOngoing(true);
         if (GBApplication.getPrefs().getString("last_device_address", null) != null) {
             Intent deviceCommunicationServiceIntent = new Intent(context, DeviceCommunicationService.class);
