@@ -923,9 +923,10 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 callCmd.event = GBDeviceEventCallControl.Event.REJECT;
                 evaluateGBDeviceEvent(callCmd);
                 break;
-            case HuamiDeviceEvent.CALL_ACCEPT:
-                callCmd.event = GBDeviceEventCallControl.Event.ACCEPT;
-                evaluateGBDeviceEvent(callCmd);
+            case HuamiDeviceEvent.CALL_IGNORE:
+                LOG.info("ignore call (not yet supported)");
+                //callCmd.event = GBDeviceEventCallControl.Event.IGNORE;
+                //evaluateGBDeviceEvent(callCmd);
                 break;
             case HuamiDeviceEvent.BUTTON_PRESSED:
                 LOG.info("button pressed");
@@ -951,6 +952,12 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 break;
             case HuamiDeviceEvent.TICK_30MIN:
                 LOG.info("Tick 30 min (?)");
+                break;
+            case HuamiDeviceEvent.FIND_PHONE_START:
+                LOG.info("find phone started (not yet supported)");
+                break;
+            case HuamiDeviceEvent.FIND_PHONE_STOP:
+                LOG.info("find phone stopped (not yet supported)");
                 break;
             default:
                 LOG.warn("unhandled event " + value[0]);
