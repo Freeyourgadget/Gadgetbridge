@@ -111,7 +111,9 @@ public class LanguageUtils {
             message.append(transliterate(c));
         }
 
-        return flattenToAscii(message.toString());
+        String messageString = BengaliLanguageUtils.transliterate(message.toString());
+
+        return flattenToAscii(messageString);
     }
 
     /**
