@@ -1,2 +1,48 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="action_settings">Innstillinger</string>
+    <string name="action_debug">Feilretting</string>
+    <string name="action_quit">Avslutt</string>
+    <string name="action_donate">Doner</string>
+    <string name="controlcenter_fetch_activity_data">Synkroniser</string>
+    <string name="controlcenter_start_sleepmonitor">Søvnmonitor (Alfa)</string>
+    <string name="controlcenter_find_device">Finn mistet enhet</string>
+    <string name="controlcenter_take_screenshot">Utfør skjermavbildning</string>
+    <string name="controlcenter_connect">Koble til</string>
+    <string name="controlcenter_disconnect">Koble fra</string>
+    <string name="controlcenter_delete_device">Slett enhet</string>
+    <string name="controlcenter_delete_device_name">Slett %1$s</string>
+    <string name="controlcenter_navigation_drawer_open">Åpne navigasjonsskuff</string>
+    <string name="controlcenter_navigation_drawer_close">Lukk navigasjonsskuf</string>
+    <string name="controlcenter_snackbar_need_longpress">Trykk lenge på kortet for å koble fra</string>
+    <string name="controlcenter_snackbar_disconnecting">Kobler fra</string>
+    <string name="controlcenter_snackbar_connecting">Kobler til</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Utfører skjermavbildning av enheten</string>
+
+
+    <string name="title_activity_debug">Feilretting</string>
+
+    <string name="title_activity_appmanager">Programbehandler</string>
+    <string name="appmanager_cached_watchapps_watchfaces">Programmer i hurtiglager</string>
+    <string name="appmanager_installed_watchapps">Installerte programmer</string>
+    <string name="appmanager_installed_watchfaces">Installerte urskiver</string>
+    <string name="appmananger_app_delete">Slett</string>
+    <string name="appmananger_app_delete_cache">Slett og fjern fra hurtiglager</string>
+    <string name="appmananger_app_reinstall">Reinstaller</string>
+    <string name="appmanager_app_openinstore">Søk i Pebble-programbutikk</string>
+    <string name="appmanager_health_activate">Aktiver</string>
+    <string name="appmanager_health_deactivate">Deaktiver</string>
+    <string name="appmanager_hrm_activate">Skru på HRM</string>
+    <string name="appmanager_hrm_deactivate">Skru av HRM</string>
+    <string name="appmanager_weather_activate">Skru på systemværprogram</string>
+    <string name="appmanager_weather_deactivate">Skru av systemværprogram</string>
+    <string name="appmanager_weather_install_provider">Installer værmeldingsprogrammet</string>
+    <string name="app_configure">Sett opp</string>
+    <string name="app_move_to_top">Flytt til toppen</string>
+
+    <string name="title_activity_appblacklist">Merknadssvarteliste</string>
+
+    <string name="title_activity_calblacklist">Svartelistede kalendere</string>
+
+    <string name="title_activity_fw_app_insaller">Fastvare-/program-installerer</string>
+    <string name="fw_upgrade_notice">Du er i ferd med å installere fastvaren %s i stedet for den som er installert på ditt Mi Band nå.</string>
+    </resources>
