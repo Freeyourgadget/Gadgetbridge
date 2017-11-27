@@ -138,6 +138,9 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
 
         // Transit
         put("com.thetransitapp.droid", NotificationType.TRANSIT);
+
+        // Etar
+        put("ws.xsoh.etar", NotificationType.GENERIC_CALENDAR);
     }
 
 }
