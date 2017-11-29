@@ -137,7 +137,7 @@ public class AmazfitBipSupport extends MiBand2Support {
                 supportsConditionString = true;
             }
 
-            final byte NR_DAYS = 2;
+            final byte NR_DAYS = (byte) (1 + weatherSpec.forecasts.size());
             int bytesPerDay = 4;
             int conditionsLength = 0;
             if (supportsConditionString) {
@@ -164,14 +164,17 @@ public class AmazfitBipSupport extends MiBand2Support {
                 buf.put(weatherSpec.currentCondition.getBytes());
                 buf.put((byte) 0); //
             }
-            condition = HuamiWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.tomorrowConditionCode);
 
-            buf.put(condition);
-            buf.put(condition);
-            buf.put((byte) (weatherSpec.tomorrowMaxTemp - 273));
-            buf.put((byte) (weatherSpec.tomorrowMinTemp - 273));
-            if (supportsConditionString) {
-                buf.put((byte) 0); // not yet in weatherspec
+            for (WeatherSpec.Forecast forecast : weatherSpec.forecasts) {
+                condition = HuamiWeatherConditions.mapToAmazfitBipWeatherCode(forecast.conditionCode);
+
+                buf.put(condition);
+                buf.put(condition);
+                buf.put((byte) (forecast.maxTemp - 273));
+                buf.put((byte) (forecast.minTemp - 273));
+                if (supportsConditionString) {
+                    buf.put((byte) 0); // not yet in weatherspec
+                }
             }
 
             builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());

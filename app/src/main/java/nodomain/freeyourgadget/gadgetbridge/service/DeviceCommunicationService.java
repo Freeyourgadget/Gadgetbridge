@@ -50,6 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmClockReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothPairingRequestReceiver;
+//import nodomain.freeyourgadget.gadgetbridge.externalevents.CMWeatherReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.CalendarReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.MusicPlaybackReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PebbleReceiver;
@@ -149,16 +150,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOT
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_TYPE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_URI;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_VIBRATION_INTENSITY;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER_CURRENTCONDITION;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER_CURRENTCONDITIONCODE;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER_CURRENTTEMP;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER_LOCATION;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER_TIMESTAMP;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER_TODAYMAXTEMP;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER_TODAYMINTEMP;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER_TOMORROWCONDITIONCODE;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER_TOMORROWMAXTEMP;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER_TOMORROWMINTEMP;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER;
 
 public class DeviceCommunicationService extends Service implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final Logger LOG = LoggerFactory.getLogger(DeviceCommunicationService.class);
@@ -182,6 +174,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
     private AlarmReceiver mAlarmReceiver = null;
     private CalendarReceiver mCalendarReceiver = null;
+    //private CMWeatherReceiver mCMWeatherReceiver = null;
     private Random mRandom = new Random();
 
     private final String[] mMusicActions = {
@@ -214,7 +207,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (action.equals(GBDevice.ACTION_DEVICE_CHANGED)) {
+            if (GBDevice.ACTION_DEVICE_CHANGED.equals(action)) {
                 GBDevice device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                 if (mGBDevice != null && mGBDevice.equals(device)) {
                     mGBDevice = device;
@@ -540,18 +533,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 break;
             }
             case ACTION_SEND_WEATHER: {
-                WeatherSpec weatherSpec = new WeatherSpec();
-                weatherSpec.timestamp = intent.getIntExtra(EXTRA_WEATHER_TIMESTAMP, 0);
-                weatherSpec.location = intent.getStringExtra(EXTRA_WEATHER_LOCATION);
-                weatherSpec.currentTemp = intent.getIntExtra(EXTRA_WEATHER_CURRENTTEMP, 0);
-                weatherSpec.currentConditionCode = intent.getIntExtra(EXTRA_WEATHER_CURRENTCONDITIONCODE, 0);
-                weatherSpec.currentCondition = intent.getStringExtra(EXTRA_WEATHER_CURRENTCONDITION);
-                weatherSpec.todayMaxTemp = intent.getIntExtra(EXTRA_WEATHER_TODAYMAXTEMP, 0);
-                weatherSpec.todayMinTemp = intent.getIntExtra(EXTRA_WEATHER_TODAYMINTEMP, 0);
-                weatherSpec.tomorrowMaxTemp = intent.getIntExtra(EXTRA_WEATHER_TOMORROWMAXTEMP, 0);
-                weatherSpec.tomorrowMinTemp = intent.getIntExtra(EXTRA_WEATHER_TOMORROWMINTEMP, 0);
-                weatherSpec.tomorrowConditionCode = intent.getIntExtra(EXTRA_WEATHER_TOMORROWCONDITIONCODE, 0);
-                mDeviceSupport.onSendWeather(weatherSpec);
+                WeatherSpec weatherSpec = intent.getParcelableExtra(EXTRA_WEATHER);
+                if (weatherSpec != null) {
+                    mDeviceSupport.onSendWeather(weatherSpec);
+                }
                 break;
             }
         }
@@ -674,6 +659,12 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 filter.addAction(AlarmClockReceiver.ALARM_DONE_ACTION);
                 registerReceiver(mAlarmClockReceiver, filter);
             }
+            /*
+            if (mCMWeatherReceiver == null) {
+                mCMWeatherReceiver = new CMWeatherReceiver();
+                registerReceiver(mCMWeatherReceiver, new IntentFilter("HOURLY_ALARM"));
+            }
+            */
         } else {
             if (mPhoneCallReceiver != null) {
                 unregisterReceiver(mPhoneCallReceiver);
@@ -708,6 +699,12 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 unregisterReceiver(mAlarmClockReceiver);
                 mAlarmClockReceiver = null;
             }
+            /*
+            if (mCMWeatherReceiver != null) {
+                unregisterReceiver(mCMWeatherReceiver);
+                mCMWeatherReceiver = null;
+            }
+            */
         }
     }
 
@@ -725,7 +722,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
         setDeviceSupport(null);
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.cancel(GB.NOTIFICATION_ID); // need to do this because the updated notification won't be cancelled when service stops
+        if (nm != null) {
+            nm.cancel(GB.NOTIFICATION_ID); // need to do this because the updated notification won't be cancelled when service stops
+        }
     }
 
     @Override

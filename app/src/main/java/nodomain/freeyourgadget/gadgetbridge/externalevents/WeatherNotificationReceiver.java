@@ -35,7 +35,7 @@ public class WeatherNotificationReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (!intent.getAction().contains("WEATHER_UPDATE_2")) {
+        if (intent.getAction() == null || !intent.getAction().contains("WEATHER_UPDATE_2")) {
             LOG.info("Wrong action");
             return;
         }
@@ -58,9 +58,7 @@ public class WeatherNotificationReceiver extends BroadcastReceiver {
             weatherSpec.currentConditionCode = weather.currentConditionCode;
             weatherSpec.todayMaxTemp = weather.todayHighTemp;
             weatherSpec.todayMinTemp = weather.todayLowTemp;
-            weatherSpec.tomorrowConditionCode = weather.forecastConditionCode;
-            weatherSpec.tomorrowMaxTemp = weather.forecastHighTemp;
-            weatherSpec.tomorrowMinTemp = weather.forecastLowTemp;
+            weatherSpec.forecasts = weather.forecasts;
             Weather.getInstance().setWeatherSpec(weatherSpec);
             GBApplication.deviceService().onSendWeather(weatherSpec);
         }

@@ -373,16 +373,7 @@ public class GBDeviceService implements DeviceService {
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
         Intent intent = createIntent().setAction(ACTION_SEND_WEATHER)
-                .putExtra(EXTRA_WEATHER_TIMESTAMP, weatherSpec.timestamp)
-                .putExtra(EXTRA_WEATHER_LOCATION, weatherSpec.location)
-                .putExtra(EXTRA_WEATHER_CURRENTTEMP, weatherSpec.currentTemp)
-                .putExtra(EXTRA_WEATHER_CURRENTCONDITIONCODE, weatherSpec.currentConditionCode)
-                .putExtra(EXTRA_WEATHER_CURRENTCONDITION, weatherSpec.currentCondition)
-                .putExtra(EXTRA_WEATHER_TODAYMAXTEMP, weatherSpec.todayMaxTemp)
-                .putExtra(EXTRA_WEATHER_TODAYMINTEMP, weatherSpec.todayMinTemp)
-                .putExtra(EXTRA_WEATHER_TOMORROWMAXTEMP, weatherSpec.tomorrowMaxTemp)
-                .putExtra(EXTRA_WEATHER_TOMORROWMINTEMP, weatherSpec.tomorrowMinTemp)
-                .putExtra(EXTRA_WEATHER_TOMORROWCONDITIONCODE, weatherSpec.tomorrowConditionCode);
+                .putExtra(EXTRA_WEATHER, weatherSpec);
         invokeService(intent);
     }
 

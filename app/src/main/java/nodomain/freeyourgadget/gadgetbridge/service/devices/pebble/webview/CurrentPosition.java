@@ -30,13 +30,16 @@ import org.slf4j.LoggerFactory;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-class CurrentPosition {
+public class CurrentPosition {
 
     private static final Logger LOG = LoggerFactory.getLogger(CurrentPosition.class);
 
+    private Location lastKnownLocation;
+    private float latitude, longitude;
+
     long timestamp;
     double altitude;
-    float latitude, longitude, accuracy, speed;
+    float accuracy, speed;
 
     float getLatitude() {
         return latitude;
@@ -46,10 +49,19 @@ class CurrentPosition {
         return longitude;
     }
 
-    CurrentPosition() {
+    public Location getLastKnownLocation() {
+        return lastKnownLocation;
+    }
+
+    public CurrentPosition() {
         Prefs prefs = GBApplication.getPrefs();
         this.latitude = prefs.getFloat("location_latitude", 0);
         this.longitude = prefs.getFloat("location_longitude", 0);
+
+        lastKnownLocation = new Location("preferences");
+        lastKnownLocation.setLatitude(this.latitude);
+        lastKnownLocation.setLongitude(this.longitude);
+
         LOG.info("got longitude/latitude from preferences: " + latitude + "/" + longitude);
 
         this.timestamp = System.currentTimeMillis() - 86400000; //let accessor know this value is really old
@@ -58,10 +70,14 @@ class CurrentPosition {
                 prefs.getBoolean("use_updated_location_if_available", false)) {
             LocationManager locationManager = (LocationManager) GBApplication.getContext().getSystemService(Context.LOCATION_SERVICE);
             Criteria criteria = new Criteria();
-            String provider = locationManager.getBestProvider(criteria, false);
+            String provider = null;
+            if (locationManager != null) {
+                provider = locationManager.getBestProvider(criteria, false);
+            }
             if (provider != null) {
                 Location lastKnownLocation = locationManager.getLastKnownLocation(provider);
                 if (lastKnownLocation != null) {
+                    this.lastKnownLocation = lastKnownLocation;
                     this.timestamp = lastKnownLocation.getTime();
                     this.timestamp = System.currentTimeMillis() - 1000; //TODO: request updating the location and don't fake its age
 
