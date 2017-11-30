@@ -458,7 +458,7 @@
     <string name="pref_screen_notification_profile_alarm_clock">Ringeklokke</string>
 
     <string name="StringUtils_sender">(%1$s)</string>
-    <string name="find_device_you_found_it">Du fant det!</string>
+    <string name="find_device_you_found_it">Du fant den!</string>
     <string name="miband2_prefs_timeformat">Mi2: Tidsformat</string>
     <string name="mi2_fw_installhandler_fw53_hint">Du må installere versjon %1$s før du installerer denne fastvaren!</string>
     <string name="mi2_enable_text_notifications">Tekstmerknader</string>
