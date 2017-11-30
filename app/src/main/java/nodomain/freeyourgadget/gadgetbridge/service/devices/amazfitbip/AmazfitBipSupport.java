@@ -40,6 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
+import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
@@ -139,11 +140,16 @@ public class AmazfitBipSupport extends MiBand2Support {
 
             final byte NR_DAYS = (byte) (1 + weatherSpec.forecasts.size());
             int bytesPerDay = 4;
+
             int conditionsLength = 0;
             if (supportsConditionString) {
                 bytesPerDay = 5;
                 conditionsLength = weatherSpec.currentCondition.getBytes().length;
+                for (WeatherSpec.Forecast forecast : weatherSpec.forecasts) {
+                    conditionsLength += Weather.getConditionString(forecast.conditionCode).getBytes().length;
+                }
             }
+
             int length = 7 + bytesPerDay * NR_DAYS + conditionsLength;
             ByteBuffer buf = ByteBuffer.allocate(length);
 
@@ -162,7 +168,7 @@ public class AmazfitBipSupport extends MiBand2Support {
             buf.put((byte) (weatherSpec.todayMinTemp - 273));
             if (supportsConditionString) {
                 buf.put(weatherSpec.currentCondition.getBytes());
-                buf.put((byte) 0); //
+                buf.put((byte) 0);
             }
 
             for (WeatherSpec.Forecast forecast : weatherSpec.forecasts) {
@@ -173,7 +179,8 @@ public class AmazfitBipSupport extends MiBand2Support {
                 buf.put((byte) (forecast.maxTemp - 273));
                 buf.put((byte) (forecast.minTemp - 273));
                 if (supportsConditionString) {
-                    buf.put((byte) 0); // not yet in weatherspec
+                    buf.put(Weather.getConditionString(forecast.conditionCode).getBytes());
+                    buf.put((byte) 0);
                 }
             }
 
