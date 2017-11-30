@@ -37,7 +37,7 @@ public class WeatherSpec implements Parcelable {
     public int timestamp;
     public String location;
     public int currentTemp;
-    public int currentConditionCode;
+    public int currentConditionCode = 3200;
     public String currentCondition;
     public int todayMaxTemp;
     public int todayMinTemp;

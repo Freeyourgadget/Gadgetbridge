@@ -16,19 +16,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
-import ru.gelin.android.weather.notification.ParcelableWeather2;
+import org.json.JSONObject;
 
 public class Weather {
-    private ParcelableWeather2 weather2 = null;
     private WeatherSpec weatherSpec = null;
 
-    public ParcelableWeather2 getWeather2() {
-        return weather2;
-    }
-
-    public void setWeather2(ParcelableWeather2 weather2) {
-        this.weather2 = weather2;
-    }
+    private JSONObject reconstructedOWMWeather = null;
+    private JSONObject reconstructedOWMForecast = null;
 
     public WeatherSpec getWeatherSpec() {
         return weatherSpec;
@@ -36,6 +30,22 @@ public class Weather {
 
     public void setWeatherSpec(WeatherSpec weatherSpec) {
         this.weatherSpec = weatherSpec;
+    }
+
+    public JSONObject getReconstructedOWMWeather() {
+        return reconstructedOWMWeather;
+    }
+
+    public void setReconstructedOWMWeather(JSONObject reconstructedOWMWeather) {
+        this.reconstructedOWMWeather = reconstructedOWMWeather;
+    }
+
+    public JSONObject getReconstructedOWMForecast() {
+        return reconstructedOWMForecast;
+    }
+
+    public void setReconstructedOWMForecast(JSONObject reconstructedOWMForecast) {
+        this.reconstructedOWMForecast = reconstructedOWMForecast;
     }
 
     private static final Weather weather = new Weather();

@@ -28,7 +28,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleColor;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
-import ru.gelin.android.weather.notification.ParcelableWeather2;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
 class AppMessageHandlerPebStyle extends AppMessageHandler {
     public static final int KEY_AMPM_TEXT = 21;
@@ -92,7 +92,7 @@ class AppMessageHandlerPebStyle extends AppMessageHandler {
 
 
         //WEATHER
-        ParcelableWeather2 weather = Weather.getInstance().getWeather2();
+        WeatherSpec weather = Weather.getInstance().getWeatherSpec();
         if (weather != null) {
             //comment the same key in the general section above!
             pairs.add(new Pair<>(KEY_LOCATION_SERVICE, (Object) 0)); //0 auto, 1 manual
