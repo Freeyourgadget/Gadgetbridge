@@ -224,7 +224,7 @@
     <string name="pairing_creating_bond_with">Oppretter tilknytning til %1$s (%2$s)</string>
     <string name="pairing_unable_to_pair_with">Klarte ikke å parre med %1$s (%2$s)</string>
     <string name="pairing_in_progress">Parring underveis: %1$s (%2$s)</string>
-    <string name="pairing_already_bonded">Allerede tilknyttet %1$s (%2½s), tilkobler…</string>
+    <string name="pairing_already_bonded">Allerede tilknyttet %1$s (%2$s), tilkobler…</string>
     <string name="message_cannot_pair_no_mac">Ingen MAC-adresse sendt, kan ikke parre.</string>
     <string name="preferences_category_device_specific_settings">Enhetsspesifikke innstillinger</string>
     <string name="preferences_miband_settings">Mi Band / Amazfit -innstillinger</string>
