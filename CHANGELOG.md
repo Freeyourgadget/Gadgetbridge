@@ -1,5 +1,11 @@
 ### Changelog
 
+#### Version 0.22.5
+* Unlock Teclast H10 support using the same code as H30
+* Amazfit Bip: Fix installation of 0.1.0.11 Firmware
+* Amazfit Bip/Cor: Send three days of weather forecast including (untranslated) conditions
+* Workaround for a crash on Android 4.4 when connecting
+
 #### Version 0.22.4
 * Mi Band 2/Bip/Cor: Whole day HR support
 * Mi Band 2/Bip/Cor: Prevent writing a lot of HR samples to the database when not using the live activity feature
