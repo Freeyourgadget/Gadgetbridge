@@ -36,10 +36,17 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
             (byte) 0xa7, 0x26, (byte) 0xd0, (byte) 0xe6, 0x4a, 0x21, (byte) 0x88, (byte) 0xd4
     };
 
-    // guessed - at least it is the same accross current versions and different from other devices
+    // guessed - at least it is the same across versions from 0.0.7.x to 0.0.9.x
+    // and different from other devices
     private static final byte[] FW_HEADER = new byte[]{
             0x68, 0x46, 0x70, 0x47, 0x68, 0x46, 0x70, 0x47,
             0x68, 0x46, 0x70, 0x47, 0x68, 0x46, 0x70, 0x47
+    };
+
+    // guessed - this is true for 0.1.0.11
+    private static final byte[] FW_HEADER_NEW = new byte[]{
+            0x60, (byte) 0xeb, 0x03, 0x0c, 0x70, 0x46, 0x31, 0x46,
+            0x3a, 0x46, 0x63, 0x46, (byte) 0xbd, (byte) 0xe8, (byte) 0xf0, (byte) 0x81
     };
 
     private static final int FW_HEADER_OFFSET = 0x9330;
@@ -63,6 +70,9 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(55420, "0.0.9.14");
         crcToVersion.put(39465, "0.0.9.26");
         crcToVersion.put(27394, "0.0.9.40");
+        crcToVersion.put(24736, "0.0.9.49");
+        crcToVersion.put(49555, "0.0.9.59");
+        crcToVersion.put(26714, "0.1.0.11");
 
         // resources
         crcToVersion.put(12586, "RES 0.0.8.74");
@@ -70,6 +80,7 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(59839, "RES 0.0.8.96-98");
         crcToVersion.put(50401, "RES 0.0.9.14-26");
         crcToVersion.put(22051, "RES 0.0.9.40");
+        crcToVersion.put(46233, "RES 0.0.9.49-0.1.0.11");
 
         // gps
         crcToVersion.put(61520, "GPS 9367,8f79a91,0,0,");
@@ -97,7 +108,7 @@ public class AmazfitBipFirmwareInfo extends HuamiFirmwareInfo {
         if (ArrayUtils.startsWith(bytes, GPS_CEP_HEADER)) {
             return HuamiFirmwareType.GPS_CEP;
         }
-        if (ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET)) {
+        if (ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET) || ArrayUtils.equals(bytes, FW_HEADER_NEW, FW_HEADER_OFFSET)) {
             // TODO: this is certainly not a correct validation, but it works for now
             return HuamiFirmwareType.FIRMWARE;
         }
