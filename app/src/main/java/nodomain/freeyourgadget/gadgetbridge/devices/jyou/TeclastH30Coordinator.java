@@ -63,7 +63,7 @@ public class TeclastH30Coordinator extends AbstractDeviceCoordinator {
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String name = candidate.getDevice().getName();
-        if (name != null && name.startsWith("TECLAST_H30")) {
+        if (name != null && (name.startsWith("TECLAST_H30") || name.startsWith("TECLAST_H10"))) {
             return DeviceType.TECLASTH30;
         }
         return DeviceType.UNKNOWN;
