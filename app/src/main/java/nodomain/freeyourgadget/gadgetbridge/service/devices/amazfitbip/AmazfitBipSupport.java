@@ -127,16 +127,46 @@ public class AmazfitBipSupport extends MiBand2Support {
         if (gbDevice.getFirmwareVersion() == null) {
             LOG.warn("Device not initialized yet, so not sending weather info");
             return;
+
+        }
+        boolean supportsConditionString = false;
+
+        Version version = new Version(gbDevice.getFirmwareVersion());
+        if (version.compareTo(new Version("0.0.8.74")) >= 0) {
+            supportsConditionString = true;
+        }
+        int tz_offset_hours = SimpleTimeZone.getDefault().getOffset(weatherSpec.timestamp * 1000L) / (1000 * 60 * 60);
+        try {
+            TransactionBuilder builder;
+            builder = performInitialized("Sending current temp");
+
+            byte condition = HuamiWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.currentConditionCode);
+
+            int length = 8;
+            if (supportsConditionString) {
+                length += weatherSpec.currentCondition.getBytes().length + 1;
+            }
+            ByteBuffer buf = ByteBuffer.allocate(length);
+            buf.order(ByteOrder.LITTLE_ENDIAN);
+
+            buf.put((byte) 2);
+            buf.putInt(weatherSpec.timestamp);
+            buf.put((byte) (tz_offset_hours * 4));
+            buf.put(condition);
+            buf.put((byte) (weatherSpec.currentTemp - 273));
+
+            if (supportsConditionString) {
+                buf.put(weatherSpec.currentCondition.getBytes());
+                buf.put((byte) 0);
+            }
+
+            builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
+            builder.queue(getQueue());
+        } catch (IOException ignore) {
         }
 
         try {
             TransactionBuilder builder = performInitialized("Sending weather forecast");
-            boolean supportsConditionString = false;
-
-            Version version = new Version(gbDevice.getFirmwareVersion());
-            if (version.compareTo(new Version("0.0.8.74")) >= 0) {
-                supportsConditionString = true;
-            }
 
             final byte NR_DAYS = (byte) (1 + weatherSpec.forecasts.size());
             int bytesPerDay = 4;
@@ -156,7 +186,6 @@ public class AmazfitBipSupport extends MiBand2Support {
             buf.order(ByteOrder.LITTLE_ENDIAN);
             buf.put((byte) 1);
             buf.putInt(weatherSpec.timestamp);
-            int tz_offset_hours = SimpleTimeZone.getDefault().getOffset(weatherSpec.timestamp * 1000L) / (1000 * 60 * 60);
             buf.put((byte) (tz_offset_hours * 4));
 
             buf.put(NR_DAYS);
