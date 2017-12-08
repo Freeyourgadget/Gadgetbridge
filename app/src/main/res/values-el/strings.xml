@@ -1,2 +1,26 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="app_name">Gadgetbridge</string>
+
+    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="action_settings">Ρυθμίσεις</string>
+    <string name="action_debug">Αποσφαλμάτωση</string>
+    <string name="action_quit">Κλείσιμο</string>
+    <string name="action_donate">Δωρεά</string>
+    <string name="controlcenter_fetch_activity_data">Συγχρονισμός</string>
+    <string name="controlcenter_start_sleepmonitor">Παρακολούθηση Ύπνου (υπό δοκιμή)</string>
+    <string name="controlcenter_find_device">Βρες τη χαμένη διασκευή</string>
+    <string name="controlcenter_take_screenshot">Στιγμιότυπο οθόνης</string>
+    <string name="controlcenter_connect">Σύνδεση</string>
+    <string name="controlcenter_disconnect">Αποσύνδεση</string>
+    <string name="controlcenter_delete_device">Διαγραφή συσκευής</string>
+    <string name="controlcenter_delete_device_name">Διαγραφή %1$s</string>
+    <string name="controlcenter_delete_device_dialogmessage">Αυτό θα διαγράψει την συσκευή και όλα τα δεδομένα σχετικά με αυτή!</string>
+    <string name="controlcenter_snackbar_need_longpress">Πατήστε συνεχόμενα στη καρτέλα της συσκευής για αποσύνδεση</string>
+    <string name="controlcenter_snackbar_disconnecting">Αποσύνδεση</string>
+    <string name="controlcenter_snackbar_connecting">Σύνδεση</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Παίρνοντας στιγμιότυπο από τη συσκευή</string>
+
+
+    <string name="title_activity_debug">Αποσφαλμάτωση</string>
+
+    </resources>
