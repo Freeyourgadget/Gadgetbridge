@@ -51,7 +51,7 @@
   <string name="miband_firmware_unknown_warning">Ce micrologiciel n\'a pas été testé et peut ne pas être compatible avec Gadgetbridge.
 \n
 \nIl n\'est pas conseillé de le flasher sur votre Mi Band !</string>
-  <string name="miband_firmware_suggest_whitelist">Si vous désirez continuer et que tout fonctionne correctement par la suite, veuillez en informer les développeurs de Gadgetbridge pour demander l\'ajout de ce micrologiciel à leur liste: %s</string>
+  <string name="miband_firmware_suggest_whitelist">Si vous désirez continuer et que tout fonctionne correctement par la suite, veuillez en informer les développeurs de Gadgetbridge pour demander l\'ajout de ce micrologiciel à leur liste : %s</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Paramètres</string>
   <string name="pref_header_general">Paramètres généraux</string>
@@ -166,8 +166,8 @@
   <string name="installing_binary_d_d">Installation du binaire %1$d/%2$d</string>
   <string name="installation_failed_">Échec de l\'installation</string>
   <string name="installation_successful">Installation réalisée avec succès</string>
-  <string name="firmware_install_warning">VOUS TENTEZ D\'INSTALLER UN MICROLOGICIEL, PROCÉDEZ À VOS RISQUES ET PÉRILS.\n\n\nCe micrologiciel est pour la version de matériel: %s</string>
-  <string name="app_install_info">Vous êtes sur le point d\'installer l\'application suivante:\n\n\n%1$s Version %2$s par %3$s\n</string>
+  <string name="firmware_install_warning">VOUS TENTEZ D\'INSTALLER UN MICROLOGICIEL, PROCÉDEZ À VOS RISQUES ET PÉRILS.\n\n\nCe micrologiciel est pour la version de matériel : %s</string>
+  <string name="app_install_info">Vous êtes sur le point d\'installer l\'application suivante :\n\n\n%1$s Version %2$s par %3$s\n</string>
   <string name="n_a">N.D.</string>
   <string name="initialized">Initialisé</string>
   <string name="appversion_by_creator">%1$s par %2$s</string>
@@ -248,18 +248,18 @@
   <string name="miband_prefs_fitness_goal">Objectif de pas par jour</string>
   <string name="dbaccess_error_executing">Erreur lors de l’exécution de %1$s\'</string>
   <string name="controlcenter_start_activitymonitor">Votre activité (ALPHA)</string>
-  <string name="cannot_connect">Impossible de se connecter: %1$s</string>
+  <string name="cannot_connect">Impossible de se connecter : %1$s</string>
   <string name="installer_activity_unable_to_find_handler">Impossible de trouver un gestionnaire pour installer ce fichier.</string>
-  <string name="pbw_install_handler_unable_to_install">Impossible d\'installer le ficher suivant: %1$s</string>
-  <string name="pbw_install_handler_hw_revision_mismatch">Impossible d\'installer le micrologiciel spécifié: il ne correspond pas à la version du matériel de votre Pebble.</string>
+  <string name="pbw_install_handler_unable_to_install">Impossible d\'installer le ficher suivant : %1$s</string>
+  <string name="pbw_install_handler_hw_revision_mismatch">Impossible d\'installer le micrologiciel spécifié : il ne correspond pas à la version du matériel de votre Pebble.</string>
   <string name="installer_activity_wait_while_determining_status">Veuillez patienter pendant la détermination de l\'état de l\'installation…</string>
   <string name="notif_battery_low_title">Niveau de batterie faible !</string>
-  <string name="notif_battery_low_percent">%1$s batterie restante: %2$s%%</string>
-  <string name="notif_battery_low_bigtext_last_charge_time">Dernière charge: %s \n</string>
-  <string name="notif_battery_low_bigtext_number_of_charges">Nombre de charges: %s</string>
+  <string name="notif_battery_low_percent">%1$s batterie restante : %2$s%%</string>
+  <string name="notif_battery_low_bigtext_last_charge_time">Dernière charge : %s \n</string>
+  <string name="notif_battery_low_bigtext_number_of_charges">Nombre de charges : %s</string>
   <string name="sleepchart_your_sleep">Votre sommeil</string>
   <string name="weeksleepchart_sleep_a_week">Sommeil cette semaine</string>
-  <string name="weeksleepchart_today_sleep_description">Sommeil aujourd\'hui, objectif: %1$s</string>
+  <string name="weeksleepchart_today_sleep_description">Sommeil aujourd\'hui, objectif : %1$s</string>
   <string name="weekstepschart_steps_a_week">Pas de la semaine</string>
   <string name="activity_sleepchart_activity_and_sleep">Votre activité et sommeil</string>
   <string name="updating_firmware">Mise à jour du micrologiciel…</string>
@@ -267,7 +267,7 @@
   <string name="miband_installhandler_miband_firmware">Micrologiciel Mi Band %1$s</string>
   <string name="miband_fwinstaller_compatible_version">Version compatible</string>
   <string name="miband_fwinstaller_untested_version">Version non-testée !</string>
-  <string name="fwappinstaller_connection_state">Connexion  à l\'appareil: %1$s</string>
+  <string name="fwappinstaller_connection_state">Connexion  à l\'appareil : %1$s</string>
   <string name="pbw_installhandler_pebble_firmware">Micrologiciel Pebble %1$s</string>
   <string name="pbwinstallhandler_correct_hw_revision">Version du matériel correcte</string>
   <string name="pbwinstallhandler_incorrect_hw_revision">Version du matériel incorrecte !</string>
@@ -284,7 +284,7 @@
   <string name="heart_rate">Fréquence cardiaque</string>
   <string name="battery">Batterie</string>
   <string name="liveactivity_live_activity">Activité en direct</string>
-  <string name="weeksteps_today_steps_description">Nombre de pas aujourd\'hui, objectif: %1$s</string>
+  <string name="weeksteps_today_steps_description">Nombre de pas aujourd\'hui, objectif : %1$s</string>
   <string name="pref_title_dont_ack_transfer">Ne pas confirmer le transfert de données d\'activités</string>
   <string name="pref_summary_dont_ack_transfers">Les données d\'activités ne seront pas effacées du bracelet si elles ne sont pas confirmées. Utile si GB est utilisé avec d\'autres applications.</string>
   <string name="pref_summary_keep_data_on_device">Les données d\'activités seront conservées sur le Mi Band après la synchronisation. Utile si GB est utilisé avec d\'autres applications.</string>
@@ -338,8 +338,8 @@
   <string name="activity_prefs_sleep_duration">
 Temps de sommeil péféré en heures</string>
   <string name="appwidget_alarms_set">Une alarme a été enregistré pour %1$02d:%2$02d</string>
-  <string name="device_hw">Révision matérielle: %1$s</string>
-  <string name="device_fw">Version du micrologiciel: %1$s</string>
+  <string name="device_hw">Révision matérielle : %1$s</string>
+  <string name="device_fw">Version du micrologiciel : %1$s</string>
   <string name="error_creating_directory_for_logfiles">Erreur à la création de votre fichier log : %1$s</string>
   <string name="DEVINFO_HR_VER">"Révision matérielle : "</string>
   <string name="updatefirmwareoperation_update_in_progress">Le micrologiciel se met à jour</string>
@@ -348,7 +348,7 @@ Temps de sommeil péféré en heures</string>
   <string name="live_activity_heart_rate">Fréquence cardiaque</string>
   <string name="pref_title_pebble_health_store_raw">Stockez les enregistrements brut dans la base de données</string>
   <string name="pref_summary_pebble_health_store_raw">Si coché, les données sont stockées \"telles quelles\" et seront disponibles pour une interprétation ultérieure. 
-NOTE: la base de données sera bien évidement plus grande !</string>
+NOTE : la base de données sera bien évidement plus grande !</string>
   <string name="action_db_management">Gestion de base de données</string>
   <string name="title_activity_db_management">Gestion de base de données</string>
   <string name="activity_db_management_import_export_explanation">Les opérations sur la base de donnée ont utilisé le chemin suivant sur votre appareil.
@@ -357,13 +357,13 @@ NOTE: la base de données sera bien évidement plus grande !</string>
   <string name="activity_db_management_merge_old_title">Effacer l\'ancienne base de données</string>
   <string name="dbmanagementactivvity_cannot_access_export_path">Impossible d\'accéder au fichier d\'export. Merci de contacter les développeurs.</string>
   <string name="dbmanagementactivity_exported_to">Exporter vers : %1$s</string>
-  <string name="dbmanagementactivity_error_exporting_db">Erreur d\'exportation de la base de données: %1$s</string>
-  <string name="dbmanagementactivity_error_exporting_shared">Erreur d\'exportation des préférences: %1$s</string>
+  <string name="dbmanagementactivity_error_exporting_db">Erreur d\'exportation de la base de données : %1$s</string>
+  <string name="dbmanagementactivity_error_exporting_shared">Erreur d\'exportation des préférences : %1$s</string>
   <string name="dbmanagementactivity_import_data_title">Importer des données ?</string>
   <string name="dbmanagementactivity_overwrite_database_confirmation">Voulez-vous vraiment effacer la base de données actuelle ? Toutes vos données (si vous en avez) seront perdues.</string>
   <string name="dbmanagementactivity_import_successful">Importation réussie.</string>
-  <string name="dbmanagementactivity_error_importing_db">Erreur lors de l\'importation de la base de données: %1$s</string>
-  <string name="dbmanagementactivity_error_importing_shared">Erreur d\'importation des préférences: %1$s</string>
+  <string name="dbmanagementactivity_error_importing_db">Erreur lors de l\'importation de la base de données : %1$s</string>
+  <string name="dbmanagementactivity_error_importing_shared">Erreur d\'importation des préférences : %1$s</string>
   <string name="dbmanagementactivity_delete_activity_data_title">Détruire les anciennes données ?</string>
   <string name="dbmanagementactivity_really_delete_entire_db">Voulez-vous vraiment détruire entièrement la base de données ? Toutes vos données d\'activité et vos informations issues de vos appareils seront perdues.</string>
   <string name="dbmanagementactivity_database_successfully_deleted">Les données ont été effacées.</string>
@@ -390,17 +390,17 @@ NOTE: la base de données sera bien évidement plus grande !</string>
   <string name="pref_screen_notification_profile_alarm_clock">Réveil</string>
   <string name="StringUtils_sender">(%1$s)</string>
   <string name="find_device_you_found_it">Vous l\'avez trouvé !</string>
-  <string name="miband2_prefs_timeformat">Mi2: format de l\'heure</string>
+  <string name="miband2_prefs_timeformat">Mi2 : format de l\'heure</string>
   <string name="mi2_fw_installhandler_fw53_hint">Vous devez installer la version %1$s avant d\'installer ce micrologiciel !</string>
   <string name="mi2_enable_text_notifications">Notifications textuelles</string>
-  <string name="mi2_enable_text_notifications_summary"><![CDATA[Requis: micrologiciel version 1.0.1.28 ou plus, fichier Mili_pro.ft* installé.]]></string>
+  <string name="mi2_enable_text_notifications_summary"><![CDATA[Requis : micrologiciel version 1.0.1.28 ou plus, fichier Mili_pro.ft* installé.]]></string>
   <string name="off">Éteint</string>
   <string name="mi2_dnd_off">Éteint</string>
   <string name="mi2_dnd_automatic">Automatique (détection de sommeil)</string>
   <string name="mi2_dnd_scheduled">Programmé (intervalle de temps)</string>
   <string name="discovery_attempting_to_pair">Tentative de jumelage avec %1$s</string>
   <string name="discovery_bonding_failed_immediately">Le lien avec %1$s a échoué instantanément.</string>
-  <string name="discovery_trying_to_connect_to">Tentative de connexion à: %1$s</string>
+  <string name="discovery_trying_to_connect_to">Tentative de connexion à : %1$s</string>
   <string name="discovery_enable_bluetooth">Activez le Bluetooth pour trouver des dispositifs.</string>
   <string name="discovery_successfully_bonded">Correctement lié à %1$s.</string>
   <string name="discovery_pair_title">Appairer avec %1$s ?</string>
@@ -411,7 +411,7 @@ NOTE: la base de données sera bien évidement plus grande !</string>
 \n 
 \nVeuillez installer le micrologiciel .gps, ensuite le fichier .res, puis le fichier .fw. Votre montre redémarrera après installation du .fw. 
 \n 
-\nNote: vous ne devez pas installer .res et .gps si ceux-ci sont identiques à ceux installés précédemment. 
+\nNote : vous ne devez pas installer .res et .gps si ceux-ci sont identiques à ceux installés précédemment. 
 \n 
 \nCONTINUEZ À VOS RISQUES !</string>
     <string name="amazfitbip_firmware">Firmware Amazfit Bip %1$s</string>
@@ -443,7 +443,7 @@ NOTE: la base de données sera bien évidement plus grande !</string>
 \n 
 \nVeuillez installer le micrologiciel .gps, ensuite le fichier .res, puis le fichier .fw. Votre montre redémarrera après installation du .fw. 
 \n 
-\nNote: vous ne devez pas installer .res si celui-ci est identique à celui installé précédemment. 
+\nNote : vous ne devez pas installer .res si celui-ci est identique à celui installé précédemment. 
 \n 
 \nNON TESTÉ, PEUT BRICKER L\'APPAREIL. CONTINUEZ À VOS RISQUES !</string>
     <string name="amazfitcor_firmware">Micrologiciel Amazfit Cor %1$s</string>
