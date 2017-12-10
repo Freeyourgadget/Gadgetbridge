@@ -160,4 +160,12 @@
 
     <string name="pref_header_location">Τοποθεσία</string>
     <string name="pref_title_location_aquire">Ανάκτηση τοποθεσίας</string>
+    <string name="pref_title_location_latitude">Γεωγραφικό πλάτος</string>
+    <string name="pref_title_location_longitude">Γεωγραφικό μήκος</string>
+    <string name="pref_title_location_keep_uptodate">Να κρατείτε η τοποθεσία ενημερωμένη</string>
+    <string name="pref_summary_location_keep_uptodate">Προσπάθεια χρήσης της παρούσας τοποθεσίας στον χρόνο εκτέλεσης, εναλλακτικά χρήση αποθηκευμένης τοποθεσίας</string>
+
+    <string name="toast_enable_networklocationprovider">Παρακαλώ ενεργοποιήστε τις υπηρεσίες τοποθεσίας</string>
+    <string name="toast_aqurired_networklocation">Η τοποθεσία βρέθηκε</string>
+
     </resources>
