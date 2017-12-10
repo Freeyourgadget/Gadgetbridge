@@ -45,7 +45,37 @@ public abstract class HuamiFirmwareInfo {
     public String toVersion(int crc16) {
         String version = getCrcMap().get(crc16);
         if (version == null) {
-            version = searchVersion(bytes);
+            if (firmwareType == HuamiFirmwareType.FIRMWARE) {
+                version = searchFirmwareVersion(bytes);
+            }
+            else if (firmwareType == HuamiFirmwareType.RES) {
+                version = "RES " + Integer.toString(bytes[5]);
+            }
+            else if (firmwareType == HuamiFirmwareType.RES_NEW) {
+                version = "RES " + Integer.toString(bytes[14]);
+            }
+        }
+        if (version == null) {
+            switch (firmwareType) {
+                case FIRMWARE:
+                    version = "(unknown)";
+                    break;
+                case FONT:
+                    version = "(unknown font)";
+                    break;
+                case GPS:
+                    version = "(unknown GPS)";
+                    break;
+                case GPS_CEP:
+                    version = "(unknown CEP)";
+                    break;
+                case GPS_ALMANAC:
+                    version = "(unknown ALM)";
+                    break;
+                case WATCHFACE:
+                    version = "(unknown watchface)";
+                    break;
+            }
         }
         return version;
     }
@@ -102,7 +132,7 @@ public abstract class HuamiFirmwareInfo {
 
     protected abstract HuamiFirmwareType determineFirmwareType(byte[] bytes);
 
-    protected String searchVersion(byte[] fwbytes) {
+    protected String searchFirmwareVersion(byte[] fwbytes) {
         ByteBuffer buf = ByteBuffer.wrap(fwbytes);
         buf.order(ByteOrder.BIG_ENDIAN);
         while (buf.remaining() > 3) {

@@ -87,7 +87,7 @@ public class Mi2FirmwareInfo extends HuamiFirmwareInfo {
     }
 
     @Override
-    protected String searchVersion(byte[] fwbytes) {
+    protected String searchFirmwareVersion(byte[] fwbytes) {
         // does not work for Mi Band 2
         return null;
     }
