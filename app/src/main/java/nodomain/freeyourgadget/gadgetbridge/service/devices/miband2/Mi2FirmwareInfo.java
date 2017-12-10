@@ -47,7 +47,8 @@ public class Mi2FirmwareInfo extends HuamiFirmwareInfo {
 
     private static final int FW_HEADER_OFFSET = 0x150;
 
-    protected static Map<Integer,String> crcToVersion = new HashMap<>();
+    protected static Map<Integer, String> crcToVersion = new HashMap<>();
+
     static {
         // firmware
         crcToVersion.put(41899, "1.0.0.39");
@@ -55,7 +56,7 @@ public class Mi2FirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(32450, "1.0.1.28");
         crcToVersion.put(51770, "1.0.1.34");
         crcToVersion.put(3929, "1.0.1.39");
-        crcToVersion.put(47364 , "1.0.1.54");
+        crcToVersion.put(47364, "1.0.1.54");
 
         // fonts
         crcToVersion.put(45624, "Font");
@@ -83,5 +84,11 @@ public class Mi2FirmwareInfo extends HuamiFirmwareInfo {
 
     protected Map<Integer, String> getCrcMap() {
         return crcToVersion;
+    }
+
+    @Override
+    protected String searchVersion(byte[] fwbytes) {
+        // does not work for Mi Band 2
+        return null;
     }
 }

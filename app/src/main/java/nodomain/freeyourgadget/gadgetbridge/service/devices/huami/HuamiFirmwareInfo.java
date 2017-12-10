@@ -17,6 +17,8 @@
 
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -41,7 +43,11 @@ public abstract class HuamiFirmwareInfo {
     private HuamiFirmwareType firmwareType = HuamiFirmwareType.FIRMWARE;
 
     public String toVersion(int crc16) {
-        return getCrcMap().get(crc16);
+        String version = getCrcMap().get(crc16);
+        if (version == null) {
+            version = searchVersion(bytes);
+        }
+        return version;
     }
 
     public int[] getWhitelistedVersions() {
@@ -52,12 +58,9 @@ public abstract class HuamiFirmwareInfo {
 
     private byte[] bytes;
 
-    private String firmwareVersion;
-
     public HuamiFirmwareInfo(byte[] bytes) {
         this.bytes = bytes;
         crc16 = CheckSums.getCRC16(bytes);
-        firmwareVersion = getCrcMap().get(crc16);
         firmwareType = determineFirmwareType(bytes);
     }
 
@@ -98,4 +101,28 @@ public abstract class HuamiFirmwareInfo {
     protected abstract Map<Integer, String> getCrcMap();
 
     protected abstract HuamiFirmwareType determineFirmwareType(byte[] bytes);
+
+    protected String searchVersion(byte[] fwbytes) {
+        ByteBuffer buf = ByteBuffer.wrap(fwbytes);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        while (buf.remaining() > 3) {
+            int word = buf.getInt();
+            if (word == 0x5625642e) {
+                word = buf.getInt();
+                if (word == 0x25642e25) {
+                    word = buf.getInt();
+                    if (word == 0x642e2564) {
+                        word = buf.getInt();
+                        if (word == 0x00000000) {
+                            byte version[] = new byte[8];
+                            buf.get(version);
+                            return new String(version);
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
 }
