@@ -176,4 +176,9 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     public boolean supportsRealtimeData() {
         return false;
     }
+
+    @Override
+    public boolean supportsWeather() {
+        return false;
+    }
 }

@@ -236,4 +236,6 @@
   <!--Strings related to Pebble Pairing Activity-->
   <string name="timeformat_24h">24г</string>
   <string name="timeformat_am_pm">ДП/ПП</string>
-</resources>
+<string name="action_donate">Пожертвувати</string>
+    <string name="controlcenter_connect">З\'єднати</string>
+    </resources>

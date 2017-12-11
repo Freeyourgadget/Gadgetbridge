@@ -40,6 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2Service;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
+import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
@@ -126,31 +127,90 @@ public class AmazfitBipSupport extends MiBand2Support {
         if (gbDevice.getFirmwareVersion() == null) {
             LOG.warn("Device not initialized yet, so not sending weather info");
             return;
+
+        }
+        boolean supportsConditionString = false;
+
+        Version version = new Version(gbDevice.getFirmwareVersion());
+        if (version.compareTo(new Version("0.0.8.74")) >= 0) {
+            supportsConditionString = true;
+        }
+        int tz_offset_hours = SimpleTimeZone.getDefault().getOffset(weatherSpec.timestamp * 1000L) / (1000 * 60 * 60);
+        try {
+            TransactionBuilder builder;
+            builder = performInitialized("Sending current temp");
+
+            byte condition = HuamiWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.currentConditionCode);
+
+            int length = 8;
+            if (supportsConditionString) {
+                length += weatherSpec.currentCondition.getBytes().length + 1;
+            }
+            ByteBuffer buf = ByteBuffer.allocate(length);
+            buf.order(ByteOrder.LITTLE_ENDIAN);
+
+            buf.put((byte) 2);
+            buf.putInt(weatherSpec.timestamp);
+            buf.put((byte) (tz_offset_hours * 4));
+            buf.put(condition);
+            buf.put((byte) (weatherSpec.currentTemp - 273));
+
+            if (supportsConditionString) {
+                buf.put(weatherSpec.currentCondition.getBytes());
+                buf.put((byte) 0);
+            }
+
+            builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
+            builder.queue(getQueue());
+        } catch (Exception ex) {
+            LOG.error("Error sending current weather", ex);
+        }
+
+        try {
+            TransactionBuilder builder;
+            builder = performInitialized("Sending air quality index");
+            int length = 8;
+            String aqiString = "(fake)";
+            if (supportsConditionString) {
+                length += aqiString.getBytes().length + 1;
+            }
+            ByteBuffer buf = ByteBuffer.allocate(length);
+            buf.order(ByteOrder.LITTLE_ENDIAN);
+            buf.put((byte) 4);
+            buf.putInt(weatherSpec.timestamp);
+            buf.put((byte) (tz_offset_hours * 4));
+            buf.putShort((short) 0);
+            if (supportsConditionString) {
+                buf.put(aqiString.getBytes());
+                buf.put((byte) 0);
+            }
+            builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
+            builder.queue(getQueue());
+        } catch (IOException ex) {
+            LOG.error("Error sending air quality");
         }
 
         try {
             TransactionBuilder builder = performInitialized("Sending weather forecast");
-            boolean supportsConditionString = false;
 
-            Version version = new Version(gbDevice.getFirmwareVersion());
-            if (version.compareTo(new Version("0.0.8.74")) >= 0) {
-                supportsConditionString = true;
-            }
-
-            final byte NR_DAYS = 2;
+            final byte NR_DAYS = (byte) (1 + weatherSpec.forecasts.size());
             int bytesPerDay = 4;
+
             int conditionsLength = 0;
             if (supportsConditionString) {
                 bytesPerDay = 5;
                 conditionsLength = weatherSpec.currentCondition.getBytes().length;
+                for (WeatherSpec.Forecast forecast : weatherSpec.forecasts) {
+                    conditionsLength += Weather.getConditionString(forecast.conditionCode).getBytes().length;
+                }
             }
+
             int length = 7 + bytesPerDay * NR_DAYS + conditionsLength;
             ByteBuffer buf = ByteBuffer.allocate(length);
 
             buf.order(ByteOrder.LITTLE_ENDIAN);
             buf.put((byte) 1);
             buf.putInt(weatherSpec.timestamp);
-            int tz_offset_hours = SimpleTimeZone.getDefault().getOffset(weatherSpec.timestamp * 1000L) / (1000 * 60 * 60);
             buf.put((byte) (tz_offset_hours * 4));
 
             buf.put(NR_DAYS);
@@ -162,22 +222,26 @@ public class AmazfitBipSupport extends MiBand2Support {
             buf.put((byte) (weatherSpec.todayMinTemp - 273));
             if (supportsConditionString) {
                 buf.put(weatherSpec.currentCondition.getBytes());
-                buf.put((byte) 0); //
+                buf.put((byte) 0);
             }
-            condition = HuamiWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.tomorrowConditionCode);
 
-            buf.put(condition);
-            buf.put(condition);
-            buf.put((byte) (weatherSpec.tomorrowMaxTemp - 273));
-            buf.put((byte) (weatherSpec.tomorrowMinTemp - 273));
-            if (supportsConditionString) {
-                buf.put((byte) 0); // not yet in weatherspec
+            for (WeatherSpec.Forecast forecast : weatherSpec.forecasts) {
+                condition = HuamiWeatherConditions.mapToAmazfitBipWeatherCode(forecast.conditionCode);
+
+                buf.put(condition);
+                buf.put(condition);
+                buf.put((byte) (forecast.maxTemp - 273));
+                buf.put((byte) (forecast.minTemp - 273));
+                if (supportsConditionString) {
+                    buf.put(Weather.getConditionString(forecast.conditionCode).getBytes());
+                    buf.put((byte) 0);
+                }
             }
 
             builder.write(getCharacteristic(AmazfitBipService.UUID_CHARACTERISTIC_WEATHER), buf.array());
             builder.queue(getQueue());
         } catch (Exception ex) {
-            LOG.error("Error sending weather information to the Bip", ex);
+            LOG.error("Error sending weather forecast", ex);
         }
     }
 

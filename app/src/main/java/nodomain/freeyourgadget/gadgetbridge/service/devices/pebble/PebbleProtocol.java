@@ -1227,8 +1227,16 @@ public class PebbleProtocol extends GBDeviceProtocol {
         short currentTemp = (short) (weatherSpec.currentTemp - 273);
         short todayMax = (short) (weatherSpec.todayMaxTemp - 273);
         short todayMin = (short) (weatherSpec.todayMinTemp - 273);
-        short tomorrowMax = (short) (weatherSpec.tomorrowMaxTemp - 273);
-        short tomorrowMin = (short) (weatherSpec.tomorrowMinTemp - 273);
+        short tomorrowMax = 0;
+        short tomorrowMin = 0;
+        int tomorrowConditionCode = 0;
+        if (weatherSpec.forecasts.size() > 0) {
+            WeatherSpec.Forecast tomorrow = weatherSpec.forecasts.get(0);
+            tomorrowMax = (short) (tomorrow.maxTemp - 273);
+            tomorrowMin = (short) (tomorrow.minTemp - 273);
+            tomorrowConditionCode = tomorrow.conditionCode;
+        }
+
         String units = GBApplication.getPrefs().getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, GBApplication.getContext().getString(R.string.p_unit_metric));
         if (units.equals(GBApplication.getContext().getString(R.string.p_unit_imperial))) {
             currentTemp = (short) (currentTemp * 1.8f + 32);
@@ -1261,7 +1269,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         buf.put(Weather.mapToPebbleCondition(weatherSpec.currentConditionCode));
         buf.putShort(todayMax);
         buf.putShort(todayMin);
-        buf.put(Weather.mapToPebbleCondition(weatherSpec.tomorrowConditionCode));
+        buf.put(Weather.mapToPebbleCondition(tomorrowConditionCode));
         buf.putShort(tomorrowMax);
         buf.putShort(tomorrowMin);
         buf.putInt(weatherSpec.timestamp);
@@ -1986,7 +1994,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             }
         }
 
-        idLookup[last_id] = ext_id;
+        idLookup[last_id & 0xff] = ext_id;
 
         return buf.array();
     }
@@ -2023,6 +2031,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         break;
                 }
             } catch (JSONException e) {
+                LOG.error("error decoding JSON", e);
                 return null;
             }
         }
@@ -2632,14 +2641,14 @@ public class PebbleProtocol extends GBDeviceProtocol {
                             LOG.info("got APPLICATIONMESSAGE/LAUNCHER (EP " + endpoint + ") NACK");
                         }
                         GBDeviceEventAppMessage evtAppMessage = null;
-                        if (endpoint == ENDPOINT_APPLICATIONMESSAGE && idLookup[last_id] != null) {
+                        if (endpoint == ENDPOINT_APPLICATIONMESSAGE && idLookup[last_id & 0xff] != null) {
                             evtAppMessage = new GBDeviceEventAppMessage();
                             if (pebbleCmd == APPLICATIONMESSAGE_ACK) {
                                 evtAppMessage.type = GBDeviceEventAppMessage.TYPE_ACK;
                             } else {
                                 evtAppMessage.type = GBDeviceEventAppMessage.TYPE_NACK;
                             }
-                            evtAppMessage.id = idLookup[last_id];
+                            evtAppMessage.id = idLookup[last_id & 0xff];
                             evtAppMessage.appUUID = currentRunningApp;
                         }
                         devEvts = new GBDeviceEvent[]{evtAppMessage};

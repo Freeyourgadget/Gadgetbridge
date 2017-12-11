@@ -283,10 +283,6 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_3_CONFIGURATION), enable);
         builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_6_BATTERY_INFO), enable);
         builder.notify(getCharacteristic(MiBand2Service.UUID_CHARACTERISTIC_DEVICEEVENT), enable);
-        BluetoothGattCharacteristic heartrateCharacteristic = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT);
-        if (heartrateCharacteristic != null) {
-            builder.notify(heartrateCharacteristic, enable);
-        }
 
         return this;
     }
@@ -764,11 +760,15 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
         }
         try {
             TransactionBuilder builder = performInitialized("Enable realtime heart rate measurement");
+            BluetoothGattCharacteristic heartrateCharacteristic = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT);
+            if (heartrateCharacteristic != null) {
+                builder.notify(heartrateCharacteristic, enable);
+            }
             if (enable) {
                 builder.write(characteristicHRControlPoint, stopHeartMeasurementManual);
                 builder.write(characteristicHRControlPoint, startHeartMeasurementContinuous);
             } else {
-                builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT), stopHeartMeasurementContinuous);
+                builder.write(characteristicHRControlPoint, stopHeartMeasurementContinuous);
             }
             builder.queue(getQueue());
             enableRealtimeSamplesTimer(enable);
@@ -935,9 +935,10 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 callCmd.event = GBDeviceEventCallControl.Event.REJECT;
                 evaluateGBDeviceEvent(callCmd);
                 break;
-            case HuamiDeviceEvent.CALL_ACCEPT:
-                callCmd.event = GBDeviceEventCallControl.Event.ACCEPT;
-                evaluateGBDeviceEvent(callCmd);
+            case HuamiDeviceEvent.CALL_IGNORE:
+                LOG.info("ignore call (not yet supported)");
+                //callCmd.event = GBDeviceEventCallControl.Event.IGNORE;
+                //evaluateGBDeviceEvent(callCmd);
                 break;
             case HuamiDeviceEvent.BUTTON_PRESSED:
                 LOG.info("button pressed");
@@ -963,6 +964,12 @@ public class MiBand2Support extends AbstractBTLEDeviceSupport {
                 break;
             case HuamiDeviceEvent.TICK_30MIN:
                 LOG.info("Tick 30 min (?)");
+                break;
+            case HuamiDeviceEvent.FIND_PHONE_START:
+                LOG.info("find phone started (not yet supported)");
+                break;
+            case HuamiDeviceEvent.FIND_PHONE_STOP:
+                LOG.info("find phone stopped (not yet supported)");
                 break;
             default:
                 LOG.warn("unhandled event " + value[0]);

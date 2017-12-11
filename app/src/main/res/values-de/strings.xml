@@ -441,4 +441,18 @@
 \n
 \nNICHT GETESTET, DIES KÖNNTE DEIN GERÄT UNBENUTZBAR MACHEN, INSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="mi2_prefs_button_press_count">Anzahl an Tastendrücken</string>
+    <string name="pref_title_charts_swipe">Seitwärts-Wischgesten in der Statistik-Anzeige</string>
+
+    <string name="pref_summary_pebble_enable_bgjs">Wenn aktiviert, können Watchfaces Informationen zu Wetter, Ladezustand etc. anzeigen.</string>
+
+    <string name="prefs_title_heartrate_measurement_interval">ganztägige Pulsmessung</string>
+    <string name="interval_one_minute">minütlich</string>
+    <string name="interval_five_minutes">alle 5 Minuten</string>
+    <string name="interval_ten_minutes">alle 10 Minuten</string>
+    <string name="interval_thirty_minutes">alle 30 Minuten</string>
+    <string name="interval_one_hour">stündlich</string>
+
+    <string name="automatic">automatisch</string>
+    <string name="activity_web_view">Web View Aktivität</string>
+
     </resources>

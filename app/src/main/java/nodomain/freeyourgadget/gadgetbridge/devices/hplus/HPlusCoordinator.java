@@ -99,6 +99,11 @@ public class HPlusCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsWeather() {
+        return false;
+    }
+
+    @Override
     public DeviceType getDeviceType() {
         return DeviceType.HPLUS;
     }

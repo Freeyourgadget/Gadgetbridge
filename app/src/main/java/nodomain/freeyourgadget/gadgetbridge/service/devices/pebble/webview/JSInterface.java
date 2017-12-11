@@ -227,8 +227,8 @@ public class JSInterface {
 
             geoPosition.put("timestamp", currentPosition.timestamp);
 
-            coords.put("latitude", currentPosition.latitude);
-            coords.put("longitude", currentPosition.longitude);
+            coords.put("latitude", currentPosition.getLatitude());
+            coords.put("longitude", currentPosition.getLongitude());
             coords.put("accuracy", currentPosition.accuracy);
             coords.put("altitude", currentPosition.altitude);
             coords.put("speed", currentPosition.speed);

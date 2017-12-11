@@ -110,6 +110,7 @@
     <string name="pref_call_privacy_mode_number">Hide number but display name</string>
     <string name="pref_call_privacy_mode_complete">Hide name and number</string>
 
+    <string name="pref_title_weather_location">Weather location</string>
 
     <string name="pref_blacklist">Blacklist Apps</string>
     <string name="pref_blacklist_calendars">Blacklist Calendars</string>

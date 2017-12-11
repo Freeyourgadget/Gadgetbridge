@@ -45,9 +45,9 @@ class PebbleKitSupport {
     private static final String PEBBLEKIT_ACTION_APP_STOP = "com.getpebble.action.app.STOP";
 
     private static final String PEBBLEKIT_ACTION_DL_RECEIVE_DATA_NEW = "com.getpebble.action.dl.RECEIVE_DATA_NEW";
-    private static final String PEBBLEKIT_ACTION_DL_RECEIVE_DATA = "com.getpebble.action.dl.RECEIVE_DATA";
+    //private static final String PEBBLEKIT_ACTION_DL_RECEIVE_DATA = "com.getpebble.action.dl.RECEIVE_DATA";
     private static final String PEBBLEKIT_ACTION_DL_ACK_DATA = "com.getpebble.action.dl.ACK_DATA";
-    private static final String PEBBLEKIT_ACTION_DL_REQUEST_DATA = "com.getpebble.action.dl.REQUEST_DATA";
+    //private static final String PEBBLEKIT_ACTION_DL_REQUEST_DATA = "com.getpebble.action.dl.REQUEST_DATA";
     private static final String PEBBLEKIT_ACTION_DL_FINISH_SESSION = "com.getpebble.action.dl.FINISH_SESSION_NEW";
 
     private static final Logger LOG = LoggerFactory.getLogger(PebbleKitSupport.class);
@@ -62,6 +62,10 @@ class PebbleKitSupport {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+            if (action == null) {
+                LOG.warn("got empty action from PebbleKit Intent - ignoring");
+                return;
+            }
             LOG.info("Got action: " + action);
             UUID uuid;
             switch (action) {
@@ -85,7 +89,7 @@ class PebbleKitSupport {
                         sendAppMessageAck(transaction_id);
                         //  }
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        LOG.error("failed decoding JSON", e);
                     }
                     break;
                 case PEBBLEKIT_ACTION_APP_ACK:
@@ -101,7 +105,9 @@ class PebbleKitSupport {
                 case PEBBLEKIT_ACTION_DL_ACK_DATA:
                     LOG.info("GOT DL DATA ACK");
                     break;
-
+                default:
+                    LOG.warn("Unhandled PebbleKit action: " + action);
+                    break;
             }
         }
     };

@@ -394,7 +394,7 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         return shouldIgnoreSource(sbn.getPackageName()) || shouldIgnoreNotification(
-                sbn.getNotification());
+                sbn.getNotification(), sbn.getPackageName());
 
     }
 
@@ -432,16 +432,21 @@ public class NotificationListener extends NotificationListenerService {
         return false;
     }
 
-    private boolean shouldIgnoreNotification(Notification notification) {
+    private boolean shouldIgnoreNotification(Notification notification, String source) {
 
         MediaSessionCompat.Token mediaSession = NotificationCompat.getMediaSession(notification);
         //try to handle media session notifications
         if (mediaSession != null && handleMediaSessionNotification(mediaSession))
             return true;
 
+        NotificationType type = AppNotificationType.getInstance().get(source);
         //ignore notifications marked as LocalOnly https://developer.android.com/reference/android/app/Notification.html#FLAG_LOCAL_ONLY
-        if (NotificationCompat.getLocalOnly(notification))
+        //some Apps always mark their notifcations as read-only
+        if (NotificationCompat.getLocalOnly(notification) &&
+                type != NotificationType.WECHAT &&
+                type != NotificationType.OUTLOOK) {
             return true;
+        }
 
         Prefs prefs = GBApplication.getPrefs();
         if (!prefs.getBoolean("notifications_generic_whenscreenon", false)) {

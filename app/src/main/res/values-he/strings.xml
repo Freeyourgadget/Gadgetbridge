@@ -456,4 +456,11 @@
     <string name="traditional_chinese">סינית מסורתית</string>
     <string name="english">אנגלית</string>
 
+    <string name="prefs_title_heartrate_measurement_interval">מדד דופק ליום</string>
+    <string name="interval_one_minute">פעם בדקה</string>
+    <string name="interval_five_minutes">כל 5 דקות</string>
+    <string name="interval_ten_minutes">כל 10 דקות</string>
+    <string name="interval_thirty_minutes">כל חצי שעה</string>
+    <string name="interval_one_hour">פעם בשעה</string>
+
     </resources>
