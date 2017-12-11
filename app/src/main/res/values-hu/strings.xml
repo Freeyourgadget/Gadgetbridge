@@ -258,7 +258,7 @@
   <string name="activity_sleepchart_activity_and_sleep">Aktivitásod és alvásod</string>
   <string name="updating_firmware">Firmware frissítése…</string>
   <string name="fwapp_install_device_not_ready">A fájlt nem lehet telepíteni, a készülék nincs készen.</string>
-  <string name="miband_installhandler_miband_firmware">Mi Band Firmware %1$s</string>
+  <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
   <string name="miband_fwinstaller_compatible_version">Kompatibilis verzió</string>
   <string name="miband_fwinstaller_untested_version">Nem tesztelt verzió!</string>
   <string name="fwappinstaller_connection_state">Csatlakozás az eszközhöz: %1$s</string>

@@ -18,12 +18,16 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huami;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
 import java.io.IOException;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.AbstractMiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 
 public abstract class HuamiFWHelper extends AbstractMiBandFWHelper {
     protected HuamiFirmwareInfo firmwareInfo;
@@ -35,6 +39,41 @@ public abstract class HuamiFWHelper extends AbstractMiBandFWHelper {
     @Override
     public String format(int version) {
         return firmwareInfo.toVersion(version);
+    }
+
+    @NonNull
+    @Override
+    public String getFirmwareKind() {
+        int resId = R.string.kind_invalid;
+        switch (getFirmwareInfo().getFirmwareType()) {
+            case FONT:
+                resId = R.string.kind_font;
+                break;
+            case GPS:
+                resId = R.string.kind_gps;
+                break;
+            case GPS_ALMANAC:
+                resId = R.string.kind_gps_almanac;
+                break;
+            case GPS_CEP:
+                resId = R.string.kind_gps_cep;
+                break;
+            case RES:
+                resId = R.string.kind_resources;
+                break;
+            case RES_NEW:
+                resId = R.string.kind_resources;
+                break;
+            case FIRMWARE:
+                resId = R.string.kind_firmware;
+                break;
+            case WATCHFACE:
+                resId = R.string.kind_watchface;
+                break;
+            case INVALID:
+                // fall through
+        }
+        return GBApplication.getContext().getString(resId);
     }
 
     @Override

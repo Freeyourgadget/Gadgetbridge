@@ -201,7 +201,7 @@
   <string name="activity_sleepchart_activity_and_sleep">Twoja aktywność i sen</string>
   <string name="updating_firmware">Aktualizacja firmware\'u…</string>
   <string name="fwapp_install_device_not_ready">Plik nie może być zainstalowany, urządzenie nie gotowe.</string>
-  <string name="miband_installhandler_miband_firmware">Firmware Mi Band %1$s</string>
+  <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
   <string name="miband_fwinstaller_compatible_version">Zgodna wersja</string>
   <string name="miband_fwinstaller_untested_version">Nietestowana wersja!</string>
   <string name="fwappinstaller_connection_state">Połączenie z urządzeniem: %1$s</string>

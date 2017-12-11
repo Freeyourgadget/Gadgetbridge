@@ -317,9 +317,7 @@
     <string name="activity_sleepchart_activity_and_sleep">Your activity and sleep</string>
     <string name="updating_firmware">Updating Firmware…</string>
     <string name="fwapp_install_device_not_ready">File cannot be installed, device not ready.</string>
-    <string name="miband_installhandler_miband_firmware">Mi Band Firmware %1$s</string>
-    <string name="amazfitbip_firmware">Amazfit Bip Firmware %1$s</string>
-    <string name="amazfitcor_firmware">Amazfit Cor Firmware %1$s</string>
+    <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
     <string name="miband_fwinstaller_compatible_version">Compatible version</string>
     <string name="miband_fwinstaller_untested_version">Untested version!</string>
     <string name="fwappinstaller_connection_state">Connection to device: %1$s</string>
@@ -499,4 +497,26 @@
     <string name="_pebble_watch_open_on_phone">Open on phone</string>
     <string name="_pebble_watch_mute">Mute</string>
     <string name="_pebble_watch_reply">Reply</string>
+    <string name="kind_firmware">Firmware</string>
+    <string name="kind_invalid">Invalid data</string>
+    <string name="kind_font">Font</string>
+    <string name="kind_gps">GPS Firmware</string>
+    <string name="kind_gps_almanac">GPS Almanac</string>
+    <string name="kind_gps_cep">GPS Error Correction</string>
+    <string name="kind_resources">Resources</string>
+    <string name="kind_watchface">Watchface</string>
+    <string name="devicetype_unknown">Unknown Device</string>
+    <string name="devicetype_test">Test Device</string>
+    <string name="devicetype_pebble">Pebble</string>
+    <string name="devicetype_miband">Mi Band</string>
+    <string name="devicetype_miband2">Mi Band 2</string>
+    <string name="devicetype_amazfit_bip">Amazfit Bip</string>
+    <string name="devicetype_amazfit_cor">Amazfit Cor</string>
+    <string name="devicetype_vibratissimo">Vibratissimo</string>
+    <string name="devicetype_liveview">LiveView</string>
+    <string name="devicetype_hplus">HPlus</string>
+    <string name="devicetype_makibes_f68">Makibes F68</string>
+    <string name="devicetype_exrizu_k8">Exrizu K8</string>
+    <string name="devicetype_no1_f1">No.1 F1</string>
+    <string name="devicetype_teclast_h30">Teclast H30</string>
 </resources>

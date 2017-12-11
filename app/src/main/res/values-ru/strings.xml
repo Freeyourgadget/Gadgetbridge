@@ -255,7 +255,7 @@
   <string name="activity_sleepchart_activity_and_sleep">Ваши активность и сон</string>
   <string name="updating_firmware">Обновление прошивки…</string>
   <string name="fwapp_install_device_not_ready">Файл не может быть установлен, устройство не готово.</string>
-  <string name="miband_installhandler_miband_firmware">Версия прошивки Mi Band: %1$s</string>
+  <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
   <string name="miband_fwinstaller_compatible_version">Совместимая версия</string>
   <string name="miband_fwinstaller_untested_version">Не протестированная версия!</string>
   <string name="fwappinstaller_connection_state">Подключение к устройству: %1$s</string>

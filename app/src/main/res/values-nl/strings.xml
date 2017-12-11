@@ -158,4 +158,5 @@
     <string name="_pebble_watch_open_on_phone">Open op de telefoon</string>
     <string name="_pebble_watch_mute">Dempen</string>
     <string name="_pebble_watch_reply">Antwoord</string>
+    <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
 </resources>

@@ -262,7 +262,7 @@
   <string name="activity_sleepchart_activity_and_sleep">Attività e sonno</string>
   <string name="updating_firmware">Aggiornamento del Firmware...</string>
   <string name="fwapp_install_device_not_ready">Il file non può essere installato, il dispositivo non è pronto.</string>
-  <string name="miband_installhandler_miband_firmware">Firmware Mi Band: %1$s</string>
+  <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
   <string name="amazfitbip_firmware">Firmware Amazfit Bip %1$s</string>
   <string name="miband_fwinstaller_compatible_version">Versione compatibile</string>
   <string name="miband_fwinstaller_untested_version">Versione non testata!</string>

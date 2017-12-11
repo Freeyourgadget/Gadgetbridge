@@ -165,7 +165,7 @@
   <string name="activity_sleepchart_activity_and_sleep">당신의 활동과 수면</string>
   <string name="updating_firmware">펌웨어 업데이트 중...</string>
   <string name="fwapp_install_device_not_ready">파일을 설치할 수 없습니다. 기기가 준비되어 있지 않습니다.</string>
-  <string name="miband_installhandler_miband_firmware">Mi Band 펌웨어 %1$s</string>
+  <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
   <string name="miband_fwinstaller_compatible_version">호환 버전</string>
   <string name="miband_fwinstaller_untested_version">테스트를 거치지 않은 버전</string>
   <string name="fwappinstaller_connection_state">기기에 연결: %1$s</string>
