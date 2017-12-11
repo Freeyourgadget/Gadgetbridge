@@ -43,7 +43,7 @@ public class ParcelableWeather2 implements Parcelable {
         if (version != 2) {
             return;
         }
-        Bundle bundle = in.readBundle();
+        Bundle bundle = in.readBundle(getClass().getClassLoader());
 
         weatherSpec.location = bundle.getString("weather_location");
         long time = bundle.getLong("weather_time");
@@ -52,7 +52,7 @@ public class ParcelableWeather2 implements Parcelable {
         bundle.getString("weather_forecast_url");
         int conditions = bundle.getInt("weather_conditions");
         if (conditions > 0) {
-            Bundle conditionBundle = in.readBundle();
+            Bundle conditionBundle = in.readBundle(getClass().getClassLoader());
             reconstructedOWMWeather = new JSONObject();
             JSONArray weather = new JSONArray();
             JSONObject condition = new JSONObject();
@@ -63,7 +63,9 @@ public class ParcelableWeather2 implements Parcelable {
             weatherSpec.currentTemp = conditionBundle.getInt("weather_current_temp");
 
             String[] currentConditionType = conditionBundle.getStringArray("weather_condition_types");
-            weatherSpec.currentConditionCode = weatherConditionTypesToOpenWeatherMapIds(currentConditionType[0]);
+            if (currentConditionType != null) {
+                weatherSpec.currentConditionCode = weatherConditionTypesToOpenWeatherMapIds(currentConditionType[0]);
+            }
             weatherSpec.todayMinTemp = conditionBundle.getInt("weather_low_temp");
             weatherSpec.todayMaxTemp = conditionBundle.getInt("weather_high_temp");
             try {
@@ -96,9 +98,12 @@ public class ParcelableWeather2 implements Parcelable {
                 condition = new JSONObject();
                 main = new JSONObject();
                 weather = new JSONArray();
-                Bundle forecastBundle = in.readBundle();
+                Bundle forecastBundle = in.readBundle(getClass().getClassLoader());
                 String[] forecastConditionType = forecastBundle.getStringArray("weather_condition_types");
-                int forecastConditionCode = weatherConditionTypesToOpenWeatherMapIds(forecastConditionType[0]);
+                int forecastConditionCode = 0;
+                if (forecastConditionType != null) {
+                    forecastConditionCode = weatherConditionTypesToOpenWeatherMapIds(forecastConditionType[0]);
+                }
                 int forecastLowTemp = forecastBundle.getInt("weather_low_temp");
                 int forecastHighTemp = forecastBundle.getInt("weather_high_temp");
                 weatherSpec.forecasts.add(new WeatherSpec.Forecast(forecastLowTemp, forecastHighTemp, forecastConditionCode));

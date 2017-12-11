@@ -83,6 +83,7 @@ dependencies {
     // version contains way too much and our custom patches are in the generator only.
     compile 'org.greenrobot:greendao:2.2.1'
     compile 'org.apache.commons:commons-lang3:3.5'
+    compile 'org.cyanogenmod:platform.sdk:6.0'
 
 //    compile project(":DaoCore")
 }

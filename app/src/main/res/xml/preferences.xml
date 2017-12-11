@@ -41,6 +41,9 @@
             android:key="measurement_system"
             android:summary="%s"
             android:title="@string/pref_title_unit_system" />
+        <EditTextPreference
+            android:key="weather_city"
+            android:title="@string/pref_title_weather_location" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="minimize_priority"

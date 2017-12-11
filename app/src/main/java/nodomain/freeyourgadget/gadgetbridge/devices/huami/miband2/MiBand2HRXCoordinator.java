@@ -68,4 +68,9 @@ public class MiBand2HRXCoordinator extends HuamiCoordinator {
         return false;
     }
 
+    @Override
+    public boolean supportsWeather() {
+        return false;
+    }
+
 }

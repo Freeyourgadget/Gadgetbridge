@@ -50,7 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmClockReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothPairingRequestReceiver;
-//import nodomain.freeyourgadget.gadgetbridge.externalevents.CMWeatherReceiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.CMWeatherReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.CalendarReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.MusicPlaybackReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PebbleReceiver;
@@ -174,7 +174,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
     private AlarmReceiver mAlarmReceiver = null;
     private CalendarReceiver mCalendarReceiver = null;
-    //private CMWeatherReceiver mCMWeatherReceiver = null;
+    private CMWeatherReceiver mCMWeatherReceiver = null;
     private Random mRandom = new Random();
 
     private final String[] mMusicActions = {
@@ -659,12 +659,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 filter.addAction(AlarmClockReceiver.ALARM_DONE_ACTION);
                 registerReceiver(mAlarmClockReceiver, filter);
             }
-            /*
-            if (mCMWeatherReceiver == null) {
+            if (mCMWeatherReceiver == null && coordinator != null && coordinator.supportsWeather()) {
                 mCMWeatherReceiver = new CMWeatherReceiver();
-                registerReceiver(mCMWeatherReceiver, new IntentFilter("HOURLY_ALARM"));
+                registerReceiver(mCMWeatherReceiver, new IntentFilter("GB_UPDATE_WEATHER"));
             }
-            */
         } else {
             if (mPhoneCallReceiver != null) {
                 unregisterReceiver(mPhoneCallReceiver);
@@ -699,12 +697,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 unregisterReceiver(mAlarmClockReceiver);
                 mAlarmClockReceiver = null;
             }
-            /*
             if (mCMWeatherReceiver != null) {
                 unregisterReceiver(mCMWeatherReceiver);
                 mCMWeatherReceiver = null;
             }
-            */
         }
     }
 

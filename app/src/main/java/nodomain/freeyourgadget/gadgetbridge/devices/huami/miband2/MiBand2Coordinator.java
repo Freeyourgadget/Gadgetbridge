@@ -73,4 +73,9 @@ public class MiBand2Coordinator extends HuamiCoordinator {
     public boolean supportsHeartRateMeasurement(GBDevice device) {
         return true;
     }
+
+    @Override
+    public boolean supportsWeather() {
+        return false;
+    }
 }

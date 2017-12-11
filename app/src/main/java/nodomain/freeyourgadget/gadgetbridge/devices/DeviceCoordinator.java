@@ -228,5 +228,10 @@ public interface DeviceCoordinator {
      * This can be live HR, steps etc.
      */
     boolean supportsRealtimeData();
-    
+
+    /**
+     * Indicates whether the device supports current weather and/or weather
+     * forecast display.
+     */
+    boolean supportsWeather();
 }

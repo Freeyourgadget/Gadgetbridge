@@ -155,4 +155,9 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     public boolean supportsRealtimeData() {
         return false;
     }
+
+    @Override
+    public boolean supportsWeather() {
+        return true;
+    }
 }

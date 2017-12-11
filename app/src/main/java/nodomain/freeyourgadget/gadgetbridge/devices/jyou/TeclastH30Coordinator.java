@@ -85,6 +85,11 @@ public class TeclastH30Coordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsWeather() {
+        return false;
+    }
+
+    @Override
     public DeviceType getDeviceType() {
         return DeviceType.TECLASTH30;
     }
