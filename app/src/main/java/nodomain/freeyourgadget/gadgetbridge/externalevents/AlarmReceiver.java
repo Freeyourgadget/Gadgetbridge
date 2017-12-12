@@ -51,7 +51,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         Context context = GBApplication.getContext();
         Intent intent = new Intent("DAILY_ALARM");
         intent.setPackage(BuildConfig.APPLICATION_ID);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, new Intent("DAILY_ALARM"), 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
         AlarmManager am = (AlarmManager) (context.getSystemService(Context.ALARM_SERVICE));
 
         if (am != null) {
