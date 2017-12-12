@@ -99,7 +99,7 @@
     <string name="pref_title_notifications_call">Τηλεφωνικές κλήσεις</string>
     <string name="pref_title_notifications_sms">SMS</string>
     <string name="pref_title_notifications_pebblemsg">Μηνύματα Pebble</string>
-    <string name="pref_summary_notifications_pebblemsg">Υποστήριξη των εφαρμογών που στέλνουν ειδοποιήσεις στο Pebble μέσω του PebbleKit</string>
+    <string name="pref_summary_notifications_pebblemsg">Υποστήριξη των εφαρμογών που στέλνουν ειδοποιήσεις στο Pebble μέσω του PebbleKit.</string>
     <string name="pref_title_notifications_generic">Υποστήριξη γενικών ειδοποιήσεων</string>
     <string name="pref_title_whenscreenon">...επίσης όταν είναι ανοιχτή η οθόνη</string>
     <string name="pref_title_notification_filter">Μην Ενοχλείτε</string>
@@ -182,7 +182,7 @@
     <string name="pref_title_pebble_always_ack_pebblekit">Πρόωρο ACK PebbleKit</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">"Θα αναγκάσει τα μηνύματα που στέλνονται από εφαρμογές τρίτων να  γνωστοποιούνται πάντα και άμεσα"</string>
     <string name="pref_title_pebble_enable_bgjs">Χρήση JS στο παρασκήνιο</string>
-    <string name="pref_summary_pebble_enable_bgjs">Αν επιλεχθεί, θα επιτρέπει στα watchfaces να δείχνουν το καιρό, την μπαταρία κλπ</string>
+    <string name="pref_summary_pebble_enable_bgjs">Αν επιλεχθεί, θα επιτρέπει στα watchfaces να δείχνουν το καιρό, την μπαταρία κλπ.</string>
 
     <string name="pref_title_pebble_reconnect_attempts">Προσπάθειες επανασύνδεσης</string>
 
@@ -499,7 +499,7 @@
 
     <string name="StringUtils_sender">(%1$s)</string>
     <string name="find_device_you_found_it">Το βρήκατε!</string>
-    <string name="miband2_prefs_timeformat">Mi2: Μορφή ώρας</string>
+    <string name="miband2_prefs_timeformat">Mi Band 2: Μορφή ώρας</string>
     <string name="mi2_fw_installhandler_fw53_hint">Πρέπει να εγκαταστήσετε πρώτα την έκδοση λογισμικού %1$s πριν προβείτε στην εγκατάσταση της έκδοσης που επιθυμείτε!</string>
     <string name="mi2_enable_text_notifications">Ειδοποιήσεις κειμένου</string>
     <string name="mi2_enable_text_notifications_summary">Χρειάζεται λογισμικό νεώτερο από την έκδοση 1.0.1.28 και το αρχείο Mili_pro.ft* να έχει εγκατασταθεί.</string>
@@ -508,10 +508,10 @@
     <string name="mi2_dnd_automatic">Αυτόματο (εντοπισμός ύπνου)</string>
     <string name="mi2_dnd_scheduled">Προγραμματισμένο (συγκεκριμένη ώρα)</string>
     <string name="discovery_attempting_to_pair">Προσπάθεια σύζευξης με %1$s</string>
-    <string name="discovery_bonding_failed_immediately">"Η μόνιμη σύνδεση με  %1$s απέτυχε άμεσα."</string>
+    <string name="discovery_bonding_failed_immediately">Ο δεσμός με %1$s απέτυχε άμεσα.</string>
     <string name="discovery_trying_to_connect_to">"Προσπάθεια σύνδεσης με το:  %1$s"</string>
     <string name="discovery_enable_bluetooth">Ενεργοποιήστε το Bluetooth για να βρείτε τη συσκευή.</string>
-    <string name="discovery_successfully_bonded">"Επιτυχής μόνιμη σύνδεση με  %1$s."</string>
+    <string name="discovery_successfully_bonded">"Επιτυχής δεσμός με  %1$s."</string>
     <string name="discovery_pair_title">Σύζευξη με %1$s;</string>
     <string name="discovery_pair_question">Διαλέξτε \"Σύζευξη\" για να γίνει η σύζευξη των συσκευών. Αν αυτό αποτύχει, προσπαθήστε πάλι χωρίς σύζευξη.</string>
     <string name="discovery_yes_pair">Σύζευξη</string>
