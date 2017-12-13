@@ -72,7 +72,7 @@
   <string name="_unknown_">(알 수 없음)</string>
   <string name="test">테스트</string>
   <string name="test_notification">알림 테스트</string>
-  <string name="this_is_a_test_notification_from_gadgetbridge">이 알림은 가젯브릿지가 보낸 테스트용 알림입니다.</string>
+  <string name="this_is_a_test_notification_from_gadgetbridge">이 알림은 가젯브릿지가 보낸 테스트용 알림입니다</string>
   <string name="bluetooth_is_not_supported_">블루투스가 지원되지 않습니다.</string>
   <string name="bluetooth_is_disabled_">블루투스가 해제되어 있습니다.</string>
   <string name="tap_connected_device_for_app_mananger">연결된 기기를 선택해 앱 관리자 실행</string>
@@ -93,12 +93,12 @@
   <string name="action_discover">새 기기 연결</string>
   <string name="device_with_rssi">%1$s (%2$s)</string>
   <string name="title_activity_android_pairing">기기 페어링</string>
-  <string name="android_pairing_hint">기기를 페어링하려면 안드로이드 블루투스 페어링 설정을 사용하세요</string>
+  <string name="android_pairing_hint">기기를 페어링하려면 안드로이드 블루투스 페어링 설정을 사용하세요.</string>
   <string name="title_activity_mi_band_pairing">Mi Band 페어링</string>
   <string name="pairing">%s에 페어링…</string>
   <string name="message_cannot_pair_no_mac">MAC 주소가 통과되지 않았습니다. 페어링 할 수 없습니다.</string>
   <string name="preferences_category_device_specific_settings">기기 특정 설정</string>
-  <string name="preferences_miband_settings">Mi Band 설정</string>
+  <string name="preferences_miband_settings">Mi Band / Amazfit 설정</string>
   <string name="male">남성</string>
   <string name="female">여성</string>
   <string name="other">기타</string>
@@ -112,7 +112,7 @@
   <string name="miband_prefs_alias">이름/별명</string>
   <string name="pref_header_vibration_count">진동 횟수</string>
   <string name="title_activity_sleepmonitor">수면 측정계</string>
-  <string name="pref_write_logfiles">기록 파일 작성</string>
+  <string name="pref_write_logfiles">로그 파일 작성</string>
   <string name="initializing">초기화 중</string>
   <string name="busy_task_fetch_activity_data">활동 데이터 가져오는 중</string>
   <string name="sleep_activity_date_range">%1$s에서 %2$s(으)로</string>
@@ -143,7 +143,7 @@
   <string name="alarm_thu_short">목요일</string>
   <string name="alarm_fri_short">금요일</string>
   <string name="alarm_sat_short">토요일</string>
-  <string name="alarm_smart_wakeup">스마트 깨우기</string>
+  <string name="alarm_smart_wakeup">스마트한 알람</string>
   <string name="user_feedback_miband_set_alarms_failed">알람 설정 오류가 발생했습니다. 다시 시도하세요!</string>
   <string name="user_feedback_miband_set_alarms_ok">알람을 기기로 보냈습니다!</string>
   <string name="chart_no_data_synchronize">데이터가 없습니다. 기기와 동기화할까요?</string>
@@ -227,8 +227,8 @@
     <string name="controlcenter_delete_device">기기 제거</string>
     <string name="controlcenter_delete_device_name">%1$s 제거</string>
     <string name="controlcenter_delete_device_dialogmessage">기기와 그와 관련된 모든 데이터를 삭제 할 것입니다!</string>
-    <string name="controlcenter_navigation_drawer_open">네비게이션 드로어 열기</string>
-    <string name="controlcenter_navigation_drawer_close">네비게이션 드로어 닫기</string>
+    <string name="controlcenter_navigation_drawer_open">탐색 서랍 열기</string>
+    <string name="controlcenter_navigation_drawer_close">탐색 서랍 닫기</string>
     <string name="controlcenter_snackbar_need_longpress">카드를 길게 눌러 연결 해제</string>
     <string name="controlcenter_snackbar_disconnecting">연결 해제 중</string>
     <string name="controlcenter_snackbar_connecting">연결 중</string>
@@ -249,13 +249,13 @@
 
     <string name="title_activity_calblacklist">비활성화 된 캘린더들</string>
 
-    <string name="fw_upgrade_notice_amazfitbip">지금 기존의 Amazfit Bip에 설치되어 있는 펌웨어 대신 %s 펌웨어를 설치하려고 합니다.
+    <string name="fw_upgrade_notice_amazfitbip">지금 기존의 Amazfit Bip에 %s 펌웨어를 설치하려고 합니다. 
+\n 
+\n.gps 펌웨어를 설치하고 나서 .res 파일을, 그리고 최종적으로 .fw 파일을 설치하세요. .fw 파일을 설치한 후 기기가 재시작 됩니다. 
+\n 
+\n비고: 만약 전에 설치되어 있던 .res 파일과 .gps 파일을 그대로 사용한다면 각 파일을 다시 설치 할 필요는 없습니다. 
 \n
-\n.gps 펌웨어를 설치하고 나서 .res 파일을, 그리고 최종적으로 .fw 파일을 설치하세요. 시계가 .fw 파일을 설치한 후 재시작 됩니다.
-\n
-\n비고: 만약 전에 설치되어 있던 .res 파일과 .gps 파일을 그대로 사용한다면 각 파일을 다시 설치 할 필요는 없습니다.
-\n
-\n실험적인 기능입니다. 기기 파손의 책임은 사용자에게 있으니 주의해서 진행하세요</string>
+\n본인의 책임 하에 진행하세요!</string>
     <string name="pref_title_general_autostartonboot">자동으로 시작</string>
     <string name="pref_title_language">언어</string>
 
@@ -327,4 +327,188 @@
 
     <string name="pref_title_unit_system">단위</string>
     <string name="pref_title_timeformat">시간 형식</string>
+    <string name="controlcenter_connect">연결</string>
+    <string name="fw_upgrade_notice_amazfitcor">%s 펌웨어를 Amazfit Cor에 설치하려고 합니다.
+\n
+\n.res 파일을 먼저 설치하고 .fw 파일을 설치하십시오. .fw 파일이 설치된 이후에 기기가 재시작될 것입니다.
+\n
+\n기존의 .res 파일과 설치하려는 .res 파일이 동일하다면, .res 파일을 다시 설치할 필요는 없습니다.
+\n
+\n테스트되지 않은 기능입니다. 기기가 고장날 가능성이 있습니다. 본인의 책임 하에 진행하십시오!</string>
+    <string name="pref_title_charts_swipe">활동 차트에서 좌/우 밀어넘기기 사용</string>
+
+    <string name="pref_title_weather_location">날씨 위치</string>
+
+    <string name="pref_title_pebble_enable_bgjs">백그라운드 JS 사용하기</string>
+    <string name="pref_summary_pebble_enable_bgjs">활성화할 경우 시계 화면에 날씨와 배터리 정보 등을 표시합니다.</string>
+
+    <string name="pref_title_screentime">화면 켜짐 시간</string>
+    <string name="prefs_title_all_day_heart_rate">하루종일 심박수 측정</string>
+    <string name="preferences_hplus_settings">HPlus/Makibes 설정</string>
+
+    <string name="tap_connected_device_for_activity">연결된 기기를 터치해서 활동 확인</string>
+    <string name="tap_connected_device_for_vibration">연결된 기기를 터치해서 진동</string>
+    <string name="pairing_creating_bond_with">%1$s (%2$s)에 연결 생성하는 중</string>
+    <string name="pairing_unable_to_pair_with">%1$s (%2$s)에 페어링 불가능</string>
+    <string name="pairing_in_progress">연결 생성 중: %1$s (%2$s)</string>
+    <string name="pairing_already_bonded">이미 %1$s (%2$s)에 연결이 생성되었으며 연결하는 중…</string>
+    <string name="preferences_amazfitbip_settings">Amazfit Bip 설정</string>
+    <string name="discovery_connected_devices_hint">기기를 발견 가능하도록 설정하세요. 현재 연결된 기기는 나타나지 않을 가능성이 높습니다. 안드로이드 6.0 이상의 버전에서는 위치(예: GPS) 기능을 활성화하세요. Privacy Guard가 설정되어 있다면 오작동을 일으킬 가능성이 있으므로 가젯브릿지를 예외 처리하세요. 몇 분 안에 기기가 발견되지 않는다면, 기기를 재시작하고 다시 시도하세요.</string>
+    <string name="vibration_try">시도하기</string>
+    <string name="pref_screen_notification_profile_email">이메일 알림</string>
+    <string name="pref_screen_notification_profile_generic_chat">챗</string>
+    <string name="pref_screen_notification_profile_generic_navigation">내비게이션</string>
+    <string name="pref_screen_notification_profile_generic_social">소셜 네트워크</string>
+
+    <string name="prefs_title_heartrate_measurement_interval">하루종일 심박수 측정</string>
+    <string name="interval_one_minute">1분 간격</string>
+    <string name="interval_five_minutes">5분 간격</string>
+    <string name="interval_ten_minutes">10분 간격</string>
+    <string name="interval_thirty_minutes">30분 간격</string>
+    <string name="interval_one_hour">1시간 간격</string>
+
+    <string name="stats_title">속도 구간</string>
+    <string name="stats_x_axis_label">총 분수</string>
+    <string name="stats_y_axis_label">분당 걸음 수</string>
+
+    <string name="weeksleepchart_sleep_a_week">주간 수면 시간</string>
+    <string name="weeksleepchart_today_sleep_description">오늘의 수면, 목표 수면 시간: %1$s</string>
+    <string name="calories">칼로리</string>
+    <string name="distance">거리</string>
+    <string name="clock">시계</string>
+    <string name="heart_rate">심박수</string>
+    <string name="battery">배터리</string>
+    <string name="pref_title_low_latency_fw_update">펌웨어 업데이트에 낮은 지연 모드 사용</string>
+    <string name="pref_summary_low_latency_fw_update">펌웨어 업데이트가 실패할 경우 이 기능이 도움이 될 수 있습니다</string>
+
+    <string name="miband_prefs_device_time_offset_hours">기기 시간을 상쇄하기(교대 근무자의 수면 측정을 위해)</string>
+    <string name="miband2_prefs_dateformat">Mi2: 날짜 형식</string>
+    <string name="dateformat_time">시간</string>
+    <string name="dateformat_date_time">시간 &amp; 날짜</string>
+    <string name="mi2_prefs_button_actions">버튼 동작</string>
+    <string name="mi2_prefs_button_actions_summary">Mi Band 2의 버튼을 누를 경우 동작 설정하기</string>
+    <string name="mi2_prefs_button_press_count">버튼 누르는 횟수</string>
+    <string name="mi2_prefs_button_press_count_summary">메세지 브로드캐스트를 발동하기 위한 버튼 누름 횟수</string>
+    <string name="mi2_prefs_button_press_broadcast">브로드캐스트 메세지</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">버튼 누름 횟수에 도달할 경우에 보낼 브로드캐스트 메세지 설정</string>
+    <string name="mi2_prefs_button_action">버튼 동작 사용</string>
+    <string name="mi2_prefs_button_action_summary">특정 횟수만큼 버튼을 누를경우 작동하는 기능</string>
+    <string name="mi2_prefs_button_action_vibrate">밴드 진동 사용</string>
+    <string name="mi2_prefs_button_action_vibrate_summary">버튼 동작이 작동할 경우 기기 진동</string>
+    <string name="mi2_prefs_button_press_count_max_delay">버튼 누름간 최대 간격</string>
+    <string name="mi2_prefs_button_press_count_max_delay_summary">버튼 누름 간격을 밀리초(Milisecond) 단위로 설정</string>
+    <string name="mi2_prefs_button_press_count_match_delay">버튼 동작 후 지연</string>
+    <string name="mi2_prefs_button_press_count_match_delay_summary">버튼 동작을 작동하고 나서의 휴지 기간 (0으로 설정할 경우 지연 없음)</string>
+    <string name="mi2_prefs_goal_notification">목표 달성 알림</string>
+    <string name="mi2_prefs_goal_notification_summary">목표 걸음 수 달성시 밴드 진동</string>
+    <string name="mi2_prefs_display_items">항목 표시</string>
+    <string name="mi2_prefs_display_items_summary">밴드 화면에 표시할 항목 선택</string>
+    <string name="mi2_prefs_activate_display_on_lift">기기를 들어 화면 표시</string>
+    <string name="mi2_prefs_rotate_wrist_to_switch_info">손목을 틀어 표시 항목 전환</string>
+    <string name="mi2_prefs_do_not_disturb">방해 금지</string>
+    <string name="mi2_prefs_do_not_disturb_summary">방해 금지 중에는 밴드에 알림을 표시하지 않음</string>
+    <string name="mi2_prefs_inactivity_warnings">부동 자세 경고</string>
+    <string name="mi2_prefs_inactivity_warnings_summary">정해진 시간 동안 동작이 감지되지 않을 경우 진동으로 알림</string>
+    <string name="mi2_prefs_inactivity_warnings_threshold">경고 기준 시간</string>
+    <string name="mi2_prefs_inactivity_warnings_dnd_summary">부동 기간 설정</string>
+    <string name="mi2_prefs_do_not_disturb_start">시작 시간</string>
+    <string name="mi2_prefs_do_not_disturb_end">종료 시간</string>
+
+    <string name="automatic">자동</string>
+    <string name="simplified_chinese">중국어 간체</string>
+    <string name="traditional_chinese">중국어 번체</string>
+    <string name="english">영어</string>
+
+    <string name="FetchActivityOperation_about_to_transfer_since">%1$s 이후의 데이터 전송 중</string>
+
+    <string name="pref_title_pebble_health_store_raw">데이터베이스에 미가공 데이터 저장</string>
+    <string name="pref_summary_pebble_health_store_raw">이 기능을 사용할 경우 데이터는 가공되지 않은 상태로 저장됩니다 (데이터 용량이 비교적 클 수 있습니다)!</string>
+    <string name="action_db_management">데이터베이스 관리</string>
+    <string name="title_activity_db_management">데이터베이스 관리</string>
+    <string name="activity_db_management_import_export_explanation">데이터베이스 작업은 다음 경로를 사용합니다.
+\n이 경로는 다른 컴퓨터 및 안드로이드 앱에서 접근 가능합니다.
+\n내보낸 데이터베이스 및 가져올 데이터베이스를 여기서 확인하세요:</string>
+    <string name="activity_db_management_merge_old_title">남겨진 데이터베이스 삭제</string>
+    <string name="dbmanagementactivvity_cannot_access_export_path">내보낼 경로에 접근할 수 없습니다. 개발자에게 연락하세요.</string>
+    <string name="dbmanagementactivity_exported_to">%1$s 로 내보냈음</string>
+    <string name="dbmanagementactivity_error_exporting_db">데이터베이스 내보내기 오류: %1$s</string>
+    <string name="dbmanagementactivity_error_exporting_shared">설정 내보내기 오류: %1$s</string>
+    <string name="dbmanagementactivity_import_data_title">데이터를 가져올까요?</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">기존 데이터베이스를 덮어쓸까요? 기존의 활동 데이터가 소실됩니다.</string>
+    <string name="dbmanagementactivity_import_successful">가져오기 성공.</string>
+    <string name="dbmanagementactivity_error_importing_db">데이터베이스 가져오기 오류: %1$s</string>
+    <string name="dbmanagementactivity_error_importing_shared">설정 가져오기 오류: %1$s</string>
+    <string name="dbmanagementactivity_delete_activity_data_title">활동 데이터를 삭제할까요?</string>
+    <string name="dbmanagementactivity_really_delete_entire_db">정말로 모든 데이터베이스를 삭제할까요? 모든 활동 데이터 및 기기 정보가 소실됩니다.</string>
+    <string name="dbmanagementactivity_database_successfully_deleted">데이터 삭제 성공.</string>
+    <string name="dbmanagementactivity_db_deletion_failed">데이터베이스 삭제 실패.</string>
+    <string name="dbmanagementactivity_delete_old_activity_db">오래된 활동 데이터베이스를 삭제할까요?</string>
+    <string name="dbmanagementactivity_delete_old_activitydb_confirmation">정말로 오래된 활동 데이터베이스를 삭제할까요? 내보내지 않은 활동 데이터는 소실됩니다.</string>
+    <string name="dbmanagementactivity_old_activity_db_successfully_deleted">오래된 활동 데이터 삭제 성공.</string>
+    <string name="dbmanagementactivity_old_activity_db_deletion_failed">오래된 활동 데이터 삭제 실패.</string>
+    <string name="dbmanagementactivity_overwrite">덮어쓰기</string>
+    <string name="Cancel">취소</string>
+    <string name="title_activity_vibration">진동</string>
+
+    <string name="title_activity_pebble_pairing">Pebble 페어링</string>
+    <string name="pebble_pairing_hint">페어링 화면이 안드로이드 기기에 나타날 것입니다. 그렇지 않다면, 알림 서랍을 열어서 페어링 요청을 수락하세요. 그리고 나서 Pebble에서 페어링 요청을 수락하세요</string>
+
+    <string name="weather_notification_label">Pebble에 날씨 정보를 얻기 위해 이 스킨이 Weather Notification 앱에서 활성화되었는지를 확인하세요.
+\n
+\n다른 설정은 필요하지 않습니다.
+\n
+\nPebble의 시스템 날씨 앱을 앱 관리에서 사용할 수 있습니다.
+\n
+\n이를 지원하는 워치페이스는 자동으로 날씨를 표시할 것입니다.</string>
+    <string name="pref_title_setup_bt_pairing">블루투스 페어링 사용</string>
+    <string name="pref_summary_setup_bt_pairing">기기 연결에 문제가 있을 경우 이 설정을 해제하세요</string>
+
+    <string name="unit_metric">미터 단위</string>
+    <string name="unit_imperial">영국식 단위</string>
+
+    <string name="timeformat_24h">24시간</string>
+    <string name="timeformat_am_pm">오전/오후</string>
+
+    <string name="pref_screen_notification_profile_alarm_clock">알람 시계</string>
+
+    <string name="activity_web_view">웹 뷰 활동</string>
+
+    <string name="StringUtils_sender">(%1$s)</string>
+    <string name="find_device_you_found_it">찾았습니다!</string>
+    <string name="miband2_prefs_timeformat">Mi2: 시간 형식</string>
+    <string name="mi2_fw_installhandler_fw53_hint">이 펌웨어를 설치하기 전에 %1$s 버전을 먼저 설치해야 합니다!</string>
+    <string name="mi2_enable_text_notifications">글자로 표시된 알림</string>
+    <string name="mi2_enable_text_notifications_summary">1.0.1.28 이상 버전의 펌웨어와 Mili_pro.ft가 설치되어 있어야 합니다.</string>
+    <string name="off">꺼짐</string>
+    <string name="mi2_dnd_off">꺼짐</string>
+    <string name="mi2_dnd_automatic">자동 (수면 측정)</string>
+    <string name="mi2_dnd_scheduled">예약됨 (시간 간격)</string>
+    <string name="discovery_attempting_to_pair">%1$s에 페어링 시도하는 중</string>
+    <string name="discovery_bonding_failed_immediately">%1$s에 연결 생성 실패.</string>
+    <string name="discovery_trying_to_connect_to">연결 시도하는 중: %1$s</string>
+    <string name="discovery_enable_bluetooth">기기를 발견하기 위해 블루투스를 활성화하세요.</string>
+    <string name="discovery_successfully_bonded">%1$s에 연결 생성 성공.</string>
+    <string name="discovery_pair_title">%1$s 와 페어링할까요?</string>
+    <string name="discovery_pair_question">기기에 페어링하려면 \'페어링\'을 선택하세요. 만약 실패한다면 페어링 없이 다시 시도하세요.</string>
+    <string name="discovery_yes_pair">페어링</string>
+    <string name="discovery_dont_pair">페어링하지 않기</string>
+
+    <string name="_pebble_watch_open_on_phone">스마트폰에서 열기</string>
+    <string name="_pebble_watch_mute">음소거</string>
+    <string name="_pebble_watch_reply">답장</string>
+    <string name="kind_firmware">펌웨어</string>
+    <string name="kind_invalid">올바르지 않은 데이터</string>
+    <string name="kind_font">글꼴</string>
+    <string name="kind_gps">GPS 펌웨어</string>
+    <string name="kind_gps_almanac">GPS 연감</string>
+    <string name="kind_gps_cep">GPS 오류 보정</string>
+    <string name="kind_resources">리소스</string>
+    <string name="kind_watchface">워치페이스</string>
+    <string name="devicetype_unknown">알 수 없는 기기</string>
+    <string name="devicetype_test">기기 테스트</string>
+    <string name="devicetype_pebble">Pebble</string>
+    <string name="devicetype_miband">Mi Band</string>
+    <string name="devicetype_miband2">Mi Band 2</string>
+    <string name="devicetype_amazfit_bip">Amazfit Bip</string>
+    <string name="devicetype_amazfit_cor">Amazfit Cor</string>
     </resources>
