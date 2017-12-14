@@ -509,4 +509,28 @@
     <string name="traditional_chinese">Chinés tradicional</string>
     <string name="english">Inglés</string>
 
-    </resources>
+    <string name="pref_title_weather_location">Localización para Méteo</string>
+
+    <string name="prefs_title_heartrate_measurement_interval">Medición de pulso todo o día</string>
+    <string name="interval_one_minute">cada minuto</string>
+    <string name="interval_five_minutes">cada 5 minutos</string>
+    <string name="interval_ten_minutes">cada 10 minutos</string>
+    <string name="interval_thirty_minutes">cada 30 minutos</string>
+    <string name="interval_one_hour">cada hora</string>
+
+    <string name="kind_firmware">Firmware</string>
+    <string name="kind_invalid">Datos inválidos</string>
+    <string name="kind_font">Fonte</string>
+    <string name="kind_gps">Firmware do GPS</string>
+    <string name="kind_gps_almanac">Almanaque GPS</string>
+    <string name="kind_gps_cep">Corrección de Erros do GPS</string>
+    <string name="kind_resources">Recursos</string>
+    <string name="devicetype_unknown">Dispositivo descoñecido</string>
+    <string name="devicetype_test">Dispositivo de probas</string>
+    <string name="devicetype_pebble">Pebble</string>
+    <string name="devicetype_miband">Mi Band</string>
+    <string name="devicetype_miband2">Mi Band 2</string>
+    <string name="devicetype_amazfit_bip">Amazfit Bip</string>
+    <string name="devicetype_amazfit_cor">Amazfit Cor</string>
+    <string name="devicetype_teclast_h30">Teclast H30</string>
+</resources>
