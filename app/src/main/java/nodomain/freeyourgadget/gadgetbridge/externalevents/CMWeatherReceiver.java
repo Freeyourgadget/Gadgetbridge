@@ -132,7 +132,6 @@ public class CMWeatherReceiver extends BroadcastReceiver implements CMWeatherMan
                 weatherSpec.todayMaxTemp = (int) weatherInfo.getTodaysHigh() + 273;
                 weatherSpec.todayMinTemp = (int) weatherInfo.getTodaysLow() + 273;
             }
-
             weatherSpec.currentConditionCode = Weather.mapToOpenWeatherMapCondition(CMtoYahooCondintion(weatherInfo.getConditionCode()));
             weatherSpec.currentCondition = Weather.getConditionString(weatherSpec.currentConditionCode);
 

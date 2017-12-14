@@ -39,6 +39,7 @@ public class WeatherSpec implements Parcelable {
     public int currentTemp;
     public int currentConditionCode = 3200;
     public String currentCondition;
+    public int currentHumidity;
     public int todayMaxTemp;
     public int todayMinTemp;
     public ArrayList<Forecast> forecasts = new ArrayList<>();
@@ -53,6 +54,7 @@ public class WeatherSpec implements Parcelable {
         currentTemp = in.readInt();
         currentConditionCode = in.readInt();
         currentCondition = in.readString();
+        currentHumidity = in.readInt();
         todayMaxTemp = in.readInt();
         todayMinTemp = in.readInt();
         in.readList(forecasts, Forecast.class.getClassLoader());
@@ -70,6 +72,7 @@ public class WeatherSpec implements Parcelable {
         dest.writeInt(currentTemp);
         dest.writeInt(currentConditionCode);
         dest.writeString(currentCondition);
+        dest.writeInt(currentHumidity);
         dest.writeInt(todayMaxTemp);
         dest.writeInt(todayMinTemp);
         dest.writeList(forecasts);
@@ -90,20 +93,23 @@ public class WeatherSpec implements Parcelable {
         public int minTemp;
         public int maxTemp;
         public int conditionCode;
+        public int humidity;
 
         public Forecast() {
         }
 
-        public Forecast(int minTemp, int maxTemp, int conditionCode) {
+        public Forecast(int minTemp, int maxTemp, int conditionCode, int humidity) {
             this.minTemp = minTemp;
             this.maxTemp = maxTemp;
             this.conditionCode = conditionCode;
+            this.humidity = humidity;
         }
 
         Forecast(Parcel in) {
             minTemp = in.readInt();
             maxTemp = in.readInt();
             conditionCode = in.readInt();
+            humidity = in.readInt();
         }
 
         @Override
@@ -116,6 +122,7 @@ public class WeatherSpec implements Parcelable {
             dest.writeInt(minTemp);
             dest.writeInt(maxTemp);
             dest.writeInt(conditionCode);
+            dest.writeInt(humidity);
         }
     }
 }

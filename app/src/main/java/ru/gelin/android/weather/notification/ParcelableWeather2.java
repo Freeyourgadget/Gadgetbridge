@@ -35,7 +35,6 @@ public class ParcelableWeather2 implements Parcelable {
     // getters and setters suck ;)
     public WeatherSpec weatherSpec = new WeatherSpec();
 
-    public JSONObject reconstructedOWMWeather = null;
     public JSONObject reconstructedOWMForecast = null;
 
     private ParcelableWeather2(Parcel in) {
@@ -53,11 +52,6 @@ public class ParcelableWeather2 implements Parcelable {
         int conditions = bundle.getInt("weather_conditions");
         if (conditions > 0) {
             Bundle conditionBundle = in.readBundle(getClass().getClassLoader());
-            reconstructedOWMWeather = new JSONObject();
-            JSONArray weather = new JSONArray();
-            JSONObject condition = new JSONObject();
-            JSONObject main = new JSONObject();
-
             weatherSpec.currentCondition = conditionBundle.getString("weather_condition_text");
             conditionBundle.getStringArray("weather_condition_types");
             weatherSpec.currentTemp = conditionBundle.getInt("weather_current_temp");
@@ -68,25 +62,8 @@ public class ParcelableWeather2 implements Parcelable {
             }
             weatherSpec.todayMinTemp = conditionBundle.getInt("weather_low_temp");
             weatherSpec.todayMaxTemp = conditionBundle.getInt("weather_high_temp");
-            try {
-                condition.put("id", weatherSpec.currentConditionCode);
-                condition.put("main", weatherSpec.currentCondition);
-                condition.put("icon", Weather.mapToOpenWeatherMapIcon(weatherSpec.currentConditionCode));
-                weather.put(condition);
+            weatherSpec.currentHumidity = conditionBundle.getInt("weather_humidity_value");
 
-                main.put("temp", weatherSpec.currentTemp);
-                main.put("humidity", conditionBundle.getInt("weather_humidity_value"));
-                main.put("temp_min", weatherSpec.todayMinTemp);
-                main.put("temp_max", weatherSpec.todayMaxTemp);
-                main.put("name", weatherSpec.location);
-
-                reconstructedOWMWeather.put("weather", weather);
-                reconstructedOWMWeather.put("main", main);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            LOG.debug("Weather JSON for WEBVIEW: " + reconstructedOWMWeather.toString());
             //fetch forecasts
             int timeOffset = 0;
 
@@ -95,9 +72,9 @@ public class ParcelableWeather2 implements Parcelable {
             while (--conditions > 0) {
                 timeOffset += 86400000; //manually determined
                 JSONObject item = new JSONObject();
-                condition = new JSONObject();
-                main = new JSONObject();
-                weather = new JSONArray();
+                JSONObject condition = new JSONObject();
+                JSONObject main = new JSONObject();
+                JSONArray weather = new JSONArray();
                 Bundle forecastBundle = in.readBundle(getClass().getClassLoader());
                 String[] forecastConditionType = forecastBundle.getStringArray("weather_condition_types");
                 int forecastConditionCode = 0;
@@ -106,7 +83,8 @@ public class ParcelableWeather2 implements Parcelable {
                 }
                 int forecastLowTemp = forecastBundle.getInt("weather_low_temp");
                 int forecastHighTemp = forecastBundle.getInt("weather_high_temp");
-                weatherSpec.forecasts.add(new WeatherSpec.Forecast(forecastLowTemp, forecastHighTemp, forecastConditionCode));
+                int forecastHumidity = forecastBundle.getInt("weather_humidity_value");
+                weatherSpec.forecasts.add(new WeatherSpec.Forecast(forecastLowTemp, forecastHighTemp, forecastConditionCode, forecastHumidity));
                 try {
                     condition.put("id", forecastConditionCode);
                     condition.put("main", forecastBundle.getString("weather_condition_text"));
@@ -114,7 +92,7 @@ public class ParcelableWeather2 implements Parcelable {
                     weather.put(condition);
 
                     main.put("temp", forecastBundle.getInt("weather_current_temp"));
-                    main.put("humidity", forecastBundle.getInt("weather_humidity_value"));
+                    main.put("humidity", forecastHumidity);
                     main.put("temp_min", forecastLowTemp);
                     main.put("temp_max", forecastHighTemp);
 
