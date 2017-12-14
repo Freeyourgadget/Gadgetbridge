@@ -134,6 +134,7 @@ public class CMWeatherReceiver extends BroadcastReceiver implements CMWeatherMan
             }
             weatherSpec.currentConditionCode = Weather.mapToOpenWeatherMapCondition(CMtoYahooCondintion(weatherInfo.getConditionCode()));
             weatherSpec.currentCondition = Weather.getConditionString(weatherSpec.currentConditionCode);
+            weatherSpec.currentHumidity = (int) weatherInfo.getHumidity();
 
             weatherSpec.forecasts = new ArrayList<>();
             List<WeatherInfo.DayForecast> forecasts = weatherInfo.getForecasts();
