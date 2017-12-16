@@ -1,0 +1,3 @@
+* Initial support for LineageOS/CyanogenMod weather provider
+* Amazfit Bip/Cor: Support for current weather temperature
+* Amazfit Bip/Cor: Display firmware version and type also for non-whitelisted firmware files
