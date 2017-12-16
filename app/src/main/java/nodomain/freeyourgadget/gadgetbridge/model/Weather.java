@@ -16,12 +16,17 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Weather {
+    private static final Logger LOG = LoggerFactory.getLogger(Weather.class);
+
     private WeatherSpec weatherSpec = null;
 
-    private JSONObject reconstructedOWMWeather = null;
     private JSONObject reconstructedOWMForecast = null;
 
     public WeatherSpec getWeatherSpec() {
@@ -32,12 +37,36 @@ public class Weather {
         this.weatherSpec = weatherSpec;
     }
 
-    public JSONObject getReconstructedOWMWeather() {
-        return reconstructedOWMWeather;
-    }
+    public JSONObject createReconstructedOWMWeatherReply() {
+        if (weatherSpec == null) {
+            return null;
+        }
+        JSONObject reconstructedOWMWeather = new JSONObject();
+        JSONArray weather = new JSONArray();
+        JSONObject condition = new JSONObject();
+        JSONObject main = new JSONObject();
 
-    public void setReconstructedOWMWeather(JSONObject reconstructedOWMWeather) {
-        this.reconstructedOWMWeather = reconstructedOWMWeather;
+        try {
+            condition.put("id", weatherSpec.currentConditionCode);
+            condition.put("main", weatherSpec.currentCondition);
+            condition.put("icon", Weather.mapToOpenWeatherMapIcon(weatherSpec.currentConditionCode));
+            weather.put(condition);
+
+            main.put("temp", weatherSpec.currentTemp);
+            main.put("humidity", weatherSpec.currentHumidity);
+            main.put("temp_min", weatherSpec.todayMinTemp);
+            main.put("temp_max", weatherSpec.todayMaxTemp);
+            main.put("name", weatherSpec.location);
+
+            reconstructedOWMWeather.put("weather", weather);
+            reconstructedOWMWeather.put("main", main);
+
+        } catch (JSONException e) {
+            LOG.error("Error while reconstructing OWM weather reply");
+            return null;
+        }
+        LOG.debug("Weather JSON for WEBVIEW: " + reconstructedOWMWeather.toString());
+        return reconstructedOWMWeather;
     }
 
     public JSONObject getReconstructedOWMForecast() {

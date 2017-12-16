@@ -262,7 +262,7 @@
   <string name="activity_sleepchart_activity_and_sleep">あなたの活動と睡眠</string>
   <string name="updating_firmware">ファームウェアの更新中…</string>
   <string name="fwapp_install_device_not_ready">ファイルをインストールできません。デバイスの準備ができていません。</string>
-  <string name="miband_installhandler_miband_firmware">Mi Band ファームウェア %1$s</string>
+  <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
   <string name="miband_fwinstaller_compatible_version">互換性のバージョン</string>
   <string name="miband_fwinstaller_untested_version">テストされていないバージョン!</string>
   <string name="fwappinstaller_connection_state">デバイスへの接続: %1$s</string>

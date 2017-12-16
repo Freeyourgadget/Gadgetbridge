@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.23.0" versioncode="114">
+        <change>Initial support for LineageOS/CyanogenMod weather provider</change>
+        <change>Amazfit Bip/Cor: Support for current weather temperature</change>
+        <change>Amazfit Bip/Cor: Display firmware version and type also for non-whitelisted firmware files</change>
+    </release>
     <release version="0.22.5" versioncode="113">
         <change>Unlock Teclast H10 support using the same code as H30</change>
         <change>Amazfit Bip: Fix installation of 0.1.0.11 Firmware</change>

@@ -170,7 +170,7 @@ public class AmazfitBipSupport extends MiBand2Support {
             TransactionBuilder builder;
             builder = performInitialized("Sending air quality index");
             int length = 8;
-            String aqiString = "(fake)";
+            String aqiString = "(n/a)";
             if (supportsConditionString) {
                 length += aqiString.getBytes().length + 1;
             }

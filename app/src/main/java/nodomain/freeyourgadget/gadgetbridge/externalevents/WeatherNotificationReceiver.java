@@ -48,7 +48,6 @@ public class WeatherNotificationReceiver extends BroadcastReceiver {
 
         if (parcelableWeather2 != null) {
             Weather weather = Weather.getInstance();
-            weather.setReconstructedOWMWeather(parcelableWeather2.reconstructedOWMWeather);
             weather.setReconstructedOWMForecast(parcelableWeather2.reconstructedOWMForecast);
 
             WeatherSpec weatherSpec = parcelableWeather2.weatherSpec;

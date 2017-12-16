@@ -254,7 +254,7 @@
   <string name="activity_sleepchart_activity_and_sleep">Vaše aktivita a spánek</string>
   <string name="updating_firmware">Nahrávám firmware…</string>
   <string name="fwapp_install_device_not_ready">Soubor nelze nainstalovat, zařízení není připraveno.</string>
-  <string name="miband_installhandler_miband_firmware">Mi Band Firmware %1$s</string>
+  <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
   <string name="miband_fwinstaller_compatible_version">Kompatibilní verze</string>
   <string name="miband_fwinstaller_untested_version">Netestovaná verze!</string>
   <string name="fwappinstaller_connection_state">Připojení k zařízení: %1$s</string>

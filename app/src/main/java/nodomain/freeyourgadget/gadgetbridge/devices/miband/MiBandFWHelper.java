@@ -26,6 +26,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.AbstractMiFirmwareInfo;
 
@@ -65,6 +67,12 @@ public class MiBandFWHelper extends AbstractMiBandFWHelper {
 
     public MiBandFWHelper(Uri uri, Context context) throws IOException {
         super(uri, context);
+    }
+
+    @NonNull
+    @Override
+    public String getFirmwareKind() {
+        return GBApplication.getContext().getString(R.string.kind_firmware);
     }
 
     @Override

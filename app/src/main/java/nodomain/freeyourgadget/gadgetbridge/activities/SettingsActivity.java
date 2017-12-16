@@ -43,11 +43,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.CMWeatherReceiver;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -268,7 +268,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 GBApplication.getPrefs().getPreferences().edit().putString("weather_cityid",null).apply();
                 preference.setSummary(newVal.toString());
                 Intent intent = new Intent("GB_UPDATE_WEATHER");
-                intent.setPackage(CMWeatherReceiver.class.getCanonicalName());
+                intent.setPackage(BuildConfig.APPLICATION_ID);
                 sendBroadcast(intent);
                 return true;
             }

@@ -58,8 +58,8 @@ public abstract class AbstractMiBandFWInstallHandler implements InstallHandler {
 
     protected abstract AbstractMiBandFWHelper createHelper(Uri uri, Context context) throws IOException;
 
-    protected GenericItem createInstallItem() {
-        return new GenericItem(mContext.getString(R.string.miband_installhandler_miband_firmware, helper.getHumanFirmwareVersion()));
+    protected GenericItem createInstallItem(GBDevice device) {
+        return new GenericItem(mContext.getString(R.string.installhandler_firmware_name, mContext.getString(device.getType().getName()), helper.getFirmwareKind(), helper.getHumanFirmwareVersion()));
     }
 
     protected String getFwUpgradeNotice() {
@@ -88,7 +88,7 @@ public abstract class AbstractMiBandFWInstallHandler implements InstallHandler {
             return;
         }
 
-        GenericItem fwItem = createInstallItem();
+        GenericItem fwItem = createInstallItem(device);
         fwItem.setIcon(device.getType().getIcon());
 
         if (!helper.isFirmwareGenerallyCompatibleWith(device)) {
@@ -112,7 +112,7 @@ public abstract class AbstractMiBandFWInstallHandler implements InstallHandler {
             // TODO: set a CHECK (OKAY) button
         } else {
             builder.append("  ").append(mContext.getString(R.string.miband_firmware_unknown_warning)).append(" \n\n")
-                    .append(mContext.getString(R.string.miband_firmware_suggest_whitelist, helper.getFirmwareVersion()));
+                    .append(mContext.getString(R.string.miband_firmware_suggest_whitelist, String.valueOf(helper.getFirmwareVersion())));
             fwItem.setDetails(mContext.getString(R.string.miband_fwinstaller_untested_version));
             // TODO: set a UNKNOWN (question mark) button
         }

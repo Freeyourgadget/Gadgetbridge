@@ -140,11 +140,8 @@ public class GBWebClient extends WebViewClient {
         CurrentPosition currentPosition = new CurrentPosition();
 
         try {
-            JSONObject resp;
-
-            if ("/data/2.5/weather".equals(type) && Weather.getInstance().getReconstructedOWMWeather() != null) {
-                resp = new JSONObject(Weather.getInstance().getReconstructedOWMWeather().toString());
-
+            JSONObject resp = Weather.getInstance().createReconstructedOWMWeatherReply();
+            if ("/data/2.5/weather".equals(type) && resp != null) {
                 JSONObject main = resp.getJSONObject("main");
 
                 convertTemps(main, units); //caller might want different units

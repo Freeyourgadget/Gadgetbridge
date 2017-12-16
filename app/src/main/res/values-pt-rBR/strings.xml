@@ -12,13 +12,13 @@
   <string name="controlcenter_disconnect">Desconectar</string>
   <string name="controlcenter_delete_device">Apagar dispositivo</string>
   <string name="controlcenter_delete_device_name">Apagar %1$s</string>
-  <string name="controlcenter_delete_device_dialogmessage">Isto irá apagar o dispositivo e apagar os dados associados!</string>
+  <string name="controlcenter_delete_device_dialogmessage">Isto irá apagar o dispositivo e todos os dados associados!</string>
   <string name="title_activity_debug">Depurar</string>
   <!--Strings related to AppManager-->
-  <string name="title_activity_appmanager">Administrador de App</string>
+  <string name="title_activity_appmanager">Gerenciador de App</string>
   <string name="appmanager_cached_watchapps_watchfaces">Apps em cache</string>
   <string name="appmanager_installed_watchapps">Apps instalados</string>
-  <string name="appmanager_installed_watchfaces">Visores instalados</string>
+  <string name="appmanager_installed_watchfaces">Mostradores instalados</string>
   <string name="appmananger_app_delete">Apagar</string>
   <string name="appmananger_app_delete_cache">Apagar e remover do cache</string>
   <string name="appmananger_app_reinstall">Reinstalar</string>
@@ -27,7 +27,7 @@
   <string name="appmanager_health_deactivate">Desativar</string>
   <string name="appmanager_hrm_activate">Ativar HRM</string>
   <string name="appmanager_hrm_deactivate">Desativar HRM</string>
-  <string name="appmanager_weather_activate">Ativas app de clima do sistema</string>
+  <string name="appmanager_weather_activate">Ativar app de clima do sistema</string>
   <string name="appmanager_weather_deactivate">Desativar app de clima do sistema</string>
   <string name="appmanager_weather_install_provider">Instalar notificações do app de clima</string>
   <string name="app_configure">Configurar</string>
@@ -40,19 +40,21 @@
   <string name="fw_upgrade_notice">Você está prestes a instalar o firmware %s no lugar do atual em sua Mi Band.</string>
   <string name="fw_multi_upgrade_notice">Você está prestes a instalar os firmwares %1$s e %2$s no lugar dos que estão atualmente na sua Mi Band.</string>
   <string name="miband_firmware_known">O firmware foi testado e é compatível com Gadgetbridge.</string>
-  <string name="miband_firmware_unknown_warning">Este firmware não foi testado e pode não ser compatível com o Gadgetbridge..\n\nNÃO recomendamos que instale em seu Mi Band!</string>
-  <string name="miband_firmware_suggest_whitelist">Se você ainda quiser continuar e as coisas continuarem a funcionar corretamente depois, informe os desenvolvedores do Gadgetbridge para autorizar a versão do firmware: %s</string>
+  <string name="miband_firmware_unknown_warning">Este firmware não foi testado e pode não ser compatível com o Gadgetbridge.
+\n
+\nNÃO recomendamos que instale em sua Mi Band!</string>
+  <string name="miband_firmware_suggest_whitelist">Se você ainda desejar continuar e tudo funcionar corretamente, por favor, diga aos desenvolvedores do Gadgetbridge para incluírem essa versão de firmware na lista: %s</string>
   <!--Strings related to Settings-->
   <string name="title_activity_settings">Configurações</string>
   <string name="pref_header_general">Configurações Gerais</string>
-  <string name="pref_title_general_autoconnectonbluetooth">Conecte o dispositivo com o ligar o Bluetooth</string>
+  <string name="pref_title_general_autoconnectonbluetooth">Conecta o dispositivo quando o Bluetooth estiver ligado</string>
   <string name="pref_title_general_autostartonboot">Iniciar automaticamente</string>
   <string name="pref_title_general_autocreonnect">Reconectar automaticamente</string>
   <string name="pref_title_audo_player">Player de música preferencial</string>
   <string name="pref_default">Padrão</string>
   <string name="pref_header_datetime">Data e Hora</string>
   <string name="pref_title_datetime_syctimeonconnect">Sincronizar hora</string>
-  <string name="pref_summary_datetime_syctimeonconnect">Sincronizar horário quando o dispositivo estiver conectando ou quando o fuso horário mudar no android</string>
+  <string name="pref_summary_datetime_syctimeonconnect">Sincronizar horário quando o dispositivo estiver conectando ou quando o fuso horário mudar no Android</string>
   <string name="pref_title_theme">Tema</string>
   <string name="pref_theme_light">Claro</string>
   <string name="pref_theme_dark">Escuro</string>
@@ -66,15 +68,15 @@
   <string name="pref_title_notifications_sms">SMS</string>
   <string name="pref_title_notifications_pebblemsg">Mensagens do Pebble</string>
   <string name="pref_summary_notifications_pebblemsg">Suportar notificações de aplicações que enviam notificações pelo PebbleKit.</string>
-  <string name="pref_title_notifications_generic">Suportar notificações genéricas</string>
-  <string name="pref_title_whenscreenon">... e quando a tela estiver ligada</string>
+  <string name="pref_title_notifications_generic">Suporte a notificações genéricas</string>
+  <string name="pref_title_whenscreenon">...quando a tela estiver ligada</string>
   <string name="pref_title_notification_filter">Não perturbe</string>
   <string name="pref_summary_notification_filter">Parar com notificações indesejadas enquanto estiver no modo Não Perturbe.</string>
   <string name="pref_title_transliteration">Representação</string>
   <string name="pref_summary_transliteration">Ativar isso se o dispositivo não tiver suporte para seu idioma</string>
   <string name="always">sempre</string>
   <string name="when_screen_off">quando a tela estiver desligada</string>
-  <string name="never">nunca</string>
+  <string name="never">Nunca</string>
   <string name="pref_header_privacy">Privacidade</string>
   <string name="pref_title_call_privacy_mode">Modo de chamada privada</string>
   <string name="pref_call_privacy_mode_off">Exibir nome e número</string>
@@ -96,10 +98,10 @@
   <string name="pref_title_pebble_sync_morpheuz">Sincronizar com Morpheuz</string>
   <string name="pref_title_enable_outgoing_call">Suporta originar chamadas</string>
   <string name="pref_summary_enable_outgoing_call">Desabilitar isso também irá impedir o Pebble 2/LE vibrar ao originar chamadas</string>
-  <string name="pref_title_enable_pebblekit">Permitir acesso a APPs Android de terceiros</string>
+  <string name="pref_title_enable_pebblekit">Permitir acesso a App Android de terceiros</string>
   <string name="pref_summary_enable_pebblekit">Habilitar suporte experimental ao App Android que use PebbleKit</string>
   <string name="pref_title_sunrise_sunset">Despertar e pôr do sol</string>
-  <string name="pref_summary_sunrise_sunset">Enviar despertar e pôr do sol baseado na localização do pebble</string>
+  <string name="pref_summary_sunrise_sunset">Enviar despertar e pôr do sol baseado na localização do Pebble</string>
   <string name="pref_title_autoremove_notifications">Auto remover notificações rejeitadas</string>
   <string name="pref_summary_autoremove_notifications">Notificações são automaticamente removidas quando rejeitadas no Android</string>
   <string name="pref_title_pebble_privacy_mode">Modo de privacidade</string>
@@ -243,7 +245,7 @@
   <string name="activity_sleepchart_activity_and_sleep">Sua Atividade e Sono</string>
   <string name="updating_firmware">Atualizando Firmware...</string>
   <string name="fwapp_install_device_not_ready">Arquivo não pode ser instalado, o dispositivo não está pronto.</string>
-  <string name="miband_installhandler_miband_firmware">Mi Band Firmware %1$s</string>
+  <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
   <string name="miband_fwinstaller_compatible_version">Versão compatível</string>
   <string name="miband_fwinstaller_untested_version">Versão não testada!</string>
   <string name="fwappinstaller_connection_state">Conexão com o dispositivo: %1$s</string>
@@ -342,4 +344,35 @@
   <string name="timeformat_24h">24H</string>
   <string name="timeformat_am_pm">AM/PM</string>
   <string name="pref_screen_notification_profile_alarm_clock">Alarme</string>
-</resources>
+<string name="action_donate">Doar</string>
+    <string name="controlcenter_connect">Conectar</string>
+    <string name="controlcenter_navigation_drawer_open">Abrir gaveta de navegação</string>
+    <string name="controlcenter_navigation_drawer_close">Fechar gaveta de navegação</string>
+    <string name="controlcenter_snackbar_need_longpress">Pressione prolongadamente o cartão para desconectar</string>
+    <string name="controlcenter_snackbar_disconnecting">Desconectando</string>
+    <string name="controlcenter_snackbar_connecting">Conectando</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Tirar captura de tela do dispositivo</string>
+
+
+    <string name="title_activity_calblacklist">Blacklist do Calendário</string>
+
+    <string name="fw_upgrade_notice_amazfitbip">Você está prestes a instalar o firmware% s no Amazip Bip.
+\n
+\nCertifique-se de instalar o firmware .gps, depois o arquivo .res e, finalmente, o arquivo .fw. Seu relógio será reiniciado após a instalação do arquivo .fw.
+\n
+\nNota: você não precisa instalar .res e .gps se esses arquivos forem exatamente os mesmos que os instalados anteriormente.
+\n
+\nPROSSIGA POR SUA CONTA E RISCO!</string>
+    <string name="fw_upgrade_notice_amazfitcor">Você está prestes a instalar o firmware %s no seu Amazfit Cor.
+\n
+\nCertifique-se de instalar o arquivo .res, e depois disso o arquivo .fw. Seu relógio será reiniciado após a instalação do arquivo .fw.
+\n
+\nNota: você não precisa instalar .res se for exatamente o mesmo que o instalado anteriormente.
+\n
+\nNÃO TESTADO, PODE DANIFICAR SEU DISPOSITIVO, PROSSIGA AO SEU PRÓPRIO RISCO!</string>
+    <string name="pref_title_charts_swipe">Ativar deslizar para a esquerda/direita no gráfico de atividades</string>
+
+    <string name="pref_call_privacy_mode_number">Ocultar número e exibir nome</string>
+    <string name="pref_blacklist_calendars">Calendários na Blacklist</string>
+
+    </resources>

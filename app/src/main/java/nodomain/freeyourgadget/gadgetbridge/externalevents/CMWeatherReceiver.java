@@ -18,6 +18,7 @@ import cyanogenmod.weather.CMWeatherManager;
 import cyanogenmod.weather.WeatherInfo;
 import cyanogenmod.weather.WeatherLocation;
 import cyanogenmod.weather.util.WeatherUtils;
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
@@ -83,7 +84,9 @@ public class CMWeatherReceiver extends BroadcastReceiver implements CMWeatherMan
         }
 
         if (enable) {
-            mPendingIntent = PendingIntent.getBroadcast(mContext, 0, new Intent("GB_UPDATE_WEATHER"), 0);
+            Intent intent = new Intent("GB_UPDATE_WEATHER");
+            intent.setPackage(BuildConfig.APPLICATION_ID);
+            mPendingIntent = PendingIntent.getBroadcast(mContext, 0, intent, 0);
             am.setInexactRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + 10000, AlarmManager.INTERVAL_HOUR, mPendingIntent);
         } else {
             am.cancel(mPendingIntent);
@@ -129,9 +132,9 @@ public class CMWeatherReceiver extends BroadcastReceiver implements CMWeatherMan
                 weatherSpec.todayMaxTemp = (int) weatherInfo.getTodaysHigh() + 273;
                 weatherSpec.todayMinTemp = (int) weatherInfo.getTodaysLow() + 273;
             }
-
             weatherSpec.currentConditionCode = Weather.mapToOpenWeatherMapCondition(CMtoYahooCondintion(weatherInfo.getConditionCode()));
             weatherSpec.currentCondition = Weather.getConditionString(weatherSpec.currentConditionCode);
+            weatherSpec.currentHumidity = (int) weatherInfo.getHumidity();
 
             weatherSpec.forecasts = new ArrayList<>();
             List<WeatherInfo.DayForecast> forecasts = weatherInfo.getForecasts();

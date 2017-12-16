@@ -61,6 +61,12 @@ public abstract class AbstractMiBandFWHelper {
         }
     }
 
+    /**
+     * Returns a localized, user-visible representation of the kind of firmware to be installed.
+     */
+    @NonNull
+    public abstract String getFirmwareKind();
+
     public abstract int getFirmwareVersion();
 
     public abstract int getFirmware2Version();
