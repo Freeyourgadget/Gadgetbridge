@@ -110,7 +110,8 @@
     <string name="pref_call_privacy_mode_number">Hide number but display name</string>
     <string name="pref_call_privacy_mode_complete">Hide name and number</string>
 
-    <string name="pref_title_weather_location">Weather location</string>
+    <string name="pref_title_weather">Weather</string>
+    <string name="pref_title_weather_location">Weather location (CM/LOS)</string>
 
     <string name="pref_blacklist">Blacklist Apps</string>
     <string name="pref_blacklist_calendars">Blacklist Calendars</string>
@@ -497,6 +498,7 @@
     <string name="_pebble_watch_open_on_phone">Open on phone</string>
     <string name="_pebble_watch_mute">Mute</string>
     <string name="_pebble_watch_reply">Reply</string>
+
     <string name="kind_firmware">Firmware</string>
     <string name="kind_invalid">Invalid data</string>
     <string name="kind_font">Font</string>
@@ -505,6 +507,7 @@
     <string name="kind_gps_cep">GPS Error Correction</string>
     <string name="kind_resources">Resources</string>
     <string name="kind_watchface">Watchface</string>
+
     <string name="devicetype_unknown">Unknown Device</string>
     <string name="devicetype_test">Test Device</string>
     <string name="devicetype_pebble">Pebble</string>
