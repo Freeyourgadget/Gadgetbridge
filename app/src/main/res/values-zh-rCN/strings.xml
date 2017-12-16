@@ -1,2 +1,173 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="app_name">Gadgetbridge</string>
+
+    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="action_settings">设置</string>
+    <string name="action_debug">调试</string>
+    <string name="action_quit">退出</string>
+    <string name="action_donate">捐赠</string>
+    <string name="controlcenter_fetch_activity_data">同步</string>
+    <string name="controlcenter_start_sleepmonitor">睡眠检测器（ALPHA测试）</string>
+    <string name="controlcenter_find_device">查找丢失的设备</string>
+    <string name="controlcenter_take_screenshot">截图</string>
+    <string name="controlcenter_connect">已连接</string>
+    <string name="controlcenter_disconnect">未连接</string>
+    <string name="controlcenter_delete_device">删除设备</string>
+    <string name="controlcenter_delete_device_name">删除 %1$s</string>
+    <string name="controlcenter_delete_device_dialogmessage">这将删除设备和所有相关的数据!</string>
+    <string name="controlcenter_navigation_drawer_open">打开导航菜单</string>
+    <string name="controlcenter_navigation_drawer_close">关闭导航菜单</string>
+    <string name="controlcenter_snackbar_need_longpress">长按此卡片以断开连接</string>
+    <string name="controlcenter_snackbar_disconnecting">断开中</string>
+    <string name="controlcenter_snackbar_connecting">连接中</string>
+    <string name="controlcenter_snackbar_requested_screenshot">获取设备的屏幕截图</string>
+
+
+    <string name="title_activity_debug">调试</string>
+
+    <string name="title_activity_appmanager">应用管理器</string>
+    <string name="appmanager_installed_watchapps">已安装的应用程序</string>
+    <string name="appmanager_installed_watchfaces">已安装的表盘</string>
+    <string name="appmananger_app_delete">删除</string>
+    <string name="appmananger_app_delete_cache">删除并清空缓存</string>
+    <string name="appmananger_app_reinstall">重新安装</string>
+    <string name="appmanager_app_openinstore">在Pebble Appstore中搜索</string>
+    <string name="appmanager_health_activate">启用</string>
+    <string name="appmanager_health_deactivate">停用</string>
+    <string name="appmanager_hrm_activate">打开心率检测</string>
+    <string name="appmanager_hrm_deactivate">关闭心率检测</string>
+    <string name="appmanager_weather_activate">启用系统天气预报应用</string>
+    <string name="appmanager_weather_deactivate">禁用系统天气预报应用</string>
+    <string name="appmanager_weather_install_provider">安装天气通知应用</string>
+    <string name="app_configure">配置</string>
+    <string name="app_move_to_top">移至顶部</string>
+
+    <string name="title_activity_appblacklist">通知黑名单</string>
+
+    <string name="title_activity_calblacklist">阻止记录</string>
+
+    <string name="title_activity_fw_app_insaller">FW/App 安装器</string>
+    <string name="fw_upgrade_notice">您即将安装固件 %s ，代替当前在Mi Band上的固件。</string>
+    <string name="fw_upgrade_notice_amazfitbip">您即将在您的华米手表青春版(Amazfit Bip)上安装固件 %s 。
+\n
+\n请确保安装.gps固件，然后安装.res文件，最后安装.fw文件。 安装.fw文件后，手表将重新启动。
+\n
+\n注意：如果这些文件与之前安装的完全一样，则不必安装.res和.gps文件。
+\n
+\n***继续需要您自担风险！</string>
+    <string name="fw_upgrade_notice_amazfitcor">您即将在您的米动手环(Amazfit Cor)上安装固件 %s。
+\n
+\n请确保安装.res文件，然后.fw文件。 安装.fw文件后，手表将重新启动。
+\n
+\n注意：如果这些文件与之前安装的完全一样，则不必安装.res。
+\n
+\n***未经测试的固件，可能会使您的设备发生故障，由您自行承担风险！</string>
+    <string name="fw_multi_upgrade_notice">您即将安装固件 %1$s 和 %2$s，代替当前在Mi Band上的固件。</string>
+    <string name="miband_firmware_known">该固件已经过测试，并且已知与Gadgetbridge兼容。</string>
+    <string name="miband_firmware_unknown_warning">此固件未经测试，可能与Gadgetbridge不兼容。
+\n
+\n不建议把它安装到你的Mi Band！</string>
+    <string name="miband_firmware_suggest_whitelist">如果您仍想继续并且此固件在之后能够正常工作，请告知Gadgetbridge开发者将固件版本列入白名单： %s</string>
+
+    <string name="title_activity_settings">设置</string>
+
+    <string name="pref_header_general">常规设置</string>
+    <string name="pref_title_general_autoconnectonbluetooth">蓝牙打开时连接设备</string>
+    <string name="pref_title_general_autostartonboot">自动启动</string>
+    <string name="pref_title_general_autocreonnect">自动重新连接</string>
+    <string name="pref_title_audo_player">首选音频播放器</string>
+    <string name="pref_default">默认</string>
+    <string name="pref_title_charts_swipe">启用左右滑动切换图表</string>
+
+    <string name="pref_header_datetime">日期和时间</string>
+    <string name="pref_title_datetime_syctimeonconnect">同步时间</string>
+    <string name="pref_summary_datetime_syctimeonconnect">连接设备或手机时区变更时同步时间到设备</string>
+
+    <string name="pref_title_theme">主题</string>
+    <string name="pref_theme_light">亮色</string>
+    <string name="pref_theme_dark">暗色</string>
+
+    <string name="pref_title_language">语言</string>
+
+    <string name="pref_title_minimize_priority">隐藏 Gadgetbridge 通知</string>
+    <string name="pref_summary_minimize_priority_off">状态栏中的图标和锁定屏幕中的通知已开启</string>
+    <string name="pref_summary_minimize_priority_on">状态栏中的图标和锁定屏幕中的通知已被隐藏</string>
+
+    <string name="pref_header_notifications">通知</string>
+    <string name="pref_title_notifications_repetitions">重复</string>
+    <string name="pref_title_notifications_call">来电</string>
+    <string name="pref_title_notifications_sms">短信</string>
+    <string name="pref_title_notifications_pebblemsg">Pebble消息</string>
+    <string name="pref_summary_notifications_pebblemsg">支持通过PebbleKit向Pebble发送通知的应用程序。</string>
+    <string name="pref_title_notifications_generic">通知使用权</string>
+    <string name="pref_title_whenscreenon">即使屏幕开启时也通知</string>
+    <string name="pref_title_notification_filter">勿扰模式</string>
+    <string name="pref_summary_notification_filter">基于勿扰模式停用不需要的通知</string>
+    <string name="pref_title_transliteration">音译</string>
+    <string name="pref_summary_transliteration">如果您的设备不支持您语言的字体, 请启用此功能</string>
+
+    <string name="always">总是</string>
+    <string name="when_screen_off">当屏幕关闭时</string>
+    <string name="never">从不</string>
+
+    <string name="pref_header_privacy">隐私</string>
+    <string name="pref_title_call_privacy_mode">来电隐私模式</string>
+    <string name="pref_call_privacy_mode_off">显示姓名和号码</string>
+    <string name="pref_call_privacy_mode_name">隐藏姓名但显示号码</string>
+    <string name="pref_call_privacy_mode_number">显示号码但隐藏姓名</string>
+    <string name="pref_call_privacy_mode_complete">隐藏姓名和号码</string>
+
+    <string name="pref_title_weather_location">天气位置</string>
+
+    <string name="pref_blacklist">黑名单应用</string>
+    <string name="pref_blacklist_calendars">黑名单列表</string>
+
+    <string name="pref_header_cannned_messages">保存的消息</string>
+    <string name="pref_title_canned_replies">回复</string>
+    <string name="pref_title_canned_messages_dismisscall">未接来电</string>
+    <string name="pref_header_development">开发者选项</string>
+    <string name="pref_title_development_miaddr">Mi Band地址</string>
+
+    <string name="pref_title_pebble_settings">Pebble设置</string>
+
+    <string name="pref_header_activitytrackers">活动跟踪器</string>
+    <string name="pref_title_pebble_activitytracker">首选活动跟踪器</string>
+    <string name="pref_title_pebble_sync_health">同步Pebble健康</string>
+    <string name="pref_title_pebble_sync_misfit">同步到Misfit</string>
+    <string name="pref_title_pebble_sync_morpheuz">同步到Morpheuz</string>
+
+    <string name="pref_title_enable_outgoing_call">支持呼出</string>
+    <string name="pref_summary_enable_outgoing_call">禁用此功能也将停止Pebble 2 / LE在拨出电话时振动</string>
+
+    <string name="pref_title_enable_pebblekit">允许第三方 Android 应用程序访问</string>
+    <string name="pref_summary_enable_pebblekit">使用 PebbleKit 为 Android 应用程序启用实验性支持</string>
+
+    <string name="pref_header_pebble_timeline">Pebble时间线</string>
+    <string name="pref_title_sunrise_sunset">日出和日落</string>
+    <string name="pref_summary_sunrise_sunset">基于Pebble时间表的位置发送日出和日落时间</string>
+    <string name="pref_title_enable_calendar_sync">同步记录</string>
+    <string name="pref_summary_enable_calendar_sync">将记录发送到时间表</string>
+
+    <string name="pref_title_autoremove_notifications">自动删除已错过的通知</string>
+    <string name="pref_summary_autoremove_notifications">当您从Android设备上删除时，通知将自动从Pebble中删除</string>
+
+    <string name="pref_title_pebble_privacy_mode">隐私模式</string>
+    <string name="pref_pebble_privacy_mode_off">正常通知</string>
+    <string name="pref_pebble_privacy_mode_content">将通知文本移出屏幕</string>
+    <string name="pref_pebble_privacy_mode_complete">只显示通知图标</string>
+
+    <string name="pref_header_location">位置</string>
+    <string name="pref_title_location_aquire">获取位置</string>
+    <string name="pref_title_location_latitude">纬度</string>
+    <string name="pref_title_location_longitude">经度</string>
+    <string name="pref_title_location_keep_uptodate">保持位置更新</string>
+    <string name="pref_summary_location_keep_uptodate">尝试在运行时获取当前位置, 使用存储的位置作为后备</string>
+
+    <string name="toast_enable_networklocationprovider">请启用网络位置</string>
+    <string name="toast_aqurired_networklocation">位置已确定</string>
+
+    <string name="pref_title_pebble_forceprotocol">强制通知协议</string>
+    <string name="pref_summary_pebble_forceprotocol">此选项强制使用最新的通知协议, 具体取决于固件版本。仅当你知道你在做什么时启用!</string>
+    <string name="pref_title_pebble_forceuntested">启用未经测试的功能</string>
+    <string name="pref_summary_pebble_forceuntested">启用未经测试的功能。仅当你知道你在做什么时启用!</string>
+    </resources>
