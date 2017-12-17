@@ -480,4 +480,17 @@
     <string name="_pebble_watch_open_on_phone">Åpne på telefonen</string>
     <string name="_pebble_watch_mute">Forstum</string>
     <string name="_pebble_watch_reply">Svar</string>
-</resources>
+<string name="pref_title_weather">Vær</string>
+    <string name="kind_firmware">Fastvare</string>
+    <string name="kind_invalid">Ugyldig data</string>
+    <string name="kind_font">Skrift</string>
+    <string name="kind_gps">GPS-fastvare</string>
+    <string name="kind_resources">Ressurser</string>
+    <string name="kind_watchface">Urskive</string>
+
+    <string name="devicetype_unknown">Ukjent enhet</string>
+    <string name="devicetype_test">Test enhet</string>
+    <string name="devicetype_pebble">Pebble</string>
+    <string name="devicetype_miband">Mi Band</string>
+    <string name="devicetype_miband2">Mi Band 2</string>
+    </resources>
